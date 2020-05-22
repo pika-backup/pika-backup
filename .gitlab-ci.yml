@@ -1,41 +1,16 @@
-cache:
-  key: ${CI_JOB_NAME}
-  paths:
-    - target/
+include: 'https://gitlab.gnome.org/GNOME/citemplates/raw/master/flatpak/flatpak_ci_initiative.yml'
 
-before_script:
-  - export PATH="$HOME/.cargo/bin:$PATH"
-  - rustup update stable
-  - rustup component add rustfmt
-  - rustup component add clippy
-  - cargo install cargo-audit
-  - rustc --version && cargo --version
+flatpak:
+    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:3.36'
+    variables:
+        MANIFEST_PATH: "build-aux/org.gnome.gitlab.sophie_h.PikaPileBackup.yml"
+        MESON_ARGS: "-Dprofile=Devel"
+        FLATPAK_MODULE: "pika-pile"
+        APP_ID: "org.gnome.gitlab.sophie_h.PikaPileBackup"
+        RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
+        BUNDLE: "pika-pile-backup-dev.flatpak"
+    extends: .flatpak
 
-build:
-  stage: build
-  script:
-   - cargo build
-
-code_check:
-  stage: test
-  script:
-   - cargo fmt -- --check
-   - cargo clippy
-   - cargo audit --deny-warnings
-
-test:
-  stage: test
-  script:
-   - cargo test
-   - cargo test -- --ignored
-
-release:
-  stage: deploy
-  only:
-   - tags
-  script:
-   - cargo build --release
-   - cp ./target/release/pika-pile ./
-  artifacts:
-   paths:
-    - pika-pile
+nightly:
+  extends: '.publish_nightly'
+  dependencies: ['flatpak']

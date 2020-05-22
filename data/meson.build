@@ -1,6 +1,6 @@
 datadir = get_option('prefix') / get_option('datadir')
 
-application_id = 'de.hemio.PikaPileBackup'
+application_id = 'org.gnome.gitlab.sophie_h.PikaPileBackup'
 # Read more https://mesonbuild.com/Reference-manual.html#install_data
 
 install_data(
