@@ -1,0 +1,63 @@
+--- 
+app-id: de.hemio.PikaPileBackup
+build-options: 
+  append-path: /usr/lib/sdk/rust-stable/bin
+  build-args: 
+    - "--share=network"
+  env: 
+    CARGO_HOME: /run/build/rust-flatpak/cargo
+    RUSTFLAGS: "--remap-path-prefix =../"
+command: pika-pile
+finish-args: 
+  - --filesystem=host
+  - --share=network
+  - --socket=wayland
+  # X11
+  - --share=ipc
+  - --socket=x11
+  - --socket=fallback-x11
+  # SSH-keys etc
+  - --socket=ssh-auth
+  # secrete service (keyring)
+  - --talk-name=org.freedesktop.secrets
+  # gio::Device etc
+  - --talk-name=org.gtk.vfs.*
+  # fusermount
+  - --device=all
+  - --talk-name=org.freedesktop.Flatpak.*
+modules: 
+  - name: fusermout
+    config-opts:
+      - MOUNT_FUSE_PATH=/app/bin
+    post-install:
+      - install fusermount-wrapper.sh /app/bin/fusermount
+    sources:
+      - type: archive
+        url: "https://github.com/libfuse/libfuse/releases/download/fuse-2.9.9/fuse-2.9.9.tar.gz"
+        "sha256" : d0e69d5d608cc22ff4843791ad097f554dd32540ddc9bed7638cc6fea7c1b4b5
+      -         
+        type: "file"
+        path: "fusermount-wrapper.sh"
+
+  - name: borg
+    buildsystem: simple
+    build-commands: 
+      - install borg /app/bin/borg
+    sources: 
+      - dest-filename: borg
+        sha256: 7848d1788b5d7f2ae99a599a87992cab4f01584fe5eb393819fceaecf076433b
+        type: file
+        url: "https://github.com/borgbackup/borg/releases/download/1.1.11/borg-linux64"
+
+  - name: pika-pile
+    buildsystem: meson
+    sources: 
+       - path: ../
+         type: dir
+        
+runtime: org.gnome.Platform
+runtime-version: "3.36"
+sdk: org.gnome.Sdk
+sdk-extensions: 
+  - org.freedesktop.Sdk.Extension.rust-stable
+
