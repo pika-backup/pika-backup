@@ -3,12 +3,12 @@ include: 'https://gitlab.gnome.org/GNOME/citemplates/raw/master/flatpak/flatpak_
 flatpak:
     image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:3.36'
     variables:
-        MANIFEST_PATH: "build-aux/org.gnome.gitlab.sophie_h.PikaPileBackup.yml"
-        MESON_ARGS: "-Dprofile=Devel"
-        FLATPAK_MODULE: "pika-pile"
-        APP_ID: "org.gnome.gitlab.sophie_h.PikaPileBackup"
+        MANIFEST_PATH: "build-aux/ci.manifest.yml"
+        MESON_ARGS: "-Dprofile=dev"
+        FLATPAK_MODULE: "pika-backup"
+        APP_ID: "org.gnome.gitlab.sophie_h.PikaBackup"
         RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
-        BUNDLE: "pika-pile-backup-dev.flatpak"
+        BUNDLE: "pika-backup-dev.flatpak"
     extends: .flatpak
 
 nightly:

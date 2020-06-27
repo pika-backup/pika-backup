@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate matches;
 
-use pika_pile::{borg, borg::Borg, shared, ui::prelude::*};
+use pika_backup::{borg, borg::Borg, shared, ui::prelude::*};
 use shared::*;
 
 type CheckError = Result<(), Box<dyn std::error::Error>>;

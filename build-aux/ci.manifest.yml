@@ -1,5 +1,5 @@
 --- 
-app-id: org.gnome.gitlab.sophie_h.PikaPileBackup
+app-id: org.gnome.gitlab.sophie_h.PikaBackup
 build-options: 
   append-path: /usr/lib/sdk/rust-stable/bin
   build-args: 
@@ -7,7 +7,7 @@ build-options:
   env: 
     CARGO_HOME: /run/build/rust-flatpak/cargo
     RUSTFLAGS: "--remap-path-prefix =../"
-command: pika-pile
+command: pika-backup
 finish-args: 
   - --filesystem=host
   - --share=network
@@ -34,7 +34,7 @@ modules:
     sources:
       - type: archive
         url: "https://github.com/libfuse/libfuse/releases/download/fuse-2.9.9/fuse-2.9.9.tar.gz"
-        "sha256" : d0e69d5d608cc22ff4843791ad097f554dd32540ddc9bed7638cc6fea7c1b4b5
+        sha256: d0e69d5d608cc22ff4843791ad097f554dd32540ddc9bed7638cc6fea7c1b4b5
       -         
         type: "file"
         path: "fusermount-wrapper.sh"
@@ -45,11 +45,11 @@ modules:
       - install borg /app/bin/borg
     sources: 
       - dest-filename: borg
-        sha256: 7848d1788b5d7f2ae99a599a87992cab4f01584fe5eb393819fceaecf076433b
         type: file
-        url: "https://github.com/borgbackup/borg/releases/download/1.1.11/borg-linux64"
+        url: "https://github.com/borgbackup/borg/releases/download/1.1.13/borg-linux64"
+        sha256: 60a662bef3669ed16bb29dadf6b59b74ff664f983d5fa71de7f1fb05a4fec7c0
 
-  - name: pika-pile
+  - name: pika-backup
     buildsystem: meson
     sources: 
        - path: ../

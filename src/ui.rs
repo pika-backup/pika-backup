@@ -101,12 +101,7 @@ fn init(_app: &gtk::Application) {
 
     let loader = gdk_pixbuf::PixbufLoader::new();
     loader
-        .write(include_bytes!(concat!(
-            data_dir!(),
-            "/",
-            application_id!(),
-            ".svg"
-        )))
+        .write(include_bytes!(concat!(data_dir!(), "/app.svg")))
         .unwrap_or_else(|e| error!("loader.write() failed: {}", e));
     loader
         .close()
