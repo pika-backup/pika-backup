@@ -198,7 +198,7 @@ fn init_actions() {
 }
 
 fn config_path() -> std::path::PathBuf {
-    let mut path = crate::globals::HOME_DIR.clone();
+    let mut path = crate::globals::CONFIG_DIR.clone();
     path.push(env!("CARGO_PKG_NAME"));
     std::fs::create_dir(&path).unwrap_or_default();
     path.push("config.json");
