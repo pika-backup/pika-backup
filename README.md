@@ -1,10 +1,10 @@
-# Pika Pile Backup
+# Pika Backup
 
 Simple backups based on borg
 
 ## Build
 
-You need [Rust](https://rustup.rs/) to build Pika Pile
+You need [Rust](https://rustup.rs/) to build Pika
 
 ```sh
 $ apt install libgtk-3-dev

@@ -1,22 +1,13 @@
-#!/bin/sh
+#!/bin/sh -x
 
-export MESON_BUILD_ROOT="$1"
-export MESON_SOURCE_ROOT="$2"
-export CARGO_TARGET_DIR="$MESON_BUILD_ROOT"/target
-export CARGO_HOME="$CARGO_TARGET_DIR"/cargo-home
-export OUTPUT="$3"
-export BUILDTYPE="$4"
-export APP_BIN="$5"
+MESON_SOURCE_ROOT="$1"
+CARGO_TARGET_DIR="$2"
+CARGO_OPTIONS="$3"
+CARGO_OUTPUT="$4"
+OUTPUT="$5"
 
-if [[ $BUILDTYPE = "release" ]]
-then
-    echo "RELEASE MODE"
-    cargo build --manifest-path \
-        "$MESON_SOURCE_ROOT"/Cargo.toml --release && \
-        cp "$CARGO_TARGET_DIR"/release/"$APP_BIN" "$OUTPUT"
-else
-    echo "DEBUG MODE"
-    cargo build --manifest-path \
-        "$MESON_SOURCE_ROOT"/Cargo.toml --verbose && \
-        cp "$CARGO_TARGET_DIR"/debug/"$APP_BIN" "$OUTPUT"
-fi
+cargo build \
+    --manifest-path "${MESON_SOURCE_ROOT}/Cargo.toml" \
+    --target-dir "$CARGO_TARGET_DIR" \
+    $CARGO_OPTIONS && \
+cp "$CARGO_OUTPUT" "$OUTPUT"

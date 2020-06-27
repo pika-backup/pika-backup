@@ -1,19 +1,26 @@
 datadir = get_option('prefix') / get_option('datadir')
 
-application_id = 'org.gnome.gitlab.sophie_h.PikaPileBackup'
-# Read more https://mesonbuild.com/Reference-manual.html#install_data
+application_id = run_command('cat', 'APPLICATION_ID').stdout()
 
 install_data(
-    '@0@.desktop'.format(application_id),
+    'app.desktop',
+    rename: '@0@.desktop'.format(application_id),
     install_dir: datadir / 'applications'
 )
 
 install_data(
-    '@0@.metainfo.xml'.format(application_id),
+    'app.metainfo.xml',
+    rename: 'app.metainfo.xml'.format(application_id),
     install_dir: datadir / 'metainfo'
 )
 
+app_icon = 'app'
+if get_option('profile') == 'dev'
+  app_icon += '.Devel'
+endif
+
 install_data(
-    '@0@.svg'.format(application_id),
+    '@0@.svg'.format(app_icon),
+    rename: '@0@.svg'.format(application_id),
     install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )

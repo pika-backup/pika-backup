@@ -1,3 +1,3 @@
 fn main() {
-    pika_pile::ui::main()
+    pika_backup::ui::main()
 }
