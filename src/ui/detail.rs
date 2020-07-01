@@ -130,7 +130,7 @@ fn on_backup_run(button: &gtk::Button) {
 
         let unmount = ui::utils::dialog_yes_no(gettext(
             "The backup repository is currently reserved for browsing files. \
-                 Do you want to disable browsing and start the Backup?",
+             Do you want to disable browsing and start the Backup?",
         ));
         if unmount {
             trace!("User decided to unmount repo.");
