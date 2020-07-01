@@ -1,24 +1,24 @@
-include: 'https://gitlab.gnome.org/GNOME/citemplates/raw/master/flatpak/flatpak_ci_initiative.yml'
+include: https://gitlab.gnome.org/GNOME/citemplates/raw/master/flatpak/flatpak_ci_initiative.yml
 
 flatpak:
     extends: .flatpak
-    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:3.36'
+    image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:3.36
     variables:
-        MANIFEST_PATH: "build-aux/ci.manifest.yml"
-        MESON_ARGS: "-Dprofile=dev"
-        FLATPAK_MODULE: "pika-backup"
-        APP_ID: "org.gnome.gitlab.sophie_h.PikaBackup"
-        RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
-        BUNDLE: "pika-backup-dev.flatpak"
+        RUNTIME_REPO: https://nightly.gnome.org/gnome-nightly.flatpakrepo
+        APP_ID: org.gnome.gitlab.sophie_h.PikaBackup"
+        FLATPAK_MODULE: pika-backup
+        MANIFEST_PATH: build-aux/ci.manifest.yml
+        BUNDLE: pika-backup-dev.flatpak
 
 nightly:
-  extends: '.publish_nightly'
-  dependencies: ['flatpak']
+  extends: .publish_nightly
+  dependencies:
+    - flatpak
 
-release:
+flathub:
     extends: flatpak
     rules:
      - if: $CI_COMMIT_TAG
     variables:
-        MANIFEST_PATH: "build-aux/flathub.manifest.yml"
-        MESON_ARGS: ""
+        MANIFEST_PATH: build-aux/flathub.manifest.yml
+        BUNDLE: pika-backup-flathub.flatpak
