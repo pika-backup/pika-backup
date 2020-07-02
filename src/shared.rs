@@ -95,15 +95,16 @@ impl BackupConfig {
 
     pub fn new_from_repo(repo: BackupRepo) -> Self {
         let mut include = std::collections::BTreeSet::new();
-        // TODO: Adds Home dir, good idea?
-        include.insert(std::path::PathBuf::new());
+        include.insert("".into());
+        let mut exclude = std::collections::BTreeSet::new();
+        exclude.insert(".cache".into());
 
         Self {
             id: glib::uuid_string_random().unwrap().to_string(),
             repo,
             encrypted: false,
             include,
-            exclude: Default::default(),
+            exclude,
             last_run: None,
         }
     }
