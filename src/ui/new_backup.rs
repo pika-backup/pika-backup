@@ -11,6 +11,7 @@ use crate::ui;
 use crate::ui::builder;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
+use ui::main_pending;
 
 pub fn new_backup() {
     let ui_new = Rc::new(ui::builder::NewBackup::new());
@@ -30,14 +31,15 @@ pub fn new_backup() {
         .set_transient_for(Some(&main_ui().window()));
 
     let dialog = ui_new.new_backup();
-    ui_new
-        .cancel_button()
-        .connect_clicked(move |_| dialog.response(gtk::ResponseType::Cancel));
+    ui_new.cancel_button().connect_clicked(move |_| {
+        dialog.close();
+        dialog.hide();
+    });
 
     let ui = ui_new.clone();
     ui_new
         .add_repo_list()
-        .connect_row_activated(move |_, row| add_repo_list_activated(row, &ui));
+        .connect_row_activated(move |_, row| add_repo_list_activated(row, ui.clone()));
 
     let ui = ui_new.clone();
     ui_new
@@ -52,12 +54,12 @@ pub fn new_backup() {
     let ui = ui_new.clone();
     ui_new
         .add_button()
-        .connect_clicked(move |_| add_button_clicked(&ui));
+        .connect_clicked(move |_| add_button_clicked(ui.clone()));
 
     let ui = ui_new.clone();
     ui_new
         .init_button()
-        .connect_clicked(move |_| init_button_clicked(&ui));
+        .connect_clicked(move |_| init_button_clicked(ui.clone()));
 
     // refresh ui on mount events
     let monitor = gio::VolumeMonitor::get();
@@ -69,46 +71,48 @@ pub fn new_backup() {
     let ui = ui_new.clone();
     monitor.connect_mount_removed(move |_, _| refresh(&ui));
 
-    ui_new.new_backup().run();
-    ui_new.new_backup().close();
+    ui_new.new_backup().show_all();
 }
 
-fn add_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
+fn add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>) {
     if let Some(name) = row.get_widget_name() {
         if name == "-add-local" {
-            if let Some(path) = ui::utils::folder_chooser_dialog(
-                &gettext("Select existing repository"),
-                &ui.new_backup(),
-            ) {
-                if is_backup_repo(&path) {
-                    if add_repo_config_local(&path) {
-                        ui.new_backup().response(gtk::ResponseType::Other(1));
-                    }
-                } else {
-                    ui::utils::dialog_error(gettext(
-                        "The selected directory is not a valid backup repository.",
-                    ));
-                }
-            }
+            add_local(ui);
         } else if name == "-add-remote" {
             ui.stack().set_visible_child(&ui.add_remote_page());
             ui.add_button().show();
             ui.add_button().grab_default();
         } else {
-            add_repo_config_local(std::path::Path::new(&name));
-            ui.new_backup().response(gtk::ResponseType::Other(1));
+            add_repo_config_local(std::path::Path::new(&name), ui);
         }
     }
 }
 
-fn add_button_clicked(ui: &builder::NewBackup) {
-    if let Some(uri) = ui.add_remote_uri().get_text() {
-        if add_repo_config_remote(uri.to_string()) {
-            ui.new_backup().response(gtk::ResponseType::Other(1));
+fn add_local(ui: Rc<builder::NewBackup>) {
+    ui.new_backup().hide();
+
+    if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository")) {
+        ui::main_pending::show(&gettext("Adding existing repository …"));
+        if is_backup_repo(&path) {
+            add_repo_config_local(&path, ui);
+        } else {
+            ui::utils::dialog_error(gettext(
+                "The selected directory is not a valid backup repository.",
+            ));
+            ui::main_pending::back();
+            ui.new_backup().show();
         }
     } else {
-        error!("get_text() returned 'None'");
+        ui.new_backup().show();
     }
+}
+
+fn add_button_clicked(ui: Rc<builder::NewBackup>) {
+    main_pending::show(&gettext("Initializing new backup respository …"));
+    ui.new_backup().hide();
+
+    let uri = ui.add_remote_uri().get_text().unwrap();
+    add_repo_config_remote(uri.to_string(), ui);
 }
 
 fn init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
@@ -137,7 +141,7 @@ fn init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
     }
 }
 
-fn init_button_clicked(ui: &builder::NewBackup) {
+fn init_button_clicked(ui: Rc<builder::NewBackup>) {
     let encrypted =
         ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
@@ -186,17 +190,27 @@ fn init_button_clicked(ui: &builder::NewBackup) {
         borg.set_password(password);
     }
 
-    if ui::utils::dialog_catch_err(borg.init(), gettext("Failed to initialize repository")) {
-        return;
-    }
+    main_pending::show(&gettext("Initializing new backup respository …"));
+    ui.new_backup().hide();
 
-    insert_backup_config(config);
+    ui::utils::async_react(
+        "borg::init",
+        move || borg.init(),
+        enclose!((config, ui) move |result| {
+            if ui::utils::dialog_catch_err(result, gettext("Failed to initialize repository")) {
+                main_pending::back();
+                ui.new_backup().show();
+                return;
+            }
 
-    ui.new_backup().response(gtk::ResponseType::Other(1));
+            insert_backup_config(config.clone());
+
+            ui.new_backup().close();
+        }),
+    );
 }
 
 fn init_repo_password_changed(ui: &builder::NewBackup) {
-    trace!("Password entered");
     let password = ui.password().get_text().unwrap_or_else(|| "".into());
     let score = if let Ok(pw_check) = zxcvbn::zxcvbn(&password, &[]) {
         if pw_check.score() > 3 {
@@ -293,54 +307,53 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
     horizontal_box.add(&vertical_box);
 }
 
-fn add_repo_config_local(repo: &std::path::Path) -> bool {
+fn add_repo_config_local(repo: &std::path::Path, ui: Rc<builder::NewBackup>) {
     let config = BackupConfig::new_from_path(repo);
-
-    insert_backup_config_encryption_unknown(config)
+    insert_backup_config_encryption_unknown(config, ui);
 }
 
-fn add_repo_config_remote(uri: String) -> bool {
+fn add_repo_config_remote(uri: String, ui: Rc<builder::NewBackup>) {
     let config = BackupConfig::new_from_uri(uri);
-
-    insert_backup_config_encryption_unknown(config)
+    insert_backup_config_encryption_unknown(config, ui);
 }
 
-fn insert_backup_config_encryption_unknown(mut config: shared::BackupConfig) -> bool {
+fn insert_backup_config_encryption_unknown(
+    mut config: shared::BackupConfig,
+    ui: Rc<builder::NewBackup>,
+) {
     let mut borg = borg::Borg::new(config.clone());
-    while let Err(borg_err) = borg.peak() {
-        if borg_err.has_borg_msgid(&MsgId::PassphraseWrong) {
-            debug!("New backup is encrypted");
-            config.encrypted = true;
-            borg = borg::Borg::new(config.clone());
+    borg.set_password(Zeroizing::new(vec![]));
+    config.encrypted = borg.peak().is_err();
+    insert_backup_config_password_unknown(config, ui);
+}
 
-            match ui::utils::get_and_store_password(&config, true) {
-                Ok(None) => {
-                    borg.unset_password();
-                }
-                Ok(Some(password)) => {
-                    borg.set_password(password);
-                }
-                Err(()) => {
-                    return false;
-                }
+fn insert_backup_config_password_unknown(config: shared::BackupConfig, ui: Rc<builder::NewBackup>) {
+    ui.new_backup().hide();
+    let x = config.clone();
+    ui::utils::Async::borg(
+        "borg::peak",
+        borg::Borg::new(x),
+        |borg| borg.peak(),
+        move |result| match result {
+            Ok(()) => {
+                insert_backup_config(config.clone());
+                ui.new_backup().close();
             }
-        } else {
-            debug!("This repo config is not working");
-            ui::utils::dialog_error(gettext!(
-                "There was an error with the specified repository:\n\n{}",
-                borg_err
-            ));
-            ui::utils::dialog_catch_err(
-                ui::utils::secret_service_delete_passwords(&config),
-                "Failed to remove potentially remaining passwords from key storage.",
-            );
-            return false;
-        }
-    }
-
-    insert_backup_config(config);
-
-    true
+            Err(borg_err) => {
+                debug!("This repo config is not working");
+                ui::utils::dialog_error(gettext!(
+                    "There was an error with the specified repository:\n\n{}",
+                    borg_err
+                ));
+                ui::utils::dialog_catch_err(
+                    ui::utils::secret_service_delete_passwords(&config),
+                    "Failed to remove potentially remaining passwords from key storage.",
+                );
+                ui.new_backup().show();
+                main_pending::back();
+            }
+        },
+    )
 }
 
 fn insert_backup_config(config: shared::BackupConfig) {

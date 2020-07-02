@@ -18,6 +18,7 @@ mod builder;
 mod detail;
 mod encryption_password;
 mod globals;
+mod main_pending;
 mod new_backup;
 mod overview;
 pub mod prelude;

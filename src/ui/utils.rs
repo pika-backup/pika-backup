@@ -218,13 +218,10 @@ impl<W: gtk::WidgetExt> WidgetEnh for W {
     }
 }
 
-pub fn folder_chooser_dialog<W: IsA<gtk::Window>>(
-    title: &str,
-    parent: &W,
-) -> Option<std::path::PathBuf> {
+pub fn folder_chooser_dialog(title: &str) -> Option<std::path::PathBuf> {
     let dialog = gtk::FileChooserDialog::with_buttons(
         Some(title),
-        Some(parent),
+        Some(&main_ui().window()),
         gtk::FileChooserAction::SelectFolder,
         &[
             ("_Cancel", gtk::ResponseType::Cancel),
@@ -287,6 +284,7 @@ pub fn dialog_error<S: AsRef<str>>(error: S) {
 
     dialog.run();
     dialog.close();
+    dialog.hide();
 }
 
 pub fn dialog_yes_no<S: AsRef<str>>(message: S) -> bool {
@@ -300,6 +298,7 @@ pub fn dialog_yes_no<S: AsRef<str>>(message: S) -> bool {
 
     let result = dialog.run() == gtk::ResponseType::Yes;
     dialog.close();
+    dialog.hide();
     result
 }
 

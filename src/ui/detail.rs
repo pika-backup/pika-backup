@@ -355,10 +355,7 @@ fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
 }
 
 fn add_include() {
-    if let Some(path) = ui::utils::folder_chooser_dialog(
-        &gettext("Include directory in backup"),
-        &main_ui().window(),
-    ) {
+    if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Include directory in backup")) {
         SETTINGS.update(|settings| {
             settings
                 .backups
@@ -373,10 +370,8 @@ fn add_include() {
 }
 
 fn add_exclude() {
-    if let Some(path) = ui::utils::folder_chooser_dialog(
-        &gettext("Exclude directory from backup"),
-        &main_ui().window(),
-    ) {
+    if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Exclude directory from backup"))
+    {
         SETTINGS.update(|settings| {
             settings
                 .backups

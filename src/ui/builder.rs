@@ -22,6 +22,54 @@ impl About {
     }
 }
 
+pub struct EncryptionPassword {
+    builder: gtk::Builder,
+}
+
+impl EncryptionPassword {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::new_from_string(include_str!(concat!(
+                data_dir!(),
+                "/ui/encryption_password.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::prelude::BuilderExtManual::get_object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'ui/encryption_password.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
+    pub fn ok(&self) -> gtk::Button {
+        self.get("ok")
+    }
+
+    pub fn password(&self) -> gtk::Entry {
+        self.get("password")
+    }
+
+    pub fn password_forget(&self) -> gtk::RadioButton {
+        self.get("password_forget")
+    }
+
+    pub fn password_store(&self) -> gtk::RadioButton {
+        self.get("password_store")
+    }
+}
+
 pub struct Main {
     builder: gtk::Builder,
 }
@@ -39,6 +87,10 @@ impl Main {
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/main.ui'", id))
+    }
+
+    pub fn add_pending_label(&self) -> gtk::Label {
+        self.get("add_pending_label")
     }
 
     pub fn archive_comment(&self) -> gtk::Label {
@@ -169,6 +221,22 @@ impl Main {
         self.get("overview_none_empty")
     }
 
+    pub fn page_archives(&self) -> gtk::Box {
+        self.get("page_archives")
+    }
+
+    pub fn page_detail(&self) -> gtk::Box {
+        self.get("page_detail")
+    }
+
+    pub fn page_overview(&self) -> gtk::ScrolledWindow {
+        self.get("page_overview")
+    }
+
+    pub fn page_pending(&self) -> gtk::Box {
+        self.get("page_pending")
+    }
+
     pub fn pending_menu(&self) -> gtk::MenuButton {
         self.get("pending_menu")
     }
@@ -231,14 +299,14 @@ impl NewBackup {
         Self {
             builder: gtk::Builder::new_from_string(include_str!(concat!(
                 data_dir!(),
-                "/ui/new.ui"
+                "/ui/new_backup.ui"
             ))),
         }
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
-            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/new.ui'", id))
+            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/new_backup.ui'", id))
     }
 
     pub fn add_button(&self) -> gtk::Button {
@@ -435,49 +503,5 @@ impl Storage {
 
     pub fn volume(&self) -> gtk::Label {
         self.get("volume")
-    }
-}
-
-pub struct EncryptionPassword {
-    builder: gtk::Builder,
-}
-
-impl EncryptionPassword {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::new_from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/password.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
-            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/password.ui'", id))
-    }
-
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn dialog(&self) -> gtk::Dialog {
-        self.get("dialog")
-    }
-
-    pub fn ok(&self) -> gtk::Button {
-        self.get("ok")
-    }
-
-    pub fn password(&self) -> gtk::Entry {
-        self.get("password")
-    }
-
-    pub fn password_forget(&self) -> gtk::RadioButton {
-        self.get("password_forget")
-    }
-
-    pub fn password_store(&self) -> gtk::RadioButton {
-        self.get("password_store")
     }
 }
