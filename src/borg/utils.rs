@@ -152,9 +152,10 @@ impl BorgCall {
         );
 
         if let Some(ref password) = borg.password {
+            debug!("Using password enforced by explicitly passed password");
             pipe_writer.write_all(password)?;
         } else if borg.config.encrypted {
-            trace!("Config says the backup is encrypted");
+            debug!("Config says the backup is encrypted");
             let password: Zeroizing<Vec<u8>> =
                 secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
                     .search_items(vec![
@@ -167,6 +168,7 @@ impl BorgCall {
                     .into();
             pipe_writer.write_all(&password)?;
         } else {
+            trace!("Config says no encryption. Writing empty passsword.");
             pipe_writer.write_all(b"")?;
         }
 

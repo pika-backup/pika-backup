@@ -24,8 +24,8 @@ impl Ask {
     pub fn run(&self) -> Option<(Zeroizing<Vec<u8>>, bool)> {
         let ui = ui::builder::EncryptionPassword::new();
 
-        ui.dialog().show_all();
         ui.dialog().set_transient_for(Some(&main_ui().window()));
+        ui.dialog().show_all();
 
         if !self.pre_select_store {
             ui.password_forget().set_active(true);
@@ -45,6 +45,7 @@ impl Ask {
             .map(|x| x.as_bytes().to_vec())
             .map(Zeroizing::new);
         ui.dialog().close();
+        ui.dialog().hide();
 
         match password {
             Some(password) if gtk::ResponseType::Ok == response => {

@@ -1,30 +1,53 @@
 #!/usr/bin/python3
 
 import xml.etree.ElementTree as ET
+import glob
+import os.path as path
+import os
 
-UI_FILES = [
-    ["About", "ui/about.ui"],
-    ["Main", "ui/main.ui"],
-    ["NewBackup", "ui/new.ui"],
-    ["Storage", "ui/storage.ui"],
-    ["EncryptionPassword", "ui/password.ui"],
-]
+os.chdir("data")
 
-SRC_PATH = "src/ui/builder.rs"
+UI_PATH = "ui/*.ui"
+
+SRC_PATH = "../src/ui/builder.rs"
+
+
+def main():
+    global UI_PATH, SRC_PATH
+
+    ui_files = glob.glob(UI_PATH)
+    ui_files.sort()
+
+    with open(SRC_PATH, "w") as src:
+        first = True
+        for file in ui_files:
+            filename, _ = path.splitext(path.basename(file))
+            rs_type = ''.join(x.title() for x in filename.split('_'))
+            if first:
+                first = False
+            else:
+                src.write("\n\n")
+
+            src.write(struct_code(rs_type, file))
+
+        src.write("\n")
+
 
 class Item:
     def __init__(self, id, type):
         self.id = id
         self.type = type
 
+
 def objects(path):
     objects = []
-    for item in ET.parse("data/" + path).iter():
+    for item in ET.parse(path).iter():
         if item.tag == "object" and item.get("id"):
             objects.append(Item(item.get("id"), item.get("class")[3:]))
     objects.sort(key=lambda item: item.id)
 
     return objects
+
 
 def fn_code(objects):
     template = """
@@ -40,9 +63,9 @@ def fn_code(objects):
 
     return code
 
+
 def struct_code(name, path):
-    template = \
-"""pub struct {name} {{
+    template = """pub struct {name} {{
     builder: gtk::Builder,
 }}
 
@@ -66,14 +89,7 @@ impl {name} {{
     code = fn_code(objects(path))
     return template.format(name=name, path=path, fn_code=code)
 
-with open(SRC_PATH, "w") as src:
-    first = True
-    for x in UI_FILES:
-        if first:
-            first = False
-        else:
-            src.write("\n\n")
 
-        src.write(struct_code(*x))
+if __name__ == "__main__":
+    main()
 
-    src.write("\n")
