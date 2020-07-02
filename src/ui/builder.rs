@@ -149,6 +149,10 @@ impl Main {
         self.get("browse_archive")
     }
 
+    pub fn current_path(&self) -> gtk::Label {
+        self.get("current_path")
+    }
+
     pub fn deduplicated_size(&self) -> gtk::Label {
         self.get("deduplicated_size")
     }

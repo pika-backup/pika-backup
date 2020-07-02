@@ -458,6 +458,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
             Progress::Archive {
                 original_size,
                 deduplicated_size,
+                ref path,
                 ..
             } => {
                 stack.set_visible_child_name("archive");
@@ -479,6 +480,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                 main_ui()
                     .deduplicated_size()
                     .set_text(&ui::utils::hsize(deduplicated_size));
+                main_ui().current_path().set_text(path)
             }
             Progress::Message {
                 message: Some(ref message),
