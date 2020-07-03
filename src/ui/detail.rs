@@ -314,17 +314,18 @@ pub fn refresh() {
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
-    for file in backup.exclude.iter().rev() {
+    for shared::Pattern::PathPrefix(file) in backup.exclude.iter().rev() {
         let button = add_list_row(&main_ui().backup_exclude(), file, 0);
         let path = file.clone();
         button.connect_clicked(move |_| {
-            SETTINGS.update(|settings| {
+            let path = path.clone();
+            SETTINGS.update(move |settings| {
                 settings
                     .backups
                     .get_active_mut()
                     .unwrap()
                     .exclude
-                    .remove(&path);
+                    .remove(&shared::Pattern::PathPrefix(path.clone()));
             });
             super::write_config();
             refresh();
@@ -378,7 +379,7 @@ fn add_exclude() {
                 .get_active_mut()
                 .unwrap()
                 .exclude
-                .insert(rel_path(&path));
+                .insert(shared::Pattern::PathPrefix(rel_path(&path)));
         });
         super::write_config();
         refresh();

@@ -11,7 +11,7 @@ pub struct BackupConfig {
     pub repo: BackupRepo,
     pub encrypted: bool,
     pub include: BTreeSet<path::PathBuf>,
-    pub exclude: BTreeSet<path::PathBuf>,
+    pub exclude: BTreeSet<Pattern>,
     pub last_run: Option<RunInfo>,
 }
 
@@ -26,16 +26,43 @@ impl BackupConfig {
         dirs
     }
 
-    pub fn exclude_dirs_internal(&self) -> Vec<path::PathBuf> {
+    pub fn exclude_dirs_internal(&self) -> Vec<Pattern> {
         let mut dirs = Vec::new();
 
-        for dir in &self.exclude {
-            dirs.push(absolute(dir));
+        for Pattern::PathPrefix(dir) in &self.exclude {
+            dirs.push(Pattern::PathPrefix(absolute(dir)));
         }
 
-        dirs.push(absolute(path::Path::new(crate::REPO_MOUNT_DIR)));
+        dirs.push(Pattern::PathPrefix(absolute(path::Path::new(
+            crate::REPO_MOUNT_DIR,
+        ))));
 
         dirs
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, Ord, PartialOrd, Eq, PartialEq)]
+pub enum Pattern {
+    PathPrefix(path::PathBuf),
+    //Fnmatch(path::PathBuf),
+}
+
+impl Pattern {
+    pub fn selector(&self) -> String {
+        match self {
+            Self::PathPrefix(_) => "pp",
+            //Self::Fnmatch(_) => "fm",
+        }
+        .to_string()
+    }
+
+    pub fn pattern(&self) -> String {
+        match self {
+            Self::PathPrefix(p) => p,
+            //Self::Fnmatch(p) => p,
+        }
+        .to_string_lossy()
+        .to_string()
     }
 }
 
@@ -97,7 +124,7 @@ impl BackupConfig {
         let mut include = std::collections::BTreeSet::new();
         include.insert("".into());
         let mut exclude = std::collections::BTreeSet::new();
-        exclude.insert(".cache".into());
+        exclude.insert(Pattern::PathPrefix(".cache".into()));
 
         Self {
             id: glib::uuid_string_random().unwrap().to_string(),

@@ -390,15 +390,23 @@ impl Default for Instruction {
     }
 }
 
+fn pathmatch(entry: &walkdir::DirEntry, pattern: &shared::Pattern) -> bool {
+    match pattern {
+        shared::Pattern::PathPrefix(path) => entry.path() == path,
+    }
+}
+
 pub fn estimate_size(backup: &shared::BackupConfig, communication: &Communication) -> Option<u64> {
     let mut exclude = backup.exclude_dirs_internal();
 
     // Exclude .cache/borg
     if let Some(cache_dir) = glib::get_user_cache_dir() {
-        exclude.push(cache_dir.join(std::path::Path::new("borg")));
+        exclude.push(shared::Pattern::PathPrefix(
+            cache_dir.join(std::path::Path::new("borg")),
+        ));
     }
 
-    let is_not_exluded = |e: &walkdir::DirEntry| !exclude.iter().any(|x| x == e.path());
+    let is_not_exluded = |e: &walkdir::DirEntry| !exclude.iter().any(|x| pathmatch(e, x));
 
     let mut size = 0;
 
