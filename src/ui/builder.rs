@@ -5,10 +5,7 @@ pub struct About {
 impl About {
     pub fn new() -> Self {
         Self {
-            builder: gtk::Builder::new_from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/about.ui"
-            ))),
+            builder: gtk::Builder::from_string(include_str!(concat!(data_dir!(), "/ui/about.ui"))),
         }
     }
 
@@ -29,7 +26,7 @@ pub struct EncryptionPassword {
 impl EncryptionPassword {
     pub fn new() -> Self {
         Self {
-            builder: gtk::Builder::new_from_string(include_str!(concat!(
+            builder: gtk::Builder::from_string(include_str!(concat!(
                 data_dir!(),
                 "/ui/encryption_password.ui"
             ))),
@@ -77,10 +74,7 @@ pub struct Main {
 impl Main {
     pub fn new() -> Self {
         Self {
-            builder: gtk::Builder::new_from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/main.ui"
-            ))),
+            builder: gtk::Builder::from_string(include_str!(concat!(data_dir!(), "/ui/main.ui"))),
         }
     }
 
@@ -301,7 +295,7 @@ pub struct NewBackup {
 impl NewBackup {
     pub fn new() -> Self {
         Self {
-            builder: gtk::Builder::new_from_string(include_str!(concat!(
+            builder: gtk::Builder::from_string(include_str!(concat!(
                 data_dir!(),
                 "/ui/new_backup.ui"
             ))),
@@ -433,7 +427,7 @@ pub struct Storage {
 impl Storage {
     pub fn new() -> Self {
         Self {
-            builder: gtk::Builder::new_from_string(include_str!(concat!(
+            builder: gtk::Builder::from_string(include_str!(concat!(
                 data_dir!(),
                 "/ui/storage.ui"
             ))),

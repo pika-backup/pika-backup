@@ -72,7 +72,7 @@ def struct_code(name, path):
 impl {name} {{
     pub fn new() -> Self {{
         Self {{
-            builder: gtk::Builder::new_from_string(include_str!(concat!(
+            builder: gtk::Builder::from_string(include_str!(concat!(
                 data_dir!(),
                 "/{path}"
             ))),

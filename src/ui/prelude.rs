@@ -71,7 +71,7 @@ pub trait CronoAdditions {
 
 impl CronoAdditions for NaiveDateTime {
     fn to_glib(&self) -> glib::DateTime {
-        glib::DateTime::new_from_unix_local(self.timestamp())
+        glib::DateTime::from_unix_local(self.timestamp())
     }
 
     fn to_locale(&self) -> String {
@@ -84,7 +84,7 @@ impl CronoAdditions for NaiveDateTime {
 
 impl CronoAdditions for DateTime<Local> {
     fn to_glib(&self) -> glib::DateTime {
-        glib::DateTime::new_from_unix_local(self.timestamp())
+        glib::DateTime::from_unix_local(self.timestamp())
     }
 
     fn to_locale(&self) -> String {

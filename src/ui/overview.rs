@@ -52,12 +52,11 @@ pub fn main() {
     });
 
     main_ui().main_backups().connect_row_activated(|_, row| {
-        if let Some(ref name) = row.get_widget_name() {
-            if name == "-add" {
-                new_backup::new_backup()
-            } else {
-                detail::view_backup_conf(name)
-            }
+        let name = row.get_widget_name();
+        if name == "-add" {
+            new_backup::new_backup()
+        } else {
+            detail::view_backup_conf(&name)
         }
     });
 }

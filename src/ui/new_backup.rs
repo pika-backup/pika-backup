@@ -75,16 +75,15 @@ pub fn new_backup() {
 }
 
 fn add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>) {
-    if let Some(name) = row.get_widget_name() {
-        if name == "-add-local" {
-            add_local(ui);
-        } else if name == "-add-remote" {
-            ui.stack().set_visible_child(&ui.add_remote_page());
-            ui.add_button().show();
-            ui.add_button().grab_default();
-        } else {
-            add_repo_config_local(std::path::Path::new(&name), ui);
-        }
+    let name = row.get_widget_name();
+    if name == "-add-local" {
+        add_local(ui);
+    } else if name == "-add-remote" {
+        ui.stack().set_visible_child(&ui.add_remote_page());
+        ui.add_button().show();
+        ui.add_button().grab_default();
+    } else {
+        add_repo_config_local(std::path::Path::new(&name), ui);
     }
 }
 
@@ -111,34 +110,33 @@ fn add_button_clicked(ui: Rc<builder::NewBackup>) {
     main_pending::show(&gettext("Initializing new backup respository …"));
     ui.new_backup().hide();
 
-    let uri = ui.add_remote_uri().get_text().unwrap();
+    let uri = ui.add_remote_uri().get_text();
     add_repo_config_remote(uri.to_string(), ui);
 }
 
 fn init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
-    if let Some(name) = row.get_widget_name() {
-        ui.init_dir().set_text(&format!(
-            "backup-{}-{}",
-            glib::get_host_name()
-                .map(|x| x.to_string())
-                .unwrap_or_default(),
-            glib::get_user_name()
-                .and_then(|x| x.into_string().ok())
-                .unwrap_or_default()
-        ));
-        if name == "-init-remote" {
-            ui.init_location().set_visible_child(&ui.init_remote());
-        } else {
-            ui.init_location().set_visible_child(&ui.init_local());
-            trace!("Setting {} as init_path", &name);
-            ui.init_path()
-                .set_current_folder(std::path::PathBuf::from(&name));
-        }
-        ui.password_quality().set_value(0.0);
-        ui.stack().set_visible_child(&ui.init_page());
-        ui.init_button().show();
-        ui.init_button().grab_default();
+    ui.init_dir().set_text(&format!(
+        "backup-{}-{}",
+        glib::get_host_name()
+            .map(|x| x.to_string())
+            .unwrap_or_default(),
+        glib::get_user_name()
+            .and_then(|x| x.into_string().ok())
+            .unwrap_or_default()
+    ));
+    let name = row.get_widget_name();
+    if name == "-init-remote" {
+        ui.init_location().set_visible_child(&ui.init_remote());
+    } else {
+        ui.init_location().set_visible_child(&ui.init_local());
+        trace!("Setting {} as init_path", &name);
+        ui.init_path()
+            .set_current_folder(std::path::PathBuf::from(&name));
     }
+    ui.password_quality().set_value(0.0);
+    ui.stack().set_visible_child(&ui.init_page());
+    ui.init_button().show();
+    ui.init_button().grab_default();
 }
 
 fn init_button_clicked(ui: Rc<builder::NewBackup>) {
@@ -162,12 +160,12 @@ fn init_button_clicked(ui: Rc<builder::NewBackup>) {
             return;
         }
 
-        path.push(ui.init_dir().get_text().unwrap().as_str());
+        path.push(ui.init_dir().get_text().as_str());
         trace!("Init repo at {:?}", &path);
 
         BackupConfig::new_from_path(&path)
     } else {
-        let url = ui.init_url().get_text().unwrap().to_string();
+        let url = ui.init_url().get_text().to_string();
         if url.is_empty() {
             ui::utils::dialog_error(gettext("You have to enter a repository location."));
             return;
@@ -179,7 +177,7 @@ fn init_button_clicked(ui: Rc<builder::NewBackup>) {
     let mut borg = borg::Borg::new(config.clone());
 
     if encrypted {
-        let password = Zeroizing::new(ui.password().get_text().unwrap().as_bytes().to_vec());
+        let password = Zeroizing::new(ui.password().get_text().as_bytes().to_vec());
 
         if ui.password_store().get_active() {
             ui::utils::dialog_catch_err(
@@ -211,7 +209,7 @@ fn init_button_clicked(ui: Rc<builder::NewBackup>) {
 }
 
 fn init_repo_password_changed(ui: &builder::NewBackup) {
-    let password = ui.password().get_text().unwrap_or_else(|| "".into());
+    let password = ui.password().get_text();
     let score = if let Ok(pw_check) = zxcvbn::zxcvbn(&password, &[]) {
         if pw_check.score() > 3 {
             let n = pw_check.guesses_log10();
@@ -270,7 +268,7 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
         ui::utils::add_list_box_row(list, name.as_ref().map(std::borrow::Borrow::borrow), 0);
 
     if let Some(icon) = drive.as_ref().and_then(gio::Drive::get_icon) {
-        let img = gtk::Image::new_from_gicon(&icon, gtk::IconSize::Dialog);
+        let img = gtk::Image::from_gicon(&icon, gtk::IconSize::Dialog);
         horizontal_box.add(&img);
     }
 

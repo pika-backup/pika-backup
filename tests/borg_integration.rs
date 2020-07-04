@@ -83,7 +83,7 @@ fn status() -> borg::Communication {
 }
 
 fn config() -> shared::BackupConfig {
-    let uuid = glib::uuid_string_random().unwrap().to_string();
+    let uuid = glib::uuid_string_random().to_string();
     shared::BackupConfig {
         id: uuid.clone(),
         repo: shared::BackupRepo::Local {

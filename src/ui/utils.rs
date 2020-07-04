@@ -304,11 +304,9 @@ pub fn dialog_yes_no<S: AsRef<str>>(message: S) -> bool {
 
 pub fn clear(listbox: &gtk::ListBox) {
     for c in listbox.get_children() {
-        if let Some(ref name) = c.get_widget_name() {
-            if name.starts_with('-') {
-                continue;
-            }
-        };
+        if c.get_widget_name().starts_with('-') {
+            continue;
+        }
         listbox.remove(&c);
     }
 }
@@ -372,7 +370,7 @@ pub fn file_icon(path: &std::path::PathBuf, icon_size: gtk::IconSize) -> Option<
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
     if let Ok(info) = info {
         let icon = info.get_icon();
-        icon.map(|icon| gtk::Image::new_from_gicon(&icon, icon_size))
+        icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
     } else {
         None
     }

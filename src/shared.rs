@@ -127,7 +127,7 @@ impl BackupConfig {
         exclude.insert(Pattern::PathPrefix(".cache".into()));
 
         Self {
-            id: glib::uuid_string_random().unwrap().to_string(),
+            id: glib::uuid_string_random().to_string(),
             repo,
             encrypted: false,
             include,

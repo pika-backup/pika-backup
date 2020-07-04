@@ -39,19 +39,14 @@ impl Ask {
             .connect_clicked(move |_| dialog.response(gtk::ResponseType::Ok));
 
         let response = ui.dialog().run();
-        let password = ui
-            .password()
-            .get_text()
-            .map(|x| x.as_bytes().to_vec())
-            .map(Zeroizing::new);
+        let password = Zeroizing::new(ui.password().get_text().as_bytes().to_vec());
         ui.dialog().close();
         ui.dialog().hide();
 
-        match password {
-            Some(password) if gtk::ResponseType::Ok == response => {
-                Some((password, ui.password_store().get_active()))
-            }
-            _ => None,
+        if gtk::ResponseType::Ok == response {
+            Some((password, ui.password_store().get_active()))
+        } else {
+            None
         }
     }
 }

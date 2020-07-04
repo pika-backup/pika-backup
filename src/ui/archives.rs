@@ -20,7 +20,7 @@ where
     F: Fn(&borg::ListArchive) -> T,
 {
     let row = &main_ui().archive_list().get_selected_rows()[0];
-    let archive_id = row.get_widget_name().unwrap().to_string();
+    let archive_id = row.get_widget_name().to_string();
 
     f(ARCHIVES.load().get(&archive_id).as_ref().unwrap())
 }

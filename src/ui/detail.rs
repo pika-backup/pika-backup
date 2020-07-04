@@ -58,18 +58,14 @@ pub fn init() {
         });
 
     main_ui().include().connect_row_activated(|_, row| {
-        if let Some(ref name) = row.get_widget_name() {
-            if name == "-add" {
-                add_include();
-            }
+        if row.get_widget_name() == "-add" {
+            add_include();
         }
     });
 
     main_ui().backup_exclude().connect_row_activated(|_, row| {
-        if let Some(ref name) = row.get_widget_name() {
-            if name == "-add" {
-                add_exclude();
-            }
+        if row.get_widget_name() == "-add" {
+            add_exclude();
         }
     });
 
@@ -194,7 +190,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path, position: i32) 
     horizontal_box.add(&label);
 
     let button = gtk::Button::new();
-    button.add(&gtk::Image::new_from_icon_name(
+    button.add(&gtk::Image::from_icon_name(
         Some("window-close-symbolic"),
         gtk::IconSize::Button,
     ));
@@ -252,7 +248,7 @@ pub fn refresh() {
     let (_, horizontal_box) = ui::utils::add_list_box_row(&repo_ui, None, 1);
 
     if let Ok(icon) = gio::Icon::new_for_string(&utils::repo_icon(&backup.repo)) {
-        let img = gtk::Image::new_from_gicon(&icon, gtk::IconSize::Dialog);
+        let img = gtk::Image::from_gicon(&icon, gtk::IconSize::Dialog);
         horizontal_box.add(&img);
     }
 
