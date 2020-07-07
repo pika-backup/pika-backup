@@ -2,7 +2,7 @@ sources = [
     'main.rs',
 ]
 
-cargo_script = find_program(join_paths(meson.source_root(), 'build-aux/cargo.sh'))
+cargo_script = find_program(join_paths(meson.source_root(), 'build-aux/meson-cargo.sh'))
 
 bin = meson.project_name()
 
