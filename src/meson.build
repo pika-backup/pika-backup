@@ -6,6 +6,13 @@ cargo_script = find_program(join_paths(meson.source_root(), 'build-aux/meson-car
 
 bin = meson.project_name()
 
+git = find_program('git', required: false)
+git_info = ''
+if git.found()
+  git_info = run_command(git, '--git-dir', meson.source_root(),
+    'describe', '--always', '--dirty').stdout()
+endif
+
 cargo_options = '--release'
 rust_target = 'release'
 if get_option('profile') == 'dev'
@@ -30,6 +37,7 @@ cargo_release = custom_target(
     cargo_options,
     join_paths(meson.build_root(), 'target', rust_target, bin),
     '@OUTPUT@',
+    git_info,
   ]
 )
 
