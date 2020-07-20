@@ -26,7 +26,7 @@ impl Humanize for chrono::Duration {
 }
 
 pub trait ArcSwapAdditions<T> {
-    fn update<F: Fn(&mut T) -> ()>(&self, updater: F);
+    fn update<F: Fn(&mut T)>(&self, updater: F);
     fn get(&self) -> T;
 }
 
@@ -34,7 +34,7 @@ impl<T> ArcSwapAdditions<T> for ArcSwap<T>
 where
     T: Clone,
 {
-    fn update<F: Fn(&mut T) -> ()>(&self, updater: F) {
+    fn update<F: Fn(&mut T)>(&self, updater: F) {
         self.rcu(|current| {
             let mut new = T::clone(current);
             updater(&mut new);
@@ -51,7 +51,7 @@ impl<T> ArcSwapAdditions<T> for once_cell::sync::Lazy<ArcSwap<T>>
 where
     T: Clone,
 {
-    fn update<F: Fn(&mut T) -> ()>(&self, updater: F) {
+    fn update<F: Fn(&mut T)>(&self, updater: F) {
         (**self).rcu(|current| {
             let mut new = T::clone(current);
             updater(&mut new);
