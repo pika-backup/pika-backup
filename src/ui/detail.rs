@@ -477,7 +477,8 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                 main_ui()
                     .deduplicated_size()
                     .set_text(&ui::utils::hsize(deduplicated_size));
-                main_ui().current_path().set_text(path)
+                main_ui().current_path().set_text(path);
+                main_ui().current_path().set_tooltip_text(Some(path));
             }
             Progress::Message {
                 message: Some(ref message),
