@@ -99,6 +99,7 @@ impl BackupConfig {
         let icon = drive
             .as_ref()
             .and_then(gio::Drive::get_icon)
+            .or_else(|| mount.as_ref().and_then(gio::Mount::get_icon))
             .as_ref()
             .and_then(gio::IconExt::to_string)
             .as_ref()

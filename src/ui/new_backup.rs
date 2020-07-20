@@ -15,7 +15,7 @@ use ui::main_pending;
 
 pub fn new_backup() {
     let ui_new = Rc::new(ui::builder::NewBackup::new());
-    refresh(&ui_new);
+    load_available_mounts_and_repos(ui_new.clone());
     ui_new
         .password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
@@ -64,14 +64,63 @@ pub fn new_backup() {
     // refresh ui on mount events
     let monitor = gio::VolumeMonitor::get();
 
-    let ui = ui_new.clone();
-    monitor.connect_mount_added(move |_, _| refresh(&ui));
-    let ui = ui_new.clone();
-    monitor.connect_mount_changed(move |_, _| refresh(&ui));
-    let ui = ui_new.clone();
-    monitor.connect_mount_removed(move |_, _| refresh(&ui));
+    monitor.connect_mount_added(enclose!((ui_new) move |_, mount| {
+        debug!("Mount added");
+        load_mount(ui_new.clone(), mount.clone());
+    }));
+
+    monitor.connect_mount_removed(enclose!((ui_new) move |_, mount| {
+        debug!("Mount removed");
+        remove_mount(&ui_new.add_repo_list(), mount.get_root().unwrap().get_uri());
+        remove_mount(
+            &ui_new.init_repo_list(),
+            mount.get_root().unwrap().get_uri(),
+        );
+    }));
 
     ui_new.new_backup().show_all();
+}
+
+fn load_available_mounts_and_repos(ui: Rc<builder::NewBackup>) {
+    debug!("Refreshing list of existing repos");
+    let monitor = gio::VolumeMonitor::get();
+
+    ui::utils::clear(&ui.add_repo_list());
+    ui::utils::clear(&ui.init_repo_list());
+
+    for mount in monitor.get_mounts() {
+        load_mount(ui.clone(), mount);
+    }
+
+    debug!("List of existing repos refreshed");
+}
+
+fn load_mount(ui: Rc<builder::NewBackup>, mount: gio::Mount) {
+    if let Some(mount_point) = mount.get_root().unwrap().get_path() {
+        add_mount(&ui.init_repo_list(), &mount, Some(&mount_point));
+        ui::utils::async_react(
+            "check_mount_for_repos",
+            move || {
+                let mut paths = Vec::new();
+                if let Ok(dirs) = mount_point.read_dir() {
+                    for dir in dirs {
+                        if let Ok(path) = dir {
+                            if is_backup_repo(&path.path()) {
+                                paths.push(path.path());
+                            }
+                        }
+                    }
+                }
+                paths
+            },
+            enclose!((ui) move |paths: Vec<std::path::PathBuf>| {
+                for path in paths {
+                    trace!("Adding repo to ui '{:?}'", path);
+                    add_mount(&ui.add_repo_list(), &mount, Some(&path));
+                }
+            }),
+        );
+    }
 }
 
 fn add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>) {
@@ -232,40 +281,22 @@ fn init_repo_password_changed(ui: &builder::NewBackup) {
     ui.password_quality().set_value(score.into());
 }
 
-fn refresh(ui: &ui::builder::NewBackup) {
-    debug!("Refreshing list of existing repos");
-    let monitor = gio::VolumeMonitor::get();
-
-    ui::utils::clear(&ui.add_repo_list());
-    ui::utils::clear(&ui.init_repo_list());
-
-    for mount in monitor.get_mounts() {
-        if let Some(mount_point) = mount.get_root().as_ref().and_then(gio::File::get_path) {
-            add_mount(&ui.init_repo_list(), &mount, Some(&mount_point));
-            if let Ok(dirs) = mount_point.read_dir() {
-                for dir in dirs {
-                    if let Ok(path) = dir {
-                        if is_backup_repo(&path.path()) {
-                            add_mount(&ui.add_repo_list(), &mount, Some(&path.path()));
-                        }
-                    }
-                }
-            }
+fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
+    for list_row in list.get_children() {
+        if list_row.get_widget_name() == root {
+            list.remove(&list_row);
         }
-
-        ui.add_repo_list().show_all();
-        ui.init_repo_list().show_all();
     }
-
-    debug!("List of existing repos refreshed");
 }
 
 fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
     let drive = mount.get_drive();
 
     let name = repo.map(std::path::Path::to_string_lossy);
-    let (_, horizontal_box) =
+    let (row, horizontal_box) =
         ui::utils::add_list_box_row(list, name.as_ref().map(std::borrow::Borrow::borrow), 0);
+
+    row.set_widget_name(&mount.get_root().unwrap().get_uri());
 
     if let Some(icon) = drive.as_ref().and_then(gio::Drive::get_icon) {
         let img = gtk::Image::from_gicon(&icon, gtk::IconSize::Dialog);
@@ -303,6 +334,8 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
     let (vertical_box, _, _) =
         ui::utils::list_vertical_box(Some(label1.as_str()), Some(label2.as_str()));
     horizontal_box.add(&vertical_box);
+
+    list.show_all();
 }
 
 fn add_repo_config_local(repo: &std::path::Path, ui: Rc<builder::NewBackup>) {
