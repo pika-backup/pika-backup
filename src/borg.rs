@@ -168,6 +168,16 @@ impl Borg {
         self
     }
 
+    pub fn version() -> Result<String, BorgErr> {
+        let borg = BorgCall::new_raw()
+            .add_options(&["--log-json", "--version"])
+            .output()?;
+
+        check_stderr(&borg)?;
+
+        Ok(String::from_utf8_lossy(&borg.stdout).to_string())
+    }
+
     pub fn peak(&self) -> Result<(), BorgErr> {
         let borg = BorgCall::new("list")
             .add_options(&["--json", "--last=1"])

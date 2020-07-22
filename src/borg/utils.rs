@@ -9,7 +9,7 @@ use crate::shared::*;
 
 #[derive(Default)]
 pub struct BorgCall {
-    command: String,
+    command: Option<String>,
     options: Vec<String>,
     envs: std::collections::BTreeMap<String, String>,
     pub positional: Vec<String>,
@@ -65,10 +65,14 @@ pub fn check_line(line: &str) -> LogMessageEnum {
 impl BorgCall {
     pub fn new(command: &str) -> Self {
         Self {
-            command: command.to_string(),
+            command: Some(command.to_string()),
             options: vec!["--rsh".into(), "ssh -o BatchMode=yes".into()],
             ..Self::default()
         }
+    }
+
+    pub fn new_raw() -> Self {
+        Self::default()
     }
 
     pub fn add_envs<L, V>(&mut self, vars: L) -> &mut Self
@@ -194,7 +198,7 @@ impl BorgCall {
     }
 
     pub fn args(&self) -> Vec<String> {
-        let mut args = vec![self.command.clone()];
+        let mut args: Vec<String> = self.command.clone().into_iter().collect();
         args.extend(self.options.clone());
         args.push("--".to_string());
         args.extend(self.positional.clone());

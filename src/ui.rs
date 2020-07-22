@@ -59,6 +59,7 @@ pub fn main() {
             .expect("Could not send Ctrl-C to main thread.");
     })
     .expect("Error setting Ctrl-C handler");
+    init_check_borg();
 
     gtk_app().run(&[]);
 }
@@ -198,6 +199,37 @@ fn init_actions() {
     gtk_app().add_action(&action);
 }
 
+fn init_check_borg() {
+    let version_result = borg::Borg::version();
+
+    ui::utils::dialog_catch_errb(
+        &version_result,
+        gettext("Failed to run `borg`. Is borg-backup installed correctly?"),
+    );
+
+    if let Ok(version_output) = version_result {
+        if let Some(version_string) = version_output.split(' ').nth(1) {
+            let version_list = version_string
+                .split('.')
+                .map(str::parse)
+                .map(Result::ok)
+                .take(2);
+            if vec![Some(crate::BORG_MIN_MAJOR), Some(crate::BORG_MIN_MINOR)]
+                .into_iter()
+                .cmp(version_list)
+                == std::cmp::Ordering::Greater
+            {
+                ui::utils::dialog_error(gettext!(
+                    "Your borg-backup version seems to be smaller then required \
+                    version {}.{}.X. Some features will not work.",
+                    crate::BORG_MIN_MAJOR,
+                    crate::BORG_MIN_MINOR
+                ));
+            }
+        }
+    }
+}
+
 fn config_path() -> std::path::PathBuf {
     let mut path = crate::globals::CONFIG_DIR.clone();
     path.push(env!("CARGO_PKG_NAME"));
@@ -209,7 +241,10 @@ fn config_path() -> std::path::PathBuf {
         .create_new(true)
         .open(&path)
     {
-        ui::utils::dialog_catch_err(file.write_all(b"{ }"), "Could not create empty config file");
+        ui::utils::dialog_catch_err(
+            file.write_all(b"{ }"),
+            gettext("Could not create empty config file."),
+        );
     }
 
     path
@@ -223,7 +258,7 @@ fn load_config_e() -> Result<(), Box<dyn Error>> {
 }
 
 fn load_config() {
-    utils::dialog_catch_err(load_config_e(), "Could not load config.");
+    utils::dialog_catch_err(load_config_e(), gettext("Could not load config."));
 }
 
 fn write_config_e() -> Result<(), Box<dyn Error>> {
@@ -234,5 +269,5 @@ fn write_config_e() -> Result<(), Box<dyn Error>> {
 }
 
 fn write_config() {
-    utils::dialog_catch_err(write_config_e(), "Could not write config.");
+    utils::dialog_catch_err(write_config_e(), gettext("Could not write config."));
 }
