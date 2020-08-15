@@ -16,6 +16,7 @@ mod archives;
 #[allow(dead_code)]
 mod builder;
 mod detail;
+mod device_missing;
 mod encryption_password;
 mod globals;
 mod main_pending;

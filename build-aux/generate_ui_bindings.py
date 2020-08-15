@@ -5,8 +5,6 @@ import glob
 import os.path as path
 import os
 
-os.chdir("data")
-
 UI_PATH = "ui/*.ui"
 
 SRC_PATH = "../src/ui/builder.rs"
@@ -15,6 +13,7 @@ SRC_PATH = "../src/ui/builder.rs"
 def main():
     global UI_PATH, SRC_PATH
 
+    os.chdir("data")
     ui_files = glob.glob(UI_PATH)
     ui_files.sort()
 
