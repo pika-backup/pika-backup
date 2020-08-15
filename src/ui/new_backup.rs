@@ -178,9 +178,10 @@ fn init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
         ui.init_location().set_visible_child(&ui.init_remote());
     } else {
         ui.init_location().set_visible_child(&ui.init_local());
-        trace!("Setting {} as init_path", &name);
-        ui.init_path()
-            .set_current_folder(std::path::PathBuf::from(&name));
+        if name != "-init-local" {
+            trace!("Setting {} as init_path", &name);
+            ui.init_path().set_current_folder_uri(&name);
+        }
     }
     ui.password_quality().set_value(0.0);
     ui.stack().set_visible_child(&ui.init_page());
