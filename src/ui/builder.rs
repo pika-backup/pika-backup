@@ -19,6 +19,50 @@ impl About {
     }
 }
 
+pub struct DeviceMissing {
+    builder: gtk::Builder,
+}
+
+impl DeviceMissing {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                data_dir!(),
+                "/ui/device_missing.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::prelude::BuilderExtManual::get_object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'ui/device_missing.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn device(&self) -> gtk::Label {
+        self.get("device")
+    }
+
+    pub fn icon(&self) -> gtk::Box {
+        self.get("icon")
+    }
+
+    pub fn mount(&self) -> gtk::Label {
+        self.get("mount")
+    }
+
+    pub fn window(&self) -> gtk::Dialog {
+        self.get("window")
+    }
+}
+
 pub struct EncryptionPassword {
     builder: gtk::Builder,
 }
@@ -153,10 +197,6 @@ impl Main {
 
     pub fn delete_backup_conf(&self) -> gtk::ModelButton {
         self.get("delete_backup_conf")
-    }
-
-    pub fn detail_device_not_connected(&self) -> gtk::InfoBar {
-        self.get("detail_device_not_connected")
     }
 
     pub fn detail_menu(&self) -> gtk::MenuButton {

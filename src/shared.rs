@@ -92,6 +92,12 @@ impl BackupConfig {
         let repo_file = gio::File::new_for_path(&repo);
         let none: Option<&gio::Cancellable> = None;
         let mount = repo_file.find_enclosing_mount(none).ok();
+        debug!(
+            "Mount found: {:?} {:?} {:?}",
+            &repo,
+            &mount,
+            repo_file.is_native()
+        );
         let drive = mount.as_ref().and_then(gio::Mount::get_drive);
 
         let volume_uuid = mount.as_ref().and_then(get_mount_uuid);

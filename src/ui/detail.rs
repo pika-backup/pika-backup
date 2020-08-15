@@ -12,7 +12,7 @@ use crate::ui::prelude::*;
 use crate::ui::utils::{self, WidgetEnh};
 
 pub fn init() {
-    main_ui().backup_run().connect_clicked(on_backup_run);
+    main_ui().backup_run().connect_clicked(|_| on_backup_run());
 
     main_ui()
         .target_listbox()
@@ -115,9 +115,7 @@ fn stop_backup_create() {
     }
 }
 
-fn on_backup_run(button: &gtk::Button) {
-    button.set_sensitive(false);
-
+fn on_backup_run() {
     let config = SETTINGS.load().backups.get_active().unwrap().clone();
     let backup_id = ACTIVE_BACKUP_ID.get().unwrap();
 
@@ -131,7 +129,7 @@ fn on_backup_run(button: &gtk::Button) {
         if unmount {
             trace!("User decided to unmount repo.");
             if !ui::utils::dialog_catch_err(
-                borg::Borg::new(config).umount(),
+                borg::Borg::new(config.clone()).umount(),
                 gettext("Failed to unmount repository."),
             ) {
                 ACTIVE_MOUNTS.update(|mounts| {
@@ -144,8 +142,11 @@ fn on_backup_run(button: &gtk::Button) {
         }
     }
 
-    let backups = &SETTINGS.load().backups;
-    let backup = backups.get(&backup_id).unwrap().clone();
+    ui::device_missing::main(config.clone(), move || run_backup(config.clone()));
+}
+
+pub fn run_backup(backup: shared::BackupConfig) {
+    let backup_id = backup.id.clone();
 
     let communication: borg::Communication = Default::default();
 
@@ -162,6 +163,7 @@ fn on_backup_run(button: &gtk::Button) {
             BACKUP_COMMUNICATION.update(|c| {
                 c.remove(&backup_id);
             });
+            let user_aborted = matches!(result, Err(shared::BorgErr::UserAborted));
             let result_string_err = result.map_err(|err| format!("{}", err));
             let run_info = Some(shared::RunInfo::new(result_string_err.clone()));
             refresh_offline(&run_info);
@@ -169,7 +171,10 @@ fn on_backup_run(button: &gtk::Button) {
                 settings.backups.get_mut(&backup_id).unwrap().last_run = run_info.clone()
             });
             ui::write_config();
-            ui::utils::dialog_catch_errb(&result_string_err, gettext("Backup failed"));
+
+            if !user_aborted {
+                ui::utils::dialog_catch_errb(&result_string_err, gettext("Backup failed"));
+            }
         },
     );
 }
@@ -222,25 +227,6 @@ pub fn refresh() {
     }
 
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
-    // messages
-    main_ui().detail_device_not_connected().hide();
-    //let repo = backup.repo.clone();
-    if let shared::BackupRepo::Local { path, .. } = backup.repo.clone() {
-        ui::utils::async_react(
-            "check_repo_available",
-            move || ui::new_backup::is_backup_repo(&path),
-            |available| {
-                if !available {
-                    gtk::timeout_add(250, || {
-                        main_ui().detail_device_not_connected().show();
-                        // Workaround for https://bugzilla.gnome.org/show_bug.cgi?id=710888
-                        main_ui().detail_device_not_connected().queue_resize();
-                        Continue(false)
-                    });
-                }
-            },
-        );
-    }
 
     // backup target ui
     let repo_ui = main_ui().target_listbox();
@@ -393,7 +379,6 @@ pub fn refresh_statusx() {
 pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
     let stack = main_ui().stack();
     main_ui().stop_backup_create().hide();
-    main_ui().backup_run().set_sensitive(true);
 
     if let Some(ref run_info) = run_info_opt {
         main_ui().status_button().show();
@@ -442,7 +427,6 @@ pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
 }
 
 pub fn refresh_status(communication: &borg::Communication) -> Continue {
-    main_ui().backup_run().set_sensitive(false);
     main_ui().stop_backup_create().show();
 
     let stack = main_ui().stack();

@@ -154,20 +154,23 @@ fn show_archives(archive_list: Result<Vec<borg::ListArchive>, BorgErr>) {
 
 pub fn show() {
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
-    ui::utils::clear(&main_ui().archive_list());
-    main_ui().main_stack().set_visible_child_name("archives");
 
-    let label = gtk::Spinner::new();
-    main_ui().archive_list().set_placeholder(Some(&label));
-    label.start();
-    label.show();
+    ui::device_missing::main(backup.clone(), move || {
+        ui::utils::clear(&main_ui().archive_list());
+        main_ui().main_stack().set_visible_child_name("archives");
 
-    ui::utils::Async::borg(
-        "list_archives",
-        borg::Borg::new(backup),
-        |borg| borg.list(),
-        show_archives,
-    );
+        let label = gtk::Spinner::new();
+        main_ui().archive_list().set_placeholder(Some(&label));
+        label.start();
+        label.show();
+
+        ui::utils::Async::borg(
+            "list_archives",
+            borg::Borg::new(backup.clone()),
+            |borg| borg.list(),
+            show_archives,
+        );
+    });
 }
 
 fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
