@@ -97,7 +97,7 @@ fn load_available_mounts_and_repos(ui: Rc<builder::NewBackup>) {
 
 fn load_mount(ui: Rc<builder::NewBackup>, mount: gio::Mount) {
     if let Some(mount_point) = mount.get_root().unwrap().get_path() {
-        add_mount(&ui.init_repo_list(), &mount, Some(&mount_point));
+        add_mount(&ui.init_repo_list(), &mount, None);
         ui::utils::async_react(
             "check_mount_for_repos",
             move || {
@@ -181,6 +181,8 @@ fn init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
         if name != "-init-local" {
             trace!("Setting {} as init_path", &name);
             ui.init_path().set_current_folder_uri(&name);
+        } else {
+            ui.init_path().grab_focus();
         }
     }
     ui.password_quality().set_value(0.0);
@@ -323,6 +325,7 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
 
         if let Some(mount_path) = root.get_path() {
             if let Some(repo_path) = repo {
+                row.set_widget_name(&gio::File::new_for_path(repo_path).get_uri());
                 if let Ok(suffix) = repo_path.strip_prefix(mount_path) {
                     if !suffix.to_string_lossy().is_empty() {
                         label1.push_str(&format!(" / {}", suffix.to_string_lossy()));
