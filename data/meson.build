@@ -10,7 +10,7 @@ install_data(
 
 install_data(
     'app.metainfo.xml',
-    rename: 'app.metainfo.xml'.format(application_id),
+    rename: '@0@.metainfo.xml'.format(application_id),
     install_dir: datadir / 'metainfo'
 )
 
