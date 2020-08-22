@@ -17,7 +17,7 @@
     </p>
     <p><b>Limitations</b></p>
     <p>
-      Pika Backup currently does not support scheduled backups. Excluding files from a backup via regular expressions and alike is not supported yet. Remote backup locations must support SSH and need to have a borg-backup binary installed.
+      Currently, scheduled backups support are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Remote backup locations must support SSH and need to have a borg-backup binary installed.
     </p>
 
 ![Pika Pile Setup](/uploads/596347a2e99be37c3f8a035b75cea8ea/pika-pile-1.png)
