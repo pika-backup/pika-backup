@@ -65,7 +65,6 @@ fn on_browse_archive() {
         path.push(archive.name.clone());
 
         let open_archive = || {
-            let none: Option<&gio::AppLaunchContext> = None;
             ui::utils::async_react(
                 "open_archive",
                 move || find_first_populated_dir(&path),
@@ -74,8 +73,22 @@ fn on_browse_archive() {
 
                     // only open if app isn't closing in this moment
                     if !**IS_SHUTDOWN.load() {
+                        let show_folder = || -> Result<(), _> {
+                            let conn = dbus::blocking::Connection::new_session()?;
+                            let proxy = conn.with_proxy(
+                                "org.freedesktop.FileManager1",
+                                "/org/freedesktop/FileManager1",
+                                std::time::Duration::from_millis(5000),
+                            );
+                            proxy.method_call(
+                                "org.freedesktop.FileManager1",
+                                "ShowFolders",
+                                (vec![uri.as_str()], ""),
+                            )
+                        };
+
                         ui::utils::dialog_catch_err(
-                            gio::AppInfo::launch_default_for_uri(&uri, none),
+                            show_folder(),
                             gettext("Failed to open archive."),
                         );
                     }
