@@ -369,7 +369,9 @@ fn add_exclude() {
 }
 
 pub fn refresh_statusx() {
+    main_ui().backup_run().set_sensitive(true);
     if let Some(communication) = BACKUP_COMMUNICATION.load().get_active() {
+        main_ui().backup_run().set_sensitive(false);
         refresh_status(communication);
     } else if let Some(backup) = SETTINGS.load().backups.get_active() {
         refresh_offline(&backup.last_run);
@@ -450,7 +452,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                     main_ui().archive_progress().set_fraction(fraction);
                     main_ui()
                         .status_subtext()
-                        .set_text(&format!("{:.1} % finished", fraction * 100.0))
+                        .set_text(&gettext!("{:.1} % finished", fraction * 100.0))
                 } else {
                     main_ui().archive_progress().hide();
                 }
@@ -466,10 +468,18 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
             }
             Progress::Message {
                 message: Some(ref message),
+                ref msgid,
                 ..
             } => {
                 stack.set_visible_child_name("message");
                 main_ui().message().set_text(message);
+                if msgid.as_ref().map(|x| x.starts_with("cache.")) == Some(true) {
+                    main_ui()
+                        .status_subtext()
+                        .set_text(&gettext("Updating repository information"));
+                } else {
+                    main_ui().status_subtext().set_text(message);
+                }
             }
             Progress::Percent {
                 current: Some(current),
@@ -478,10 +488,12 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                 ..
             } => {
                 stack.set_visible_child_name("percent");
-                main_ui()
-                    .progress()
-                    .set_fraction(current as f64 / total as f64);
+                let fraction = current as f64 / total as f64;
+                main_ui().progress().set_fraction(fraction);
                 main_ui().percent_message().set_text(message);
+                main_ui()
+                    .status_subtext()
+                    .set_text(&gettext!("{:.1} % prepared", fraction * 100.0))
             }
             // TODO: cover progress message?
             _ => {}

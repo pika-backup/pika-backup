@@ -132,7 +132,14 @@ fn add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>) {
         ui.add_button().show();
         ui.add_button().grab_default();
     } else {
-        add_repo_config_local(std::path::Path::new(&name), ui);
+        let path = match glib::filename_from_uri(&name) {
+            Ok((path, _)) => path,
+            Err(err) => {
+                ui::utils::dialog_error(format!("URI conversion: {:?}", err));
+                return;
+            }
+        };
+        add_repo_config_local(std::path::Path::new(&path), ui);
     }
 }
 
@@ -358,7 +365,22 @@ fn insert_backup_config_encryption_unknown(
 ) {
     let mut borg = borg::Borg::new(config.clone());
     borg.set_password(Zeroizing::new(vec![]));
-    config.encrypted = borg.peak().is_err();
+    // TODO: This is not async
+    if let Err(err) = borg.peak() {
+        if matches!(err, shared::BorgErr::PasswordMissing)
+            || err.has_borg_msgid(&shared::MsgId::PassphraseWrong)
+        {
+            config.encrypted = true;
+        } else {
+            ui::utils::dialog_error(gettext!(
+                "There was an error with the specified repository:\n\n{}",
+                err
+            ));
+
+            return;
+        }
+    }
+
     insert_backup_config_password_unknown(config, ui);
 }
 
