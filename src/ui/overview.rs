@@ -17,20 +17,17 @@ pub fn main() {
                 match &page[..] {
                     "main" => {
                         main_ui().previous().hide();
-                        main_ui().main_menu().show();
                         main_ui().detail_menu().hide();
                         main_ui().backup_run().hide();
                         refresh();
                     }
                     "archives" => {
                         main_ui().previous().show();
-                        main_ui().main_menu().hide();
                         main_ui().detail_menu().hide();
                         main_ui().backup_run().hide();
                     }
                     _ => {
                         main_ui().previous().show();
-                        main_ui().main_menu().hide();
                         main_ui().detail_menu().show();
                         main_ui().backup_run().show();
                     }

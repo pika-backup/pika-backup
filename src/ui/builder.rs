@@ -231,10 +231,6 @@ impl Main {
         self.get("main_backups")
     }
 
-    pub fn main_menu(&self) -> gtk::MenuButton {
-        self.get("main_menu")
-    }
-
     pub fn main_menu_popover(&self) -> gtk::PopoverMenu {
         self.get("main_menu_popover")
     }
