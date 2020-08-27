@@ -1,10 +1,12 @@
 # Pika Backup
 
-<p>
-      Doing backups the easy way. Plugin your USB drive and let the Pika do the rest for you.
-    </p>
-    <p><b>Features</b></p>
-    <ul>
+Doing backups the easy way. Plugin your USB drive and let the Pika do the rest for you.
+
+[<img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png' />](https://flathub.org/apps/details/org.gnome.World.PikaBackup)
+
+### Features
+
+<ul>
       <li>Setup new backup repositories or uses existing ones</li>
       <li>Create backups locally and remote</li>
       <li>Save time and disk space because Pika Backup does not need to copy known data again</li>
@@ -12,15 +14,19 @@
       <li>List created archives and browse through their contents</li>
       <li>Recover files or folders via your file browser</li>
     </ul>
-    <p>
-      Pika Backup is powered by the well-tested borg-backup software.
-    </p>
-    <p><b>Limitations</b></p>
-    <p>
-      Currently, scheduled backups support are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Remote backup locations must support SSH and need to have a borg-backup binary installed.
-    </p>
+
+Pika Backup is powered by the well-tested borg-backup software.
+
+### Limitations
+  
+Currently, scheduled backups are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Remote backup locations must support SSH and need to have a borg-backup binary installed.
 
 ![Pika Backup Setup](/uploads/596347a2e99be37c3f8a035b75cea8ea/pika-pile-1.png)
+
+### Alternative software
+
+- [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), borg-backup as backend, supports scheduled backups, Qt frontend for advanced users
+- [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) as backend, supports scheduled backups, GTK frontend
 
 ## Build
 
@@ -28,13 +34,7 @@ You need [Rust](https://rustup.rs/) to build Pika
 
 ```sh
 $ apt install libgtk-3-dev
-$ cargo run --release
-```
-
-or you can use flatpak
-
-```sh
-$ ./build-aux/flatpak-build.bash
+$ cargo run
 ```
 
 **Debug**
