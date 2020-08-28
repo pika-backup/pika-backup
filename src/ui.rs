@@ -4,6 +4,7 @@ use std::io::prelude::*;
 use gdk_pixbuf::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
+use glib;
 
 use crate::borg;
 use crate::shared;
@@ -49,7 +50,7 @@ pub fn main() {
     // Ctrl-C handling
     let (send, recv) = std::sync::mpsc::channel();
     // Use channel to call GtkApplicaton from main thread
-    gtk::timeout_add(100, move || {
+    glib::timeout_add_local(100, move || {
         if recv.try_recv().is_ok() {
             on_ctrlc();
         }
@@ -134,7 +135,7 @@ fn init(_app: &gtk::Application) {
 }
 
 fn init_timeouts() {
-    gtk::timeout_add(1000, move || {
+    glib::timeout_add_local(1000, move || {
         let inhibit_cookie = INHIBIT_COOKIE.get();
 
         if is_backup_running() {

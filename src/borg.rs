@@ -178,7 +178,7 @@ impl Borg {
         Ok(String::from_utf8_lossy(&borg.stdout).to_string())
     }
 
-    pub fn peak(&self) -> Result<(), BorgErr> {
+    pub fn peek(&self) -> Result<(), BorgErr> {
         let borg = BorgCall::new("list")
             .add_options(&["--json", "--last=1"])
             .add_envs(vec![

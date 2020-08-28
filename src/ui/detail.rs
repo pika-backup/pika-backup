@@ -97,7 +97,7 @@ pub fn init() {
         .stop_backup_create()
         .connect_clicked(|_| stop_backup_create());
 
-    gtk::timeout_add(500, || {
+    glib::timeout_add_local(500, || {
         refresh_statusx();
         Continue(true)
     });

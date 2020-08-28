@@ -98,7 +98,7 @@ impl<T> BackupMap<T> for std::collections::BTreeMap<String, T> {
     }
 }
 
-pub enum Async {}
+pub struct Async(());
 
 impl Async {
     pub fn borg<F, G, V>(name: &'static str, borg: borg::Borg, task: F, result_handler: G)
@@ -178,7 +178,7 @@ where
     });
 
     let task_name = name.to_string();
-    gtk::timeout_add(50, move || match recv.try_recv() {
+    glib::timeout_add_local(50, move || match recv.try_recv() {
         Ok(result) => {
             result_handler(result);
             Continue(false)

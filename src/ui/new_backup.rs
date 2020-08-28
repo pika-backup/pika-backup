@@ -366,7 +366,7 @@ fn insert_backup_config_encryption_unknown(
     let mut borg = borg::Borg::new(config.clone());
     borg.set_password(Zeroizing::new(vec![]));
     // TODO: This is not async
-    if let Err(err) = borg.peak() {
+    if let Err(err) = borg.peek() {
         if matches!(err, shared::BorgErr::PasswordMissing)
             || err.has_borg_msgid(&shared::MsgId::PassphraseWrong)
         {
@@ -388,9 +388,9 @@ fn insert_backup_config_password_unknown(config: shared::BackupConfig, ui: Rc<bu
     ui.new_backup().hide();
     let x = config.clone();
     ui::utils::Async::borg(
-        "borg::peak",
+        "borg::peek",
         borg::Borg::new(x),
-        |borg| borg.peak(),
+        |borg| borg.peek(),
         move |result| match result {
             Ok(()) => {
                 insert_backup_config(config.clone());
