@@ -1,4 +1,3 @@
-use gio;
 use gio::prelude::*;
 use gtk::prelude::*;
 use std::rc::Rc;

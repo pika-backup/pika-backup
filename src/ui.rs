@@ -4,7 +4,6 @@ use std::io::prelude::*;
 use gdk_pixbuf::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
-use glib;
 
 use crate::borg;
 use crate::shared;

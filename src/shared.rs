@@ -89,15 +89,16 @@ impl BackupConfig {
     }
 
     pub fn new_from_path(repo: &path::Path) -> Self {
-        let repo_file = gio::File::new_for_path(&repo);
+        let repo_file = gio::File::new_for_path(&if repo.exists() {
+            repo
+        } else {
+            // for new repos the repo directory itself usually doesen't exist
+            repo.parent().unwrap_or(repo)
+        });
+
         let none: Option<&gio::Cancellable> = None;
         let mount = repo_file.find_enclosing_mount(none).ok();
-        debug!(
-            "Mount found: {:?} {:?} {:?}",
-            &repo,
-            &mount,
-            repo_file.is_native()
-        );
+        debug!("Mount found: {:?} {:?} {:?}", &repo, &mount, repo_file);
         let drive = mount.as_ref().and_then(gio::Mount::get_drive);
 
         let volume_uuid = mount.as_ref().and_then(get_mount_uuid);
