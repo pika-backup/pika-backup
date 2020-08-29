@@ -28,19 +28,21 @@ Currently, scheduled backups are not supported. Excluding files from a backup vi
 - [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), borg-backup as backend, supports scheduled backups, Qt frontend for advanced users
 - [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) as backend, supports scheduled backups, GTK frontend
 
-## Build
+## Building
 
-You need [Rust](https://rustup.rs/) to build Pika
+Building via [cargo](https://rustup.rs/) not involving meson is supported.
 
-```sh
-$ apt install libgtk-3-dev
+```
+$ apt install libgtk-3-dev borg-backup
+$ cargo test
 $ cargo run
 ```
 
-**Debug**
+Using meson also installs a `.desktop`-file etc.
 
-Run with `RUST_LOG` set to debug or trace. For example
-
-```sh
-$ RUST_LOG=trace cargo run
+```
+$ meson builddir && cd builddir
+$ meson compile
+$ meson test
+$ meson install
 ```
