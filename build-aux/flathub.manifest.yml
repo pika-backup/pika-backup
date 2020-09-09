@@ -11,6 +11,8 @@ build-options:
 
 finish-args:
   - --filesystem=host
+  # flatpak puts a tmpfs here to hide other apps
+  - --filesystem=~/.var/app/
   - --share=network
   - --socket=wayland
   # X11
