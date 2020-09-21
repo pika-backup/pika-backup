@@ -274,12 +274,24 @@ where
 }
 
 pub fn dialog_error<S: AsRef<str>>(error: S) {
+    let error_vec = error.as_ref().chars().collect::<Vec<_>>();
+
+    let mut error_str = error.as_ref().to_string();
+
+    if error_vec.len() > 400 {
+        error_str = format!(
+            "{}\n…\n{}",
+            error_vec.iter().take(200).collect::<String>(),
+            error_vec.iter().rev().take(200).rev().collect::<String>()
+        );
+    }
+
     let dialog = gtk::MessageDialog::new(
         Some(&main_ui().window()),
         gtk::DialogFlags::MODAL,
         gtk::MessageType::Error,
         gtk::ButtonsType::Ok,
-        error.as_ref(),
+        &error_str,
     );
 
     dialog.run();
