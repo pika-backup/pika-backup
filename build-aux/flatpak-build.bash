@@ -5,7 +5,7 @@ REPO_NAME=pika-backup-dev
 REPO_DIR=flatpak_repo
 
 flatpak remove $APP_ID -y
-flatpak-builder --install-deps-from=https://dl.flathub.org/repo/ \
+flatpak-builder --install-deps-from=flathub \
   --user --verbose --force-clean -y --repo=$REPO_DIR flatpak_out build-aux/ci.manifest.yml
 flatpak build-bundle $REPO_DIR $APP_ID.flatpak $APP_ID
 flatpak --force remote-delete $REPO_NAME
