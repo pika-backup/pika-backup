@@ -154,7 +154,7 @@ fn show_archives(archive_list: Result<Vec<borg::ListArchive>, BorgErr>) {
         err @ Err(_) => {
             ui::utils::dialog_catch_err(
                 err,
-                gettext("An error occured while retriving the list of archives."),
+                gettext("An error occurred while retrieving the list of archives."),
             );
         }
     }

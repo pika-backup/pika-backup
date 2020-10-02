@@ -163,7 +163,7 @@ fn add_local(ui: Rc<builder::NewBackup>) {
 }
 
 fn add_button_clicked(ui: Rc<builder::NewBackup>) {
-    main_pending::show(&gettext("Initializing new backup respository …"));
+    main_pending::show(&gettext("Initializing new backup repository …"));
     ui.new_backup().hide();
 
     let uri = ui.add_remote_uri().get_text();
@@ -247,7 +247,7 @@ fn init_button_clicked(ui: Rc<builder::NewBackup>) {
         borg.set_password(password);
     }
 
-    main_pending::show(&gettext("Initializing new backup respository …"));
+    main_pending::show(&gettext("Initializing new backup repository …"));
     ui.new_backup().hide();
 
     ui::utils::async_react(

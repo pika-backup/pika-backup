@@ -92,7 +92,7 @@ impl BackupConfig {
         let repo_file = gio::File::new_for_path(&if repo.exists() {
             repo
         } else {
-            // for new repos the repo directory itself usually doesen't exist
+            // for new repos the repo directory itself usually doesn't exist
             repo.parent().unwrap_or(repo)
         });
 

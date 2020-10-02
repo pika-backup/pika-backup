@@ -523,7 +523,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
             main_ui().status_button().show();
             main_ui().status_text().set_text(&gettext("Reconnecting"));
             main_ui().status_subtext().set_text(&gettext!(
-                "Conenction lost, reconnecting {}",
+                "Connection lost, reconnecting {}",
                 &crate::BORG_DELAY_RECONNECT.humanize()
             ));
         }

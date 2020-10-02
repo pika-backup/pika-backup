@@ -265,7 +265,7 @@ where
     match res {
         Err(e) => {
             let formatted = format!("{}\n\n{}", msg.as_ref(), e);
-            warn!("Displaying catched error:\n\n{}", formatted);
+            warn!("Displaying caught error:\n\n{}", formatted);
             dialog_error(&formatted);
             true
         }
