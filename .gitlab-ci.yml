@@ -1,7 +1,3 @@
-stages:
- - check
- - test
-
 test:
   image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.38
   interruptible: true
@@ -22,25 +18,22 @@ test:
       dbus-run-session
       meson test --no-stdsplit --print-errorlogs
 
-cargo-fmt:
-  stage: check
-  interruptible: true
-  image: rust:slim
-  script:
-    - rustup component add rustfmt
-    - cargo fmt --all -- --color=always --check
-
 cargo-audit:
-  stage: check
   interruptible: true
   image: rust
   script:
     - cargo install cargo-audit
     - cargo audit
 
+cargo-fmt:
+  interruptible: true
+  image: rust:slim
+  script:
+    - rustup component add rustfmt
+    - cargo fmt --all -- --color=always --check
+
 cargo-outdated:
   allow_failure: true
-  stage: check
   interruptible: true
   image: rust
   script:
