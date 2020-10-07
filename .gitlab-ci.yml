@@ -8,7 +8,6 @@ test:
   tags:
     - flatpak
   variables:
-    RUNTIME_REPO: https://nightly.gnome.org/gnome-nightly.flatpakrepo
     FLATPAK_MODULE: pika-backup
     MANIFEST_PATH: build-aux/ci.manifest.yml
   script:
@@ -25,14 +24,16 @@ test:
 
 cargo-fmt:
   stage: check
-  image: "rust:slim"
+  interruptible: true
+  image: rust:slim
   script:
     - rustup component add rustfmt
-    - cargo fmt --all-- --color=always --check
+    - cargo fmt --all -- --color=always --check
 
 cargo-audit:
   stage: check
-  image: "rust:slim"
+  interruptible: true
+  image: rust
   script:
     - cargo install cargo-audit
     - cargo audit
@@ -40,7 +41,8 @@ cargo-audit:
 cargo-outdated:
   allow_failure: true
   stage: check
-  image: "rust:slim"
+  interruptible: true
+  image: rust
   script:
     - cargo install cargo-outdated
     - cargo outdated --root-deps-only --exit-code 1
