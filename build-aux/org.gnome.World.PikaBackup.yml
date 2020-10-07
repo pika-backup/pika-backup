@@ -37,14 +37,15 @@ modules:
   - name: borg
     buildsystem: simple
     build-commands:
+      - pip3 install --no-index --find-links=. --prefix=/app setuptools_scm
       - pip3 install --no-index --find-links=. --prefix=/app borgbackup
     sources:
       - type: file
         url: https://files.pythonhosted.org/packages/54/85/514ba3ca2a022bddd68819f187ae826986051d130ec5b972076e4f58a9f3/setuptools_scm-3.2.0.tar.gz
         sha256: 52ab47715fa0fc7d8e6cd15168d1a69ba995feb1505131c3e814eb7087b57358
       - type: file
-        url: https://files.pythonhosted.org/packages/97/68/27d96a12f54894223ad6676ce4d215ad61771e3e723580f3ee6e609e17b7/borgbackup-1.1.13.tar.gz
-        sha256: 164a8666a61071ce2fa6c60627c7646f12e3a8e74cd38f046be72f5ea91b3821
+        url: https://files.pythonhosted.org/packages/dd/13/5313ccad7f76cd3d13b207e31ca6e3072ca00c0bf7d605f7e8e6bc409b0d/borgbackup-1.1.14.tar.gz
+        sha256: 7dbb0747cc948673f695cd6de284af215f810fed2eb2a615ef26ddc7c691edba
 
   - name: fusermout
     config-opts:
@@ -75,7 +76,13 @@ modules:
     config-opts:
       - "-Dprofile=release"
     sources:
-      - type: archive
-        url: 
-        sha256: 
+      - type: git
+        url: https://gitlab.gnome.org/World/pika-backup.git
+        tag: v0.2.0-alpha
+      - type: file
+        path: cargo-config.toml
+        dest: .cargo
+        dest-filename: config
+      # generated via flatpak-builder-tools
+      - generated-sources.json
 

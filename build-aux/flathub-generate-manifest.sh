@@ -1,8 +1,10 @@
 #!/bin/sh
 
-sed '0,/share=network/{//d;}' ci.manifest.yml\
-| sed '0,/build-args/{//d;}' \
+URL=https://gitlab.gnome.org/World/pika-backup.git
+VERSION="$(build-aux/meson-cargo-manifest.py package version)"
+
+cat build-aux/ci.manifest.yml\
 | sed 's/-Dprofile=dev/-Dprofile=release/' \
-| sed 's/type: dir/type: archive/' \
-| sed 's/path: ..\//url: \n        sha256: /' \
-> flathub.manifest.yml
+| sed 's/type: dir/type: git/' \
+| sed "s|path: ../|url: $URL\n        tag: v$VERSION|" \
+> build-aux/org.gnome.World.PikaBackup.yml

@@ -1,25 +1,42 @@
-include: https://gitlab.gnome.org/GNOME/citemplates/raw/master/flatpak/flatpak_ci_initiative.yml
-
-flatpak:
-    extends: .flatpak
-    image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:3.38
-    variables:
-        RUNTIME_REPO: https://nightly.gnome.org/gnome-nightly.flatpakrepo
-        APP_ID: org.gnome.World.PikaBackup
-        FLATPAK_MODULE: pika-backup
-        MANIFEST_PATH: build-aux/ci.manifest.yml
-        BUNDLE: pika-backup-dev.flatpak
-
-nightly:
-  extends: .publish_nightly
-  dependencies:
+test:
+  image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.38
+  interruptible: true
+  tags:
     - flatpak
+  variables:
+    RUNTIME_REPO: https://nightly.gnome.org/gnome-nightly.flatpakrepo
+    FLATPAK_MODULE: pika-backup
+    MANIFEST_PATH: build-aux/ci.manifest.yml
+  script:
+    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    - flatpak build-finish --socket=x11 --share=network flatpak_app
+    - >
+      xvfb-run -a -s "-screen 0 1024x768x24"
+      flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} <<END
 
-flathub:
-    extends: flatpak
-    rules:
-     - if: $CI_COMMIT_TAG
-    variables:
-        RUNTIME_REPO: https://flathub.org/repo/flathub.flatpakrepo
-        MANIFEST_PATH: build-aux/flathub.manifest.yml
-        BUNDLE: pika-backup-flathub.flatpak
+      LANG=C.UTF-8
+      NO_AT_BRIDGE=1
+      dbus-run-session
+      meson test --no-stdsplit --print-errorlogs
+
+cargo-fmt:
+  stage: check
+  image: "rust:slim"
+  script:
+    - rustup component add rustfmt
+    - cargo fmt --all-- --color=always --check
+
+cargo-audit:
+  stage: check
+  image: "rust:slim"
+  script:
+    - cargo install cargo-audit
+    - cargo audit
+
+cargo-outdated:
+  allow_failure: true
+  stage: check
+  image: "rust:slim"
+  script:
+    - cargo install cargo-outdated
+    - cargo outdated --root-deps-only --exit-code 1

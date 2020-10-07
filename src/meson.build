@@ -35,7 +35,6 @@ cargo_release = custom_target(
 
 cargo = find_program('cargo')
 
-test('cargo fmt', cargo, args: ['fmt', '--', '--check'])
 test('cargo clippy', cargo, args: ['clippy'], is_parallel: false, timeout: 1800)
 test('cargo test',
   cargo,

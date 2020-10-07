@@ -7,7 +7,7 @@ Contributions of all kind and with all levels of experience are very welcome. Pl
 Binding to objects defined in `.ui`-files are auto generated via
 
 ```
-$ ./build-aux/generate_ui_bindings.py
+$ ./build-aux/generate-ui-bindings.py
 ```
 
 You have to execute this script after adding, changing or removing ids from `.ui`-files. The bindings can be found in `src/ui/builder.rs`. Using only those bindings allows to catch all errors in accessing builder elements on compile time.

@@ -127,6 +127,11 @@ fn init(_app: &gtk::Application) {
         .window()
         .connect_delete_event(|_, _| gtk::Inhibit(!is_quit_okay()));
 
+    // decorate headerbar of pre-release versions
+    if !env!("CARGO_PKG_VERSION_PRE").is_empty() {
+        main_ui().window().get_style_context().add_class("devel");
+    }
+
     gtk_app().add_window(&main_ui().window());
 
     main_ui().window().show_all();

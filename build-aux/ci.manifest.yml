@@ -8,8 +8,6 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
 build-options:
   append-path: /usr/lib/sdk/rust-stable/bin
-  build-args: 
-    - --share=network
 
 finish-args:
   - --filesystem=host
@@ -39,6 +37,7 @@ modules:
   - name: borg
     buildsystem: simple
     build-commands:
+      - pip3 install --no-index --find-links=. --prefix=/app setuptools_scm
       - pip3 install --no-index --find-links=. --prefix=/app borgbackup
     sources:
       - type: file
@@ -79,4 +78,10 @@ modules:
     sources:
       - type: dir
         path: ../
+      - type: file
+        path: cargo-config.toml
+        dest: .cargo
+        dest-filename: config
+      # generated via flatpak-builder-tools
+      - generated-sources.json
 
