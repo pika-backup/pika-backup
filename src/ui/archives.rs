@@ -26,6 +26,15 @@ where
 }
 
 pub fn init() {
+    main_ui()
+        .main_stack()
+        .connect_property_visible_child_notify(|stack| {
+            if stack.get_visible_child() == Some(main_ui().page_archives().upcast::<gtk::Widget>())
+            {
+                show();
+            }
+        });
+
     main_ui().archive_list().connect_row_activated(|_, row| {
         with_archive(|archive| {
             main_ui()
@@ -170,7 +179,6 @@ pub fn show() {
 
     ui::device_missing::main(backup.clone(), move || {
         ui::utils::clear(&main_ui().archive_list());
-        main_ui().main_stack().set_visible_child_name("archives");
 
         let label = gtk::Spinner::new();
         main_ui().archive_list().set_placeholder(Some(&label));

@@ -1,6 +1,7 @@
 use chrono::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
+use libhandy::prelude::*;
 
 use crate::borg;
 use crate::borg::Run;
@@ -57,41 +58,8 @@ pub fn init() {
             }
         });
 
-    main_ui().include().connect_row_activated(|_, row| {
-        if row.get_widget_name() == "-add" {
-            add_include();
-        }
-    });
-
-    main_ui().backup_exclude().connect_row_activated(|_, row| {
-        if row.get_widget_name() == "-add" {
-            add_exclude();
-        }
-    });
-
-    main_ui().delete_backup_conf().connect_clicked(|_| {
-        let delete = ui::utils::dialog_yes_no(gettext(
-            "Are you sure you want to delete this backup configuration?",
-        ));
-
-        if delete {
-            ui::utils::dialog_catch_err(
-                ui::utils::secret_service_delete_passwords(
-                    SETTINGS.get().backups.get_active().unwrap(),
-                ),
-                "Failed to remove potentially remaining passwords from key storage.",
-            );
-            {
-                SETTINGS.update(|settings| {
-                    settings.backups.remove(&ACTIVE_BACKUP_ID.get().unwrap());
-                });
-            }
-
-            super::write_config();
-            ui::overview::refresh();
-            main_ui().main_stack().set_visible_child_name("main");
-        }
-    });
+    main_ui().add_include().connect_clicked(|_| add_include());
+    main_ui().add_exclude().connect_clicked(|_| add_exclude());
 
     main_ui()
         .stop_backup_create()
@@ -101,6 +69,26 @@ pub fn init() {
         refresh_statusx();
         Continue(true)
     });
+}
+
+pub fn view_backup_conf(id: &str) {
+    ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.to_string()));
+    refresh();
+    // scroll back to top
+    if let Some(adjustment) = main_ui().scrollable_content().get_vadjustment() {
+        adjustment.set_value(adjustment.get_lower());
+    }
+    main_ui()
+        .content_leaflet()
+        .set_visible_child(&main_ui().leaflet_right());
+    main_ui()
+        .main_stack()
+        .set_visible_child(&main_ui().page_detail());
+    main_ui()
+        .content_stack()
+        .set_visible_child(&main_ui().page_main());
+
+    ui::headerbar::update();
 }
 
 fn stop_backup_create() {
@@ -200,6 +188,8 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path, position: i32) 
         gtk::IconSize::Button,
     ));
     button.add_css_class("circular");
+    button.add_css_class("flat");
+    button.add_css_class("image-button");
     button.set_valign(gtk::Align::Center);
     horizontal_box.pack_end(&button, false, false, 0);
 
@@ -318,16 +308,6 @@ pub fn refresh() {
     refresh_statusx();
 }
 
-pub fn view_backup_conf(id: &str) {
-    ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.to_string()));
-    refresh();
-    // scroll back to top
-    if let Some(adjustment) = main_ui().detail_scrolled().get_vadjustment() {
-        adjustment.set_value(adjustment.get_lower());
-    }
-    main_ui().main_stack().set_visible_child_name("backup_conf");
-}
-
 /// Returns a relative path for sub directories of home
 fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
     if let Ok(rel_path) = path.strip_prefix(shared::get_home_dir()) {
@@ -424,7 +404,9 @@ pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
         main_ui()
             .status_text()
             .set_text(&gettext("Backup never ran"));
-        main_ui().status_subtext().set_text("");
+        main_ui()
+            .status_subtext()
+            .set_text(&gettext("Start by creating your first backup"));
     }
 }
 

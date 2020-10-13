@@ -1,10 +1,29 @@
+.border-right {
+  border-right: 1px solid @unfocused_borders;
+}
+.folded .border-right {
+  border-right: none;
+}
+
+.margin-box {
+  margin: 32px;
+}
+.folded .margin-box {
+  margin: 16px;
+}
+
+#BackupList row {
+    padding: 10px 6px;
+}
+
 list.settings {
 	border: @borders 1px solid;
+	border-radius: 9px;
 }
-list.settings > row {
+list.settings > row, #BackupList > row {
 	border-bottom: @theme_unfocused_bg_color 1px solid;
 }
-list.settings > row:last-child {
+list.settings > row:last-child, #BackupList > row:last-child {
   border-bottom: none;
 }
 list.settings row {
@@ -16,28 +35,11 @@ list.settings > row > box {
 list.settings row.custom {
   min-height: 30px;
 }
-list.settings.custom {
-  border: none;
-}
-
-.configs {
-  background-color: inherit;
-}
-.configs row:not(:hover) {
-  background-color: @theme_base_color;
-}
-list.configs > row {
-  margin: 5px;
-  padding: 10px 15px;
-  border-radius: 7px;
-  border: @borders 1px solid;
-}
 
 levelbar .full {
   background-color: #e01b24;
   border-color: #c01c27;
 }
-
 levelbar .low {
 	background-color: #33d17a;
 	border-color: #2fc27e;
@@ -48,7 +50,7 @@ levelbar .low {
 }
 
 .empty-page-hint {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .not-active {
