@@ -10,8 +10,10 @@ project(
     ).stdout()
 )
 
-dependency('glib-2.0')
+dependency('dbus-1')
+dependency('gdk-pixbuf-2.0')
 dependency('gio-2.0')
+dependency('glib-2.0')
 dependency('gtk+-3.0')
 dependency('libhandy-1')
 
