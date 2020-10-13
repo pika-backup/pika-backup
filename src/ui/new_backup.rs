@@ -39,27 +39,27 @@ pub fn new_backup() {
     let ui = ui_new.clone();
     ui_new
         .add_repo_list()
-        .connect_row_activated(move |_, row| add_repo_list_activated(row, ui.clone()));
+        .connect_row_activated(move |_, row| on_add_repo_list_activated(row, ui.clone()));
 
     let ui = ui_new.clone();
     ui_new
         .init_repo_list()
-        .connect_row_activated(move |_, row| init_repo_list_activated(row, &ui));
+        .connect_row_activated(move |_, row| on_init_repo_list_activated(row, &ui));
 
     let ui = ui_new.clone();
     ui_new
         .password()
-        .connect_changed(move |_| init_repo_password_changed(&ui));
+        .connect_changed(move |_| on_init_repo_password_changed(&ui));
 
     let ui = ui_new.clone();
     ui_new
         .add_button()
-        .connect_clicked(move |_| add_button_clicked(ui.clone()));
+        .connect_clicked(move |_| on_add_button_clicked(ui.clone()));
 
     let ui = ui_new.clone();
     ui_new
         .init_button()
-        .connect_clicked(move |_| init_button_clicked(ui.clone()));
+        .connect_clicked(move |_| on_init_button_clicked(ui.clone()));
 
     // refresh ui on mount events
     let monitor = gio::VolumeMonitor::get();
@@ -123,7 +123,7 @@ fn load_mount(ui: Rc<builder::NewBackup>, mount: gio::Mount) {
     }
 }
 
-fn add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>) {
+fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>) {
     let name = row.get_widget_name();
     if name == "-add-local" {
         add_local(ui);
@@ -162,7 +162,7 @@ fn add_local(ui: Rc<builder::NewBackup>) {
     }
 }
 
-fn add_button_clicked(ui: Rc<builder::NewBackup>) {
+fn on_add_button_clicked(ui: Rc<builder::NewBackup>) {
     main_pending::show(&gettext("Initializing new backup repository …"));
     ui.new_backup().hide();
 
@@ -170,7 +170,7 @@ fn add_button_clicked(ui: Rc<builder::NewBackup>) {
     add_repo_config_remote(uri.to_string(), ui);
 }
 
-fn init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
+fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
     ui.init_dir().set_text(&format!(
         "backup-{}-{}",
         glib::get_host_name()
@@ -198,7 +198,7 @@ fn init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
     ui.init_button().grab_default();
 }
 
-fn init_button_clicked(ui: Rc<builder::NewBackup>) {
+fn on_init_button_clicked(ui: Rc<builder::NewBackup>) {
     let encrypted =
         ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
@@ -267,7 +267,7 @@ fn init_button_clicked(ui: Rc<builder::NewBackup>) {
     );
 }
 
-fn init_repo_password_changed(ui: &builder::NewBackup) {
+fn on_init_repo_password_changed(ui: &builder::NewBackup) {
     let password = ui.password().get_text();
     let score = if let Ok(pw_check) = zxcvbn::zxcvbn(&password, &[]) {
         if pw_check.score() > 3 {
@@ -420,8 +420,9 @@ fn insert_backup_config(config: shared::BackupConfig) {
     });
 
     ui::write_config();
-    ui::overview::refresh();
+    ui::config_list::refresh();
     ui::detail::view_backup_conf(&uuid);
+    ui::headerbar::update();
 }
 
 /// Checks if a directory is most likely a borg repository. Performed checks are

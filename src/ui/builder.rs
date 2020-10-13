@@ -127,6 +127,26 @@ impl Main {
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/main.ui'", id))
     }
 
+    pub fn add_backup_empty(&self) -> gtk::Button {
+        self.get("add_backup_empty")
+    }
+
+    pub fn add_backup_left(&self) -> gtk::Button {
+        self.get("add_backup_left")
+    }
+
+    pub fn add_backup_right(&self) -> gtk::Button {
+        self.get("add_backup_right")
+    }
+
+    pub fn add_exclude(&self) -> gtk::Button {
+        self.get("add_exclude")
+    }
+
+    pub fn add_include(&self) -> gtk::Button {
+        self.get("add_include")
+    }
+
     pub fn add_pending_label(&self) -> gtk::Label {
         self.get("add_pending_label")
     }
@@ -159,10 +179,6 @@ impl Main {
         self.get("archive_progress")
     }
 
-    pub fn archive_scrolled(&self) -> gtk::ScrolledWindow {
-        self.get("archive_scrolled")
-    }
-
     pub fn archive_start(&self) -> gtk::Label {
         self.get("archive_start")
     }
@@ -187,6 +203,14 @@ impl Main {
         self.get("browse_archive")
     }
 
+    pub fn content_leaflet(&self) -> libhandy::Leaflet {
+        self.get("content_leaflet")
+    }
+
+    pub fn content_stack(&self) -> gtk::Stack {
+        self.get("content_stack")
+    }
+
     pub fn current_path(&self) -> gtk::Label {
         self.get("current_path")
     }
@@ -195,24 +219,20 @@ impl Main {
         self.get("deduplicated_size")
     }
 
-    pub fn delete_backup_conf(&self) -> gtk::ModelButton {
-        self.get("delete_backup_conf")
-    }
-
-    pub fn detail_menu(&self) -> gtk::MenuButton {
-        self.get("detail_menu")
-    }
-
-    pub fn detail_menu_popover(&self) -> gtk::PopoverMenu {
-        self.get("detail_menu_popover")
-    }
-
-    pub fn detail_scrolled(&self) -> gtk::Viewport {
-        self.get("detail_scrolled")
-    }
-
     pub fn error_message(&self) -> gtk::Label {
         self.get("error_message")
+    }
+
+    pub fn header_group(&self) -> libhandy::HeaderGroup {
+        self.get("header_group")
+    }
+
+    pub fn headerbar_nothing(&self) -> gtk::Box {
+        self.get("headerbar_nothing")
+    }
+
+    pub fn headerbar_right_buttons(&self) -> gtk::Stack {
+        self.get("headerbar_right_buttons")
     }
 
     pub fn home_icon(&self) -> gtk::Image {
@@ -225,6 +245,18 @@ impl Main {
 
     pub fn include_home(&self) -> gtk::Switch {
         self.get("include_home")
+    }
+
+    pub fn leaflet_left(&self) -> gtk::Box {
+        self.get("leaflet_left")
+    }
+
+    pub fn leaflet_right(&self) -> gtk::Box {
+        self.get("leaflet_right")
+    }
+
+    pub fn left_headerbar(&self) -> libhandy::HeaderBar {
+        self.get("left_headerbar")
     }
 
     pub fn main_backups(&self) -> gtk::ListBox {
@@ -251,10 +283,6 @@ impl Main {
         self.get("overview_empty")
     }
 
-    pub fn overview_none_empty(&self) -> gtk::Label {
-        self.get("overview_none_empty")
-    }
-
     pub fn page_archives(&self) -> gtk::Box {
         self.get("page_archives")
     }
@@ -263,12 +291,16 @@ impl Main {
         self.get("page_detail")
     }
 
-    pub fn page_overview(&self) -> gtk::ScrolledWindow {
-        self.get("page_overview")
+    pub fn page_main(&self) -> gtk::ScrolledWindow {
+        self.get("page_main")
     }
 
     pub fn page_pending(&self) -> gtk::Box {
         self.get("page_pending")
+    }
+
+    pub fn page_start(&self) -> gtk::Box {
+        self.get("page_start")
     }
 
     pub fn pending_menu(&self) -> gtk::MenuButton {
@@ -283,16 +315,36 @@ impl Main {
         self.get("percent_message")
     }
 
-    pub fn previous(&self) -> gtk::Button {
-        self.get("previous")
-    }
-
     pub fn progress(&self) -> gtk::ProgressBar {
         self.get("progress")
     }
 
+    pub fn refresh_archives(&self) -> gtk::Button {
+        self.get("refresh_archives")
+    }
+
+    pub fn remove_backup(&self) -> gtk::Button {
+        self.get("remove_backup")
+    }
+
+    pub fn right_headerbar(&self) -> libhandy::HeaderBar {
+        self.get("right_headerbar")
+    }
+
+    pub fn scrollable_content(&self) -> gtk::Viewport {
+        self.get("scrollable_content")
+    }
+
+    pub fn show_overview(&self) -> gtk::Button {
+        self.get("show_overview")
+    }
+
     pub fn stack(&self) -> gtk::Stack {
         self.get("stack")
+    }
+
+    pub fn start_image(&self) -> gtk::Image {
+        self.get("start_image")
     }
 
     pub fn status_button(&self) -> gtk::MenuButton {
@@ -319,7 +371,15 @@ impl Main {
         self.get("target_listbox")
     }
 
-    pub fn window(&self) -> gtk::ApplicationWindow {
+    pub fn view_switcher_bottom(&self) -> libhandy::ViewSwitcherBar {
+        self.get("view_switcher_bottom")
+    }
+
+    pub fn view_switcher_title(&self) -> libhandy::ViewSwitcherTitle {
+        self.get("view_switcher_title")
+    }
+
+    pub fn window(&self) -> libhandy::ApplicationWindow {
         self.get("window")
     }
 }

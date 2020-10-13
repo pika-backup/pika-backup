@@ -13,6 +13,7 @@ project(
 dependency('glib-2.0')
 dependency('gio-2.0')
 dependency('gtk+-3.0')
+dependency('libhandy-1')
 
 meson.add_dist_script('build-aux/meson-dist-vendor.sh')
 

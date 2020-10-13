@@ -71,6 +71,18 @@ modules:
         url: https://files.pythonhosted.org/packages/75/b4/5248459ec0e7e1608814915479cb13e5baf89034b572e3d74d5c9219dd31/llfuse-1.3.6.tar.bz2
         sha256: 31a267f7ec542b0cd62e0f1268e1880fdabf3f418ec9447def99acfa6eff2ec9
 
+  - name: libhandy
+    buildsystem: meson
+    config-opts:
+      - -Dvapi=false
+      - -Dtests=false
+      - -Dexamples=false
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/libhandy.git
+        tag: 1.0.0
+        commit: 94313c206258860b2428712e7ece1d02c5177857
+
   - name: pika-backup
     buildsystem: meson
     config-opts:

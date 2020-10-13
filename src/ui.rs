@@ -4,6 +4,7 @@ use std::io::prelude::*;
 use gdk_pixbuf::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
+use libhandy as handy;
 
 use crate::borg;
 use crate::shared;
@@ -15,13 +16,14 @@ mod about;
 mod archives;
 #[allow(dead_code)]
 mod builder;
+mod config_list;
 mod detail;
 mod device_missing;
 mod encryption_password;
 mod globals;
+mod headerbar;
 mod main_pending;
 mod new_backup;
-mod overview;
 pub mod prelude;
 mod storage;
 mod utils;
@@ -37,6 +39,7 @@ pub fn main() {
     debug!("Logging initialized");
 
     gtk::init().expect("Failed to gtk::init()");
+    handy::init();
     let none: Option<&gio::Cancellable> = None;
     gtk_app()
         .register(none)
@@ -111,6 +114,7 @@ fn init(_app: &gtk::Application) {
         .unwrap_or_else(|e| error!("loader.close() failed: {}", e));
     if let Some(icon) = loader.get_pixbuf() {
         gtk::Window::set_default_icon(&icon);
+        main_ui().start_image().set_from_pixbuf(Some(&icon));
     }
 
     init_actions();
@@ -119,7 +123,8 @@ fn init(_app: &gtk::Application) {
 
     ui::archives::init();
     ui::detail::init();
-    ui::overview::main();
+    ui::headerbar::init();
+    ui::config_list::init();
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 

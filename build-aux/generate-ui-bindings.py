@@ -33,8 +33,9 @@ def main():
 
 
 class Item:
-    def __init__(self, id, type):
+    def __init__(self, id, crate, type):
         self.id = id
+        self.crate = crate
         self.type = type
 
 
@@ -42,7 +43,12 @@ def objects(path):
     objects = []
     for item in ET.parse(path).iter():
         if item.tag == "object" and item.get("id"):
-            objects.append(Item(item.get("id"), item.get("class")[3:]))
+            if item.get("class")[:3] == "Hdy":
+                crate = "libhandy"
+            else:
+                crate = item.get("class")[:3].lower()
+
+            objects.append(Item(item.get("id"), crate, item.get("class")[3:]))
     objects.sort(key=lambda item: item.id)
 
     return objects
@@ -50,7 +56,7 @@ def objects(path):
 
 def fn_code(objects):
     template = """
-    pub fn {id}(&self) -> gtk::{type} {{
+    pub fn {id}(&self) -> {crate}::{type} {{
         self.get("{id}")
     }}"""
 
