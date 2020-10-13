@@ -125,6 +125,7 @@ fn init(_app: &gtk::Application) {
     ui::detail::init();
     ui::headerbar::init();
     ui::config_list::init();
+    ui::main_pending::init();
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 

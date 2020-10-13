@@ -14,6 +14,9 @@ pub fn init() {
         .connect_property_visible_child_notify(content_stack_changed);
 
     main_ui().show_overview().connect_clicked(show_overview);
+
+    main_ui().pending_menu_spinner().connect_map(|s| s.start());
+    main_ui().pending_menu_spinner().connect_unmap(|s| s.stop());
 }
 
 pub fn update() {

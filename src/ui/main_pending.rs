@@ -7,6 +7,11 @@ thread_local!(
     static LAST_SHOW: Cell<Option<bool>> = Default::default();
 );
 
+pub fn init() {
+    main_ui().page_pending_spinner().connect_map(|s| s.start());
+    main_ui().page_pending_spinner().connect_unmap(|s| s.stop());
+}
+
 pub fn show(msg: &str) {
     LAST_PAGE.with(|last_page| last_page.set(main_ui().content_stack().get_visible_child()));
     LAST_SHOW.with(|last_show| last_show.set(Some(main_ui().leaflet_left().get_visible())));

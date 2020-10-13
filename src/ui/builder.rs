@@ -299,12 +299,20 @@ impl Main {
         self.get("page_pending")
     }
 
+    pub fn page_pending_spinner(&self) -> gtk::Spinner {
+        self.get("page_pending_spinner")
+    }
+
     pub fn page_start(&self) -> gtk::Box {
         self.get("page_start")
     }
 
     pub fn pending_menu(&self) -> gtk::MenuButton {
         self.get("pending_menu")
+    }
+
+    pub fn pending_menu_spinner(&self) -> gtk::Spinner {
+        self.get("pending_menu_spinner")
     }
 
     pub fn pending_popover(&self) -> gtk::Popover {
@@ -353,6 +361,10 @@ impl Main {
 
     pub fn status_icon(&self) -> gtk::Stack {
         self.get("status_icon")
+    }
+
+    pub fn status_icon_spinner(&self) -> gtk::Spinner {
+        self.get("status_icon_spinner")
     }
 
     pub fn status_subtext(&self) -> gtk::Label {

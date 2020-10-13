@@ -65,6 +65,9 @@ pub fn init() {
         .stop_backup_create()
         .connect_clicked(|_| stop_backup_create());
 
+    main_ui().status_icon_spinner().connect_map(|s| s.start());
+    main_ui().status_icon_spinner().connect_unmap(|s| s.stop());
+
     glib::timeout_add_local(500, || {
         refresh_statusx();
         Continue(true)
