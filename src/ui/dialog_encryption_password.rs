@@ -22,7 +22,7 @@ impl Ask {
     }
 
     pub fn run(&self) -> Option<(Zeroizing<Vec<u8>>, bool)> {
-        let ui = ui::builder::EncryptionPassword::new();
+        let ui = ui::builder::DialogEncryptionPassword::new();
 
         ui.dialog().set_transient_for(Some(&main_ui().window()));
         ui.dialog().show_all();

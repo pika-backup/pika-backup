@@ -6,7 +6,7 @@ use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub fn show() {
-    let storage = ui::builder::Storage::new();
+    let storage = ui::builder::DialogStorage::new();
 
     storage
         .dialog()

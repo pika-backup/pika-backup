@@ -16,12 +16,12 @@ pub fn main<F: Fn() + 'static>(config: shared::BackupConfig, f: F) {
         ..
     } = config.repo
     {
-        if ui::new_backup::is_backup_repo(&path) {
+        if ui::dialog_add_config::is_backup_repo(&path) {
             f();
             return;
         }
 
-        let dialog = Rc::new(ui::builder::DeviceMissing::new());
+        let dialog = Rc::new(ui::builder::DialogDeviceMissing::new());
 
         let volume_monitor = gio::VolumeMonitor::get();
 
@@ -52,7 +52,7 @@ pub fn main<F: Fn() + 'static>(config: shared::BackupConfig, f: F) {
 fn mount_added<F: Fn()>(
     repo_path: &std::path::Path,
     new_mount: &gio::Mount,
-    dialog: Rc<ui::builder::DeviceMissing>,
+    dialog: Rc<ui::builder::DialogDeviceMissing>,
     f: &F,
 ) {
     debug!("Mount added");

@@ -50,7 +50,7 @@ pub fn get_and_store_password(
     config: &shared::BackupConfig,
     pre_select_store: bool,
 ) -> Result<Option<shared::Password>, ()> {
-    if let Some((password, store)) = crate::ui::encryption_password::Ask::new()
+    if let Some((password, store)) = crate::ui::dialog_encryption_password::Ask::new()
         .set_pre_select_store(pre_select_store)
         .run()
     {

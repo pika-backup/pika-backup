@@ -1,84 +1,62 @@
 use gtk::prelude::*;
-use libhandy::prelude::*;
 
 use crate::shared;
 use crate::ui;
-use crate::ui::detail;
 use crate::ui::globals::*;
-use crate::ui::new_backup;
 use crate::ui::prelude::*;
 
 pub fn init() {
-    refresh();
-
-    main_ui().main_backups().connect_row_activated(|_, row| {
-        let name = row.get_widget_name();
-        detail::view_backup_conf(&name)
-    });
-
-    main_ui()
-        .content_leaflet()
-        .connect_property_folded_notify(on_leaflet_folded);
-
-    main_ui()
-        .add_backup_left()
-        .connect_clicked(|_| new_backup::new_backup());
-    main_ui()
-        .add_backup_right()
-        .connect_clicked(|_| new_backup::new_backup());
-    main_ui()
-        .add_backup_empty()
-        .connect_clicked(|_| new_backup::new_backup());
-
-    main_ui().remove_backup().connect_clicked(on_remove_backup);
-}
-
-pub fn refresh() {
-    if SETTINGS.load().backups.len() == 1 {
-        ACTIVE_BACKUP_ID.update(|active_id| {
-            *active_id = SETTINGS
-                .load()
-                .backups
-                .values()
-                .next()
-                .map(|x| x.id.clone())
-        });
-    }
-
-    if SETTINGS.load().backups.is_empty() {
-        main_ui()
-            .content_stack()
-            .set_visible_child(&main_ui().overview_empty());
-    } else if ACTIVE_BACKUP_ID.load().is_none() {
-        main_ui()
-            .content_stack()
-            .set_visible_child(&main_ui().page_start());
-    } else {
-        main_ui()
-            .content_stack()
-            .set_visible_child(&main_ui().page_main());
-    }
-
     if SETTINGS.load().backups.len() > 1 {
-        main_ui().leaflet_left().show();
+        main_ui()
+            .main_stack()
+            .set_visible_child(&main_ui().page_overview());
+        refresh();
+    } else if let Some(ref config) = SETTINGS.load().backups.values().next() {
+        ui::page_detail::view_backup_conf(&config.id);
     } else {
-        main_ui().leaflet_left().hide();
+        main_ui()
+            .main_stack()
+            .set_visible_child(&main_ui().page_overview_empty());
     }
 
-    refresh_list();
-}
+    main_ui()
+        .main_stack()
+        .connect_property_visible_child_notify(on_main_stack_changed);
 
-fn on_leaflet_folded(leaflet: &libhandy::Leaflet) {
     main_ui()
         .main_backups()
-        .set_selection_mode(if leaflet.get_folded() {
-            gtk::SelectionMode::None
-        } else {
-            gtk::SelectionMode::Single
-        });
+        .connect_row_activated(|_, row| ui::page_detail::view_backup_conf(&row.get_widget_name()));
+
+    main_ui()
+        .add_backup()
+        .connect_clicked(|_| ui::dialog_add_config::new_backup());
+    main_ui()
+        .add_backup_empty()
+        .connect_clicked(|_| ui::dialog_add_config::new_backup());
+
+    main_ui().remove_backup().connect_clicked(on_remove_backup);
+
+    main_ui()
+        .main_stack()
+        .connect_property_transition_running_notify(on_transition);
 }
 
-fn on_remove_backup(_button: &gtk::Button) {
+fn on_transition(stack: &gtk::Stack) {
+    if (!stack.get_transition_running())
+        && stack.get_visible_child() != Some(main_ui().page_overview().upcast::<gtk::Widget>())
+    {
+        // get rid of potential GtkSpinner's for performance reasons
+        ui::utils::clear(&main_ui().main_backups());
+    }
+}
+
+fn on_main_stack_changed(stack: &gtk::Stack) {
+    if stack.get_visible_child() == Some(main_ui().page_overview().upcast::<gtk::Widget>()) {
+        refresh();
+    }
+}
+
+fn on_remove_backup(_button: &gtk::ModelButton) {
     let delete = ui::utils::dialog_yes_no(gettext(
         "Are you sure you want to delete this backup configuration?",
     ));
@@ -96,23 +74,25 @@ fn on_remove_backup(_button: &gtk::Button) {
 
             ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
             ui::write_config();
-            ui::config_list::refresh();
-            ui::headerbar::update();
+
+            if SETTINGS.load().backups.is_empty() {
+                main_ui()
+                    .main_stack()
+                    .set_visible_child(&main_ui().page_overview_empty());
+            } else {
+                main_ui()
+                    .main_stack()
+                    .set_visible_child(&main_ui().page_overview());
+            };
         } else {
             ui::utils::dialog_error(gettext("No active backup to delete."));
         }
     }
 }
 
-fn refresh_list() {
+fn refresh() {
     let list = main_ui().main_backups();
     ui::utils::clear(&list);
-
-    if SETTINGS.load().backups.is_empty() {
-        main_ui().overview_empty().show();
-    } else {
-        main_ui().overview_empty().hide();
-    }
 
     for backup in SETTINGS.load().backups.values() {
         let (_, horizontal_box) = ui::utils::add_list_box_row(&list, Some(&backup.id), 0);

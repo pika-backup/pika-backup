@@ -11,10 +11,10 @@ use crate::ui;
 use crate::ui::builder;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
-use ui::main_pending;
+use ui::page_pending;
 
 pub fn new_backup() {
-    let ui_new = Rc::new(ui::builder::NewBackup::new());
+    let ui_new = Rc::new(ui::builder::DialogAddConfig::new());
     load_available_mounts_and_repos(ui_new.clone());
     ui_new
         .password_quality()
@@ -81,7 +81,7 @@ pub fn new_backup() {
     ui_new.new_backup().show_all();
 }
 
-fn load_available_mounts_and_repos(ui: Rc<builder::NewBackup>) {
+fn load_available_mounts_and_repos(ui: Rc<builder::DialogAddConfig>) {
     debug!("Refreshing list of existing repos");
     let monitor = gio::VolumeMonitor::get();
 
@@ -95,7 +95,7 @@ fn load_available_mounts_and_repos(ui: Rc<builder::NewBackup>) {
     debug!("List of existing repos refreshed");
 }
 
-fn load_mount(ui: Rc<builder::NewBackup>, mount: gio::Mount) {
+fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) {
     if let Some(mount_point) = mount.get_root().unwrap().get_path() {
         add_mount(&ui.init_repo_list(), &mount, None);
         ui::utils::async_react(
@@ -123,7 +123,7 @@ fn load_mount(ui: Rc<builder::NewBackup>, mount: gio::Mount) {
     }
 }
 
-fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>) {
+fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::DialogAddConfig>) {
     let name = row.get_widget_name();
     if name == "-add-local" {
         add_local(ui);
@@ -143,18 +143,18 @@ fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::NewBackup>)
     }
 }
 
-fn add_local(ui: Rc<builder::NewBackup>) {
+fn add_local(ui: Rc<builder::DialogAddConfig>) {
     ui.new_backup().hide();
 
     if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository")) {
-        ui::main_pending::show(&gettext("Adding existing repository …"));
+        ui::page_pending::show(&gettext("Adding existing repository …"));
         if is_backup_repo(&path) {
             add_repo_config_local(&path, ui);
         } else {
             ui::utils::dialog_error(gettext(
                 "The selected directory is not a valid backup repository.",
             ));
-            ui::main_pending::back();
+            ui::page_pending::back();
             ui.new_backup().show();
         }
     } else {
@@ -162,15 +162,15 @@ fn add_local(ui: Rc<builder::NewBackup>) {
     }
 }
 
-fn on_add_button_clicked(ui: Rc<builder::NewBackup>) {
-    main_pending::show(&gettext("Initializing new backup repository …"));
+fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
+    page_pending::show(&gettext("Initializing new backup repository …"));
     ui.new_backup().hide();
 
     let uri = ui.add_remote_uri().get_text();
     add_repo_config_remote(uri.to_string(), ui);
 }
 
-fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
+fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddConfig) {
     ui.init_dir().set_text(&format!(
         "backup-{}-{}",
         glib::get_host_name()
@@ -198,7 +198,7 @@ fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::NewBackup) {
     ui.init_button().grab_default();
 }
 
-fn on_init_button_clicked(ui: Rc<builder::NewBackup>) {
+fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
     let encrypted =
         ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
@@ -247,7 +247,7 @@ fn on_init_button_clicked(ui: Rc<builder::NewBackup>) {
         borg.set_password(password);
     }
 
-    main_pending::show(&gettext("Initializing new backup repository …"));
+    page_pending::show(&gettext("Initializing new backup repository …"));
     ui.new_backup().hide();
 
     ui::utils::async_react(
@@ -255,7 +255,7 @@ fn on_init_button_clicked(ui: Rc<builder::NewBackup>) {
         move || borg.init(),
         enclose!((config, ui) move |result| {
             if ui::utils::dialog_catch_err(result, gettext("Failed to initialize repository")) {
-                main_pending::back();
+                page_pending::back();
                 ui.new_backup().show();
                 return;
             }
@@ -267,7 +267,7 @@ fn on_init_button_clicked(ui: Rc<builder::NewBackup>) {
     );
 }
 
-fn on_init_repo_password_changed(ui: &builder::NewBackup) {
+fn on_init_repo_password_changed(ui: &builder::DialogAddConfig) {
     let password = ui.password().get_text();
     let score = if let Ok(pw_check) = zxcvbn::zxcvbn(&password, &[]) {
         if pw_check.score() > 3 {
@@ -349,19 +349,19 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
     list.show_all();
 }
 
-fn add_repo_config_local(repo: &std::path::Path, ui: Rc<builder::NewBackup>) {
+fn add_repo_config_local(repo: &std::path::Path, ui: Rc<builder::DialogAddConfig>) {
     let config = BackupConfig::new_from_path(repo);
     insert_backup_config_encryption_unknown(config, ui);
 }
 
-fn add_repo_config_remote(uri: String, ui: Rc<builder::NewBackup>) {
+fn add_repo_config_remote(uri: String, ui: Rc<builder::DialogAddConfig>) {
     let config = BackupConfig::new_from_uri(uri);
     insert_backup_config_encryption_unknown(config, ui);
 }
 
 fn insert_backup_config_encryption_unknown(
     mut config: shared::BackupConfig,
-    ui: Rc<builder::NewBackup>,
+    ui: Rc<builder::DialogAddConfig>,
 ) {
     let mut borg = borg::Borg::new(config.clone());
     borg.set_password(Zeroizing::new(vec![]));
@@ -384,7 +384,10 @@ fn insert_backup_config_encryption_unknown(
     insert_backup_config_password_unknown(config, ui);
 }
 
-fn insert_backup_config_password_unknown(config: shared::BackupConfig, ui: Rc<builder::NewBackup>) {
+fn insert_backup_config_password_unknown(
+    config: shared::BackupConfig,
+    ui: Rc<builder::DialogAddConfig>,
+) {
     ui.new_backup().hide();
     let x = config.clone();
     ui::utils::Async::borg(
@@ -407,7 +410,7 @@ fn insert_backup_config_password_unknown(config: shared::BackupConfig, ui: Rc<bu
                     "Failed to remove potentially remaining passwords from key storage.",
                 );
                 ui.new_backup().show();
-                main_pending::back();
+                page_pending::back();
             }
         },
     )
@@ -420,9 +423,7 @@ fn insert_backup_config(config: shared::BackupConfig) {
     });
 
     ui::write_config();
-    ui::config_list::refresh();
-    ui::detail::view_backup_conf(&uuid);
-    ui::headerbar::update();
+    ui::page_detail::view_backup_conf(&uuid);
 }
 
 /// Checks if a directory is most likely a borg repository. Performed checks are

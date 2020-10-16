@@ -5,7 +5,7 @@ use crate::ui::globals::*;
 use crate::{ui, APPLICATION_NAME};
 
 pub fn show() {
-    let dialog = ui::builder::About::new().dialog();
+    let dialog = ui::builder::DialogAbout::new().dialog();
     dialog.set_transient_for(Some(&main_ui().window()));
 
     dialog.set_logo(None);

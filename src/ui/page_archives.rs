@@ -27,7 +27,7 @@ where
 
 pub fn init() {
     main_ui()
-        .main_stack()
+        .detail_stack()
         .connect_property_visible_child_notify(|stack| {
             if stack.get_visible_child() == Some(main_ui().page_archives().upcast::<gtk::Widget>())
             {
@@ -177,7 +177,7 @@ fn show_archives(archive_list: Result<Vec<borg::ListArchive>, BorgErr>) {
 pub fn show() {
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
 
-    ui::device_missing::main(backup.clone(), move || {
+    ui::dialog_device_missing::main(backup.clone(), move || {
         ui::utils::clear(&main_ui().archive_list());
 
         let label = gtk::Spinner::new();

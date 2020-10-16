@@ -1,7 +1,6 @@
 use chrono::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
-use libhandy::prelude::*;
 
 use crate::borg;
 use crate::borg::Run;
@@ -16,8 +15,12 @@ pub fn init() {
     main_ui().backup_run().connect_clicked(|_| on_backup_run());
 
     main_ui()
+        .main_stack()
+        .connect_property_transition_running_notify(on_transition);
+
+    main_ui()
         .target_listbox()
-        .connect_row_activated(|_, _| ui::storage::show());
+        .connect_row_activated(|_, _| ui::dialog_storage::show());
 
     main_ui()
         .include_home()
@@ -77,21 +80,13 @@ pub fn init() {
 pub fn view_backup_conf(id: &str) {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.to_string()));
     refresh();
-    // scroll back to top
-    if let Some(adjustment) = main_ui().scrollable_content().get_vadjustment() {
-        adjustment.set_value(adjustment.get_lower());
-    }
+
     main_ui()
-        .content_leaflet()
-        .set_visible_child(&main_ui().leaflet_right());
+        .detail_stack()
+        .set_visible_child(&main_ui().page_backup());
     main_ui()
         .main_stack()
         .set_visible_child(&main_ui().page_detail());
-    main_ui()
-        .content_stack()
-        .set_visible_child(&main_ui().page_main());
-
-    ui::headerbar::update();
 }
 
 fn stop_backup_create() {
@@ -133,7 +128,7 @@ fn on_backup_run() {
         }
     }
 
-    ui::device_missing::main(config.clone(), move || run_backup(config.clone()));
+    ui::dialog_device_missing::main(config.clone(), move || run_backup(config.clone()));
 }
 
 pub fn run_backup(backup: shared::BackupConfig) {
@@ -187,11 +182,9 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path, position: i32) 
 
     let button = gtk::Button::new();
     button.add(&gtk::Image::from_icon_name(
-        Some("window-close-symbolic"),
+        Some("edit-delete-symbolic"),
         gtk::IconSize::Button,
     ));
-    button.add_css_class("circular");
-    button.add_css_class("flat");
     button.add_css_class("image-button");
     button.set_valign(gtk::Align::Center);
     horizontal_box.pack_end(&button, false, false, 0);
@@ -309,6 +302,20 @@ pub fn refresh() {
     main_ui().backup_exclude().show_all();
 
     refresh_statusx();
+}
+
+fn on_transition(stack: &gtk::Stack) {
+    if (!stack.get_transition_running())
+        && stack.get_visible_child() != Some(main_ui().page_detail().upcast::<gtk::Widget>())
+    {
+        // scroll back to top
+        for scrollable in &[main_ui().page_backup(), main_ui().page_archives()] {
+            scrollable
+                .get_vadjustment()
+                .unwrap()
+                .set_value(scrollable.get_vadjustment().unwrap().get_lower());
+        }
+    }
 }
 
 /// Returns a relative path for sub directories of home

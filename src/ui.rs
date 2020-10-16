@@ -12,20 +12,20 @@ use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
-mod about;
-mod archives;
 #[allow(dead_code)]
 mod builder;
-mod config_list;
-mod detail;
-mod device_missing;
-mod encryption_password;
+mod dialog_about;
+mod dialog_add_config;
+mod dialog_device_missing;
+mod dialog_encryption_password;
+mod dialog_storage;
 mod globals;
 mod headerbar;
-mod main_pending;
-mod new_backup;
+mod page_archives;
+mod page_detail;
+mod page_overview;
+mod page_pending;
 pub mod prelude;
-mod storage;
 mod utils;
 
 pub fn main() {
@@ -114,18 +114,17 @@ fn init(_app: &gtk::Application) {
         .unwrap_or_else(|e| error!("loader.close() failed: {}", e));
     if let Some(icon) = loader.get_pixbuf() {
         gtk::Window::set_default_icon(&icon);
-        main_ui().start_image().set_from_pixbuf(Some(&icon));
     }
 
     init_actions();
     init_timeouts();
     borg::init_device_listening();
 
-    ui::archives::init();
-    ui::detail::init();
+    ui::page_archives::init();
+    ui::page_detail::init();
     ui::headerbar::init();
-    ui::config_list::init();
-    ui::main_pending::init();
+    ui::page_overview::init();
+    ui::page_pending::init();
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 
@@ -188,14 +187,14 @@ fn init_actions() {
     let action = gio::SimpleAction::new("detail", glib::VariantTy::new("s").ok());
     action.connect_activate(|_, backup_id: _| {
         if let Some(backup_id) = backup_id.and_then(|v| v.get_str()) {
-            ui::detail::view_backup_conf(&backup_id.to_string());
+            ui::page_detail::view_backup_conf(&backup_id.to_string());
             main_ui().window().present();
         }
     });
     gtk_app().add_action(&action);
 
     let action = gio::SimpleAction::new("about", None);
-    action.connect_activate(|_, _| ui::about::show());
+    action.connect_activate(|_, _| ui::dialog_about::show());
     gtk_app().add_action(&action);
 
     let action = gio::SimpleAction::new("quit", None);
@@ -204,10 +203,6 @@ fn init_actions() {
             gtk_app().quit()
         }
     });
-    gtk_app().add_action(&action);
-
-    let action = gio::SimpleAction::new("archives", None);
-    action.connect_activate(|_, _| ui::archives::show());
     gtk_app().add_action(&action);
 }
 
