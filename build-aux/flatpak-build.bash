@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -xe
 
 APP_ID=$(cat data/APPLICATION_ID)
 REPO_DIR=flatpak_repo
