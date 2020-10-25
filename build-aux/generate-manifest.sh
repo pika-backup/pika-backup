@@ -4,7 +4,7 @@
 cd "$(dirname "$0")/.."
 
 yq '
-    .modules[-1].sources[-1] = {type: "dir", path: ".."} |
+    .modules[-1].sources[0] = {type: "dir", path: ".."} |
     .modules[-1]["config-opts"] = ["-Dprofile=dev"]' \
     build-aux/org.gnome.World.PikaBackup.yml > build-aux/devel.manifest.json
 
