@@ -5,7 +5,7 @@ test:
     - flatpak
   variables:
     FLATPAK_MODULE: pika-backup
-    MANIFEST_PATH: build-aux/ci.manifest.yml
+    MANIFEST_PATH: build-aux/devel.manifest.json
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --socket=x11 --share=network flatpak_app
