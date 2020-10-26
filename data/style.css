@@ -4,21 +4,33 @@
 }
 
 list.settings {
-	border: @borders 1px solid;
-	border-radius: 9px;
+  border: @borders 1px solid;
+  border-radius: 9px;
 }
+
 list.settings > row {
-	border-bottom: @theme_unfocused_bg_color 1px solid;
+  border-bottom: @theme_unfocused_bg_color 1px solid;
 }
-list.settings > row:last-child, #BackupList > row:last-child {
+
+list.settings > row:last-child {
   border-bottom: none;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
 }
+
+list.settings > row:first-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
 list.settings row {
   min-height: 60px;
 }
+
 list.settings > row > box {
   margin: 0px 12px;
 }
+
 list.settings row.custom {
   min-height: 30px;
 }
@@ -27,9 +39,10 @@ levelbar .full {
   background-color: #e01b24;
   border-color: #c01c27;
 }
+
 levelbar .low {
-	background-color: #33d17a;
-	border-color: #2fc27e;
+  background-color: #33d17a;
+  border-color: #2fc27e;
 }
 
 .small-label {
@@ -52,7 +65,7 @@ list.settings row.activatable:hover image {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
- 
+
 .linked-line > button {
   border-radius: 0;
   border-left: none;
@@ -69,3 +82,4 @@ list.settings row.activatable:hover image {
   min-width: 32px;
   min-height: 32px;
 }
+
