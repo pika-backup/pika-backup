@@ -1,3 +1,4 @@
+pub mod prelude;
 mod utils;
 
 use arc_swap::ArcSwap;
@@ -5,59 +6,9 @@ use arc_swap::ArcSwap;
 use std::io::{BufRead, BufReader};
 use std::sync::Arc;
 
-use super::shared::{self, *};
+use crate::shared::{self, *};
 use crate::ui::prelude::*;
 use utils::*;
-
-/*
-thread_local!(
-    static SERVICE: Service = Service {
-        volume_monitor: gio::VolumeMonitor::get(),
-    }
-);
-
-struct Service {
-    volume_monitor: gio::VolumeMonitor,
-}
-*/
-
-pub fn init_device_listening() {
-    // TODO: Reactivate detection
-    /*
-    SERVICE.with(|service| {
-        service.volume_monitor.connect_mount_added(|_, mount| {
-            ui::APP.with(|app| {
-                let backups = &SETTINGS.load().backups;
-                let uuid = shared::get_mount_uuid(mount);
-                if let Some(uuid) = uuid {
-
-                    let backup = backups
-                        .values()
-                        .find(|b| b.volume_uuid.as_ref() == Some(&uuid));
-                    if let Some(backup) = backup {
-                        let notification = gio::Notification::new("Backup Medium Connected");
-                        notification.set_body(Some(
-                            format!(
-                                "{} on Disk '{}'",
-                                backup.label.as_ref().unwrap(),
-                                &backup.device.as_ref().unwrap()
-                            )
-                            .as_str(),
-                        ));
-                        notification.add_button_with_target_value(
-                            "Run Backup",
-                            "app.detail",
-                            Some(&backup.id.to_variant()),
-                        );
-                        gtk_app()
-                            .send_notification(Some(uuid.as_str()), &notification);
-                    }
-                }
-            });
-        });
-    });
-    */
-}
 
 #[derive(Default, Debug, Clone)]
 pub struct Status {
@@ -102,26 +53,11 @@ pub struct StatsArchiveStats {
     pub original_size: u64,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Info {
-    pub archives: Vec<InfoArchive>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct InfoArchive {
-    pub id: String,
-    pub name: String,
-    pub comment: String,
-    pub username: String,
-    pub hostname: String,
-    pub start: chrono::naive::NaiveDateTime,
-    pub end: chrono::naive::NaiveDateTime,
-    pub stats: StatsArchiveStats,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct List {
     pub archives: Vec<ListArchive>,
+    pub encryption: Encryption,
+    pub repository: Repository,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -135,97 +71,93 @@ pub struct ListArchive {
     pub end: chrono::naive::NaiveDateTime,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Encryption {
+    pub mode: String,
+    pub keyfile: Option<std::path::PathBuf>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Repository {
+    pub id: String,
+    pub last_modified: chrono::naive::NaiveDateTime,
+    pub location: std::path::PathBuf,
+}
+
 #[derive(Clone)]
 pub struct Borg {
     config: BackupConfig,
     password: Option<Password>,
-    last: u64,
 }
 
+#[derive(Clone)]
+pub struct BorgOnlyRepo {
+    repo: BackupRepo,
+    password: Option<Password>,
+}
+
+pub trait BorgRunConfig {
+    fn get_repo(&self) -> BackupRepo;
+    fn get_password(&self) -> Option<Password>;
+    fn unset_password(&mut self);
+    fn set_password(&mut self, password: Password);
+    fn is_encrypted(&self) -> bool;
+    fn get_config_id(&self) -> Option<String>;
+}
+
+impl BorgRunConfig for Borg {
+    fn get_repo(&self) -> BackupRepo {
+        self.config.repo.clone()
+    }
+    fn get_password(&self) -> Option<Password> {
+        self.password.clone()
+    }
+    fn set_password(&mut self, password: Password) {
+        self.password = Some(password);
+    }
+    fn unset_password(&mut self) {
+        self.password = None;
+    }
+    fn is_encrypted(&self) -> bool {
+        self.config.encrypted
+    }
+    fn get_config_id(&self) -> Option<String> {
+        Some(self.config.id.clone())
+    }
+}
+
+impl BorgRunConfig for BorgOnlyRepo {
+    fn get_repo(&self) -> BackupRepo {
+        self.repo.clone()
+    }
+    fn get_password(&self) -> Option<Password> {
+        self.password.clone()
+    }
+    fn set_password(&mut self, password: Password) {
+        self.password = Some(password);
+    }
+    fn unset_password(&mut self) {
+        self.password = None;
+    }
+    fn is_encrypted(&self) -> bool {
+        false
+    }
+    fn get_config_id(&self) -> Option<String> {
+        None
+    }
+}
+
+/// Features that need a complete backup config
 impl Borg {
     pub fn new(config: BackupConfig) -> Self {
         Self {
             config,
             password: None,
-            last: 1000,
         }
     }
 
     pub fn get_config(&self) -> BackupConfig {
         self.config.clone()
-    }
-
-    pub fn set_password(&mut self, password: Password) {
-        self.password = Some(password);
-    }
-
-    pub fn unset_password(&mut self) {
-        self.password = None;
-    }
-
-    pub fn set_limit_last(&mut self, last: u64) -> &Self {
-        self.last = last;
-        self
-    }
-
-    pub fn version() -> Result<String, BorgErr> {
-        let borg = BorgCall::new_raw()
-            .add_options(&["--log-json", "--version"])
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        Ok(String::from_utf8_lossy(&borg.stdout).to_string())
-    }
-
-    pub fn peek(&self) -> Result<(), BorgErr> {
-        let borg = BorgCall::new("list")
-            .add_options(&["--json", "--last=1"])
-            .add_envs(vec![
-                ("BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK", "yes"),
-                ("BORG_RELOCATED_REPO_ACCESS_IS_OK", "yes"),
-            ])
-            .add_basics(self)?
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        let _: serde_json::Value = serde_json::from_slice(&borg.stdout)?;
-
-        Ok(())
-    }
-
-    pub fn list(&self) -> Result<Vec<ListArchive>, BorgErr> {
-        let borg = BorgCall::new("list")
-            .add_options(&[
-                "--json",
-                "--last",
-                &self.last.to_string(),
-                "--format={hostname}{username}{comment}{end}",
-            ])
-            .add_basics(self)?
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        let json: List = serde_json::from_slice(&borg.stdout)?;
-
-        Ok(json.archives)
-    }
-
-    pub fn mount(&self) -> Result<(), BorgErr> {
-        std::fs::DirBuilder::new()
-            .recursive(true)
-            .create(self.get_mount_point())?;
-
-        let borg = BorgCall::new("mount")
-            .add_basics(self)?
-            .add_positional(&self.get_mount_point().to_string_lossy())
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        Ok(())
     }
 
     pub fn umount(&self) -> Result<(), BorgErr> {
@@ -244,7 +176,7 @@ impl Borg {
         Ok(())
     }
 
-    fn get_mount_dir() -> std::path::PathBuf {
+    pub fn get_mount_dir() -> std::path::PathBuf {
         let mut dir = shared::get_home_dir();
         dir.push(crate::REPO_MOUNT_DIR);
         dir
@@ -256,23 +188,14 @@ impl Borg {
         dir
     }
 
-    pub fn info(&self) -> Result<Info, BorgErr> {
-        let borg = BorgCall::new("info")
-            .add_options(&["--json", "--last=100"])
+    pub fn mount(&self) -> Result<(), BorgErr> {
+        std::fs::DirBuilder::new()
+            .recursive(true)
+            .create(self.get_mount_point())?;
+
+        let borg = BorgCall::new("mount")
             .add_basics(self)?
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        let x = serde_json::from_slice(&borg.stdout)?;
-
-        Ok(x)
-    }
-
-    pub fn init(&self) -> Result<(), BorgErr> {
-        let borg = BorgCall::new("init")
-            .add_options(&["--encryption=repokey"])
-            .add_basics(self)?
+            .add_positional(&self.get_mount_point().to_string_lossy())
             .output()?;
 
         check_stderr(&borg)?;
@@ -379,6 +302,82 @@ impl Borg {
             })
         }
     }
+}
+
+impl BorgOnlyRepo {
+    pub fn new(repo: BackupRepo) -> Self {
+        Self {
+            repo,
+            password: None,
+        }
+    }
+}
+
+impl BorgBasics for Borg {}
+impl BorgBasics for BorgOnlyRepo {}
+
+/// Features that are available without complete backup config
+pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
+    fn peek(&self) -> Result<List, BorgErr> {
+        let borg = BorgCall::new("list")
+            .add_options(&[
+                "--json",
+                "--last=1",
+                "--format={hostname}{username}{comment}{end}",
+            ])
+            .add_envs(vec![
+                ("BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK", "yes"),
+                ("BORG_RELOCATED_REPO_ACCESS_IS_OK", "yes"),
+            ])
+            .add_basics(self)?
+            .output()?;
+
+        check_stderr(&borg)?;
+
+        let json: List = serde_json::from_slice(&borg.stdout)?;
+
+        Ok(json)
+    }
+
+    fn list(&self) -> Result<Vec<ListArchive>, BorgErr> {
+        let borg = BorgCall::new("list")
+            .add_options(&[
+                "--json",
+                "--last",
+                //TODO: pass as arg
+                "100",
+                "--format={hostname}{username}{comment}{end}",
+            ])
+            .add_basics(self)?
+            .output()?;
+
+        check_stderr(&borg)?;
+
+        let json: List = serde_json::from_slice(&borg.stdout)?;
+
+        Ok(json.archives)
+    }
+
+    fn init(&self) -> Result<List, BorgErr> {
+        let borg = BorgCall::new("init")
+            .add_options(&["--encryption=repokey"])
+            .add_basics(self)?
+            .output()?;
+
+        check_stderr(&borg)?;
+
+        self.peek()
+    }
+}
+
+pub fn version() -> Result<String, BorgErr> {
+    let borg = BorgCall::new_raw()
+        .add_options(&["--log-json", "--version"])
+        .output()?;
+
+    check_stderr(&borg)?;
+
+    Ok(String::from_utf8_lossy(&borg.stdout).to_string())
 }
 
 #[derive(Default, Debug, Clone)]

@@ -5,6 +5,7 @@ use gtk::prelude::*;
 use zeroize::Zeroizing;
 
 use crate::borg;
+use crate::borg::prelude::*;
 use crate::shared;
 use crate::shared::*;
 use crate::ui;
@@ -135,7 +136,7 @@ fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::DialogAddCo
         let path = match glib::filename_from_uri(&name) {
             Ok((path, _)) => path,
             Err(err) => {
-                ui::utils::dialog_error(format!("URI conversion: {:?}", err));
+                ui::utils::show_error("URI conversion failed", err);
                 return;
             }
         };
@@ -207,7 +208,7 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
         return;
     }
 
-    let mut config = if ui.init_location().get_visible_child()
+    let repo = if ui.init_location().get_visible_child()
         == Some(ui.init_local().upcast::<gtk::Widget>())
     {
         let mut path = std::path::PathBuf::new();
@@ -222,47 +223,48 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
         path.push(ui.init_dir().get_text().as_str());
         trace!("Init repo at {:?}", &path);
 
-        BackupConfig::new_from_path(&path)
+        BackupRepo::new_from_path(&path)
     } else {
         let url = ui.init_url().get_text().to_string();
         if url.is_empty() {
             ui::utils::dialog_error(gettext("You have to enter a repository location."));
             return;
         }
-        BackupConfig::new_from_uri(url)
+        BackupRepo::new_from_uri(url)
     };
-
-    config.encrypted = encrypted;
-    let mut borg = borg::Borg::new(config.clone());
-
-    if encrypted {
-        let password = Zeroizing::new(ui.password().get_text().as_bytes().to_vec());
-
-        if ui.password_store().get_active() {
-            ui::utils::dialog_catch_err(
-                ui::utils::secret_service_set_password(&config, &password),
-                gettext("Failed to store password."),
-            );
-        }
-        borg.set_password(password);
-    }
 
     page_pending::show(&gettext("Initializing new backup repository …"));
     ui.new_backup().hide();
 
+    let mut borg = borg::BorgOnlyRepo::new(repo.clone());
+    let password = Zeroizing::new(ui.password().get_text().as_bytes().to_vec());
+    if encrypted {
+        borg.set_password(password.clone());
+    }
+
     ui::utils::async_react(
         "borg::init",
         move || borg.init(),
-        enclose!((config, ui) move |result| {
-            if ui::utils::dialog_catch_err(result, gettext("Failed to initialize repository")) {
+        enclose!((repo, ui, password) move |result: Result<borg::List, _>| match result {
+            Err(err) => {
+                ui::utils::show_error(&gettext("Failed to initialize repository"), &err);
                 page_pending::back();
                 ui.new_backup().show();
-                return;
             }
+            Ok(info) => {
+                let config = shared::BackupConfig::new(repo.clone(), info, encrypted);
 
-            insert_backup_config(config.clone());
+                insert_backup_config(config.clone());
+                if encrypted && ui.password_store().get_active() {
+                    ui::utils::dialog_catch_err(
+                        ui::utils::secret_service_set_password(&config, &password),
+                        gettext("Failed to store password."),
+                    );
+                }
+                ui::page_detail::view_backup_conf(&config.id);
 
-            ui.new_backup().close();
+                ui.new_backup().close();
+            }
         }),
     );
 }
@@ -350,53 +352,35 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
 }
 
 fn add_repo_config_local(repo: &std::path::Path, ui: Rc<builder::DialogAddConfig>) {
-    let config = BackupConfig::new_from_path(repo);
-    insert_backup_config_encryption_unknown(config, ui);
+    let repo = BackupRepo::new_from_path(repo);
+    insert_backup_config_encryption_unknown(repo, ui);
 }
 
 fn add_repo_config_remote(uri: String, ui: Rc<builder::DialogAddConfig>) {
-    let config = BackupConfig::new_from_uri(uri);
-    insert_backup_config_encryption_unknown(config, ui);
+    let repo = BackupRepo::new_from_uri(uri);
+    insert_backup_config_encryption_unknown(repo, ui);
 }
 
 fn insert_backup_config_encryption_unknown(
-    mut config: shared::BackupConfig,
-    ui: Rc<builder::DialogAddConfig>,
-) {
-    let mut borg = borg::Borg::new(config.clone());
-    borg.set_password(Zeroizing::new(vec![]));
-    // TODO: This is not async
-    if let Err(err) = borg.peek() {
-        if matches!(err, shared::BorgErr::PasswordMissing)
-            || err.has_borg_msgid(&shared::MsgId::PassphraseWrong)
-        {
-            config.encrypted = true;
-        } else {
-            ui::utils::dialog_error(gettext!(
-                "There was an error with the specified repository:\n\n{}",
-                err
-            ));
-
-            return;
-        }
-    }
-
-    insert_backup_config_password_unknown(config, ui);
-}
-
-fn insert_backup_config_password_unknown(
-    config: shared::BackupConfig,
+    repo: shared::BackupRepo,
     ui: Rc<builder::DialogAddConfig>,
 ) {
     ui.new_backup().hide();
-    let x = config.clone();
-    ui::utils::Async::borg(
+
+    ui::utils::Async::borg_only_repo(
         "borg::peek",
-        borg::Borg::new(x),
+        borg::BorgOnlyRepo::new(repo.clone()),
         |borg| borg.peek(),
         move |result| match result {
-            Ok(()) => {
+            Ok((info, pw_data)) => {
+                let encrypted = pw_data
+                    .clone()
+                    .map(|(password, _)| !password.is_empty())
+                    .unwrap_or_default();
+                let config = shared::BackupConfig::new(repo.clone(), info, encrypted);
                 insert_backup_config(config.clone());
+                ui::utils::store_password(&config, &pw_data);
+                ui::page_detail::view_backup_conf(&config.id);
                 ui.new_backup().close();
             }
             Err(borg_err) => {
@@ -405,10 +389,6 @@ fn insert_backup_config_password_unknown(
                     "There was an error with the specified repository:\n\n{}",
                     borg_err
                 ));
-                ui::utils::dialog_catch_err(
-                    ui::utils::secret_service_delete_passwords(&config),
-                    "Failed to remove potentially remaining passwords from key storage.",
-                );
                 ui.new_backup().show();
                 page_pending::back();
             }
@@ -417,13 +397,11 @@ fn insert_backup_config_password_unknown(
 }
 
 fn insert_backup_config(config: shared::BackupConfig) {
-    let uuid = config.id.clone();
     SETTINGS.update(move |s| {
         s.backups.insert(config.id.clone(), config.clone());
     });
 
     ui::write_config();
-    ui::page_detail::view_backup_conf(&uuid);
 }
 
 /// Checks if a directory is most likely a borg repository. Performed checks are

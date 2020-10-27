@@ -3,7 +3,7 @@ use gtk::prelude::*;
 use humansize::FileSize;
 
 use crate::borg;
-use crate::shared;
+use crate::shared::{self, Password};
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
@@ -14,7 +14,7 @@ pub trait BackupMap<T> {
 
 pub fn secret_service_set_password(
     config: &shared::BackupConfig,
-    password: &zeroize::Zeroizing<Vec<u8>>,
+    password: &Password,
 ) -> Result<(), secret_service::SsError> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
@@ -46,36 +46,10 @@ pub fn secret_service_delete_passwords(
         .collect::<Result<(), secret_service::SsError>>()
 }
 
-pub fn get_and_store_password(
-    config: &shared::BackupConfig,
-    pre_select_store: bool,
-) -> Result<Option<shared::Password>, ()> {
-    if let Some((password, store)) = crate::ui::dialog_encryption_password::Ask::new()
+pub fn get_password(pre_select_store: bool) -> Option<(shared::Password, bool)> {
+    crate::ui::dialog_encryption_password::Ask::new()
         .set_pre_select_store(pre_select_store)
         .run()
-    {
-        if store {
-            debug!("Storing new password at secret service");
-            if dialog_catch_err(
-                secret_service_set_password(config, &password),
-                gettext("Failed to store password."),
-            ) {
-                Ok(Some(password))
-            } else {
-                // Stored, so don't set password
-                Ok(None)
-            }
-        } else {
-            dialog_catch_err(
-                secret_service_delete_passwords(config),
-                gettext("Failed to remove potentially remaining passwords from key storage."),
-            );
-            Ok(Some(password))
-        }
-    } else {
-        // User aborted
-        Err(())
-    }
 }
 
 #[allow(clippy::implicit_hasher)]
@@ -98,6 +72,24 @@ impl<T> BackupMap<T> for std::collections::BTreeMap<String, T> {
     }
 }
 
+pub fn store_password(config: &shared::BackupConfig, x: &Option<(Password, bool)>) {
+    if let Some((ref password, ref store)) = x {
+        if *store {
+            debug!("Storing new password at secret service");
+            dialog_catch_err(
+                secret_service_set_password(&config, &password),
+                gettext("Failed to store password."),
+            );
+        } else {
+            debug!("Removing password from secret service");
+            dialog_catch_err(
+                secret_service_delete_passwords(config),
+                gettext("Failed to remove potentially remaining passwords from key storage."),
+            );
+        }
+    }
+}
+
 pub struct Async(());
 
 impl Async {
@@ -107,53 +99,68 @@ impl Async {
         G: Fn(Result<V, shared::BorgErr>) + Clone + 'static,
         V: Send + 'static,
     {
+        let config = borg.get_config();
+
+        borg_async(
+            name,
+            borg,
+            task,
+            move |result| {
+                if let Ok((_, ref x)) = result {
+                    store_password(&config, x);
+                }
+                result_handler(result.map(|(x, _)| x));
+            },
+            false,
+        )
+    }
+
+    pub fn borg_only_repo<F, G, V, B>(name: &'static str, borg: B, task: F, result_handler: G)
+    where
+        F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static,
+        G: Fn(Result<(V, Option<(Password, bool)>), shared::BorgErr>) + Clone + 'static,
+        V: Send + 'static,
+        B: borg::BorgBasics + 'static,
+    {
         borg_async(name, borg, task, result_handler, false)
     }
 }
 
-fn borg_async<F, G, V>(
+fn borg_async<F, G, V, B>(
     name: &'static str,
-    borg: borg::Borg,
+    borg: B,
     task: F,
     result_handler: G,
     pre_select_store: bool,
 ) where
-    F: FnOnce(borg::Borg) -> Result<V, shared::BorgErr> + Send + Clone + 'static,
-    G: Fn(Result<V, shared::BorgErr>) + Clone + 'static,
+    F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static,
+    G: Fn(Result<(V, Option<(Password, bool)>), shared::BorgErr>) + Clone + 'static,
     V: Send + 'static,
+    B: borg::BorgBasics + 'static,
 {
     async_react(
         name,
-        enclose!((borg, task) move || task(borg)),
-        move |result| {
-            if let Err(ref err) = result {
-                if matches!(err, shared::BorgErr::PasswordMissing)
-                    || err.has_borg_msgid(&shared::MsgId::PassphraseWrong)
-                {
-                    let mut borg = borg.clone();
-                    if let Ok(ask_password) =
-                        get_and_store_password(&borg.get_config(), pre_select_store)
-                    {
-                        if let Some(ref password) = ask_password {
-                            borg.set_password(password.clone());
-                        } else {
-                            borg.unset_password();
-                        }
-                        borg_async(
-                            name,
-                            borg,
-                            task.clone(),
-                            result_handler.clone(),
-                            ask_password.is_none(),
-                        );
-                    } else {
-                        result_handler(Err(shared::BorgErr::UserAborted))
-                    }
-                    return;
+        enclose!((borg, task)
+         move || task(borg)),
+        move |result| match result {
+            Err(e)
+                if matches!(e, shared::BorgErr::PasswordMissing)
+                    || e.has_borg_msgid(&shared::MsgId::PassphraseWrong) =>
+            {
+                let mut borg = borg.clone();
+                if let Some((password, store)) = get_password(pre_select_store) {
+                    borg.set_password(password);
+
+                    borg_async(name, borg, task.clone(), result_handler.clone(), store);
+                } else {
+                    result_handler(Err(shared::BorgErr::UserAborted))
                 }
             }
-
-            result_handler(result);
+            Err(e) => result_handler(Err(e)),
+            Ok(result) => result_handler(Ok((
+                result,
+                borg.get_password().map(|p| (p, pre_select_store)),
+            ))),
         },
     );
 }
@@ -245,58 +252,79 @@ pub fn folder_chooser_dialog(title: &str) -> Option<std::path::PathBuf> {
     result
 }
 
-pub fn dialog_catch_errb<X, P, S: AsRef<str>>(res: &Result<X, P>, msg: S) -> bool
-where
-    P: std::fmt::Display,
-{
+pub fn dialog_catch_errb<X, P: std::fmt::Display, S: std::fmt::Display>(
+    res: &Result<X, P>,
+    msg: S,
+) -> bool {
     match res {
         Err(e) => {
-            dialog_error(&format!("{}\n\n{}", msg.as_ref(), e));
+            show_error(msg, e);
             true
         }
         Ok(_) => false,
     }
 }
 
-pub fn dialog_catch_err<X, P, S: AsRef<str>>(res: Result<X, P>, msg: S) -> bool
-where
-    P: std::fmt::Display,
-{
+pub fn dialog_catch_err<X, P: std::fmt::Display, S: std::fmt::Display>(
+    res: Result<X, P>,
+    msg: S,
+) -> bool {
     match res {
         Err(e) => {
-            let formatted = format!("{}\n\n{}", msg.as_ref(), e);
-            warn!("Displaying caught error:\n\n{}", formatted);
-            dialog_error(&formatted);
+            show_error(msg, e);
             true
         }
         Ok(_) => false,
     }
 }
 
-pub fn dialog_error<S: AsRef<str>>(error: S) {
-    let error_vec = error.as_ref().chars().collect::<Vec<_>>();
+fn ellipsize<S: std::fmt::Display>(x: S) -> String {
+    let s = x.to_string();
+    let vec = s.chars().collect::<Vec<_>>();
 
-    let mut error_str = error.as_ref().to_string();
-
-    if error_vec.len() > 400 {
-        error_str = format!(
+    if vec.len() > 410 {
+        format!(
             "{}\n…\n{}",
-            error_vec.iter().take(200).collect::<String>(),
-            error_vec.iter().rev().take(200).rev().collect::<String>()
-        );
+            vec.iter().take(200).collect::<String>(),
+            vec.iter().rev().take(200).rev().collect::<String>()
+        )
+    } else {
+        s
     }
+}
+
+pub fn show_error<S: std::fmt::Display, P: std::fmt::Display>(message: S, detail: P) {
+    let primary_text = ellipsize(message);
+    let secondary_text = ellipsize(detail);
 
     let dialog = gtk::MessageDialog::new(
         Some(&main_ui().window()),
         gtk::DialogFlags::MODAL,
         gtk::MessageType::Error,
         gtk::ButtonsType::Ok,
-        &error_str,
+        &primary_text,
+    );
+
+    dialog.set_property_secondary_text(if secondary_text.is_empty() {
+        None
+    } else {
+        Some(&secondary_text)
+    });
+    dialog.connect_response(|dialog, _| {
+        dialog.close();
+        dialog.hide();
+    });
+
+    warn!(
+        "Displaying caught error:\n{}\n{}",
+        &primary_text, &secondary_text
     );
 
     dialog.run();
-    dialog.close();
-    dialog.hide();
+}
+
+pub fn dialog_error<S: std::fmt::Display>(error: S) {
+    show_error(error, "");
 }
 
 pub fn dialog_yes_no<S: AsRef<str>>(message: S) -> bool {

@@ -118,7 +118,6 @@ fn init(_app: &gtk::Application) {
 
     init_actions();
     init_timeouts();
-    borg::init_device_listening();
 
     ui::page_archives::init();
     ui::page_detail::init();
@@ -207,7 +206,7 @@ fn init_actions() {
 }
 
 fn init_check_borg() {
-    let version_result = borg::Borg::version();
+    let version_result = borg::version();
 
     ui::utils::dialog_catch_errb(
         &version_result,
