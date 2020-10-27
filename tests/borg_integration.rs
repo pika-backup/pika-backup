@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate matches;
 
-use pika_backup::{borg, borg::Borg, shared, ui::prelude::*};
+use pika_backup::{borg, borg::prelude::*, borg::Borg, borg::BorgOnlyRepo, shared, ui::prelude::*};
 use shared::*;
 
 type CheckError = Result<(), Box<dyn std::error::Error>>;
@@ -26,7 +26,7 @@ fn borg_bin_missing() {
 fn simple_backup() {
     init();
     let borg = Borg::new(config());
-    assert_matches!(borg.init(), Ok(()));
+    assert_matches!(borg.init(), Ok(borg::List{..}));
     assert_matches!(borg.create(status()), Ok(_));
 }
 
@@ -52,7 +52,7 @@ fn encrypted_backup() {
     let mut borg = Borg::new(config);
     borg.set_password(b"x".to_vec().into());
 
-    assert_matches!(borg.init(), Ok(()));
+    assert_matches!(borg.init(), Ok(borg::List { .. }));
 
     borg.unset_password();
     assert_matches!(borg.create(status()), Err(BorgErr::PasswordMissing));
@@ -61,9 +61,9 @@ fn encrypted_backup() {
 #[test]
 fn failed_ssh_connection() {
     init();
-    let config = shared::BackupConfig::new_from_uri("ssh://backup.server.invalid/repo".to_string());
+    let repo = shared::BackupRepo::new_from_uri("ssh://backup.server.invalid/repo".to_string());
 
-    let result = Borg::new(config).info();
+    let result = BorgOnlyRepo::new(repo).peek();
     assert!(result
         .unwrap_err()
         .has_borg_msgid(&MsgId::ConnectionClosedWithHint));
@@ -72,7 +72,7 @@ fn failed_ssh_connection() {
 #[test]
 fn failed_repo() {
     init();
-    let result = borg::Borg::new(config()).info();
+    let result = borg::Borg::new(config()).peek();
     assert!(result
         .unwrap_err()
         .has_borg_msgid(&MsgId::RepositoryDoesNotExist));
@@ -85,7 +85,10 @@ fn status() -> borg::Communication {
 fn config() -> shared::BackupConfig {
     let uuid = glib::uuid_string_random().to_string();
     shared::BackupConfig {
+        config_version: 1,
         id: uuid.clone(),
+        repo_id: "repo id".into(),
+        encryption_mode: "none".into(),
         repo: shared::BackupRepo::Local {
             path: format!("/tmp/{}", &uuid).into(),
             icon: None,

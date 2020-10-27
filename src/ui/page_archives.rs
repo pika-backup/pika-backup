@@ -7,6 +7,7 @@ use gtk::prelude::*;
 use once_cell::sync::Lazy;
 
 use crate::borg;
+use crate::borg::prelude::*;
 use crate::shared::*;
 use crate::ui;
 use crate::ui::globals::*;

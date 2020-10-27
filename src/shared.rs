@@ -7,12 +7,22 @@ use zeroize::Zeroizing;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct BackupConfig {
+    #[serde(default)]
+    pub config_version: u16,
     pub id: String,
+    #[serde(default = "fake_repo_id")]
+    pub repo_id: String,
     pub repo: BackupRepo,
     pub encrypted: bool,
+    #[serde(default)]
+    pub encryption_mode: String,
     pub include: BTreeSet<path::PathBuf>,
     pub exclude: BTreeSet<Pattern>,
     pub last_run: Option<RunInfo>,
+}
+
+fn fake_repo_id() -> String {
+    format!("-randomid-{}", glib::uuid_string_random().to_string())
 }
 
 impl BackupConfig {
@@ -83,9 +93,9 @@ impl RunInfo {
 
 pub type Password = Zeroizing<Vec<u8>>;
 
-impl BackupConfig {
+impl BackupRepo {
     pub fn new_from_uri(uri: String) -> Self {
-        Self::new_from_repo(BackupRepo::Remote { uri })
+        BackupRepo::Remote { uri }
     }
 
     pub fn new_from_path(repo: &path::Path) -> Self {
@@ -112,7 +122,7 @@ impl BackupConfig {
             .as_ref()
             .map(std::string::ToString::to_string);
 
-        Self::new_from_repo(BackupRepo::Local {
+        BackupRepo::Local {
             path: repo.to_path_buf(),
             icon,
             label: mount
@@ -125,19 +135,24 @@ impl BackupConfig {
                 .map(Into::into),
             removable: drive.as_ref().map_or(false, gio::Drive::is_removable),
             volume_uuid,
-        })
+        }
     }
+}
 
-    pub fn new_from_repo(repo: BackupRepo) -> Self {
+impl BackupConfig {
+    pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
         let mut include = std::collections::BTreeSet::new();
         include.insert("".into());
         let mut exclude = std::collections::BTreeSet::new();
         exclude.insert(Pattern::PathPrefix(".cache".into()));
 
         Self {
+            config_version: crate::CONFIG_VERSION,
             id: glib::uuid_string_random().to_string(),
             repo,
-            encrypted: false,
+            repo_id: info.repository.id,
+            encrypted,
+            encryption_mode: info.encryption.mode,
             include,
             exclude,
             last_run: None,

@@ -1,4 +1,4 @@
-use super::Borg;
+use super::{Borg, BorgRunConfig};
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
 use std::os::unix::io::IntoRawFd;
@@ -138,7 +138,7 @@ impl BorgCall {
         self
     }
 
-    pub fn add_password(&mut self, borg: &Borg) -> Result<&mut Self, BorgErr> {
+    pub fn add_password<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self, BorgErr> {
         // Password pipe
         let (pipe_reader, mut pipe_writer) = std::os::unix::net::UnixStream::pair()?;
 
@@ -159,15 +159,15 @@ impl BorgCall {
             pipe_reader.into_raw_fd().to_string(),
         );
 
-        if let Some(ref password) = borg.password {
+        if let Some(ref password) = borg.get_password() {
             debug!("Using password enforced by explicitly passed password");
             pipe_writer.write_all(password)?;
-        } else if borg.config.encrypted {
+        } else if borg.is_encrypted() {
             debug!("Config says the backup is encrypted");
             let password: Zeroizing<Vec<u8>> =
                 secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
                     .search_items(vec![
-                        ("backup_id", &borg.config.id),
+                        ("backup_id", &borg.get_config_id().unwrap_or_default()),
                         ("program", env!("CARGO_PKG_NAME")),
                     ])?
                     .get(0)
@@ -185,11 +185,11 @@ impl BorgCall {
         Ok(self)
     }
 
-    pub fn add_basics(&mut self, borg: &Borg) -> Result<&mut Self, BorgErr> {
+    pub fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self, BorgErr> {
         self.add_options(&["--log-json"]);
 
         if self.positional.is_empty() {
-            self.add_positional(&borg.config.repo.to_string());
+            self.add_positional(&borg.get_repo().to_string());
         }
 
         self.add_password(borg)?;
