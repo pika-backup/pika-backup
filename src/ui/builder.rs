@@ -374,40 +374,20 @@ impl Main {
         self.get("add_pending_label")
     }
 
-    pub fn archive_comment(&self) -> gtk::Label {
-        self.get("archive_comment")
-    }
-
-    pub fn archive_end(&self) -> gtk::Label {
-        self.get("archive_end")
-    }
-
-    pub fn archive_hostname(&self) -> gtk::Label {
-        self.get("archive_hostname")
-    }
-
     pub fn archive_list(&self) -> gtk::ListBox {
         self.get("archive_list")
-    }
-
-    pub fn archive_name(&self) -> gtk::Label {
-        self.get("archive_name")
-    }
-
-    pub fn archive_popover(&self) -> gtk::Popover {
-        self.get("archive_popover")
     }
 
     pub fn archive_progress(&self) -> gtk::ProgressBar {
         self.get("archive_progress")
     }
 
-    pub fn archive_start(&self) -> gtk::Label {
-        self.get("archive_start")
+    pub fn archives_reloading_row(&self) -> gtk::ListBoxRow {
+        self.get("archives_reloading_row")
     }
 
-    pub fn archive_username(&self) -> gtk::Label {
-        self.get("archive_username")
+    pub fn archives_reloading_spinner(&self) -> gtk::Spinner {
+        self.get("archives_reloading_spinner")
     }
 
     pub fn back_button(&self) -> gtk::Button {
@@ -426,10 +406,6 @@ impl Main {
         self.get("backup_status_popover")
     }
 
-    pub fn browse_archive(&self) -> gtk::Button {
-        self.get("browse_archive")
-    }
-
     pub fn current_path(&self) -> gtk::Label {
         self.get("current_path")
     }
@@ -446,16 +422,16 @@ impl Main {
         self.get("error_message")
     }
 
-    pub fn home_icon(&self) -> gtk::Image {
-        self.get("home_icon")
-    }
-
     pub fn include(&self) -> gtk::ListBox {
         self.get("include")
     }
 
     pub fn include_home(&self) -> gtk::Switch {
         self.get("include_home")
+    }
+
+    pub fn include_home_row(&self) -> libhandy::ActionRow {
+        self.get("include_home_row")
     }
 
     pub fn main_backups(&self) -> gtk::ListBox {

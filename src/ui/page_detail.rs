@@ -12,6 +12,8 @@ use crate::ui::prelude::*;
 use crate::ui::utils::{self, WidgetEnh};
 
 pub fn init() {
+    main_ui().include_home_row().add(&main_ui().include_home());
+
     main_ui().backup_run().connect_clicked(|_| on_backup_run());
 
     main_ui()
@@ -131,35 +133,36 @@ fn on_backup_run() {
     ui::dialog_device_missing::main(config.clone(), move || run_backup(config.clone()));
 }
 
-pub fn run_backup(backup: shared::BackupConfig) {
-    let backup_id = backup.id.clone();
+pub fn run_backup(config: shared::BackupConfig) {
+    //let backup_id = backup.id.clone();
 
     let communication: borg::Communication = Default::default();
 
     BACKUP_COMMUNICATION.update(|x| {
-        x.insert(backup_id.clone(), communication.clone());
+        x.insert(config.id.clone(), communication.clone());
     });
     refresh_status(&communication);
 
     ui::utils::Async::borg(
         "borg::create",
-        borg::Borg::new(backup),
+        borg::Borg::new(config.clone()),
         move |borg| borg.create(communication),
         move |result| {
             BACKUP_COMMUNICATION.update(|c| {
-                c.remove(&backup_id);
+                c.remove(&config.id);
             });
             let user_aborted = matches!(result, Err(shared::BorgErr::UserAborted));
             let result_string_err = result.map_err(|err| format!("{}", err));
             let run_info = Some(shared::RunInfo::new(result_string_err.clone()));
             refresh_offline(&run_info);
             SETTINGS.update(|settings| {
-                settings.backups.get_mut(&backup_id).unwrap().last_run = run_info.clone()
+                settings.backups.get_mut(&config.id).unwrap().last_run = run_info.clone()
             });
             ui::write_config();
 
             if !user_aborted {
                 ui::utils::dialog_catch_errb(&result_string_err, gettext("Backup failed"));
+                ui::page_archives::refresh_archives_cache(config.clone());
             }
         },
     );
@@ -206,11 +209,14 @@ pub fn refresh() {
     main_ui().include_home().set_active(include_home);
     main_ui().include_home().set_sensitive(true);
 
+    // TODO: maybe introduce this again
+    /*
     if include_home {
         main_ui().home_icon().remove_css_class("not-active");
     } else {
         main_ui().home_icon().add_css_class("not-active");
     }
+    */
 
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
 

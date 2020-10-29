@@ -339,13 +339,11 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json)
     }
 
-    fn list(&self) -> Result<Vec<ListArchive>, BorgErr> {
+    fn list(&self, last: u64) -> Result<Vec<ListArchive>, BorgErr> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
-                "--last",
-                //TODO: pass as arg
-                "100",
+                &format!("--last={}", last),
                 "--format={hostname}{username}{comment}{end}",
             ])
             .add_basics(self)?

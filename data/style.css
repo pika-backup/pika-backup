@@ -3,6 +3,19 @@
   border-radius: 9999px;
 }
 
+.content row:checked {
+  margin: 20px 0 14px 0;
+}
+
+.content row:selected row {
+  border-color: shade(@borders, 1.15);
+}
+
+.content row:selected row:not(.activatable),
+.content row:selected row.activatable:not(:hover) {
+  background-color: @theme_selected_fg_color;
+}
+
 list.settings {
   border: @borders 1px solid;
   border-radius: 9px;
@@ -27,7 +40,7 @@ list.settings row {
   min-height: 60px;
 }
 
-list.settings > row > box {
+list.settings:not(.custom) > row > box {
   margin: 0px 12px;
 }
 
