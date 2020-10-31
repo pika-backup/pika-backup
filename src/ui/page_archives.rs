@@ -6,7 +6,6 @@ use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
 use once_cell::sync::Lazy;
-use pango;
 
 use crate::borg;
 use crate::borg::prelude::*;
@@ -70,7 +69,7 @@ pub fn refresh_archives_cache(config: BackupConfig) {
             .get(&config.repo_id)
             .map(|x| x.reloading)
     {
-        info!("Aborting archives cache reload because allready in progress");
+        info!("Aborting archives cache reload because already in progress");
         return;
     } else {
         REPO_ARCHIVES.update(|repos| {
@@ -273,12 +272,6 @@ fn display_archives(config: BackupConfig) {
                     row.add(&info(gettext!("Comment"), archive.comment.clone()));
                 }
 
-                row.add(&info(
-                    gettext!("Comment"),
-                    "saf jskdf sldfljds fsd ds,mfs, ds,f n,sdfn s,nmdsfm,nsn,dsfn ,mds,mf n,n"
-                        .to_string(),
-                ));
-
                 let browse_row = libhandy::ActionRow::new();
                 browse_row.set_title(Some(&gettext!("Browse saved files")));
                 browse_row.set_activatable(true);
@@ -297,6 +290,21 @@ fn display_archives(config: BackupConfig) {
             }
 
             main_ui().archive_list().show_all();
+        }
+
+        if repo_archives
+            .get(&config.repo_id)
+            .and_then(|x| x.archives.as_ref())
+            .map(|x| !x.is_empty())
+            .unwrap_or_default()
+        {
+            main_ui()
+                .archives_stack()
+                .set_visible_child(&main_ui().archive_list());
+        } else {
+            main_ui()
+                .archives_stack()
+                .set_visible_child(&main_ui().archive_list_placeholder());
         }
     } else {
         debug!("Not displaying archive list because it's not visible");
@@ -339,7 +347,7 @@ pub fn show() {
     };
 
     if repo_archives.archives.as_ref().is_none() {
-        trace!("Archives have never been retrived");
+        trace!("Archives have never been retrieved");
         refresh_archives_cache(config);
     } else {
         display_archives(config);

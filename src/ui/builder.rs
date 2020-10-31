@@ -378,6 +378,10 @@ impl Main {
         self.get("archive_list")
     }
 
+    pub fn archive_list_placeholder(&self) -> gtk::Label {
+        self.get("archive_list_placeholder")
+    }
+
     pub fn archive_progress(&self) -> gtk::ProgressBar {
         self.get("archive_progress")
     }
@@ -388,6 +392,10 @@ impl Main {
 
     pub fn archives_reloading_spinner(&self) -> gtk::Spinner {
         self.get("archives_reloading_spinner")
+    }
+
+    pub fn archives_stack(&self) -> gtk::Stack {
+        self.get("archives_stack")
     }
 
     pub fn back_button(&self) -> gtk::Button {
@@ -402,10 +410,6 @@ impl Main {
         self.get("backup_run")
     }
 
-    pub fn backup_status_popover(&self) -> gtk::Popover {
-        self.get("backup_status_popover")
-    }
-
     pub fn current_path(&self) -> gtk::Label {
         self.get("current_path")
     }
@@ -414,8 +418,32 @@ impl Main {
         self.get("deduplicated_size")
     }
 
+    pub fn detail_exclude_placeholder(&self) -> gtk::Label {
+        self.get("detail_exclude_placeholder")
+    }
+
+    pub fn detail_exclude_stack(&self) -> gtk::Stack {
+        self.get("detail_exclude_stack")
+    }
+
+    pub fn detail_repo_icon(&self) -> gtk::Image {
+        self.get("detail_repo_icon")
+    }
+
+    pub fn detail_repo_row(&self) -> libhandy::ActionRow {
+        self.get("detail_repo_row")
+    }
+
+    pub fn detail_running_backup_info(&self) -> gtk::Dialog {
+        self.get("detail_running_backup_info")
+    }
+
     pub fn detail_stack(&self) -> gtk::Stack {
         self.get("detail_stack")
+    }
+
+    pub fn detail_status_row(&self) -> libhandy::ActionRow {
+        self.get("detail_status_row")
     }
 
     pub fn error_message(&self) -> gtk::Label {
@@ -526,24 +554,12 @@ impl Main {
         self.get("stack")
     }
 
-    pub fn status_button(&self) -> gtk::MenuButton {
-        self.get("status_button")
-    }
-
     pub fn status_icon(&self) -> gtk::Stack {
         self.get("status_icon")
     }
 
     pub fn status_icon_spinner(&self) -> gtk::Spinner {
         self.get("status_icon_spinner")
-    }
-
-    pub fn status_subtext(&self) -> gtk::Label {
-        self.get("status_subtext")
-    }
-
-    pub fn status_text(&self) -> gtk::Label {
-        self.get("status_text")
     }
 
     pub fn stop_backup_create(&self) -> gtk::Button {

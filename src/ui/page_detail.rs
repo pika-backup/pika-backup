@@ -1,6 +1,7 @@
 use chrono::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
+use libhandy::prelude::*;
 
 use crate::borg;
 use crate::borg::Run;
@@ -17,12 +18,32 @@ pub fn init() {
     main_ui().backup_run().connect_clicked(|_| on_backup_run());
 
     main_ui()
-        .main_stack()
-        .connect_property_transition_running_notify(on_transition);
+        .detail_status_row()
+        .add_prefix(&main_ui().status_icon());
+    main_ui()
+        .detail_status_row()
+        .add(&main_ui().stop_backup_create());
+
+    main_ui().detail_status_row().set_activatable(true);
+    main_ui()
+        .detail_status_row()
+        .connect_activated(|_| main_ui().detail_running_backup_info().show_all());
+    main_ui()
+        .detail_running_backup_info()
+        .connect_delete_event(|x, _| WidgetExtManual::hide_on_delete(x));
 
     main_ui()
-        .target_listbox()
-        .connect_row_activated(|_, _| ui::dialog_storage::show());
+        .detail_repo_row()
+        .add_prefix(&main_ui().detail_repo_icon());
+
+    main_ui().detail_repo_row().set_activatable(true);
+    main_ui()
+        .detail_repo_row()
+        .connect_activated(|_| ui::dialog_storage::show());
+
+    main_ui()
+        .main_stack()
+        .connect_property_transition_running_notify(on_transition);
 
     main_ui()
         .include_home()
@@ -168,20 +189,17 @@ pub fn run_backup(config: shared::BackupConfig) {
     );
 }
 
-pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path, position: i32) -> gtk::Button {
-    let (row, horizontal_box) = ui::utils::add_list_box_row(list, None, position);
+pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
+    let row = libhandy::ActionRow::new();
+    list.add(&row);
 
     row.set_activatable(false);
 
-    if let Some(img) = ui::utils::file_icon(&shared::absolute(file), gtk::IconSize::Dialog) {
-        horizontal_box.add(&img);
+    if let Some(img) = ui::utils::file_icon(&shared::absolute(file), gtk::IconSize::Dnd) {
+        row.add_prefix(&img);
     }
 
-    let label = gtk::Label::new(file.to_str());
-    label.set_line_wrap(true);
-    label.set_line_wrap_mode(pango::WrapMode::WordChar);
-    label.set_xalign(0.0);
-    horizontal_box.add(&label);
+    row.set_title(file.to_str());
 
     let button = gtk::Button::new();
     button.add(&gtk::Image::from_icon_name(
@@ -189,8 +207,8 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path, position: i32) 
         gtk::IconSize::Button,
     ));
     button.add_css_class("image-button");
+    row.add(&button);
     button.set_valign(gtk::Align::Center);
-    horizontal_box.pack_end(&button, false, false, 0);
 
     button
 }
@@ -222,12 +240,11 @@ pub fn refresh() {
 
     // backup target ui
     let repo_ui = main_ui().target_listbox();
-    ui::utils::clear(&repo_ui);
-    let (_, horizontal_box) = ui::utils::add_list_box_row(&repo_ui, None, 1);
 
     if let Ok(icon) = gio::Icon::new_for_string(&utils::repo_icon(&backup.repo)) {
-        let img = gtk::Image::from_gicon(&icon, gtk::IconSize::Dialog);
-        horizontal_box.add(&img);
+        main_ui()
+            .detail_repo_icon()
+            .set_from_gicon(&icon, gtk::IconSize::Dnd);
     }
 
     match &backup.repo {
@@ -236,20 +253,23 @@ pub fn refresh() {
             ref label,
             ..
         } => {
-            let (vertical_box, _, _) = ui::utils::list_vertical_box(
-                label.as_ref().map(String::as_str),
-                Some(
-                    device
-                        .as_ref()
-                        .map(String::as_str)
-                        .unwrap_or(&backup.repo.to_string()),
-                ),
-            );
-            horizontal_box.add(&vertical_box);
+            main_ui()
+                .detail_repo_row()
+                .set_title(label.as_ref().map(String::as_str));
+            main_ui().detail_repo_row().set_subtitle(Some(
+                device
+                    .as_ref()
+                    .map(String::as_str)
+                    .unwrap_or(&backup.repo.to_string()),
+            ));
         }
         repo @ shared::BackupRepo::Remote { .. } => {
-            let (vertical_box, _, _) = ui::utils::list_vertical_box(Some(&repo.to_string()), None);
-            horizontal_box.add(&vertical_box);
+            main_ui()
+                .detail_repo_row()
+                .set_title(Some(&gettext("Remote location")));
+            main_ui()
+                .detail_repo_row()
+                .set_subtitle(Some(&repo.to_string()));
         }
     }
 
@@ -258,12 +278,12 @@ pub fn refresh() {
     // include list
     ui::utils::clear(&main_ui().include());
     // TODO: Warn if there a no includes, disable backup button
-    for file in backup.include.iter().rev() {
+    for file in backup.include.iter() {
         if *file == std::path::PathBuf::new() {
             continue;
         }
 
-        let button = add_list_row(&main_ui().include(), file, 1);
+        let button = add_list_row(&main_ui().include(), file);
 
         let path = file.clone();
         button.connect_clicked(move |_| {
@@ -288,8 +308,8 @@ pub fn refresh() {
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
-    for shared::Pattern::PathPrefix(file) in backup.exclude.iter().rev() {
-        let button = add_list_row(&main_ui().backup_exclude(), file, 0);
+    for shared::Pattern::PathPrefix(file) in backup.exclude.iter() {
+        let button = add_list_row(&main_ui().backup_exclude(), file);
         let path = file.clone();
         button.connect_clicked(move |_| {
             let path = path.clone();
@@ -306,6 +326,15 @@ pub fn refresh() {
         });
     }
     main_ui().backup_exclude().show_all();
+    if backup.exclude.is_empty() {
+        main_ui()
+            .detail_exclude_stack()
+            .set_visible_child(&main_ui().detail_exclude_placeholder());
+    } else {
+        main_ui()
+            .detail_exclude_stack()
+            .set_visible_child(&main_ui().backup_exclude());
+    }
 
     refresh_statusx();
 }
@@ -379,15 +408,12 @@ pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
     main_ui().stop_backup_create().hide();
 
     if let Some(ref run_info) = run_info_opt {
-        main_ui().status_button().show();
         match &run_info.result {
             Ok(stats) => {
                 main_ui().status_icon().set_visible_child_name("success");
-                main_ui()
-                    .status_text()
-                    .set_text(&gettext("Last backup successful"));
+                set_status(&gettext("Last backup successful"));
 
-                main_ui().status_subtext().set_text(&gettext!(
+                set_status_detail(&gettext!(
                     "About {}",
                     (run_info.end - Local::now()).humanize()
                 ));
@@ -403,10 +429,8 @@ pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
             }
             Err(err) => {
                 main_ui().status_icon().set_visible_child_name("error");
-                main_ui()
-                    .status_text()
-                    .set_text(&gettext("Last backup failed"));
-                main_ui().status_subtext().set_text(&gettext!(
+                set_status(&gettext("Last backup failed"));
+                set_status_detail(&gettext!(
                     "About {}",
                     (run_info.end - Local::now()).humanize()
                 ));
@@ -415,14 +439,9 @@ pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
             }
         }
     } else {
-        main_ui().status_button().hide();
         main_ui().status_icon().set_visible_child_name("unknown");
-        main_ui()
-            .status_text()
-            .set_text(&gettext("Backup never ran"));
-        main_ui()
-            .status_subtext()
-            .set_text(&gettext("Start by creating your first backup"));
+        set_status(&gettext("Backup never ran"));
+        set_status_detail(&gettext("Start by creating your first backup"));
     }
 }
 
@@ -430,7 +449,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
     main_ui().stop_backup_create().show();
 
     let stack = main_ui().stack();
-    main_ui().status_subtext().set_text("");
+    unset_status_detail();
 
     let status = communication.status.get();
 
@@ -448,9 +467,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                     let fraction = original_size as f64 / total as f64;
                     main_ui().archive_progress().show();
                     main_ui().archive_progress().set_fraction(fraction);
-                    main_ui()
-                        .status_subtext()
-                        .set_text(&gettext!("{:.1} % finished", fraction * 100.0))
+                    set_status_detail(&gettext!("{:.1} % finished", fraction * 100.0))
                 } else {
                     main_ui().archive_progress().hide();
                 }
@@ -472,11 +489,9 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                 stack.set_visible_child_name("message");
                 main_ui().message().set_text(message);
                 if msgid.as_ref().map(|x| x.starts_with("cache.")) == Some(true) {
-                    main_ui()
-                        .status_subtext()
-                        .set_text(&gettext("Updating repository information"));
+                    set_status_detail(&gettext("Updating repository information"));
                 } else {
-                    main_ui().status_subtext().set_text(message);
+                    set_status(message);
                 }
             }
             Progress::Percent {
@@ -489,9 +504,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                 let fraction = current as f64 / total as f64;
                 main_ui().progress().set_fraction(fraction);
                 main_ui().percent_message().set_text(message);
-                main_ui()
-                    .status_subtext()
-                    .set_text(&gettext!("{:.1} % prepared", fraction * 100.0))
+                set_status_detail(&gettext!("{:.1} % prepared", fraction * 100.0))
             }
             // TODO: cover progress message?
             _ => {}
@@ -502,36 +515,37 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
 
     match status.run {
         Run::Init => {
-            main_ui().status_button().hide();
-            main_ui()
-                .status_text()
-                .set_text(&gettext("Preparing backup"));
+            set_status(&gettext("Preparing backup"));
         }
         Run::SizeEstimation => {
-            main_ui().status_button().hide();
-            main_ui()
-                .status_text()
-                .set_text(&gettext("Estimating backup size"));
+            set_status(&gettext("Estimating backup size"));
         }
         Run::Running => {
-            main_ui().status_button().show();
-            main_ui().status_text().set_text(&gettext("Backup running"));
+            set_status(&gettext("Backup running"));
         }
         Run::Reconnecting => {
-            main_ui().status_button().show();
-            main_ui().status_text().set_text(&gettext("Reconnecting"));
-            main_ui().status_subtext().set_text(&gettext!(
+            set_status(&gettext("Reconnecting"));
+            set_status_detail(&gettext!(
                 "Connection lost, reconnecting {}",
                 &crate::BORG_DELAY_RECONNECT.humanize()
             ));
         }
         Run::Stopping => {
-            main_ui().status_button().show();
-            main_ui()
-                .status_text()
-                .set_text(&gettext("Stopping backup"));
+            set_status(&gettext("Stopping backup"));
         }
     };
 
     Continue(true)
+}
+
+fn set_status(text: &str) {
+    main_ui().detail_status_row().set_title(Some(text));
+}
+
+fn set_status_detail(text: &str) {
+    main_ui().detail_status_row().set_subtitle(Some(text));
+}
+
+fn unset_status_detail() {
+    main_ui().detail_status_row().set_subtitle(None);
 }

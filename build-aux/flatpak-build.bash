@@ -7,4 +7,4 @@ flatpak-builder --install-deps-from=flathub \
   --user --verbose --force-clean -y --repo=$REPO_DIR flatpak_out build-aux/devel.manifest.json
 flatpak build-bundle $REPO_DIR $APP_ID.flatpak $APP_ID
 flatpak --user install -y $APP_ID.flatpak
-flatpak run $APP_ID
+flatpak run $APP_ID//master
