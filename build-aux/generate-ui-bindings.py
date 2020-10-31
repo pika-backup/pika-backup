@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 import glob
 import os.path as path
 import os
+import subprocess
 
 UI_PATH = "ui/*.ui"
 
@@ -30,6 +31,8 @@ def main():
             src.write(struct_code(rs_type, file))
 
         src.write("\n")
+
+    subprocess.call(["cargo", "fmt", "--", SRC_PATH])
 
 
 class Item:
