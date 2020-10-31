@@ -260,20 +260,20 @@ fn display_archives(config: BackupConfig) {
                     row
                 };
 
-                row.add(&info(gettext!("Name"), archive.name.clone()));
+                row.add(&info(gettext("Name"), archive.name.clone()));
                 row.add(&info(
-                    gettext!("Duration"),
+                    gettext("Duration"),
                     gettext!(
                         "About {duration}",
                         duration = (archive.end - archive.start).humanize()
                     ),
                 ));
                 if !archive.comment.is_empty() {
-                    row.add(&info(gettext!("Comment"), archive.comment.clone()));
+                    row.add(&info(gettext("Comment"), archive.comment.clone()));
                 }
 
                 let browse_row = libhandy::ActionRow::new();
-                browse_row.set_title(Some(&gettext!("Browse saved files")));
+                browse_row.set_title(Some(&gettext("Browse saved files")));
                 browse_row.set_activatable(true);
                 row.add(&browse_row);
 

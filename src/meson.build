@@ -2,7 +2,7 @@ sources = [
     'main.rs',
 ]
 
-cargo_script = find_program(join_paths(meson.source_root(), 'build-aux/meson-cargo.sh'))
+cargo_script = find_program(meson.source_root() / 'build-aux/meson-cargo.sh')
 
 bin = meson.project_name()
 
@@ -15,6 +15,21 @@ endif
 
 cargo_target_dir = join_paths(meson.build_root(), 'target')
 
+env = [
+  [ 'MESON_SOURCE_ROOT', meson.source_root() ],
+  [ 'CARGO_TARGET_DIR', cargo_target_dir ],
+  [ 'CARGO_OPTIONS', cargo_options ],
+  [ 'CARGO_OUTPUT', meson.build_root() / 'target' / rust_target / bin ],
+  [ 'OUTPUT', '@OUTPUT@' ],
+  [ 'LOCALEDIR', get_option('prefix') / get_option('localedir') ]
+]
+
+command = [ cargo_script ]
+
+foreach p : env
+  command += 'export @0@="@1@";'.format(p[0], p[1])
+endforeach
+
 cargo_release = custom_target(
   'cargo-build',
   build_by_default: true,
@@ -23,14 +38,7 @@ cargo_release = custom_target(
   console: true,
   install: true,
   install_dir: get_option('bindir'),
-  command: [
-    cargo_script,
-    meson.source_root(),
-    cargo_target_dir,
-    cargo_options,
-    join_paths(meson.build_root(), 'target', rust_target, bin),
-    '@OUTPUT@',
-  ]
+  command: command
 )
 
 cargo = find_program('cargo')

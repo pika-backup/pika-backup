@@ -10,6 +10,8 @@ project(
     ).stdout()
 )
 
+i18n = import ('i18n')
+
 dependency('dbus-1')
 dependency('gdk-pixbuf-2.0')
 dependency('gio-2.0')
@@ -20,4 +22,5 @@ dependency('libhandy-1')
 meson.add_dist_script('build-aux/meson-dist-vendor.sh')
 
 subdir('data')
+subdir('po')
 subdir('src')

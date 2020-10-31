@@ -385,10 +385,10 @@ fn insert_backup_config_encryption_unknown(
             }
             Err(borg_err) => {
                 debug!("This repo config is not working");
-                ui::utils::dialog_error(gettext!(
-                    "There was an error with the specified repository:\n\n{}",
-                    borg_err
-                ));
+                ui::utils::show_error(
+                    gettext("There was an error with the specified repository"),
+                    borg_err,
+                );
                 ui.new_backup().show();
                 page_pending::back();
             }

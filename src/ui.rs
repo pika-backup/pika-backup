@@ -38,6 +38,15 @@ pub fn main() {
     }
     debug!("Logging initialized");
 
+    setlocale(LocaleCategory::LcAll, "");
+    let localedir = option_env!("LOCALEDIR").unwrap_or(crate::DEFAULT_LOCALEDIR);
+    bindtextdomain(
+        env!("CARGO_PKG_NAME"), localedir
+
+    );
+    info!("bindtextdomain sets directory to {:?}", localedir);
+    textdomain(env!("CARGO_PKG_NAME"));
+
     gtk::init().expect("Failed to gtk::init()");
     handy::init();
     let none: Option<&gio::Cancellable> = None;

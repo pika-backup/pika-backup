@@ -8,5 +8,5 @@ yq '
     .modules[-1]["config-opts"] = ["-Dprofile=dev"]' \
     build-aux/org.gnome.World.PikaBackup.yml > build-aux/devel.manifest.json
 
-./flatpak-builder-tools/cargo/flatpak-cargo-generator.py \
+./build-aux/flatpak-cargo-generator.py \
     -o build-aux/generated-sources.json Cargo.lock
