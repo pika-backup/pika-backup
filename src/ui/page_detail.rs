@@ -227,14 +227,11 @@ pub fn refresh() {
     main_ui().include_home().set_active(include_home);
     main_ui().include_home().set_sensitive(true);
 
-    // TODO: maybe introduce this again
-    /*
     if include_home {
-        main_ui().home_icon().remove_css_class("not-active");
+        main_ui().include_home_row().remove_css_class("not-active");
     } else {
-        main_ui().home_icon().add_css_class("not-active");
+        main_ui().include_home_row().add_css_class("not-active");
     }
-    */
 
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
 
