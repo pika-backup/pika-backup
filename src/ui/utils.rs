@@ -115,14 +115,18 @@ impl Async {
         )
     }
 
-    pub fn borg_only_repo<F, G, V, B>(name: &'static str, borg: B, task: F, result_handler: G)
-    where
+    pub fn borg_only_repo_suggest_store<F, G, V, B>(
+        name: &'static str,
+        borg: B,
+        task: F,
+        result_handler: G,
+    ) where
         F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static,
         G: Fn(Result<(V, Option<(Password, bool)>), shared::BorgErr>) + Clone + 'static,
         V: Send + 'static,
         B: borg::BorgBasics + 'static,
     {
-        borg_async(name, borg, task, result_handler, false)
+        borg_async(name, borg, task, result_handler, true)
     }
 }
 

@@ -148,7 +148,7 @@ fn add_local(ui: Rc<builder::DialogAddConfig>) {
     ui.new_backup().hide();
 
     if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository")) {
-        ui::page_pending::show(&gettext("Adding existing repository …"));
+        ui::page_pending::show(&gettext("Loading backup repository"));
         if is_backup_repo(&path) {
             add_repo_config_local(&path, ui);
         } else {
@@ -164,7 +164,7 @@ fn add_local(ui: Rc<builder::DialogAddConfig>) {
 }
 
 fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
-    page_pending::show(&gettext("Initializing new backup repository …"));
+    page_pending::show(&gettext("Loading backup repository"));
     ui.new_backup().hide();
 
     let uri = ui.add_remote_uri().get_text();
@@ -233,7 +233,7 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
         BackupRepo::new_from_uri(url)
     };
 
-    page_pending::show(&gettext("Initializing new backup repository …"));
+    page_pending::show(&gettext("Creating backup repository"));
     ui.new_backup().hide();
 
     let mut borg = borg::BorgOnlyRepo::new(repo.clone());
@@ -367,7 +367,7 @@ fn insert_backup_config_encryption_unknown(
 ) {
     ui.new_backup().hide();
 
-    ui::utils::Async::borg_only_repo(
+    ui::utils::Async::borg_only_repo_suggest_store(
         "borg::peek",
         borg::BorgOnlyRepo::new(repo.clone()),
         |borg| borg.peek(),

@@ -9,6 +9,10 @@ thread_local!(
 pub fn init() {
     main_ui().page_pending_spinner().connect_map(|s| s.start());
     main_ui().page_pending_spinner().connect_unmap(|s| s.stop());
+
+    main_ui()
+        .main_stack()
+        .connect_property_visible_child_notify(on_main_stack_changed);
 }
 
 pub fn show(msg: &str) {
@@ -25,4 +29,10 @@ pub fn back() {
             main_ui().main_stack().set_visible_child(&page)
         }
     });
+}
+
+fn on_main_stack_changed(stack: &gtk::Stack) {
+    if stack.get_visible_child() == Some(main_ui().page_pending().upcast::<gtk::Widget>()) {
+        main_ui().add_backup().hide();
+    }
 }
