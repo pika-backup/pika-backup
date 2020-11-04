@@ -49,8 +49,16 @@ impl DialogAddConfig {
         self.get("add_button")
     }
 
+    pub fn add_local_row(&self) -> libhandy::ActionRow {
+        self.get("add_local_row")
+    }
+
     pub fn add_remote_page(&self) -> gtk::Box {
         self.get("add_remote_page")
+    }
+
+    pub fn add_remote_row(&self) -> libhandy::ActionRow {
+        self.get("add_remote_row")
     }
 
     pub fn add_remote_uri(&self) -> gtk::Entry {
@@ -85,6 +93,10 @@ impl DialogAddConfig {
         self.get("init_local")
     }
 
+    pub fn init_local_row(&self) -> libhandy::ActionRow {
+        self.get("init_local_row")
+    }
+
     pub fn init_location(&self) -> gtk::Stack {
         self.get("init_location")
     }
@@ -99,6 +111,10 @@ impl DialogAddConfig {
 
     pub fn init_remote(&self) -> gtk::Box {
         self.get("init_remote")
+    }
+
+    pub fn init_remote_row(&self) -> libhandy::ActionRow {
+        self.get("init_remote_row")
     }
 
     pub fn init_repo_list(&self) -> gtk::ListBox {

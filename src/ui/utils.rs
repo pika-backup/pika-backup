@@ -1,6 +1,7 @@
 use gio::prelude::*;
 use gtk::prelude::*;
 use humansize::FileSize;
+use libhandy::prelude::*;
 
 use crate::borg;
 use crate::shared::{self, Password};
@@ -427,4 +428,15 @@ pub fn repo_icon(repo: &shared::BackupRepo) -> String {
         }
         shared::BackupRepo::Remote { .. } => String::from("network-server"),
     }
+}
+
+pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> libhandy::ActionRow {
+    let row = libhandy::ActionRow::new();
+    row.set_activatable(true);
+
+    if let Some(gicon) = icon {
+        row.add_prefix(&gtk::Image::from_gicon(gicon, gtk::IconSize::Dnd));
+    }
+
+    row
 }

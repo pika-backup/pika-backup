@@ -2,6 +2,7 @@ use std::{convert::Into, io::Read, rc::Rc};
 
 use gio::prelude::*;
 use gtk::prelude::*;
+use libhandy::prelude::*;
 use zeroize::Zeroizing;
 
 use crate::borg;
@@ -26,6 +27,11 @@ pub fn new_backup() {
     ui_new
         .password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
+
+    ui_new.init_local_row().set_activatable(true);
+    ui_new.init_remote_row().set_activatable(true);
+    ui_new.add_local_row().set_activatable(true);
+    ui_new.add_remote_row().set_activatable(true);
 
     ui_new
         .new_backup()
@@ -172,15 +178,6 @@ fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
 }
 
 fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddConfig) {
-    ui.init_dir().set_text(&format!(
-        "backup-{}-{}",
-        glib::get_host_name()
-            .map(|x| x.to_string())
-            .unwrap_or_default(),
-        glib::get_user_name()
-            .and_then(|x| x.into_string().ok())
-            .unwrap_or_default()
-    ));
     let name = row.get_widget_name();
     if name == "-init-remote" {
         ui.init_location().set_visible_child(&ui.init_remote());
@@ -193,6 +190,19 @@ fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddCon
             ui.init_path().grab_focus();
         }
     }
+    show_init(ui);
+}
+
+fn show_init(ui: &builder::DialogAddConfig) {
+    ui.init_dir().set_text(&format!(
+        "backup-{}-{}",
+        glib::get_host_name()
+            .map(|x| x.to_string())
+            .unwrap_or_default(),
+        glib::get_user_name()
+            .and_then(|x| x.into_string().ok())
+            .unwrap_or_default()
+    ));
     ui.password_quality().set_value(0.0);
     ui.stack().set_visible_child(&ui.init_page());
     ui.init_button().show();
@@ -304,16 +314,12 @@ fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
 fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
     let drive = mount.get_drive();
 
-    let name = repo.map(std::path::Path::to_string_lossy);
-    let (row, horizontal_box) =
-        ui::utils::add_list_box_row(list, name.as_ref().map(std::borrow::Borrow::borrow), 0);
+    let row = ui::utils::new_action_row_with_gicon(
+        drive.as_ref().and_then(gio::Drive::get_icon).as_ref(),
+    );
+    list.add(&row);
 
     row.set_widget_name(&mount.get_root().unwrap().get_uri());
-
-    if let Some(icon) = drive.as_ref().and_then(gio::Drive::get_icon) {
-        let img = gtk::Image::from_gicon(&icon, gtk::IconSize::Dialog);
-        horizontal_box.add(&img);
-    }
 
     let mut label1: String = mount.get_name().map(Into::into).unwrap_or_default();
 
@@ -344,9 +350,8 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
         }
     }
 
-    let (vertical_box, _, _) =
-        ui::utils::list_vertical_box(Some(label1.as_str()), Some(label2.as_str()));
-    horizontal_box.add(&vertical_box);
+    row.set_title(Some(label1.as_str()));
+    row.set_subtitle(Some(label2.as_str()));
 
     list.show_all();
 }
