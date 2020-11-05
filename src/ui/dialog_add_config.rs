@@ -28,6 +28,8 @@ pub fn new_backup() {
         .password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
 
+    ui_new.dialog_vbox().set_border_width(0);
+
     ui_new.init_local_row().set_activatable(true);
     ui_new.init_remote_row().set_activatable(true);
     ui_new.add_local_row().set_activatable(true);

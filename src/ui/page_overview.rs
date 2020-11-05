@@ -1,9 +1,12 @@
+use chrono::prelude::*;
 use gtk::prelude::*;
+use libhandy::prelude::*;
 
 use crate::shared;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
+use crate::ui::utils::WidgetEnh;
 
 pub fn init() {
     if SETTINGS.load().backups.len() > 1 {
@@ -22,10 +25,6 @@ pub fn init() {
     main_ui()
         .main_stack()
         .connect_property_visible_child_notify(on_main_stack_changed);
-
-    main_ui()
-        .main_backups()
-        .connect_row_activated(|_, row| ui::page_detail::view_backup_conf(&row.get_widget_name()));
 
     main_ui()
         .add_backup()
@@ -94,50 +93,110 @@ fn refresh() {
     let list = main_ui().main_backups();
     ui::utils::clear(&list);
 
-    for backup in SETTINGS.load().backups.values() {
-        let (_, horizontal_box) = ui::utils::add_list_box_row(&list, Some(&backup.id), 0);
+    for config in SETTINGS.load().backups.values() {
+        let row = libhandy::ActionRow::new();
+        list.add(&row);
 
-        if let Some(path) = backup.include_dirs().get(0) {
-            if let Some(icon) = ui::utils::file_icon(&shared::absolute(path), gtk::IconSize::Dialog)
-            {
-                horizontal_box.add(&icon);
-            }
+        row.set_activatable(true);
+        row.connect_activated(enclose!((config) move |_| {
+            ui::page_detail::view_backup_conf(&config.id);
+        }));
+
+        let main_box = gtk::Box::new(gtk::Orientation::Vertical, 6);
+        row.add_prefix(&main_box);
+
+        // Repo Icon
+
+        let repo_box = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+        repo_box.add_css_class("backup-repo");
+        main_box.add(&repo_box);
+
+        if let Ok(icon) = gio::Icon::new_for_string(&ui::utils::repo_icon(&config.repo)) {
+            repo_box.add(&gtk::Image::from_gicon(&icon, gtk::IconSize::Button));
         }
 
-        let includes = backup
-            .include
-            .iter()
-            .map(|p| p.to_string_lossy().to_string())
-            .map(|p| if p.is_empty() { gettext("Home") } else { p })
-            .collect::<Vec<String>>()
-            .join(", ");
+        // Repo Name
 
-        let mut location = "".to_string();
+        let mut location = String::new();
 
         if let shared::BackupRepo::Local {
-            ref label,
-            ref device,
+            label,
+            device: Some(device),
             ..
-        } = backup.repo
+        } = &config.repo
         {
-            if let Some(ref label) = label {
-                location.push_str(label);
+            location = format!(
+                "{} – {}",
+                label.as_ref().map(|x| x.as_str()).unwrap_or_default(),
+                device,
+            )
+        } else {
+            location.push_str(&config.repo.to_string());
+        }
+
+        let label = gtk::Label::new(Some(&location));
+        label.set_ellipsize(pango::EllipsizeMode::Middle);
+        repo_box.add(&label);
+
+        // Include
+
+        for path in &config.include {
+            let incl = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+            incl.add_css_class("backup-include");
+            main_box.add(&incl);
+
+            if let Some(icon) =
+                ui::utils::file_symbolic_icon(&shared::absolute(path), gtk::IconSize::Button)
+            {
+                incl.add(&icon);
             }
 
-            if let Some(ref device) = device {
-                if !location.is_empty() {
-                    location.push_str(&gettext(" on "));
+            let path_str = if path.iter().next().is_none() {
+                gettext("Home")
+            } else {
+                path.to_string_lossy().to_string()
+            };
+
+            let label = gtk::Label::new(Some(&path_str));
+            label.set_ellipsize(pango::EllipsizeMode::Middle);
+            incl.add(&label);
+        }
+
+        // Status
+
+        let status_box = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+        status_box.add_css_class("backup-status");
+        main_box.add(&status_box);
+        if BACKUP_COMMUNICATION.load().contains_key(&config.id) {
+            let spinner = gtk::Spinner::new();
+            spinner.start();
+            status_box.add(&spinner);
+            status_box.add(&gtk::Label::new(Some(&gettext("Backup running"))));
+        } else {
+            match config.last_run {
+                Some(shared::RunInfo {
+                    end, result: Ok(_), ..
+                }) => {
+                    status_box.add(&gtk::Image::from_icon_name(
+                        Some("emblem-default-symbolic"),
+                        gtk::IconSize::Button,
+                    ));
+                    status_box.add(&gtk::Label::new(Some(&gettext!(
+                        "Last backup finished about {}",
+                        (end - Local::now()).humanize()
+                    ))));
                 }
-                location.push_str(device);
+                None => status_box.add(&gtk::Label::new(Some(&gettext("Backup never ran")))),
+                _ => {
+                    status_box.add_css_class("backup-failed");
+                    status_box.add(&gtk::Image::from_icon_name(
+                        Some("dialog-error-symbolic"),
+                        gtk::IconSize::Button,
+                    ));
+                    status_box.add(&gtk::Label::new(Some(&gettext("Last backup failed"))));
+                }
             }
         }
-
-        if location.is_empty() {
-            location.push_str(&backup.repo.to_string());
-        }
-
-        let (vertical_box, _, _) = ui::utils::list_vertical_box(Some(&includes), Some(&location));
-        horizontal_box.add(&vertical_box);
     }
     list.show_all();
 }

@@ -356,48 +356,6 @@ pub fn clear(listbox: &gtk::ListBox) {
     }
 }
 
-pub fn add_list_box_row(
-    list_box: &gtk::ListBox,
-    name: Option<&str>,
-    position: i32,
-) -> (gtk::ListBoxRow, gtk::Box) {
-    let row = gtk::ListBoxRow::new();
-    list_box.insert(&row, position);
-
-    let horizontal_box = gtk::Box::new(gtk::Orientation::Horizontal, 18);
-    row.add(&horizontal_box);
-
-    if let Some(name) = name {
-        row.set_widget_name(name);
-    }
-
-    (row, horizontal_box)
-}
-
-pub fn list_vertical_box(
-    text1: Option<&str>,
-    text2: Option<&str>,
-) -> (gtk::Box, gtk::Label, gtk::Label) {
-    let vertical_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
-    vertical_box.set_valign(gtk::Align::Center);
-
-    let label1 = gtk::Label::new(text1);
-    let label2 = gtk::Label::new(text2);
-
-    vertical_box.add(&label1);
-    vertical_box.add(&label2);
-
-    label1.set_halign(gtk::Align::Start);
-    label1.set_ellipsize(pango::EllipsizeMode::End);
-    label2.set_halign(gtk::Align::Start);
-    label2.set_ellipsize(pango::EllipsizeMode::End);
-
-    label2.add_css_class("dim-label");
-    label2.add_css_class("small-label");
-
-    (vertical_box, label1, label2)
-}
-
 pub fn fs_usage(root: &gio::File) -> Option<(u64, u64)> {
     let none: Option<&gio::Cancellable> = None;
     if let Ok(fsinfo) = root.query_filesystem_info("*", none) {
@@ -421,12 +379,27 @@ pub fn file_icon(path: &std::path::PathBuf, icon_size: gtk::IconSize) -> Option<
     }
 }
 
+pub fn file_symbolic_icon(
+    path: &std::path::PathBuf,
+    icon_size: gtk::IconSize,
+) -> Option<gtk::Image> {
+    let none: Option<&gio::Cancellable> = None;
+    let file = gio::File::new_for_path(path);
+    let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
+    if let Ok(info) = info {
+        let icon = info.get_symbolic_icon();
+        icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
+    } else {
+        None
+    }
+}
+
 pub fn repo_icon(repo: &shared::BackupRepo) -> String {
     match repo {
         shared::BackupRepo::Local { icon, .. } => {
             icon.clone().unwrap_or_else(|| String::from("folder"))
         }
-        shared::BackupRepo::Remote { .. } => String::from("network-server"),
+        shared::BackupRepo::Remote { .. } => String::from("network-wired-symbolic"),
     }
 }
 

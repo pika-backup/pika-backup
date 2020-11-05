@@ -73,6 +73,10 @@ impl DialogAddConfig {
         self.get("cancel_button")
     }
 
+    pub fn dialog_vbox(&self) -> gtk::Box {
+        self.get("dialog_vbox")
+    }
+
     pub fn encryption(&self) -> gtk::Stack {
         self.get("encryption")
     }
