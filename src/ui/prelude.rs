@@ -98,6 +98,8 @@ impl CronoAdditions for DateTime<Local> {
 pub fn gettextf(format: &str, args: &[&str]) -> String {
     let mut s = gettext(format);
 
-    for arg in args { s = s.replacen("{}", arg, 1) }
+    for arg in args {
+        s = s.replacen("{}", arg, 1)
+    }
     s
 }
