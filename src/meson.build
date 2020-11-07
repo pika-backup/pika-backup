@@ -13,7 +13,7 @@ if get_option('profile') == 'dev'
   rust_target = 'debug'
 endif
 
-cargo_target_dir = join_paths(meson.build_root(), 'target')
+cargo_target_dir = meson.build_root() / 'target'
 
 env = [
   [ 'MESON_SOURCE_ROOT', meson.source_root() ],
@@ -48,7 +48,7 @@ test('cargo test',
   cargo,
   args: [
     'test',
-    '--manifest-path', join_paths(meson.source_root(), 'Cargo.toml'),
+    '--manifest-path', meson.source_root() / 'Cargo.toml',
     '--target-dir', cargo_target_dir,
     cargo_options
   ],

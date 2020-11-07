@@ -1,10 +1,15 @@
 datadir = get_option('prefix') / get_option('datadir')
+podir = '../po'
 
 application_id = run_command('cat', 'APPLICATION_ID').stdout()
 
-install_data(
-    'app.desktop',
-    rename: '@0@.desktop'.format(application_id),
+i18n.merge_file(
+    '.desktop',
+    type: 'desktop',
+    input: 'app.desktop',
+    output: '@0@.desktop'.format(application_id),
+    po_dir: podir,
+    install: true,
     install_dir: datadir / 'applications'
 )
 
@@ -13,9 +18,12 @@ meson.add_install_script(
     datadir / 'applications'
 )
 
-install_data(
-    'app.metainfo.xml',
-    rename: '@0@.metainfo.xml'.format(application_id),
+i18n.merge_file(
+    '.metainfo.xml',
+    input: 'app.metainfo.xml',
+    output: '@0@.metainfo.xml'.format(application_id),
+    po_dir: podir,
+    install: true,
     install_dir: datadir / 'metainfo'
 )
 

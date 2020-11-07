@@ -1,11 +1,11 @@
 project(
     run_command(
-        find_program(join_paths(meson.source_root(), 'build-aux/meson-cargo-manifest.py')),
+        find_program(meson.source_root() / 'build-aux/meson-cargo-manifest.py'),
         'package', 'name'
     ).stdout(),
     'rust',
     version: run_command(
-        find_program(join_paths(meson.source_root(), 'build-aux/meson-cargo-manifest.py')),
+        find_program(meson.source_root() / 'build-aux/meson-cargo-manifest.py'),
         'package', 'version'
     ).stdout()
 )
