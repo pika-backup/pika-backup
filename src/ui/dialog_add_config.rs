@@ -333,10 +333,12 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
 
     if let Some(root) = mount.get_root() {
         if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&root) {
-            label2.push_str(&gettext!(
-                ", {free} of {size} available",
-                free = ui::utils::hsized(fs_free, 0),
-                size = ui::utils::hsized(fs_size, 0)
+            label2.push_str(&gettextf(
+                ", {} of {} available",
+                &[
+                    &ui::utils::hsized(fs_free, 0),
+                    &ui::utils::hsized(fs_size, 0),
+                ],
             ));
         }
 

@@ -1,5 +1,5 @@
 pub use crate::ui::utils::BackupMap;
-pub use gettextrs::*;
+pub use gettextrs::gettext;
 
 use arc_swap::ArcSwap;
 
@@ -93,4 +93,11 @@ impl CronoAdditions for DateTime<Local> {
             .map(|gstr| gstr.to_string())
             .unwrap_or_else(|| self.format("%c").to_string())
     }
+}
+
+pub fn gettextf(format: &str, args: &[&str]) -> String {
+    let mut s = gettext(format);
+
+    for arg in args { s = s.replacen("{}", arg, 1) }
+    s
 }

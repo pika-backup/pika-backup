@@ -20,7 +20,9 @@ pub fn secret_service_set_password(
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
         .create_item(
-            &gettext!("{} Backup Password", crate::APPLICATION_NAME),
+            // Translators: This is the description for entries in the password database.
+            // This string starts with the application name.
+            &gettextf("{} Backup Password", &[&crate::APPLICATION_NAME]),
             vec![
                 ("backup_id", &config.id),
                 ("program", env!("CARGO_PKG_NAME")),

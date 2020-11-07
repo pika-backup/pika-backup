@@ -410,7 +410,8 @@ pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
                 main_ui().status_icon().set_visible_child_name("success");
                 set_status(&gettext("Last backup successful"));
 
-                set_status_detail(&gettext!(
+                // TODO: Translate durations
+                set_status_detail(&format!(
                     "About {}",
                     (run_info.end - Local::now()).humanize()
                 ));
@@ -427,7 +428,8 @@ pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
             Err(err) => {
                 main_ui().status_icon().set_visible_child_name("error");
                 set_status(&gettext("Last backup failed"));
-                set_status_detail(&gettext!(
+                // TODO: Translate durations
+                set_status_detail(&format!(
                     "About {}",
                     (run_info.end - Local::now()).humanize()
                 ));
@@ -464,7 +466,10 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                     let fraction = original_size as f64 / total as f64;
                     main_ui().archive_progress().show();
                     main_ui().archive_progress().set_fraction(fraction);
-                    set_status_detail(&gettext!("{:.1} % finished", fraction * 100.0))
+                    set_status_detail(&gettextf(
+                        "{} % finished",
+                        &[&format!("{:.1}", fraction * 100.0)],
+                    ))
                 } else {
                     main_ui().archive_progress().hide();
                 }
@@ -501,7 +506,10 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                 let fraction = current as f64 / total as f64;
                 main_ui().progress().set_fraction(fraction);
                 main_ui().percent_message().set_text(message);
-                set_status_detail(&gettext!("{:.1} % prepared", fraction * 100.0))
+                set_status_detail(&gettextf(
+                    "{} % prepared",
+                    &[&format!("{:.1}", fraction * 100.0)],
+                ))
             }
             // TODO: cover progress message?
             _ => {}
@@ -522,9 +530,9 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
         }
         Run::Reconnecting => {
             set_status(&gettext("Reconnecting"));
-            set_status_detail(&gettext!(
-                "Connection lost, reconnecting {}",
-                &crate::BORG_DELAY_RECONNECT.humanize()
+            set_status_detail(&gettextf(
+                "Connection lost, reconnecting in {}",
+                &[&crate::BORG_DELAY_RECONNECT.humanize()],
             ));
         }
         Run::Stopping => {

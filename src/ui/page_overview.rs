@@ -181,9 +181,9 @@ fn refresh() {
                         Some("emblem-default-symbolic"),
                         gtk::IconSize::Button,
                     ));
-                    status_box.add(&gtk::Label::new(Some(&gettext!(
+                    status_box.add(&gtk::Label::new(Some(&gettextf(
                         "Last backup finished about {}",
-                        (end - Local::now()).humanize()
+                        &[&(end - Local::now()).humanize()],
                     ))));
                 }
                 None => status_box.add(&gtk::Label::new(Some(&gettext("Backup never ran")))),

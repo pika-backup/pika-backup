@@ -242,7 +242,7 @@ fn display_archives(config: BackupConfig) {
         {
             for (id, archive) in archive_list {
                 let row = libhandy::ExpanderRow::new();
-                row.set_subtitle(Some(&gettext!(
+                row.set_subtitle(Some(&format!(
                     "{hostname}, {username}",
                     hostname = archive.hostname,
                     username = archive.username
@@ -263,10 +263,8 @@ fn display_archives(config: BackupConfig) {
                 row.add(&info(gettext("Name"), archive.name.clone()));
                 row.add(&info(
                     gettext("Duration"),
-                    gettext!(
-                        "About {duration}",
-                        duration = (archive.end - archive.start).humanize()
-                    ),
+                    // TODO: Translate durations
+                    format!("About {}", (archive.end - archive.start).humanize()),
                 ));
                 if !archive.comment.is_empty() {
                     row.add(&info(gettext("Comment"), archive.comment.clone()));

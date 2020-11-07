@@ -5,8 +5,6 @@ extern crate log;
 #[macro_use]
 extern crate quick_error;
 #[macro_use]
-extern crate matches;
-#[macro_use]
 extern crate enclose;
 
 static CONFIG_VERSION: u16 = 1;

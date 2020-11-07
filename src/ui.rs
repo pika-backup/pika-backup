@@ -4,7 +4,6 @@ use std::io::prelude::*;
 use gdk_pixbuf::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
-use libhandy as handy;
 
 use crate::borg;
 use crate::shared;
@@ -38,14 +37,14 @@ pub fn main() {
     }
     debug!("Logging initialized");
 
-    setlocale(LocaleCategory::LcAll, "");
+    gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
     let localedir = option_env!("LOCALEDIR").unwrap_or(crate::DEFAULT_LOCALEDIR);
-    bindtextdomain(env!("CARGO_PKG_NAME"), localedir);
+    gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), localedir);
     info!("bindtextdomain sets directory to {:?}", localedir);
-    textdomain(env!("CARGO_PKG_NAME"));
+    gettextrs::textdomain(env!("CARGO_PKG_NAME"));
 
     gtk::init().expect("Failed to gtk::init()");
-    handy::init();
+    libhandy::init();
     let none: Option<&gio::Cancellable> = None;
     gtk_app()
         .register(none)
@@ -231,11 +230,13 @@ fn init_check_borg() {
                 .cmp(version_list)
                 == std::cmp::Ordering::Greater
             {
-                ui::utils::dialog_error(gettext!(
+                ui::utils::dialog_error(gettextf(
                     "Your borg-backup version seems to be smaller then required \
                     version {}.{}.X. Some features will not work.",
-                    crate::BORG_MIN_MAJOR,
-                    crate::BORG_MIN_MINOR
+                    &[
+                        &crate::BORG_MIN_MAJOR.to_string(),
+                        &crate::BORG_MIN_MINOR.to_string(),
+                    ],
                 ));
             }
         }
