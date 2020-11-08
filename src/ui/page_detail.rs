@@ -467,6 +467,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                     main_ui().archive_progress().show();
                     main_ui().archive_progress().set_fraction(fraction);
                     set_status_detail(&gettextf(
+                        // xgettext:no-c-format
                         "{} % finished",
                         &[&format!("{:.1}", fraction * 100.0)],
                     ))
@@ -507,6 +508,7 @@ pub fn refresh_status(communication: &borg::Communication) -> Continue {
                 main_ui().progress().set_fraction(fraction);
                 main_ui().percent_message().set_text(message);
                 set_status_detail(&gettextf(
+                    // xgettext:no-c-format
                     "{} % prepared",
                     &[&format!("{:.1}", fraction * 100.0)],
                 ))
