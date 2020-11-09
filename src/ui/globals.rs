@@ -19,13 +19,11 @@ pub static IS_SHUTDOWN: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
 
 thread_local!(
     static MAIN_UI_STORE: Rc<ui::builder::Main> = Rc::new(ui::builder::Main::new());
-    static GTK_APPLICATION: Rc<gtk::Application> = Rc::new(
-        gtk::Application::new(
-            Some(crate::APPLICATION_ID),
-            gio::ApplicationFlags::FLAGS_NONE,
-        )
-        .expect("Failed to gtk::Application::new()"),
-    );
+    static GTK_APPLICATION: Rc<gtk::Application> = Rc::new({
+        debug!("Setting up application with id '{}'", crate::app_id());
+        gtk::Application::new(Some(&crate::app_id()), gio::ApplicationFlags::FLAGS_NONE)
+            .expect("Failed to gtk::Application::new()")
+    });
 );
 
 pub fn main_ui() -> Rc<ui::builder::Main> {

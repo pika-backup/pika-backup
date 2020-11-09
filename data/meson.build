@@ -1,12 +1,16 @@
 datadir = get_option('prefix') / get_option('datadir')
 podir = '../po'
 
-application_id = run_command('cat', 'APPLICATION_ID').stdout()
+application_id = run_command('cat', 'APPLICATION_ID').stdout() + get_option('app_id_suffix')
 
 i18n.merge_file(
     '.desktop',
     type: 'desktop',
-    input: 'app.desktop',
+    input: configure_file(
+        input: 'app.desktop.in',
+        output: 'tmp.app.desktop',
+        configuration: { 'app_id': application_id }
+    ),
     output: '@0@.desktop'.format(application_id),
     po_dir: podir,
     install: true,
@@ -20,7 +24,11 @@ meson.add_install_script(
 
 i18n.merge_file(
     '.metainfo.xml',
-    input: 'app.metainfo.xml',
+    input: configure_file(
+        input: 'app.metainfo.xml.in',
+        output: 'tmp.app.metainfo.xml',
+        configuration: { 'app_id': application_id }
+    ),
     output: '@0@.metainfo.xml'.format(application_id),
     po_dir: podir,
     install: true,
@@ -33,13 +41,8 @@ install_data(
     install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
 
-app_icon = 'app'
-if get_option('profile') == 'dev'
-  app_icon += '.Devel'
-endif
-
 install_data(
-    '@0@.svg'.format(app_icon),
+    '@0@.svg'.format('app' + get_option('app_id_suffix')),
     rename: '@0@.svg'.format(application_id),
     install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )

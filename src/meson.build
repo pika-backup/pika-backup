@@ -21,7 +21,8 @@ env = [
   [ 'CARGO_OPTIONS', cargo_options ],
   [ 'CARGO_OUTPUT', meson.build_root() / 'target' / rust_target / bin ],
   [ 'OUTPUT', '@OUTPUT@' ],
-  [ 'LOCALEDIR', get_option('prefix') / get_option('localedir') ]
+  [ 'LOCALEDIR', get_option('prefix') / get_option('localedir') ],
+  [ 'APPLICATION_ID_SUFFIX', get_option('app_id_suffix') ]
 ]
 
 command = [ cargo_script ]

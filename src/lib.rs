@@ -32,8 +32,13 @@ macro_rules! application_id {
     };
 }
 
-static APPLICATION_ID: &str = application_id!();
-static APPLICATION_NAME: &str = include_str!(concat!(data_dir!(), "/APPLICATION_NAME"));
+pub fn app_id() -> String {
+    format!(
+        "{}{}",
+        application_id!(),
+        option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
+    )
+}
 
 pub mod borg;
 pub mod globals;

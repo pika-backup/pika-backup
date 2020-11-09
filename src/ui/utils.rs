@@ -21,8 +21,7 @@ pub fn secret_service_set_password(
         .get_default_collection()?
         .create_item(
             // Translators: This is the description for entries in the password database.
-            // This string starts with the application name.
-            &gettextf("{} Backup Password", &[&crate::APPLICATION_NAME]),
+            &gettext("Pika Backup Password"),
             vec![
                 ("backup_id", &config.id),
                 ("program", env!("CARGO_PKG_NAME")),
