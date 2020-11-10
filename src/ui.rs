@@ -4,6 +4,7 @@ use std::io::prelude::*;
 use gdk_pixbuf::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
+use libhandy::prelude::*;
 
 use crate::borg;
 use crate::shared;
@@ -135,6 +136,11 @@ fn init(_app: &gtk::Application) {
     main_ui()
         .window()
         .connect_delete_event(|_, _| gtk::Inhibit(!is_quit_okay()));
+
+    // TODO: Temporary fix for https://gitlab.gnome.org/GNOME/libhandy/-/merge_requests/641
+    main_ui()
+        .view_switcher_title()
+        .set_title(Some(&gettext("Backup")));
 
     // decorate headerbar of pre-release versions
     if !option_env!("APPLICATION_ID_SUFFIX")

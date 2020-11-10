@@ -1,7 +1,7 @@
 #!/bin/sh
 
 git ls-files \
-	"src/ui/*.rs" "src/ui.rs" "data/*.ui" "data/*.desktop" "data/*.xml" | \
+	"src/ui/*.rs" "src/ui.rs" "data/*.ui" "data/*.desktop.in" "data/*.xml.in" | \
 	grep -v builder.rs \
 	> po/POTFILES.in
 

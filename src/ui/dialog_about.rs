@@ -1,4 +1,3 @@
-use chrono::{Datelike, Utc};
 use gtk::prelude::*;
 
 use crate::ui;
@@ -10,16 +9,21 @@ pub fn show() {
     dialog.set_transient_for(Some(&main_ui().window()));
 
     dialog.set_logo(None);
+
+    /*
+    Translators: "Pika" in this app's name refers to a small mamal. If you transliterate "Pika," \
+    please make sure that the transliteration does not coincedes with a different meaning. If \
+    fitting, translations of "Pika" are welcome too.
+
+    <https://en.wikipedia.org/wiki/Pika>
+    */
     dialog.set_program_name(&gettext("Pika Backup"));
 
     dialog.set_version(Some(env!("CARGO_PKG_VERSION")));
     dialog.set_comments(Some(env!("CARGO_PKG_DESCRIPTION")));
     dialog.set_website(Some(env!("CARGO_PKG_HOMEPAGE")));
-    dialog.set_authors(&env!("CARGO_PKG_AUTHORS").split(',').collect::<Vec<&str>>());
-    dialog.set_copyright(Some(&format!(
-        "Copyright © 2018–{} Sophie Herold",
-        Utc::now().year()
-    )));
+    dialog.set_authors(&[&gettext("Sophie Herold")]);
+    dialog.set_copyright(Some(&gettext("Copyright © 2018–2020 Sophie Herold et al.")));
 
     dialog.show_all();
 }
