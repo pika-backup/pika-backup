@@ -137,7 +137,10 @@ fn init(_app: &gtk::Application) {
         .connect_delete_event(|_, _| gtk::Inhibit(!is_quit_okay()));
 
     // decorate headerbar of pre-release versions
-    if !option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default().is_empty() {
+    if !option_env!("APPLICATION_ID_SUFFIX")
+        .unwrap_or_default()
+        .is_empty()
+    {
         main_ui().window().get_style_context().add_class("devel");
     }
 
