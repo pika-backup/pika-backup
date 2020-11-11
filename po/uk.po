@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2020-11-08 14:45+0000\n"
-"PO-Revision-Date: 2020-11-09 15:39+0200\n"
+"POT-Creation-Date: 2020-11-10 21:24+0000\n"
+"PO-Revision-Date: 2020-11-11 08:51+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -19,19 +19,24 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.11.70\n"
 
-#: data/app.desktop:6 data/app.metainfo.xml:5
+#.
+#. Translators: "Pika" in this app's name refers to a small mamal. If you transliterate "Pika,"     please make sure that the transliteration does not coincedes with a different meaning. If     fitting, translations of "Pika" are welcome too.
+#.
+#. <https://en.wikipedia.org/wiki/Pika>
+#.
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:5 src/ui/dialog_about.rs:20
 msgid "Pika Backup"
 msgstr "Пайка-копіювання"
 
-#: data/app.desktop:7 data/app.metainfo.xml:6
+#: data/app.desktop.in:7 data/app.metainfo.xml.in:6
 msgid "Simple backups based on borg"
 msgstr "Просте резервне копіювання на основі borg"
 
-#: data/app.metainfo.xml:10
+#: data/app.metainfo.xml.in:10 src/ui/dialog_about.rs:25
 msgid "Sophie Herold"
 msgstr "Софі Герольд"
 
-#: data/app.metainfo.xml:23
+#: data/app.metainfo.xml.in:23
 msgid ""
 "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
 "rest for you."
@@ -39,54 +44,54 @@ msgstr ""
 "Резервне копіювання без проблем. Вставте ваш диск USB, і Пайка виконає решту "
 "роботи за вас."
 
-#: data/app.metainfo.xml:26
+#: data/app.metainfo.xml.in:26
 msgid "Features"
 msgstr "Можливості"
 
-#: data/app.metainfo.xml:28
+#: data/app.metainfo.xml.in:28
 msgid "Setup new backup repositories or uses existing ones"
 msgstr ""
 "Можна налаштовувати нові сховища резервних копій або використовувати наявні"
 
-#: data/app.metainfo.xml:29
+#: data/app.metainfo.xml.in:29
 msgid "Create backups locally and remote"
 msgstr "Можна створювати резервні копію на вашому або віддаленому комп'ютері"
 
-#: data/app.metainfo.xml:30
+#: data/app.metainfo.xml.in:30
 msgid ""
 "Save time and disk space because Pika Backup does not need to copy known "
 "data again"
 msgstr ""
-"Можна заощадити час і місце на диску, оскільки «Пайка-копіювання» не витрачає "
-"часу на копіювання вже скопійованих файлів."
+"Можна заощадити час і місце на диску, оскільки «Пайка-копіювання» не "
+"витрачає часу на копіювання вже скопійованих файлів."
 
-#: data/app.metainfo.xml:31
+#: data/app.metainfo.xml.in:31
 msgid "Encrypt your backups"
 msgstr "Можна зашифрувати ваші резервні копії"
 
-#: data/app.metainfo.xml:32
+#: data/app.metainfo.xml.in:32
 msgid "List created archives and browse through their contents"
 msgstr ""
 "Можна переглядати список створених архівів та здійснювати навігацію їхнім "
 "вмістом"
 
-#: data/app.metainfo.xml:33
+#: data/app.metainfo.xml.in:33
 msgid "Recover files or folders via your file browser"
 msgstr ""
 "Можна відновлювати файли і теки за допомогою вашої програми для керування "
 "файлами"
 
-#: data/app.metainfo.xml:35
+#: data/app.metainfo.xml.in:35
 msgid "Pika Backup is powered by the well-tested borg-backup software."
 msgstr ""
 "«Пайка-копіювання» створено на основі надійного і перевіреного програмного "
 "забезпечення для резервного копіювання — borg."
 
-#: data/app.metainfo.xml:38
+#: data/app.metainfo.xml.in:38
 msgid "Limitations"
 msgstr "Обмеження"
 
-#: data/app.metainfo.xml:39
+#: data/app.metainfo.xml.in:39
 msgid ""
 "Currently, scheduled backups are not supported. Excluding files from a "
 "backup via regular expressions and alike is not implemented yet. Remote "
@@ -99,7 +104,7 @@ msgstr ""
 "резервного копіювання має бути передбачено доступ за допомогою SSH і "
 "встановлено виконуваний файл borg-backup."
 
-#: data/ui/dialog_about.ui:11
+#: data/ui/dialog_about.ui:9
 msgid ""
 "This program comes with absolutely no warranty.\n"
 "See the <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GNU General "
@@ -287,7 +292,7 @@ msgstr "Виключити з резервної копії"
 msgid "Nothing excluded from backup"
 msgstr "З резервної копії нічого не виключено"
 
-#: data/ui/main.ui:550
+#: data/ui/main.ui:550 src/ui.rs:143
 msgid "Backup"
 msgstr "Резервне копіювання"
 
@@ -339,12 +344,12 @@ msgstr "Відомості щодо резервного копіювання"
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/ui.rs:218
+#: src/ui.rs:227
 msgid "Failed to run `borg`. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:234
+#: src/ui.rs:243
 msgid ""
 "Your borg-backup version seems to be smaller then "
 "required                     version {}.{}.X. Some features will not work."
@@ -352,17 +357,21 @@ msgstr ""
 "Здається, встановлена у вас версія borg-backup є давнішою за мінімальну "
 "потрібну для роботи {}.{}.X. Деякі можливості не працюватимуть."
 
-#: src/ui.rs:259
+#: src/ui.rs:268
 msgid "Could not create empty config file."
 msgstr "Не вдалося створити порожній файл налаштувань."
 
-#: src/ui.rs:274
+#: src/ui.rs:283
 msgid "Could not load config."
 msgstr "Не вдалося завантажити налаштування."
 
-#: src/ui.rs:285
+#: src/ui.rs:294
 msgid "Could not write config."
 msgstr "Не вдалося записати налаштування."
+
+#: src/ui/dialog_about.rs:26
+msgid "Copyright © 2018–2020 Sophie Herold et al."
+msgstr "© Sophie Herold та інші, 2018–2020"
 
 #: src/ui/dialog_add_config.rs:158
 msgid "Select existing repository"
@@ -396,7 +405,7 @@ msgstr "Створення сховища резервних копій"
 msgid "Failed to initialize repository"
 msgstr "Не вдалося ініціалізувати сховище"
 
-#: src/ui/dialog_add_config.rs:273 src/ui/utils.rs:84
+#: src/ui/dialog_add_config.rs:273 src/ui/utils.rs:83
 msgid "Failed to store password."
 msgstr "Не вдалося зберегти пароль."
 
@@ -539,11 +548,11 @@ msgid "Last backup finished about {}"
 msgstr "Останнє резервне копіювання завершено {}"
 
 #. Translators: This is the description for entries in the password database.
-#. This string starts with the application name.
-#: src/ui/utils.rs:25
-msgid "{} Backup Password"
-msgstr "Пароль до резервної копії {}"
+#: src/ui/utils.rs:24
+#| msgid "{} Backup Password"
+msgid "Pika Backup Password"
+msgstr "Пароль до резервної копії Пайки"
 
-#: src/ui/utils.rs:90
+#: src/ui/utils.rs:89
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
