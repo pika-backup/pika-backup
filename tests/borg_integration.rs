@@ -96,6 +96,7 @@ fn config() -> shared::BackupConfig {
             device: None,
             removable: false,
             volume_uuid: None,
+            settings: None,
         },
         encrypted: false,
         include: vec!["/dev/null".into()].into_iter().collect(),

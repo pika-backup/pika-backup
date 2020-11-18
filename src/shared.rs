@@ -95,7 +95,10 @@ pub type Password = Zeroizing<Vec<u8>>;
 
 impl BackupRepo {
     pub fn new_from_uri(uri: String) -> Self {
-        BackupRepo::Remote { uri }
+        BackupRepo::Remote {
+            uri,
+            settings: None,
+        }
     }
 
     pub fn new_from_path(repo: &path::Path) -> Self {
@@ -135,6 +138,7 @@ impl BackupRepo {
                 .map(Into::into),
             removable: drive.as_ref().map_or(false, gio::Drive::is_removable),
             volume_uuid,
+            settings: None,
         }
     }
 }
@@ -170,9 +174,11 @@ pub enum BackupRepo {
         removable: bool,
         volume_uuid: Option<String>,
         icon: Option<String>,
+        settings: Option<BackupSettings>,
     },
     Remote {
         uri: String,
+        settings: Option<BackupSettings>,
     },
 }
 
@@ -182,6 +188,25 @@ impl BackupRepo {
             Self::Local { icon, .. } => icon.clone(),
             Self::Remote { .. } => None,
         }
+    }
+
+    pub fn set_settings(&mut self, settings: Option<BackupSettings>) {
+        *match self {
+            Self::Local {
+                ref mut settings, ..
+            } => settings,
+            Self::Remote {
+                ref mut settings, ..
+            } => settings,
+        } = settings;
+    }
+
+    pub fn get_settings(&self) -> Option<BackupSettings> {
+        match self {
+            Self::Local { settings, .. } => settings,
+            Self::Remote { settings, .. } => settings,
+        }
+        .clone()
     }
 }
 
@@ -193,6 +218,11 @@ impl std::fmt::Display for BackupRepo {
         };
         write!(f, "{}", repo)
     }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct BackupSettings {
+    pub command_line_args: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
