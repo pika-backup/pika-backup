@@ -258,19 +258,6 @@ pub fn folder_chooser_dialog(title: &str) -> Option<std::path::PathBuf> {
     result
 }
 
-pub fn dialog_catch_errb<X, P: std::fmt::Display, S: std::fmt::Display>(
-    res: &Result<X, P>,
-    msg: S,
-) -> bool {
-    match res {
-        Err(e) => {
-            show_error(msg, e);
-            true
-        }
-        Ok(_) => false,
-    }
-}
-
 pub fn dialog_catch_err<X, P: std::fmt::Display, S: std::fmt::Display>(
     res: Result<X, P>,
     msg: S,

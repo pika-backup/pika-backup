@@ -222,31 +222,32 @@ fn init_actions() {
 fn init_check_borg() {
     let version_result = borg::version();
 
-    ui::utils::dialog_catch_errb(
-        &version_result,
-        gettext("Failed to run `borg`. Is borg-backup installed correctly?"),
-    );
-
-    if let Ok(version_output) = version_result {
-        if let Some(version_string) = version_output.split(' ').nth(1) {
-            let version_list = version_string
-                .split('.')
-                .map(str::parse)
-                .map(Result::ok)
-                .take(2);
-            if vec![Some(crate::BORG_MIN_MAJOR), Some(crate::BORG_MIN_MINOR)]
-                .into_iter()
-                .cmp(version_list)
-                == std::cmp::Ordering::Greater
-            {
-                ui::utils::dialog_error(gettextf(
-                    "Your borg-backup version seems to be smaller then required \
+    match version_result {
+        Err(err) => ui::utils::show_error(
+            gettext("Failed to run `borg`. Is borg-backup installed correctly?"),
+            err,
+        ),
+        Ok(version_output) => {
+            if let Some(version_string) = version_output.split(' ').nth(1) {
+                let version_list = version_string
+                    .split('.')
+                    .map(str::parse)
+                    .map(Result::ok)
+                    .take(2);
+                if vec![Some(crate::BORG_MIN_MAJOR), Some(crate::BORG_MIN_MINOR)]
+                    .into_iter()
+                    .cmp(version_list)
+                    == std::cmp::Ordering::Greater
+                {
+                    ui::utils::dialog_error(gettextf(
+                        "Your borg-backup version seems to be smaller then required \
                     version {}.{}.X. Some features will not work.",
-                    &[
-                        &crate::BORG_MIN_MAJOR.to_string(),
-                        &crate::BORG_MIN_MINOR.to_string(),
-                    ],
-                ));
+                        &[
+                            &crate::BORG_MIN_MAJOR.to_string(),
+                            &crate::BORG_MIN_MINOR.to_string(),
+                        ],
+                    ));
+                }
             }
         }
     }

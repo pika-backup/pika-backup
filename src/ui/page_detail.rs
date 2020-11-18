@@ -173,6 +173,7 @@ pub fn run_backup(config: shared::BackupConfig) {
                 c.remove(&config.id);
             });
             let user_aborted = matches!(result, Err(shared::BorgErr::UserAborted));
+            // This is because the error cannot be cloned
             let result_string_err = result.map_err(|err| format!("{}", err));
             let run_info = Some(shared::RunInfo::new(result_string_err.clone()));
             refresh_offline(&run_info);
@@ -182,8 +183,11 @@ pub fn run_backup(config: shared::BackupConfig) {
             ui::write_config();
 
             if !user_aborted {
-                ui::utils::dialog_catch_errb(&result_string_err, gettext("Backup failed"));
-                ui::page_archives::refresh_archives_cache(config.clone());
+                if let Err(err) = result_string_err {
+                    ui::utils::show_error(gettext("Creating a backup failed"), err);
+                } else {
+                    ui::page_archives::refresh_archives_cache(config.clone());
+                }
             }
         },
     );
