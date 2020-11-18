@@ -194,6 +194,14 @@ impl BorgCall {
 
         self.add_password(borg)?;
 
+        self.add_options(
+            &borg
+                .get_repo()
+                .get_settings()
+                .and_then(|x| x.command_line_args)
+                .unwrap_or_default(),
+        );
+
         Ok(self)
     }
 

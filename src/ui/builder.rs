@@ -53,24 +53,24 @@ impl DialogAddConfig {
         self.get("add_local_row")
     }
 
-    pub fn add_remote_page(&self) -> gtk::Box {
-        self.get("add_remote_page")
-    }
-
     pub fn add_remote_row(&self) -> libhandy::ActionRow {
         self.get("add_remote_row")
-    }
-
-    pub fn add_remote_uri(&self) -> gtk::Entry {
-        self.get("add_remote_uri")
     }
 
     pub fn add_repo_list(&self) -> gtk::ListBox {
         self.get("add_repo_list")
     }
 
+    pub fn button_stack(&self) -> gtk::Stack {
+        self.get("button_stack")
+    }
+
     pub fn cancel_button(&self) -> gtk::Button {
         self.get("cancel_button")
+    }
+
+    pub fn command_line_args(&self) -> gtk::TextView {
+        self.get("command_line_args")
     }
 
     pub fn dialog_vbox(&self) -> gtk::Box {
@@ -79,6 +79,10 @@ impl DialogAddConfig {
 
     pub fn encryption(&self) -> gtk::Stack {
         self.get("encryption")
+    }
+
+    pub fn encryption_box(&self) -> gtk::Box {
+        self.get("encryption_box")
     }
 
     pub fn existing_repos(&self) -> gtk::Box {
@@ -93,28 +97,12 @@ impl DialogAddConfig {
         self.get("init_dir")
     }
 
-    pub fn init_local(&self) -> gtk::Box {
-        self.get("init_local")
-    }
-
     pub fn init_local_row(&self) -> libhandy::ActionRow {
         self.get("init_local_row")
     }
 
-    pub fn init_location(&self) -> gtk::Stack {
-        self.get("init_location")
-    }
-
-    pub fn init_page(&self) -> gtk::Box {
-        self.get("init_page")
-    }
-
     pub fn init_path(&self) -> gtk::FileChooserButton {
         self.get("init_path")
-    }
-
-    pub fn init_remote(&self) -> gtk::Box {
-        self.get("init_remote")
     }
 
     pub fn init_remote_row(&self) -> libhandy::ActionRow {
@@ -125,16 +113,36 @@ impl DialogAddConfig {
         self.get("init_repo_list")
     }
 
-    pub fn init_url(&self) -> gtk::Entry {
-        self.get("init_url")
-    }
-
     pub fn label1(&self) -> gtk::Label {
         self.get("label1")
     }
 
+    pub fn location_local(&self) -> gtk::Box {
+        self.get("location_local")
+    }
+
+    pub fn location_remote(&self) -> gtk::Box {
+        self.get("location_remote")
+    }
+
+    pub fn location_stack(&self) -> gtk::Stack {
+        self.get("location_stack")
+    }
+
+    pub fn location_url(&self) -> gtk::Entry {
+        self.get("location_url")
+    }
+
     pub fn new_backup(&self) -> gtk::Dialog {
         self.get("new_backup")
+    }
+
+    pub fn new_page(&self) -> gtk::ScrolledWindow {
+        self.get("new_page")
+    }
+
+    pub fn no_button(&self) -> gtk::Box {
+        self.get("no_button")
     }
 
     pub fn password(&self) -> gtk::Entry {

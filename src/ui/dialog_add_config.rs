@@ -16,78 +16,64 @@ use crate::ui::prelude::*;
 use ui::page_pending;
 
 pub fn new_backup() {
-    let ui_new = Rc::new(ui::builder::DialogAddConfig::new());
-    load_available_mounts_and_repos(ui_new.clone());
-    ui_new
-        .password_quality()
+    let ui = Rc::new(ui::builder::DialogAddConfig::new());
+    load_available_mounts_and_repos(ui.clone());
+    ui.password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
-    ui_new
-        .password_quality()
+    ui.password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
-    ui_new
-        .password_quality()
+    ui.password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
 
-    ui_new.dialog_vbox().set_border_width(0);
+    ui.dialog_vbox().set_border_width(0);
 
-    ui_new.init_local_row().set_activatable(true);
-    ui_new.init_remote_row().set_activatable(true);
-    ui_new.add_local_row().set_activatable(true);
-    ui_new.add_remote_row().set_activatable(true);
+    ui.init_local_row().set_activatable(true);
+    ui.init_remote_row().set_activatable(true);
+    ui.add_local_row().set_activatable(true);
+    ui.add_remote_row().set_activatable(true);
 
-    ui_new
-        .new_backup()
-        .set_transient_for(Some(&main_ui().window()));
+    ui.new_backup().set_transient_for(Some(&main_ui().window()));
 
-    let dialog = ui_new.new_backup();
-    ui_new.cancel_button().connect_clicked(move |_| {
+    let dialog = ui.new_backup();
+    ui.cancel_button().connect_clicked(move |_| {
         dialog.close();
         dialog.hide();
     });
 
-    let ui = ui_new.clone();
-    ui_new
-        .add_repo_list()
-        .connect_row_activated(move |_, row| on_add_repo_list_activated(row, ui.clone()));
+    ui.add_repo_list().connect_row_activated(
+        enclose!((ui) move |_, row| on_add_repo_list_activated(row, ui.clone())),
+    );
 
-    let ui = ui_new.clone();
-    ui_new
-        .init_repo_list()
-        .connect_row_activated(move |_, row| on_init_repo_list_activated(row, &ui));
+    ui.init_repo_list()
+        .connect_row_activated(enclose!((ui) move |_, row| on_init_repo_list_activated(row, &ui)));
 
-    let ui = ui_new.clone();
-    ui_new
-        .password()
-        .connect_changed(move |_| on_init_repo_password_changed(&ui));
+    ui.password()
+        .connect_changed(enclose!((ui) move |_| on_init_repo_password_changed(&ui)));
 
-    let ui = ui_new.clone();
-    ui_new
-        .add_button()
-        .connect_clicked(move |_| on_add_button_clicked(ui.clone()));
+    ui.add_button()
+        .connect_clicked(enclose!((ui) move |_| on_add_button_clicked(ui.clone())));
 
-    let ui = ui_new.clone();
-    ui_new
-        .init_button()
-        .connect_clicked(move |_| on_init_button_clicked(ui.clone()));
+    ui.init_button()
+        .connect_clicked(enclose!((ui) move |_| on_init_button_clicked(ui.clone())));
 
     // refresh ui on mount events
     let monitor = gio::VolumeMonitor::get();
 
-    monitor.connect_mount_added(enclose!((ui_new) move |_, mount| {
+    monitor.connect_mount_added(enclose!((ui) move |_, mount| {
         debug!("Mount added");
-        load_mount(ui_new.clone(), mount.clone());
+        load_mount(ui.clone(), mount.clone());
     }));
 
-    monitor.connect_mount_removed(enclose!((ui_new) move |_, mount| {
+    monitor.connect_mount_removed(enclose!((ui) move |_, mount| {
         debug!("Mount removed");
-        remove_mount(&ui_new.add_repo_list(), mount.get_root().unwrap().get_uri());
+        remove_mount(&ui.add_repo_list(), mount.get_root().unwrap().get_uri());
         remove_mount(
-            &ui_new.init_repo_list(),
+            &ui.init_repo_list(),
             mount.get_root().unwrap().get_uri(),
         );
     }));
 
-    ui_new.new_backup().show_all();
+    ui.new_backup().show_all();
 }
 
 fn load_available_mounts_and_repos(ui: Rc<builder::DialogAddConfig>) {
@@ -137,7 +123,10 @@ fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::DialogAddCo
     if name == "-add-local" {
         add_local(ui);
     } else if name == "-add-remote" {
-        ui.stack().set_visible_child(&ui.add_remote_page());
+        ui.stack().set_visible_child(&ui.new_page());
+        ui.location_stack().set_visible_child(&ui.location_remote());
+        ui.button_stack().set_visible_child(&ui.add_button());
+        ui.encryption_box().hide();
         ui.add_button().show();
         ui.add_button().grab_default();
     } else {
@@ -175,16 +164,18 @@ fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
     page_pending::show(&gettext("Loading backup repository"));
     ui.new_backup().hide();
 
-    let uri = ui.add_remote_uri().get_text();
+    let uri = ui.location_url().get_text();
     add_repo_config_remote(uri.to_string(), ui);
 }
 
 fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddConfig) {
     let name = row.get_widget_name();
+
+    ui.button_stack().set_visible_child(&ui.init_button());
     if name == "-init-remote" {
-        ui.init_location().set_visible_child(&ui.init_remote());
+        ui.location_stack().set_visible_child(&ui.location_remote());
     } else {
-        ui.init_location().set_visible_child(&ui.init_local());
+        ui.location_stack().set_visible_child(&ui.location_local());
         if name != "-init-local" {
             trace!("Setting {} as init_path", &name);
             ui.init_path().set_current_folder_uri(&name);
@@ -206,7 +197,7 @@ fn show_init(ui: &builder::DialogAddConfig) {
             .unwrap_or_default()
     ));
     ui.password_quality().set_value(0.0);
-    ui.stack().set_visible_child(&ui.init_page());
+    ui.stack().set_visible_child(&ui.new_page());
     ui.init_button().show();
     ui.init_button().grab_default();
 }
@@ -220,8 +211,8 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
         return;
     }
 
-    let repo = if ui.init_location().get_visible_child()
-        == Some(ui.init_local().upcast::<gtk::Widget>())
+    let mut repo = if ui.location_stack().get_visible_child()
+        == Some(ui.location_local().upcast::<gtk::Widget>())
     {
         let mut path = std::path::PathBuf::new();
 
@@ -237,13 +228,21 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
 
         BackupRepo::new_from_path(&path)
     } else {
-        let url = ui.init_url().get_text().to_string();
+        let url = ui.location_url().get_text().to_string();
         if url.is_empty() {
             ui::utils::dialog_error(gettext("You have to enter a repository location."));
             return;
         }
         BackupRepo::new_from_uri(url)
     };
+
+    if let Ok(args) = get_command_line_args(&ui) {
+        repo.set_settings(Some(BackupSettings {
+            command_line_args: Some(args),
+        }));
+    } else {
+        return;
+    }
 
     page_pending::show(&gettext("Creating backup repository"));
     ui.new_backup().hide();
@@ -279,6 +278,26 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
             }
         }),
     );
+}
+
+fn get_command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>, ()> {
+    if let Ok(args) = shell_words::split(
+        &ui.command_line_args()
+            .get_buffer()
+            .and_then(|buffer| {
+                let (start, end) = buffer.get_bounds();
+                buffer.get_text(&start, &end, false).map(|x| x.to_string())
+            })
+            .unwrap_or_default(),
+    ) {
+        Ok(args)
+    } else {
+        ui::utils::show_error(
+            gettext("Additional command line arguments invalid"),
+            gettext("Please check for missing closing quotes"),
+        );
+        Err(())
+    }
 }
 
 fn on_init_repo_password_changed(ui: &builder::DialogAddConfig) {
@@ -366,7 +385,16 @@ fn add_repo_config_local(repo: &std::path::Path, ui: Rc<builder::DialogAddConfig
 }
 
 fn add_repo_config_remote(uri: String, ui: Rc<builder::DialogAddConfig>) {
-    let repo = BackupRepo::new_from_uri(uri);
+    let mut repo = BackupRepo::new_from_uri(uri);
+
+    if let Ok(args) = get_command_line_args(&ui) {
+        repo.set_settings(Some(BackupSettings {
+            command_line_args: Some(args),
+        }));
+    } else {
+        return;
+    }
+
     insert_backup_config_encryption_unknown(repo, ui);
 }
 

@@ -155,8 +155,6 @@ fn on_backup_run() {
 }
 
 pub fn run_backup(config: shared::BackupConfig) {
-    //let backup_id = backup.id.clone();
-
     let communication: borg::Communication = Default::default();
 
     BACKUP_COMMUNICATION.update(|x| {

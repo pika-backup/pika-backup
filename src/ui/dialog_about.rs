@@ -11,7 +11,7 @@ pub fn show() {
     dialog.set_logo(None);
 
     /*
-    Translators: "Pika" in this app's name refers to a small mamal. If you transliterate "Pika," \
+    Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," \
     please make sure that the transliteration does not coincedes with a different meaning. If \
     fitting, translations of "Pika" are welcome too.
 
