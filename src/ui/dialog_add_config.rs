@@ -333,41 +333,36 @@ fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
 }
 
 fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
-    let drive = mount.get_drive();
-
-    let row = ui::utils::new_action_row_with_gicon(
-        drive.as_ref().and_then(gio::Drive::get_icon).as_ref(),
-    );
+    let row = ui::utils::new_action_row_with_gicon( mount.get_icon().as_ref());
     list.add(&row);
 
     row.set_widget_name(&mount.get_root().unwrap().get_uri());
 
-    let mut label1: String = mount.get_name().map(Into::into).unwrap_or_default();
+    let mut label1 = mount.get_name().map(|x| x.to_string()).unwrap_or_default();
 
-    let mut label2: String = drive
+    let mut label2: String = mount
+        .get_drive()
         .as_ref()
         .and_then(gio::Drive::get_name)
         .map(Into::into)
-        .unwrap_or_default();
+        .unwrap_or(mount.get_root().unwrap().get_uri().to_string());
 
-    if let Some(root) = mount.get_root() {
-        if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&root) {
-            label2.push_str(&gettextf(
-                ", {} of {} available",
-                &[
-                    &ui::utils::hsized(fs_free, 0),
-                    &ui::utils::hsized(fs_size, 0),
-                ],
-            ));
-        }
+    if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&mount.get_root().unwrap()) {
+        label2.push_str(&gettextf(
+            " – {} of {} available",
+            &[
+                &ui::utils::hsized(fs_free, 0),
+                &ui::utils::hsized(fs_size, 0),
+            ],
+        ));
+    }
 
-        if let Some(mount_path) = root.get_path() {
-            if let Some(repo_path) = repo {
-                row.set_widget_name(&gio::File::new_for_path(repo_path).get_uri());
-                if let Ok(suffix) = repo_path.strip_prefix(mount_path) {
-                    if !suffix.to_string_lossy().is_empty() {
-                        label1.push_str(&format!(" / {}", suffix.to_string_lossy()));
-                    }
+    if let Some(mount_path) = mount.get_root().unwrap().get_path() {
+        if let Some(repo_path) = repo {
+            row.set_widget_name(&gio::File::new_for_path(repo_path).get_uri());
+            if let Ok(suffix) = repo_path.strip_prefix(mount_path) {
+                if !suffix.to_string_lossy().is_empty() {
+                    label1.push_str(&format!(" / {}", suffix.to_string_lossy()));
                 }
             }
         }
