@@ -333,7 +333,7 @@ fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
 }
 
 fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
-    let row = ui::utils::new_action_row_with_gicon( mount.get_icon().as_ref());
+    let row = ui::utils::new_action_row_with_gicon(mount.get_icon().as_ref());
     list.add(&row);
 
     row.set_widget_name(&mount.get_root().unwrap().get_uri());

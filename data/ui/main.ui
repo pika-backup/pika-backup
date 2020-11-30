@@ -598,23 +598,47 @@ This might take a while.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="refresh_archives">
+                                              <object class="GtkStack" id="archives_reloading_stack">
                                                 <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">True</property>
-                                                <property name="tooltip-text" translatable="yes">Refresh list of archives</property>
-                                                <property name="relief">none</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="transition-duration">0</property>
                                                 <child>
-                                                  <object class="GtkImage">
+                                                  <object class="GtkButton" id="refresh_archives">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="receives-default">True</property>
+                                                    <property name="tooltip-text" translatable="yes">Refresh list of archives</property>
+                                                    <property name="relief">none</property>
+                                                    <child>
+                                                      <object class="GtkImage">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="icon-name">view-refresh-symbolic</property>
+                                                      </object>
+                                                    </child>
+                                                    <style>
+                                                      <class name="image-button"/>
+                                                      <class name="flat"/>
+                                                    </style>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="name">page0</property>
+                                                    <property name="title" translatable="yes">page0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkSpinner" id="archives_reloading_spinner">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="icon-name">view-refresh-symbolic</property>
+                                                    <property name="halign">center</property>
+                                                    <property name="valign">center</property>
                                                   </object>
+                                                  <packing>
+                                                    <property name="name">page1</property>
+                                                    <property name="title" translatable="yes">page1</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
                                                 </child>
-                                                <style>
-                                                  <class name="image-button"/>
-                                                  <class name="flat"/>
-                                                </style>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -640,23 +664,6 @@ This might take a while.</property>
                                               <object class="GtkListBox" id="archive_list">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <child>
-                                                  <object class="GtkListBoxRow" id="archives_reloading_row">
-                                                    <property name="name">-spinner</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="no-show-all">True</property>
-                                                    <property name="activatable">False</property>
-                                                    <property name="selectable">False</property>
-                                                    <child>
-                                                      <object class="GtkSpinner" id="archives_reloading_spinner">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="margin-top">10</property>
-                                                        <property name="margin-bottom">10</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
                                                 <style>
                                                   <class name="content"/>
                                                 </style>

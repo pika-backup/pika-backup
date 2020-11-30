@@ -414,12 +414,12 @@ impl Main {
         self.get("archive_progress")
     }
 
-    pub fn archives_reloading_row(&self) -> gtk::ListBoxRow {
-        self.get("archives_reloading_row")
-    }
-
     pub fn archives_reloading_spinner(&self) -> gtk::Spinner {
         self.get("archives_reloading_spinner")
+    }
+
+    pub fn archives_reloading_stack(&self) -> gtk::Stack {
+        self.get("archives_reloading_stack")
     }
 
     pub fn archives_stack(&self) -> gtk::Stack {

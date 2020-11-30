@@ -98,7 +98,16 @@ fn update_archives_spinner(config: BackupConfig) {
             .get(&config.repo_id)
             .map(|x| x.reloading)
             .unwrap_or_default();
-        main_ui().archives_reloading_row().set_visible(reloading);
+
+        if reloading {
+            main_ui()
+                .archives_reloading_stack()
+                .set_visible_child(&main_ui().archives_reloading_spinner());
+        } else {
+            main_ui()
+                .archives_reloading_stack()
+                .set_visible_child(&main_ui().refresh_archives());
+        }
     }
 }
 
