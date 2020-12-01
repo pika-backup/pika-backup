@@ -12,12 +12,14 @@ use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
+mod backup_status;
 #[allow(dead_code)]
 mod builder;
 mod dialog_about;
 mod dialog_add_config;
 mod dialog_device_missing;
 mod dialog_encryption_password;
+mod dialog_info;
 mod dialog_storage;
 mod globals;
 mod headerbar;
@@ -130,6 +132,7 @@ fn init(_app: &gtk::Application) {
     ui::headerbar::init();
     ui::page_overview::init();
     ui::page_pending::init();
+    ui::dialog_info::init();
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 
