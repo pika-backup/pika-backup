@@ -1,13 +1,11 @@
-use chrono::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
 
 use crate::borg;
-use crate::borg::Run;
 use crate::shared;
-use crate::shared::*;
 use crate::ui;
+use crate::ui::backup_status;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
@@ -18,18 +16,16 @@ pub fn init() {
 
     main_ui()
         .detail_status_row()
-        .add_prefix(&main_ui().status_icon());
+        .add_prefix(&main_ui().status_graphic());
     main_ui()
         .detail_status_row()
         .add(&main_ui().stop_backup_create());
 
+    // Backup details
     main_ui().detail_status_row().set_activatable(true);
     main_ui()
         .detail_status_row()
         .connect_activated(|_| main_ui().detail_running_backup_info().show_all());
-    main_ui()
-        .detail_running_backup_info()
-        .connect_delete_event(|x, _| WidgetExtManual::hide_on_delete(x));
 
     main_ui()
         .detail_repo_row()
@@ -43,6 +39,12 @@ pub fn init() {
     main_ui()
         .main_stack()
         .connect_property_transition_running_notify(on_transition);
+    main_ui()
+        .main_stack()
+        .connect_property_visible_child_notify(on_stack_changed);
+    main_ui()
+        .detail_stack()
+        .connect_property_visible_child_notify(on_stack_changed);
 
     main_ui()
         .include_home()
@@ -90,13 +92,26 @@ pub fn init() {
         .stop_backup_create()
         .connect_clicked(|_| stop_backup_create());
 
-    main_ui().status_icon_spinner().connect_map(|s| s.start());
-    main_ui().status_icon_spinner().connect_unmap(|s| s.stop());
+    main_ui().status_spinner().connect_map(|s| s.start());
+    main_ui().status_spinner().connect_unmap(|s| s.stop());
 
-    glib::timeout_add_local(500, || {
-        refresh_statusx();
+    glib::timeout_add_seconds_local(1, || {
+        refresh_status();
         Continue(true)
     });
+}
+
+fn is_visible() -> bool {
+    main_ui().detail_stack().get_visible_child()
+        == Some(main_ui().page_backup().upcast::<gtk::Widget>())
+        && main_ui().main_stack().get_visible_child()
+            == Some(main_ui().page_detail().upcast::<gtk::Widget>())
+}
+
+fn on_stack_changed(_stack: &gtk::Stack) {
+    if is_visible() {
+        refresh_status();
+    }
 }
 
 pub fn view_backup_conf(id: &str) {
@@ -159,7 +174,7 @@ pub fn run_backup(config: shared::BackupConfig) {
     BACKUP_COMMUNICATION.update(|x| {
         x.insert(config.id.clone(), communication.clone());
     });
-    refresh_status(&communication);
+    refresh_status();
 
     ui::utils::Async::borg(
         "borg::create",
@@ -173,10 +188,12 @@ pub fn run_backup(config: shared::BackupConfig) {
             // This is because the error cannot be cloned
             let result_string_err = result.map_err(|err| format!("{}", err));
             let run_info = Some(shared::RunInfo::new(result_string_err.clone()));
-            refresh_offline(&run_info);
+
             SETTINGS.update(|settings| {
                 settings.backups.get_mut(&config.id).unwrap().last_run = run_info.clone()
             });
+            refresh_status();
+
             ui::write_config();
 
             if !user_aborted {
@@ -333,14 +350,10 @@ pub fn refresh() {
             .detail_exclude_stack()
             .set_visible_child(&main_ui().backup_exclude());
     }
-
-    refresh_statusx();
 }
 
 fn on_transition(stack: &gtk::Stack) {
-    if (!stack.get_transition_running())
-        && stack.get_visible_child() != Some(main_ui().page_detail().upcast::<gtk::Widget>())
-    {
+    if !stack.get_transition_running() && !is_visible() {
         // scroll back to top
         for scrollable in &[main_ui().page_backup(), main_ui().page_archives()] {
             scrollable
@@ -391,169 +404,46 @@ fn add_exclude() {
     }
 }
 
-pub fn refresh_statusx() {
-    main_ui().backup_run().set_sensitive(true);
-    if let Some(communication) = BACKUP_COMMUNICATION.load().get_active() {
-        main_ui().backup_run().set_sensitive(false);
-        refresh_status(communication);
-    } else if let Some(backup) = SETTINGS.load().backups.get_active() {
-        refresh_offline(&backup.last_run);
+fn refresh_status() {
+    if is_visible() {
+        if let Some(id) = ACTIVE_BACKUP_ID.load().as_ref().as_ref() {
+            refresh_status_display(&backup_status::Display::new_from_id(id));
+        }
     }
 }
 
-pub fn refresh_offline(run_info_opt: &Option<shared::RunInfo>) {
-    let stack = main_ui().stack();
-    main_ui().stop_backup_create().hide();
+fn refresh_status_display(status: &ui::backup_status::Display) {
+    main_ui().detail_status_row().set_title(Some(&status.title));
+    main_ui()
+        .detail_status_row()
+        .set_subtitle(status.subtitle.as_deref());
 
-    if let Some(ref run_info) = run_info_opt {
-        match &run_info.result {
-            Ok(stats) => {
-                main_ui().status_icon().set_visible_child_name("success");
-                set_status(&gettext("Last backup successful"));
+    let running = match &status.graphic {
+        ui::backup_status::Graphic::ErrorIcon(icon) | ui::backup_status::Graphic::Icon(icon) => {
+            main_ui()
+                .status_graphic()
+                .set_visible_child(&main_ui().status_icon());
+            main_ui()
+                .status_icon()
+                .set_from_icon_name(Some(icon), gtk::IconSize::Dnd);
 
-                // TODO: Translate durations
-                set_status_detail(&format!(
-                    "About {}",
-                    (run_info.end - Local::now()).humanize()
-                ));
-
-                stack.set_visible_child_name("archive");
-                main_ui().archive_progress().set_fraction(1.0);
-                main_ui()
-                    .original_size()
-                    .set_text(&ui::utils::hsize(stats.archive.stats.original_size));
-                main_ui()
-                    .deduplicated_size()
-                    .set_text(&ui::utils::hsize(stats.archive.stats.deduplicated_size));
+            if matches!(status.graphic, ui::backup_status::Graphic::ErrorIcon(_)) {
+                main_ui().detail_status_row().add_css_class("error");
+            } else {
+                main_ui().detail_status_row().remove_css_class("error");
             }
-            Err(err) => {
-                main_ui().status_icon().set_visible_child_name("error");
-                set_status(&gettext("Last backup failed"));
-                // TODO: Translate durations
-                set_status_detail(&format!(
-                    "About {}",
-                    (run_info.end - Local::now()).humanize()
-                ));
-                stack.set_visible_child_name("error");
-                main_ui().error_message().set_text(err);
-            }
+
+            false
         }
-    } else {
-        main_ui().status_icon().set_visible_child_name("unknown");
-        set_status(&gettext("Backup never ran"));
-        set_status_detail(&gettext("Start by creating your first backup"));
-    }
-}
+        ui::backup_status::Graphic::Spinner => {
+            main_ui()
+                .status_graphic()
+                .set_visible_child(&main_ui().status_spinner());
 
-pub fn refresh_status(communication: &borg::Communication) -> Continue {
-    main_ui().stop_backup_create().show();
-
-    let stack = main_ui().stack();
-    unset_status_detail();
-
-    let status = communication.status.get();
-
-    if let Some(ref last_message) = status.last_message {
-        match *last_message {
-            Progress::Archive {
-                original_size,
-                deduplicated_size,
-                ref path,
-                ..
-            } => {
-                stack.set_visible_child_name("archive");
-
-                if let Some(total) = status.estimated_size {
-                    let fraction = original_size as f64 / total as f64;
-                    main_ui().archive_progress().show();
-                    main_ui().archive_progress().set_fraction(fraction);
-                    set_status_detail(&gettextf(
-                        // xgettext:no-c-format
-                        "{} % finished",
-                        &[&format!("{:.1}", fraction * 100.0)],
-                    ))
-                } else {
-                    main_ui().archive_progress().hide();
-                }
-
-                main_ui()
-                    .original_size()
-                    .set_text(&ui::utils::hsize(original_size));
-                main_ui()
-                    .deduplicated_size()
-                    .set_text(&ui::utils::hsize(deduplicated_size));
-                main_ui().current_path().set_text(path);
-                main_ui().current_path().set_tooltip_text(Some(path));
-            }
-            Progress::Message {
-                message: Some(ref message),
-                ref msgid,
-                ..
-            } => {
-                stack.set_visible_child_name("message");
-                main_ui().message().set_text(message);
-                if msgid.as_ref().map(|x| x.starts_with("cache.")) == Some(true) {
-                    set_status_detail(&gettext("Updating repository information"));
-                } else {
-                    set_status(message);
-                }
-            }
-            Progress::Percent {
-                current: Some(current),
-                total: Some(total),
-                message: Some(ref message),
-                ..
-            } => {
-                stack.set_visible_child_name("percent");
-                let fraction = current as f64 / total as f64;
-                main_ui().progress().set_fraction(fraction);
-                main_ui().percent_message().set_text(message);
-                set_status_detail(&gettextf(
-                    // xgettext:no-c-format
-                    "{} % prepared",
-                    &[&format!("{:.1}", fraction * 100.0)],
-                ))
-            }
-            // TODO: cover progress message?
-            _ => {}
-        }
-    }
-
-    main_ui().status_icon().set_visible_child_name("running");
-
-    match status.run {
-        Run::Init => {
-            set_status(&gettext("Preparing backup"));
-        }
-        Run::SizeEstimation => {
-            set_status(&gettext("Estimating backup size"));
-        }
-        Run::Running => {
-            set_status(&gettext("Backup running"));
-        }
-        Run::Reconnecting => {
-            set_status(&gettext("Reconnecting"));
-            set_status_detail(&gettextf(
-                "Connection lost, reconnecting in {}",
-                &[&crate::BORG_DELAY_RECONNECT.humanize()],
-            ));
-        }
-        Run::Stopping => {
-            set_status(&gettext("Stopping backup"));
+            true
         }
     };
 
-    Continue(true)
-}
-
-fn set_status(text: &str) {
-    main_ui().detail_status_row().set_title(Some(text));
-}
-
-fn set_status_detail(text: &str) {
-    main_ui().detail_status_row().set_subtitle(Some(text));
-}
-
-fn unset_status_detail() {
-    main_ui().detail_status_row().set_subtitle(None);
+    main_ui().stop_backup_create().set_visible(running);
+    main_ui().backup_run().set_sensitive(!running);
 }

@@ -1,11 +1,18 @@
-use chrono::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
+
+use std::collections::HashMap;
+use std::sync::RwLock;
 
 use crate::shared;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
+
+thread_local!(
+    static ROWS: RwLock<HashMap<String, ui::builder::OverviewItem>> =
+        RwLock::new(Default::default());
+);
 
 pub fn init() {
     if SETTINGS.load().backups.len() > 1 {
@@ -34,22 +41,21 @@ pub fn init() {
 
     main_ui().remove_backup().connect_clicked(on_remove_backup);
 
-    main_ui()
-        .main_stack()
-        .connect_property_transition_running_notify(on_transition);
+    glib::timeout_add_seconds_local(1, || {
+        if is_visible() {
+            refresh_status();
+        }
+        Continue(true)
+    });
 }
 
-fn on_transition(stack: &gtk::Stack) {
-    if (!stack.get_transition_running())
-        && stack.get_visible_child() != Some(main_ui().page_overview().upcast::<gtk::Widget>())
-    {
-        // get rid of potential GtkSpinner's for performance reasons
-        ui::utils::clear(&main_ui().main_backups());
-    }
+fn is_visible() -> bool {
+    main_ui().main_stack().get_visible_child()
+        == Some(main_ui().page_overview().upcast::<gtk::Widget>())
 }
 
-fn on_main_stack_changed(stack: &gtk::Stack) {
-    if stack.get_visible_child() == Some(main_ui().page_overview().upcast::<gtk::Widget>()) {
+fn on_main_stack_changed(_stack: &gtk::Stack) {
+    if is_visible() {
         refresh();
     }
 }
@@ -91,27 +97,30 @@ fn on_remove_backup(_button: &gtk::ModelButton) {
 fn refresh() {
     let list = main_ui().main_backups();
     ui::utils::clear(&list);
+    ROWS.with(|rows| {
+        let _lock_error = rows.write().map(|mut x| (*x).clear());
+    });
 
     for config in SETTINGS.load().backups.values() {
-        let row = libhandy::ActionRow::new();
-        list.add(&row);
+        let list_row = libhandy::ActionRow::new();
+        list.add(&list_row);
 
-        row.set_activatable(true);
-        row.connect_activated(enclose!((config) move |_| {
+        list_row.set_activatable(true);
+        list_row.connect_activated(enclose!((config) move |_| {
             ui::page_detail::view_backup_conf(&config.id);
         }));
 
-        let main_box = gtk::Box::new(gtk::Orientation::Vertical, 6);
-        row.add_prefix(&main_box);
+        let row = ui::builder::OverviewItem::new();
+        list_row.add_prefix(&row.widget());
+
+        row.status_spinner().connect_map(|s| s.start());
+        row.status_spinner().connect_unmap(|s| s.stop());
 
         // Repo Icon
 
-        let repo_box = gtk::Box::new(gtk::Orientation::Horizontal, 6);
-        repo_box.add_css_class("backup-repo");
-        main_box.add(&repo_box);
-
         if let Ok(icon) = gio::Icon::new_for_string(&config.repo.icon_symbolic()) {
-            repo_box.add(&gtk::Image::from_gicon(&icon, gtk::IconSize::Button));
+            row.location_icon()
+                .set_from_gicon(&icon, gtk::IconSize::Button);
         }
 
         // Repo Name
@@ -133,16 +142,15 @@ fn refresh() {
             location.push_str(&config.repo.to_string());
         }
 
-        let label = gtk::Label::new(Some(&location));
-        label.set_ellipsize(pango::EllipsizeMode::Middle);
-        repo_box.add(&label);
+        row.location().set_text(&location);
 
         // Include
 
         for path in &config.include {
             let incl = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+            row.include().add(&incl);
+
             incl.add_css_class("backup-include");
-            main_box.add(&incl);
 
             if let Some(icon) =
                 ui::utils::file_symbolic_icon(&shared::absolute(path), gtk::IconSize::Button)
@@ -161,41 +169,60 @@ fn refresh() {
             incl.add(&label);
         }
 
-        // Status
+        ROWS.with(|rows| {
+            let _lock_error = rows
+                .write()
+                .map(move |mut x| (*x).insert(config.id.clone(), row));
+        });
+    }
 
-        let status_box = gtk::Box::new(gtk::Orientation::Horizontal, 6);
-        status_box.add_css_class("backup-status");
-        main_box.add(&status_box);
-        if BACKUP_COMMUNICATION.load().contains_key(&config.id) {
-            let spinner = gtk::Spinner::new();
-            spinner.start();
-            status_box.add(&spinner);
-            status_box.add(&gtk::Label::new(Some(&gettext("Backup running"))));
-        } else {
-            match config.last_run {
-                Some(shared::RunInfo {
-                    end, result: Ok(_), ..
-                }) => {
-                    status_box.add(&gtk::Image::from_icon_name(
-                        Some("emblem-default-symbolic"),
-                        gtk::IconSize::Button,
-                    ));
-                    status_box.add(&gtk::Label::new(Some(&gettextf(
-                        "Last backup finished about {}",
-                        &[&(end - Local::now()).humanize()],
-                    ))));
-                }
-                None => status_box.add(&gtk::Label::new(Some(&gettext("Backup never ran")))),
-                _ => {
-                    status_box.add_css_class("backup-failed");
-                    status_box.add(&gtk::Image::from_icon_name(
-                        Some("dialog-error-symbolic"),
-                        gtk::IconSize::Button,
-                    ));
-                    status_box.add(&gtk::Label::new(Some(&gettext("Last backup failed"))));
+    refresh_status();
+    list.show_all();
+}
+
+pub fn refresh_status() {
+    for config in SETTINGS.load().backups.values() {
+        ROWS.with(|rows| {
+            if let Ok(rows) = rows.try_read() {
+                if let Some(row) = rows.get(&config.id) {
+                    let status = ui::backup_status::Display::new_from_id(&config.id);
+
+                    row.status().set_text(&status.title);
+
+                    if let Some(subtitle) = status.subtitle {
+                        row.substatus().set_text(&subtitle);
+                        row.substatus().show();
+                    } else {
+                        row.substatus().hide();
+                    }
+
+                    match &status.graphic {
+                        ui::backup_status::Graphic::Icon(icon) => {
+                            row.status_area().remove_css_class("error");
+                            row.status_area().add_css_class("dim-label");
+
+                            row.status_icon()
+                                .set_from_icon_name(Some(icon), gtk::IconSize::Button);
+                            row.status_graphic().set_visible_child(&row.status_icon());
+                        }
+                        ui::backup_status::Graphic::ErrorIcon(icon) => {
+                            row.status_area().add_css_class("error");
+                            row.status_area().remove_css_class("dim-label");
+
+                            row.status_icon()
+                                .set_from_icon_name(Some(icon), gtk::IconSize::Button);
+                            row.status_graphic().set_visible_child(&row.status_icon());
+                        }
+                        ui::backup_status::Graphic::Spinner => {
+                            row.status_area().remove_css_class("error");
+                            row.status_area().add_css_class("dim-label");
+
+                            row.status_graphic()
+                                .set_visible_child(&row.status_spinner());
+                        }
+                    }
                 }
             }
-        }
+        });
     }
-    list.show_all();
 }

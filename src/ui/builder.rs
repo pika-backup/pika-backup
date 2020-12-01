@@ -410,10 +410,6 @@ impl Main {
         self.get("archive_list_placeholder")
     }
 
-    pub fn archive_progress(&self) -> gtk::ProgressBar {
-        self.get("archive_progress")
-    }
-
     pub fn archives_reloading_spinner(&self) -> gtk::Spinner {
         self.get("archives_reloading_spinner")
     }
@@ -454,6 +450,22 @@ impl Main {
         self.get("detail_exclude_stack")
     }
 
+    pub fn detail_info_error(&self) -> gtk::Label {
+        self.get("detail_info_error")
+    }
+
+    pub fn detail_info_progress(&self) -> gtk::ProgressBar {
+        self.get("detail_info_progress")
+    }
+
+    pub fn detail_info_status(&self) -> gtk::Label {
+        self.get("detail_info_status")
+    }
+
+    pub fn detail_info_substatus(&self) -> gtk::Label {
+        self.get("detail_info_substatus")
+    }
+
     pub fn detail_repo_icon(&self) -> gtk::Image {
         self.get("detail_repo_icon")
     }
@@ -472,10 +484,6 @@ impl Main {
 
     pub fn detail_status_row(&self) -> libhandy::ActionRow {
         self.get("detail_status_row")
-    }
-
-    pub fn error_message(&self) -> gtk::Label {
-        self.get("error_message")
     }
 
     pub fn include(&self) -> gtk::ListBox {
@@ -500,10 +508,6 @@ impl Main {
 
     pub fn main_stack(&self) -> gtk::Stack {
         self.get("main_stack")
-    }
-
-    pub fn message(&self) -> gtk::Label {
-        self.get("message")
     }
 
     pub fn original_size(&self) -> gtk::Label {
@@ -550,16 +554,8 @@ impl Main {
         self.get("pending_popover")
     }
 
-    pub fn percent_message(&self) -> gtk::Label {
-        self.get("percent_message")
-    }
-
     pub fn primary_menu_button(&self) -> gtk::MenuButton {
         self.get("primary_menu_button")
-    }
-
-    pub fn progress(&self) -> gtk::ProgressBar {
-        self.get("progress")
     }
 
     pub fn refresh_archives(&self) -> gtk::Button {
@@ -578,16 +574,16 @@ impl Main {
         self.get("secondary_menu_popover")
     }
 
-    pub fn stack(&self) -> gtk::Stack {
-        self.get("stack")
+    pub fn status_graphic(&self) -> gtk::Stack {
+        self.get("status_graphic")
     }
 
-    pub fn status_icon(&self) -> gtk::Stack {
+    pub fn status_icon(&self) -> gtk::Image {
         self.get("status_icon")
     }
 
-    pub fn status_icon_spinner(&self) -> gtk::Spinner {
-        self.get("status_icon_spinner")
+    pub fn status_spinner(&self) -> gtk::Spinner {
+        self.get("status_spinner")
     }
 
     pub fn stop_backup_create(&self) -> gtk::Button {
@@ -616,5 +612,65 @@ impl Main {
 
     pub fn window(&self) -> libhandy::ApplicationWindow {
         self.get("window")
+    }
+}
+
+pub struct OverviewItem {
+    builder: gtk::Builder,
+}
+
+impl OverviewItem {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                data_dir!(),
+                "/ui/overview_item.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
+            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/overview_item.ui'", id))
+    }
+
+    pub fn include(&self) -> gtk::Box {
+        self.get("include")
+    }
+
+    pub fn location(&self) -> gtk::Label {
+        self.get("location")
+    }
+
+    pub fn location_icon(&self) -> gtk::Image {
+        self.get("location_icon")
+    }
+
+    pub fn status(&self) -> gtk::Label {
+        self.get("status")
+    }
+
+    pub fn status_area(&self) -> gtk::Grid {
+        self.get("status_area")
+    }
+
+    pub fn status_graphic(&self) -> gtk::Stack {
+        self.get("status_graphic")
+    }
+
+    pub fn status_icon(&self) -> gtk::Image {
+        self.get("status_icon")
+    }
+
+    pub fn status_spinner(&self) -> gtk::Spinner {
+        self.get("status_spinner")
+    }
+
+    pub fn substatus(&self) -> gtk::Label {
+        self.get("substatus")
+    }
+
+    pub fn widget(&self) -> gtk::Box {
+        self.get("widget")
     }
 }

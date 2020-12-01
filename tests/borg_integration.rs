@@ -84,20 +84,13 @@ fn status() -> borg::Communication {
 
 fn config() -> shared::BackupConfig {
     let uuid = glib::uuid_string_random().to_string();
+    let path = std::path::PathBuf::from(format!("/tmp/{}", &uuid));
     shared::BackupConfig {
         config_version: 1,
         id: uuid.clone(),
         repo_id: "repo id".into(),
         encryption_mode: "none".into(),
-        repo: shared::BackupRepo::Local {
-            path: format!("/tmp/{}", &uuid).into(),
-            icon: None,
-            label: None,
-            device: None,
-            removable: false,
-            volume_uuid: None,
-            settings: None,
-        },
+        repo: shared::BackupRepo::new_from_path(&path),
         encrypted: false,
         include: vec!["/dev/null".into()].into_iter().collect(),
         exclude: Default::default(),
