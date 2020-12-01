@@ -345,7 +345,7 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
         .as_ref()
         .and_then(gio::Drive::get_name)
         .map(Into::into)
-        .unwrap_or(mount.get_root().unwrap().get_uri().to_string());
+        .unwrap_or_else(|| mount.get_root().unwrap().get_uri().to_string());
 
     if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&mount.get_root().unwrap()) {
         label2.push_str(&gettextf(

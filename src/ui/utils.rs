@@ -216,21 +216,6 @@ pub fn hsized(bytes: u64, decimal_places: usize) -> String {
     bytes.file_size(opts).unwrap_or_default()
 }
 
-pub trait WidgetEnh {
-    fn add_css_class(&self, class: &str);
-    fn remove_css_class(&self, class: &str);
-}
-
-impl<W: gtk::WidgetExt> WidgetEnh for W {
-    fn add_css_class(&self, class: &str) {
-        self.get_style_context().add_class(class);
-    }
-
-    fn remove_css_class(&self, class: &str) {
-        self.get_style_context().remove_class(class);
-    }
-}
-
 pub fn folder_chooser_dialog(title: &str) -> Option<std::path::PathBuf> {
     let dialog = gtk::FileChooserDialog::with_buttons(
         Some(title),
@@ -379,15 +364,6 @@ pub fn file_symbolic_icon(
         icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
     } else {
         None
-    }
-}
-
-pub fn repo_icon(repo: &shared::BackupRepo) -> String {
-    match repo {
-        shared::BackupRepo::Local { icon, .. } => {
-            icon.clone().unwrap_or_else(|| String::from("folder"))
-        }
-        shared::BackupRepo::Remote { .. } => String::from("network-wired-symbolic"),
     }
 }
 

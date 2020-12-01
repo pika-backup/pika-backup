@@ -10,7 +10,6 @@ use crate::shared::*;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
-use crate::ui::utils::{self, WidgetEnh};
 
 pub fn init() {
     main_ui().include_home_row().add(&main_ui().include_home());
@@ -240,7 +239,7 @@ pub fn refresh() {
     // backup target ui
     let repo_ui = main_ui().target_listbox();
 
-    if let Ok(icon) = gio::Icon::new_for_string(&utils::repo_icon(&backup.repo)) {
+    if let Ok(icon) = gio::Icon::new_for_string(&backup.repo.icon()) {
         main_ui()
             .detail_repo_icon()
             .set_from_gicon(&icon, gtk::IconSize::Dnd);
@@ -248,15 +247,15 @@ pub fn refresh() {
 
     match &backup.repo {
         shared::BackupRepo::Local {
-            ref device,
-            ref label,
+            ref drive_name,
+            ref mount_name,
             ..
         } => {
             main_ui()
                 .detail_repo_row()
-                .set_title(label.as_ref().map(String::as_str));
+                .set_title(mount_name.as_ref().map(String::as_str));
             main_ui().detail_repo_row().set_subtitle(Some(
-                device
+                drive_name
                     .as_ref()
                     .map(String::as_str)
                     .unwrap_or(&backup.repo.to_string()),

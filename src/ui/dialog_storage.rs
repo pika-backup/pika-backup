@@ -15,17 +15,17 @@ pub fn show() {
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
     match &backup.repo {
         shared::BackupRepo::Local {
-            ref label,
-            ref device,
+            ref mount_name,
+            ref drive_name,
             ref path,
             ..
         } => {
             storage
                 .volume()
-                .set_text(&label.clone().unwrap_or_default());
+                .set_text(&mount_name.clone().unwrap_or_default());
             storage
                 .device()
-                .set_text(&device.clone().unwrap_or_default());
+                .set_text(&drive_name.clone().unwrap_or_default());
             storage.path().set_text(&path.to_string_lossy());
             storage.disk().show();
 

@@ -4,6 +4,7 @@ pub use gettextrs::gettext;
 use arc_swap::ArcSwap;
 
 use chrono::prelude::*;
+use gtk::prelude::*;
 
 pub trait Humanize {
     fn humanize(self) -> String;
@@ -102,4 +103,19 @@ pub fn gettextf(format: &str, args: &[&str]) -> String {
         s = s.replacen("{}", arg, 1)
     }
     s
+}
+
+pub trait WidgetEnh {
+    fn add_css_class(&self, class: &str);
+    fn remove_css_class(&self, class: &str);
+}
+
+impl<W: gtk::WidgetExt> WidgetEnh for W {
+    fn add_css_class(&self, class: &str) {
+        self.get_style_context().add_class(class);
+    }
+
+    fn remove_css_class(&self, class: &str) {
+        self.get_style_context().remove_class(class);
+    }
 }

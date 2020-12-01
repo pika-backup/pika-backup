@@ -6,7 +6,6 @@ use crate::shared;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
-use crate::ui::utils::WidgetEnh;
 
 pub fn init() {
     if SETTINGS.load().backups.len() > 1 {
@@ -111,7 +110,7 @@ fn refresh() {
         repo_box.add_css_class("backup-repo");
         main_box.add(&repo_box);
 
-        if let Ok(icon) = gio::Icon::new_for_string(&ui::utils::repo_icon(&config.repo)) {
+        if let Ok(icon) = gio::Icon::new_for_string(&config.repo.icon_symbolic()) {
             repo_box.add(&gtk::Image::from_gicon(&icon, gtk::IconSize::Button));
         }
 
@@ -120,15 +119,15 @@ fn refresh() {
         let mut location = String::new();
 
         if let shared::BackupRepo::Local {
-            label,
-            device: Some(device),
+            mount_name,
+            drive_name: Some(drive),
             ..
         } = &config.repo
         {
             location = format!(
                 "{} – {}",
-                label.as_ref().map(|x| x.as_str()).unwrap_or_default(),
-                device,
+                mount_name.as_ref().map(|x| x.as_str()).unwrap_or_default(),
+                drive,
             )
         } else {
             location.push_str(&config.repo.to_string());

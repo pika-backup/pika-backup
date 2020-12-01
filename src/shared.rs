@@ -93,56 +93,6 @@ impl RunInfo {
 
 pub type Password = Zeroizing<Vec<u8>>;
 
-impl BackupRepo {
-    pub fn new_from_uri(uri: String) -> Self {
-        BackupRepo::Remote {
-            uri,
-            settings: None,
-        }
-    }
-
-    pub fn new_from_path(repo: &path::Path) -> Self {
-        let repo_file = gio::File::new_for_path(&if repo.exists() {
-            repo
-        } else {
-            // for new repos the repo directory itself usually doesn't exist
-            repo.parent().unwrap_or(repo)
-        });
-
-        let none: Option<&gio::Cancellable> = None;
-        let mount = repo_file.find_enclosing_mount(none).ok();
-        debug!("Mount found: {:?} {:?} {:?}", &repo, &mount, repo_file);
-        let drive = mount.as_ref().and_then(gio::Mount::get_drive);
-
-        let volume_uuid = mount.as_ref().and_then(get_mount_uuid);
-
-        let icon = drive
-            .as_ref()
-            .and_then(gio::Drive::get_icon)
-            .or_else(|| mount.as_ref().and_then(gio::Mount::get_icon))
-            .as_ref()
-            .and_then(gio::IconExt::to_string)
-            .as_ref()
-            .map(std::string::ToString::to_string);
-
-        BackupRepo::Local {
-            path: repo.to_path_buf(),
-            icon,
-            label: mount
-                .as_ref()
-                .and_then(gio::Mount::get_name)
-                .map(Into::into),
-            device: drive
-                .as_ref()
-                .and_then(gio::Drive::get_name)
-                .map(Into::into),
-            removable: drive.as_ref().map_or(false, gio::Drive::is_removable),
-            volume_uuid,
-            settings: None,
-        }
-    }
-}
-
 impl BackupConfig {
     pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
         let mut include = std::collections::BTreeSet::new();
@@ -169,11 +119,14 @@ impl BackupConfig {
 pub enum BackupRepo {
     Local {
         path: path::PathBuf,
-        label: Option<String>,
-        device: Option<String>,
-        removable: bool,
+        #[serde(alias = "device")]
+        drive_name: Option<String>,
+        #[serde(alias = "label")]
+        mount_name: Option<String>,
         volume_uuid: Option<String>,
+        removable: bool,
         icon: Option<String>,
+        icon_symbolic: Option<String>,
         settings: Option<BackupSettings>,
     },
     Remote {
@@ -183,13 +136,73 @@ pub enum BackupRepo {
 }
 
 impl BackupRepo {
-    pub fn icon(&self) -> Option<String> {
-        match self {
-            Self::Local { icon, .. } => icon.clone(),
-            Self::Remote { .. } => None,
+    pub fn new_from_uri(uri: String) -> Self {
+        BackupRepo::Remote {
+            uri,
+            settings: None,
         }
     }
 
+    pub fn new_from_path(repo: &path::Path) -> Self {
+        let repo_file = gio::File::new_for_path(&if repo.exists() {
+            repo
+        } else {
+            // for new repos the repo directory itself usually doesn't exist
+            repo.parent().unwrap_or(repo)
+        });
+
+        let none: Option<&gio::Cancellable> = None;
+        let mount = repo_file.find_enclosing_mount(none).ok();
+        debug!("Mount found: {:?} {:?} {:?}", &repo, &mount, repo_file);
+        let drive = mount.as_ref().and_then(gio::Mount::get_drive);
+
+        let volume_uuid = mount.as_ref().and_then(get_mount_uuid);
+
+        let icon = mount
+            .as_ref()
+            .and_then(gio::Mount::get_icon)
+            .as_ref()
+            .and_then(gio::IconExt::to_string)
+            .map(|x| x.to_string());
+        let icon_symbolic = mount
+            .as_ref()
+            .and_then(gio::Mount::get_symbolic_icon)
+            .as_ref()
+            .and_then(gio::IconExt::to_string)
+            .map(|x| x.to_string());
+
+        BackupRepo::Local {
+            path: repo.to_path_buf(),
+            icon,
+            icon_symbolic,
+            mount_name: mount
+                .as_ref()
+                .and_then(gio::Mount::get_name)
+                .map(Into::into),
+            drive_name: drive
+                .as_ref()
+                .and_then(gio::Drive::get_name)
+                .map(Into::into),
+            removable: drive.as_ref().map_or(false, gio::Drive::is_removable),
+            volume_uuid,
+            settings: None,
+        }
+    }
+
+    pub fn icon(&self) -> String {
+        match self {
+            Self::Local { icon, .. } => icon.clone().unwrap_or_else(|| String::from("folder")),
+            Self::Remote { .. } => String::from("network-server"),
+        }
+    }
+    pub fn icon_symbolic(&self) -> String {
+        match self {
+            Self::Local { icon_symbolic, .. } => icon_symbolic
+                .clone()
+                .unwrap_or_else(|| String::from("folder-symbolic")),
+            Self::Remote { .. } => String::from("network-server-symbolic"),
+        }
+    }
     pub fn set_settings(&mut self, settings: Option<BackupSettings>) {
         *match self {
             Self::Local {

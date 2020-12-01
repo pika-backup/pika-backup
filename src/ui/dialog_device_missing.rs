@@ -8,8 +8,8 @@ use crate::ui::globals::*;
 
 pub fn main<F: Fn() + 'static>(config: shared::BackupConfig, f: F) {
     if let shared::BackupRepo::Local {
-        device,
-        label,
+        mount_name,
+        drive_name,
         icon,
         removable: true,
         path,
@@ -36,8 +36,8 @@ pub fn main<F: Fn() + 'static>(config: shared::BackupConfig, f: F) {
         }));
 
         dialog.window().set_transient_for(Some(&main_ui().window()));
-        dialog.device().set_label(&device.unwrap_or_default());
-        dialog.mount().set_label(&label.unwrap_or_default());
+        dialog.device().set_label(&drive_name.unwrap_or_default());
+        dialog.mount().set_label(&mount_name.unwrap_or_default());
         if let Some(g_icon) = icon.and_then(|x| gio::Icon::new_for_string(&x).ok()) {
             let img = gtk::Image::from_gicon(&g_icon, gtk::IconSize::Dialog);
             img.set_pixel_size(128);

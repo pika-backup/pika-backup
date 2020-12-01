@@ -14,7 +14,6 @@ use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::utils::BackupMap;
 use ui::prelude::*;
-use ui::utils::WidgetEnh;
 
 static REPO_ARCHIVES: Lazy<ArcSwap<BTreeMap<String, RepoArchives>>> = Lazy::new(Default::default);
 
