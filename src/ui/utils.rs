@@ -149,24 +149,27 @@ fn borg_async<F, G, V, B>(
         enclose!((borg, task)
          move || task(borg)),
         move |result| match result {
-            Err(e)
-                if matches!(e, shared::BorgErr::PasswordMissing)
-                    || e.has_borg_msgid(&shared::MsgId::PassphraseWrong) =>
-            {
-                let mut borg = borg.clone();
-                if let Some((password, store)) = get_password(pre_select_store) {
-                    borg.set_password(password);
+            Err(AsyncErr::ThreadPaniced) => result_handler(Err(shared::BorgErr::ThreadPaniced)),
+            Ok(result) => match result {
+                Err(e)
+                    if matches!(e, shared::BorgErr::PasswordMissing)
+                        || e.has_borg_msgid(&shared::MsgId::PassphraseWrong) =>
+                {
+                    let mut borg = borg.clone();
+                    if let Some((password, store)) = get_password(pre_select_store) {
+                        borg.set_password(password);
 
-                    borg_async(name, borg, task.clone(), result_handler.clone(), store);
-                } else {
-                    result_handler(Err(shared::BorgErr::UserAborted))
+                        borg_async(name, borg, task.clone(), result_handler.clone(), store);
+                    } else {
+                        result_handler(Err(shared::BorgErr::UserAborted))
+                    }
                 }
-            }
-            Err(e) => result_handler(Err(e)),
-            Ok(result) => result_handler(Ok((
-                result,
-                borg.get_password().map(|p| (p, pre_select_store)),
-            ))),
+                Err(e) => result_handler(Err(e)),
+                Ok(result) => result_handler(Ok((
+                    result,
+                    borg.get_password().map(|p| (p, pre_select_store)),
+                ))),
+            },
         },
     );
 }
@@ -175,7 +178,7 @@ fn borg_async<F, G, V, B>(
 pub fn async_react<F, G, R>(name: &str, task: F, result_handler: G)
 where
     F: FnOnce() -> R + Send + 'static,
-    G: Fn(R) + 'static,
+    G: Fn(Result<R, AsyncErr>) + 'static,
     R: Send + 'static,
 {
     let (send, recv) = std::sync::mpsc::channel();
@@ -193,15 +196,23 @@ where
     let task_name = name.to_string();
     glib::timeout_add_local(50, move || match recv.try_recv() {
         Ok(result) => {
-            result_handler(result);
+            result_handler(Ok(result));
             Continue(false)
         }
         Err(std::sync::mpsc::TryRecvError::Disconnected) => {
             error!("async_react({}): Task disconnected", task_name);
+            result_handler(Err(AsyncErr::ThreadPaniced));
             Continue(false)
         }
         Err(std::sync::mpsc::TryRecvError::Empty) => Continue(true),
     });
+}
+
+quick_error! {
+    #[derive(Debug)]
+    pub enum AsyncErr {
+        ThreadPaniced { display("{}", gettext("The responsible thread has paniced")) }
+    }
 }
 
 pub fn hsize(bytes: u64) -> String {

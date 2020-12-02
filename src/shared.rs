@@ -1,5 +1,6 @@
 use crate::borg;
 use chrono::prelude::*;
+use gettextrs::gettext;
 use gio::prelude::*;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path;
@@ -437,7 +438,8 @@ quick_error! {
         }
         BorgCode(err: ReturnCodeErr) { from() }
         PasswordMissing { from(secret_service::SsError) }
-        UserAborted {}
+        UserAborted { display("{}", gettext("Aborted through user input")) }
+        ThreadPaniced { display("{}", gettext("The responsible thread has paniced")) }
         Other(err: String) { from() }
     }
 }

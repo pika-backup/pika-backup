@@ -108,12 +108,15 @@ fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) {
                 }
                 paths
             },
-            enclose!((ui) move |paths: Vec<std::path::PathBuf>| {
+            enclose!((ui) move |paths: Result<Vec<std::path::PathBuf>, _>| {
+            match paths {
+            Err(err) => ui::utils::show_error(gettext("Failed to list existing repositories"), err),
+            Ok(paths) =>
                 for path in paths {
                     trace!("Adding repo to ui '{:?}'", path);
                     add_mount(&ui.add_repo_list(), &mount, Some(&path));
                 }
-            }),
+            }}),
         );
     }
 }
@@ -256,7 +259,10 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
     ui::utils::async_react(
         "borg::init",
         move || borg.init(),
-        enclose!((repo, ui, password) move |result: Result<borg::List, _>| match result {
+        enclose!((repo, ui, password) move |result: Result<Result<borg::List, _>,_>|
+
+        match result.unwrap_or(Err(shared::BorgErr::ThreadPaniced)) {
+
             Err(err) => {
                 ui::utils::show_error(&gettext("Failed to initialize repository"), &err);
                 page_pending::back();
