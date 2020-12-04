@@ -466,7 +466,7 @@ quick_error! {
         BorgCode(err: ReturnCodeErr) { from() }
         PasswordMissing { from(secret_service::SsError) }
         UserAborted { display("{}", gettext("Aborted through user input")) }
-        ThreadPaniced { display("{}", gettext("The responsible thread has paniced")) }
+        ThreadPanicked { display("{}", gettext("The responsible thread has panicked")) }
         Other(err: String) { from() }
     }
 }

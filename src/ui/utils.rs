@@ -149,7 +149,7 @@ fn borg_async<F, G, V, B>(
         enclose!((borg, task)
          move || task(borg)),
         move |result| match result {
-            Err(AsyncErr::ThreadPaniced) => result_handler(Err(shared::BorgErr::ThreadPaniced)),
+            Err(AsyncErr::ThreadPanicked) => result_handler(Err(shared::BorgErr::ThreadPanicked)),
             Ok(result) => match result {
                 Err(e)
                     if matches!(e, shared::BorgErr::PasswordMissing)
@@ -201,7 +201,7 @@ where
         }
         Err(std::sync::mpsc::TryRecvError::Disconnected) => {
             error!("async_react({}): Task disconnected", task_name);
-            result_handler(Err(AsyncErr::ThreadPaniced));
+            result_handler(Err(AsyncErr::ThreadPanicked));
             Continue(false)
         }
         Err(std::sync::mpsc::TryRecvError::Empty) => Continue(true),
@@ -211,7 +211,7 @@ where
 quick_error! {
     #[derive(Debug)]
     pub enum AsyncErr {
-        ThreadPaniced { display("{}", gettext("The responsible thread has paniced")) }
+        ThreadPanicked { display("{}", gettext("The responsible thread has panicked")) }
     }
 }
 

@@ -261,7 +261,7 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
         move || borg.init(),
         enclose!((repo, ui, password) move |result: Result<Result<borg::List, _>,_>|
 
-        match result.unwrap_or(Err(shared::BorgErr::ThreadPaniced)) {
+        match result.unwrap_or(Err(shared::BorgErr::ThreadPanicked)) {
 
             Err(err) => {
                 ui::utils::show_error(&gettext("Failed to initialize repository"), &err);
