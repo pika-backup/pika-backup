@@ -263,30 +263,21 @@ pub fn refresh() {
     }
 
     match &backup.repo {
-        shared::BackupRepo::Local {
-            ref drive_name,
-            ref mount_name,
-            ..
-        } => {
+        shared::BackupRepo::Local { ref mount_name, .. } => {
             main_ui()
                 .detail_repo_row()
                 .set_title(mount_name.as_ref().map(String::as_str));
-            main_ui().detail_repo_row().set_subtitle(Some(
-                drive_name
-                    .as_ref()
-                    .map(String::as_str)
-                    .unwrap_or(&backup.repo.to_string()),
-            ));
         }
-        repo @ shared::BackupRepo::Remote { .. } => {
+        shared::BackupRepo::Remote { .. } => {
             main_ui()
                 .detail_repo_row()
                 .set_title(Some(&gettext("Remote location")));
-            main_ui()
-                .detail_repo_row()
-                .set_subtitle(Some(&repo.to_string()));
         }
     }
+
+    main_ui()
+        .detail_repo_row()
+        .set_subtitle(Some(&backup.repo.get_subtitle()));
 
     repo_ui.show_all();
 

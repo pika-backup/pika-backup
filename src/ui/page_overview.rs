@@ -127,16 +127,11 @@ fn refresh() {
 
         let mut location = String::new();
 
-        if let shared::BackupRepo::Local {
-            mount_name,
-            drive_name: Some(drive),
-            ..
-        } = &config.repo
-        {
+        if let shared::BackupRepo::Local { mount_name, .. } = &config.repo {
             location = format!(
                 "{} – {}",
                 mount_name.as_ref().map(|x| x.as_str()).unwrap_or_default(),
-                drive,
+                config.repo.get_subtitle(),
             )
         } else {
             location.push_str(&config.repo.to_string());

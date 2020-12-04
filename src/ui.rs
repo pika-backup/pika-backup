@@ -52,6 +52,7 @@ pub fn main() {
     gtk_app()
         .register(none)
         .expect("Failed to gtk::Application::register()");
+
     gtk_app().connect_activate(init);
     gtk_app().connect_shutdown(on_shutdown);
 

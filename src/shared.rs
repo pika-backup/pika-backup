@@ -52,6 +52,27 @@ impl BackupConfig {
     }
 }
 
+impl BackupConfig {
+    pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
+        let mut include = std::collections::BTreeSet::new();
+        include.insert("".into());
+        let mut exclude = std::collections::BTreeSet::new();
+        exclude.insert(Pattern::PathPrefix(".cache".into()));
+
+        Self {
+            config_version: crate::CONFIG_VERSION,
+            id: glib::uuid_string_random().to_string(),
+            repo,
+            repo_id: info.repository.id,
+            encrypted,
+            encryption_mode: info.encryption.mode,
+            include,
+            exclude,
+            last_run: None,
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, Ord, PartialOrd, Eq, PartialEq)]
 pub enum Pattern {
     PathPrefix(path::PathBuf),
@@ -94,32 +115,12 @@ impl RunInfo {
 
 pub type Password = Zeroizing<Vec<u8>>;
 
-impl BackupConfig {
-    pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
-        let mut include = std::collections::BTreeSet::new();
-        include.insert("".into());
-        let mut exclude = std::collections::BTreeSet::new();
-        exclude.insert(Pattern::PathPrefix(".cache".into()));
-
-        Self {
-            config_version: crate::CONFIG_VERSION,
-            id: glib::uuid_string_random().to_string(),
-            repo,
-            repo_id: info.repository.id,
-            encrypted,
-            encryption_mode: info.encryption.mode,
-            include,
-            exclude,
-            last_run: None,
-        }
-    }
-}
-
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(tag = "type")]
 pub enum BackupRepo {
     Local {
         path: path::PathBuf,
+        uri: Option<String>,
         #[serde(alias = "device")]
         drive_name: Option<String>,
         #[serde(alias = "label")]
@@ -152,8 +153,9 @@ impl BackupRepo {
             repo.parent().unwrap_or(repo)
         });
 
-        let none: Option<&gio::Cancellable> = None;
-        let mount = repo_file.find_enclosing_mount(none).ok();
+        let mount = repo_file
+            .find_enclosing_mount(Option::<&gio::Cancellable>::None)
+            .ok();
         debug!("Mount found: {:?} {:?} {:?}", &repo, &mount, repo_file);
         let drive = mount.as_ref().and_then(gio::Mount::get_drive);
 
@@ -171,9 +173,13 @@ impl BackupRepo {
             .as_ref()
             .and_then(gio::IconExt::to_string)
             .map(|x| x.to_string());
+        let uri = mount
+            .as_ref()
+            .map(|x| x.get_root().unwrap().get_uri().to_string());
 
         BackupRepo::Local {
             path: repo.to_path_buf(),
+            uri,
             icon,
             icon_symbolic,
             mount_name: mount
@@ -196,6 +202,7 @@ impl BackupRepo {
             Self::Remote { .. } => String::from("network-server"),
         }
     }
+
     pub fn icon_symbolic(&self) -> String {
         match self {
             Self::Local { icon_symbolic, .. } => icon_symbolic
@@ -204,6 +211,26 @@ impl BackupRepo {
             Self::Remote { .. } => String::from("network-server-symbolic"),
         }
     }
+
+    pub fn get_uri_fuse(&self) -> Option<String> {
+        match self {
+            Self::Local { uri: Some(uri), .. } if !gio::File::new_for_uri(&uri).is_native() => {
+                Some(uri.clone())
+            }
+            _ => None,
+        }
+    }
+
+    pub fn get_subtitle(&self) -> String {
+        match self {
+            Self::Local { ref drive_name, .. } => drive_name
+                .clone()
+                .or_else(|| self.get_uri_fuse())
+                .unwrap_or_else(|| self.to_string()),
+            Self::Remote { .. } => self.to_string(),
+        }
+    }
+
     pub fn set_settings(&mut self, settings: Option<BackupSettings>) {
         *match self {
             Self::Local {
