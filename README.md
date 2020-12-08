@@ -4,7 +4,9 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
 
 [<img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png' />](https://flathub.org/apps/details/org.gnome.World.PikaBackup)
 
-[![Participiate at Feature Upvote](https://img.shields.io/badge/Feature%20Upvote-participate-blue?style=for-the-badge)](https://pika-backup.featureupvote.com/)
+[<img width='240' alt='Vote for Features' src='https://img.shields.io/badge/Participate%20On-Feature%20Upvote-323a46?style=flat' />](https://pika-backup.featureupvote.com/)
+
+[<img width='240' alt='Part of GNOME Circle' src='https://gitlab.gnome.org/Teams/Circle/-/raw/91de93edbb3e75eb0882d56bd466e58b525135d5/assets/button/circle-button-fullcolor.svg' />](https://flathub.org/apps/details/org.gnome.World.PikaBackup)
 
 ### Features
 
@@ -29,4 +31,3 @@ Currently, scheduled backups are not supported. Excluding files from a backup vi
 
 - [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), borg-backup as backend, supports scheduled backups, Qt frontend for advanced users
 - [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) as backend, supports scheduled backups, GTK frontend
-
