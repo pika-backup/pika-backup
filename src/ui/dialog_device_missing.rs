@@ -40,24 +40,34 @@ fn mount_added<F: Fn()>(
     }
 }
 
-fn mount_fuse_dialog<F: Fn() + Send + 'static>(uri: String, f: F) {
-    let file = gio::File::new_for_uri(&uri);
-    file.mount_enclosing_volume(
+pub async fn mount_enclosing(file: &gio::File) -> Result<(), ()> {
+    info!("Trying to mount '{}'", file.get_uri());
+    let mount_result = file.mount_enclosing_volume_future(
         gio::MountMountFlags::NONE,
         Some(&gtk::MountOperation::new(Some(&main_ui().window()))),
-        Some(&gio::Cancellable::new()),
-        move |x: Result<(), glib::Error>| match x {
-            Ok(()) => f(),
-            Err(err) => {
-                if !matches!(
-                    err.kind::<gio::IOErrorEnum>(),
-                    Some(gio::IOErrorEnum::FailedHandled)
-                ) {
-                    ui::utils::show_error(gettext("Failed to mount"), err);
-                }
-            }
-        },
     );
+
+    match mount_result.await {
+        Ok(()) => Ok(()),
+        Err(err) => {
+            if !matches!(
+                err.kind::<gio::IOErrorEnum>(),
+                Some(gio::IOErrorEnum::FailedHandled)
+            ) {
+                ui::utils::show_error(gettext("Failed to mount"), err);
+            }
+            Err(())
+        }
+    }
+}
+
+pub fn mount_fuse_dialog<F: Fn() + 'static>(uri: String, f: F) {
+    let file = gio::File::new_for_uri(&uri);
+    glib::MainContext::default().spawn_local(async move {
+        if mount_enclosing(&file).await.is_ok() {
+            f();
+        }
+    });
 }
 
 fn await_mount_dialog<F: Fn() + 'static>(config: shared::BackupConfig, f: F) {

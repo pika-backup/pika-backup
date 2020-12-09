@@ -61,7 +61,7 @@ fn encrypted_backup() {
 #[test]
 fn failed_ssh_connection() {
     init();
-    let repo = shared::BackupRepo::new_from_uri("ssh://backup.server.invalid/repo".to_string());
+    let repo = shared::BackupRepo::new_remote("ssh://backup.server.invalid/repo".to_string());
 
     let result = BorgOnlyRepo::new(repo).peek();
     assert!(result
@@ -90,7 +90,7 @@ fn config() -> shared::BackupConfig {
         id: uuid.clone(),
         repo_id: "repo id".into(),
         encryption_mode: "none".into(),
-        repo: shared::BackupRepo::new_from_path(&path),
+        repo: shared::BackupRepo::new_local_from_path(path),
         encrypted: false,
         include: vec!["/dev/null".into()].into_iter().collect(),
         exclude: Default::default(),
