@@ -133,27 +133,26 @@ fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::DialogAddCo
         ui.add_button().show();
         ui.add_button().grab_default();
     } else {
-        let path = match glib::filename_from_uri(&name) {
-            Ok((path, _)) => path,
-            Err(err) => {
-                ui::utils::show_error("URI conversion failed", err);
-                return;
-            }
-        };
-        add_repo_config_local(std::path::Path::new(&path), ui);
+        let file = gio::File::new_for_uri(&name);
+        add_repo_config_local(&file, ui);
     }
 }
 
 fn add_local(ui: Rc<builder::DialogAddConfig>) {
     ui.new_backup().hide();
 
-    if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository")) {
+    if let Some(file) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository")) {
         ui::page_pending::show(&gettext("Loading backup repository"));
-        if is_backup_repo(&path) {
-            add_repo_config_local(&path, ui);
+        if file
+            .get_path()
+            .as_deref()
+            .map(is_backup_repo)
+            .unwrap_or_default()
+        {
+            add_repo_config_local(&file, ui);
         } else {
             ui::utils::dialog_error(gettext(
-                "The selected directory is not a valid backup repository.",
+                "The selected directory is not a valid backup repository",
             ));
             ui::page_pending::back();
             ui.new_backup().show();
@@ -164,11 +163,79 @@ fn add_local(ui: Rc<builder::DialogAddConfig>) {
 }
 
 fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
+    glib::MainContext::default().spawn_local(on_add_button_clicked_future(ui));
+}
+
+async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
     page_pending::show(&gettext("Loading backup repository"));
     ui.new_backup().hide();
 
-    let uri = ui.location_url().get_text();
-    add_repo_config_remote(uri.to_string(), ui);
+    let file = gio::File::new_for_uri(&ui.location_url().get_text());
+    debug!("Add existing URI '{:?}'", file.get_path());
+
+    if file.get_uri_scheme() == "ssh" {
+        add_repo_config_remote(file.get_uri().to_string(), ui);
+    } else if file.get_uri_scheme() == "file" {
+        add_repo_config_local(&file, ui);
+    } else {
+        if mount_fuse_and_config(&file, ui.clone(), false)
+            .await
+            .is_ok()
+        {
+            add_repo_config_local(&file, ui);
+        }
+    }
+}
+
+async fn mount_fuse_and_config(
+    file: &gio::File,
+    ui: Rc<builder::DialogAddConfig>,
+    mount_parent: bool,
+) -> Result<BackupRepo, ()> {
+    if let (Ok(mount), Some(path)) = (
+        file.find_enclosing_mount(Some(&gio::Cancellable::new())),
+        file.get_path(),
+    ) {
+        Ok(BackupRepo::new_local_from_mount(
+            mount,
+            path,
+            file.get_uri().to_string(),
+        ))
+    } else {
+        let mount_uri = if mount_parent {
+            file.get_parent().as_ref().unwrap_or(&file).get_uri()
+        } else {
+            file.get_uri()
+        };
+
+        if ui::dialog_device_missing::mount_enclosing(&gio::File::new_for_uri(&mount_uri))
+            .await
+            .is_err()
+        {
+            ui::page_pending::back();
+            ui.new_backup().show();
+            return Err(());
+        }
+
+        if let (Ok(mount), Some(path)) = (
+            file.find_enclosing_mount(Some(&gio::Cancellable::new())),
+            file.get_path(),
+        ) {
+            Ok(BackupRepo::new_local_from_mount(
+                mount,
+                path,
+                file.get_uri().to_string(),
+            ))
+        } else {
+            ui::utils::show_error(
+                gettext("Repository location not mounted"),
+                gettext("Mounting succeeded but still unable find enclosing mount"),
+            );
+            ui::page_pending::back();
+            ui.new_backup().show();
+            Err(())
+        }
+    }
 }
 
 fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddConfig) {
@@ -206,37 +273,51 @@ fn show_init(ui: &builder::DialogAddConfig) {
 }
 
 fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
+    glib::MainContext::default().spawn_local(on_init_button_clickedx(ui));
+}
+
+async fn on_init_button_clickedx(ui: Rc<builder::DialogAddConfig>) {
     let encrypted =
         ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
     if encrypted && ui.password().get_text() != ui.password_confirm().get_text() {
-        ui::utils::dialog_error(gettext("Entered passwords do not match. Please try again."));
+        ui::utils::show_error(
+            gettext("Entered passwords do not match"),
+            gettext("Please try again"),
+        );
         return;
     }
 
-    let mut repo = if ui.location_stack().get_visible_child()
+    let repo_opt = if ui.location_stack().get_visible_child()
         == Some(ui.location_local().upcast::<gtk::Widget>())
     {
-        let mut path = std::path::PathBuf::new();
-
-        if let Some(init_path) = ui.init_path().get_filename() {
-            path.push(init_path);
+        if let Some(file) = ui
+            .init_path()
+            .get_file()
+            .map(|x| x.get_child(ui.init_dir().get_text().as_str()).unwrap())
+        {
+            BackupRepo::new_local_for_file(&file)
         } else {
-            ui::utils::dialog_error(gettext("You have to select a repository location."));
-            return;
+            None
         }
-
-        path.push(ui.init_dir().get_text().as_str());
-        trace!("Init repo at {:?}", &path);
-
-        BackupRepo::new_from_path(&path)
     } else {
         let url = ui.location_url().get_text().to_string();
         if url.is_empty() {
-            ui::utils::dialog_error(gettext("You have to enter a repository location."));
+            None
+        } else {
+            mount_fuse_and_config(&gio::File::new_for_uri(&url), ui.clone(), true)
+                .await
+                .ok()
+        }
+    };
+
+    let mut repo = {
+        if let Some(repo) = repo_opt {
+            repo
+        } else {
+            ui::utils::dialog_error(gettext("You have to enter a repository location"));
             return;
         }
-        BackupRepo::new_from_uri(url)
     };
 
     if let Ok(args) = get_command_line_args(&ui) {
@@ -244,6 +325,7 @@ fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
             command_line_args: Some(args),
         }));
     } else {
+        ui::utils::dialog_error(gettext("Invalid additional command line arguments"));
         return;
     }
 
@@ -380,13 +462,18 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
     list.show_all();
 }
 
-fn add_repo_config_local(repo: &std::path::Path, ui: Rc<builder::DialogAddConfig>) {
-    let repo = BackupRepo::new_from_path(repo);
-    insert_backup_config_encryption_unknown(repo, ui);
+fn add_repo_config_local(file: &gio::File, ui: Rc<builder::DialogAddConfig>) {
+    if let Some(repo) = BackupRepo::new_local_for_file(file) {
+        insert_backup_config_encryption_unknown(repo, ui);
+    } else {
+        ui::utils::dialog_error(gettext("Unexpected error with repository"));
+        ui.new_backup().show();
+        page_pending::back();
+    }
 }
 
 fn add_repo_config_remote(uri: String, ui: Rc<builder::DialogAddConfig>) {
-    let mut repo = BackupRepo::new_from_uri(uri);
+    let mut repo = BackupRepo::new_remote(uri);
 
     if let Ok(args) = get_command_line_args(&ui) {
         repo.set_settings(Some(BackupSettings {

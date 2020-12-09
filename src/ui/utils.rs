@@ -227,7 +227,7 @@ pub fn hsized(bytes: u64, decimal_places: usize) -> String {
     bytes.file_size(opts).unwrap_or_default()
 }
 
-pub fn folder_chooser_dialog(title: &str) -> Option<std::path::PathBuf> {
+pub fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
     let dialog = gtk::FileChooserDialog::with_buttons(
         Some(title),
         Some(&main_ui().window()),
@@ -243,7 +243,7 @@ pub fn folder_chooser_dialog(title: &str) -> Option<std::path::PathBuf> {
     }
 
     let result = if dialog.run() == gtk::ResponseType::Accept {
-        dialog.get_filename()
+        dialog.get_file()
     } else {
         None
     };
@@ -252,6 +252,10 @@ pub fn folder_chooser_dialog(title: &str) -> Option<std::path::PathBuf> {
     dialog.hide();
 
     result
+}
+
+pub fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
+    folder_chooser_dialog(title).and_then(|x| x.get_path())
 }
 
 pub fn dialog_catch_err<X, P: std::fmt::Display, S: std::fmt::Display>(

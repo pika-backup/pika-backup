@@ -138,60 +138,70 @@ pub enum BackupRepo {
 }
 
 impl BackupRepo {
-    pub fn new_from_uri(uri: String) -> Self {
+    pub fn new_remote(uri: String) -> Self {
         BackupRepo::Remote {
             uri,
             settings: None,
         }
     }
 
-    pub fn new_from_path(repo: &path::Path) -> Self {
-        let repo_file = gio::File::new_for_path(&if repo.exists() {
-            repo
+    pub fn new_local_for_file(file: &gio::File) -> Option<Self> {
+        if let (Some(path), Some(mount)) = (
+            file.get_path(),
+            file.find_enclosing_mount(Some(&gio::Cancellable::new()))
+                .ok(),
+        ) {
+            Some(Self::new_local_from_mount(
+                mount,
+                path,
+                file.get_uri().to_string(),
+            ))
+        } else if let Some(path) = file.get_path() {
+            Some(Self::new_local_from_path(path))
         } else {
-            // for new repos the repo directory itself usually doesn't exist
-            repo.parent().unwrap_or(repo)
-        });
+            None
+        }
+    }
 
-        let mount = repo_file
-            .find_enclosing_mount(Option::<&gio::Cancellable>::None)
-            .ok();
-        debug!("Mount found: {:?} {:?} {:?}", &repo, &mount, repo_file);
-        let drive = mount.as_ref().and_then(gio::Mount::get_drive);
-
-        let volume_uuid = mount.as_ref().and_then(get_mount_uuid);
-
-        let icon = mount
-            .as_ref()
-            .and_then(gio::Mount::get_icon)
-            .as_ref()
-            .and_then(gio::IconExt::to_string)
-            .map(|x| x.to_string());
-        let icon_symbolic = mount
-            .as_ref()
-            .and_then(gio::Mount::get_symbolic_icon)
-            .as_ref()
-            .and_then(gio::IconExt::to_string)
-            .map(|x| x.to_string());
-        let uri = mount
-            .as_ref()
-            .map(|x| x.get_root().unwrap().get_uri().to_string());
-
+    pub fn new_local_from_path(path: std::path::PathBuf) -> Self {
         BackupRepo::Local {
-            path: repo.to_path_buf(),
-            uri,
-            icon,
-            icon_symbolic,
-            mount_name: mount
+            path,
+            uri: None,
+            icon: None,
+            icon_symbolic: None,
+            mount_name: None,
+            drive_name: None,
+            removable: false,
+            volume_uuid: None,
+            settings: None,
+        }
+    }
+
+    pub fn new_local_from_mount(mount: gio::Mount, path: std::path::PathBuf, uri: String) -> Self {
+        BackupRepo::Local {
+            path,
+            uri: Some(uri),
+            icon: mount
+                .get_icon()
                 .as_ref()
-                .and_then(gio::Mount::get_name)
+                .and_then(gio::IconExt::to_string)
                 .map(Into::into),
-            drive_name: drive
+            icon_symbolic: mount
+                .get_symbolic_icon()
+                .as_ref()
+                .and_then(gio::IconExt::to_string)
+                .map(Into::into),
+            mount_name: mount.get_name().map(Into::into),
+            drive_name: mount
+                .get_drive()
                 .as_ref()
                 .and_then(gio::Drive::get_name)
                 .map(Into::into),
-            removable: drive.as_ref().map_or(false, gio::Drive::is_removable),
-            volume_uuid,
+            removable: mount
+                .get_drive()
+                .as_ref()
+                .map_or(false, gio::Drive::is_removable),
+            volume_uuid: get_mount_uuid(&mount),
             settings: None,
         }
     }
