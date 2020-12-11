@@ -19,7 +19,7 @@ pub fn init() {
         .add_prefix(&main_ui().status_graphic());
     main_ui()
         .detail_status_row()
-        .add(&main_ui().stop_backup_create());
+        .add(&main_ui().detail_status_right());
 
     // Backup details
     main_ui().detail_status_row().set_activatable(true);
@@ -421,12 +421,6 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
                 .status_icon()
                 .set_from_icon_name(Some(icon), gtk::IconSize::Dnd);
 
-            if matches!(status.graphic, ui::backup_status::Graphic::ErrorIcon(_)) {
-                main_ui().detail_status_row().add_css_class("error");
-            } else {
-                main_ui().detail_status_row().remove_css_class("error");
-            }
-
             false
         }
         ui::backup_status::Graphic::Spinner => {
@@ -437,6 +431,14 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
             true
         }
     };
+
+    if matches!(status.graphic, ui::backup_status::Graphic::ErrorIcon(_)) {
+        main_ui().status_icon().add_css_class("error");
+        main_ui().detail_hint_icon().show();
+    } else {
+        main_ui().status_icon().remove_css_class("error");
+        main_ui().detail_hint_icon().hide();
+    }
 
     main_ui().stop_backup_create().set_visible(running);
     main_ui().backup_run().set_sensitive(!running);

@@ -34,6 +34,8 @@ impl From<&shared::RunInfo> for Display {
                 )),
                 graphic: Graphic::Icon("emblem-default-symbolic".to_string()),
                 progress: None,
+                run_info: Some(run_info.clone()),
+                progress_archive: None,
             },
             Err(_) => Self {
                 title: gettext("Last backup failed"),
@@ -43,6 +45,8 @@ impl From<&shared::RunInfo> for Display {
                 )),
                 graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),
                 progress: None,
+                run_info: Some(run_info.clone()),
+                progress_archive: None,
             },
         }
     }
@@ -53,13 +57,15 @@ impl From<&borg::Communication> for Display {
         let status = communication.status.get();
 
         let mut progress = None;
+        let mut progress_archive = None;
         let mut subtitle = None;
 
         if let Some(ref last_message) = status.last_message {
             match *last_message {
-                Progress::Archive { original_size, .. } => {
+                Progress::Archive(ref progress_archive_ref) => {
+                    progress_archive = Some(progress_archive_ref.clone());
                     if let Some(total) = status.estimated_size {
-                        let fraction = original_size as f64 / total as f64;
+                        let fraction = progress_archive_ref.original_size as f64 / total as f64;
                         progress = Some(fraction);
 
                         subtitle = Some(gettextf(
@@ -117,6 +123,8 @@ impl From<&borg::Communication> for Display {
             subtitle,
             graphic: Graphic::Spinner,
             progress,
+            run_info: None,
+            progress_archive,
         }
     }
 }
@@ -128,6 +136,8 @@ impl Default for Display {
             subtitle: Some(gettext("Start by creating your first backup")),
             graphic: Graphic::Icon("dialog-information-symbolic".to_string()),
             progress: None,
+            run_info: None,
+            progress_archive: None,
         }
     }
 }
@@ -137,6 +147,8 @@ pub struct Display {
     pub subtitle: Option<String>,
     pub graphic: Graphic,
     pub progress: Option<f64>,
+    pub run_info: Option<RunInfo>,
+    pub progress_archive: Option<ProgressArchive>,
 }
 
 pub enum Graphic {

@@ -301,18 +301,12 @@ pub fn get_mount_uuid(mount: &gio::Mount) -> Option<String> {
         .map(std::string::ToString::to_string)
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Deserialize, Clone, Debug)]
 #[serde(tag = "type")]
 //#[serde(rename_all = "snake_case")]
 pub enum Progress {
     #[serde(rename = "archive_progress")]
-    Archive {
-        original_size: u64,
-        compressed_size: u64,
-        deduplicated_size: u64,
-        nfiles: u64,
-        path: String,
-    },
+    Archive(ProgressArchive),
     #[serde(rename = "progress_message")]
     Message {
         operation: u64,
@@ -329,6 +323,15 @@ pub enum Progress {
         current: Option<u64>,
         total: Option<u64>,
     },
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct ProgressArchive {
+    pub original_size: u64,
+    pub compressed_size: u64,
+    pub deduplicated_size: u64,
+    pub nfiles: u64,
+    pub path: String,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]

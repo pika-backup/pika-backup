@@ -434,12 +434,16 @@ impl Main {
         self.get("backup_run")
     }
 
-    pub fn current_path(&self) -> gtk::Label {
-        self.get("current_path")
+    pub fn detail_current_path(&self) -> gtk::Label {
+        self.get("detail_current_path")
     }
 
-    pub fn deduplicated_size(&self) -> gtk::Label {
-        self.get("deduplicated_size")
+    pub fn detail_deduplicated_size(&self) -> gtk::Label {
+        self.get("detail_deduplicated_size")
+    }
+
+    pub fn detail_dialog_vbox(&self) -> gtk::Box {
+        self.get("detail_dialog_vbox")
     }
 
     pub fn detail_exclude_placeholder(&self) -> gtk::Label {
@@ -448,6 +452,10 @@ impl Main {
 
     pub fn detail_exclude_stack(&self) -> gtk::Stack {
         self.get("detail_exclude_stack")
+    }
+
+    pub fn detail_hint_icon(&self) -> gtk::Image {
+        self.get("detail_hint_icon")
     }
 
     pub fn detail_info_error(&self) -> gtk::Label {
@@ -466,6 +474,10 @@ impl Main {
         self.get("detail_info_substatus")
     }
 
+    pub fn detail_original_size(&self) -> gtk::Label {
+        self.get("detail_original_size")
+    }
+
     pub fn detail_repo_icon(&self) -> gtk::Image {
         self.get("detail_repo_icon")
     }
@@ -480,6 +492,10 @@ impl Main {
 
     pub fn detail_stack(&self) -> gtk::Stack {
         self.get("detail_stack")
+    }
+
+    pub fn detail_status_right(&self) -> gtk::Box {
+        self.get("detail_status_right")
     }
 
     pub fn detail_status_row(&self) -> libhandy::ActionRow {
@@ -508,10 +524,6 @@ impl Main {
 
     pub fn main_stack(&self) -> gtk::Stack {
         self.get("main_stack")
-    }
-
-    pub fn original_size(&self) -> gtk::Label {
-        self.get("original_size")
     }
 
     pub fn page_archives(&self) -> gtk::ScrolledWindow {
@@ -556,6 +568,10 @@ impl Main {
 
     pub fn primary_menu_button(&self) -> gtk::MenuButton {
         self.get("primary_menu_button")
+    }
+
+    pub fn progress_archive_box(&self) -> gtk::Grid {
+        self.get("progress_archive_box")
     }
 
     pub fn refresh_archives(&self) -> gtk::Button {
