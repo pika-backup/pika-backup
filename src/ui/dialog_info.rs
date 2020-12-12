@@ -67,7 +67,7 @@ fn refresh_status_display(status: &backup_status::Display) {
             .set_text(&utils::hsize(progress_archive.deduplicated_size));
         main_ui()
             .detail_current_path()
-            .set_text(&progress_archive.path);
+            .set_text(&format!("/{}", progress_archive.path));
     } else {
         main_ui().progress_archive_box().hide();
     }
