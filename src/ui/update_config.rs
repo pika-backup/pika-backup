@@ -9,7 +9,7 @@ use gio::prelude::*;
 use std::sync::Arc;
 
 pub fn run() {
-    ui::page_pending::show(&gettext("Updating configuration to new version"));
+    ui::page_pending::show(&gettext("Updating configuration for new version"));
     let finished = Arc::new(());
     for config in SETTINGS.load().backups.values() {
         ui::dialog_device_missing::main(
