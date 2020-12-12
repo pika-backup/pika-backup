@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2020-12-09 20:41+0000\n"
-"PO-Revision-Date: 2020-12-10 08:48+0200\n"
+"POT-Creation-Date: 2020-12-12 19:58+0000\n"
+"PO-Revision-Date: 2020-12-12 22:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -92,17 +92,23 @@ msgid "Limitations"
 msgstr "Обмеження"
 
 #: data/app.metainfo.xml.in:39
+#| msgid ""
+#| "Currently, scheduled backups are not supported. Excluding files from a "
+#| "backup via regular expressions and alike is not implemented yet. Remote "
+#| "backup locations must support SSH and need to have a borg-backup binary "
+#| "installed."
 msgid ""
 "Currently, scheduled backups are not supported. Excluding files from a "
-"backup via regular expressions and alike is not implemented yet. Remote "
-"backup locations must support SSH and need to have a borg-backup binary "
-"installed."
+"backup via regular expressions and alike is not implemented yet. Pika Backup "
+"is designed to save your personal data and does not support complete system "
+"recovery."
 msgstr ""
 "У поточній версії не передбачено створення резервних копій за розкладом. "
 "Виключення файлів з резервного копіювання за допомогою формальних виразів та "
-"інших подібних замінників назв ще не реалізовано. У місцях віддаленого "
-"резервного копіювання має бути передбачено доступ за допомогою SSH і "
-"встановлено виконуваний файл borg-backup."
+"інших подібних замінників назв ще не реалізовано. «Пайка-копіювання»"
+" розроблено для резервного копіювання ваших особистих даних — у програмі не"
+" передбачено підтримки повного резервного копіювання та відновлення усієї"
+" системи."
 
 #: data/ui/dialog_about.ui:9
 msgid ""
@@ -252,11 +258,15 @@ msgstr "Загалом"
 msgid "Free"
 msgstr "Вільно"
 
-#: data/ui/main.ui:34
+#: data/ui/main.ui:15
+msgid "Abort"
+msgstr "Перервати"
+
+#: data/ui/main.ui:68
 msgid "About"
 msgstr "Про програму"
 
-#: data/ui/main.ui:59
+#: data/ui/main.ui:93
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -264,104 +274,100 @@ msgstr ""
 "Монтуємо архіви.\n"
 "Дія може бути досить тривалою."
 
-#: data/ui/main.ui:80
+#: data/ui/main.ui:114
 msgid "Delete backup configuration"
 msgstr "Вилучити налаштування резервного копіювання"
 
-#: data/ui/main.ui:139
+#: data/ui/main.ui:173
 msgid "Add backup configuration"
 msgstr "Додати налаштування резервного копіювання"
 
-#: data/ui/main.ui:202
+#: data/ui/main.ui:236
 msgid "Back to overview"
 msgstr "Назад до огляду"
 
-#: data/ui/main.ui:323
+#: data/ui/main.ui:357
 msgid "Create Backup"
 msgstr "Створити резервну копію"
 
-#: data/ui/main.ui:362
+#: data/ui/main.ui:396
 msgid "Files to backup"
 msgstr "Файли для резервного копіювання"
 
-#: data/ui/main.ui:378
+#: data/ui/main.ui:412
 msgid "Include directory"
 msgstr "Включити каталог"
 
-#: data/ui/main.ui:416 src/ui/page_overview.rs:157
+#: data/ui/main.ui:450 src/ui/page_overview.rs:157
 msgid "Home"
 msgstr "Домівка"
 
-#: data/ui/main.ui:418
+#: data/ui/main.ui:452
 msgid "Usually contains all personal data"
 msgstr "Зазвичай, містить усі особисті дані"
 
-#: data/ui/main.ui:455
+#: data/ui/main.ui:489
 msgid "Exclude from backup"
 msgstr "Виключити з резервної копії"
 
-#: data/ui/main.ui:471
+#: data/ui/main.ui:505
 msgid "Add excluded directory"
 msgstr "Додати виключений каталог"
 
-#: data/ui/main.ui:519
+#: data/ui/main.ui:553
 msgid "Nothing excluded from backup"
 msgstr "З резервної копії нічого не виключено"
 
-#: data/ui/main.ui:550 src/ui.rs:147
+#: data/ui/main.ui:584 src/ui.rs:147
 msgid "Backup"
 msgstr "Резервне копіювання"
 
-#: data/ui/main.ui:589 data/ui/main.ui:694
+#: data/ui/main.ui:623 data/ui/main.ui:728
 msgid "Archives"
 msgstr "Архіви"
 
-#: data/ui/main.ui:610
+#: data/ui/main.ui:644
 msgid "Refresh list of archives"
 msgstr "Оновити список архівів"
 
-#: data/ui/main.ui:670
+#: data/ui/main.ui:704
 msgid "No archives available"
 msgstr "Немає доступних архівів"
 
-#: data/ui/main.ui:762
+#: data/ui/main.ui:796
 msgid "No Backup Configured"
 msgstr "Резервне копіювання не налаштовано"
 
-#: data/ui/main.ui:779
+#: data/ui/main.ui:813
 msgid "Add a new configuration to start creating backups"
 msgstr "Додайте нові налаштування, щоб розпочати створення резервних копій"
 
-#: data/ui/main.ui:810
+#: data/ui/main.ui:844
 msgid "Configure Backup"
 msgstr "Налаштування резервного копіювання"
 
-#: data/ui/main.ui:1057
+#: data/ui/main.ui:1090
 msgid "Saved"
 msgstr "Збережено"
 
-#: data/ui/main.ui:1084
+#: data/ui/main.ui:1117
 msgid "Backup space needed"
 msgstr "Потрібне місце для резервних копій"
 
-#: data/ui/main.ui:1111
+#: data/ui/main.ui:1145
 msgid "Current file"
 msgstr "Поточний файл"
 
-#: data/ui/main.ui:1179
+#: data/ui/main.ui:1217
 msgid "Backup Info"
 msgstr "Відомості щодо резервного копіювання"
 
-#: data/ui/main.ui:1214
-msgid "Abort"
-msgstr "Перервати"
-
-#: src/ui.rs:231
+#: src/ui.rs:233
 msgid "Failed to run `borg`. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:247
+#: src/ui.rs:249
 msgid ""
 "Your borg-backup version seems to be smaller then "
 "required                     version {}.{}.X. Some features will not work."
@@ -369,21 +375,75 @@ msgstr ""
 "Здається, встановлена у вас версія borg-backup є давнішою за мінімальну "
 "потрібну для роботи {}.{}.X. Деякі можливості не працюватимуть."
 
-#: src/ui.rs:273
-msgid "Could not create empty config file."
-msgstr "Не вдалося створити порожній файл налаштувань."
-
-#: src/ui.rs:288
+#: src/ui.rs:269
 msgid "Could not load config."
 msgstr "Не вдалося завантажити налаштування."
 
-#: src/ui.rs:299
+#: src/ui.rs:280
 msgid "Could not write config."
 msgstr "Не вдалося записати налаштування."
+
+#: src/ui/backup_status.rs:30
+msgid "Last backup successful"
+msgstr "Останнє резервне копіювання відбулося успішно"
+
+#: src/ui/backup_status.rs:41
+msgid "Last backup failed"
+msgstr "Останнє резервне копіювання завершилося помилкою"
+
+#: src/ui/backup_status.rs:73
+#, no-c-format
+msgid "{} % finished"
+msgstr "Завершено на {} %"
+
+#: src/ui/backup_status.rs:84
+msgid "Updating repository information"
+msgstr "Оновлення даних щодо сховища"
+
+#: src/ui/backup_status.rs:98
+#, no-c-format
+msgid "{} % prepared"
+msgstr "Приготовано на {} %"
+
+#: src/ui/backup_status.rs:108
+msgid "Preparing backup"
+msgstr "Приготування до резервного копіювання"
+
+#: src/ui/backup_status.rs:109
+msgid "Estimating backup size"
+msgstr "Оцінювання розміру резервної копії"
+
+#: src/ui/backup_status.rs:110
+msgid "Backup running"
+msgstr "Виконання резервного копіювання"
+
+#: src/ui/backup_status.rs:113
+msgid "Connection lost, reconnecting in {}"
+msgstr "З'єднання розірвано, виконуємо повторну спробу з'єднатися за {}"
+
+#: src/ui/backup_status.rs:116
+msgid "Reconnecting"
+msgstr "Повторна спроба з'єднання"
+
+#: src/ui/backup_status.rs:118
+msgid "Stopping backup"
+msgstr "Припиняємо резервне копіювання"
+
+#: src/ui/backup_status.rs:135
+msgid "Backup never ran"
+msgstr "Резервне копіювання не виконувалося"
+
+#: src/ui/backup_status.rs:136
+msgid "Start by creating your first backup"
+msgstr "Розпочніть зі створення вашої першої резервної копії"
 
 #: src/ui/dialog_about.rs:26
 msgid "Copyright © 2018–2020 Sophie Herold et al."
 msgstr "© Sophie Herold та інші, 2018–2020"
+
+#: src/ui/dialog_about.rs:27
+msgid "translator-credits"
+msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
 #: src/ui/dialog_add_config.rs:113
 msgid "Failed to list existing repositories"
@@ -398,68 +458,63 @@ msgid "Loading backup repository"
 msgstr "Завантажуємо сховище резервних копій"
 
 #: src/ui/dialog_add_config.rs:155
-#| msgid "The selected directory is not a valid backup repository."
 msgid "The selected directory is not a valid backup repository"
 msgstr "Вибраний каталог не є коректним сховищем резервних копій"
 
-#: src/ui/dialog_add_config.rs:231
+#: src/ui/dialog_add_config.rs:228
 msgid "Repository location not mounted"
 msgstr "Місце зберігання сховища не змонтовано"
 
-#: src/ui/dialog_add_config.rs:232
+#: src/ui/dialog_add_config.rs:229
 msgid "Mounting succeeded but still unable find enclosing mount"
 msgstr ""
 "Успішне монтування, але все одно не вдалося знайти включену точку монтування"
 
-#: src/ui/dialog_add_config.rs:285
-#| msgid "Entered passwords do not match. Please try again."
+#: src/ui/dialog_add_config.rs:282
 msgid "Entered passwords do not match"
 msgstr "Введені паролі не збігаються"
 
-#: src/ui/dialog_add_config.rs:286
+#: src/ui/dialog_add_config.rs:283
 msgid "Please try again"
 msgstr "Будь ласка, повторіть спробу"
 
-#: src/ui/dialog_add_config.rs:318
-#| msgid "You have to enter a repository location."
+#: src/ui/dialog_add_config.rs:315
 msgid "You have to enter a repository location"
 msgstr "Вам слід ввести місце сховища"
 
-#: src/ui/dialog_add_config.rs:328
-#| msgid "Additional command line arguments"
+#: src/ui/dialog_add_config.rs:325
 msgid "Invalid additional command line arguments"
 msgstr "Некоректні додаткові аргументи командного рядка"
 
-#: src/ui/dialog_add_config.rs:332
+#: src/ui/dialog_add_config.rs:329
 msgid "Creating backup repository"
 msgstr "Створення сховища резервних копій"
 
-#: src/ui/dialog_add_config.rs:349
+#: src/ui/dialog_add_config.rs:346
 msgid "Failed to initialize repository"
 msgstr "Не вдалося ініціалізувати сховище"
 
-#: src/ui/dialog_add_config.rs:360 src/ui/utils.rs:83
+#: src/ui/dialog_add_config.rs:357 src/ui/utils.rs:83
 msgid "Failed to store password."
 msgstr "Не вдалося зберегти пароль."
 
-#: src/ui/dialog_add_config.rs:384
+#: src/ui/dialog_add_config.rs:381
 msgid "Additional command line arguments invalid"
 msgstr "Некоректні додаткові аргументи командного рядка"
 
-#: src/ui/dialog_add_config.rs:385
+#: src/ui/dialog_add_config.rs:382
 msgid "Please check for missing closing quotes"
 msgstr "Будь ласка, перевірте, чи закрито лапки"
 
-#: src/ui/dialog_add_config.rs:440
+#: src/ui/dialog_add_config.rs:437
 msgid " – {} of {} available"
 msgstr " — доступно {} з {}"
 
-#: src/ui/dialog_add_config.rs:469
-#| msgid "Select existing repository"
+#: src/ui/dialog_add_config.rs:466
 msgid "Unexpected error with repository"
 msgstr "Неочікувана помилка зі сховищем"
 
-#: src/ui/dialog_add_config.rs:514
+#: src/ui/dialog_add_config.rs:511
 msgid "There was an error with the specified repository"
 msgstr "Під час роботи із вказаним сховищем сталася помилка"
 
@@ -539,6 +594,15 @@ msgstr "Ви справді хочете вилучити ці налаштув�
 msgid "No active backup to delete."
 msgstr "Немає активних резервних копіювань для вилучення."
 
+#: src/ui/update_config.rs:21
+msgid "Updating configuration for new version"
+msgstr "Оновлюємо налаштування до нової версії"
+
+#: src/ui/update_config.rs:75
+#| msgid "Failed to open archive"
+msgid "Failed to update config"
+msgstr "Не вдалося оновити налаштування"
+
 #. Translators: This is the description for entries in the password database.
 #: src/ui/utils.rs:24
 msgid "Pika Backup Password"
@@ -552,6 +616,9 @@ msgstr "Не вдалося вилучити потенційно збереже
 msgid "The responsible thread has panicked"
 msgstr "Паніка у відповідальному за обробку потоці"
 
+#~ msgid "Could not create empty config file."
+#~ msgstr "Не вдалося створити порожній файл налаштувань."
+
 #~ msgid "You have to select a repository location."
 #~ msgstr "Вам слід вибрати місце для сховища."
 
@@ -563,45 +630,6 @@ msgstr "Паніка у відповідальному за обробку по�
 
 #~ msgid "Waiting for status …"
 #~ msgstr "Очікуємо на дані щодо стану…"
-
-#~ msgid "Last backup successful"
-#~ msgstr "Останнє резервне копіювання відбулося успішно"
-
-#~ msgid "Last backup failed"
-#~ msgstr "Останнє резервне копіювання завершилося помилкою"
-
-#~ msgid "Backup never ran"
-#~ msgstr "Резервне копіювання не виконувалося"
-
-#~ msgid "Start by creating your first backup"
-#~ msgstr "Розпочніть зі створення вашої першої резервної копії"
-
-#~ msgid "{} % finished"
-#~ msgstr "Завершено на {} %"
-
-#~ msgid "Updating repository information"
-#~ msgstr "Оновлення даних щодо сховища"
-
-#~ msgid "{} % prepared"
-#~ msgstr "Приготовано на {} %"
-
-#~ msgid "Preparing backup"
-#~ msgstr "Приготування до резервного копіювання"
-
-#~ msgid "Estimating backup size"
-#~ msgstr "Оцінювання розміру резервної копії"
-
-#~ msgid "Backup running"
-#~ msgstr "Виконання резервного копіювання"
-
-#~ msgid "Reconnecting"
-#~ msgstr "Повторна спроба з'єднання"
-
-#~ msgid "Connection lost, reconnecting in {}"
-#~ msgstr "З'єднання розірвано, виконуємо повторну спробу з'єднатися за {}"
-
-#~ msgid "Stopping backup"
-#~ msgstr "Припиняємо резервне копіювання"
 
 #~ msgid "Last backup finished about {}"
 #~ msgstr "Останнє резервне копіювання завершено {}"
