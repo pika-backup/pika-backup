@@ -17,13 +17,13 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
       <li>Encrypt your backups</li>
       <li>List created archives and browse through their contents</li>
       <li>Recover files or folders via your file browser</li>
-    </ul>
+</ul>
 
 Pika Backup is powered by the well-tested borg-backup software.
 
 ### Limitations
   
-Currently, scheduled backups are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Remote backup locations must support SSH and need to have a borg-backup binary installed.
+Currently, scheduled backups are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Pika Backup is designed to save your personal data and does not support complete system recovery.
 
 ![Pika Backup Setup](/uploads/596347a2e99be37c3f8a035b75cea8ea/pika-pile-1.png)
 
@@ -31,3 +31,4 @@ Currently, scheduled backups are not supported. Excluding files from a backup vi
 
 - [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), borg-backup as backend, supports scheduled backups, Qt frontend for advanced users
 - [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) as backend, supports scheduled backups, GTK frontend
+

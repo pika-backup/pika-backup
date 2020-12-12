@@ -2,11 +2,16 @@
 
 ## 0.2.0 (not released)
 
-- Improves several parts of the user interface
+- Adds translations to several languages
+- Redesigns some parts of the user interface
+- Shows backup status for each repository in overview
 - Adds basis for supporting mobile clients
 - Reduces idle CPU usage (stop invisible GtkSpinner's)
 - Makes handling of encryption password requests faster and smother
 - Adds caching for repository archives
+- Adds basic support for GVfs enabling backups to sftp, smb etc.
+- Adds custom command line options for borg to setup
+- Enables easier onboarding for developers
 - Many code cleanups
 
 ## 0.1.3 (2020-09-21)

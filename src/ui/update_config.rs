@@ -9,20 +9,33 @@ use gio::prelude::*;
 use std::sync::Arc;
 
 pub fn run() {
+    if !SETTINGS
+        .load()
+        .backups
+        .values()
+        .any(|config| config.config_version < crate::CONFIG_VERSION)
+    {
+        return;
+    }
+
     ui::page_pending::show(&gettext("Updating configuration for new version"));
     let finished = Arc::new(());
     for config in SETTINGS.load().backups.values() {
-        ui::dialog_device_missing::main(
-            config.clone(),
-            enclose!((config, finished) move || {
-            ui::utils::Async::borg(
-                "refresh_repo_config",
-                borg::Borg::new(config.clone()),
-                |borg| borg.peek(),
-                 enclose!((config, finished) move |result| x(config.id.clone(), finished.clone(), result)),
+        if config.config_version < crate::CONFIG_VERSION {
+            ui::dialog_device_missing::main(
+                config.clone(),
+                enclose!((config, finished) move || {
+                ui::utils::Async::borg(
+                    "refresh_repo_config",
+                    borg::Borg::new(config.clone()),
+                    |borg| borg.peek(),
+                    enclose!((config, finished)
+                        move |result| update_config(config.id.clone(), finished.clone(), result)
+                    ),
+                );
+                }),
             );
-            }),
-        );
+        }
     }
 
     glib::timeout_add_local(500, move || {
@@ -37,7 +50,7 @@ pub fn run() {
     });
 }
 
-fn x(id: String, _finished: Arc<()>, result: Result<borg::List, shared::BorgErr>) {
+fn update_config(id: String, _finished: Arc<()>, result: Result<borg::List, shared::BorgErr>) {
     trace!("Got config update result");
 
     match result {
