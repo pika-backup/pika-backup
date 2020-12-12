@@ -165,7 +165,7 @@ fn on_backup_run() {
         }
     }
 
-    ui::dialog_device_missing::main(config.clone(), move || run_backup(config.clone()));
+    ui::dialog_device_missing::main(config.clone(), "", move || run_backup(config.clone()));
 }
 
 pub fn run_backup(config: shared::BackupConfig) {

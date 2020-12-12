@@ -225,6 +225,10 @@ impl DialogDeviceMissing {
         self.get("mount")
     }
 
+    pub fn purpose(&self) -> gtk::Label {
+        self.get("purpose")
+    }
+
     pub fn window(&self) -> gtk::Dialog {
         self.get("window")
     }

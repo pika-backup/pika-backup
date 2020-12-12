@@ -6,7 +6,10 @@ use crate::ui::prelude::*;
 
 use gio::prelude::*;
 
-use std::sync::Arc;
+use arc_swap::ArcSwap;
+use once_cell::sync::Lazy;
+
+static WAITING_CONFIGS: Lazy<ArcSwap<u64>> = Lazy::new(Default::default);
 
 pub fn run() {
     if !SETTINGS
@@ -18,39 +21,41 @@ pub fn run() {
         return;
     }
 
-    ui::page_pending::show(&gettext("Updating configuration for new version"));
-    let finished = Arc::new(());
     for config in SETTINGS.load().backups.values() {
         if config.config_version < crate::CONFIG_VERSION {
             ui::dialog_device_missing::main(
                 config.clone(),
-                enclose!((config, finished) move || {
-                ui::utils::Async::borg(
-                    "refresh_repo_config",
-                    borg::Borg::new(config.clone()),
-                    |borg| borg.peek(),
-                    enclose!((config, finished)
-                        move |result| update_config(config.id.clone(), finished.clone(), result)
-                    ),
-                );
+                &gettext("Updating configuration for new version"),
+                enclose!((config) move || {
+                    WAITING_CONFIGS.update(|value| {
+                        *value += 1;
+                    });
+                    ui::page_pending::show(&gettext("Updating configuration for new version"));
+                    glib::timeout_add_local(500, move || {
+                        trace!("Configs waiting {}", WAITING_CONFIGS.load());
+                        if WAITING_CONFIGS.get() < 1 {
+                            ui::page_pending::back();
+                            Continue(false)
+                        } else {
+                            Continue(true)
+                        }
+                    });
+
+                    ui::utils::Async::borg(
+                        "refresh_repo_config",
+                        borg::Borg::new(config.clone()),
+                        |borg| borg.peek(),
+                        enclose!((config)
+                            move |result| update_config(config.id.clone(), result)
+                        ),
+                    );
                 }),
             );
         }
     }
-
-    glib::timeout_add_local(500, move || {
-        trace!("Strong reference count {}", Arc::strong_count(&finished));
-        if Arc::strong_count(&finished) <= 1 {
-            ui::write_config();
-            ui::page_pending::back();
-            Continue(false)
-        } else {
-            Continue(true)
-        }
-    });
 }
 
-fn update_config(id: String, _finished: Arc<()>, result: Result<borg::List, shared::BorgErr>) {
+fn update_config(id: String, result: Result<borg::List, shared::BorgErr>) {
     trace!("Got config update result");
 
     match result {
@@ -75,4 +80,11 @@ fn update_config(id: String, _finished: Arc<()>, result: Result<borg::List, shar
             ui::utils::show_error(gettext("Failed to update config"), err);
         }
     }
+
+    trace!("Finished this config update");
+    ui::write_config();
+
+    WAITING_CONFIGS.update(|value| {
+        *value -= 1;
+    });
 }

@@ -7,7 +7,7 @@ use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
-pub fn main<F: Fn() + Send + 'static>(config: shared::BackupConfig, f: F) {
+pub fn main<F: Fn() + Send + 'static>(config: shared::BackupConfig, purpose: &str, f: F) {
     match &config.repo {
         shared::BackupRepo::Local {
             path, removable, ..
@@ -15,7 +15,7 @@ pub fn main<F: Fn() + Send + 'static>(config: shared::BackupConfig, f: F) {
             if let Some(uri) = config.repo.get_uri_fuse() {
                 mount_fuse_dialog(uri, f);
             } else if *removable {
-                await_mount_dialog(config, f);
+                await_mount_dialog(config, purpose, f);
             } else {
                 f();
             }
@@ -70,7 +70,7 @@ pub fn mount_fuse_dialog<F: Fn() + 'static>(uri: String, f: F) {
     });
 }
 
-fn await_mount_dialog<F: Fn() + 'static>(config: shared::BackupConfig, f: F) {
+fn await_mount_dialog<F: Fn() + 'static>(config: shared::BackupConfig, purpose: &str, f: F) {
     if let shared::BackupRepo::Local {
         mount_name,
         drive_name,
@@ -80,6 +80,11 @@ fn await_mount_dialog<F: Fn() + 'static>(config: shared::BackupConfig, f: F) {
     } = config.repo
     {
         let dialog = Rc::new(ui::builder::DialogDeviceMissing::new());
+
+        if !purpose.is_empty() {
+            dialog.purpose().set_text(purpose);
+            dialog.purpose().show();
+        }
 
         let volume_monitor = gio::VolumeMonitor::get();
 

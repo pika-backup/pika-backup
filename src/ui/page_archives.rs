@@ -46,7 +46,7 @@ pub fn init() {
 
     main_ui().refresh_archives().connect_clicked(|_| {
         let config = SETTINGS.load().backups.get_active().unwrap().clone();
-        ui::dialog_device_missing::main(config.clone(), move || {
+        ui::dialog_device_missing::main(config.clone(), "", move || {
             refresh_archives_cache(config.clone());
         });
     });
