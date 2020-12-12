@@ -177,13 +177,11 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
         add_repo_config_remote(file.get_uri().to_string(), ui);
     } else if file.get_uri_scheme() == "file" {
         add_repo_config_local(&file, ui);
-    } else {
-        if mount_fuse_and_config(&file, ui.clone(), false)
-            .await
-            .is_ok()
-        {
-            add_repo_config_local(&file, ui);
-        }
+    } else if mount_fuse_and_config(&file, ui.clone(), false)
+        .await
+        .is_ok()
+    {
+        add_repo_config_local(&file, ui);
     }
 }
 

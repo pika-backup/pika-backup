@@ -1,5 +1,4 @@
 use std::error::Error;
-use std::io::prelude::*;
 
 use gdk_pixbuf::prelude::*;
 use gio::prelude::*;
@@ -28,6 +27,7 @@ mod page_detail;
 mod page_overview;
 mod page_pending;
 pub mod prelude;
+mod update_config;
 mod utils;
 
 pub fn main() {
@@ -158,6 +158,8 @@ fn init(_app: &gtk::Application) {
 
     main_ui().window().show_all();
     main_ui().window().present();
+
+    ui::update_config::run();
 }
 
 fn init_timeouts() {
@@ -257,29 +259,8 @@ fn init_check_borg() {
     }
 }
 
-fn config_path() -> std::path::PathBuf {
-    let mut path = crate::globals::CONFIG_DIR.clone();
-    path.push(env!("CARGO_PKG_NAME"));
-    std::fs::create_dir(&path).unwrap_or_default();
-    path.push("config.json");
-
-    if let Ok(mut file) = std::fs::OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .open(&path)
-    {
-        ui::utils::dialog_catch_err(
-            file.write_all(b"{ }"),
-            gettext("Could not create empty config file."),
-        );
-    }
-
-    path
-}
-
 fn load_config_e() -> Result<(), Box<dyn Error>> {
-    let file = std::fs::File::open(config_path())?;
-    let conf: shared::Settings = serde_json::de::from_reader(file)?;
+    let conf = shared::Settings::from_path(&shared::Settings::default_path()?)?;
     SETTINGS.update(|s| *s = conf.clone());
     Ok(())
 }
@@ -290,7 +271,7 @@ fn load_config() {
 
 fn write_config_e() -> Result<(), Box<dyn Error>> {
     let settings: &shared::Settings = &SETTINGS.load();
-    let file = std::fs::File::create(config_path())?;
+    let file = std::fs::File::create(&shared::Settings::default_path()?)?;
     serde_json::ser::to_writer_pretty(file, settings)?;
     Ok(())
 }

@@ -1,4 +1,7 @@
+use std::io::prelude::*;
+
 use crate::borg;
+
 use chrono::prelude::*;
 use gettextrs::gettext;
 use gio::prelude::*;
@@ -27,6 +30,25 @@ fn fake_repo_id() -> String {
 }
 
 impl BackupConfig {
+    pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
+        let mut include = std::collections::BTreeSet::new();
+        include.insert("".into());
+        let mut exclude = std::collections::BTreeSet::new();
+        exclude.insert(Pattern::PathPrefix(".cache".into()));
+
+        Self {
+            config_version: crate::CONFIG_VERSION,
+            id: glib::uuid_string_random().to_string(),
+            repo,
+            repo_id: info.repository.id,
+            encrypted,
+            encryption_mode: info.encryption.mode,
+            include,
+            exclude,
+            last_run: None,
+        }
+    }
+
     pub fn include_dirs(&self) -> Vec<path::PathBuf> {
         let mut dirs = Vec::new();
 
@@ -50,25 +72,23 @@ impl BackupConfig {
 
         dirs
     }
-}
 
-impl BackupConfig {
-    pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
-        let mut include = std::collections::BTreeSet::new();
-        include.insert("".into());
-        let mut exclude = std::collections::BTreeSet::new();
-        exclude.insert(Pattern::PathPrefix(".cache".into()));
+    pub fn update_version_0(&mut self, info: borg::List, icon_symbolic_new: Option<gio::Icon>) {
+        if self.config_version == 0 {
+            self.config_version = 1;
 
-        Self {
-            config_version: crate::CONFIG_VERSION,
-            id: glib::uuid_string_random().to_string(),
-            repo,
-            repo_id: info.repository.id,
-            encrypted,
-            encryption_mode: info.encryption.mode,
-            include,
-            exclude,
-            last_run: None,
+            if let BackupRepo::Local {
+                ref mut icon_symbolic,
+                ..
+            } = self.repo
+            {
+                *icon_symbolic = icon_symbolic_new
+                    .and_then(|icon| gio::IconExt::to_string(&icon))
+                    .as_ref()
+                    .map(ToString::to_string);
+            }
+            self.repo_id = info.repository.id;
+            self.encryption_mode = info.encryption.mode;
         }
     }
 }
@@ -280,6 +300,31 @@ pub struct BackupSettings {
 #[serde(default)]
 pub struct Settings {
     pub backups: BTreeMap<String, BackupConfig>,
+}
+
+impl Settings {
+    pub fn from_path(path: &std::path::Path) -> Result<Self, Box<dyn std::error::Error>> {
+        let file = std::fs::File::open(path)?;
+        let conf: Self = serde_json::de::from_reader(file)?;
+        Ok(conf)
+    }
+
+    pub fn default_path() -> Result<std::path::PathBuf, Box<dyn std::error::Error>> {
+        let mut path = crate::globals::CONFIG_DIR.clone();
+        path.push(env!("CARGO_PKG_NAME"));
+        std::fs::create_dir_all(&path)?;
+        path.push("config.json");
+
+        if let Ok(mut file) = std::fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&path)
+        {
+            file.write_all(b"{ }")?;
+        }
+
+        Ok(path)
+    }
 }
 
 pub fn get_home_dir() -> path::PathBuf {
