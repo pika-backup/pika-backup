@@ -1,42 +1,42 @@
-cargo_script = find_program(meson.source_root() / 'build-aux/meson-cargo.sh')
+cargo_options = []
+cargo_options += [ '--manifest-path', meson.source_root() / 'Cargo.toml' ]
+cargo_options += [ '--target-dir', meson.build_root() / 'src' ]
 
-bin = meson.project_name()
-
-cargo_options = '--release'
-rust_target = 'release'
-if get_option('profile') == 'dev'
-  cargo_options = ''
+if get_option('profile') == 'release'
+  cargo_options += [ '--release' ]
+  rust_target = 'release'
+else
   rust_target = 'debug'
 endif
 
-cargo_target_dir = meson.build_root() / 'target'
-
-env = [
-  [ 'MESON_SOURCE_ROOT', meson.source_root() ],
-  [ 'CARGO_TARGET_DIR', cargo_target_dir ],
-  [ 'CARGO_OPTIONS', cargo_options ],
-  [ 'CARGO_OUTPUT', meson.build_root() / 'target' / rust_target / bin ],
-  [ 'CARGO_HOME', meson.build_root() / 'cargo-home' ],
-  [ 'OUTPUT', '@OUTPUT@' ],
-  [ 'LOCALEDIR', get_option('prefix') / get_option('localedir') ],
-  [ 'APPLICATION_ID_SUFFIX', get_option('app_id_suffix') ]
+cargo_env = [ 'CARGO_HOME=' + meson.build_root() / 'cargo-home',
+  'LOCALEDIR=' + get_option('prefix') / get_option('localedir'),
+  'APPLICATION_ID_SUFFIX=' + get_option('app_id_suffix')
 ]
 
-command = [ cargo_script ]
-
-foreach p : env
-  command += 'export @0@="@1@";'.format(p[0], p[1])
-endforeach
-
-cargo_release = custom_target(
+cargo_build = custom_target(
   'cargo-build',
   build_by_default: true,
   build_always_stale: true,
-  output: bin,
+  output: 'release',
   console: true,
+  command: [ 'env',
+    cargo_env,
+    'cargo', 'build',
+    cargo_options
+  ]
+)
+
+binary_file = 'src' / rust_target / meson.project_name()
+copy_binary = custom_target(
+  'copy-binary',
+  depends: cargo_build,
+  build_by_default: true,
+  build_always_stale: true,
   install: true,
   install_dir: get_option('bindir'),
-  command: command
+  output: meson.project_name(),
+  command: [ 'cp', binary_file, '@OUTPUT@' ]
 )
 
 cargo = find_program('cargo')
@@ -46,8 +46,6 @@ test('cargo test',
   cargo,
   args: [
     'test',
-    '--manifest-path', meson.source_root() / 'Cargo.toml',
-    '--target-dir', cargo_target_dir,
     cargo_options
   ],
   is_parallel: false,
