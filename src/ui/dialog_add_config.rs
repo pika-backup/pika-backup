@@ -436,8 +436,8 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
         label2.push_str(&gettextf(
             " – {} of {} available",
             &[
-                &ui::utils::hsized(fs_free, 0),
-                &ui::utils::hsized(fs_size, 0),
+                &glib::format_size(fs_free).unwrap(),
+                &glib::format_size(fs_size).unwrap(),
             ],
         ));
     }

@@ -1,6 +1,5 @@
 use gio::prelude::*;
 use gtk::prelude::*;
-use humansize::FileSize;
 use libhandy::prelude::*;
 
 use crate::borg;
@@ -213,18 +212,6 @@ quick_error! {
     pub enum AsyncErr {
         ThreadPanicked { display("{}", gettext("The responsible thread has panicked")) }
     }
-}
-
-pub fn hsize(bytes: u64) -> String {
-    bytes
-        .file_size(humansize::file_size_opts::CONVENTIONAL)
-        .unwrap_or_default()
-}
-
-pub fn hsized(bytes: u64, decimal_places: usize) -> String {
-    let mut opts = humansize::file_size_opts::CONVENTIONAL;
-    opts.decimal_places = decimal_places;
-    bytes.file_size(opts).unwrap_or_default()
 }
 
 pub fn folder_chooser_dialog(title: &str) -> Option<gio::File> {

@@ -30,8 +30,12 @@ pub fn show() {
             storage.disk().show();
 
             if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&gio::File::new_for_path(&path)) {
-                storage.fs_size().set_text(&ui::utils::hsized(fs_size, 0));
-                storage.fs_free().set_text(&ui::utils::hsized(fs_free, 0));
+                storage
+                    .fs_size()
+                    .set_text(&glib::format_size(fs_size).unwrap());
+                storage
+                    .fs_free()
+                    .set_text(&glib::format_size(fs_free).unwrap());
                 storage
                     .fs_usage()
                     .set_value(1.0 - fs_free as f64 / fs_size as f64);

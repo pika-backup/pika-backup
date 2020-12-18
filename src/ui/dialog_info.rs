@@ -3,7 +3,6 @@ use gtk::prelude::*;
 use crate::ui::backup_status;
 use crate::ui::globals::*;
 use crate::ui::shared::*;
-use crate::ui::utils;
 
 pub fn init() {
     main_ui().detail_dialog_vbox().set_border_width(0);
@@ -61,10 +60,10 @@ fn refresh_status_display(status: &backup_status::Display) {
         main_ui().progress_archive_box().show();
         main_ui()
             .detail_original_size()
-            .set_text(&utils::hsize(progress_archive.original_size));
+            .set_text(&glib::format_size(progress_archive.original_size).unwrap());
         main_ui()
             .detail_deduplicated_size()
-            .set_text(&utils::hsize(progress_archive.deduplicated_size));
+            .set_text(&glib::format_size(progress_archive.deduplicated_size).unwrap());
         main_ui()
             .detail_current_path()
             .set_text(&format!("/{}", progress_archive.path));
