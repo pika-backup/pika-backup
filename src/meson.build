@@ -44,7 +44,7 @@ copy_binary = custom_target(
   command: [
     'cp',
     target_dir / rust_target / meson.project_name(),
-    '@OUTPUT@'
+    '@OUTPUT@',
   ],
 )
 
@@ -60,7 +60,9 @@ test('cargo-test',
   cargo_bin,
   args: [
     'test',
-    cargo_options
+    cargo_options,
+    '--',
+    '--test-threads=1',
   ],
   is_parallel: false,
   timeout: 1800,
