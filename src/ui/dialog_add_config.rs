@@ -170,10 +170,11 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
     page_pending::show(&gettext("Loading backup repository"));
     ui.new_backup().hide();
 
-    let file = gio::File::new_for_uri(&ui.location_url().get_text());
+    let url = ui.location_url().get_text().to_string();
+    let file = gio::File::new_for_uri(&url);
     debug!("Add existing URI '{:?}'", file.get_path());
 
-    if file.get_uri_scheme() == "ssh" {
+    if url.get(..6) == Some("ssh://") {
         add_repo_config_remote(file.get_uri().to_string(), ui);
     } else if file.get_uri_scheme() == "file"
         || mount_fuse_and_config(&file, ui.clone(), false)
@@ -270,10 +271,10 @@ fn show_init(ui: &builder::DialogAddConfig) {
 }
 
 fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
-    glib::MainContext::default().spawn_local(on_init_button_clickedx(ui));
+    glib::MainContext::default().spawn_local(on_init_button_clicked_future(ui));
 }
 
-async fn on_init_button_clickedx(ui: Rc<builder::DialogAddConfig>) {
+async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
     let encrypted =
         ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
@@ -299,8 +300,14 @@ async fn on_init_button_clickedx(ui: Rc<builder::DialogAddConfig>) {
         }
     } else {
         let url = ui.location_url().get_text().to_string();
+        let file = gio::File::new_for_uri(&ui.location_url().get_text());
+
         if url.is_empty() {
             None
+        } else if url.get(..6) == Some("ssh://") {
+            Some(BackupRepo::new_remote(url))
+        } else if file.get_uri_scheme() == "file" {
+            BackupRepo::new_local_for_file(&file)
         } else {
             mount_fuse_and_config(&gio::File::new_for_uri(&url), ui.clone(), true)
                 .await
