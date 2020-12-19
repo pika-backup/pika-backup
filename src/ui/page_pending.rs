@@ -16,7 +16,11 @@ pub fn init() {
 }
 
 pub fn show(msg: &str) {
-    LAST_PAGE.with(|last_page| last_page.set(main_ui().main_stack().get_visible_child()));
+    if main_ui().main_stack().get_visible_child()
+        != Some(main_ui().page_pending().upcast::<gtk::Widget>())
+    {
+        LAST_PAGE.with(|last_page| last_page.set(main_ui().main_stack().get_visible_child()));
+    }
     main_ui()
         .main_stack()
         .set_visible_child(&main_ui().page_pending());
