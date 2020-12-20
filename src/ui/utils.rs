@@ -225,6 +225,8 @@ pub fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
         ],
     );
 
+    dialog.set_local_only(false);
+
     if let Some(button) = dialog.get_widget_for_response(gtk::ResponseType::Accept) {
         button.add_css_class("suggested-action");
     }
