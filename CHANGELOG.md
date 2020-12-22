@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 (not released)
+## 0.2.0 (2020-09-23)
 
 - Adds translations to several languages
 - Redesigns some parts of the user interface
