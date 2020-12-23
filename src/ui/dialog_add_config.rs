@@ -278,7 +278,11 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
     let encrypted =
         ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
-    if encrypted && ui.password().get_text() != ui.password_confirm().get_text() {
+    // TODO: Add string for empty password
+    if encrypted
+        && (ui.password().get_text() != ui.password_confirm().get_text()
+            || ui.password().get_text().is_empty())
+    {
         ui::utils::show_error(
             gettext("Entered passwords do not match"),
             gettext("Please try again"),
