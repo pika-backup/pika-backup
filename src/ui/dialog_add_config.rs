@@ -170,12 +170,12 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
     page_pending::show(&gettext("Loading backup repository"));
     ui.new_backup().hide();
 
-    let url = ui.location_url().get_text().to_string();
+    let url = ui.location_url().get_text();
     let file = gio::File::new_for_uri(&url);
     debug!("Add existing URI '{:?}'", file.get_path());
 
     if url.get(..6) == Some("ssh://") {
-        add_repo_config_remote(file.get_uri().to_string(), ui);
+        add_repo_config_remote(&url, ui);
     } else if file.get_uri_scheme() == "file"
         || mount_fuse_and_config(&file, ui.clone(), false)
             .await
@@ -480,8 +480,8 @@ fn add_repo_config_local(file: &gio::File, ui: Rc<builder::DialogAddConfig>) {
     }
 }
 
-fn add_repo_config_remote(uri: String, ui: Rc<builder::DialogAddConfig>) {
-    let mut repo = BackupRepo::new_remote(uri);
+fn add_repo_config_remote(uri: &str, ui: Rc<builder::DialogAddConfig>) {
+    let mut repo = BackupRepo::new_remote(uri.to_string());
 
     if let Ok(args) = get_command_line_args(&ui) {
         repo.set_settings(Some(BackupSettings {
