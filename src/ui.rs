@@ -58,26 +58,16 @@ pub fn main() {
     crate::globals::init();
 
     // Ctrl-C handling
-    let (send, recv) = std::sync::mpsc::channel();
-    // Use channel to call GtkApplicaton from main thread
-    glib::timeout_add_local(100, move || {
-        if recv.try_recv().is_ok() {
-            on_ctrlc();
-        }
-        Continue(true)
-    });
-    ctrlc::set_handler(move || {
-        send.send(())
-            .expect("Could not send Ctrl-C to main thread.");
-    })
-    .expect("Error setting Ctrl-C handler");
+    glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
+
     init_check_borg();
 
     gtk_app().run(&[]);
 }
 
-fn on_ctrlc() {
+fn on_ctrlc() -> Continue {
     gtk_app().release();
+    Continue(true)
 }
 
 fn on_shutdown(app: &gtk::Application) {
