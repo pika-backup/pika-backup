@@ -26,7 +26,7 @@ cargo-audit:
     - cargo audit --deny-warnings
 
 cargo-clippy:
-  extends: .test
+  extends: test
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --share=network flatpak_app
