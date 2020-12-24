@@ -48,17 +48,6 @@ copy_binary = custom_target(
   ],
 )
 
-test(
-  'cargo-clippy',
-  cargo_bin,
-  args: [
-    'clippy',
-    cargo_options,
-  ],
-  is_parallel: false,
-  timeout: 1800,
-)
-
 test('cargo-test',
   cargo_bin,
   args: [

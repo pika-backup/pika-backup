@@ -25,17 +25,16 @@ cargo-audit:
     - cargo install cargo-audit
     - cargo audit --deny-warnings
 
+cargo-clippy:
+  interruptible: true
+  image: rust:slim
+  script:
+    - rustup component add clippy
+    - cargo clippy
+
 cargo-fmt:
   interruptible: true
   image: rust:slim
   script:
     - rustup component add rustfmt
     - cargo fmt --all -- --color=always --check
-
-cargo-outdated:
-  allow_failure: true
-  interruptible: true
-  image: rust
-  script:
-    - cargo install cargo-outdated
-    - cargo outdated --root-deps-only --exit-code 1
