@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2020-12-12 19:58+0000\n"
-"PO-Revision-Date: 2020-12-12 22:17+0200\n"
+"POT-Creation-Date: 2020-12-26 18:01+0000\n"
+"PO-Revision-Date: 2020-12-27 12:33+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -24,7 +24,8 @@ msgstr ""
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:5 src/ui/dialog_about.rs:20
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:5 data/ui/main.ui:144
+#: src/ui/dialog_about.rs:20
 msgid "Pika Backup"
 msgstr "Пайка-копіювання"
 
@@ -92,11 +93,6 @@ msgid "Limitations"
 msgstr "Обмеження"
 
 #: data/app.metainfo.xml.in:39
-#| msgid ""
-#| "Currently, scheduled backups are not supported. Excluding files from a "
-#| "backup via regular expressions and alike is not implemented yet. Remote "
-#| "backup locations must support SSH and need to have a borg-backup binary "
-#| "installed."
 msgid ""
 "Currently, scheduled backups are not supported. Excluding files from a "
 "backup via regular expressions and alike is not implemented yet. Pika Backup "
@@ -105,10 +101,10 @@ msgid ""
 msgstr ""
 "У поточній версії не передбачено створення резервних копій за розкладом. "
 "Виключення файлів з резервного копіювання за допомогою формальних виразів та "
-"інших подібних замінників назв ще не реалізовано. «Пайка-копіювання»"
-" розроблено для резервного копіювання ваших особистих даних — у програмі не"
-" передбачено підтримки повного резервного копіювання та відновлення усієї"
-" системи."
+"інших подібних замінників назв ще не реалізовано. «Пайка-копіювання» "
+"розроблено для резервного копіювання ваших особистих даних — у програмі не "
+"передбачено підтримки повного резервного копіювання та відновлення усієї "
+"системи."
 
 #: data/ui/dialog_about.ui:9
 msgid ""
@@ -140,39 +136,39 @@ msgstr "Використовувати наявне сховище"
 msgid "Location"
 msgstr "Місце"
 
-#: data/ui/dialog_add_config.ui:333
+#: data/ui/dialog_add_config.ui:335
 msgid "URL"
 msgstr "Адреса"
 
-#: data/ui/dialog_add_config.ui:350
+#: data/ui/dialog_add_config.ui:352
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://користувач@сервер.приклад.org/~/backup"
 
-#: data/ui/dialog_add_config.ui:394 data/ui/dialog_encryption_password.ui:164
+#: data/ui/dialog_add_config.ui:396 data/ui/dialog_encryption_password.ui:164
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: data/ui/dialog_add_config.ui:484
+#: data/ui/dialog_add_config.ui:489
 msgid "Confirm"
 msgstr "Підтвердити"
 
-#: data/ui/dialog_add_config.ui:527 data/ui/dialog_encryption_password.ui:57
+#: data/ui/dialog_add_config.ui:532 data/ui/dialog_encryption_password.ui:57
 msgid "Password"
 msgstr "Пароль"
 
-#: data/ui/dialog_add_config.ui:540
-msgid "Store Password"
-msgstr "Зберегти пароль"
+#: data/ui/dialog_add_config.ui:545 data/ui/dialog_encryption_password.ui:90
+msgid "Save password"
+msgstr "Запам'ятати пароль"
 
-#: data/ui/dialog_add_config.ui:560
+#: data/ui/dialog_add_config.ui:565
 msgid "Encrypted"
 msgstr "Шифроване"
 
-#: data/ui/dialog_add_config.ui:573
+#: data/ui/dialog_add_config.ui:578
 msgid "Unencrypted"
 msgstr "Не зашифровано"
 
-#: data/ui/dialog_add_config.ui:607
+#: data/ui/dialog_add_config.ui:612
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with \"--\", are supported."
@@ -180,38 +176,34 @@ msgstr ""
 "Ці аргументи буде додано до виклику виконуваного файла borg. Передбачено "
 "підтримку лише довгих версій параметрів, які починаються з «--»."
 
-#: data/ui/dialog_add_config.ui:608
+#: data/ui/dialog_add_config.ui:613
 msgid "Additional command line arguments"
 msgstr "Додаткові аргументи командного рядка"
 
-#: data/ui/dialog_add_config.ui:647
+#: data/ui/dialog_add_config.ui:652
 msgid "Advanced settings"
 msgstr "Додаткові параметри"
 
-#: data/ui/dialog_add_config.ui:682
+#: data/ui/dialog_add_config.ui:687
 msgid "Backup Configuration"
 msgstr "Налаштовування резервного копіювання"
 
-#: data/ui/dialog_add_config.ui:685 data/ui/dialog_device_missing.ui:110
+#: data/ui/dialog_add_config.ui:690 data/ui/dialog_device_missing.ui:132
 #: data/ui/dialog_encryption_password.ui:167
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: data/ui/dialog_add_config.ui:708
+#: data/ui/dialog_add_config.ui:713
 msgid "Connect"
 msgstr "З'єднатися"
 
-#: data/ui/dialog_add_config.ui:724
+#: data/ui/dialog_add_config.ui:729
 msgid "Create"
 msgstr "Створити"
 
-#: data/ui/dialog_device_missing.ui:40
+#: data/ui/dialog_device_missing.ui:57
 msgid "Please insert the backup medium"
 msgstr "Будь ласка, вставте носій для резервних копій"
-
-#: data/ui/dialog_encryption_password.ui:90
-msgid "Save password"
-msgstr "Запам'ятати пароль"
 
 #: data/ui/dialog_encryption_password.ui:105
 msgid "Forget password immediately"
@@ -318,7 +310,7 @@ msgstr "Додати виключений каталог"
 msgid "Nothing excluded from backup"
 msgstr "З резервної копії нічого не виключено"
 
-#: data/ui/main.ui:584 src/ui.rs:147
+#: data/ui/main.ui:584
 msgid "Backup"
 msgstr "Резервне копіювання"
 
@@ -346,28 +338,28 @@ msgstr "Додайте нові налаштування, щоб розпоча�
 msgid "Configure Backup"
 msgstr "Налаштування резервного копіювання"
 
-#: data/ui/main.ui:1090
+#: data/ui/main.ui:1089
 msgid "Saved"
 msgstr "Збережено"
 
-#: data/ui/main.ui:1117
+#: data/ui/main.ui:1118
 msgid "Backup space needed"
 msgstr "Потрібне місце для резервних копій"
 
-#: data/ui/main.ui:1145
+#: data/ui/main.ui:1148
 msgid "Current file"
 msgstr "Поточний файл"
 
-#: data/ui/main.ui:1217
+#: data/ui/main.ui:1228
 msgid "Backup Info"
 msgstr "Відомості щодо резервного копіювання"
 
-#: src/ui.rs:233
+#: src/ui.rs:217
 msgid "Failed to run `borg`. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:249
+#: src/ui.rs:233
 msgid ""
 "Your borg-backup version seems to be smaller then "
 "required                     version {}.{}.X. Some features will not work."
@@ -375,11 +367,11 @@ msgstr ""
 "Здається, встановлена у вас версія borg-backup є давнішою за мінімальну "
 "потрібну для роботи {}.{}.X. Деякі можливості не працюватимуть."
 
-#: src/ui.rs:269
+#: src/ui.rs:253
 msgid "Could not load config."
 msgstr "Не вдалося завантажити налаштування."
 
-#: src/ui.rs:280
+#: src/ui.rs:264
 msgid "Could not write config."
 msgstr "Не вдалося записати налаштування."
 
@@ -461,60 +453,60 @@ msgstr "Завантажуємо сховище резервних копій"
 msgid "The selected directory is not a valid backup repository"
 msgstr "Вибраний каталог не є коректним сховищем резервних копій"
 
-#: src/ui/dialog_add_config.rs:228
+#: src/ui/dialog_add_config.rs:229
 msgid "Repository location not mounted"
 msgstr "Місце зберігання сховища не змонтовано"
 
-#: src/ui/dialog_add_config.rs:229
+#: src/ui/dialog_add_config.rs:230
 msgid "Mounting succeeded but still unable find enclosing mount"
 msgstr ""
 "Успішне монтування, але все одно не вдалося знайти включену точку монтування"
 
-#: src/ui/dialog_add_config.rs:282
+#: src/ui/dialog_add_config.rs:287
 msgid "Entered passwords do not match"
 msgstr "Введені паролі не збігаються"
 
-#: src/ui/dialog_add_config.rs:283
+#: src/ui/dialog_add_config.rs:288
 msgid "Please try again"
 msgstr "Будь ласка, повторіть спробу"
 
-#: src/ui/dialog_add_config.rs:315
+#: src/ui/dialog_add_config.rs:326
 msgid "You have to enter a repository location"
 msgstr "Вам слід ввести місце сховища"
 
-#: src/ui/dialog_add_config.rs:325
+#: src/ui/dialog_add_config.rs:336
 msgid "Invalid additional command line arguments"
 msgstr "Некоректні додаткові аргументи командного рядка"
 
-#: src/ui/dialog_add_config.rs:329
+#: src/ui/dialog_add_config.rs:340
 msgid "Creating backup repository"
 msgstr "Створення сховища резервних копій"
 
-#: src/ui/dialog_add_config.rs:346
+#: src/ui/dialog_add_config.rs:357
 msgid "Failed to initialize repository"
 msgstr "Не вдалося ініціалізувати сховище"
 
-#: src/ui/dialog_add_config.rs:357 src/ui/utils.rs:83
+#: src/ui/dialog_add_config.rs:368 src/ui/utils.rs:82
 msgid "Failed to store password."
 msgstr "Не вдалося зберегти пароль."
 
-#: src/ui/dialog_add_config.rs:381
+#: src/ui/dialog_add_config.rs:392
 msgid "Additional command line arguments invalid"
 msgstr "Некоректні додаткові аргументи командного рядка"
 
-#: src/ui/dialog_add_config.rs:382
+#: src/ui/dialog_add_config.rs:393
 msgid "Please check for missing closing quotes"
 msgstr "Будь ласка, перевірте, чи закрито лапки"
 
-#: src/ui/dialog_add_config.rs:437
-msgid " – {} of {} available"
-msgstr " — доступно {} з {}"
+#: src/ui/dialog_add_config.rs:451
+msgid "Free space: {}"
+msgstr "Вільне місце: {}"
 
-#: src/ui/dialog_add_config.rs:466
+#: src/ui/dialog_add_config.rs:477
 msgid "Unexpected error with repository"
 msgstr "Неочікувана помилка зі сховищем"
 
-#: src/ui/dialog_add_config.rs:511
+#: src/ui/dialog_add_config.rs:522
 msgid "There was an error with the specified repository"
 msgstr "Під час роботи із вказаним сховищем сталася помилка"
 
@@ -594,27 +586,32 @@ msgstr "Ви справді хочете вилучити ці налаштув�
 msgid "No active backup to delete."
 msgstr "Немає активних резервних копіювань для вилучення."
 
-#: src/ui/update_config.rs:21
+#: src/ui/update_config.rs:28 src/ui/update_config.rs:33
 msgid "Updating configuration for new version"
 msgstr "Оновлюємо налаштування до нової версії"
 
-#: src/ui/update_config.rs:75
-#| msgid "Failed to open archive"
+#: src/ui/update_config.rs:80
 msgid "Failed to update config"
 msgstr "Не вдалося оновити налаштування"
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils.rs:24
+#: src/ui/utils.rs:23
 msgid "Pika Backup Password"
 msgstr "Пароль до резервної копії Пайки"
 
-#: src/ui/utils.rs:89
+#: src/ui/utils.rs:88
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
 
-#: src/ui/utils.rs:214
+#: src/ui/utils.rs:213
 msgid "The responsible thread has panicked"
 msgstr "Паніка у відповідальному за обробку потоці"
+
+#~ msgid "Store Password"
+#~ msgstr "Зберегти пароль"
+
+#~ msgid " – {} of {} available"
+#~ msgstr " — доступно {} з {}"
 
 #~ msgid "Could not create empty config file."
 #~ msgstr "Не вдалося створити порожній файл налаштувань."
