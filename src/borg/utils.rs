@@ -227,12 +227,12 @@ impl BorgCall {
     }
 
     pub fn spawn(&self) -> std::io::Result<std::process::Child> {
-        info!("Running borg: {:?}\nenv: {:?}", &self.args(), &self.envs);
+        info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
         self.cmd().spawn()
     }
 
     pub fn output(&self) -> std::io::Result<std::process::Output> {
-        info!("Running borg: {:?}\nenv: {:?}", &self.args(), &self.envs);
+        info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
         self.cmd().output()
     }
 }

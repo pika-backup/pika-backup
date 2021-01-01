@@ -38,19 +38,13 @@ Outside of GNOME Builder the flatpak manifests depend on the generated `generate
 
 ## Debugging
 
-The STDIO log level can be adjusted by setting the `RUST_LOG` to debug or trace. For example
+The log level can be adjusted by setting the `G_MESSAGES_DEBUG` to `all`. For example
 
 ```sh
-$ RUST_LOG=trace cargo run
+$ G_MESSAGES_DEBUG=all cargo run
 ```
 
-There is also the option to log to syslog
-
-```sh
-$ cargo run --syslog
-```
-
-However, flatpaks do not support syslog by default.
+See ["Running GLib Applications"](https://developer.gnome.org/glib/stable/glib-running.html) for more options.
 
 ## Building manually
 

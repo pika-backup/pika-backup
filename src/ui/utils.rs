@@ -43,8 +43,7 @@ pub fn secret_service_delete_passwords(
             ("program", env!("CARGO_PKG_NAME")),
         ])?
         .iter()
-        .map(|item| item.delete())
-        .collect::<Result<(), secret_service::SsError>>()
+        .try_for_each(|item| item.delete())
 }
 
 pub fn get_password(pre_select_store: bool) -> Option<(shared::Password, bool)> {

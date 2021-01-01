@@ -30,21 +30,23 @@ mod update_config;
 mod utils;
 
 pub fn main() {
-    if std::env::args().find(|x| x == "--syslog").is_none() {
-        pretty_env_logger::try_init_timed()
-            .unwrap_or_else(|e| eprintln!("!!! Log initialization failed: {}", e));
-    } else {
-        syslog::init(syslog::Facility::LOG_USER, log::LevelFilter::Trace, None)
-            .unwrap_or_else(|e| eprintln!("!!! Syslog initialization failed: {}", e));
-    }
-    debug!("Logging initialized");
+    // suppress "gdk_pixbuf_from_pixdata()" debug spam
+    glib::log_set_handler(
+        Some("GdkPixbuf"),
+        glib::LogLevels::LEVEL_DEBUG,
+        false,
+        false,
+        |_, _, _| {},
+    );
 
+    // init gettext
     gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
     let localedir = option_env!("LOCALEDIR").unwrap_or(crate::DEFAULT_LOCALEDIR);
     gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), localedir);
     info!("bindtextdomain sets directory to {:?}", localedir);
     gettextrs::textdomain(env!("CARGO_PKG_NAME"));
 
+    // init gtk and libhandy
     gtk::init().expect("Failed to gtk::init()");
     libhandy::init();
     let none: Option<&gio::Cancellable> = None;
