@@ -1,11 +1,11 @@
 #[macro_use]
 extern crate serde_derive;
 #[macro_use]
-extern crate log;
-#[macro_use]
 extern crate quick_error;
 #[macro_use]
 extern crate enclose;
+#[macro_use]
+pub mod prelude;
 
 static CONFIG_VERSION: u16 = 1;
 

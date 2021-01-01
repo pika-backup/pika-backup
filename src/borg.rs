@@ -292,7 +292,7 @@ impl Borg {
 
         if exit_status.success() {
             let stats: Stats = serde_json::from_slice(&output.stdout)?;
-            info!("Stats: {:?}", stats);
+            info!("Stats: {:#?}", stats);
             Ok(stats)
         } else {
             Err(if errors.is_empty() {

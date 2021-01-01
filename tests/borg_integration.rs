@@ -6,9 +6,8 @@ use shared::*;
 
 type CheckError = Result<(), Box<dyn std::error::Error>>;
 
-fn init() {
-    pretty_env_logger::try_init().unwrap_or_default();
-}
+// Currently, there are no init tasks
+fn init() {}
 
 #[test]
 #[ignore]
