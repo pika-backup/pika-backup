@@ -137,11 +137,11 @@ fn archives_cache_refreshed(config: BackupConfig, result: Result<Vec<borg::ListA
                 Ok(file) => {
                     ui::utils::dialog_catch_err(
                         serde_json::ser::to_writer(&file, &repo_archives),
-                        "Failed to save cache",
+                        "Failed to save cache.",
                     );
                 }
                 Err(err) => {
-                    ui::utils::show_error("Failed to open cache file", err);
+                    ui::utils::show_error("Failed to open cache file.", err);
                 }
             }
 
@@ -154,7 +154,7 @@ fn archives_cache_refreshed(config: BackupConfig, result: Result<Vec<borg::ListA
                 repos.insert(config.repo_id.clone(), repo);
             });
             update_archives_spinner(config);
-            ui::utils::show_error("Failed to refresh archives cache", err)
+            ui::utils::show_error("Failed to refresh archives cache.", err)
         }
     }
 }
@@ -175,7 +175,7 @@ fn on_browse_archive(config: BackupConfig, archive_name: String) {
             move || find_first_populated_dir(&path),
             move |result| {
                 match result {
-                    Err(err) => ui::utils::show_error(gettext("Failed to open archive"), err),
+                    Err(err) => ui::utils::show_error(gettext("Failed to open archive."), err),
                     Ok(path) => {
                         let uri = gio::File::new_for_path(&path).get_uri();
 
@@ -197,7 +197,7 @@ fn on_browse_archive(config: BackupConfig, archive_name: String) {
 
                             ui::utils::dialog_catch_err(
                                 show_folder(),
-                                gettext("Failed to open archive"),
+                                gettext("Failed to open archive."),
                             );
                         }
                     }
