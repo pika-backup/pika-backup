@@ -10,16 +10,11 @@ use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub fn init() {
-    main_ui().include_home_row().add(&main_ui().include_home());
-
     main_ui().backup_run().connect_clicked(|_| on_backup_run());
 
     main_ui()
         .detail_status_row()
         .add_prefix(&main_ui().status_graphic());
-    main_ui()
-        .detail_status_row()
-        .add(&main_ui().detail_status_right());
 
     // Backup details
     main_ui().detail_status_row().set_activatable(true);

@@ -7,47 +7,6 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
   </object>
-  <object class="GtkBox" id="detail_status_right">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <child>
-      <object class="GtkButton" id="stop_backup_create">
-        <property name="label" translatable="yes">Abort</property>
-        <property name="can-focus">True</property>
-        <property name="receives-default">True</property>
-        <property name="no-show-all">True</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkImage" id="detail_hint_icon">
-        <property name="can-focus">False</property>
-        <property name="no-show-all">True</property>
-        <property name="icon-name">go-next-symbolic</property>
-        <style>
-          <class name="dim-label"/>
-        </style>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkSwitch" id="include_home">
-    <property name="visible">True</property>
-    <property name="can-focus">True</property>
-    <property name="halign">end</property>
-    <property name="valign">center</property>
-    <property name="active">True</property>
-  </object>
   <object class="GtkPopoverMenu" id="main_menu_popover">
     <property name="can-focus">False</property>
     <child>
@@ -329,7 +288,40 @@ This might take a while.</property>
                                                     <property name="activatable">False</property>
                                                     <property name="selectable">False</property>
                                                     <child>
-                                                      <placeholder/>
+                                                      <object class="GtkBox" id="detail_status_right">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <child>
+                                                          <object class="GtkButton" id="stop_backup_create">
+                                                            <property name="label" translatable="yes">Abort</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="no-show-all">True</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="valign">center</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkImage" id="detail_hint_icon">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="no-show-all">True</property>
+                                                            <property name="icon-name">go-next-symbolic</property>
+                                                            <style>
+                                                            <class name="dim-label"/>
+                                                            </style>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </object>
                                                     </child>
                                                   </object>
                                                 </child>
@@ -451,7 +443,13 @@ This might take a while.</property>
                                                     <property name="icon-name">user-home</property>
                                                     <property name="subtitle" translatable="yes">Usually contains all personal data</property>
                                                     <child>
-                                                      <placeholder/>
+                                                      <object class="GtkSwitch" id="include_home">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="halign">end</property>
+                                                        <property name="valign">center</property>
+                                                        <property name="active">True</property>
+                                                      </object>
                                                     </child>
                                                   </object>
                                                 </child>
