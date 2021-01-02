@@ -209,7 +209,7 @@ where
 quick_error! {
     #[derive(Debug)]
     pub enum AsyncErr {
-        ThreadPanicked { display("{}", gettext("The responsible thread has panicked")) }
+        ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
     }
 }
 
@@ -282,7 +282,7 @@ pub fn show_error<S: std::fmt::Display, P: std::fmt::Display>(message: S, detail
         Some(&main_ui().window()),
         gtk::DialogFlags::MODAL,
         gtk::MessageType::Error,
-        gtk::ButtonsType::Ok,
+        gtk::ButtonsType::Close,
         &primary_text,
     );
 
@@ -308,16 +308,20 @@ pub fn dialog_error<S: std::fmt::Display>(error: S) {
     show_error(error, "");
 }
 
-pub fn dialog_yes_no<S: AsRef<str>>(message: S) -> bool {
+pub fn confirmation_dialog(title: &str, message: &str, cancel: &str, accept: &str) -> bool {
     let dialog = gtk::MessageDialog::new(
         Some(&main_ui().window()),
         gtk::DialogFlags::MODAL,
         gtk::MessageType::Question,
-        gtk::ButtonsType::YesNo,
-        message.as_ref(),
+        gtk::ButtonsType::None,
+        title,
     );
 
-    let result = dialog.run() == gtk::ResponseType::Yes;
+    dialog.set_property_secondary_text(Some(message));
+    dialog.add_button(cancel, gtk::ResponseType::Cancel);
+    dialog.add_button(accept, gtk::ResponseType::Accept);
+
+    let result = dialog.run() == gtk::ResponseType::Accept;
     dialog.close();
     dialog.hide();
     result

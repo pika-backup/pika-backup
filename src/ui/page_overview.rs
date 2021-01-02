@@ -61,9 +61,12 @@ fn on_main_stack_changed(_stack: &gtk::Stack) {
 }
 
 fn on_remove_backup(_button: &gtk::ModelButton) {
-    let delete = ui::utils::dialog_yes_no(gettext(
-        "Are you sure you want to delete this backup configuration?",
-    ));
+    let delete = ui::utils::confirmation_dialog(
+        &gettext("Delete backup configuration?"),
+        &gettext("Deleting the configuration will not delete your saved data."),
+        &gettext("Cancel"),
+        &gettext("Delete"),
+    );
 
     if delete {
         if let Some(config) = SETTINGS.get().backups.get_active() {

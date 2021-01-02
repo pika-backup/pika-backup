@@ -180,8 +180,11 @@ fn is_backup_running() -> bool {
 /// Checks if it's okay to quit and ask the user if necessary
 fn is_quit_okay() -> bool {
     if is_backup_running() {
-        ui::utils::dialog_yes_no(
-            "Backup is still running. Do you want to abort the running backup?",
+        ui::utils::confirmation_dialog(
+            &gettext("Abort running backup creation?"),
+            &gettext("The backup will remain incomlete if aborted now."),
+            &gettext("Continue"),
+            &gettext("Abort"),
         )
     } else {
         true
@@ -231,9 +234,10 @@ fn init_check_borg() {
                     .cmp(version_list)
                     == std::cmp::Ordering::Greater
                 {
-                    ui::utils::dialog_error(gettextf(
-                        "Your borg-backup version seems to be smaller then required \
-                    version {}.{}.X. Some features will not work.",
+                    ui::utils::show_error(
+                    gettext("Borg version too old."),
+                    gettextf(
+                        "The installed version of borg-backup is too old. Some features requiring borg-backup version {}.{} will not work.",
                         &[
                             &crate::BORG_MIN_MAJOR.to_string(),
                             &crate::BORG_MIN_MINOR.to_string(),

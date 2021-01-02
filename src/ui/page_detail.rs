@@ -53,9 +53,17 @@ pub fn init() {
                 let change: bool = if switch.get_active() {
                     true
                 } else {
-                    ui::utils::dialog_yes_no(gettext(
-                        "Are you sure you want to remove the home directory from this backup?",
-                    ))
+                    ui::utils::confirmation_dialog(
+                &gettextf(
+                    "No longer include “{}” in backups?",
+                    &[&gettext("Home")],
+                ),
+                &gettext(
+                    "All files contained in this folder will no longer be part of future backups.",
+                ),
+                &gettext("Cancel"),
+                &gettext("Confirm"),
+            )
                 };
 
                 SETTINGS.update(|settings| {
@@ -127,7 +135,12 @@ pub fn view_backup_conf(id: &str) {
 }
 
 fn stop_backup_create() {
-    if !ui::utils::dialog_yes_no(gettext("Are you sure you want abort the running backup?")) {
+    if !ui::utils::confirmation_dialog(
+        &gettext("Abort running backup creation?"),
+        &gettext("The backup will remain incomlete if aborted now."),
+        &gettext("Continue"),
+        &gettext("Abort"),
+    ) {
         return;
     }
 
@@ -145,10 +158,12 @@ fn on_backup_run() {
     if ACTIVE_MOUNTS.load().contains(&backup_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
-        let unmount = ui::utils::dialog_yes_no(gettext(
-            "The backup repository is currently reserved for browsing files. \
-             Do you want to disable browsing and start the Backup?",
-        ));
+        let unmount = ui::utils::confirmation_dialog(
+            &gettext("Stop browsing files and start backup?"),
+            &gettext("Browsing through archived files is not possible while running a backup."),
+            &gettext("Keep Browsing"),
+            &gettext("Start Backup"),
+        );
         if unmount {
             trace!("User decided to unmount repo.");
             if !ui::utils::dialog_catch_err(
@@ -198,7 +213,7 @@ pub fn run_backup(config: shared::BackupConfig) {
 
             if !user_aborted {
                 if let Err(err) = result_string_err {
-                    ui::utils::show_error(gettext("Creating a backup failed"), err);
+                    ui::utils::show_error(gettext("Creating a backup failed."), err);
                 } else {
                     ui::page_archives::refresh_archives_cache(config.clone());
                 }
@@ -293,8 +308,17 @@ pub fn refresh() {
 
         let path = file.clone();
         button.connect_clicked(move |_| {
-            let delete =
-                ui::utils::dialog_yes_no(gettext("You no longer want to backup this directory?"));
+            let delete = ui::utils::confirmation_dialog(
+                &gettextf(
+                    "No longer include “{}” in backups?",
+                    &[&path.to_string_lossy()],
+                ),
+                &gettext(
+                    "All files contained in this folder will no longer be part of future backups.",
+                ),
+                &gettext("Cancel"),
+                &gettext("Confirm"),
+            );
 
             if delete {
                 SETTINGS.update(|settings| {
@@ -366,7 +390,7 @@ fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
 
 fn add_include() {
     if let Some(path) =
-        ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backup"))
+        ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups"))
     {
         SETTINGS.update(|settings| {
             settings

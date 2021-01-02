@@ -54,7 +54,7 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<(), ()> {
                 err.kind::<gio::IOErrorEnum>(),
                 Some(gio::IOErrorEnum::FailedHandled)
             ) {
-                ui::utils::show_error(gettext("Failed to mount"), err);
+                ui::utils::show_error(gettext("Failed to mount."), err);
             }
             Err(())
         }

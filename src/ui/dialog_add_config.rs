@@ -110,7 +110,7 @@ fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) {
             },
             enclose!((ui) move |paths: Result<Vec<std::path::PathBuf>, _>| {
             match paths {
-            Err(err) => ui::utils::show_error(gettext("Failed to list existing repositories"), err),
+            Err(err) => ui::utils::show_error(gettext("Failed to list existing repositories."), err),
             Ok(paths) =>
                 for path in paths {
                     trace!("Adding repo to ui '{:?}'", path);
@@ -151,9 +151,10 @@ fn add_local(ui: Rc<builder::DialogAddConfig>) {
         {
             add_repo_config_local(&file, ui);
         } else {
-            ui::utils::dialog_error(gettext(
-                "The selected directory is not a valid backup repository",
-            ));
+            ui::utils::show_error(
+                gettext("Location is not a valid backup repository."),
+                gettext("The repository must originate from Pika Backup or copatible software."),
+            );
             ui::page_pending::back();
             ui.new_backup().show();
         }
@@ -226,8 +227,8 @@ async fn mount_fuse_and_config(
             ))
         } else {
             ui::utils::show_error(
-                gettext("Repository location not mounted"),
-                gettext("Mounting succeeded but still unable find enclosing mount"),
+                gettext("Repository location not found."),
+                gettext("A mount operation succeeded but the location is still unavailable."),
             );
             ui::page_pending::back();
             ui.new_backup().show();
@@ -278,16 +279,17 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
     let encrypted =
         ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
-    // TODO: Add string for empty password
-    if encrypted
-        && (ui.password().get_text() != ui.password_confirm().get_text()
-            || ui.password().get_text().is_empty())
-    {
-        ui::utils::show_error(
-            gettext("Entered passwords do not match"),
-            gettext("Please try again"),
-        );
-        return;
+    if encrypted {
+        if ui.password().get_text().is_empty() {
+            ui::utils::show_error(
+                gettext("No password provided."),
+                gettext("To use encryption a password must be provided."),
+            );
+            return;
+        } else if ui.password().get_text() != ui.password_confirm().get_text() {
+            ui::utils::dialog_error(gettext("Entered passwords do not match."));
+            return;
+        }
     }
 
     let repo_opt = if ui.location_stack().get_visible_child()
@@ -323,7 +325,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
         if let Some(repo) = repo_opt {
             repo
         } else {
-            ui::utils::dialog_error(gettext("You have to enter a repository location"));
+            ui::utils::dialog_error(gettext("A repository location has to be given."));
             return;
         }
     };
@@ -333,7 +335,10 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
             command_line_args: Some(args),
         }));
     } else {
-        ui::utils::dialog_error(gettext("Invalid additional command line arguments"));
+        ui::utils::show_error(
+            gettext("Additional command line arguments invalid."),
+            gettext("Please check for missing closing quotes."),
+        );
         return;
     }
 
@@ -354,7 +359,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
         match result.unwrap_or(Err(shared::BorgErr::ThreadPanicked)) {
 
             Err(err) => {
-                ui::utils::show_error(&gettext("Failed to initialize repository"), &err);
+                ui::utils::show_error(&gettext("Failed to initialize repository."), &err);
                 page_pending::back();
                 ui.new_backup().show();
             }
@@ -388,10 +393,6 @@ fn get_command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>, (
     ) {
         Ok(args)
     } else {
-        ui::utils::show_error(
-            gettext("Additional command line arguments invalid"),
-            gettext("Please check for missing closing quotes"),
-        );
         Err(())
     }
 }
@@ -474,7 +475,7 @@ fn add_repo_config_local(file: &gio::File, ui: Rc<builder::DialogAddConfig>) {
     if let Some(repo) = BackupRepo::new_local_for_file(file) {
         insert_backup_config_encryption_unknown(repo, ui);
     } else {
-        ui::utils::dialog_error(gettext("Unexpected error with repository"));
+        ui::utils::dialog_error(gettext("Unexpected error with repository."));
         ui.new_backup().show();
         page_pending::back();
     }

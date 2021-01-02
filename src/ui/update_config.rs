@@ -77,7 +77,7 @@ fn update_config(id: String, result: Result<borg::List, shared::BorgErr>) {
         }
 
         Err(err) => {
-            ui::utils::show_error(gettext("Failed to update config"), err);
+            ui::utils::show_error(gettext("Failed to update config."), err);
         }
     }
 
