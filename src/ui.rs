@@ -182,7 +182,7 @@ fn is_quit_okay() -> bool {
     if is_backup_running() {
         ui::utils::confirmation_dialog(
             &gettext("Abort running backup creation?"),
-            &gettext("The backup will remain incomlete if aborted now."),
+            &gettext("The backup will remain incomplete if aborted now."),
             &gettext("Continue"),
             &gettext("Abort"),
         )
