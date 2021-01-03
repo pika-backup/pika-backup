@@ -153,7 +153,7 @@ fn add_local(ui: Rc<builder::DialogAddConfig>) {
         } else {
             ui::utils::show_error(
                 gettext("Location is not a valid backup repository."),
-                gettext("The repository must originate from Pika Backup or copatible software."),
+                gettext("The repository must originate from Pika Backup or compatible software."),
             );
             ui::page_pending::back();
             ui.new_backup().show();

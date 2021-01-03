@@ -132,7 +132,7 @@ pub fn view_backup_conf(id: &str) {
 fn stop_backup_create() {
     if !ui::utils::confirmation_dialog(
         &gettext("Abort running backup creation?"),
-        &gettext("The backup will remain incomlete if aborted now."),
+        &gettext("The backup will remain incomplete if aborted now."),
         &gettext("Continue"),
         &gettext("Abort"),
     ) {
