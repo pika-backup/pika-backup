@@ -176,7 +176,7 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
 
     if url.get(..6) == Some("ssh://") {
         add_repo_config_remote(&url, ui);
-    } else if file.get_uri_scheme() == "file"
+    } else if file.has_uri_scheme("file")
         || mount_fuse_and_config(&file, ui.clone(), false)
             .await
             .is_ok()
@@ -310,7 +310,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
             None
         } else if url.get(..6) == Some("ssh://") {
             Some(BackupRepo::new_remote(url))
-        } else if file.get_uri_scheme() == "file" {
+        } else if file.has_uri_scheme("file") {
             BackupRepo::new_local_for_file(&file)
         } else {
             mount_fuse_and_config(&gio::File::new_for_uri(&url), ui.clone(), true)
