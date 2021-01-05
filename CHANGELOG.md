@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.2.0 (2020-09-23)
+## 0.2.1 (2021-01-05)
+
+- Fixes crash on adding backup config with invalid URI
+- Fixes list of archives for tark themes
+- Adds translation to Swedish
+- Adds keywords to .desktop-file
+
+## 0.2.0 (2020-12-23)
 
 - Adds translations to several languages
 - Redesigns some parts of the user interface
