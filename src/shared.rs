@@ -522,7 +522,7 @@ quick_error! {
             display("{}", err)
         }
         BorgCode(err: ReturnCodeErr) { from() }
-        PasswordMissing { from(secret_service::SsError) }
+        PasswordMissing { from(secret_service::Error) }
         UserAborted { display("{}", gettext("Aborted through user input")) }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
         Other(err: String) { from() }

@@ -182,17 +182,14 @@ fn on_browse_archive(config: BackupConfig, archive_name: String) {
                         // only open if app isn't closing in this moment
                         if !**IS_SHUTDOWN.load() {
                             let show_folder = || -> Result<(), _> {
-                                let conn = dbus::blocking::Connection::new_session()?;
-                                let proxy = conn.with_proxy(
+                                let conn = zbus::Connection::new_session()?;
+                                let proxy = zbus::Proxy::new(
+                                    &conn,
                                     "org.freedesktop.FileManager1",
                                     "/org/freedesktop/FileManager1",
-                                    std::time::Duration::from_millis(5000),
-                                );
-                                proxy.method_call(
                                     "org.freedesktop.FileManager1",
-                                    "ShowFolders",
-                                    (vec![uri.as_str()], ""),
-                                )
+                                )?;
+                                proxy.call("ShowFolders", &(vec![uri.as_str()], ""))
                             };
 
                             ui::utils::dialog_catch_err(

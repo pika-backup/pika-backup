@@ -15,16 +15,19 @@ pub trait BackupMap<T> {
 pub fn secret_service_set_password(
     config: &shared::BackupConfig,
     password: &Password,
-) -> Result<(), secret_service::SsError> {
+) -> Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
         .create_item(
             // Translators: This is the description for entries in the password database.
             &gettext("Pika Backup Password"),
-            vec![
-                ("backup_id", &config.id),
+            [
+                ("backup_id", config.id.as_str()),
                 ("program", env!("CARGO_PKG_NAME")),
-            ],
+            ]
+            .iter()
+            .cloned()
+            .collect(),
             password,
             true,
             "text/plain",
@@ -35,13 +38,18 @@ pub fn secret_service_set_password(
 
 pub fn secret_service_delete_passwords(
     config: &shared::BackupConfig,
-) -> Result<(), secret_service::SsError> {
+) -> Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
-        .search_items(vec![
-            ("backup_id", &config.id),
-            ("program", env!("CARGO_PKG_NAME")),
-        ])?
+        .search_items(
+            [
+                ("backup_id", config.id.as_str()),
+                ("program", env!("CARGO_PKG_NAME")),
+            ]
+            .iter()
+            .cloned()
+            .collect(),
+        )?
         .iter()
         .try_for_each(|item| item.delete())
 }
