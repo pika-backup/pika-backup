@@ -219,7 +219,7 @@ fn init_check_borg() {
 
     match version_result {
         Err(err) => ui::utils::show_error(
-            gettext("Failed to run `borg`. Is borg-backup installed correctly?"),
+            gettext("Failed to run “borg”. Is borg-backup installed correctly?"),
             err,
         ),
         Ok(version_output) => {
