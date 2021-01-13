@@ -29,7 +29,7 @@ pub fn init() {
     main_ui().detail_repo_row().set_activatable(true);
     main_ui()
         .detail_repo_row()
-        .connect_activated(|_| ui::dialog_storage::show());
+        .connect_activated(|_| spawn_local(ui::dialog_storage::show()));
 
     main_ui()
         .main_stack()
@@ -88,8 +88,12 @@ pub fn init() {
             }
         });
 
-    main_ui().add_include().connect_clicked(|_| add_include());
-    main_ui().add_exclude().connect_clicked(|_| add_exclude());
+    main_ui()
+        .add_include()
+        .connect_clicked(|_| spawn_local(add_include()));
+    main_ui()
+        .add_exclude()
+        .connect_clicked(|_| spawn_local(add_exclude()));
 
     main_ui()
         .stop_backup_create()
@@ -175,10 +179,12 @@ fn on_backup_run() {
         }
     }
 
-    ui::dialog_device_missing::main(config.clone(), "", move || run_backup(config.clone()));
+    ui::dialog_device_missing::main(config.clone(), "", move || {
+        spawn_local(run_backup(config.clone()))
+    });
 }
 
-pub fn run_backup(config: shared::BackupConfig) {
+pub async fn run_backup(config: shared::BackupConfig) {
     let communication: borg::Communication = Default::default();
 
     BACKUP_COMMUNICATION.update(|x| {
@@ -186,35 +192,35 @@ pub fn run_backup(config: shared::BackupConfig) {
     });
     refresh_status();
 
-    ui::utils::Async::borg(
+    let result = ui::utils::Async::borg_spawn(
         "borg::create",
         borg::Borg::new(config.clone()),
         move |borg| borg.create(communication),
-        move |result| {
-            BACKUP_COMMUNICATION.update(|c| {
-                c.remove(&config.id);
-            });
-            let user_aborted = matches!(result, Err(shared::BorgErr::UserAborted));
-            // This is because the error cannot be cloned
-            let result_string_err = result.map_err(|err| format!("{}", err));
-            let run_info = Some(shared::RunInfo::new(result_string_err.clone()));
+    )
+    .await;
 
-            SETTINGS.update(|settings| {
-                settings.backups.get_mut(&config.id).unwrap().last_run = run_info.clone()
-            });
-            refresh_status();
+    BACKUP_COMMUNICATION.update(|c| {
+        c.remove(&config.id);
+    });
+    let user_aborted = matches!(result, Err(shared::BorgErr::UserAborted));
+    // This is because the error cannot be cloned
+    let result_string_err = result.map_err(|err| format!("{}", err));
+    let run_info = Some(shared::RunInfo::new(result_string_err.clone()));
 
-            ui::write_config();
+    SETTINGS.update(|settings| {
+        settings.backups.get_mut(&config.id).unwrap().last_run = run_info.clone()
+    });
+    refresh_status();
 
-            if !user_aborted {
-                if let Err(err) = result_string_err {
-                    ui::utils::show_error(gettext("Creating a backup failed."), err);
-                } else {
-                    ui::page_archives::refresh_archives_cache(config.clone());
-                }
-            }
-        },
-    );
+    ui::write_config();
+
+    if !user_aborted {
+        if let Err(err) = result_string_err {
+            ui::utils::show_error(gettext("Creating a backup failed."), err);
+        } else {
+            spawn_local(ui::page_archives::refresh_archives_cache(config.clone()));
+        }
+    }
 }
 
 pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
@@ -383,9 +389,9 @@ fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
     }
 }
 
-fn add_include() {
+async fn add_include() {
     if let Some(path) =
-        ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups"))
+        ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups")).await
     {
         SETTINGS.update(|settings| {
             settings
@@ -400,9 +406,9 @@ fn add_include() {
     }
 }
 
-fn add_exclude() {
+async fn add_exclude() {
     if let Some(path) =
-        ui::utils::folder_chooser_dialog_path(&gettext("Exclude directory from backup"))
+        ui::utils::folder_chooser_dialog_path(&gettext("Exclude directory from backup")).await
     {
         SETTINGS.update(|settings| {
             settings

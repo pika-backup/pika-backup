@@ -6,6 +6,8 @@ extern crate quick_error;
 extern crate enclose;
 #[macro_use]
 pub mod prelude;
+#[macro_use]
+extern crate async_trait;
 
 static CONFIG_VERSION: u16 = 1;
 

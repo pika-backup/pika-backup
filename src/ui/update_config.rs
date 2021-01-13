@@ -41,14 +41,17 @@ pub fn run() {
                         }
                     });
 
-                    ui::utils::Async::borg(
+                    spawn_local(enclose!((config) async move {
+                    let result =
+                    ui::utils::Async::borg_spawn(
                         "refresh_repo_config",
                         borg::Borg::new(config.clone()),
                         |borg| borg.peek(),
-                        enclose!((config)
-                            move |result| update_config(config.id.clone(), result)
-                        ),
-                    );
+                        )
+                    .await;
+                    update_config(config.id.clone(), result)
+
+                    }));
                 }),
             );
         }

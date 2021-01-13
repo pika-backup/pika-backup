@@ -63,7 +63,7 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<(), ()> {
 
 pub fn mount_fuse_dialog<F: Fn() + 'static>(uri: String, f: F) {
     let file = gio::File::new_for_uri(&uri);
-    glib::MainContext::default().spawn_local(async move {
+    spawn_local(async move {
         if mount_enclosing(&file).await.is_ok() {
             f();
         }

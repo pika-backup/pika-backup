@@ -47,7 +47,7 @@ pub fn init() {
     main_ui().refresh_archives().connect_clicked(|_| {
         let config = SETTINGS.load().backups.get_active().unwrap().clone();
         ui::dialog_device_missing::main(config.clone(), "", move || {
-            refresh_archives_cache(config.clone());
+            spawn_local(refresh_archives_cache(config.clone()));
         });
     });
 
@@ -59,7 +59,7 @@ pub fn init() {
         .connect_unmap(|s| s.stop());
 }
 
-pub fn refresh_archives_cache(config: BackupConfig) {
+pub async fn refresh_archives_cache(config: BackupConfig) {
     info!("Refreshing archives cache");
 
     if Some(true)
@@ -80,12 +80,13 @@ pub fn refresh_archives_cache(config: BackupConfig) {
 
     update_archives_spinner(config.clone());
 
-    ui::utils::Async::borg(
+    let result = ui::utils::Async::borg_spawn(
         "refresh_archives_cache",
         borg::Borg::new(config.clone()),
         |borg| borg.list(100),
-        move |result| archives_cache_refreshed(config.clone(), result),
-    );
+    )
+    .await;
+    archives_cache_refreshed(config.clone(), result);
 }
 
 fn update_archives_spinner(config: BackupConfig) {
@@ -159,7 +160,34 @@ fn archives_cache_refreshed(config: BackupConfig, result: Result<Vec<borg::ListA
     }
 }
 
-fn on_browse_archive(config: BackupConfig, archive_name: String) {
+fn show_dir(result: Result<std::path::PathBuf, futures::channel::oneshot::Canceled>) {
+    match result {
+        Err(err) => ui::utils::show_error(gettext("Failed to open archive."), err),
+        Ok(path) => {
+            let uri = gio::File::new_for_path(&path).get_uri();
+
+            // only open if app isn't closing in this moment
+            if !**IS_SHUTDOWN.load() {
+                let show_folder = || -> Result<(), _> {
+                    let conn = zbus::Connection::new_session()?;
+                    let proxy = zbus::Proxy::new(
+                        &conn,
+                        "org.freedesktop.FileManager1",
+                        "/org/freedesktop/FileManager1",
+                        "org.freedesktop.FileManager1",
+                    )?;
+                    proxy.call("ShowFolders", &(vec![uri.as_str()], ""))
+                };
+
+                ui::utils::dialog_catch_err(show_folder(), gettext("Failed to open archive."));
+            }
+        }
+    };
+
+    main_ui().pending_menu().hide();
+}
+
+async fn on_browse_archive(config: BackupConfig, archive_name: String) {
     debug!("Trying to browse an archive");
 
     main_ui().pending_menu().show();
@@ -169,70 +197,33 @@ fn on_browse_archive(config: BackupConfig, archive_name: String) {
     let mut path = borg::Borg::new(config.clone()).get_mount_point();
     path.push(archive_name);
 
-    let open_archive = || {
-        ui::utils::async_react(
-            "open_archive",
-            move || find_first_populated_dir(&path),
-            move |result| {
-                match result {
-                    Err(err) => ui::utils::show_error(gettext("Failed to open archive."), err),
-                    Ok(path) => {
-                        let uri = gio::File::new_for_path(&path).get_uri();
-
-                        // only open if app isn't closing in this moment
-                        if !**IS_SHUTDOWN.load() {
-                            let show_folder = || -> Result<(), _> {
-                                let conn = zbus::Connection::new_session()?;
-                                let proxy = zbus::Proxy::new(
-                                    &conn,
-                                    "org.freedesktop.FileManager1",
-                                    "/org/freedesktop/FileManager1",
-                                    "org.freedesktop.FileManager1",
-                                )?;
-                                proxy.call("ShowFolders", &(vec![uri.as_str()], ""))
-                            };
-
-                            ui::utils::dialog_catch_err(
-                                show_folder(),
-                                gettext("Failed to open archive."),
-                            );
-                        }
-                    }
-                };
-
-                main_ui().pending_menu().hide();
-            },
-        )
-    };
-
-    if backup_mounted {
-        open_archive();
-    } else {
+    if !backup_mounted {
         ACTIVE_MOUNTS.update(|mounts| {
             mounts.insert(config.id.clone());
         });
-        ui::utils::Async::borg(
+
+        let mount = ui::utils::Async::borg_spawn(
             "mount_archive",
             borg::Borg::new(config.clone()),
             move |borg| borg.mount(),
-            move |mount| {
-                let open_archive = open_archive.clone();
-                if mount.is_ok() {
-                    trace!("Mount successful");
-                    open_archive();
-                } else {
-                    ACTIVE_MOUNTS.update(|mounts| {
-                        mounts.remove(&config.id.clone());
-                    });
-                }
+        )
+        .await;
 
-                ui::utils::dialog_catch_err(
-                    mount,
-                    gettext("Failed to make archives available for browsing."),
-                );
-            },
-        );
+        if let Err(err) = mount {
+            ACTIVE_MOUNTS.update(|mounts| {
+                mounts.remove(&config.id.clone());
+            });
+            ui::utils::show_error(
+                gettext("Failed to make archives available for browsing."),
+                err,
+            );
+            return;
+        }
     }
+
+    let result =
+        ui::utils::spawn_thread("open_archive", move || find_first_populated_dir(&path)).await;
+    show_dir(result);
 }
 
 fn page_is_visible() -> bool {
@@ -294,7 +285,7 @@ fn display_archives(config: BackupConfig) {
                 browse_row.set_icon_name("folder-open-symbolic");
 
                 browse_row.connect_activated(
-                    enclose!((config, id) move |_| on_browse_archive(config.clone(), id.clone())),
+                    enclose!((config, id) move |_| spawn_local(on_browse_archive(config.clone(), id.clone()))),
                 );
 
                 main_ui().archive_list().add(&row);
@@ -359,7 +350,7 @@ pub fn show() {
 
     if repo_archives.archives.as_ref().is_none() {
         trace!("Archives have never been retrieved");
-        refresh_archives_cache(config);
+        spawn_local(refresh_archives_cache(config));
     } else {
         display_archives(config);
     }

@@ -23,7 +23,7 @@ pub fn show() {
     dialog.set_comments(Some(env!("CARGO_PKG_DESCRIPTION")));
     dialog.set_website(Some(env!("CARGO_PKG_HOMEPAGE")));
     dialog.set_authors(&[&gettext("Sophie Herold")]);
-    dialog.set_copyright(Some(&gettext("Copyright © 2018–2020 Sophie Herold et al.")));
+    dialog.set_copyright(Some(&gettext("Copyright © 2018–2021 Sophie Herold et al.")));
     dialog.set_translator_credits(Some(&gettext("translator-credits")));
 
     dialog.show_all();
