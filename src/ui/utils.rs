@@ -2,6 +2,8 @@ use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
 
+use futures::future::FutureExt;
+
 use crate::borg;
 use crate::shared::{self, Password};
 use crate::ui::globals::*;
@@ -101,61 +103,61 @@ pub fn store_password(config: &shared::BackupConfig, x: &Option<(Password, bool)
 pub struct Async(());
 
 impl Async {
-    pub fn borg<F, G, V>(name: &'static str, borg: borg::Borg, task: F, result_handler: G)
+    pub async fn borg_spawn<F, V>(
+        name: &'static str,
+        borg: borg::Borg,
+        task: F,
+    ) -> Result<V, shared::BorgErr>
     where
-        F: FnOnce(borg::Borg) -> Result<V, shared::BorgErr> + Send + Clone + 'static,
-        G: Fn(Result<V, shared::BorgErr>) + Clone + 'static,
+        F: FnOnce(borg::Borg) -> Result<V, shared::BorgErr> + Send + Clone + 'static + Sync,
         V: Send + 'static,
     {
         let config = borg.get_config();
 
-        borg_async(
-            name,
-            borg,
-            task,
-            move |result| {
-                if let Ok((_, ref x)) = result {
-                    store_password(&config, x);
-                }
-                result_handler(result.map(|(x, _)| x));
-            },
-            false,
-        )
+        let result = borg_spawn(name, borg, task, false).await;
+
+        if let Ok((_, ref x)) = result {
+            store_password(&config, x);
+        }
+        result.map(|(x, _)| x)
     }
 
-    pub fn borg_only_repo_suggest_store<F, G, V, B>(
+    pub async fn borg_only_repo_suggest_store<F, V, B>(
         name: &'static str,
         borg: B,
         task: F,
-        result_handler: G,
-    ) where
-        F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static,
-        G: Fn(Result<(V, Option<(Password, bool)>), shared::BorgErr>) + Clone + 'static,
+    ) -> Result<(V, Option<(Password, bool)>), shared::BorgErr>
+    where
+        F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static + Sync,
         V: Send + 'static,
         B: borg::BorgBasics + 'static,
     {
-        borg_async(name, borg, task, result_handler, true)
+        borg_spawn(name, borg, task, true).await
     }
 }
 
-fn borg_async<F, G, V, B>(
+#[allow(clippy::type_complexity)]
+fn borg_spawn<F, V, B>(
     name: &'static str,
     borg: B,
     task: F,
-    result_handler: G,
     pre_select_store: bool,
-) where
-    F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static,
-    G: Fn(Result<(V, Option<(Password, bool)>), shared::BorgErr>) + Clone + 'static,
+) -> futures::future::BoxFuture<Result<(V, Option<(Password, bool)>), shared::BorgErr>>
+where
+    F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static + Sync,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
 {
-    async_react(
-        name,
-        enclose!((borg, task)
+    async move {
+        let result = spawn_thread(
+            name,
+            enclose!((borg, task)
          move || task(borg)),
-        move |result| match result {
-            Err(AsyncErr::ThreadPanicked) => result_handler(Err(shared::BorgErr::ThreadPanicked)),
+        )
+        .await;
+
+        match result {
+            Err(futures::channel::oneshot::Canceled) => Err(shared::BorgErr::ThreadPanicked),
             Ok(result) => match result {
                 Err(e)
                     if matches!(e, shared::BorgErr::PasswordMissing)
@@ -165,53 +167,49 @@ fn borg_async<F, G, V, B>(
                     if let Some((password, store)) = get_password(pre_select_store) {
                         borg.set_password(password);
 
-                        borg_async(name, borg, task.clone(), result_handler.clone(), store);
+                        borg_spawn(name, borg, task.clone(), store).await
                     } else {
-                        result_handler(Err(shared::BorgErr::UserAborted))
+                        Err(shared::BorgErr::UserAborted)
                     }
                 }
-                Err(e) => result_handler(Err(e)),
-                Ok(result) => result_handler(Ok((
-                    result,
-                    borg.get_password().map(|p| (p, pre_select_store)),
-                ))),
+                Err(e) => Err(e),
+                Ok(result) => Ok((result, borg.get_password().map(|p| (p, pre_select_store)))),
             },
-        },
-    );
+        }
+    }
+    .boxed()
 }
 
-/// Calls the result handler if the task has returned
-pub fn async_react<F, G, R>(name: &str, task: F, result_handler: G)
+pub async fn spawn_thread<F, R>(
+    name: &str,
+    task: F,
+) -> Result<R, futures::channel::oneshot::Canceled>
 where
     F: FnOnce() -> R + Send + 'static,
-    G: Fn(Result<R, AsyncErr>) + 'static,
     R: Send + 'static,
 {
-    let (send, recv) = std::sync::mpsc::channel();
+    let (send, recv) = futures::channel::oneshot::channel();
+
+    let sender = std::cell::Cell::new(Some(send));
 
     let task_name = name.to_string();
     std::thread::spawn(move || {
-        send.send(task()).unwrap_or_else(|e| {
+        if let Some(sender) = sender.replace(None) {
+            if sender.send(task()).is_err() {
+                error!(
+                    "spawn_thread({}): Error sending to handler: Receiving end hung up",
+                    task_name
+                );
+            }
+        } else {
             error!(
-                "async_react({}): Error sending to handler: {}",
-                task_name, e
+                "spawn_thread({}): Error sending to handler: Allready send",
+                task_name
             );
-        });
+        }
     });
 
-    let task_name = name.to_string();
-    glib::timeout_add_local(50, move || match recv.try_recv() {
-        Ok(result) => {
-            result_handler(Ok(result));
-            Continue(false)
-        }
-        Err(std::sync::mpsc::TryRecvError::Disconnected) => {
-            error!("async_react({}): Task disconnected", task_name);
-            result_handler(Err(AsyncErr::ThreadPanicked));
-            Continue(false)
-        }
-        Err(std::sync::mpsc::TryRecvError::Empty) => Continue(true),
-    });
+    recv.await
 }
 
 quick_error! {
@@ -221,24 +219,21 @@ quick_error! {
     }
 }
 
-pub fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
-    let dialog = gtk::FileChooserDialog::with_buttons(
-        Some(title),
-        Some(&main_ui().window()),
-        gtk::FileChooserAction::SelectFolder,
-        &[
-            ("_Cancel", gtk::ResponseType::Cancel),
-            ("_Select", gtk::ResponseType::Accept),
-        ],
-    );
+pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
+    let dialog = gtk::FileChooserDialogBuilder::new()
+        .title(title)
+        .action(gtk::FileChooserAction::SelectFolder)
+        .local_only(false)
+        .transient_for(&main_ui().window())
+        .modal(true)
+        .build();
 
-    dialog.set_local_only(false);
+    dialog.add_button("_Cancel", gtk::ResponseType::Cancel);
+    dialog
+        .add_button("_Select", gtk::ResponseType::Accept)
+        .add_css_class("suggested-action");
 
-    if let Some(button) = dialog.get_widget_for_response(gtk::ResponseType::Accept) {
-        button.add_css_class("suggested-action");
-    }
-
-    let result = if dialog.run() == gtk::ResponseType::Accept {
+    let result = if dialog.run_future().await == gtk::ResponseType::Accept {
         dialog.get_file()
     } else {
         None
@@ -250,8 +245,10 @@ pub fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
     result
 }
 
-pub fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
-    folder_chooser_dialog(title).and_then(|x| x.get_path())
+pub async fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
+    folder_chooser_dialog(title)
+        .await
+        .and_then(|x| x.get_path())
 }
 
 pub fn dialog_catch_err<X, P: std::fmt::Display, S: std::fmt::Display>(
@@ -283,22 +280,31 @@ fn ellipsize<S: std::fmt::Display>(x: S) -> String {
 }
 
 pub fn show_error<S: std::fmt::Display, P: std::fmt::Display>(message: S, detail: P) {
+    show_error_transient_for(message, detail, &main_ui().window());
+}
+
+pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: IsA<gtk::Window>>(
+    message: S,
+    detail: P,
+    window: &W,
+) {
     let primary_text = ellipsize(message);
     let secondary_text = ellipsize(detail);
 
-    let dialog = gtk::MessageDialog::new(
-        Some(&main_ui().window()),
-        gtk::DialogFlags::MODAL,
-        gtk::MessageType::Error,
-        gtk::ButtonsType::Close,
-        &primary_text,
-    );
+    let dialog = gtk::MessageDialogBuilder::new()
+        .modal(true)
+        .transient_for(window)
+        .message_type(gtk::MessageType::Error)
+        .buttons(gtk::ButtonsType::Close)
+        .text(&primary_text)
+        .build();
 
     dialog.set_property_secondary_text(if secondary_text.is_empty() {
         None
     } else {
         Some(&secondary_text)
     });
+
     dialog.connect_response(|dialog, _| {
         dialog.close();
         dialog.hide();
@@ -309,7 +315,7 @@ pub fn show_error<S: std::fmt::Display, P: std::fmt::Display>(message: S, detail
         &primary_text, &secondary_text
     );
 
-    dialog.run();
+    dialog.show_all();
 }
 
 pub fn dialog_error<S: std::fmt::Display>(error: S) {

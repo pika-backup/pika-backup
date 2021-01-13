@@ -5,7 +5,7 @@ use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
-pub fn show() {
+pub async fn show() {
     let storage = ui::builder::DialogStorage::new();
 
     storage
@@ -48,6 +48,6 @@ pub fn show() {
         }
     }
 
-    storage.dialog().run();
+    storage.dialog().run_future().await;
     storage.dialog().close();
 }

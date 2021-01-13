@@ -40,9 +40,10 @@ pub fn new_backup() {
         dialog.hide();
     });
 
-    ui.add_repo_list().connect_row_activated(
-        enclose!((ui) move |_, row| on_add_repo_list_activated(row, ui.clone())),
-    );
+    ui.add_repo_list()
+        .connect_row_activated(enclose!((ui) move |_, row| {
+            spawn_local(on_add_repo_list_activated(Rc::new(row.clone()), ui.clone()))
+        }));
 
     ui.init_repo_list()
         .connect_row_activated(enclose!((ui) move |_, row| on_init_repo_list_activated(row, &ui)));
@@ -61,7 +62,7 @@ pub fn new_backup() {
 
     monitor.connect_mount_added(enclose!((ui) move |_, mount| {
         debug!("Mount added");
-        load_mount(ui.clone(), mount.clone());
+        spawn_local(load_mount(ui.clone(), mount.clone()));
     }));
 
     monitor.connect_mount_removed(enclose!((ui) move |_, mount| {
@@ -84,18 +85,17 @@ fn load_available_mounts_and_repos(ui: Rc<builder::DialogAddConfig>) {
     ui::utils::clear(&ui.init_repo_list());
 
     for mount in monitor.get_mounts() {
-        load_mount(ui.clone(), mount);
+        spawn_local(load_mount(ui.clone(), mount));
     }
 
     debug!("List of existing repos refreshed");
 }
 
-fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) {
+async fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) {
     if let Some(mount_point) = mount.get_root().unwrap().get_path() {
         add_mount(&ui.init_repo_list(), &mount, None);
-        ui::utils::async_react(
-            "check_mount_for_repos",
-            move || {
+        let paths: Result<Vec<std::path::PathBuf>, _> =
+            ui::utils::spawn_thread("check_mount_for_repos", move || {
                 let mut paths = Vec::new();
                 if let Ok(dirs) = mount_point.read_dir() {
                     for dir in dirs {
@@ -107,24 +107,27 @@ fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) {
                     }
                 }
                 paths
-            },
-            enclose!((ui) move |paths: Result<Vec<std::path::PathBuf>, _>| {
-            match paths {
-            Err(err) => ui::utils::show_error(gettext("Failed to list existing repositories."), err),
-            Ok(paths) =>
+            })
+            .await;
+
+        match paths {
+            Err(err) => {
+                ui::utils::show_error(gettext("Failed to list existing repositories."), err)
+            }
+            Ok(paths) => {
                 for path in paths {
                     trace!("Adding repo to ui '{:?}'", path);
                     add_mount(&ui.add_repo_list(), &mount, Some(&path));
                 }
-            }}),
-        );
+            }
+        }
     }
 }
 
-fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::DialogAddConfig>) {
+async fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::DialogAddConfig>) {
     let name = row.get_widget_name();
     if name == "-add-local" {
-        add_local(ui);
+        add_local(ui).await;
     } else if name == "-add-remote" {
         ui.stack().set_visible_child(&ui.new_page());
         ui.location_stack().set_visible_child(&ui.location_remote());
@@ -138,10 +141,12 @@ fn on_add_repo_list_activated(row: &gtk::ListBoxRow, ui: Rc<builder::DialogAddCo
     }
 }
 
-fn add_local(ui: Rc<builder::DialogAddConfig>) {
+async fn add_local(ui: Rc<builder::DialogAddConfig>) {
     ui.new_backup().hide();
 
-    if let Some(file) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository")) {
+    if let Some(file) =
+        ui::utils::folder_chooser_dialog(&gettext("Select existing repository")).await
+    {
         ui::page_pending::show(&gettext("Loading backup repository"));
         if file
             .get_path()
@@ -164,7 +169,7 @@ fn add_local(ui: Rc<builder::DialogAddConfig>) {
 }
 
 fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
-    glib::MainContext::default().spawn_local(on_add_button_clicked_future(ui));
+    spawn_local(on_add_button_clicked_future(ui));
 }
 
 async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
@@ -272,7 +277,7 @@ fn show_init(ui: &builder::DialogAddConfig) {
 }
 
 fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
-    glib::MainContext::default().spawn_local(on_init_button_clicked_future(ui));
+    spawn_local(on_init_button_clicked_future(ui));
 }
 
 async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
@@ -281,9 +286,10 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
 
     if encrypted {
         if ui.password().get_text().is_empty() {
-            ui::utils::show_error(
+            ui::utils::show_error_transient_for(
                 gettext("No password provided."),
                 gettext("To use encryption a password must be provided."),
+                &ui.new_backup(),
             );
             return;
         } else if ui.password().get_text() != ui.password_confirm().get_text() {
@@ -351,34 +357,30 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) {
         borg.set_password(password.clone());
     }
 
-    ui::utils::async_react(
-        "borg::init",
-        move || borg.init(),
-        enclose!((repo, ui, password) move |result: Result<Result<borg::List, _>,_>|
+    let result: Result<Result<borg::List, _>, _> =
+        ui::utils::spawn_thread("borg::init", move || borg.init()).await;
 
-        match result.unwrap_or(Err(shared::BorgErr::ThreadPanicked)) {
+    match result.unwrap_or(Err(shared::BorgErr::ThreadPanicked)) {
+        Err(err) => {
+            ui::utils::show_error(&gettext("Failed to initialize repository."), &err);
+            page_pending::back();
+            ui.new_backup().show();
+        }
+        Ok(info) => {
+            let config = shared::BackupConfig::new(repo.clone(), info, encrypted);
 
-            Err(err) => {
-                ui::utils::show_error(&gettext("Failed to initialize repository."), &err);
-                page_pending::back();
-                ui.new_backup().show();
+            insert_backup_config(config.clone());
+            if encrypted && ui.password_store().get_active() {
+                ui::utils::dialog_catch_err(
+                    ui::utils::secret_service_set_password(&config, &password),
+                    gettext("Failed to store password."),
+                );
             }
-            Ok(info) => {
-                let config = shared::BackupConfig::new(repo.clone(), info, encrypted);
+            ui::page_detail::view_backup_conf(&config.id);
 
-                insert_backup_config(config.clone());
-                if encrypted && ui.password_store().get_active() {
-                    ui::utils::dialog_catch_err(
-                        ui::utils::secret_service_set_password(&config, &password),
-                        gettext("Failed to store password."),
-                    );
-                }
-                ui::page_detail::view_backup_conf(&config.id);
-
-                ui.new_backup().close();
-            }
-        }),
-    );
+            ui.new_backup().close();
+        }
+    }
 }
 
 fn get_command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>, ()> {
@@ -499,13 +501,17 @@ fn insert_backup_config_encryption_unknown(
     repo: shared::BackupRepo,
     ui: Rc<builder::DialogAddConfig>,
 ) {
-    ui.new_backup().hide();
+    spawn_local(async move {
+        ui.new_backup().hide();
 
-    ui::utils::Async::borg_only_repo_suggest_store(
-        "borg::peek",
-        borg::BorgOnlyRepo::new(repo.clone()),
-        |borg| borg.peek(),
-        move |result| match result {
+        let result = ui::utils::Async::borg_only_repo_suggest_store(
+            "borg::peek",
+            borg::BorgOnlyRepo::new(repo.clone()),
+            |borg| borg.peek(),
+        )
+        .await;
+
+        match result {
             Ok((info, pw_data)) => {
                 let encrypted = pw_data
                     .clone()
@@ -526,8 +532,8 @@ fn insert_backup_config_encryption_unknown(
                 ui.new_backup().show();
                 page_pending::back();
             }
-        },
-    )
+        }
+    });
 }
 
 fn insert_backup_config(config: shared::BackupConfig) {
