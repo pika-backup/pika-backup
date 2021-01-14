@@ -39,7 +39,9 @@ pub fn init() {
         .add_backup_empty()
         .connect_clicked(|_| ui::dialog_add_config::new_backup());
 
-    main_ui().remove_backup().connect_clicked(on_remove_backup);
+    main_ui()
+        .remove_backup()
+        .connect_clicked(|_| spawn_local(on_remove_backup()));
 
     glib::timeout_add_seconds_local(1, || {
         if is_visible() {
@@ -60,13 +62,14 @@ fn on_main_stack_changed(_stack: &gtk::Stack) {
     }
 }
 
-fn on_remove_backup(_button: &gtk::ModelButton) {
+async fn on_remove_backup() {
     let delete = ui::utils::confirmation_dialog(
         &gettext("Delete backup configuration?"),
         &gettext("Deleting the configuration will not delete your saved data."),
         &gettext("Cancel"),
         &gettext("Delete"),
-    );
+    )
+    .await;
 
     if delete {
         if let Some(config) = SETTINGS.get().backups.get_active() {
