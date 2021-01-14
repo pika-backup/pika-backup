@@ -10,7 +10,9 @@ use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub fn init() {
-    main_ui().backup_run().connect_clicked(|_| on_backup_run());
+    main_ui()
+        .backup_run()
+        .connect_clicked(|_| spawn_local(on_backup_run()));
 
     main_ui()
         .detail_status_row()
@@ -43,49 +45,45 @@ pub fn init() {
 
     main_ui()
         .include_home()
-        .connect_property_active_notify(|switch| {
-            if switch.get_sensitive() {
-                let change: bool = if switch.get_active() {
-                    true
-                } else {
-                    ui::utils::confirmation_dialog(
-                &gettextf(
-                    "No longer include “{}” in backups?",
-                    &[&gettext("Home")],
-                ),
-                &gettext(
-                    "All files contained in this folder will no longer be part of future backups.",
-                ),
-                &gettext("Cancel"),
-                &gettext("Confirm"),
-            )
-                };
-
-                SETTINGS.update(|settings| {
-                    if !change {
-                        switch.set_active(!switch.get_active());
-                    } else if switch.get_active() {
-                        settings
-                            .backups
-                            .get_active_mut()
-                            .unwrap()
-                            .include
-                            .insert(std::path::PathBuf::new());
+        .connect_property_active_notify(|_| {
+            spawn_local(async move {
+                if main_ui().include_home().get_sensitive() {
+                    let change: bool = if main_ui().include_home().get_active() {
+                        true
                     } else {
-                        settings
-                            .backups
-                            .get_active_mut()
-                            .unwrap()
-                            .include
-                            .remove(&std::path::PathBuf::new());
-                    }
-                });
+                        confirm_remove_include(std::path::Path::new("Home")).await
+                    };
 
-                if change {
-                    super::write_config();
-                    refresh();
+                    main_ui().include_home().set_sensitive(true);
+
+                    SETTINGS.update(|settings| {
+                        if !change {
+                            main_ui()
+                                .include_home()
+                                .set_active(!main_ui().include_home().get_active());
+                        } else if main_ui().include_home().get_active() {
+                            settings
+                                .backups
+                                .get_active_mut()
+                                .unwrap()
+                                .include
+                                .insert(std::path::PathBuf::new());
+                        } else {
+                            settings
+                                .backups
+                                .get_active_mut()
+                                .unwrap()
+                                .include
+                                .remove(&std::path::PathBuf::new());
+                        }
+                    });
+
+                    if change {
+                        super::write_config();
+                        refresh();
+                    }
                 }
-            }
+            })
         });
 
     main_ui()
@@ -97,7 +95,7 @@ pub fn init() {
 
     main_ui()
         .stop_backup_create()
-        .connect_clicked(|_| stop_backup_create());
+        .connect_clicked(|_| spawn_local(on_stop_backup_create()));
 
     main_ui().status_spinner().connect_map(|s| s.start());
     main_ui().status_spinner().connect_unmap(|s| s.stop());
@@ -133,13 +131,15 @@ pub fn view_backup_conf(id: &str) {
         .set_visible_child(&main_ui().page_detail());
 }
 
-fn stop_backup_create() {
+async fn on_stop_backup_create() {
     if !ui::utils::confirmation_dialog(
         &gettext("Abort running backup creation?"),
         &gettext("The backup will remain incomplete if aborted now."),
         &gettext("Continue"),
         &gettext("Abort"),
-    ) {
+    )
+    .await
+    {
         return;
     }
 
@@ -150,7 +150,7 @@ fn stop_backup_create() {
     }
 }
 
-fn on_backup_run() {
+async fn on_backup_run() {
     let config = SETTINGS.load().backups.get_active().unwrap().clone();
     let backup_id = ACTIVE_BACKUP_ID.get().unwrap();
 
@@ -162,7 +162,8 @@ fn on_backup_run() {
             &gettext("Browsing through archived files is not possible while running a backup."),
             &gettext("Keep Browsing"),
             &gettext("Start Backup"),
-        );
+        )
+        .await;
         if unmount {
             trace!("User decided to unmount repo.");
             if !ui::utils::dialog_catch_err(
@@ -257,9 +258,10 @@ pub fn refresh() {
         .include
         .contains(&std::path::PathBuf::new());
 
-    main_ui().include_home().set_sensitive(false);
-    main_ui().include_home().set_active(include_home);
-    main_ui().include_home().set_sensitive(true);
+    if include_home != main_ui().include_home().get_active() {
+        main_ui().include_home().set_sensitive(false);
+        main_ui().include_home().set_active(include_home);
+    }
 
     if include_home {
         main_ui().include_home_row().remove_css_class("not-active");
@@ -309,30 +311,21 @@ pub fn refresh() {
 
         let path = file.clone();
         button.connect_clicked(move |_| {
-            let delete = ui::utils::confirmation_dialog(
-                &gettextf(
-                    "No longer include “{}” in backups?",
-                    &[&path.to_string_lossy()],
-                ),
-                &gettext(
-                    "All files contained in this folder will no longer be part of future backups.",
-                ),
-                &gettext("Cancel"),
-                &gettext("Confirm"),
-            );
-
-            if delete {
-                SETTINGS.update(|settings| {
-                    settings
-                        .backups
-                        .get_active_mut()
-                        .unwrap()
-                        .include
-                        .remove(&path);
-                });
-                super::write_config();
-                refresh();
-            }
+            let path = path.clone();
+            spawn_local(async move {
+                if confirm_remove_include(&path).await {
+                    SETTINGS.update(|settings| {
+                        settings
+                            .backups
+                            .get_active_mut()
+                            .unwrap()
+                            .include
+                            .remove(&path);
+                    });
+                    super::write_config();
+                    refresh();
+                }
+            })
         });
     }
     main_ui().include().show_all();
@@ -378,6 +371,19 @@ fn on_transition(stack: &gtk::Stack) {
                 .set_value(scrollable.get_vadjustment().unwrap().get_lower());
         }
     }
+}
+
+async fn confirm_remove_include(path: &std::path::Path) -> bool {
+    ui::utils::confirmation_dialog(
+        &gettextf(
+            "No longer include “{}” in backups?",
+            &[&path.to_string_lossy()],
+        ),
+        &gettext("All files contained in this folder will no longer be part of future backups."),
+        &gettext("Cancel"),
+        &gettext("Confirm"),
+    )
+    .await
 }
 
 /// Returns a relative path for sub directories of home

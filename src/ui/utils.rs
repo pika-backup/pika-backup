@@ -322,7 +322,32 @@ pub fn dialog_error<S: std::fmt::Display>(error: S) {
     show_error(error, "");
 }
 
-pub fn confirmation_dialog(title: &str, message: &str, cancel: &str, accept: &str) -> bool {
+pub async fn confirmation_dialog(title: &str, message: &str, cancel: &str, accept: &str) -> bool {
+    let dialog = gtk::MessageDialogBuilder::new()
+        .transient_for(&main_ui().window())
+        .modal(true)
+        .message_type(gtk::MessageType::Question)
+        .title(title)
+        .secondary_text(message)
+        .build();
+
+    dialog.add_button(cancel, gtk::ResponseType::Cancel);
+    dialog.add_button(accept, gtk::ResponseType::Accept);
+
+    let result = dialog.run_future().await;
+    dialog.close();
+    dialog.hide();
+
+    result == gtk::ResponseType::Accept
+}
+
+#[deprecated(note = "use async version")]
+pub fn confirmation_dialog_blocking(
+    title: &str,
+    message: &str,
+    cancel: &str,
+    accept: &str,
+) -> bool {
     let dialog = gtk::MessageDialog::new(
         Some(&main_ui().window()),
         gtk::DialogFlags::MODAL,
