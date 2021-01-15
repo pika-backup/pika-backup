@@ -44,7 +44,11 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<(), ()> {
     info!("Trying to mount '{}'", file.get_uri());
     let mount_result = file.mount_enclosing_volume_future(
         gio::MountMountFlags::NONE,
-        Some(&gtk::MountOperation::new(Some(&main_ui().window()))),
+        Some(
+            &gtk::MountOperationBuilder::new()
+                .parent(&main_ui().window())
+                .build(),
+        ),
     );
 
     match mount_result.await {

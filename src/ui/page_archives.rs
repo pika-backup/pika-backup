@@ -245,21 +245,26 @@ fn display_archives(config: BackupConfig) {
             .and_then(|x| x.archives_sorted_by_date())
         {
             for (id, archive) in archive_list {
-                let row = libhandy::ExpanderRow::new();
-                row.set_subtitle(Some(&format!(
-                    "{hostname}, {username}",
-                    hostname = archive.hostname,
-                    username = archive.username
-                )));
-                row.set_title(Some(&archive.start.to_locale()));
+                let row = libhandy::ExpanderRowBuilder::new()
+                    .title(&archive.start.to_locale())
+                    .subtitle(&format!(
+                        "{hostname}, {username}",
+                        hostname = archive.hostname,
+                        username = archive.username
+                    ))
+                    .build();
 
                 let info = |title: String, info: String| -> libhandy::ActionRow {
-                    let row = libhandy::ActionRow::new();
-                    row.set_title(Some(&title));
-                    let label = gtk::Label::new(Some(&info));
+                    let label = gtk::LabelBuilder::new()
+                        .label(&info)
+                        .wrap(true)
+                        .wrap_mode(pango::WrapMode::WordChar)
+                        .build();
                     label.add_css_class("dim-label");
-                    label.set_line_wrap(true);
-                    label.set_line_wrap_mode(pango::WrapMode::WordChar);
+                    let row = libhandy::ActionRowBuilder::new()
+                        .title(&title)
+                        .child(&label)
+                        .build();
                     row.add(&label);
                     row
                 };
@@ -274,15 +279,16 @@ fn display_archives(config: BackupConfig) {
                     row.add(&info(gettext("Comment"), archive.comment.clone()));
                 }
 
-                let browse_row = libhandy::ActionRow::new();
-                browse_row.set_title(Some(&gettext("Browse saved files")));
-                browse_row.set_activatable(true);
+                let browse_row = libhandy::ActionRowBuilder::new()
+                    .title(&gettext("Browse saved files"))
+                    .activatable(true)
+                    .icon_name("folder-open-symbolic")
+                    .child(&gtk::Image::from_icon_name(
+                        Some("go-next-symbolic"),
+                        gtk::IconSize::Button,
+                    ))
+                    .build();
                 row.add(&browse_row);
-
-                let browse_button =
-                    gtk::Image::from_icon_name(Some("go-next-symbolic"), gtk::IconSize::Button);
-                browse_row.add(&browse_button);
-                browse_row.set_icon_name("folder-open-symbolic");
 
                 browse_row.connect_activated(
                     enclose!((config, id) move |_| spawn_local(on_browse_archive(config.clone(), id.clone()))),

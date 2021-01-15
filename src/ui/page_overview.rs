@@ -108,10 +108,9 @@ fn refresh() {
     });
 
     for config in SETTINGS.load().backups.values() {
-        let list_row = libhandy::ActionRow::new();
+        let list_row = libhandy::ActionRowBuilder::new().activatable(true).build();
         list.add(&list_row);
 
-        list_row.set_activatable(true);
         list_row.connect_activated(enclose!((config) move |_| {
             ui::page_detail::view_backup_conf(&config.id);
         }));
@@ -148,7 +147,10 @@ fn refresh() {
         // Include
 
         for path in &config.include {
-            let incl = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+            let incl = gtk::BoxBuilder::new()
+                .orientation(gtk::Orientation::Horizontal)
+                .spacing(6)
+                .build();
             row.include().add(&incl);
 
             incl.add_css_class("backup-include");
@@ -165,8 +167,10 @@ fn refresh() {
                 path.to_string_lossy().to_string()
             };
 
-            let label = gtk::Label::new(Some(&path_str));
-            label.set_ellipsize(pango::EllipsizeMode::Middle);
+            let label = gtk::LabelBuilder::new()
+                .label(&path_str)
+                .ellipsize(pango::EllipsizeMode::Middle)
+                .build();
             incl.add(&label);
         }
 

@@ -2,8 +2,6 @@ use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
 
-use futures::future::FutureExt;
-
 use crate::borg;
 use crate::shared::{self, Password};
 use crate::ui::globals::*;
@@ -56,10 +54,11 @@ pub fn secret_service_delete_passwords(
         .try_for_each(|item| item.delete())
 }
 
-pub fn get_password(pre_select_store: bool) -> Option<(shared::Password, bool)> {
+pub async fn get_password(pre_select_store: bool) -> Option<(shared::Password, bool)> {
     crate::ui::dialog_encryption_password::Ask::new()
         .set_pre_select_store(pre_select_store)
         .run()
+        .await
 }
 
 #[allow(clippy::implicit_hasher)]
@@ -137,18 +136,18 @@ impl Async {
 }
 
 #[allow(clippy::type_complexity)]
-fn borg_spawn<F, V, B>(
+async fn borg_spawn<F, V, B>(
     name: &'static str,
-    borg: B,
+    mut borg: B,
     task: F,
-    pre_select_store: bool,
-) -> futures::future::BoxFuture<Result<(V, Option<(Password, bool)>), shared::BorgErr>>
+    mut pre_select_store: bool,
+) -> Result<(V, Option<(Password, bool)>), shared::BorgErr>
 where
     F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static + Sync,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
 {
-    async move {
+    loop {
         let result = spawn_thread(
             name,
             enclose!((borg, task)
@@ -156,18 +155,18 @@ where
         )
         .await;
 
-        match result {
+        return match result {
             Err(futures::channel::oneshot::Canceled) => Err(shared::BorgErr::ThreadPanicked),
             Ok(result) => match result {
                 Err(e)
                     if matches!(e, shared::BorgErr::PasswordMissing)
                         || e.has_borg_msgid(&shared::MsgId::PassphraseWrong) =>
                 {
-                    let mut borg = borg.clone();
-                    if let Some((password, store)) = get_password(pre_select_store) {
+                    if let Some((password, store)) = get_password(pre_select_store).await {
+                        pre_select_store = store;
                         borg.set_password(password);
 
-                        borg_spawn(name, borg, task.clone(), store).await
+                        continue;
                     } else {
                         Err(shared::BorgErr::UserAborted)
                     }
@@ -175,9 +174,8 @@ where
                 Err(e) => Err(e),
                 Ok(result) => Ok((result, borg.get_password().map(|p| (p, pre_select_store)))),
             },
-        }
+        };
     }
-    .boxed()
 }
 
 pub async fn spawn_thread<F, R>(
@@ -414,8 +412,7 @@ pub fn file_symbolic_icon(
 }
 
 pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> libhandy::ActionRow {
-    let row = libhandy::ActionRow::new();
-    row.set_activatable(true);
+    let row = libhandy::ActionRowBuilder::new().activatable(true).build();
 
     if let Some(gicon) = icon {
         row.add_prefix(&gtk::Image::from_gicon(gicon, gtk::IconSize::Dnd));

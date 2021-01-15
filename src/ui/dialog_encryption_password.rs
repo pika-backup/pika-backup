@@ -4,6 +4,7 @@ use crate::ui;
 use zeroize::Zeroizing;
 
 use crate::ui::globals::*;
+use crate::ui::prelude::*;
 
 pub struct Ask {
     pre_select_store: bool,
@@ -21,7 +22,7 @@ impl Ask {
         self
     }
 
-    pub fn run(&self) -> Option<(Zeroizing<Vec<u8>>, bool)> {
+    pub async fn run(&self) -> Option<(Zeroizing<Vec<u8>>, bool)> {
         let ui = ui::builder::DialogEncryptionPassword::new();
 
         ui.dialog().set_transient_for(Some(&main_ui().window()));
@@ -38,7 +39,7 @@ impl Ask {
         ui.ok()
             .connect_clicked(move |_| dialog.response(gtk::ResponseType::Ok));
 
-        let response = ui.dialog().run();
+        let response = ui.dialog().run_future().await;
         let password = Zeroizing::new(ui.password().get_text().as_bytes().to_vec());
         ui.dialog().close();
         ui.dialog().hide();

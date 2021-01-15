@@ -225,22 +225,22 @@ pub async fn run_backup(config: shared::BackupConfig) {
 }
 
 pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
-    let row = libhandy::ActionRow::new();
+    let row = libhandy::ActionRowBuilder::new()
+        .title(&file.to_string_lossy())
+        .activatable(false)
+        .build();
     list.add(&row);
-
-    row.set_activatable(false);
 
     if let Some(img) = ui::utils::file_icon(&shared::absolute(file), gtk::IconSize::Dnd) {
         row.add_prefix(&img);
     }
 
-    row.set_title(file.to_str());
-
-    let button = gtk::Button::new();
-    button.add(&gtk::Image::from_icon_name(
-        Some("edit-delete-symbolic"),
-        gtk::IconSize::Button,
-    ));
+    let button = gtk::ButtonBuilder::new()
+        .child(&gtk::Image::from_icon_name(
+            Some("edit-delete-symbolic"),
+            gtk::IconSize::Button,
+        ))
+        .build();
     button.add_css_class("image-button");
     row.add(&button);
     button.set_valign(gtk::Align::Center);
