@@ -325,7 +325,7 @@ pub async fn confirmation_dialog(title: &str, message: &str, cancel: &str, accep
         .transient_for(&main_ui().window())
         .modal(true)
         .message_type(gtk::MessageType::Question)
-        .title(title)
+        .text(title)
         .secondary_text(message)
         .build();
 
