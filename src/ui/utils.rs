@@ -339,31 +339,6 @@ pub async fn confirmation_dialog(title: &str, message: &str, cancel: &str, accep
     result == gtk::ResponseType::Accept
 }
 
-#[deprecated(note = "use async version")]
-pub fn confirmation_dialog_blocking(
-    title: &str,
-    message: &str,
-    cancel: &str,
-    accept: &str,
-) -> bool {
-    let dialog = gtk::MessageDialog::new(
-        Some(&main_ui().window()),
-        gtk::DialogFlags::MODAL,
-        gtk::MessageType::Question,
-        gtk::ButtonsType::None,
-        title,
-    );
-
-    dialog.set_property_secondary_text(Some(message));
-    dialog.add_button(cancel, gtk::ResponseType::Cancel);
-    dialog.add_button(accept, gtk::ResponseType::Accept);
-
-    let result = dialog.run() == gtk::ResponseType::Accept;
-    dialog.close();
-    dialog.hide();
-    result
-}
-
 pub fn clear(listbox: &gtk::ListBox) {
     for c in listbox.get_children() {
         if c.get_widget_name().starts_with('-') {

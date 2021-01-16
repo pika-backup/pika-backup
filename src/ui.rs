@@ -128,9 +128,7 @@ fn init(_app: &gtk::Application) {
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 
-    main_ui()
-        .window()
-        .connect_delete_event(|_, _| gtk::Inhibit(!is_quit_okay()));
+    main_ui().window().connect_delete_event(|_, _| on_delete());
 
     // decorate headerbar of pre-release versions
     if !option_env!("APPLICATION_ID_SUFFIX")
@@ -146,6 +144,15 @@ fn init(_app: &gtk::Application) {
     main_ui().window().present();
 
     ui::update_config::run();
+}
+
+fn on_delete() -> Inhibit {
+    if is_backup_running() {
+        spawn_local(quit());
+        Inhibit(true)
+    } else {
+        Inhibit(false)
+    }
 }
 
 fn init_timeouts() {
@@ -177,18 +184,20 @@ fn is_backup_running() -> bool {
     !BACKUP_COMMUNICATION.load().is_empty()
 }
 
-/// Checks if it's okay to quit and ask the user if necessary
-fn is_quit_okay() -> bool {
-    if is_backup_running() {
-        ui::utils::confirmation_dialog_blocking(
+async fn quit() {
+    if is_backup_running()
+        && !ui::utils::confirmation_dialog(
             &gettext("Abort running backup creation?"),
             &gettext("The backup will remain incomplete if aborted now."),
             &gettext("Continue"),
             &gettext("Abort"),
         )
-    } else {
-        true
+        .await
+    {
+        return;
     }
+
+    gtk_app().quit();
 }
 
 fn init_actions() {
@@ -207,9 +216,7 @@ fn init_actions() {
 
     let action = gio::SimpleAction::new("quit", None);
     action.connect_activate(|_, _| {
-        if is_quit_okay() {
-            gtk_app().quit()
-        }
+        spawn_local(quit());
     });
     gtk_app().add_action(&action);
 }

@@ -54,8 +54,6 @@ pub fn init() {
                         confirm_remove_include(std::path::Path::new("Home")).await
                     };
 
-                    main_ui().include_home().set_sensitive(true);
-
                     SETTINGS.update(|settings| {
                         if !change {
                             main_ui()
@@ -82,6 +80,8 @@ pub fn init() {
                         super::write_config();
                         refresh();
                     }
+                } else {
+                    main_ui().include_home().set_sensitive(true);
                 }
             })
         });
