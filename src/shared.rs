@@ -303,13 +303,13 @@ pub struct Settings {
 }
 
 impl Settings {
-    pub fn from_path(path: &std::path::Path) -> Result<Self, Box<dyn std::error::Error>> {
+    pub fn from_path(path: &std::path::Path) -> std::io::Result<Self> {
         let file = std::fs::File::open(path)?;
         let conf: Self = serde_json::de::from_reader(file)?;
         Ok(conf)
     }
 
-    pub fn default_path() -> Result<std::path::PathBuf, Box<dyn std::error::Error>> {
+    pub fn default_path() -> std::io::Result<std::path::PathBuf> {
         let mut path = crate::globals::CONFIG_DIR.clone();
         path.push(env!("CARGO_PKG_NAME"));
         std::fs::create_dir_all(&path)?;

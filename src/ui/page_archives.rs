@@ -111,7 +111,7 @@ fn update_archives_spinner(config: BackupConfig) {
     }
 }
 
-fn archives_cache_refreshed(config: BackupConfig, result: Result<Vec<borg::ListArchive>, BorgErr>) {
+fn archives_cache_refreshed(config: BackupConfig, result: borg::Result<Vec<borg::ListArchive>>) {
     match result {
         Ok(archives) => {
             let mut repo_archives = REPO_ARCHIVES
@@ -160,7 +160,7 @@ fn archives_cache_refreshed(config: BackupConfig, result: Result<Vec<borg::ListA
     }
 }
 
-fn show_dir(result: Result<std::path::PathBuf, futures::channel::oneshot::Canceled>) {
+fn show_dir(result: std::result::Result<std::path::PathBuf, futures::channel::oneshot::Canceled>) {
     match result {
         Err(err) => ui::utils::show_error(gettext("Failed to open archive."), err),
         Ok(path) => {
@@ -168,7 +168,7 @@ fn show_dir(result: Result<std::path::PathBuf, futures::channel::oneshot::Cancel
 
             // only open if app isn't closing in this moment
             if !**IS_SHUTDOWN.load() {
-                let show_folder = || -> Result<(), _> {
+                let show_folder = || -> std::result::Result<(), _> {
                     let conn = zbus::Connection::new_session()?;
                     let proxy = zbus::Proxy::new(
                         &conn,

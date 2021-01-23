@@ -10,6 +10,8 @@ use crate::shared::{self, *};
 use crate::ui::prelude::*;
 use utils::*;
 
+pub type Result<T> = std::result::Result<T, shared::BorgErr>;
+
 #[derive(Default, Debug, Clone)]
 pub struct Status {
     pub run: Run,
@@ -160,7 +162,7 @@ impl Borg {
         self.config.clone()
     }
 
-    pub fn umount(&self) -> Result<(), BorgErr> {
+    pub fn umount(&self) -> Result<()> {
         let mount_point = self.get_mount_point();
 
         let borg = BorgCall::new("umount")
@@ -188,7 +190,7 @@ impl Borg {
         dir
     }
 
-    pub fn mount(&self) -> Result<(), BorgErr> {
+    pub fn mount(&self) -> Result<()> {
         std::fs::DirBuilder::new()
             .recursive(true)
             .create(self.get_mount_point())?;
@@ -203,11 +205,11 @@ impl Borg {
         Ok(())
     }
 
-    pub fn create(&self, communication: Communication) -> Result<Stats, BorgErr> {
+    pub fn create(&self, communication: Communication) -> Result<Stats> {
         self.create_internal(communication, false)
     }
 
-    fn create_internal(&self, communication: Communication, retry: bool) -> Result<Stats, BorgErr> {
+    fn create_internal(&self, communication: Communication, retry: bool) -> Result<Stats> {
         // Do this early to fail if password is missing
         let mut borg_call = BorgCall::new("create");
         borg_call
@@ -318,7 +320,7 @@ impl BorgBasics for BorgOnlyRepo {}
 
 /// Features that are available without complete backup config
 pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
-    fn peek(&self) -> Result<List, BorgErr> {
+    fn peek(&self) -> Result<List> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
@@ -339,7 +341,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json)
     }
 
-    fn list(&self, last: u64) -> Result<Vec<ListArchive>, BorgErr> {
+    fn list(&self, last: u64) -> Result<Vec<ListArchive>> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
@@ -356,7 +358,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json.archives)
     }
 
-    fn init(&self) -> Result<List, BorgErr> {
+    fn init(&self) -> Result<List> {
         let borg = BorgCall::new("init")
             .add_options(&["--encryption=repokey"])
             .add_basics(self)?
@@ -368,7 +370,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
     }
 }
 
-pub fn version() -> Result<String, BorgErr> {
+pub fn version() -> Result<String> {
     let borg = BorgCall::new_raw()
         .add_options(&["--log-json", "--version"])
         .output()?;
@@ -421,7 +423,7 @@ pub fn estimate_size(backup: &shared::BackupConfig, communication: &Communicatio
         for entry in walkdir::WalkDir::new(dir)
             .into_iter()
             .filter_entry(is_not_exluded)
-            .filter_map(Result::ok)
+            .filter_map(std::result::Result::ok)
         {
             if Instruction::Nothing != **communication.instruction.load() {
                 return None;

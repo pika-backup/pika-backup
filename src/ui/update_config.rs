@@ -58,7 +58,7 @@ pub fn run() {
     }
 }
 
-fn update_config(id: String, result: Result<borg::List, shared::BorgErr>) {
+fn update_config(id: String, result: borg::Result<borg::List>) {
     trace!("Got config update result");
 
     match result {

@@ -4,8 +4,6 @@ extern crate matches;
 use pika_backup::{borg, borg::prelude::*, borg::Borg, borg::BorgOnlyRepo, shared, ui::prelude::*};
 use shared::*;
 
-type CheckError = Result<(), Box<dyn std::error::Error>>;
-
 // Currently, there are no init tasks
 fn init() {}
 
@@ -30,7 +28,7 @@ fn simple_backup() {
 }
 
 #[test]
-fn backup_communication() -> CheckError {
+fn backup_communication() -> borg::Result<()> {
     let borg = Borg::new(config());
     let communication = status();
 
