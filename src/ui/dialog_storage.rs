@@ -1,6 +1,6 @@
 use gtk::prelude::*;
 
-use crate::shared;
+use crate::config;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
@@ -14,7 +14,7 @@ pub async fn show() {
 
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
     match &backup.repo {
-        shared::BackupRepo::Local {
+        config::BackupRepo::Local {
             ref mount_name,
             ref drive_name,
             ref path,
@@ -42,7 +42,7 @@ pub async fn show() {
                 storage.fs().show();
             }
         }
-        repo @ shared::BackupRepo::Remote { .. } => {
+        repo @ config::BackupRepo::Remote { .. } => {
             storage.uri().set_text(&repo.to_string());
             storage.remote().show();
         }

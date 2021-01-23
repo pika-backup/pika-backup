@@ -1,3 +1,5 @@
+pub use crate::globals::*;
+
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
@@ -7,7 +9,7 @@ use once_cell::sync::Lazy;
 use crate::borg;
 use crate::ui;
 
-pub static SETTINGS: Lazy<ArcSwap<crate::shared::Settings>> = Lazy::new(Default::default);
+pub static SETTINGS: Lazy<ArcSwap<crate::config::Settings>> = Lazy::new(Default::default);
 pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<HashMap<String, borg::Communication>>> =
     Lazy::new(Default::default);
 pub static ACTIVE_BACKUP_ID: Lazy<ArcSwap<Option<String>>> = Lazy::new(Default::default);

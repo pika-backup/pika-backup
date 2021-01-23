@@ -1,8 +1,8 @@
+pub use crate::prelude::*;
 pub use crate::ui::error::{Error, Handler, Result, UserAborted};
 pub use crate::ui::utils::{BackupMap, Message};
-pub use gettextrs::gettext;
 
-use arc_swap::ArcSwap;
+pub use gettextrs::gettext;
 
 use chrono::prelude::*;
 use gtk::prelude::*;
@@ -61,51 +61,12 @@ impl Humanize for chrono::Duration {
     }
 }
 
-pub trait ArcSwapAdditions<T> {
-    fn update<F: Fn(&mut T)>(&self, updater: F);
-    fn get(&self) -> T;
-}
-
-impl<T> ArcSwapAdditions<T> for ArcSwap<T>
-where
-    T: Clone,
-{
-    fn update<F: Fn(&mut T)>(&self, updater: F) {
-        self.rcu(|current| {
-            let mut new = T::clone(current);
-            updater(&mut new);
-            new
-        });
-    }
-
-    fn get(&self) -> T {
-        T::clone(&self.load_full())
-    }
-}
-
-impl<T> ArcSwapAdditions<T> for once_cell::sync::Lazy<ArcSwap<T>>
-where
-    T: Clone,
-{
-    fn update<F: Fn(&mut T)>(&self, updater: F) {
-        (**self).rcu(|current| {
-            let mut new = T::clone(current);
-            updater(&mut new);
-            new
-        });
-    }
-
-    fn get(&self) -> T {
-        T::clone(&(**self).load_full())
-    }
-}
-
-pub trait CronoAdditions {
+pub trait CronoExt {
     fn to_glib(&self) -> glib::DateTime;
     fn to_locale(&self) -> String;
 }
 
-impl CronoAdditions for NaiveDateTime {
+impl CronoExt for NaiveDateTime {
     fn to_glib(&self) -> glib::DateTime {
         glib::DateTime::from_unix_local(self.timestamp())
     }
@@ -118,7 +79,7 @@ impl CronoAdditions for NaiveDateTime {
     }
 }
 
-impl CronoAdditions for DateTime<Local> {
+impl CronoExt for DateTime<Local> {
     fn to_glib(&self) -> glib::DateTime {
         glib::DateTime::from_unix_local(self.timestamp())
     }
@@ -140,12 +101,12 @@ pub fn gettextf(format: &str, args: &[&str]) -> String {
     s
 }
 
-pub trait WidgetEnh {
+pub trait WidgetExtExt {
     fn add_css_class(&self, class: &str);
     fn remove_css_class(&self, class: &str);
 }
 
-impl<W: gtk::WidgetExt> WidgetEnh for W {
+impl<W: gtk::WidgetExt> WidgetExtExt for W {
     fn add_css_class(&self, class: &str) {
         self.get_style_context().add_class(class);
     }

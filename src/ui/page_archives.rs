@@ -9,7 +9,7 @@ use once_cell::sync::Lazy;
 
 use crate::borg;
 use crate::borg::prelude::*;
-use crate::shared::*;
+use crate::config::*;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::utils::BackupMap;

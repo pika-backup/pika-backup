@@ -1,11 +1,12 @@
-use super::{Borg, BorgRunConfig};
+use super::{Borg, BorgRunConfig, Error, Result};
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
 use std::os::unix::io::IntoRawFd;
 use std::process::{Command, Stdio};
 use zeroize::Zeroizing;
 
-use crate::shared::*;
+use super::error::*;
+use super::msg::*;
 
 #[derive(Default)]
 pub struct BorgCall {
@@ -15,7 +16,7 @@ pub struct BorgCall {
     pub positional: Vec<String>,
 }
 
-pub fn check_stderr(output: &std::process::Output) -> Result<(), BorgErr> {
+pub fn check_stderr(output: &std::process::Output) -> Result<()> {
     let mut errors = Vec::new();
     for line in String::from_utf8_lossy(&output.stderr).lines() {
         let msg = check_line(line);
@@ -48,7 +49,8 @@ pub fn check_stderr(output: &std::process::Output) -> Result<(), BorgErr> {
 pub fn check_line(line: &str) -> LogMessageEnum {
     if let Ok(mut msg @ LogMessage { .. }) = serde_json::from_str(line) {
         if msg.msgid == MsgId::Undefined {
-            let msgid_helper_parsed: Result<MsgIdHelper, _> = serde_json::from_str(line);
+            let msgid_helper_parsed: std::result::Result<MsgIdHelper, _> =
+                serde_json::from_str(line);
             if let Ok(msgid_helper) = msgid_helper_parsed {
                 msg.msgid = MsgId::Other(msgid_helper.msgid);
             }
@@ -139,7 +141,7 @@ impl BorgCall {
         self
     }
 
-    pub fn add_password<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self, BorgErr> {
+    pub fn add_password<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
         // Password pipe
         let (pipe_reader, mut pipe_writer) = std::os::unix::net::UnixStream::pair()?;
 
@@ -172,7 +174,7 @@ impl BorgCall {
                         ("program", env!("CARGO_PKG_NAME")),
                     ])?
                     .get(0)
-                    .ok_or(BorgErr::PasswordMissing)?
+                    .ok_or(Error::PasswordMissing)?
                     .get_secret()?
                     .into();
             pipe_writer.write_all(&password)?;
@@ -186,7 +188,7 @@ impl BorgCall {
         Ok(self)
     }
 
-    pub fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self, BorgErr> {
+    pub fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
         self.add_options(&["--log-json"]);
 
         if self.positional.is_empty() {

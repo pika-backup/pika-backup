@@ -1,16 +1,21 @@
+pub mod error;
 pub mod prelude;
 mod utils;
+pub use error::Error;
+pub mod msg;
 
 use arc_swap::ArcSwap;
 
 use std::io::{BufRead, BufReader};
 use std::sync::Arc;
 
-use crate::shared::{self, *};
-use crate::ui::prelude::*;
+use crate::config::{self, *};
+use crate::globals::*;
+use crate::prelude::*;
+use msg::*;
 use utils::*;
 
-pub type Result<T> = std::result::Result<T, shared::BorgErr>;
+pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Default, Debug, Clone)]
 pub struct Status {
@@ -179,9 +184,7 @@ impl Borg {
     }
 
     pub fn get_mount_dir() -> std::path::PathBuf {
-        let mut dir = shared::get_home_dir();
-        dir.push(crate::REPO_MOUNT_DIR);
-        dir
+        HOME_DIR.clone().join(crate::REPO_MOUNT_DIR)
     }
 
     pub fn get_mount_point(&self) -> std::path::PathBuf {
@@ -237,7 +240,7 @@ impl Borg {
                     status.estimated_size = estimated_size;
                 });
             } else {
-                return Err(BorgErr::UserAborted);
+                return Err(Error::UserAborted);
             }
         }
 
@@ -264,10 +267,10 @@ impl Borg {
                     nix::sys::signal::Signal::SIGTERM,
                 )?;
                 borg.wait()?;
-                return Err(BorgErr::UserAborted);
+                return Err(Error::UserAborted);
             }
 
-            if let Ok(ref msg) = serde_json::from_str::<shared::Progress>(&line) {
+            if let Ok(ref msg) = serde_json::from_str::<msg::Progress>(&line) {
                 trace!("borg::create: {:?}", msg);
                 communication.status.update(move |status| {
                     status.last_message = Some(msg.clone());
@@ -298,7 +301,7 @@ impl Borg {
             Ok(stats)
         } else {
             Err(if errors.is_empty() {
-                ReturnCodeErr::new(exit_status.code()).into()
+                error::ReturnCodeErr::new(exit_status.code()).into()
             } else {
                 LogMessageCollection::new(errors).into()
             })
@@ -399,18 +402,18 @@ impl Default for Instruction {
     }
 }
 
-fn pathmatch(entry: &walkdir::DirEntry, pattern: &shared::Pattern) -> bool {
+fn pathmatch(entry: &walkdir::DirEntry, pattern: &config::Pattern) -> bool {
     match pattern {
-        shared::Pattern::PathPrefix(path) => entry.path() == path,
+        config::Pattern::PathPrefix(path) => entry.path() == path,
     }
 }
 
-pub fn estimate_size(backup: &shared::BackupConfig, communication: &Communication) -> Option<u64> {
+pub fn estimate_size(backup: &config::BackupConfig, communication: &Communication) -> Option<u64> {
     let mut exclude = backup.exclude_dirs_internal();
 
     // Exclude .cache/borg
     if let Some(cache_dir) = glib::get_user_cache_dir() {
-        exclude.push(shared::Pattern::PathPrefix(
+        exclude.push(config::Pattern::PathPrefix(
             cache_dir.join(std::path::Path::new("borg")),
         ));
     }

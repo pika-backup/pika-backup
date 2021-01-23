@@ -43,6 +43,6 @@ pub fn app_id() -> String {
 }
 
 pub mod borg;
+pub mod config;
 pub mod globals;
-pub mod shared;
 pub mod ui;

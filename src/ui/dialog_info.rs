@@ -1,8 +1,8 @@
 use gtk::prelude::*;
 
 use crate::ui::backup_status;
+use crate::ui::config::*;
 use crate::ui::globals::*;
-use crate::ui::shared::*;
 
 pub fn init() {
     main_ui().detail_dialog_vbox().set_border_width(0);
