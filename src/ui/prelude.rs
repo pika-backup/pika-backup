@@ -1,4 +1,5 @@
-pub use crate::ui::utils::BackupMap;
+pub use crate::ui::error::{Error, Handler, Result, UserAborted};
+pub use crate::ui::utils::{BackupMap, Message};
 pub use gettextrs::gettext;
 
 use arc_swap::ArcSwap;

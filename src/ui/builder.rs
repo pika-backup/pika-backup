@@ -73,6 +73,10 @@ impl DialogAddConfig {
         self.get("command_line_args")
     }
 
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
     pub fn dialog_vbox(&self) -> gtk::Box {
         self.get("dialog_vbox")
     }
@@ -131,10 +135,6 @@ impl DialogAddConfig {
 
     pub fn location_url(&self) -> gtk::Entry {
         self.get("location_url")
-    }
-
-    pub fn new_backup(&self) -> gtk::Dialog {
-        self.get("new_backup")
     }
 
     pub fn new_page(&self) -> gtk::ScrolledWindow {

@@ -7,6 +7,68 @@ use crate::shared::{self, Password};
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
+use std::io::Read;
+
+/// Checks if a directory is most likely a borg repository. Performed checks are
+///
+/// - `data/` exists and is a directory
+/// - `config` exists and contains the string "[repository]"
+pub fn is_backup_repo(path: &std::path::Path) -> bool {
+    trace!("Checking path if it is a repo '{}'", &path.display());
+    if let Ok(data) = std::fs::File::open(path.join("data")).and_then(|x| x.metadata()) {
+        if data.is_dir() {
+            if let Ok(mut cfg) = std::fs::File::open(path.join("config")) {
+                if let Ok(metadata) = cfg.metadata() {
+                    if metadata.len() < 1024 * 1024 {
+                        let mut content = String::new();
+                        #[allow(unused_must_use)]
+                        {
+                            cfg.read_to_string(&mut content);
+                        }
+                        return content.contains("[repository]");
+                    }
+                }
+            }
+        }
+    };
+
+    false
+}
+
+#[derive(Debug)]
+pub struct Message {
+    text: String,
+    secondary_text: Option<String>,
+}
+
+impl Message {
+    pub fn new<T: std::fmt::Display, S: std::fmt::Display>(text: T, secondary_text: S) -> Self {
+        Self {
+            text: format!("{}", text),
+            secondary_text: Some(format!("{}", secondary_text)),
+        }
+    }
+
+    pub fn short<T: std::fmt::Display>(text: T) -> Self {
+        Self {
+            text: format!("{}", text),
+            secondary_text: None,
+        }
+    }
+
+    pub fn show(&self) {
+        self.show_transient_for(&main_ui().window());
+    }
+
+    pub fn show_transient_for<W: IsA<gtk::Window> + IsA<gtk::Widget>>(&self, window: &W) {
+        if let Some(secondary) = &self.secondary_text {
+            show_error_transient_for(&self.text, secondary, window);
+        } else {
+            show_error_transient_for(&self.text, "", window);
+        }
+    }
+}
+
 pub trait BackupMap<T> {
     fn get_active(&self) -> Option<&T>;
     fn get_active_mut(&mut self) -> Option<&mut T>;
@@ -15,7 +77,7 @@ pub trait BackupMap<T> {
 pub fn secret_service_set_password(
     config: &shared::BackupConfig,
     password: &Password,
-) -> Result<(), secret_service::Error> {
+) -> std::result::Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
         .create_item(
@@ -38,7 +100,7 @@ pub fn secret_service_set_password(
 
 pub fn secret_service_delete_passwords(
     config: &shared::BackupConfig,
-) -> Result<(), secret_service::Error> {
+) -> std::result::Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
         .search_items(
@@ -102,13 +164,9 @@ pub fn store_password(config: &shared::BackupConfig, x: &Option<(Password, bool)
 pub struct Async(());
 
 impl Async {
-    pub async fn borg_spawn<F, V>(
-        name: &'static str,
-        borg: borg::Borg,
-        task: F,
-    ) -> Result<V, shared::BorgErr>
+    pub async fn borg_spawn<F, V>(name: &'static str, borg: borg::Borg, task: F) -> borg::Result<V>
     where
-        F: FnOnce(borg::Borg) -> Result<V, shared::BorgErr> + Send + Clone + 'static + Sync,
+        F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
         V: Send + 'static,
     {
         let config = borg.get_config();
@@ -125,9 +183,9 @@ impl Async {
         name: &'static str,
         borg: B,
         task: F,
-    ) -> Result<(V, Option<(Password, bool)>), shared::BorgErr>
+    ) -> borg::Result<(V, Option<(Password, bool)>)>
     where
-        F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static + Sync,
+        F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
         V: Send + 'static,
         B: borg::BorgBasics + 'static,
     {
@@ -141,9 +199,9 @@ async fn borg_spawn<F, V, B>(
     mut borg: B,
     task: F,
     mut pre_select_store: bool,
-) -> Result<(V, Option<(Password, bool)>), shared::BorgErr>
+) -> borg::Result<(V, Option<(Password, bool)>)>
 where
-    F: FnOnce(B) -> Result<V, shared::BorgErr> + Send + Clone + 'static + Sync,
+    F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
 {
@@ -181,7 +239,7 @@ where
 pub async fn spawn_thread<F, R>(
     name: &str,
     task: F,
-) -> Result<R, futures::channel::oneshot::Canceled>
+) -> std::result::Result<R, futures::channel::oneshot::Canceled>
 where
     F: FnOnce() -> R + Send + 'static,
     R: Send + 'static,
@@ -250,7 +308,7 @@ pub async fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBu
 }
 
 pub fn dialog_catch_err<X, P: std::fmt::Display, S: std::fmt::Display>(
-    res: Result<X, P>,
+    res: std::result::Result<X, P>,
     msg: S,
 ) -> bool {
     match res {

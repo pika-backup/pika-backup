@@ -1,5 +1,3 @@
-use std::error::Error;
-
 use gdk_pixbuf::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
@@ -19,6 +17,7 @@ mod dialog_device_missing;
 mod dialog_encryption_password;
 mod dialog_info;
 mod dialog_storage;
+mod error;
 mod globals;
 mod headerbar;
 mod page_archives;
@@ -234,7 +233,7 @@ fn init_check_borg() {
                 let version_list = version_string
                     .split('.')
                     .map(str::parse)
-                    .map(Result::ok)
+                    .map(std::result::Result::ok)
                     .take(2);
                 if vec![Some(crate::BORG_MIN_MAJOR), Some(crate::BORG_MIN_MINOR)]
                     .into_iter()
@@ -256,7 +255,7 @@ fn init_check_borg() {
     }
 }
 
-fn load_config_e() -> Result<(), Box<dyn Error>> {
+fn load_config_e() -> std::io::Result<()> {
     let conf = shared::Settings::from_path(&shared::Settings::default_path()?)?;
     SETTINGS.update(|s| *s = conf.clone());
     Ok(())
@@ -266,7 +265,7 @@ fn load_config() {
     utils::dialog_catch_err(load_config_e(), gettext("Could not load config."));
 }
 
-fn write_config_e() -> Result<(), Box<dyn Error>> {
+fn write_config_e() -> std::io::Result<()> {
     let settings: &shared::Settings = &SETTINGS.load();
     let file = std::fs::File::create(&shared::Settings::default_path()?)?;
     serde_json::ser::to_writer_pretty(file, settings)?;

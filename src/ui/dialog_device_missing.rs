@@ -11,7 +11,7 @@ pub fn main<F: Fn() + Send + 'static>(config: shared::BackupConfig, purpose: &st
     match &config.repo {
         shared::BackupRepo::Local {
             path, removable, ..
-        } if !ui::dialog_add_config::is_backup_repo(path) => {
+        } if !ui::utils::is_backup_repo(path) => {
             if let Some(uri) = config.repo.get_uri_fuse() {
                 mount_fuse_dialog(uri, f);
             } else if *removable {
@@ -40,7 +40,7 @@ fn mount_added<F: Fn()>(
     }
 }
 
-pub async fn mount_enclosing(file: &gio::File) -> Result<(), ()> {
+pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
     info!("Trying to mount '{}'", file.get_uri());
     let mount_result = file.mount_enclosing_volume_future(
         gio::MountMountFlags::NONE,
@@ -54,13 +54,11 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<(), ()> {
     match mount_result.await {
         Ok(()) => Ok(()),
         Err(err) => {
-            if !matches!(
-                err.kind::<gio::IOErrorEnum>(),
-                Some(gio::IOErrorEnum::FailedHandled)
-            ) {
-                ui::utils::show_error(gettext("Failed to mount."), err);
+            match err.kind::<gio::IOErrorEnum>() {
+                // TODO
+                Some(gio::IOErrorEnum::FailedHandled) => Err(UserAborted {}.into()),
+                _ => Err(Message::new(gettext("Failed to mount."), err).into()),
             }
-            Err(())
         }
     }
 }
