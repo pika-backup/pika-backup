@@ -3,7 +3,7 @@ use gtk::prelude::*;
 use libhandy::prelude::*;
 
 use crate::borg;
-use crate::shared;
+use crate::config;
 use crate::ui;
 use crate::ui::backup_status;
 use crate::ui::globals::*;
@@ -185,7 +185,7 @@ async fn on_backup_run() {
     });
 }
 
-pub async fn run_backup(config: shared::BackupConfig) {
+pub async fn run_backup(config: config::BackupConfig) {
     let communication: borg::Communication = Default::default();
 
     BACKUP_COMMUNICATION.update(|x| {
@@ -203,10 +203,10 @@ pub async fn run_backup(config: shared::BackupConfig) {
     BACKUP_COMMUNICATION.update(|c| {
         c.remove(&config.id);
     });
-    let user_aborted = matches!(result, Err(shared::BorgErr::UserAborted));
+    let user_aborted = matches!(result, Err(borg::Error::UserAborted));
     // This is because the error cannot be cloned
     let result_string_err = result.map_err(|err| format!("{}", err));
-    let run_info = Some(shared::RunInfo::new(result_string_err.clone()));
+    let run_info = Some(config::RunInfo::new(result_string_err.clone()));
 
     SETTINGS.update(|settings| {
         settings.backups.get_mut(&config.id).unwrap().last_run = run_info.clone()
@@ -231,7 +231,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
         .build();
     list.add(&row);
 
-    if let Some(img) = ui::utils::file_icon(&shared::absolute(file), gtk::IconSize::Dnd) {
+    if let Some(img) = ui::utils::file_icon(&config::absolute(file), gtk::IconSize::Dnd) {
         row.add_prefix(&img);
     }
 
@@ -281,12 +281,12 @@ pub fn refresh() {
     }
 
     match &backup.repo {
-        shared::BackupRepo::Local { ref mount_name, .. } => {
+        config::BackupRepo::Local { ref mount_name, .. } => {
             main_ui()
                 .detail_repo_row()
                 .set_title(mount_name.as_ref().map(String::as_str));
         }
-        shared::BackupRepo::Remote { .. } => {
+        config::BackupRepo::Remote { .. } => {
             main_ui()
                 .detail_repo_row()
                 .set_title(Some(&gettext("Remote location")));
@@ -332,7 +332,7 @@ pub fn refresh() {
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
-    for shared::Pattern::PathPrefix(file) in backup.exclude.iter() {
+    for config::Pattern::PathPrefix(file) in backup.exclude.iter() {
         let button = add_list_row(&main_ui().backup_exclude(), file);
         let path = file.clone();
         button.connect_clicked(move |_| {
@@ -343,7 +343,7 @@ pub fn refresh() {
                     .get_active_mut()
                     .unwrap()
                     .exclude
-                    .remove(&shared::Pattern::PathPrefix(path.clone()));
+                    .remove(&config::Pattern::PathPrefix(path.clone()));
             });
             super::write_config();
             refresh();
@@ -388,7 +388,7 @@ async fn confirm_remove_include(path: &std::path::Path) -> bool {
 
 /// Returns a relative path for sub directories of home
 fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
-    if let Ok(rel_path) = path.strip_prefix(shared::get_home_dir()) {
+    if let Ok(rel_path) = path.strip_prefix(HOME_DIR.as_path()) {
         rel_path.to_path_buf()
     } else {
         path.to_path_buf()
@@ -422,7 +422,7 @@ async fn add_exclude() {
                 .get_active_mut()
                 .unwrap()
                 .exclude
-                .insert(shared::Pattern::PathPrefix(rel_path(&path)));
+                .insert(config::Pattern::PathPrefix(rel_path(&path)));
         });
         super::write_config();
         refresh();

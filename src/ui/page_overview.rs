@@ -4,7 +4,7 @@ use libhandy::prelude::*;
 use std::collections::HashMap;
 use std::sync::RwLock;
 
-use crate::shared;
+use crate::config;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
@@ -132,7 +132,7 @@ fn refresh() {
 
         let mut location = String::new();
 
-        if let shared::BackupRepo::Local { mount_name, .. } = &config.repo {
+        if let config::BackupRepo::Local { mount_name, .. } = &config.repo {
             location = format!(
                 "{} – {}",
                 mount_name.as_ref().map(|x| x.as_str()).unwrap_or_default(),
@@ -156,7 +156,7 @@ fn refresh() {
             incl.add_css_class("backup-include");
 
             if let Some(icon) =
-                ui::utils::file_symbolic_icon(&shared::absolute(path), gtk::IconSize::Button)
+                ui::utils::file_symbolic_icon(&config::absolute(path), gtk::IconSize::Button)
             {
                 incl.add(&icon);
             }

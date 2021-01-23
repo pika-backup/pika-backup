@@ -1,9 +1,10 @@
 use chrono::prelude::*;
 
 use crate::borg;
+use crate::borg::msg;
 use crate::borg::Run;
-use crate::shared;
-use crate::shared::*;
+use crate::config;
+use crate::config::*;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
@@ -23,8 +24,8 @@ impl Display {
     }
 }
 
-impl From<&shared::RunInfo> for Display {
-    fn from(run_info: &shared::RunInfo) -> Self {
+impl From<&config::RunInfo> for Display {
+    fn from(run_info: &config::RunInfo) -> Self {
         match &run_info.result {
             Ok(_) => Self {
                 title: gettext("Last backup successful"),
@@ -62,7 +63,7 @@ impl From<&borg::Communication> for Display {
 
         if let Some(ref last_message) = status.last_message {
             match *last_message {
-                Progress::Archive(ref progress_archive_ref) => {
+                msg::Progress::Archive(ref progress_archive_ref) => {
                     progress_archive = Some(progress_archive_ref.clone());
                     if let Some(total) = status.estimated_size {
                         let fraction = progress_archive_ref.original_size as f64 / total as f64;
@@ -75,7 +76,7 @@ impl From<&borg::Communication> for Display {
                         ));
                     }
                 }
-                Progress::Message {
+                msg::Progress::Message {
                     message: Some(ref message),
                     ref msgid,
                     ..
@@ -86,7 +87,7 @@ impl From<&borg::Communication> for Display {
                         subtitle = Some(message.clone());
                     }
                 }
-                Progress::Percent {
+                msg::Progress::Percent {
                     current: Some(current),
                     total: Some(total),
                     ..
@@ -148,7 +149,7 @@ pub struct Display {
     pub graphic: Graphic,
     pub progress: Option<f64>,
     pub run_info: Option<RunInfo>,
-    pub progress_archive: Option<ProgressArchive>,
+    pub progress_archive: Option<msg::ProgressArchive>,
 }
 
 pub enum Graphic {

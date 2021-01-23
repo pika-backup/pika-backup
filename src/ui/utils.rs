@@ -3,7 +3,7 @@ use gtk::prelude::*;
 use libhandy::prelude::*;
 
 use crate::borg;
-use crate::shared::{self, Password};
+use crate::config::{self, Password};
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
@@ -75,7 +75,7 @@ pub trait BackupMap<T> {
 }
 
 pub fn secret_service_set_password(
-    config: &shared::BackupConfig,
+    config: &config::BackupConfig,
     password: &Password,
 ) -> std::result::Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
@@ -99,7 +99,7 @@ pub fn secret_service_set_password(
 }
 
 pub fn secret_service_delete_passwords(
-    config: &shared::BackupConfig,
+    config: &config::BackupConfig,
 ) -> std::result::Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
@@ -116,7 +116,7 @@ pub fn secret_service_delete_passwords(
         .try_for_each(|item| item.delete())
 }
 
-pub async fn get_password(pre_select_store: bool) -> Option<(shared::Password, bool)> {
+pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, bool)> {
     crate::ui::dialog_encryption_password::Ask::new()
         .set_pre_select_store(pre_select_store)
         .run()
@@ -143,7 +143,7 @@ impl<T> BackupMap<T> for std::collections::BTreeMap<String, T> {
     }
 }
 
-pub fn store_password(config: &shared::BackupConfig, x: &Option<(Password, bool)>) {
+pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)>) {
     if let Some((ref password, ref store)) = x {
         if *store {
             debug!("Storing new password at secret service");
@@ -214,11 +214,11 @@ where
         .await;
 
         return match result {
-            Err(futures::channel::oneshot::Canceled) => Err(shared::BorgErr::ThreadPanicked),
+            Err(futures::channel::oneshot::Canceled) => Err(borg::Error::ThreadPanicked),
             Ok(result) => match result {
                 Err(e)
-                    if matches!(e, shared::BorgErr::PasswordMissing)
-                        || e.has_borg_msgid(&shared::MsgId::PassphraseWrong) =>
+                    if matches!(e, borg::Error::PasswordMissing)
+                        || e.has_borg_msgid(&borg::msg::MsgId::PassphraseWrong) =>
                 {
                     if let Some((password, store)) = get_password(pre_select_store).await {
                         pre_select_store = store;
@@ -226,7 +226,7 @@ where
 
                         continue;
                     } else {
-                        Err(shared::BorgErr::UserAborted)
+                        Err(borg::Error::UserAborted)
                     }
                 }
                 Err(e) => Err(e),

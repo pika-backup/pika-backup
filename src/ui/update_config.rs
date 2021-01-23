@@ -1,5 +1,5 @@
 use crate::borg::{self, prelude::*};
-use crate::shared;
+use crate::config;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
@@ -66,7 +66,7 @@ fn update_config(id: String, result: borg::Result<borg::List>) {
             SETTINGS.update(move |settings| {
                 if let Some(config) = settings.backups.get_mut(&id) {
                     let icon_symbolic = match &config.repo {
-                        shared::BackupRepo::Local { path, .. } => gio::File::new_for_path(path)
+                        config::BackupRepo::Local { path, .. } => gio::File::new_for_path(path)
                             .find_enclosing_mount(Some(&gio::Cancellable::new()))
                             .ok()
                             .and_then(|m| m.get_symbolic_icon()),

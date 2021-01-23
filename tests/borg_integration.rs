@@ -1,8 +1,9 @@
 #[macro_use]
 extern crate matches;
 
-use pika_backup::{borg, borg::prelude::*, borg::Borg, borg::BorgOnlyRepo, shared, ui::prelude::*};
-use shared::*;
+use pika_backup::{
+    borg, borg::msg::*, borg::prelude::*, borg::Borg, borg::BorgOnlyRepo, config, ui::prelude::*,
+};
 
 // Currently, there are no init tasks
 fn init() {}
@@ -15,7 +16,7 @@ fn borg_bin_missing() {
     let result = Borg::new(config()).create(status());
     assert_matches!(
         result,
-        Err(BorgErr::Io(std::io::Error { .. }))
+        Err(borg::Error::Io(std::io::Error { .. }))
     );
 }
 
@@ -52,13 +53,13 @@ fn encrypted_backup() {
     assert_matches!(borg.init(), Ok(borg::List { .. }));
 
     borg.unset_password();
-    assert_matches!(borg.create(status()), Err(BorgErr::PasswordMissing));
+    assert_matches!(borg.create(status()), Err(borg::Error::PasswordMissing));
 }
 
 #[test]
 fn failed_ssh_connection() {
     init();
-    let repo = shared::BackupRepo::new_remote("ssh://backup.server.invalid/repo".to_string());
+    let repo = config::BackupRepo::new_remote("ssh://backup.server.invalid/repo".to_string());
 
     let result = BorgOnlyRepo::new(repo).peek();
     assert!(result
@@ -79,15 +80,15 @@ fn status() -> borg::Communication {
     Default::default()
 }
 
-fn config() -> shared::BackupConfig {
+fn config() -> config::BackupConfig {
     let uuid = glib::uuid_string_random().to_string();
     let path = std::path::PathBuf::from(format!("/tmp/{}", &uuid));
-    shared::BackupConfig {
+    config::BackupConfig {
         config_version: 1,
-        id: uuid.clone(),
+        id: uuid,
         repo_id: "repo id".into(),
         encryption_mode: "none".into(),
-        repo: shared::BackupRepo::new_local_from_path(path),
+        repo: config::BackupRepo::new_local_from_path(path),
         encrypted: false,
         include: vec!["/dev/null".into()].into_iter().collect(),
         exclude: Default::default(),

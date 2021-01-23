@@ -6,8 +6,8 @@ use zeroize::Zeroizing;
 
 use crate::borg;
 use crate::borg::prelude::*;
-use crate::shared;
-use crate::shared::*;
+use crate::config;
+use crate::config::*;
 use crate::ui;
 use crate::ui::builder;
 use crate::ui::globals::*;
@@ -149,12 +149,12 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
 
     let result = ui::utils::spawn_thread("borg::init", move || borg.init()).await;
 
-    match result.unwrap_or(Err(shared::BorgErr::ThreadPanicked)) {
+    match result.unwrap_or(Err(borg::Error::ThreadPanicked)) {
         Err(err) => {
             return Err(Message::new(gettext("Failed to initialize repository."), err).into());
         }
         Ok(info) => {
-            let config = shared::BackupConfig::new(repo.clone(), info, encrypted);
+            let config = config::BackupConfig::new(repo.clone(), info, encrypted);
 
             insert_backup_config(config.clone());
             if encrypted && ui.password_store().get_active() {
@@ -170,7 +170,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
 }
 
 async fn add_repo_config(
-    mut repo: shared::BackupRepo,
+    mut repo: config::BackupRepo,
     ui: Rc<builder::DialogAddConfig>,
 ) -> Result<()> {
     repo.set_settings(Some(BackupSettings {
@@ -180,7 +180,7 @@ async fn add_repo_config(
     insert_backup_config_encryption_unknown(repo).await
 }
 
-async fn insert_backup_config_encryption_unknown(repo: shared::BackupRepo) -> Result<()> {
+async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Result<()> {
     let result = ui::utils::Async::borg_only_repo_suggest_store(
         "borg::peek",
         borg::BorgOnlyRepo::new(repo.clone()),
@@ -194,7 +194,7 @@ async fn insert_backup_config_encryption_unknown(repo: shared::BackupRepo) -> Re
                 .clone()
                 .map(|(password, _)| !password.is_empty())
                 .unwrap_or_default();
-            let config = shared::BackupConfig::new(repo.clone(), info, encrypted);
+            let config = config::BackupConfig::new(repo.clone(), info, encrypted);
             insert_backup_config(config.clone());
             ui::utils::store_password(&config, &pw_data);
             ui::page_detail::view_backup_conf(&config.id);
@@ -209,7 +209,7 @@ async fn insert_backup_config_encryption_unknown(repo: shared::BackupRepo) -> Re
     }
 }
 
-fn insert_backup_config(config: shared::BackupConfig) {
+fn insert_backup_config(config: config::BackupConfig) {
     SETTINGS.update(move |s| {
         s.backups.insert(config.id.clone(), config.clone());
     });

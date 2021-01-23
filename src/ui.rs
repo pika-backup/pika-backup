@@ -3,7 +3,7 @@ use gio::prelude::*;
 use gtk::prelude::*;
 
 use crate::borg;
-use crate::shared;
+use crate::config;
 use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
@@ -256,7 +256,7 @@ fn init_check_borg() {
 }
 
 fn load_config_e() -> std::io::Result<()> {
-    let conf = shared::Settings::from_path(&shared::Settings::default_path()?)?;
+    let conf = config::Settings::from_path(&config::Settings::default_path()?)?;
     SETTINGS.update(|s| *s = conf.clone());
     Ok(())
 }
@@ -266,8 +266,8 @@ fn load_config() {
 }
 
 fn write_config_e() -> std::io::Result<()> {
-    let settings: &shared::Settings = &SETTINGS.load();
-    let file = std::fs::File::create(&shared::Settings::default_path()?)?;
+    let settings: &config::Settings = &SETTINGS.load();
+    let file = std::fs::File::create(&config::Settings::default_path()?)?;
     serde_json::ser::to_writer_pretty(file, settings)?;
     Ok(())
 }
