@@ -21,8 +21,6 @@ pub fn new_backup() {
     ui.password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
 
-    ui.dialog_vbox().set_border_width(0);
-
     ui.init_local_row().set_activatable(true);
     ui.init_remote_row().set_activatable(true);
     ui.add_local_row().set_activatable(true);
@@ -64,14 +62,14 @@ pub fn new_backup() {
 
     monitor.connect_mount_removed(enclose!((ui) move |_, mount| {
         debug!("Mount removed");
-        remove_mount(&ui.add_repo_list(), mount.get_root().unwrap().get_uri());
+        remove_mount(&ui.add_repo_list(), mount.get_root().get_uri());
         remove_mount(
             &ui.init_repo_list(),
-            mount.get_root().unwrap().get_uri(),
+            mount.get_root().get_uri(),
         );
     }));
 
-    ui.dialog().show_all();
+    ui.dialog().show();
 }
 
 fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddConfig) {
@@ -109,7 +107,7 @@ fn load_available_mounts_and_repos(ui: Rc<builder::DialogAddConfig>) {
 }
 
 async fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) -> Result<()> {
-    if let Some(mount_point) = mount.get_root().unwrap().get_path() {
+    if let Some(mount_point) = mount.get_root().get_path() {
         add_mount(&ui.init_repo_list(), &mount, None);
         let paths = ui::utils::spawn_thread("check_mount_for_repos", move || {
             let mut paths = Vec::new();
@@ -147,9 +145,7 @@ async fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) -> Resu
 fn show_init(ui: &builder::DialogAddConfig) {
     ui.init_dir().set_text(&format!(
         "backup-{}-{}",
-        glib::get_host_name()
-            .map(|x| x.to_string())
-            .unwrap_or_default(),
+        &glib::get_host_name(),
         glib::get_user_name()
             .and_then(|x| x.into_string().ok())
             .unwrap_or_default()
@@ -157,7 +153,7 @@ fn show_init(ui: &builder::DialogAddConfig) {
     ui.password_quality().set_value(0.0);
     ui.stack().set_visible_child(&ui.new_page());
     ui.init_button().show();
-    ui.init_button().grab_default();
+    ui.dialog().set_default_widget(Some(&ui.init_button()));
 }
 
 fn on_init_repo_password_changed(ui: &builder::DialogAddConfig) {
@@ -185,39 +181,39 @@ fn on_init_repo_password_changed(ui: &builder::DialogAddConfig) {
 }
 
 fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
+    // TODO gtk4
+    /*
     for list_row in list.get_children() {
         if list_row.get_widget_name() == root {
             list.remove(&list_row);
         }
     }
+    */
 }
 
 fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
     let row = ui::utils::new_action_row_with_gicon(mount.get_icon().as_ref());
-    list.add(&row);
+    list.append(&row);
 
-    row.set_widget_name(&mount.get_root().unwrap().get_uri());
+    row.set_widget_name(&mount.get_root().get_uri());
 
-    let mut label1 = mount.get_name().map(|x| x.to_string()).unwrap_or_default();
+    let mut label1 = mount.get_name().to_string();
 
     let mut label2: String = mount
         .get_drive()
         .as_ref()
-        .and_then(gio::Drive::get_name)
+        .map(gio::Drive::get_name)
         .map(Into::into)
-        .unwrap_or_else(|| mount.get_root().unwrap().get_uri().to_string());
+        .unwrap_or_else(|| mount.get_root().get_uri().to_string());
 
-    if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&mount.get_root().unwrap()) {
-        label1.push_str(&format!(" – {}", &glib::format_size(fs_size).unwrap()));
+    if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&mount.get_root()) {
+        label1.push_str(&format!(" – {}", &glib::format_size(fs_size)));
 
         label2.push_str(" – ");
-        label2.push_str(&gettextf(
-            "Free space: {}",
-            &[&glib::format_size(fs_free).unwrap()],
-        ));
+        label2.push_str(&gettextf("Free space: {}", &[&glib::format_size(fs_free)]));
     }
 
-    if let Some(mount_path) = mount.get_root().unwrap().get_path() {
+    if let Some(mount_path) = mount.get_root().get_path() {
         if let Some(repo_path) = repo {
             row.set_widget_name(&gio::File::new_for_path(repo_path).get_uri());
             if let Ok(suffix) = repo_path.strip_prefix(mount_path) {
@@ -231,5 +227,5 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
     row.set_title(Some(label1.as_str()));
     row.set_subtitle(Some(label2.as_str()));
 
-    list.show_all();
+    list.show();
 }

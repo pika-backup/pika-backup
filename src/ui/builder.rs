@@ -12,7 +12,7 @@ impl DialogAbout {
         }
     }
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/dialog_about.ui'", id))
     }
@@ -36,7 +36,7 @@ impl DialogAddConfig {
         }
     }
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_add_config.ui'",
@@ -200,7 +200,7 @@ impl DialogDeviceMissing {
         }
     }
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_device_missing.ui'",
@@ -248,7 +248,7 @@ impl DialogEncryptionPassword {
         }
     }
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_encryption_password.ui'",
@@ -273,11 +273,11 @@ impl DialogEncryptionPassword {
         self.get("password")
     }
 
-    pub fn password_forget(&self) -> gtk::RadioButton {
+    pub fn password_forget(&self) -> gtk::CheckButton {
         self.get("password_forget")
     }
 
-    pub fn password_store(&self) -> gtk::RadioButton {
+    pub fn password_store(&self) -> gtk::CheckButton {
         self.get("password_store")
     }
 }
@@ -296,7 +296,7 @@ impl DialogStorage {
         }
     }
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_storage.ui'",
@@ -381,7 +381,7 @@ impl Main {
         }
     }
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/main.ui'", id))
     }
@@ -649,7 +649,7 @@ impl OverviewItem {
         }
     }
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/overview_item.ui'", id))
     }

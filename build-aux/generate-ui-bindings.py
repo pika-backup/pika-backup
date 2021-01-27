@@ -87,7 +87,7 @@ impl {name} {{
         }}
     }}
 
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {{
+    fn get<T: gtk::glib::IsA<gtk::glib::object::Object>>(&self, id: &str) -> T {{
         gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{{}}' not found in '{path}'", id))
     }}

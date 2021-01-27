@@ -26,6 +26,7 @@ thread_local!(
         gtk::ApplicationBuilder::new()
             .application_id(&crate::app_id())
             .build()
+            .expect("Failed")
     });
 );
 

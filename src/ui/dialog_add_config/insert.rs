@@ -32,7 +32,7 @@ pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::Dial
         ui.button_stack().set_visible_child(&ui.add_button());
         ui.encryption_box().hide();
         ui.add_button().show();
-        ui.add_button().grab_default();
+        ui.dialog().set_default_widget(Some(&ui.add_button()));
     } else if let Some(path) = gio::File::new_for_uri(&name).get_path() {
         page_pending::show(&gettext("Loading backup repository"));
         ui.dialog().hide();
@@ -231,15 +231,10 @@ fn execute<
 }
 
 fn get_command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>> {
-    if let Ok(args) = shell_words::split(
-        &ui.command_line_args()
-            .get_buffer()
-            .and_then(|buffer| {
-                let (start, end) = buffer.get_bounds();
-                buffer.get_text(&start, &end, false).map(|x| x.to_string())
-            })
-            .unwrap_or_default(),
-    ) {
+    let buffer = ui.command_line_args().get_buffer();
+    if let Ok(args) =
+        shell_words::split(&buffer.get_text(&buffer.get_bounds().0, &buffer.get_bounds().1, false))
+    {
         Ok(args)
     } else {
         Err(Message::new(

@@ -412,11 +412,9 @@ pub fn estimate_size(backup: &config::BackupConfig, communication: &Communicatio
     let mut exclude = backup.exclude_dirs_internal();
 
     // Exclude .cache/borg
-    if let Some(cache_dir) = glib::get_user_cache_dir() {
-        exclude.push(config::Pattern::PathPrefix(
-            cache_dir.join(std::path::Path::new("borg")),
-        ));
-    }
+    exclude.push(config::Pattern::PathPrefix(
+        glib::get_user_cache_dir().join(std::path::Path::new("borg")),
+    ));
 
     let is_not_exluded = |e: &walkdir::DirEntry| !exclude.iter().any(|x| pathmatch(e, x));
 

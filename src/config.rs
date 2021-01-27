@@ -2,6 +2,7 @@ use std::io::prelude::*;
 
 use crate::borg;
 use crate::globals::*;
+use crate::prelude::*;
 
 use chrono::prelude::*;
 use gio::prelude::*;
@@ -201,21 +202,17 @@ impl BackupRepo {
         BackupRepo::Local {
             path,
             uri: Some(uri),
-            icon: mount
-                .get_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
+            icon: gio::IconExt::to_string(&mount.get_icon()).map(|x| x.to_string()),
             icon_symbolic: mount
                 .get_symbolic_icon()
                 .as_ref()
                 .and_then(gio::IconExt::to_string)
                 .map(Into::into),
-            mount_name: mount.get_name().map(Into::into),
+            mount_name: Some(mount.get_name().to_string()),
             drive_name: mount
                 .get_drive()
                 .as_ref()
-                .and_then(gio::Drive::get_name)
+                .map(gio::Drive::get_name)
                 .map(Into::into),
             removable: mount
                 .get_drive()

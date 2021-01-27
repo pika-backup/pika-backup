@@ -22,7 +22,7 @@ pub fn init() {
     main_ui().detail_status_row().set_activatable(true);
     main_ui()
         .detail_status_row()
-        .connect_activated(|_| main_ui().detail_running_backup_info().show_all());
+        .connect_activated(|_| main_ui().detail_running_backup_info().show());
 
     main_ui()
         .detail_repo_row()
@@ -229,20 +229,17 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
         .title(&file.to_string_lossy())
         .activatable(false)
         .build();
-    list.add(&row);
+    list.append(&row);
 
-    if let Some(img) = ui::utils::file_icon(&config::absolute(file), gtk::IconSize::Dnd) {
+    if let Some(img) = ui::utils::file_icon(&config::absolute(file)) {
         row.add_prefix(&img);
     }
 
     let button = gtk::ButtonBuilder::new()
-        .child(&gtk::Image::from_icon_name(
-            Some("edit-delete-symbolic"),
-            gtk::IconSize::Button,
-        ))
+        .child(&gtk::Image::from_icon_name(Some("edit-delete-symbolic")))
         .build();
     button.add_css_class("image-button");
-    row.add(&button);
+    row.add_suffix(&button);
     button.set_valign(gtk::Align::Center);
 
     button
@@ -275,9 +272,7 @@ pub fn refresh() {
     let repo_ui = main_ui().target_listbox();
 
     if let Ok(icon) = gio::Icon::new_for_string(&backup.repo.icon()) {
-        main_ui()
-            .detail_repo_icon()
-            .set_from_gicon(&icon, gtk::IconSize::Dnd);
+        main_ui().detail_repo_icon().set_from_gicon(&icon);
     }
 
     match &backup.repo {
@@ -297,7 +292,7 @@ pub fn refresh() {
         .detail_repo_row()
         .set_subtitle(Some(&backup.repo.get_subtitle()));
 
-    repo_ui.show_all();
+    repo_ui.show();
 
     // include list
     ui::utils::clear(&main_ui().include());
@@ -328,7 +323,7 @@ pub fn refresh() {
             })
         });
     }
-    main_ui().include().show_all();
+    main_ui().include().show();
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
@@ -349,7 +344,7 @@ pub fn refresh() {
             refresh();
         });
     }
-    main_ui().backup_exclude().show_all();
+    main_ui().backup_exclude().show();
     if backup.exclude.is_empty() {
         main_ui()
             .detail_exclude_stack()
@@ -448,9 +443,7 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
             main_ui()
                 .status_graphic()
                 .set_visible_child(&main_ui().status_icon());
-            main_ui()
-                .status_icon()
-                .set_from_icon_name(Some(icon), gtk::IconSize::Dnd);
+            main_ui().status_icon().set_from_icon_name(Some(icon));
 
             false
         }

@@ -31,7 +31,7 @@ pub fn run() {
                         *value += 1;
                     });
                     ui::page_pending::show(&gettext("Updating configuration for new version"));
-                    glib::timeout_add_local(500, move || {
+                    glib::timeout_add_local(std::time::Duration::from_millis(500), move || {
                         trace!("Configs waiting {}", WAITING_CONFIGS.load());
                         if WAITING_CONFIGS.get() < 1 {
                             ui::page_pending::back();
@@ -69,7 +69,7 @@ fn update_config(id: String, result: borg::Result<borg::List>) {
                         config::BackupRepo::Local { path, .. } => gio::File::new_for_path(path)
                             .find_enclosing_mount(Some(&gio::Cancellable::new()))
                             .ok()
-                            .and_then(|m| m.get_symbolic_icon()),
+                            .map(|m| m.get_symbolic_icon()),
 
                         _ => None,
                     };

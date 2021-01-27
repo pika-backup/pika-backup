@@ -91,14 +91,11 @@ fn on_shutdown(app: &gtk::Application) {
 fn init(_app: &gtk::Application) {
     load_config();
 
-    if let Some(screen) = gdk::Screen::get_default() {
+    if let Some(display) = gdk::Display::get_default() {
         let provider = gtk::CssProvider::new();
-        ui::utils::dialog_catch_err(
-            provider.load_from_data(include_bytes!("../data/style.css")),
-            "Could not load style sheet.",
-        );
-        gtk::StyleContext::add_provider_for_screen(
-            &screen,
+        provider.load_from_data(include_bytes!("../data/style.css"));
+        gtk::StyleContext::add_provider_for_display(
+            &display,
             &provider,
             gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
         );
@@ -111,9 +108,13 @@ fn init(_app: &gtk::Application) {
     loader
         .close()
         .unwrap_or_else(|e| error!("loader.close() failed: {}", e));
+
+    // TODO gtk4
+    /*
     if let Some(icon) = loader.get_pixbuf() {
         gtk::Window::set_default_icon(&icon);
     }
+    */
 
     init_actions();
     init_timeouts();
@@ -127,7 +128,7 @@ fn init(_app: &gtk::Application) {
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 
-    main_ui().window().connect_delete_event(|_, _| on_delete());
+    main_ui().window().connect_close_request(|_| on_delete());
 
     // decorate headerbar of pre-release versions
     if !option_env!("APPLICATION_ID_SUFFIX")
@@ -139,7 +140,7 @@ fn init(_app: &gtk::Application) {
 
     gtk_app().add_window(&main_ui().window());
 
-    main_ui().window().show_all();
+    main_ui().window().show();
     main_ui().window().present();
 
     ui::update_config::run();
@@ -155,7 +156,7 @@ fn on_delete() -> Inhibit {
 }
 
 fn init_timeouts() {
-    glib::timeout_add_local(1000, move || {
+    glib::timeout_add_local(std::time::Duration::from_secs(1), move || {
         let inhibit_cookie = INHIBIT_COOKIE.get();
 
         if is_backup_running() {

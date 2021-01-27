@@ -2,16 +2,14 @@ use gtk::prelude::*;
 
 use crate::ui::backup_status;
 use crate::ui::config::*;
-use crate::ui::globals::*;
+use crate::ui::prelude::*;
 
 pub fn init() {
-    main_ui().detail_dialog_vbox().set_border_width(0);
-
     main_ui()
         .detail_running_backup_info()
-        .connect_delete_event(|x, _| WidgetExtManual::hide_on_delete(x));
+        .set_hide_on_close(true);
 
-    glib::timeout_add_local(250, || {
+    glib::timeout_add_local(std::time::Duration::from_millis(250), || {
         refresh_status();
         Continue(true)
     });
@@ -60,10 +58,10 @@ fn refresh_status_display(status: &backup_status::Display) {
         main_ui().progress_archive_box().show();
         main_ui()
             .detail_original_size()
-            .set_text(&glib::format_size(progress_archive.original_size).unwrap());
+            .set_text(&glib::format_size(progress_archive.original_size));
         main_ui()
             .detail_deduplicated_size()
-            .set_text(&glib::format_size(progress_archive.deduplicated_size).unwrap());
+            .set_text(&glib::format_size(progress_archive.deduplicated_size));
         main_ui()
             .detail_current_path()
             .set_text(&format!("/{}", progress_archive.path));

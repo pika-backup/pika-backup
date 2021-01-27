@@ -7,6 +7,7 @@ use zeroize::Zeroizing;
 
 use super::error::*;
 use super::msg::*;
+use crate::prelude::*;
 
 #[derive(Default)]
 pub struct BorgCall {

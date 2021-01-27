@@ -26,7 +26,7 @@ impl Ask {
         let ui = ui::builder::DialogEncryptionPassword::new();
 
         ui.dialog().set_transient_for(Some(&main_ui().window()));
-        ui.dialog().show_all();
+        ui.dialog().show();
 
         if !self.pre_select_store {
             ui.password_forget().set_active(true);

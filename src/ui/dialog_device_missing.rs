@@ -33,7 +33,7 @@ fn mount_added<F: Fn()>(
     f: &F,
 ) {
     debug!("Mount added");
-    if repo_path.starts_with(new_mount.get_root().unwrap().get_path().unwrap()) {
+    if repo_path.starts_with(new_mount.get_root().get_path().unwrap()) {
         debug!("Looks like the correct mount");
         dialog.window().close();
         f();
@@ -104,10 +104,10 @@ fn await_mount_dialog<F: Fn() + 'static>(config: config::BackupConfig, purpose: 
         dialog.device().set_label(&drive_name.unwrap_or_default());
         dialog.mount().set_label(&mount_name.unwrap_or_default());
         if let Some(g_icon) = icon.and_then(|x| gio::Icon::new_for_string(&x).ok()) {
-            let img = gtk::Image::from_gicon(&g_icon, gtk::IconSize::Dialog);
+            let img = gtk::Image::from_gicon(&g_icon);
             img.set_pixel_size(128);
-            dialog.icon().add(&img);
+            dialog.icon().append(&img);
         }
-        dialog.window().show_all();
+        dialog.window().show();
     }
 }

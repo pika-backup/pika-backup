@@ -279,7 +279,6 @@ pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
     let dialog = gtk::FileChooserDialogBuilder::new()
         .title(title)
         .action(gtk::FileChooserAction::SelectFolder)
-        .local_only(false)
         .transient_for(&main_ui().window())
         .modal(true)
         .build();
@@ -371,7 +370,7 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
         &primary_text, &secondary_text
     );
 
-    dialog.show_all();
+    dialog.show();
 }
 
 pub fn dialog_error<S: std::fmt::Display>(error: S) {
@@ -398,12 +397,15 @@ pub async fn confirmation_dialog(title: &str, message: &str, cancel: &str, accep
 }
 
 pub fn clear(listbox: &gtk::ListBox) {
+    // TODO gtk4
+    /*
     for c in listbox.get_children() {
         if c.get_widget_name().starts_with('-') {
             continue;
         }
         listbox.remove(&c);
     }
+    */
 }
 
 pub fn fs_usage(root: &gio::File) -> Option<(u64, u64)> {
@@ -417,39 +419,34 @@ pub fn fs_usage(root: &gio::File) -> Option<(u64, u64)> {
     None
 }
 
-pub fn file_icon(path: &std::path::PathBuf, icon_size: gtk::IconSize) -> Option<gtk::Image> {
+pub fn file_icon(path: &std::path::PathBuf) -> Option<gtk::Image> {
     let none: Option<&gio::Cancellable> = None;
     let file = gio::File::new_for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
     if let Ok(info) = info {
         let icon = info.get_icon();
-        icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
+        icon.map(|icon| gtk::Image::from_gicon(&icon))
     } else {
         None
     }
 }
 
-pub fn file_symbolic_icon(
-    path: &std::path::PathBuf,
-    icon_size: gtk::IconSize,
-) -> Option<gtk::Image> {
+pub fn file_symbolic_icon(path: &std::path::PathBuf) -> Option<gtk::Image> {
     let none: Option<&gio::Cancellable> = None;
     let file = gio::File::new_for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
     if let Ok(info) = info {
         let icon = info.get_symbolic_icon();
-        icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
+        icon.map(|icon| gtk::Image::from_gicon(&icon))
     } else {
         None
     }
 }
 
-pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> libhandy::ActionRow {
+pub fn new_action_row_with_gicon(icon: &gio::Icon) -> libhandy::ActionRow {
     let row = libhandy::ActionRowBuilder::new().activatable(true).build();
 
-    if let Some(gicon) = icon {
-        row.add_prefix(&gtk::Image::from_gicon(gicon, gtk::IconSize::Dnd));
-    }
+    row.add_prefix(&gtk::Image::from_gicon(icon));
 
     row
 }

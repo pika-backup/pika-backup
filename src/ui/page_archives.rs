@@ -265,7 +265,7 @@ fn display_archives(config: BackupConfig) {
                         .title(&title)
                         .child(&label)
                         .build();
-                    row.add(&label);
+                    row.add_suffix(&label);
                     row
                 };
 
@@ -283,10 +283,7 @@ fn display_archives(config: BackupConfig) {
                     .title(&gettext("Browse saved files"))
                     .activatable(true)
                     .icon_name("folder-open-symbolic")
-                    .child(&gtk::Image::from_icon_name(
-                        Some("go-next-symbolic"),
-                        gtk::IconSize::Button,
-                    ))
+                    .child(&gtk::Image::from_icon_name(Some("go-next-symbolic")))
                     .build();
                 row.add(&browse_row);
 
@@ -294,10 +291,10 @@ fn display_archives(config: BackupConfig) {
                     enclose!((config, id) move |_| spawn_local(on_browse_archive(config.clone(), id.clone()))),
                 );
 
-                main_ui().archive_list().add(&row);
+                main_ui().archive_list().append(&row);
             }
 
-            main_ui().archive_list().show_all();
+            main_ui().archive_list().show();
         }
 
         if repo_archives
@@ -320,12 +317,9 @@ fn display_archives(config: BackupConfig) {
 }
 
 fn cache_dir() -> std::path::PathBuf {
-    [
-        glib::get_user_cache_dir().unwrap(),
-        env!("CARGO_PKG_NAME").into(),
-    ]
-    .iter()
-    .collect()
+    [glib::get_user_cache_dir(), env!("CARGO_PKG_NAME").into()]
+        .iter()
+        .collect()
 }
 
 fn cache_path(repo_id: &str) -> std::path::PathBuf {
