@@ -39,9 +39,12 @@ pub fn init() {
         .add_backup_empty()
         .connect_clicked(|_| ui::dialog_add_config::new_backup());
 
+    // TODO gtk4
+    /*
     main_ui()
         .remove_backup()
         .connect_clicked(|_| spawn_local(on_remove_backup()));
+    */
 
     glib::timeout_add_seconds_local(1, || {
         if is_visible() {

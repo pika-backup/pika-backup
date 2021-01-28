@@ -7,7 +7,6 @@
     <property name="modal">1</property>
     <property name="default-width">600</property>
     <property name="default-height">550</property>
-    <property name="type-hint">dialog</property>
     <child internal-child="content_area">
       <object class="GtkBox" id="dialog_vbox">
         <property name="visible">0</property>
@@ -27,9 +26,8 @@
                     <property name="child">
                       <object class="GtkViewport">
                         <property name="can-focus">0</property>
-                        <property name="shadow-type">none</property>
                         <child>
-                          <object class="HdyClamp">
+                          <object class="AdwClamp">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="margin-start">6</property>
@@ -64,7 +62,7 @@
                                         <property name="can-focus">0</property>
                                         <property name="selection-mode">none</property>
                                         <child>
-                                          <object class="HdyActionRow" id="init_local_row">
+                                          <object class="AdwActionRow" id="init_local_row">
                                             <property name="name">-init-local</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
@@ -76,7 +74,7 @@
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="HdyActionRow" id="init_remote_row">
+                                          <object class="AdwActionRow" id="init_remote_row">
                                             <property name="name">-init-remote</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
@@ -116,7 +114,7 @@
                                         <property name="can-focus">0</property>
                                         <property name="selection-mode">none</property>
                                         <child>
-                                          <object class="HdyActionRow" id="add_local_row">
+                                          <object class="AdwActionRow" id="add_local_row">
                                             <property name="name">-add-local</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
@@ -128,7 +126,7 @@
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="HdyActionRow" id="add_remote_row">
+                                          <object class="AdwActionRow" id="add_remote_row">
                                             <property name="name">-add-remote</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
@@ -160,16 +158,14 @@
             <child>
               <object class="GtkStackPage">
                 <property name="title">Init</property>
-                <property name="position">1</property>
                 <property name="child">
                   <object class="GtkScrolledWindow" id="new_page">
                     <property name="hscrollbar-policy">never</property>
                     <property name="child">
                       <object class="GtkViewport">
                         <property name="can-focus">0</property>
-                        <property name="shadow-type">none</property>
                         <child>
-                          <object class="HdyClamp">
+                          <object class="AdwClamp">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="margin-start">6</property>
@@ -205,14 +201,6 @@
                                           <object class="GtkBox" id="location_local">
                                             <property name="can-focus">0</property>
                                             <child>
-                                              <object class="GtkFileChooserButton" id="init_path">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="hexpand">True</property>
-                                                <property name="action">select-folder</property>
-                                                <property name="local-only">False</property>
-                                                <property name="title" translatable="yes"></property>
-                                              </object>
                                             </child>
                                             <child>
                                               <object class="GtkButton">
@@ -243,7 +231,6 @@
                                         </child>
                                         <child>
                                           <object class="GtkStackPage">
-                                            <property name="position">1</property>
                                             <property name="child">
                                               <object class="GtkBox" id="location_remote">
                                                 <property name="can-focus">0</property>
@@ -284,7 +271,7 @@
                                         <property name="orientation">vertical</property>
                                         <property name="spacing">12</property>
                                         <child>
-                                          <object class="HdyPreferencesGroup">
+                                          <object class="AdwPreferencesGroup">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <property name="description" translatable="yes">The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.</property>
@@ -432,7 +419,6 @@
                                         <child>
                                           <object class="GtkStackPage">
                                             <property name="title" translatable="yes">Unencrypted</property>
-                                            <property name="position">1</property>
                                             <property name="child">
                                               <object class="GtkBox" id="unencrypted">
                                                 <property name="can-focus">0</property>
@@ -458,7 +444,7 @@
                                         <property name="margin-top">12</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="HdyPreferencesGroup">
+                                          <object class="AdwPreferencesGroup">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>
@@ -471,7 +457,6 @@
                                         <child>
                                           <object class="GtkScrolledWindow">
                                             <property name="height-request">100</property>
-                                            <property name="shadow-type">in</property>
                                             <property name="child">
                                               <object class="GtkTextView" id="command_line_args">
                                                 <property name="wrap-mode">word-char</property>
@@ -506,7 +491,7 @@
       </object>
     </child>
     <child type="titlebar">
-      <object class="HdyHeaderBar">
+      <object class="AdwHeaderBar">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="title" translatable="yes">Backup Configuration</property>
@@ -531,7 +516,6 @@
             </child>
             <child>
               <object class="GtkStackPage">
-                <property name="position">1</property>
                 <property name="child">
                   <object class="GtkButton" id="add_button">
                     <property name="label" translatable="yes">Connect</property>
@@ -546,7 +530,6 @@
             </child>
             <child>
               <object class="GtkStackPage">
-                <property name="position">2</property>
                 <property name="child">
                   <object class="GtkButton" id="init_button">
                     <property name="label" translatable="yes">Create</property>
@@ -562,7 +545,6 @@
           </object>
           <packing>
             <property name="pack-type">end</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>

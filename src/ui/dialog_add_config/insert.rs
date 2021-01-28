@@ -103,16 +103,20 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
     let mut repo = if ui.location_stack().get_visible_child()
         == Some(ui.location_local().upcast::<gtk::Widget>())
     {
-        if let Some(path) = ui
-            .init_path()
-            .get_file()
-            .map(|x| x.get_child(ui.init_dir().get_text().as_str()).unwrap())
-            .and_then(|x| x.get_path())
-        {
-            Ok(BackupRepo::new_local_from_path(path))
-        } else {
-            Err(Message::short(gettext("A repository location has to be given.")).into())
-        }
+        // TODO gtk4
+        todo!()
+    /*
+    if let Some(path) = ui
+        .init_path()
+        .get_file()
+        .map(|x| x.get_child(ui.init_dir().get_text().as_str()).unwrap())
+        .and_then(|x| x.get_path())
+    {
+        Ok(BackupRepo::new_local_from_path(path))
+    } else {
+        Err(Message::short(gettext("A repository location has to be given.")).into())
+    }
+    */
     } else {
         let url = ui.location_url().get_text().to_string();
         let file = gio::File::new_for_uri(&ui.location_url().get_text());

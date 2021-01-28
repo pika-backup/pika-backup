@@ -105,10 +105,6 @@ impl DialogAddConfig {
         self.get("init_local_row")
     }
 
-    pub fn init_path(&self) -> gtk::FileChooserButton {
-        self.get("init_path")
-    }
-
     pub fn init_remote_row(&self) -> libhandy::ActionRow {
         self.get("init_remote_row")
     }
@@ -580,10 +576,6 @@ impl Main {
 
     pub fn refresh_archives(&self) -> gtk::Button {
         self.get("refresh_archives")
-    }
-
-    pub fn remove_backup(&self) -> gtk::ModelButton {
-        self.get("remove_backup")
     }
 
     pub fn secondary_menu_button(&self) -> gtk::MenuButton {

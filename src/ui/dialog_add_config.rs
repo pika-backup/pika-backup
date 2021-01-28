@@ -82,9 +82,10 @@ fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddCon
         ui.location_stack().set_visible_child(&ui.location_local());
         if name != "-init-local" {
             trace!("Setting {} as init_path", &name);
-            ui.init_path().set_current_folder_uri(&name);
+        // TODO gtk4
+        //ui.init_path().set_current_folder_uri(&name);
         } else {
-            ui.init_path().grab_focus();
+            //ui.init_path().grab_focus();
         }
     }
     show_init(ui);

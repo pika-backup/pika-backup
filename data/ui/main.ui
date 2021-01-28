@@ -16,18 +16,8 @@
         <property name="margin-bottom">12</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkModelButton">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="action-name">app.about</property>
-            <property name="text" translatable="yes">About</property>
-          </object>
         </child>
       </object>
-      <packing>
-        <property name="submenu">main</property>
-      </packing>
     </property>
   </object>
   <object class="GtkPopover" id="pending_popover">
@@ -55,17 +45,11 @@ This might take a while.</property>
         <property name="margin-bottom">12</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkModelButton" id="remove_backup">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="text" translatable="yes">Delete backup configuration</property>
-          </object>
         </child>
       </object>
     </property>
   </object>
-  <object class="HdyApplicationWindow" id="window">
+  <object class="AdwApplicationWindow" id="window">
     <property name="can-focus">False</property>
     <property name="default-width">782</property>
     <property name="default-height">626</property>
@@ -74,23 +58,20 @@ This might take a while.</property>
         <property name="can-focus">0</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="HdyHeaderBar">
+          <object class="AdwHeaderBar">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="show-close-button">True</property>
             <child type="title">
-              <object class="HdyViewSwitcherTitle" id="view_switcher_title">
+              <object class="AdwViewSwitcherTitle" id="view_switcher_title">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="stack">detail_stack</property>
-                <property name="title" translatable="yes">Pika Backup</property>
               </object>
             </child>
             <child>
               <object class="GtkMenuButton" id="pending_menu">
                 <property name="visible">0</property>
                 <property name="receives-default">1</property>
-                <property name="no-show-all">True</property>
                 <property name="popover">pending_popover</property>
                 <child>
                   <object class="GtkSpinner" id="pending_menu_spinner">
@@ -101,14 +82,10 @@ This might take a while.</property>
                   <class name="image-button"/>
                 </style>
               </object>
-              <packing>
-                <property name="pack-type">end</property>
-              </packing>
             </child>
             <child>
               <object class="GtkButton" id="add_backup">
                 <property name="receives-default">1</property>
-                <property name="no-show-all">True</property>
                 <property name="tooltip-text" translatable="yes">Add backup configuration</property>
                 <child>
                   <object class="GtkImage">
@@ -120,14 +97,10 @@ This might take a while.</property>
                   <class name="image-button"/>
                 </style>
               </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
             <child>
               <object class="GtkMenuButton" id="primary_menu_button">
                 <property name="receives-default">1</property>
-                <property name="no-show-all">True</property>
                 <property name="popover">main_menu_popover</property>
                 <child>
                   <object class="GtkImage">
@@ -136,16 +109,10 @@ This might take a while.</property>
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="pack-type">end</property>
-                <property name="position">2</property>
-              </packing>
             </child>
             <child>
               <object class="GtkMenuButton" id="secondary_menu_button">
                 <property name="receives-default">1</property>
-                <property name="no-show-all">True</property>
-                <property name="use-popover">False</property>
                 <property name="popover">secondary_menu_popover</property>
                 <child>
                   <object class="GtkImage">
@@ -154,15 +121,10 @@ This might take a while.</property>
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="pack-type">end</property>
-                <property name="position">3</property>
-              </packing>
             </child>
             <child>
               <object class="GtkButton" id="back_button">
                 <property name="receives-default">1</property>
-                <property name="no-show-all">True</property>
                 <property name="tooltip-text" translatable="yes">Back to overview</property>
                 <child>
                   <object class="GtkImage">
@@ -174,9 +136,6 @@ This might take a while.</property>
                   <class name="image-button"/>
                 </style>
               </object>
-              <packing>
-                <property name="position">4</property>
-              </packing>
             </child>
           </object>
         </child>
@@ -213,13 +172,10 @@ This might take a while.</property>
                                 <property name="child">
                                   <object class="GtkViewport" id="viewport_detail">
                                     <property name="can-focus">0</property>
-                                    <property name="shadow-type">none</property>
                                     <child>
-                                      <object class="HdyClamp">
+                                      <object class="AdwClamp">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="margin-left">16</property>
-                                        <property name="margin-right">16</property>
                                         <property name="margin-start">16</property>
                                         <property name="margin-end">16</property>
                                         <property name="margin-top">32</property>
@@ -241,7 +197,7 @@ This might take a while.</property>
                                                     <property name="can-focus">0</property>
                                                     <property name="selection-mode">none</property>
                                                     <child>
-                                                      <object class="HdyActionRow" id="detail_status_row">
+                                                      <object class="AdwActionRow" id="detail_status_row">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">True</property>
                                                         <property name="activatable">False</property>
@@ -254,7 +210,6 @@ This might take a while.</property>
                                                                 <property name="visible">0</property>
                                                                 <property name="label" translatable="yes">Abort</property>
                                                                 <property name="receives-default">1</property>
-                                                                <property name="no-show-all">True</property>
                                                                 <property name="halign">center</property>
                                                                 <property name="valign">center</property>
                                                               </object>
@@ -263,7 +218,6 @@ This might take a while.</property>
                                                               <object class="GtkImage" id="detail_hint_icon">
                                                                 <property name="visible">0</property>
                                                                 <property name="can-focus">0</property>
-                                                                <property name="no-show-all">True</property>
                                                                 <property name="icon-name">go-next-symbolic</property>
                                                                 <style>
                                                                   <class name="dim-label"/>
@@ -275,7 +229,7 @@ This might take a while.</property>
                                                       </object>
                                                     </child>
                                                     <child>
-                                                      <object class="HdyActionRow" id="detail_repo_row">
+                                                      <object class="AdwActionRow" id="detail_repo_row">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">True</property>
                                                         <child>
@@ -324,7 +278,6 @@ This might take a while.</property>
                                                       <object class="GtkButton" id="add_include">
                                                         <property name="receives-default">1</property>
                                                         <property name="tooltip-text" translatable="yes">Include directory</property>
-                                                        <property name="relief">none</property>
                                                         <child>
                                                           <object class="GtkImage">
                                                             <property name="can-focus">0</property>
@@ -344,7 +297,7 @@ This might take a while.</property>
                                                     <property name="can-focus">0</property>
                                                     <property name="selection-mode">none</property>
                                                     <child>
-                                                      <object class="HdyActionRow" id="include_home_row">
+                                                      <object class="AdwActionRow" id="include_home_row">
                                                         <property name="name">-home</property>
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">True</property>
@@ -388,7 +341,6 @@ This might take a while.</property>
                                                       <object class="GtkButton" id="add_exclude">
                                                         <property name="receives-default">1</property>
                                                         <property name="tooltip-text" translatable="yes">Add excluded directory</property>
-                                                        <property name="relief">none</property>
                                                         <child>
                                                           <object class="GtkImage">
                                                             <property name="can-focus">0</property>
@@ -419,7 +371,6 @@ This might take a while.</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkStackPage">
-                                                        <property name="position">1</property>
                                                         <property name="child">
                                                           <object class="GtkLabel" id="detail_exclude_placeholder">
                                                             <property name="can-focus">0</property>
@@ -449,19 +400,15 @@ This might take a while.</property>
                           <object class="GtkStackPage">
                             <property name="title" translatable="yes">Archives</property>
                             <property name="icon-name">drive-harddisk-symbolic</property>
-                            <property name="position">1</property>
                             <property name="child">
                               <object class="GtkScrolledWindow" id="page_archives">
                                 <property name="child">
                                   <object class="GtkViewport" id="viewport_archives">
                                     <property name="can-focus">0</property>
-                                    <property name="shadow-type">none</property>
                                     <child>
-                                      <object class="HdyClamp">
+                                      <object class="AdwClamp">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="margin-left">16</property>
-                                        <property name="margin-right">16</property>
                                         <property name="margin-start">16</property>
                                         <property name="margin-end">16</property>
                                         <property name="margin-top">32</property>
@@ -493,7 +440,6 @@ This might take a while.</property>
                                                       <object class="GtkButton" id="refresh_archives">
                                                         <property name="receives-default">1</property>
                                                         <property name="tooltip-text" translatable="yes">Refresh list of archives</property>
-                                                        <property name="relief">none</property>
                                                         <child>
                                                           <object class="GtkImage">
                                                             <property name="can-focus">0</property>
@@ -508,7 +454,6 @@ This might take a while.</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkStackPage">
-                                                        <property name="position">1</property>
                                                         <property name="child">
                                                           <object class="GtkSpinner" id="archives_reloading_spinner">
                                                             <property name="can-focus">0</property>
@@ -537,7 +482,6 @@ This might take a while.</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkStackPage">
-                                                    <property name="position">1</property>
                                                     <property name="child">
                                                       <object class="GtkLabel" id="archive_list_placeholder">
                                                         <property name="can-focus">0</property>
@@ -564,9 +508,8 @@ This might take a while.</property>
                       </object>
                     </child>
                     <child>
-                      <object class="HdyViewSwitcherBar" id="view_switcher_bottom">
+                      <object class="AdwViewSwitcherBar" id="view_switcher_bottom">
                         <property name="can-focus">False</property>
-                        <property name="no-show-all">True</property>
                         <property name="valign">end</property>
                         <property name="stack">detail_stack</property>
                         <property name="reveal" bind-source="view_switcher_title" bind-property="title-visible" bind-flags="sync-create"/>
@@ -576,7 +519,6 @@ This might take a while.</property>
                 </child>
                 <child>
                   <object class="GtkStackPage">
-                    <property name="position">1</property>
                     <property name="child">
                       <object class="GtkBox" id="page_overview_empty">
                         <property name="can-focus">0</property>
@@ -649,7 +591,6 @@ This might take a while.</property>
                 </child>
                 <child>
                   <object class="GtkStackPage">
-                    <property name="position">2</property>
                     <property name="child">
                       <object class="GtkBox" id="page_pending">
                         <property name="can-focus">0</property>
@@ -683,19 +624,15 @@ This might take a while.</property>
                 </child>
                 <child>
                   <object class="GtkStackPage">
-                    <property name="position">3</property>
                     <property name="child">
                       <object class="GtkScrolledWindow" id="page_overview">
                         <property name="child">
                           <object class="GtkViewport">
                             <property name="can-focus">0</property>
-                            <property name="shadow-type">none</property>
                             <child>
-                              <object class="HdyClamp">
+                              <object class="AdwClamp">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="margin-left">16</property>
-                                <property name="margin-right">16</property>
                                 <property name="margin-start">16</property>
                                 <property name="margin-end">16</property>
                                 <property name="margin-top">32</property>
@@ -733,7 +670,6 @@ This might take a while.</property>
     <property name="modal">1</property>
     <property name="default-width">450</property>
     <property name="default-height">400</property>
-    <property name="type-hint">dialog</property>
     <property name="transient-for">window</property>
     <child internal-child="content_area">
       <object class="GtkBox" id="detail_dialog_vbox">
@@ -747,9 +683,8 @@ This might take a while.</property>
             <property name="child">
               <object class="GtkViewport">
                 <property name="can-focus">0</property>
-                <property name="shadow-type">none</property>
                 <child>
-                  <object class="HdyClamp">
+                  <object class="AdwClamp">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-start">6</property>
@@ -915,24 +850,9 @@ This might take a while.</property>
       </object>
     </child>
     <child type="titlebar">
-      <object class="HdyHeaderBar">
+      <object class="AdwHeaderBar">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="title" translatable="yes">Backup Info</property>
-        <property name="show-close-button">True</property>
-      </object>
-    </child>
-    <child internal-child="action_area">
-      <object class="GtkButtonBox">
-        <property name="valign">center</property>
-        <property name="can-focus">False</property>
-        <property name="layout-style">end</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
       </object>
     </child>
   </object>
@@ -953,7 +873,6 @@ This might take a while.</property>
     <child>
       <object class="GtkStackPage">
         <property name="name">running</property>
-        <property name="position">1</property>
         <property name="child">
           <object class="GtkSpinner" id="status_spinner">
             <property name="width-request">24</property>

@@ -48,6 +48,8 @@ def objects(path):
         if item.tag == "object" and item.get("id"):
             if item.get("class")[:3] == "Hdy":
                 crate = "libhandy"
+            elif item.get("class")[:3] == "Adw":
+                crate = "libhandy"
             else:
                 crate = item.get("class")[:3].lower()
 
