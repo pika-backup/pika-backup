@@ -203,11 +203,7 @@ impl BackupRepo {
             path,
             uri: Some(uri),
             icon: gio::IconExt::to_string(&mount.get_icon()).map(|x| x.to_string()),
-            icon_symbolic: mount
-                .get_symbolic_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
+            icon_symbolic: gio::IconExt::to_string(&mount.get_symbolic_icon()).map(Into::into),
             mount_name: Some(mount.get_name().to_string()),
             drive_name: mount
                 .get_drive()
