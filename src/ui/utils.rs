@@ -35,40 +35,6 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
     false
 }
 
-#[derive(Debug)]
-pub struct Message {
-    text: String,
-    secondary_text: Option<String>,
-}
-
-impl Message {
-    pub fn new<T: std::fmt::Display, S: std::fmt::Display>(text: T, secondary_text: S) -> Self {
-        Self {
-            text: format!("{}", text),
-            secondary_text: Some(format!("{}", secondary_text)),
-        }
-    }
-
-    pub fn short<T: std::fmt::Display>(text: T) -> Self {
-        Self {
-            text: format!("{}", text),
-            secondary_text: None,
-        }
-    }
-
-    pub fn show(&self) {
-        self.show_transient_for(&main_ui().window());
-    }
-
-    pub fn show_transient_for<W: IsA<gtk::Window> + IsA<gtk::Widget>>(&self, window: &W) {
-        if let Some(secondary) = &self.secondary_text {
-            show_error_transient_for(&self.text, secondary, window);
-        } else {
-            show_error_transient_for(&self.text, "", window);
-        }
-    }
-}
-
 pub trait BackupMap<T> {
     fn get_active(&self) -> Option<&T>;
     fn get_active_mut(&mut self) -> Option<&mut T>;
@@ -98,19 +64,14 @@ pub fn secret_service_set_password(
     Ok(())
 }
 
-pub fn secret_service_delete_passwords(
-    config: &config::BackupConfig,
-) -> std::result::Result<(), secret_service::Error> {
+pub fn secret_service_delete_passwords(id: &str) -> std::result::Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
         .search_items(
-            [
-                ("backup_id", config.id.as_str()),
-                ("program", env!("CARGO_PKG_NAME")),
-            ]
-            .iter()
-            .cloned()
-            .collect(),
+            [("backup_id", id), ("program", env!("CARGO_PKG_NAME"))]
+                .iter()
+                .cloned()
+                .collect(),
         )?
         .iter()
         .try_for_each(|item| item.delete())
@@ -154,7 +115,7 @@ pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)
         } else {
             debug!("Removing password from secret service");
             dialog_catch_err(
-                secret_service_delete_passwords(config),
+                secret_service_delete_passwords(&config.id),
                 gettext("Failed to remove potentially remaining passwords from key storage."),
             );
         }

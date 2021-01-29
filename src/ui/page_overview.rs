@@ -78,7 +78,7 @@ async fn on_remove_backup() {
             });
 
             ui::utils::dialog_catch_err(
-                ui::utils::secret_service_delete_passwords(config),
+                ui::utils::secret_service_delete_passwords(&config.id),
                 "Failed to remove potentially remaining passwords from key storage.",
             );
 

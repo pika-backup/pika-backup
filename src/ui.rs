@@ -10,6 +10,7 @@ use crate::ui::prelude::*;
 
 mod backup_status;
 #[allow(dead_code)]
+#[allow(clippy::new_without_default)]
 mod builder;
 mod dialog_about;
 mod dialog_add_config;
@@ -24,7 +25,7 @@ mod page_archives;
 mod page_detail;
 mod page_overview;
 mod page_pending;
-pub mod prelude;
+mod prelude;
 mod update_config;
 mod utils;
 
