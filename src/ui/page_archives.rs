@@ -48,7 +48,7 @@ pub fn init() {
     main_ui().refresh_archives().connect_clicked(|_| {
         let config = SETTINGS.load().backups.get_active().unwrap().clone();
         ui::dialog_device_missing::main(config.clone(), "", move || {
-            spawn_local(refresh_archives_cache(config.clone()));
+            Handler::run(refresh_archives_cache(config.clone()));
         });
     });
 
@@ -60,7 +60,7 @@ pub fn init() {
         .connect_unmap(|s| s.stop());
 }
 
-pub async fn refresh_archives_cache(config: BackupConfig) {
+pub async fn refresh_archives_cache(config: BackupConfig) -> Result<()> {
     info!("Refreshing archives cache");
 
     if Some(true)
@@ -70,7 +70,7 @@ pub async fn refresh_archives_cache(config: BackupConfig) {
             .map(|x| x.reloading)
     {
         info!("Aborting archives cache reload because already in progress");
-        return;
+        return Ok(());
     } else {
         REPO_ARCHIVES.update(|repos| {
             let mut repo = repos.get(&config.repo_id).cloned().unwrap_or_default();
@@ -87,7 +87,8 @@ pub async fn refresh_archives_cache(config: BackupConfig) {
         |borg| borg.list(100),
     )
     .await;
-    archives_cache_refreshed(config.clone(), result);
+
+    archives_cache_refreshed(config.clone(), result)
 }
 
 fn update_archives_spinner(config: BackupConfig) {
@@ -112,7 +113,10 @@ fn update_archives_spinner(config: BackupConfig) {
     }
 }
 
-fn archives_cache_refreshed(config: BackupConfig, result: borg::Result<Vec<borg::Archive>>) {
+fn archives_cache_refreshed(
+    config: BackupConfig,
+    result: borg::Result<Vec<borg::Archive>>,
+) -> Result<()> {
     match result {
         Ok(archives) => {
             let mut repo_archives = REPO_ARCHIVES
@@ -143,7 +147,7 @@ fn archives_cache_refreshed(config: BackupConfig, result: borg::Result<Vec<borg:
                     );
                 }
                 Err(err) => {
-                    ui::utils::show_error("Failed to open cache file.", err);
+                    return Err(Message::new("Failed to open cache file.", err).into());
                 }
             }
 
@@ -156,14 +160,19 @@ fn archives_cache_refreshed(config: BackupConfig, result: borg::Result<Vec<borg:
                 repos.insert(config.repo_id.clone(), repo);
             });
             update_archives_spinner(config);
-            ui::utils::show_error("Failed to refresh archives cache.", err)
+            return Err(Message::new("Failed to refresh archives cache.", err).into());
         }
     }
+
+    Ok(())
 }
 
-fn show_dir(result: std::result::Result<std::path::PathBuf, futures::channel::oneshot::Canceled>) {
+fn show_dir(
+    result: std::result::Result<std::path::PathBuf, futures::channel::oneshot::Canceled>,
+) -> Result<()> {
+    main_ui().pending_menu().hide();
     match result {
-        Err(err) => ui::utils::show_error(gettext("Failed to open archive."), err),
+        Err(err) => return Err(Message::new(gettext("Failed to open archive."), err).into()),
         Ok(path) => {
             let uri = gio::File::new_for_path(&path).get_uri();
 
@@ -180,15 +189,16 @@ fn show_dir(result: std::result::Result<std::path::PathBuf, futures::channel::on
                     proxy.call("ShowFolders", &(vec![uri.as_str()], ""))
                 };
 
-                ui::utils::dialog_catch_err(show_folder(), gettext("Failed to open archive."));
+                show_folder()
+                    .map_err(|err| Message::new(gettext("Failed to open archive."), err))?;
             }
         }
     };
 
-    main_ui().pending_menu().hide();
+    Ok(())
 }
 
-async fn on_browse_archive(config: BackupConfig, archive_name: borg::ArchiveName) {
+async fn on_browse_archive(config: BackupConfig, archive_name: borg::ArchiveName) -> Result<()> {
     debug!("Trying to browse an archive");
 
     main_ui().pending_menu().show();
@@ -214,17 +224,19 @@ async fn on_browse_archive(config: BackupConfig, archive_name: borg::ArchiveName
             ACTIVE_MOUNTS.update(|mounts| {
                 mounts.remove(&config.repo_id.clone());
             });
-            ui::utils::show_error(
+
+            return Err(Message::new(
                 gettext("Failed to make archives available for browsing."),
                 err,
-            );
-            return;
+            )
+            .into());
         }
     }
 
     let result =
         ui::utils::spawn_thread("open_archive", move || find_first_populated_dir(&path)).await;
-    show_dir(result);
+
+    show_dir(result)
 }
 
 fn page_is_visible() -> bool {
@@ -291,7 +303,7 @@ fn display_archives(config: BackupConfig) {
                 row.add(&browse_row);
 
                 browse_row.connect_activated(
-                    enclose!((config, archive_name) move |_| spawn_local(on_browse_archive(config.clone(), archive_name.clone()))),
+                    enclose!((config, archive_name) move |_| Handler::run(on_browse_archive(config.clone(), archive_name.clone()))),
                 );
 
                 main_ui().archive_list().add(&row);
@@ -356,7 +368,7 @@ pub fn show() {
 
     if repo_archives.archives.as_ref().is_none() {
         trace!("Archives have never been retrieved");
-        spawn_local(refresh_archives_cache(config));
+        Handler::run(refresh_archives_cache(config));
     } else {
         display_archives(config);
     }

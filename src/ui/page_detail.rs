@@ -218,7 +218,7 @@ pub async fn run_backup(config: config::BackupConfig) {
         if let Err(err) = result_string_err {
             ui::utils::show_error(gettext("Creating a backup failed."), err);
         } else {
-            spawn_local(ui::page_archives::refresh_archives_cache(config.clone()));
+            Handler::run(ui::page_archives::refresh_archives_cache(config.clone()));
         }
     }
 }
