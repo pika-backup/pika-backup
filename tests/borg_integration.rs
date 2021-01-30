@@ -2,7 +2,7 @@
 extern crate matches;
 
 use pika_backup::{
-    borg, borg::msg::*, borg::prelude::*, borg::Borg, borg::BorgOnlyRepo, config, ui::prelude::*,
+    borg, borg::msg::*, borg::prelude::*, borg::Borg, borg::BorgOnlyRepo, config, prelude::*,
 };
 
 // Currently, there are no init tasks
@@ -85,8 +85,8 @@ fn config() -> config::BackupConfig {
     let path = std::path::PathBuf::from(format!("/tmp/{}", &uuid));
     config::BackupConfig {
         config_version: 1,
-        id: uuid,
-        repo_id: "repo id".into(),
+        id: ConfigId::new(uuid),
+        repo_id: borg::RepoId::new("repo id".into()),
         encryption_mode: "none".into(),
         repo: config::BackupRepo::new_local_from_path(path),
         encrypted: false,

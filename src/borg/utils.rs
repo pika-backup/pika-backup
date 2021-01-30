@@ -167,17 +167,22 @@ impl BorgCall {
             pipe_writer.write_all(password)?;
         } else if borg.is_encrypted() {
             debug!("Config says the backup is encrypted");
-            let password: Zeroizing<Vec<u8>> =
-                secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
-                    .search_items(vec![
-                        ("backup_id", &borg.get_config_id().unwrap_or_default()),
-                        ("program", env!("CARGO_PKG_NAME")),
-                    ])?
-                    .get(0)
-                    .ok_or(Error::PasswordMissing)?
-                    .get_secret()?
-                    .into();
-            pipe_writer.write_all(&password)?;
+            if let Some(config_id) = borg.get_config_id() {
+                let password: Zeroizing<Vec<u8>> =
+                    secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
+                        .search_items(vec![
+                            ("backup_id", config_id.as_str()),
+                            ("program", env!("CARGO_PKG_NAME")),
+                        ])?
+                        .get(0)
+                        .ok_or(Error::PasswordMissing)?
+                        .get_secret()?
+                        .into();
+                pipe_writer.write_all(&password)?;
+            } else {
+                // TODO when is this happening?
+                return Err(Error::PasswordMissing);
+            }
         } else {
             trace!("Config says no encryption. Writing empty passsword.");
             pipe_writer.write_all(b"")?;

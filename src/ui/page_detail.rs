@@ -119,8 +119,8 @@ fn on_stack_changed(_stack: &gtk::Stack) {
     }
 }
 
-pub fn view_backup_conf(id: &str) {
-    ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.to_string()));
+pub fn view_backup_conf(id: &ConfigId) {
+    ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
     refresh();
 
     main_ui()
@@ -152,9 +152,8 @@ async fn on_stop_backup_create() {
 
 async fn on_backup_run() {
     let config = SETTINGS.load().backups.get_active().unwrap().clone();
-    let backup_id = ACTIVE_BACKUP_ID.get().unwrap();
 
-    if ACTIVE_MOUNTS.load().contains(&backup_id) {
+    if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
         let unmount = ui::utils::confirmation_dialog(
@@ -167,11 +166,11 @@ async fn on_backup_run() {
         if unmount {
             trace!("User decided to unmount repo.");
             if !ui::utils::dialog_catch_err(
-                borg::Borg::new(config.clone()).umount(),
+                borg::Borg::umount(&config.repo_id),
                 gettext("Failed to unmount repository."),
             ) {
                 ACTIVE_MOUNTS.update(|mounts| {
-                    mounts.remove(&backup_id);
+                    mounts.remove(&config.repo_id);
                 });
             }
         } else {

@@ -9,7 +9,7 @@ use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 impl Display {
-    pub fn new_from_id(config_id: &str) -> Self {
+    pub fn new_from_id(config_id: &ConfigId) -> Self {
         if let Some(communication) = BACKUP_COMMUNICATION.load().get(config_id) {
             Self::from(communication)
         } else if let Some(BackupConfig {

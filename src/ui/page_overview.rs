@@ -10,7 +10,7 @@ use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 thread_local!(
-    static ROWS: RwLock<HashMap<String, ui::builder::OverviewItem>> =
+    static ROWS: RwLock<HashMap<ConfigId, ui::builder::OverviewItem>> =
         RwLock::new(Default::default());
 );
 

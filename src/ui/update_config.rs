@@ -58,7 +58,7 @@ pub fn run() {
     }
 }
 
-fn update_config(id: String, result: borg::Result<borg::List>) {
+fn update_config(id: ConfigId, result: borg::Result<borg::List>) {
     trace!("Got config update result");
 
     match result {

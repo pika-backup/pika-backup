@@ -76,11 +76,10 @@ fn on_shutdown(app: &gtk::Application) {
     app.mark_busy();
     IS_SHUTDOWN.swap(std::sync::Arc::new(true));
     while !ACTIVE_MOUNTS.load().is_empty() {
-        for backup_id in ACTIVE_MOUNTS.load().iter() {
-            let config = &SETTINGS.load().backups[backup_id];
-            if borg::Borg::new(config.clone()).umount().is_ok() {
+        for repo_id in ACTIVE_MOUNTS.load().iter() {
+            if borg::Borg::umount(&repo_id).is_ok() {
                 ACTIVE_MOUNTS.update(|mounts| {
-                    mounts.remove(backup_id);
+                    mounts.remove(&repo_id);
                 });
             }
         }
@@ -204,7 +203,7 @@ fn init_actions() {
     let action = gio::SimpleAction::new("detail", glib::VariantTy::new("s").ok());
     action.connect_activate(|_, backup_id: _| {
         if let Some(backup_id) = backup_id.and_then(|v| v.get_str()) {
-            ui::page_detail::view_backup_conf(&backup_id.to_string());
+            ui::page_detail::view_backup_conf(&ConfigId::new(backup_id.to_string()));
             main_ui().window().present();
         }
     });

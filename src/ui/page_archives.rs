@@ -15,7 +15,8 @@ use crate::ui::globals::*;
 use crate::ui::utils::BackupMap;
 use ui::prelude::*;
 
-static REPO_ARCHIVES: Lazy<ArcSwap<BTreeMap<String, RepoArchives>>> = Lazy::new(Default::default);
+static REPO_ARCHIVES: Lazy<ArcSwap<BTreeMap<borg::RepoId, RepoArchives>>> =
+    Lazy::new(Default::default);
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct RepoArchives {
@@ -192,14 +193,14 @@ async fn on_browse_archive(config: BackupConfig, archive_name: String) {
 
     main_ui().pending_menu().show();
 
-    let backup_mounted = ACTIVE_MOUNTS.load().contains(&config.id);
+    let backup_mounted = ACTIVE_MOUNTS.load().contains(&config.repo_id);
 
-    let mut path = borg::Borg::new(config.clone()).get_mount_point();
+    let mut path = borg::Borg::get_mount_point(&config.repo_id);
     path.push(archive_name);
 
     if !backup_mounted {
         ACTIVE_MOUNTS.update(|mounts| {
-            mounts.insert(config.id.clone());
+            mounts.insert(config.repo_id.clone());
         });
 
         let mount = ui::utils::Async::borg_spawn(
@@ -211,7 +212,7 @@ async fn on_browse_archive(config: BackupConfig, archive_name: String) {
 
         if let Err(err) = mount {
             ACTIVE_MOUNTS.update(|mounts| {
-                mounts.remove(&config.id.clone());
+                mounts.remove(&config.repo_id.clone());
             });
             ui::utils::show_error(
                 gettext("Failed to make archives available for browsing."),
@@ -261,12 +262,11 @@ fn display_archives(config: BackupConfig) {
                         .wrap_mode(pango::WrapMode::WordChar)
                         .build();
                     label.add_css_class("dim-label");
-                    let row = libhandy::ActionRowBuilder::new()
+
+                    libhandy::ActionRowBuilder::new()
                         .title(&title)
                         .child(&label)
-                        .build();
-                    row.add(&label);
-                    row
+                        .build()
                 };
 
                 row.add(&info(gettext("Name"), archive.name.clone()));
@@ -328,8 +328,8 @@ fn cache_dir() -> std::path::PathBuf {
     .collect()
 }
 
-fn cache_path(repo_id: &str) -> std::path::PathBuf {
-    [cache_dir(), repo_id.into()].iter().collect()
+fn cache_path(repo_id: &borg::RepoId) -> std::path::PathBuf {
+    [cache_dir(), repo_id.as_str().into()].iter().collect()
 }
 
 pub fn show() {

@@ -40,6 +40,26 @@ pub trait BackupMap<T> {
     fn get_active_mut(&mut self) -> Option<&mut T>;
 }
 
+#[allow(clippy::implicit_hasher)]
+impl<T> BackupMap<T> for std::collections::HashMap<ConfigId, T> {
+    fn get_active(&self) -> Option<&T> {
+        self.get(&ACTIVE_BACKUP_ID.get()?)
+    }
+    fn get_active_mut(&mut self) -> Option<&mut T> {
+        self.get_mut(&ACTIVE_BACKUP_ID.get()?)
+    }
+}
+
+#[allow(clippy::implicit_hasher)]
+impl<T> BackupMap<T> for std::collections::BTreeMap<ConfigId, T> {
+    fn get_active(&self) -> Option<&T> {
+        self.get(&ACTIVE_BACKUP_ID.get()?)
+    }
+    fn get_active_mut(&mut self) -> Option<&mut T> {
+        self.get_mut(&ACTIVE_BACKUP_ID.get()?)
+    }
+}
+
 pub fn secret_service_set_password(
     config: &config::BackupConfig,
     password: &Password,
@@ -64,14 +84,19 @@ pub fn secret_service_set_password(
     Ok(())
 }
 
-pub fn secret_service_delete_passwords(id: &str) -> std::result::Result<(), secret_service::Error> {
+pub fn secret_service_delete_passwords(
+    id: &ConfigId,
+) -> std::result::Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
         .get_default_collection()?
         .search_items(
-            [("backup_id", id), ("program", env!("CARGO_PKG_NAME"))]
-                .iter()
-                .cloned()
-                .collect(),
+            [
+                ("backup_id", id.as_str()),
+                ("program", env!("CARGO_PKG_NAME")),
+            ]
+            .iter()
+            .cloned()
+            .collect(),
         )?
         .iter()
         .try_for_each(|item| item.delete())
@@ -82,26 +107,6 @@ pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, b
         .set_pre_select_store(pre_select_store)
         .run()
         .await
-}
-
-#[allow(clippy::implicit_hasher)]
-impl<T> BackupMap<T> for std::collections::HashMap<String, T> {
-    fn get_active(&self) -> Option<&T> {
-        self.get(&ACTIVE_BACKUP_ID.get()?)
-    }
-    fn get_active_mut(&mut self) -> Option<&mut T> {
-        self.get_mut(&ACTIVE_BACKUP_ID.get()?)
-    }
-}
-
-#[allow(clippy::implicit_hasher)]
-impl<T> BackupMap<T> for std::collections::BTreeMap<String, T> {
-    fn get_active(&self) -> Option<&T> {
-        self.get(&ACTIVE_BACKUP_ID.get()?)
-    }
-    fn get_active_mut(&mut self) -> Option<&mut T> {
-        self.get_mut(&ACTIVE_BACKUP_ID.get()?)
-    }
 }
 
 pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)>) {

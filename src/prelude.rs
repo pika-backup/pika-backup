@@ -1,5 +1,6 @@
 pub use crate::globals::*;
 
+pub use crate::config::ConfigId;
 use arc_swap::ArcSwap;
 
 pub trait ArcSwapExt<T> {

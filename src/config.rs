@@ -9,13 +9,32 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path;
 use zeroize::Zeroizing;
 
+#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
+pub struct ConfigId(String);
+
+impl ConfigId {
+    pub fn new(id: String) -> Self {
+        Self(id)
+    }
+
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+}
+
+impl std::fmt::Display for ConfigId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct BackupConfig {
     #[serde(default)]
     pub config_version: u16,
-    pub id: String,
+    pub id: ConfigId,
     #[serde(default = "fake_repo_id")]
-    pub repo_id: String,
+    pub repo_id: borg::RepoId,
     pub repo: BackupRepo,
     pub encrypted: bool,
     #[serde(default)]
@@ -25,8 +44,11 @@ pub struct BackupConfig {
     pub last_run: Option<RunInfo>,
 }
 
-fn fake_repo_id() -> String {
-    format!("-randomid-{}", glib::uuid_string_random().to_string())
+fn fake_repo_id() -> borg::RepoId {
+    borg::RepoId::new(format!(
+        "-randomid-{}",
+        glib::uuid_string_random().to_string()
+    ))
 }
 
 impl BackupConfig {
@@ -38,7 +60,7 @@ impl BackupConfig {
 
         Self {
             config_version: crate::CONFIG_VERSION,
-            id: glib::uuid_string_random().to_string(),
+            id: ConfigId::new(glib::uuid_string_random().to_string()),
             repo,
             repo_id: info.repository.id,
             encrypted,
@@ -299,7 +321,7 @@ pub struct BackupSettings {
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 #[serde(default)]
 pub struct Settings {
-    pub backups: BTreeMap<String, BackupConfig>,
+    pub backups: BTreeMap<ConfigId, BackupConfig>,
 }
 
 impl Settings {

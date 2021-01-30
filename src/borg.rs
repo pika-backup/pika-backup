@@ -17,6 +17,19 @@ use utils::*;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
+#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
+pub struct RepoId(String);
+
+impl RepoId {
+    pub fn new(id: String) -> Self {
+        Self(id)
+    }
+
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+}
+
 #[derive(Default, Debug, Clone)]
 pub struct Status {
     pub run: Run,
@@ -86,7 +99,7 @@ pub struct Encryption {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Repository {
-    pub id: String,
+    pub id: RepoId,
     pub last_modified: chrono::naive::NaiveDateTime,
     pub location: std::path::PathBuf,
 }
@@ -109,7 +122,7 @@ pub trait BorgRunConfig {
     fn unset_password(&mut self);
     fn set_password(&mut self, password: Password);
     fn is_encrypted(&self) -> bool;
-    fn get_config_id(&self) -> Option<String>;
+    fn get_config_id(&self) -> Option<ConfigId>;
 }
 
 impl BorgRunConfig for Borg {
@@ -128,7 +141,7 @@ impl BorgRunConfig for Borg {
     fn is_encrypted(&self) -> bool {
         self.config.encrypted
     }
-    fn get_config_id(&self) -> Option<String> {
+    fn get_config_id(&self) -> Option<ConfigId> {
         Some(self.config.id.clone())
     }
 }
@@ -149,7 +162,7 @@ impl BorgRunConfig for BorgOnlyRepo {
     fn is_encrypted(&self) -> bool {
         false
     }
-    fn get_config_id(&self) -> Option<String> {
+    fn get_config_id(&self) -> Option<ConfigId> {
         None
     }
 }
@@ -167,8 +180,8 @@ impl Borg {
         self.config.clone()
     }
 
-    pub fn umount(&self) -> Result<()> {
-        let mount_point = self.get_mount_point();
+    pub fn umount(repo_id: &RepoId) -> Result<()> {
+        let mount_point = Self::get_mount_point(repo_id);
 
         let borg = BorgCall::new("umount")
             .add_options(&["--log-json"])
@@ -187,20 +200,20 @@ impl Borg {
         HOME_DIR.clone().join(crate::REPO_MOUNT_DIR)
     }
 
-    pub fn get_mount_point(&self) -> std::path::PathBuf {
+    pub fn get_mount_point(repo_id: &RepoId) -> std::path::PathBuf {
         let mut dir = Self::get_mount_dir();
-        dir.push(&format!("{:.8}", self.config.id));
+        dir.push(&format!("{:.8}", repo_id.as_str()));
         dir
     }
 
     pub fn mount(&self) -> Result<()> {
         std::fs::DirBuilder::new()
             .recursive(true)
-            .create(self.get_mount_point())?;
+            .create(Self::get_mount_point(&self.config.repo_id))?;
 
         let borg = BorgCall::new("mount")
             .add_basics(self)?
-            .add_positional(&self.get_mount_point().to_string_lossy())
+            .add_positional(&Self::get_mount_point(&self.config.repo_id).to_string_lossy())
             .output()?;
 
         check_stderr(&borg)?;

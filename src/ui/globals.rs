@@ -1,5 +1,7 @@
 pub use crate::globals::*;
 
+use crate::config::ConfigId;
+
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
@@ -10,12 +12,12 @@ use crate::borg;
 use crate::ui;
 
 pub static SETTINGS: Lazy<ArcSwap<crate::config::Settings>> = Lazy::new(Default::default);
-pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<HashMap<String, borg::Communication>>> =
+pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<HashMap<ConfigId, borg::Communication>>> =
     Lazy::new(Default::default);
-pub static ACTIVE_BACKUP_ID: Lazy<ArcSwap<Option<String>>> = Lazy::new(Default::default);
+pub static ACTIVE_BACKUP_ID: Lazy<ArcSwap<Option<ConfigId>>> = Lazy::new(Default::default);
 pub static INHIBIT_COOKIE: Lazy<ArcSwap<Option<u32>>> = Lazy::new(Default::default);
 
-pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<String>>> = Lazy::new(Default::default);
+pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<borg::RepoId>>> = Lazy::new(Default::default);
 /// Is the app currently shutting down
 pub static IS_SHUTDOWN: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
 
