@@ -1,5 +1,5 @@
 pub use crate::prelude::*;
-pub use crate::ui::error::{Error, Handler, Message, Result, UserAborted};
+pub use crate::ui::error::{Error, ErrorToMessage, Handler, Message, Result, UserAborted};
 pub use crate::ui::globals::*;
 pub use crate::ui::utils::BackupMap;
 

@@ -1,3 +1,4 @@
+use gettextrs::gettext;
 use gtk::prelude::*;
 
 use super::globals::*;
@@ -40,16 +41,35 @@ impl Message {
 #[derive(Debug)]
 pub struct UserAborted {}
 
+impl UserAborted {
+    pub fn new() -> Self {
+        UserAborted {}
+    }
+}
+
 quick_error! {
     #[derive(Debug)]
     pub enum Error {
-        Message(err: Message) { from() }
+        Message(err: Message) {
+            from()
+            from(err: futures::channel::oneshot::Canceled) ->
+                (Message::short(gettext("The operation terminated unexpectedly.")))
+        }
         UserAborted { from (UserAborted) }
-
     }
 }
 
 pub type Result<T> = std::result::Result<T, Error>;
+
+pub trait ErrorToMessage<R> {
+    fn err_to_msg<T: std::fmt::Display>(self, text: T) -> Result<R>;
+}
+
+impl<R, E: std::fmt::Display> ErrorToMessage<R> for std::result::Result<R, E> {
+    fn err_to_msg<T: std::fmt::Display>(self, text: T) -> Result<R> {
+        self.map_err(|err| Message::new(text, err).into())
+    }
+}
 
 #[derive(Default)]
 pub struct Handler<W: IsA<gtk::Window> + IsA<gtk::Widget>> {

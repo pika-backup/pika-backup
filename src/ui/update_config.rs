@@ -41,14 +41,15 @@ pub fn run() {
                         }
                     });
 
-                    spawn_local(enclose!((config) async move {
+                    Handler::run(enclose!((config) async move {
                     let result =
                     ui::utils::Async::borg_spawn(
                         "refresh_repo_config",
                         borg::Borg::new(config.clone()),
                         |borg| borg.peek(),
                         )
-                    .await;
+                    .await.err_to_msg(gettext("Failed to retrive backup information."))?;
+
                     update_config(config.id.clone(), result)
 
                     }));
@@ -58,36 +59,30 @@ pub fn run() {
     }
 }
 
-fn update_config(id: ConfigId, result: borg::Result<borg::List>) {
+fn update_config(id: ConfigId, list: borg::List) -> Result<()> {
     trace!("Got config update result");
 
-    match result {
-        Ok(list) => {
-            SETTINGS.update(move |settings| {
-                if let Some(config) = settings.backups.get_mut(&id) {
-                    let icon_symbolic = match &config.repo {
-                        config::BackupRepo::Local { path, .. } => gio::File::new_for_path(path)
-                            .find_enclosing_mount(Some(&gio::Cancellable::new()))
-                            .ok()
-                            .and_then(|m| m.get_symbolic_icon()),
+    SETTINGS.update(move |settings| {
+        if let Some(config) = settings.backups.get_mut(&id) {
+            let icon_symbolic = match &config.repo {
+                config::BackupRepo::Local { path, .. } => gio::File::new_for_path(path)
+                    .find_enclosing_mount(Some(&gio::Cancellable::new()))
+                    .ok()
+                    .and_then(|m| m.get_symbolic_icon()),
 
-                        _ => None,
-                    };
+                _ => None,
+            };
 
-                    config.update_version_0(list.clone(), icon_symbolic);
-                }
-            });
+            config.update_version_0(list.clone(), icon_symbolic);
         }
-
-        Err(err) => {
-            ui::utils::show_error(gettext("Failed to update config."), err);
-        }
-    }
+    });
 
     trace!("Finished this config update");
-    ui::write_config();
+    ui::write_config()?;
 
     WAITING_CONFIGS.update(|value| {
         *value -= 1;
     });
+
+    Ok(())
 }

@@ -12,7 +12,7 @@ use crate::ui::prelude::*;
 pub fn init() {
     main_ui()
         .backup_run()
-        .connect_clicked(|_| spawn_local(on_backup_run()));
+        .connect_clicked(|_| Handler::run(on_backup_run()));
 
     main_ui()
         .detail_status_row()
@@ -46,7 +46,7 @@ pub fn init() {
     main_ui()
         .include_home()
         .connect_property_active_notify(|_| {
-            spawn_local(async move {
+            Handler::run(async move {
                 if main_ui().include_home().get_sensitive() {
                     let change: bool = if main_ui().include_home().get_active() {
                         true
@@ -77,25 +77,27 @@ pub fn init() {
                     });
 
                     if change {
-                        super::write_config();
+                        super::write_config()?;
                         refresh();
                     }
                 } else {
                     main_ui().include_home().set_sensitive(true);
                 }
+
+                Ok(())
             })
         });
 
     main_ui()
         .add_include()
-        .connect_clicked(|_| spawn_local(add_include()));
+        .connect_clicked(|_| Handler::run(add_include()));
     main_ui()
         .add_exclude()
-        .connect_clicked(|_| spawn_local(add_exclude()));
+        .connect_clicked(|_| Handler::run(add_exclude()));
 
     main_ui()
         .stop_backup_create()
-        .connect_clicked(|_| spawn_local(on_stop_backup_create()));
+        .connect_clicked(|_| Handler::run(on_stop_backup_create()));
 
     main_ui().status_spinner().connect_map(|s| s.start());
     main_ui().status_spinner().connect_unmap(|s| s.stop());
@@ -131,60 +133,54 @@ pub fn view_backup_conf(id: &ConfigId) {
         .set_visible_child(&main_ui().page_detail());
 }
 
-async fn on_stop_backup_create() {
-    if !ui::utils::confirmation_dialog(
+async fn on_stop_backup_create() -> Result<()> {
+    ui::utils::confirmation_dialog(
         &gettext("Abort running backup creation?"),
         &gettext("The backup will remain incomplete if aborted now."),
         &gettext("Continue"),
         &gettext("Abort"),
     )
-    .await
-    {
-        return;
-    }
+    .await?;
 
     if let Some(communication) = BACKUP_COMMUNICATION.load().get_active() {
         communication.instruction.update(|inst| {
             *inst = borg::Instruction::Abort;
         });
     }
+
+    Ok(())
 }
 
-async fn on_backup_run() {
+async fn on_backup_run() -> Result<()> {
     let config = SETTINGS.load().backups.get_active().unwrap().clone();
 
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
-        let unmount = ui::utils::confirmation_dialog(
+        ui::utils::confirmation_dialog(
             &gettext("Stop browsing files and start backup?"),
             &gettext("Browsing through archived files is not possible while running a backup."),
             &gettext("Keep Browsing"),
             &gettext("Start Backup"),
         )
-        .await;
-        if unmount {
-            trace!("User decided to unmount repo.");
-            if !ui::utils::dialog_catch_err(
-                borg::Borg::umount(&config.repo_id),
-                gettext("Failed to unmount repository."),
-            ) {
-                ACTIVE_MOUNTS.update(|mounts| {
-                    mounts.remove(&config.repo_id);
-                });
-            }
-        } else {
-            trace!("User decided to abort backup.");
-            return;
-        }
+        .await?;
+
+        trace!("User decided to unmount repo.");
+        borg::Borg::umount(&config.repo_id).err_to_msg(gettext("Failed to unmount repository."))?;
+
+        ACTIVE_MOUNTS.update(|mounts| {
+            mounts.remove(&config.repo_id);
+        });
     }
 
     ui::dialog_device_missing::main(config.clone(), "", move || {
-        spawn_local(run_backup(config.clone()))
+        Handler::run(run_backup(config.clone()))
     });
+
+    Ok(())
 }
 
-pub async fn run_backup(config: config::BackupConfig) {
+pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
     let communication: borg::Communication = Default::default();
 
     BACKUP_COMMUNICATION.update(|x| {
@@ -212,15 +208,17 @@ pub async fn run_backup(config: config::BackupConfig) {
     });
     refresh_status();
 
-    ui::write_config();
+    ui::write_config()?;
 
     if !user_aborted {
         if let Err(err) = result_string_err {
-            ui::utils::show_error(gettext("Creating a backup failed."), err);
+            return Err(Message::new(gettext("Creating a backup failed."), err).into());
         } else {
-            Handler::run(ui::page_archives::refresh_archives_cache(config.clone()));
+            ui::page_archives::refresh_archives_cache(config.clone()).await?;
         }
     }
+
+    Ok(())
 }
 
 pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
@@ -311,7 +309,7 @@ pub fn refresh() {
         let path = file.clone();
         button.connect_clicked(move |_| {
             let path = path.clone();
-            spawn_local(async move {
+            Handler::run(async move {
                 if confirm_remove_include(&path).await {
                     SETTINGS.update(|settings| {
                         settings
@@ -321,9 +319,11 @@ pub fn refresh() {
                             .include
                             .remove(&path);
                     });
-                    super::write_config();
+                    super::write_config()?;
                     refresh();
                 }
+
+                Ok(())
             })
         });
     }
@@ -383,6 +383,7 @@ async fn confirm_remove_include(path: &std::path::Path) -> bool {
         &gettext("Confirm"),
     )
     .await
+    .is_ok()
 }
 
 /// Returns a relative path for sub directories of home
@@ -394,7 +395,7 @@ fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
     }
 }
 
-async fn add_include() {
+async fn add_include() -> Result<()> {
     if let Some(path) =
         ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups")).await
     {
@@ -406,12 +407,14 @@ async fn add_include() {
                 .include
                 .insert(rel_path(&path));
         });
-        super::write_config();
+        super::write_config()?;
         refresh();
     }
+
+    Ok(())
 }
 
-async fn add_exclude() {
+async fn add_exclude() -> Result<()> {
     if let Some(path) =
         ui::utils::folder_chooser_dialog_path(&gettext("Exclude directory from backup")).await
     {
@@ -423,9 +426,11 @@ async fn add_exclude() {
                 .exclude
                 .insert(config::Pattern::PathPrefix(rel_path(&path)));
         });
-        super::write_config();
+        super::write_config()?;
         refresh();
     }
+
+    Ok(())
 }
 
 fn refresh_status() {

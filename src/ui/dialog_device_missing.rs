@@ -56,7 +56,7 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
         Err(err) => {
             match err.kind::<gio::IOErrorEnum>() {
                 // TODO
-                Some(gio::IOErrorEnum::FailedHandled) => Err(UserAborted {}.into()),
+                Some(gio::IOErrorEnum::FailedHandled) => Err(UserAborted::new().into()),
                 _ => Err(Message::new(gettext("Failed to mount."), err).into()),
             }
         }

@@ -141,10 +141,8 @@ fn archives_cache_refreshed(
                 .and_then(|_| std::fs::File::create(cache_path(&config.repo_id)))
             {
                 Ok(file) => {
-                    ui::utils::dialog_catch_err(
-                        serde_json::ser::to_writer(&file, &repo_archives),
-                        "Failed to save cache.",
-                    );
+                    serde_json::ser::to_writer(&file, &repo_archives)
+                        .err_to_msg(gettext("Failed to save cache."))?;
                 }
                 Err(err) => {
                     return Err(Message::new("Failed to open cache file.", err).into());
@@ -167,33 +165,25 @@ fn archives_cache_refreshed(
     Ok(())
 }
 
-fn show_dir(
-    result: std::result::Result<std::path::PathBuf, futures::channel::oneshot::Canceled>,
-) -> Result<()> {
+fn show_dir(path: &std::path::Path) -> Result<()> {
     main_ui().pending_menu().hide();
-    match result {
-        Err(err) => return Err(Message::new(gettext("Failed to open archive."), err).into()),
-        Ok(path) => {
-            let uri = gio::File::new_for_path(&path).get_uri();
+    let uri = gio::File::new_for_path(&path).get_uri();
 
-            // only open if app isn't closing in this moment
-            if !**IS_SHUTDOWN.load() {
-                let show_folder = || -> std::result::Result<(), _> {
-                    let conn = zbus::Connection::new_session()?;
-                    let proxy = zbus::Proxy::new(
-                        &conn,
-                        "org.freedesktop.FileManager1",
-                        "/org/freedesktop/FileManager1",
-                        "org.freedesktop.FileManager1",
-                    )?;
-                    proxy.call("ShowFolders", &(vec![uri.as_str()], ""))
-                };
+    // only open if app isn't closing in this moment
+    if !**IS_SHUTDOWN.load() {
+        let show_folder = || -> std::result::Result<(), _> {
+            let conn = zbus::Connection::new_session()?;
+            let proxy = zbus::Proxy::new(
+                &conn,
+                "org.freedesktop.FileManager1",
+                "/org/freedesktop/FileManager1",
+                "org.freedesktop.FileManager1",
+            )?;
+            proxy.call("ShowFolders", &(vec![uri.as_str()], ""))
+        };
 
-                show_folder()
-                    .map_err(|err| Message::new(gettext("Failed to open archive."), err))?;
-            }
-        }
-    };
+        show_folder().err_to_msg(gettext("Failed to open archive."))?;
+    }
 
     Ok(())
 }
@@ -233,10 +223,10 @@ async fn on_browse_archive(config: BackupConfig, archive_name: borg::ArchiveName
         }
     }
 
-    let result =
-        ui::utils::spawn_thread("open_archive", move || find_first_populated_dir(&path)).await;
+    let first_populated_dir =
+        ui::utils::spawn_thread("open_archive", move || find_first_populated_dir(&path)).await?;
 
-    show_dir(result)
+    show_dir(&first_populated_dir)
 }
 
 fn page_is_visible() -> bool {

@@ -109,7 +109,7 @@ pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, b
         .await
 }
 
-pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)>) {
+pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)>) -> Result<()> {
     if let Some((ref password, ref store)) = x {
         if *store {
             debug!("Storing new password at secret service");
@@ -125,6 +125,8 @@ pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)
             );
         }
     }
+
+    Ok(())
 }
 
 pub struct Async(());
@@ -344,7 +346,12 @@ pub fn dialog_error<S: std::fmt::Display>(error: S) {
     show_error(error, "");
 }
 
-pub async fn confirmation_dialog(title: &str, message: &str, cancel: &str, accept: &str) -> bool {
+pub async fn confirmation_dialog(
+    title: &str,
+    message: &str,
+    cancel: &str,
+    accept: &str,
+) -> std::result::Result<(), UserAborted> {
     let dialog = gtk::MessageDialogBuilder::new()
         .transient_for(&main_ui().window())
         .modal(true)
@@ -360,7 +367,11 @@ pub async fn confirmation_dialog(title: &str, message: &str, cancel: &str, accep
     dialog.close();
     dialog.hide();
 
-    result == gtk::ResponseType::Accept
+    if result == gtk::ResponseType::Accept {
+        Ok(())
+    } else {
+        Err(UserAborted::new())
+    }
 }
 
 pub fn clear(listbox: &gtk::ListBox) {

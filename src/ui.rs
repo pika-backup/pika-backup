@@ -62,8 +62,6 @@ pub fn main() {
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
-    init_check_borg();
-
     gtk_app().run(&[]);
 }
 
@@ -142,12 +140,14 @@ fn init(_app: &gtk::Application) {
     main_ui().window().show_all();
     main_ui().window().present();
 
+    Handler::run(init_check_borg());
+
     ui::update_config::run();
 }
 
 fn on_delete() -> Inhibit {
     if is_backup_running() {
-        spawn_local(quit());
+        Handler::run(quit());
         Inhibit(true)
     } else {
         Inhibit(false)
@@ -183,20 +183,20 @@ fn is_backup_running() -> bool {
     !BACKUP_COMMUNICATION.load().is_empty()
 }
 
-async fn quit() {
-    if is_backup_running()
-        && !ui::utils::confirmation_dialog(
+async fn quit() -> Result<()> {
+    if is_backup_running() {
+        ui::utils::confirmation_dialog(
             &gettext("Abort running backup creation?"),
             &gettext("The backup will remain incomplete if aborted now."),
             &gettext("Continue"),
             &gettext("Abort"),
         )
-        .await
-    {
-        return;
+        .await?;
     }
 
     gtk_app().quit();
+
+    Ok(())
 }
 
 fn init_actions() {
@@ -215,19 +215,22 @@ fn init_actions() {
 
     let action = gio::SimpleAction::new("quit", None);
     action.connect_activate(|_, _| {
-        spawn_local(quit());
+        Handler::run(quit());
     });
     gtk_app().add_action(&action);
 }
 
-fn init_check_borg() {
-    let version_result = borg::version();
+async fn init_check_borg() -> Result<()> {
+    let version_result = utils::spawn_thread("borg::version", borg::version).await?;
 
     match version_result {
-        Err(err) => ui::utils::show_error(
-            gettext("Failed to run “borg”. Is borg-backup installed correctly?"),
-            err,
-        ),
+        Err(err) => {
+            return Err(Message::new(
+                gettext("Failed to run “borg”. Is borg-backup installed correctly?"),
+                err,
+            )
+            .into());
+        }
         Ok(version_output) => {
             if let Some(version_string) = version_output.split(' ').nth(1) {
                 let version_list = version_string
@@ -240,7 +243,7 @@ fn init_check_borg() {
                     .cmp(version_list)
                     == std::cmp::Ordering::Greater
                 {
-                    ui::utils::show_error(
+                    return Err(Message::new(
                     gettext("Borg version too old."),
                     gettextf(
                         "The installed version of borg-backup is too old. Some features requiring borg-backup version {}.{} will not work.",
@@ -248,11 +251,13 @@ fn init_check_borg() {
                             &crate::BORG_MIN_MAJOR.to_string(),
                             &crate::BORG_MIN_MINOR.to_string(),
                         ],
-                    ));
+                    )).into());
                 }
             }
         }
     }
+
+    Ok(())
 }
 
 fn load_config_e() -> std::io::Result<()> {
@@ -272,6 +277,6 @@ fn write_config_e() -> std::io::Result<()> {
     Ok(())
 }
 
-fn write_config() {
-    utils::dialog_catch_err(write_config_e(), gettext("Could not write config."));
+fn write_config() -> Result<()> {
+    write_config_e().err_to_msg(gettext("Could not write config."))
 }

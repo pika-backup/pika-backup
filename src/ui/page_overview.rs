@@ -41,7 +41,7 @@ pub fn init() {
 
     main_ui()
         .remove_backup()
-        .connect_clicked(|_| spawn_local(on_remove_backup()));
+        .connect_clicked(|_| Handler::run(on_remove_backup()));
 
     glib::timeout_add_seconds_local(1, || {
         if is_visible() {
@@ -62,42 +62,41 @@ fn on_main_stack_changed(_stack: &gtk::Stack) {
     }
 }
 
-async fn on_remove_backup() {
-    let delete = ui::utils::confirmation_dialog(
+async fn on_remove_backup() -> Result<()> {
+    ui::utils::confirmation_dialog(
         &gettext("Delete backup configuration?"),
         &gettext("Deleting the configuration will not delete your saved data."),
         &gettext("Cancel"),
         &gettext("Delete"),
     )
-    .await;
+    .await?;
 
-    if delete {
-        if let Some(config) = SETTINGS.get().backups.get_active() {
-            SETTINGS.update(move |s| {
-                s.backups.remove(&config.id);
-            });
+    if let Some(config) = SETTINGS.get().backups.get_active() {
+        SETTINGS.update(move |s| {
+            s.backups.remove(&config.id);
+        });
 
-            ui::utils::dialog_catch_err(
-                ui::utils::secret_service_delete_passwords(&config.id),
-                "Failed to remove potentially remaining passwords from key storage.",
-            );
+        ui::utils::secret_service_delete_passwords(&config.id).err_to_msg(gettext(
+            "Failed to remove potentially remaining passwords from key storage.",
+        ))?;
 
-            ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
-            ui::write_config();
+        ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
+        ui::write_config()?;
 
-            if SETTINGS.load().backups.is_empty() {
-                main_ui()
-                    .main_stack()
-                    .set_visible_child(&main_ui().page_overview_empty());
-            } else {
-                main_ui()
-                    .main_stack()
-                    .set_visible_child(&main_ui().page_overview());
-            };
+        if SETTINGS.load().backups.is_empty() {
+            main_ui()
+                .main_stack()
+                .set_visible_child(&main_ui().page_overview_empty());
         } else {
-            ui::utils::dialog_error(gettext("No active backup to delete."));
-        }
+            main_ui()
+                .main_stack()
+                .set_visible_child(&main_ui().page_overview());
+        };
+    } else {
+        ui::utils::dialog_error(gettext("No active backup to delete."));
     }
+
+    Ok(())
 }
 
 fn refresh() {

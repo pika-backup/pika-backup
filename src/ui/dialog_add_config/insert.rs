@@ -156,7 +156,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
         Ok(info) => {
             let config = config::BackupConfig::new(repo.clone(), info, encrypted);
 
-            insert_backup_config(config.clone());
+            insert_backup_config(config.clone())?;
             if encrypted && ui.password_store().get_active() {
                 if let Err(err) = ui::utils::secret_service_set_password(&config, &password) {
                     return Err(Message::new(gettext("Failed to store password."), err).into());
@@ -195,9 +195,9 @@ async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Re
                 .map(|(password, _)| !password.is_empty())
                 .unwrap_or_default();
             let config = config::BackupConfig::new(repo.clone(), info, encrypted);
-            insert_backup_config(config.clone());
-            ui::utils::store_password(&config, &pw_data);
+            insert_backup_config(config.clone())?;
             ui::page_detail::view_backup_conf(&config.id);
+            ui::utils::store_password(&config, &pw_data)?;
 
             Ok(())
         }
@@ -209,12 +209,12 @@ async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Re
     }
 }
 
-fn insert_backup_config(config: config::BackupConfig) {
+fn insert_backup_config(config: config::BackupConfig) -> Result<()> {
     SETTINGS.update(move |s| {
         s.backups.insert(config.id.clone(), config.clone());
     });
 
-    ui::write_config();
+    ui::write_config()
 }
 
 fn execute<
