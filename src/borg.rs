@@ -30,6 +30,32 @@ impl RepoId {
     }
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
+pub struct ArchiveId(String);
+
+impl ArchiveId {
+    pub fn new(id: String) -> Self {
+        Self(id)
+    }
+
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
+pub struct ArchiveName(String);
+
+impl ArchiveName {
+    pub fn new(id: String) -> Self {
+        Self(id)
+    }
+
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+}
+
 #[derive(Default, Debug, Clone)]
 pub struct Status {
     pub run: Run,
@@ -75,15 +101,15 @@ pub struct StatsArchiveStats {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct List {
-    pub archives: Vec<ListArchive>,
+    pub archives: Vec<Archive>,
     pub encryption: Encryption,
     pub repository: Repository,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct ListArchive {
-    pub id: String,
-    pub name: String,
+pub struct Archive {
+    pub id: ArchiveId,
+    pub name: ArchiveName,
     pub comment: String,
     pub username: String,
     pub hostname: String,
@@ -357,7 +383,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json)
     }
 
-    fn list(&self, last: u64) -> Result<Vec<ListArchive>> {
+    fn list(&self, last: u64) -> Result<Vec<Archive>> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",

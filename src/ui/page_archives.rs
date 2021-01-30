@@ -20,12 +20,12 @@ static REPO_ARCHIVES: Lazy<ArcSwap<BTreeMap<borg::RepoId, RepoArchives>>> =
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct RepoArchives {
-    archives: Option<HashMap<String, borg::ListArchive>>,
+    archives: Option<HashMap<borg::ArchiveName, borg::Archive>>,
     reloading: bool,
 }
 
 impl RepoArchives {
-    pub fn archives_sorted_by_date(&self) -> Option<Vec<(String, borg::ListArchive)>> {
+    pub fn archives_sorted_by_date(&self) -> Option<Vec<(borg::ArchiveName, borg::Archive)>> {
         if let Some(archives) = self.archives.clone() {
             let mut vec = Vec::from_iter(archives);
             vec.sort_by(|x, y| y.1.start.cmp(&x.1.start));
@@ -112,7 +112,7 @@ fn update_archives_spinner(config: BackupConfig) {
     }
 }
 
-fn archives_cache_refreshed(config: BackupConfig, result: borg::Result<Vec<borg::ListArchive>>) {
+fn archives_cache_refreshed(config: BackupConfig, result: borg::Result<Vec<borg::Archive>>) {
     match result {
         Ok(archives) => {
             let mut repo_archives = REPO_ARCHIVES
@@ -188,7 +188,7 @@ fn show_dir(result: std::result::Result<std::path::PathBuf, futures::channel::on
     main_ui().pending_menu().hide();
 }
 
-async fn on_browse_archive(config: BackupConfig, archive_name: String) {
+async fn on_browse_archive(config: BackupConfig, archive_name: borg::ArchiveName) {
     debug!("Trying to browse an archive");
 
     main_ui().pending_menu().show();
@@ -196,7 +196,7 @@ async fn on_browse_archive(config: BackupConfig, archive_name: String) {
     let backup_mounted = ACTIVE_MOUNTS.load().contains(&config.repo_id);
 
     let mut path = borg::Borg::get_mount_point(&config.repo_id);
-    path.push(archive_name);
+    path.push(archive_name.as_str());
 
     if !backup_mounted {
         ACTIVE_MOUNTS.update(|mounts| {
@@ -245,7 +245,7 @@ fn display_archives(config: BackupConfig) {
             .get(&config.repo_id)
             .and_then(|x| x.archives_sorted_by_date())
         {
-            for (id, archive) in archive_list {
+            for (archive_name, archive) in archive_list {
                 let row = libhandy::ExpanderRowBuilder::new()
                     .title(&archive.start.to_locale())
                     .subtitle(&format!(
@@ -255,9 +255,9 @@ fn display_archives(config: BackupConfig) {
                     ))
                     .build();
 
-                let info = |title: String, info: String| -> libhandy::ActionRow {
+                let info = |title: String, info: &str| -> libhandy::ActionRow {
                     let label = gtk::LabelBuilder::new()
-                        .label(&info)
+                        .label(info)
                         .wrap(true)
                         .wrap_mode(pango::WrapMode::WordChar)
                         .build();
@@ -269,14 +269,14 @@ fn display_archives(config: BackupConfig) {
                         .build()
                 };
 
-                row.add(&info(gettext("Name"), archive.name.clone()));
+                row.add(&info(gettext("Name"), archive.name.as_str()));
                 row.add(&info(
                     gettext("Duration"),
                     // TODO: Translate durations
-                    format!("About {}", (archive.end - archive.start).humanize()),
+                    &format!("About {}", (archive.end - archive.start).humanize()),
                 ));
                 if !archive.comment.is_empty() {
-                    row.add(&info(gettext("Comment"), archive.comment.clone()));
+                    row.add(&info(gettext("Comment"), &archive.comment));
                 }
 
                 let browse_row = libhandy::ActionRowBuilder::new()
@@ -291,7 +291,7 @@ fn display_archives(config: BackupConfig) {
                 row.add(&browse_row);
 
                 browse_row.connect_activated(
-                    enclose!((config, id) move |_| spawn_local(on_browse_archive(config.clone(), id.clone()))),
+                    enclose!((config, archive_name) move |_| spawn_local(on_browse_archive(config.clone(), archive_name.clone()))),
                 );
 
                 main_ui().archive_list().add(&row);
