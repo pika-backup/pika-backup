@@ -1,8 +1,11 @@
 pub mod error;
+pub mod json;
+pub mod msg;
 pub mod prelude;
 mod utils;
-pub use error::Error;
-pub mod msg;
+
+pub use error::{Error, Result};
+pub use json::*;
 
 use arc_swap::ArcSwap;
 
@@ -12,49 +15,9 @@ use std::sync::Arc;
 use crate::config::{self, *};
 use crate::globals::*;
 use crate::prelude::*;
+
 use msg::*;
 use utils::*;
-
-pub type Result<T> = std::result::Result<T, Error>;
-
-#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
-pub struct RepoId(String);
-
-impl RepoId {
-    pub fn new(id: String) -> Self {
-        Self(id)
-    }
-
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
-    }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
-pub struct ArchiveId(String);
-
-impl ArchiveId {
-    pub fn new(id: String) -> Self {
-        Self(id)
-    }
-
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
-    }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
-pub struct ArchiveName(String);
-
-impl ArchiveName {
-    pub fn new(id: String) -> Self {
-        Self(id)
-    }
-
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
-    }
-}
 
 #[derive(Default, Debug, Clone)]
 pub struct Status {
@@ -76,58 +39,6 @@ impl Default for Run {
     fn default() -> Self {
         Self::Init
     }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct Stats {
-    pub archive: StatsArchive,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct StatsArchive {
-    duration: f64,
-    id: String,
-    name: String,
-    pub stats: StatsArchiveStats,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct StatsArchiveStats {
-    pub compressed_size: u64,
-    pub deduplicated_size: u64,
-    pub nfiles: u64,
-    pub original_size: u64,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct List {
-    pub archives: Vec<Archive>,
-    pub encryption: Encryption,
-    pub repository: Repository,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Archive {
-    pub id: ArchiveId,
-    pub name: ArchiveName,
-    pub comment: String,
-    pub username: String,
-    pub hostname: String,
-    pub start: chrono::naive::NaiveDateTime,
-    pub end: chrono::naive::NaiveDateTime,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Encryption {
-    pub mode: String,
-    pub keyfile: Option<std::path::PathBuf>,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Repository {
-    pub id: RepoId,
-    pub last_modified: chrono::naive::NaiveDateTime,
-    pub location: std::path::PathBuf,
 }
 
 #[derive(Clone)]

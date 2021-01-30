@@ -1,6 +1,8 @@
 use super::msg::*;
 use gettextrs::gettext;
 
+pub type Result<T> = std::result::Result<T, Error>;
+
 #[derive(Debug)]
 pub struct ReturnCodeErr {
     pub code: Option<i32>,
