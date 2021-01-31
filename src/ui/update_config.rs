@@ -48,7 +48,7 @@ pub fn run() {
                         borg::Borg::new(config.clone()),
                         |borg| borg.peek(),
                         )
-                    .await.err_to_msg(gettext("Failed to retrive backup information."))?;
+                    .await.err_to_msg(gettext("Failed to retrieve backup information."))?;
 
                     update_config(config.id.clone(), result)
 
