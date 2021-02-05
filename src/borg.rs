@@ -159,10 +159,10 @@ impl Borg {
     }
 
     pub fn create(&self, communication: Communication) -> Result<Stats> {
-        self.create_internal(communication, false)
+        self.create_internal(communication, 0)
     }
 
-    fn create_internal(&self, communication: Communication, retry: bool) -> Result<Stats> {
+    fn create_internal(&self, communication: Communication, retries: u16) -> Result<Stats> {
         // Do this early to fail if password is missing
         let mut borg_call = BorgCall::new("create");
         borg_call
@@ -171,14 +171,14 @@ impl Borg {
             .add_archive(self)
             .add_include_exclude(self);
 
-        if retry {
+        if retries > 0 {
             borg_call.add_options(&[
                 "--lock-wait",
                 &crate::BORG_LOCK_WAIT_RECONNECT.as_secs().to_string(),
             ]);
         }
 
-        if communication.status.load().estimated_size.is_none() && !retry {
+        if communication.status.load().estimated_size.is_none() && retries == 0 {
             communication
                 .status
                 .update(|status| status.run = Run::SizeEstimation);
@@ -227,13 +227,15 @@ impl Borg {
                 });
             } else {
                 let msg = check_line(&line);
-                if msg.has_borg_msgid(&MsgId::ConnectionClosed) {
+                if msg.has_borg_msgid(&MsgId::ConnectionClosed)
+                    && retries <= crate::BORG_MAX_RECONNECT
+                {
                     communication.status.update(|status| {
                         status.run = Run::Reconnecting;
                     });
                     borg.wait()?;
                     std::thread::sleep(crate::BORG_DELAY_RECONNECT);
-                    return self.create_internal(communication, true);
+                    return self.create_internal(communication, retries + 1);
                 }
                 errors.push(msg);
             }
