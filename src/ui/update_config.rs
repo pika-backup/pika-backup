@@ -11,52 +11,52 @@ use once_cell::sync::Lazy;
 
 static WAITING_CONFIGS: Lazy<ArcSwap<u64>> = Lazy::new(Default::default);
 
-pub fn run() {
+pub async fn run() -> Result<()> {
     if !SETTINGS
         .load()
         .backups
         .values()
         .any(|config| config.config_version < crate::CONFIG_VERSION)
     {
-        return;
+        return Ok(());
     }
 
     for config in SETTINGS.load().backups.values() {
         if config.config_version < crate::CONFIG_VERSION {
-            ui::dialog_device_missing::main(
+            let config = ui::dialog_device_missing::updated_config(
                 config.clone(),
                 &gettext("Updating configuration for new version"),
-                enclose!((config) move || {
-                    WAITING_CONFIGS.update(|value| {
-                        *value += 1;
-                    });
-                    ui::page_pending::show(&gettext("Updating configuration for new version"));
-                    glib::timeout_add_local(500, move || {
-                        trace!("Configs waiting {}", WAITING_CONFIGS.load());
-                        if WAITING_CONFIGS.get() < 1 {
-                            ui::page_pending::back();
-                            Continue(false)
-                        } else {
-                            Continue(true)
-                        }
-                    });
+            )
+            .await?;
 
-                    Handler::run(enclose!((config) async move {
-                    let result =
-                    ui::utils::Async::borg_spawn(
-                        "refresh_repo_config",
-                        borg::Borg::new(config.clone()),
-                        |borg| borg.peek(),
-                        )
-                    .await.err_to_msg(gettext("Failed to retrieve backup information."))?;
+            WAITING_CONFIGS.update(|value| {
+                *value += 1;
+            });
 
-                    update_config(config.id.clone(), result)
+            ui::page_pending::show(&gettext("Updating configuration for new version"));
+            glib::timeout_add_local(500, move || {
+                trace!("Configs waiting {}", WAITING_CONFIGS.load());
+                if WAITING_CONFIGS.get() < 1 {
+                    ui::page_pending::back();
+                    Continue(false)
+                } else {
+                    Continue(true)
+                }
+            });
 
-                    }));
-                }),
-            );
+            let result = ui::utils::Async::borg_spawn(
+                "refresh_repo_config",
+                borg::Borg::new(config.clone()),
+                |borg| borg.peek(),
+            )
+            .await
+            .err_to_msg(gettext("Failed to retrieve backup information."))?;
+
+            update_config(config.id.clone(), result)?;
         }
     }
+
+    Ok(())
 }
 
 fn update_config(id: ConfigId, list: borg::List) -> Result<()> {

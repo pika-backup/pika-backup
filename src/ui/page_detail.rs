@@ -182,11 +182,11 @@ async fn startup_backup(config: config::BackupConfig) -> Result<()> {
         });
     }
 
-    ui::dialog_device_missing::main(config.clone(), "", move || {
-        Handler::run(run_backup(config.clone()))
-    });
+    let config =
+        ui::dialog_device_missing::updated_config(config, &gettext("Creating a new backup."))
+            .await?;
 
-    Ok(())
+    run_backup(config).await
 }
 
 pub async fn run_backup(config: config::BackupConfig) -> Result<()> {

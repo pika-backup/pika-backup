@@ -143,7 +143,7 @@ fn on_activate(_app: &gtk::Application) {
 
     Handler::run(init_check_borg());
 
-    ui::update_config::run();
+    Handler::run(ui::update_config::run());
 }
 
 fn on_delete() -> Inhibit {
