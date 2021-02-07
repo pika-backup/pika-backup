@@ -1,7 +1,7 @@
 use gtk::prelude::*;
 use libhandy::prelude::*;
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use std::sync::RwLock;
 
 use crate::config;
@@ -10,7 +10,7 @@ use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 thread_local!(
-    static ROWS: RwLock<HashMap<ConfigId, ui::builder::OverviewItem>> =
+    static ROWS: RwLock<BTreeMap<ConfigId, ui::builder::OverviewItem>> =
         RwLock::new(Default::default());
 );
 

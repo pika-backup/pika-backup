@@ -1,4 +1,5 @@
 datadir = get_option('prefix') / get_option('datadir')
+bindir = get_option('prefix') / get_option('bindir')
 podir = '../po'
 
 application_id = run_command('cat', 'APPLICATION_ID').stdout() + get_option('app_id_suffix')
@@ -17,11 +18,6 @@ i18n.merge_file(
     install_dir: datadir / 'applications'
 )
 
-meson.add_install_script(
-    find_program('update-desktop-database').path(),
-    datadir / 'applications'
-)
-
 i18n.merge_file(
     '.metainfo.xml',
     input: configure_file(
@@ -35,6 +31,14 @@ i18n.merge_file(
     install_dir: datadir / 'metainfo'
 )
 
+
+configure_file(
+    input: 'app.service.in',
+    output: '@0@.service'.format(application_id),
+    configuration: { 'app_id': application_id, 'bindir': bindir },
+    install_dir: datadir / 'dbus-1' / 'services'
+)
+
 install_data(
     'app-symbolic.svg',
     rename: '@0@-symbolic.svg'.format(application_id),
@@ -45,6 +49,11 @@ install_data(
     '@0@.svg'.format('app' + get_option('app_id_suffix')),
     rename: '@0@.svg'.format(application_id),
     install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+)
+
+meson.add_install_script(
+    find_program('update-desktop-database').path(),
+    datadir / 'applications'
 )
 
 meson.add_install_script(

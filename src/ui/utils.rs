@@ -1,3 +1,5 @@
+pub mod ext;
+
 use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
@@ -37,17 +39,9 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
 
 pub trait BackupMap<T> {
     fn get_active(&self) -> Option<&T>;
+    fn get_active_result(&self) -> Result<&T>;
     fn get_active_mut(&mut self) -> Option<&mut T>;
-}
-
-#[allow(clippy::implicit_hasher)]
-impl<T> BackupMap<T> for std::collections::HashMap<ConfigId, T> {
-    fn get_active(&self) -> Option<&T> {
-        self.get(&ACTIVE_BACKUP_ID.get()?)
-    }
-    fn get_active_mut(&mut self) -> Option<&mut T> {
-        self.get_mut(&ACTIVE_BACKUP_ID.get()?)
-    }
+    fn get_result(&self, key: &ConfigId) -> Result<&T>;
 }
 
 #[allow(clippy::implicit_hasher)]
@@ -55,8 +49,26 @@ impl<T> BackupMap<T> for std::collections::BTreeMap<ConfigId, T> {
     fn get_active(&self) -> Option<&T> {
         self.get(&ACTIVE_BACKUP_ID.get()?)
     }
+
+    fn get_active_result(&self) -> Result<&T> {
+        self.get_result(
+            &ACTIVE_BACKUP_ID
+                .get()
+                .ok_or_else(|| Message::short("There is no active backup in the interface."))?,
+        )
+    }
+
     fn get_active_mut(&mut self) -> Option<&mut T> {
         self.get_mut(&ACTIVE_BACKUP_ID.get()?)
+    }
+    fn get_result(&self, key: &ConfigId) -> Result<&T> {
+        self.get(key).ok_or_else(|| {
+            Message::short(gettextf(
+                "Could not find backup configuration with id “{}”",
+                &[key.as_str()],
+            ))
+            .into()
+        })
     }
 }
 
@@ -110,20 +122,15 @@ pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, b
 }
 
 pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)>) -> Result<()> {
-    if let Some((ref password, ref store)) = x {
-        if *store {
-            debug!("Storing new password at secret service");
-            dialog_catch_err(
-                secret_service_set_password(&config, &password),
-                gettext("Failed to store password."),
-            );
-        } else {
-            debug!("Removing password from secret service");
-            dialog_catch_err(
-                secret_service_delete_passwords(&config.id),
-                gettext("Failed to remove potentially remaining passwords from key storage."),
-            );
-        }
+    if let Some((ref password, true)) = x {
+        debug!("Storing new password at secret service");
+        secret_service_set_password(&config, &password)
+            .err_to_msg(gettext("Failed to store password."))?;
+    } else {
+        debug!("Removing password from secret service");
+        secret_service_delete_passwords(&config.id).err_to_msg(gettext(
+            "Failed to remove potentially remaining passwords from key storage.",
+        ))?;
     }
 
     Ok(())
@@ -139,10 +146,12 @@ impl Async {
     {
         let config = borg.get_config();
 
-        let result = borg_spawn(name, borg, task, false).await;
+        let result = spawn_borg_thread(name, borg, task, false).await;
 
         if let Ok((_, ref x)) = result {
-            store_password(&config, x);
+            if let Err(Error::Message(err)) = store_password(&config, x) {
+                err.show();
+            }
         }
         result.map(|(x, _)| x)
     }
@@ -157,12 +166,12 @@ impl Async {
         V: Send + 'static,
         B: borg::BorgBasics + 'static,
     {
-        borg_spawn(name, borg, task, true).await
+        spawn_borg_thread(name, borg, task, true).await
     }
 }
 
 #[allow(clippy::type_complexity)]
-async fn borg_spawn<F, V, B>(
+async fn spawn_borg_thread<F, V, B>(
     name: &'static str,
     mut borg: B,
     task: F,
@@ -314,32 +323,41 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
 ) {
     let primary_text = ellipsize(message);
     let secondary_text = ellipsize(detail);
-
-    let dialog = gtk::MessageDialogBuilder::new()
-        .modal(true)
-        .transient_for(window)
-        .message_type(gtk::MessageType::Error)
-        .buttons(gtk::ButtonsType::Close)
-        .text(&primary_text)
-        .build();
-
-    dialog.set_property_secondary_text(if secondary_text.is_empty() {
-        None
-    } else {
-        Some(&secondary_text)
-    });
-
-    dialog.connect_response(|dialog, _| {
-        dialog.close();
-        dialog.hide();
-    });
-
     warn!(
-        "Displaying caught error:\n{}\n{}",
+        "Displaying error:\n  {}\n  {}",
         &primary_text, &secondary_text
     );
 
-    dialog.show_all();
+    if main_ui().window().get_visible() {
+        let dialog = gtk::MessageDialogBuilder::new()
+            .modal(true)
+            .transient_for(window)
+            .message_type(gtk::MessageType::Error)
+            .buttons(gtk::ButtonsType::Close)
+            .text(&primary_text)
+            .build();
+
+        dialog.set_property_secondary_text(if secondary_text.is_empty() {
+            None
+        } else {
+            Some(&secondary_text)
+        });
+
+        dialog.connect_response(|dialog, _| {
+            dialog.close();
+            dialog.hide();
+        });
+
+        dialog.show_all();
+    } else {
+        let notification = gio::Notification::new(&primary_text);
+        notification.set_body(if secondary_text.is_empty() {
+            None
+        } else {
+            Some(&secondary_text)
+        });
+        gtk_app().send_notification(None, &notification);
+    }
 }
 
 pub fn dialog_error<S: std::fmt::Display>(error: S) {

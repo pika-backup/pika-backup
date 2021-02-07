@@ -78,7 +78,7 @@ pub fn init() {
 
                     if change {
                         super::write_config()?;
-                        refresh();
+                        refresh()?;
                     }
                 } else {
                     main_ui().include_home().set_sensitive(true);
@@ -123,7 +123,7 @@ fn on_stack_changed(_stack: &gtk::Stack) {
 
 pub fn view_backup_conf(id: &ConfigId) {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
-    refresh();
+    Handler::run(async { refresh() });
 
     main_ui()
         .detail_stack()
@@ -152,7 +152,16 @@ async fn on_stop_backup_create() -> Result<()> {
 }
 
 async fn on_backup_run() -> Result<()> {
-    let config = SETTINGS.load().backups.get_active().unwrap().clone();
+    startup_backup(SETTINGS.load().backups.get_active_result()?.clone()).await
+}
+
+async fn startup_backup(config: config::BackupConfig) -> Result<()> {
+    let is_running_on_repo = BACKUP_COMMUNICATION.get().keys().any(|id| {
+        SETTINGS.get().backups.get(id).map(|config| &config.repo_id) == Some(&config.repo_id)
+    });
+    if is_running_on_repo {
+        return Err(Message::short(gettext("Backup on repository allready running.")).into());
+    }
 
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
@@ -246,14 +255,10 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 }
 
 // TODO: Function has too many lines
-pub fn refresh() {
-    let include_home = SETTINGS
-        .get()
-        .backups
-        .get_active()
-        .unwrap()
-        .include
-        .contains(&std::path::PathBuf::new());
+pub fn refresh() -> Result<()> {
+    let backup = SETTINGS.load().backups.get_active_result()?.clone();
+
+    let include_home = backup.include.contains(&std::path::PathBuf::new());
 
     if include_home != main_ui().include_home().get_active() {
         main_ui().include_home().set_sensitive(false);
@@ -265,8 +270,6 @@ pub fn refresh() {
     } else {
         main_ui().include_home_row().add_css_class("not-active");
     }
-
-    let backup = SETTINGS.load().backups.get_active().unwrap().clone();
 
     // backup target ui
     let repo_ui = main_ui().target_listbox();
@@ -320,7 +323,7 @@ pub fn refresh() {
                             .remove(&path);
                     });
                     super::write_config()?;
-                    refresh();
+                    refresh()?;
                 }
 
                 Ok(())
@@ -331,24 +334,29 @@ pub fn refresh() {
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
-    for config::Pattern::PathPrefix(file) in backup.exclude.iter() {
-        let button = add_list_row(&main_ui().backup_exclude(), file);
-        let path = file.clone();
+    for config::Pattern::PathPrefix(file) in backup.exclude.clone().into_iter() {
+        let button = add_list_row(&main_ui().backup_exclude(), &file);
         button.connect_clicked(move |_| {
-            let path = path.clone();
-            SETTINGS.update(move |settings| {
-                settings
-                    .backups
-                    .get_active_mut()
-                    .unwrap()
-                    .exclude
-                    .remove(&config::Pattern::PathPrefix(path.clone()));
+            let path = file.clone();
+            Handler::run(async move {
+                let path = path.clone();
+                SETTINGS.update(move |settings| {
+                    settings
+                        .backups
+                        .get_active_mut()
+                        .unwrap()
+                        .exclude
+                        .remove(&config::Pattern::PathPrefix(path.clone()));
+                });
+                super::write_config()?;
+                refresh()?;
+                Ok(())
             });
-            super::write_config();
-            refresh();
         });
     }
+
     main_ui().backup_exclude().show_all();
+
     if backup.exclude.is_empty() {
         main_ui()
             .detail_exclude_stack()
@@ -358,6 +366,8 @@ pub fn refresh() {
             .detail_exclude_stack()
             .set_visible_child(&main_ui().backup_exclude());
     }
+
+    Ok(())
 }
 
 fn on_transition(stack: &gtk::Stack) {
@@ -408,7 +418,7 @@ async fn add_include() -> Result<()> {
                 .insert(rel_path(&path));
         });
         super::write_config()?;
-        refresh();
+        refresh()?;
     }
 
     Ok(())
@@ -427,7 +437,7 @@ async fn add_exclude() -> Result<()> {
                 .insert(config::Pattern::PathPrefix(rel_path(&path)));
         });
         super::write_config()?;
-        refresh();
+        refresh()?;
     }
 
     Ok(())

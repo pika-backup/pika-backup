@@ -49,12 +49,9 @@ pub fn main() {
     // init gtk and libhandy
     gtk::init().expect("Failed to gtk::init()");
     libhandy::init();
-    let none: Option<&gio::Cancellable> = None;
-    gtk_app()
-        .register(none)
-        .expect("Failed to gtk::Application::register()");
 
-    gtk_app().connect_activate(init);
+    gtk_app().connect_startup(on_startup);
+    gtk_app().connect_activate(on_activate);
     gtk_app().connect_shutdown(on_shutdown);
 
     crate::globals::init();
@@ -62,7 +59,7 @@ pub fn main() {
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
-    gtk_app().run(&[]);
+    gtk_app().run(&std::env::args().collect::<Vec<_>>());
 }
 
 fn on_ctrlc() -> Continue {
@@ -86,7 +83,8 @@ fn on_shutdown(app: &gtk::Application) {
     debug!("Good bye!");
 }
 
-fn init(_app: &gtk::Application) {
+fn on_startup(_app: &gtk::Application) {
+    debug!("Signal 'startup'");
     load_config();
 
     if let Some(screen) = gdk::Screen::get_default() {
@@ -134,9 +132,12 @@ fn init(_app: &gtk::Application) {
     {
         main_ui().window().get_style_context().add_class("devel");
     }
+}
+
+fn on_activate(_app: &gtk::Application) {
+    debug!("Signal 'activate'");
 
     gtk_app().add_window(&main_ui().window());
-
     main_ui().window().show_all();
     main_ui().window().present();
 
@@ -200,10 +201,10 @@ async fn quit() -> Result<()> {
 }
 
 fn init_actions() {
-    let action = gio::SimpleAction::new("detail", glib::VariantTy::new("s").ok());
-    action.connect_activate(|_, backup_id: _| {
-        if let Some(backup_id) = backup_id.and_then(|v| v.get_str()) {
-            ui::page_detail::view_backup_conf(&ConfigId::new(backup_id.to_string()));
+    let action = gio::SimpleAction::new("detail", Some(&String::static_variant_type()));
+    action.connect_activate(|_, config_id| {
+        if let Some(config_id) = config_id.and_then(|v| v.get_str()) {
+            ui::page_detail::view_backup_conf(&ConfigId::new(config_id.to_string()));
             main_ui().window().present();
         }
     });

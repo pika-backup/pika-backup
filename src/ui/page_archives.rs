@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, HashMap};
+use std::collections::BTreeMap;
 use std::iter::FromIterator;
 
 use arc_swap::ArcSwap;
@@ -20,7 +20,7 @@ static REPO_ARCHIVES: Lazy<ArcSwap<BTreeMap<borg::RepoId, RepoArchives>>> =
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct RepoArchives {
-    archives: Option<HashMap<borg::ArchiveName, borg::Archive>>,
+    archives: Option<BTreeMap<borg::ArchiveName, borg::Archive>>,
     reloading: bool,
 }
 
