@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+cargo fmt -- --check
+
+pot="$(xgettext --from-code=utf-8 -o - `cat po/POTFILES.in` 2>/dev/null)"
+spellcheck="$(echo "${pot}" | grep -v \# | aspell --home-dir=. --personal=build-aux/dict.txt list)"
+if [ "${spellcheck}" ]; then
+    echo "Spellcheck failed:\n${spellcheck}"
+    exit 1
+fi
+
+./build-aux/generate-ui-bindings.py
+git diff --exit-code src/ui/builder.rs
