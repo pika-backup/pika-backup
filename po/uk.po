@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-01-31 11:08+0000\n"
-"PO-Revision-Date: 2021-01-31 13:17+0200\n"
+"POT-Creation-Date: 2021-02-07 23:54+0000\n"
+"PO-Revision-Date: 2021-02-08 09:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: data/ui/dialog_add_config.ui:489 src/ui/page_detail.rs:383
+#: data/ui/dialog_add_config.ui:489 src/ui/page_detail.rs:393
 msgid "Confirm"
 msgstr "Підтвердити"
 
@@ -206,7 +206,7 @@ msgid "Backup Configuration"
 msgstr "Налаштовування резервного копіювання"
 
 #: data/ui/dialog_add_config.ui:690 data/ui/dialog_device_missing.ui:132
-#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:382
+#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:392
 #: src/ui/page_overview.rs:69
 msgid "Cancel"
 msgstr "Скасувати"
@@ -232,7 +232,7 @@ msgid "This task requires the encryption password of this repository"
 msgstr ""
 "Для виконання цього завдання потрібен пароль шифрування до цього сховища"
 
-#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:191
+#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:192
 #: src/ui/page_detail.rs:140
 msgid "Continue"
 msgstr "Продовжити"
@@ -241,31 +241,31 @@ msgstr "Продовжити"
 msgid "Backup Location"
 msgstr "Місце резервного копіювання"
 
-#: data/ui/dialog_storage.ui:54
+#: data/ui/dialog_storage.ui:55
 msgid "Volume"
 msgstr "Том"
 
-#: data/ui/dialog_storage.ui:70
+#: data/ui/dialog_storage.ui:71
 msgid "Device"
 msgstr "Пристрій"
 
-#: data/ui/dialog_storage.ui:86
+#: data/ui/dialog_storage.ui:87
 msgid "Path"
 msgstr "Шлях"
 
-#: data/ui/dialog_storage.ui:162
+#: data/ui/dialog_storage.ui:163
 msgid "URI"
 msgstr "Адреса"
 
-#: data/ui/dialog_storage.ui:223
+#: data/ui/dialog_storage.ui:224
 msgid "Space"
 msgstr "Місце"
 
-#: data/ui/dialog_storage.ui:246
+#: data/ui/dialog_storage.ui:247
 msgid "Total"
 msgstr "Загалом"
 
-#: data/ui/dialog_storage.ui:263
+#: data/ui/dialog_storage.ui:264
 msgid "Free"
 msgstr "Вільно"
 
@@ -293,7 +293,7 @@ msgstr "Додати налаштування резервного копіюв�
 msgid "Back to overview"
 msgstr "Назад до огляду"
 
-#: data/ui/main.ui:296 src/ui.rs:192 src/ui/page_detail.rs:141
+#: data/ui/main.ui:296 src/ui.rs:193 src/ui/page_detail.rs:141
 msgid "Abort"
 msgstr "Перервати"
 
@@ -373,24 +373,24 @@ msgstr "Поточний файл"
 msgid "Backup Info"
 msgstr "Відомості щодо резервного копіювання"
 
-#: src/ui.rs:189 src/ui/page_detail.rs:138
+#: src/ui.rs:190 src/ui/page_detail.rs:138
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:190 src/ui/page_detail.rs:139
+#: src/ui.rs:191 src/ui/page_detail.rs:139
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:229
+#: src/ui.rs:230
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:247
+#: src/ui.rs:248
 msgid "Borg version too old."
 msgstr "Надто застаріла версія borg."
 
-#: src/ui.rs:249
+#: src/ui.rs:250
 msgid ""
 "The installed version of borg-backup is too old. Some features requiring "
 "borg-backup version {}.{} will not work."
@@ -398,11 +398,11 @@ msgstr ""
 "Встановлена версія borg-backup є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}, лишаться недоступними."
 
-#: src/ui.rs:270
+#: src/ui.rs:271
 msgid "Could not load config."
 msgstr "Не вдалося завантажити налаштування."
 
-#: src/ui.rs:281
+#: src/ui.rs:282
 msgid "Could not write config."
 msgstr "Не вдалося записати налаштування."
 
@@ -476,83 +476,174 @@ msgstr "Не вдалося створити список наявних схо�
 msgid "Free space: {}"
 msgstr "Вільне місце: {}"
 
-#: src/ui/dialog_device_missing.rs:60
+#: src/ui/dialog_add_config/insert.rs:37 src/ui/dialog_add_config/insert.rs:53
+#: src/ui/dialog_add_config/insert.rs:71
+msgid "Loading backup repository"
+msgstr "Завантажуємо сховище резервних копій"
+
+#: src/ui/dialog_add_config/insert.rs:49
+msgid "Select existing repository"
+msgstr "Виберіть наявне сховище"
+
+#: src/ui/dialog_add_config/insert.rs:58
+msgid "Location is not a valid backup repository."
+msgstr "Місце зберігання не є коректним сховищем резервних копій."
+
+#: src/ui/dialog_add_config/insert.rs:59
+msgid "The repository must originate from Pika Backup or compatible software."
+msgstr ""
+"Сховище має бути створено «Пайка-копіюванням» або сумісним програмним "
+"забезпеченням."
+
+#: src/ui/dialog_add_config/insert.rs:94
+msgid "No password provided."
+msgstr "Не вказано пароль."
+
+#: src/ui/dialog_add_config/insert.rs:95
+msgid "To use encryption a password must be provided."
+msgstr "Щоб скористатися шифруванням, слід вказати пароль."
+
+#: src/ui/dialog_add_config/insert.rs:99
+msgid "Entered passwords do not match."
+msgstr "Введені паролі не збігаються."
+
+#: src/ui/dialog_add_config/insert.rs:114
+#: src/ui/dialog_add_config/insert.rs:121
+msgid "A repository location has to be given."
+msgstr "Слід вказати адресу сховища."
+
+#: src/ui/dialog_add_config/insert.rs:135
+#: src/ui/dialog_add_config/insert.rs:246
+msgid "Additional command line arguments invalid."
+msgstr "Некоректні додаткові аргументи командного рядка."
+
+#: src/ui/dialog_add_config/insert.rs:136
+#: src/ui/dialog_add_config/insert.rs:247
+msgid "Please check for missing closing quotes."
+msgstr "Будь ласка, перевірте, чи закрито лапки."
+
+#: src/ui/dialog_add_config/insert.rs:141
+msgid "Creating backup repository"
+msgstr "Створення сховища резервних копій"
+
+#: src/ui/dialog_add_config/insert.rs:154
+msgid "Failed to initialize repository."
+msgstr "Не вдалося ініціалізувати сховище."
+
+#: src/ui/dialog_add_config/insert.rs:162 src/ui/utils.rs:128
+msgid "Failed to store password."
+msgstr "Не вдалося зберегти пароль."
+
+#: src/ui/dialog_add_config/insert.rs:205
+msgid "There was an error with the specified repository"
+msgstr "Під час роботи із вказаним сховищем сталася помилка"
+
+#: src/ui/dialog_add_config/insert.rs:283
+msgid "Repository location not found."
+msgstr "Не знайдено місця зберігання сховища."
+
+#: src/ui/dialog_add_config/insert.rs:284
+msgid "A mount operation succeeded but the location is still unavailable."
+msgstr ""
+"Дію з монтування було успішно виконано, але відповідний каталог усе ще "
+"лишається недоступним."
+
+#: src/ui/dialog_device_missing.rs:51
 msgid "Failed to mount."
 msgstr "Не вдалося змонтувати."
 
-#: src/ui/page_archives.rs:145
+#: src/ui/error.rs:56 src/ui/utils.rs:251
+msgid "The operation terminated unexpectedly."
+msgstr "Дію було неочікувано перервано."
+
+#: src/ui/page_archives.rs:53
+msgid "Update archive list"
+msgstr ""
+"Оновити список архівів"
+
+#: src/ui/page_archives.rs:150
 msgid "Failed to save cache."
 msgstr "Не вдалося зберегти кеш."
 
-#: src/ui/page_archives.rs:185
+#: src/ui/page_archives.rs:190
 msgid "Failed to open archive."
 msgstr "Не вдалося відкрити архів."
 
-#: src/ui/page_archives.rs:219
+#: src/ui/page_archives.rs:224
 msgid "Failed to make archives available for browsing."
 msgstr "Не вдалося зробити архіви доступними для навігації."
 
-#: src/ui/page_archives.rs:274
+#: src/ui/page_archives.rs:279
 msgid "Name"
 msgstr "Назва"
 
-#: src/ui/page_archives.rs:276
+#: src/ui/page_archives.rs:281
 msgid "Duration"
 msgstr "Тривалість"
 
-#: src/ui/page_archives.rs:281
+#: src/ui/page_archives.rs:286
 msgid "Comment"
 msgstr "Коментар"
 
-#: src/ui/page_archives.rs:285
+#: src/ui/page_archives.rs:290
 msgid "Browse saved files"
 msgstr "Навігація збереженими файлами"
 
-#: src/ui/page_detail.rs:161
+#: src/ui/page_detail.rs:163
+msgid "Backup on repository allready running."
+msgstr ""
+"Вже виконуємо резервне копіювання сховища."
+
+#: src/ui/page_detail.rs:170
 msgid "Stop browsing files and start backup?"
 msgstr "Припинити навігацію файлами і почати створення резервної копії?"
 
-#: src/ui/page_detail.rs:162
+#: src/ui/page_detail.rs:171
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Навігація архівованими файлами під час створення резервної копії неможлива."
 
-#: src/ui/page_detail.rs:163
+#: src/ui/page_detail.rs:172
 msgid "Keep Browsing"
 msgstr "Продовжити перегляд"
 
-#: src/ui/page_detail.rs:164
+#: src/ui/page_detail.rs:173
 msgid "Start Backup"
 msgstr "Розпочати копіювання"
 
-#: src/ui/page_detail.rs:169
+#: src/ui/page_detail.rs:178
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
-#: src/ui/page_detail.rs:215
+#: src/ui/page_detail.rs:186
+#| msgid "Creating a backup failed."
+msgid "Creating a new backup."
+msgstr "Створюємо резервну копію."
+
+#: src/ui/page_detail.rs:224
 msgid "Creating a backup failed."
 msgstr "Не вдалося створити резервну копію."
 
-#: src/ui/page_detail.rs:289
+#: src/ui/page_detail.rs:292
 msgid "Remote location"
 msgstr "Віддалене місце"
 
-#: src/ui/page_detail.rs:378
+#: src/ui/page_detail.rs:388
 msgid "No longer include “{}” in backups?"
 msgstr "Більше не включати «{}» до резервних копій?"
 
-#: src/ui/page_detail.rs:381
+#: src/ui/page_detail.rs:391
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Усі файли, що містяться у цій теці не буде включено до наступних резервних "
 "копій."
 
-#: src/ui/page_detail.rs:400
+#: src/ui/page_detail.rs:410
 msgid "Include directory in backups"
 msgstr "Включити каталог до резервного копіювання"
 
-#: src/ui/page_detail.rs:419
+#: src/ui/page_detail.rs:429
 msgid "Exclude directory from backup"
 msgstr "Виключити каталог з резервної копіювання"
 
@@ -568,7 +659,7 @@ msgstr "Вилучення налаштувань призведе до вилу
 msgid "Delete"
 msgstr "Вилучити"
 
-#: src/ui/page_overview.rs:80 src/ui/utils.rs:124
+#: src/ui/page_overview.rs:80 src/ui/utils.rs:132
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
 
@@ -576,80 +667,26 @@ msgstr "Не вдалося вилучити потенційно збереже
 msgid "No active backup to delete."
 msgstr "Немає активних резервних копіювань для вилучення."
 
-#: src/ui/update_config.rs:28 src/ui/update_config.rs:33
+#: src/ui/update_config.rs:28 src/ui/update_config.rs:36
 msgid "Updating configuration for new version"
 msgstr "Оновлюємо налаштування до нової версії"
 
-#: src/ui/update_config.rs:51
-#| msgid "Failed to retrive backup information."
+#: src/ui/update_config.rs:53
 msgid "Failed to retrieve backup information."
 msgstr "Вилучити отримати відомості щодо резервної копії"
 
+#: src/ui/utils.rs:67
+#| msgid "Add backup configuration"
+msgid "Could not find backup configuration with id “{}”"
+msgstr "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»"
+
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils.rs:71
+#: src/ui/utils.rs:83
 msgid "Pika Backup Password"
 msgstr "Пароль до резервної копії Пайки"
 
-#: src/ui/utils.rs:118
-msgid "Failed to store password."
-msgstr "Не вдалося зберегти пароль."
-
-#: src/ui/utils.rs:242
-msgid "The operation terminated unexpectedly."
-msgstr "Дію було неочікувано перервано."
-
-#~ msgid "Select existing repository"
-#~ msgstr "Виберіть наявне сховище"
-
-#~ msgid "Loading backup repository"
-#~ msgstr "Завантажуємо сховище резервних копій"
-
-#~ msgid "Location is not a valid backup repository."
-#~ msgstr "Місце зберігання не є коректним сховищем резервних копій."
-
-#~ msgid ""
-#~ "The repository must originate from Pika Backup or compatible software."
-#~ msgstr ""
-#~ "Сховище має бути створено «Пайка-копіюванням» або сумісним програмним "
-#~ "забезпеченням."
-
-#~ msgid "Repository location not found."
-#~ msgstr "Не знайдено місця зберігання сховища."
-
-#~ msgid "A mount operation succeeded but the location is still unavailable."
-#~ msgstr ""
-#~ "Дію з монтування було успішно виконано, але відповідний каталог усе ще "
-#~ "лишається недоступним."
-
-#~ msgid "No password provided."
-#~ msgstr "Не вказано пароль."
-
-#~ msgid "To use encryption a password must be provided."
-#~ msgstr "Щоб скористатися шифруванням, слід вказати пароль."
-
-#~ msgid "Entered passwords do not match."
-#~ msgstr "Введені паролі не збігаються."
-
-#~ msgid "A repository location has to be given."
-#~ msgstr "Слід вказати адресу сховища."
-
-#~ msgid "Additional command line arguments invalid."
-#~ msgstr "Некоректні додаткові аргументи командного рядка."
-
-#~ msgid "Please check for missing closing quotes."
-#~ msgstr "Будь ласка, перевірте, чи закрито лапки."
-
-#~ msgid "Creating backup repository"
-#~ msgstr "Створення сховища резервних копій"
-
-#~ msgid "Failed to initialize repository."
-#~ msgstr "Не вдалося ініціалізувати сховище."
-
 #~ msgid "Unexpected error with repository."
 #~ msgstr "Неочікувана помилка зі сховищем."
-
-#~ msgid "There was an error with the specified repository"
-#~ msgstr "Під час роботи із вказаним сховищем сталася помилка"
 
 #~ msgid "Failed to update config."
 #~ msgstr "Не вдалося оновити налаштування."
