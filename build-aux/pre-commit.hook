@@ -9,5 +9,7 @@ if [ "${spellcheck}" ]; then
     exit 1
 fi
 
+codespell -L crate -L ser src/
+
 ./build-aux/generate-ui-bindings.py
 git diff --exit-code src/ui/builder.rs
