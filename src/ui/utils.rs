@@ -236,7 +236,7 @@ where
             }
         } else {
             error!(
-                "spawn_thread({}): Error sending to handler: Allready send",
+                "spawn_thread({}): Error sending to handler: Already send",
                 task_name
             );
         }

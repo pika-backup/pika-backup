@@ -184,7 +184,7 @@ impl BorgCall {
                 return Err(Error::PasswordMissing);
             }
         } else {
-            trace!("Config says no encryption. Writing empty passsword.");
+            trace!("Config says no encryption. Writing empty password.");
             pipe_writer.write_all(b"")?;
         }
 

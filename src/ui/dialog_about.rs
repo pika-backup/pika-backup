@@ -12,7 +12,7 @@ pub fn show() {
 
     /*
     Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," \
-    please make sure that the transliteration does not coincedes with a different meaning. If \
+    please make sure that the transliteration does not coincide with a different meaning. If \
     fitting, translations of "Pika" are welcome too.
 
     <https://en.wikipedia.org/wiki/Pika>

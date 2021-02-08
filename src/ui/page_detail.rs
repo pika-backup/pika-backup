@@ -160,7 +160,7 @@ async fn startup_backup(config: config::BackupConfig) -> Result<()> {
         SETTINGS.get().backups.get(id).map(|config| &config.repo_id) == Some(&config.repo_id)
     });
     if is_running_on_repo {
-        return Err(Message::short(gettext("Backup on repository allready running.")).into());
+        return Err(Message::short(gettext("Backup on repository already running.")).into());
     }
 
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
