@@ -3,7 +3,7 @@
 ## 0.2.1 (2021-01-05)
 
 - Fixes crash on adding backup config with invalid URI
-- Fixes list of archives for tark themes
+- Fixes list of archives for dark themes
 - Adds translation to Swedish
 - Adds keywords to .desktop-file
 

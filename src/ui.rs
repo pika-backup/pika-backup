@@ -268,7 +268,10 @@ fn load_config_e() -> std::io::Result<()> {
 }
 
 fn load_config() {
-    utils::dialog_catch_err(load_config_e(), gettext("Could not load config."));
+    utils::dialog_catch_err(
+        load_config_e(),
+        gettext("Could not load configuration file."),
+    );
 }
 
 fn write_config_e() -> std::io::Result<()> {
@@ -279,5 +282,5 @@ fn write_config_e() -> std::io::Result<()> {
 }
 
 fn write_config() -> Result<()> {
-    write_config_e().err_to_msg(gettext("Could not write config."))
+    write_config_e().err_to_msg(gettext("Could not write configuration file."))
 }
