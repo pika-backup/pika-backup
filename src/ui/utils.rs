@@ -1,13 +1,17 @@
+pub mod borg;
 pub mod ext;
+pub mod secret_service;
 
 use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
 
-use crate::borg;
-use crate::config::{self, Password};
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
+
+use ashpd::desktop::background;
+use ashpd::desktop::background::Background;
+use ashpd::Response;
 
 use std::io::Read;
 
@@ -35,6 +39,40 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
     };
 
     false
+}
+
+pub async fn get_background_permission() -> zbus::fdo::Result<bool> {
+    let connection = zbus::Connection::new_session()?;
+    let proxy = background::BackgroundProxy::new(&connection)?;
+
+    let request_handle = proxy.request_background(
+        ashpd::WindowIdentifier::default(),
+        background::BackgroundOptions::default().reason(&gettext(
+            "Schedule and continue running backups in background.",
+        )),
+    )?;
+
+    let request = ashpd::RequestProxy::new(&connection, &request_handle)?;
+
+    let (sender, receiver) = futures::channel::oneshot::channel();
+
+    let sender = std::cell::Cell::new(Some(sender));
+
+    request.on_response(|response: Response<Background>| {
+        let result = match response {
+            Ok(background::Background { background, .. }) => background,
+            Err(err) => {
+                info!("background portal: Error: {:?}", err);
+                false
+            }
+        };
+
+        if let Some(m) = sender.replace(None) {
+            let _result = m.send(result);
+        }
+    })?;
+
+    Ok(receiver.await.unwrap_or(false))
 }
 
 pub trait BackupMap<T> {
@@ -69,147 +107,6 @@ impl<T> BackupMap<T> for std::collections::BTreeMap<ConfigId, T> {
             ))
             .into()
         })
-    }
-}
-
-pub fn secret_service_set_password(
-    config: &config::BackupConfig,
-    password: &Password,
-) -> std::result::Result<(), secret_service::Error> {
-    secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
-        .get_default_collection()?
-        .create_item(
-            // Translators: This is the description for entries in the password database.
-            &gettext("Pika Backup Password"),
-            [
-                ("backup_id", config.id.as_str()),
-                ("program", env!("CARGO_PKG_NAME")),
-            ]
-            .iter()
-            .cloned()
-            .collect(),
-            password,
-            true,
-            "text/plain",
-        )?;
-
-    Ok(())
-}
-
-pub fn secret_service_delete_passwords(
-    id: &ConfigId,
-) -> std::result::Result<(), secret_service::Error> {
-    secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
-        .get_default_collection()?
-        .search_items(
-            [
-                ("backup_id", id.as_str()),
-                ("program", env!("CARGO_PKG_NAME")),
-            ]
-            .iter()
-            .cloned()
-            .collect(),
-        )?
-        .iter()
-        .try_for_each(|item| item.delete())
-}
-
-pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, bool)> {
-    crate::ui::dialog_encryption_password::Ask::new()
-        .set_pre_select_store(pre_select_store)
-        .run()
-        .await
-}
-
-pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)>) -> Result<()> {
-    if let Some((ref password, true)) = x {
-        debug!("Storing new password at secret service");
-        secret_service_set_password(&config, &password)
-            .err_to_msg(gettext("Failed to store password."))?;
-    } else {
-        debug!("Removing password from secret service");
-        secret_service_delete_passwords(&config.id).err_to_msg(gettext(
-            "Failed to remove potentially remaining passwords from key storage.",
-        ))?;
-    }
-
-    Ok(())
-}
-
-pub struct Async(());
-
-impl Async {
-    pub async fn borg_spawn<F, V>(name: &'static str, borg: borg::Borg, task: F) -> borg::Result<V>
-    where
-        F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
-        V: Send + 'static,
-    {
-        let config = borg.get_config();
-
-        let result = spawn_borg_thread(name, borg, task, false).await;
-
-        if let Ok((_, ref x)) = result {
-            if let Err(Error::Message(err)) = store_password(&config, x) {
-                err.show();
-            }
-        }
-        result.map(|(x, _)| x)
-    }
-
-    pub async fn borg_only_repo_suggest_store<F, V, B>(
-        name: &'static str,
-        borg: B,
-        task: F,
-    ) -> borg::Result<(V, Option<(Password, bool)>)>
-    where
-        F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
-        V: Send + 'static,
-        B: borg::BorgBasics + 'static,
-    {
-        spawn_borg_thread(name, borg, task, true).await
-    }
-}
-
-#[allow(clippy::type_complexity)]
-async fn spawn_borg_thread<F, V, B>(
-    name: &'static str,
-    mut borg: B,
-    task: F,
-    mut pre_select_store: bool,
-) -> borg::Result<(V, Option<(Password, bool)>)>
-where
-    F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
-    V: Send + 'static,
-    B: borg::BorgBasics + 'static,
-{
-    loop {
-        let result = spawn_thread(
-            name,
-            enclose!((borg, task)
-         move || task(borg)),
-        )
-        .await;
-
-        return match result {
-            Err(futures::channel::oneshot::Canceled) => Err(borg::Error::ThreadPanicked),
-            Ok(result) => match result {
-                Err(e)
-                    if matches!(e, borg::Error::PasswordMissing)
-                        || e.has_borg_msgid(&borg::msg::MsgId::PassphraseWrong) =>
-                {
-                    if let Some((password, store)) = get_password(pre_select_store).await {
-                        pre_select_store = store;
-                        borg.set_password(password);
-
-                        continue;
-                    } else {
-                        Err(borg::Error::UserAborted)
-                    }
-                }
-                Err(e) => Err(e),
-                Ok(result) => Ok((result, borg.get_password().map(|p| (p, pre_select_store)))),
-            },
-        };
     }
 }
 

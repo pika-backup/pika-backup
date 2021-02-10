@@ -44,7 +44,7 @@ pub async fn run() -> Result<()> {
                 }
             });
 
-            let result = ui::utils::Async::borg_spawn(
+            let result = ui::utils::borg::spawn(
                 "refresh_repo_config",
                 borg::Borg::new(config.clone()),
                 |borg| borg.peek(),

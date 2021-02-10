@@ -86,7 +86,7 @@ pub async fn refresh_archives_cache(config: BackupConfig) -> Result<()> {
 
     update_archives_spinner(config.clone());
 
-    let result = ui::utils::Async::borg_spawn(
+    let result = ui::utils::borg::spawn(
         "refresh_archives_cache",
         borg::Borg::new(config.clone()),
         |borg| borg.list(100),
@@ -208,7 +208,7 @@ async fn on_browse_archive(config: BackupConfig, archive_name: borg::ArchiveName
             mounts.insert(config.repo_id.clone());
         });
 
-        let mount = ui::utils::Async::borg_spawn(
+        let mount = ui::utils::borg::spawn(
             "mount_archive",
             borg::Borg::new(config.clone()),
             move |borg| borg.mount(),

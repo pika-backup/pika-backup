@@ -76,7 +76,7 @@ async fn on_remove_backup() -> Result<()> {
             s.backups.remove(&config.id);
         });
 
-        ui::utils::secret_service_delete_passwords(&config.id).err_to_msg(gettext(
+        ui::utils::secret_service::delete_passwords(&config.id).err_to_msg(gettext(
             "Failed to remove potentially remaining passwords from key storage.",
         ))?;
 

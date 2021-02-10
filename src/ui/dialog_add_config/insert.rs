@@ -158,7 +158,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
 
             insert_backup_config(config.clone())?;
             if encrypted && ui.password_store().get_active() {
-                if let Err(err) = ui::utils::secret_service_set_password(&config, &password) {
+                if let Err(err) = ui::utils::secret_service::set_password(&config, &password) {
                     return Err(Message::new(gettext("Failed to store password."), err).into());
                 }
             }
@@ -181,7 +181,7 @@ async fn add_repo_config(
 }
 
 async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Result<()> {
-    let result = ui::utils::Async::borg_only_repo_suggest_store(
+    let result = ui::utils::borg::only_repo_suggest_store(
         "borg::peek",
         borg::BorgOnlyRepo::new(repo.clone()),
         |borg| borg.peek(),
@@ -197,7 +197,7 @@ async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Re
             let config = config::BackupConfig::new(repo.clone(), info, encrypted);
             insert_backup_config(config.clone())?;
             ui::page_detail::view_backup_conf(&config.id);
-            ui::utils::store_password(&config, &pw_data)?;
+            ui::utils::secret_service::store_password(&config, &pw_data)?;
 
             Ok(())
         }

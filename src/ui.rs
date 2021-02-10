@@ -8,6 +8,7 @@ use crate::ui;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
+mod app_window;
 mod backup_status;
 #[allow(dead_code)]
 #[allow(clippy::new_without_default)]
@@ -63,6 +64,8 @@ pub fn main() {
 }
 
 fn on_ctrlc() -> Continue {
+    debug!("Quit: SIGINT (Ctrl+C)");
+
     gtk_app().release();
     Continue(true)
 }
@@ -120,18 +123,9 @@ fn on_startup(_app: &gtk::Application) {
     ui::page_overview::init();
     ui::page_pending::init();
     ui::dialog_info::init();
+    ui::app_window::init();
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
-
-    main_ui().window().connect_delete_event(|_, _| on_delete());
-
-    // decorate headerbar of pre-release versions
-    if !option_env!("APPLICATION_ID_SUFFIX")
-        .unwrap_or_default()
-        .is_empty()
-    {
-        main_ui().window().get_style_context().add_class("devel");
-    }
 }
 
 fn on_activate(_app: &gtk::Application) {
@@ -146,20 +140,11 @@ fn on_activate(_app: &gtk::Application) {
     Handler::run(ui::update_config::run());
 }
 
-fn on_delete() -> Inhibit {
-    if is_backup_running() {
-        Handler::run(quit());
-        Inhibit(true)
-    } else {
-        Inhibit(false)
-    }
-}
-
 fn init_timeouts() {
     glib::timeout_add_local(1000, move || {
         let inhibit_cookie = INHIBIT_COOKIE.get();
 
-        if is_backup_running() {
+        if utils::borg::is_backup_running() {
             if inhibit_cookie.is_none() {
                 INHIBIT_COOKIE.update(|c| {
                     *c = Some(gtk_app().inhibit(
@@ -179,23 +164,33 @@ fn init_timeouts() {
     });
 }
 
-/// checks if there is any running backup
-fn is_backup_running() -> bool {
-    !BACKUP_COMMUNICATION.load().is_empty()
-}
-
 async fn quit() -> Result<()> {
-    if is_backup_running() {
-        ui::utils::confirmation_dialog(
-            &gettext("Abort running backup creation?"),
-            &gettext("The backup will remain incomplete if aborted now."),
-            &gettext("Continue"),
-            &gettext("Abort"),
-        )
-        .await?;
+    debug!("Running quit routine");
+    if utils::borg::is_backup_running() {
+        let permission = utils::get_background_permission()
+            .await
+            .unwrap_or_else(|err| {
+                warn!(
+                    "background portal: Failed, maybe it's not supported: {:?}",
+                    err
+                );
+                true
+            });
+        if permission {
+            main_ui().window().hide();
+        } else {
+            ui::utils::confirmation_dialog(
+                &gettext("Abort running backup creation?"),
+                &gettext("The backup will remain incomplete if aborted now."),
+                &gettext("Continue"),
+                &gettext("Abort"),
+            )
+            .await?;
+            gtk_app().quit();
+        }
+    } else {
+        gtk_app().quit();
     }
-
-    gtk_app().quit();
 
     Ok(())
 }
@@ -216,6 +211,7 @@ fn init_actions() {
 
     let action = gio::SimpleAction::new("quit", None);
     action.connect_activate(|_, _| {
+        debug!("Potential quit: Action app.quit (Ctrl+Q)");
         Handler::run(quit());
     });
     gtk_app().add_action(&action);

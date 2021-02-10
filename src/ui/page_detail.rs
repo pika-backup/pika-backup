@@ -197,7 +197,7 @@ pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
     });
     refresh_status();
 
-    let result = ui::utils::Async::borg_spawn(
+    let result = ui::utils::borg::spawn(
         "borg::create",
         borg::Borg::new(config.clone()),
         move |borg| borg.create(communication),
