@@ -33,13 +33,17 @@ pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::Dial
         ui.encryption_box().hide();
         ui.add_button().show();
         ui.add_button().grab_default();
-    } else if let Some(path) = gio::File::new_for_uri(&name).get_path() {
+    } else {
         page_pending::show(&gettext("Loading backup repository"));
         ui.dialog().hide();
-        execute(
-            add_repo_config(BackupRepo::new_local_from_path(path), ui.clone()),
-            ui.dialog(),
-        );
+
+        let uri = name;
+        if let Some(path) = gio::File::new_for_uri(&uri).get_path() {
+            execute(
+                add_repo_config(BackupRepo::new_local_from_path(path), ui.clone()),
+                ui.dialog(),
+            );
+        }
     }
 }
 
@@ -109,7 +113,15 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
             .map(|x| x.get_child(ui.init_dir().get_text().as_str()).unwrap())
             .and_then(|x| x.get_path())
         {
-            Ok(BackupRepo::new_local_from_path(path))
+            if let Some(mount) = ui.init_path().get_file().and_then(|file| {
+                file.find_enclosing_mount(Some(&gio::Cancellable::new()))
+                    .ok()
+            }) {
+                let uri = gio::File::new_for_path(&path).get_uri().to_string();
+                Ok(BackupRepo::new_local_from_mount(mount, path, uri))
+            } else {
+                Ok(BackupRepo::new_local_from_path(path))
+            }
         } else {
             Err(Message::short(gettext("A repository location has to be given.")).into())
         }

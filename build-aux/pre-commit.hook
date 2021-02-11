@@ -13,3 +13,9 @@ codespell -L crate -L ser src/
 
 ./build-aux/generate-ui-bindings.py
 git diff --exit-code src/ui/builder.rs
+
+./build-aux/generate-manifest.sh 2> /dev/null
+git diff --exit-code build-aux/generated-sources.json
+
+./build-aux/generate-potfile.sh 2> /dev/null
+git diff --exit-code po/POTFILES.in

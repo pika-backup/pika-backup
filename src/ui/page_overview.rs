@@ -129,19 +129,7 @@ fn refresh() {
 
         // Repo Name
 
-        let mut location = String::new();
-
-        if let config::BackupRepo::Local { mount_name, .. } = &config.repo {
-            location = format!(
-                "{} – {}",
-                mount_name.as_ref().map(|x| x.as_str()).unwrap_or_default(),
-                config.repo.get_subtitle(),
-            )
-        } else {
-            location.push_str(&config.repo.to_string());
-        }
-
-        row.location().set_text(&location);
+        row.location().set_text(&config.repo.location());
 
         // Include
 

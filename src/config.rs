@@ -9,6 +9,9 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path;
 use zeroize::Zeroizing;
 
+/// Compatibility config version
+pub static VERSION: u16 = 1;
+
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct ConfigId(String);
 
@@ -59,7 +62,7 @@ impl BackupConfig {
         exclude.insert(Pattern::PathPrefix(".cache".into()));
 
         Self {
-            config_version: crate::CONFIG_VERSION,
+            config_version: VERSION,
             id: ConfigId::new(glib::uuid_string_random().to_string()),
             repo,
             repo_id: info.repository.id,
@@ -99,10 +102,10 @@ impl BackupConfig {
         if self.config_version == 0 {
             self.config_version = 1;
 
-            if let BackupRepo::Local {
+            if let BackupRepo::Local(RepoLocal {
                 ref mut icon_symbolic,
                 ..
-            } = self.repo
+            }) = self.repo
             {
                 *icon_symbolic = icon_symbolic_new
                     .and_then(|icon| gio::IconExt::to_string(&icon))
@@ -160,68 +163,90 @@ pub type Password = Zeroizing<Vec<u8>>;
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(tag = "type")]
 pub enum BackupRepo {
-    Local {
-        path: path::PathBuf,
-        uri: Option<String>,
-        #[serde(alias = "device")]
-        drive_name: Option<String>,
-        #[serde(alias = "label")]
-        mount_name: Option<String>,
-        volume_uuid: Option<String>,
-        removable: bool,
-        icon: Option<String>,
-        icon_symbolic: Option<String>,
-        settings: Option<BackupSettings>,
-    },
-    Remote {
-        uri: String,
-        settings: Option<BackupSettings>,
-    },
+    Local(RepoLocal),
+    Remote(RepoRemote),
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct RepoLocal {
+    /// If not absulte, this path is prefixed with the `mount_path`
+    path: path::PathBuf,
+    #[serde(default = "default_mount_path")]
+    mount_path: path::PathBuf,
+    pub uri: Option<String>,
+    #[serde(alias = "device")]
+    pub drive_name: Option<String>,
+    #[serde(alias = "label")]
+    pub mount_name: Option<String>,
+    pub volume_uuid: Option<String>,
+    pub removable: bool,
+    pub icon: Option<String>,
+    pub icon_symbolic: Option<String>,
+    pub settings: Option<BackupSettings>,
+}
+
+fn default_mount_path() -> path::PathBuf {
+    "/".into()
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct RepoRemote {
+    pub uri: String,
+    pub settings: Option<BackupSettings>,
+}
+
+impl RepoLocal {
+    pub fn path(&self) -> std::path::PathBuf {
+        self.mount_path.join(&self.path)
+    }
 }
 
 impl BackupRepo {
     pub fn new_remote(uri: String) -> Self {
-        BackupRepo::Remote {
+        BackupRepo::Remote(RepoRemote {
             uri,
             settings: None,
-        }
-    }
-
-    pub fn new_local_for_file(file: &gio::File) -> Option<Self> {
-        if let (Some(path), Some(mount)) = (
-            file.get_path(),
-            file.find_enclosing_mount(Some(&gio::Cancellable::new()))
-                .ok(),
-        ) {
-            Some(Self::new_local_from_mount(
-                mount,
-                path,
-                file.get_uri().to_string(),
-            ))
-        } else if let Some(path) = file.get_path() {
-            Some(Self::new_local_from_path(path))
-        } else {
-            None
-        }
+        })
     }
 
     pub fn new_local_from_path(path: std::path::PathBuf) -> Self {
-        BackupRepo::Local {
-            path,
-            uri: None,
-            icon: None,
-            icon_symbolic: None,
-            mount_name: None,
-            drive_name: None,
-            removable: false,
-            volume_uuid: None,
-            settings: None,
+        let file = gio::File::new_for_path(&path);
+
+        if let Ok(mount) = file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
+            Self::new_local_from_mount(mount, path, file.get_uri().to_string())
+        } else {
+            BackupRepo::Local(RepoLocal {
+                path,
+                mount_path: default_mount_path(),
+                uri: None,
+                icon: None,
+                icon_symbolic: None,
+                mount_name: None,
+                drive_name: None,
+                removable: false,
+                volume_uuid: None,
+                settings: None,
+            })
         }
     }
 
-    pub fn new_local_from_mount(mount: gio::Mount, path: std::path::PathBuf, uri: String) -> Self {
-        BackupRepo::Local {
+    pub fn new_local_from_mount(
+        mount: gio::Mount,
+        mut path: std::path::PathBuf,
+        uri: String,
+    ) -> Self {
+        let mut mount_path = "/".into();
+
+        if let Some(mount_root) = mount.get_root().unwrap().get_path() {
+            if let Ok(repo_path) = path.strip_prefix(&mount_root) {
+                mount_path = mount_root;
+                path = repo_path.to_path_buf();
+            }
+        }
+
+        BackupRepo::Local(RepoLocal {
             path,
+            mount_path,
             uri: Some(uri),
             icon: mount
                 .get_icon()
@@ -245,28 +270,47 @@ impl BackupRepo {
                 .map_or(false, gio::Drive::is_removable),
             volume_uuid: get_mount_uuid(&mount),
             settings: None,
-        }
+        })
     }
 
     pub fn icon(&self) -> String {
         match self {
-            Self::Local { icon, .. } => icon.clone().unwrap_or_else(|| String::from("folder")),
-            Self::Remote { .. } => String::from("network-server"),
+            Self::Local(local) => local.icon.clone().unwrap_or_else(|| String::from("folder")),
+            Self::Remote(_) => String::from("network-server"),
         }
     }
 
     pub fn icon_symbolic(&self) -> String {
         match self {
-            Self::Local { icon_symbolic, .. } => icon_symbolic
+            Self::Local(local) => local
+                .icon_symbolic
                 .clone()
                 .unwrap_or_else(|| String::from("folder-symbolic")),
-            Self::Remote { .. } => String::from("network-server-symbolic"),
+            Self::Remote(_) => String::from("network-server-symbolic"),
+        }
+    }
+
+    pub fn location(&self) -> String {
+        if let Self::Local(local) = self {
+            format!(
+                "{} – {}",
+                local
+                    .mount_name
+                    .as_ref()
+                    .map(|x| x.as_str())
+                    .unwrap_or_default(),
+                self.get_subtitle(),
+            )
+        } else {
+            self.to_string()
         }
     }
 
     pub fn get_uri_fuse(&self) -> Option<String> {
         match self {
-            Self::Local { uri: Some(uri), .. } if !gio::File::new_for_uri(&uri).is_native() => {
+            Self::Local(RepoLocal { uri: Some(uri), .. })
+                if !gio::File::new_for_uri(&uri).is_native() =>
+            {
                 Some(uri.clone())
             }
             _ => None,
@@ -275,29 +319,26 @@ impl BackupRepo {
 
     pub fn get_subtitle(&self) -> String {
         match self {
-            Self::Local { ref drive_name, .. } => drive_name
+            Self::Local(local) => local
+                .drive_name
                 .clone()
                 .or_else(|| self.get_uri_fuse())
                 .unwrap_or_else(|| self.to_string()),
-            Self::Remote { .. } => self.to_string(),
+            Self::Remote(_) => self.to_string(),
         }
     }
 
     pub fn set_settings(&mut self, settings: Option<BackupSettings>) {
         *match self {
-            Self::Local {
-                ref mut settings, ..
-            } => settings,
-            Self::Remote {
-                ref mut settings, ..
-            } => settings,
+            Self::Local(local) => &mut local.settings,
+            Self::Remote(remote) => &mut remote.settings,
         } = settings;
     }
 
     pub fn get_settings(&self) -> Option<BackupSettings> {
         match self {
-            Self::Local { settings, .. } => settings,
-            Self::Remote { settings, .. } => settings,
+            Self::Local(local) => &local.settings,
+            Self::Remote(remote) => &remote.settings,
         }
         .clone()
     }
@@ -306,8 +347,8 @@ impl BackupRepo {
 impl std::fmt::Display for BackupRepo {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let repo = match self {
-            Self::Local { path, .. } => path.to_string_lossy().to_string(),
-            Self::Remote { uri, .. } => uri.to_string(),
+            Self::Local(local) => local.path().to_string_lossy().to_string(),
+            Self::Remote(remote) => remote.uri.to_string(),
         };
         write!(f, "{}", repo)
     }

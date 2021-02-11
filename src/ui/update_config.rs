@@ -16,13 +16,13 @@ pub async fn run() -> Result<()> {
         .load()
         .backups
         .values()
-        .any(|config| config.config_version < crate::CONFIG_VERSION)
+        .any(|config| config.config_version < crate::config::VERSION)
     {
         return Ok(());
     }
 
     for config in SETTINGS.load().backups.values() {
-        if config.config_version < crate::CONFIG_VERSION {
+        if config.config_version < crate::config::VERSION {
             let config = ui::dialog_device_missing::updated_config(
                 config.clone(),
                 &gettext("Updating configuration for new version"),
@@ -65,7 +65,7 @@ fn update_config(id: ConfigId, list: borg::List) -> Result<()> {
     SETTINGS.update(move |settings| {
         if let Some(config) = settings.backups.get_mut(&id) {
             let icon_symbolic = match &config.repo {
-                config::BackupRepo::Local { path, .. } => gio::File::new_for_path(path)
+                config::BackupRepo::Local(local) => gio::File::new_for_path(local.path())
                     .find_enclosing_mount(Some(&gio::Cancellable::new()))
                     .ok()
                     .and_then(|m| m.get_symbolic_icon()),

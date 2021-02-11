@@ -108,6 +108,12 @@ pub fn init() {
     });
 }
 
+pub fn activate_action_backup(id: ConfigId) {
+    Handler::run(
+        async move { start_backup(SETTINGS.load().backups.get_result(&id)?.clone()).await },
+    );
+}
+
 fn is_visible() -> bool {
     main_ui().detail_stack().get_visible_child()
         == Some(main_ui().page_backup().upcast::<gtk::Widget>())
@@ -152,7 +158,14 @@ async fn on_stop_backup_create() -> Result<()> {
 }
 
 async fn on_backup_run() -> Result<()> {
-    startup_backup(SETTINGS.load().backups.get_active_result()?.clone()).await
+    start_backup(SETTINGS.load().backups.get_active_result()?.clone()).await
+}
+
+async fn start_backup(config: config::BackupConfig) -> Result<()> {
+    gtk_app().hold();
+    let result = startup_backup(config).await;
+    gtk_app().release();
+    result
 }
 
 async fn startup_backup(config: config::BackupConfig) -> Result<()> {
@@ -281,12 +294,12 @@ pub fn refresh() -> Result<()> {
     }
 
     match &backup.repo {
-        config::BackupRepo::Local { ref mount_name, .. } => {
+        config::BackupRepo::Local(local) => {
             main_ui()
                 .detail_repo_row()
-                .set_title(mount_name.as_ref().map(String::as_str));
+                .set_title(local.mount_name.as_ref().map(String::as_str));
         }
-        config::BackupRepo::Remote { .. } => {
+        config::BackupRepo::Remote(_) => {
             main_ui()
                 .detail_repo_row()
                 .set_title(Some(&gettext("Remote location")));

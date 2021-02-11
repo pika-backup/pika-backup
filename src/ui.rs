@@ -136,7 +136,6 @@ fn on_activate(_app: &gtk::Application) {
     main_ui().window().present();
 
     Handler::run(init_check_borg());
-
     Handler::run(ui::update_config::run());
 }
 
@@ -177,6 +176,7 @@ async fn quit() -> Result<()> {
                 true
             });
         if permission {
+            gtk_app().remove_window(&main_ui().window());
             main_ui().window().hide();
         } else {
             ui::utils::confirmation_dialog(
@@ -204,6 +204,18 @@ fn init_actions() {
         }
     });
     gtk_app().add_action(&action);
+
+    let action_backup =
+        gio::SimpleAction::new("backup.start", Some(&String::static_variant_type()));
+    action_backup.connect_activate(|_, config_id| {
+        info!("action backup.start: called");
+        if let Some(config_id) = config_id.and_then(|v| v.get_str()) {
+            ui::page_detail::activate_action_backup(ConfigId::new(config_id.to_string()));
+        } else {
+            error!("action backup.start: Did not receivce valid config id");
+        }
+    });
+    gtk_app().add_action(&action_backup);
 
     let action = gio::SimpleAction::new("about", None);
     action.connect_activate(|_, _| ui::dialog_about::show());

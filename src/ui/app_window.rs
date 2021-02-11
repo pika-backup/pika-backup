@@ -13,6 +13,10 @@ pub fn init() {
     }
 }
 
+pub fn is_displayed() -> bool {
+    main_ui().window().get_id() != 0
+}
+
 fn on_delete() -> Inhibit {
     debug!("Potential quit: ApplicationWindow delete event");
 

@@ -225,7 +225,7 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
         &primary_text, &secondary_text
     );
 
-    if main_ui().window().get_visible() {
+    if crate::ui::app_window::is_displayed() {
         let dialog = gtk::MessageDialogBuilder::new()
             .modal(true)
             .transient_for(window)

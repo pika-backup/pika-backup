@@ -9,8 +9,6 @@ pub mod prelude;
 #[macro_use]
 extern crate async_trait;
 
-static CONFIG_VERSION: u16 = 1;
-
 static BORG_DELAY_RECONNECT: std::time::Duration = std::time::Duration::from_secs(60);
 static BORG_MAX_RECONNECT: u16 = 30;
 static BORG_LOCK_WAIT_RECONNECT: std::time::Duration = std::time::Duration::from_secs(60 * 7);

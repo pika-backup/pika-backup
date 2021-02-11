@@ -14,22 +14,19 @@ pub async fn show() {
 
     let backup = SETTINGS.load().backups.get_active().unwrap().clone();
     match &backup.repo {
-        config::BackupRepo::Local {
-            ref mount_name,
-            ref drive_name,
-            ref path,
-            ..
-        } => {
+        config::BackupRepo::Local(repo) => {
             storage
                 .volume()
-                .set_text(&mount_name.clone().unwrap_or_default());
+                .set_text(&repo.mount_name.clone().unwrap_or_default());
             storage
                 .device()
-                .set_text(&drive_name.clone().unwrap_or_default());
-            storage.path().set_text(&path.to_string_lossy());
+                .set_text(&repo.drive_name.clone().unwrap_or_default());
+            storage.path().set_text(&repo.path().to_string_lossy());
             storage.disk().show();
 
-            if let Some((fs_size, fs_free)) = ui::utils::fs_usage(&gio::File::new_for_path(&path)) {
+            if let Some((fs_size, fs_free)) =
+                ui::utils::fs_usage(&gio::File::new_for_path(&repo.path()))
+            {
                 storage
                     .fs_size()
                     .set_text(&glib::format_size(fs_size).unwrap());
