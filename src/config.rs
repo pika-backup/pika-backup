@@ -294,11 +294,7 @@ impl BackupRepo {
         if let Self::Local(local) = self {
             format!(
                 "{} – {}",
-                local
-                    .mount_name
-                    .as_ref()
-                    .map(|x| x.as_str())
-                    .unwrap_or_default(),
+                local.mount_name.as_deref().unwrap_or_default(),
                 self.get_subtitle(),
             )
         } else {

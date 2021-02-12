@@ -189,8 +189,6 @@ impl Borg {
                 communication.status.update(move |status| {
                     status.estimated_size = estimated_size;
                 });
-            } else {
-                return Err(Error::UserAborted);
             }
         }
 

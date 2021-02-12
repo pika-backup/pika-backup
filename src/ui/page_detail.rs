@@ -205,6 +205,13 @@ async fn startup_backup(config: config::BackupConfig) -> Result<()> {
 pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
     let communication: borg::Communication = Default::default();
 
+    // skip size estimate if running in background
+    if !crate::ui::app_window::is_displayed() {
+        communication.instruction.update(|inst| {
+            *inst = borg::Instruction::AbortSizeEstimation;
+        });
+    }
+
     BACKUP_COMMUNICATION.update(|x| {
         x.insert(config.id.clone(), communication.clone());
     });
@@ -297,7 +304,7 @@ pub fn refresh() -> Result<()> {
         config::BackupRepo::Local(local) => {
             main_ui()
                 .detail_repo_row()
-                .set_title(local.mount_name.as_ref().map(String::as_str));
+                .set_title(local.mount_name.as_deref());
         }
         config::BackupRepo::Remote(_) => {
             main_ui()
