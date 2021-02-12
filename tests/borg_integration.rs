@@ -14,17 +14,14 @@ fn borg_bin_missing() {
     init();
     std::env::set_var("PATH", "");
     let result = Borg::new(config()).create(status());
-    assert_matches!(
-        result,
-        Err(borg::Error::Io(std::io::Error { .. }))
-    );
+    assert_matches!(result, Err(borg::Error::Io(std::io::Error { .. })));
 }
 
 #[test]
 fn simple_backup() {
     init();
     let borg = Borg::new(config());
-    assert_matches!(borg.init(), Ok(borg::List{..}));
+    assert_matches!(borg.init(), Ok(borg::List { .. }));
     assert_matches!(borg.create(status()), Ok(_));
 }
 
