@@ -358,6 +358,18 @@ fn pathmatch(entry: &walkdir::DirEntry, pattern: &config::Pattern) -> bool {
     }
 }
 
+pub fn reestimate_size(config: &config::BackupConfig, mut communication: Communication) {
+    communication.instruction = Default::default();
+
+    let estimated_size = estimate_size(&config, &communication);
+
+    if estimated_size.is_some() {
+        communication.status.update(move |status| {
+            status.estimated_size = estimated_size;
+        });
+    }
+}
+
 pub fn estimate_size(backup: &config::BackupConfig, communication: &Communication) -> Option<u64> {
     let mut exclude = backup.exclude_dirs_internal();
 

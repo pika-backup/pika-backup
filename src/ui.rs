@@ -137,6 +137,18 @@ fn on_activate(_app: &gtk::Application) {
 
     Handler::run(init_check_borg());
     Handler::run(ui::update_config::run());
+
+    // redo size estimates for backups running in background before
+    std::thread::spawn(|| {
+        for (config_id, communication) in BACKUP_COMMUNICATION.load().iter() {
+            if communication.status.load().estimated_size.is_none() {
+                debug!("A running backup is lacking size estimate");
+                if let Some(config) = SETTINGS.load().backups.get(config_id) {
+                    borg::reestimate_size(config, communication.clone());
+                }
+            }
+        }
+    });
 }
 
 fn init_timeouts() {
