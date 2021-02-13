@@ -21,6 +21,16 @@ pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<borg::RepoId>>> = Lazy::new(Defau
 /// Is the app currently shutting down
 pub static IS_SHUTDOWN: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
 
+pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
+    std::env::var("LC_NUMERIC")
+        .ok()
+        .as_deref()
+        .and_then(|s| s.split('.').next())
+        .map(|s| s.replace("_", "-"))
+        .and_then(|name| num_format::Locale::from_name(&name).ok())
+        .unwrap_or(num_format::Locale::fr)
+});
+
 thread_local!(
     static MAIN_UI_STORE: Rc<ui::builder::Main> = Rc::new(ui::builder::Main::new());
     static GTK_APPLICATION: Rc<gtk::Application> = Rc::new({

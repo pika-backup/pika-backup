@@ -282,6 +282,58 @@ impl DialogEncryptionPassword {
     }
 }
 
+pub struct DialogInfo {
+    builder: gtk::Builder,
+}
+
+impl DialogInfo {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                data_dir!(),
+                "/ui/dialog_info.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::prelude::BuilderExtManual::get_object(&self.builder, id)
+            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/dialog_info.ui'", id))
+    }
+
+    pub fn detail_current_path(&self) -> gtk::Label {
+        self.get("detail_current_path")
+    }
+
+    pub fn detail_deduplicated_size(&self) -> gtk::Label {
+        self.get("detail_deduplicated_size")
+    }
+
+    pub fn detail_info_error(&self) -> gtk::Label {
+        self.get("detail_info_error")
+    }
+
+    pub fn detail_info_progress(&self) -> gtk::ProgressBar {
+        self.get("detail_info_progress")
+    }
+
+    pub fn detail_info_status(&self) -> gtk::Label {
+        self.get("detail_info_status")
+    }
+
+    pub fn detail_info_substatus(&self) -> gtk::Label {
+        self.get("detail_info_substatus")
+    }
+
+    pub fn detail_original_size(&self) -> gtk::Label {
+        self.get("detail_original_size")
+    }
+
+    pub fn progress_archive_box(&self) -> gtk::Grid {
+        self.get("progress_archive_box")
+    }
+}
+
 pub struct DialogStorage {
     builder: gtk::Builder,
 }
@@ -478,8 +530,16 @@ impl Main {
         self.get("detail_info_substatus")
     }
 
+    pub fn detail_nfiles(&self) -> gtk::Label {
+        self.get("detail_nfiles")
+    }
+
     pub fn detail_original_size(&self) -> gtk::Label {
         self.get("detail_original_size")
+    }
+
+    pub fn detail_path_row(&self) -> libhandy::ActionRow {
+        self.get("detail_path_row")
     }
 
     pub fn detail_repo_icon(&self) -> gtk::Image {
@@ -496,6 +556,10 @@ impl Main {
 
     pub fn detail_stack(&self) -> gtk::Stack {
         self.get("detail_stack")
+    }
+
+    pub fn detail_stats(&self) -> gtk::ListBox {
+        self.get("detail_stats")
     }
 
     pub fn detail_status_right(&self) -> gtk::Box {
@@ -572,10 +636,6 @@ impl Main {
 
     pub fn primary_menu_button(&self) -> gtk::MenuButton {
         self.get("primary_menu_button")
-    }
-
-    pub fn progress_archive_box(&self) -> gtk::Grid {
-        self.get("progress_archive_box")
     }
 
     pub fn refresh_archives(&self) -> gtk::Button {

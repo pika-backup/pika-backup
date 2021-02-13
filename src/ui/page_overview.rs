@@ -191,6 +191,7 @@ pub fn refresh_status() {
                     match &status.graphic {
                         ui::backup_status::Graphic::Icon(icon) => {
                             row.status_area().remove_css_class("error");
+                            row.status_area().remove_css_class("warning");
                             row.status_area().add_css_class("dim-label");
 
                             row.status_icon()
@@ -198,8 +199,18 @@ pub fn refresh_status() {
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
                         ui::backup_status::Graphic::ErrorIcon(icon) => {
-                            row.status_area().add_css_class("error");
+                            row.status_area().remove_css_class("warning");
                             row.status_area().remove_css_class("dim-label");
+                            row.status_area().add_css_class("error");
+
+                            row.status_icon()
+                                .set_from_icon_name(Some(icon), gtk::IconSize::Button);
+                            row.status_graphic().set_visible_child(&row.status_icon());
+                        }
+                        ui::backup_status::Graphic::WarningIcon(icon) => {
+                            row.status_area().remove_css_class("error");
+                            row.status_area().remove_css_class("dim-label");
+                            row.status_area().add_css_class("warning");
 
                             row.status_icon()
                                 .set_from_icon_name(Some(icon), gtk::IconSize::Button);
@@ -207,6 +218,7 @@ pub fn refresh_status() {
                         }
                         ui::backup_status::Graphic::Spinner => {
                             row.status_area().remove_css_class("error");
+                            row.status_area().remove_css_class("warning");
                             row.status_area().add_css_class("dim-label");
 
                             row.status_graphic()

@@ -229,8 +229,16 @@ pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
     });
     let user_aborted = matches!(result, Err(borg::Error::UserAborted));
     // This is because the error cannot be cloned
-    let result_string_err = result.map_err(|err| format!("{}", err));
-    let run_info = Some(config::RunInfo::new(result_string_err.clone()));
+    let result_config = match result {
+        Err(borg::Error::BorgCreate(err)) => Err(config::RunError::WithLevel {
+            message: format!("{}", err),
+            level: err.level,
+            stats: err.stats,
+        }),
+        Err(err) => Err(config::RunError::Simple(format!("{}", err))),
+        Ok(stats) => Ok(stats),
+    };
+    let run_info = Some(config::RunInfo::new(result_config.clone()));
 
     SETTINGS.update(|settings| {
         settings.backups.get_mut(&config.id).unwrap().last_run = run_info.clone()
@@ -240,7 +248,7 @@ pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
     ui::write_config()?;
 
     if !user_aborted {
-        if let Err(err) = result_string_err {
+        if let Err(err) = result_config {
             return Err(Message::new(gettext("Creating a backup failed."), err).into());
         } else {
             ui::page_archives::refresh_archives_cache(config.clone()).await?;
@@ -478,7 +486,9 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
         .set_subtitle(status.subtitle.as_deref());
 
     let running = match &status.graphic {
-        ui::backup_status::Graphic::ErrorIcon(icon) | ui::backup_status::Graphic::Icon(icon) => {
+        ui::backup_status::Graphic::ErrorIcon(icon)
+        | ui::backup_status::Graphic::WarningIcon(icon)
+        | ui::backup_status::Graphic::Icon(icon) => {
             main_ui()
                 .status_graphic()
                 .set_visible_child(&main_ui().status_icon());
@@ -499,9 +509,14 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
 
     if matches!(status.graphic, ui::backup_status::Graphic::ErrorIcon(_)) {
         main_ui().status_icon().add_css_class("error");
+        main_ui().status_icon().remove_css_class("warning");
         main_ui().detail_hint_icon().show();
+    } else if matches!(status.graphic, ui::backup_status::Graphic::WarningIcon(_)) {
+        main_ui().status_icon().add_css_class("warning");
+        main_ui().status_icon().remove_css_class("error");
     } else {
         main_ui().status_icon().remove_css_class("error");
+        main_ui().status_icon().remove_css_class("warning");
         main_ui().detail_hint_icon().hide();
     }
 

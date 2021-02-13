@@ -5,5 +5,5 @@ git ls-files \
 	grep -v builder.rs \
 	> po/POTFILES.in
 
-cd po
-intltool-update --maintain
+#cd po
+#intltool-update --maintain

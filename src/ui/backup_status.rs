@@ -8,6 +8,26 @@ use crate::config::*;
 use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
+pub struct Display {
+    pub title: String,
+    pub subtitle: Option<String>,
+    pub graphic: Graphic,
+    pub progress: Option<f64>,
+    pub stats: Option<Stats>,
+}
+
+pub enum Stats {
+    Progress(msg::ProgressArchive),
+    Final(RunInfo),
+}
+
+pub enum Graphic {
+    Icon(String),
+    WarningIcon(String),
+    ErrorIcon(String),
+    Spinner,
+}
+
 impl Display {
     pub fn new_from_id(config_id: &ConfigId) -> Self {
         if let Some(communication) = BACKUP_COMMUNICATION.load().get(config_id) {
@@ -35,10 +55,9 @@ impl From<&config::RunInfo> for Display {
                 )),
                 graphic: Graphic::Icon("emblem-default-symbolic".to_string()),
                 progress: None,
-                run_info: Some(run_info.clone()),
-                progress_archive: None,
+                stats: Some(Stats::Final(run_info.clone())),
             },
-            Err(_) => Self {
+            Err(err) if err.level() >= borg::msg::LogLevel::ERROR => Self {
                 title: gettext("Last backup failed"),
                 subtitle: Some(format!(
                     "About {}",
@@ -46,8 +65,17 @@ impl From<&config::RunInfo> for Display {
                 )),
                 graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),
                 progress: None,
-                run_info: Some(run_info.clone()),
-                progress_archive: None,
+                stats: Some(Stats::Final(run_info.clone())),
+            },
+            Err(_) => Self {
+                title: gettext("Last backup completed with warnings"),
+                subtitle: Some(format!(
+                    "About {}",
+                    (run_info.end - Local::now()).humanize()
+                )),
+                graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
+                progress: None,
+                stats: Some(Stats::Final(run_info.clone())),
             },
         }
     }
@@ -58,13 +86,13 @@ impl From<&borg::Communication> for Display {
         let status = communication.status.get();
 
         let mut progress = None;
-        let mut progress_archive = None;
+        let mut stats = None;
         let mut subtitle = None;
 
         if let Some(ref last_message) = status.last_message {
             match *last_message {
                 msg::Progress::Archive(ref progress_archive_ref) => {
-                    progress_archive = Some(progress_archive_ref.clone());
+                    stats = Some(Stats::Progress(progress_archive_ref.clone()));
                     if let Some(total) = status.estimated_size {
                         let fraction = progress_archive_ref.original_size as f64 / total as f64;
                         progress = Some(fraction);
@@ -124,8 +152,7 @@ impl From<&borg::Communication> for Display {
             subtitle,
             graphic: Graphic::Spinner,
             progress,
-            run_info: None,
-            progress_archive,
+            stats,
         }
     }
 }
@@ -137,23 +164,7 @@ impl Default for Display {
             subtitle: Some(gettext("Start by creating your first backup")),
             graphic: Graphic::Icon("dialog-information-symbolic".to_string()),
             progress: None,
-            run_info: None,
-            progress_archive: None,
+            stats: None,
         }
     }
-}
-
-pub struct Display {
-    pub title: String,
-    pub subtitle: Option<String>,
-    pub graphic: Graphic,
-    pub progress: Option<f64>,
-    pub run_info: Option<RunInfo>,
-    pub progress_archive: Option<msg::ProgressArchive>,
-}
-
-pub enum Graphic {
-    Icon(String),
-    ErrorIcon(String),
-    Spinner,
 }

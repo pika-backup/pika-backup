@@ -1,3 +1,5 @@
+use super::json::Stats;
+
 #[allow(non_camel_case_types)]
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum MsgId {
@@ -35,16 +37,49 @@ impl LogMessageEnum {
             Self::UnparsableErr(ref message) => message.to_string(),
         }
     }
+
+    pub fn level(&self) -> LogLevel {
+        match self {
+            Self::ParsedErr(message) => message.levelname.clone(),
+            Self::UnparsableErr(_) => LogLevel::NONE,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
-pub struct LogMessageCollection {
+pub struct LogCollection {
     pub messages: Vec<LogMessageEnum>,
+    pub level: LogLevel,
 }
 
-impl LogMessageCollection {
+impl LogCollection {
     pub fn new(messages: Vec<LogMessageEnum>) -> Self {
-        Self { messages }
+        let level = messages
+            .iter()
+            .map(|e| e.level())
+            .max()
+            .unwrap_or(LogLevel::NONE);
+
+        Self { messages, level }
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct CreateLogCollection {
+    pub messages: Vec<LogMessageEnum>,
+    pub level: LogLevel,
+    pub stats: Option<Stats>,
+}
+
+impl CreateLogCollection {
+    pub fn new(messages: Vec<LogMessageEnum>, stats: Option<Stats>) -> Self {
+        let collection = LogCollection::new(messages);
+
+        Self {
+            messages: collection.messages,
+            level: collection.level,
+            stats,
+        }
     }
 }
 
@@ -86,7 +121,7 @@ impl std::fmt::Display for LogMessageEnum {
     }
 }
 
-impl std::fmt::Display for LogMessageCollection {
+impl std::fmt::Display for LogCollection {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(
             f,
@@ -100,7 +135,19 @@ impl std::fmt::Display for LogMessageCollection {
     }
 }
 
-impl std::error::Error for LogMessageCollection {}
+impl std::fmt::Display for CreateLogCollection {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.messages
+                .iter()
+                .map(|m| format!("{}", &m))
+                .collect::<Vec<String>>()
+                .join("\n")
+        )
+    }
+}
 
 impl LogMessageEnum {
     pub fn has_borg_msgid(&self, msgid_needle: &MsgId) -> bool {
@@ -121,6 +168,7 @@ pub enum LogLevel {
     WARNING,
     ERROR,
     CRITICAL,
+    NONE,
 }
 
 #[derive(Deserialize, Clone, Debug)]

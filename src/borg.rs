@@ -178,6 +178,7 @@ impl Borg {
             ]);
         }
 
+        // estimate size
         if communication.status.load().estimated_size.is_none() && retries == 0 {
             communication
                 .status
@@ -245,15 +246,16 @@ impl Borg {
         let exit_status = output.status;
         debug!("borg::create exited with {:?}", exit_status.code());
 
+        let stats = serde_json::from_slice(&output.stdout);
+        info!("Stats: {:#?}", stats);
+
         if exit_status.success() {
-            let stats: Stats = serde_json::from_slice(&output.stdout)?;
-            info!("Stats: {:#?}", stats);
-            Ok(stats)
+            Ok(stats?)
         } else {
             Err(if errors.is_empty() {
                 error::ReturnCodeErr::new(exit_status.code()).into()
             } else {
-                LogMessageCollection::new(errors).into()
+                CreateLogCollection::new(errors, stats.ok()).into()
             })
         }
     }

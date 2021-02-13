@@ -28,7 +28,11 @@ quick_error! {
         Io(err: std::io::Error) { from() }
         Json(err: serde_json::error::Error) { from () }
         Unix(err: nix::Error) { from() }
-        Borg(err: LogMessageCollection) {
+        Borg(err: LogCollection) {
+            from()
+            display("{}", err)
+        }
+        BorgCreate(err: CreateLogCollection) {
             from()
             display("{}", err)
         }
@@ -43,7 +47,8 @@ quick_error! {
 impl Error {
     pub fn has_borg_msgid(&self, msgid_needle: &MsgId) -> bool {
         match self {
-            Self::Borg(LogMessageCollection { messages }) => {
+            Self::Borg(LogCollection { messages, .. })
+            | Self::BorgCreate(CreateLogCollection { messages, .. }) => {
                 for message in messages {
                     if message.has_borg_msgid(msgid_needle) {
                         return true;

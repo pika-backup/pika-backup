@@ -42,7 +42,7 @@ pub fn check_stderr(output: &std::process::Output) -> Result<()> {
         );
         Err(ReturnCodeErr::new(output.status.code()).into())
     } else {
-        Err(LogMessageCollection::new(errors).into())
+        Err(LogCollection::new(errors).into())
     }
 }
 

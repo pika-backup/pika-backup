@@ -968,7 +968,7 @@ This might take a while.</property>
   <object class="GtkDialog" id="detail_running_backup_info">
     <property name="can-focus">False</property>
     <property name="modal">True</property>
-    <property name="default-width">450</property>
+    <property name="default-width">500</property>
     <property name="default-height">400</property>
     <property name="type-hint">dialog</property>
     <property name="transient-for">window</property>
@@ -1048,6 +1048,9 @@ This might take a while.</property>
                                 <property name="can-focus">False</property>
                                 <property name="label">&lt;substatus&gt;</property>
                                 <property name="xalign">0</property>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1074,107 +1077,99 @@ This might take a while.</property>
                           </packing>
                         </child>
                         <child>
-                          <!-- n-columns=2 n-rows=3 -->
-                          <object class="GtkGrid" id="progress_archive_box">
+                          <object class="GtkListBox" id="detail_stats">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="row-spacing">6</property>
-                            <property name="column-spacing">12</property>
+                            <property name="selection-mode">none</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="HdyActionRow">
                                 <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Saved</property>
-                                <property name="justify">right</property>
-                                <property name="wrap">True</property>
-                                <property name="xalign">1</property>
-                                <style>
-                                  <class name="dim-label"/>
-                                </style>
+                                <property name="can-focus">True</property>
+                                <property name="activatable">False</property>
+                                <property name="selectable">False</property>
+                                <property name="title" translatable="yes">Amount saved</property>
+                                <child>
+                                  <object class="GtkLabel" id="detail_original_size">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">&lt;space&gt;</property>
+                                    <property name="xalign">0</property>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
                               </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">0</property>
-                              </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="detail_original_size">
+                              <object class="HdyActionRow">
                                 <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label">&lt;space&gt;</property>
-                                <property name="xalign">0</property>
+                                <property name="can-focus">True</property>
+                                <property name="activatable">False</property>
+                                <property name="selectable">False</property>
+                                <property name="title" translatable="yes">Number of files saved</property>
+                                <child>
+                                  <object class="GtkLabel" id="detail_nfiles">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">&lt;nfiles&gt;</property>
+                                    <property name="xalign">0</property>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
                               </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">0</property>
-                              </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="HdyActionRow">
                                 <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Backup space needed</property>
-                                <property name="justify">right</property>
-                                <property name="wrap">True</property>
-                                <property name="xalign">1</property>
-                                <style>
-                                  <class name="dim-label"/>
-                                </style>
+                                <property name="can-focus">True</property>
+                                <property name="activatable">False</property>
+                                <property name="selectable">False</property>
+                                <property name="title" translatable="yes">Backup space needed</property>
+                                <child>
+                                  <object class="GtkLabel" id="detail_deduplicated_size">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">&lt;space&gt;</property>
+                                    <property name="xalign">0</property>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
                               </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">1</property>
-                              </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="detail_deduplicated_size">
+                              <object class="HdyActionRow" id="detail_path_row">
                                 <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label">&lt;space&gt;</property>
-                                <property name="xalign">0</property>
-                                <property name="yalign">0</property>
+                                <property name="can-focus">True</property>
+                                <property name="activatable">False</property>
+                                <property name="selectable">False</property>
+                                <property name="title" translatable="yes">Current file</property>
+                                <child>
+                                  <object class="GtkLabel" id="detail_current_path">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">&lt;path&gt;</property>
+                                    <property name="wrap">True</property>
+                                    <property name="wrap-mode">char</property>
+                                    <property name="ellipsize">middle</property>
+                                    <property name="xalign">0</property>
+                                    <attributes>
+                                      <attribute name="font-desc" value="Monospace"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
                               </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">1</property>
-                              </packing>
                             </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Current file</property>
-                                <property name="justify">right</property>
-                                <property name="wrap">True</property>
-                                <property name="xalign">1</property>
-                                <property name="yalign">0</property>
-                                <style>
-                                  <class name="dim-label"/>
-                                </style>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="detail_current_path">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label">&lt;path&gt;</property>
-                                <property name="wrap">True</property>
-                                <property name="wrap-mode">char</property>
-                                <property name="xalign">0</property>
-                                <property name="yalign">0</property>
-                                <attributes>
-                                  <attribute name="font-desc" value="Monospace"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
+                            <style>
+                              <class name="content"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1201,7 +1196,7 @@ This might take a while.</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">3</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                       </object>
