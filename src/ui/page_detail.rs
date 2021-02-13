@@ -249,7 +249,11 @@ pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
 
     if !user_aborted {
         if let Err(err) = result_config {
-            return Err(Message::new(gettext("Creating a backup failed."), err).into());
+            if err.level() >= borg::msg::LogLevel::ERROR {
+                return Err(Message::new(gettext("Creating a backup failed."), err).into());
+            } else {
+                return Err(Message::new(gettext("Backup completed with warnings."), err).into());
+            }
         } else {
             ui::page_archives::refresh_archives_cache(config.clone()).await?;
         }

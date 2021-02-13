@@ -1,4 +1,4 @@
-use super::json::Stats;
+use super::json;
 
 #[allow(non_camel_case_types)]
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
@@ -68,12 +68,26 @@ impl LogCollection {
 pub struct CreateLogCollection {
     pub messages: Vec<LogMessageEnum>,
     pub level: LogLevel,
-    pub stats: Option<Stats>,
+    pub stats: Option<json::Stats>,
 }
 
 impl CreateLogCollection {
-    pub fn new(messages: Vec<LogMessageEnum>, stats: Option<Stats>) -> Self {
-        let collection = LogCollection::new(messages);
+    pub fn new(messages: Vec<LogMessageEnum>, stats: Option<json::Stats>) -> Self {
+        let mut collection = LogCollection::new(messages);
+
+        // consider backups if 0 files as failed
+        if let Some(json::Stats {
+            archive:
+                json::NewArchive {
+                    stats: json::NewArchiveSize { nfiles, .. },
+                    ..
+                },
+        }) = stats
+        {
+            if nfiles < 1 && collection.level < LogLevel::ERROR {
+                collection.level = LogLevel::ERROR;
+            }
+        }
 
         Self {
             messages: collection.messages,

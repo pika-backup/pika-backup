@@ -47,7 +47,7 @@ where
 #[macro_export]
 macro_rules! error {
     ($($arg:tt)+) => (
-        glib::g_log!(module_path!(), glib::LogLevel::Error, $($arg)+)
+        glib::g_log!(module_path!(), glib::LogLevel::Critical, $($arg)+)
     )
 }
 
