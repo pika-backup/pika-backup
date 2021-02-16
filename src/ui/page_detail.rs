@@ -518,6 +518,7 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
     } else if matches!(status.graphic, ui::backup_status::Graphic::WarningIcon(_)) {
         main_ui().status_icon().add_css_class("warning");
         main_ui().status_icon().remove_css_class("error");
+        main_ui().detail_hint_icon().show();
     } else {
         main_ui().status_icon().remove_css_class("error");
         main_ui().status_icon().remove_css_class("warning");
