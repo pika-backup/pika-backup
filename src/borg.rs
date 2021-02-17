@@ -13,7 +13,6 @@ use std::io::{BufRead, BufReader};
 use std::sync::Arc;
 
 use crate::config::{self, *};
-use crate::globals::*;
 use crate::prelude::*;
 
 use msg::*;

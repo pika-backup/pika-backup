@@ -41,7 +41,13 @@ pub fn app_id() -> String {
     )
 }
 
+pub fn daemon_app_id() -> String {
+    format!("{}.Daemon", app_id())
+}
+
+pub mod action;
 pub mod borg;
 pub mod config;
+pub mod daemon;
 pub mod globals;
 pub mod ui;

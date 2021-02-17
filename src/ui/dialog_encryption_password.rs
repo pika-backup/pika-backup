@@ -3,7 +3,6 @@ use gtk::prelude::*;
 use crate::ui;
 use zeroize::Zeroizing;
 
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub struct Ask {

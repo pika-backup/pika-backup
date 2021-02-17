@@ -39,11 +39,26 @@ copy_binary = custom_target(
   build_by_default: true,
   build_always_stale: true,
   install: true,
-  install_dir: get_option('prefix') / get_option('bindir'),
+  install_dir: bindir,
   output: meson.project_name(),
   command: [
     'cp',
     target_dir / rust_target / meson.project_name(),
+    '@OUTPUT@',
+  ],
+)
+
+copy_daemon_binary = custom_target(
+  'cp-daemon-binary',
+  depends: cargo_build,
+  build_by_default: true,
+  build_always_stale: true,
+  install: true,
+  install_dir: bindir,
+  output: meson.project_name() + 'd',
+  command: [
+    'cp',
+    target_dir / rust_target / meson.project_name() + 'd',
     '@OUTPUT@',
   ],
 )

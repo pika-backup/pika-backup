@@ -6,7 +6,6 @@ use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
 
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 use ashpd::desktop::background;

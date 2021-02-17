@@ -59,8 +59,6 @@ $ cargo run
 Using meson also installs a `.desktop`-file etc.
 
 ```
-$ meson builddir && cd builddir
-$ meson compile
-$ meson test
-$ meson install
+$ meson --sysconfdir /etc builddir
+$ ninja install -C builddir
 ```

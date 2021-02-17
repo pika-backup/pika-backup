@@ -10,7 +10,6 @@ use crate::config;
 use crate::config::*;
 use crate::ui;
 use crate::ui::builder;
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 use ui::page_pending;
 

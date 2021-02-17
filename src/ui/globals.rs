@@ -11,7 +11,6 @@ use once_cell::sync::Lazy;
 use crate::borg;
 use crate::ui;
 
-pub static SETTINGS: Lazy<ArcSwap<crate::config::Settings>> = Lazy::new(Default::default);
 pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<BTreeMap<ConfigId, borg::Communication>>> =
     Lazy::new(Default::default);
 pub static ACTIVE_BACKUP_ID: Lazy<ArcSwap<Option<ConfigId>>> = Lazy::new(Default::default);

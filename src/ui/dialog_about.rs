@@ -1,7 +1,6 @@
 use gtk::prelude::*;
 
 use crate::ui;
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub fn show() {

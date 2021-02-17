@@ -1,5 +1,3 @@
-datadir = get_option('prefix') / get_option('datadir')
-bindir = get_option('prefix') / get_option('bindir')
 podir = '../po'
 
 application_id = run_command('cat', 'APPLICATION_ID').stdout() + get_option('app_id_suffix')
@@ -15,7 +13,13 @@ i18n.merge_file(
     output: '@0@.desktop'.format(application_id),
     po_dir: podir,
     install: true,
-    install_dir: datadir / 'applications'
+    install_dir: usrdir / 'applications'
+)
+
+install_data(
+    'app.Daemon.desktop',
+    rename: '@0@.Daemon.desktop'.format(application_id),
+    install_dir: etcdir / 'xdg' / 'autostart'
 )
 
 i18n.merge_file(
@@ -28,36 +32,35 @@ i18n.merge_file(
     output: '@0@.metainfo.xml'.format(application_id),
     po_dir: podir,
     install: true,
-    install_dir: datadir / 'metainfo'
+    install_dir: usrdir / 'metainfo'
 )
-
 
 configure_file(
     input: 'app.service.in',
     output: '@0@.service'.format(application_id),
     configuration: { 'app_id': application_id, 'bindir': bindir },
-    install_dir: datadir / 'dbus-1' / 'services'
+    install_dir: usrdir / 'dbus-1' / 'services'
 )
 
 install_data(
     'app-symbolic.svg',
     rename: '@0@-symbolic.svg'.format(application_id),
-    install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+    install_dir: usrdir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
 
 install_data(
     '@0@.svg'.format('app' + get_option('app_id_suffix')),
     rename: '@0@.svg'.format(application_id),
-    install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+    install_dir: usrdir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
 
 meson.add_install_script(
     find_program('update-desktop-database').path(),
-    datadir / 'applications'
+    usrdir / 'applications'
 )
 
 meson.add_install_script(
     find_program('gtk-update-icon-cache').path(),
     '-qtf',
-    datadir / 'icons' / 'hicolor'
+    usrdir / 'icons' / 'hicolor'
 )

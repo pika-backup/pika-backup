@@ -8,7 +8,6 @@ use libhandy::prelude::*;
 
 use crate::ui;
 use crate::ui::builder;
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub fn new_backup() {

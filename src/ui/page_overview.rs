@@ -6,7 +6,6 @@ use std::sync::RwLock;
 
 use crate::config;
 use crate::ui;
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 thread_local!(

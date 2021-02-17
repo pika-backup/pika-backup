@@ -4,7 +4,6 @@ use std::rc::Rc;
 
 use crate::config;
 use crate::ui;
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub async fn updated_config(

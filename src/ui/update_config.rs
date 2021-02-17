@@ -1,7 +1,6 @@
 use crate::borg::{self, prelude::*};
 use crate::config;
 use crate::ui;
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 use gio::prelude::*;

@@ -5,7 +5,6 @@ use crate::borg::msg;
 use crate::borg::Run;
 use crate::config;
 use crate::config::*;
-use crate::ui::globals::*;
 use crate::ui::prelude::*;
 
 pub struct Display {

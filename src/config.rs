@@ -401,7 +401,7 @@ impl Settings {
     }
 
     pub fn default_path() -> std::io::Result<std::path::PathBuf> {
-        let mut path = crate::globals::CONFIG_DIR.clone();
+        let mut path = CONFIG_DIR.clone();
         path.push(env!("CARGO_PKG_NAME"));
         std::fs::create_dir_all(&path)?;
         path.push("config.json");
@@ -422,7 +422,7 @@ pub fn absolute(path: &path::Path) -> path::PathBuf {
     HOME_DIR.join(path)
 }
 
-fn get_mount_uuid(mount: &gio::Mount) -> Option<String> {
+pub fn get_mount_uuid(mount: &gio::Mount) -> Option<String> {
     let volume = mount.get_volume();
 
     volume
