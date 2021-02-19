@@ -252,7 +252,7 @@ impl Borg {
             Ok(stats?)
         } else {
             Err(if errors.is_empty() {
-                error::ReturnCodeErr::new(exit_status.code()).into()
+                error::ReturnCodeError::new(exit_status.code()).into()
             } else {
                 CreateLogCollection::new(errors, stats.ok()).into()
             })

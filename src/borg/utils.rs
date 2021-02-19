@@ -40,7 +40,7 @@ pub fn check_stderr(output: &std::process::Output) -> Result<()> {
             "borg return code is '{:?}' but couldn't find an error message",
             output.status.code()
         );
-        Err(ReturnCodeErr::new(output.status.code()).into())
+        Err(ReturnCodeError::new(output.status.code()).into())
     } else {
         Err(LogCollection::new(errors).into())
     }

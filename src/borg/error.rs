@@ -4,23 +4,15 @@ use gettextrs::gettext;
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug)]
-pub struct ReturnCodeErr {
+pub struct ReturnCodeError {
     pub code: Option<i32>,
 }
 
-impl ReturnCodeErr {
+impl ReturnCodeError {
     pub fn new(code: Option<i32>) -> Self {
         Self { code }
     }
 }
-
-impl std::fmt::Display for ReturnCodeErr {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "Return code err: {:?}", self.code)
-    }
-}
-
-impl std::error::Error for ReturnCodeErr {}
 
 quick_error! {
     #[derive(Debug)]
@@ -36,7 +28,7 @@ quick_error! {
             from()
             display("{}", err)
         }
-        BorgCode(err: ReturnCodeErr) { from() }
+        BorgReturnCode(err: ReturnCodeError) { from() }
         PasswordMissing { from(secret_service::Error) }
         UserAborted { display("{}", gettext("Aborted through user input")) }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
