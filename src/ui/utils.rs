@@ -75,29 +75,32 @@ pub async fn get_background_permission() -> zbus::fdo::Result<bool> {
 }
 
 pub trait BackupMap<T> {
-    fn get_active(&self) -> Option<&T>;
-    fn get_active_result(&self) -> Result<&T>;
-    fn get_active_mut(&mut self) -> Option<&mut T>;
+    fn get_active(&self) -> Result<&T>;
+    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T>;
+    fn get_active_mut(&mut self) -> Result<&mut T>;
     fn get_result(&self, key: &ConfigId) -> Result<&T>;
 }
 
 #[allow(clippy::implicit_hasher)]
 impl<T> BackupMap<T> for std::collections::BTreeMap<ConfigId, T> {
-    fn get_active(&self) -> Option<&T> {
-        self.get(&ACTIVE_BACKUP_ID.get()?)
+    fn get_active(&self) -> Result<&T> {
+        self.get_result(&active_config_id_result()?)
     }
 
-    fn get_active_result(&self) -> Result<&T> {
-        self.get_result(
-            &ACTIVE_BACKUP_ID
-                .get()
-                .ok_or_else(|| Message::short("There is no active backup in the interface."))?,
-        )
+    fn get_active_mut(&mut self) -> Result<&mut T> {
+        self.get_mut_result(&active_config_id_result()?)
     }
 
-    fn get_active_mut(&mut self) -> Option<&mut T> {
-        self.get_mut(&ACTIVE_BACKUP_ID.get()?)
+    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T> {
+        self.get_mut(&key).ok_or_else(|| {
+            Message::short(gettextf(
+                "Could not find backup configuration with id “{}”",
+                &[key.as_str()],
+            ))
+            .into()
+        })
     }
+
     fn get_result(&self, key: &ConfigId) -> Result<&T> {
         self.get(key).ok_or_else(|| {
             Message::short(gettextf(
@@ -107,6 +110,12 @@ impl<T> BackupMap<T> for std::collections::BTreeMap<ConfigId, T> {
             .into()
         })
     }
+}
+
+fn active_config_id_result() -> Result<ConfigId> {
+    ACTIVE_BACKUP_ID
+        .get()
+        .ok_or_else(|| Message::short("There is no active backup in the interface.").into())
 }
 
 pub async fn spawn_thread<F, R>(
@@ -254,10 +263,6 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
         });
         gtk_app().send_notification(None, &notification);
     }
-}
-
-pub fn dialog_error<S: std::fmt::Display>(error: S) {
-    show_error(error, "");
 }
 
 pub async fn confirmation_dialog(

@@ -70,30 +70,28 @@ async fn on_remove_backup() -> Result<()> {
     )
     .await?;
 
-    if let Some(config) = SETTINGS.get().backups.get_active() {
-        SETTINGS.update(move |s| {
-            s.backups.remove(&config.id);
-        });
+    let config_id = SETTINGS.get().backups.get_active()?.id.clone();
 
-        ui::utils::secret_service::delete_passwords(&config.id).err_to_msg(gettext(
-            "Failed to remove potentially remaining passwords from key storage.",
-        ))?;
+    SETTINGS.update(|s| {
+        s.backups.remove(&config_id);
+    });
 
-        ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
-        ui::write_config()?;
+    ui::utils::secret_service::delete_passwords(&config_id).err_to_msg(gettext(
+        "Failed to remove potentially remaining passwords from key storage.",
+    ))?;
 
-        if SETTINGS.load().backups.is_empty() {
-            main_ui()
-                .main_stack()
-                .set_visible_child(&main_ui().page_overview_empty());
-        } else {
-            main_ui()
-                .main_stack()
-                .set_visible_child(&main_ui().page_overview());
-        };
+    ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
+    ui::write_config()?;
+
+    if SETTINGS.load().backups.is_empty() {
+        main_ui()
+            .main_stack()
+            .set_visible_child(&main_ui().page_overview_empty());
     } else {
-        ui::utils::dialog_error(gettext("No active backup to delete."));
-    }
+        main_ui()
+            .main_stack()
+            .set_visible_child(&main_ui().page_overview());
+    };
 
     Ok(())
 }

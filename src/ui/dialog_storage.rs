@@ -4,14 +4,14 @@ use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
 
-pub async fn show() {
+pub async fn show() -> Result<()> {
     let storage = ui::builder::DialogStorage::new();
 
     storage
         .dialog()
         .set_transient_for(Some(&main_ui().window()));
 
-    let backup = SETTINGS.load().backups.get_active().unwrap().clone();
+    let backup = SETTINGS.load().backups.get_active()?.clone();
     match &backup.repo {
         config::BackupRepo::Local(repo) => {
             storage
@@ -46,4 +46,6 @@ pub async fn show() {
 
     storage.dialog().run_future().await;
     storage.dialog().close();
+
+    Ok(())
 }

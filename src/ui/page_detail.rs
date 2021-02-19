@@ -30,7 +30,7 @@ pub fn init() {
     main_ui().detail_repo_row().set_activatable(true);
     main_ui()
         .detail_repo_row()
-        .connect_activated(|_| spawn_local(ui::dialog_storage::show()));
+        .connect_activated(|_| Handler::run(ui::dialog_storage::show()));
 
     main_ui()
         .main_stack()
@@ -53,7 +53,7 @@ pub fn init() {
                         confirm_remove_include(std::path::Path::new("Home")).await
                     };
 
-                    SETTINGS.update(|settings| {
+                    SETTINGS.update_result(|settings| {
                         if !change {
                             main_ui()
                                 .include_home()
@@ -61,19 +61,18 @@ pub fn init() {
                         } else if main_ui().include_home().get_active() {
                             settings
                                 .backups
-                                .get_active_mut()
-                                .unwrap()
+                                .get_active_mut()?
                                 .include
                                 .insert(std::path::PathBuf::new());
                         } else {
                             settings
                                 .backups
-                                .get_active_mut()
-                                .unwrap()
+                                .get_active_mut()?
                                 .include
                                 .remove(&std::path::PathBuf::new());
                         }
-                    });
+                        Ok(())
+                    })?;
 
                     if change {
                         super::write_config()?;
@@ -147,17 +146,19 @@ async fn on_stop_backup_create() -> Result<()> {
     )
     .await?;
 
-    if let Some(communication) = BACKUP_COMMUNICATION.load().get_active() {
-        communication.instruction.update(|inst| {
+    BACKUP_COMMUNICATION
+        .load()
+        .get_active()?
+        .instruction
+        .update(|inst| {
             *inst = borg::Instruction::Abort;
         });
-    }
 
     Ok(())
 }
 
 async fn on_backup_run() -> Result<()> {
-    start_backup(SETTINGS.load().backups.get_active_result()?.clone()).await
+    start_backup(SETTINGS.load().backups.get_active()?.clone()).await
 }
 
 async fn start_backup(config: config::BackupConfig) -> Result<()> {
@@ -239,9 +240,10 @@ pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
     };
     let run_info = Some(config::RunInfo::new(result_config.clone()));
 
-    SETTINGS.update(|settings| {
-        settings.backups.get_mut(&config.id).unwrap().last_run = run_info.clone()
-    });
+    SETTINGS.update_result(|settings| {
+        settings.backups.get_mut_result(&config.id)?.last_run = run_info.clone();
+        Ok(())
+    })?;
     refresh_status();
 
     ui::write_config()?;
@@ -287,7 +289,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 
 // TODO: Function has too many lines
 pub fn refresh() -> Result<()> {
-    let backup = SETTINGS.load().backups.get_active_result()?.clone();
+    let backup = SETTINGS.load().backups.get_active()?.clone();
 
     let include_home = backup.include.contains(&std::path::PathBuf::new());
 
@@ -345,14 +347,10 @@ pub fn refresh() -> Result<()> {
             let path = path.clone();
             Handler::run(async move {
                 if confirm_remove_include(&path).await {
-                    SETTINGS.update(|settings| {
-                        settings
-                            .backups
-                            .get_active_mut()
-                            .unwrap()
-                            .include
-                            .remove(&path);
-                    });
+                    SETTINGS.update_result(|settings| {
+                        settings.backups.get_active_mut()?.include.remove(&path);
+                        Ok(())
+                    })?;
                     super::write_config()?;
                     refresh()?;
                 }
@@ -371,14 +369,14 @@ pub fn refresh() -> Result<()> {
             let path = file.clone();
             Handler::run(async move {
                 let path = path.clone();
-                SETTINGS.update(move |settings| {
+                SETTINGS.update_result(move |settings| {
                     settings
                         .backups
-                        .get_active_mut()
-                        .unwrap()
+                        .get_active_mut()?
                         .exclude
                         .remove(&config::Pattern::PathPrefix(path.clone()));
-                });
+                    Ok(())
+                })?;
                 super::write_config()?;
                 refresh()?;
                 Ok(())
@@ -440,14 +438,14 @@ async fn add_include() -> Result<()> {
     if let Some(path) =
         ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups")).await
     {
-        SETTINGS.update(|settings| {
+        SETTINGS.update_result(|settings| {
             settings
                 .backups
-                .get_active_mut()
-                .unwrap()
+                .get_active_mut()?
                 .include
                 .insert(rel_path(&path));
-        });
+            Ok(())
+        })?;
         super::write_config()?;
         refresh()?;
     }
@@ -459,14 +457,14 @@ async fn add_exclude() -> Result<()> {
     if let Some(path) =
         ui::utils::folder_chooser_dialog_path(&gettext("Exclude directory from backup")).await
     {
-        SETTINGS.update(|settings| {
+        SETTINGS.update_result(|settings| {
             settings
                 .backups
-                .get_active_mut()
-                .unwrap()
+                .get_active_mut()?
                 .exclude
                 .insert(config::Pattern::PathPrefix(rel_path(&path)));
-        });
+            Ok(())
+        })?;
         super::write_config()?;
         refresh()?;
     }

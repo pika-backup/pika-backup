@@ -27,23 +27,6 @@ where
     }
 }
 
-impl<T> ArcSwapExt<T> for once_cell::sync::Lazy<ArcSwap<T>>
-where
-    T: Clone,
-{
-    fn update<F: Fn(&mut T)>(&self, updater: F) {
-        (**self).rcu(|current| {
-            let mut new = T::clone(current);
-            updater(&mut new);
-            new
-        });
-    }
-
-    fn get(&self) -> T {
-        T::clone(&(**self).load_full())
-    }
-}
-
 #[macro_export]
 macro_rules! error {
     ($($arg:tt)+) => (

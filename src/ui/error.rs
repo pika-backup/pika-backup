@@ -4,7 +4,7 @@ use gtk::prelude::*;
 use super::globals::*;
 use crate::ui;
 
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq)]
 pub struct Message {
     text: String,
     secondary_text: Option<String>,
@@ -48,7 +48,7 @@ impl UserAborted {
 }
 
 quick_error! {
-    #[derive(Debug)]
+    #[derive(Debug, Eq, PartialEq)]
     pub enum Error {
         Message(err: Message) {
             from()

@@ -6,10 +6,6 @@ pub use crate::ui::utils::BackupMap;
 
 pub use gettextrs::gettext;
 
-pub fn spawn_local<F: std::future::Future<Output = ()> + 'static>(f: F) {
-    glib::MainContext::default().spawn_local(f);
-}
-
 pub fn gettextf(format: &str, args: &[&str]) -> String {
     let mut s = gettext(format);
 
@@ -17,4 +13,26 @@ pub fn gettextf(format: &str, args: &[&str]) -> String {
         s = s.replacen("{}", arg, 1)
     }
     s
+}
+
+use arc_swap::ArcSwap;
+
+pub trait ArcSwapResultExt<T> {
+    fn update_result<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()>;
+}
+
+impl<T> ArcSwapResultExt<T> for ArcSwap<T>
+where
+    T: Clone,
+{
+    fn update_result<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()> {
+        let mut result = Ok(());
+        self.rcu(|current| {
+            let mut new = T::clone(current);
+            result = updater(&mut new);
+            new
+        });
+
+        result
+    }
 }

@@ -40,13 +40,13 @@ pub fn init() {
         .detail_stack()
         .connect_property_visible_child_notify(|_| {
             if page_is_visible() {
-                show();
+                Handler::run(show());
             }
         });
 
     main_ui().refresh_archives().connect_clicked(|_| {
-        let config = SETTINGS.load().backups.get_active().unwrap().clone();
         Handler::run(async move {
+            let config = SETTINGS.load().backups.get_active()?.clone();
             ui::dialog_device_missing::updated_config(
                 config.clone(),
                 &gettext("Update archive list"),
@@ -96,7 +96,7 @@ pub async fn refresh_archives_cache(config: BackupConfig) -> Result<()> {
 }
 
 fn update_archives_spinner(config: BackupConfig) {
-    if Some(&config.repo_id) == SETTINGS.load().backups.get_active().map(|x| &x.repo_id)
+    if Ok(&config.repo_id) == SETTINGS.load().backups.get_active().map(|x| &x.repo_id)
         && page_is_visible()
     {
         let reloading = REPO_ARCHIVES
@@ -239,7 +239,7 @@ fn page_is_visible() -> bool {
 }
 
 fn display_archives(config: BackupConfig) {
-    if Some(&config.repo_id) == SETTINGS.load().backups.get_active().map(|x| &x.repo_id)
+    if Ok(&config.repo_id) == SETTINGS.load().backups.get_active().map(|x| &x.repo_id)
         && page_is_visible()
     {
         debug!("Displaying archive list from cache");
@@ -338,8 +338,8 @@ fn cache_path(repo_id: &borg::RepoId) -> std::path::PathBuf {
     [cache_dir(), repo_id.as_str().into()].iter().collect()
 }
 
-pub fn show() {
-    let config = SETTINGS.load().backups.get_active().unwrap().clone();
+pub async fn show() -> Result<()> {
+    let config = SETTINGS.load().backups.get_active()?.clone();
 
     display_archives(config.clone());
 
@@ -362,10 +362,12 @@ pub fn show() {
 
     if repo_archives.archives.as_ref().is_none() {
         trace!("Archives have never been retrieved");
-        Handler::run(refresh_archives_cache(config));
+        refresh_archives_cache(config).await?;
     } else {
         display_archives(config);
     }
+
+    Ok(())
 }
 
 fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
