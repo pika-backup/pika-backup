@@ -41,10 +41,10 @@ where
 }
 
 fn set_scheduler_priority(priority: i32) {
-    debug!("Settting scheduler priority to {}", priority);
+    debug!("Setting scheduler priority to {}", priority);
     let result = unsafe { nix::libc::setpriority(nix::libc::PRIO_PROCESS, 0, priority) };
     if result != 0 {
-        warn!("Failed to set scheduler priority: {}", result,);
+        warn!("Failed to set scheduler priority: {}", result);
     }
 }
 
