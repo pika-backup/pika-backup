@@ -40,6 +40,14 @@ where
     spawn_borg_thread(name, borg, task, true).await
 }
 
+fn set_scheduler_priority(priority: i32) {
+    debug!("Settting scheduler priority to {}", priority);
+    let result = unsafe { nix::libc::setpriority(nix::libc::PRIO_PROCESS, 0, priority) };
+    if result != 0 {
+        warn!("Failed to set scheduler priority: {}", result,);
+    }
+}
+
 #[allow(clippy::type_complexity)]
 async fn spawn_borg_thread<F, V, B>(
     name: &'static str,
@@ -55,8 +63,10 @@ where
     loop {
         let result = super::spawn_thread(
             name,
-            enclose!((borg, task)
-         move || task(borg)),
+            enclose!((borg, task) move || {
+                set_scheduler_priority(10);
+                task(borg)
+            }),
         )
         .await;
 
