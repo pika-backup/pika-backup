@@ -113,15 +113,13 @@ impl BackupMap<config::Backup> for config::Backups {
     }
 
     fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut config::Backup> {
-        self.0
-            .iter_mut()
+        self.iter_mut()
             .find(|x| x.id == *key)
             .ok_or_else(|| config::error::BackupNotFound::new(key.clone()).into())
     }
 
     fn get_result(&self, key: &ConfigId) -> Result<&config::Backup> {
-        self.0
-            .iter()
+        self.iter()
             .find(|x| x.id == *key)
             .ok_or_else(|| config::error::BackupNotFound::new(key.clone()).into())
     }

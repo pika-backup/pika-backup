@@ -390,7 +390,7 @@ pub struct BackupSettings {
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
-pub struct Backups(pub Vec<Backup>);
+pub struct Backups(Vec<Backup>);
 
 impl Backups {
     pub fn from_path(path: &std::path::Path) -> std::io::Result<Self> {
@@ -440,6 +440,10 @@ impl Backups {
 
     pub fn iter(&self) -> std::slice::Iter<'_, Backup> {
         self.0.iter()
+    }
+
+    pub fn iter_mut(&mut self) -> std::slice::IterMut<'_, Backup> {
+        self.0.iter_mut()
     }
 
     pub fn default_path() -> std::io::Result<std::path::PathBuf> {
