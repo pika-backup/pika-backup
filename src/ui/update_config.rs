@@ -11,16 +11,15 @@ use once_cell::sync::Lazy;
 static WAITING_CONFIGS: Lazy<ArcSwap<u64>> = Lazy::new(Default::default);
 
 pub async fn run() -> Result<()> {
-    if !SETTINGS
+    if !BACKUP_CONFIG
         .load()
-        .backups
-        .values()
+        .iter()
         .any(|config| config.config_version < crate::config::VERSION)
     {
         return Ok(());
     }
 
-    for config in SETTINGS.load().backups.values() {
+    for config in BACKUP_CONFIG.load().iter() {
         if config.config_version < crate::config::VERSION {
             let config = ui::dialog_device_missing::updated_config(
                 config.clone(),
@@ -61,8 +60,8 @@ pub async fn run() -> Result<()> {
 fn update_config(id: ConfigId, list: borg::List) -> Result<()> {
     trace!("Got config update result");
 
-    SETTINGS.update(move |settings| {
-        if let Some(config) = settings.backups.get_mut(&id) {
+    BACKUP_CONFIG.update(move |settings| {
+        if let Ok(config) = settings.get_mut_result(&id) {
             let icon_symbolic = match &config.repo {
                 config::BackupRepo::Local(local) => gio::File::new_for_path(local.path())
                     .find_enclosing_mount(Some(&gio::Cancellable::new()))

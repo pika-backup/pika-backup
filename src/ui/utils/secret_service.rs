@@ -2,7 +2,7 @@ use crate::config::{self, Password};
 use crate::ui::prelude::*;
 
 pub fn set_password(
-    config: &config::BackupConfig,
+    config: &config::Backup,
     password: &Password,
 ) -> std::result::Result<(), secret_service::Error> {
     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
@@ -48,7 +48,7 @@ pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, b
         .await
 }
 
-pub fn store_password(config: &config::BackupConfig, x: &Option<(Password, bool)>) -> Result<()> {
+pub fn store_password(config: &config::Backup, x: &Option<(Password, bool)>) -> Result<()> {
     if let Some((ref password, true)) = x {
         debug!("Storing new password at secret service");
         set_password(&config, &password).err_to_msg(gettext("Failed to store password."))?;

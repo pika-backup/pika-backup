@@ -46,7 +46,7 @@ pub fn init() {
 
     main_ui().refresh_archives().connect_clicked(|_| {
         Handler::run(async move {
-            let config = SETTINGS.load().backups.get_active()?.clone();
+            let config = BACKUP_CONFIG.load().get_active()?.clone();
             ui::dialog_device_missing::updated_config(
                 config.clone(),
                 &gettext("Update archive list"),
@@ -64,7 +64,7 @@ pub fn init() {
         .connect_unmap(|s| s.stop());
 }
 
-pub async fn refresh_archives_cache(config: BackupConfig) -> Result<()> {
+pub async fn refresh_archives_cache(config: Backup) -> Result<()> {
     info!("Refreshing archives cache");
 
     if Some(true)
@@ -95,8 +95,8 @@ pub async fn refresh_archives_cache(config: BackupConfig) -> Result<()> {
     archives_cache_refreshed(config.clone(), result)
 }
 
-fn update_archives_spinner(config: BackupConfig) {
-    if Ok(&config.repo_id) == SETTINGS.load().backups.get_active().map(|x| &x.repo_id)
+fn update_archives_spinner(config: Backup) {
+    if Ok(&config.repo_id) == BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id)
         && page_is_visible()
     {
         let reloading = REPO_ARCHIVES
@@ -118,7 +118,7 @@ fn update_archives_spinner(config: BackupConfig) {
 }
 
 fn archives_cache_refreshed(
-    config: BackupConfig,
+    config: Backup,
     result: borg::Result<Vec<borg::Archive>>,
 ) -> Result<()> {
     match result {
@@ -192,7 +192,7 @@ fn show_dir(path: &std::path::Path) -> Result<()> {
     Ok(())
 }
 
-async fn on_browse_archive(config: BackupConfig, archive_name: borg::ArchiveName) -> Result<()> {
+async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> Result<()> {
     debug!("Trying to browse an archive");
 
     main_ui().pending_menu().show();
@@ -238,8 +238,8 @@ fn page_is_visible() -> bool {
         == Some(main_ui().page_archives().upcast::<gtk::Widget>())
 }
 
-fn display_archives(config: BackupConfig) {
-    if Ok(&config.repo_id) == SETTINGS.load().backups.get_active().map(|x| &x.repo_id)
+fn display_archives(config: Backup) {
+    if Ok(&config.repo_id) == BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id)
         && page_is_visible()
     {
         debug!("Displaying archive list from cache");
@@ -339,7 +339,7 @@ fn cache_path(repo_id: &borg::RepoId) -> std::path::PathBuf {
 }
 
 pub async fn show() -> Result<()> {
-    let config = SETTINGS.load().backups.get_active()?.clone();
+    let config = BACKUP_CONFIG.load().get_active()?.clone();
 
     display_archives(config.clone());
 

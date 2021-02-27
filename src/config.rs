@@ -1,3 +1,5 @@
+pub mod error;
+
 use std::io::prelude::*;
 
 use crate::borg;
@@ -32,7 +34,7 @@ impl std::fmt::Display for ConfigId {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct BackupConfig {
+pub struct Backup {
     #[serde(default)]
     pub config_version: u16,
     pub id: ConfigId,
@@ -54,7 +56,7 @@ fn fake_repo_id() -> borg::RepoId {
     ))
 }
 
-impl BackupConfig {
+impl Backup {
     pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
         let mut include = std::collections::BTreeSet::new();
         include.insert("".into());
@@ -388,16 +390,56 @@ pub struct BackupSettings {
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
-#[serde(default)]
-pub struct Settings {
-    pub backups: BTreeMap<ConfigId, BackupConfig>,
-}
+pub struct Backups(pub Vec<Backup>);
 
-impl Settings {
+impl Backups {
     pub fn from_path(path: &std::path::Path) -> std::io::Result<Self> {
-        let file = std::fs::File::open(path)?;
-        let conf: Self = serde_json::de::from_reader(file)?;
-        Ok(conf)
+        #[derive(Serialize, Deserialize, Debug)]
+        struct BackupsLegacy {
+            backups: BTreeMap<ConfigId, Backup>,
+        }
+
+        let conf: std::result::Result<Self, _> =
+            serde_json::de::from_reader(std::fs::File::open(path)?);
+
+        // pre v2 parser
+        match conf {
+            Ok(conf) => Ok(conf),
+            Err(err) => {
+                let conf_legacy: std::result::Result<BackupsLegacy, _> =
+                    serde_json::de::from_reader(std::fs::File::open(path)?);
+                match conf_legacy {
+                    Ok(legacy) => Ok(Self(legacy.backups.into_iter().map(|x| x.1).collect())),
+                    Err(_) => Err(err.into()),
+                }
+            }
+        }
+    }
+
+    pub fn exists(&self, id: &ConfigId) -> bool {
+        self.iter().any(|x| x.id == *id)
+    }
+
+    pub fn insert(&mut self, new: Backup) -> Result<(), error::BackupExists> {
+        if self.exists(&new.id) {
+            Err(error::BackupExists { id: new.id })
+        } else {
+            self.0.push(new);
+            Ok(())
+        }
+    }
+
+    pub fn remove(&mut self, remove: &ConfigId) -> Result<(), error::BackupNotFound> {
+        if !self.exists(remove) {
+            Err(error::BackupNotFound::new(remove.clone()))
+        } else {
+            self.0.retain(|x| x.id != *remove);
+            Ok(())
+        }
+    }
+
+    pub fn iter(&self) -> std::slice::Iter<'_, Backup> {
+        self.0.iter()
     }
 
     pub fn default_path() -> std::io::Result<std::path::PathBuf> {

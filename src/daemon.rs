@@ -38,8 +38,8 @@ thread_local!(
 );
 
 fn load_config() -> Result<()> {
-    let conf = config::Settings::from_path(&config::Settings::default_path()?)?;
-    SETTINGS.update(move |s| *s = conf.clone());
+    let conf = config::Backups::from_path(&config::Backups::default_path()?)?;
+    BACKUP_CONFIG.update(move |s| *s = conf.clone());
     Ok(())
 }
 
@@ -92,7 +92,7 @@ fn on_startup(_app: &gio::Application) {
 }
 
 fn init_config_monitor() -> Result<()> {
-    let file = gio::File::new_for_path(&config::Settings::default_path()?);
+    let file = gio::File::new_for_path(&config::Backups::default_path()?);
     let monitor = file.monitor_file(gio::FileMonitorFlags::NONE, None::<&gio::Cancellable>)?;
     monitor.connect_changed(on_config_change);
     SERVICE.with(|service| {
@@ -118,13 +118,13 @@ fn on_config_change(
 fn init_device_monitor() {
     SERVICE.with(|service| {
         service.volume_monitor.connect_mount_added(|_, mount| {
-            let backups = &SETTINGS.load().backups;
+            let backups = &BACKUP_CONFIG.load();
             let uuid = config::get_mount_uuid(mount);
             debug!("Log: Connected {:?}", uuid);
             if let Some(uuid) = uuid {
-                let backup = backups.values().find(|b| {
+                let backup = backups.iter().find(|b| {
                     debug!("Log: Checking {:?}", &b);
-                    if let config::BackupConfig {
+                    if let config::Backup {
                         repo: config::BackupRepo::Local(local),
                         ..
                     } = b
@@ -135,7 +135,7 @@ fn init_device_monitor() {
                     }
                 });
 
-                if let Some(config::BackupConfig {
+                if let Some(config::Backup {
                     id,
                     repo: config::BackupRepo::Local(local),
                     ..

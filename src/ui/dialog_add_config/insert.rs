@@ -165,7 +165,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
             return Err(Message::new(gettext("Failed to initialize repository."), err).into());
         }
         Ok(info) => {
-            let config = config::BackupConfig::new(repo.clone(), info, encrypted);
+            let config = config::Backup::new(repo.clone(), info, encrypted);
 
             insert_backup_config(config.clone())?;
             if encrypted && ui.password_store().get_active() {
@@ -205,7 +205,7 @@ async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Re
                 .clone()
                 .map(|(password, _)| !password.is_empty())
                 .unwrap_or_default();
-            let config = config::BackupConfig::new(repo.clone(), info, encrypted);
+            let config = config::Backup::new(repo.clone(), info, encrypted);
             insert_backup_config(config.clone())?;
             ui::page_detail::view_backup_conf(&config.id);
             ui::utils::secret_service::store_password(&config, &pw_data)?;
@@ -220,10 +220,11 @@ async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Re
     }
 }
 
-fn insert_backup_config(config: config::BackupConfig) -> Result<()> {
-    SETTINGS.update(move |s| {
-        s.backups.insert(config.id.clone(), config.clone());
-    });
+fn insert_backup_config(config: config::Backup) -> Result<()> {
+    BACKUP_CONFIG.update_result(move |s| {
+        s.insert(config.clone())?;
+        Ok(())
+    })?;
 
     ui::write_config()
 }

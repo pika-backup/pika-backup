@@ -263,8 +263,8 @@ async fn init_check_borg() -> Result<()> {
 }
 
 fn load_config_e() -> std::io::Result<()> {
-    let conf = config::Settings::from_path(&config::Settings::default_path()?)?;
-    SETTINGS.update(|s| *s = conf.clone());
+    let conf = config::Backups::from_path(&config::Backups::default_path()?)?;
+    BACKUP_CONFIG.update(|s| *s = conf.clone());
     Ok(())
 }
 
@@ -276,8 +276,8 @@ fn load_config() {
 }
 
 fn write_config_e() -> std::io::Result<()> {
-    let settings: &config::Settings = &SETTINGS.load();
-    let file = std::fs::File::create(&config::Settings::default_path()?)?;
+    let settings: &config::Backups = &BACKUP_CONFIG.load();
+    let file = std::fs::File::create(&config::Backups::default_path()?)?;
     serde_json::ser::to_writer_pretty(file, settings)?;
     Ok(())
 }

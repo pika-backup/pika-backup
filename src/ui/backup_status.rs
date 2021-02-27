@@ -31,10 +31,10 @@ impl Display {
     pub fn new_from_id(config_id: &ConfigId) -> Self {
         if let Some(communication) = BACKUP_COMMUNICATION.load().get(config_id) {
             Self::from(communication)
-        } else if let Some(BackupConfig {
+        } else if let Ok(Backup {
             last_run: Some(backup),
             ..
-        }) = SETTINGS.load().backups.get(config_id)
+        }) = BACKUP_CONFIG.load().get_result(config_id)
         {
             Self::from(backup)
         } else {

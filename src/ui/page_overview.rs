@@ -14,12 +14,12 @@ thread_local!(
 );
 
 pub fn init() {
-    if SETTINGS.load().backups.len() > 1 {
+    if BACKUP_CONFIG.load().iter().count() > 1 {
         main_ui()
             .main_stack()
             .set_visible_child(&main_ui().page_overview());
         refresh();
-    } else if let Some(ref config) = SETTINGS.load().backups.values().next() {
+    } else if let Some(ref config) = BACKUP_CONFIG.load().iter().next() {
         ui::page_detail::view_backup_conf(&config.id);
     } else {
         main_ui()
@@ -70,11 +70,12 @@ async fn on_remove_backup() -> Result<()> {
     )
     .await?;
 
-    let config_id = SETTINGS.get().backups.get_active()?.id.clone();
+    let config_id = BACKUP_CONFIG.get().get_active()?.id.clone();
 
-    SETTINGS.update(|s| {
-        s.backups.remove(&config_id);
-    });
+    BACKUP_CONFIG.update_result(|s| {
+        s.remove(&config_id)?;
+        Ok(())
+    })?;
 
     ui::utils::secret_service::delete_passwords(&config_id).err_to_msg(gettext(
         "Failed to remove potentially remaining passwords from key storage.",
@@ -83,7 +84,7 @@ async fn on_remove_backup() -> Result<()> {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
     ui::write_config()?;
 
-    if SETTINGS.load().backups.is_empty() {
+    if BACKUP_CONFIG.load().iter().next().is_none() {
         main_ui()
             .main_stack()
             .set_visible_child(&main_ui().page_overview_empty());
@@ -103,7 +104,7 @@ fn refresh() {
         let _lock_error = rows.write().map(|mut x| (*x).clear());
     });
 
-    for config in SETTINGS.load().backups.values() {
+    for config in BACKUP_CONFIG.load().iter() {
         let list_row = libhandy::ActionRowBuilder::new().activatable(true).build();
         list.add(&list_row);
 
@@ -170,7 +171,7 @@ fn refresh() {
 }
 
 pub fn refresh_status() {
-    for config in SETTINGS.load().backups.values() {
+    for config in BACKUP_CONFIG.load().iter() {
         ROWS.with(|rows| {
             if let Ok(rows) = rows.try_read() {
                 if let Some(row) = rows.get(&config.id) {

@@ -77,10 +77,10 @@ fn status() -> borg::Communication {
     Default::default()
 }
 
-fn config() -> config::BackupConfig {
+fn config() -> config::Backup {
     let uuid = glib::uuid_string_random().to_string();
     let path = std::path::PathBuf::from(format!("/tmp/{}", &uuid));
-    config::BackupConfig {
+    config::Backup {
         config_version: 1,
         id: ConfigId::new(uuid),
         repo_id: borg::RepoId::new("repo id".into()),

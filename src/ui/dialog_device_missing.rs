@@ -6,10 +6,7 @@ use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
 
-pub async fn updated_config(
-    config: config::BackupConfig,
-    purpose: &str,
-) -> Result<config::BackupConfig> {
+pub async fn updated_config(config: config::Backup, purpose: &str) -> Result<config::Backup> {
     match &config.repo {
         config::BackupRepo::Local(repo) => {
             if !ui::utils::is_backup_repo(&repo.path()) {

@@ -11,7 +11,7 @@ pub async fn show() -> Result<()> {
         .dialog()
         .set_transient_for(Some(&main_ui().window()));
 
-    let backup = SETTINGS.load().backups.get_active()?.clone();
+    let backup = BACKUP_CONFIG.load().get_active()?.clone();
     match &backup.repo {
         config::BackupRepo::Local(repo) => {
             storage

@@ -53,20 +53,18 @@ pub fn init() {
                         confirm_remove_include(std::path::Path::new("Home")).await
                     };
 
-                    SETTINGS.update_result(|settings| {
+                    BACKUP_CONFIG.update_result(|settings| {
                         if !change {
                             main_ui()
                                 .include_home()
                                 .set_active(!main_ui().include_home().get_active());
                         } else if main_ui().include_home().get_active() {
                             settings
-                                .backups
                                 .get_active_mut()?
                                 .include
                                 .insert(std::path::PathBuf::new());
                         } else {
                             settings
-                                .backups
                                 .get_active_mut()?
                                 .include
                                 .remove(&std::path::PathBuf::new());
@@ -107,9 +105,7 @@ pub fn init() {
 }
 
 pub fn activate_action_backup(id: ConfigId) {
-    Handler::run(
-        async move { start_backup(SETTINGS.load().backups.get_result(&id)?.clone()).await },
-    );
+    Handler::run(async move { start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone()).await });
 }
 
 fn is_visible() -> bool {
@@ -158,19 +154,23 @@ async fn on_stop_backup_create() -> Result<()> {
 }
 
 async fn on_backup_run() -> Result<()> {
-    start_backup(SETTINGS.load().backups.get_active()?.clone()).await
+    start_backup(BACKUP_CONFIG.load().get_active()?.clone()).await
 }
 
-async fn start_backup(config: config::BackupConfig) -> Result<()> {
+async fn start_backup(config: config::Backup) -> Result<()> {
     gtk_app().hold();
     let result = startup_backup(config).await;
     gtk_app().release();
     result
 }
 
-async fn startup_backup(config: config::BackupConfig) -> Result<()> {
+async fn startup_backup(config: config::Backup) -> Result<()> {
     let is_running_on_repo = BACKUP_COMMUNICATION.get().keys().any(|id| {
-        SETTINGS.get().backups.get(id).map(|config| &config.repo_id) == Some(&config.repo_id)
+        BACKUP_CONFIG
+            .get()
+            .get_result(id)
+            .map(|config| &config.repo_id)
+            == Ok(&config.repo_id)
     });
     if is_running_on_repo {
         return Err(Message::short(gettext("Backup on repository already running.")).into());
@@ -202,7 +202,7 @@ async fn startup_backup(config: config::BackupConfig) -> Result<()> {
     run_backup(config).await
 }
 
-pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
+pub async fn run_backup(config: config::Backup) -> Result<()> {
     let communication: borg::Communication = Default::default();
 
     // skip size estimate if running in background
@@ -240,8 +240,8 @@ pub async fn run_backup(config: config::BackupConfig) -> Result<()> {
     };
     let run_info = Some(config::RunInfo::new(result_config.clone()));
 
-    SETTINGS.update_result(|settings| {
-        settings.backups.get_mut_result(&config.id)?.last_run = run_info.clone();
+    BACKUP_CONFIG.update_result(|settings| {
+        settings.get_mut_result(&config.id)?.last_run = run_info.clone();
         Ok(())
     })?;
     refresh_status();
@@ -289,7 +289,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 
 // TODO: Function has too many lines
 pub fn refresh() -> Result<()> {
-    let backup = SETTINGS.load().backups.get_active()?.clone();
+    let backup = BACKUP_CONFIG.load().get_active()?.clone();
 
     let include_home = backup.include.contains(&std::path::PathBuf::new());
 
@@ -347,8 +347,8 @@ pub fn refresh() -> Result<()> {
             let path = path.clone();
             Handler::run(async move {
                 if confirm_remove_include(&path).await {
-                    SETTINGS.update_result(|settings| {
-                        settings.backups.get_active_mut()?.include.remove(&path);
+                    BACKUP_CONFIG.update_result(|settings| {
+                        settings.get_active_mut()?.include.remove(&path);
                         Ok(())
                     })?;
                     super::write_config()?;
@@ -369,9 +369,8 @@ pub fn refresh() -> Result<()> {
             let path = file.clone();
             Handler::run(async move {
                 let path = path.clone();
-                SETTINGS.update_result(move |settings| {
+                BACKUP_CONFIG.update_result(move |settings| {
                     settings
-                        .backups
                         .get_active_mut()?
                         .exclude
                         .remove(&config::Pattern::PathPrefix(path.clone()));
@@ -438,12 +437,8 @@ async fn add_include() -> Result<()> {
     if let Some(path) =
         ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups")).await
     {
-        SETTINGS.update_result(|settings| {
-            settings
-                .backups
-                .get_active_mut()?
-                .include
-                .insert(rel_path(&path));
+        BACKUP_CONFIG.update_result(|settings| {
+            settings.get_active_mut()?.include.insert(rel_path(&path));
             Ok(())
         })?;
         super::write_config()?;
@@ -457,9 +452,8 @@ async fn add_exclude() -> Result<()> {
     if let Some(path) =
         ui::utils::folder_chooser_dialog_path(&gettext("Exclude directory from backup")).await
     {
-        SETTINGS.update_result(|settings| {
+        BACKUP_CONFIG.update_result(|settings| {
             settings
-                .backups
                 .get_active_mut()?
                 .exclude
                 .insert(config::Pattern::PathPrefix(rel_path(&path)));

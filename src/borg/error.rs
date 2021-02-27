@@ -30,7 +30,7 @@ quick_error! {
         }
         BorgReturnCode(err: ReturnCodeError) { from() }
         PasswordMissing { from(secret_service::Error) }
-        UserAborted { display("{}", gettext("Aborted through user input")) }
+        UserAborted { display("{}", gettext("Aborted through user input.")) }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
         Other(err: String) { from() }
     }

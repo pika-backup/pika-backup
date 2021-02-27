@@ -42,7 +42,7 @@ impl Default for Run {
 
 #[derive(Clone)]
 pub struct Borg {
-    config: BackupConfig,
+    config: Backup,
     password: Option<Password>,
 }
 
@@ -105,14 +105,14 @@ impl BorgRunConfig for BorgOnlyRepo {
 
 /// Features that need a complete backup config
 impl Borg {
-    pub fn new(config: BackupConfig) -> Self {
+    pub fn new(config: Backup) -> Self {
         Self {
             config,
             password: None,
         }
     }
 
-    pub fn get_config(&self) -> BackupConfig {
+    pub fn get_config(&self) -> Backup {
         self.config.clone()
     }
 
@@ -359,7 +359,7 @@ fn pathmatch(entry: &walkdir::DirEntry, pattern: &config::Pattern) -> bool {
     }
 }
 
-pub fn reestimate_size(config: &config::BackupConfig, mut communication: Communication) {
+pub fn reestimate_size(config: &config::Backup, mut communication: Communication) {
     communication.instruction = Default::default();
 
     let estimated_size = estimate_size(&config, &communication);
@@ -371,7 +371,7 @@ pub fn reestimate_size(config: &config::BackupConfig, mut communication: Communi
     }
 }
 
-pub fn estimate_size(backup: &config::BackupConfig, communication: &Communication) -> Option<u64> {
+pub fn estimate_size(backup: &config::Backup, communication: &Communication) -> Option<u64> {
     let mut exclude = backup.exclude_dirs_internal();
 
     // Exclude .cache/borg

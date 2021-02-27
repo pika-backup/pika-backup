@@ -1,7 +1,7 @@
-use gettextrs::gettext;
 use gtk::prelude::*;
 
-use super::globals::*;
+use super::prelude::*;
+use crate::config;
 use crate::ui;
 
 #[derive(Debug, Eq, PartialEq)]
@@ -54,6 +54,16 @@ quick_error! {
             from()
             from(err: futures::channel::oneshot::Canceled) ->
                 (Message::short(gettext("The operation terminated unexpectedly.")))
+            from(err: config::error::BackupExists) ->
+                (Message::short(gettextf(
+                    "Backup with id “{}” already exists.",
+                    &[err.id.as_str()],
+                )))
+            from(err: config::error::BackupNotFound) ->
+                (Message::short(gettextf(
+                    "Could not find backup configuration with id “{}”",
+                    &[err.id.as_str()],
+                )))
         }
         UserAborted { from (UserAborted) }
     }
