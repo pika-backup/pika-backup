@@ -13,7 +13,7 @@ pub async fn show() -> Result<()> {
 
     let backup = BACKUP_CONFIG.load().get_active()?.clone();
     match &backup.repo {
-        config::BackupRepo::Local(repo) => {
+        config::Repository::Local(repo) => {
             storage
                 .volume()
                 .set_text(&repo.mount_name.clone().unwrap_or_default());
@@ -38,7 +38,7 @@ pub async fn show() -> Result<()> {
                 storage.fs().show();
             }
         }
-        repo @ config::BackupRepo::Remote { .. } => {
+        repo @ config::Repository::Remote { .. } => {
             storage.uri().set_text(&repo.to_string());
             storage.remote().show();
         }

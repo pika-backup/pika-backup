@@ -4,7 +4,7 @@ use libhandy::prelude::*;
 
 use crate::borg;
 use crate::config;
-use crate::history;
+use crate::config::history;
 use crate::ui;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
@@ -314,12 +314,12 @@ pub fn refresh() -> Result<()> {
     }
 
     match &backup.repo {
-        config::BackupRepo::Local(local) => {
+        config::Repository::Local(local) => {
             main_ui()
                 .detail_repo_row()
                 .set_title(local.mount_name.as_deref());
         }
-        config::BackupRepo::Remote(_) => {
+        config::Repository::Remote(_) => {
             main_ui()
                 .detail_repo_row()
                 .set_title(Some(&gettext("Remote location")));

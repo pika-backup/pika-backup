@@ -1,4 +1,7 @@
+use crate::config;
 use crate::prelude::*;
+
+use gio::prelude::*;
 
 pub fn prepare_config_file<V: serde::Serialize>(
     filename: &str,
@@ -18,4 +21,20 @@ pub fn prepare_config_file<V: serde::Serialize>(
     }
 
     Ok(path)
+}
+
+pub trait LookupConfigId<T> {
+    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound>;
+    fn get_result(&self, key: &ConfigId) -> Result<&T, config::error::BackupNotFound>;
+}
+
+pub fn get_mount_uuid(mount: &gio::Mount) -> Option<String> {
+    let volume = mount.get_volume();
+
+    volume
+        .as_ref()
+        .and_then(gio::Volume::get_uuid)
+        .or_else(|| volume.as_ref().and_then(|v| v.get_identifier("uuid")))
+        .as_ref()
+        .map(std::string::ToString::to_string)
 }

@@ -12,7 +12,7 @@ use arc_swap::ArcSwap;
 use std::io::{BufRead, BufReader};
 use std::sync::Arc;
 
-use crate::config::{self, *};
+use crate::config;
 use crate::prelude::*;
 
 use msg::*;
@@ -42,33 +42,33 @@ impl Default for Run {
 
 #[derive(Clone)]
 pub struct Borg {
-    config: Backup,
-    password: Option<Password>,
+    config: config::Backup,
+    password: Option<config::Password>,
 }
 
 #[derive(Clone)]
 pub struct BorgOnlyRepo {
-    repo: BackupRepo,
-    password: Option<Password>,
+    repo: config::Repository,
+    password: Option<config::Password>,
 }
 
 pub trait BorgRunConfig {
-    fn get_repo(&self) -> BackupRepo;
-    fn get_password(&self) -> Option<Password>;
+    fn get_repo(&self) -> config::Repository;
+    fn get_password(&self) -> Option<config::Password>;
     fn unset_password(&mut self);
-    fn set_password(&mut self, password: Password);
+    fn set_password(&mut self, password: config::Password);
     fn is_encrypted(&self) -> bool;
     fn get_config_id(&self) -> Option<ConfigId>;
 }
 
 impl BorgRunConfig for Borg {
-    fn get_repo(&self) -> BackupRepo {
+    fn get_repo(&self) -> config::Repository {
         self.config.repo.clone()
     }
-    fn get_password(&self) -> Option<Password> {
+    fn get_password(&self) -> Option<config::Password> {
         self.password.clone()
     }
-    fn set_password(&mut self, password: Password) {
+    fn set_password(&mut self, password: config::Password) {
         self.password = Some(password);
     }
     fn unset_password(&mut self) {
@@ -83,13 +83,13 @@ impl BorgRunConfig for Borg {
 }
 
 impl BorgRunConfig for BorgOnlyRepo {
-    fn get_repo(&self) -> BackupRepo {
+    fn get_repo(&self) -> config::Repository {
         self.repo.clone()
     }
-    fn get_password(&self) -> Option<Password> {
+    fn get_password(&self) -> Option<config::Password> {
         self.password.clone()
     }
-    fn set_password(&mut self, password: Password) {
+    fn set_password(&mut self, password: config::Password) {
         self.password = Some(password);
     }
     fn unset_password(&mut self) {
@@ -105,14 +105,14 @@ impl BorgRunConfig for BorgOnlyRepo {
 
 /// Features that need a complete backup config
 impl Borg {
-    pub fn new(config: Backup) -> Self {
+    pub fn new(config: config::Backup) -> Self {
         Self {
             config,
             password: None,
         }
     }
 
-    pub fn get_config(&self) -> Backup {
+    pub fn get_config(&self) -> config::Backup {
         self.config.clone()
     }
 
@@ -261,7 +261,7 @@ impl Borg {
 }
 
 impl BorgOnlyRepo {
-    pub fn new(repo: BackupRepo) -> Self {
+    pub fn new(repo: config::Repository) -> Self {
         Self {
             repo,
             password: None,

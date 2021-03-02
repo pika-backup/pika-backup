@@ -119,13 +119,13 @@ fn init_device_monitor() {
     SERVICE.with(|service| {
         service.volume_monitor.connect_mount_added(|_, mount| {
             let backups = &BACKUP_CONFIG.load();
-            let uuid = config::get_mount_uuid(mount);
+            let uuid = crate::utils::get_mount_uuid(mount);
             debug!("Log: Connected {:?}", uuid);
             if let Some(uuid) = uuid {
                 let backup = backups.iter().find(|b| {
                     debug!("Log: Checking {:?}", &b);
                     if let config::Backup {
-                        repo: config::BackupRepo::Local(local),
+                        repo: config::Repository::Local(local),
                         ..
                     } = b
                     {
@@ -137,7 +137,7 @@ fn init_device_monitor() {
 
                 if let Some(config::Backup {
                     id,
-                    repo: config::BackupRepo::Local(local),
+                    repo: config::Repository::Local(local),
                     ..
                 }) = backup
                 {

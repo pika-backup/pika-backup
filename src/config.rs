@@ -1,7 +1,14 @@
 pub mod error;
+pub mod history;
+pub mod local;
+pub mod remote;
+
+pub use history::Histories;
+//pub use local::*;
+//pub use remote::*;
 
 use crate::borg;
-use crate::globals::*;
+use crate::prelude::*;
 
 use gio::prelude::*;
 use std::collections::{BTreeMap, BTreeSet};
@@ -37,7 +44,7 @@ pub struct Backup {
     pub id: ConfigId,
     #[serde(default = "fake_repo_id")]
     pub repo_id: borg::RepoId,
-    pub repo: BackupRepo,
+    pub repo: Repository,
     pub encrypted: bool,
     #[serde(default)]
     pub encryption_mode: String,
@@ -53,7 +60,7 @@ fn fake_repo_id() -> borg::RepoId {
 }
 
 impl Backup {
-    pub fn new(repo: BackupRepo, info: borg::List, encrypted: bool) -> Self {
+    pub fn new(repo: Repository, info: borg::List, encrypted: bool) -> Self {
         let mut include = std::collections::BTreeSet::new();
         include.insert("".into());
         let mut exclude = std::collections::BTreeSet::new();
@@ -99,7 +106,7 @@ impl Backup {
         if self.config_version == 0 {
             self.config_version = 1;
 
-            if let BackupRepo::Local(RepoLocal {
+            if let Repository::Local(local::Repository {
                 ref mut icon_symbolic,
                 ..
             }) = self.repo
@@ -112,6 +119,20 @@ impl Backup {
             self.repo_id = info.repository.id;
             self.encryption_mode = info.encryption.mode;
         }
+    }
+}
+
+impl LookupConfigId<Backup> for Backups {
+    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
+        self.iter_mut()
+            .find(|x| x.id == *key)
+            .ok_or_else(|| error::BackupNotFound::new(key.clone()))
+    }
+
+    fn get_result(&self, key: &ConfigId) -> Result<&Backup, error::BackupNotFound> {
+        self.iter()
+            .find(|x| x.id == *key)
+            .ok_or_else(|| error::BackupNotFound::new(key.clone()))
     }
 }
 
@@ -144,117 +165,12 @@ pub type Password = Zeroizing<Vec<u8>>;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(tag = "type")]
-pub enum BackupRepo {
-    Local(RepoLocal),
-    Remote(RepoRemote),
+pub enum Repository {
+    Local(local::Repository),
+    Remote(remote::Repository),
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct RepoLocal {
-    /// If not absulte, this path is prefixed with the `mount_path`
-    path: path::PathBuf,
-    #[serde(default = "default_mount_path")]
-    mount_path: path::PathBuf,
-    pub uri: Option<String>,
-    #[serde(alias = "device")]
-    pub drive_name: Option<String>,
-    #[serde(alias = "label")]
-    pub mount_name: Option<String>,
-    pub volume_uuid: Option<String>,
-    pub removable: bool,
-    pub icon: Option<String>,
-    pub icon_symbolic: Option<String>,
-    pub settings: Option<BackupSettings>,
-}
-
-fn default_mount_path() -> path::PathBuf {
-    "/".into()
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct RepoRemote {
-    pub uri: String,
-    pub settings: Option<BackupSettings>,
-}
-
-impl RepoLocal {
-    pub fn path(&self) -> std::path::PathBuf {
-        self.mount_path.join(&self.path)
-    }
-}
-
-impl BackupRepo {
-    pub fn new_remote(uri: String) -> Self {
-        BackupRepo::Remote(RepoRemote {
-            uri,
-            settings: None,
-        })
-    }
-
-    pub fn new_local_from_path(path: std::path::PathBuf) -> Self {
-        let file = gio::File::new_for_path(&path);
-
-        if let Ok(mount) = file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
-            Self::new_local_from_mount(mount, path, file.get_uri().to_string())
-        } else {
-            BackupRepo::Local(RepoLocal {
-                path,
-                mount_path: default_mount_path(),
-                uri: None,
-                icon: None,
-                icon_symbolic: None,
-                mount_name: None,
-                drive_name: None,
-                removable: false,
-                volume_uuid: None,
-                settings: None,
-            })
-        }
-    }
-
-    pub fn new_local_from_mount(
-        mount: gio::Mount,
-        mut path: std::path::PathBuf,
-        uri: String,
-    ) -> Self {
-        let mut mount_path = "/".into();
-
-        if let Some(mount_root) = mount.get_root().unwrap().get_path() {
-            if let Ok(repo_path) = path.strip_prefix(&mount_root) {
-                mount_path = mount_root;
-                path = repo_path.to_path_buf();
-            }
-        }
-
-        BackupRepo::Local(RepoLocal {
-            path,
-            mount_path,
-            uri: Some(uri),
-            icon: mount
-                .get_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
-            icon_symbolic: mount
-                .get_symbolic_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
-            mount_name: mount.get_name().map(Into::into),
-            drive_name: mount
-                .get_drive()
-                .as_ref()
-                .and_then(gio::Drive::get_name)
-                .map(Into::into),
-            removable: mount
-                .get_drive()
-                .as_ref()
-                .map_or(false, gio::Drive::is_removable),
-            volume_uuid: get_mount_uuid(&mount),
-            settings: None,
-        })
-    }
-
+impl Repository {
     pub fn icon(&self) -> String {
         match self {
             Self::Local(local) => local.icon.clone().unwrap_or_else(|| String::from("folder")),
@@ -286,7 +202,7 @@ impl BackupRepo {
 
     pub fn get_uri_fuse(&self) -> Option<String> {
         match self {
-            Self::Local(RepoLocal { uri: Some(uri), .. })
+            Self::Local(local::Repository { uri: Some(uri), .. })
                 if !gio::File::new_for_uri(&uri).is_native() =>
             {
                 Some(uri.clone())
@@ -322,7 +238,7 @@ impl BackupRepo {
     }
 }
 
-impl std::fmt::Display for BackupRepo {
+impl std::fmt::Display for Repository {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let repo = match self {
             Self::Local(local) => local.path().to_string_lossy().to_string(),
@@ -399,21 +315,10 @@ impl Backups {
     }
 
     pub fn default_path() -> std::io::Result<std::path::PathBuf> {
-        crate::utils::prepare_config_file("config.json", Self::default())
+        crate::utils::prepare_config_file("backup.json", Self::default())
     }
 }
 
 pub fn absolute(path: &path::Path) -> path::PathBuf {
     HOME_DIR.join(path)
-}
-
-pub fn get_mount_uuid(mount: &gio::Mount) -> Option<String> {
-    let volume = mount.get_volume();
-
-    volume
-        .as_ref()
-        .and_then(gio::Volume::get_uuid)
-        .or_else(|| volume.as_ref().and_then(|v| v.get_identifier("uuid")))
-        .as_ref()
-        .map(std::string::ToString::to_string)
 }

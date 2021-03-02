@@ -3,8 +3,8 @@ use chrono::prelude::*;
 use crate::borg;
 use crate::borg::msg;
 use crate::borg::Run;
+use crate::config::history;
 use crate::config::*;
-use crate::history;
 use crate::ui::prelude::*;
 
 pub struct Display {

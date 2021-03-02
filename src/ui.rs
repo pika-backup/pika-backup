@@ -4,7 +4,6 @@ use gtk::prelude::*;
 
 use crate::borg;
 use crate::config;
-use crate::history;
 use crate::ui;
 use crate::ui::prelude::*;
 
@@ -267,7 +266,7 @@ fn load_config_e() -> std::io::Result<()> {
     let config = config::Backups::from_default_path()?;
     BACKUP_CONFIG.update(|s| *s = config.clone());
 
-    let history = history::Histories::from_default_path()?;
+    let history = config::Histories::from_default_path()?;
     BACKUP_HISTORY.update(|s| *s = history.clone());
 
     Ok(())
@@ -285,8 +284,8 @@ fn write_config_e() -> std::io::Result<()> {
     let config_file = std::fs::File::create(&config::Backups::default_path()?)?;
     serde_json::ser::to_writer_pretty(config_file, config)?;
 
-    let history: &history::Histories = &BACKUP_HISTORY.load();
-    let history_file = std::fs::File::create(&history::Histories::default_path()?)?;
+    let history: &config::Histories = &BACKUP_HISTORY.load();
+    let history_file = std::fs::File::create(&config::Histories::default_path()?)?;
     serde_json::ser::to_writer_pretty(history_file, history)?;
 
     Ok(())

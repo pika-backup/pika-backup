@@ -39,7 +39,7 @@ pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::Dial
         let uri = name;
         if let Some(path) = gio::File::new_for_uri(&uri).get_path() {
             execute(
-                add_repo_config(BackupRepo::new_local_from_path(path), ui.clone()),
+                add_repo_config(local::Repository::from_path(path).into_config(), ui.clone()),
                 ui.dialog(),
             );
         }
@@ -55,7 +55,7 @@ async fn on_add_repo_list_activated_local(ui: Rc<builder::DialogAddConfig>) -> R
     {
         ui::page_pending::show(&gettext("Loading backup repository"));
         if ui::utils::is_backup_repo(&path) {
-            add_repo_config(BackupRepo::new_local_from_path(path), ui).await?;
+            add_repo_config(local::Repository::from_path(path).into_config(), ui).await?;
         } else {
             return Err(Message::new(
                 gettext("Location is not a valid backup repository."),
@@ -79,9 +79,9 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resul
     debug!("Add existing URI '{:?}'", file.get_path());
 
     let repo = if url.get(..6) == Some("ssh://") {
-        BackupRepo::new_remote(url.to_string())
+        config::remote::Repository::from_uri(url.to_string()).into_config()
     } else {
-        mount_fuse_and_config(&file, false).await?
+        mount_fuse_and_config(&file, false).await?.into_config()
     };
 
     add_repo_config(repo, ui).await
@@ -117,9 +117,9 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
                     .ok()
             }) {
                 let uri = gio::File::new_for_path(&path).get_uri().to_string();
-                Ok(BackupRepo::new_local_from_mount(mount, path, uri))
+                Ok(local::Repository::from_mount(mount, path, uri).into_config())
             } else {
-                Ok(BackupRepo::new_local_from_path(path))
+                Ok(local::Repository::from_path(path).into_config())
             }
         } else {
             Err(Message::short(gettext("A repository location has to be given.")).into())
@@ -131,9 +131,11 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
         if url.is_empty() {
             Err(Message::short(gettext("A repository location has to be given.")).into())
         } else if url.get(..6) == Some("ssh://") {
-            Ok(BackupRepo::new_remote(url))
+            Ok(config::remote::Repository::from_uri(url).into_config())
         } else {
-            mount_fuse_and_config(&file, true).await
+            mount_fuse_and_config(&file, true)
+                .await
+                .map(|x| x.into_config())
         }
     }?;
 
@@ -181,7 +183,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
 }
 
 async fn add_repo_config(
-    mut repo: config::BackupRepo,
+    mut repo: config::Repository,
     ui: Rc<builder::DialogAddConfig>,
 ) -> Result<()> {
     repo.set_settings(Some(BackupSettings {
@@ -191,7 +193,7 @@ async fn add_repo_config(
     insert_backup_config_encryption_unknown(repo).await
 }
 
-async fn insert_backup_config_encryption_unknown(repo: config::BackupRepo) -> Result<()> {
+async fn insert_backup_config_encryption_unknown(repo: config::Repository) -> Result<()> {
     let result = ui::utils::borg::only_repo_suggest_store(
         "borg::peek",
         borg::BorgOnlyRepo::new(repo.clone()),
@@ -262,12 +264,12 @@ fn get_command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>> {
     }
 }
 
-async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<BackupRepo> {
+async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<local::Repository> {
     if let (Ok(mount), Some(path)) = (
         file.find_enclosing_mount(Some(&gio::Cancellable::new())),
         file.get_path(),
     ) {
-        Ok(BackupRepo::new_local_from_mount(
+        Ok(local::Repository::from_mount(
             mount,
             path,
             file.get_uri().to_string(),
@@ -285,7 +287,7 @@ async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<B
             file.find_enclosing_mount(Some(&gio::Cancellable::new())),
             file.get_path(),
         ) {
-            Ok(BackupRepo::new_local_from_mount(
+            Ok(local::Repository::from_mount(
                 mount,
                 path,
                 file.get_uri().to_string(),

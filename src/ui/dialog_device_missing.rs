@@ -8,7 +8,7 @@ use crate::ui::prelude::*;
 
 pub async fn updated_config(config: config::Backup, purpose: &str) -> Result<config::Backup> {
     match &config.repo {
-        config::BackupRepo::Local(repo) => {
+        config::Repository::Local(repo) => {
             if !ui::utils::is_backup_repo(&repo.path()) {
                 if let Some(uri) = config.repo.get_uri_fuse() {
                     mount_enclosing(&gio::File::new_for_uri(&uri)).await?;
@@ -17,7 +17,7 @@ pub async fn updated_config(config: config::Backup, purpose: &str) -> Result<con
                 }
             }
         }
-        config::BackupRepo::Remote { .. } => {
+        config::Repository::Remote { .. } => {
             // remote
         }
     }
@@ -48,7 +48,7 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
     }
 }
 
-async fn mount_dialog(repo: config::RepoLocal, purpose: &str) -> Result<()> {
+async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<()> {
     let path = repo.path();
 
     let dialog = Rc::new(ui::builder::DialogDeviceMissing::new());

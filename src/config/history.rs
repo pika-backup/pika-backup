@@ -6,12 +6,29 @@ use chrono::prelude::*;
 use std::collections::{BTreeMap, VecDeque};
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
-pub struct Histories(pub BTreeMap<config::ConfigId, History>);
-
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
 pub struct History {
     /// Last runs, latest run first
     pub run: VecDeque<RunInfo>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+pub struct Histories(pub BTreeMap<config::ConfigId, History>);
+
+impl LookupConfigId<History> for crate::config::Histories {
+    fn get_mut_result(
+        &mut self,
+        key: &ConfigId,
+    ) -> Result<&mut History, super::error::BackupNotFound> {
+        self.0
+            .get_mut(key)
+            .ok_or_else(|| super::error::BackupNotFound::new(key.clone()))
+    }
+
+    fn get_result(&self, key: &ConfigId) -> Result<&History, super::error::BackupNotFound> {
+        self.0
+            .get(key)
+            .ok_or_else(|| super::error::BackupNotFound::new(key.clone()))
+    }
 }
 
 impl Histories {

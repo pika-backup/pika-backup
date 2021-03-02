@@ -75,13 +75,13 @@ pub async fn get_background_permission() -> zbus::fdo::Result<bool> {
     Ok(receiver.await.unwrap_or(false))
 }
 
-pub trait BackupMapActive<T> {
+pub trait LookupActiveConfigId<T> {
     fn get_active(&self) -> Result<&T>;
     fn get_active_mut(&mut self) -> Result<&mut T>;
 }
 
 #[allow(clippy::implicit_hasher)]
-impl<T> BackupMapActive<T> for std::collections::BTreeMap<ConfigId, T> {
+impl<T> LookupActiveConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
     fn get_active(&self) -> Result<&T> {
         Ok(self.get_result(&active_config_id_result()?)?)
     }
@@ -90,7 +90,7 @@ impl<T> BackupMapActive<T> for std::collections::BTreeMap<ConfigId, T> {
         Ok(self.get_mut_result(&active_config_id_result()?)?)
     }
 }
-impl BackupMapActive<config::Backup> for config::Backups {
+impl LookupActiveConfigId<config::Backup> for config::Backups {
     fn get_active(&self) -> Result<&config::Backup> {
         Ok(self.get_result(&active_config_id_result()?)?)
     }

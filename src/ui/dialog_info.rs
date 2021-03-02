@@ -2,7 +2,7 @@ use gtk::prelude::*;
 
 use num_format::ToFormattedString;
 
-use crate::history::*;
+use crate::config::history::*;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
 

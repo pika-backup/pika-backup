@@ -63,7 +63,7 @@ fn update_config(id: ConfigId, list: borg::List) -> Result<()> {
     BACKUP_CONFIG.update(move |settings| {
         if let Ok(config) = settings.get_mut_result(&id) {
             let icon_symbolic = match &config.repo {
-                config::BackupRepo::Local(local) => gio::File::new_for_path(local.path())
+                config::Repository::Local(local) => gio::File::new_for_path(local.path())
                     .find_enclosing_mount(Some(&gio::Cancellable::new()))
                     .ok()
                     .and_then(|m| m.get_symbolic_icon()),
