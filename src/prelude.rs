@@ -3,7 +3,64 @@ pub use crate::globals::*;
 pub use std::rc::Rc;
 pub use std::sync::Arc;
 
+use crate::config;
+
 use arc_swap::ArcSwap;
+
+pub trait BackupMap<T> {
+    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound>;
+    fn get_result(&self, key: &ConfigId) -> Result<&T, config::error::BackupNotFound>;
+}
+
+#[allow(clippy::implicit_hasher)]
+impl<T> BackupMap<T> for std::collections::BTreeMap<ConfigId, T> {
+    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound> {
+        self.get_mut(&key)
+            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
+    }
+
+    fn get_result(&self, key: &ConfigId) -> Result<&T, config::error::BackupNotFound> {
+        self.get(key)
+            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
+    }
+}
+
+impl BackupMap<config::Backup> for config::Backups {
+    fn get_mut_result(
+        &mut self,
+        key: &ConfigId,
+    ) -> Result<&mut config::Backup, config::error::BackupNotFound> {
+        self.iter_mut()
+            .find(|x| x.id == *key)
+            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
+    }
+
+    fn get_result(&self, key: &ConfigId) -> Result<&config::Backup, config::error::BackupNotFound> {
+        self.iter()
+            .find(|x| x.id == *key)
+            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
+    }
+}
+
+impl BackupMap<crate::history::History> for crate::history::Histories {
+    fn get_mut_result(
+        &mut self,
+        key: &ConfigId,
+    ) -> Result<&mut crate::history::History, config::error::BackupNotFound> {
+        self.0
+            .get_mut(key)
+            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
+    }
+
+    fn get_result(
+        &self,
+        key: &ConfigId,
+    ) -> Result<&crate::history::History, config::error::BackupNotFound> {
+        self.0
+            .get(key)
+            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
+    }
+}
 
 pub trait ArcSwapExt<T> {
     fn update<F: Fn(&mut T)>(&self, updater: F);

@@ -38,7 +38,7 @@ thread_local!(
 );
 
 fn load_config() -> Result<()> {
-    let conf = config::Backups::from_path(&config::Backups::default_path()?)?;
+    let conf = config::Backups::from_default_path()?;
     BACKUP_CONFIG.update(move |s| *s = conf.clone());
     Ok(())
 }

@@ -2,8 +2,8 @@ use gtk::prelude::*;
 
 use num_format::ToFormattedString;
 
+use crate::history::*;
 use crate::ui::backup_status;
-use crate::ui::config::*;
 use crate::ui::prelude::*;
 
 pub fn init() {

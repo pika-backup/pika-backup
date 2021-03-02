@@ -75,53 +75,28 @@ pub async fn get_background_permission() -> zbus::fdo::Result<bool> {
     Ok(receiver.await.unwrap_or(false))
 }
 
-pub trait BackupMap<T> {
+pub trait BackupMapActive<T> {
     fn get_active(&self) -> Result<&T>;
-    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T>;
     fn get_active_mut(&mut self) -> Result<&mut T>;
-    fn get_result(&self, key: &ConfigId) -> Result<&T>;
 }
 
 #[allow(clippy::implicit_hasher)]
-impl<T> BackupMap<T> for std::collections::BTreeMap<ConfigId, T> {
+impl<T> BackupMapActive<T> for std::collections::BTreeMap<ConfigId, T> {
     fn get_active(&self) -> Result<&T> {
-        self.get_result(&active_config_id_result()?)
+        Ok(self.get_result(&active_config_id_result()?)?)
     }
 
     fn get_active_mut(&mut self) -> Result<&mut T> {
-        self.get_mut_result(&active_config_id_result()?)
-    }
-
-    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T> {
-        self.get_mut(&key)
-            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()).into())
-    }
-
-    fn get_result(&self, key: &ConfigId) -> Result<&T> {
-        self.get(key)
-            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()).into())
+        Ok(self.get_mut_result(&active_config_id_result()?)?)
     }
 }
-
-impl BackupMap<config::Backup> for config::Backups {
+impl BackupMapActive<config::Backup> for config::Backups {
     fn get_active(&self) -> Result<&config::Backup> {
-        self.get_result(&active_config_id_result()?)
+        Ok(self.get_result(&active_config_id_result()?)?)
     }
 
     fn get_active_mut(&mut self) -> Result<&mut config::Backup> {
-        self.get_mut_result(&active_config_id_result()?)
-    }
-
-    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut config::Backup> {
-        self.iter_mut()
-            .find(|x| x.id == *key)
-            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()).into())
-    }
-
-    fn get_result(&self, key: &ConfigId) -> Result<&config::Backup> {
-        self.iter()
-            .find(|x| x.id == *key)
-            .ok_or_else(|| config::error::BackupNotFound::new(key.clone()).into())
+        Ok(self.get_mut_result(&active_config_id_result()?)?)
     }
 }
 

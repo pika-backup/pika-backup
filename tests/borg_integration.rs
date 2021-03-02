@@ -89,6 +89,5 @@ fn config() -> config::Backup {
         encrypted: false,
         include: vec!["/dev/null".into()].into_iter().collect(),
         exclude: Default::default(),
-        last_run: None,
     }
 }

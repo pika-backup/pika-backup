@@ -2,6 +2,7 @@ use arc_swap::ArcSwap;
 use once_cell::sync::Lazy;
 
 pub static BACKUP_CONFIG: Lazy<ArcSwap<crate::config::Backups>> = Lazy::new(Default::default);
+pub static BACKUP_HISTORY: Lazy<ArcSwap<crate::history::Histories>> = Lazy::new(Default::default);
 
 pub static HOME_DIR: Lazy<std::path::PathBuf> =
     Lazy::new(|| glib::get_home_dir().expect("Could not determine home directory."));

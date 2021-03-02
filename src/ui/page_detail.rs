@@ -4,6 +4,7 @@ use libhandy::prelude::*;
 
 use crate::borg;
 use crate::config;
+use crate::history;
 use crate::ui;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
@@ -230,20 +231,19 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
     let user_aborted = matches!(result, Err(borg::Error::UserAborted));
     // This is because the error cannot be cloned
     let result_config = match result {
-        Err(borg::Error::BorgCreate(err)) => Err(config::RunError::WithLevel {
+        Err(borg::Error::BorgCreate(err)) => Err(history::RunError::WithLevel {
             message: format!("{}", err),
             level: err.level,
             stats: err.stats,
         }),
-        Err(err) => Err(config::RunError::Simple(format!("{}", err))),
+        Err(err) => Err(history::RunError::Simple(format!("{}", err))),
         Ok(stats) => Ok(stats),
     };
-    let run_info = Some(config::RunInfo::new(result_config.clone()));
+    let run_info = history::RunInfo::new(result_config.clone());
 
-    BACKUP_CONFIG.update_result(|settings| {
-        settings.get_mut_result(&config.id)?.last_run = run_info.clone();
-        Ok(())
-    })?;
+    BACKUP_HISTORY.update(|history| {
+        history.insert(&config.id, run_info.clone());
+    });
     refresh_status();
 
     ui::write_config()?;

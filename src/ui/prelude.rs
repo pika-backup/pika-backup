@@ -2,7 +2,7 @@ pub use crate::prelude::*;
 pub use crate::ui::error::{Error, ErrorToMessage, Handler, Message, Result, UserAborted};
 pub use crate::ui::globals::*;
 pub use crate::ui::utils::ext::*;
-pub use crate::ui::utils::BackupMap;
+pub use crate::ui::utils::BackupMapActive;
 
 pub use gettextrs::gettext;
 

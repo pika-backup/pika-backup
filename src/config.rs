@@ -1,11 +1,8 @@
 pub mod error;
 
-use std::io::prelude::*;
-
 use crate::borg;
 use crate::globals::*;
 
-use chrono::prelude::*;
 use gio::prelude::*;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path;
@@ -46,7 +43,6 @@ pub struct Backup {
     pub encryption_mode: String,
     pub include: BTreeSet<path::PathBuf>,
     pub exclude: BTreeSet<Pattern>,
-    pub last_run: Option<RunInfo>,
 }
 
 fn fake_repo_id() -> borg::RepoId {
@@ -72,7 +68,6 @@ impl Backup {
             encryption_mode: info.encryption.mode,
             include,
             exclude,
-            last_run: None,
         }
     }
 
@@ -142,53 +137,6 @@ impl Pattern {
         }
         .to_string_lossy()
         .to_string()
-    }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct RunInfo {
-    pub end: DateTime<Local>,
-    pub result: Result<borg::Stats, RunError>,
-}
-
-impl RunInfo {
-    pub fn new(result: Result<borg::Stats, RunError>) -> Self {
-        Self {
-            end: Local::now(),
-            result,
-        }
-    }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-#[serde(untagged)]
-pub enum RunError {
-    WithLevel {
-        message: String,
-        level: borg::msg::LogLevel,
-        stats: Option<borg::Stats>,
-    },
-    Simple(String),
-}
-
-impl RunError {
-    pub fn level(&self) -> borg::msg::LogLevel {
-        match self {
-            Self::WithLevel { level, .. } => level.clone(),
-            Self::Simple(_) => borg::msg::LogLevel::NONE,
-        }
-    }
-}
-
-impl std::fmt::Display for RunError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::WithLevel { message, .. } | Self::Simple(message) => message,
-            }
-        )
     }
 }
 
@@ -393,6 +341,10 @@ pub struct BackupSettings {
 pub struct Backups(Vec<Backup>);
 
 impl Backups {
+    pub fn from_default_path() -> std::io::Result<Self> {
+        Self::from_path(&Self::default_path()?)
+    }
+
     pub fn from_path(path: &std::path::Path) -> std::io::Result<Self> {
         #[derive(Serialize, Deserialize, Debug)]
         struct BackupsLegacy {
@@ -400,7 +352,7 @@ impl Backups {
         }
 
         let conf: std::result::Result<Self, _> =
-            serde_json::de::from_reader(std::fs::File::open(path)?);
+            serde_json::de::from_reader(std::fs::File::open(&path)?);
 
         // pre v2 parser
         match conf {
@@ -447,20 +399,7 @@ impl Backups {
     }
 
     pub fn default_path() -> std::io::Result<std::path::PathBuf> {
-        let mut path = CONFIG_DIR.clone();
-        path.push(env!("CARGO_PKG_NAME"));
-        std::fs::create_dir_all(&path)?;
-        path.push("config.json");
-
-        if let Ok(mut file) = std::fs::OpenOptions::new()
-            .write(true)
-            .create_new(true)
-            .open(&path)
-        {
-            file.write_all(b"{ }")?;
-        }
-
-        Ok(path)
+        crate::utils::prepare_config_file("config.json", Self::default())
     }
 }
 

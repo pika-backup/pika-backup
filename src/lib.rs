@@ -50,4 +50,6 @@ pub mod borg;
 pub mod config;
 pub mod daemon;
 pub mod globals;
+pub mod history;
 pub mod ui;
+pub mod utils;

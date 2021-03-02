@@ -3,8 +3,8 @@ use chrono::prelude::*;
 use crate::borg;
 use crate::borg::msg;
 use crate::borg::Run;
-use crate::config;
 use crate::config::*;
+use crate::history;
 use crate::ui::prelude::*;
 
 pub struct Display {
@@ -17,7 +17,7 @@ pub struct Display {
 
 pub enum Stats {
     Progress(msg::ProgressArchive),
-    Final(RunInfo),
+    Final(history::RunInfo),
 }
 
 pub enum Graphic {
@@ -31,20 +31,21 @@ impl Display {
     pub fn new_from_id(config_id: &ConfigId) -> Self {
         if let Some(communication) = BACKUP_COMMUNICATION.load().get(config_id) {
             Self::from(communication)
-        } else if let Ok(Backup {
-            last_run: Some(backup),
-            ..
-        }) = BACKUP_CONFIG.load().get_result(config_id)
+        } else if let Some(last_run) = BACKUP_HISTORY
+            .load()
+            .get_result(config_id)
+            .ok()
+            .and_then(|x| x.run.get(0))
         {
-            Self::from(backup)
+            Self::from(last_run)
         } else {
             Self::default()
         }
     }
 }
 
-impl From<&config::RunInfo> for Display {
-    fn from(run_info: &config::RunInfo) -> Self {
+impl From<&history::RunInfo> for Display {
+    fn from(run_info: &history::RunInfo) -> Self {
         match &run_info.result {
             Ok(_) => Self {
                 title: gettext("Last backup successful"),
