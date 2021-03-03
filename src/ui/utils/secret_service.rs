@@ -48,15 +48,17 @@ pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, b
         .await
 }
 
-pub fn store_password(config: &config::Backup, x: &Option<(Password, bool)>) -> Result<()> {
-    if let Some((ref password, true)) = x {
-        debug!("Storing new password at secret service");
-        set_password(&config, &password).err_to_msg(gettext("Failed to store password."))?;
-    } else {
-        debug!("Removing password from secret service");
-        delete_passwords(&config.id).err_to_msg(gettext(
-            "Failed to remove potentially remaining passwords from key storage.",
-        ))?;
+pub fn store_password(config: &config::Backup, password: &Option<(Password, bool)>) -> Result<()> {
+    if let Some((password, store)) = &password {
+        if *store {
+            debug!("Storing new password at secret service");
+            set_password(config, password).err_to_msg(gettext("Failed to store password."))?;
+        } else {
+            debug!("Removing password from secret service");
+            delete_passwords(&config.id).err_to_msg(gettext(
+                "Failed to remove potentially remaining passwords from key storage.",
+            ))?;
+        }
     }
 
     Ok(())
