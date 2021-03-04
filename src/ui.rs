@@ -40,11 +40,17 @@ pub fn main() {
     );
 
     // init gettext
-    gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
+    if gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "").is_none() {
+        warn!("gettextrs::setlocale() failed");
+    }
     let localedir = option_env!("LOCALEDIR").unwrap_or(crate::DEFAULT_LOCALEDIR);
-    gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), localedir);
-    info!("bindtextdomain sets directory to {:?}", localedir);
-    gettextrs::textdomain(env!("CARGO_PKG_NAME"));
+    info!("bindtextdomain setting directory to {:?}", localedir);
+    if let Err(err) = gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), localedir) {
+        warn!("gettextrs::bindtextdomain() failed: {}", err);
+    }
+    if let Err(err) = gettextrs::textdomain(env!("CARGO_PKG_NAME")) {
+        warn!("gettextrs::textdomain() failed: {}", err);
+    }
 
     // init gtk and libhandy
     gtk::init().expect("Failed to gtk::init()");
