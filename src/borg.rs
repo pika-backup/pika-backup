@@ -204,8 +204,9 @@ impl Borg {
                 .take()
                 .ok_or_else(|| String::from("Failed to get stderr."))?,
         );
-        while reader.read_line(&mut line).unwrap_or(0) > 0 {
-            if let Instruction::Abort = **communication.instruction.load() {
+
+        while reader.read_line(&mut line)? > 0 {
+            if matches!(**communication.instruction.load(), Instruction::Abort) {
                 communication.status.update(|status| {
                     status.run = Run::Stopping;
                 });

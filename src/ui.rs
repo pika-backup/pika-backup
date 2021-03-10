@@ -71,6 +71,12 @@ pub fn main() {
 fn on_ctrlc() -> Continue {
     debug!("Quit: SIGINT (Ctrl+C)");
 
+    for com in BACKUP_COMMUNICATION.load().values() {
+        com.instruction.update(|instruction| {
+            *instruction = borg::Instruction::Abort;
+        })
+    }
+
     gtk_app().release();
     Continue(true)
 }
