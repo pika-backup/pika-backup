@@ -37,7 +37,7 @@ pub fn show() {
                 if communication.status.load().estimated_size.is_none() {
                     debug!("A running backup is lacking size estimate");
                     if let Ok(config) = BACKUP_CONFIG.load().get_result(config_id) {
-                        borg::reestimate_size(config, communication.clone());
+                        borg::size_estimate::recalculate(config, communication.clone());
                     }
                 }
             }

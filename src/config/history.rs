@@ -9,6 +9,7 @@ use std::collections::{BTreeMap, VecDeque};
 pub struct History {
     /// Last runs, latest run first
     pub run: VecDeque<RunInfo>,
+    pub last_completed: Option<RunInfo>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
@@ -39,13 +40,16 @@ impl Histories {
     }
 
     pub fn insert(&mut self, config_id: &ConfigId, entry: RunInfo) {
-        if let Some(history) = self.0.get_mut(config_id) {
-            history.run.push_front(entry);
-        } else {
-            let mut history: History = Default::default();
-            history.run.push_front(entry);
-            self.0.insert(config_id.clone(), history);
+        let history = self
+            .0
+            .entry(config_id.clone())
+            .or_insert_with(Default::default);
+
+        if entry.result.is_ok() {
+            history.last_completed = Some(entry.clone());
         }
+
+        history.run.push_front(entry);
     }
 
     pub fn default_path() -> std::io::Result<std::path::PathBuf> {
