@@ -6,6 +6,7 @@ use crate::borg::Run;
 use crate::config::history;
 use crate::config::*;
 use crate::ui::prelude::*;
+use crate::ui::utils;
 
 pub struct Display {
     pub title: String,
@@ -49,58 +50,26 @@ impl From<&history::RunInfo> for Display {
         match &run_info.result {
             Ok(_) => Self {
                 title: gettext("Last backup successful"),
-                subtitle: Some(time_ago(&(Local::now() - run_info.end))),
+                subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::Icon("emblem-default-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
             Err(err) if err.level() >= borg::msg::LogLevel::ERROR => Self {
                 title: gettext("Last backup failed"),
-                subtitle: Some(time_ago(&(Local::now() - run_info.end))),
+                subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
             Err(_) => Self {
                 title: gettext("Last backup completed with warnings"),
-                subtitle: Some(time_ago(&(Local::now() - run_info.end))),
+                subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
         }
-    }
-}
-
-fn time_left(d: &chrono::Duration) -> String {
-    if d.num_hours() < 1 {
-        ngettextf_(
-            "One minute left",
-            "{} minutes left",
-            (d.num_minutes() + 1) as u32,
-        )
-    } else if d.num_days() < 2 {
-        ngettextf_("One hour left", "{} hours left", (d.num_hours() + 1) as u32)
-    } else {
-        ngettextf_("One day left", "{} days left", (d.num_days() + 1) as u32)
-    }
-}
-
-fn time_ago(d: &chrono::Duration) -> String {
-    if d.num_minutes() < 1 {
-        gettext("Now")
-    } else if d.num_hours() < 1 {
-        ngettextf_("One minute ago", "{} minutes ago", d.num_minutes() as u32)
-    } else if d.num_days() < 1 {
-        ngettextf_("One hour ago", "{} hours ago", d.num_hours() as u32)
-    } else if d.num_weeks() < 1 {
-        ngettextf_("One day ago", "{} days ago", d.num_days() as u32)
-    } else if d.num_days() < 30 {
-        ngettextf_("One week ago", "{} weeks ago", d.num_weeks() as u32)
-    } else if d.num_weeks() < 52 {
-        ngettextf_("One month ago", "{} months ago", (d.num_days() / 30) as u32)
-    } else {
-        ngettextf_("One year ago", "{} years ago", (d.num_weeks() / 52) as u32)
     }
 }
 
@@ -128,7 +97,7 @@ impl From<&borg::Communication> for Display {
                         );
 
                         if let Some(duration) = status.time_remaining() {
-                            sub.push_str(&format!(" – {}", time_left(&duration)));
+                            sub.push_str(&format!(" – {}", utils::duration::left(&duration)));
                         }
 
                         subtitle = Some(sub);
@@ -170,7 +139,9 @@ impl From<&borg::Communication> for Display {
             Run::Reconnecting => {
                 subtitle = Some(gettextf(
                     "Connection lost, reconnecting in {}",
-                    &[&crate::BORG_DELAY_RECONNECT.humanize()],
+                    &[&utils::duration::plain(&utils::duration::from_std(
+                        crate::BORG_DELAY_RECONNECT,
+                    ))],
                 ));
                 gettext("Reconnecting")
             }

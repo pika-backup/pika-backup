@@ -1,4 +1,5 @@
 pub mod borg;
+pub mod duration;
 pub mod ext;
 pub mod secret_service;
 

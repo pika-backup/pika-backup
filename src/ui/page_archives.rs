@@ -277,8 +277,7 @@ fn display_archives(config: Backup) {
                 row.add(&info(gettext("Name"), archive.name.as_str()));
                 row.add(&info(
                     gettext("Duration"),
-                    // TODO: Translate durations
-                    &format!("About {}", (archive.end - archive.start).humanize()),
+                    &ui::utils::duration::plain(&(archive.end - archive.start)),
                 ));
                 if !archive.comment.is_empty() {
                     row.add(&info(gettext("Comment"), &archive.comment));

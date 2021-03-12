@@ -31,26 +31,6 @@ impl<O: IsA<gtk::Dialog> + IsA<gtk::Widget>> DialogExtFuture for O {
     }
 }
 
-pub trait Humanize {
-    fn humanize(self) -> String;
-}
-
-impl Humanize for std::time::Duration {
-    fn humanize(self) -> String {
-        if let Ok(duration) = chrono::Duration::from_std(self) {
-            duration.humanize()
-        } else {
-            String::from("Too large")
-        }
-    }
-}
-
-impl Humanize for chrono::Duration {
-    fn humanize(self) -> String {
-        chrono_humanize::HumanTime::from(self).to_string()
-    }
-}
-
 pub trait CronoExt {
     fn to_glib(&self) -> glib::DateTime;
     fn to_locale(&self) -> String;
