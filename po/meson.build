@@ -3,7 +3,7 @@ i18n.gettext(
     preset: 'glib',
     args: [
         '--keyword=gettextf',
-        '--keyword=ngettextf',
-        '--keyword=ngettextf_'
+        '--keyword=ngettextf:1,2',
+        '--keyword=ngettextf_:1,2'
     ]
 )
