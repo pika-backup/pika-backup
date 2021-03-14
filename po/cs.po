@@ -1,14 +1,14 @@
 # Czech translation for pika-backup.
 # Copyright (C) 2020 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
-# Marek Černocký <marek@manet.cz>, 2020.
+# Marek Černocký <marek@manet.cz>, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2020-12-12 19:58+0000\n"
-"PO-Revision-Date: 2020-12-13 09:18+0100\n"
+"POT-Creation-Date: 2021-03-12 16:52+0000\n"
+"PO-Revision-Date: 2021-03-14 16:35+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -18,19 +18,28 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincedes with a different meaning. If     fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:5 src/ui/dialog_about.rs:20
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:5 data/ui/main.ui:103
+#: src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Zálohování Pišťucha"
 
-#: data/app.desktop.in:7 data/app.metainfo.xml.in:6
+#: data/app.desktop.in:7
+msgid "Backups"
+msgstr "Zálohy"
+
+#: data/app.desktop.in:8 data/app.metainfo.xml.in:6
 msgid "Simple backups based on borg"
 msgstr "Jednoduché zálohování postavené na programu borg"
 
-#: data/app.metainfo.xml.in:10 src/ui/dialog_about.rs:25
+#: data/app.desktop.in:14
+msgid "archive;back-up;borg;"
+msgstr "archiv;archivy;archivovat;záloha;zálohy;zálohovat;borg;"
+
+#: data/app.metainfo.xml.in:10 src/ui/dialog_about.rs:24
 msgid "Sophie Herold"
 msgstr "Sophie Herold"
 
@@ -124,78 +133,83 @@ msgstr "Použít stávající repozitář"
 msgid "Location"
 msgstr "Umístění"
 
-#: data/ui/dialog_add_config.ui:333
+#: data/ui/dialog_add_config.ui:335
 msgid "URL"
 msgstr "Adresa URL"
 
-#: data/ui/dialog_add_config.ui:350
+#: data/ui/dialog_add_config.ui:352
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://uzivatel@server.example.org/~/Zálohy"
 
-#: data/ui/dialog_add_config.ui:394 data/ui/dialog_encryption_password.ui:164
+#: data/ui/dialog_add_config.ui:395
+msgid ""
+"The data stored in encrypted backups is password protected. If encryption is "
+"used, the password is required for accessing your backups."
+msgstr ""
+"Data uchovávaná v šifrovaných zálohách jsou chráněná heslem. Heslo je v "
+"takovém případě požadováno při každém přístupu k obsahu záloh."
+
+#: data/ui/dialog_add_config.ui:396 data/ui/dialog_encryption_password.ui:164
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: data/ui/dialog_add_config.ui:484
+#: data/ui/dialog_add_config.ui:489 src/ui/page_detail.rs:421
 msgid "Confirm"
-msgstr "Potvrzení"
+msgstr "Potvrdit"
 
-#: data/ui/dialog_add_config.ui:527 data/ui/dialog_encryption_password.ui:57
+#: data/ui/dialog_add_config.ui:532 data/ui/dialog_encryption_password.ui:57
 msgid "Password"
 msgstr "Heslo"
 
-#: data/ui/dialog_add_config.ui:540
-msgid "Store Password"
+#: data/ui/dialog_add_config.ui:545 data/ui/dialog_encryption_password.ui:90
+msgid "Save password"
 msgstr "Uložit heslo"
 
-#: data/ui/dialog_add_config.ui:560
+#: data/ui/dialog_add_config.ui:565
 msgid "Encrypted"
 msgstr "Šifrováno"
 
-#: data/ui/dialog_add_config.ui:573
+#: data/ui/dialog_add_config.ui:578
 msgid "Unencrypted"
 msgstr "Nešifrováno"
 
-#: data/ui/dialog_add_config.ui:607
+#: data/ui/dialog_add_config.ui:612
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
-"options, starting with \"--\", are supported."
+"options, starting with “--”, are supported."
 msgstr ""
 "Následující argumenty boudou přidány k volání programu borg. Podporovány "
 "jsou pouze dlouhé podoby voleb, tj. začínající „--“."
 
-#: data/ui/dialog_add_config.ui:608
+#: data/ui/dialog_add_config.ui:613
 msgid "Additional command line arguments"
 msgstr "Doplňující argumenty příkazové řádky"
 
-#: data/ui/dialog_add_config.ui:647
+#: data/ui/dialog_add_config.ui:652
 msgid "Advanced settings"
 msgstr "Pokročilá nastavení"
 
-#: data/ui/dialog_add_config.ui:682
+#: data/ui/dialog_add_config.ui:687
 msgid "Backup Configuration"
 msgstr "Nastavení zálohování"
 
-#: data/ui/dialog_add_config.ui:685 data/ui/dialog_device_missing.ui:110
-#: data/ui/dialog_encryption_password.ui:167
+#: data/ui/dialog_add_config.ui:690 data/ui/dialog_device_missing.ui:132
+#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:420
+#: src/ui/page_overview.rs:68
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: data/ui/dialog_add_config.ui:708
+#: data/ui/dialog_add_config.ui:713
 msgid "Connect"
 msgstr "Připojit"
 
-#: data/ui/dialog_add_config.ui:724
+#: data/ui/dialog_add_config.ui:729
 msgid "Create"
 msgstr "Vytvořit"
 
-#: data/ui/dialog_device_missing.ui:40
+#: data/ui/dialog_device_missing.ui:57
 msgid "Please insert the backup medium"
 msgstr "Vložte prosím zálohovací médium"
-
-#: data/ui/dialog_encryption_password.ui:90
-msgid "Save password"
-msgstr "Uložit heslo"
 
 #: data/ui/dialog_encryption_password.ui:105
 msgid "Forget password immediately"
@@ -205,7 +219,8 @@ msgstr "Heslo ihned zapomenout"
 msgid "This task requires the encryption password of this repository"
 msgstr "Tento úkol vyžaduje šifrovací heslo k repozitáři"
 
-#: data/ui/dialog_encryption_password.ui:175
+#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:190
+#: src/ui/page_detail.rs:141
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -213,43 +228,39 @@ msgstr "Pokračovat"
 msgid "Backup Location"
 msgstr "Umístění zálohy"
 
-#: data/ui/dialog_storage.ui:54
+#: data/ui/dialog_storage.ui:55
 msgid "Volume"
 msgstr "Svazek"
 
-#: data/ui/dialog_storage.ui:70
+#: data/ui/dialog_storage.ui:71
 msgid "Device"
 msgstr "Zařízení"
 
-#: data/ui/dialog_storage.ui:86
+#: data/ui/dialog_storage.ui:87
 msgid "Path"
 msgstr "Cesta"
 
-#: data/ui/dialog_storage.ui:162
+#: data/ui/dialog_storage.ui:163
 msgid "URI"
 msgstr "Adresa URI"
 
-#: data/ui/dialog_storage.ui:223
+#: data/ui/dialog_storage.ui:224
 msgid "Space"
 msgstr "Místo"
 
-#: data/ui/dialog_storage.ui:246
+#: data/ui/dialog_storage.ui:247
 msgid "Total"
 msgstr "Celkem"
 
-#: data/ui/dialog_storage.ui:263
+#: data/ui/dialog_storage.ui:264
 msgid "Free"
 msgstr "Volné"
 
-#: data/ui/main.ui:15
-msgid "Abort"
-msgstr "Přerušit"
-
-#: data/ui/main.ui:68
+#: data/ui/main.ui:27
 msgid "About"
 msgstr "O aplikaci"
 
-#: data/ui/main.ui:93
+#: data/ui/main.ui:52
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -257,342 +268,512 @@ msgstr ""
 "Archivy se připojují.\n"
 "To může chvíli trvat."
 
-#: data/ui/main.ui:114
+#: data/ui/main.ui:73
 msgid "Delete backup configuration"
 msgstr "Smazat nastavené zálohování"
 
-#: data/ui/main.ui:173
+#: data/ui/main.ui:132
 msgid "Add backup configuration"
 msgstr "Přidat nastavení zálohování"
 
-#: data/ui/main.ui:236
+#: data/ui/main.ui:195
 msgid "Back to overview"
 msgstr "Zpět na přehled"
 
-#: data/ui/main.ui:357
+#: data/ui/main.ui:296 src/ui.rs:191 src/ui/page_detail.rs:142
+msgid "Abort"
+msgstr "Přerušit"
+
+#: data/ui/main.ui:349
 msgid "Create Backup"
 msgstr "Vytvořit zálohu"
 
-#: data/ui/main.ui:396
+#: data/ui/main.ui:388
 msgid "Files to backup"
 msgstr "Soubory k zálohování"
 
-#: data/ui/main.ui:412
+#: data/ui/main.ui:404
 msgid "Include directory"
 msgstr "Přidat zálohovanou složku"
 
-#: data/ui/main.ui:450 src/ui/page_overview.rs:157
+#: data/ui/main.ui:442 src/ui/page_overview.rs:150
 msgid "Home"
 msgstr "Domovská složka"
 
-#: data/ui/main.ui:452
+#: data/ui/main.ui:444
 msgid "Usually contains all personal data"
 msgstr "Obvykle obsahuje všechna osobní data"
 
-#: data/ui/main.ui:489
+#: data/ui/main.ui:487
 msgid "Exclude from backup"
 msgstr "Vynechat ze záloh"
 
-#: data/ui/main.ui:505
+#: data/ui/main.ui:503
 msgid "Add excluded directory"
 msgstr "Přidat vynechávanou složku"
 
-#: data/ui/main.ui:553
+#: data/ui/main.ui:551
 msgid "Nothing excluded from backup"
 msgstr "Nic nebude vynecháno"
 
-#: data/ui/main.ui:584 src/ui.rs:147
+#: data/ui/main.ui:582
 msgid "Backup"
 msgstr "Zálohování"
 
-#: data/ui/main.ui:623 data/ui/main.ui:728
+#: data/ui/main.ui:621 data/ui/main.ui:726
 msgid "Archives"
 msgstr "Archivy"
 
-#: data/ui/main.ui:644
+#: data/ui/main.ui:642
 msgid "Refresh list of archives"
 msgstr "Aktualizovat seznam archivů"
 
-#: data/ui/main.ui:704
+#: data/ui/main.ui:702
 msgid "No archives available"
 msgstr "Žádné archivy nejsou k dispozici"
 
-#: data/ui/main.ui:796
+#: data/ui/main.ui:794
 msgid "No Backup Configured"
 msgstr "Není nastavené žádné zálohování"
 
-#: data/ui/main.ui:813
+#: data/ui/main.ui:811
 msgid "Add a new configuration to start creating backups"
 msgstr "Přidejte nové nastavení zálohování, abyste mohli začít zálohovat."
 
-#: data/ui/main.ui:844
+#: data/ui/main.ui:842
 msgid "Configure Backup"
 msgstr "Nastavit zálohování"
 
 #: data/ui/main.ui:1090
-msgid "Saved"
-msgstr "Uloženo"
+msgid "Amount saved"
+msgstr "Množství uložených dat"
 
-#: data/ui/main.ui:1117
+#: data/ui/main.ui:1110
+msgid "Number of files saved"
+msgstr "Počet uložených souborů"
+
+#: data/ui/main.ui:1130
 msgid "Backup space needed"
-msgstr "Použité místo"
+msgstr "Potřebné místo"
 
-#: data/ui/main.ui:1145
+#: data/ui/main.ui:1150
 msgid "Current file"
 msgstr "Aktuální soubor"
 
-#: data/ui/main.ui:1217
+#: data/ui/main.ui:1221
 msgid "Backup Info"
 msgstr "Informace o záloze"
 
-#: src/ui.rs:233
-msgid "Failed to run `borg`. Is borg-backup installed correctly?"
+#: src/borg/error.rs:33
+msgid "Aborted through user input."
+msgstr "Přerušeno vstupem od uživatele."
+
+#: src/borg/error.rs:34 src/ui/error.rs:56 src/ui/utils.rs:145
+msgid "The operation terminated unexpectedly."
+msgstr "Operace skončila neočekávaně."
+
+#: src/ui.rs:188 src/ui/page_detail.rs:139
+msgid "Abort running backup creation?"
+msgstr "Přerušit probíhající vytváření zálohy?"
+
+#: src/ui.rs:189 src/ui/page_detail.rs:140
+msgid "The backup will remain incomplete if aborted now."
+msgstr "Pokud dojde v tuhle chvíli k přerušení, bude záloha neúplná."
+
+#: src/ui.rs:243
+msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Selhalo spuštění programu „borg“. Je borg-backup správně nainstalovaný?"
 
-#: src/ui.rs:249
+#: src/ui.rs:261
+msgid "Borg version too old."
+msgstr "Verze programu borg je příliš stará."
+
+#: src/ui.rs:263
 msgid ""
-"Your borg-backup version seems to be smaller then "
-"required                     version {}.{}.X. Some features will not work."
+"The installed version of borg-backup is too old. Some features requiring "
+"borg-backup version {}.{} will not work."
 msgstr ""
-"Vaše verze systému borg-backup se zdá nižší, než "
-"požadovaná                   verze {}.{}.X. Některé věci nemusí fungovat."
+"Nainstalovaná verze borg-backup je příliš stará. Některé funkci vyžadují "
+"borg-backup {} nebo novější. S verzí {} nebudou fungovat."
 
-#: src/ui.rs:269
-msgid "Could not load config."
-msgstr "Nezdařilo se načíst nastavení."
+#: src/ui.rs:290
+msgid "Could not load configuration file."
+msgstr "Nezdařilo se načíst soubor s nastavením."
 
-#: src/ui.rs:280
-msgid "Could not write config."
-msgstr "Nezdařilo se zapsat nastavení."
+#: src/ui.rs:307
+msgid "Could not write configuration file."
+msgstr "Nezdařilo se zapsat soubor s nastavením."
 
-#: src/ui/backup_status.rs:30
+#: src/ui/backup_status.rs:52
 msgid "Last backup successful"
 msgstr "Poslední zálohování bylo úspěšné"
 
-#: src/ui/backup_status.rs:41
+#: src/ui/backup_status.rs:59
 msgid "Last backup failed"
 msgstr "Poslední zálohování selhalo"
 
-#: src/ui/backup_status.rs:73
+#: src/ui/backup_status.rs:66
+msgid "Last backup completed with warnings"
+msgstr "Poslední záloha byla dokončena s varováním"
+
+#: src/ui/backup_status.rs:95
 #, no-c-format
 msgid "{} % finished"
 msgstr "{} % dokončeno"
 
-#: src/ui/backup_status.rs:84
+#: src/ui/backup_status.rs:112
 msgid "Updating repository information"
 msgstr "Aktualizují se informace o repozitáři"
 
-#: src/ui/backup_status.rs:98
+#: src/ui/backup_status.rs:126
 #, no-c-format
 msgid "{} % prepared"
 msgstr "{} % připraveno"
 
-#: src/ui/backup_status.rs:108
+#: src/ui/backup_status.rs:136
 msgid "Preparing backup"
 msgstr "Připravuje se zálohování"
 
-#: src/ui/backup_status.rs:109
+#: src/ui/backup_status.rs:137
 msgid "Estimating backup size"
 msgstr "Odhaduje se velikost zálohy"
 
-#: src/ui/backup_status.rs:110
+#: src/ui/backup_status.rs:138
 msgid "Backup running"
 msgstr "Probíhá zálohování"
 
-#: src/ui/backup_status.rs:113
+#: src/ui/backup_status.rs:141
 msgid "Connection lost, reconnecting in {}"
 msgstr "Připojení se přerušilo, znovu se zkusí připojit za {}"
 
-#: src/ui/backup_status.rs:116
+#: src/ui/backup_status.rs:146
 msgid "Reconnecting"
 msgstr "Znovu se připojuje"
 
-#: src/ui/backup_status.rs:118
+#: src/ui/backup_status.rs:148
 msgid "Stopping backup"
 msgstr "Zastavuje se zálohování"
 
-#: src/ui/backup_status.rs:135
+#: src/ui/backup_status.rs:164
 msgid "Backup never ran"
 msgstr "Zálohování nebylo doposud spuštěno"
 
-#: src/ui/backup_status.rs:136
+#: src/ui/backup_status.rs:165
 msgid "Start by creating your first backup"
-msgstr "Začněte vytvořením své první zálohy"
+msgstr "Začněte vytvořením své první zálohy."
+
+#: src/ui/dialog_about.rs:25
+msgid "Copyright © 2018–2021 Sophie Herold et al."
+msgstr "Copyright © 2018 – 2021 Sophie Herold a kol."
 
 #: src/ui/dialog_about.rs:26
-msgid "Copyright © 2018–2020 Sophie Herold et al."
-msgstr "Copyright © 2018 – 2020 Sophie Herold a kol."
-
-#: src/ui/dialog_about.rs:27
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: src/ui/dialog_add_config.rs:113
-msgid "Failed to list existing repositories"
-msgstr "Selhalo vypsání stávajících repozitářů"
+#: src/ui/dialog_add_config.rs:131
+msgid "Failed to list existing repositories."
+msgstr "Selhalo vypsání stávajících repozitářů."
 
-#: src/ui/dialog_add_config.rs:144
-msgid "Select existing repository"
-msgstr "Výběr stávajícího repozitáře"
+#: src/ui/dialog_add_config.rs:214
+msgid "Free space: {}"
+msgstr "Volné místo: {}"
 
-#: src/ui/dialog_add_config.rs:145 src/ui/dialog_add_config.rs:170
+#: src/ui/dialog_add_config/insert.rs:36 src/ui/dialog_add_config/insert.rs:56
+#: src/ui/dialog_add_config/insert.rs:74
 msgid "Loading backup repository"
 msgstr "Načítá se zálohovací repozitář"
 
-#: src/ui/dialog_add_config.rs:155
-msgid "The selected directory is not a valid backup repository"
-msgstr "Vybraná složka není platný zálohovací repozitář"
+#: src/ui/dialog_add_config/insert.rs:52
+msgid "Select existing repository"
+msgstr "Výběr stávajícího repozitáře"
 
-#: src/ui/dialog_add_config.rs:228
-msgid "Repository location not mounted"
-msgstr "Umístění s repozitářem není připojené"
+#: src/ui/dialog_add_config/insert.rs:61
+msgid "Location is not a valid backup repository."
+msgstr "Umístění není platný zálohovací repozitář."
 
-#: src/ui/dialog_add_config.rs:229
-msgid "Mounting succeeded but still unable find enclosing mount"
-msgstr "Připojení se zdařilo, ale doposud není připojený souborový systém vidět"
+#: src/ui/dialog_add_config/insert.rs:62
+msgid "The repository must originate from Pika Backup or compatible software."
+msgstr "Repozitář musí pocházet ze Záloh Pošťucha nebo kompatibilního softwaru."
 
-#: src/ui/dialog_add_config.rs:282
-msgid "Entered passwords do not match"
-msgstr "Zadaná hesla nesouhlasí"
+#: src/ui/dialog_add_config/insert.rs:97
+msgid "No password provided."
+msgstr "Nebylo zadáno heslo."
 
-#: src/ui/dialog_add_config.rs:283
-msgid "Please try again"
-msgstr "Zkuste to prosím znovu"
+#: src/ui/dialog_add_config/insert.rs:98
+msgid "To use encryption a password must be provided."
+msgstr "Aby se mohlo použít šifrování, musí být zadáno heslo."
 
-#: src/ui/dialog_add_config.rs:315
-msgid "You have to enter a repository location"
-msgstr "Musíte zadat umístění repozitáře"
+#: src/ui/dialog_add_config/insert.rs:102
+msgid "Entered passwords do not match."
+msgstr "Zadaná hesla nejsou stejná."
 
-#: src/ui/dialog_add_config.rs:325
-msgid "Invalid additional command line arguments"
-msgstr "Neplatné doplňující argumenty příkazové řádky"
+#: src/ui/dialog_add_config/insert.rs:125
+#: src/ui/dialog_add_config/insert.rs:132
+msgid "A repository location has to be given."
+msgstr "Umístění s repozitářem musí být uvedeno."
 
-#: src/ui/dialog_add_config.rs:329
+#: src/ui/dialog_add_config/insert.rs:148
+#: src/ui/dialog_add_config/insert.rs:260
+msgid "Additional command line arguments invalid."
+msgstr "Doplňující argument příkazové řádky je neplatný."
+
+#: src/ui/dialog_add_config/insert.rs:149
+#: src/ui/dialog_add_config/insert.rs:261
+msgid "Please check for missing closing quotes."
+msgstr "Zkontrolujte prosím chybějící zavírací uvozovky."
+
+#: src/ui/dialog_add_config/insert.rs:154
 msgid "Creating backup repository"
 msgstr "Vytváří se zálohovací repozitář"
 
-#: src/ui/dialog_add_config.rs:346
-msgid "Failed to initialize repository"
-msgstr "Selhala inicializace repozitáře"
+#: src/ui/dialog_add_config/insert.rs:167
+msgid "Failed to initialize repository."
+msgstr "Selhala inicializace repozitáře."
 
-#: src/ui/dialog_add_config.rs:357 src/ui/utils.rs:83
+#: src/ui/dialog_add_config/insert.rs:175 src/ui/utils/secret_service.rs:55
 msgid "Failed to store password."
 msgstr "Selhalo uložení hesla."
 
-#: src/ui/dialog_add_config.rs:381
-msgid "Additional command line arguments invalid"
-msgstr "Doplňující argument příkazové řádky je neplatný"
-
-#: src/ui/dialog_add_config.rs:382
-msgid "Please check for missing closing quotes"
-msgstr "Zkontrolujte prosím chybějící zavírací uvozovky"
-
-#: src/ui/dialog_add_config.rs:437
-msgid " – {} of {} available"
-msgstr "– {} z {} k dispozici"
-
-#: src/ui/dialog_add_config.rs:466
-msgid "Unexpected error with repository"
-msgstr "Neočekávaná chyba v souvislosti s repozitářem"
-
-#: src/ui/dialog_add_config.rs:511
+#: src/ui/dialog_add_config/insert.rs:218
 msgid "There was an error with the specified repository"
 msgstr "Vyskytla se chyba se zadaným repozitářem."
 
-#: src/ui/dialog_device_missing.rs:57
-msgid "Failed to mount"
-msgstr "Selhalo připojení"
+#: src/ui/dialog_add_config/insert.rs:297
+msgid "Repository location not found."
+msgstr "Umístění s repozitářem nebylo nalezeno."
 
-#: src/ui/page_archives.rs:178 src/ui/page_archives.rs:200
-msgid "Failed to open archive"
-msgstr "Selhalo otevření archivu"
+#: src/ui/dialog_add_config/insert.rs:298
+msgid "A mount operation succeeded but the location is still unavailable."
+msgstr "Připojení proběhlo v pořádku, ale umístění stále není dostupné."
 
-#: src/ui/page_archives.rs:234
+#: src/ui/dialog_device_missing.rs:45
+msgid "Failed to mount."
+msgstr "Selhalo připojení."
+
+#: src/ui/error.rs:59
+msgid "Backup with id “{}” already exists."
+msgstr "Záloha s id „{}“ již existuje."
+
+#: src/ui/error.rs:64
+msgid "Could not find backup configuration with id “{}”"
+msgstr "Nezdařilo se najít nastavení záloh s id „{}“."
+
+#: src/ui/page_archives.rs:51
+msgid "Update archive list"
+msgstr "Aktualizovat seznam archivů"
+
+#: src/ui/page_archives.rs:148
+msgid "Failed to save cache."
+msgstr "Selhalo uložení mezipaměti."
+
+#: src/ui/page_archives.rs:188
+msgid "Failed to open archive."
+msgstr "Selhalo otevření archivu."
+
+#: src/ui/page_archives.rs:222
 msgid "Failed to make archives available for browsing."
 msgstr "Selhala příprava archivu pro procházení."
 
-#: src/ui/page_archives.rs:279
+#: src/ui/page_archives.rs:277
 msgid "Name"
 msgstr "Název"
 
-#: src/ui/page_archives.rs:281
+#: src/ui/page_archives.rs:279
 msgid "Duration"
 msgstr "Doba zálohování"
 
-#: src/ui/page_archives.rs:286
+#: src/ui/page_archives.rs:283
 msgid "Comment"
 msgstr "Poznámka"
 
-#: src/ui/page_archives.rs:290
+#: src/ui/page_archives.rs:287
 msgid "Browse saved files"
 msgstr "Procházet uložené soubory"
 
-#: src/ui/page_detail.rs:57
-msgid "Are you sure you want to remove the home directory from this backup?"
-msgstr "Opravdu chcete vyjmout domovskou složku z tohoto zálohování?"
+#: src/ui/page_detail.rs:177
+msgid "Backup on repository already running."
+msgstr "Zálohování do repozitáře již běží."
 
-#: src/ui/page_detail.rs:130
-msgid "Are you sure you want abort the running backup?"
-msgstr "Opravdu chcete přerušit probíhající zálohování?"
+#: src/ui/page_detail.rs:184
+msgid "Stop browsing files and start backup?"
+msgstr "Ukončit procházení a spustit zálohování?"
 
-#: src/ui/page_detail.rs:149
-msgid ""
-"The backup repository is currently reserved for browsing files.              "
-"Do you want to disable browsing and start the Backup?"
-msgstr ""
-"Zálohovací repozitář je v tuto chvíli vyhrazen k procházení souborů.         "
-"Chcete procházení ukončit a začít zálohovat?"
+#: src/ui/page_detail.rs:185
+msgid "Browsing through archived files is not possible while running a backup."
+msgstr "Procházení souborů v archivu není možné, když běží zálohování."
 
-#: src/ui/page_detail.rs:156
+#: src/ui/page_detail.rs:186
+msgid "Keep Browsing"
+msgstr "Pokračovat v procházení"
+
+#: src/ui/page_detail.rs:187
+msgid "Start Backup"
+msgstr "Spustit zálohování"
+
+#: src/ui/page_detail.rs:192
 msgid "Failed to unmount repository."
 msgstr "Selhalo odpojení repozitáře"
 
-#: src/ui/page_detail.rs:201
-msgid "Creating a backup failed"
-msgstr "Vytváření zálohy selhalo"
+#: src/ui/page_detail.rs:200
+msgid "Creating a new backup."
+msgstr "Vytváří se nové zálohování."
 
-#: src/ui/page_detail.rs:274
+#: src/ui/page_detail.rs:254
+msgid "Creating a backup failed."
+msgstr "Vytvoření zálohy selhalo."
+
+#: src/ui/page_detail.rs:256
+msgid "Backup completed with warnings."
+msgstr "Zálohování bylo dokončeno s varováním."
+
+#: src/ui/page_detail.rs:325
 msgid "Remote location"
 msgstr "Vzdálené umístění"
 
-#: src/ui/page_detail.rs:297
-msgid "You no longer want to backup this directory?"
-msgstr "Tuto složku již nechcete nadále zálohovat?"
+#: src/ui/page_detail.rs:416
+msgid "No longer include “{}” in backups?"
+msgstr "Složku „{}“ již nechcete nadále zálohovat?"
 
-#: src/ui/page_detail.rs:369
-msgid "Include directory in backup"
-msgstr "Přidání složky do zálohy"
+#: src/ui/page_detail.rs:419
+msgid ""
+"All files contained in this folder will no longer be part of future backups."
+msgstr ""
+"Žádné soubory umístěné v této složce již nebudou součástí budoucích záloh."
 
-#: src/ui/page_detail.rs:386
+#: src/ui/page_detail.rs:438
+msgid "Include directory in backups"
+msgstr "Přidání složky do záloh"
+
+#: src/ui/page_detail.rs:453
 msgid "Exclude directory from backup"
-msgstr "Vyjmutí složky ze zálohy"
+msgstr "Vyjmutí složky ze záloh"
 
-#: src/ui/page_overview.rs:65
-msgid "Are you sure you want to delete this backup configuration?"
-msgstr "Opravdu chcete smazat toto nastavené zálohování?"
+#: src/ui/page_overview.rs:66
+msgid "Delete backup configuration?"
+msgstr "Smazat nastavené zálohován?"
 
-#: src/ui/page_overview.rs:92
-msgid "No active backup to delete."
-msgstr "Není žádné aktivní zálohování ke smazání."
+#: src/ui/page_overview.rs:67
+msgid "Deleting the configuration will not delete your saved data."
+msgstr "Smazáním nastavení se nesmažou žádná uchovaná data."
 
-#: src/ui/update_config.rs:21
-msgid "Updating configuration for new version"
-msgstr "Aktualizuje se nastavení pro novou verzi"
+#: src/ui/page_overview.rs:69
+msgid "Delete"
+msgstr "Smazat"
 
-#: src/ui/update_config.rs:75
-msgid "Failed to update config"
-msgstr "Selhala aktualizace nastavení"
-
-#. Translators: This is the description for entries in the password database.
-#: src/ui/utils.rs:24
-msgid "Pika Backup Password"
-msgstr "Heslo k záloze ze Zálohování Pišťucha"
-
-#: src/ui/utils.rs:89
+#: src/ui/page_overview.rs:81 src/ui/utils/secret_service.rs:59
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Selhalo odstranění hesla, které tak možná zůstalo v úložišti klíčů."
 
-#: src/ui/utils.rs:214
-msgid "The responsible thread has panicked"
-msgstr "Zodpovědné vlákno se vymklo kontrole"
+#: src/ui/update_config.rs:26 src/ui/update_config.rs:34
+msgid "Updating configuration for new version"
+msgstr "Aktualizuje se nastavení pro novou verzi"
+
+#: src/ui/update_config.rs:51
+msgid "Failed to retrieve backup information."
+msgstr "Selhalo získání informací o záloze."
+
+#: src/ui/utils.rs:52
+msgid "Schedule and continue running backups in background."
+msgstr "Naplánovat a pokračovat se zálohováním na pozadí."
+
+#: src/ui/utils/duration.rs:10
+msgid "One second"
+msgid_plural "{} seconds"
+msgstr[0] "{} sekunda"
+msgstr[1] "{} sekundy"
+msgstr[2] "{} sekund"
+
+#: src/ui/utils/duration.rs:12
+msgid "One minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuta"
+msgstr[1] "{} minuty"
+msgstr[2] "{} minut"
+
+#: src/ui/utils/duration.rs:14
+msgid "One hour"
+msgid_plural "{} hours"
+msgstr[0] "{} hodina"
+msgstr[1] "{} hodiny"
+msgstr[2] "{} hodin"
+
+#: src/ui/utils/duration.rs:16
+msgid "One day"
+msgid_plural "{} days"
+msgstr[0] "{} den"
+msgstr[1] "{} dny"
+msgstr[2] "{} dní"
+
+#: src/ui/utils/duration.rs:23
+msgid "One minute left"
+msgid_plural "{} minutes left"
+msgstr[0] "zbývá jedna minuta"
+msgstr[1] "zbývají {} minuty"
+msgstr[2] "zbývá {} minut"
+
+#: src/ui/utils/duration.rs:28
+msgid "One hour left"
+msgid_plural "{} hours left"
+msgstr[0] "zbývá jedna hodina"
+msgstr[1] "zbývají {} hodiny"
+msgstr[2] "zbývá {} hodin"
+
+#: src/ui/utils/duration.rs:30
+msgid "One day left"
+msgid_plural "{} days left"
+msgstr[0] "zbývá jeden den"
+msgstr[1] "zbývají {} dny"
+msgstr[2] "zbývá {} dní"
+
+#: src/ui/utils/duration.rs:36
+msgid "Now"
+msgstr "právě teď"
+
+#: src/ui/utils/duration.rs:38
+msgid "One minute ago"
+msgid_plural "{} minutes ago"
+msgstr[0] "před jednou minutou"
+msgstr[1] "před {} minutami"
+msgstr[2] "před {} minutami"
+
+#: src/ui/utils/duration.rs:40
+msgid "One hour ago"
+msgid_plural "{} hours ago"
+msgstr[0] "před jednou hodinou"
+msgstr[1] "před {} hodinami"
+msgstr[2] "před {} hodinami"
+
+#: src/ui/utils/duration.rs:42
+msgid "One day ago"
+msgid_plural "{} days ago"
+msgstr[0] "před jedním dnem"
+msgstr[1] "před {} dny"
+msgstr[2] "před {} dny"
+
+#: src/ui/utils/duration.rs:44
+msgid "One week ago"
+msgid_plural "{} weeks ago"
+msgstr[0] "před jedním týdnem"
+msgstr[1] "před {} týdny"
+msgstr[2] "před {} týdny"
+
+#: src/ui/utils/duration.rs:46
+msgid "One month ago"
+msgid_plural "{} months ago"
+msgstr[0] "před jedním měsícem"
+msgstr[1] "před {} měsíci"
+msgstr[2] "před {} měsíci"
+
+#: src/ui/utils/duration.rs:48
+msgid "One year ago"
+msgid_plural "{} years ago"
+msgstr[0] "před jedním rokem"
+msgstr[1] "před {} roky"
+msgstr[2] "před {} lety"
+
+#. Translators: This is the description for entries in the password database.
+#: src/ui/utils/secret_service.rs:12
+msgid "Pika Backup Password"
+msgstr "Heslo k záloze ze Zálohování Pišťucha"
+
