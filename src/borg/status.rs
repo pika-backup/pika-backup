@@ -23,27 +23,15 @@ fn positive(n: f64) -> f64 {
 
 impl Status {
     pub fn time_remaining(&self) -> Option<chrono::Duration> {
-        if let Some(size) = &self.estimated_size {
+        if let (Some(skip_remaining_size), Some(copy_remaining_size)) =
+            (self.skip_remaining(), self.copy_remaining())
+        {
             // Do not trust early estimates
             if Some(true)
                 == self
                     .started
                     .map(|x| (chrono::Local::now() - x) < chrono::Duration::seconds(10))
             {
-                return None;
-            }
-
-            let mut skip_remaining_size = size.unchanged() as f64 - self.skipped();
-            let mut copy_remaining_size = size.changed as f64 - self.copied;
-
-            // There is less to copy than estimated
-            if skip_remaining_size < 0. {
-                skip_remaining_size = 0.;
-                copy_remaining_size += skip_remaining_size;
-            }
-
-            // If we have to copy more than expected, further estimates are useless
-            if copy_remaining_size < 0. {
                 return None;
             }
 
@@ -57,6 +45,31 @@ impl Status {
             }
 
             Some(chrono::Duration::seconds(remaining_time as i64))
+        } else {
+            None
+        }
+    }
+
+    pub fn skip_remaining(&self) -> Option<f64> {
+        if let Some(size) = &self.estimated_size {
+            Some(positive(size.unchanged() as f64 - self.skipped()))
+        } else {
+            None
+        }
+    }
+
+    pub fn copy_remaining(&self) -> Option<f64> {
+        if let Some(size) = &self.estimated_size {
+            let copy = size.changed as f64
+                - self.copied
+                - positive(self.skipped() - size.unchanged() as f64);
+
+            // If we have to copy more than expected, further estimates are useless
+            if !copy.is_normal() {
+                return None;
+            }
+
+            Some(copy)
         } else {
             None
         }
