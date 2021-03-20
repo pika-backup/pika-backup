@@ -3,7 +3,7 @@ use crate::config;
 
 use crate::prelude::*;
 use chrono::prelude::*;
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
 pub struct History {
@@ -39,11 +39,8 @@ impl Histories {
         )?)?)
     }
 
-    pub fn insert(&mut self, config_id: &ConfigId, entry: RunInfo) {
-        let history = self
-            .0
-            .entry(config_id.clone())
-            .or_insert_with(Default::default);
+    pub fn insert(&mut self, config_id: ConfigId, entry: RunInfo) {
+        let history = self.0.entry(config_id).or_insert_with(Default::default);
 
         if entry.result.is_ok() {
             history.last_completed = Some(entry.clone());
@@ -61,13 +58,17 @@ impl Histories {
 pub struct RunInfo {
     pub end: DateTime<Local>,
     pub result: Result<borg::Stats, RunError>,
+    pub include: BTreeSet<std::path::PathBuf>,
+    pub exclude: BTreeSet<config::Pattern>,
 }
 
 impl RunInfo {
-    pub fn new(result: Result<borg::Stats, RunError>) -> Self {
+    pub fn new(config: &config::Backup, result: Result<borg::Stats, RunError>) -> Self {
         Self {
             end: Local::now(),
             result,
+            include: config.include.clone(),
+            exclude: config.exclude.clone(),
         }
     }
 }

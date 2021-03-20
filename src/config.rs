@@ -11,6 +11,7 @@ use crate::borg;
 use crate::prelude::*;
 
 use gio::prelude::*;
+use serde::Deserialize;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path;
 use zeroize::Zeroizing;
@@ -78,24 +79,27 @@ impl Backup {
         }
     }
 
-    pub fn include_dirs(&self) -> Vec<path::PathBuf> {
-        let mut dirs = Vec::new();
+    pub fn include_dirs(&self) -> BTreeSet<path::PathBuf> {
+        let mut dirs = BTreeSet::new();
 
         for dir in &self.include {
-            dirs.push(absolute(dir));
+            dirs.insert(absolute(dir));
         }
 
         dirs
     }
 
-    pub fn exclude_dirs_internal(&self) -> Vec<Pattern> {
-        let mut dirs = Vec::new();
+    pub fn exclude_dirs_internal(&self) -> BTreeSet<Pattern> {
+        let mut dirs = BTreeSet::new();
 
-        for Pattern::PathPrefix(dir) in &self.exclude {
-            dirs.push(Pattern::PathPrefix(absolute(dir)));
+        for pattern in &self.exclude {
+            match pattern {
+                Pattern::PathPrefix(dir) => dirs.insert(Pattern::PathPrefix(absolute(dir))),
+                other => dirs.insert(other.clone()),
+            };
         }
 
-        dirs.push(Pattern::PathPrefix(absolute(path::Path::new(
+        dirs.insert(Pattern::PathPrefix(absolute(path::Path::new(
             crate::REPO_MOUNT_DIR,
         ))));
 
@@ -136,28 +140,72 @@ impl LookupConfigId<Backup> for Backups {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Ord, PartialOrd, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum Pattern {
     PathPrefix(path::PathBuf),
-    //Fnmatch(path::PathBuf),
+    #[serde(
+        deserialize_with = "deserialize_regex",
+        serialize_with = "serialize_regex"
+    )]
+    RegularExpression(Box<regex::Regex>),
+}
+
+fn deserialize_regex<'de, D>(deserializer: D) -> Result<Box<regex::Regex>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let string = String::deserialize(deserializer)?;
+    regex::Regex::new(&string)
+        .map(Box::new)
+        .map_err(serde::de::Error::custom)
+}
+
+fn serialize_regex<S>(regex: &regex::Regex, s: S) -> Result<S::Ok, S::Error>
+where
+    S: serde::Serializer,
+{
+    s.serialize_str(regex.as_str())
+}
+
+impl std::cmp::PartialEq for Pattern {
+    fn eq(&self, other: &Self) -> bool {
+        self.pattern() == other.pattern()
+    }
+}
+impl std::cmp::Eq for Pattern {}
+
+impl std::cmp::Ord for Pattern {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.pattern().cmp(&other.pattern())
+    }
+}
+
+impl std::cmp::PartialOrd for Pattern {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Pattern {
+    pub fn is_match(&self, path: &std::path::Path) -> bool {
+        match self {
+            Self::PathPrefix(path_prefix) => path.starts_with(path_prefix),
+            Self::RegularExpression(regex) => regex.is_match(&path.to_string_lossy()),
+        }
+    }
     pub fn selector(&self) -> String {
         match self {
             Self::PathPrefix(_) => "pp",
-            //Self::Fnmatch(_) => "fm",
+            Self::RegularExpression(_) => "re",
         }
         .to_string()
     }
 
     pub fn pattern(&self) -> String {
         match self {
-            Self::PathPrefix(p) => p,
-            //Self::Fnmatch(p) => p,
+            Self::PathPrefix(path) => path.to_string_lossy().to_string(),
+            Self::RegularExpression(pattern) => pattern.as_str().to_string(),
         }
-        .to_string_lossy()
-        .to_string()
     }
 }
 

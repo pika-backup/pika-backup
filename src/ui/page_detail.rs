@@ -239,10 +239,10 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
         Err(err) => Err(history::RunError::Simple(format!("{}", err))),
         Ok(stats) => Ok(stats),
     };
-    let run_info = history::RunInfo::new(result_config.clone());
+    let run_info = history::RunInfo::new(&config, result_config.clone());
 
     BACKUP_HISTORY.update(|history| {
-        history.insert(&config.id, run_info.clone());
+        history.insert(config.id.clone(), run_info.clone());
     });
     refresh_status();
 
@@ -280,7 +280,6 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
             gtk::IconSize::Button,
         ))
         .build();
-    button.add_css_class("image-button");
     row.add(&button);
     button.set_valign(gtk::Align::Center);
 
@@ -363,24 +362,59 @@ pub fn refresh() -> Result<()> {
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
-    for config::Pattern::PathPrefix(file) in backup.exclude.clone().into_iter() {
-        let button = add_list_row(&main_ui().backup_exclude(), &file);
-        button.connect_clicked(move |_| {
-            let path = file.clone();
-            Handler::run(async move {
-                let path = path.clone();
-                BACKUP_CONFIG.update_result(move |settings| {
-                    settings
-                        .get_active_mut()?
-                        .exclude
-                        .remove(&config::Pattern::PathPrefix(path.clone()));
-                    Ok(())
-                })?;
-                super::write_config()?;
-                refresh()?;
-                Ok(())
-            });
-        });
+    for pattern in backup.exclude.clone().into_iter() {
+        match pattern {
+            config::Pattern::PathPrefix(file) => {
+                let button = add_list_row(&main_ui().backup_exclude(), &file);
+                button.connect_clicked(move |_| {
+                    let path = file.clone();
+                    Handler::run(async move {
+                        BACKUP_CONFIG.update_result(move |settings| {
+                            settings
+                                .get_active_mut()?
+                                .exclude
+                                .remove(&config::Pattern::PathPrefix(path.clone()));
+                            Ok(())
+                        })?;
+                        super::write_config()?;
+                        refresh()?;
+                        Ok(())
+                    });
+                });
+            }
+            config::Pattern::RegularExpression(regex) => {
+                let row = libhandy::ActionRowBuilder::new()
+                    .title(regex.as_str())
+                    .subtitle(&gettext("Regular Expression"))
+                    .activatable(false)
+                    .icon_name("folder-saved-search")
+                    .build();
+                let button = gtk::ButtonBuilder::new()
+                    .child(&gtk::Image::from_icon_name(
+                        Some("edit-delete-symbolic"),
+                        gtk::IconSize::Button,
+                    ))
+                    .build();
+                button.set_valign(gtk::Align::Center);
+                button.connect_clicked(move |_| {
+                    let regex = regex.clone();
+                    Handler::run(async move {
+                        BACKUP_CONFIG.update_result(move |settings| {
+                            settings
+                                .get_active_mut()?
+                                .exclude
+                                .remove(&config::Pattern::RegularExpression(regex.clone()));
+                            Ok(())
+                        })?;
+                        super::write_config()?;
+                        refresh()?;
+                        Ok(())
+                    });
+                });
+                row.add(&button);
+                main_ui().backup_exclude().add(&row);
+            }
+        }
     }
 
     main_ui().backup_exclude().show_all();
