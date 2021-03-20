@@ -414,6 +414,10 @@ impl Main {
         self.get("archive_list_placeholder")
     }
 
+    pub fn archives_eject_button(&self) -> gtk::Button {
+        self.get("archives_eject_button")
+    }
+
     pub fn archives_reloading_spinner(&self) -> gtk::Spinner {
         self.get("archives_reloading_spinner")
     }

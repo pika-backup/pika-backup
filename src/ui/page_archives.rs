@@ -55,12 +55,26 @@ pub fn init() {
         });
     });
 
+    main_ui().archives_eject_button().connect_clicked(|_| {
+        Handler::run(on_eject_button_clicked());
+    });
+
     main_ui()
         .archives_reloading_spinner()
         .connect_map(|s| s.start());
     main_ui()
         .archives_reloading_spinner()
         .connect_unmap(|s| s.stop());
+}
+
+async fn on_eject_button_clicked() -> Result<()> {
+    let repo_id = BACKUP_CONFIG.load().get_active()?.repo_id.clone();
+
+    borg::Borg::umount(&repo_id).err_to_msg(gettext("Failed to unmount repository."))?;
+    ACTIVE_MOUNTS.update(|mounts| {
+        mounts.remove(&repo_id);
+    });
+    update_eject_button()
 }
 
 pub async fn refresh_archives_cache(config: Backup) -> Result<()> {
@@ -217,6 +231,7 @@ async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> R
             ACTIVE_MOUNTS.update(|mounts| {
                 mounts.remove(&config.repo_id.clone());
             });
+            main_ui().pending_menu().hide();
 
             return Err(Message::new(
                 gettext("Failed to make archives available for browsing."),
@@ -225,6 +240,8 @@ async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> R
             .into());
         }
     }
+
+    update_eject_button()?;
 
     let first_populated_dir =
         ui::utils::spawn_thread("open_archive", move || find_first_populated_dir(&path)).await?;
@@ -235,6 +252,15 @@ async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> R
 fn page_is_visible() -> bool {
     main_ui().detail_stack().get_visible_child()
         == Some(main_ui().page_archives().upcast::<gtk::Widget>())
+}
+
+fn update_eject_button() -> Result<()> {
+    main_ui().archives_eject_button().set_visible(
+        ACTIVE_MOUNTS
+            .load()
+            .contains(&BACKUP_CONFIG.load().get_active()?.repo_id),
+    );
+    Ok(())
 }
 
 fn display_archives(config: Backup) {
@@ -337,6 +363,8 @@ fn cache_path(repo_id: &borg::RepoId) -> std::path::PathBuf {
 }
 
 pub async fn show() -> Result<()> {
+    update_eject_button()?;
+
     let config = BACKUP_CONFIG.load().get_active()?.clone();
 
     display_archives(config.clone());
