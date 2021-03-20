@@ -108,11 +108,7 @@ impl BorgCall {
 
     pub fn add_include_exclude(&mut self, borg: &Borg) -> &mut Self {
         for exclude in &borg.config.exclude_dirs_internal() {
-            self.add_options(vec![format!(
-                "--exclude={}:{}",
-                exclude.selector(),
-                exclude.pattern()
-            )]);
+            self.add_options(vec![format!("--exclude={}", exclude.borg_pattern())]);
         }
 
         self.positional.extend(

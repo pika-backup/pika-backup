@@ -169,14 +169,14 @@ where
 
 impl std::cmp::PartialEq for Pattern {
     fn eq(&self, other: &Self) -> bool {
-        self.pattern() == other.pattern()
+        self.borg_pattern() == other.borg_pattern()
     }
 }
 impl std::cmp::Eq for Pattern {}
 
 impl std::cmp::Ord for Pattern {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.pattern().cmp(&other.pattern())
+        self.borg_pattern().cmp(&other.borg_pattern())
     }
 }
 
@@ -206,6 +206,10 @@ impl Pattern {
             Self::PathPrefix(path) => path.to_string_lossy().to_string(),
             Self::RegularExpression(pattern) => pattern.as_str().to_string(),
         }
+    }
+
+    pub fn borg_pattern(&self) -> String {
+        format!("{}:{}", self.selector(), self.pattern())
     }
 }
 
