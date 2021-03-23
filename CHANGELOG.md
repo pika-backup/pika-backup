@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 (2021-03-23)
+
+- Fixes archives listed with wrong creation time
+
 ## 0.2.1 (2021-01-05)
 
 - Fixes crash on adding backup config with invalid URI
