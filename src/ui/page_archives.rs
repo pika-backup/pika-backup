@@ -263,7 +263,12 @@ fn display_archives(config: BackupConfig) {
                     hostname = archive.hostname,
                     username = archive.username
                 )));
-                row.set_title(Some(&archive.start.to_locale()));
+                row.set_title(Some(
+                    &archive
+                        .start
+                        .to_locale()
+                        .unwrap_or_else(|| archive.start.to_string()),
+                ));
 
                 let info = |title: String, info: String| -> libhandy::ActionRow {
                     let row = libhandy::ActionRow::new();
