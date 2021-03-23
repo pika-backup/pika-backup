@@ -52,6 +52,9 @@ pub fn new_backup() {
     ui.init_button()
         .connect_clicked(enclose!((ui) move |_| insert::on_init_button_clicked(ui.clone())));
 
+    ui.location_url()
+        .connect_icon_press(enclose!((ui) move |_, _, _| on_location_url_help(&ui)));
+
     // refresh ui on mount events
     let monitor = gio::VolumeMonitor::get();
 
@@ -181,6 +184,10 @@ fn on_init_repo_password_changed(ui: &builder::DialogAddConfig) {
     };
 
     ui.password_quality().set_value(score.into());
+}
+
+fn on_location_url_help(ui: &builder::DialogAddConfig) {
+    ui.location_url_help().popup();
 }
 
 fn remove_mount(list: &gtk::ListBox, root: glib::GString) {

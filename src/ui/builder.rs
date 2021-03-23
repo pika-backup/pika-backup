@@ -137,6 +137,10 @@ impl DialogAddConfig {
         self.get("location_url")
     }
 
+    pub fn location_url_help(&self) -> gtk::Popover {
+        self.get("location_url_help")
+    }
+
     pub fn new_page(&self) -> gtk::ScrolledWindow {
         self.get("new_page")
     }
