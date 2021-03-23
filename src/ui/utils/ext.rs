@@ -32,33 +32,14 @@ impl<O: IsA<gtk::Dialog> + IsA<gtk::Widget>> DialogExtFuture for O {
 }
 
 pub trait CronoExt {
-    fn to_glib(&self) -> glib::DateTime;
-    fn to_locale(&self) -> String;
+    fn to_locale(&self) -> Option<String>;
 }
 
 impl CronoExt for NaiveDateTime {
-    fn to_glib(&self) -> glib::DateTime {
-        glib::DateTime::from_unix_local(self.timestamp())
-    }
-
-    fn to_locale(&self) -> String {
-        self.to_glib()
-            .format("%c")
-            .map(|gstr| gstr.to_string())
-            .unwrap_or_else(|| self.format("%c").to_string())
-    }
-}
-
-impl CronoExt for DateTime<Local> {
-    fn to_glib(&self) -> glib::DateTime {
-        glib::DateTime::from_unix_local(self.timestamp())
-    }
-
-    fn to_locale(&self) -> String {
-        self.to_glib()
-            .format("%c")
-            .map(|gstr| gstr.to_string())
-            .unwrap_or_else(|| self.format("%c").to_string())
+    fn to_locale(&self) -> Option<String> {
+        let dt = chrono::Local.from_local_datetime(&self).earliest()?;
+        let gdt = glib::DateTime::from_unix_local(dt.timestamp());
+        Some(gdt.format("%c")?.to_string())
     }
 }
 

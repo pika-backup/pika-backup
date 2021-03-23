@@ -278,7 +278,12 @@ fn display_archives(config: Backup) {
         {
             for (archive_name, archive) in archive_list {
                 let row = libhandy::ExpanderRowBuilder::new()
-                    .title(&archive.start.to_locale())
+                    .title(
+                        &archive
+                            .start
+                            .to_locale()
+                            .unwrap_or_else(|| archive.start.to_string()),
+                    )
                     .subtitle(&format!(
                         "{hostname}, {username}",
                         hostname = archive.hostname,
