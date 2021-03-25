@@ -46,12 +46,7 @@ pub fn init() {
     main_ui().refresh_archives().connect_clicked(|_| {
         Handler::run(async move {
             let config = BACKUP_CONFIG.load().get_active()?.clone();
-            ui::dialog_device_missing::updated_config(
-                config.clone(),
-                &gettext("Update archive list"),
-            )
-            .await?;
-            refresh_archives_cache(config.clone()).await
+            refresh_archives_cache(config).await
         });
     });
 
@@ -98,6 +93,9 @@ pub async fn refresh_archives_cache(config: Backup) -> Result<()> {
 
     update_archives_spinner(config.clone());
 
+    let config =
+        ui::dialog_device_missing::updated_config(config.clone(), &gettext("Update archive list"))
+            .await?;
     let result = ui::utils::borg::spawn(
         "refresh_archives_cache",
         borg::Borg::new(config.clone()),
@@ -208,18 +206,21 @@ fn show_dir(path: &std::path::Path) -> Result<()> {
 async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> Result<()> {
     debug!("Trying to browse an archive");
 
-    main_ui().pending_menu().show();
-
     let backup_mounted = ACTIVE_MOUNTS.load().contains(&config.repo_id);
 
     let mut path = borg::Borg::get_mount_point(&config.repo_id);
     path.push(archive_name.as_str());
 
     if !backup_mounted {
+        let config =
+            ui::dialog_device_missing::updated_config(config.clone(), &gettext("Browser archive"))
+                .await?;
+
         ACTIVE_MOUNTS.update(|mounts| {
             mounts.insert(config.repo_id.clone());
         });
 
+        main_ui().pending_menu().show();
         let mount = ui::utils::borg::spawn(
             "mount_archive",
             borg::Borg::new(config.clone()),
