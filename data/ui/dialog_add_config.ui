@@ -261,18 +261,72 @@
                                   <object class="GtkStack" id="location_stack">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
+                                    <property name="vhomogeneous">False</property>
                                     <child>
                                       <object class="GtkBox" id="location_local">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">12</property>
                                         <child>
-                                          <object class="GtkFileChooserButton" id="init_path">
+                                          <object class="GtkBox">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="hexpand">True</property>
-                                            <property name="action">select-folder</property>
-                                            <property name="local-only">False</property>
-                                            <property name="title" translatable="yes"/>
+                                            <child>
+                                              <object class="GtkFileChooserButton" id="init_path">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="hexpand">True</property>
+                                                <property name="action">select-folder</property>
+                                                <property name="local-only">False</property>
+                                                <property name="title" translatable="yes"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkButton">
+                                                <property name="visible">True</property>
+                                                <property name="sensitive">False</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="focus-on-click">False</property>
+                                                <property name="receives-default">False</property>
+                                                <property name="halign">center</property>
+                                                <property name="valign">center</property>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label">/</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkEntry" id="init_dir">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="hexpand">True</property>
+                                                <property name="activates-default">True</property>
+                                                <property name="width-chars">9</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <style>
+                                              <class name="linked-line"/>
+                                            </style>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -281,20 +335,46 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton">
-                                            <property name="visible">True</property>
-                                            <property name="sensitive">False</property>
+                                          <object class="GtkBox" id="non_journaling_warning">
                                             <property name="can-focus">False</property>
-                                            <property name="focus-on-click">False</property>
-                                            <property name="receives-default">False</property>
-                                            <property name="halign">center</property>
-                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
+                                            <property name="spacing">6</property>
                                             <child>
                                               <object class="GtkLabel">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label">/</property>
+                                                <property name="label" translatable="yes">Warning</property>
+                                                <property name="xalign">0</property>
+                                                <attributes>
+                                                  <attribute name="weight" value="bold"/>
+                                                </attributes>
+                                                <style>
+                                                  <class name="warning"/>
+                                                </style>
                                               </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="no-show-all">True</property>
+                                                <property name="label" translatable="yes">Backups to the selected location could be corrupted if the device is disconnected or powered down with a backup in progress. If possible, reformat the backup location with a format like “NTFS” or “Ext4.” Note that reformatting deletes all files on the location!</property>
+                                                <property name="wrap">True</property>
+                                                <property name="xalign">0</property>
+                                                <style>
+                                                  <class name="dim-label"/>
+                                                </style>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
                                             </child>
                                           </object>
                                           <packing>
@@ -303,23 +383,6 @@
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                        <child>
-                                          <object class="GtkEntry" id="init_dir">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">True</property>
-                                            <property name="hexpand">True</property>
-                                            <property name="activates-default">True</property>
-                                            <property name="width-chars">9</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                        <style>
-                                          <class name="linked-line"/>
-                                        </style>
                                       </object>
                                     </child>
                                     <child>
@@ -369,15 +432,6 @@
                                             <property name="fill">True</property>
                                             <property name="position">0</property>
                                           </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
                                         </child>
                                       </object>
                                       <packing>

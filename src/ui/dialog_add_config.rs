@@ -55,6 +55,9 @@ pub fn new_backup() {
     ui.location_url()
         .connect_icon_press(enclose!((ui) move |_, _, _| on_location_url_help(&ui)));
 
+    ui.init_path()
+        .connect_file_set(enclose!((ui) move |_| on_path_change(&ui)));
+
     // refresh ui on mount events
     let monitor = gio::VolumeMonitor::get();
 
@@ -74,6 +77,21 @@ pub fn new_backup() {
     }));
 
     ui.dialog().show_all();
+}
+
+fn on_path_change(ui: &builder::DialogAddConfig) {
+    if let Some(path) = ui.init_path().get_filename() {
+        let mount_entry = gio::UnixMountEntry::new_for(&path);
+        if let Some(fs) = mount_entry.0.get_fs_type() {
+            debug!("Selected filesystem type {}", fs);
+            ui.non_journaling_warning()
+                .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
+        } else {
+            ui.non_journaling_warning().hide();
+        }
+    } else {
+        ui.non_journaling_warning().hide();
+    }
 }
 
 fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddConfig) {
@@ -157,6 +175,7 @@ fn show_init(ui: &builder::DialogAddConfig) {
             .unwrap_or_default()
     ));
     ui.password_quality().set_value(0.0);
+    on_path_change(ui);
     ui.stack().set_visible_child(&ui.new_page());
     ui.init_button().show();
     ui.init_button().grab_default();

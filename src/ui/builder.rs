@@ -149,6 +149,10 @@ impl DialogAddConfig {
         self.get("no_button")
     }
 
+    pub fn non_journaling_warning(&self) -> gtk::Box {
+        self.get("non_journaling_warning")
+    }
+
     pub fn password(&self) -> gtk::Entry {
         self.get("password")
     }
