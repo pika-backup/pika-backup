@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.0 (UNRELEASED)
+
+- Adds basic explanation to URL field when creating new repository
+- Adds button to unmount archives
+- Adds estimate for remaining time to complete backup
+- Adds translations to several new languages
+- Adds warning for creating repositories on non-journaling file systems
+- Changes backups to differentiate between warnings and errors
+- Changes borg processes to lower priority
+- Changes config file to be `backup.json` instead of `config.json`
+- Changes history storage from config file to separate `history.json`
+- Changes several messages to be more understandable
+- Changes to a limited amount of borg reconnect attempts
+- Changes to continue backups while ui is closed
+- Changes to more concrete dialog responses than "No/Yes"
+
 ## 0.2.2 (2021-03-23)
 
 - Fixes archives listed with wrong creation time

@@ -25,9 +25,15 @@ Pika Backup is powered by the well-tested borg-backup software.
   
 Currently, scheduled backups are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Pika Backup is designed to save your personal data and does not support complete system recovery.
 
-![Pika Backup Screenshot](/uploads/cdaa38a5dbe5fb091f4f0761bac5273f/pika-backup-1.png)
+![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/cdaa38a5dbe5fb091f4f0761bac5273f/pika-backup-1.png)
 
-### Alternative software
+### The Name
+
+The name “Pika Backup” derives from the American pika. Pikas are small mammals belonging to the lagomorphs. The American pika is known for caching food in skillfully constructed haypiles. Techniques used by American pikas for building haypiles include: storing piles below overhanging rocks, using certain plants which inhibit bacterial growth as preservative and preferring plants with high nutrition value for haying. Last but not least, pikas do not only create very sophisticated haypiles but are quick in collecting vegetation as well.
+
+Frequent rumors that this software's name is related to a monster with electrical abilities are unfounded.
+
+### Alternative Software
 
 - [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), borg-backup as backend, supports scheduled backups, Qt frontend for advanced users
 - [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) as backend, supports scheduled backups, GTK frontend
