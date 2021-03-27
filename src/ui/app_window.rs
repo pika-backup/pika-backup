@@ -29,7 +29,7 @@ pub fn show() {
         main_ui().window().present();
 
         Handler::run(ui::init_check_borg());
-        Handler::run(ui::update_config::run());
+        ui::update_config::run();
 
         // redo size estimates for backups running in background before
         std::thread::spawn(|| {

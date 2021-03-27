@@ -55,7 +55,7 @@ impl From<&history::RunInfo> for Display {
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
-            Err(err) if err.level() >= borg::msg::LogLevel::ERROR => Self {
+            Err(err) if err.level() >= borg::msg::LogLevel::Error => Self {
                 title: gettext("Last backup failed"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),

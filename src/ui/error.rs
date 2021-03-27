@@ -1,8 +1,20 @@
 use gtk::prelude::*;
 
 use super::prelude::*;
+use crate::borg;
 use crate::config;
 use crate::ui;
+
+pub type Result<T> = std::result::Result<T, Error>;
+pub type CombinedResult<T> = std::result::Result<T, Combined>;
+
+quick_error! {
+    #[derive(Debug)]
+    pub enum Combined {
+        Ui(err: Error) { from() }
+        Borg(err: borg::Error) { from () }
+    }
+}
 
 #[derive(Debug, Eq, PartialEq)]
 pub struct Message {
@@ -39,11 +51,11 @@ impl Message {
 }
 
 #[derive(Debug)]
-pub struct UserAborted {}
+pub struct UserCanceled {}
 
-impl UserAborted {
+impl UserCanceled {
     pub fn new() -> Self {
-        UserAborted {}
+        UserCanceled {}
     }
 }
 
@@ -65,11 +77,9 @@ quick_error! {
                     &[err.id.as_str()],
                 )))
         }
-        UserAborted { from (UserAborted) }
+        UserCanceled { from (UserCanceled) }
     }
 }
-
-pub type Result<T> = std::result::Result<T, Error>;
 
 pub trait ErrorToMessage<R> {
     fn err_to_msg<T: std::fmt::Display>(self, text: T) -> Result<R>;
@@ -78,6 +88,27 @@ pub trait ErrorToMessage<R> {
 impl<R, E: std::fmt::Display> ErrorToMessage<R> for std::result::Result<R, E> {
     fn err_to_msg<T: std::fmt::Display>(self, text: T) -> Result<R> {
         self.map_err(|err| Message::new(text, err).into())
+    }
+}
+
+pub trait CombinedToError<R> {
+    fn into_message<T: std::fmt::Display>(self, text: T) -> Result<R>;
+    fn into_borg_error(self) -> Result<borg::Result<R>>;
+}
+
+impl<R> CombinedToError<R> for std::result::Result<R, Combined> {
+    fn into_message<T: std::fmt::Display>(self, text: T) -> Result<R> {
+        self.map_err(|err| match err {
+            Combined::Ui(err) => err,
+            Combined::Borg(err) => Message::new(text, err).into(),
+        })
+    }
+    fn into_borg_error(self) -> Result<borg::Result<R>> {
+        match self {
+            Ok(r) => Ok(Ok(r)),
+            Err(Combined::Borg(err)) => Ok(Err(err)),
+            Err(Combined::Ui(err)) => Err(err),
+        }
     }
 }
 
@@ -129,7 +160,7 @@ impl<W: IsA<gtk::Window> + IsA<gtk::Widget>> Handler<W> {
                         err.show();
                     }
                 }
-                Err(Error::UserAborted) => {
+                Err(Error::UserCanceled) => {
                     if let Some(auto_visibility) = auto_visibility {
                         ui::page_pending::back();
                         auto_visibility.show();

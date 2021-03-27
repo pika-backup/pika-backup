@@ -1,10 +1,10 @@
 use super::json;
 
-#[allow(non_camel_case_types)]
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum MsgId {
     ConnectionClosed,
     ConnectionClosedWithHint,
+    LockTimeout,
     PassphraseWrong,
     #[serde(rename = "Repository.DoesNotExist")]
     RepositoryDoesNotExist,
@@ -41,7 +41,7 @@ impl LogMessageEnum {
     pub fn level(&self) -> LogLevel {
         match self {
             Self::ParsedErr(message) => message.levelname.clone(),
-            Self::UnparsableErr(_) => LogLevel::NONE,
+            Self::UnparsableErr(_) => LogLevel::None,
         }
     }
 }
@@ -58,7 +58,7 @@ impl LogCollection {
             .iter()
             .map(|e| e.level())
             .max()
-            .unwrap_or(LogLevel::NONE);
+            .unwrap_or(LogLevel::None);
 
         Self { messages, level }
     }
@@ -84,8 +84,8 @@ impl CreateLogCollection {
                 },
         }) = stats
         {
-            if nfiles < 1 && collection.level < LogLevel::ERROR {
-                collection.level = LogLevel::ERROR;
+            if nfiles < 1 && collection.level < LogLevel::Error {
+                collection.level = LogLevel::Error;
             }
         }
 
@@ -98,7 +98,6 @@ impl CreateLogCollection {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
-#[serde(rename_all = "snake_case")]
 pub struct LogMessage {
     pub levelname: LogLevel,
     pub name: String,
@@ -176,13 +175,14 @@ impl LogMessageEnum {
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
+#[serde(rename_all = "UPPERCASE")]
 pub enum LogLevel {
-    DEBUG,
-    INFO,
-    WARNING,
-    ERROR,
-    CRITICAL,
-    NONE,
+    Debug,
+    Info,
+    Warning,
+    Error,
+    Critical,
+    None,
 }
 
 #[derive(Deserialize, Clone, Debug)]

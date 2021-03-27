@@ -1,3 +1,4 @@
+#[allow(clippy::from_over_into)]
 mod dbus_action_group;
 mod globals;
 mod prelude;

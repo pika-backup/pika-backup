@@ -68,7 +68,12 @@ impl BorgCall {
     pub fn new(command: &str) -> Self {
         Self {
             command: Some(command.to_string()),
-            options: vec!["--rsh".into(), "ssh -o BatchMode=yes".into()],
+            options: vec![
+                "--rsh".into(),
+                // Avoid hangs from ssh asking for passwords via stdin
+                // https://borgbackup.readthedocs.io/en/stable/usage/notes.html#ssh-batch-mode
+                "ssh -o BatchMode=yes".into(),
+            ],
             ..Self::default()
         }
     }

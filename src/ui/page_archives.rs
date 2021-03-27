@@ -93,17 +93,17 @@ pub async fn refresh_archives_cache(config: Backup) -> Result<()> {
 
     update_archives_spinner(config.clone());
 
-    let config =
-        ui::dialog_device_missing::updated_config(config.clone(), &gettext("Update archive list"))
-            .await?;
-    let result = ui::utils::borg::spawn(
-        "refresh_archives_cache",
-        borg::Borg::new(config.clone()),
-        |borg| borg.list(100),
-    )
-    .await;
+    let result =
+        ui::utils::borg::exec("Update archive list", config.clone(), |borg| borg.list(100)).await;
 
-    archives_cache_refreshed(config.clone(), result)
+    REPO_ARCHIVES.update(|repos| {
+        let mut repo = repos.get(&config.repo_id).cloned().unwrap_or_default();
+        repo.reloading = false;
+        repos.insert(config.repo_id.clone(), repo);
+    });
+    update_archives_spinner(config.clone());
+
+    archives_cache_refreshed(config.clone(), result.into_borg_error()?)
 }
 
 fn update_archives_spinner(config: Backup) {
@@ -145,7 +145,6 @@ fn archives_cache_refreshed(
                     .map(|x| (x.name.clone(), x.clone()))
                     .collect(),
             );
-            repo_archives.reloading = false;
             REPO_ARCHIVES.update(enclose!((config, repo_archives) move |repos| {
                 repos.insert(config.repo_id.clone(), repo_archives.clone());
             }));
@@ -167,12 +166,6 @@ fn archives_cache_refreshed(
             display_archives(config);
         }
         Err(err) => {
-            REPO_ARCHIVES.update(|repos| {
-                let mut repo = repos.get(&config.repo_id).cloned().unwrap_or_default();
-                repo.reloading = false;
-                repos.insert(config.repo_id.clone(), repo);
-            });
-            update_archives_spinner(config);
             return Err(Message::new("Failed to refresh archives cache.", err).into());
         }
     }
@@ -212,20 +205,14 @@ async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> R
     path.push(archive_name.as_str());
 
     if !backup_mounted {
-        let config =
-            ui::dialog_device_missing::updated_config(config.clone(), &gettext("Browser archive"))
-                .await?;
-
         ACTIVE_MOUNTS.update(|mounts| {
             mounts.insert(config.repo_id.clone());
         });
 
         main_ui().pending_menu().show();
-        let mount = ui::utils::borg::spawn(
-            "mount_archive",
-            borg::Borg::new(config.clone()),
-            move |borg| borg.mount(),
-        )
+        let mount = ui::utils::borg::exec(gettext("Browse archive"), config.clone(), move |borg| {
+            borg.mount()
+        })
         .await;
 
         if let Err(err) = mount {

@@ -107,8 +107,8 @@ fn active_config_id_result() -> Result<ConfigId> {
         .ok_or_else(|| Message::short("There is no active backup in the interface.").into())
 }
 
-pub async fn spawn_thread<F, R>(
-    name: &str,
+pub async fn spawn_thread<P: core::fmt::Display, F, R>(
+    name: P,
     task: F,
 ) -> std::result::Result<R, futures::channel::oneshot::Canceled>
 where
@@ -120,21 +120,27 @@ where
     let sender = std::cell::Cell::new(Some(send));
 
     let task_name = name.to_string();
-    std::thread::spawn(move || {
-        if let Some(sender) = sender.replace(None) {
-            if sender.send(task()).is_err() {
+    let result = std::thread::Builder::new()
+        .name(task_name.to_string())
+        .spawn(move || {
+            if let Some(sender) = sender.replace(None) {
+                if sender.send(task()).is_err() {
+                    error!(
+                        "spawn_thread({}): Error sending to handler: Receiving end hung up",
+                        task_name
+                    );
+                }
+            } else {
                 error!(
-                    "spawn_thread({}): Error sending to handler: Receiving end hung up",
+                    "spawn_thread({}): Error sending to handler: Already send",
                     task_name
                 );
             }
-        } else {
-            error!(
-                "spawn_thread({}): Error sending to handler: Already send",
-                task_name
-            );
-        }
-    });
+        });
+
+    if let Err(err) = result {
+        error!("Failed to create thread for '{}': {}", name, err);
+    }
 
     recv.await
 }
@@ -259,7 +265,7 @@ pub async fn confirmation_dialog(
     message: &str,
     cancel: &str,
     accept: &str,
-) -> std::result::Result<(), UserAborted> {
+) -> std::result::Result<(), UserCanceled> {
     let dialog = gtk::MessageDialogBuilder::new()
         .transient_for(&main_ui().window())
         .modal(true)
@@ -278,7 +284,7 @@ pub async fn confirmation_dialog(
     if result == gtk::ResponseType::Accept {
         Ok(())
     } else {
-        Err(UserAborted::new())
+        Err(UserCanceled::new())
     }
 }
 
@@ -302,7 +308,7 @@ pub fn fs_usage(root: &gio::File) -> Option<(u64, u64)> {
     None
 }
 
-pub fn file_icon(path: &std::path::PathBuf, icon_size: gtk::IconSize) -> Option<gtk::Image> {
+pub fn file_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk::Image> {
     let none: Option<&gio::Cancellable> = None;
     let file = gio::File::new_for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
@@ -314,10 +320,7 @@ pub fn file_icon(path: &std::path::PathBuf, icon_size: gtk::IconSize) -> Option<
     }
 }
 
-pub fn file_symbolic_icon(
-    path: &std::path::PathBuf,
-    icon_size: gtk::IconSize,
-) -> Option<gtk::Image> {
+pub fn file_symbolic_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk::Image> {
     let none: Option<&gio::Cancellable> = None;
     let file = gio::File::new_for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);

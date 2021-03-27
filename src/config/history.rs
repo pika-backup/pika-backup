@@ -88,7 +88,7 @@ impl RunError {
     pub fn level(&self) -> borg::msg::LogLevel {
         match self {
             Self::WithLevel { level, .. } => level.clone(),
-            Self::Simple(_) => borg::msg::LogLevel::NONE,
+            Self::Simple(_) => borg::msg::LogLevel::None,
         }
     }
 }

@@ -196,10 +196,6 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
         });
     }
 
-    let config =
-        ui::dialog_device_missing::updated_config(config, &gettext("Creating a new backup."))
-            .await?;
-
     run_backup(config).await
 }
 
@@ -218,9 +214,9 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
     });
     refresh_status();
 
-    let result = ui::utils::borg::spawn(
-        "borg::create",
-        borg::Borg::new(config.clone()),
+    let result = ui::utils::borg::exec(
+        gettext("Creating new backup."),
+        config.clone(),
         move |borg| borg.create(communication),
     )
     .await;
@@ -228,6 +224,14 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
     BACKUP_COMMUNICATION.update(|c| {
         c.remove(&config.id);
     });
+
+    // Direct visual feedback for aborted backups
+    if matches!(result, Err(ui::error::Combined::Ui(_))) {
+        refresh_status();
+    }
+
+    let result = result.into_borg_error()?;
+
     let user_aborted = matches!(result, Err(borg::Error::UserAborted));
     // This is because the error cannot be cloned
     let result_config = match result {
@@ -250,7 +254,7 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
 
     if !user_aborted {
         if let Err(err) = result_config {
-            if err.level() >= borg::msg::LogLevel::ERROR {
+            if err.level() >= borg::msg::LogLevel::Error {
                 return Err(Message::new(gettext("Creating a backup failed."), err).into());
             } else {
                 return Err(Message::new(gettext("Backup completed with warnings."), err).into());
@@ -289,6 +293,8 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 // TODO: Function has too many lines
 pub fn refresh() -> Result<()> {
     let backup = BACKUP_CONFIG.load().get_active()?.clone();
+
+    refresh_status();
 
     let include_home = backup.include.contains(&std::path::PathBuf::new());
 

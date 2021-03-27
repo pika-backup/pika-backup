@@ -1,14 +1,29 @@
 use crate::ui::prelude::*;
 
 use crate::borg;
-use crate::config::Password;
+use crate::config;
 
 /// checks if there is any running backup
 pub fn is_backup_running() -> bool {
     !BACKUP_COMMUNICATION.load().is_empty()
 }
 
-pub async fn spawn<F, V>(name: &'static str, borg: borg::Borg, task: F) -> borg::Result<V>
+pub async fn exec<P: core::fmt::Display, F, V>(
+    purpose: P,
+    config: config::Backup,
+    task: F,
+) -> CombinedResult<V>
+where
+    F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
+    V: Send + 'static,
+{
+    let config =
+        crate::ui::dialog_device_missing::updated_config(config, &purpose.to_string()).await?;
+    let borg = borg::Borg::new(config);
+    spawn(purpose, borg, task).await.map_err(Into::into)
+}
+
+async fn spawn<P: core::fmt::Display, F, V>(name: P, borg: borg::Borg, task: F) -> CombinedResult<V>
 where
     F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
@@ -27,11 +42,11 @@ where
     result.map(|(x, _)| x)
 }
 
-pub async fn only_repo_suggest_store<F, V, B>(
-    name: &'static str,
+pub async fn only_repo_suggest_store<P: core::fmt::Display, F, V, B>(
+    name: P,
     borg: B,
     task: F,
-) -> borg::Result<(V, Option<(Password, bool)>)>
+) -> CombinedResult<(V, Option<(config::Password, bool)>)>
 where
     F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
@@ -49,12 +64,12 @@ fn set_scheduler_priority(priority: i32) {
 }
 
 #[allow(clippy::type_complexity)]
-async fn spawn_borg_thread<F, V, B>(
-    name: &'static str,
+async fn spawn_borg_thread<P: core::fmt::Display, F, V, B>(
+    name: P,
     mut borg: B,
     task: F,
     mut pre_select_store: bool,
-) -> borg::Result<(V, Option<(Password, bool)>)>
+) -> CombinedResult<(V, Option<(config::Password, bool)>)>
 where
     F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
@@ -62,7 +77,7 @@ where
 {
     loop {
         let result = super::spawn_thread(
-            name,
+            name.to_string(),
             enclose!((borg, task) move || {
                 set_scheduler_priority(10);
                 task(borg)
@@ -71,7 +86,7 @@ where
         .await;
 
         return match result {
-            Err(futures::channel::oneshot::Canceled) => Err(borg::Error::ThreadPanicked),
+            Err(futures::channel::oneshot::Canceled) => Err(borg::Error::ThreadPanicked.into()),
             Ok(result) => match result {
                 Err(e)
                     if matches!(e, borg::Error::PasswordMissing)
@@ -85,10 +100,10 @@ where
 
                         continue;
                     } else {
-                        Err(borg::Error::UserAborted)
+                        Err(Error::UserCanceled.into())
                     }
                 }
-                Err(e) => Err(e),
+                Err(e) => Err(e.into()),
                 Ok(result) => Ok((result, borg.get_password().map(|p| (p, pre_select_store)))),
             },
         };
