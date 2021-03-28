@@ -118,7 +118,7 @@ where
 async fn handle_lock<B: borg::BorgBasics + 'static>(borg: B) -> CombinedResult<()> {
     ui::utils::ConfirmationDialog::new(
         &gettext("Repository already in use."),
-        &gettext("The backup repository is marked as already in use. This information can be outdated if, for example, your computer lost power while using the respository.\n\nOnly continue if you know that the respository is not used by any program! Continuing while an other program uses the repository might corrupt backup data!"),
+        &gettext("The backup repository is marked as already in use. This information can be outdated if, for example, your computer lost power while using the repository.\n\nOnly continue if you know that the repository is not used by any program! Continuing while an other program uses the repository might corrupt backup data!"),
         &gettext("Cancel"),
         &gettext("Continue Anyway"),
     )
