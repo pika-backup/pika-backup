@@ -275,6 +275,22 @@ async fn init_check_borg() -> Result<()> {
 }
 
 fn load_config_e() -> std::io::Result<()> {
+    if CONFIG_DIR
+        .join(env!("CARGO_PKG_NAME"))
+        .join("config.json")
+        .is_file()
+        && !CONFIG_DIR
+            .join(env!("CARGO_PKG_NAME"))
+            .join("backup.json")
+            .is_file()
+    {
+        eprintln!("copy");
+        std::fs::rename(
+            CONFIG_DIR.join(env!("CARGO_PKG_NAME")).join("config.json"),
+            CONFIG_DIR.join(env!("CARGO_PKG_NAME")).join("backup.json"),
+        )?;
+    }
+
     let config = config::Backups::from_default_path()?;
     BACKUP_CONFIG.update(|s| *s = config.clone());
 
@@ -293,12 +309,14 @@ fn load_config() {
 
 fn write_config_e() -> std::io::Result<()> {
     let config: &config::Backups = &BACKUP_CONFIG.load();
-    let config_file = std::fs::File::create(&config::Backups::default_path()?)?;
-    serde_json::ser::to_writer_pretty(config_file, config)?;
+    let config_file = tempfile::NamedTempFile::new_in(&*CONFIG_DIR)?;
+    serde_json::ser::to_writer_pretty(&config_file, config)?;
+    config_file.persist(&config::Backups::default_path()?)?;
 
     let history: &config::Histories = &BACKUP_HISTORY.load();
-    let history_file = std::fs::File::create(&config::Histories::default_path()?)?;
-    serde_json::ser::to_writer_pretty(history_file, history)?;
+    let history_file = tempfile::NamedTempFile::new_in(&*CONFIG_DIR)?;
+    serde_json::ser::to_writer_pretty(&history_file, history)?;
+    history_file.persist(&config::Histories::default_path()?)?;
 
     Ok(())
 }

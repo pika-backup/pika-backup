@@ -17,7 +17,7 @@ use std::path;
 use zeroize::Zeroizing;
 
 /// Compatibility config version
-pub static VERSION: u16 = 1;
+pub static VERSION: u16 = 2;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct ConfigId(String);
