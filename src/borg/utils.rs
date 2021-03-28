@@ -194,14 +194,12 @@ impl BorgCall {
         Ok(self)
     }
 
-    pub fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
+    pub fn add_basics_without_password<T: BorgRunConfig>(&mut self, borg: &T) -> &mut Self {
         self.add_options(&["--log-json"]);
 
         if self.positional.is_empty() {
             self.add_positional(&borg.get_repo().to_string());
         }
-
-        self.add_password(borg)?;
 
         self.add_options(
             &borg
@@ -211,6 +209,12 @@ impl BorgCall {
                 .unwrap_or_default(),
         );
 
+        self
+    }
+
+    pub fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
+        self.add_password(borg)?;
+        self.add_basics_without_password(borg);
         Ok(self)
     }
 

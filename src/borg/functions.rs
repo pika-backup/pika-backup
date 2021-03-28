@@ -272,6 +272,14 @@ impl BorgBasics for BorgOnlyRepo {}
 
 /// Features that are available without complete backup config
 pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
+    fn break_lock(&self) -> Result<()> {
+        let borg = BorgCall::new("break-lock")
+            .add_basics_without_password(self)
+            .output()?;
+        check_stderr(&borg)?;
+        Ok(())
+    }
+
     fn peek(&self) -> Result<List> {
         let borg = BorgCall::new("list")
             .add_options(&[

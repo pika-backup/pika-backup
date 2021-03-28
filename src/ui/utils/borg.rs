@@ -2,6 +2,7 @@ use crate::ui::prelude::*;
 
 use crate::borg;
 use crate::config;
+use crate::ui;
 
 /// checks if there is any running backup
 pub fn is_backup_running() -> bool {
@@ -103,9 +104,29 @@ where
                         Err(Error::UserCanceled.into())
                     }
                 }
+                Err(e) if e.has_borg_msgid(&borg::msg::MsgId::LockTimeout) => {
+                    handle_lock(borg.clone()).await?;
+                    continue;
+                }
                 Err(e) => Err(e.into()),
                 Ok(result) => Ok((result, borg.get_password().map(|p| (p, pre_select_store)))),
             },
         };
     }
+}
+
+async fn handle_lock<B: borg::BorgBasics + 'static>(borg: B) -> CombinedResult<()> {
+    ui::utils::ConfirmationDialog::new(
+        &gettext("Repository already in use."),
+        &gettext("The backup repository is marked as already in use. This information can be outdated if, for example, your computer lost power while using the respository.\n\nOnly continue if you know that the respository is not used by any program! Continuing while an other program uses the repository might corrupt backup data!"),
+        &gettext("Cancel"),
+        &gettext("Continue Anyway"),
+    )
+    .set_destructive(true)
+    .ask()
+    .await?;
+    super::spawn_thread("xxxxx", move || borg.break_lock())
+        .await
+        .map_err(|_| borg::Error::ThreadPanicked)?
+        .map_err(Into::into)
 }

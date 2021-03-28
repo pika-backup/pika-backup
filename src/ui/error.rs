@@ -11,7 +11,10 @@ pub type CombinedResult<T> = std::result::Result<T, Combined>;
 quick_error! {
     #[derive(Debug)]
     pub enum Combined {
-        Ui(err: Error) { from() }
+        Ui(err: Error) {
+            from()
+            from(err: UserCanceled) -> (Error::UserCanceled)
+        }
         Borg(err: borg::Error) { from () }
     }
 }

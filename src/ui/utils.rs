@@ -266,25 +266,60 @@ pub async fn confirmation_dialog(
     cancel: &str,
     accept: &str,
 ) -> std::result::Result<(), UserCanceled> {
-    let dialog = gtk::MessageDialogBuilder::new()
-        .transient_for(&main_ui().window())
-        .modal(true)
-        .message_type(gtk::MessageType::Question)
-        .text(title)
-        .secondary_text(message)
-        .build();
+    ConfirmationDialog::new(title, message, cancel, accept)
+        .ask()
+        .await
+}
 
-    dialog.add_button(cancel, gtk::ResponseType::Cancel);
-    dialog.add_button(accept, gtk::ResponseType::Accept);
+pub struct ConfirmationDialog {
+    title: String,
+    message: String,
+    cancel: String,
+    accept: String,
+    destructive: bool,
+}
 
-    let result = dialog.run_future().await;
-    dialog.close();
-    dialog.hide();
+impl ConfirmationDialog {
+    pub fn new(title: &str, message: &str, cancel: &str, accept: &str) -> Self {
+        Self {
+            title: title.to_string(),
+            message: message.to_string(),
+            cancel: cancel.to_string(),
+            accept: accept.to_string(),
+            destructive: false,
+        }
+    }
 
-    if result == gtk::ResponseType::Accept {
-        Ok(())
-    } else {
-        Err(UserCanceled::new())
+    pub fn set_destructive(&mut self, destructive: bool) -> &mut Self {
+        self.destructive = destructive;
+        self
+    }
+
+    pub async fn ask(&self) -> std::result::Result<(), UserCanceled> {
+        let dialog = gtk::MessageDialogBuilder::new()
+            .transient_for(&main_ui().window())
+            .modal(true)
+            .message_type(gtk::MessageType::Question)
+            .text(&self.title)
+            .secondary_text(&self.message)
+            .build();
+
+        dialog.add_button(&self.cancel, gtk::ResponseType::Cancel);
+        let accept_button = dialog.add_button(&self.accept, gtk::ResponseType::Accept);
+
+        if self.destructive {
+            accept_button.add_css_class("destructive-action");
+        }
+
+        let result = dialog.run_future().await;
+        dialog.close();
+        dialog.hide();
+
+        if result == gtk::ResponseType::Accept {
+            Ok(())
+        } else {
+            Err(UserCanceled::new())
+        }
     }
 }
 
