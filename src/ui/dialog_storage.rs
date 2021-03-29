@@ -23,23 +23,17 @@ pub async fn show() -> Result<()> {
             storage.path().set_text(&repo.path().to_string_lossy());
             storage.disk().show();
 
-            if let Some((fs_size, fs_free)) =
-                ui::utils::fs_usage(&gio::File::new_for_path(&repo.path()))
-            {
-                storage
-                    .fs_size()
-                    .set_text(&glib::format_size(fs_size).unwrap());
-                storage
-                    .fs_free()
-                    .set_text(&glib::format_size(fs_free).unwrap());
-                storage
-                    .fs_usage()
-                    .set_value(1.0 - fs_free as f64 / fs_size as f64);
-                storage.fs().show();
+            if let Ok(df) = ui::utils::df::local(&gio::File::new_for_path(&repo.path())) {
+                show_df(&df, &storage);
             }
         }
         repo @ config::Repository::Remote { .. } => {
             storage.uri().set_text(&repo.to_string());
+
+            if let Ok(df) = ui::utils::df::remote(&repo.to_string()).await {
+                show_df(&df, &storage);
+            }
+
             storage.remote().show();
         }
     }
@@ -48,4 +42,12 @@ pub async fn show() -> Result<()> {
     storage.dialog().close();
 
     Ok(())
+}
+
+fn show_df(df: &ui::utils::df::Space, ui: &ui::builder::DialogStorage) {
+    ui.fs_size().set_text(&glib::format_size(df.size).unwrap());
+    ui.fs_free().set_text(&glib::format_size(df.avail).unwrap());
+    ui.fs_usage()
+        .set_value(1.0 - df.avail as f64 / df.size as f64);
+    ui.fs().show();
 }

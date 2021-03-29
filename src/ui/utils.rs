@@ -1,4 +1,5 @@
 pub mod borg;
+pub mod df;
 pub mod duration;
 pub mod ext;
 pub mod secret_service;
@@ -330,17 +331,6 @@ pub fn clear(listbox: &gtk::ListBox) {
         }
         listbox.remove(&c);
     }
-}
-
-pub fn fs_usage(root: &gio::File) -> Option<(u64, u64)> {
-    let none: Option<&gio::Cancellable> = None;
-    if let Ok(fsinfo) = root.query_filesystem_info("*", none) {
-        return Some((
-            fsinfo.get_attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_SIZE),
-            fsinfo.get_attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_FREE),
-        ));
-    }
-    None
 }
 
 pub fn file_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk::Image> {
