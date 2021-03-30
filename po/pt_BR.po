@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-03-25 23:21+0000\n"
-"PO-Revision-Date: 2021-03-25 20:41-0300\n"
+"POT-Creation-Date: 2021-03-28 15:00+0000\n"
+"PO-Revision-Date: 2021-03-30 11:33-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -176,7 +176,7 @@ msgstr ""
 msgid "Encryption"
 msgstr "Criptografia"
 
-#: data/ui/dialog_add_config.ui:565 src/ui/page_detail.rs:455
+#: data/ui/dialog_add_config.ui:565 src/ui/page_detail.rs:461
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -217,8 +217,8 @@ msgid "Backup Configuration"
 msgstr "Configuração de backup"
 
 #: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:132
-#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:454
-#: src/ui/page_overview.rs:68
+#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:460
+#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:122
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -424,7 +424,7 @@ msgstr "Informações de backup"
 msgid "Aborted through user input."
 msgstr "Interrompido através da entrada do usuário."
 
-#: src/borg/error.rs:34 src/ui/error.rs:56 src/ui/utils.rs:145
+#: src/borg/error.rs:34 src/ui/error.rs:71 src/ui/utils.rs:151
 msgid "The operation terminated unexpectedly."
 msgstr "A operação foi encerrada inesperadamente."
 
@@ -456,11 +456,25 @@ msgstr ""
 "A versão instalada do borg-backup é muito antiga. Alguns recursos que "
 "requerem a versão borg-backup {}.{} Não funcionarão."
 
-#: src/ui.rs:290
+#: src/ui.rs:296
+msgid ""
+"Welcome to Pika Backup version 0.3.\n"
+"\n"
+"Please note: The information about the last backup cannot be transferred "
+"from the previous version of Pika Backup. It will be available again after "
+"the next backup."
+msgstr ""
+"Boas vindas ao Ochotona Backup versão 0.3.\n"
+"\n"
+"Por favor, observe: As informações sobre o último backup não podem ser "
+"transferidas da versão anterior do Ochotona Backup. Ela estará disponível "
+"novamente após o próximo backup."
+
+#: src/ui.rs:314
 msgid "Could not load configuration file."
 msgstr "Não foi possível carregar arquivo de configuração."
 
-#: src/ui.rs:307
+#: src/ui.rs:333
 msgid "Could not write configuration file."
 msgstr "Não foi possível gravar arquivo de configuração."
 
@@ -627,11 +641,11 @@ msgstr ""
 msgid "Failed to mount."
 msgstr "Falha ao montar."
 
-#: src/ui/error.rs:59
+#: src/ui/error.rs:74
 msgid "Backup with id “{}” already exists."
 msgstr "Já existe backup com o id “{}”."
 
-#: src/ui/error.rs:64
+#: src/ui/error.rs:79
 msgid "Could not find backup configuration with id “{}”"
 msgstr "Não foi possível localizar configuração de backup com id “{}”"
 
@@ -639,39 +653,35 @@ msgstr "Não foi possível localizar configuração de backup com id “{}”"
 msgid "Failed to unmount repository."
 msgstr "Falha ao desmontar repositório."
 
-#: src/ui/page_archives.rs:97
-msgid "Update archive list"
-msgstr "Atualizar lista de arquivamentos"
-
-#: src/ui/page_archives.rs:160
+#: src/ui/page_archives.rs:159
 msgid "Failed to save cache."
 msgstr "Falha ao salvar cache."
 
-#: src/ui/page_archives.rs:200
+#: src/ui/page_archives.rs:193
 msgid "Failed to open archive."
 msgstr "Falha ao abrir arquivo."
 
-#: src/ui/page_archives.rs:216
-msgid "Browser archive"
-msgstr "Navegar pelo arquivamento"
+#: src/ui/page_archives.rs:213
+msgid "Browse archive"
+msgstr "Navega no arquivamento"
 
-#: src/ui/page_archives.rs:238
+#: src/ui/page_archives.rs:225
 msgid "Failed to make archives available for browsing."
 msgstr "Falha em tornar disponíveis para navegação os arquivamentos."
 
-#: src/ui/page_archives.rs:309
+#: src/ui/page_archives.rs:296
 msgid "Name"
 msgstr "Nome"
 
-#: src/ui/page_archives.rs:311
+#: src/ui/page_archives.rs:298
 msgid "Duration"
 msgstr "Duração"
 
-#: src/ui/page_archives.rs:315
+#: src/ui/page_archives.rs:302
 msgid "Comment"
 msgstr "Comentário"
 
-#: src/ui/page_archives.rs:319
+#: src/ui/page_archives.rs:306
 msgid "Browse saved files"
 msgstr "Navegar pelos arquivos salvos"
 
@@ -697,42 +707,42 @@ msgstr "Manter a navegação"
 msgid "Start Backup"
 msgstr "Iniciar backup"
 
-#: src/ui/page_detail.rs:200
-msgid "Creating a new backup."
+#: src/ui/page_detail.rs:218
+msgid "Creating new backup."
 msgstr "Criando um novo backup."
 
-#: src/ui/page_detail.rs:254
+#: src/ui/page_detail.rs:258
 msgid "Creating a backup failed."
 msgstr "Falha ao criar um backup."
 
-#: src/ui/page_detail.rs:256
+#: src/ui/page_detail.rs:260
 msgid "Backup completed with warnings."
 msgstr "Backup concluído com avisos."
 
-#: src/ui/page_detail.rs:324
+#: src/ui/page_detail.rs:330
 msgid "Remote location"
 msgstr "Localização remota"
 
-#: src/ui/page_detail.rs:388
+#: src/ui/page_detail.rs:394
 msgid "Regular Expression"
 msgstr "Expressão Regular"
 
-#: src/ui/page_detail.rs:450
+#: src/ui/page_detail.rs:456
 msgid "No longer include “{}” in backups?"
 msgstr "Não incluir mais “{}” nos backups?"
 
-#: src/ui/page_detail.rs:453
+#: src/ui/page_detail.rs:459
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Todos os arquivos contidos nesta pasta não farão mais parte de backups "
 "futuros."
 
-#: src/ui/page_detail.rs:472
+#: src/ui/page_detail.rs:478
 msgid "Include directory in backups"
 msgstr "Incluir diretório em backups"
 
-#: src/ui/page_detail.rs:487
+#: src/ui/page_detail.rs:493
 msgid "Exclude directory from backup"
 msgstr "Excluir diretório do backup"
 
@@ -754,17 +764,43 @@ msgstr ""
 "Falha ao remover as senhas potencialmente restantes do armazenamento de "
 "chaves."
 
-#: src/ui/update_config.rs:26 src/ui/update_config.rs:34
+#: src/ui/update_config.rs:20 src/ui/update_config.rs:47
 msgid "Updating configuration for new version"
 msgstr "Atualizando configuração para nova versão"
 
-#: src/ui/update_config.rs:51
+#: src/ui/update_config.rs:52
 msgid "Failed to retrieve backup information."
 msgstr "Falha ao recuperar informações de backup."
 
 #: src/ui/utils.rs:52
 msgid "Schedule and continue running backups in background."
 msgstr "Agende e continue executando backups em segundo plano."
+
+#: src/ui/utils/borg.rs:120
+msgid "Repository already in use."
+msgstr "Repositório já está em uso."
+
+#: src/ui/utils/borg.rs:121
+msgid ""
+"The backup repository is marked as already in use. This information can be "
+"outdated if, for example, your computer lost power while using the "
+"repository.\n"
+"\n"
+"Only continue if you know that the repository is not used by any program! "
+"Continuing while an other program uses the repository might corrupt backup "
+"data!"
+msgstr ""
+"O repositório de backup está marcado como já está em uso. Essa informação "
+"pode estar desatualizada se, por exemplo, seu computador perder energia "
+"enquanto usava o repositório.\n"
+"\n"
+"Só continue se você souber que o repositório não é usado por nenhum "
+"programa! Continuar enquanto um outro programa usa o repositório pode "
+"corromper os dados de backup!"
+
+#: src/ui/utils/borg.rs:123
+msgid "Continue Anyway"
+msgstr "Continuar mesmo assim"
 
 #: src/ui/utils/duration.rs:10
 msgid "One second"
@@ -852,6 +888,9 @@ msgstr[1] "{} anos atrás"
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Senha Ochotona Backup"
+
+#~ msgid "Update archive list"
+#~ msgstr "Atualizar lista de arquivamentos"
 
 #~ msgid "Create Backup"
 #~ msgstr "Criar backup"
