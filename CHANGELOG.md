@@ -16,6 +16,10 @@
 - Changes to continue backups while ui is closed
 - Changes to more concrete dialog responses than "No/Yes"
 
+## 0.2.3 (2021-03-30)
+
+- Adds flatpak options to support GNOME 40 hosts (GVfs 1.48)
+
 ## 0.2.2 (2021-03-23)
 
 - Fixes archives listed with wrong creation time

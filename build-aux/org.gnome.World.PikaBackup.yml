@@ -14,7 +14,6 @@ finish-args:
   # flatpak puts a tmpfs here to hide other apps
   - --filesystem=~/.var/app/
   # sftp mounts etc.
-  - --filesystem=xdg-run/gvfs
   - --share=network
   - --socket=wayland
   # X11
@@ -24,8 +23,11 @@ finish-args:
   - --socket=ssh-auth
   # secrete service (keyring)
   - --talk-name=org.freedesktop.secrets
-  # gio::Device etc
+  # GVfs (gio::Device etc)
+  - --talk-name=org.gtk.vfs
   - --talk-name=org.gtk.vfs.*
+  - --filesystem=xdg-run/gvfs
+  - --filesystem=xdg-run/gvfsd
   # fusermount
   - --device=all
   - --talk-name=org.freedesktop.Flatpak.*
