@@ -4,6 +4,8 @@
 https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo
 """
 
+#!/usr/bin/env python3
+
 __license__ = 'MIT'
 import json
 from urllib.parse import quote as urlquote
@@ -13,6 +15,9 @@ import glob
 import subprocess
 import argparse
 import logging
+import hashlib
+import asyncio
+import aiohttp
 import toml
 
 CRATES_IO = 'https://static.crates.io/crates'
@@ -40,6 +45,38 @@ def canonical_url(url):
 
     return u
 
+def get_git_tarball(repo_url, commit):
+    url = canonical_url(repo_url)
+    path = url.path.split('/')[1:]
+
+    assert len(path) == 2
+    owner = path[0]
+    if path[1].endswith('.git'):
+        repo = path[1].replace('.git', '')
+    else:
+        repo = path[1]
+    if url.hostname == 'github.com':
+        return f'https://codeload.{url.hostname}/{owner}/{repo}/tar.gz/{commit}'
+    elif url.hostname.split('.')[0] == 'gitlab':
+        return f'https://{url.hostname}/{owner}/{repo}/repository/archive.tar.gz?ref={commit}'
+    elif url.hostname == 'bitbucket.org':
+        return f'https://{url.hostname}/{owner}/{repo}/get/{commit}.tar.gz'
+    else:
+        raise ValueError(f'Don\'t know how to get tarball for {repo_url}')
+
+async def get_remote_sha256(url):
+    logging.info(f"started sha256({url})")
+    sha256 = hashlib.sha256()
+    async with aiohttp.ClientSession() as http_session:
+        async with http_session.get(url) as response:
+            while True:
+                data = await response.content.read(4096)
+                if not data:
+                    break
+                sha256.update(data)
+    logging.info(f"done sha256({url})")
+    return sha256.hexdigest()
+
 def load_toml(tomlfile='Cargo.lock'):
     with open(tomlfile, 'r') as f:
         toml_data = toml.load(f)
@@ -59,7 +96,7 @@ def fetch_git_repo(git_url, commit):
         subprocess.run(['git', 'checkout', commit], cwd=clone_dir, check=True)
     return clone_dir
 
-def get_git_cargo_packages(git_url, commit):
+async def get_git_cargo_packages(git_url, commit):
     logging.info(f'Loading packages from git {git_url}')
     git_repo_dir = fetch_git_repo(git_url, commit)
     with open(os.path.join(git_repo_dir, 'Cargo.toml'), 'r') as r:
@@ -78,7 +115,7 @@ def get_git_cargo_packages(git_url, commit):
     logging.debug(f'Packages in repo: {packages}')
     return packages
 
-def get_git_sources(package):
+async def get_git_sources(package, tarball=False):
     name = package['name']
     source = package['source']
     commit = urlparse(source).fragment
@@ -94,26 +131,34 @@ def get_git_sources(package):
     }
     rev = parse_qs(urlparse(source).query).get('rev')
     tag = parse_qs(urlparse(source).query).get('tag')
-    branch = parse_qs(urlparse(source).query).get('branch', ['master'])
+    branch = parse_qs(urlparse(source).query).get('branch')
     if rev:
         assert len(rev) == 1
         cargo_vendored_entry[repo_url]['rev'] = rev[0]
     elif tag:
         assert len(tag) == 1
         cargo_vendored_entry[repo_url]['tag'] = tag[0]
-    else:
+    elif branch:
         assert len(branch) == 1
         cargo_vendored_entry[repo_url]['branch'] = branch[0]
 
-    git_sources = [
-        {
+    if tarball:
+        tarball_url = get_git_tarball(source, commit)
+        git_sources = [{
+            'type': 'archive',
+            'archive-type': 'tar-gzip',
+            'url': tarball_url,
+            'sha256': await get_remote_sha256(tarball_url),
+            'dest': f'{CARGO_CRATES}/{name}',
+        }]
+    else:
+        git_sources = [{
             'type': 'git',
             'url': repo_url,
             'commit': commit,
             'dest': f'{CARGO_CRATES}/{name}',
-        }
-    ]
-    git_cargo_packages = get_git_cargo_packages(repo_url, commit)
+        }]
+    git_cargo_packages = await get_git_cargo_packages(repo_url, commit)
     pkg_subpath = git_cargo_packages[name]
     if pkg_subpath != '.':
         git_sources.append(
@@ -137,51 +182,58 @@ def get_git_sources(package):
 
     return (git_sources, cargo_vendored_entry)
 
-def generate_sources(cargo_lock):
+async def get_package_sources(package, cargo_lock, git_tarballs=False):
+    metadata = cargo_lock.get('metadata')
+    name = package['name']
+    version = package['version']
+
+    if 'source' not in package:
+        logging.warning(f'{name} has no source')
+        logging.debug(f'Package for {name}: {package}')
+        return
+    source = package['source']
+
+    if source.startswith('git+'):
+        return await get_git_sources(package, tarball=git_tarballs)
+
+    key = f'checksum {name} {version} ({source})'
+    if metadata is not None and key in metadata:
+        checksum = metadata[key]
+    elif 'checksum' in package:
+        checksum = package['checksum']
+    else:
+        logging.warning(f'{name} doesn\'t have checksum')
+        return
+    crate_sources = [
+        {
+            'type': 'file',
+            'url': f'{CRATES_IO}/{name}/{name}-{version}.crate',
+            'sha256': checksum,
+            'dest': CARGO_CRATES,
+            'dest-filename': f'{name}-{version}.crate'
+        },
+        {
+            'type': 'file',
+            'url': 'data:' + urlquote(json.dumps({'package': checksum, 'files': {}})),
+            'dest': f'{CARGO_CRATES}/{name}-{version}',
+            'dest-filename': '.cargo-checksum.json',
+        },
+    ]
+    return (crate_sources, {'crates-io': {'replace-with': VENDORED_SOURCES}})
+
+async def generate_sources(cargo_lock, git_tarballs=False):
     sources = []
     cargo_vendored_sources = {
         VENDORED_SOURCES: {'directory': f'{CARGO_CRATES}'},
-        'crates-io': {'replace-with': VENDORED_SOURCES},
     }
-    metadata = cargo_lock.get('metadata')
-    for package in cargo_lock['package']:
-        name = package['name']
-        version = package['version']
-        if 'source' in package:
-            source = package['source']
-            if source.startswith('git+'):
-                git_sources, cargo_vendored_entry = get_git_sources(package)
-                sources += git_sources
-                cargo_vendored_sources.update(cargo_vendored_entry)
-                continue
-            else:
-                key = f'checksum {name} {version} ({source})'
-                if metadata is not None and key in metadata:
-                    checksum = metadata[key]
-                elif 'checksum' in package:
-                    checksum = package['checksum']
-                else:
-                    logging.warning(f'{name} doesn\'t have checksum')
-                    continue
-        else:
-            logging.warning(f'{name} has no source')
-            logging.debug(f'Package for {name}: {package}')
+    pkg_coros = [get_package_sources(p, cargo_lock, git_tarballs) for p in cargo_lock['package']]
+    for pkg in await asyncio.gather(*pkg_coros):
+        if pkg is None:
             continue
-        sources += [
-            {
-                'type': 'file',
-                'url': f'{CRATES_IO}/{name}/{name}-{version}.crate',
-                'sha256': checksum,
-                'dest': CARGO_CRATES,
-                'dest-filename': f'{name}-{version}.crate'
-            },
-            {
-                'type': 'file',
-                'url': 'data:' + urlquote(json.dumps({'package': checksum, 'files': {}})),
-                'dest': f'{CARGO_CRATES}/{name}-{version}',
-                'dest-filename': '.cargo-checksum.json',
-            },
-        ]
+        else:
+            pkg_sources, cargo_vendored_entry = pkg
+        sources += pkg_sources
+        cargo_vendored_sources.update(cargo_vendored_entry)
 
     sources.append({
         'type': 'shell',
@@ -206,6 +258,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('cargo_lock', help='Path to the Cargo.lock file')
     parser.add_argument('-o', '--output', required=False, help='Where to write generated sources')
+    parser.add_argument('-t', '--git-tarballs', action='store_true', help='Download git repos as tarballs')
     parser.add_argument('-d', '--debug', action='store_true')
     args = parser.parse_args()
     if args.output is not None:
@@ -218,7 +271,8 @@ def main():
         loglevel = logging.INFO
     logging.basicConfig(level=loglevel)
 
-    generated_sources = generate_sources(load_toml(args.cargo_lock))
+    generated_sources = asyncio.run(generate_sources(load_toml(args.cargo_lock),
+                                    git_tarballs=args.git_tarballs))
     with open(outfile, 'w') as out:
         json.dump(generated_sources, out, indent=4, sort_keys=False)
 
