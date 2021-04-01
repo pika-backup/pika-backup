@@ -260,7 +260,8 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
                 return Err(Message::new(gettext("Backup completed with warnings."), err).into());
             }
         } else {
-            ui::page_archives::refresh_archives_cache(config.clone()).await?;
+            let _ignore = ui::page_archives::refresh_archives_cache(config.clone()).await;
+            let _ignore = ui::utils::df::lookup_and_cache(&config).await;
         }
     }
 

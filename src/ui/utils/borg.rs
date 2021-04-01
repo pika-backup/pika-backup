@@ -21,7 +21,7 @@ where
     let config =
         crate::ui::dialog_device_missing::updated_config(config, &purpose.to_string()).await?;
     let borg = borg::Borg::new(config);
-    spawn(purpose, borg, task).await.map_err(Into::into)
+    spawn(purpose, borg, task).await
 }
 
 async fn spawn<P: core::fmt::Display, F, V>(name: P, borg: borg::Borg, task: F) -> CombinedResult<V>

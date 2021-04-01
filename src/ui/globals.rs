@@ -20,6 +20,9 @@ pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<borg::RepoId>>> = Lazy::new(Defau
 /// Is the app currently shutting down
 pub static IS_SHUTDOWN: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
 
+pub static REPO_CACHE: Lazy<ArcSwap<BTreeMap<borg::RepoId, ui::utils::repo_cache::RepoCache>>> =
+    Lazy::new(Default::default);
+
 pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
     std::env::var("LC_NUMERIC")
         .ok()

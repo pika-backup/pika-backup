@@ -2,6 +2,7 @@ pub mod borg;
 pub mod df;
 pub mod duration;
 pub mod ext;
+pub mod repo_cache;
 pub mod secret_service;
 
 use gio::prelude::*;
@@ -41,6 +42,15 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
     };
 
     false
+}
+
+pub fn cache_dir() -> std::path::PathBuf {
+    [
+        glib::get_user_cache_dir().unwrap(),
+        env!("CARGO_PKG_NAME").into(),
+    ]
+    .iter()
+    .collect()
 }
 
 pub async fn get_background_permission() -> zbus::fdo::Result<bool> {

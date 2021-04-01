@@ -22,20 +22,16 @@ pub async fn show() -> Result<()> {
                 .set_text(&repo.drive_name.clone().unwrap_or_default());
             storage.path().set_text(&repo.path().to_string_lossy());
             storage.disk().show();
-
-            if let Ok(df) = ui::utils::df::local(&gio::File::new_for_path(&repo.path())) {
-                show_df(&df, &storage);
-            }
         }
         repo @ config::Repository::Remote { .. } => {
             storage.uri().set_text(&repo.to_string());
 
-            if let Ok(df) = ui::utils::df::remote(&repo.to_string()).await {
-                show_df(&df, &storage);
-            }
-
             storage.remote().show();
         }
+    }
+
+    if let Some(df) = ui::utils::df::cached_or_lookup(&backup).await {
+        show_df(&df, &storage);
     }
 
     storage.dialog().run_future().await;

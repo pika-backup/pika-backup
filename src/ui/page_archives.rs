@@ -1,38 +1,13 @@
-use std::collections::BTreeMap;
-use std::iter::FromIterator;
-
-use arc_swap::ArcSwap;
 use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
-use once_cell::sync::Lazy;
 
 use crate::borg;
 use crate::borg::prelude::*;
 use crate::config::*;
 use crate::ui;
 use ui::prelude::*;
-
-static REPO_ARCHIVES: Lazy<ArcSwap<BTreeMap<borg::RepoId, RepoArchives>>> =
-    Lazy::new(Default::default);
-
-#[derive(Serialize, Deserialize, Debug, Default, Clone)]
-struct RepoArchives {
-    archives: Option<BTreeMap<borg::ArchiveName, borg::Archive>>,
-    reloading: bool,
-}
-
-impl RepoArchives {
-    pub fn archives_sorted_by_date(&self) -> Option<Vec<(borg::ArchiveName, borg::Archive)>> {
-        if let Some(archives) = self.archives.clone() {
-            let mut vec = Vec::from_iter(archives);
-            vec.sort_by(|x, y| y.1.start.cmp(&x.1.start));
-            Some(vec)
-        } else {
-            None
-        }
-    }
-}
+use ui::utils::repo_cache::RepoCache;
 
 pub fn init() {
     main_ui()
@@ -75,102 +50,77 @@ async fn on_eject_button_clicked() -> Result<()> {
 pub async fn refresh_archives_cache(config: Backup) -> Result<()> {
     info!("Refreshing archives cache");
 
-    if Some(true)
-        == REPO_ARCHIVES
-            .load()
-            .get(&config.repo_id)
-            .map(|x| x.reloading)
-    {
+    if Some(true) == REPO_CACHE.load().get(&config.repo_id).map(|x| x.reloading) {
         info!("Aborting archives cache reload because already in progress");
         return Ok(());
     } else {
-        REPO_ARCHIVES.update(|repos| {
-            let mut repo = repos.get(&config.repo_id).cloned().unwrap_or_default();
-            repo.reloading = true;
-            repos.insert(config.repo_id.clone(), repo);
+        REPO_CACHE.update(|repos| {
+            repos
+                .entry(config.repo_id.clone())
+                .or_insert_with_key(RepoCache::new)
+                .reloading = true;
         });
     }
-
-    update_archives_spinner(config.clone());
+    ui_update_archives_spinner();
 
     let result =
-        ui::utils::borg::exec("Update archive list", config.clone(), |borg| borg.list(100)).await;
+        ui::utils::borg::exec("Update archive list", config.clone(), |borg| borg.list(100))
+            .await
+            .into_message(gettext("Failed to refresh archives cache."));
 
-    REPO_ARCHIVES.update(|repos| {
-        let mut repo = repos.get(&config.repo_id).cloned().unwrap_or_default();
-        repo.reloading = false;
-        repos.insert(config.repo_id.clone(), repo);
+    REPO_CACHE.update(|repos| {
+        repos
+            .entry(config.repo_id.clone())
+            .or_insert_with_key(RepoCache::new)
+            .reloading = false;
     });
-    update_archives_spinner(config.clone());
 
-    archives_cache_refreshed(config.clone(), result.into_borg_error()?)
-}
+    ui_update_archives_spinner();
 
-fn update_archives_spinner(config: Backup) {
-    if Ok(&config.repo_id) == BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id)
-        && page_is_visible()
-    {
-        let reloading = REPO_ARCHIVES
-            .load()
-            .get(&config.repo_id)
-            .map(|x| x.reloading)
-            .unwrap_or_default();
+    let archives = result?;
 
-        if reloading {
-            main_ui()
-                .archives_reloading_stack()
-                .set_visible_child(&main_ui().archives_reloading_spinner());
-        } else {
-            main_ui()
-                .archives_reloading_stack()
-                .set_visible_child(&main_ui().refresh_archives());
-        }
-    }
-}
+    REPO_CACHE.update(enclose!((config) move |repos| {
+        let mut repo_archives = repos
+            .entry(config.repo_id.clone())
+            .or_insert_with_key(RepoCache::new);
 
-fn archives_cache_refreshed(
-    config: Backup,
-    result: borg::Result<Vec<borg::Archive>>,
-) -> Result<()> {
-    match result {
-        Ok(archives) => {
-            let mut repo_archives = REPO_ARCHIVES
-                .load()
-                .get(&config.repo_id)
-                .cloned()
-                .unwrap_or_default();
-            repo_archives.archives = Some(
-                archives
-                    .iter()
-                    .map(|x| (x.name.clone(), x.clone()))
-                    .collect(),
-            );
-            REPO_ARCHIVES.update(enclose!((config, repo_archives) move |repos| {
-                repos.insert(config.repo_id.clone(), repo_archives.clone());
-            }));
-            info!("Archives cache refreshed");
-            match std::fs::DirBuilder::new()
-                .recursive(true)
-                .create(cache_dir())
-                .and_then(|_| std::fs::File::create(cache_path(&config.repo_id)))
-            {
-                Ok(file) => {
-                    serde_json::ser::to_writer(&file, &repo_archives)
-                        .err_to_msg(gettext("Failed to save cache."))?;
-                }
-                Err(err) => {
-                    return Err(Message::new("Failed to open cache file.", err).into());
-                }
-            }
+        repo_archives.archives = Some(
+            archives
+                .iter()
+                .map(|x| (x.name.clone(), x.clone()))
+                .collect(),
+        );
 
-            display_archives(config);
-        }
-        Err(err) => {
-            return Err(Message::new("Failed to refresh archives cache.", err).into());
-        }
-    }
+    }));
+    info!("Archives cache refreshed");
+
+    RepoCache::write(&config.repo_id)?;
+
+    ui_display_archives(&config.repo_id);
 
     Ok(())
+}
+
+fn ui_update_archives_spinner() {
+    if page_is_visible() {
+        if let Ok(repo_id) = BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id) {
+            let reloading = REPO_CACHE
+                .load()
+                .get(repo_id)
+                .map(|x| x.reloading)
+                .unwrap_or_default();
+
+            if reloading {
+                main_ui()
+                    .archives_reloading_stack()
+                    .set_visible_child(&main_ui().archives_reloading_spinner());
+            } else {
+                main_ui()
+                    .archives_reloading_stack()
+                    .set_visible_child(&main_ui().refresh_archives());
+            }
+        }
+    }
 }
 
 fn show_dir(path: &std::path::Path) -> Result<()> {
@@ -196,17 +146,21 @@ fn show_dir(path: &std::path::Path) -> Result<()> {
     Ok(())
 }
 
-async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> Result<()> {
+async fn on_browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
+    let configs = BACKUP_CONFIG.load();
+    let config = configs.get_active()?;
+    let repo_id = &config.repo_id;
+
     debug!("Trying to browse an archive");
 
-    let backup_mounted = ACTIVE_MOUNTS.load().contains(&config.repo_id);
+    let backup_mounted = ACTIVE_MOUNTS.load().contains(repo_id);
 
-    let mut path = borg::Borg::get_mount_point(&config.repo_id);
+    let mut path = borg::Borg::get_mount_point(repo_id);
     path.push(archive_name.as_str());
 
     if !backup_mounted {
         ACTIVE_MOUNTS.update(|mounts| {
-            mounts.insert(config.repo_id.clone());
+            mounts.insert(repo_id.clone());
         });
 
         main_ui().pending_menu().show();
@@ -215,18 +169,14 @@ async fn on_browse_archive(config: Backup, archive_name: borg::ArchiveName) -> R
         })
         .await;
 
-        if let Err(err) = mount {
+        if mount.is_err() {
             ACTIVE_MOUNTS.update(|mounts| {
-                mounts.remove(&config.repo_id.clone());
+                mounts.remove(repo_id);
             });
             main_ui().pending_menu().hide();
-
-            return Err(Message::new(
-                gettext("Failed to make archives available for browsing."),
-                err,
-            )
-            .into());
         }
+
+        mount.into_message(gettext("Failed to make archives available for browsing."))?;
     }
 
     update_eject_button()?;
@@ -251,108 +201,85 @@ fn update_eject_button() -> Result<()> {
     Ok(())
 }
 
-fn display_archives(config: Backup) {
-    if Ok(&config.repo_id) == BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id)
-        && page_is_visible()
-    {
-        debug!("Displaying archive list from cache");
-        let repo_archives = REPO_ARCHIVES.load();
+fn ui_display_archives(repo_id: &borg::RepoId) {
+    if Ok(repo_id) != BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id) || !page_is_visible() {
+        debug!("Not displaying archive list because it's not visible");
+        return;
+    }
 
-        ui::utils::clear(&main_ui().archive_list());
-        update_archives_spinner(config.clone());
-        if let Some(archive_list) = repo_archives
-            .get(&config.repo_id)
-            .and_then(|x| x.archives_sorted_by_date())
-        {
-            for (archive_name, archive) in archive_list {
-                let row = libhandy::ExpanderRowBuilder::new()
-                    .title(
-                        &archive
-                            .start
-                            .to_locale()
-                            .unwrap_or_else(|| archive.start.to_string()),
-                    )
-                    .subtitle(&format!(
-                        "{hostname}, {username}",
-                        hostname = archive.hostname,
-                        username = archive.username
-                    ))
-                    .build();
+    debug!("Displaying archive list from cache");
+    let repo_cache = RepoCache::get(repo_id);
 
-                let info = |title: String, info: &str| -> libhandy::ActionRow {
-                    let label = gtk::LabelBuilder::new()
-                        .label(info)
-                        .wrap(true)
-                        .wrap_mode(pango::WrapMode::WordChar)
-                        .build();
-                    label.add_css_class("dim-label");
+    ui::utils::clear(&main_ui().archive_list());
+    ui_update_archives_spinner();
 
-                    libhandy::ActionRowBuilder::new()
-                        .title(&title)
-                        .child(&label)
-                        .build()
-                };
+    for (archive_name, archive) in repo_cache.archives_sorted_by_date() {
+        let row = libhandy::ExpanderRowBuilder::new()
+            .title(
+                &archive
+                    .start
+                    .to_locale()
+                    .unwrap_or_else(|| archive.start.to_string()),
+            )
+            .subtitle(&format!(
+                "{hostname}, {username}",
+                hostname = archive.hostname,
+                username = archive.username
+            ))
+            .build();
 
-                row.add(&info(gettext("Name"), archive.name.as_str()));
-                row.add(&info(
-                    gettext("Duration"),
-                    &ui::utils::duration::plain(&(archive.end - archive.start)),
-                ));
-                if !archive.comment.is_empty() {
-                    row.add(&info(gettext("Comment"), &archive.comment));
-                }
+        let info = |title: String, info: &str| -> libhandy::ActionRow {
+            let label = gtk::LabelBuilder::new()
+                .label(info)
+                .wrap(true)
+                .wrap_mode(pango::WrapMode::WordChar)
+                .build();
+            label.add_css_class("dim-label");
 
-                let browse_row = libhandy::ActionRowBuilder::new()
-                    .title(&gettext("Browse saved files"))
-                    .activatable(true)
-                    .icon_name("folder-open-symbolic")
-                    .child(&gtk::Image::from_icon_name(
-                        Some("go-next-symbolic"),
-                        gtk::IconSize::Button,
-                    ))
-                    .build();
-                row.add(&browse_row);
+            libhandy::ActionRowBuilder::new()
+                .title(&title)
+                .child(&label)
+                .build()
+        };
 
-                browse_row.connect_activated(
-                    enclose!((config, archive_name) move |_| Handler::run(on_browse_archive(config.clone(), archive_name.clone()))),
+        row.add(&info(gettext("Name"), archive.name.as_str()));
+        row.add(&info(
+            gettext("Duration"),
+            &ui::utils::duration::plain(&(archive.end - archive.start)),
+        ));
+        if !archive.comment.is_empty() {
+            row.add(&info(gettext("Comment"), &archive.comment));
+        }
+
+        let browse_row = libhandy::ActionRowBuilder::new()
+            .title(&gettext("Browse saved files"))
+            .activatable(true)
+            .icon_name("folder-open-symbolic")
+            .child(&gtk::Image::from_icon_name(
+                Some("go-next-symbolic"),
+                gtk::IconSize::Button,
+            ))
+            .build();
+        row.add(&browse_row);
+
+        browse_row.connect_activated(
+                    enclose!((repo_id, archive_name) move |_| Handler::run(on_browse_archive(archive_name.clone()))),
                 );
 
-                main_ui().archive_list().add(&row);
-            }
-
-            main_ui().archive_list().show_all();
-        }
-
-        if repo_archives
-            .get(&config.repo_id)
-            .and_then(|x| x.archives.as_ref())
-            .map(|x| !x.is_empty())
-            .unwrap_or_default()
-        {
-            main_ui()
-                .archives_stack()
-                .set_visible_child(&main_ui().archive_list());
-        } else {
-            main_ui()
-                .archives_stack()
-                .set_visible_child(&main_ui().archive_list_placeholder());
-        }
-    } else {
-        debug!("Not displaying archive list because it's not visible");
+        main_ui().archive_list().add(&row);
     }
-}
 
-fn cache_dir() -> std::path::PathBuf {
-    [
-        glib::get_user_cache_dir().unwrap(),
-        env!("CARGO_PKG_NAME").into(),
-    ]
-    .iter()
-    .collect()
-}
+    main_ui().archive_list().show_all();
 
-fn cache_path(repo_id: &borg::RepoId) -> std::path::PathBuf {
-    [cache_dir(), repo_id.as_str().into()].iter().collect()
+    if !repo_cache.archives_sorted_by_date().is_empty() {
+        main_ui()
+            .archives_stack()
+            .set_visible_child(&main_ui().archive_list());
+    } else {
+        main_ui()
+            .archives_stack()
+            .set_visible_child(&main_ui().archive_list_placeholder());
+    }
 }
 
 pub async fn show() -> Result<()> {
@@ -360,31 +287,14 @@ pub async fn show() -> Result<()> {
 
     let config = BACKUP_CONFIG.load().get_active()?.clone();
 
-    display_archives(config.clone());
-
-    let repo_archives = if let Some(repo_archives) = REPO_ARCHIVES.load().get(&config.repo_id) {
-        debug!("Archive cache is loaded from file");
-        repo_archives.clone()
-    } else {
-        debug!("Try loading archive from file");
-        let repo_archives: RepoArchives = std::fs::read_to_string(&cache_path(&config.repo_id))
-            .ok()
-            .and_then(|s| serde_json::from_str(&s).ok())
-            .unwrap_or_default();
-        REPO_ARCHIVES.update(enclose!(
-            (config, repo_archives) | ra | {
-                ra.insert(config.repo_id, repo_archives);
-            }
-        ));
-        repo_archives
-    };
+    let repo_archives = RepoCache::get(&config.repo_id);
 
     if repo_archives.archives.as_ref().is_none() {
         trace!("Archives have never been retrieved");
-        refresh_archives_cache(config).await?;
-    } else {
-        display_archives(config);
+        refresh_archives_cache(config.clone()).await?;
     }
+
+    ui_display_archives(&config.repo_id);
 
     Ok(())
 }

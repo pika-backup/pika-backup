@@ -1,10 +1,55 @@
-//use std::io::Write;
+use crate::ui::prelude::*;
+/// Disk space information
 use gio::prelude::*;
 
 use async_process as process;
 use futures::AsyncWriteExt;
 
-pub async fn remote(server: &str) -> Result<Space, Error> {
+use crate::config;
+use crate::ui::utils::repo_cache::RepoCache;
+
+type Result<T> = std::result::Result<T, Error>;
+
+pub async fn cached_or_lookup(config: &config::Backup) -> Option<Space> {
+    let cached = RepoCache::get(&config.repo_id).space;
+
+    match &config.repo {
+        config::Repository::Local(_) => {
+            let lookup = lookup_and_cache(config).await;
+            if lookup.is_ok() {
+                lookup.ok()
+            } else {
+                cached
+            }
+        }
+        config::Repository::Remote(_) => {
+            if cached.is_some() {
+                cached
+            } else {
+                lookup_and_cache(config).await.ok()
+            }
+        }
+    }
+}
+
+pub async fn lookup_and_cache(config: &config::Backup) -> Result<Space> {
+    let space = match &config.repo {
+        config::Repository::Local(repo) => local(&gio::File::new_for_path(&repo.path())),
+        config::Repository::Remote(repo) => remote(&repo.uri).await,
+    }?;
+
+    REPO_CACHE.update(enclose!((config, space) move |cache| {
+        cache
+            .entry(config.repo_id.clone())
+            .or_insert_with_key(RepoCache::new)
+            .space = Some(space.clone());
+    }));
+    let _ignore = RepoCache::write(&config.repo_id);
+
+    Ok(space)
+}
+
+pub async fn remote(server: &str) -> Result<Space> {
     let mut url = url::Url::parse(server)?;
     let _ignore = url.set_scheme("sftp");
     url.set_path("");
@@ -44,7 +89,7 @@ pub async fn remote(server: &str) -> Result<Space, Error> {
     })
 }
 
-pub fn local(root: &gio::File) -> Result<Space, glib::Error> {
+pub fn local(root: &gio::File) -> Result<Space> {
     let none: Option<&gio::Cancellable> = None;
     let fsinfo = root.query_filesystem_info("*", none)?;
     Ok(Space {
@@ -57,6 +102,7 @@ pub fn local(root: &gio::File) -> Result<Space, glib::Error> {
 quick_error! {
     #[derive(Debug)]
     pub enum Error {
+        GLib(err: glib::Error) { from() }
         ParseInt(err: std::num::ParseIntError) { from() }
         StdIo(err: std::io::Error) { from() }
         Url(err: url::ParseError) { from() }
@@ -64,7 +110,7 @@ quick_error! {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Space {
     pub size: u64,
     pub used: u64,

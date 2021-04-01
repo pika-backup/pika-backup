@@ -40,7 +40,7 @@ impl Histories {
     }
 
     pub fn insert(&mut self, config_id: ConfigId, entry: RunInfo) {
-        let history = self.0.entry(config_id).or_insert_with(Default::default);
+        let history = self.0.entry(config_id).or_default();
 
         if entry.result.is_ok() {
             history.last_completed = Some(entry.clone());
