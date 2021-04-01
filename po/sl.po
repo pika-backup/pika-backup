@@ -1,14 +1,15 @@
 # Slovenian translation for pika-backup.
 # Copyright (C) 2020 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
-# Matej Urbančič <mateju@svn.gnome.org>, 2020.
+#
+# Matej Urbančič <mateju@src.gnome.org>, 2020–2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2020-11-11 06:52+0000\n"
-"PO-Revision-Date: 2020-11-11 21:12+0100\n"
+"POT-Creation-Date: 2021-04-01 05:48+0000\n"
+"PO-Revision-Date: 2021-04-01 20:33+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -21,19 +22,28 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mamal. If you transliterate "Pika,"     please make sure that the transliteration does not coincedes with a different meaning. If     fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:5 src/ui/dialog_about.rs:20
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:5 data/ui/main.ui:103
+#: src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Varnostno kopiranje Pika"
 
-#: data/app.desktop.in:7 data/app.metainfo.xml.in:6
-msgid "Simple backups based on borg"
-msgstr ""
+#: data/app.desktop.in:7
+msgid "Backups"
+msgstr "Varnostne kopije"
 
-#: data/app.metainfo.xml.in:10 src/ui/dialog_about.rs:25
+#: data/app.desktop.in:8 data/app.metainfo.xml.in:6
+msgid "Simple backups based on borg"
+msgstr "Enostavno ustvarjanje varnostnih kopij s tehnologijo borg"
+
+#: data/app.desktop.in:14
+msgid "archive;back-up;borg;"
+msgstr "archive;back-up;borg;arhiv;varnostna kopija;bekap;shranjevanje;"
+
+#: data/app.metainfo.xml.in:10
 msgid "Sophie Herold"
 msgstr "Sophie Herold"
 
@@ -86,9 +96,9 @@ msgstr "Omejitve"
 #: data/app.metainfo.xml.in:39
 msgid ""
 "Currently, scheduled backups are not supported. Excluding files from a "
-"backup via regular expressions and alike is not implemented yet. Remote "
-"backup locations must support SSH and need to have a borg-backup binary "
-"installed."
+"backup via regular expressions and alike is not implemented yet. Pika Backup "
+"is designed to save your personal data and does not support complete system "
+"recovery."
 msgstr ""
 
 #: data/ui/dialog_about.ui:9
@@ -98,93 +108,134 @@ msgid ""
 "Public License, version 3 or later</a> for details."
 msgstr ""
 
-#: data/ui/dialog_add_config.ui:71
+#: data/ui/dialog_add_config.ui:72
 msgid "Create new repository"
 msgstr "Ustvari novo skladišče"
 
-#: data/ui/dialog_add_config.ui:93 data/ui/dialog_add_config.ui:163
+#: data/ui/dialog_add_config.ui:94 data/ui/dialog_add_config.ui:164
 msgid "Location on Disk"
 msgstr "Mesto na disku"
 
-#: data/ui/dialog_add_config.ui:106 data/ui/dialog_add_config.ui:176
+#: data/ui/dialog_add_config.ui:107 data/ui/dialog_add_config.ui:177
 msgid "Remote Location"
 msgstr "Oddaljeno mesto"
 
-#: data/ui/dialog_add_config.ui:141
-#, fuzzy
+#: data/ui/dialog_add_config.ui:142
 msgid "Use existing repository"
-msgstr "Iz obstoječega projekta v skladišču Git"
+msgstr "Uporabi obstoječe skladišče"
 
-#: data/ui/dialog_add_config.ui:236
-msgid "Server"
-msgstr "Strežnik"
-
-#: data/ui/dialog_add_config.ui:252 data/ui/dialog_add_config.ui:426
-msgid "ssh://user@server.example.org/~/backup"
-msgstr "ssh://uporabnik@strežnik.primer.si\t/~/backup"
-
-#: data/ui/dialog_add_config.ui:325
+#: data/ui/dialog_add_config.ui:249
 msgid "Location"
 msgstr "Mesto"
 
-#: data/ui/dialog_add_config.ui:409
+#: data/ui/dialog_add_config.ui:346
+msgid "Warning"
+msgstr "Opozorilo"
+
+#: data/ui/dialog_add_config.ui:366
+msgid ""
+"Backups to the selected location could be corrupted if the device is "
+"disconnected or powered down with a backup in progress. If possible, "
+"reformat the backup location with a format like “NTFS” or “Ext4.” Note that "
+"reformatting deletes all files on the location!"
+msgstr ""
+
+#: data/ui/dialog_add_config.ui:403
 msgid "URL"
 msgstr "Naslov URL"
 
-#: data/ui/dialog_add_config.ui:470 data/ui/dialog_encryption_password.ui:164
+#: data/ui/dialog_add_config.ui:421
+msgid "ssh://user@server.example.org/~/backup"
+msgstr "ssh://uporabnik@strežnik.primer.si\t/~/backup"
+
+#: data/ui/dialog_add_config.ui:471
+msgid ""
+"The data stored in encrypted backups is password protected. If encryption is "
+"used, the password is required for accessing your backups."
+msgstr ""
+
+#: data/ui/dialog_add_config.ui:472 data/ui/dialog_encryption_password.ui:164
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: data/ui/dialog_add_config.ui:585
+#: data/ui/dialog_add_config.ui:565 src/ui/page_detail.rs:462
 msgid "Confirm"
 msgstr "Potrdi"
 
-#: data/ui/dialog_add_config.ui:628 data/ui/dialog_encryption_password.ui:57
+#: data/ui/dialog_add_config.ui:608 data/ui/dialog_encryption_password.ui:57
 msgid "Password"
 msgstr "Geslo"
 
-#: data/ui/dialog_add_config.ui:641
-#, fuzzy
-msgid "Store Password"
-msgstr "Shranjevanje gesla je spodletelo: "
+#: data/ui/dialog_add_config.ui:621 data/ui/dialog_encryption_password.ui:90
+msgid "Save password"
+msgstr "Shrani geslo"
 
-#: data/ui/dialog_add_config.ui:673
+#: data/ui/dialog_add_config.ui:641
 msgid "Encrypted"
 msgstr "Šifrirano"
 
-#: data/ui/dialog_add_config.ui:686
+#: data/ui/dialog_add_config.ui:654
 msgid "Unencrypted"
 msgstr "Nešifrirano"
 
-#: data/ui/dialog_add_config.ui:734
-#, fuzzy
-msgid "Backup Configuration"
+#: data/ui/dialog_add_config.ui:688
+msgid ""
+"These arguments will be added to the call of the borg binary. Only long "
+"options, starting with “--”, are supported."
 msgstr ""
-"Ni mogoče ustvariti varnostne kopije izvornih nastavitev. Opravilo je "
-"prekinjeno."
 
-#: data/ui/dialog_add_config.ui:737 data/ui/dialog_device_missing.ui:110
-#: data/ui/dialog_encryption_password.ui:167
+#: data/ui/dialog_add_config.ui:689
+msgid "Additional command line arguments"
+msgstr ""
+
+#: data/ui/dialog_add_config.ui:728
+msgid "Advanced settings"
+msgstr "Napredne nastavitve"
+
+#: data/ui/dialog_add_config.ui:763
+msgid "Backup Configuration"
+msgstr "Nastavitve varnostnega kopiranja"
+
+#: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:132
+#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:461
+#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:122
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: data/ui/dialog_add_config.ui:745
+#: data/ui/dialog_add_config.ui:789
 msgid "Connect"
 msgstr "Poveži"
 
-#: data/ui/dialog_add_config.ui:762
+#: data/ui/dialog_add_config.ui:805
 msgid "Create"
 msgstr "Ustvari"
 
-#: data/ui/dialog_device_missing.ui:40
+#: data/ui/dialog_add_config.ui:846
+msgid "Location URL"
+msgstr "Mesto URL"
+
+#: data/ui/dialog_add_config.ui:864
+msgid ""
+"Remote backup locations are made up of a protocol prefix and an address."
+msgstr ""
+
+#: data/ui/dialog_add_config.ui:884
+msgid ""
+"The “ssh://” prefix is special in that it requires the server to have a borg "
+"binary installed. If no borg binary is available, the “sftp://” prefix can "
+"be used instead."
+msgstr ""
+
+#: data/ui/dialog_add_config.ui:903
+msgid ""
+"Apart from that, all prefixes supported by the GNOME Virtual file system are "
+"supported."
+msgstr ""
+
+#: data/ui/dialog_device_missing.ui:57
 #, fuzzy
 msgid "Please insert the backup medium"
 msgstr "Vstavite zapisljiv DVD."
-
-#: data/ui/dialog_encryption_password.ui:90
-#, fuzzy
-msgid "Save password"
-msgstr "Shrani geslo"
 
 #: data/ui/dialog_encryption_password.ui:105
 #, fuzzy
@@ -195,7 +246,8 @@ msgstr "_Takoj pozabi geslo"
 msgid "This task requires the encryption password of this repository"
 msgstr ""
 
-#: data/ui/dialog_encryption_password.ui:175
+#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:190
+#: src/ui/page_detail.rs:141
 msgid "Continue"
 msgstr "Nadaljuj"
 
@@ -204,394 +256,695 @@ msgstr "Nadaljuj"
 msgid "Backup Location"
 msgstr "_Varnostna kopija"
 
-#: data/ui/dialog_storage.ui:54
+#: data/ui/dialog_storage.ui:55
 msgid "Volume"
-msgstr "Glasnost"
+msgstr "Nosilec"
 
-#: data/ui/dialog_storage.ui:70
+#: data/ui/dialog_storage.ui:71
 msgid "Device"
 msgstr "Naprava"
 
-#: data/ui/dialog_storage.ui:86
+#: data/ui/dialog_storage.ui:87
 msgid "Path"
 msgstr "Pot"
 
-#: data/ui/dialog_storage.ui:162
+#: data/ui/dialog_storage.ui:163
 msgid "URI"
 msgstr "Naslov URI"
 
-#: data/ui/dialog_storage.ui:223
+#: data/ui/dialog_storage.ui:224
 msgid "Space"
 msgstr "Presledek"
 
-#: data/ui/dialog_storage.ui:246
+#: data/ui/dialog_storage.ui:247
 msgid "Total"
 msgstr "Skupno"
 
-#: data/ui/dialog_storage.ui:263
+#: data/ui/dialog_storage.ui:264
 msgid "Free"
 msgstr "Prosto"
 
-#: data/ui/main.ui:34
+#: data/ui/main.ui:27
 msgid "About"
 msgstr "O programu"
 
-#: data/ui/main.ui:59
+#: data/ui/main.ui:52
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
 msgstr ""
 
-#: data/ui/main.ui:80
+#: data/ui/main.ui:73
 #, fuzzy
 msgid "Delete backup configuration"
 msgstr ""
 "Ni mogoče ustvariti varnostne kopije izvornih nastavitev. Opravilo je "
 "prekinjeno."
 
-#: data/ui/main.ui:139
+#: data/ui/main.ui:132
 #, fuzzy
 msgid "Add backup configuration"
 msgstr ""
 "Ni mogoče ustvariti varnostne kopije izvornih nastavitev. Opravilo je "
 "prekinjeno."
 
-#: data/ui/main.ui:202
+#: data/ui/main.ui:195
 msgid "Back to overview"
 msgstr "Nazaj na pregled"
 
-#: data/ui/main.ui:323
-#, fuzzy
-msgid "Create Backup"
-msgstr "Ustvarjaj varnostne kopije"
+#: data/ui/main.ui:296
+msgid "_Abort"
+msgstr "_Prekini"
 
-#: data/ui/main.ui:362
+#: data/ui/main.ui:350
+#, fuzzy
+msgid "_Back Up Now"
+msgstr "Podrobnosti"
+
+#: data/ui/main.ui:390
 #, fuzzy
 msgid "Files to backup"
 msgstr "Na primer: “Moje datoteke” ali “Varnostna kopija”"
 
-#: data/ui/main.ui:378 data/ui/main.ui:471
-#, fuzzy
-msgid "Exclude a directory"
-msgstr "_Izključi mape:"
+#: data/ui/main.ui:406
+msgid "Include directory"
+msgstr "Izključi mape"
 
-#: data/ui/main.ui:416 src/ui/page_overview.rs:155
+#: data/ui/main.ui:444 src/ui/page_overview.rs:150
 msgid "Home"
-msgstr "Na začetek"
+msgstr "Začetni zaslon"
 
-#: data/ui/main.ui:418
+#: data/ui/main.ui:446
 #, fuzzy
 msgid "Usually contains all personal data"
 msgstr "Počisti vse osebne podatke"
 
-#: data/ui/main.ui:455
+#: data/ui/main.ui:489
 #, fuzzy
 msgid "Exclude from backup"
 msgstr "Obnovi iz varnostne kopije"
 
-#: data/ui/main.ui:519
+#: data/ui/main.ui:505
+#, fuzzy
+msgid "Add excluded directory"
+msgstr "_Izključi mape:"
+
+#: data/ui/main.ui:553
 #, fuzzy
 msgid "Nothing excluded from backup"
 msgstr "Delež izločen iz obsega"
 
-#: data/ui/main.ui:550 src/ui.rs:143
+#: data/ui/main.ui:584
 msgid "Backup"
 msgstr "Varnostna kopija"
 
-#: data/ui/main.ui:589 data/ui/main.ui:693
+#: data/ui/main.ui:624 data/ui/main.ui:753
 msgid "Archives"
 msgstr "Arhivi"
 
-#: data/ui/main.ui:605
+#: data/ui/main.ui:645
 #, fuzzy
 msgid "Refresh list of archives"
 msgstr "Osveži seznam map"
 
-#: data/ui/main.ui:669
+#: data/ui/main.ui:684
+#, fuzzy
+msgid "Stop browsing archive files"
+msgstr "Datoteke so shranjene."
+
+#: data/ui/main.ui:729
 #, fuzzy
 msgid "No archives available"
 msgstr "Arhivi"
 
-#: data/ui/main.ui:761
+#: data/ui/main.ui:821
 #, fuzzy
 msgid "No Backup Configured"
 msgstr "Varnostna kopija"
 
-#: data/ui/main.ui:778
+#: data/ui/main.ui:838
 msgid "Add a new configuration to start creating backups"
 msgstr ""
 
-#: data/ui/main.ui:809
+#: data/ui/main.ui:869
 #, fuzzy
 msgid "Configure Backup"
 msgstr "_Varnostna kopija"
 
-#: data/ui/main.ui:986
-#, fuzzy
-msgid "Waiting for status …"
-msgstr "Čakanje"
+#: data/ui/main.ui:1117
+msgid "Amount saved"
+msgstr ""
 
-#: data/ui/main.ui:1076
-msgid "Saved"
-msgstr "Shranjeno"
+#: data/ui/main.ui:1137
+msgid "Number of files saved"
+msgstr ""
 
-#: data/ui/main.ui:1103
+#: data/ui/main.ui:1157
 #, fuzzy
 msgid "Backup space needed"
 msgstr "Varnostna kopija"
 
-#: data/ui/main.ui:1130
-#, fuzzy
+#: data/ui/main.ui:1177
 msgid "Current file"
-msgstr "Trenutno ime datoteke"
+msgstr "Trenutna datoteka"
 
-#: data/ui/main.ui:1222
-#, fuzzy
+#: data/ui/main.ui:1250
 msgid "Backup Info"
-msgstr "Podrobnosti"
+msgstr "Podrobnosti varnostne kopije"
 
-#: data/ui/main.ui:1281
+#: src/borg/error.rs:33
+msgid "Aborted through user input."
+msgstr ""
+
+#: src/borg/error.rs:34 src/ui/error.rs:71 src/ui/utils.rs:162
+msgid "The operation terminated unexpectedly."
+msgstr ""
+
+#: src/ui.rs:188 src/ui/page_detail.rs:139
+#, fuzzy
+msgid "Abort running backup creation?"
+msgstr "Napaka med ustvarjanjem varnostne kopije: %s"
+
+#: src/ui.rs:189 src/ui/page_detail.rs:140
+msgid "The backup will remain incomplete if aborted now."
+msgstr ""
+
+#: src/ui.rs:191 src/ui/page_detail.rs:142
 msgid "Abort"
 msgstr "Prekliči"
 
-#: src/ui.rs:227
-msgid "Failed to run `borg`. Is borg-backup installed correctly?"
-msgstr ""
-
 #: src/ui.rs:243
+msgid "Failed to run “borg”. Is borg-backup installed correctly?"
+msgstr ""
+
+#: src/ui.rs:261
+msgid "Borg version too old."
+msgstr ""
+
+#: src/ui.rs:263
 msgid ""
-"Your borg-backup version seems to be smaller then "
-"required                     version {}.{}.X. Some features will not work."
+"The installed version of borg-backup is too old. Some features requiring "
+"borg-backup version {}.{} will not work."
 msgstr ""
 
-#: src/ui.rs:268
-#, fuzzy
-msgid "Could not create empty config file."
-msgstr "Ni mogoče vključiti namestitvene datoteke (%s)"
-
-#: src/ui.rs:283
-#, fuzzy
-msgid "Could not load config."
-msgstr "ni mogoče naložiti nastavitvene datoteke"
-
-#: src/ui.rs:294
-#, fuzzy
-msgid "Could not write config."
-msgstr "&Shrani spremembe v nastavitve"
-
-#: src/ui/dialog_about.rs:26
-msgid "Copyright © 2018–2020 Sophie Herold et al."
-msgstr ""
-
-#: src/ui/dialog_add_config.rs:158
-#, fuzzy
-msgid "Select existing repository"
-msgstr "Izbor skladišča Git"
-
-#: src/ui/dialog_add_config.rs:159 src/ui/dialog_add_config.rs:175
-#, fuzzy
-msgid "Loading backup repository"
-msgstr "Skladišče:"
-
-#: src/ui/dialog_add_config.rs:164
-msgid "The selected directory is not a valid backup repository."
-msgstr ""
-
-#: src/ui/dialog_add_config.rs:219
-msgid "Entered passwords do not match. Please try again."
-msgstr ""
-
-#: src/ui/dialog_add_config.rs:231
-#, fuzzy
-msgid "You have to select a repository location."
-msgstr "Izberite mesto skladišča za vpis:"
-
-#: src/ui/dialog_add_config.rs:242
-#, fuzzy
-msgid "You have to enter a repository location."
-msgstr "Izberite mesto skladišča za vpis:"
-
-#: src/ui/dialog_add_config.rs:248
-#, fuzzy
-msgid "Creating backup repository"
-msgstr "Napaka med ustvarjanjem varnostne kopije: %s"
-
-#: src/ui/dialog_add_config.rs:262
-#, fuzzy
-msgid "Failed to initialize repository"
-msgstr "Začenjanje upravljalnika podatkov je spodletelo"
-
-#: src/ui/dialog_add_config.rs:273 src/ui/utils.rs:83
-#, fuzzy
-msgid "Failed to store password."
-msgstr "Shranjevanje gesla je spodletelo: "
-
-#: src/ui/dialog_add_config.rs:337
-#, fuzzy
-msgid ", {} of {} available"
-msgstr "ni na voljo"
-
-#: src/ui/dialog_add_config.rs:398
-#, fuzzy
-msgid "There was an error with the specified repository"
-msgstr "_Skladišče:"
-
-#: src/ui/page_archives.rs:187
-#, fuzzy
-msgid "Failed to open archive."
-msgstr "_Odpri arhiv"
-
-#: src/ui/page_archives.rs:218
-msgid "Failed to make archives available for browsing."
-msgstr ""
-
-#: src/ui/page_archives.rs:263
-msgid "Name"
-msgstr "Ime"
-
-#: src/ui/page_archives.rs:265
-msgid "Duration"
-msgstr "Trajanje"
-
-#: src/ui/page_archives.rs:270
-msgid "Comment"
-msgstr "Opomba"
-
-#: src/ui/page_archives.rs:274
-#, fuzzy
-msgid "Browse saved files"
-msgstr "Datoteke so shranjene."
-
-#: src/ui/page_detail.rs:56
-msgid "Are you sure you want to remove the home directory from this backup?"
-msgstr ""
-
-#: src/ui/page_detail.rs:116
-#, fuzzy
-msgid "Are you sure you want abort the running backup?"
-msgstr ""
-"Ali ste prepričani, da želite opravilo prekiniti?\n"
-"Vsa opravila bodo izgubljena."
-
-#: src/ui/page_detail.rs:135
+#: src/ui.rs:296
 msgid ""
-"The backup repository is currently reserved for browsing files.              "
-"Do you want to disable browsing and start the Backup?"
+"Welcome to Pika Backup version 0.3.\n"
+"\n"
+"Please note: The information about the last backup cannot be transferred "
+"from the previous version of Pika Backup. It will be available again after "
+"the next backup."
 msgstr ""
 
-#: src/ui/page_detail.rs:142
-#, fuzzy
-msgid "Failed to unmount repository."
-msgstr "Odklopi"
+#: src/ui.rs:314
+msgid "Could not load configuration file."
+msgstr "Ni mogoče naložiti nastavitvene datoteke."
 
-#: src/ui/page_detail.rs:185
-#, fuzzy
-msgid "Backup failed"
-msgstr "Ustvarjanje varnostne kopije je spodletelo."
+#: src/ui.rs:333
+msgid "Could not write configuration file."
+msgstr "Ni mogoče zapisati nastavitvene datoteke."
 
-#: src/ui/page_detail.rs:266
-#, fuzzy
-msgid "Remote location"
-msgstr "Oddaljeno mesto"
-
-#: src/ui/page_detail.rs:288
-#, fuzzy
-msgid "You no longer want to backup this directory?"
-msgstr "Ali želite preimenovati mapo »%s« v »%s«?"
-
-#: src/ui/page_detail.rs:363
-#, fuzzy
-msgid "Include directory in backup"
-msgstr "Vključi mapo"
-
-#: src/ui/page_detail.rs:378
-#, fuzzy
-msgid "Exclude directory from backup"
-msgstr "_Obnovi iz varnostne kopije:"
-
-#: src/ui/page_detail.rs:411
-#, fuzzy
+#: src/ui/backup_status.rs:52
 msgid "Last backup successful"
-msgstr "Uspešno končano"
+msgstr "Zadnje ustvarjanje varnostne kopije je bilo uspešno končano."
 
-#: src/ui/page_detail.rs:430 src/ui/page_overview.rs:196
-#, fuzzy
+#: src/ui/backup_status.rs:59
 msgid "Last backup failed"
-msgstr "Ustvarjanje varnostne kopije je spodletelo."
+msgstr "Zadnje ustvarjanje varnostne kopije je spodletelo."
 
-#: src/ui/page_detail.rs:442 src/ui/page_overview.rs:189
-#, fuzzy
-msgid "Backup never ran"
-msgstr " Trajanje izgradnje: %"
-
-#: src/ui/page_detail.rs:443
-msgid "Start by creating your first backup"
+#: src/ui/backup_status.rs:66
+msgid "Last backup completed with warnings"
 msgstr ""
 
-#: src/ui/page_detail.rs:471
-#, fuzzy, no-c-format
+#: src/ui/backup_status.rs:95
+#, no-c-format
 msgid "{} % finished"
-msgstr "Končano!"
+msgstr "{} % končano"
 
-#: src/ui/page_detail.rs:495
+#: src/ui/backup_status.rs:112
 #, fuzzy
 msgid "Updating repository information"
 msgstr "Posodabljanje"
 
-#: src/ui/page_detail.rs:512
+#: src/ui/backup_status.rs:126
 #, fuzzy, no-c-format
 msgid "{} % prepared"
 msgstr "Pripravljeno"
 
-#: src/ui/page_detail.rs:525
+#: src/ui/backup_status.rs:136
 #, fuzzy
 msgid "Preparing backup"
 msgstr "_Varnostna kopija"
 
-#: src/ui/page_detail.rs:528
+#: src/ui/backup_status.rs:137
 #, fuzzy
 msgid "Estimating backup size"
 msgstr "Poteka ocenjevanje ..."
 
-#: src/ui/page_detail.rs:531 src/ui/page_overview.rs:174
+#: src/ui/backup_status.rs:138
 #, fuzzy
 msgid "Backup running"
 msgstr "Varnostna kopija"
 
-#: src/ui/page_detail.rs:534
-msgid "Reconnecting"
-msgstr "Ponovno vzpostavljanje povezave"
-
-#: src/ui/page_detail.rs:536
+#: src/ui/backup_status.rs:141
 #, fuzzy
 msgid "Connection lost, reconnecting in {}"
 msgstr "Povezava z vodilom D-Bus je potekla"
 
-#: src/ui/page_detail.rs:541
+#: src/ui/backup_status.rs:146
+msgid "Reconnecting"
+msgstr "Ponovno vzpostavljanje povezave"
+
+#: src/ui/backup_status.rs:148
 #, fuzzy
 msgid "Stopping backup"
 msgstr "Zaustavljanje ..."
 
-#: src/ui/page_overview.rs:60
+#: src/ui/backup_status.rs:164
 #, fuzzy
-msgid "Are you sure you want to delete this backup configuration?"
-msgstr "Ali ste prepričani, da želite izbrisati nalogo »{0}«?"
+msgid "Backup never ran"
+msgstr " Trajanje izgradnje: %"
 
-#: src/ui/page_overview.rs:87
-#, fuzzy
-msgid "No active backup to delete."
-msgstr "Varnostna kopija"
-
-#: src/ui/page_overview.rs:185
-msgid "Last backup finished about {}"
+#: src/ui/backup_status.rs:165
+msgid "Start by creating your first backup"
 msgstr ""
 
-#. Translators: This is the description for entries in the password database.
-#: src/ui/utils.rs:24
-#, fuzzy
-msgid "Pika Backup Password"
-msgstr "Varnostno kopiranje Pika"
+#: src/ui/dialog_about.rs:24
+msgid "Sophie Herold <sophieherold@gnome.org>"
+msgstr ""
 
-#: src/ui/utils.rs:89
+#: src/ui/dialog_about.rs:25
+msgid "Copyright © 2018–2021 Sophie Herold et al."
+msgstr ""
+
+#: src/ui/dialog_about.rs:26
+msgid "translator-credits"
+msgstr "Matej Urbančič <mateju@src.gnome.org>"
+
+#: src/ui/dialog_about.rs:27
+msgid "Court Witch"
+msgstr "Court Witch"
+
+#: src/ui/dialog_about.rs:27
+msgid "Fina Wilke"
+msgstr "Fina Wilke"
+
+#: src/ui/dialog_add_config.rs:152
+#, fuzzy
+msgid "Failed to list existing repositories."
+msgstr "Začenjanje upravljalnika podatkov je spodletelo"
+
+#: src/ui/dialog_add_config.rs:240
+msgid "Free space: {}"
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:36 src/ui/dialog_add_config/insert.rs:56
+#: src/ui/dialog_add_config/insert.rs:74
+msgid "Loading backup repository"
+msgstr "Nalaganje skladišča varnostne kopije"
+
+#: src/ui/dialog_add_config/insert.rs:52
+msgid "Select existing repository"
+msgstr "Izbor obstoječega skladišča"
+
+#: src/ui/dialog_add_config/insert.rs:61
+#, fuzzy
+msgid "Location is not a valid backup repository."
+msgstr "Skladišče:"
+
+#: src/ui/dialog_add_config/insert.rs:62
+msgid "The repository must originate from Pika Backup or compatible software."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:97
+msgid "No password provided."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:98
+msgid "To use encryption a password must be provided."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:102
+msgid "Entered passwords do not match."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:125
+#: src/ui/dialog_add_config/insert.rs:132
+msgid "A repository location has to be given."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:148
+#: src/ui/dialog_add_config/insert.rs:260
+msgid "Additional command line arguments invalid."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:149
+#: src/ui/dialog_add_config/insert.rs:261
+msgid "Please check for missing closing quotes."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:154
+#, fuzzy
+msgid "Creating backup repository"
+msgstr "Napaka med ustvarjanjem varnostne kopije: %s"
+
+#: src/ui/dialog_add_config/insert.rs:167
+msgid "Failed to initialize repository."
+msgstr "Začenjanje skladišča je spodletelo."
+
+#: src/ui/dialog_add_config/insert.rs:175 src/ui/utils/secret_service.rs:55
+msgid "Failed to store password."
+msgstr "Shranjevanje gesla je spodletelo."
+
+#: src/ui/dialog_add_config/insert.rs:218
+msgid "There was an error with the specified repository"
+msgstr "Prišlo je do napake pri delu z določenim skladiščem."
+
+#: src/ui/dialog_add_config/insert.rs:297
+msgid "Repository location not found."
+msgstr ""
+
+#: src/ui/dialog_add_config/insert.rs:298
+msgid "A mount operation succeeded but the location is still unavailable."
+msgstr ""
+
+#: src/ui/dialog_device_missing.rs:45
+msgid "Failed to mount."
+msgstr "Priklapljanje mesta je spodletelo."
+
+#: src/ui/error.rs:74
+msgid "Backup with id “{}” already exists."
+msgstr ""
+
+#: src/ui/error.rs:79
+msgid "Could not find backup configuration with id “{}”"
+msgstr "Ni mogoče najti nastavitev varnostne kopije z ID »{}«."
+
+#: src/ui/page_archives.rs:43 src/ui/page_detail.rs:192
+msgid "Failed to unmount repository."
+msgstr "Odklapljanje skladišča je spodletelo."
+
+#: src/ui/page_archives.rs:69
+msgid "Failed to refresh archives cache."
+msgstr "Osveževanje predpomnilnika arhivov je spodletelo."
+
+#: src/ui/page_archives.rs:143
+msgid "Failed to open archive."
+msgstr "Odpiranje arhiva je spodletelo."
+
+#: src/ui/page_archives.rs:167
+msgid "Browse archive"
+msgstr "Prebrskaj arhiv"
+
+#: src/ui/page_archives.rs:179
+msgid "Failed to make archives available for browsing."
+msgstr ""
+
+#: src/ui/page_archives.rs:245
+msgid "Name"
+msgstr "Ime"
+
+#: src/ui/page_archives.rs:247
+msgid "Duration"
+msgstr "Trajanje"
+
+#: src/ui/page_archives.rs:251
+msgid "Comment"
+msgstr "Opomba"
+
+#: src/ui/page_archives.rs:255
+msgid "Browse saved files"
+msgstr "Prebrskaj shranjene datoteke"
+
+#: src/ui/page_detail.rs:177
+msgid "Backup on repository already running."
+msgstr ""
+
+#: src/ui/page_detail.rs:184
+msgid "Stop browsing files and start backup?"
+msgstr ""
+
+#: src/ui/page_detail.rs:185
+msgid "Browsing through archived files is not possible while running a backup."
+msgstr ""
+
+#: src/ui/page_detail.rs:186
+msgid "Keep Browsing"
+msgstr "Nadaljuj z brskanjem"
+
+#: src/ui/page_detail.rs:187
+msgid "Start Backup"
+msgstr "Začni ustvarjanje varnostne kopije"
+
+#: src/ui/page_detail.rs:218
+msgid "Creating new backup."
+msgstr "Ustvarjanje varnostne kopije."
+
+#: src/ui/page_detail.rs:258
+msgid "Creating a backup failed."
+msgstr "Ustvarjanje varnostne kopije je spodletelo."
+
+#: src/ui/page_detail.rs:260
+msgid "Backup completed with warnings."
+msgstr ""
+
+#: src/ui/page_detail.rs:331
+msgid "Remote location"
+msgstr "Oddaljeno mesto"
+
+#: src/ui/page_detail.rs:395
+msgid "Regular Expression"
+msgstr "Logični izraz"
+
+#: src/ui/page_detail.rs:457
+msgid "No longer include “{}” in backups?"
+msgstr ""
+
+#: src/ui/page_detail.rs:460
+msgid ""
+"All files contained in this folder will no longer be part of future backups."
+msgstr ""
+
+#: src/ui/page_detail.rs:479
+msgid "Include directory in backups"
+msgstr "Vključi mapo v varnostno kopijo"
+
+#: src/ui/page_detail.rs:494
+msgid "Exclude directory from backup"
+msgstr "Izloči mapo iz varnostne kopije"
+
+#: src/ui/page_overview.rs:66
+msgid "Delete backup configuration?"
+msgstr "Ali želite izbrisati nastavitve varnostne kopije?"
+
+#: src/ui/page_overview.rs:67
+msgid "Deleting the configuration will not delete your saved data."
+msgstr ""
+
+#: src/ui/page_overview.rs:69
+msgid "Delete"
+msgstr "Izbriši"
+
+#: src/ui/page_overview.rs:81 src/ui/utils/secret_service.rs:59
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
+
+#: src/ui/update_config.rs:20 src/ui/update_config.rs:47
+msgid "Updating configuration for new version"
+msgstr ""
+
+#: src/ui/update_config.rs:52
+msgid "Failed to retrieve backup information."
+msgstr "Pridobivanje podrobnosti o varnostni kopiji je spodletelo."
+
+#: src/ui/utils.rs:63
+msgid "Schedule and continue running backups in background."
+msgstr ""
+
+#: src/ui/utils/borg.rs:120
+msgid "Repository already in use."
+msgstr ""
+
+#: src/ui/utils/borg.rs:121
+msgid ""
+"The backup repository is marked as already in use. This information can be "
+"outdated if, for example, your computer lost power while using the "
+"repository.\n"
+"\n"
+"Only continue if you know that the repository is not used by any program! "
+"Continuing while an other program uses the repository might corrupt backup "
+"data!"
+msgstr ""
+
+#: src/ui/utils/borg.rs:123
+msgid "Continue Anyway"
+msgstr "Vseeno nadaljuj"
+
+#: src/ui/utils/duration.rs:10
+msgid "One second"
+msgid_plural "{} seconds"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:12
+msgid "One minute"
+msgid_plural "{} minutes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:14
+msgid "One hour"
+msgid_plural "{} hours"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:16
+msgid "One day"
+msgid_plural "{} days"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:23
+msgid "One minute left"
+msgid_plural "{} minutes left"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:28
+msgid "One hour left"
+msgid_plural "{} hours left"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:30
+msgid "One day left"
+msgid_plural "{} days left"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:36
+msgid "Now"
+msgstr ""
+
+#: src/ui/utils/duration.rs:38
+msgid "One minute ago"
+msgid_plural "{} minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:40
+msgid "One hour ago"
+msgid_plural "{} hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:42
+msgid "One day ago"
+msgid_plural "{} days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:44
+msgid "One week ago"
+msgid_plural "{} weeks ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:46
+msgid "One month ago"
+msgid_plural "{} months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/duration.rs:48
+msgid "One year ago"
+msgid_plural "{} years ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to save cache."
+msgstr "Shranjevanje predpomnilnika je spodletelo."
+
+#. Translators: This is the description for entries in the password database.
+#: src/ui/utils/secret_service.rs:12
+msgid "Pika Backup Password"
+msgstr "Geslo za varnostno kopiranje Pika"
+
+#~ msgid "Server"
+#~ msgstr "Strežnik"
+
+#, fuzzy
+#~ msgid "Store Password"
+#~ msgstr "Shranjevanje gesla je spodletelo: "
+
+#, fuzzy
+#~ msgid "Waiting for status …"
+#~ msgstr "Čakanje"
+
+#~ msgid "Saved"
+#~ msgstr "Shranjeno"
+
+#, fuzzy
+#~ msgid "Could not create empty config file."
+#~ msgstr "Ni mogoče vključiti namestitvene datoteke (%s)"
+
+#, fuzzy
+#~ msgid "You have to select a repository location."
+#~ msgstr "Izberite mesto skladišča za vpis:"
+
+#, fuzzy
+#~ msgid "You have to enter a repository location."
+#~ msgstr "Izberite mesto skladišča za vpis:"
+
+#, fuzzy
+#~ msgid ", {} of {} available"
+#~ msgstr "ni na voljo"
+
+#, fuzzy
+#~ msgid "Are you sure you want abort the running backup?"
+#~ msgstr ""
+#~ "Ali ste prepričani, da želite opravilo prekiniti?\n"
+#~ "Vsa opravila bodo izgubljena."
+
+#, fuzzy
+#~ msgid "Backup failed"
+#~ msgstr "Ustvarjanje varnostne kopije je spodletelo."
+
+#, fuzzy
+#~ msgid "You no longer want to backup this directory?"
+#~ msgstr "Ali želite preimenovati mapo »%s« v »%s«?"
+
+#, fuzzy
+#~ msgid "Are you sure you want to delete this backup configuration?"
+#~ msgstr "Ali ste prepričani, da želite izbrisati nalogo »{0}«?"
+
+#, fuzzy
+#~ msgid "No active backup to delete."
+#~ msgstr "Varnostna kopija"
