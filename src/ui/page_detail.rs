@@ -240,9 +240,7 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
         .await
         .map(|x| x.avail);
 
-    eprintln!("{:?} {:?}", estimated_changed, space_avail);
     if let (Some(estimated_changed), Some(space_avail)) = (estimated_changed, space_avail) {
-        eprintln!("{} {}", estimated_changed, space_avail);
         if estimated_changed > space_avail {
             ui::utils::show_notice(gettextf(
                 "Backup location “{}” might be filling up. Estimated space missing to store all data: {}.",
