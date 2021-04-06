@@ -202,18 +202,59 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
 pub async fn run_backup(config: config::Backup) -> Result<()> {
     let communication: borg::Communication = Default::default();
 
-    // skip size estimate if running in background
-    if !crate::ui::app_window::is_displayed() {
-        communication.instruction.update(|inst| {
-            *inst = borg::Instruction::AbortSizeEstimation;
-        });
-    }
-
     BACKUP_COMMUNICATION.update(|x| {
         x.insert(config.id.clone(), communication.clone());
     });
     refresh_status();
 
+    // estimate backup size if not running in background
+    if crate::ui::app_window::is_displayed() {
+        communication
+            .status
+            .update(|status| status.run = borg::Run::SizeEstimation);
+
+        let estimated_size = ui::utils::spawn_thread(
+            "estimate_backup_size",
+            enclose!((config, communication) move ||
+                borg::size_estimate::calculate(&config, &communication)
+            ),
+        )
+        .await
+        .ok()
+        .flatten();
+
+        if estimated_size.is_some() {
+            communication.status.update(move |status| {
+                status.estimated_size = estimated_size.clone();
+            });
+        }
+    }
+
+    let estimated_changed = communication
+        .status
+        .load()
+        .estimated_size
+        .as_ref()
+        .map(|x| x.changed);
+    let space_avail = ui::utils::df::cached_or_lookup(&config)
+        .await
+        .map(|x| x.avail);
+
+    eprintln!("{:?} {:?}", estimated_changed, space_avail);
+    if let (Some(estimated_changed), Some(space_avail)) = (estimated_changed, space_avail) {
+        eprintln!("{} {}", estimated_changed, space_avail);
+        if estimated_changed > space_avail {
+            ui::utils::show_notice(gettextf(
+                "Backup location “{}” might be filling up. Estimated space missing to store all data: {}.",
+                &[
+                    &config.repo.location(),
+                    &glib::format_size(estimated_changed - space_avail).unwrap(),
+                ],
+            ));
+        }
+    }
+
+    // execute backup
     let result = ui::utils::borg::exec(
         gettext("Creating new backup."),
         config.clone(),

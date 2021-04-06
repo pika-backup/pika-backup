@@ -14,6 +14,16 @@ pub fn init() {
     {
         main_ui().window().get_style_context().add_class("devel");
     }
+
+    main_ui().internal_message().connect_close(|info_bar| {
+        info_bar.set_revealed(false);
+    });
+
+    main_ui()
+        .internal_message()
+        .connect_response(|info_bar, _| {
+            info_bar.set_revealed(false);
+        });
 }
 
 pub fn is_displayed() -> bool {

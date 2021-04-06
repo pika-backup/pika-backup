@@ -143,21 +143,6 @@ impl Borg {
             ]);
         }
 
-        // estimate size
-        if communication.status.load().estimated_size.is_none() && retries == 0 {
-            communication
-                .status
-                .update(|status| status.run = Run::SizeEstimation);
-
-            let estimated_size = super::size_estimate::calculate(&self.config, &communication);
-
-            if estimated_size.is_some() {
-                communication.status.update(move |status| {
-                    status.estimated_size = estimated_size.clone();
-                });
-            }
-        }
-
         communication.status.update(move |status| {
             status.run = Run::Running;
         });

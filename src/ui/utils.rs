@@ -227,6 +227,14 @@ pub fn show_error<S: std::fmt::Display, P: std::fmt::Display>(message: S, detail
     show_error_transient_for(message, detail, &main_ui().window());
 }
 
+pub fn show_notice<S: std::fmt::Display>(message: S) {
+    warn!("Displaying notice:\n  {}", &message);
+    main_ui()
+        .internal_message_text()
+        .set_text(&message.to_string());
+    main_ui().internal_message().set_revealed(true);
+}
+
 pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: IsA<gtk::Window>>(
     message: S,
     detail: P,

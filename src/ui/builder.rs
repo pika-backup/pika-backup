@@ -542,6 +542,14 @@ impl Main {
         self.get("include_home_row")
     }
 
+    pub fn internal_message(&self) -> gtk::InfoBar {
+        self.get("internal_message")
+    }
+
+    pub fn internal_message_text(&self) -> gtk::Label {
+        self.get("internal_message_text")
+    }
+
     pub fn main_backups(&self) -> gtk::ListBox {
         self.get("main_backups")
     }
