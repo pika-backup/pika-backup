@@ -20,7 +20,7 @@ pub fn init() {
             .set_visible_child(&main_ui().page_overview());
         refresh();
     } else if let Some(ref config) = BACKUP_CONFIG.load().iter().next() {
-        ui::page_detail::view_backup_conf(&config.id);
+        ui::page_backup::view_backup_conf(&config.id);
     } else {
         main_ui()
             .main_stack()
@@ -109,7 +109,7 @@ fn refresh() {
         list.add(&list_row);
 
         list_row.connect_activated(enclose!((config) move |_| {
-            ui::page_detail::view_backup_conf(&config.id);
+            ui::page_backup::view_backup_conf(&config.id);
         }));
 
         let row = ui::builder::OverviewItem::new();

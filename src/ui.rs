@@ -22,7 +22,7 @@ mod error;
 mod globals;
 mod headerbar;
 mod page_archives;
-mod page_detail;
+mod page_backup;
 mod page_overview;
 mod page_pending;
 mod prelude;
@@ -129,7 +129,7 @@ fn on_startup(_app: &gtk::Application) {
     init_timeouts();
 
     ui::page_archives::init();
-    ui::page_detail::init();
+    ui::page_backup::init();
     ui::headerbar::init();
     ui::page_overview::init();
     ui::page_pending::init();
@@ -205,7 +205,7 @@ fn init_actions() {
     action.connect_activate(|_, config_id| {
         if let Some(config_id) = config_id.and_then(|v| v.get_str()) {
             app_window::show();
-            ui::page_detail::view_backup_conf(&ConfigId::new(config_id.to_string()));
+            ui::page_backup::view_backup_conf(&ConfigId::new(config_id.to_string()));
             main_ui().window().present();
         }
     });
@@ -215,7 +215,7 @@ fn init_actions() {
     action.connect_activate(|_, config_id| {
         info!("action backup.start: called");
         if let Some(config_id) = config_id.and_then(|v| v.get_str()) {
-            ui::page_detail::activate_action_backup(ConfigId::new(config_id.to_string()));
+            ui::page_backup::activate_action_backup(ConfigId::new(config_id.to_string()));
         } else {
             error!("action backup.start: Did not receivce valid config id");
         }

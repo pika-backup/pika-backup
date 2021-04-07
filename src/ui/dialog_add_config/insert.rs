@@ -175,7 +175,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
                     return Err(Message::new(gettext("Failed to store password."), err).into());
                 }
             }
-            ui::page_detail::view_backup_conf(&config.id);
+            ui::page_backup::view_backup_conf(&config.id);
         }
     };
 
@@ -209,7 +209,7 @@ async fn insert_backup_config_encryption_unknown(repo: config::Repository) -> Re
                 .unwrap_or_default();
             let config = config::Backup::new(repo.clone(), info, encrypted);
             insert_backup_config(config.clone())?;
-            ui::page_detail::view_backup_conf(&config.id);
+            ui::page_backup::view_backup_conf(&config.id);
             ui::utils::secret_service::store_password(&config, &pw_data)?;
 
             Ok(())
