@@ -47,7 +47,7 @@ impl Repository {
     pub fn from_mount(mount: gio::Mount, mut path: std::path::PathBuf, uri: String) -> Repository {
         let mut mount_path = "/".into();
 
-        if let Some(mount_root) = mount.get_root().unwrap().get_path() {
+        if let Some(mount_root) = mount.get_root().get_path() {
             if let Ok(repo_path) = path.strip_prefix(&mount_root) {
                 mount_path = mount_root;
                 path = repo_path.to_path_buf();
@@ -58,21 +58,13 @@ impl Repository {
             path,
             mount_path,
             uri: Some(uri),
-            icon: mount
-                .get_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
-            icon_symbolic: mount
-                .get_symbolic_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
-            mount_name: mount.get_name().map(Into::into),
+            icon: Some(ToString::to_string(&mount.get_icon())),
+            icon_symbolic: Some(ToString::to_string(&mount.get_symbolic_icon())),
+            mount_name: Some(mount.get_name().to_string()),
             drive_name: mount
                 .get_drive()
                 .as_ref()
-                .and_then(gio::Drive::get_name)
+                .map(gio::Drive::get_name)
                 .map(Into::into),
             removable: mount
                 .get_drive()

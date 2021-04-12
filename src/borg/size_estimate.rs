@@ -29,9 +29,7 @@ struct Exclude {
 
 impl Exclude {
     pub fn borg_cache() -> std::path::PathBuf {
-        glib::get_user_cache_dir()
-            .unwrap()
-            .join(std::path::Path::new("borg"))
+        glib::get_user_cache_dir().join(std::path::Path::new("borg"))
     }
 
     pub fn new(mut exclude: BTreeSet<config::Pattern>) -> Self {

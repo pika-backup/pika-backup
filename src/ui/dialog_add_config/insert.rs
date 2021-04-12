@@ -109,7 +109,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
         if let Some(path) = ui
             .init_path()
             .get_file()
-            .map(|x| x.get_child(ui.init_dir().get_text().as_str()).unwrap())
+            .map(|x| x.get_child(ui.init_dir().get_text().as_str()))
             .and_then(|x| x.get_path())
         {
             if let Some(mount) = ui.init_path().get_file().and_then(|file| {

@@ -74,7 +74,7 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
     let volume_monitor = gio::VolumeMonitor::get();
 
     volume_monitor.connect_mount_added(enclose!((dialog) move |_, new_mount| {
-        if path.starts_with(new_mount.get_root().unwrap().get_path().unwrap()) {
+        if path.starts_with(new_mount.get_root().get_path().unwrap()) {
             dialog.window().response(gtk::ResponseType::Ok);
         }
     }));

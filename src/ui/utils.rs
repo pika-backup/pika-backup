@@ -45,12 +45,9 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
 }
 
 pub fn cache_dir() -> std::path::PathBuf {
-    [
-        glib::get_user_cache_dir().unwrap(),
-        env!("CARGO_PKG_NAME").into(),
-    ]
-    .iter()
-    .collect()
+    [glib::get_user_cache_dir(), env!("CARGO_PKG_NAME").into()]
+        .iter()
+        .collect()
 }
 
 pub async fn get_background_permission() -> zbus::fdo::Result<bool> {

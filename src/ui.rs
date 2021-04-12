@@ -1,11 +1,12 @@
 use gdk_pixbuf::prelude::*;
-use gio::prelude::*;
 use gtk::prelude::*;
 
 use crate::borg;
 use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
+
+use std::time::Duration;
 
 mod app_window;
 mod backup_status;
@@ -65,7 +66,7 @@ pub fn main() {
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
-    gtk_app().run(&std::env::args().collect::<Vec<_>>());
+    gtk_app().run();
 }
 
 fn on_ctrlc() -> Continue {
@@ -145,7 +146,7 @@ fn on_activate(_app: &gtk::Application) {
 }
 
 fn init_timeouts() {
-    glib::timeout_add_local(1000, move || {
+    glib::timeout_add_local(Duration::from_secs(1), move || {
         let inhibit_cookie = INHIBIT_COOKIE.get();
 
         if utils::borg::is_backup_running() {

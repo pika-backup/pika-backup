@@ -246,7 +246,7 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
                 "Backup location “{}” might be filling up. Estimated space missing to store all data: {}.",
                 &[
                     &config.repo.location(),
-                    &glib::format_size(estimated_changed - space_avail).unwrap(),
+                    &glib::format_size(estimated_changed - space_avail),
                 ],
             ));
         }
@@ -484,8 +484,7 @@ fn on_transition(stack: &gtk::Stack) {
         for scrollable in &[main_ui().page_backup(), main_ui().page_archives()] {
             scrollable
                 .get_vadjustment()
-                .unwrap()
-                .set_value(scrollable.get_vadjustment().unwrap().get_lower());
+                .set_value(scrollable.get_vadjustment().get_lower());
         }
     }
 }
