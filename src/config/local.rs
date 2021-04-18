@@ -1,4 +1,5 @@
 use gio::prelude::*;
+use glib::translate::*;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Repository {
@@ -29,17 +30,20 @@ impl Repository {
         if let Ok(mount) = file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
             Self::from_mount(mount, path, file.get_uri().to_string())
         } else {
-            let mount_entry = gio::UnixMountEntry::new_for(&path).0;
+            let mount_entry = g_unix_mount_for(&path).map(|x| x.0);
 
             Self {
                 path,
                 mount_path: default_mount_path(),
                 uri: None,
-                icon: gio::IconExt::to_string(&mount_entry.guess_icon().unwrap())
-                    .map(|x| x.to_string()),
-                icon_symbolic: gio::IconExt::to_string(&mount_entry.guess_symbolic_icon().unwrap())
-                    .map(|x| x.to_string()),
-                mount_name: Some(mount_entry.guess_name().unwrap().to_string()),
+                icon: mount_entry.as_ref().and_then(|x| {
+                    gio::IconExt::to_string(&x.guess_icon().unwrap()).map(|x| x.to_string())
+                }),
+                icon_symbolic: mount_entry.as_ref().and_then(|x| {
+                    gio::IconExt::to_string(&x.guess_symbolic_icon().unwrap())
+                        .map(|x| x.to_string())
+                }),
+                mount_name: mount_entry.map(|x| x.guess_name().unwrap().to_string()),
                 drive_name: None,
                 removable: false,
                 volume_uuid: None,
@@ -93,5 +97,18 @@ impl Repository {
 
     pub fn into_config(self) -> super::Repository {
         super::Repository::Local(self)
+    }
+}
+
+pub fn g_unix_mount_for<P: AsRef<std::path::Path>>(
+    file_path: P,
+) -> Option<(gio::UnixMountEntry, u64)> {
+    unsafe {
+        let mut time_read = std::mem::MaybeUninit::uninit();
+        let ret: Option<gio::UnixMountEntry> = from_glib_none(gio_sys::g_unix_mount_for(
+            file_path.as_ref().to_glib_none().0,
+            time_read.as_mut_ptr(),
+        ));
+        ret.map(|x| (x, time_read.assume_init()))
     }
 }
