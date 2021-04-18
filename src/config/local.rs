@@ -29,13 +29,17 @@ impl Repository {
         if let Ok(mount) = file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
             Self::from_mount(mount, path, file.get_uri().to_string())
         } else {
+            let mount_entry = gio::UnixMountEntry::new_for(&path).0;
+
             Self {
                 path,
                 mount_path: default_mount_path(),
                 uri: None,
-                icon: None,
-                icon_symbolic: None,
-                mount_name: None,
+                icon: gio::IconExt::to_string(&mount_entry.guess_icon().unwrap())
+                    .map(|x| x.to_string()),
+                icon_symbolic: gio::IconExt::to_string(&mount_entry.guess_symbolic_icon().unwrap())
+                    .map(|x| x.to_string()),
+                mount_name: Some(mount_entry.guess_name().unwrap().to_string()),
                 drive_name: None,
                 removable: false,
                 volume_uuid: None,
