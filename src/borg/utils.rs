@@ -1,8 +1,11 @@
+use super::prelude::*;
 use super::{Borg, BorgRunConfig, Error, Result};
+
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
 use std::os::unix::io::IntoRawFd;
 use std::process::{Command, Stdio};
+
 use zeroize::Zeroizing;
 
 use super::error::*;
@@ -35,20 +38,20 @@ pub fn check_stderr(output: &std::process::Output) -> Result<()> {
 
     if output.status.success() {
         Ok(())
-    } else if errors.is_empty() {
+    } else if let Ok(err) = Error::try_from(errors) {
+        Err(err)
+    } else {
         error!(
             "borg return code is '{:?}' but couldn't find an error message",
             output.status.code()
         );
         Err(ReturnCodeError::new(output.status.code()).into())
-    } else {
-        Err(LogCollection::new(errors).into())
     }
 }
 
 pub fn check_line(line: &str) -> LogMessageEnum {
     if let Ok(mut msg @ LogMessage { .. }) = serde_json::from_str(line) {
-        if msg.msgid == MsgId::Undefined {
+        if matches!(msg.msgid, MsgId::Undefined) {
             let msgid_helper_parsed: std::result::Result<MsgIdHelper, _> =
                 serde_json::from_str(line);
             if let Ok(msgid_helper) = msgid_helper_parsed {

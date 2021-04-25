@@ -148,8 +148,6 @@ impl Borg {
         });
         let mut borg = borg_call.spawn()?;
 
-        let mut errors = Vec::new();
-
         let mut last_skipped = 0.;
         let mut last_copied = 0.;
         let mut last_time = std::time::Instant::now();
@@ -176,7 +174,7 @@ impl Borg {
                     nix::sys::signal::Signal::SIGTERM,
                 )?;
                 borg.wait()?;
-                return Err(Error::UserAborted);
+                return Err(Error::Aborted(error::Abort::User));
             }
 
             if let Ok(ref msg) = serde_json::from_str::<msg::Progress>(&line) {
@@ -217,8 +215,27 @@ impl Borg {
                     borg.wait()?;
                     std::thread::sleep(crate::BORG_DELAY_RECONNECT);
                     return self.create_internal(communication, retries + 1);
+                } else {
+                    communication.status.update(move |status| {
+                        if status.message_history.0.len() < Status::MESSAGE_HISTORY_LENGTH {
+                            status.message_history.0.push(msg.clone());
+                        } else if status.message_history.1.len() < Status::MESSAGE_HISTORY_LENGTH {
+                            status.message_history.1.push(msg.clone());
+                        } else {
+                            if let Some(position) = status
+                                .message_history
+                                .1
+                                .iter()
+                                .position(|x| x.level() < msg.level())
+                            {
+                                status.message_history.1.remove(position);
+                            } else {
+                                status.message_history.1.remove(0);
+                            }
+                            status.message_history.1.push(msg.clone());
+                        }
+                    });
                 }
-                errors.push(msg);
             }
 
             line.clear();
@@ -231,14 +248,22 @@ impl Borg {
         let stats = serde_json::from_slice(&output.stdout);
         info!("Stats: {:#?}", stats);
 
-        if exit_status.success() {
+        if exit_status.success()
+            || communication
+                .status
+                .load()
+                .combined_message_history()
+                .max_log_level()
+                < Some(LogLevel::Error)
+        {
             Ok(stats?)
         } else {
-            Err(if errors.is_empty() {
-                error::ReturnCodeError::new(exit_status.code()).into()
+            if let Ok(err) = Error::try_from(communication.status.load().combined_message_history())
+            {
+                Err(err)
             } else {
-                CreateLogCollection::new(errors, stats.ok()).into()
-            })
+                Err(error::ReturnCodeError::new(exit_status.code()).into())
+            }
         }
     }
 }

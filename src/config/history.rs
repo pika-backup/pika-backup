@@ -42,7 +42,7 @@ impl Histories {
     pub fn insert(&mut self, config_id: ConfigId, entry: RunInfo) {
         let history = self.0.entry(config_id).or_default();
 
-        if entry.result.is_ok() {
+        if matches!(entry.outcome, borg::Outcome::Completed { .. }) {
             history.last_completed = Some(entry.clone());
         }
 
@@ -56,51 +56,25 @@ impl Histories {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct RunInfo {
+    pub messages: borg::msg::LogCollection,
+    pub outcome: borg::Outcome,
     pub end: DateTime<Local>,
-    pub result: Result<borg::Stats, RunError>,
     pub include: BTreeSet<std::path::PathBuf>,
     pub exclude: BTreeSet<config::Pattern>,
 }
 
 impl RunInfo {
-    pub fn new(config: &config::Backup, result: Result<borg::Stats, RunError>) -> Self {
+    pub fn new(
+        config: &config::Backup,
+        outcome: borg::Outcome,
+        messages: borg::msg::LogCollection,
+    ) -> Self {
         Self {
             end: Local::now(),
-            result,
+            outcome,
+            messages,
             include: config.include.clone(),
             exclude: config.exclude.clone(),
         }
-    }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-#[serde(untagged)]
-pub enum RunError {
-    WithLevel {
-        message: String,
-        level: borg::msg::LogLevel,
-        stats: Option<borg::Stats>,
-    },
-    Simple(String),
-}
-
-impl RunError {
-    pub fn level(&self) -> borg::msg::LogLevel {
-        match self {
-            Self::WithLevel { level, .. } => level.clone(),
-            Self::Simple(_) => borg::msg::LogLevel::None,
-        }
-    }
-}
-
-impl std::fmt::Display for RunError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::WithLevel { message, .. } | Self::Simple(message) => message,
-            }
-        )
     }
 }

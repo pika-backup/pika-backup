@@ -1,17 +1,6 @@
-use super::json;
+use gettextrs::gettext;
 
-#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
-pub enum MsgId {
-    ConnectionClosed,
-    ConnectionClosedWithHint,
-    LockTimeout,
-    PassphraseWrong,
-    #[serde(rename = "Repository.DoesNotExist")]
-    RepositoryDoesNotExist,
-    Other(String),
-    #[serde(other)]
-    Undefined,
-}
+pub type MsgId = super::error::Failure;
 
 impl Default for MsgId {
     fn default() -> Self {
@@ -24,7 +13,7 @@ pub struct MsgIdHelper {
     pub msgid: String,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub enum LogMessageEnum {
     ParsedErr(LogMessage),
     UnparsableErr(String),
@@ -38,62 +27,38 @@ impl LogMessageEnum {
         }
     }
 
+    pub fn id(&self) -> Option<MsgId> {
+        match self {
+            Self::ParsedErr(message) => Some(message.msgid.clone()),
+            Self::UnparsableErr(_) => None,
+        }
+    }
+
     pub fn level(&self) -> LogLevel {
         match self {
             Self::ParsedErr(message) => message.levelname.clone(),
-            Self::UnparsableErr(_) => LogLevel::None,
+            Self::UnparsableErr(_) => LogLevel::Undefined,
         }
     }
 }
 
-#[derive(Clone, Debug)]
-pub struct LogCollection {
-    pub messages: Vec<LogMessageEnum>,
-    pub level: LogLevel,
+pub type LogCollection = Vec<LogMessageEnum>;
+
+pub trait LogExt {
+    fn max_log_level(&self) -> Option<LogLevel>;
+    fn to_string(&self) -> String;
 }
 
-impl LogCollection {
-    pub fn new(messages: Vec<LogMessageEnum>) -> Self {
-        let level = messages
-            .iter()
-            .map(|e| e.level())
-            .max()
-            .unwrap_or(LogLevel::None);
-
-        Self { messages, level }
+impl LogExt for LogCollection {
+    fn max_log_level(&self) -> Option<LogLevel> {
+        self.iter().map(|e| e.level()).max()
     }
-}
 
-#[derive(Clone, Debug)]
-pub struct CreateLogCollection {
-    pub messages: Vec<LogMessageEnum>,
-    pub level: LogLevel,
-    pub stats: Option<json::Stats>,
-}
-
-impl CreateLogCollection {
-    pub fn new(messages: Vec<LogMessageEnum>, stats: Option<json::Stats>) -> Self {
-        let mut collection = LogCollection::new(messages);
-
-        // consider backups if 0 files as failed
-        if let Some(json::Stats {
-            archive:
-                json::NewArchive {
-                    stats: json::NewArchiveSize { nfiles, .. },
-                    ..
-                },
-        }) = stats
-        {
-            if nfiles < 1 && collection.level < LogLevel::Error {
-                collection.level = LogLevel::Error;
-            }
-        }
-
-        Self {
-            messages: collection.messages,
-            level: collection.level,
-            stats,
-        }
+    fn to_string(&self) -> String {
+        self.iter()
+            .map(|m| format!("{}", &m))
+            .collect::<Vec<String>>()
+            .join("\n")
     }
 }
 
@@ -108,7 +73,11 @@ pub struct LogMessage {
 
 impl std::fmt::Display for LogMessage {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}", self.message)
+        if matches!(self.msgid, MsgId::Undefined) {
+            write!(f, "{}: {}", self.levelname, self.message)
+        } else {
+            write!(f, "{}: {} – {}", self.levelname, self.msgid, self.message)
+        }
     }
 }
 
@@ -121,7 +90,7 @@ pub struct BorgUnparsableErr {
 
 impl std::fmt::Display for BorgUnparsableErr {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "STDERR({})", self.stderr)
+        write!(f, "{}: {}", gettext("Standard error output"), self.stderr)
     }
 }
 
@@ -131,34 +100,6 @@ impl std::fmt::Display for LogMessageEnum {
             Self::ParsedErr(e) => write!(f, "{}", e),
             Self::UnparsableErr(s) => write!(f, "{}", s),
         }
-    }
-}
-
-impl std::fmt::Display for LogCollection {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            self.messages
-                .iter()
-                .map(|m| format!("{}", &m))
-                .collect::<Vec<String>>()
-                .join("\n")
-        )
-    }
-}
-
-impl std::fmt::Display for CreateLogCollection {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            self.messages
-                .iter()
-                .map(|m| format!("{}", &m))
-                .collect::<Vec<String>>()
-                .join("\n")
-        )
     }
 }
 
@@ -182,7 +123,20 @@ pub enum LogLevel {
     Warning,
     Error,
     Critical,
-    None,
+    Undefined,
+}
+impl std::fmt::Display for LogLevel {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        let text = match self {
+            Self::Debug => gettext("Debug"),
+            Self::Info => gettext("Info"),
+            Self::Warning => gettext("Warning"),
+            Self::Error => gettext("Error"),
+            Self::Critical => gettext("Critical"),
+            Self::Undefined => gettext("Undefined"),
+        };
+        write!(f, "{}", text)
+    }
 }
 
 #[derive(Deserialize, Clone, Debug)]

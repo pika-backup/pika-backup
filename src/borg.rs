@@ -9,7 +9,7 @@ pub mod status;
 mod utils;
 
 pub use communication::*;
-pub use error::{Error, Result};
+pub use error::{Error, Failure, Outcome, Result};
 pub use functions::*;
 pub use json::*;
 pub use status::*;

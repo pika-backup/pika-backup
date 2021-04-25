@@ -47,25 +47,29 @@ impl Display {
 
 impl From<&history::RunInfo> for Display {
     fn from(run_info: &history::RunInfo) -> Self {
-        match &run_info.result {
-            Ok(_) => Self {
+        match run_info.outcome {
+            borg::Outcome::Completed { .. }
+                if run_info.messages.max_log_level() > Some(borg::msg::LogLevel::Info) =>
+            {
+                Self {
+                    title: gettext("Last backup completed with warnings"),
+                    subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
+                    graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
+                    progress: None,
+                    stats: Some(Stats::Final(run_info.clone())),
+                }
+            }
+            borg::Outcome::Completed { .. } => Self {
                 title: gettext("Last backup successful"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::Icon("emblem-default-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
-            Err(err) if err.level() >= borg::msg::LogLevel::Error => Self {
+            _ => Self {
                 title: gettext("Last backup failed"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),
-                progress: None,
-                stats: Some(Stats::Final(run_info.clone())),
-            },
-            Err(_) => Self {
-                title: gettext("Last backup completed with warnings"),
-                subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
-                graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },

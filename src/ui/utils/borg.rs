@@ -89,10 +89,8 @@ where
         return match result {
             Err(futures::channel::oneshot::Canceled) => Err(borg::Error::ThreadPanicked.into()),
             Ok(result) => match result {
-                Err(e)
-                    if matches!(e, borg::Error::PasswordMissing)
-                        || e.has_borg_msgid(&borg::msg::MsgId::PassphraseWrong) =>
-                {
+                Err(borg::Error::PasswordMissing)
+                | Err(borg::Error::Failed(borg::Failure::PassphraseWrong)) => {
                     if let Some((password, store)) =
                         crate::ui::utils::secret_service::get_password(pre_select_store).await
                     {
@@ -104,7 +102,7 @@ where
                         Err(Error::UserCanceled.into())
                     }
                 }
-                Err(e) if e.has_borg_msgid(&borg::msg::MsgId::LockTimeout) => {
+                Err(borg::Error::Failed(borg::Failure::LockTimeout)) => {
                     handle_lock(borg.clone()).await?;
                     continue;
                 }

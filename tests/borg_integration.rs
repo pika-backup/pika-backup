@@ -3,7 +3,7 @@ mod common;
 #[macro_use]
 extern crate matches;
 
-use pika_backup::{borg, borg::prelude::*, config, prelude::*};
+use pika_backup::{borg, borg::prelude::*, config};
 
 // Currently, there are no init tasks
 fn init() {}
@@ -51,18 +51,24 @@ fn failed_ssh_connection() {
         .into_config();
 
     let result = borg::BorgOnlyRepo::new(repo).peek();
-    assert!(result
-        .unwrap_err()
-        .has_borg_msgid(&borg::msg::MsgId::ConnectionClosedWithHint));
+    assert_matches!(
+        result,
+        Err(borg::Error::Failed(
+            borg::error::Failure::ConnectionClosedWithHint_(_)
+        ))
+    );
 }
 
 #[test]
 fn failed_repo() {
     init();
     let result = borg::Borg::new(config()).peek();
-    assert!(result
-        .unwrap_err()
-        .has_borg_msgid(&borg::msg::MsgId::RepositoryDoesNotExist));
+    assert_matches!(
+        result,
+        Err(borg::Error::Failed(
+            borg::error::Failure::RepositoryDoesNotExist
+        ))
+    );
 }
 
 fn status() -> borg::Communication {

@@ -256,7 +256,7 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
     let result = ui::utils::borg::exec(
         gettext("Creating new backup."),
         config.clone(),
-        move |borg| borg.create(communication),
+        enclose!((communication) move |borg| borg.create(communication)),
     )
     .await;
 
@@ -271,18 +271,19 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
 
     let result = result.into_borg_error()?;
 
-    let user_aborted = matches!(result, Err(borg::Error::UserAborted));
     // This is because the error cannot be cloned
-    let result_config = match result {
-        Err(borg::Error::BorgCreate(err)) => Err(history::RunError::WithLevel {
-            message: format!("{}", err),
-            level: err.level,
-            stats: err.stats,
-        }),
-        Err(err) => Err(history::RunError::Simple(format!("{}", err))),
-        Ok(stats) => Ok(stats),
+    let outcome = match &result {
+        Err(borg::Error::Aborted(err)) => borg::Outcome::Aborted(err.clone()),
+        Err(borg::Error::Failed(err)) => borg::Outcome::Failed(err.clone()),
+        Err(err) => borg::Outcome::Failed(borg::error::Failure::Other(err.to_string())),
+        Ok(stats) => borg::Outcome::Completed {
+            stats: stats.clone(),
+        },
     };
-    let run_info = history::RunInfo::new(&config, result_config.clone());
+
+    let message_history = communication.status.load().combined_message_history();
+
+    let run_info = history::RunInfo::new(&config, outcome, message_history);
 
     BACKUP_HISTORY.update(|history| {
         history.insert(config.id.clone(), run_info.clone());
@@ -291,20 +292,22 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
 
     ui::write_config()?;
 
-    if !user_aborted {
-        if let Err(err) = result_config {
-            if err.level() >= borg::msg::LogLevel::Error {
-                return Err(Message::new(gettext("Creating a backup failed."), err).into());
-            } else {
-                return Err(Message::new(gettext("Backup completed with warnings."), err).into());
-            }
-        } else {
+    match result {
+        Err(borg::Error::Aborted(_)) => Ok(()),
+        Err(err) => Err(Message::new(gettext("Creating a backup failed."), err).into()),
+        Ok(_) if run_info.messages.max_log_level() >= Some(borg::msg::LogLevel::Warning) => {
+            Err(Message::new(
+                gettext("Backup completed with warnings."),
+                run_info.messages.to_string(),
+            )
+            .into())
+        }
+        Ok(_) => {
             let _ignore = ui::page_archives::refresh_archives_cache(config.clone()).await;
             let _ignore = ui::utils::df::lookup_and_cache(&config).await;
+            Ok(())
         }
     }
-
-    Ok(())
 }
 
 pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {

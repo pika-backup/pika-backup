@@ -2,6 +2,7 @@ use gtk::prelude::*;
 
 use num_format::ToFormattedString;
 
+use crate::borg;
 use crate::config::history::*;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
@@ -48,11 +49,17 @@ fn refresh_status_display(status: &backup_status::Display) {
         main_ui().detail_info_substatus().hide();
     }
 
-    if let Some(backup_status::Stats::Final(RunInfo {
-        result: Err(err), ..
-    })) = &status.stats
-    {
-        main_ui().detail_info_error().set_text(&format!("{}", err));
+    if let Some(backup_status::Stats::Final(run_info)) = &status.stats {
+        let mut message = String::new();
+
+        if !matches!(run_info.outcome, borg::Outcome::Completed { .. }) {
+            message.push_str(&run_info.outcome.to_string());
+            message.push_str("\n\n");
+        }
+
+        message.push_str(&run_info.messages.to_string());
+
+        main_ui().detail_info_error().set_text(&message);
         main_ui().detail_info_error().show();
     } else {
         main_ui().detail_info_error().hide();
@@ -60,12 +67,7 @@ fn refresh_status_display(status: &backup_status::Display) {
 
     match &status.stats {
         Some(backup_status::Stats::Final(RunInfo {
-            result: Ok(stats), ..
-        }))
-        | Some(backup_status::Stats::Final(RunInfo {
-            result: Err(RunError::WithLevel {
-                stats: Some(stats), ..
-            }),
+            outcome: borg::Outcome::Completed { stats },
             ..
         })) => {
             main_ui().detail_stats().show();

@@ -10,7 +10,9 @@ pub struct Status {
     pub started: Option<chrono::DateTime<chrono::Local>>,
     pub total: f64,
     pub copied: f64,
+    pub stalled: bool,
     pub data_rate_history: DataRateHistory,
+    pub message_history: (LogCollection, LogCollection),
 }
 
 fn positive(n: f64) -> f64 {
@@ -22,6 +24,17 @@ fn positive(n: f64) -> f64 {
 }
 
 impl Status {
+    pub const MESSAGE_HISTORY_LENGTH: usize = 50;
+
+    pub fn combined_message_history(&self) -> LogCollection {
+        self.message_history
+            .0
+            .iter()
+            .cloned()
+            .chain(self.message_history.1.iter().cloned())
+            .collect()
+    }
+
     pub fn time_remaining(&self) -> Option<chrono::Duration> {
         if let (Some(skip_remaining_size), Some(copy_remaining_size)) =
             (self.skip_remaining(), self.copy_remaining())

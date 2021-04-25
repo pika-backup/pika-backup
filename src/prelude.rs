@@ -1,12 +1,37 @@
 pub use crate::config::ConfigId;
 pub use crate::globals::*;
 pub use crate::utils::LookupConfigId;
+pub use std::convert::TryFrom;
 pub use std::rc::Rc;
 pub use std::sync::Arc;
 
 use crate::config;
 
 use arc_swap::ArcSwap;
+
+pub use gettextrs::{gettext, ngettext};
+
+pub fn gettextf(format: &str, args: &[&str]) -> String {
+    let mut s = gettext(format);
+
+    for arg in args {
+        s = s.replacen("{}", arg, 1)
+    }
+    s
+}
+
+pub fn ngettextf(msgid: &str, msgid_plural: &str, n: u32, args: &[&str]) -> String {
+    let mut s = ngettext(msgid, msgid_plural, n);
+
+    for arg in args {
+        s = s.replacen("{}", arg, 1)
+    }
+    s
+}
+
+pub fn ngettextf_(msgid: &str, msgid_plural: &str, n: u32) -> String {
+    ngettextf(msgid, msgid_plural, n, &[&n.to_string()])
+}
 
 #[allow(clippy::implicit_hasher)]
 impl<T> LookupConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
