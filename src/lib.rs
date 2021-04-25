@@ -15,8 +15,6 @@ static BORG_LOCK_WAIT_RECONNECT: std::time::Duration = std::time::Duration::from
 
 const REPO_MOUNT_DIR: &str = ".mnt/borg";
 
-const DEFAULT_LOCALEDIR: &str = "/usr/share/locale";
-
 // require borg 1.1
 const BORG_MIN_MAJOR: u32 = 1;
 const BORG_MIN_MINOR: u32 = 1;

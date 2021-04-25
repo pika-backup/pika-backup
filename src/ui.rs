@@ -39,22 +39,9 @@ pub fn main() {
         |_, _, _| {},
     );
 
-    // init gettext
-    if gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "").is_none() {
-        warn!("gettextrs::setlocale() failed");
+    if let Err(err) = gettextrs::TextDomain::new(env!("CARGO_PKG_NAME")).init() {
+        info!("TextDomain::init() failed: {}", err);
     }
-    let localedir = option_env!("LOCALEDIR").unwrap_or(crate::DEFAULT_LOCALEDIR);
-    info!("bindtextdomain setting directory to {:?}", localedir);
-    if let Err(err) = gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), localedir) {
-        warn!("gettextrs::bindtextdomain() failed: {}", err);
-    }
-    if let Err(err) = gettextrs::textdomain(env!("CARGO_PKG_NAME")) {
-        warn!("gettextrs::textdomain() failed: {}", err);
-    }
-
-    // init gtk and libhandy
-    gtk::init().expect("Failed to gtk::init()");
-    libhandy::init();
 
     gtk_app().connect_startup(on_startup);
     gtk_app().connect_activate(on_activate);
@@ -98,6 +85,7 @@ fn on_shutdown(app: &gtk::Application) {
 }
 
 fn on_startup(_app: &gtk::Application) {
+    libhandy::init();
     debug!("Signal 'startup'");
     load_config();
 
