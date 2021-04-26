@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-04-06 18:11+0000\n"
-"PO-Revision-Date: 2021-04-07 09:04+0300\n"
+"POT-Creation-Date: 2021-04-25 21:43+0000\n"
+"PO-Revision-Date: 2021-04-26 09:17+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -144,7 +144,7 @@ msgstr "Використовувати наявне сховище"
 msgid "Location"
 msgstr "Місце"
 
-#: data/ui/dialog_add_config.ui:346
+#: data/ui/dialog_add_config.ui:346 src/borg/msg.rs:133
 msgid "Warning"
 msgstr "Попередження"
 
@@ -183,7 +183,7 @@ msgstr ""
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: data/ui/dialog_add_config.ui:565 src/ui/page_detail.rs:503
+#: data/ui/dialog_add_config.ui:565 src/ui/page_backup.rs:504
 msgid "Confirm"
 msgstr "Підтвердити"
 
@@ -224,8 +224,8 @@ msgid "Backup Configuration"
 msgstr "Налаштовування резервного копіювання"
 
 #: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:132
-#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:502
-#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:122
+#: data/ui/dialog_encryption_password.ui:167 src/ui/page_backup.rs:503
+#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:120
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -279,7 +279,7 @@ msgstr ""
 "Для виконання цього завдання потрібен пароль шифрування до цього сховища"
 
 #: data/ui/dialog_encryption_password.ui:175 src/ui.rs:190
-#: src/ui/page_detail.rs:141
+#: src/ui/page_backup.rs:141
 msgid "Continue"
 msgstr "Продовжити"
 
@@ -427,23 +427,93 @@ msgstr "Поточний файл"
 msgid "Backup Info"
 msgstr "Відомості щодо резервного копіювання"
 
-#: src/borg/error.rs:33
-msgid "Aborted through user input."
-msgstr "Перервано через реакцію користувача."
-
-#: src/borg/error.rs:34 src/ui/error.rs:71 src/ui/utils.rs:162
+#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:162
 msgid "The operation terminated unexpectedly."
 msgstr "Дію було неочікувано перервано."
 
-#: src/ui.rs:188 src/ui/page_detail.rs:139
+#: src/borg/error.rs:84
+msgid "Completed"
+msgstr ""
+"Завершено"
+
+#: src/borg/error.rs:99
+#| msgid "Aborted through user input."
+msgid "Aborted on user request."
+msgstr "Перервано за запитом користувача."
+
+#: src/borg/error.rs:127
+msgid "Connection closed by remote host."
+msgstr ""
+"З'єднання розірвано віддаленим вузлом."
+
+#: src/borg/error.rs:129 src/ui/utils/borg.rs:118
+msgid "Repository already in use."
+msgstr "Сховище вже використовується."
+
+#: src/borg/error.rs:130
+#| msgid "Failed to store password."
+msgid "Invalid encryption password."
+msgstr "Некоректний пароль для шифрування."
+
+#: src/borg/error.rs:132
+#| msgid "Repository already in use."
+msgid "A repository already exists at this location."
+msgstr "За цією адресою вже є сховище."
+
+#: src/borg/error.rs:134
+msgid "No repository exists at this location."
+msgstr ""
+"За цією адресою немає сховища."
+
+#: src/borg/error.rs:137
+msgid "Connection closed by remote host: „{}“"
+msgstr ""
+"З'єднання розірвано віддаленим вузлом: «{}»"
+
+#: src/borg/error.rs:140
+msgid "Unspecified error."
+msgstr ""
+"Невизначена помилка."
+
+#: src/borg/msg.rs:93
+msgid "Standard error output"
+msgstr ""
+"Стандартне виведення помилок"
+
+#: src/borg/msg.rs:131
+msgid "Debug"
+msgstr ""
+"Діагностика"
+
+#: src/borg/msg.rs:132
+msgid "Info"
+msgstr ""
+"Відомості"
+
+#: src/borg/msg.rs:134
+msgid "Error"
+msgstr ""
+"Помилка"
+
+#: src/borg/msg.rs:135
+msgid "Critical"
+msgstr ""
+"Критична помилка"
+
+#: src/borg/msg.rs:136
+msgid "Undefined"
+msgstr ""
+"Не визначено"
+
+#: src/ui.rs:188 src/ui/page_backup.rs:139
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:189 src/ui/page_detail.rs:140
+#: src/ui.rs:189 src/ui/page_backup.rs:140
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:191 src/ui/page_detail.rs:142
+#: src/ui.rs:191 src/ui/page_backup.rs:142
 msgid "Abort"
 msgstr "Перервати"
 
@@ -486,61 +556,61 @@ msgstr "Не вдалося завантажити файл налаштуван
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
-#: src/ui/backup_status.rs:52
-msgid "Last backup successful"
-msgstr "Останнє резервне копіювання відбулося успішно"
-
-#: src/ui/backup_status.rs:59
-msgid "Last backup failed"
-msgstr "Останнє резервне копіювання завершилося помилкою"
-
-#: src/ui/backup_status.rs:66
+#: src/ui/backup_status.rs:55
 msgid "Last backup completed with warnings"
 msgstr "Останнє резервне копіювання було завершено із попередженнями"
 
-#: src/ui/backup_status.rs:95
+#: src/ui/backup_status.rs:63
+msgid "Last backup successful"
+msgstr "Останнє резервне копіювання відбулося успішно"
+
+#: src/ui/backup_status.rs:70
+msgid "Last backup failed"
+msgstr "Останнє резервне копіювання завершилося помилкою"
+
+#: src/ui/backup_status.rs:99
 #, no-c-format
 msgid "{} % finished"
 msgstr "Завершено на {} %"
 
-#: src/ui/backup_status.rs:112
+#: src/ui/backup_status.rs:116
 msgid "Updating repository information"
 msgstr "Оновлення даних щодо сховища"
 
-#: src/ui/backup_status.rs:126
+#: src/ui/backup_status.rs:130
 #, no-c-format
 msgid "{} % prepared"
 msgstr "Приготовано на {} %"
 
-#: src/ui/backup_status.rs:136
+#: src/ui/backup_status.rs:140
 msgid "Preparing backup"
 msgstr "Приготування до резервного копіювання"
 
-#: src/ui/backup_status.rs:137
+#: src/ui/backup_status.rs:141
 msgid "Estimating backup size"
 msgstr "Оцінювання розміру резервної копії"
 
-#: src/ui/backup_status.rs:138
+#: src/ui/backup_status.rs:142
 msgid "Backup running"
 msgstr "Виконання резервного копіювання"
 
-#: src/ui/backup_status.rs:141
+#: src/ui/backup_status.rs:145
 msgid "Connection lost, reconnecting in {}"
 msgstr "З'єднання розірвано, виконуємо повторну спробу з'єднатися за {}"
 
-#: src/ui/backup_status.rs:146
+#: src/ui/backup_status.rs:150
 msgid "Reconnecting"
 msgstr "Повторна спроба з'єднання"
 
-#: src/ui/backup_status.rs:148
+#: src/ui/backup_status.rs:152
 msgid "Stopping backup"
 msgstr "Припиняємо резервне копіювання"
 
-#: src/ui/backup_status.rs:164
+#: src/ui/backup_status.rs:168
 msgid "Backup never ran"
 msgstr "Резервне копіювання не виконувалося"
 
-#: src/ui/backup_status.rs:165
+#: src/ui/backup_status.rs:169
 msgid "Start by creating your first backup"
 msgstr "Розпочніть зі створення вашої першої резервної копії"
 
@@ -656,7 +726,7 @@ msgstr "Резервна копія із ідентифікатором «{}» �
 msgid "Could not find backup configuration with id “{}”"
 msgstr "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»"
 
-#: src/ui/page_archives.rs:43 src/ui/page_detail.rs:192
+#: src/ui/page_archives.rs:43 src/ui/page_backup.rs:192
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
@@ -692,70 +762,71 @@ msgstr "Коментар"
 msgid "Browse saved files"
 msgstr "Навігація збереженими файлами"
 
-#: src/ui/page_detail.rs:177
+#: src/ui/page_backup.rs:177
 msgid "Backup on repository already running."
 msgstr "Вже виконуємо резервне копіювання сховища."
 
-#: src/ui/page_detail.rs:184
+#: src/ui/page_backup.rs:184
 msgid "Stop browsing files and start backup?"
 msgstr "Припинити навігацію файлами і почати створення резервної копії?"
 
-#: src/ui/page_detail.rs:185
+#: src/ui/page_backup.rs:185
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Навігація архівованими файлами під час створення резервної копії неможлива."
 
-#: src/ui/page_detail.rs:186
+#: src/ui/page_backup.rs:186
 msgid "Keep Browsing"
 msgstr "Продовжити перегляд"
 
-#: src/ui/page_detail.rs:187
+#: src/ui/page_backup.rs:187
 msgid "Start Backup"
 msgstr "Розпочати копіювання"
 
-#: src/ui/page_detail.rs:248
+#: src/ui/page_backup.rs:246
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
 msgstr ""
-"Місце для резервних копій «{}» може бути близьким до переповнення. Оцінка вільного місця не дає змоги зберегти усі дані: {}."
+"Місце для резервних копій «{}» може бути близьким до переповнення. Оцінка "
+"вільного місця не дає змоги зберегти усі дані: {}."
 
-#: src/ui/page_detail.rs:259
+#: src/ui/page_backup.rs:257
 msgid "Creating new backup."
 msgstr "Створюємо резервну копію."
 
-#: src/ui/page_detail.rs:299
+#: src/ui/page_backup.rs:297
 msgid "Creating a backup failed."
 msgstr "Не вдалося створити резервну копію."
 
-#: src/ui/page_detail.rs:301
+#: src/ui/page_backup.rs:300
 msgid "Backup completed with warnings."
 msgstr "Резервне копіювання було завершено із попередженнями."
 
-#: src/ui/page_detail.rs:372
+#: src/ui/page_backup.rs:373
 msgid "Remote location"
 msgstr "Віддалене місце"
 
-#: src/ui/page_detail.rs:436
+#: src/ui/page_backup.rs:437
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: src/ui/page_detail.rs:498
+#: src/ui/page_backup.rs:499
 msgid "No longer include “{}” in backups?"
 msgstr "Більше не включати «{}» до резервних копій?"
 
-#: src/ui/page_detail.rs:501
+#: src/ui/page_backup.rs:502
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Усі файли, що містяться у цій теці не буде включено до наступних резервних "
 "копій."
 
-#: src/ui/page_detail.rs:520
+#: src/ui/page_backup.rs:521
 msgid "Include directory in backups"
 msgstr "Включити каталог до резервного копіювання"
 
-#: src/ui/page_detail.rs:535
+#: src/ui/page_backup.rs:536
 msgid "Exclude directory from backup"
 msgstr "Виключити каталог з резервної копіювання"
 
@@ -788,11 +859,7 @@ msgid "Schedule and continue running backups in background."
 msgstr ""
 "Запланувати і продовжити виконання резервного копіювання у фоновому режимі."
 
-#: src/ui/utils/borg.rs:120
-msgid "Repository already in use."
-msgstr "Сховище вже використовується."
-
-#: src/ui/utils/borg.rs:121
+#: src/ui/utils/borg.rs:119
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, your computer lost power while using the "
@@ -810,7 +877,7 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: src/ui/utils/borg.rs:123
+#: src/ui/utils/borg.rs:121
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
