@@ -39,7 +39,10 @@ pub fn main() {
         |_, _, _| {},
     );
 
-    if let Err(err) = gettextrs::TextDomain::new(env!("CARGO_PKG_NAME")).init() {
+    if let Err(err) = gettextrs::TextDomain::new(env!("CARGO_PKG_NAME"))
+        .locale_category(gettextrs::LocaleCategory::LcAll)
+        .init()
+    {
         info!("TextDomain::init() failed: {}", err);
     }
 
