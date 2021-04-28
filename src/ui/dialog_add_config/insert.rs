@@ -194,32 +194,24 @@ async fn add_repo_config(
 }
 
 async fn insert_backup_config_encryption_unknown(repo: config::Repository) -> Result<()> {
-    let result = ui::utils::borg::only_repo_suggest_store(
+    let (info, pw_data) = ui::utils::borg::only_repo_suggest_store(
         "borg::peek",
         borg::BorgOnlyRepo::new(repo.clone()),
         |borg| borg.peek(),
     )
-    .await;
+    .await
+    .into_message("Failed to configure repository.")?;
 
-    match result {
-        Ok((info, pw_data)) => {
-            let encrypted = pw_data
-                .clone()
-                .map(|(password, _)| !password.is_empty())
-                .unwrap_or_default();
-            let config = config::Backup::new(repo.clone(), info, encrypted);
-            insert_backup_config(config.clone())?;
-            ui::page_backup::view_backup_conf(&config.id);
-            ui::utils::secret_service::store_password(&config, &pw_data)?;
+    let encrypted = pw_data
+        .clone()
+        .map(|(password, _)| !password.is_empty())
+        .unwrap_or_default();
+    let config = config::Backup::new(repo.clone(), info, encrypted);
+    insert_backup_config(config.clone())?;
+    ui::page_backup::view_backup_conf(&config.id);
+    ui::utils::secret_service::store_password(&config, &pw_data)?;
 
-            Ok(())
-        }
-        Err(borg_err) => Err(Message::new(
-            gettext("There was an error with the specified repository"),
-            borg_err,
-        )
-        .into()),
-    }
+    Ok(())
 }
 
 fn insert_backup_config(config: config::Backup) -> Result<()> {

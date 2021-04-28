@@ -221,16 +221,12 @@ impl DialogDeviceMissing {
         self.get("cancel")
     }
 
-    pub fn device(&self) -> gtk::Label {
-        self.get("device")
-    }
-
     pub fn icon(&self) -> gtk::Box {
         self.get("icon")
     }
 
-    pub fn mount(&self) -> gtk::Label {
-        self.get("mount")
+    pub fn name(&self) -> gtk::Label {
+        self.get("name")
     }
 
     pub fn purpose(&self) -> gtk::Label {

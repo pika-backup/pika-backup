@@ -76,7 +76,7 @@ quick_error! {
                 )))
             from(err: config::error::BackupNotFound) ->
                 (Message::short(gettextf(
-                    "Could not find backup configuration with id “{}”",
+                    "Could not find backup configuration with id “{}”.",
                     &[err.id.as_str()],
                 )))
         }

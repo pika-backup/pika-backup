@@ -24,7 +24,11 @@ pub fn show() {
     dialog.set_authors(&[&gettext("Sophie Herold <sophieherold@gnome.org>")]);
     dialog.set_copyright(Some(&gettext("Copyright © 2018–2021 Sophie Herold et al.")));
     dialog.set_translator_credits(Some(&gettext("translator-credits")));
-    dialog.add_credit_section(&gettext("Court Witch"), &[&gettext("Fina Wilke")]);
+    dialog.add_credit_section(
+        // Translators: This is an inside joke
+        &gettext("Court Witch"),
+        &[&gettext("Fina Wilke")],
+    );
     dialog.set_artists(&["Jakub Steiner"]);
 
     dialog.show_all();
