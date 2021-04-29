@@ -41,9 +41,13 @@ pub fn delete_passwords(id: &ConfigId) -> std::result::Result<(), secret_service
         .try_for_each(|item| item.delete())
 }
 
-pub async fn get_password(pre_select_store: bool) -> Option<(config::Password, bool)> {
+pub async fn get_password(
+    pre_select_store: bool,
+    purpose: String,
+) -> Option<(config::Password, bool)> {
     crate::ui::dialog_encryption_password::Ask::new()
-        .set_pre_select_store(pre_select_store)
+        .pre_select_store(pre_select_store)
+        .purpose(purpose)
         .run()
         .await
 }

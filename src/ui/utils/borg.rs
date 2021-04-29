@@ -91,8 +91,11 @@ where
             Ok(result) => match result {
                 Err(borg::Error::PasswordMissing)
                 | Err(borg::Error::Failed(borg::Failure::PassphraseWrong)) => {
-                    if let Some((password, store)) =
-                        crate::ui::utils::secret_service::get_password(pre_select_store).await
+                    if let Some((password, store)) = crate::ui::utils::secret_service::get_password(
+                        pre_select_store,
+                        name.to_string(),
+                    )
+                    .await
                     {
                         pre_select_store = store;
                         borg.set_password(password);

@@ -7,17 +7,24 @@ use crate::ui::prelude::*;
 
 pub struct Ask {
     pre_select_store: bool,
+    purpose: Option<String>,
 }
 
 impl Ask {
     pub fn new() -> Self {
         Self {
             pre_select_store: true,
+            purpose: None,
         }
     }
 
-    pub fn set_pre_select_store(&mut self, b: bool) -> &mut Self {
+    pub fn pre_select_store(&mut self, b: bool) -> &mut Self {
         self.pre_select_store = b;
+        self
+    }
+
+    pub fn purpose(&mut self, purpose: String) -> &mut Self {
+        self.purpose = Some(purpose);
         self
     }
 
@@ -29,6 +36,13 @@ impl Ask {
 
         if !self.pre_select_store {
             ui.password_forget().set_active(true);
+        }
+
+        if let Some(purpose) = &self.purpose {
+            ui.purpose().set_text(purpose);
+            ui.purpose().show();
+        } else {
+            ui.purpose().hide();
         }
 
         let dialog = ui.dialog();

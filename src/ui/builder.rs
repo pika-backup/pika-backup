@@ -284,6 +284,10 @@ impl DialogEncryptionPassword {
     pub fn password_store(&self) -> gtk::RadioButton {
         self.get("password_store")
     }
+
+    pub fn purpose(&self) -> gtk::Label {
+        self.get("purpose")
+    }
 }
 
 pub struct DialogStorage {
