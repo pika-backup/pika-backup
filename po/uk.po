@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-04-28 20:56+0000\n"
-"PO-Revision-Date: 2021-04-29 08:41+0300\n"
+"POT-Creation-Date: 2021-04-29 13:37+0000\n"
+"PO-Revision-Date: 2021-04-29 17:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -179,7 +179,7 @@ msgstr ""
 "Якщо використано шифрування, для доступу до резервних копій доведеться "
 "ввести пароль."
 
-#: data/ui/dialog_add_config.ui:472 data/ui/dialog_encryption_password.ui:164
+#: data/ui/dialog_add_config.ui:472 data/ui/dialog_encryption_password.ui:175
 msgid "Encryption"
 msgstr "Шифрування"
 
@@ -224,8 +224,8 @@ msgid "Backup Configuration"
 msgstr "Налаштовування резервного копіювання"
 
 #: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:117
-#: data/ui/dialog_encryption_password.ui:167 src/ui/page_backup.rs:503
-#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:120
+#: data/ui/dialog_encryption_password.ui:178 src/ui/page_backup.rs:503
+#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:123
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -267,20 +267,18 @@ msgstr ""
 
 #: data/ui/dialog_device_missing.ui:59
 msgid "The following backup location needs to be connected:"
-msgstr ""
-"Має бути встановлено з'єднання із таким місцем для резервних копій:"
+msgstr "Має бути встановлено з'єднання із таким місцем для резервних копій:"
 
 #: data/ui/dialog_encryption_password.ui:105
 msgid "Forget password immediately"
 msgstr "Негайно забути пароль"
 
 #: data/ui/dialog_encryption_password.ui:130
-#| msgid "This task requires the encryption password of this repository"
-msgid "A task requires the encryption password of this repository."
-msgstr ""
-"Для виконання завдання потрібен пароль шифрування до цього сховища."
+#| msgid "A task requires the encryption password of this repository."
+msgid "This requires the encryption password of the repository."
+msgstr "Це потребує пароля для шифрування сховища."
 
-#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:181
+#: data/ui/dialog_encryption_password.ui:186 src/ui.rs:181
 #: src/ui/page_backup.rs:141
 msgid "Continue"
 msgstr "Продовжити"
@@ -445,7 +443,7 @@ msgstr "Перервано за запитом користувача."
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:129 src/ui/utils/borg.rs:118
+#: src/borg/error.rs:129 src/ui/utils/borg.rs:121
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
@@ -685,7 +683,7 @@ msgstr "Створення сховища резервних копій"
 msgid "Failed to initialize repository."
 msgstr "Не вдалося ініціалізувати сховище."
 
-#: src/ui/dialog_add_config/insert.rs:175 src/ui/utils/secret_service.rs:55
+#: src/ui/dialog_add_config/insert.rs:175 src/ui/utils/secret_service.rs:59
 msgid "Failed to store password."
 msgstr "Не вдалося зберегти пароль."
 
@@ -708,9 +706,9 @@ msgid "Backup with id “{}” already exists."
 msgstr "Резервна копія із ідентифікатором «{}» вже існує."
 
 #: src/ui/error.rs:79
-#| msgid "Could not find backup configuration with id “{}”"
 msgid "Could not find backup configuration with id “{}”."
-msgstr "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»."
+msgstr ""
+"Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»."
 
 #: src/ui/page_archives.rs:43 src/ui/page_backup.rs:192
 msgid "Failed to unmount repository."
@@ -828,7 +826,7 @@ msgstr "Вилучення налаштувань призведе до вилу
 msgid "Delete"
 msgstr "Вилучити"
 
-#: src/ui/page_overview.rs:81 src/ui/utils/secret_service.rs:59
+#: src/ui/page_overview.rs:81 src/ui/utils/secret_service.rs:63
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
 
@@ -845,15 +843,7 @@ msgid "Schedule and continue running backups in background."
 msgstr ""
 "Запланувати і продовжити виконання резервного копіювання у фоновому режимі."
 
-#: src/ui/utils/borg.rs:119
-#| msgid ""
-#| "The backup repository is marked as already in use. This information can "
-#| "be outdated if, for example, your computer lost power while using the "
-#| "repository.\n"
-#| "\n"
-#| "Only continue if you know that the repository is not used by any program! "
-#| "Continuing while an other program uses the repository might corrupt "
-#| "backup data!"
+#: src/ui/utils/borg.rs:122
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, your computer lost power while using the "
@@ -871,7 +861,7 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: src/ui/utils/borg.rs:121
+#: src/ui/utils/borg.rs:124
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
