@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-04-25 21:43+0000\n"
-"PO-Revision-Date: 2021-04-26 09:17+0300\n"
+"POT-Creation-Date: 2021-04-28 20:56+0000\n"
+"PO-Revision-Date: 2021-04-29 08:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -223,7 +223,7 @@ msgstr "Додаткові параметри"
 msgid "Backup Configuration"
 msgstr "Налаштовування резервного копіювання"
 
-#: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:132
+#: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:117
 #: data/ui/dialog_encryption_password.ui:167 src/ui/page_backup.rs:503
 #: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:120
 msgid "Cancel"
@@ -265,20 +265,22 @@ msgstr ""
 "Окрім цього, можна користуватися усіма префіксами, підтримку яких "
 "передбачено у віртуальних файлових системах GNOME."
 
-#: data/ui/dialog_device_missing.ui:57
-msgid "Please insert the backup medium"
-msgstr "Будь ласка, вставте носій для резервних копій"
+#: data/ui/dialog_device_missing.ui:59
+msgid "The following backup location needs to be connected:"
+msgstr ""
+"Має бути встановлено з'єднання із таким місцем для резервних копій:"
 
 #: data/ui/dialog_encryption_password.ui:105
 msgid "Forget password immediately"
 msgstr "Негайно забути пароль"
 
 #: data/ui/dialog_encryption_password.ui:130
-msgid "This task requires the encryption password of this repository"
+#| msgid "This task requires the encryption password of this repository"
+msgid "A task requires the encryption password of this repository."
 msgstr ""
-"Для виконання цього завдання потрібен пароль шифрування до цього сховища"
+"Для виконання завдання потрібен пароль шифрування до цього сховища."
 
-#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:190
+#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:181
 #: src/ui/page_backup.rs:141
 msgid "Continue"
 msgstr "Продовжити"
@@ -433,100 +435,86 @@ msgstr "Дію було неочікувано перервано."
 
 #: src/borg/error.rs:84
 msgid "Completed"
-msgstr ""
-"Завершено"
+msgstr "Завершено"
 
 #: src/borg/error.rs:99
-#| msgid "Aborted through user input."
 msgid "Aborted on user request."
 msgstr "Перервано за запитом користувача."
 
 #: src/borg/error.rs:127
 msgid "Connection closed by remote host."
-msgstr ""
-"З'єднання розірвано віддаленим вузлом."
+msgstr "З'єднання розірвано віддаленим вузлом."
 
 #: src/borg/error.rs:129 src/ui/utils/borg.rs:118
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
 #: src/borg/error.rs:130
-#| msgid "Failed to store password."
 msgid "Invalid encryption password."
 msgstr "Некоректний пароль для шифрування."
 
 #: src/borg/error.rs:132
-#| msgid "Repository already in use."
 msgid "A repository already exists at this location."
 msgstr "За цією адресою вже є сховище."
 
 #: src/borg/error.rs:134
 msgid "No repository exists at this location."
-msgstr ""
-"За цією адресою немає сховища."
+msgstr "За цією адресою немає сховища."
 
 #: src/borg/error.rs:137
 msgid "Connection closed by remote host: „{}“"
-msgstr ""
-"З'єднання розірвано віддаленим вузлом: «{}»"
+msgstr "З'єднання розірвано віддаленим вузлом: «{}»"
 
 #: src/borg/error.rs:140
 msgid "Unspecified error."
-msgstr ""
-"Невизначена помилка."
+msgstr "Невизначена помилка."
 
 #: src/borg/msg.rs:93
 msgid "Standard error output"
-msgstr ""
-"Стандартне виведення помилок"
+msgstr "Стандартне виведення помилок"
 
 #: src/borg/msg.rs:131
 msgid "Debug"
-msgstr ""
-"Діагностика"
+msgstr "Діагностика"
 
 #: src/borg/msg.rs:132
 msgid "Info"
-msgstr ""
-"Відомості"
+msgstr "Відомості"
 
 #: src/borg/msg.rs:134
 msgid "Error"
-msgstr ""
-"Помилка"
+msgstr "Помилка"
 
 #: src/borg/msg.rs:135
 msgid "Critical"
-msgstr ""
-"Критична помилка"
+msgstr "Критична помилка"
 
 #: src/borg/msg.rs:136
 msgid "Undefined"
-msgstr ""
-"Не визначено"
+msgstr "Не визначено"
 
-#: src/ui.rs:188 src/ui/page_backup.rs:139
+#: src/ui.rs:179 src/ui/page_backup.rs:139
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:189 src/ui/page_backup.rs:140
+#: src/ui.rs:180 src/ui/page_backup.rs:140
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:191 src/ui/page_backup.rs:142
+#: src/ui.rs:182 src/ui/page_backup.rs:142
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/ui.rs:243
+#: src/ui.rs:234
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:261
+#: src/ui.rs:252
 msgid "Borg version too old."
 msgstr "Надто застаріла версія borg."
 
-#: src/ui.rs:263
+#: src/ui.rs:254
 msgid ""
 "The installed version of borg-backup is too old. Some features requiring "
 "borg-backup version {}.{} will not work."
@@ -534,7 +522,7 @@ msgstr ""
 "Встановлена версія borg-backup є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}, лишаться недоступними."
 
-#: src/ui.rs:296
+#: src/ui.rs:287
 msgid ""
 "Welcome to Pika Backup version 0.3.\n"
 "\n"
@@ -548,11 +536,11 @@ msgstr ""
 "бути перенесено з попередньої версії програми «Пайка-копіювання». Цими "
 "даними можна буде скористатися знову після наступного резервного копіювання."
 
-#: src/ui.rs:314
+#: src/ui.rs:305
 msgid "Could not load configuration file."
 msgstr "Не вдалося завантажити файл налаштувань."
 
-#: src/ui.rs:333
+#: src/ui.rs:324
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
@@ -626,11 +614,12 @@ msgstr "© Sophie Herold та інші, 2018–2021"
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
-#: src/ui/dialog_about.rs:27
+#. Translators: This is an inside joke
+#: src/ui/dialog_about.rs:29
 msgid "Court Witch"
 msgstr "Відьма Двору"
 
-#: src/ui/dialog_about.rs:27
+#: src/ui/dialog_about.rs:30
 msgid "Fina Wilke"
 msgstr "Фіна Вільке (Fina Wilke)"
 
@@ -679,12 +668,12 @@ msgid "A repository location has to be given."
 msgstr "Слід вказати адресу сховища."
 
 #: src/ui/dialog_add_config/insert.rs:148
-#: src/ui/dialog_add_config/insert.rs:260
+#: src/ui/dialog_add_config/insert.rs:252
 msgid "Additional command line arguments invalid."
 msgstr "Некоректні додаткові аргументи командного рядка."
 
 #: src/ui/dialog_add_config/insert.rs:149
-#: src/ui/dialog_add_config/insert.rs:261
+#: src/ui/dialog_add_config/insert.rs:253
 msgid "Please check for missing closing quotes."
 msgstr "Будь ласка, перевірте, чи закрито лапки."
 
@@ -700,15 +689,11 @@ msgstr "Не вдалося ініціалізувати сховище."
 msgid "Failed to store password."
 msgstr "Не вдалося зберегти пароль."
 
-#: src/ui/dialog_add_config/insert.rs:218
-msgid "There was an error with the specified repository"
-msgstr "Під час роботи із вказаним сховищем сталася помилка"
-
-#: src/ui/dialog_add_config/insert.rs:297
+#: src/ui/dialog_add_config/insert.rs:289
 msgid "Repository location not found."
 msgstr "Не знайдено місця зберігання сховища."
 
-#: src/ui/dialog_add_config/insert.rs:298
+#: src/ui/dialog_add_config/insert.rs:290
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Дію з монтування було успішно виконано, але відповідний каталог усе ще "
@@ -723,8 +708,9 @@ msgid "Backup with id “{}” already exists."
 msgstr "Резервна копія із ідентифікатором «{}» вже існує."
 
 #: src/ui/error.rs:79
-msgid "Could not find backup configuration with id “{}”"
-msgstr "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»"
+#| msgid "Could not find backup configuration with id “{}”"
+msgid "Could not find backup configuration with id “{}”."
+msgstr "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»."
 
 #: src/ui/page_archives.rs:43 src/ui/page_backup.rs:192
 msgid "Failed to unmount repository."
@@ -860,13 +846,21 @@ msgstr ""
 "Запланувати і продовжити виконання резервного копіювання у фоновому режимі."
 
 #: src/ui/utils/borg.rs:119
+#| msgid ""
+#| "The backup repository is marked as already in use. This information can "
+#| "be outdated if, for example, your computer lost power while using the "
+#| "repository.\n"
+#| "\n"
+#| "Only continue if you know that the repository is not used by any program! "
+#| "Continuing while an other program uses the repository might corrupt "
+#| "backup data!"
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, your computer lost power while using the "
 "repository.\n"
 "\n"
 "Only continue if you know that the repository is not used by any program! "
-"Continuing while an other program uses the repository might corrupt backup "
+"Continuing while another program uses the repository might corrupt backup "
 "data!"
 msgstr ""
 "Сховище резервних копій позначено як таке, що вже використовується. Ці дані "
@@ -997,6 +991,12 @@ msgstr "Не вдалося зберегти кеш."
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Пароль до резервної копії Пайки"
+
+#~ msgid "Please insert the backup medium"
+#~ msgstr "Будь ласка, вставте носій для резервних копій"
+
+#~ msgid "There was an error with the specified repository"
+#~ msgstr "Під час роботи із вказаним сховищем сталася помилка"
 
 #~ msgid "Update archive list"
 #~ msgstr "Оновити список архівів"
