@@ -128,6 +128,10 @@ impl Borg {
     }
 
     fn create_internal(&self, communication: Communication, retries: u16) -> Result<Stats> {
+        communication
+            .status
+            .update(move |status| status.message_history.push(Default::default()));
+
         // Do this early to fail if password is missing
         let mut borg_call = BorgCall::new("create");
         borg_call
@@ -206,9 +210,7 @@ impl Borg {
                 });
             } else {
                 let msg = check_line(&line);
-                if msg.has_borg_msgid(&MsgId::ConnectionClosed)
-                    && retries <= crate::BORG_MAX_RECONNECT
-                {
+                if msg.is_connection_error() && retries <= crate::BORG_MAX_RECONNECT {
                     communication.status.update(|status| {
                         status.run = Run::Reconnecting;
                     });
@@ -217,22 +219,21 @@ impl Borg {
                     return self.create_internal(communication, retries + 1);
                 } else {
                     communication.status.update(move |status| {
-                        if status.message_history.0.len() < Status::MESSAGE_HISTORY_LENGTH {
-                            status.message_history.0.push(msg.clone());
-                        } else if status.message_history.1.len() < Status::MESSAGE_HISTORY_LENGTH {
-                            status.message_history.1.push(msg.clone());
-                        } else {
-                            if let Some(position) = status
-                                .message_history
-                                .1
-                                .iter()
-                                .position(|x| x.level() < msg.level())
-                            {
-                                status.message_history.1.remove(position);
+                        if let Some(history) = status.message_history.last_mut() {
+                            if history.0.len() < Status::MESSAGE_HISTORY_LENGTH {
+                                history.0.push(msg.clone());
+                            } else if history.1.len() < Status::MESSAGE_HISTORY_LENGTH {
+                                history.1.push(msg.clone());
                             } else {
-                                status.message_history.1.remove(0);
+                                if let Some(position) =
+                                    history.1.iter().position(|x| x.level() < msg.level())
+                                {
+                                    history.1.remove(position);
+                                } else {
+                                    history.1.remove(0);
+                                }
+                                history.1.push(msg.clone());
                             }
-                            status.message_history.1.push(msg.clone());
                         }
                     });
                 }
@@ -252,18 +253,17 @@ impl Borg {
             || communication
                 .status
                 .load()
-                .combined_message_history()
+                .last_combined_message_history()
                 .max_log_level()
                 < Some(LogLevel::Error)
         {
             Ok(stats?)
+        } else if let Ok(err) =
+            Error::try_from(communication.status.load().last_combined_message_history())
+        {
+            Err(err)
         } else {
-            if let Ok(err) = Error::try_from(communication.status.load().combined_message_history())
-            {
-                Err(err)
-            } else {
-                Err(error::ReturnCodeError::new(exit_status.code()).into())
-            }
+            Err(error::ReturnCodeError::new(exit_status.code()).into())
         }
     }
 }

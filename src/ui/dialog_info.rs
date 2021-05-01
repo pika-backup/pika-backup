@@ -57,7 +57,7 @@ fn refresh_status_display(status: &backup_status::Display) {
             message.push_str("\n\n");
         }
 
-        message.push_str(&run_info.messages.to_string());
+        message.push_str(&run_info.messages.clone().filter_hidden().to_string());
 
         main_ui().detail_info_error().set_text(&message);
         main_ui().detail_info_error().show();

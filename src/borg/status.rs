@@ -1,4 +1,3 @@
-use super::error;
 use super::msg::*;
 use itertools::Itertools;
 use std::collections::VecDeque;
@@ -13,7 +12,7 @@ pub struct Status {
     pub copied: f64,
     pub stalled: bool,
     pub data_rate_history: DataRateHistory,
-    pub message_history: (LogCollection, LogCollection),
+    pub message_history: Vec<(LogCollection, LogCollection)>,
 }
 
 fn positive(n: f64) -> f64 {
@@ -27,14 +26,24 @@ fn positive(n: f64) -> f64 {
 impl Status {
     pub const MESSAGE_HISTORY_LENGTH: usize = 50;
 
-    pub fn combined_message_history(&self) -> LogCollection {
-        self.message_history
-            .0
-            .iter()
-            .cloned()
-            .chain(self.message_history.1.iter().cloned())
-            .filter(|x| matches!(x.id(), Some(error::Failure::PassphraseWrong)))
-            .collect()
+    pub fn runs_concat_message_history(&self) -> (LogCollection, LogCollection) {
+        self.message_history.clone().into_iter().fold(
+            (LogCollection::new(), LogCollection::new()),
+            |(x1, y1), (x2, y2)| ([x1, x2].concat(), [y1, y2].concat()),
+        )
+    }
+
+    pub fn all_combined_message_history(&self) -> LogCollection {
+        let combined = self.runs_concat_message_history();
+        [combined.0, combined.1].concat()
+    }
+
+    pub fn last_combined_message_history(&self) -> LogCollection {
+        if let Some((x, y)) = self.message_history.clone().last() {
+            [x.clone(), y.clone()].concat()
+        } else {
+            LogCollection::new()
+        }
     }
 
     pub fn time_remaining(&self) -> Option<chrono::Duration> {

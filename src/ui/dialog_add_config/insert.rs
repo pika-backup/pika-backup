@@ -160,7 +160,8 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
         borg.set_password(password.clone());
     }
 
-    let result = ui::utils::spawn_thread("borg::init", move || borg.init()).await;
+    let result =
+        ui::utils::spawn_thread(&gettext("Creating backup repository"), move || borg.init()).await;
 
     match result.unwrap_or(Err(borg::Error::ThreadPanicked)) {
         Err(err) => {
@@ -195,7 +196,7 @@ async fn add_repo_config(
 
 async fn insert_backup_config_encryption_unknown(repo: config::Repository) -> Result<()> {
     let (info, pw_data) = ui::utils::borg::only_repo_suggest_store(
-        "borg::peek",
+        &gettext("Loading backup repository"),
         borg::BorgOnlyRepo::new(repo.clone()),
         |borg| borg.peek(),
     )

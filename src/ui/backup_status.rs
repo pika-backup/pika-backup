@@ -49,7 +49,8 @@ impl From<&history::RunInfo> for Display {
     fn from(run_info: &history::RunInfo) -> Self {
         match run_info.outcome {
             borg::Outcome::Completed { .. }
-                if run_info.messages.max_log_level() > Some(borg::msg::LogLevel::Info) =>
+                if run_info.messages.clone().filter_handled().max_log_level()
+                    > Some(borg::msg::LogLevel::Info) =>
             {
                 Self {
                     title: gettext("Last backup completed with warnings"),

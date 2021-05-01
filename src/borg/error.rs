@@ -38,7 +38,7 @@ impl std::convert::TryFrom<LogCollection> for Error {
     fn try_from(value: LogCollection) -> std::result::Result<Self, Self::Error> {
         let mut errors = value.iter().filter(|e| e.level() >= LogLevel::Error);
 
-        let first_with_id = errors.clone().filter(|e| e.id().is_some()).next();
+        let first_with_id = errors.clone().find(|e| e.id().is_some());
 
         if let Some(failure) = first_with_id.and_then(|e| e.id()) {
             match failure {
