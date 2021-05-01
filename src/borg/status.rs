@@ -1,3 +1,4 @@
+use super::error;
 use super::msg::*;
 use itertools::Itertools;
 use std::collections::VecDeque;
@@ -32,6 +33,7 @@ impl Status {
             .iter()
             .cloned()
             .chain(self.message_history.1.iter().cloned())
+            .filter(|x| matches!(x.id(), Some(error::Failure::PassphraseWrong)))
             .collect()
     }
 
