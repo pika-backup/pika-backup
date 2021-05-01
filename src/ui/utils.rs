@@ -164,7 +164,8 @@ quick_error! {
 }
 
 pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
-    let dialog = gtk::FileChooserDialogBuilder::new()
+    // TODO: maybe use a translated 'Select' string for accept_label()
+    let dialog = gtk::FileChooserNativeBuilder::new()
         .title(title)
         .action(gtk::FileChooserAction::SelectFolder)
         .local_only(false)
@@ -172,18 +173,12 @@ pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
         .modal(true)
         .build();
 
-    dialog.add_button("_Cancel", gtk::ResponseType::Cancel);
-    dialog
-        .add_button("_Select", gtk::ResponseType::Accept)
-        .add_css_class("suggested-action");
-
     let result = if dialog.run_future().await == gtk::ResponseType::Accept {
         dialog.get_file()
     } else {
         None
     };
 
-    dialog.close();
     dialog.hide();
 
     result
