@@ -19,17 +19,19 @@ pub struct BorgCall {
     pub positional: Vec<String>,
 }
 
+fn is_msg_ignored(msg: &LogMessageEnum) -> bool {
+    msg.message()
+        .contains("By default repositories initialized with this version will produce security")
+        || msg
+            .message()
+            .contains("IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!")
+}
+
 pub fn check_stderr(output: &std::process::Output) -> Result<()> {
     let mut errors = Vec::new();
     for line in String::from_utf8_lossy(&output.stderr).lines() {
         let msg = check_line(line);
-        if msg
-            .message()
-            .contains("By default repositories initialized with this version will produce security")
-            || msg
-                .message()
-                .contains("IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!")
-        {
+        if is_msg_ignored(&msg) {
             info!("Hiding this message");
         } else {
             errors.push(msg);
