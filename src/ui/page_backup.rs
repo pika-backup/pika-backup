@@ -281,7 +281,7 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
         },
     };
 
-    let message_history = communication.status.load().combined_message_history();
+    let message_history = communication.status.load().all_combined_message_history();
 
     let run_info = history::RunInfo::new(&config, outcome, message_history);
 
@@ -295,10 +295,13 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
     match result {
         Err(borg::Error::Aborted(_)) => Ok(()),
         Err(err) => Err(Message::new(gettext("Creating a backup failed."), err).into()),
-        Ok(_) if run_info.messages.max_log_level() >= Some(borg::msg::LogLevel::Warning) => {
+        Ok(_)
+            if run_info.messages.clone().filter_handled().max_log_level()
+                >= Some(borg::msg::LogLevel::Warning) =>
+        {
             Err(Message::new(
                 gettext("Backup completed with warnings."),
-                run_info.messages.to_string(),
+                run_info.messages.filter_hidden().to_string(),
             )
             .into())
         }

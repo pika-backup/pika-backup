@@ -40,6 +40,25 @@ impl LogMessageEnum {
             Self::UnparsableErr(_) => LogLevel::Undefined,
         }
     }
+
+    pub fn has_borg_msgid(&self, msgid_needle: &MsgId) -> bool {
+        if let Self::ParsedErr(x) = self {
+            if x.msgid == *msgid_needle {
+                return true;
+            }
+        }
+
+        false
+    }
+
+    pub fn is_connection_error(&self) -> bool {
+        matches!(
+            self.id(),
+            Some(MsgId::ConnectionClosed)
+                | Some(MsgId::ConnectionClosedWithHint)
+                | Some(MsgId::ConnectionClosedWithHint_(_))
+        )
+    }
 }
 
 pub type LogCollection = Vec<LogMessageEnum>;
@@ -47,6 +66,8 @@ pub type LogCollection = Vec<LogMessageEnum>;
 pub trait LogExt {
     fn max_log_level(&self) -> Option<LogLevel>;
     fn to_string(&self) -> String;
+    fn filter_handled(self) -> Self;
+    fn filter_hidden(self) -> Self;
 }
 
 impl LogExt for LogCollection {
@@ -59,6 +80,26 @@ impl LogExt for LogCollection {
             .map(|m| format!("{}", &m))
             .collect::<Vec<String>>()
             .join("\n")
+    }
+
+    /// Not considered for completed with error/warning status
+    fn filter_handled(self) -> Self {
+        #[allow(clippy::nonminimal_bool)]
+        self.into_iter()
+            .filter(|x| {
+                !matches!(x.id(), Some(MsgId::PassphraseWrong))
+                    &&
+                    // The hint of 'ConnectionClosedWithHint'
+                    !(x.has_borg_msgid(&MsgId::Undefined) && x.message().starts_with("Remote: "))
+            })
+            .collect()
+    }
+
+    /// Connection errors are not filtered from output
+    fn filter_hidden(self) -> Self {
+        self.into_iter()
+            .filter(|x| !matches!(x.id(), Some(MsgId::PassphraseWrong)))
+            .collect()
     }
 }
 
@@ -100,18 +141,6 @@ impl std::fmt::Display for LogMessageEnum {
             Self::ParsedErr(e) => write!(f, "{}", e),
             Self::UnparsableErr(s) => write!(f, "{}", s),
         }
-    }
-}
-
-impl LogMessageEnum {
-    pub fn has_borg_msgid(&self, msgid_needle: &MsgId) -> bool {
-        if let Self::ParsedErr(x) = self {
-            if x.msgid == *msgid_needle {
-                return true;
-            }
-        }
-
-        false
     }
 }
 
