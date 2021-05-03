@@ -179,8 +179,6 @@ pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
         None
     };
 
-    dialog.hide();
-
     result
 }
 

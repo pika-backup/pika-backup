@@ -285,18 +285,21 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
 pub async fn show() -> Result<()> {
     update_eject_button()?;
 
-    let config = BACKUP_CONFIG.load().get_active()?.clone();
+    ui::utils::clear(&main_ui().archive_list());
 
+    let config = BACKUP_CONFIG.load().get_active()?.clone();
     let repo_archives = RepoCache::get(&config.repo_id);
 
-    if repo_archives.archives.as_ref().is_none() {
+    let result = if repo_archives.archives.as_ref().is_none() {
         trace!("Archives have never been retrieved");
-        refresh_archives_cache(config.clone()).await?;
-    }
+        refresh_archives_cache(config.clone()).await
+    } else {
+        Ok(())
+    };
 
     ui_display_archives(&config.repo_id);
 
-    Ok(())
+    result
 }
 
 fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
