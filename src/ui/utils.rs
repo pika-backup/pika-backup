@@ -45,15 +45,13 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
 }
 
 pub fn cache_dir() -> std::path::PathBuf {
-    [
-        glib::get_user_cache_dir().unwrap(),
-        env!("CARGO_PKG_NAME").into(),
-    ]
-    .iter()
-    .collect()
+    [glib::user_cache_dir(), env!("CARGO_PKG_NAME").into()]
+        .iter()
+        .collect()
 }
 
-pub async fn get_background_permission() -> zbus::fdo::Result<bool> {
+#[doc(alias = "get_background_permission")]
+pub async fn background_permission() -> zbus::fdo::Result<bool> {
     let connection = zbus::Connection::new_session()?;
     let proxy = background::BackgroundProxy::new(&connection)?;
 
@@ -88,27 +86,29 @@ pub async fn get_background_permission() -> zbus::fdo::Result<bool> {
 }
 
 pub trait LookupActiveConfigId<T> {
-    fn get_active(&self) -> Result<&T>;
-    fn get_active_mut(&mut self) -> Result<&mut T>;
+    #[doc(alias = "get_active")]
+    fn active(&self) -> Result<&T>;
+    #[doc(alias = "get_active_mut")]
+    fn active_mut(&mut self) -> Result<&mut T>;
 }
 
 #[allow(clippy::implicit_hasher)]
 impl<T> LookupActiveConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
-    fn get_active(&self) -> Result<&T> {
+    fn active(&self) -> Result<&T> {
         Ok(self.get_result(&active_config_id_result()?)?)
     }
 
-    fn get_active_mut(&mut self) -> Result<&mut T> {
-        Ok(self.get_mut_result(&active_config_id_result()?)?)
+    fn active_mut(&mut self) -> Result<&mut T> {
+        Ok(self.get_result_mut(&active_config_id_result()?)?)
     }
 }
 impl LookupActiveConfigId<config::Backup> for config::Backups {
-    fn get_active(&self) -> Result<&config::Backup> {
+    fn active(&self) -> Result<&config::Backup> {
         Ok(self.get_result(&active_config_id_result()?)?)
     }
 
-    fn get_active_mut(&mut self) -> Result<&mut config::Backup> {
-        Ok(self.get_mut_result(&active_config_id_result()?)?)
+    fn active_mut(&mut self) -> Result<&mut config::Backup> {
+        Ok(self.get_result_mut(&active_config_id_result()?)?)
     }
 }
 
@@ -174,7 +174,7 @@ pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
         .build();
 
     let result = if dialog.run_future().await == gtk::ResponseType::Accept {
-        dialog.get_file()
+        dialog.file()
     } else {
         None
     };
@@ -183,9 +183,7 @@ pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
 }
 
 pub async fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
-    folder_chooser_dialog(title)
-        .await
-        .and_then(|x| x.get_path())
+    folder_chooser_dialog(title).await.and_then(|x| x.path())
 }
 
 pub fn dialog_catch_err<X, P: std::fmt::Display, S: std::fmt::Display>(
@@ -249,7 +247,7 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
             .text(&primary_text)
             .build();
 
-        dialog.set_property_secondary_text(if secondary_text.is_empty() {
+        dialog.set_secondary_text(if secondary_text.is_empty() {
             None
         } else {
             Some(&secondary_text)
@@ -336,8 +334,8 @@ impl ConfirmationDialog {
 }
 
 pub fn clear(listbox: &gtk::ListBox) {
-    for c in listbox.get_children() {
-        if c.get_widget_name().starts_with('-') {
+    for c in listbox.children() {
+        if c.widget_name().starts_with('-') {
             continue;
         }
         listbox.remove(&c);
@@ -349,7 +347,7 @@ pub fn file_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk
     let file = gio::File::new_for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
     if let Ok(info) = info {
-        let icon = info.get_icon();
+        let icon = info.icon();
         icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
     } else {
         None
@@ -361,7 +359,7 @@ pub fn file_symbolic_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> O
     let file = gio::File::new_for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
     if let Ok(info) = info {
-        let icon = info.get_symbolic_icon();
+        let icon = info.symbolic_icon();
         icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
     } else {
         None

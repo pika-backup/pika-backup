@@ -93,9 +93,9 @@ pub fn local(root: &gio::File) -> Result<Space> {
     let none: Option<&gio::Cancellable> = None;
     let fsinfo = root.query_filesystem_info("*", none)?;
     Ok(Space {
-        size: fsinfo.get_attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_SIZE),
-        used: fsinfo.get_attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_USED),
-        avail: fsinfo.get_attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_FREE),
+        size: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_SIZE),
+        used: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_USED),
+        avail: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_FREE),
     })
 }
 

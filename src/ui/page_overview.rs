@@ -29,7 +29,7 @@ pub fn init() {
 
     main_ui()
         .main_stack()
-        .connect_property_visible_child_notify(on_main_stack_changed);
+        .connect_visible_child_notify(on_main_stack_changed);
 
     main_ui()
         .add_backup()
@@ -51,7 +51,7 @@ pub fn init() {
 }
 
 fn is_visible() -> bool {
-    main_ui().main_stack().get_visible_child()
+    main_ui().main_stack().visible_child()
         == Some(main_ui().page_overview().upcast::<gtk::Widget>())
 }
 
@@ -70,7 +70,7 @@ async fn on_remove_backup() -> Result<()> {
     )
     .await?;
 
-    let config_id = BACKUP_CONFIG.get().get_active()?.id.clone();
+    let config_id = BACKUP_CONFIG.get().active()?.id.clone();
 
     BACKUP_CONFIG.update_result(|s| {
         s.remove(&config_id)?;

@@ -28,7 +28,7 @@ impl Repository {
         let file = gio::File::new_for_path(&path);
 
         if let Ok(mount) = file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
-            Self::from_mount(mount, path, file.get_uri().to_string())
+            Self::from_mount(mount, path, file.uri().to_string())
         } else {
             let mount_entry = g_unix_mount_for(&path).map(|x| x.0);
 
@@ -37,11 +37,10 @@ impl Repository {
                 mount_path: default_mount_path(),
                 uri: None,
                 icon: mount_entry.as_ref().and_then(|x| {
-                    gio::IconExt::to_string(&x.guess_icon().unwrap()).map(|x| x.to_string())
+                    IconExt::to_string(&x.guess_icon().unwrap()).map(|x| x.to_string())
                 }),
                 icon_symbolic: mount_entry.as_ref().and_then(|x| {
-                    gio::IconExt::to_string(&x.guess_symbolic_icon().unwrap())
-                        .map(|x| x.to_string())
+                    IconExt::to_string(&x.guess_symbolic_icon().unwrap()).map(|x| x.to_string())
                 }),
                 mount_name: mount_entry.map(|x| x.guess_name().unwrap().to_string()),
                 drive_name: None,
@@ -55,7 +54,7 @@ impl Repository {
     pub fn from_mount(mount: gio::Mount, mut path: std::path::PathBuf, uri: String) -> Repository {
         let mut mount_path = "/".into();
 
-        if let Some(mount_root) = mount.get_root().unwrap().get_path() {
+        if let Some(mount_root) = mount.root().path() {
             if let Ok(repo_path) = path.strip_prefix(&mount_root) {
                 mount_path = mount_root;
                 path = repo_path.to_path_buf();
@@ -66,27 +65,15 @@ impl Repository {
             path,
             mount_path,
             uri: Some(uri),
-            icon: mount
-                .get_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
-            icon_symbolic: mount
-                .get_symbolic_icon()
-                .as_ref()
-                .and_then(gio::IconExt::to_string)
-                .map(Into::into),
-            mount_name: mount.get_name().map(Into::into),
-            drive_name: mount
-                .get_drive()
-                .as_ref()
-                .and_then(gio::Drive::get_name)
-                .map(Into::into),
+            icon: IconExt::to_string(&mount.icon()).map(Into::into),
+            icon_symbolic: IconExt::to_string(&mount.symbolic_icon()).map(Into::into),
+            mount_name: Some(mount.name().to_string()),
+            drive_name: mount.drive().as_ref().map(gio::Drive::name).map(Into::into),
             removable: mount
-                .get_drive()
+                .drive()
                 .as_ref()
                 .map_or(false, gio::Drive::is_removable),
-            volume_uuid: crate::utils::get_mount_uuid(&mount),
+            volume_uuid: crate::utils::mount_uuid(&mount),
             settings: None,
         }
     }

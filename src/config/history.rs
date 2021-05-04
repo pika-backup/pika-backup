@@ -16,7 +16,7 @@ pub struct History {
 pub struct Histories(pub BTreeMap<config::ConfigId, History>);
 
 impl LookupConfigId<History> for crate::config::Histories {
-    fn get_mut_result(
+    fn get_result_mut(
         &mut self,
         key: &ConfigId,
     ) -> Result<&mut History, super::error::BackupNotFound> {

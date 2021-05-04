@@ -7,7 +7,7 @@ pub fn prepare_config_file<V: serde::Serialize>(
     filename: &str,
     default_value: V,
 ) -> std::io::Result<std::path::PathBuf> {
-    let mut path = CONFIG_DIR.clone();
+    let mut path = glib::user_config_dir();
     path.push(env!("CARGO_PKG_NAME"));
     std::fs::create_dir_all(&path)?;
     path.push(filename);
@@ -24,17 +24,17 @@ pub fn prepare_config_file<V: serde::Serialize>(
 }
 
 pub trait LookupConfigId<T> {
-    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound>;
+    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound>;
     fn get_result(&self, key: &ConfigId) -> Result<&T, config::error::BackupNotFound>;
 }
 
-pub fn get_mount_uuid(mount: &gio::Mount) -> Option<String> {
-    let volume = mount.get_volume();
+pub fn mount_uuid(mount: &gio::Mount) -> Option<String> {
+    let volume = mount.volume();
 
     volume
         .as_ref()
-        .and_then(gio::Volume::get_uuid)
-        .or_else(|| volume.as_ref().and_then(|v| v.get_identifier("uuid")))
+        .and_then(gio::Volume::uuid)
+        .or_else(|| volume.as_ref().and_then(|v| v.identifier("uuid")))
         .as_ref()
         .map(std::string::ToString::to_string)
 }

@@ -1,12 +1,11 @@
 use gtk::prelude::*;
-use libhandy::prelude::*;
 
 use crate::ui::globals::*;
 
 pub fn init() {
     main_ui()
         .main_stack()
-        .connect_property_visible_child_notify(main_stack_changed);
+        .connect_visible_child_notify(main_stack_changed);
 
     main_ui().back_button().connect_clicked(on_back);
 
@@ -24,7 +23,7 @@ fn on_back(_button: &gtk::Button) {
 
 fn main_stack_changed(stack: &gtk::Stack) {
     let is_detail_view =
-        stack.get_visible_child() == Some(main_ui().page_detail().upcast::<gtk::Widget>());
+        stack.visible_child() == Some(main_ui().page_detail().upcast::<gtk::Widget>());
 
     // shown in detail view
     main_ui()

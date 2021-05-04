@@ -14,14 +14,14 @@ pub fn init() {
         .detail_running_backup_info()
         .connect_delete_event(|x, _| WidgetExtManual::hide_on_delete(x));
 
-    glib::timeout_add_local(250, || {
+    glib::timeout_add_local(Duration::from_millis(250), || {
         refresh_status();
         Continue(true)
     });
 }
 
 fn is_visible() -> bool {
-    main_ui().detail_running_backup_info().get_visible()
+    main_ui().detail_running_backup_info().is_visible()
 }
 
 fn refresh_status() {
@@ -75,10 +75,10 @@ fn refresh_status_display(status: &backup_status::Display) {
 
             main_ui()
                 .detail_original_size()
-                .set_text(&glib::format_size(stats.archive.stats.original_size).unwrap());
+                .set_text(&glib::format_size(stats.archive.stats.original_size));
             main_ui()
                 .detail_deduplicated_size()
-                .set_text(&glib::format_size(stats.archive.stats.deduplicated_size).unwrap());
+                .set_text(&glib::format_size(stats.archive.stats.deduplicated_size));
             main_ui()
                 .detail_nfiles()
                 .set_text(&stats.archive.stats.nfiles.to_formatted_string(&*LC_LOCALE));
@@ -89,10 +89,10 @@ fn refresh_status_display(status: &backup_status::Display) {
 
             main_ui()
                 .detail_original_size()
-                .set_text(&glib::format_size(progress_archive.original_size).unwrap());
+                .set_text(&glib::format_size(progress_archive.original_size));
             main_ui()
                 .detail_deduplicated_size()
-                .set_text(&glib::format_size(progress_archive.deduplicated_size).unwrap());
+                .set_text(&glib::format_size(progress_archive.deduplicated_size));
             main_ui()
                 .detail_nfiles()
                 .set_text(&progress_archive.nfiles.to_formatted_string(&*LC_LOCALE));

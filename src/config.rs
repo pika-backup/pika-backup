@@ -116,7 +116,7 @@ impl Backup {
             }) = self.repo
             {
                 *icon_symbolic = icon_symbolic_new
-                    .and_then(|icon| gio::IconExt::to_string(&icon))
+                    .and_then(|icon| IconExt::to_string(&icon))
                     .as_ref()
                     .map(ToString::to_string);
             }
@@ -127,7 +127,7 @@ impl Backup {
 }
 
 impl LookupConfigId<Backup> for Backups {
-    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
+    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
         self.iter_mut()
             .find(|x| x.id == *key)
             .ok_or_else(|| error::BackupNotFound::new(key.clone()))
@@ -245,14 +245,14 @@ impl Repository {
             format!(
                 "{} – {}",
                 local.mount_name.as_deref().unwrap_or_default(),
-                self.get_subtitle(),
+                self.subtitle(),
             )
         } else {
             self.to_string()
         }
     }
 
-    pub fn get_uri_fuse(&self) -> Option<String> {
+    pub fn uri_fuse(&self) -> Option<String> {
         match self {
             Self::Local(local::Repository { uri: Some(uri), .. })
                 if !gio::File::new_for_uri(&uri).is_native() =>
@@ -263,12 +263,12 @@ impl Repository {
         }
     }
 
-    pub fn get_subtitle(&self) -> String {
+    pub fn subtitle(&self) -> String {
         match self {
             Self::Local(local) => local
                 .drive_name
                 .clone()
-                .or_else(|| self.get_uri_fuse())
+                .or_else(|| self.uri_fuse())
                 .unwrap_or_else(|| self.to_string()),
             Self::Remote(_) => self.to_string(),
         }
@@ -281,7 +281,7 @@ impl Repository {
         } = settings;
     }
 
-    pub fn get_settings(&self) -> Option<BackupSettings> {
+    pub fn settings(&self) -> Option<BackupSettings> {
         match self {
             Self::Local(local) => &local.settings,
             Self::Remote(remote) => &remote.settings,
@@ -372,5 +372,5 @@ impl Backups {
 }
 
 pub fn absolute(path: &path::Path) -> path::PathBuf {
-    HOME_DIR.join(path)
+    glib::home_dir().unwrap().join(path)
 }

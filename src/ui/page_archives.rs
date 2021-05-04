@@ -10,17 +10,15 @@ use ui::prelude::*;
 use ui::utils::repo_cache::RepoCache;
 
 pub fn init() {
-    main_ui()
-        .detail_stack()
-        .connect_property_visible_child_notify(|_| {
-            if page_is_visible() {
-                Handler::run(show());
-            }
-        });
+    main_ui().detail_stack().connect_visible_child_notify(|_| {
+        if page_is_visible() {
+            Handler::run(show());
+        }
+    });
 
     main_ui().refresh_archives().connect_clicked(|_| {
         Handler::run(async move {
-            let config = BACKUP_CONFIG.load().get_active()?.clone();
+            let config = BACKUP_CONFIG.load().active()?.clone();
             refresh_archives_cache(config).await
         });
     });
@@ -38,7 +36,7 @@ pub fn init() {
 }
 
 async fn on_eject_button_clicked() -> Result<()> {
-    let repo_id = BACKUP_CONFIG.load().get_active()?.repo_id.clone();
+    let repo_id = BACKUP_CONFIG.load().active()?.repo_id.clone();
 
     borg::Borg::umount(&repo_id).err_to_msg(gettext("Failed to unmount repository."))?;
     ACTIVE_MOUNTS.update(|mounts| {
@@ -103,7 +101,7 @@ pub async fn refresh_archives_cache(config: Backup) -> Result<()> {
 
 fn ui_update_archives_spinner() {
     if page_is_visible() {
-        if let Ok(repo_id) = BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id) {
+        if let Ok(repo_id) = BACKUP_CONFIG.load().active().map(|x| &x.repo_id) {
             let reloading = REPO_CACHE
                 .load()
                 .get(repo_id)
@@ -125,7 +123,7 @@ fn ui_update_archives_spinner() {
 
 fn show_dir(path: &std::path::Path) -> Result<()> {
     main_ui().pending_menu().hide();
-    let uri = gio::File::new_for_path(&path).get_uri();
+    let uri = gio::File::new_for_path(&path).uri();
 
     // only open if app isn't closing in this moment
     if !**IS_SHUTDOWN.load() {
@@ -148,14 +146,14 @@ fn show_dir(path: &std::path::Path) -> Result<()> {
 
 async fn on_browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
     let configs = BACKUP_CONFIG.load();
-    let config = configs.get_active()?;
+    let config = configs.active()?;
     let repo_id = &config.repo_id;
 
     debug!("Trying to browse an archive");
 
     let backup_mounted = ACTIVE_MOUNTS.load().contains(repo_id);
 
-    let mut path = borg::Borg::get_mount_point(repo_id);
+    let mut path = borg::Borg::mount_point(repo_id);
     path.push(archive_name.as_str());
 
     if !backup_mounted {
@@ -188,7 +186,7 @@ async fn on_browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
 }
 
 fn page_is_visible() -> bool {
-    main_ui().detail_stack().get_visible_child()
+    main_ui().detail_stack().visible_child()
         == Some(main_ui().page_archives().upcast::<gtk::Widget>())
 }
 
@@ -196,13 +194,13 @@ fn update_eject_button() -> Result<()> {
     main_ui().archives_eject_button().set_visible(
         ACTIVE_MOUNTS
             .load()
-            .contains(&BACKUP_CONFIG.load().get_active()?.repo_id),
+            .contains(&BACKUP_CONFIG.load().active()?.repo_id),
     );
     Ok(())
 }
 
 fn ui_display_archives(repo_id: &borg::RepoId) {
-    if Ok(repo_id) != BACKUP_CONFIG.load().get_active().map(|x| &x.repo_id) || !page_is_visible() {
+    if Ok(repo_id) != BACKUP_CONFIG.load().active().map(|x| &x.repo_id) || !page_is_visible() {
         debug!("Not displaying archive list because it's not visible");
         return;
     }
@@ -287,7 +285,7 @@ pub async fn show() -> Result<()> {
 
     ui::utils::clear(&main_ui().archive_list());
 
-    let config = BACKUP_CONFIG.load().get_active()?.clone();
+    let config = BACKUP_CONFIG.load().active()?.clone();
     let repo_archives = RepoCache::get(&config.repo_id);
 
     let result = if repo_archives.archives.as_ref().is_none() {

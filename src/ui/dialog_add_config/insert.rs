@@ -22,7 +22,7 @@ pub fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
 }
 
 pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::DialogAddConfig>) {
-    let name = row.get_widget_name();
+    let name = row.widget_name();
     if name == "-add-local" {
         execute(on_add_repo_list_activated_local(ui.clone()), ui.dialog());
     } else if name == "-add-remote" {
@@ -37,7 +37,7 @@ pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::Dial
         ui.dialog().hide();
 
         let uri = name;
-        if let Some(path) = gio::File::new_for_uri(&uri).get_path() {
+        if let Some(path) = gio::File::new_for_uri(&uri).path() {
             execute(
                 add_repo_config(local::Repository::from_path(path).into_config(), ui.clone()),
                 ui.dialog(),
@@ -51,7 +51,7 @@ async fn on_add_repo_list_activated_local(ui: Rc<builder::DialogAddConfig>) -> R
 
     if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository"))
         .await
-        .and_then(|x| x.get_path())
+        .and_then(|x| x.path())
     {
         ui::page_pending::show(&gettext("Loading backup repository"));
         if ui::utils::is_backup_repo(&path) {
@@ -74,9 +74,9 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resul
     page_pending::show(&gettext("Loading backup repository"));
     ui.dialog().hide();
 
-    let url = ui.location_url().get_text();
+    let url = ui.location_url().text();
     let file = gio::File::new_for_uri(&url);
-    debug!("Add existing URI '{:?}'", file.get_path());
+    debug!("Add existing URI '{:?}'", file.path());
 
     let repo = if url.get(..6) == Some("ssh://") {
         config::remote::Repository::from_uri(url.to_string()).into_config()
@@ -89,34 +89,34 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resul
 
 async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Result<()> {
     let encrypted =
-        ui.encryption().get_visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
+        ui.encryption().visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
     if encrypted {
-        if ui.password().get_text().is_empty() {
+        if ui.password().text().is_empty() {
             return Err(Message::new(
                 gettext("No password provided."),
                 gettext("To use encryption a password must be provided."),
             )
             .into());
-        } else if ui.password().get_text() != ui.password_confirm().get_text() {
+        } else if ui.password().text() != ui.password_confirm().text() {
             return Err(Message::short(gettext("Entered passwords do not match.")).into());
         }
     }
 
-    let mut repo = if ui.location_stack().get_visible_child()
+    let mut repo = if ui.location_stack().visible_child()
         == Some(ui.location_local().upcast::<gtk::Widget>())
     {
         if let Some(path) = ui
             .init_path()
-            .get_file()
-            .map(|x| x.get_child(ui.init_dir().get_text().as_str()).unwrap())
-            .and_then(|x| x.get_path())
+            .file()
+            .map(|x| x.child(ui.init_dir().text().as_str()))
+            .and_then(|x| x.path())
         {
-            if let Some(mount) = ui.init_path().get_file().and_then(|file| {
+            if let Some(mount) = ui.init_path().file().and_then(|file| {
                 file.find_enclosing_mount(Some(&gio::Cancellable::new()))
                     .ok()
             }) {
-                let uri = gio::File::new_for_path(&path).get_uri().to_string();
+                let uri = gio::File::new_for_path(&path).uri().to_string();
                 Ok(local::Repository::from_mount(mount, path, uri).into_config())
             } else {
                 Ok(local::Repository::from_path(path).into_config())
@@ -125,8 +125,8 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
             Err(Message::short(gettext("A repository location has to be given.")).into())
         }
     } else {
-        let url = ui.location_url().get_text().to_string();
-        let file = gio::File::new_for_uri(&ui.location_url().get_text());
+        let url = ui.location_url().text().to_string();
+        let file = gio::File::new_for_uri(&ui.location_url().text());
 
         if url.is_empty() {
             Err(Message::short(gettext("A repository location has to be given.")).into())
@@ -139,7 +139,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
         }
     }?;
 
-    if let Ok(args) = get_command_line_args(&ui) {
+    if let Ok(args) = command_line_args(&ui) {
         repo.set_settings(Some(BackupSettings {
             command_line_args: Some(args),
         }));
@@ -155,7 +155,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
     ui.dialog().hide();
 
     let mut borg = borg::BorgOnlyRepo::new(repo.clone());
-    let password = Zeroizing::new(ui.password().get_text().as_bytes().to_vec());
+    let password = Zeroizing::new(ui.password().text().as_bytes().to_vec());
     if encrypted {
         borg.set_password(password.clone());
     }
@@ -171,7 +171,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
             let config = config::Backup::new(repo.clone(), info, encrypted);
 
             insert_backup_config(config.clone())?;
-            if encrypted && ui.password_store().get_active() {
+            if encrypted && ui.password_store().is_active() {
                 if let Err(err) = ui::utils::secret_service::set_password(&config, &password) {
                     return Err(Message::new(gettext("Failed to store password."), err).into());
                 }
@@ -188,7 +188,7 @@ async fn add_repo_config(
     ui: Rc<builder::DialogAddConfig>,
 ) -> Result<()> {
     repo.set_settings(Some(BackupSettings {
-        command_line_args: Some(get_command_line_args(&ui)?),
+        command_line_args: Some(command_line_args(&ui)?),
     }));
 
     insert_backup_config_encryption_unknown(repo).await
@@ -237,13 +237,13 @@ fn execute<
         .spawn(f);
 }
 
-fn get_command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>> {
+fn command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>> {
     if let Ok(args) = shell_words::split(
         &ui.command_line_args()
-            .get_buffer()
+            .buffer()
             .and_then(|buffer| {
-                let (start, end) = buffer.get_bounds();
-                buffer.get_text(&start, &end, false).map(|x| x.to_string())
+                let (start, end) = buffer.bounds();
+                buffer.text(&start, &end, false).map(|x| x.to_string())
             })
             .unwrap_or_default(),
     ) {
@@ -260,30 +260,30 @@ fn get_command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>> {
 async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<local::Repository> {
     if let (Ok(mount), Some(path)) = (
         file.find_enclosing_mount(Some(&gio::Cancellable::new())),
-        file.get_path(),
+        file.path(),
     ) {
         Ok(local::Repository::from_mount(
             mount,
             path,
-            file.get_uri().to_string(),
+            file.uri().to_string(),
         ))
     } else {
         let mount_uri = if mount_parent {
-            file.get_parent().as_ref().unwrap_or(&file).get_uri()
+            file.parent().as_ref().unwrap_or(&file).uri()
         } else {
-            file.get_uri()
+            file.uri()
         };
 
         ui::dialog_device_missing::mount_enclosing(&gio::File::new_for_uri(&mount_uri)).await?;
 
         if let (Ok(mount), Some(path)) = (
             file.find_enclosing_mount(Some(&gio::Cancellable::new())),
-            file.get_path(),
+            file.path(),
         ) {
             Ok(local::Repository::from_mount(
                 mount,
                 path,
-                file.get_uri().to_string(),
+                file.uri().to_string(),
             ))
         } else {
             Err(Error::Message(Message::new(

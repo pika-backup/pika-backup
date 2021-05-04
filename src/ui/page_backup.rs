@@ -35,55 +35,53 @@ pub fn init() {
 
     main_ui()
         .main_stack()
-        .connect_property_transition_running_notify(on_transition);
+        .connect_transition_running_notify(on_transition);
     main_ui()
         .main_stack()
-        .connect_property_visible_child_notify(on_stack_changed);
+        .connect_visible_child_notify(on_stack_changed);
     main_ui()
         .detail_stack()
-        .connect_property_visible_child_notify(on_stack_changed);
+        .connect_visible_child_notify(on_stack_changed);
 
-    main_ui()
-        .include_home()
-        .connect_property_active_notify(|_| {
-            Handler::run(async move {
-                if main_ui().include_home().get_sensitive() {
-                    let change: bool = if main_ui().include_home().get_active() {
-                        true
-                    } else {
-                        confirm_remove_include(std::path::Path::new("Home")).await
-                    };
-
-                    BACKUP_CONFIG.update_result(|settings| {
-                        if !change {
-                            main_ui()
-                                .include_home()
-                                .set_active(!main_ui().include_home().get_active());
-                        } else if main_ui().include_home().get_active() {
-                            settings
-                                .get_active_mut()?
-                                .include
-                                .insert(std::path::PathBuf::new());
-                        } else {
-                            settings
-                                .get_active_mut()?
-                                .include
-                                .remove(&std::path::PathBuf::new());
-                        }
-                        Ok(())
-                    })?;
-
-                    if change {
-                        super::write_config()?;
-                        refresh()?;
-                    }
+    main_ui().include_home().connect_active_notify(|_| {
+        Handler::run(async move {
+            if main_ui().include_home().is_sensitive() {
+                let change: bool = if main_ui().include_home().is_active() {
+                    true
                 } else {
-                    main_ui().include_home().set_sensitive(true);
-                }
+                    confirm_remove_include(std::path::Path::new("Home")).await
+                };
 
-                Ok(())
-            })
-        });
+                BACKUP_CONFIG.update_result(|settings| {
+                    if !change {
+                        main_ui()
+                            .include_home()
+                            .set_active(!main_ui().include_home().is_active());
+                    } else if main_ui().include_home().is_active() {
+                        settings
+                            .active_mut()?
+                            .include
+                            .insert(std::path::PathBuf::new());
+                    } else {
+                        settings
+                            .active_mut()?
+                            .include
+                            .remove(&std::path::PathBuf::new());
+                    }
+                    Ok(())
+                })?;
+
+                if change {
+                    super::write_config()?;
+                    refresh()?;
+                }
+            } else {
+                main_ui().include_home().set_sensitive(true);
+            }
+
+            Ok(())
+        })
+    });
 
     main_ui()
         .add_include()
@@ -110,9 +108,9 @@ pub fn activate_action_backup(id: ConfigId) {
 }
 
 fn is_visible() -> bool {
-    main_ui().detail_stack().get_visible_child()
+    main_ui().detail_stack().visible_child()
         == Some(main_ui().page_backup().upcast::<gtk::Widget>())
-        && main_ui().main_stack().get_visible_child()
+        && main_ui().main_stack().visible_child()
             == Some(main_ui().page_detail().upcast::<gtk::Widget>())
 }
 
@@ -145,7 +143,7 @@ async fn on_stop_backup_create() -> Result<()> {
 
     BACKUP_COMMUNICATION
         .load()
-        .get_active()?
+        .active()?
         .instruction
         .update(|inst| {
             *inst = borg::Instruction::Abort;
@@ -155,7 +153,7 @@ async fn on_stop_backup_create() -> Result<()> {
 }
 
 async fn on_backup_run() -> Result<()> {
-    start_backup(BACKUP_CONFIG.load().get_active()?.clone()).await
+    start_backup(BACKUP_CONFIG.load().active()?.clone()).await
 }
 
 async fn start_backup(config: config::Backup) -> Result<()> {
@@ -246,7 +244,7 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
                 "Backup location “{}” might be filling up. Estimated space missing to store all data: {}.",
                 &[
                     &config.repo.location(),
-                    &glib::format_size(estimated_changed - space_avail).unwrap(),
+                    &glib::format_size(estimated_changed - space_avail),
                 ],
             ));
         }
@@ -338,13 +336,13 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 
 // TODO: Function has too many lines
 pub fn refresh() -> Result<()> {
-    let backup = BACKUP_CONFIG.load().get_active()?.clone();
+    let backup = BACKUP_CONFIG.load().active()?.clone();
 
     refresh_status();
 
     let include_home = backup.include.contains(&std::path::PathBuf::new());
 
-    if include_home != main_ui().include_home().get_active() {
+    if include_home != main_ui().include_home().is_active() {
         main_ui().include_home().set_sensitive(false);
         main_ui().include_home().set_active(include_home);
     }
@@ -379,7 +377,7 @@ pub fn refresh() -> Result<()> {
 
     main_ui()
         .detail_repo_row()
-        .set_subtitle(Some(&backup.repo.get_subtitle()));
+        .set_subtitle(Some(&backup.repo.subtitle()));
 
     repo_ui.show_all();
 
@@ -399,7 +397,7 @@ pub fn refresh() -> Result<()> {
             Handler::run(async move {
                 if confirm_remove_include(&path).await {
                     BACKUP_CONFIG.update_result(|settings| {
-                        settings.get_active_mut()?.include.remove(&path);
+                        settings.active_mut()?.include.remove(&path);
                         Ok(())
                     })?;
                     super::write_config()?;
@@ -423,7 +421,7 @@ pub fn refresh() -> Result<()> {
                     Handler::run(async move {
                         BACKUP_CONFIG.update_result(move |settings| {
                             settings
-                                .get_active_mut()?
+                                .active_mut()?
                                 .exclude
                                 .remove(&config::Pattern::PathPrefix(path.clone()));
                             Ok(())
@@ -453,7 +451,7 @@ pub fn refresh() -> Result<()> {
                     Handler::run(async move {
                         BACKUP_CONFIG.update_result(move |settings| {
                             settings
-                                .get_active_mut()?
+                                .active_mut()?
                                 .exclude
                                 .remove(&config::Pattern::RegularExpression(regex.clone()));
                             Ok(())
@@ -485,13 +483,12 @@ pub fn refresh() -> Result<()> {
 }
 
 fn on_transition(stack: &gtk::Stack) {
-    if !stack.get_transition_running() && !is_visible() {
+    if !stack.is_transition_running() && !is_visible() {
         // scroll back to top
         for scrollable in &[main_ui().page_backup(), main_ui().page_archives()] {
             scrollable
-                .get_vadjustment()
-                .unwrap()
-                .set_value(scrollable.get_vadjustment().unwrap().get_lower());
+                .vadjustment()
+                .set_value(scrollable.vadjustment().lower());
         }
     }
 }
@@ -512,7 +509,7 @@ async fn confirm_remove_include(path: &std::path::Path) -> bool {
 
 /// Returns a relative path for sub directories of home
 fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
-    if let Ok(rel_path) = path.strip_prefix(HOME_DIR.as_path()) {
+    if let Ok(rel_path) = path.strip_prefix(glib::home_dir().unwrap().as_path()) {
         rel_path.to_path_buf()
     } else {
         path.to_path_buf()
@@ -524,7 +521,7 @@ async fn add_include() -> Result<()> {
         ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups")).await
     {
         BACKUP_CONFIG.update_result(|settings| {
-            settings.get_active_mut()?.include.insert(rel_path(&path));
+            settings.active_mut()?.include.insert(rel_path(&path));
             Ok(())
         })?;
         super::write_config()?;
@@ -540,7 +537,7 @@ async fn add_exclude() -> Result<()> {
     {
         BACKUP_CONFIG.update_result(|settings| {
             settings
-                .get_active_mut()?
+                .active_mut()?
                 .exclude
                 .insert(config::Pattern::PathPrefix(rel_path(&path)));
             Ok(())

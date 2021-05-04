@@ -53,12 +53,12 @@ impl Ask {
             .connect_clicked(move |_| dialog.response(gtk::ResponseType::Ok));
 
         let response = ui.dialog().run_future().await;
-        let password = Zeroizing::new(ui.password().get_text().as_bytes().to_vec());
+        let password = Zeroizing::new(ui.password().text().as_bytes().to_vec());
         ui.dialog().close();
         ui.dialog().hide();
 
         if gtk::ResponseType::Ok == response {
-            Some((password, ui.password_store().get_active()))
+            Some((password, ui.password_store().is_active()))
         } else {
             None
         }

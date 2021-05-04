@@ -168,12 +168,12 @@ impl BorgCall {
             pipe_reader.into_raw_fd().to_string(),
         );
 
-        if let Some(ref password) = borg.get_password() {
+        if let Some(ref password) = borg.password() {
             debug!("Using password enforced by explicitly passed password");
             pipe_writer.write_all(password)?;
         } else if borg.is_encrypted() {
             debug!("Config says the backup is encrypted");
-            if let Some(config_id) = borg.get_config_id() {
+            if let Some(config_id) = borg.config_id() {
                 let password: Zeroizing<Vec<u8>> =
                     secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
                         .search_items(vec![
@@ -203,13 +203,13 @@ impl BorgCall {
         self.add_options(&["--log-json"]);
 
         if self.positional.is_empty() {
-            self.add_positional(&borg.get_repo().to_string());
+            self.add_positional(&borg.repo().to_string());
         }
 
         self.add_options(
             &borg
-                .get_repo()
-                .get_settings()
+                .repo()
+                .settings()
                 .and_then(|x| x.command_line_args)
                 .unwrap_or_default(),
         );

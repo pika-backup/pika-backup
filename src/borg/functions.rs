@@ -19,19 +19,19 @@ pub struct BorgOnlyRepo {
 }
 
 pub trait BorgRunConfig {
-    fn get_repo(&self) -> config::Repository;
-    fn get_password(&self) -> Option<config::Password>;
+    fn repo(&self) -> config::Repository;
+    fn password(&self) -> Option<config::Password>;
     fn unset_password(&mut self);
     fn set_password(&mut self, password: config::Password);
     fn is_encrypted(&self) -> bool;
-    fn get_config_id(&self) -> Option<ConfigId>;
+    fn config_id(&self) -> Option<ConfigId>;
 }
 
 impl BorgRunConfig for Borg {
-    fn get_repo(&self) -> config::Repository {
+    fn repo(&self) -> config::Repository {
         self.config.repo.clone()
     }
-    fn get_password(&self) -> Option<config::Password> {
+    fn password(&self) -> Option<config::Password> {
         self.password.clone()
     }
     fn set_password(&mut self, password: config::Password) {
@@ -43,16 +43,16 @@ impl BorgRunConfig for Borg {
     fn is_encrypted(&self) -> bool {
         self.config.encrypted
     }
-    fn get_config_id(&self) -> Option<ConfigId> {
+    fn config_id(&self) -> Option<ConfigId> {
         Some(self.config.id.clone())
     }
 }
 
 impl BorgRunConfig for BorgOnlyRepo {
-    fn get_repo(&self) -> config::Repository {
+    fn repo(&self) -> config::Repository {
         self.repo.clone()
     }
-    fn get_password(&self) -> Option<config::Password> {
+    fn password(&self) -> Option<config::Password> {
         self.password.clone()
     }
     fn set_password(&mut self, password: config::Password) {
@@ -64,7 +64,7 @@ impl BorgRunConfig for BorgOnlyRepo {
     fn is_encrypted(&self) -> bool {
         false
     }
-    fn get_config_id(&self) -> Option<ConfigId> {
+    fn config_id(&self) -> Option<ConfigId> {
         None
     }
 }
@@ -78,12 +78,12 @@ impl Borg {
         }
     }
 
-    pub fn get_config(&self) -> config::Backup {
+    pub fn config(&self) -> config::Backup {
         self.config.clone()
     }
 
     pub fn umount(repo_id: &RepoId) -> Result<()> {
-        let mount_point = Self::get_mount_point(repo_id);
+        let mount_point = Self::mount_point(repo_id);
 
         let borg = BorgCall::new("umount")
             .add_options(&["--log-json"])
@@ -93,17 +93,17 @@ impl Borg {
         check_stderr(&borg)?;
 
         std::fs::remove_dir(mount_point)?;
-        let _ = std::fs::remove_dir(Self::get_mount_dir());
+        let _ = std::fs::remove_dir(Self::mount_dir());
 
         Ok(())
     }
 
-    pub fn get_mount_dir() -> std::path::PathBuf {
-        HOME_DIR.clone().join(crate::REPO_MOUNT_DIR)
+    pub fn mount_dir() -> std::path::PathBuf {
+        glib::home_dir().unwrap().join(crate::REPO_MOUNT_DIR)
     }
 
-    pub fn get_mount_point(repo_id: &RepoId) -> std::path::PathBuf {
-        let mut dir = Self::get_mount_dir();
+    pub fn mount_point(repo_id: &RepoId) -> std::path::PathBuf {
+        let mut dir = Self::mount_dir();
         dir.push(&format!("{:.8}", repo_id.as_str()));
         dir
     }
@@ -111,11 +111,11 @@ impl Borg {
     pub fn mount(&self) -> Result<()> {
         std::fs::DirBuilder::new()
             .recursive(true)
-            .create(Self::get_mount_point(&self.config.repo_id))?;
+            .create(Self::mount_point(&self.config.repo_id))?;
 
         let borg = BorgCall::new("mount")
             .add_basics(self)?
-            .add_positional(&Self::get_mount_point(&self.config.repo_id).to_string_lossy())
+            .add_positional(&Self::mount_point(&self.config.repo_id).to_string_lossy())
             .output()?;
 
         check_stderr(&borg)?;

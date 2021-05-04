@@ -10,7 +10,7 @@ pub async fn updated_config(config: config::Backup, purpose: &str) -> Result<con
     match &config.repo {
         config::Repository::Local(repo) => {
             if !ui::utils::is_backup_repo(&repo.path()) {
-                if let Some(uri) = config.repo.get_uri_fuse() {
+                if let Some(uri) = config.repo.uri_fuse() {
                     mount_enclosing(&gio::File::new_for_uri(&uri)).await?;
                 } else if repo.removable {
                     mount_dialog(repo.clone(), purpose).await?;
@@ -26,7 +26,7 @@ pub async fn updated_config(config: config::Backup, purpose: &str) -> Result<con
 }
 
 pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
-    info!("Trying to mount '{}'", file.get_uri());
+    info!("Trying to mount '{}'", file.uri());
     let mount_result = file.mount_enclosing_volume_future(
         gio::MountMountFlags::NONE,
         Some(
@@ -72,7 +72,7 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
     let volume_monitor = gio::VolumeMonitor::get();
 
     volume_monitor.connect_mount_added(enclose!((dialog) move |_, new_mount| {
-        if path.starts_with(new_mount.get_root().unwrap().get_path().unwrap()) {
+        if path.starts_with(new_mount.root().path().unwrap()) {
             dialog.window().response(gtk::ResponseType::Ok);
         }
     }));

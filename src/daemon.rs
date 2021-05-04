@@ -1,5 +1,4 @@
 #[allow(clippy::from_over_into)]
-mod dbus_action_group;
 mod globals;
 mod prelude;
 
@@ -7,7 +6,6 @@ use gio::prelude::*;
 
 use crate::action;
 use crate::config;
-use dbus_action_group::DBusActionGroup;
 use prelude::*;
 
 use std::cell::RefCell;
@@ -28,7 +26,7 @@ impl Logable for Result<()> {
 
 pub fn main() {
     gio_app().connect_startup(on_startup);
-    gio_app().run(&std::env::args().collect::<Vec<_>>());
+    gio_app().run();
 }
 
 thread_local!(
@@ -52,16 +50,15 @@ struct Service {
 fn forward_action(action: &gio::SimpleAction, target_value: Option<&glib::Variant>) {
     debug!(
         "Forwarding action: {:?}",
-        gio::Action::print_detailed_name(&action.get_name().unwrap(), target_value).as_deref()
+        gio::Action::print_detailed_name(&action.name(), target_value)
     );
-    let dbus_connection = gio_app().get_dbus_connection().unwrap();
-    let group = DBusActionGroup::get(
+    let dbus_connection = gio_app().dbus_connection().unwrap();
+    let group = gio::DBusActionGroup::get(
         &dbus_connection,
         Some(&crate::app_id()),
         &format!("/{}", crate::app_id().replace(".", "/")),
-    )
-    .unwrap();
-    group.activate_action(&action.get_name().unwrap(), target_value);
+    );
+    group.activate_action(&action.name(), target_value);
 }
 
 fn redirect_action(
@@ -70,7 +67,7 @@ fn redirect_action(
     move |action: &gio::SimpleAction, target_value: Option<&glib::Variant>| {
         debug!(
             "Redirecting action: {:?}",
-            gio::Action::print_detailed_name(&action.get_name().unwrap(), target_value).as_deref()
+            gio::Action::print_detailed_name(&action.name(), target_value)
         );
         for action in &new_actions {
             forward_action(action, target_value)
@@ -120,7 +117,7 @@ fn init_device_monitor() {
     SERVICE.with(|service| {
         service.volume_monitor.connect_mount_added(|_, mount| {
             let backups = &BACKUP_CONFIG.load();
-            let uuid = crate::utils::get_mount_uuid(mount);
+            let uuid = crate::utils::mount_uuid(mount);
             debug!("Log: Connected {:?}", uuid);
             if let Some(uuid) = uuid {
                 let backup = backups.iter().find(|b| {
@@ -154,7 +151,7 @@ fn init_device_monitor() {
 
                     notification.add_button_with_target_value(
                         "Run Backup",
-                        &format!("app.{}", crate::action::backup_start().get_name().unwrap()),
+                        &format!("app.{}", crate::action::backup_start().name()),
                         Some(&id.to_string().to_variant()),
                     );
                     gio_app().send_notification(Some(uuid.as_str()), &notification);

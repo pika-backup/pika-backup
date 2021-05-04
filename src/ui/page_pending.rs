@@ -12,14 +12,14 @@ pub fn init() {
 
     main_ui()
         .main_stack()
-        .connect_property_visible_child_notify(on_main_stack_changed);
+        .connect_visible_child_notify(on_main_stack_changed);
 }
 
 pub fn show(msg: &str) {
-    if main_ui().main_stack().get_visible_child()
+    if main_ui().main_stack().visible_child()
         != Some(main_ui().page_pending().upcast::<gtk::Widget>())
     {
-        LAST_PAGE.with(|last_page| last_page.set(main_ui().main_stack().get_visible_child()));
+        LAST_PAGE.with(|last_page| last_page.set(main_ui().main_stack().visible_child()));
     }
     main_ui()
         .main_stack()
@@ -36,7 +36,7 @@ pub fn back() {
 }
 
 fn on_main_stack_changed(stack: &gtk::Stack) {
-    if stack.get_visible_child() == Some(main_ui().page_pending().upcast::<gtk::Widget>()) {
+    if stack.visible_child() == Some(main_ui().page_pending().upcast::<gtk::Widget>()) {
         main_ui().add_backup().hide();
     }
 }

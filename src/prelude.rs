@@ -4,6 +4,7 @@ pub use crate::utils::LookupConfigId;
 pub use std::convert::TryFrom;
 pub use std::rc::Rc;
 pub use std::sync::Arc;
+pub use std::time::Duration;
 
 use crate::config;
 
@@ -35,7 +36,7 @@ pub fn ngettextf_(msgid: &str, msgid_plural: &str, n: u32) -> String {
 
 #[allow(clippy::implicit_hasher)]
 impl<T> LookupConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
-    fn get_mut_result(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound> {
+    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound> {
         self.get_mut(&key)
             .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
     }

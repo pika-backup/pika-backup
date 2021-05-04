@@ -54,12 +54,12 @@ async fn update_config(config: &config::Backup) -> Result<()> {
     trace!("Got config update result");
 
     BACKUP_CONFIG.update(move |settings| {
-        if let Ok(config) = settings.get_mut_result(&config.id) {
+        if let Ok(config) = settings.get_result_mut(&config.id) {
             let icon_symbolic = match &config.repo {
                 config::Repository::Local(local) => gio::File::new_for_path(local.path())
                     .find_enclosing_mount(Some(&gio::Cancellable::new()))
                     .ok()
-                    .and_then(|m| m.get_symbolic_icon()),
+                    .map(|m| m.symbolic_icon()),
 
                 _ => None,
             };

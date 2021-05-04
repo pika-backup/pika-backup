@@ -11,7 +11,7 @@ pub async fn show() -> Result<()> {
         .dialog()
         .set_transient_for(Some(&main_ui().window()));
 
-    let backup = BACKUP_CONFIG.load().get_active()?.clone();
+    let backup = BACKUP_CONFIG.load().active()?.clone();
     match &backup.repo {
         config::Repository::Local(repo) => {
             storage
@@ -41,8 +41,8 @@ pub async fn show() -> Result<()> {
 }
 
 fn show_df(df: &ui::utils::df::Space, ui: &ui::builder::DialogStorage) {
-    ui.fs_size().set_text(&glib::format_size(df.size).unwrap());
-    ui.fs_free().set_text(&glib::format_size(df.avail).unwrap());
+    ui.fs_size().set_text(&glib::format_size(df.size));
+    ui.fs_free().set_text(&glib::format_size(df.avail));
     ui.fs_usage()
         .set_value(1.0 - df.avail as f64 / df.size as f64);
     ui.fs().show();

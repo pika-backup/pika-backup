@@ -29,7 +29,7 @@ where
     F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
 {
-    let config = borg.get_config();
+    let config = borg.config();
 
     let result = spawn_borg_thread(name, borg, task, false).await;
 
@@ -91,7 +91,7 @@ where
             Ok(result) => match result {
                 Err(borg::Error::PasswordMissing)
                 | Err(borg::Error::Failed(borg::Failure::PassphraseWrong)) => {
-                    if let Some((password, store)) = crate::ui::utils::secret_service::get_password(
+                    if let Some((password, store)) = crate::ui::utils::secret_service::password(
                         pre_select_store,
                         name.to_string(),
                     )
@@ -110,7 +110,7 @@ where
                     continue;
                 }
                 Err(e) => Err(e.into()),
-                Ok(result) => Ok((result, borg.get_password().map(|p| (p, pre_select_store)))),
+                Ok(result) => Ok((result, borg.password().map(|p| (p, pre_select_store)))),
             },
         };
     }

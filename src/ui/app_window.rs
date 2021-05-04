@@ -12,7 +12,7 @@ pub fn init() {
         .unwrap_or_default()
         .is_empty()
     {
-        main_ui().window().get_style_context().add_class("devel");
+        main_ui().window().style_context().add_class("devel");
     }
 
     main_ui().internal_message().connect_close(|info_bar| {
@@ -27,7 +27,7 @@ pub fn init() {
 }
 
 pub fn is_displayed() -> bool {
-    main_ui().window().get_id() != 0
+    main_ui().window().id() != 0
 }
 
 pub fn show() {

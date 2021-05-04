@@ -1,5 +1,4 @@
 use gdk_pixbuf::prelude::*;
-use gio::prelude::*;
 use gtk::prelude::*;
 
 use crate::borg;
@@ -50,12 +49,10 @@ pub fn main() {
     gtk_app().connect_activate(on_activate);
     gtk_app().connect_shutdown(on_shutdown);
 
-    crate::globals::init();
-
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
-    gtk_app().run(&std::env::args().collect::<Vec<_>>());
+    gtk_app().run();
 }
 
 fn on_ctrlc() -> Continue {
@@ -88,11 +85,12 @@ fn on_shutdown(app: &gtk::Application) {
 }
 
 fn on_startup(_app: &gtk::Application) {
-    libhandy::init();
+    // TODO: fix after libhandy is fixed
+    libhandy::functions::init();
     debug!("Signal 'startup'");
     load_config();
 
-    if let Some(screen) = gdk::Screen::get_default() {
+    if let Some(screen) = gdk::Screen::default() {
         let provider = gtk::CssProvider::new();
         ui::utils::dialog_catch_err(
             provider.load_from_data(include_bytes!("../data/style.css")),
@@ -112,7 +110,7 @@ fn on_startup(_app: &gtk::Application) {
     loader
         .close()
         .unwrap_or_else(|e| error!("loader.close() failed: {}", e));
-    if let Some(icon) = loader.get_pixbuf() {
+    if let Some(icon) = loader.pixbuf() {
         gtk::Window::set_default_icon(&icon);
     }
 
@@ -136,7 +134,7 @@ fn on_activate(_app: &gtk::Application) {
 }
 
 fn init_timeouts() {
-    glib::timeout_add_local(1000, move || {
+    glib::timeout_add_local(Duration::from_secs(1), move || {
         let inhibit_cookie = INHIBIT_COOKIE.get();
 
         if utils::borg::is_backup_running() {
@@ -162,15 +160,13 @@ fn init_timeouts() {
 async fn quit() -> Result<()> {
     debug!("Running quit routine");
     if utils::borg::is_backup_running() {
-        let permission = utils::get_background_permission()
-            .await
-            .unwrap_or_else(|err| {
-                warn!(
-                    "background portal: Failed, maybe it's not supported: {:?}",
-                    err
-                );
-                true
-            });
+        let permission = utils::background_permission().await.unwrap_or_else(|err| {
+            warn!(
+                "background portal: Failed, maybe it's not supported: {:?}",
+                err
+            );
+            true
+        });
         if permission {
             gtk_app().remove_window(&main_ui().window());
             main_ui().window().hide();
@@ -194,7 +190,7 @@ async fn quit() -> Result<()> {
 fn init_actions() {
     let action = crate::action::backup_show();
     action.connect_activate(|_, config_id| {
-        if let Some(config_id) = config_id.and_then(|v| v.get_str()) {
+        if let Some(config_id) = config_id.and_then(|v| v.str()) {
             app_window::show();
             ui::page_backup::view_backup_conf(&ConfigId::new(config_id.to_string()));
             main_ui().window().present();
@@ -205,7 +201,7 @@ fn init_actions() {
     let action = crate::action::backup_start();
     action.connect_activate(|_, config_id| {
         info!("action backup.start: called");
-        if let Some(config_id) = config_id.and_then(|v| v.get_str()) {
+        if let Some(config_id) = config_id.and_then(|v| v.str()) {
             ui::page_backup::activate_action_backup(ConfigId::new(config_id.to_string()));
         } else {
             error!("action backup.start: Did not receivce valid config id");
@@ -266,18 +262,22 @@ async fn init_check_borg() -> Result<()> {
 }
 
 fn load_config_e() -> std::io::Result<()> {
-    if CONFIG_DIR
+    if glib::user_config_dir()
         .join(env!("CARGO_PKG_NAME"))
         .join("config.json")
         .is_file()
-        && !CONFIG_DIR
+        && !glib::user_config_dir()
             .join(env!("CARGO_PKG_NAME"))
             .join("backup.json")
             .is_file()
     {
         std::fs::rename(
-            CONFIG_DIR.join(env!("CARGO_PKG_NAME")).join("config.json"),
-            CONFIG_DIR.join(env!("CARGO_PKG_NAME")).join("backup.json"),
+            glib::user_config_dir()
+                .join(env!("CARGO_PKG_NAME"))
+                .join("config.json"),
+            glib::user_config_dir()
+                .join(env!("CARGO_PKG_NAME"))
+                .join("backup.json"),
         )?;
         let dialog = gtk::MessageDialog::new(
             Some(&main_ui().window()),
@@ -308,12 +308,12 @@ fn load_config() {
 
 fn write_config_e() -> std::io::Result<()> {
     let config: &config::Backups = &BACKUP_CONFIG.load();
-    let config_file = tempfile::NamedTempFile::new_in(&*CONFIG_DIR)?;
+    let config_file = tempfile::NamedTempFile::new_in(glib::user_config_dir())?;
     serde_json::ser::to_writer_pretty(&config_file, config)?;
     config_file.persist(&config::Backups::default_path()?)?;
 
     let history: &config::Histories = &BACKUP_HISTORY.load();
-    let history_file = tempfile::NamedTempFile::new_in(&*CONFIG_DIR)?;
+    let history_file = tempfile::NamedTempFile::new_in(glib::user_config_dir())?;
     serde_json::ser::to_writer_pretty(&history_file, history)?;
     history_file.persist(&config::Histories::default_path()?)?;
 
