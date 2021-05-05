@@ -6,6 +6,7 @@ use gio::prelude::*;
 use gtk::prelude::*;
 use libhandy::prelude::*;
 
+use crate::config;
 use crate::ui;
 use crate::ui::builder;
 use crate::ui::prelude::*;
@@ -81,8 +82,8 @@ pub fn new_backup() {
 
 fn on_path_change(ui: &builder::DialogAddConfig) {
     if let Some(path) = ui.init_path().filename() {
-        let mount_entry = gio::UnixMountEntry::new_for(&path);
-        if let Some(fs) = mount_entry.0.unwrap().fs_type() {
+        let mount_entry = config::local::g_unix_mount_for(&path);
+        if let Some(fs) = mount_entry.and_then(|x| x.0.fs_type()) {
             debug!("Selected filesystem type {}", fs);
             ui.non_journaling_warning()
                 .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
