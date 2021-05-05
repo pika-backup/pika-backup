@@ -4,8 +4,6 @@
 https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo
 """
 
-#!/usr/bin/env python3
-
 __license__ = 'MIT'
 import json
 from urllib.parse import quote as urlquote
@@ -58,7 +56,7 @@ def get_git_tarball(repo_url, commit):
     if url.hostname == 'github.com':
         return f'https://codeload.{url.hostname}/{owner}/{repo}/tar.gz/{commit}'
     elif url.hostname.split('.')[0] == 'gitlab':
-        return f'https://{url.hostname}/{owner}/{repo}/repository/archive.tar.gz?ref={commit}'
+        return f'https://{url.hostname}/{owner}/{repo}/-/archive/{commit}/{repo}-{commit}.tar.gz'
     elif url.hostname == 'bitbucket.org':
         return f'https://{url.hostname}/{owner}/{repo}/get/{commit}.tar.gz'
     else:
@@ -67,7 +65,7 @@ def get_git_tarball(repo_url, commit):
 async def get_remote_sha256(url):
     logging.info(f"started sha256({url})")
     sha256 = hashlib.sha256()
-    async with aiohttp.ClientSession() as http_session:
+    async with aiohttp.ClientSession(raise_for_status=True) as http_session:
         async with http_session.get(url) as response:
             while True:
                 data = await response.content.read(4096)
