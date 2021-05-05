@@ -25,12 +25,12 @@ cargo-audit:
     - cargo install cargo-audit
     - cargo audit
 
-cargo-clippy:
-  extends: test
-  script:
-    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
-    - flatpak build-finish --share=network flatpak_app
-    - flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} "cargo clippy"
+#cargo-clippy:
+#  extends: test
+#  script:
+#    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+#    - flatpak build-finish --share=network flatpak_app
+#    - flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} "cargo clippy"
 
 cargo-fmt:
   interruptible: true
