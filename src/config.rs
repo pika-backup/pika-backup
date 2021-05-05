@@ -255,7 +255,7 @@ impl Repository {
     pub fn uri_fuse(&self) -> Option<String> {
         match self {
             Self::Local(local::Repository { uri: Some(uri), .. })
-                if !gio::File::new_for_uri(&uri).is_native() =>
+                if !gio::File::for_uri(&uri).is_native() =>
             {
                 Some(uri.clone())
             }

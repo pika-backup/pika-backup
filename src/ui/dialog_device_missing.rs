@@ -11,7 +11,7 @@ pub async fn updated_config(config: config::Backup, purpose: &str) -> Result<con
         config::Repository::Local(repo) => {
             if !ui::utils::is_backup_repo(&repo.path()) {
                 if let Some(uri) = config.repo.uri_fuse() {
-                    mount_enclosing(&gio::File::new_for_uri(&uri)).await?;
+                    mount_enclosing(&gio::File::for_uri(&uri)).await?;
                 } else if repo.removable {
                     mount_dialog(repo.clone(), purpose).await?;
                 }
@@ -58,7 +58,7 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
         .name()
         .set_label(&repo.clone().into_config().location());
 
-    if let Some(g_icon) = repo.icon.and_then(|x| gio::Icon::new_for_string(&x).ok()) {
+    if let Some(g_icon) = repo.icon.and_then(|x| gio::Icon::for_string(&x).ok()) {
         let img = gtk::Image::from_gicon(&g_icon, gtk::IconSize::Dialog);
         img.set_pixel_size(128);
         dialog.icon().add(&img);

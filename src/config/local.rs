@@ -1,5 +1,4 @@
 use gio::prelude::*;
-use glib::translate::*;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Repository {
@@ -25,12 +24,12 @@ fn default_mount_path() -> std::path::PathBuf {
 
 impl Repository {
     pub fn from_path(path: std::path::PathBuf) -> Self {
-        let file = gio::File::new_for_path(&path);
+        let file = gio::File::for_path(&path);
 
         if let Ok(mount) = file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
             Self::from_mount(mount, path, file.uri().to_string())
         } else {
-            let mount_entry = g_unix_mount_for(&path).map(|x| x.0);
+            let mount_entry = gio::UnixMountEntry::for_file_path(&path).0;
 
             Self {
                 path,
@@ -84,18 +83,5 @@ impl Repository {
 
     pub fn into_config(self) -> super::Repository {
         super::Repository::Local(self)
-    }
-}
-
-pub fn g_unix_mount_for<P: AsRef<std::path::Path>>(
-    file_path: P,
-) -> Option<(gio::UnixMountEntry, u64)> {
-    unsafe {
-        let mut time_read = std::mem::MaybeUninit::uninit();
-        let ret: Option<gio::UnixMountEntry> = from_glib_none(gio_sys::g_unix_mount_for(
-            file_path.as_ref().to_glib_none().0,
-            time_read.as_mut_ptr(),
-        ));
-        ret.map(|x| (x, time_read.assume_init()))
     }
 }

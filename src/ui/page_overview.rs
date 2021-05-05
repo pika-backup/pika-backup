@@ -120,7 +120,7 @@ fn refresh() {
 
         // Repo Icon
 
-        if let Ok(icon) = gio::Icon::new_for_string(&config.repo.icon_symbolic()) {
+        if let Ok(icon) = gio::Icon::for_string(&config.repo.icon_symbolic()) {
             row.location_icon()
                 .set_from_gicon(&icon, gtk::IconSize::Button);
         }

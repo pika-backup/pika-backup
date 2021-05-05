@@ -37,7 +37,7 @@ pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::Dial
         ui.dialog().hide();
 
         let uri = name;
-        if let Some(path) = gio::File::new_for_uri(&uri).path() {
+        if let Some(path) = gio::File::for_uri(&uri).path() {
             execute(
                 add_repo_config(local::Repository::from_path(path).into_config(), ui.clone()),
                 ui.dialog(),
@@ -75,7 +75,7 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resul
     ui.dialog().hide();
 
     let url = ui.location_url().text();
-    let file = gio::File::new_for_uri(&url);
+    let file = gio::File::for_uri(&url);
     debug!("Add existing URI '{:?}'", file.path());
 
     let repo = if url.get(..6) == Some("ssh://") {
@@ -116,7 +116,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
                 file.find_enclosing_mount(Some(&gio::Cancellable::new()))
                     .ok()
             }) {
-                let uri = gio::File::new_for_path(&path).uri().to_string();
+                let uri = gio::File::for_path(&path).uri().to_string();
                 Ok(local::Repository::from_mount(mount, path, uri).into_config())
             } else {
                 Ok(local::Repository::from_path(path).into_config())
@@ -126,7 +126,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
         }
     } else {
         let url = ui.location_url().text().to_string();
-        let file = gio::File::new_for_uri(&ui.location_url().text());
+        let file = gio::File::for_uri(&ui.location_url().text());
 
         if url.is_empty() {
             Err(Message::short(gettext("A repository location has to be given.")).into())
@@ -274,7 +274,7 @@ async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<l
             file.uri()
         };
 
-        ui::dialog_device_missing::mount_enclosing(&gio::File::new_for_uri(&mount_uri)).await?;
+        ui::dialog_device_missing::mount_enclosing(&gio::File::for_uri(&mount_uri)).await?;
 
         if let (Ok(mount), Some(path)) = (
             file.find_enclosing_mount(Some(&gio::Cancellable::new())),

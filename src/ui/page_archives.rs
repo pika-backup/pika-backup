@@ -123,7 +123,7 @@ fn ui_update_archives_spinner() {
 
 fn show_dir(path: &std::path::Path) -> Result<()> {
     main_ui().pending_menu().hide();
-    let uri = gio::File::new_for_path(&path).uri();
+    let uri = gio::File::for_path(&path).uri();
 
     // only open if app isn't closing in this moment
     if !**IS_SHUTDOWN.load() {

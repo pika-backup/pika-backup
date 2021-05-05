@@ -90,7 +90,7 @@ fn on_startup(_app: &gio::Application) {
 }
 
 fn init_config_monitor() -> Result<()> {
-    let file = gio::File::new_for_path(&config::Backups::default_path()?);
+    let file = gio::File::for_path(&config::Backups::default_path()?);
     let monitor = file.monitor_file(gio::FileMonitorFlags::NONE, None::<&gio::Cancellable>)?;
     monitor.connect_changed(on_config_change);
     SERVICE.with(|service| {

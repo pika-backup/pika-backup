@@ -344,7 +344,7 @@ pub fn clear(listbox: &gtk::ListBox) {
 
 pub fn file_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk::Image> {
     let none: Option<&gio::Cancellable> = None;
-    let file = gio::File::new_for_path(path);
+    let file = gio::File::for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
     if let Ok(info) = info {
         let icon = info.icon();
@@ -356,7 +356,7 @@ pub fn file_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk
 
 pub fn file_symbolic_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk::Image> {
     let none: Option<&gio::Cancellable> = None;
-    let file = gio::File::new_for_path(path);
+    let file = gio::File::for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
     if let Ok(info) = info {
         let icon = info.symbolic_icon();

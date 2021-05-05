@@ -1,22 +1,22 @@
-test:
-  image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:40
-  interruptible: true
-  tags:
-    - flatpak
-  variables:
-    FLATPAK_MODULE: pika-backup
-    MANIFEST_PATH: build-aux/org.gnome.World.PikaBackup.Devel.json
-  script:
-    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
-    - flatpak build-finish --socket=x11 --share=network flatpak_app
-    - >
-      xvfb-run -a -s "-screen 0 1024x768x24"
-      flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} <<END
-
-      LANG=C.UTF-8
-      NO_AT_BRIDGE=1
-      dbus-run-session
-      meson test --no-stdsplit --print-errorlogs
+#test:
+#  image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:40
+#  interruptible: true
+#  tags:
+#    - flatpak
+#  variables:
+#    FLATPAK_MODULE: pika-backup
+#    MANIFEST_PATH: build-aux/org.gnome.World.PikaBackup.Devel.json
+#  script:
+#    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+#    - flatpak build-finish --socket=x11 --share=network flatpak_app
+#    - >
+#      xvfb-run -a -s "-screen 0 1024x768x24"
+#      flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} <<END
+#
+#      LANG=C.UTF-8
+#      NO_AT_BRIDGE=1
+#      dbus-run-session
+#      meson test --no-stdsplit --print-errorlogs
 
 cargo-audit:
   interruptible: true
