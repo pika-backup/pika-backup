@@ -261,8 +261,8 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
         row.add(&browse_row);
 
         browse_row.connect_activated(
-                    enclose!((repo_id, archive_name) move |_| Handler::run(on_browse_archive(archive_name.clone()))),
-                );
+            enclose!((archive_name) move |_| Handler::run(on_browse_archive(archive_name.clone()))),
+        );
 
         main_ui().archive_list().add(&row);
     }

@@ -75,11 +75,9 @@ impl Status {
     }
 
     pub fn skip_remaining(&self) -> Option<f64> {
-        if let Some(size) = &self.estimated_size {
-            Some(positive(size.unchanged() as f64 - self.skipped()))
-        } else {
-            None
-        }
+        self.estimated_size
+            .as_ref()
+            .map(|size| positive(size.unchanged() as f64 - self.skipped()))
     }
 
     pub fn copy_remaining(&self) -> Option<f64> {

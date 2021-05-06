@@ -384,7 +384,7 @@ pub fn refresh() -> Result<()> {
     // include list
     ui::utils::clear(&main_ui().include());
     // TODO: Warn if there a no includes, disable backup button
-    for file in backup.include.iter() {
+    for file in &backup.include {
         if *file == std::path::PathBuf::new() {
             continue;
         }
@@ -412,7 +412,7 @@ pub fn refresh() -> Result<()> {
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
-    for pattern in backup.exclude.clone().into_iter() {
+    for pattern in backup.exclude.clone() {
         match pattern {
             config::Pattern::PathPrefix(file) => {
                 let button = add_list_row(&main_ui().backup_exclude(), &file);

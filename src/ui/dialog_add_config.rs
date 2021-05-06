@@ -134,11 +134,9 @@ async fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) -> Resu
         let paths = ui::utils::spawn_thread("check_mount_for_repos", move || {
             let mut paths = Vec::new();
             if let Ok(dirs) = mount_point.read_dir() {
-                for dir in dirs {
-                    if let Ok(path) = dir {
-                        if ui::utils::is_backup_repo(&path.path()) {
-                            paths.push(path.path());
-                        }
+                for path in dirs.flatten() {
+                    if ui::utils::is_backup_repo(&path.path()) {
+                        paths.push(path.path());
                     }
                 }
             }
