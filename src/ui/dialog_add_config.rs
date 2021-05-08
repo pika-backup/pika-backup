@@ -130,7 +130,7 @@ fn load_available_mounts_and_repos(ui: Rc<builder::DialogAddConfig>) {
 
 async fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) -> Result<()> {
     if let Some(mount_point) = mount.root().path() {
-        add_mount(&ui.init_repo_list(), &mount, None);
+        add_mount(&ui.init_repo_list(), &mount, None).await;
         let paths = ui::utils::spawn_thread("check_mount_for_repos", move || {
             let mut paths = Vec::new();
             if let Ok(dirs) = mount_point.read_dir() {
@@ -153,7 +153,7 @@ async fn load_mount(ui: Rc<builder::DialogAddConfig>, mount: gio::Mount) -> Resu
             Ok(paths) => {
                 for path in paths {
                     trace!("Adding repo to ui '{:?}'", path);
-                    add_mount(&ui.add_repo_list(), &mount, Some(&path));
+                    add_mount(&ui.add_repo_list(), &mount, Some(&path)).await;
                 }
             }
         }
@@ -211,7 +211,7 @@ fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
     }
 }
 
-fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
+async fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
     let row = ui::utils::new_action_row_with_gicon(Some(mount.icon().as_ref()));
     list.add(&row);
 
@@ -226,14 +226,14 @@ fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::P
         .map(Into::into)
         .unwrap_or_else(|| mount.root().uri().to_string());
 
-    if let Ok(df) = ui::utils::df::local(&mount.root()) {
-        label1.push_str(&format!(" – {}", &glib::format_size(df.size)));
-
-        label2.push_str(" – ");
-        label2.push_str(&gettextf("Free space: {}", &[&glib::format_size(df.avail)]));
-    }
-
     if let Some(mount_path) = mount.root().path() {
+        if let Ok(df) = ui::utils::df::local(&mount_path).await {
+            label1.push_str(&format!(" – {}", &glib::format_size(df.size)));
+
+            label2.push_str(" – ");
+            label2.push_str(&gettextf("Free space: {}", &[&glib::format_size(df.avail)]));
+        }
+
         if let Some(repo_path) = repo {
             row.set_widget_name(&gio::File::for_path(repo_path).uri());
             if let Ok(suffix) = repo_path.strip_prefix(mount_path) {

@@ -34,7 +34,7 @@ pub async fn cached_or_lookup(config: &config::Backup) -> Option<Space> {
 
 pub async fn lookup_and_cache(config: &config::Backup) -> Result<Space> {
     let space = match &config.repo {
-        config::Repository::Local(repo) => local(&gio::File::for_path(&repo.path())),
+        config::Repository::Local(repo) => local(&repo.path()).await,
         config::Repository::Remote(repo) => remote(&repo.uri).await,
     }?;
 
@@ -90,9 +90,11 @@ pub async fn remote(server: &str) -> Result<Space> {
     })
 }
 
-pub fn local(root: &gio::File) -> Result<Space> {
-    let none: Option<&gio::Cancellable> = None;
-    let fsinfo = root.query_filesystem_info("*", none)?;
+pub async fn local(root: &std::path::Path) -> Result<Space> {
+    let fsinfo = gio::File::for_path(root)
+        .query_filesystem_info_async_future("*", Default::default())
+        .await?;
+
     Ok(Space {
         size: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_SIZE),
         used: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_USED),
@@ -107,6 +109,7 @@ quick_error! {
         ParseInt(err: std::num::ParseIntError) { from() }
         StdIo(err: std::io::Error) { from() }
         Url(err: url::ParseError) { from() }
+        TheadPaniced(err: futures::channel::oneshot::Canceled) { from() }
         Other(err: String) { from(err: &str) -> (err.to_string()) }
     }
 }
