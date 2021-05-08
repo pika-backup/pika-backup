@@ -13,7 +13,7 @@ quick_error! {
     pub enum Combined {
         Ui(err: Error) {
             from()
-            from(err: UserCanceled) -> (Error::UserCanceled)
+            from(_err: UserCanceled) -> (Error::UserCanceled)
         }
         Borg(err: borg::Error) { from () }
     }
@@ -67,7 +67,7 @@ quick_error! {
     pub enum Error {
         Message(err: Message) {
             from()
-            from(err: futures::channel::oneshot::Canceled) ->
+            from(_err: futures::channel::oneshot::Canceled) ->
                 (Message::short(gettext("The operation terminated unexpectedly.")))
             from(err: config::error::BackupExists) ->
                 (Message::short(gettextf(
