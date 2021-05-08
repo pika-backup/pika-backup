@@ -82,10 +82,11 @@ pub async fn remote(server: &str) -> Result<Space> {
         .map(str::to_string)
         .collect();
 
+    // df gives us kb not bytes
     Ok(Space {
-        size: df.get(0).ok_or("First column missing.")?.parse()?,
-        used: df.get(1).ok_or("Second column missing.")?.parse()?,
-        avail: df.get(2).ok_or("Third column missing.")?.parse()?,
+        size: 1024 * df.get(0).ok_or("First column missing.")?.parse::<u64>()?,
+        used: 1024 * df.get(1).ok_or("Second column missing.")?.parse::<u64>()?,
+        avail: 1024 * df.get(2).ok_or("Third column missing.")?.parse::<u64>()?,
     })
 }
 
