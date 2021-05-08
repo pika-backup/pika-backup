@@ -372,5 +372,5 @@ impl Backups {
 }
 
 pub fn absolute(path: &path::Path) -> path::PathBuf {
-    glib::home_dir().unwrap().join(path)
+    glib::home_dir().join(path)
 }

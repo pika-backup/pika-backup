@@ -509,7 +509,7 @@ async fn confirm_remove_include(path: &std::path::Path) -> bool {
 
 /// Returns a relative path for sub directories of home
 fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
-    if let Ok(rel_path) = path.strip_prefix(glib::home_dir().unwrap().as_path()) {
+    if let Ok(rel_path) = path.strip_prefix(glib::home_dir().as_path()) {
         rel_path.to_path_buf()
     } else {
         path.to_path_buf()

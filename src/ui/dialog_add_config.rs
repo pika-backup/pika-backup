@@ -82,7 +82,7 @@ pub fn new_backup() {
 fn on_path_change(ui: &builder::DialogAddConfig) {
     if let Some(path) = ui.init_path().filename() {
         let mount_entry = gio::UnixMountEntry::for_file_path(&path);
-        if let Some(fs) = mount_entry.0.and_then(|x| x.fs_type()) {
+        if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
             debug!("Selected filesystem type {}", fs);
             ui.non_journaling_warning()
                 .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
@@ -166,7 +166,7 @@ fn show_init(ui: &builder::DialogAddConfig) {
     ui.init_dir().set_text(&format!(
         "backup-{}-{}",
         glib::host_name(),
-        glib::user_name().unwrap().to_string_lossy()
+        glib::user_name().to_string_lossy()
     ));
     ui.password_quality().set_value(0.0);
     on_path_change(ui);

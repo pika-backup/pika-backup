@@ -99,7 +99,7 @@ impl Borg {
     }
 
     pub fn mount_dir() -> std::path::PathBuf {
-        glib::home_dir().unwrap().join(crate::REPO_MOUNT_DIR)
+        glib::home_dir().join(crate::REPO_MOUNT_DIR)
     }
 
     pub fn mount_point(repo_id: &RepoId) -> std::path::PathBuf {

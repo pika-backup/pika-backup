@@ -35,13 +35,13 @@ impl Repository {
                 path,
                 mount_path: default_mount_path(),
                 uri: None,
-                icon: mount_entry.as_ref().and_then(|x| {
-                    IconExt::to_string(&x.guess_icon().unwrap()).map(|x| x.to_string())
-                }),
+                icon: mount_entry
+                    .as_ref()
+                    .and_then(|x| IconExt::to_string(&x.guess_icon()).map(|x| x.to_string())),
                 icon_symbolic: mount_entry.as_ref().and_then(|x| {
-                    IconExt::to_string(&x.guess_symbolic_icon().unwrap()).map(|x| x.to_string())
+                    IconExt::to_string(&x.guess_symbolic_icon()).map(|x| x.to_string())
                 }),
-                mount_name: mount_entry.map(|x| x.guess_name().unwrap().to_string()),
+                mount_name: mount_entry.map(|x| x.guess_name().to_string()),
                 drive_name: None,
                 removable: false,
                 volume_uuid: None,
