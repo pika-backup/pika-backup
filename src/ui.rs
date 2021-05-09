@@ -279,15 +279,18 @@ fn load_config_e() -> std::io::Result<()> {
             CONFIG_DIR.join(env!("CARGO_PKG_NAME")).join("config.json"),
             CONFIG_DIR.join(env!("CARGO_PKG_NAME")).join("backup.json"),
         )?;
-        let dialog = gtk::MessageDialog::new(
-            Some(&main_ui().window()),
-            gtk::DialogFlags::MODAL,
-            gtk::MessageType::Info,
-            gtk::ButtonsType::Ok,
-            &gettext("Welcome to Pika Backup version 0.3.\n\nPlease note: The information about the last backup cannot be transferred from the previous version of Pika Backup. It will be available again after the next backup."),
-        );
-        dialog.connect_response(|dialog, _| dialog.close());
-        dialog.show();
+        glib::timeout_add_local(1000, || {
+            let dialog = gtk::MessageDialog::new(
+                Some(&main_ui().window()),
+                gtk::DialogFlags::MODAL,
+                gtk::MessageType::Info,
+                gtk::ButtonsType::Ok,
+                &gettext("Welcome to Pika Backup version 0.3.\n\nPlease note: The information about the last backup cannot be transferred from the previous version of Pika Backup. It will be available again after the next backup."),
+            );
+            dialog.connect_response(|dialog, _| dialog.close());
+            dialog.show();
+            Continue(false)
+        });
     }
 
     let config = config::Backups::from_default_path()?;
