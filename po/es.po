@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-04-06 18:11+0000\n"
-"PO-Revision-Date: 2021-04-14 23:29+0200\n"
+"POT-Creation-Date: 2021-05-10 06:14+0000\n"
+"PO-Revision-Date: 2021-05-09 21:21+0200\n"
 "Last-Translator: Jorge Toledo <jorge@lacajita.es>\n"
 "Language-Team: Spanish; Castilian <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -140,7 +140,7 @@ msgstr "Usar un repositorio existente"
 msgid "Location"
 msgstr "Ubicación"
 
-#: data/ui/dialog_add_config.ui:346
+#: data/ui/dialog_add_config.ui:346 src/borg/msg.rs:162
 msgid "Warning"
 msgstr "Advertencia"
 
@@ -174,11 +174,11 @@ msgstr ""
 "contraseña. Si se usa cifrado se necesita la contraseña para acceder a los "
 "respaldos."
 
-#: data/ui/dialog_add_config.ui:472 data/ui/dialog_encryption_password.ui:164
+#: data/ui/dialog_add_config.ui:472 data/ui/dialog_encryption_password.ui:175
 msgid "Encryption"
 msgstr "Cifrado"
 
-#: data/ui/dialog_add_config.ui:565 src/ui/page_detail.rs:503
+#: data/ui/dialog_add_config.ui:565 src/ui/page_backup.rs:504
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -218,9 +218,9 @@ msgstr "Configuración avanzada"
 msgid "Backup Configuration"
 msgstr "Configuración del respaldo"
 
-#: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:132
-#: data/ui/dialog_encryption_password.ui:167 src/ui/page_detail.rs:502
-#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:122
+#: data/ui/dialog_add_config.ui:766 data/ui/dialog_device_missing.ui:117
+#: data/ui/dialog_encryption_password.ui:178 src/ui/page_backup.rs:503
+#: src/ui/page_overview.rs:68 src/ui/utils/borg.rs:123
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -261,20 +261,20 @@ msgstr ""
 "Aparte de eso, se soportan todos los prefijos soportados por el sistema "
 "virtual de archivos de GNOME."
 
-#: data/ui/dialog_device_missing.ui:57
-msgid "Please insert the backup medium"
-msgstr "Inserte el medio del respaldo"
+#: data/ui/dialog_device_missing.ui:59
+msgid "The following backup location needs to be connected:"
+msgstr "Es necesario conectar la siguiente ubicación de respaldo:"
 
 #: data/ui/dialog_encryption_password.ui:105
 msgid "Forget password immediately"
 msgstr "Olvidar la contraseña inmediatamente"
 
 #: data/ui/dialog_encryption_password.ui:130
-msgid "This task requires the encryption password of this repository"
-msgstr "Esta tarea necesita la contraseña de cifrado de este repositorio"
+msgid "This requires the encryption password of the repository."
+msgstr "Esto requiere la contraseña de cifrado de este repositorio."
 
-#: data/ui/dialog_encryption_password.ui:175 src/ui.rs:190
-#: src/ui/page_detail.rs:141
+#: data/ui/dialog_encryption_password.ui:186 src/ui.rs:177
+#: src/ui/page_backup.rs:139
 msgid "Continue"
 msgstr "Continuar"
 
@@ -404,55 +404,111 @@ msgstr "Añadir una configuración nueva para empezar a crear respaldos"
 msgid "Configure Backup"
 msgstr "Configurar respaldo"
 
-#: data/ui/main.ui:1176
+#: data/ui/main.ui:1170
 msgid "Amount saved"
 msgstr "Cantidad guardada"
 
-#: data/ui/main.ui:1196
+#: data/ui/main.ui:1190
 msgid "Number of files saved"
 msgstr "Número de archivos guardados"
 
-#: data/ui/main.ui:1216
+#: data/ui/main.ui:1210
 msgid "Backup space needed"
 msgstr "Espacio de respaldo necesario"
 
-#: data/ui/main.ui:1236
+#: data/ui/main.ui:1230
 msgid "Current file"
 msgstr "Archivo actual"
 
-#: data/ui/main.ui:1309
+#: data/ui/main.ui:1302
 msgid "Backup Info"
 msgstr "Información del respaldo"
 
-#: src/borg/error.rs:33
-msgid "Aborted through user input."
-msgstr "Cancelado por acción del usuario."
-
-#: src/borg/error.rs:34 src/ui/error.rs:71 src/ui/utils.rs:162
+#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:162
 msgid "The operation terminated unexpectedly."
 msgstr "La operación ha terminado de manera inesperada."
 
-#: src/ui.rs:188 src/ui/page_detail.rs:139
+#: src/borg/error.rs:84
+msgid "Completed"
+msgstr "Completado"
+
+#: src/borg/error.rs:99
+msgid "Aborted on user request."
+msgstr "Cancelado por solicitud del usuario."
+
+#: src/borg/error.rs:127
+msgid "Connection closed by remote host."
+msgstr "Conexión cerrada por el equipo remoto."
+
+#: src/borg/error.rs:129 src/ui/utils/borg.rs:121
+msgid "Repository already in use."
+msgstr "El repositorio ya está en uso."
+
+#: src/borg/error.rs:130
+msgid "Invalid encryption password."
+msgstr "Contraseña de cifrado incorrecta."
+
+#: src/borg/error.rs:132
+msgid "A repository already exists at this location."
+msgstr "Ya existe un repositorio en esta ubicación."
+
+#: src/borg/error.rs:134
+msgid "No repository exists at this location."
+msgstr "No existe ningún repositorio en esta ubicación."
+
+#: src/borg/error.rs:137
+msgid "Connection closed by remote host: „{}“"
+msgstr "Conexión cerrada por el equipo remoto: „{}“"
+
+#: src/borg/error.rs:140
+msgid "Unspecified error."
+msgstr "Error no especificado."
+
+#: src/borg/msg.rs:134
+msgid "Standard error output"
+msgstr "Salida de error estándar"
+
+#: src/borg/msg.rs:160
+msgid "Debug"
+msgstr "Depurar"
+
+#: src/borg/msg.rs:161
+msgid "Info"
+msgstr "Info"
+
+#: src/borg/msg.rs:163
+msgid "Error"
+msgstr "Error"
+
+#: src/borg/msg.rs:164
+msgid "Critical"
+msgstr "Crítico"
+
+#: src/borg/msg.rs:165
+msgid "Undefined"
+msgstr "No definido"
+
+#: src/ui.rs:175 src/ui/page_backup.rs:137
 msgid "Abort running backup creation?"
 msgstr "¿Cancelar la creación del respaldo en ejecución?"
 
-#: src/ui.rs:189 src/ui/page_detail.rs:140
+#: src/ui.rs:176 src/ui/page_backup.rs:138
 msgid "The backup will remain incomplete if aborted now."
 msgstr "El respaldo estará incompleto si lo cancela ahora."
 
-#: src/ui.rs:191 src/ui/page_detail.rs:142
+#: src/ui.rs:178 src/ui/page_backup.rs:140
 msgid "Abort"
 msgstr "Cancelar"
 
-#: src/ui.rs:243
+#: src/ui.rs:230
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Falló al ejecutar «borg». ¿Está borg-backup instalado correctamente?"
 
-#: src/ui.rs:261
+#: src/ui.rs:248
 msgid "Borg version too old."
 msgstr "La versión de Borg es demasiado antigua."
 
-#: src/ui.rs:263
+#: src/ui.rs:250
 msgid ""
 "The installed version of borg-backup is too old. Some features requiring "
 "borg-backup version {}.{} will not work."
@@ -460,7 +516,7 @@ msgstr ""
 "La versión instalada de borg-backup es muy antigua. Algunas características "
 "necesitan la versión {} de borg-backup. {} no funcionará."
 
-#: src/ui.rs:296
+#: src/ui.rs:287
 msgid ""
 "Welcome to Pika Backup version 0.3.\n"
 "\n"
@@ -474,69 +530,69 @@ msgstr ""
 "transferirse desde la versión anterior de Copia de respaldo Pika. Volverá a "
 "estar disponible después del próximo respaldo."
 
-#: src/ui.rs:314
+#: src/ui.rs:305
 msgid "Could not load configuration file."
 msgstr "No se pudo cargar el archivo de configuración."
 
-#: src/ui.rs:333
+#: src/ui.rs:324
 msgid "Could not write configuration file."
 msgstr "No se pudo escribir en el archivo de configuración."
 
-#: src/ui/backup_status.rs:52
-msgid "Last backup successful"
-msgstr "Último respaldo realizado con éxito"
-
-#: src/ui/backup_status.rs:59
-msgid "Last backup failed"
-msgstr "Falló el último respaldo"
-
-#: src/ui/backup_status.rs:66
+#: src/ui/backup_status.rs:56
 msgid "Last backup completed with warnings"
 msgstr "Último respaldo completado con advertencias"
 
-#: src/ui/backup_status.rs:95
+#: src/ui/backup_status.rs:64
+msgid "Last backup successful"
+msgstr "Último respaldo realizado con éxito"
+
+#: src/ui/backup_status.rs:71
+msgid "Last backup failed"
+msgstr "Falló el último respaldo"
+
+#: src/ui/backup_status.rs:100
 #, no-c-format
 msgid "{} % finished"
 msgstr "{} % terminado"
 
-#: src/ui/backup_status.rs:112
+#: src/ui/backup_status.rs:117
 msgid "Updating repository information"
 msgstr "Actualizando información de repositorio"
 
-#: src/ui/backup_status.rs:126
+#: src/ui/backup_status.rs:131
 #, no-c-format
 msgid "{} % prepared"
 msgstr "{} % preparado"
 
-#: src/ui/backup_status.rs:136
+#: src/ui/backup_status.rs:141
 msgid "Preparing backup"
 msgstr "Preparando respaldo"
 
-#: src/ui/backup_status.rs:137
+#: src/ui/backup_status.rs:142
 msgid "Estimating backup size"
 msgstr "Tamaño estimado del respaldo"
 
-#: src/ui/backup_status.rs:138
+#: src/ui/backup_status.rs:143
 msgid "Backup running"
 msgstr "Respaldo en ejecución"
 
-#: src/ui/backup_status.rs:141
+#: src/ui/backup_status.rs:146
 msgid "Connection lost, reconnecting in {}"
 msgstr "Se perdió la conexión, volviendo a conectar en {}"
 
-#: src/ui/backup_status.rs:146
+#: src/ui/backup_status.rs:151
 msgid "Reconnecting"
 msgstr "Reconectando"
 
-#: src/ui/backup_status.rs:148
+#: src/ui/backup_status.rs:153
 msgid "Stopping backup"
 msgstr "Detener respaldo"
 
-#: src/ui/backup_status.rs:164
+#: src/ui/backup_status.rs:169
 msgid "Backup never ran"
 msgstr "El respaldo no se ha ejecutado nunca"
 
-#: src/ui/backup_status.rs:165
+#: src/ui/backup_status.rs:170
 msgid "Start by creating your first backup"
 msgstr "Empiece creando su primer respaldo"
 
@@ -552,24 +608,25 @@ msgstr "Copyright © 2018–2021 Sophie Herold y otros."
 msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2020-2021"
 
-#: src/ui/dialog_about.rs:27
+#. Translators: This is an inside joke
+#: src/ui/dialog_about.rs:29
 msgid "Court Witch"
 msgstr "Court Witch"
 
-#: src/ui/dialog_about.rs:27
+#: src/ui/dialog_about.rs:30
 msgid "Fina Wilke"
 msgstr "Fina Wilke"
 
-#: src/ui/dialog_add_config.rs:152
+#: src/ui/dialog_add_config.rs:150
 msgid "Failed to list existing repositories."
 msgstr "Falló al listar los repositorios existentes"
 
-#: src/ui/dialog_add_config.rs:240
+#: src/ui/dialog_add_config.rs:234
 msgid "Free space: {}"
 msgstr "Espacio libre: {}"
 
 #: src/ui/dialog_add_config/insert.rs:36 src/ui/dialog_add_config/insert.rs:56
-#: src/ui/dialog_add_config/insert.rs:74
+#: src/ui/dialog_add_config/insert.rs:74 src/ui/dialog_add_config/insert.rs:199
 msgid "Loading backup repository"
 msgstr "Cargando repositorio de respaldo"
 
@@ -605,36 +662,33 @@ msgid "A repository location has to be given."
 msgstr "Se debe indicar la ubicación de un repositorio."
 
 #: src/ui/dialog_add_config/insert.rs:148
-#: src/ui/dialog_add_config/insert.rs:260
+#: src/ui/dialog_add_config/insert.rs:253
 msgid "Additional command line arguments invalid."
 msgstr "Argumentos adicionales de la línea de comandos no válidos."
 
 #: src/ui/dialog_add_config/insert.rs:149
-#: src/ui/dialog_add_config/insert.rs:261
+#: src/ui/dialog_add_config/insert.rs:254
 msgid "Please check for missing closing quotes."
 msgstr "Compruebe que no faltan comillas de cierre."
 
 #: src/ui/dialog_add_config/insert.rs:154
+#: src/ui/dialog_add_config/insert.rs:164
 msgid "Creating backup repository"
 msgstr "Creando repositorio de respaldo"
 
-#: src/ui/dialog_add_config/insert.rs:167
+#: src/ui/dialog_add_config/insert.rs:168
 msgid "Failed to initialize repository."
 msgstr "Falló al inicializar el repositorio."
 
-#: src/ui/dialog_add_config/insert.rs:175 src/ui/utils/secret_service.rs:55
+#: src/ui/dialog_add_config/insert.rs:176 src/ui/utils/secret_service.rs:56
 msgid "Failed to store password."
 msgstr "Falló al guardar la contraseña."
 
-#: src/ui/dialog_add_config/insert.rs:218
-msgid "There was an error with the specified repository"
-msgstr "Hubo un error con el repositorio especificado"
-
-#: src/ui/dialog_add_config/insert.rs:297
+#: src/ui/dialog_add_config/insert.rs:290
 msgid "Repository location not found."
 msgstr "Ubicación del repositorio no encontrada."
 
-#: src/ui/dialog_add_config/insert.rs:298
+#: src/ui/dialog_add_config/insert.rs:291
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "La operación de montaje ha sido correcta, pero la ubicación sigue sin estar "
@@ -649,67 +703,67 @@ msgid "Backup with id “{}” already exists."
 msgstr "Ya existe un respaldo con ID «{}»"
 
 #: src/ui/error.rs:79
-msgid "Could not find backup configuration with id “{}”"
-msgstr "No se pudo encontrar la configuración del respaldo con ID «{}»"
+msgid "Could not find backup configuration with id “{}”."
+msgstr "No se pudo encontrar la configuración del respaldo con ID «{}»."
 
-#: src/ui/page_archives.rs:43 src/ui/page_detail.rs:192
+#: src/ui/page_archives.rs:41 src/ui/page_backup.rs:190
 msgid "Failed to unmount repository."
 msgstr "Falló al desmontar el repositorio."
 
-#: src/ui/page_archives.rs:69
+#: src/ui/page_archives.rs:67
 msgid "Failed to refresh archives cache."
 msgstr "Falló al guardar la caché de archivadores."
 
-#: src/ui/page_archives.rs:143
+#: src/ui/page_archives.rs:141
 msgid "Failed to open archive."
 msgstr "Falló al abrir el archivador."
 
-#: src/ui/page_archives.rs:167
+#: src/ui/page_archives.rs:165
 msgid "Browse archive"
 msgstr "Examinar archivadores guardados"
 
-#: src/ui/page_archives.rs:179
+#: src/ui/page_archives.rs:177
 msgid "Failed to make archives available for browsing."
 msgstr "Falló al hacer que los archivadores se puedan examinar."
 
-#: src/ui/page_archives.rs:245
+#: src/ui/page_archives.rs:243
 msgid "Name"
 msgstr "Nombre"
 
-#: src/ui/page_archives.rs:247
+#: src/ui/page_archives.rs:245
 msgid "Duration"
 msgstr "Duración"
 
-#: src/ui/page_archives.rs:251
+#: src/ui/page_archives.rs:249
 msgid "Comment"
 msgstr "Comentario"
 
-#: src/ui/page_archives.rs:255
+#: src/ui/page_archives.rs:253
 msgid "Browse saved files"
 msgstr "Examinar archivos guardados"
 
-#: src/ui/page_detail.rs:177
+#: src/ui/page_backup.rs:175
 msgid "Backup on repository already running."
 msgstr "Respaldar en un repositorio que ya esté en ejecución."
 
-#: src/ui/page_detail.rs:184
+#: src/ui/page_backup.rs:182
 msgid "Stop browsing files and start backup?"
 msgstr "¿Quiere dejar de examinar archivos y empezar el respaldo?"
 
-#: src/ui/page_detail.rs:185
+#: src/ui/page_backup.rs:183
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "No se pueden examinar los archivos mientras se está realizando un respaldo."
 
-#: src/ui/page_detail.rs:186
+#: src/ui/page_backup.rs:184
 msgid "Keep Browsing"
 msgstr "Seguir examinando"
 
-#: src/ui/page_detail.rs:187
+#: src/ui/page_backup.rs:185
 msgid "Start Backup"
 msgstr "Iniciar respaldo"
 
-#: src/ui/page_detail.rs:248
+#: src/ui/page_backup.rs:244
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
@@ -717,41 +771,41 @@ msgstr ""
 "La ubicación de respaldo «{}» podría estar llenándose. Espacio faltante "
 "estimado para almacenar todos los datos: {}."
 
-#: src/ui/page_detail.rs:259
+#: src/ui/page_backup.rs:255
 msgid "Creating new backup."
 msgstr "Creando un nuevo respaldo."
 
-#: src/ui/page_detail.rs:299
+#: src/ui/page_backup.rs:295
 msgid "Creating a backup failed."
 msgstr "Falló al crear un respaldo."
 
-#: src/ui/page_detail.rs:301
+#: src/ui/page_backup.rs:301
 msgid "Backup completed with warnings."
 msgstr "Respaldo completado con advertencias."
 
-#: src/ui/page_detail.rs:372
+#: src/ui/page_backup.rs:374
 msgid "Remote location"
 msgstr "Ubicación remota"
 
-#: src/ui/page_detail.rs:436
+#: src/ui/page_backup.rs:438
 msgid "Regular Expression"
 msgstr "Expresión regular"
 
-#: src/ui/page_detail.rs:498
+#: src/ui/page_backup.rs:499
 msgid "No longer include “{}” in backups?"
 msgstr "¿Quiere no volver a incluir «{}» en los respaldos?"
 
-#: src/ui/page_detail.rs:501
+#: src/ui/page_backup.rs:502
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Todos los archivos de esta carpeta no formarán parte de futuros respaldos."
 
-#: src/ui/page_detail.rs:520
+#: src/ui/page_backup.rs:521
 msgid "Include directory in backups"
 msgstr "Incluir carpeta en los respaldos"
 
-#: src/ui/page_detail.rs:535
+#: src/ui/page_backup.rs:536
 msgid "Exclude directory from backup"
 msgstr "Excluir carpeta del respaldo"
 
@@ -767,7 +821,7 @@ msgstr "Eliminar la configuración no eliminará sus datos guardados."
 msgid "Delete"
 msgstr "Eliminar"
 
-#: src/ui/page_overview.rs:81 src/ui/utils/secret_service.rs:59
+#: src/ui/page_overview.rs:81 src/ui/utils/secret_service.rs:60
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Falló al eliminar las posibles contraseñas restantes del depósito de claves."
@@ -780,22 +834,18 @@ msgstr "Actualizando la configuración a la nueva versión"
 msgid "Failed to retrieve backup information."
 msgstr "Falló al obtener la información del respaldo."
 
-#: src/ui/utils.rs:63
+#: src/ui/utils.rs:61
 msgid "Schedule and continue running backups in background."
 msgstr "Planificar y continuar ejecutando respaldos en segundo plano."
 
-#: src/ui/utils/borg.rs:120
-msgid "Repository already in use."
-msgstr "El repositorio ya está en uso."
-
-#: src/ui/utils/borg.rs:121
+#: src/ui/utils/borg.rs:122
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, your computer lost power while using the "
 "repository.\n"
 "\n"
 "Only continue if you know that the repository is not used by any program! "
-"Continuing while an other program uses the repository might corrupt backup "
+"Continuing while another program uses the repository might corrupt backup "
 "data!"
 msgstr ""
 "El repositorio de respaldo está marcado como en uso. Esta información puede "
@@ -804,9 +854,9 @@ msgstr ""
 "\n"
 "Continúe solamente si sabe que ningún programa está usando el repositorio. "
 "Continuar mientras otro programa usa el repositorio podría corromper los "
-"datos."
+"datos de respaldo."
 
-#: src/ui/utils/borg.rs:123
+#: src/ui/utils/borg.rs:124
 msgid "Continue Anyway"
 msgstr "Continuar de todas formas"
 
@@ -900,6 +950,12 @@ msgstr "Falló al guardar la caché."
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Contraseña de Copia de respaldo Pika"
+
+#~ msgid "Please insert the backup medium"
+#~ msgstr "Inserte el medio del respaldo"
+
+#~ msgid "There was an error with the specified repository"
+#~ msgstr "Hubo un error con el repositorio especificado"
 
 #~ msgid "Create Backup"
 #~ msgstr "Crear respaldo"
