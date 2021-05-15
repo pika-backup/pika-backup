@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 (UNRELEASED)
+## 0.3.0 (2021-05-15)
 
 - Adds basic explanation to URL field when creating new repository
 - Adds button to unmount archives
