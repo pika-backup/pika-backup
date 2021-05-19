@@ -39,7 +39,12 @@ pub fn main() {
         |_, _, _| {},
     );
 
-    if let Err(err) = gettextrs::TextDomain::new(env!("CARGO_PKG_NAME"))
+    let mut text_domain = gettextrs::TextDomain::new(env!("CARGO_PKG_NAME"));
+    if let Some(localedir) = option_env!("LOCALEDIR") {
+        text_domain = text_domain.prepend(localedir);
+    }
+
+    if let Err(err) = text_domain
         .locale_category(gettextrs::LocaleCategory::LcAll)
         .init()
     {
