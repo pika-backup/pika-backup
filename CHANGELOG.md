@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.3.0 (UNRELEASED)
+## 0.3.1 (2021-05-20)
+
+- Fixes localization not working in flatpak
+- Fixes existing env var LD_PRELOAD on host makes remote backups unusable
+
+## 0.3.0 (2021-05-15)
 
 - Adds basic explanation to URL field when creating new repository
 - Adds button to unmount archives
