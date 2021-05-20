@@ -39,17 +39,16 @@ pub fn main() {
         |_, _, _| {},
     );
 
-    let mut text_domain = gettextrs::TextDomain::new(env!("CARGO_PKG_NAME"));
-    if let Some(localedir) = option_env!("LOCALEDIR") {
-        text_domain = text_domain.prepend(localedir);
-    }
-
-    if let Err(err) = text_domain
-        .locale_category(gettextrs::LocaleCategory::LcAll)
-        .init()
-    {
-        info!("TextDomain::init() failed: {}", err);
-    }
+    gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
+    let localedir = option_env!("LOCALEDIR").unwrap_or(crate::DEFAULT_LOCALEDIR);
+    debug!(
+        "bindtextdomain: {:?}",
+        gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), localedir)
+    );
+    debug!(
+        "textdomain: {:?}",
+        gettextrs::textdomain(env!("CARGO_PKG_NAME"))
+    );
 
     gtk_app().connect_startup(on_startup);
     gtk_app().connect_activate(on_activate);

@@ -21,6 +21,8 @@ const BORG_MIN_MINOR: u32 = 1;
 
 const NON_JOURNALING_FILESYSTEMS: &[&str] = &["exfat", "ext2", "vfat"];
 
+const DEFAULT_LOCALEDIR: &str = "/usr/share/locale";
+
 macro_rules! data_dir {
     () => {
         concat!(env!("CARGO_MANIFEST_DIR"), "/data")
