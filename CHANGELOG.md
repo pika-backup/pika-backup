@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 (2021-05-28)
+
+- Correct an error in the Spanish translation.
+- Update Indonesian translation.
+- Add Polish translation.
+
 ## 0.3.1 (2021-05-20)
 
 - Fixes localization not working in flatpak
