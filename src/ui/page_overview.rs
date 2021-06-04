@@ -105,7 +105,7 @@ fn refresh() {
     });
 
     for config in BACKUP_CONFIG.load().iter() {
-        let list_row = libhandy::ActionRowBuilder::new().activatable(true).build();
+        let list_row = libhandy::ActionRow::builder().activatable(true).build();
         list.add(&list_row);
 
         list_row.connect_activated(enclose!((config) move |_| {
@@ -132,7 +132,7 @@ fn refresh() {
         // Include
 
         for path in &config.include {
-            let incl = gtk::BoxBuilder::new()
+            let incl = gtk::Box::builder()
                 .orientation(gtk::Orientation::Horizontal)
                 .spacing(6)
                 .build();
@@ -152,7 +152,7 @@ fn refresh() {
                 path.to_string_lossy().to_string()
             };
 
-            let label = gtk::LabelBuilder::new()
+            let label = gtk::Label::builder()
                 .label(&path_str)
                 .ellipsize(pango::EllipsizeMode::Middle)
                 .build();

@@ -37,7 +37,7 @@ thread_local!(
     static MAIN_UI_STORE: Rc<ui::builder::Main> = Rc::new(ui::builder::Main::new());
     static GTK_APPLICATION: Rc<gtk::Application> = Rc::new({
         debug!("Setting up application with id '{}'", crate::app_id());
-        gtk::ApplicationBuilder::new()
+        gtk::Application::builder()
             .application_id(&crate::app_id())
             .build()
     });

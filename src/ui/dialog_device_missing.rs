@@ -30,7 +30,7 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
     let mount_result = file.mount_enclosing_volume_future(
         gio::MountMountFlags::NONE,
         Some(
-            &gtk::MountOperationBuilder::new()
+            &gtk::MountOperation::builder()
                 .parent(&main_ui().window())
                 .build(),
         ),

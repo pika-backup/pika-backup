@@ -90,8 +90,7 @@ fn on_shutdown(app: &gtk::Application) {
 }
 
 fn on_startup(_app: &gtk::Application) {
-    // TODO: fix after libhandy is fixed
-    libhandy::functions::init();
+    libhandy::init();
     debug!("Signal 'startup'");
     load_config();
 

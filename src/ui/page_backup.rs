@@ -312,7 +312,7 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
 }
 
 pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
-    let row = libhandy::ActionRowBuilder::new()
+    let row = libhandy::ActionRow::builder()
         .title(&file.to_string_lossy())
         .activatable(false)
         .build();
@@ -322,7 +322,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
         row.add_prefix(&img);
     }
 
-    let button = gtk::ButtonBuilder::new()
+    let button = gtk::Button::builder()
         .child(&gtk::Image::from_icon_name(
             Some("edit-delete-symbolic"),
             gtk::IconSize::Button,
@@ -433,13 +433,13 @@ pub fn refresh() -> Result<()> {
                 });
             }
             config::Pattern::RegularExpression(regex) => {
-                let row = libhandy::ActionRowBuilder::new()
+                let row = libhandy::ActionRow::builder()
                     .title(regex.as_str())
                     .subtitle(&gettext("Regular Expression"))
                     .activatable(false)
                     .icon_name("folder-saved-search")
                     .build();
-                let button = gtk::ButtonBuilder::new()
+                let button = gtk::Button::builder()
                     .child(&gtk::Image::from_icon_name(
                         Some("edit-delete-symbolic"),
                         gtk::IconSize::Button,

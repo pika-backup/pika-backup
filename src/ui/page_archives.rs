@@ -212,7 +212,7 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
     ui_update_archives_spinner();
 
     for (archive_name, archive) in repo_cache.archives_sorted_by_date() {
-        let row = libhandy::ExpanderRowBuilder::new()
+        let row = libhandy::ExpanderRow::builder()
             .title(
                 &archive
                     .start
@@ -227,14 +227,14 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
             .build();
 
         let info = |title: String, info: &str| -> libhandy::ActionRow {
-            let label = gtk::LabelBuilder::new()
+            let label = gtk::Label::builder()
                 .label(info)
                 .wrap(true)
                 .wrap_mode(pango::WrapMode::WordChar)
                 .build();
             label.add_css_class("dim-label");
 
-            libhandy::ActionRowBuilder::new()
+            libhandy::ActionRow::builder()
                 .title(&title)
                 .child(&label)
                 .build()
@@ -249,7 +249,7 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
             row.add(&info(gettext("Comment"), &archive.comment));
         }
 
-        let browse_row = libhandy::ActionRowBuilder::new()
+        let browse_row = libhandy::ActionRow::builder()
             .title(&gettext("Browse saved files"))
             .activatable(true)
             .icon_name("folder-open-symbolic")

@@ -165,7 +165,7 @@ quick_error! {
 
 pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
     // TODO: maybe use a translated 'Select' string for accept_label()
-    let dialog = gtk::FileChooserNativeBuilder::new()
+    let dialog = gtk::FileChooserNative::builder()
         .title(title)
         .action(gtk::FileChooserAction::SelectFolder)
         .local_only(false)
@@ -239,7 +239,7 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
     );
 
     if crate::ui::app_window::is_displayed() {
-        let dialog = gtk::MessageDialogBuilder::new()
+        let dialog = gtk::MessageDialog::builder()
             .modal(true)
             .transient_for(window)
             .message_type(gtk::MessageType::Error)
@@ -306,7 +306,7 @@ impl ConfirmationDialog {
     }
 
     pub async fn ask(&self) -> std::result::Result<(), UserCanceled> {
-        let dialog = gtk::MessageDialogBuilder::new()
+        let dialog = gtk::MessageDialog::builder()
             .transient_for(&main_ui().window())
             .modal(true)
             .message_type(gtk::MessageType::Question)
@@ -367,7 +367,7 @@ pub fn file_symbolic_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> O
 }
 
 pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> libhandy::ActionRow {
-    let row = libhandy::ActionRowBuilder::new().activatable(true).build();
+    let row = libhandy::ActionRow::builder().activatable(true).build();
 
     if let Some(gicon) = icon {
         row.add_prefix(&gtk::Image::from_gicon(gicon, gtk::IconSize::Dnd));
