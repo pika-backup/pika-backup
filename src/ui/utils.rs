@@ -13,8 +13,6 @@ use crate::config;
 use crate::ui::prelude::*;
 
 use ashpd::desktop::background;
-use ashpd::desktop::background::Background;
-use ashpd::Response;
 
 use std::io::Read;
 
@@ -50,39 +48,21 @@ pub fn cache_dir() -> std::path::PathBuf {
         .collect()
 }
 
-#[doc(alias = "get_background_permission")]
-pub async fn background_permission() -> zbus::fdo::Result<bool> {
-    let connection = zbus::Connection::new_session()?;
-    let proxy = background::BackgroundProxy::new(&connection)?;
+pub async fn background_permission() -> std::result::Result<bool, ashpd::Error> {
+    let connection = ashpd::zbus::azync::Connection::new_session().await?;
+    let proxy = background::BackgroundProxy::new(&connection).await?;
 
-    let request_handle = proxy.request_background(
-        ashpd::WindowIdentifier::default(),
-        background::BackgroundOptions::default().reason(&gettext(
-            "Schedule and continue running backups in background.",
-        )),
-    )?;
+    let request_handle = proxy
+        .request_background(
+            ashpd::WindowIdentifier::default(),
+            &gettext("Schedule and continue running backups in background."),
+            false,
+            None,
+            true,
+        )
+        .await?;
 
-    let request = ashpd::RequestProxy::new(&connection, &request_handle)?;
-
-    let (sender, receiver) = futures::channel::oneshot::channel();
-
-    let sender = std::cell::Cell::new(Some(sender));
-
-    request.on_response(|response: Response<Background>| {
-        let result = match response {
-            Ok(background::Background { background, .. }) => background,
-            Err(err) => {
-                info!("background portal: Error: {:?}", err);
-                false
-            }
-        };
-
-        if let Some(m) = sender.replace(None) {
-            let _result = m.send(result);
-        }
-    })?;
-
-    Ok(receiver.await.unwrap_or(false))
+    Ok(request_handle.run_in_background())
 }
 
 pub trait LookupActiveConfigId<T> {
