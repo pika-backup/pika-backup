@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.4 (2021-09-07)
+
+- Fix metadata.
+- Flatpak: Fix minor bugs in backup engine. (New borg-backup version.)
+
 ## 0.3.3 (2021-09-07)
 
 - Update URLs in metadata.
