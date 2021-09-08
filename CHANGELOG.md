@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.5 (2021-09-08)
+
+- Fix metadata.
+
 ## 0.3.4 (2021-09-07)
 
 - Fix metadata.
