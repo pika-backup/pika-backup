@@ -42,9 +42,9 @@ cargo-fmt:
 pages:
   interruptible: true
   script:
-    - dnf update -y
-    - dnf install -y glib2-devel gtk3-devel libhandy-devel gobject-introspection-devel
+    - dnf install -y glib2-devel gtk3-devel libhandy-devel gobject-introspection-devel cairo-devel
     - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    - source "$HOME/.cargo/env"
     - cargo doc --no-deps --document-private-items
     - mkdir public
     - cp -r target/doc public/doc
