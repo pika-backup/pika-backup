@@ -15,7 +15,7 @@ else
 endif
 
 cargo_env = [
-  'CARGO_HOME=' + meson.build_root() / 'cargo-home',
+  'CARGO_HOME=' + meson.build_root() / 'cargo',
   'LOCALEDIR=' + get_option('prefix') / get_option('localedir'),
   'APPLICATION_ID_SUFFIX=' + get_option('app_id_suffix'),
 ]

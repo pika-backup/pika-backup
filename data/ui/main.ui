@@ -54,6 +54,113 @@ This might take a while.</property>
       </object>
     </child>
   </object>
+  <object class="GtkAdjustment" id="schedule_keep_annual_adj">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="schedule_keep_daily_adj">
+    <property name="lower">1</property>
+    <property name="upper">99</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="schedule_keep_monthly_adj">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="schedule_keep_weekly_adj">
+    <property name="lower">1</property>
+    <property name="upper">99</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkPopover" id="schedule_preferred_day_popover">
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkCalendar" id="schedule_preferred_day_calendar">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="year">2021</property>
+        <property name="month">1</property>
+        <property name="day">1</property>
+        <property name="show-heading">False</property>
+        <property name="show-day-names">False</property>
+        <property name="no-month-change">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="schedule_preferred_hour_adj">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="schedule_preferred_minute_adj">
+    <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkPopover" id="schedule_preferred_time_popover">
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">18</property>
+        <property name="margin-end">18</property>
+        <property name="margin-top">18</property>
+        <property name="margin-bottom">18</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkSpinButton" id="schedule_preferred_hour">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="max-length">2</property>
+            <property name="max-width-chars">2</property>
+            <property name="input-purpose">number</property>
+            <property name="orientation">vertical</property>
+            <property name="adjustment">schedule_preferred_hour_adj</property>
+            <property name="numeric">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">:</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="schedule_preferred_minute">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="max-length">2</property>
+            <property name="max-width-chars">2</property>
+            <property name="input-purpose">number</property>
+            <property name="orientation">vertical</property>
+            <property name="adjustment">schedule_preferred_minute_adj</property>
+            <property name="numeric">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkPopover" id="secondary_menu_popover">
     <property name="can-focus">False</property>
     <child>
@@ -313,7 +420,7 @@ This might take a while.</property>
                                     <property name="margin-right">16</property>
                                     <property name="margin-start">16</property>
                                     <property name="margin-end">16</property>
-                                    <property name="margin-top">32</property>
+                                    <property name="margin-top">30</property>
                                     <property name="margin-bottom">16</property>
                                     <property name="maximum-size">550</property>
                                     <property name="tightening-threshold">450</property>
@@ -655,7 +762,7 @@ This might take a while.</property>
                                     <property name="margin-right">16</property>
                                     <property name="margin-start">16</property>
                                     <property name="margin-end">16</property>
-                                    <property name="margin-top">32</property>
+                                    <property name="margin-top">30</property>
                                     <property name="margin-bottom">16</property>
                                     <property name="maximum-size">550</property>
                                     <property name="tightening-threshold">450</property>
@@ -772,6 +879,7 @@ This might take a while.</property>
                                                 <property name="can-focus">False</property>
                                                 <style>
                                                   <class name="content"/>
+                                                  <class name="spread"/>
                                                 </style>
                                               </object>
                                             </child>
@@ -806,6 +914,320 @@ This might take a while.</property>
                             <property name="title" translatable="yes">Archives</property>
                             <property name="icon-name">drive-harddisk-symbolic</property>
                             <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow" id="page_schedule">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <child>
+                              <object class="GtkViewport">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="shadow-type">none</property>
+                                <child>
+                                  <object class="HdyClamp">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="margin-start">16</property>
+                                    <property name="margin-end">16</property>
+                                    <property name="margin-top">30</property>
+                                    <property name="margin-bottom">18</property>
+                                    <property name="maximum-size">550</property>
+                                    <property name="tightening-threshold">450</property>
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">30</property>
+                                        <child>
+                                          <object class="GtkListBox">
+                                            <property name="can-focus">False</property>
+                                            <property name="no-show-all">True</property>
+                                            <property name="selection-mode">none</property>
+                                            <child>
+                                              <object class="HdyActionRow">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="title" translatable="yes">Next Scheduled Backup: Today, 14:26</property>
+                                                <property name="icon-name">appointment-new-symbolic</property>
+                                                <property name="subtitle" translatable="yes">Will not start until connected to battery</property>
+                                                <child>
+                                                  <object class="GtkToggleButton" id="schedule_pause">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="receives-default">True</property>
+                                                    <property name="valign">center</property>
+                                                    <child>
+                                                      <object class="GtkImage">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="margin-start">5</property>
+                                                        <property name="margin-end">5</property>
+                                                        <property name="margin-top">5</property>
+                                                        <property name="margin-bottom">5</property>
+                                                        <property name="icon-name">media-playback-pause-symbolic</property>
+                                                      </object>
+                                                    </child>
+                                                    <style>
+                                                      <class name="circular"/>
+                                                    </style>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <style>
+                                              <class name="content"/>
+                                            </style>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkListBox">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="selection-mode">none</property>
+                                            <child>
+                                              <object class="HdyExpanderRow" id="schedule_active">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="activatable">False</property>
+                                                <property name="title">Periodic Backups</property>
+                                                <property name="subtitle">BETA</property>
+                                                <property name="expanded">True</property>
+                                                <property name="show-enable-switch">True</property>
+                                                <child>
+                                                  <object class="HdyComboRow" id="schedule_frequency">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Frequency</property>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="HdyActionRow" id="preferred_time_row">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Preferred Time</property>
+                                                    <property name="activatable-widget">preferred_time_button</property>
+                                                    <child>
+                                                      <object class="GtkMenuButton" id="preferred_time_button">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="focus-on-click">False</property>
+                                                        <property name="receives-default">False</property>
+                                                        <property name="halign">end</property>
+                                                        <property name="valign">center</property>
+                                                        <property name="popover">schedule_preferred_time_popover</property>
+                                                        <child>
+                                                          <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="schedule_preferred_time">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">14:26</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                        <style>
+                                                          <class name="flat"/>
+                                                        </style>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="HdyComboRow" id="preferred_weekday_row">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Preferred Weekday</property>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="HdyActionRow" id="preferred_day_row">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Preferred Day</property>
+                                                    <property name="activatable-widget">preferred_day_button</property>
+                                                    <child>
+                                                      <object class="GtkMenuButton" id="preferred_day_button">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="focus-on-click">False</property>
+                                                        <property name="receives-default">False</property>
+                                                        <property name="halign">end</property>
+                                                        <property name="valign">center</property>
+                                                        <property name="relief">none</property>
+                                                        <property name="popover">schedule_preferred_day_popover</property>
+                                                        <child>
+                                                          <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="schedule_preferred_day">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">21st</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                        <style>
+                                                          <class name="flat"/>
+                                                        </style>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <style>
+                                              <class name="content"/>
+                                            </style>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkListBox">
+                                            <property name="can-focus">False</property>
+                                            <property name="no-show-all">True</property>
+                                            <property name="selection-mode">none</property>
+                                            <child>
+                                              <object class="HdyExpanderRow">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="activatable">False</property>
+                                                <property name="title">Delete Obsolete Backups</property>
+                                                <property name="expanded">True</property>
+                                                <property name="show-enable-switch">True</property>
+                                                <child>
+                                                  <object class="HdyActionRow">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Keep Daily</property>
+                                                    <property name="activatable-widget">schedule_keep_daily</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="schedule_keep_daily">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="halign">end</property>
+                                                        <property name="valign">center</property>
+                                                        <property name="input-purpose">number</property>
+                                                        <property name="adjustment">schedule_keep_daily_adj</property>
+                                                        <property name="climb-rate">1</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">14</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="HdyActionRow">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Keep Weekly</property>
+                                                    <property name="activatable-widget">schedule_keep_weekly</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="schedule_keep_weekly">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="valign">center</property>
+                                                        <property name="input-purpose">number</property>
+                                                        <property name="adjustment">schedule_keep_weekly_adj</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">4</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="HdyActionRow">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Keep Monthly</property>
+                                                    <property name="activatable-widget">schedule_keep_monthly</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="schedule_keep_monthly">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="valign">center</property>
+                                                        <property name="input-purpose">number</property>
+                                                        <property name="adjustment">schedule_keep_monthly_adj</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">6</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="HdyActionRow">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="title" translatable="yes">Keep Annual</property>
+                                                    <property name="activatable-widget">schedule_keep_annual</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="schedule_keep_annual">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="valign">center</property>
+                                                        <property name="input-purpose">number</property>
+                                                        <property name="adjustment">schedule_keep_annual_adj</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">10</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <style>
+                                              <class name="content"/>
+                                            </style>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="title" translatable="yes">Schedule</property>
+                            <property name="icon-name">alarm-symbolic</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>

@@ -14,7 +14,7 @@ fn pathmatch(entry: &walkdir::DirEntry, pattern: &config::Pattern) -> bool {
 pub fn recalculate(config: &config::Backup, mut communication: Communication) {
     communication.instruction = Default::default();
 
-    let estimated_size = calculate(&config, &communication);
+    let estimated_size = calculate(config, &communication);
 
     if estimated_size.is_some() {
         communication.status.update(move |status| {

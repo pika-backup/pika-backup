@@ -41,6 +41,7 @@ thread_local!(
             .application_id(&crate::app_id())
             .build()
     });
+    static ACTION_BACKUP_STATUS: Rc<gio::SimpleAction> = Rc::new(crate::action::backup_status());
 );
 
 pub fn main_ui() -> Rc<ui::builder::Main> {
@@ -49,4 +50,8 @@ pub fn main_ui() -> Rc<ui::builder::Main> {
 
 pub fn gtk_app() -> Rc<gtk::Application> {
     GTK_APPLICATION.with(|x| x.clone())
+}
+
+pub fn action_backup_status() -> Rc<gio::SimpleAction> {
+    ACTION_BACKUP_STATUS.with(|x| x.clone())
 }

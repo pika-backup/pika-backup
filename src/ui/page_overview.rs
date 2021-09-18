@@ -19,7 +19,7 @@ pub fn init() {
             .main_stack()
             .set_visible_child(&main_ui().page_overview());
         refresh();
-    } else if let Some(ref config) = BACKUP_CONFIG.load().iter().next() {
+    } else if let Some(config) = BACKUP_CONFIG.load().iter().next() {
         ui::page_backup::view_backup_conf(&config.id);
     } else {
         main_ui()

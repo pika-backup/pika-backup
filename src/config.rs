@@ -2,10 +2,12 @@ pub mod error;
 pub mod history;
 pub mod local;
 pub mod remote;
+mod schedule;
+mod schedule_status;
 
 pub use history::Histories;
-//pub use local::*;
-//pub use remote::*;
+pub use schedule::*;
+pub use schedule_status::*;
 
 use crate::borg;
 use crate::prelude::*;
@@ -38,6 +40,25 @@ impl std::fmt::Display for ConfigId {
     }
 }
 
+impl glib::ToVariant for ConfigId {
+    fn to_variant(&self) -> glib::Variant {
+        self.as_str().to_variant()
+    }
+}
+
+impl glib::FromVariant for ConfigId {
+    fn from_variant(variant: &glib::Variant) -> Option<Self> {
+        let id = glib::FromVariant::from_variant(variant)?;
+        Some(ConfigId::new(id))
+    }
+}
+
+impl glib::StaticVariantType for ConfigId {
+    fn static_variant_type() -> std::borrow::Cow<'static, glib::VariantTy> {
+        String::static_variant_type()
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Backup {
     #[serde(default)]
@@ -51,6 +72,8 @@ pub struct Backup {
     pub encryption_mode: String,
     pub include: BTreeSet<path::PathBuf>,
     pub exclude: BTreeSet<Pattern>,
+    #[serde(default)]
+    pub schedule: Schedule,
 }
 
 fn fake_repo_id() -> borg::RepoId {
@@ -76,6 +99,7 @@ impl Backup {
             encryption_mode: info.encryption.mode,
             include,
             exclude,
+            schedule: Default::default(),
         }
     }
 
@@ -255,12 +279,16 @@ impl Repository {
     pub fn uri_fuse(&self) -> Option<String> {
         match self {
             Self::Local(local::Repository { uri: Some(uri), .. })
-                if !gio::File::for_uri(&uri).is_native() =>
+                if !gio::File::for_uri(uri).is_native() =>
             {
                 Some(uri.clone())
             }
             _ => None,
         }
+    }
+
+    pub fn is_network(&self) -> bool {
+        matches!(self, Self::Remote(_)) || self.uri_fuse().is_some()
     }
 
     pub fn subtitle(&self) -> String {

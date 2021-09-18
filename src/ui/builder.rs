@@ -590,6 +590,10 @@ impl Main {
         self.get("page_pending_spinner")
     }
 
+    pub fn page_schedule(&self) -> gtk::ScrolledWindow {
+        self.get("page_schedule")
+    }
+
     pub fn pending_menu(&self) -> gtk::MenuButton {
         self.get("pending_menu")
     }
@@ -602,6 +606,26 @@ impl Main {
         self.get("pending_popover")
     }
 
+    pub fn preferred_day_button(&self) -> gtk::MenuButton {
+        self.get("preferred_day_button")
+    }
+
+    pub fn preferred_day_row(&self) -> libhandy::ActionRow {
+        self.get("preferred_day_row")
+    }
+
+    pub fn preferred_time_button(&self) -> gtk::MenuButton {
+        self.get("preferred_time_button")
+    }
+
+    pub fn preferred_time_row(&self) -> libhandy::ActionRow {
+        self.get("preferred_time_row")
+    }
+
+    pub fn preferred_weekday_row(&self) -> libhandy::ComboRow {
+        self.get("preferred_weekday_row")
+    }
+
     pub fn primary_menu_button(&self) -> gtk::MenuButton {
         self.get("primary_menu_button")
     }
@@ -612,6 +636,86 @@ impl Main {
 
     pub fn remove_backup(&self) -> gtk::ModelButton {
         self.get("remove_backup")
+    }
+
+    pub fn schedule_active(&self) -> libhandy::ExpanderRow {
+        self.get("schedule_active")
+    }
+
+    pub fn schedule_frequency(&self) -> libhandy::ComboRow {
+        self.get("schedule_frequency")
+    }
+
+    pub fn schedule_keep_annual(&self) -> gtk::SpinButton {
+        self.get("schedule_keep_annual")
+    }
+
+    pub fn schedule_keep_annual_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_keep_annual_adj")
+    }
+
+    pub fn schedule_keep_daily(&self) -> gtk::SpinButton {
+        self.get("schedule_keep_daily")
+    }
+
+    pub fn schedule_keep_daily_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_keep_daily_adj")
+    }
+
+    pub fn schedule_keep_monthly(&self) -> gtk::SpinButton {
+        self.get("schedule_keep_monthly")
+    }
+
+    pub fn schedule_keep_monthly_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_keep_monthly_adj")
+    }
+
+    pub fn schedule_keep_weekly(&self) -> gtk::SpinButton {
+        self.get("schedule_keep_weekly")
+    }
+
+    pub fn schedule_keep_weekly_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_keep_weekly_adj")
+    }
+
+    pub fn schedule_pause(&self) -> gtk::ToggleButton {
+        self.get("schedule_pause")
+    }
+
+    pub fn schedule_preferred_day(&self) -> gtk::Label {
+        self.get("schedule_preferred_day")
+    }
+
+    pub fn schedule_preferred_day_calendar(&self) -> gtk::Calendar {
+        self.get("schedule_preferred_day_calendar")
+    }
+
+    pub fn schedule_preferred_day_popover(&self) -> gtk::Popover {
+        self.get("schedule_preferred_day_popover")
+    }
+
+    pub fn schedule_preferred_hour(&self) -> gtk::SpinButton {
+        self.get("schedule_preferred_hour")
+    }
+
+    pub fn schedule_preferred_hour_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_preferred_hour_adj")
+    }
+
+    pub fn schedule_preferred_minute(&self) -> gtk::SpinButton {
+        self.get("schedule_preferred_minute")
+    }
+
+    pub fn schedule_preferred_minute_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_preferred_minute_adj")
+    }
+
+    pub fn schedule_preferred_time(&self) -> gtk::Label {
+        self.get("schedule_preferred_time")
+    }
+
+    pub fn schedule_preferred_time_popover(&self) -> gtk::Popover {
+        self.get("schedule_preferred_time_popover")
     }
 
     pub fn secondary_menu_button(&self) -> gtk::MenuButton {

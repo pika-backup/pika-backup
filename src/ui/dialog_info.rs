@@ -43,7 +43,7 @@ fn refresh_status_display(status: &backup_status::Display) {
     }
 
     if let Some(ref subtitle) = status.subtitle {
-        main_ui().detail_info_substatus().set_text(&subtitle);
+        main_ui().detail_info_substatus().set_text(subtitle);
         main_ui().detail_info_substatus().show();
     } else {
         main_ui().detail_info_substatus().hide();

@@ -269,7 +269,7 @@ async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<l
         ))
     } else {
         let mount_uri = if mount_parent {
-            file.parent().as_ref().unwrap_or(&file).uri()
+            file.parent().as_ref().unwrap_or(file).uri()
         } else {
             file.uri()
         };

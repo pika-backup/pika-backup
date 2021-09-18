@@ -37,7 +37,7 @@ pub fn ngettextf_(msgid: &str, msgid_plural: &str, n: u32) -> String {
 #[allow(clippy::implicit_hasher)]
 impl<T> LookupConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
     fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound> {
-        self.get_mut(&key)
+        self.get_mut(key)
             .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
     }
 
@@ -49,6 +49,7 @@ impl<T> LookupConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
 
 pub trait ArcSwapExt<T> {
     fn update<F: Fn(&mut T)>(&self, updater: F);
+    fn update_return<R, F: Fn(&mut T) -> R>(&self, updater: F) -> R;
     fn get(&self) -> T;
 }
 
@@ -62,6 +63,18 @@ where
             updater(&mut new);
             new
         });
+    }
+
+    fn update_return<R, F: Fn(&mut T) -> R>(&self, updater: F) -> R {
+        let mut cell = once_cell::sync::OnceCell::new();
+
+        self.rcu(|current| {
+            let mut new = T::clone(current);
+            cell.set(updater(&mut new));
+            new
+        });
+
+        cell.take().unwrap()
     }
 
     fn get(&self) -> T {

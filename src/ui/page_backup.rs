@@ -194,15 +194,47 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
         });
     }
 
-    run_backup(config).await
+    let config_id = config.id.clone();
+    let result = run_backup(config).await;
+
+    BACKUP_COMMUNICATION.update(|c| {
+        c.remove(&config_id);
+    });
+    update_status_action();
+
+    result
 }
 
-pub async fn run_backup(config: config::Backup) -> Result<()> {
+pub fn update_status_action() {
+    let value: crate::action::BackupStatus = BACKUP_COMMUNICATION
+        .load()
+        .keys()
+        .map(|id| {
+            (
+                BACKUP_CONFIG
+                    .load()
+                    .get_result(id)
+                    .map(|x| x.repo_id.clone())
+                    .unwrap_or_else(|_| {
+                        error!("Backup id not present in config.");
+                        crate::borg::json::RepoId::new("x".to_string())
+                    }),
+                id.clone(),
+            )
+        })
+        .collect();
+    action_backup_status().change_state(&value.to_variant());
+    warn!("build version: {:?}", option_env!("TIME"));
+    warn!("New backup status set: {:#?}", value);
+}
+
+async fn run_backup(config: config::Backup) -> Result<()> {
     let communication: borg::Communication = Default::default();
 
     BACKUP_COMMUNICATION.update(|x| {
         x.insert(config.id.clone(), communication.clone());
     });
+    update_status_action();
     refresh_status();
 
     // estimate backup size if not running in background
@@ -257,10 +289,6 @@ pub async fn run_backup(config: config::Backup) -> Result<()> {
         enclose!((communication) move |borg| borg.create(communication)),
     )
     .await;
-
-    BACKUP_COMMUNICATION.update(|c| {
-        c.remove(&config.id);
-    });
 
     // Direct visual feedback for aborted backups
     if matches!(result, Err(ui::error::Combined::Ui(_))) {

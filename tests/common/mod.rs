@@ -12,5 +12,6 @@ pub fn config(path: &std::path::Path) -> config::Backup {
         encrypted: false,
         include: Default::default(),
         exclude: Default::default(),
+        schedule: Default::default(),
     }
 }

@@ -19,7 +19,7 @@ use std::io::Read;
 /// Checks if a directory is most likely a borg repository. Performed checks are
 ///
 /// - `data/` exists and is a directory
-/// - `config` exists and contains the string "[repository]"
+/// - `config` exists and contains the string `[repository]`
 pub fn is_backup_repo(path: &std::path::Path) -> bool {
     trace!("Checking path if it is a repo '{}'", &path.display());
     if let Ok(data) = std::fs::File::open(path.join("data")).and_then(|x| x.metadata()) {
@@ -49,20 +49,19 @@ pub fn cache_dir() -> std::path::PathBuf {
 }
 
 pub async fn background_permission() -> std::result::Result<bool, ashpd::Error> {
-    let connection = ashpd::zbus::azync::Connection::new_session().await?;
-    let proxy = background::BackgroundProxy::new(&connection).await?;
+    let response = background::request(
+        ashpd::WindowIdentifier::default(),
+        &gettext("Schedule and continue running backups in background."),
+        false,
+        None::<&[&str]>,
+        true,
+    )
+    .await;
 
-    let request_handle = proxy
-        .request_background(
-            ashpd::WindowIdentifier::default(),
-            &gettext("Schedule and continue running backups in background."),
-            false,
-            None,
-            true,
-        )
-        .await?;
-
-    Ok(request_handle.run_in_background())
+    match response {
+        Err(ashpd::Error::Portal(ashpd::desktop::ResponseError::Cancelled)) => Ok(false),
+        x => Ok(x?.run_in_background()),
+    }
 }
 
 pub trait LookupActiveConfigId<T> {

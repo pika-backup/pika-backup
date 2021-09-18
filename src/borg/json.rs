@@ -11,6 +11,25 @@ impl RepoId {
     }
 }
 
+impl glib::ToVariant for RepoId {
+    fn to_variant(&self) -> glib::Variant {
+        self.as_str().to_variant()
+    }
+}
+
+impl glib::FromVariant for RepoId {
+    fn from_variant(variant: &glib::Variant) -> Option<Self> {
+        let id = glib::FromVariant::from_variant(variant)?;
+        Some(RepoId::new(id))
+    }
+}
+
+impl glib::StaticVariantType for RepoId {
+    fn static_variant_type() -> std::borrow::Cow<'static, glib::VariantTy> {
+        String::static_variant_type()
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct ArchiveId(String);
 

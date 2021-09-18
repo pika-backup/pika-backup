@@ -24,6 +24,7 @@ mod page_archives;
 mod page_backup;
 mod page_overview;
 mod page_pending;
+mod page_schedule;
 mod prelude;
 mod update_config;
 mod utils;
@@ -78,9 +79,9 @@ fn on_shutdown(app: &gtk::Application) {
     IS_SHUTDOWN.swap(std::sync::Arc::new(true));
     while !ACTIVE_MOUNTS.load().is_empty() {
         for repo_id in ACTIVE_MOUNTS.load().iter() {
-            if borg::Borg::umount(&repo_id).is_ok() {
+            if borg::Borg::umount(repo_id).is_ok() {
                 ACTIVE_MOUNTS.update(|mounts| {
-                    mounts.remove(&repo_id);
+                    mounts.remove(repo_id);
                 });
             }
         }
@@ -126,6 +127,7 @@ fn on_startup(_app: &gtk::Application) {
     ui::headerbar::init();
     ui::page_overview::init();
     ui::page_pending::init();
+    ui::page_schedule::init::init();
     ui::dialog_info::init();
     ui::app_window::init();
 
@@ -212,6 +214,9 @@ fn init_actions() {
         }
     });
     gtk_app().add_action(&action);
+
+    gtk_app().add_action(&*action_backup_status());
+    ui::page_backup::update_status_action();
 
     let action = gio::SimpleAction::new("about", None);
     action.connect_activate(|_, _| ui::dialog_about::show());
