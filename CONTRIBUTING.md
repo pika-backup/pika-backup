@@ -4,19 +4,18 @@ Contributions of all kind and with all levels of experience are very welcome. Pl
 
 The translation of Pika Backup is managed by the [GNOME Translation Project](https://wiki.gnome.org/TranslationProject) and the respective [language teams](https://l10n.gnome.org/teams/). The translation status is available on the [module page](https://l10n.gnome.org/module/pika-backup/).
 
+## Resources
+
+- [Translation status](https://l10n.gnome.org/module/pika-backup/)
+- [Code documentation](https://world.pages.gitlab.gnome.org/pika-backup/code-doc/)
+
 ## Start using GNOME Builder
 
 You can clone the project using GNOME Builder.
 
 ![builder_setup](/uploads/f5b239c191c15922a615a28a55110b1c/builder_setup.png)
 
-GNOME Builder will suggest to install the missing dependencies. After doing so, there currently remains one dependency that has to be installed manually. (The reason is that GNOME Builder cannot determine the required version of the dependency yet.)
-
-```sh
-$ flatpak install -y --user org.freedesktop.Sdk.Extension.rust-stable//20.08
-```
-
-Afterwards you should be ready to build and start Pika Backup via the "Run" button or by pressing *Ctrl+F5*.
+GNOME Builder will suggest to install the missing dependencies. After doing so, you should be ready to build and start Pika Backup via the "Run" button or by pressing *Ctrl+F5*.
 
 ## Peculiarities
 

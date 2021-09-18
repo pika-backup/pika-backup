@@ -38,3 +38,17 @@ cargo-fmt:
   script:
     - rustup component add rustfmt
     - cargo fmt --all -- --color=always --check
+
+pages:
+  interruptible: true
+  image: rust
+  script:
+    - cargo doc --no-deps --document-private-items
+    - mkdir public
+    - cp -r target/doc public/doc
+  artifacts:
+    paths:
+      - 'public'
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
