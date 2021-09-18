@@ -160,7 +160,7 @@ impl DataRateHistory {
             .collect()
     }
 
-    /// Duration to skip one byte (in seconds)
+    /// Estimate duration in seconds for skipping and downloading one byte
     ///
     /// ```
     /// # use pika_backup::*;
@@ -203,6 +203,7 @@ impl DataRateHistory {
         (a, b)
     }
 
+    /// Duration to skip one byte (in seconds)
     pub fn beta_skipped(&self) -> f64 {
         Self::linear_regression(&Self::chunk(self.skipped.clone())).0
     }

@@ -7,7 +7,7 @@ The translation of Pika Backup is managed by the [GNOME Translation Project](htt
 ## Resources
 
 - [Translation status](https://l10n.gnome.org/module/pika-backup/)
-- [Code documentation](https://world.pages.gitlab.gnome.org/pika-backup/code-doc/)
+- [Code documentation](https://world.pages.gitlab.gnome.org/pika-backup/code-doc/pika_backup/)
 
 ## Start using GNOME Builder
 

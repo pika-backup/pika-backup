@@ -1,5 +1,5 @@
 /*!
-# Scheduled backups
+# Schedule execution criteria
 
 Note: The term "last backup" includes failed backups.
 

@@ -1,3 +1,7 @@
+/*!
+# Daemon initialization
+*/
+
 use super::requirements;
 use crate::action;
 use crate::config;
