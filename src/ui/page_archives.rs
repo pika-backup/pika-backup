@@ -128,7 +128,7 @@ fn show_dir(path: &std::path::Path) -> Result<()> {
     // only open if app isn't closing in this moment
     if !**IS_SHUTDOWN.load() {
         let show_folder = || -> std::result::Result<(), _> {
-            let conn = zbus::Connection::new_session()?;
+            let conn = zbus::Connection::session()?;
             let proxy = zbus::Proxy::new(
                 &conn,
                 "org.freedesktop.FileManager1",

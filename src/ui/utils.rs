@@ -50,7 +50,7 @@ pub fn cache_dir() -> std::path::PathBuf {
 
 pub async fn background_permission() -> std::result::Result<bool, ashpd::Error> {
     let response = background::request(
-        ashpd::WindowIdentifier::default(),
+        &ashpd::WindowIdentifier::default(),
         &gettext("Schedule and continue running backups in background."),
         false,
         None::<&[&str]>,

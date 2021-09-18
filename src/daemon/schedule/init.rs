@@ -22,14 +22,15 @@ thread_local!(
 pub static BACKUP_STATUS: Lazy<ArcSwap<Option<action::BackupStatus>>> = Lazy::new(Default::default);
 
 async fn listen_remote_app_running() -> Result<()> {
-    let conn = zbus::azync::Connection::new_session().await?;
-    let mut stream = zbus::fdo::AsyncDBusProxy::new(&conn)?
+    let conn = zbus::azync::Connection::session().await?;
+    let mut stream = zbus::fdo::AsyncDBusProxy::new(&conn)
+        .await?
         .receive_name_owner_changed()
         .await?;
 
     while let Some(signal) = stream.next().await {
         let args = signal.args()?;
-        if args.name == application_id!() && args.new_owner.is_empty() {
+        if args.name == application_id!() && args.new_owner.is_none() {
             debug!("Remote app '{}' closed.", args.name);
             BACKUP_STATUS.store(Default::default());
         }
