@@ -30,7 +30,7 @@ pub fn mount_added(mount: &gio::Mount) {
             let notification = gio::Notification::new(&gettext("Backup Medium Connected"));
             notification.set_body(Some(
                 gettextf(
-                    "{} on Disk „{}“",
+                    "{} on Disk “{}“",
                     &[
                         local.mount_name.as_ref().unwrap(),
                         local.drive_name.as_ref().unwrap(),
