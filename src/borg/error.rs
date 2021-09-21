@@ -134,7 +134,7 @@ impl std::fmt::Display for Failure {
             Self::RepositoryDoesNotExist => gettext("No repository exists at this location."),
 
             Self::ConnectionClosedWithHint_(hint) => {
-                gettextf("Connection closed by remote host: “{}“", &[hint])
+                gettextf("Connection closed by remote host: “{}”", &[hint])
             }
             Self::Other(string) => string.to_string(),
             Self::Undefined => gettext("Unspecified error."),
