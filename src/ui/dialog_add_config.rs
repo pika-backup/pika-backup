@@ -1,14 +1,17 @@
+pub mod folder_button;
 mod insert;
 
 use std::{convert::Into, rc::Rc};
 
-use gio::prelude::*;
-use gtk::prelude::*;
-use libhandy::prelude::*;
+use adw::prelude::*;
 
 use crate::ui;
 use crate::ui::builder;
 use crate::ui::prelude::*;
+
+thread_local! {
+    static VOLUME_MONITOR: gio::VolumeMonitor = gio::VolumeMonitor::get();
+}
 
 pub fn new_backup() {
     let ui = Rc::new(ui::builder::DialogAddConfig::new());
@@ -19,8 +22,6 @@ pub fn new_backup() {
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
     ui.password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
-
-    ui.dialog_vbox().set_border_width(0);
 
     ui.init_local_row().set_activatable(true);
     ui.init_remote_row().set_activatable(true);
@@ -53,34 +54,36 @@ pub fn new_backup() {
         .connect_clicked(enclose!((ui) move |_| insert::on_init_button_clicked(ui.clone())));
 
     ui.location_url()
-        .connect_icon_press(enclose!((ui) move |_, _, _| on_location_url_help(&ui)));
+        .connect_icon_press(enclose!((ui) move |_, _| on_location_url_help(&ui)));
 
     ui.init_path()
-        .connect_file_set(enclose!((ui) move |_| on_path_change(&ui)));
+        .connect_folder_change(enclose!((ui) move || on_path_change(&ui)));
 
     // refresh ui on mount events
-    let monitor = gio::VolumeMonitor::get();
 
-    monitor.connect_mount_added(enclose!((ui) move |_, mount| {
-        debug!("Mount added");
-        Handler::new().error_transient_for(ui.dialog())
-        .spawn(load_mount(ui.clone(), mount.clone()));
-    }));
+    // TODO: Memory leak: Old monitors handlers for closed windows remain
+    VOLUME_MONITOR.with(|monitor| {
+        monitor.connect_mount_added(enclose!((ui) move |_, mount| {
+            debug!("Mount added");
+            Handler::new().error_transient_for(ui.dialog())
+            .spawn(load_mount(ui.clone(), mount.clone()));
+        }));
 
-    monitor.connect_mount_removed(enclose!((ui) move |_, mount| {
-        debug!("Mount removed");
-        remove_mount(&ui.add_repo_list(), mount.root().uri());
-        remove_mount(
-            &ui.init_repo_list(),
-            mount.root().uri(),
-        );
-    }));
+        monitor.connect_mount_removed(enclose!((ui) move |_, mount| {
+            debug!("Mount removed");
+            remove_mount(&ui.add_repo_list(), mount.root().uri());
+            remove_mount(
+                &ui.init_repo_list(),
+                mount.root().uri(),
+            );
+        }));
+    });
 
-    ui.dialog().show_all();
+    ui.dialog().show();
 }
 
 fn on_path_change(ui: &builder::DialogAddConfig) {
-    if let Some(path) = ui.init_path().filename() {
+    if let Some(path) = ui.init_path().file().and_then(|x| x.path()) {
         let mount_entry = gio::UnixMountEntry::for_file_path(&path);
         if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
             debug!("Selected filesystem type {}", fs);
@@ -104,7 +107,9 @@ fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddCon
         ui.location_stack().set_visible_child(&ui.location_local());
         if name != "-init-local" {
             trace!("Setting {} as init_path", &name);
-            ui.init_path().set_current_folder_uri(&name);
+            ui.init_path()
+                .set_property("file", gio::File::for_uri(&name))
+                .unwrap();
         } else {
             ui.init_path().grab_focus();
         }
@@ -172,7 +177,7 @@ fn show_init(ui: &builder::DialogAddConfig) {
     on_path_change(ui);
     ui.stack().set_visible_child(&ui.new_page());
     ui.init_button().show();
-    ui.init_button().grab_default();
+    ui.dialog().set_default_widget(Some(&ui.init_button()));
 }
 
 fn on_init_repo_password_changed(ui: &builder::DialogAddConfig) {
@@ -204,16 +209,19 @@ fn on_location_url_help(ui: &builder::DialogAddConfig) {
 }
 
 fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
-    for list_row in list.children() {
+    let mut i = 0;
+    while let Some(list_row) = list.row_at_index(i) {
         if list_row.widget_name() == root {
             list.remove(&list_row);
+            break;
         }
+        i += 1
     }
 }
 
 async fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::path::Path>) {
     let row = ui::utils::new_action_row_with_gicon(Some(mount.icon().as_ref()));
-    list.add(&row);
+    list.append(&row);
 
     row.set_widget_name(&mount.root().uri());
 
@@ -244,8 +252,6 @@ async fn add_mount(list: &gtk::ListBox, mount: &gio::Mount, repo: Option<&std::p
         }
     }
 
-    row.set_title(Some(label1.as_str()));
-    row.set_subtitle(Some(label2.as_str()));
-
-    list.show_all();
+    row.set_title(&label1);
+    row.set_subtitle(&label2);
 }

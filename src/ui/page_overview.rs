@@ -1,5 +1,4 @@
-use gtk::prelude::*;
-use libhandy::prelude::*;
+use adw::prelude::*;
 
 use std::collections::BTreeMap;
 use std::sync::RwLock;
@@ -38,10 +37,6 @@ pub fn init() {
         .add_backup_empty()
         .connect_clicked(|_| ui::dialog_add_config::new_backup());
 
-    main_ui()
-        .remove_backup()
-        .connect_clicked(|_| Handler::run(on_remove_backup()));
-
     glib::timeout_add_seconds_local(1, || {
         if is_visible() {
             refresh_status();
@@ -59,6 +54,10 @@ fn on_main_stack_changed(_stack: &gtk::Stack) {
     if is_visible() {
         refresh();
     }
+}
+
+pub fn remove_backup() {
+    Handler::run(on_remove_backup());
 }
 
 async fn on_remove_backup() -> Result<()> {
@@ -105,8 +104,8 @@ fn refresh() {
     });
 
     for config in BACKUP_CONFIG.load().iter() {
-        let list_row = libhandy::ActionRow::builder().activatable(true).build();
-        list.add(&list_row);
+        let list_row = adw::ActionRow::builder().activatable(true).build();
+        list.append(&list_row);
 
         list_row.connect_activated(enclose!((config) move |_| {
             ui::page_backup::view_backup_conf(&config.id);
@@ -121,8 +120,7 @@ fn refresh() {
         // Repo Icon
 
         if let Ok(icon) = gio::Icon::for_string(&config.repo.icon_symbolic()) {
-            row.location_icon()
-                .set_from_gicon(&icon, gtk::IconSize::Button);
+            row.location_icon().set_from_gicon(&icon);
         }
 
         // Repo Name
@@ -136,14 +134,12 @@ fn refresh() {
                 .orientation(gtk::Orientation::Horizontal)
                 .spacing(6)
                 .build();
-            row.include().add(&incl);
+            row.include().append(&incl);
 
             incl.add_css_class("backup-include");
 
-            if let Some(icon) =
-                ui::utils::file_symbolic_icon(&config::absolute(path), gtk::IconSize::Button)
-            {
-                incl.add(&icon);
+            if let Some(icon) = ui::utils::file_symbolic_icon(&config::absolute(path)) {
+                incl.append(&icon);
             }
 
             let path_str = if path.iter().next().is_none() {
@@ -156,7 +152,7 @@ fn refresh() {
                 .label(&path_str)
                 .ellipsize(pango::EllipsizeMode::Middle)
                 .build();
-            incl.add(&label);
+            incl.append(&label);
         }
 
         ROWS.with(|rows| {
@@ -167,7 +163,6 @@ fn refresh() {
     }
 
     refresh_status();
-    list.show_all();
 }
 
 pub fn refresh_status() {
@@ -192,8 +187,7 @@ pub fn refresh_status() {
                             row.status_area().remove_css_class("warning");
                             row.status_area().add_css_class("dim-label");
 
-                            row.status_icon()
-                                .set_from_icon_name(Some(icon), gtk::IconSize::Button);
+                            row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
                         ui::backup_status::Graphic::ErrorIcon(icon) => {
@@ -201,8 +195,7 @@ pub fn refresh_status() {
                             row.status_area().remove_css_class("dim-label");
                             row.status_area().add_css_class("error");
 
-                            row.status_icon()
-                                .set_from_icon_name(Some(icon), gtk::IconSize::Button);
+                            row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
                         ui::backup_status::Graphic::WarningIcon(icon) => {
@@ -210,8 +203,7 @@ pub fn refresh_status() {
                             row.status_area().remove_css_class("dim-label");
                             row.status_area().add_css_class("warning");
 
-                            row.status_icon()
-                                .set_from_icon_name(Some(icon), gtk::IconSize::Button);
+                            row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
                         ui::backup_status::Graphic::Spinner => {

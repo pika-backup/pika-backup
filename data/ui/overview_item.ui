@@ -1,56 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.24"/>
+  <requires lib="gtk" version="4.0"/>
   <object class="GtkBox" id="widget">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkImage" id="location_icon">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
             <property name="icon-name">folder-symbolic</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkLabel" id="location">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
             <property name="label">&lt;location&gt;</property>
             <property name="ellipsize">end</property>
             <attributes>
-              <attribute name="weight" value="bold"/>
+              <attribute name="weight" value="bold"></attribute>
             </attributes>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <object class="GtkBox" id="include">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
         <property name="margin-start">12</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
@@ -58,75 +32,56 @@
           <placeholder/>
         </child>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
     </child>
     <child>
-      <!-- n-columns=2 n-rows=2 -->
       <object class="GtkGrid" id="status_area">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
         <property name="row-spacing">3</property>
         <property name="column-spacing">6</property>
         <child>
           <object class="GtkLabel" id="status">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
             <property name="label">&lt;status&gt;</property>
-            <property name="wrap">True</property>
+            <property name="wrap">1</property>
             <property name="xalign">0</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkStack" id="status_graphic">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
             <property name="transition-duration">0</property>
             <child>
               <object class="GtkImage" id="status_icon">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
                 <property name="icon-name">access</property>
               </object>
             </child>
             <child>
-              <object class="GtkSpinner" id="status_spinner">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
+              <object class="GtkStackPage">
+                <property name="child">
+                  <object class="GtkSpinner" id="status_spinner"/>
+                </property>
               </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">0</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkLabel" id="substatus">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="no-show-all">True</property>
             <property name="label">&lt;substatus&gt;</property>
-            <property name="wrap">True</property>
+            <property name="wrap">1</property>
             <property name="xalign">0</property>
             <attributes>
-              <attribute name="scale" value="0.80000000000000004"/>
+              <attribute name="scale" value="0.80000000000000004"></attribute>
             </attributes>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">1</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">1</property>
-          </packing>
         </child>
         <child>
           <placeholder/>
@@ -136,11 +91,6 @@
           <class name="status-area"/>
         </style>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
-      </packing>
     </child>
   </object>
 </interface>

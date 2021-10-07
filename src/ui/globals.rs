@@ -1,4 +1,5 @@
 pub use crate::globals::*;
+pub use glib::prelude::*;
 
 use crate::config::ConfigId;
 
@@ -34,7 +35,12 @@ pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
 });
 
 thread_local!(
-    static MAIN_UI_STORE: Rc<ui::builder::Main> = Rc::new(ui::builder::Main::new());
+    static MAIN_UI_STORE: Rc<ui::builder::Main> = Rc::new({
+        ui::page_schedule::frequency::FrequencyObject::static_type();
+        ui::page_schedule::weekday::WeekdayObject::static_type();
+        ui::dialog_add_config::folder_button::FolderButton::static_type();
+        ui::builder::Main::new()
+    });
     static GTK_APPLICATION: Rc<gtk::Application> = Rc::new({
         debug!("Setting up application with id '{}'", crate::app_id());
         gtk::Application::builder()

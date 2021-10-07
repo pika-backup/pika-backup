@@ -1,5 +1,4 @@
-use gtk::prelude::*;
-use libhandy::prelude::*;
+use adw::prelude::*;
 
 use super::event;
 use super::frequency::{self, FrequencyObject};
@@ -14,27 +13,24 @@ pub(super) static SCHEDULE_ACTIVE_SIGNAL_HANDLER: Lazy<glib::SignalHandlerId> =
 pub fn init() {
     // frequency model
 
-    let model = gio::ListStore::new(FrequencyObject::new(Default::default()).type_());
+    let model = gio::ListStore::new(FrequencyObject::static_type());
 
     for frequency in frequency::list() {
         model.append(&FrequencyObject::new(frequency));
     }
 
-    main_ui()
-        .schedule_frequency()
-        .bind_name_model(Some(&model), Some(Box::new(frequency::name)));
+    main_ui().schedule_frequency().set_model(Some(&model));
 
     // weekday model
 
-    let model = gio::ListStore::new(WeekdayObject::new(chrono::Weekday::Mon).type_());
+    let model = gio::ListStore::new(WeekdayObject::static_type());
 
     for weekday in &weekday::LIST {
         model.append(&WeekdayObject::new(*weekday));
     }
 
-    main_ui()
-        .preferred_weekday_row()
-        .bind_name_model(Some(&model), Some(Box::new(weekday::name)));
+    //main_ui()
+    main_ui().preferred_weekday_row().set_model(Some(&model));
 
     // events
 
@@ -46,7 +42,7 @@ pub fn init() {
 
     main_ui()
         .schedule_frequency()
-        .connect_selected_index_notify(|_| Handler::run(event::frequency_change()));
+        .connect_selected_item_notify(|_| Handler::run(event::frequency_change()));
 
     main_ui()
         .schedule_preferred_hour()
@@ -62,7 +58,7 @@ pub fn init() {
 
     main_ui()
         .preferred_weekday_row()
-        .connect_selected_index_notify(|_| Handler::run(event::preferred_weekday_change()));
+        .connect_selected_item_notify(|_| Handler::run(event::preferred_weekday_change()));
 
     main_ui()
         .schedule_preferred_day_calendar()

@@ -8,12 +8,6 @@ use crate::ui::backup_status;
 use crate::ui::prelude::*;
 
 pub fn init() {
-    main_ui().detail_dialog_vbox().set_border_width(0);
-
-    main_ui()
-        .detail_running_backup_info()
-        .connect_delete_event(|x, _| WidgetExtManual::hide_on_delete(x));
-
     glib::timeout_add_local(Duration::from_millis(250), || {
         refresh_status();
         Continue(true)

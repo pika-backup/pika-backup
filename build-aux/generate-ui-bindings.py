@@ -46,12 +46,11 @@ def objects(path):
     objects = []
     for item in ET.parse(path).iter():
         if item.tag == "object" and item.get("id"):
-            if item.get("class")[:3] == "Hdy":
-                crate = "libhandy"
+            if item.get("class")[:4] == "Pika":
+                objects.append(Item(item.get("id"), "crate::ui::export", item.get("class")[4:]))
             else:
                 crate = item.get("class")[:3].lower()
-
-            objects.append(Item(item.get("id"), crate, item.get("class")[3:]))
+                objects.append(Item(item.get("id"), crate, item.get("class")[3:]))
     objects.sort(key=lambda item: item.id)
 
     return objects
@@ -88,7 +87,7 @@ impl {name} {{
     }}
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {{
-        gtk::prelude::BuilderExtManual::object(&self.builder, id)
+        gtk::Builder::object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{{}}' not found in '{path}'", id))
     }}
 {fn_code}

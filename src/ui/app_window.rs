@@ -5,7 +5,7 @@ use crate::ui;
 use crate::ui::prelude::*;
 
 pub fn init() {
-    main_ui().window().connect_delete_event(|_, _| on_delete());
+    main_ui().window().connect_close_request(|_| on_delete());
 
     // decorate headerbar of pre-release versions
     if !option_env!("APPLICATION_ID_SUFFIX")
@@ -39,7 +39,7 @@ pub fn show() {
         debug!("Displaying ui that was hidden before.");
 
         gtk_app().add_window(&main_ui().window());
-        main_ui().window().show_all();
+        main_ui().window().show();
 
         if !is_initialized() {
             Handler::run(ui::init_check_borg());
@@ -62,9 +62,9 @@ pub fn show() {
     }
 }
 
-fn on_delete() -> Inhibit {
+fn on_delete() -> gtk::Inhibit {
     debug!("Potential quit: ApplicationWindow delete event");
 
     Handler::run(super::quit());
-    Inhibit(true)
+    gtk::Inhibit(true)
 }

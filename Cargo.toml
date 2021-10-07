@@ -18,7 +18,7 @@ async-trait = "0.1"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3.12"
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
-nix = "0.22"
+nix = "0.23"
 num-format = "0.4"
 regex = "1.4"
 shell-words = "1.0"
@@ -41,18 +41,17 @@ serde_derive = "1.0"
 serde_json = "1.0"
 
 # GNOME
-gdk = "*"
 gdk-pixbuf = "*"
 gio = { version = "*", features = ["v2_54"] }
 gio-sys = "*"
 glib = "*"
-gtk = { version = "0.14", features = ["v3_24"] }
+gtk = { package = "gtk4", version = "0.3", features = ["v4_2"] }
 pango = "*"
 
-ashpd = "0.2.0-alpha-3"
-libhandy = "0.8"
+ashpd = { version = "0.2.0-alpha-4", git = "https://github.com/bilelmoussaoui/ashpd.git" }
+adw = { version = "0.1.0-alpha-6", package = "libadwaita", git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs.git" }
 secret-service = "2.0"
-zbus = "2.0.0-beta.6"
+zbus = "2.0.0-beta.7"
 
 [dev-dependencies]
 matches = "0.1"

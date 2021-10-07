@@ -121,7 +121,7 @@ pub struct Handler<W: IsA<gtk::Window> + IsA<gtk::Widget>> {
     auto_visibility: Option<W>,
 }
 
-impl Handler<libhandy::ApplicationWindow> {
+impl Handler<adw::ApplicationWindow> {
     pub fn run<F: std::future::Future<Output = Result<()>> + 'static>(f: F) {
         Self::new().error_transient_for(main_ui().window()).spawn(f);
     }

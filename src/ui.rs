@@ -18,6 +18,7 @@ mod dialog_encryption_password;
 mod dialog_info;
 mod dialog_storage;
 mod error;
+mod export;
 mod globals;
 mod headerbar;
 mod page_archives;
@@ -91,32 +92,19 @@ fn on_shutdown(app: &gtk::Application) {
 }
 
 fn on_startup(_app: &gtk::Application) {
-    libhandy::init();
+    adw::init();
     debug!("Signal 'startup'");
     load_config();
 
-    if let Some(screen) = gdk::Screen::default() {
+    if let Some(screen) = gtk::gdk::Display::default() {
         let provider = gtk::CssProvider::new();
-        ui::utils::dialog_catch_err(
-            provider.load_from_data(include_bytes!("../data/style.css")),
-            "Could not load style sheet.",
-        );
-        gtk::StyleContext::add_provider_for_screen(
+        provider.load_from_data(include_bytes!("../data/style.css"));
+
+        gtk::StyleContext::add_provider_for_display(
             &screen,
             &provider,
             gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
         );
-    }
-
-    let loader = gdk_pixbuf::PixbufLoader::new();
-    loader
-        .write(include_bytes!(concat!(data_dir!(), "/app.svg")))
-        .unwrap_or_else(|e| error!("loader.write() failed: {}", e));
-    loader
-        .close()
-        .unwrap_or_else(|e| error!("loader.close() failed: {}", e));
-    if let Some(icon) = loader.pixbuf() {
-        gtk::Window::set_default_icon(&icon);
     }
 
     init_actions();
@@ -227,6 +215,10 @@ fn init_actions() {
         debug!("Potential quit: Action app.quit (Ctrl+Q)");
         Handler::run(quit());
     });
+    gtk_app().add_action(&action);
+
+    let action = gio::SimpleAction::new("remove", None);
+    action.connect_activate(|_, _| page_overview::remove_backup());
     gtk_app().add_action(&action);
 }
 

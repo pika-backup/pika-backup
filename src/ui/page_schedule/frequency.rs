@@ -2,6 +2,8 @@ use crate::config;
 
 use glib::prelude::*;
 use glib::subclass::prelude::*;
+use glib::{ParamFlags, ParamSpec};
+use once_cell::sync::Lazy;
 use std::cell::RefCell;
 
 pub fn list() -> Vec<config::Frequency> {
@@ -17,6 +19,7 @@ pub fn list() -> Vec<config::Frequency> {
     ]
 }
 
+/*
 pub fn name(obj: &glib::Object) -> String {
     if let Some(obj) = obj.downcast_ref::<FrequencyObject>() {
         obj.frequency().name()
@@ -24,6 +27,7 @@ pub fn name(obj: &glib::Object) -> String {
         String::new()
     }
 }
+*/
 
 glib::wrapper! {
     pub struct FrequencyObject(ObjectSubclass<imp::FrequencyObject>);
@@ -51,11 +55,31 @@ mod imp {
         pub frequency: RefCell<config::Frequency>,
     }
 
-    impl ObjectImpl for FrequencyObject {}
+    impl ObjectImpl for FrequencyObject {
+        fn properties() -> &'static [ParamSpec] {
+            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
+                vec![ParamSpec::new_string(
+                    "display",
+                    "display",
+                    "display",
+                    None,
+                    ParamFlags::READABLE,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "display" => self.frequency.borrow().clone().name().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for FrequencyObject {
-        const NAME: &'static str = "PikaBackupUiPageScheduleFrequency";
+        const NAME: &'static str = "PikaBackupScheduleFrequency";
         type Type = super::FrequencyObject;
         type ParentType = glib::Object;
     }

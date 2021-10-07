@@ -5,9 +5,7 @@ pub mod ext;
 pub mod repo_cache;
 pub mod secret_service;
 
-use gio::prelude::*;
-use gtk::prelude::*;
-use libhandy::prelude::*;
+use adw::prelude::*;
 
 use crate::config;
 use crate::ui::prelude::*;
@@ -59,7 +57,7 @@ pub async fn background_permission() -> std::result::Result<bool, ashpd::Error> 
     .await;
 
     match response {
-        Err(ashpd::Error::Portal(ashpd::desktop::ResponseError::Cancelled)) => Ok(false),
+        Err(ashpd::Error::Portal(ashpd::PortalError::Cancelled(_))) => Ok(false),
         x => Ok(x?.run_in_background()),
     }
 }
@@ -142,15 +140,20 @@ quick_error! {
     }
 }
 
-pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
-    // TODO: maybe use a translated 'Select' string for accept_label()
+pub fn folder_chooser<T: IsA<gtk::Window>>(title: &str, parent: &T) -> gtk::FileChooserNative {
     let dialog = gtk::FileChooserNative::builder()
-        .title(title)
         .action(gtk::FileChooserAction::SelectFolder)
-        .local_only(false)
-        .transient_for(&main_ui().window())
+        .title(title)
+        .accept_label(&gettext("Select"))
         .modal(true)
+        .transient_for(parent)
         .build();
+
+    dialog
+}
+
+pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
+    let dialog = folder_chooser(title, &main_ui().window());
 
     let result = if dialog.run_future().await == gtk::ResponseType::Accept {
         dialog.file()
@@ -237,7 +240,7 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
             dialog.hide();
         });
 
-        dialog.show_all();
+        dialog.show();
     } else {
         let notification = gio::Notification::new(&primary_text);
         notification.set_body(if secondary_text.is_empty() {
@@ -313,43 +316,52 @@ impl ConfirmationDialog {
 }
 
 pub fn clear(listbox: &gtk::ListBox) {
-    for c in listbox.children() {
-        if c.widget_name().starts_with('-') {
-            continue;
+    let mut i = 0;
+    while let Some(row) = listbox.row_at_index(i) {
+        if !row.widget_name().starts_with('-') {
+            listbox.remove(&row);
+        } else {
+            i += 1;
         }
-        listbox.remove(&c);
     }
 }
 
-pub fn file_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk::Image> {
-    let none: Option<&gio::Cancellable> = None;
+pub fn file_icon(path: &std::path::Path) -> Option<gtk::Image> {
     let file = gio::File::for_path(path);
-    let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
+    let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, gio::NONE_CANCELLABLE);
     if let Ok(info) = info {
-        let icon = info.icon();
-        icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
+        info.icon().map(|icon| {
+            gtk::Image::builder()
+                .gicon(&icon)
+                .css_classes(vec![String::from("row-icon")])
+                .build()
+        })
     } else {
         None
     }
 }
 
-pub fn file_symbolic_icon(path: &std::path::Path, icon_size: gtk::IconSize) -> Option<gtk::Image> {
-    let none: Option<&gio::Cancellable> = None;
+pub fn file_symbolic_icon(path: &std::path::Path) -> Option<gtk::Image> {
     let file = gio::File::for_path(path);
-    let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, none);
+    let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, gio::NONE_CANCELLABLE);
     if let Ok(info) = info {
         let icon = info.symbolic_icon();
-        icon.map(|icon| gtk::Image::from_gicon(&icon, icon_size))
+        icon.map(|icon| gtk::Image::from_gicon(&icon))
     } else {
         None
     }
 }
 
-pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> libhandy::ActionRow {
-    let row = libhandy::ActionRow::builder().activatable(true).build();
+pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> adw::ActionRow {
+    let row = adw::ActionRow::builder().activatable(true).build();
 
     if let Some(gicon) = icon {
-        row.add_prefix(&gtk::Image::from_gicon(gicon, gtk::IconSize::Dnd));
+        row.add_prefix(
+            &gtk::Image::builder()
+                .gicon(gicon)
+                .css_classes(vec![String::from("row-icon")])
+                .build(),
+        );
     }
 
     row

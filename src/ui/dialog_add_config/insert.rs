@@ -31,7 +31,7 @@ pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::Dial
         ui.button_stack().set_visible_child(&ui.add_button());
         ui.encryption_box().hide();
         ui.add_button().show();
-        ui.add_button().grab_default();
+        ui.dialog().set_default_widget(Some(&ui.add_button()));
     } else {
         page_pending::show(&gettext("Loading backup repository"));
         ui.dialog().hide();
@@ -238,14 +238,12 @@ fn execute<
 }
 
 fn command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>> {
+    let (start, end) = ui.command_line_args().buffer().bounds();
     if let Ok(args) = shell_words::split(
         &ui.command_line_args()
             .buffer()
-            .and_then(|buffer| {
-                let (start, end) = buffer.bounds();
-                buffer.text(&start, &end, false).map(|x| x.to_string())
-            })
-            .unwrap_or_default(),
+            .text(&start, &end, false)
+            .to_string(),
     ) {
         Ok(args)
     } else {

@@ -1,6 +1,4 @@
-use gio::prelude::*;
-use gtk::prelude::*;
-use libhandy::prelude::*;
+use adw::prelude::*;
 
 use crate::borg;
 use crate::borg::prelude::*;
@@ -62,7 +60,7 @@ pub async fn refresh_archives_cache(config: Backup) -> Result<()> {
     ui_update_archives_spinner();
 
     let result =
-        ui::utils::borg::exec("Update archive list", config.clone(), |borg| borg.list(100))
+        ui::utils::borg::exec("Update Archive List", config.clone(), |borg| borg.list(100))
             .await
             .into_message(gettext("Failed to refresh archives cache."));
 
@@ -128,8 +126,8 @@ fn show_dir(path: &std::path::Path) -> Result<()> {
     // only open if app isn't closing in this moment
     if !**IS_SHUTDOWN.load() {
         let show_folder = || -> std::result::Result<(), _> {
-            let conn = zbus::Connection::session()?;
-            let proxy = zbus::Proxy::new(
+            let conn = zbus::blocking::Connection::session()?;
+            let proxy = zbus::blocking::Proxy::new(
                 &conn,
                 "org.freedesktop.FileManager1",
                 "/org/freedesktop/FileManager1",
@@ -162,7 +160,7 @@ async fn on_browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
         });
 
         main_ui().pending_menu().show();
-        let mount = ui::utils::borg::exec(gettext("Browse archive"), config.clone(), move |borg| {
+        let mount = ui::utils::borg::exec(gettext("Browse Archive"), config.clone(), move |borg| {
             borg.mount()
         })
         .await;
@@ -212,7 +210,7 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
     ui_update_archives_spinner();
 
     for (archive_name, archive) in repo_cache.archives_sorted_by_date() {
-        let row = libhandy::ExpanderRow::builder()
+        let row = adw::ExpanderRow::builder()
             .title(
                 &archive
                     .start
@@ -226,7 +224,7 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
             ))
             .build();
 
-        let info = |title: String, info: &str| -> libhandy::ActionRow {
+        let info = |title: String, info: &str| -> adw::ActionRow {
             let label = gtk::Label::builder()
                 .label(info)
                 .wrap(true)
@@ -234,40 +232,35 @@ fn ui_display_archives(repo_id: &borg::RepoId) {
                 .build();
             label.add_css_class("dim-label");
 
-            libhandy::ActionRow::builder()
-                .title(&title)
-                .child(&label)
-                .build()
+            let row = adw::ActionRow::builder().title(&title).build();
+            row.add_suffix(&label);
+            row
         };
 
-        row.add(&info(gettext("Name"), archive.name.as_str()));
-        row.add(&info(
+        row.add_row(&info(gettext("Name"), archive.name.as_str()));
+        row.add_row(&info(
             gettext("Duration"),
             &ui::utils::duration::plain(&(archive.end - archive.start)),
         ));
         if !archive.comment.is_empty() {
-            row.add(&info(gettext("Comment"), &archive.comment));
+            row.add_row(&info(gettext("Comment"), &archive.comment));
         }
 
-        let browse_row = libhandy::ActionRow::builder()
+        let browse_row = adw::ActionRow::builder()
             .title(&gettext("Browse saved files"))
             .activatable(true)
             .icon_name("folder-open-symbolic")
-            .child(&gtk::Image::from_icon_name(
-                Some("go-next-symbolic"),
-                gtk::IconSize::Button,
-            ))
             .build();
-        row.add(&browse_row);
+        browse_row.add_suffix(&gtk::Image::from_icon_name(Some("go-next-symbolic")));
+
+        row.add_row(&browse_row);
 
         browse_row.connect_activated(
             enclose!((archive_name) move |_| Handler::run(on_browse_archive(archive_name.clone()))),
         );
 
-        main_ui().archive_list().add(&row);
+        main_ui().archive_list().append(&row);
     }
-
-    main_ui().archive_list().show_all();
 
     if !repo_cache.archives_sorted_by_date().is_empty() {
         main_ui()

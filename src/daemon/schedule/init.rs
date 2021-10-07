@@ -26,8 +26,8 @@ thread_local!(
 pub static BACKUP_STATUS: Lazy<ArcSwap<Option<action::BackupStatus>>> = Lazy::new(Default::default);
 
 async fn listen_remote_app_running() -> Result<()> {
-    let conn = zbus::azync::Connection::session().await?;
-    let mut stream = zbus::fdo::AsyncDBusProxy::new(&conn)
+    let conn = zbus::Connection::session().await?;
+    let mut stream = zbus::fdo::DBusProxy::new(&conn)
         .await?
         .receive_name_owner_changed()
         .await?;

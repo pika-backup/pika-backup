@@ -70,7 +70,7 @@ where
 
         self.rcu(|current| {
             let mut new = T::clone(current);
-            cell.set(updater(&mut new));
+            let _set = cell.set(updater(&mut new));
             new
         });
 

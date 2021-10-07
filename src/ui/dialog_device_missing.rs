@@ -53,16 +53,15 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
 
     let dialog = Rc::new(ui::builder::DialogDeviceMissing::new());
     dialog.window().set_transient_for(Some(&main_ui().window()));
-    dialog.purpose().set_text(purpose);
+    dialog.window().set_title(Some(purpose));
     dialog
         .name()
         .set_label(&repo.clone().into_config().location());
 
     if let Some(g_icon) = repo.icon.and_then(|x| gio::Icon::for_string(&x).ok()) {
-        let img = gtk::Image::from_gicon(&g_icon, gtk::IconSize::Dialog);
+        let img = gtk::Image::from_gicon(&g_icon);
         img.set_pixel_size(128);
-        dialog.icon().add(&img);
-        dialog.icon().show_all();
+        dialog.icon().append(&img);
     }
 
     dialog.cancel().connect_clicked(enclose!((dialog) move |_| {

@@ -1,6 +1,5 @@
+use adw::prelude::*;
 use chrono::prelude::*;
-use gtk::prelude::*;
-use libhandy::prelude::*;
 
 use super::frequency;
 use super::init;
@@ -27,9 +26,9 @@ pub async fn show_page() -> Result<()> {
             .unblock_signal(&init::SCHEDULE_ACTIVE_SIGNAL_HANDLER);
 
         match config.schedule.frequency {
-            config::Frequency::Hourly => main_ui().schedule_frequency().set_selected_index(0),
+            config::Frequency::Hourly => main_ui().schedule_frequency().set_selected(0),
             config::Frequency::Daily { preferred_time } => {
-                main_ui().schedule_frequency().set_selected_index(1);
+                main_ui().schedule_frequency().set_selected(1);
                 main_ui()
                     .schedule_preferred_hour()
                     .set_value(preferred_time.hour() as f64);
@@ -38,13 +37,13 @@ pub async fn show_page() -> Result<()> {
                     .set_value(preferred_time.minute() as f64);
             }
             config::Frequency::Weekly { preferred_weekday } => {
-                main_ui().schedule_frequency().set_selected_index(2);
+                main_ui().schedule_frequency().set_selected(2);
                 main_ui()
                     .preferred_weekday_row()
-                    .set_selected_index(preferred_weekday.num_days_from_monday() as i32);
+                    .set_selected(preferred_weekday.num_days_from_monday());
             }
             config::Frequency::Monthly { preferred_day } => {
-                main_ui().schedule_frequency().set_selected_index(3);
+                main_ui().schedule_frequency().set_selected(3);
                 main_ui()
                     .schedule_preferred_day_calendar()
                     .set_day(preferred_day as i32);
@@ -58,14 +57,7 @@ pub async fn show_page() -> Result<()> {
 fn frequency() -> Result<config::Frequency> {
     if let Some(frequency) = main_ui()
         .schedule_frequency()
-        .model()
-        .and_then(|model| {
-            let index = main_ui().schedule_frequency().selected_index();
-            if index.is_negative() {
-                return None;
-            }
-            model.item(index as u32)
-        })
+        .selected_item()
         .and_then(|x| x.downcast::<frequency::FrequencyObject>().ok())
     {
         Ok(match frequency.frequency() {
@@ -81,7 +73,7 @@ fn frequency() -> Result<config::Frequency> {
             config::Frequency::Weekly { .. } => config::Frequency::Weekly {
                 preferred_weekday: main_ui()
                     .preferred_weekday_row()
-                    .selected()
+                    .selected_cast()
                     .as_ref()
                     .map(weekday::WeekdayObject::weekday)
                     .ok_or_else(|| Message::short(gettext("Invalid weekday.")))?,
@@ -143,16 +135,18 @@ pub async fn preferred_time_close() -> Result<()> {
     ui::write_config()
 }
 
-pub fn preferred_time_change(button: &gtk::SpinButton) -> Inhibit {
-    main_ui().schedule_preferred_time().set_label(&format!(
-        "{:02}\u{2009}:\u{2009}{:02}",
-        main_ui().schedule_preferred_hour().value(),
-        main_ui().schedule_preferred_minute().value()
-    ));
+pub fn preferred_time_change(button: &gtk::SpinButton) -> gtk::Inhibit {
+    main_ui()
+        .schedule_preferred_time_button()
+        .set_label(&format!(
+            "{:02}\u{2009}:\u{2009}{:02}",
+            main_ui().schedule_preferred_hour().value(),
+            main_ui().schedule_preferred_minute().value()
+        ));
 
     button.set_text(&format!("{:02}", button.value()));
 
-    Inhibit(true)
+    gtk::Inhibit(true)
 }
 
 pub async fn preferred_weekday_change() -> Result<()> {

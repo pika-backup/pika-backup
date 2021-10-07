@@ -32,7 +32,7 @@ impl Ask {
         let ui = ui::builder::DialogEncryptionPassword::new();
 
         ui.dialog().set_transient_for(Some(&main_ui().window()));
-        ui.dialog().show_all();
+        ui.dialog().show();
 
         if !self.pre_select_store {
             ui.password_forget().set_active(true);
@@ -45,19 +45,12 @@ impl Ask {
             ui.purpose().hide();
         }
 
-        let dialog = ui.dialog();
-        ui.cancel()
-            .connect_clicked(move |_| dialog.response(gtk::ResponseType::Cancel));
-        let dialog = ui.dialog();
-        ui.ok()
-            .connect_clicked(move |_| dialog.response(gtk::ResponseType::Ok));
-
         let response = ui.dialog().run_future().await;
         let password = Zeroizing::new(ui.password().text().as_bytes().to_vec());
         ui.dialog().close();
         ui.dialog().hide();
 
-        if gtk::ResponseType::Ok == response {
+        if gtk::ResponseType::Apply == response {
             Some((password, ui.password_store().is_active()))
         } else {
             None

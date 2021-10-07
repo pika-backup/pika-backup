@@ -13,7 +13,7 @@ impl DialogAbout {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::object(&self.builder, id)
+        gtk::Builder::object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/dialog_about.ui'", id))
     }
 
@@ -37,7 +37,7 @@ impl DialogAddConfig {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::object(&self.builder, id).unwrap_or_else(|| {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_add_config.ui'",
                 id
@@ -49,11 +49,11 @@ impl DialogAddConfig {
         self.get("add_button")
     }
 
-    pub fn add_local_row(&self) -> libhandy::ActionRow {
+    pub fn add_local_row(&self) -> adw::ActionRow {
         self.get("add_local_row")
     }
 
-    pub fn add_remote_row(&self) -> libhandy::ActionRow {
+    pub fn add_remote_row(&self) -> adw::ActionRow {
         self.get("add_remote_row")
     }
 
@@ -101,15 +101,15 @@ impl DialogAddConfig {
         self.get("init_dir")
     }
 
-    pub fn init_local_row(&self) -> libhandy::ActionRow {
+    pub fn init_local_row(&self) -> adw::ActionRow {
         self.get("init_local_row")
     }
 
-    pub fn init_path(&self) -> gtk::FileChooserButton {
+    pub fn init_path(&self) -> crate::ui::export::FolderButton {
         self.get("init_path")
     }
 
-    pub fn init_remote_row(&self) -> libhandy::ActionRow {
+    pub fn init_remote_row(&self) -> adw::ActionRow {
         self.get("init_remote_row")
     }
 
@@ -153,11 +153,11 @@ impl DialogAddConfig {
         self.get("non_journaling_warning")
     }
 
-    pub fn password(&self) -> gtk::Entry {
+    pub fn password(&self) -> gtk::PasswordEntry {
         self.get("password")
     }
 
-    pub fn password_confirm(&self) -> gtk::Entry {
+    pub fn password_confirm(&self) -> gtk::PasswordEntry {
         self.get("password_confirm")
     }
 
@@ -209,7 +209,7 @@ impl DialogDeviceMissing {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::object(&self.builder, id).unwrap_or_else(|| {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_device_missing.ui'",
                 id
@@ -227,10 +227,6 @@ impl DialogDeviceMissing {
 
     pub fn name(&self) -> gtk::Label {
         self.get("name")
-    }
-
-    pub fn purpose(&self) -> gtk::Label {
-        self.get("purpose")
     }
 
     pub fn window(&self) -> gtk::Dialog {
@@ -253,7 +249,7 @@ impl DialogEncryptionPassword {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::object(&self.builder, id).unwrap_or_else(|| {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_encryption_password.ui'",
                 id
@@ -277,11 +273,11 @@ impl DialogEncryptionPassword {
         self.get("password")
     }
 
-    pub fn password_forget(&self) -> gtk::RadioButton {
+    pub fn password_forget(&self) -> gtk::CheckButton {
         self.get("password_forget")
     }
 
-    pub fn password_store(&self) -> gtk::RadioButton {
+    pub fn password_store(&self) -> gtk::CheckButton {
         self.get("password_store")
     }
 
@@ -305,7 +301,7 @@ impl DialogStorage {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::object(&self.builder, id).unwrap_or_else(|| {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
             panic!(
                 "Object with id '{}' not found in 'ui/dialog_storage.ui'",
                 id
@@ -390,7 +386,7 @@ impl Main {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::object(&self.builder, id)
+        gtk::Builder::object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/main.ui'", id))
     }
 
@@ -498,7 +494,7 @@ impl Main {
         self.get("detail_original_size")
     }
 
-    pub fn detail_path_row(&self) -> libhandy::ActionRow {
+    pub fn detail_path_row(&self) -> adw::ActionRow {
         self.get("detail_path_row")
     }
 
@@ -506,7 +502,7 @@ impl Main {
         self.get("detail_repo_icon")
     }
 
-    pub fn detail_repo_row(&self) -> libhandy::ActionRow {
+    pub fn detail_repo_row(&self) -> adw::ActionRow {
         self.get("detail_repo_row")
     }
 
@@ -514,7 +510,7 @@ impl Main {
         self.get("detail_running_backup_info")
     }
 
-    pub fn detail_stack(&self) -> gtk::Stack {
+    pub fn detail_stack(&self) -> adw::ViewStack {
         self.get("detail_stack")
     }
 
@@ -526,7 +522,7 @@ impl Main {
         self.get("detail_status_right")
     }
 
-    pub fn detail_status_row(&self) -> libhandy::ActionRow {
+    pub fn detail_status_row(&self) -> adw::ActionRow {
         self.get("detail_status_row")
     }
 
@@ -538,7 +534,7 @@ impl Main {
         self.get("include_home")
     }
 
-    pub fn include_home_row(&self) -> libhandy::ActionRow {
+    pub fn include_home_row(&self) -> adw::ActionRow {
         self.get("include_home_row")
     }
 
@@ -606,23 +602,15 @@ impl Main {
         self.get("pending_popover")
     }
 
-    pub fn preferred_day_button(&self) -> gtk::MenuButton {
-        self.get("preferred_day_button")
-    }
-
-    pub fn preferred_day_row(&self) -> libhandy::ActionRow {
+    pub fn preferred_day_row(&self) -> adw::ActionRow {
         self.get("preferred_day_row")
     }
 
-    pub fn preferred_time_button(&self) -> gtk::MenuButton {
-        self.get("preferred_time_button")
-    }
-
-    pub fn preferred_time_row(&self) -> libhandy::ActionRow {
+    pub fn preferred_time_row(&self) -> adw::ActionRow {
         self.get("preferred_time_row")
     }
 
-    pub fn preferred_weekday_row(&self) -> libhandy::ComboRow {
+    pub fn preferred_weekday_row(&self) -> adw::ComboRow {
         self.get("preferred_weekday_row")
     }
 
@@ -634,15 +622,11 @@ impl Main {
         self.get("refresh_archives")
     }
 
-    pub fn remove_backup(&self) -> gtk::ModelButton {
-        self.get("remove_backup")
-    }
-
-    pub fn schedule_active(&self) -> libhandy::ExpanderRow {
+    pub fn schedule_active(&self) -> adw::ExpanderRow {
         self.get("schedule_active")
     }
 
-    pub fn schedule_frequency(&self) -> libhandy::ComboRow {
+    pub fn schedule_frequency(&self) -> adw::ComboRow {
         self.get("schedule_frequency")
     }
 
@@ -682,7 +666,7 @@ impl Main {
         self.get("schedule_pause")
     }
 
-    pub fn schedule_preferred_day(&self) -> gtk::Label {
+    pub fn schedule_preferred_day(&self) -> gtk::MenuButton {
         self.get("schedule_preferred_day")
     }
 
@@ -710,8 +694,8 @@ impl Main {
         self.get("schedule_preferred_minute_adj")
     }
 
-    pub fn schedule_preferred_time(&self) -> gtk::Label {
-        self.get("schedule_preferred_time")
+    pub fn schedule_preferred_time_button(&self) -> gtk::MenuButton {
+        self.get("schedule_preferred_time_button")
     }
 
     pub fn schedule_preferred_time_popover(&self) -> gtk::Popover {
@@ -722,7 +706,7 @@ impl Main {
         self.get("secondary_menu_button")
     }
 
-    pub fn secondary_menu_popover(&self) -> gtk::Popover {
+    pub fn secondary_menu_popover(&self) -> gtk::PopoverMenu {
         self.get("secondary_menu_popover")
     }
 
@@ -746,11 +730,11 @@ impl Main {
         self.get("target_listbox")
     }
 
-    pub fn view_switcher_bottom(&self) -> libhandy::ViewSwitcherBar {
+    pub fn view_switcher_bottom(&self) -> adw::ViewSwitcherBar {
         self.get("view_switcher_bottom")
     }
 
-    pub fn view_switcher_title(&self) -> libhandy::ViewSwitcherTitle {
+    pub fn view_switcher_title(&self) -> adw::ViewSwitcherTitle {
         self.get("view_switcher_title")
     }
 
@@ -762,7 +746,7 @@ impl Main {
         self.get("viewport_detail")
     }
 
-    pub fn window(&self) -> libhandy::ApplicationWindow {
+    pub fn window(&self) -> adw::ApplicationWindow {
         self.get("window")
     }
 }
@@ -782,7 +766,7 @@ impl OverviewItem {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::prelude::BuilderExtManual::object(&self.builder, id)
+        gtk::Builder::object(&self.builder, id)
             .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/overview_item.ui'", id))
     }
 
