@@ -23,9 +23,6 @@
       </item>
     </section>
   </menu>
-  <object class="GtkPopoverMenu" id="main_menu_popover">
-    <property name="menu_model">app_menu</property>
-  </object>
   <object class="GtkPopover" id="pending_popover">
     <property name="child">
       <object class="GtkLabel">
@@ -113,9 +110,6 @@ This might take a while.</property>
       </object>
     </property>
   </object>
-  <object class="GtkPopoverMenu" id="secondary_menu_popover">
-    <property name="menu_model">detail_menu</property>
-  </object>
   <object class="AdwApplicationWindow" id="window">
     <property name="default-width">782</property>
     <property name="default-height">626</property>
@@ -133,7 +127,6 @@ This might take a while.</property>
             <child type="end">
               <object class="GtkMenuButton" id="pending_menu">
                 <property name="visible">0</property>
-                <property name="receives-default">1</property>
                 <property name="popover">pending_popover</property>
                 <child>
                   <object class="GtkSpinner" id="pending_menu_spinner"/>
@@ -145,28 +138,24 @@ This might take a while.</property>
             </child>
             <child type="start">
               <object class="GtkButton" id="add_backup">
-                <property name="receives-default">1</property>
                 <property name="tooltip-text" translatable="yes">Add backup configuration</property>
                 <property name="icon-name">list-add-symbolic</property>
               </object>
             </child>
             <child type="end">
               <object class="GtkMenuButton" id="primary_menu_button">
-                <property name="receives-default">1</property>
-                <property name="popover">main_menu_popover</property>
+                <property name="menu-model">app_menu</property>
                 <property name="icon-name">open-menu-symbolic</property>
               </object>
             </child>
             <child type="end">
               <object class="GtkMenuButton" id="secondary_menu_button">
-                <property name="receives-default">1</property>
-                <property name="popover">secondary_menu_popover</property>
+                <property name="menu-model">detail_menu</property>
                 <property name="icon-name">view-more-symbolic</property>
               </object>
             </child>
             <child type="start">
               <object class="GtkButton" id="back_button">
-                <property name="receives-default">1</property>
                 <property name="tooltip-text" translatable="yes">Back to overview</property>
                 <property name="icon-name">go-previous-symbolic</property>
               </object>
@@ -239,7 +228,6 @@ This might take a while.</property>
                                                               <object class="GtkButton" id="stop_backup_create">
                                                                 <property name="visible">0</property>
                                                                 <property name="label" translatable="yes">_Abort</property>
-                                                                <property name="receives-default">1</property>
                                                                 <property name="halign">center</property>
                                                                 <property name="valign">center</property>
                                                                 <property name="use-underline">1</property>
@@ -259,11 +247,7 @@ This might take a while.</property>
                                                       </object>
                                                     </child>
                                                     <child>
-                                                      <object class="AdwActionRow" id="detail_repo_row">
-                                                        <child>
-                                                          <placeholder/>
-                                                        </child>
-                                                      </object>
+                                                      <object class="AdwActionRow" id="detail_repo_row"/>
                                                     </child>
                                                     <style>
                                                       <class name="content"/>
@@ -273,7 +257,6 @@ This might take a while.</property>
                                                 <child>
                                                   <object class="GtkButton" id="backup_run">
                                                     <property name="label" translatable="yes">_Back Up Now</property>
-                                                    <property name="receives-default">1</property>
                                                     <property name="halign">center</property>
                                                     <property name="valign">start</property>
                                                     <property name="use-underline">1</property>
@@ -298,14 +281,13 @@ This might take a while.</property>
                                                         <property name="halign">start</property>
                                                         <property name="hexpand">1</property>
                                                         <property name="hexpand-set">1</property>
-                                                        <attributes>
-                                                          <attribute name="weight" value="bold"></attribute>
-                                                        </attributes>
+                                                        <style>
+                                                          <class name="heading"/>
+                                                        </style>
                                                       </object>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="add_include">
-                                                        <property name="receives-default">1</property>
                                                         <property name="tooltip-text" translatable="yes">Include directory</property>
                                                         <property name="icon-name">list-add-symbolic</property>
                                                         <style>
@@ -359,14 +341,13 @@ This might take a while.</property>
                                                         <property name="halign">start</property>
                                                         <property name="hexpand">1</property>
                                                         <property name="hexpand-set">1</property>
-                                                        <attributes>
-                                                          <attribute name="weight" value="bold"></attribute>
-                                                        </attributes>
+                                                        <style>
+                                                          <class name="heading"/>
+                                                        </style>
                                                       </object>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="add_exclude">
-                                                        <property name="receives-default">1</property>
                                                         <property name="tooltip-text" translatable="yes">Add excluded directory</property>
                                                         <property name="icon-name">list-add-symbolic</property>
                                                         <style>
@@ -443,9 +424,9 @@ This might take a while.</property>
                                                     <property name="hexpand">1</property>
                                                     <property name="hexpand-set">1</property>
                                                     <property name="label" translatable="yes">Archives</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"></attribute>
-                                                    </attributes>
+                                                    <style>
+                                                      <class name="heading"/>
+                                                    </style>
                                                   </object>
                                                 </child>
                                                 <child>
@@ -453,7 +434,6 @@ This might take a while.</property>
                                                     <property name="transition-duration">0</property>
                                                     <child>
                                                       <object class="GtkButton" id="refresh_archives">
-                                                        <property name="receives-default">1</property>
                                                         <property name="tooltip-text" translatable="yes">Refresh list of archives</property>
                                                         <property name="icon-name">view-refresh-symbolic</property>
                                                         <style>
@@ -475,7 +455,6 @@ This might take a while.</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkButton" id="archives_eject_button">
-                                                    <property name="receives-default">1</property>
                                                     <property name="tooltip-text" translatable="yes">Stop browsing archive files</property>
                                                     <property name="icon-name">media-eject-symbolic</property>
                                                     <style>
@@ -552,7 +531,6 @@ This might take a while.</property>
                                                     <property name="subtitle" translatable="yes">Will not start until connected to battery</property>
                                                     <child>
                                                       <object class="GtkToggleButton" id="schedule_pause">
-                                                        <property name="receives-default">1</property>
                                                         <property name="valign">center</property>
                                                         <child>
                                                           <object class="GtkImage">
@@ -617,9 +595,6 @@ This might take a while.</property>
                                                           <lookup type="PikaBackupWeekday" name="display"/>
                                                         </property>
                                                         <property name="title" translatable="yes">Preferred Weekday</property>
-                                                        <child>
-                                                          <placeholder/>
-                                                        </child>
                                                       </object>
                                                     </child>
                                                     <child>
@@ -796,7 +771,6 @@ This might take a while.</property>
                         <child>
                           <object class="GtkButton" id="add_backup_empty">
                             <property name="label" translatable="yes">Configure Backup</property>
-                            <property name="receives-default">1</property>
                             <property name="halign">center</property>
                             <style>
                               <class name="suggested-action"/>
@@ -916,9 +890,9 @@ This might take a while.</property>
                               <object class="GtkLabel" id="detail_info_status">
                                 <property name="label">&lt;status&gt;</property>
                                 <property name="xalign">0</property>
-                                <attributes>
-                                  <attribute name="weight" value="bold"></attribute>
-                                </attributes>
+                                <style>
+                                  <class name="heading"/>
+                                </style>
                               </object>
                             </child>
                             <child>

@@ -350,7 +350,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
     }
 
     let button = gtk::Button::builder()
-        .child(&gtk::Image::from_icon_name(Some("edit-delete-symbolic")))
+        .icon_name("edit-delete-symbolic")
         .build();
     row.add_suffix(&button);
     button.set_valign(gtk::Align::Center);
@@ -459,7 +459,7 @@ pub fn refresh() -> Result<()> {
                     .icon_name("folder-saved-search")
                     .build();
                 let button = gtk::Button::builder()
-                    .child(&gtk::Image::from_icon_name(Some("edit-delete-symbolic")))
+                    .icon_name("edit-delete-symbolic")
                     .build();
                 button.set_valign(gtk::Align::Center);
                 button.connect_clicked(move |_| {
