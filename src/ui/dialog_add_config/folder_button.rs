@@ -54,7 +54,7 @@ mod imp {
                     "file",
                     "file",
                     "file",
-                    glib::types::Type::OBJECT,
+                    gio::File::static_type(),
                     ParamFlags::READWRITE,
                 )]
             });
@@ -71,10 +71,9 @@ mod imp {
         fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
                 "file" => {
-                    let file_obj: Option<glib::Object> = value.get().ok().flatten();
-                    let file = file_obj.and_then(|x| x.downcast::<gio::File>().ok());
+                    let file = value.get::<gio::File>().ok();
 
-                    let info = file.as_ref().and_then(|x: &gio::File| {
+                    let info = file.as_ref().and_then(|x| {
                         x.query_info(
                             "standard::*",
                             gtk::gio::FileQueryInfoFlags::NONE,
