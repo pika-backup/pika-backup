@@ -550,10 +550,6 @@ impl Main {
         self.get("main_backups")
     }
 
-    pub fn main_menu_popover(&self) -> gtk::PopoverMenu {
-        self.get("main_menu_popover")
-    }
-
     pub fn main_stack(&self) -> gtk::Stack {
         self.get("main_stack")
     }
@@ -574,7 +570,7 @@ impl Main {
         self.get("page_overview")
     }
 
-    pub fn page_overview_empty(&self) -> gtk::Box {
+    pub fn page_overview_empty(&self) -> adw::StatusPage {
         self.get("page_overview_empty")
     }
 
@@ -704,10 +700,6 @@ impl Main {
 
     pub fn secondary_menu_button(&self) -> gtk::MenuButton {
         self.get("secondary_menu_button")
-    }
-
-    pub fn secondary_menu_popover(&self) -> gtk::PopoverMenu {
-        self.get("secondary_menu_popover")
     }
 
     pub fn status_graphic(&self) -> gtk::Stack {
