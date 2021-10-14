@@ -139,6 +139,9 @@ impl Borg {
         let mut borg_call = BorgCall::new("create");
         borg_call
             .add_options(&["--progress", "--json"])
+            // Good and fast compression
+            // <https://gitlab.gnome.org/World/pika-backup/-/issues/51>
+            .add_options(&["--compression=zstd"])
             .add_basics(self)?
             .add_archive(self)
             .add_include_exclude(self);

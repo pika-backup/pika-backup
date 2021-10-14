@@ -3,6 +3,7 @@
 ## 0.4.0 Unreleased
 
 - Fixes not all data in mounted archives where always readable
+- Changes backup compression to the more effective "Zstandard" algorithm
 
 ## 0.3.5 (2021-09-08)
 
