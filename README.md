@@ -23,7 +23,7 @@ Pika Backup is powered by the well-tested borg-backup software.
   
 Currently, scheduled backups are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Pika Backup is designed to save your personal data and does not support complete system recovery.
 
-![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/cdaa38a5dbe5fb091f4f0761bac5273f/pika-backup-1.png)
+![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/265fa0f59b62587b5eb48a8a83617b6e/pika-backup-1.png)
 
 ### The Name
 
