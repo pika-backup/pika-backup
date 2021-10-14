@@ -378,8 +378,6 @@ pub fn refresh() -> Result<()> {
     }
 
     // backup target ui
-    let repo_ui = main_ui().target_listbox();
-
     if let Ok(icon) = gio::Icon::for_string(&backup.repo.icon()) {
         main_ui().detail_repo_icon().set_from_gicon(&icon);
     }
