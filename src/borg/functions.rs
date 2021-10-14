@@ -115,6 +115,9 @@ impl Borg {
 
         let borg = BorgCall::new("mount")
             .add_basics(self)?
+            // Make all data readable for the current user
+            // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
+            .add_options(&["-o", &format!("umask=0277,uid={}", nix::unistd::getuid())])
             .add_positional(&Self::mount_point(&self.config.repo_id).to_string_lossy())
             .output()?;
 

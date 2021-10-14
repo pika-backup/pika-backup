@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 Unreleased
+
+- Fixes not all data in mounted archives where always readable
+
 ## 0.3.5 (2021-09-08)
 
 - Fix metadata.
