@@ -64,7 +64,7 @@ async fn on_add_repo_list_activated_local(ui: Rc<builder::DialogAddConfig>) -> R
             .into());
         }
     } else {
-        ui.dialog().show();
+        ui.dialog().present();
     }
 
     Ok(())

@@ -79,7 +79,7 @@ pub fn new_backup() {
         }));
     });
 
-    ui.dialog().show();
+    ui.dialog().present();
 }
 
 fn on_path_change(ui: &builder::DialogAddConfig) {

@@ -39,7 +39,7 @@ pub fn show() {
         debug!("Displaying ui that was hidden before.");
 
         gtk_app().add_window(&main_ui().window());
-        main_ui().window().show();
+        main_ui().window().present();
 
         if !is_initialized() {
             Handler::run(ui::init_check_borg());
