@@ -12,9 +12,8 @@ project(
 
 i18n = import ('i18n')
 
-dependency('dbus-1')
-dependency('gtk+-3.0')
-dependency('libhandy-1')
+dependency('gtk4', version: '>= 4.0.0')
+dependency('libadwaita-1', version: '>= 1.0.0-alpha.2')
 
 bindir = get_option('prefix') / get_option('bindir')
 etcdir = get_option('prefix') / get_option('sysconfdir')
