@@ -5,11 +5,9 @@ extern crate quick_error;
 #[macro_use]
 extern crate enclose;
 #[macro_use]
+extern crate async_recursion;
+#[macro_use]
 pub mod prelude;
-
-static BORG_DELAY_RECONNECT: std::time::Duration = std::time::Duration::from_secs(60);
-static BORG_MAX_RECONNECT: u16 = 30;
-static BORG_LOCK_WAIT_RECONNECT: std::time::Duration = std::time::Duration::from_secs(60 * 7);
 
 const REPO_MOUNT_DIR: &str = ".mnt/borg";
 

@@ -248,6 +248,7 @@ pub enum Run {
     Init,
     SizeEstimation,
     Running,
+    Stalled,
     Reconnecting,
     Stopping,
 }

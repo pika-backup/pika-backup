@@ -101,8 +101,11 @@ impl From<&borg::Communication> for Display {
                             &[&format!("{:.1}", fraction * 100.0)],
                         );
 
-                        if let Some(duration) = status.time_remaining() {
-                            sub.push_str(&format!(" – {}", utils::duration::left(&duration)));
+                        // Do not show estimate when stalled for example
+                        if matches!(status.run, borg::status::Run::Running) {
+                            if let Some(remaining) = status.time_remaining() {
+                                sub.push_str(&format!(" – {}", utils::duration::left(&remaining)));
+                            }
                         }
 
                         subtitle = Some(sub);
@@ -141,11 +144,12 @@ impl From<&borg::Communication> for Display {
             Run::Init => gettext("Preparing backup"),
             Run::SizeEstimation => gettext("Estimating backup size"),
             Run::Running => gettext("Backup running"),
+            Run::Stalled => gettext("Backup destination unresponsive"),
             Run::Reconnecting => {
                 subtitle = Some(gettextf(
                     "Connection lost, reconnecting in {}",
                     &[&utils::duration::plain(&utils::duration::from_std(
-                        crate::BORG_DELAY_RECONNECT,
+                        borg::DELAY_RECONNECT,
                     ))],
                 ));
                 gettext("Reconnecting")

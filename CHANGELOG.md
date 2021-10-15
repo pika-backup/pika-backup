@@ -2,8 +2,10 @@
 
 ## 0.4.0 Unreleased
 
-- Fixes not all data in mounted archives where always readable
-- Changes backup compression to the more effective "Zstandard" algorithm
+- Fix not all data in mounted archives where always readable
+- Fix backups cannot be aborted if backup source is unresponsive
+- Change backup compression to the more effective "Zstandard" algorithm
+- Add message to user interface if target devive or server is unrepsonive
 
 ## 0.3.5 (2021-09-08)
 

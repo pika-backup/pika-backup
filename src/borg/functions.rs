@@ -1,4 +1,6 @@
-use std::io::{BufRead, BufReader};
+use futures::prelude::*;
+
+use std::time::Duration;
 
 use super::*;
 use crate::config;
@@ -127,10 +129,15 @@ impl Borg {
     }
 
     pub fn create(&self, communication: Communication) -> Result<Stats> {
-        self.create_internal(communication, 0)
+        let executor = async_executor::Executor::new();
+
+        let task = executor.spawn(self.create_internal(communication, 0));
+
+        futures::executor::block_on(executor.run(task))
     }
 
-    fn create_internal(&self, communication: Communication, retries: u16) -> Result<Stats> {
+    #[async_recursion]
+    async fn create_internal(&self, communication: Communication, retries: u16) -> Result<Stats> {
         communication
             .status
             .update(move |status| status.message_history.push(Default::default()));
@@ -147,16 +154,13 @@ impl Borg {
             .add_include_exclude(self);
 
         if retries > 0 {
-            borg_call.add_options(&[
-                "--lock-wait",
-                &crate::BORG_LOCK_WAIT_RECONNECT.as_secs().to_string(),
-            ]);
+            borg_call.add_options(&["--lock-wait", &LOCK_WAIT_RECONNECT.as_secs().to_string()]);
         }
 
         communication.status.update(move |status| {
             status.run = Run::Running;
         });
-        let mut borg = borg_call.spawn()?;
+        let mut borg = borg_call.spawn_async()?;
 
         let mut last_skipped = 0.;
         let mut last_copied = 0.;
@@ -167,13 +171,19 @@ impl Borg {
         });
 
         let mut line = String::new();
-        let mut reader = BufReader::new(
+        let mut reader = futures::io::BufReader::new(
             borg.stderr
                 .take()
                 .ok_or_else(|| String::from("Failed to get stderr."))?,
         );
 
-        while reader.read_line(&mut line)? > 0 {
+        let mut unresponsive = Duration::ZERO;
+
+        loop {
+            let read =
+                async_std::io::timeout(MESSAGE_POLL_TIMEOUT, reader.read_line(&mut line)).await;
+
+            // react to abort instruction before potentially listening for messages again
             if matches!(**communication.instruction.load(), Instruction::Abort) {
                 communication.status.update(|status| {
                     status.run = Run::Stopping;
@@ -183,9 +193,26 @@ impl Borg {
                     nix::unistd::Pid::from_raw(borg.id() as i32),
                     nix::sys::signal::Signal::SIGTERM,
                 )?;
-                borg.wait()?;
+                borg.status().await?;
                 return Err(Error::Aborted(error::Abort::User));
             }
+
+            match read {
+                Err(err) if err.kind() == async_std::io::ErrorKind::TimedOut => {
+                    unresponsive += MESSAGE_POLL_TIMEOUT;
+                    if unresponsive > STALL_THRESHOLD {
+                        communication.status.update(|status| {
+                            status.run = Run::Stalled;
+                        });
+                    }
+                    continue;
+                }
+                Err(err) => return Err(err.into()),
+                Ok(0) => break,
+                Ok(_) => {}
+            }
+
+            unresponsive = Duration::ZERO;
 
             if let Ok(ref msg) = serde_json::from_str::<msg::Progress>(&line) {
                 trace!("borg::create: {:?}", msg);
@@ -197,6 +224,7 @@ impl Borg {
                     last_time = std::time::Instant::now();
 
                     communication.status.update(move |status| {
+                        status.run = Run::Running;
                         status.total = progress.original_size as f64;
                         status.copied = progress.deduplicated_size as f64;
 
@@ -216,15 +244,16 @@ impl Borg {
                 });
             } else {
                 let msg = check_line(&line);
-                if msg.is_connection_error() && retries <= crate::BORG_MAX_RECONNECT {
+                if msg.is_connection_error() && retries <= MAX_RECONNECT {
                     communication.status.update(|status| {
                         status.run = Run::Reconnecting;
                     });
-                    borg.wait()?;
-                    std::thread::sleep(crate::BORG_DELAY_RECONNECT);
-                    return self.create_internal(communication, retries + 1);
+                    borg.status().await?;
+                    std::thread::sleep(DELAY_RECONNECT);
+                    return self.create_internal(communication, retries + 1).await;
                 } else {
                     communication.status.update(move |status| {
+                        status.run = Run::Running;
                         if let Some(history) = status.message_history.last_mut() {
                             if history.0.len() < Status::MESSAGE_HISTORY_LENGTH {
                                 history.0.push(msg.clone());
@@ -248,7 +277,7 @@ impl Borg {
             line.clear();
         }
 
-        let output = borg.wait_with_output()?;
+        let output = borg.output().await?;
         let exit_status = output.status;
         debug!("borg::create exited with {:?}", exit_status.code());
 

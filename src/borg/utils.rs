@@ -243,13 +243,28 @@ impl BorgCall {
         cmd
     }
 
-    pub fn spawn(&self) -> std::io::Result<std::process::Child> {
-        info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
-        self.cmd().spawn()
-    }
-
     pub fn output(&self) -> std::io::Result<std::process::Output> {
         info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
         self.cmd().output()
+    }
+
+    pub fn cmd_async(&self) -> async_process::Command {
+        let mut cmd = async_process::Command::new("borg");
+
+        cmd.args(self.args())
+            .stderr(async_process::Stdio::piped())
+            .stdout(async_process::Stdio::piped())
+            .envs(self.envs.clone().into_iter());
+
+        cmd
+    }
+
+    pub fn spawn_async(&self) -> std::io::Result<async_process::Child> {
+        info!(
+            "Async running borg: {:#?}\nenv: {:#?}",
+            &self.args(),
+            &self.envs
+        );
+        self.cmd_async().spawn()
     }
 }
