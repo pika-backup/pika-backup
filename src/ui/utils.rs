@@ -327,16 +327,32 @@ pub fn clear(listbox: &gtk::ListBox) {
 pub fn file_icon(path: &std::path::Path) -> Option<gtk::Image> {
     let file = gio::File::for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, gio::NONE_CANCELLABLE);
+
+    let mut gicon = None;
     if let Ok(info) = info {
-        info.icon().map(|icon| {
-            gtk::Image::builder()
-                .gicon(&icon)
-                .css_classes(vec![String::from("row-icon")])
-                .build()
-        })
-    } else {
-        None
+        if let Some(icon) = info.icon() {
+            gicon = Some(icon.clone());
+
+            if let Some(theme) =
+                gtk::gdk::Display::default().and_then(|d| gtk::IconTheme::for_display(&d))
+            {
+                if !theme.has_gicon(&icon) {
+                    gicon = gio::Icon::for_string("system-run").ok();
+                }
+            }
+        }
     }
+
+    if gicon.is_none() {
+        gicon = gio::Icon::for_string("folder-visiting").ok();
+    }
+
+    gicon.map(|x| {
+        gtk::Image::builder()
+            .gicon(&x)
+            .css_classes(vec![String::from("row-icon")])
+            .build()
+    })
 }
 
 pub fn file_symbolic_icon(path: &std::path::Path) -> Option<gtk::Image> {

@@ -96,12 +96,12 @@ fn on_startup(_app: &gtk::Application) {
     debug!("Signal 'startup'");
     load_config();
 
-    if let Some(screen) = gtk::gdk::Display::default() {
+    if let Some(display) = gtk::gdk::Display::default() {
         let provider = gtk::CssProvider::new();
         provider.load_from_data(include_bytes!("../data/style.css"));
 
         gtk::StyleContext::add_provider_for_display(
-            &screen,
+            &display,
             &provider,
             gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
         );

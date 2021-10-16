@@ -12,7 +12,7 @@ project(
 
 i18n = import ('i18n')
 
-dependency('gtk4', version: '>= 4.0.0')
+dependency('gtk4', version: '>= 4.2.0')
 dependency('libadwaita-1', version: '>= 1.0.0-alpha.2')
 
 bindir = get_option('prefix') / get_option('bindir')
