@@ -77,9 +77,7 @@ impl Global {
             });
 
         if let Some((running_config_id, _)) = running_backup {
-            if *running_config_id == config.id {
-                vec.push(Self::ThisBackupRunning)
-            } else {
+            if *running_config_id != config.id {
                 vec.push(Self::OtherBackupRunning(running_config_id.clone()))
             }
         }
@@ -113,6 +111,7 @@ impl Hint {
 #[derive(Debug, Clone)]
 pub enum Due {
     NotDue { next: DateTime<Local> },
+    Running,
 }
 
 impl std::fmt::Display for Due {
@@ -131,6 +130,7 @@ impl std::fmt::Display for Due {
                         .to_string()
                 )
             ),
+            Self::Running => write!(f, "{}", gettext("Backup running")),
         }
     }
 }
@@ -142,7 +142,9 @@ impl Due {
         let history_all = BACKUP_HISTORY.load();
         let history = history_all.get_result(&config.id).ok();
 
-        if let Some(last_run) = history.and_then(|x| x.run.front()) {
+        if history.map(|x| x.running.is_some()) == Some(true) {
+            Err(Self::Running)
+        } else if let Some(last_run) = history.and_then(|x| x.run.front()) {
             let last_completed = history.and_then(|x| x.last_completed.as_ref());
 
             let last_run_datetime = last_run.end;
