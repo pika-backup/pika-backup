@@ -291,6 +291,19 @@ impl Repository {
         matches!(self, Self::Remote(_)) || self.uri_fuse().is_some()
     }
 
+    pub fn is_drive_connected(&self) -> Result<bool, ()> {
+        match self {
+            Self::Local(local::Repository {
+                removable,
+                volume_uuid: Some(volume_uuid),
+                ..
+            }) if *removable => Ok(gio::VolumeMonitor::get()
+                .volume_for_uuid(volume_uuid)
+                .is_some()),
+            _ => Err(()),
+        }
+    }
+
     pub fn subtitle(&self) -> String {
         match self {
             Self::Local(local) => local

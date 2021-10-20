@@ -9,7 +9,6 @@ use crate::daemon::error::Result;
 use crate::daemon::prelude::*;
 use crate::daemon::utils;
 use arc_swap::ArcSwap;
-use chrono::prelude::*;
 use futures::stream::StreamExt;
 use gio::prelude::*;
 use once_cell::sync::Lazy;
@@ -123,56 +122,22 @@ fn track_activity() {
 }
 
 fn probe(config: &config::Backup) {
-    let time0 = chrono::Local.timestamp(0, 0);
-
     let schedule = &config.schedule;
     debug!("---");
     debug!("Probing backup: {}", config.repo);
     debug!("Frequency: {:?}", schedule.frequency);
 
-    if let Err(reason) = requirements::Global::check(config) {
-        debug!("Global requirement not fulfilled: {:?}", reason);
-        return;
-    }
+    let global = requirements::Global::check(config);
+    let due = requirements::Due::check(config);
 
-    let history_all = BACKUP_HISTORY.load();
-    let history = history_all.get_result(&config.id).ok();
-
-    let last_run = history.and_then(|x| x.run.front());
-    let last_completed = history.and_then(|x| x.last_completed.as_ref());
-
-    let last_run_datetime = last_run.map(|x| x.end).unwrap_or(time0);
-
-    debug!("Last run: {:?}", last_run_datetime);
-    debug!("Last completed: {:?}", last_completed.map(|x| x.end));
-
-    let last_run_ago = chrono::Local::now() - last_run.map_or(time0, |x| x.end);
-
-    match schedule.frequency {
-        config::Frequency::Hourly => {
-            if last_run_ago >= chrono::Duration::hours(1) {
-                info!("Trying to start backup '{}'", config.id);
-                utils::forward_action(
-                    &crate::action::backup_start(),
-                    Some(&config.id.to_variant()),
-                );
-            } else {
-                debug!(
-                    "Last backup is only {} minutes ago.",
-                    last_run_ago.num_minutes()
-                );
-            }
-        }
-        config::Frequency::Daily { preferred_time } => {
-            let scheduled_datetime = chrono::Local::today().and_time(preferred_time).unwrap();
-            if last_run_datetime < scheduled_datetime && scheduled_datetime < chrono::Local::now() {
-                info!("Trying to start backup '{}'", config.id);
-                utils::forward_action(
-                    &crate::action::backup_start(),
-                    Some(&config.id.to_variant()),
-                );
-            }
-        }
-        _ => error!("Not supported yet."),
+    if !global.is_empty() || due.is_err() {
+        debug!("Global requirement: {:?}", global);
+        debug!("Due requirement: {:?}", due);
+    } else {
+        info!("Trying to start backup '{}'", config.id);
+        utils::forward_action(
+            &crate::action::backup_start(),
+            Some(&config.id.to_variant()),
+        );
     }
 }

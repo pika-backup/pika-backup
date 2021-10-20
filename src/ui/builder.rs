@@ -698,6 +698,18 @@ impl Main {
         self.get("schedule_preferred_time_popover")
     }
 
+    pub fn schedule_status(&self) -> adw::ActionRow {
+        self.get("schedule_status")
+    }
+
+    pub fn schedule_status_icon(&self) -> gtk::Image {
+        self.get("schedule_status_icon")
+    }
+
+    pub fn schedule_status_list(&self) -> gtk::ListBox {
+        self.get("schedule_status_list")
+    }
+
     pub fn secondary_menu_button(&self) -> gtk::MenuButton {
         self.get("secondary_menu_button")
     }

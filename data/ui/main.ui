@@ -511,29 +511,23 @@ This might take a while.</property>
                                               <class name="content-container"/>
                                             </style>
                                             <child>
-                                              <object class="GtkListBox">
-                                                <property name="visible">0</property>
+                                              <object class="GtkListBox" id="schedule_status_list">
                                                 <property name="selection-mode">none</property>
                                                 <child>
-                                                  <object class="AdwActionRow">
-                                                    <property name="title" translatable="yes">Next Scheduled Backup: Today, 14:26</property>
-                                                    <property name="icon-name">appointment-new-symbolic</property>
-                                                    <property name="subtitle" translatable="yes">Will not start until connected to battery</property>
+                                                  <object class="AdwActionRow" id="schedule_status">
+                                                    <child type="prefix">
+                                                      <object class="GtkImage" id="schedule_status_icon">
+                                                        <property name="icon-name">alarm-symbolic</property>
+                                                        <property name="valign">center</property>
+                                                        <style>
+                                                          <class name="status-icon"/>
+                                                        </style>
+                                                      </object>
+                                                    </child>
                                                     <child>
                                                       <object class="GtkToggleButton" id="schedule_pause">
                                                         <property name="valign">center</property>
-                                                        <child>
-                                                          <object class="GtkImage">
-                                                            <property name="margin-start">5</property>
-                                                            <property name="margin-end">5</property>
-                                                            <property name="margin-top">5</property>
-                                                            <property name="margin-bottom">5</property>
-                                                            <property name="icon-name">media-playback-pause-symbolic</property>
-                                                          </object>
-                                                        </child>
-                                                        <style>
-                                                          <class name="circular"/>
-                                                        </style>
+                                                        <property name="icon-name">media-playback-pause-symbolic</property>
                                                       </object>
                                                     </child>
                                                   </object>

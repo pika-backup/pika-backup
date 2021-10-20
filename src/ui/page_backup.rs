@@ -199,32 +199,8 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
     BACKUP_COMMUNICATION.update(|c| {
         c.remove(&config_id);
     });
-    update_status_action();
 
     result
-}
-
-pub fn update_status_action() {
-    let value: crate::action::BackupStatus = BACKUP_COMMUNICATION
-        .load()
-        .keys()
-        .map(|id| {
-            (
-                BACKUP_CONFIG
-                    .load()
-                    .get_result(id)
-                    .map(|x| x.repo_id.clone())
-                    .unwrap_or_else(|_| {
-                        error!("Backup id not present in config.");
-                        crate::borg::json::RepoId::new("x".to_string())
-                    }),
-                id.clone(),
-            )
-        })
-        .collect();
-    action_backup_status().change_state(&value.to_variant());
-    warn!("build version: {:?}", option_env!("TIME"));
-    warn!("New backup status set: {:#?}", value);
 }
 
 async fn run_backup(config: config::Backup) -> Result<()> {
@@ -233,8 +209,12 @@ async fn run_backup(config: config::Backup) -> Result<()> {
     BACKUP_COMMUNICATION.update(|x| {
         x.insert(config.id.clone(), communication.clone());
     });
-    update_status_action();
     refresh_status();
+
+    BACKUP_HISTORY.update(|history| {
+        history.set_running(config.id.clone());
+    });
+    ui::write_config()?;
 
     // estimate backup size if not running in background
     if crate::ui::app_window::is_displayed() {
@@ -312,6 +292,7 @@ async fn run_backup(config: config::Backup) -> Result<()> {
 
     BACKUP_HISTORY.update(|history| {
         history.insert(config.id.clone(), run_info.clone());
+        history.remove_running(config.id.clone());
     });
     refresh_status();
 

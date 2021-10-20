@@ -9,6 +9,7 @@ use std::collections::{BTreeMap, BTreeSet, VecDeque};
 pub struct History {
     /// Last runs, latest run first
     pub run: VecDeque<RunInfo>,
+    pub running: Option<Running>,
     pub last_completed: Option<RunInfo>,
 }
 
@@ -46,11 +47,30 @@ impl Histories {
             history.last_completed = Some(entry.clone());
         }
 
+        history.running = None;
         history.run.push_front(entry);
+    }
+
+    pub fn set_running(&mut self, config_id: ConfigId) {
+        let history = self.0.entry(config_id).or_default();
+
+        history.running = Some(Running {
+            start: Local::now(),
+        });
+    }
+
+    pub fn remove_running(&mut self, config_id: ConfigId) {
+        let history = self.0.entry(config_id).or_default();
+
+        history.running = None;
     }
 
     pub fn default_path() -> std::io::Result<std::path::PathBuf> {
         crate::utils::prepare_config_file("history.json", Self::default())
+    }
+
+    pub fn iter(&self) -> std::collections::btree_map::Iter<'_, config::ConfigId, History> {
+        self.0.iter()
     }
 }
 
@@ -77,4 +97,9 @@ impl RunInfo {
             exclude: config.exclude.clone(),
         }
     }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct Running {
+    pub start: DateTime<Local>,
 }

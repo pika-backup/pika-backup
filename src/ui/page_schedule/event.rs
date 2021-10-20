@@ -5,6 +5,7 @@ use super::frequency;
 use super::init;
 use super::weekday;
 use crate::config;
+use crate::daemon::schedule::requirements;
 use crate::ui;
 use crate::ui::prelude::*;
 
@@ -24,6 +25,8 @@ pub async fn show_page() -> Result<()> {
         main_ui()
             .schedule_active()
             .unblock_signal(&init::SCHEDULE_ACTIVE_SIGNAL_HANDLER);
+
+        update_status(&config);
 
         match config.schedule.frequency {
             config::Frequency::Hourly => main_ui().schedule_frequency().set_selected(0),
@@ -49,9 +52,108 @@ pub async fn show_page() -> Result<()> {
                     .set_day(preferred_day as i32);
             }
         }
+
+        // manually because signal might not have fired if already selected
+        frequency_change().await?;
     }
 
     Ok(())
+}
+
+fn update_status(config: &config::Backup) {
+    let due_requirements = requirements::Due::check(&config);
+    let global_requirements = requirements::Global::check(&config);
+    let hints = requirements::Hint::check(&config);
+
+    main_ui()
+        .schedule_status_icon()
+        .remove_css_class("potential-problem-icon");
+    main_ui().schedule_status_icon().remove_css_class("ok-icon");
+
+    while let Some(row) = main_ui().schedule_status_list().row_at_index(1) {
+        main_ui().schedule_status_list().remove(&row);
+    }
+
+    main_ui().schedule_status().set_subtitle("");
+
+    if !config.schedule.enabled {
+        main_ui()
+            .schedule_status()
+            .set_title(&gettext("Scheduled backups not enabled"));
+        main_ui()
+            .schedule_status_icon()
+            .add_css_class("potential-problem-icon");
+    } else {
+        let mut problem_css = "halted-icon";
+
+        if let Err(due) = due_requirements {
+            main_ui().schedule_status().set_title(&format!("{}", due));
+            if global_requirements.is_empty() && hints.is_empty() {
+                main_ui().schedule_status_icon().add_css_class("ok-icon");
+            }
+            problem_css = "potential-problem-icon";
+        } else if !global_requirements.is_empty() || !hints.is_empty() {
+            main_ui().schedule_status().set_title("Backup past due");
+            main_ui()
+                .schedule_status()
+                .set_subtitle("Waiting until requirements are met");
+        } else {
+            main_ui()
+                .schedule_status()
+                .set_title("Waiting for backup to start");
+        }
+
+        main_ui().schedule_status_list();
+
+        let mut problems = Vec::new();
+
+        for problem in global_requirements {
+            problems.push(Problem::new("x", format!("{:?}", problem)));
+        }
+
+        for hint in hints {
+            match hint {
+                requirements::Hint::DeviceMissing => problems.push(Problem::new(
+                    "drive-removable-media-symbolic",
+                    gettext("Backup device needs to be connected"),
+                )),
+            }
+        }
+
+        for problem in problems {
+            main_ui()
+                .schedule_status_list()
+                .append(&problem.action_row(problem_css));
+        }
+    }
+}
+
+struct Problem {
+    icon: String,
+    title: String,
+}
+
+impl Problem {
+    pub fn new(icon: &str, title: String) -> Self {
+        Self {
+            icon: icon.to_string(),
+            title,
+        }
+    }
+
+    pub fn action_row(&self, class: &str) -> adw::ActionRow {
+        let icon = gtk::Image::builder()
+            .icon_name(&self.icon)
+            .css_classes(vec![String::from("status-icon"), String::from(class)])
+            .valign(gtk::Align::Center)
+            .build();
+
+        let row = adw::ActionRow::builder().title(&self.title).build();
+
+        row.add_prefix(&icon);
+
+        row
+    }
 }
 
 fn frequency() -> Result<config::Frequency> {

@@ -12,7 +12,3 @@ pub fn backup_start() -> gio::SimpleAction {
 pub fn backup_show() -> gio::SimpleAction {
     gio::SimpleAction::new("backup.show", Some(&String::static_variant_type()))
 }
-
-pub fn backup_status() -> gio::SimpleAction {
-    gio::SimpleAction::new_stateful("backup.status", None, &BackupStatus::new().to_variant())
-}

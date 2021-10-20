@@ -203,9 +203,6 @@ fn init_actions() {
     });
     gtk_app().add_action(&action);
 
-    gtk_app().add_action(&*action_backup_status());
-    ui::page_backup::update_status_action();
-
     let action = gio::SimpleAction::new("about", None);
     action.connect_activate(|_, _| ui::dialog_about::show());
     gtk_app().add_action(&action);

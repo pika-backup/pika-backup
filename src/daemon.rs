@@ -3,7 +3,7 @@ mod error;
 mod globals;
 mod init;
 mod prelude;
-mod schedule;
+pub mod schedule;
 mod utils;
 
 use gio::prelude::*;
