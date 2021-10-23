@@ -23,8 +23,8 @@ pub async fn show() -> Result<()> {
             storage.path().set_text(&repo.path().to_string_lossy());
             storage.disk().show();
         }
-        repo @ config::Repository::Remote { .. } => {
-            storage.uri().set_text(&repo.to_string());
+        config::Repository::Remote { .. } => {
+            storage.uri().set_text(&backup.repo.to_string());
 
             storage.remote().show();
         }

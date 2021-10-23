@@ -26,7 +26,7 @@ pub async fn show_page() -> Result<()> {
             .schedule_active()
             .unblock_signal(&init::SCHEDULE_ACTIVE_SIGNAL_HANDLER);
 
-        update_status(&config);
+        update_status(config);
 
         match config.schedule.frequency {
             config::Frequency::Hourly => main_ui().schedule_frequency().set_selected(0),
@@ -61,9 +61,9 @@ pub async fn show_page() -> Result<()> {
 }
 
 fn update_status(config: &config::Backup) {
-    let due_requirements = requirements::Due::check(&config);
-    let global_requirements = requirements::Global::check(&config);
-    let hints = requirements::Hint::check(&config);
+    let due_requirements = requirements::Due::check(config);
+    let global_requirements = requirements::Global::check(config);
+    let hints = requirements::Hint::check(config);
 
     main_ui()
         .schedule_status_icon()
