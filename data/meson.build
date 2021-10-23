@@ -45,7 +45,7 @@ configure_file(
 install_data(
     'app-symbolic.svg',
     rename: '@0@-symbolic.svg'.format(application_id),
-    install_dir: usrdir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+    install_dir: usrdir / 'icons' / 'hicolor' / 'symbolic' / 'apps'
 )
 
 install_data(
