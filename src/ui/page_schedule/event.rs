@@ -67,7 +67,7 @@ fn update_status(config: &config::Backup) {
 
     main_ui()
         .schedule_status_icon()
-        .remove_css_class("potential-problem-icon");
+        .remove_css_class("warning-icon");
     main_ui().schedule_status_icon().remove_css_class("ok-icon");
 
     while let Some(row) = main_ui().schedule_status_list().row_at_index(1) {
@@ -82,16 +82,16 @@ fn update_status(config: &config::Backup) {
             .set_title(&gettext("Scheduled backups not enabled"));
         main_ui()
             .schedule_status_icon()
-            .add_css_class("potential-problem-icon");
+            .add_css_class("warning-icon");
     } else {
-        let mut problem_css = "halted-icon";
+        let mut problem_css = "error-icon";
 
         if let Err(due) = due_requirements {
             main_ui().schedule_status().set_title(&format!("{}", due));
             if global_requirements.is_empty() && hints.is_empty() {
                 main_ui().schedule_status_icon().add_css_class("ok-icon");
             }
-            problem_css = "potential-problem-icon";
+            problem_css = "warning-icon";
         } else if !global_requirements.is_empty() || !hints.is_empty() {
             main_ui().schedule_status().set_title("Backup past due");
             main_ui()

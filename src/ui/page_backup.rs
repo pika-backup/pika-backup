@@ -559,6 +559,7 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
     let running = match &status.graphic {
         ui::backup_status::Graphic::ErrorIcon(icon)
         | ui::backup_status::Graphic::WarningIcon(icon)
+        | ui::backup_status::Graphic::OkIcon(icon)
         | ui::backup_status::Graphic::Icon(icon) => {
             main_ui()
                 .status_graphic()
@@ -577,16 +578,24 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
     };
 
     if matches!(status.graphic, ui::backup_status::Graphic::ErrorIcon(_)) {
-        main_ui().status_icon().add_css_class("error");
-        main_ui().status_icon().remove_css_class("warning");
+        main_ui().status_icon().add_css_class("error-icon");
+        main_ui().status_icon().remove_css_class("ok-icon");
+        main_ui().status_icon().remove_css_class("warning-icon");
         main_ui().detail_hint_icon().show();
     } else if matches!(status.graphic, ui::backup_status::Graphic::WarningIcon(_)) {
-        main_ui().status_icon().add_css_class("warning");
-        main_ui().status_icon().remove_css_class("error");
+        main_ui().status_icon().add_css_class("warning-icon");
+        main_ui().status_icon().remove_css_class("ok-icon");
+        main_ui().status_icon().remove_css_class("error-icon");
+        main_ui().detail_hint_icon().show();
+    } else if matches!(status.graphic, ui::backup_status::Graphic::OkIcon(_)) {
+        main_ui().status_icon().add_css_class("ok-icon");
+        main_ui().status_icon().remove_css_class("warning-icon");
+        main_ui().status_icon().remove_css_class("error-icon");
         main_ui().detail_hint_icon().show();
     } else {
-        main_ui().status_icon().remove_css_class("error");
-        main_ui().status_icon().remove_css_class("warning");
+        main_ui().status_icon().remove_css_class("ok-icon");
+        main_ui().status_icon().remove_css_class("error-icon");
+        main_ui().status_icon().remove_css_class("warning-icon");
         main_ui().detail_hint_icon().hide();
     }
 

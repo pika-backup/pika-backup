@@ -23,6 +23,7 @@ pub enum Stats {
 
 pub enum Graphic {
     Icon(String),
+    OkIcon(String),
     WarningIcon(String),
     ErrorIcon(String),
     Spinner,
@@ -63,7 +64,7 @@ impl From<&history::RunInfo> for Display {
             borg::Outcome::Completed { .. } => Self {
                 title: gettext("Last backup successful"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
-                graphic: Graphic::Icon("emblem-default-symbolic".to_string()),
+                graphic: Graphic::OkIcon("emblem-default-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },

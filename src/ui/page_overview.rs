@@ -190,18 +190,27 @@ pub fn refresh_status() {
                             row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
-                        ui::backup_status::Graphic::ErrorIcon(icon) => {
+                        ui::backup_status::Graphic::OkIcon(icon) => {
+                            row.status_area().remove_css_class("error");
                             row.status_area().remove_css_class("warning");
-                            row.status_area().remove_css_class("dim-label");
-                            row.status_area().add_css_class("error");
+                            row.status_area().add_css_class("dim-label");
 
                             row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
+
                         ui::backup_status::Graphic::WarningIcon(icon) => {
                             row.status_area().remove_css_class("error");
                             row.status_area().remove_css_class("dim-label");
                             row.status_area().add_css_class("warning");
+
+                            row.status_icon().set_from_icon_name(Some(icon));
+                            row.status_graphic().set_visible_child(&row.status_icon());
+                        }
+                        ui::backup_status::Graphic::ErrorIcon(icon) => {
+                            row.status_area().remove_css_class("warning");
+                            row.status_area().remove_css_class("dim-label");
+                            row.status_area().add_css_class("error");
 
                             row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
