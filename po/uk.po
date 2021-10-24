@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-10-20 16:12+0000\n"
-"PO-Revision-Date: 2021-10-21 12:24+0300\n"
+"POT-Creation-Date: 2021-10-23 20:18+0000\n"
+"PO-Revision-Date: 2021-10-24 11:01+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -299,31 +299,31 @@ msgstr "Це потребує пароля для шифрування схов�
 msgid "Backup Location"
 msgstr "Місце резервного копіювання"
 
-#: data/ui/dialog_storage.ui:29
+#: data/ui/dialog_storage.ui:30
 msgid "Volume"
 msgstr "Том"
 
-#: data/ui/dialog_storage.ui:43
+#: data/ui/dialog_storage.ui:44
 msgid "Device"
 msgstr "Пристрій"
 
-#: data/ui/dialog_storage.ui:57
+#: data/ui/dialog_storage.ui:58
 msgid "Path"
 msgstr "Шлях"
 
-#: data/ui/dialog_storage.ui:110
+#: data/ui/dialog_storage.ui:111
 msgid "URI"
 msgstr "Адреса"
 
-#: data/ui/dialog_storage.ui:141
+#: data/ui/dialog_storage.ui:142
 msgid "Space"
 msgstr "Місце"
 
-#: data/ui/dialog_storage.ui:154
+#: data/ui/dialog_storage.ui:155
 msgid "Total"
 msgstr "Загалом"
 
-#: data/ui/dialog_storage.ui:169
+#: data/ui/dialog_storage.ui:170
 msgid "Free"
 msgstr "Вільно"
 
@@ -480,8 +480,9 @@ msgid "Number of files saved"
 msgstr "Кількість збережених файлів"
 
 #: data/ui/main.ui:886
-msgid "Backup space needed"
-msgstr "Потрібне місце для резервних копій"
+#| msgid "Disable backup schedule."
+msgid "Additional backup space used"
+msgstr "Використане додаткове місце для резервного копіювання"
 
 #: data/ui/main.ui:902
 msgid "Current file"
@@ -579,6 +580,10 @@ msgstr "{} на диску «{}»"
 msgid "Run Backup"
 msgstr "Виконати резервне копіювання"
 
+#: src/daemon/schedule/requirements.rs:133 src/ui/backup_status.rs:147
+msgid "Backup running"
+msgstr "Виконання резервного копіювання"
+
 #: src/ui.rs:169 src/ui/page_backup.rs:136
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
@@ -630,65 +635,61 @@ msgstr "Не вдалося завантажити файл налаштуван
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
-#: src/ui/backup_status.rs:56
+#: src/ui/backup_status.rs:57
 msgid "Last backup completed with warnings"
 msgstr "Останнє резервне копіювання було завершено із попередженнями"
 
-#: src/ui/backup_status.rs:64
+#: src/ui/backup_status.rs:65
 msgid "Last backup successful"
 msgstr "Останнє резервне копіювання відбулося успішно"
 
-#: src/ui/backup_status.rs:71
+#: src/ui/backup_status.rs:72
 msgid "Last backup failed"
 msgstr "Останнє резервне копіювання завершилося помилкою"
 
-#: src/ui/backup_status.rs:100
+#: src/ui/backup_status.rs:101
 #, no-c-format
 msgid "{} % finished"
 msgstr "Завершено на {} %"
 
-#: src/ui/backup_status.rs:120
+#: src/ui/backup_status.rs:121
 msgid "Updating repository information"
 msgstr "Оновлення даних щодо сховища"
 
-#: src/ui/backup_status.rs:134
+#: src/ui/backup_status.rs:135
 #, no-c-format
 msgid "{} % prepared"
 msgstr "Приготовано на {} %"
 
-#: src/ui/backup_status.rs:144
+#: src/ui/backup_status.rs:145
 msgid "Preparing backup"
 msgstr "Приготування до резервного копіювання"
 
-#: src/ui/backup_status.rs:145
+#: src/ui/backup_status.rs:146
 msgid "Estimating backup size"
 msgstr "Оцінювання розміру резервної копії"
 
-#: src/ui/backup_status.rs:146
-msgid "Backup running"
-msgstr "Виконання резервного копіювання"
-
-#: src/ui/backup_status.rs:147
+#: src/ui/backup_status.rs:148
 msgid "Backup destination unresponsive"
 msgstr "Пристрій призначення для резервного копіювання не відповідає"
 
-#: src/ui/backup_status.rs:150
+#: src/ui/backup_status.rs:151
 msgid "Connection lost, reconnecting in {}"
 msgstr "З'єднання розірвано, виконуємо повторну спробу з'єднатися за {}"
 
-#: src/ui/backup_status.rs:155
+#: src/ui/backup_status.rs:156
 msgid "Reconnecting"
 msgstr "Повторна спроба з'єднання"
 
-#: src/ui/backup_status.rs:157
+#: src/ui/backup_status.rs:158
 msgid "Stopping backup"
 msgstr "Припиняємо резервне копіювання"
 
-#: src/ui/backup_status.rs:173
+#: src/ui/backup_status.rs:174
 msgid "Backup never ran"
 msgstr "Резервне копіювання не виконувалося"
 
-#: src/ui/backup_status.rs:174
+#: src/ui/backup_status.rs:175
 msgid "Start by creating your first backup"
 msgstr "Розпочніть зі створення вашої першої резервної копії"
 
@@ -929,11 +930,9 @@ msgstr "Не вдалося вилучити потенційно збереже
 
 #: src/ui/page_schedule/event.rs:82
 msgid "Scheduled backups not enabled"
-msgstr ""
-"Резервне копіювання за розкладом не увімкнено"
+msgstr "Резервне копіювання за розкладом не увімкнено"
 
 #: src/ui/page_schedule/event.rs:118
-#| msgid "The following backup location needs to be connected:"
 msgid "Backup device needs to be connected"
 msgstr "Слід з'єднати з комп'ютером пристрій для резервного копіювання"
 
@@ -1120,6 +1119,9 @@ msgstr "Не вдалося зберегти кеш."
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Пароль до резервної копії Пайки"
+
+#~ msgid "Backup space needed"
+#~ msgstr "Потрібне місце для резервних копій"
 
 #~ msgid "Next Scheduled Backup: Today, 14:26"
 #~ msgstr "Наступне резервне копіювання за розкладом: Сьогодні, 14:26"
