@@ -225,6 +225,7 @@ pub async fn frequency_change() -> Result<()> {
         }
     ))?;
 
+    update_status(BACKUP_CONFIG.load().active()?);
     ui::write_config()
 }
 
@@ -234,6 +235,7 @@ pub async fn preferred_time_close() -> Result<()> {
         Ok(())
     })?;
 
+    update_status(BACKUP_CONFIG.load().active()?);
     ui::write_config()
 }
 
@@ -257,6 +259,7 @@ pub async fn preferred_weekday_change() -> Result<()> {
         Ok(())
     })?;
 
+    update_status(BACKUP_CONFIG.load().active()?);
     ui::write_config()
 }
 
@@ -272,6 +275,7 @@ pub async fn preferred_day_change() -> Result<()> {
         Ok(())
     })?;
 
+    update_status(BACKUP_CONFIG.load().active()?);
     ui::write_config()
 }
 
@@ -295,5 +299,6 @@ pub async fn active_change() -> Result<()> {
         Ok(())
     })?;
 
+    update_status(BACKUP_CONFIG.load().active()?);
     ui::write_config()
 }

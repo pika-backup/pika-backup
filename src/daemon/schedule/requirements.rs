@@ -111,6 +111,7 @@ impl Hint {
 #[derive(Debug, Clone)]
 pub enum Due {
     NotDue { next: DateTime<Local> },
+    NotDueDate { next: Date<Local> },
     Running,
 }
 
@@ -129,6 +130,12 @@ impl std::fmt::Display for Due {
                         .unwrap()
                         .to_string()
                 )
+            ),
+            Self::NotDueDate { next } => write!(
+                f,
+                "{}",
+                // TODO: gettext string
+                format!("Next Scheduled Backup: {:?}", next)
             ),
             Self::Running => write!(f, "{}", gettext("Backup running")),
         }
@@ -176,7 +183,6 @@ impl Due {
                     }
                 }
                 config::Frequency::Daily { preferred_time } => {
-                    // TODO: does not do catch-up backups
                     let scheduled_datetime =
                         chrono::Local::today().and_time(preferred_time).unwrap();
                     let scheduled_datetime_before = scheduled_datetime - chrono::Duration::days(1);
@@ -184,13 +190,15 @@ impl Due {
                     if last_run_datetime < scheduled_datetime
                         && scheduled_datetime < chrono::Local::now()
                     {
+                        // regular backup
                         Ok(())
                     } else if scheduled_datetime_before > last_run_datetime
                         && activity >= super::USED_THRESHOLD
                     {
+                        // catch-up backup
                         Ok(())
                     } else {
-                        let next = if scheduled_datetime > chrono::Local::now() {
+                        let next = if chrono::Local::now() < scheduled_datetime {
                             scheduled_datetime
                         } else {
                             scheduled_datetime + chrono::Duration::days(1)
@@ -199,10 +207,52 @@ impl Due {
                         Err(Self::NotDue { next })
                     }
                 }
-                // TODO
-                _ => {
-                    error!("Not supported yet.");
-                    Ok(())
+                config::Frequency::Weekly { preferred_weekday } => {
+                    let day_difference = chrono::Local::today().weekday().number_from_sunday()
+                        as i64
+                        - preferred_weekday.number_from_sunday() as i64;
+                    let scheduled_date =
+                        chrono::Local::today() - chrono::Duration::days(-day_difference.abs());
+
+                    if chrono::Local::today() >= scheduled_date
+                        && last_run_datetime.date() < scheduled_date
+                        && activity >= super::USED_THRESHOLD
+                    {
+                        Ok(())
+                    } else {
+                        let next = if chrono::Local::today() < scheduled_date {
+                            scheduled_date
+                        } else {
+                            scheduled_date + chrono::Duration::weeks(1)
+                        };
+
+                        Err(Self::NotDueDate { next })
+                    }
+                }
+                config::Frequency::Monthly { preferred_day } => {
+                    let scheduled_date = chrono::Local::today()
+                        .with_day(preferred_day as u32)
+                        .unwrap_or_else(chrono::Local::today);
+
+                    let scheduled_date_before = chronoutil::delta::shift_months(scheduled_date, -1);
+
+                    if chrono::Local::today() >= scheduled_date
+                        && last_run_datetime.date() < scheduled_date
+                    {
+                        Ok(())
+                    } else if chrono::Local::today() >= scheduled_date_before
+                        && last_run_datetime.date() < scheduled_date_before
+                    {
+                        Ok(())
+                    } else {
+                        let next = if chrono::Local::today() < scheduled_date {
+                            scheduled_date
+                        } else {
+                            chronoutil::delta::shift_months(scheduled_date, 1)
+                        };
+
+                        Err(Self::NotDueDate { next })
+                    }
                 }
             }
         } else {
