@@ -18,30 +18,15 @@ impl ScheduleStatus {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct Activity {
-    pub last_activity: chrono::DateTime<chrono::Local>,
-    pub minutes_past: u64,
-    /// Will be added to `minutes_past` if the date of `last_activity` is not today.
-    pub minutes_today: u64,
+    pub used: std::time::Duration,
 }
 
 impl Activity {
-    pub fn tick(&mut self) -> bool {
-        if self.last_activity.date() < chrono::Local::today() {
-            self.last_activity = chrono::Local::now();
-            self.minutes_past += self.minutes_today;
-            self.minutes_today = 1;
-
-            true
-        } else {
-            // TODO change to var
-            if self.minutes_today < 20 {
-                self.minutes_today += 1;
-                true
-            } else {
-                false
-            }
+    pub fn tick(&mut self) {
+        if self.used < crate::daemon::schedule::USED_THRESHOLD {
+            self.used += std::time::Duration::from_secs(60);
         }
     }
 }

@@ -91,34 +91,19 @@ fn minutely() -> glib::Continue {
 }
 
 fn track_activity() {
-    let mut changed = false;
-
     for config in BACKUP_CONFIG.load().iter() {
         if config.schedule.enabled
             && !matches!(config.schedule.frequency, config::Frequency::Hourly)
         {
-            changed |= SCHEDULE_STATUS.update_return(|s| {
-                if let Some(activity) = s.activity.get_mut(&config.id) {
-                    activity.tick()
-                } else {
-                    s.activity.insert(
-                        config.id.clone(),
-                        config::Activity {
-                            last_activity: chrono::Local::now(),
-                            minutes_past: 0,
-                            minutes_today: 1,
-                        },
-                    );
-                    true
-                }
+            SCHEDULE_STATUS.update_return(|s| {
+                let activity = s.activity.entry(config.id.clone()).or_default();
+
+                activity.tick()
             });
         }
     }
 
-    if changed {
-        debug!("Schedule status acticity changed.");
-        super::status::write();
-    }
+    super::status::write();
 }
 
 fn probe(config: &config::Backup) {

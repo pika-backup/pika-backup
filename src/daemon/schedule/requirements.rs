@@ -154,6 +154,13 @@ impl Due {
 
             let last_run_ago = chrono::Local::now() - last_run.end;
 
+            let activity = SCHEDULE_STATUS
+                .load()
+                .activity
+                .get(&config.id)
+                .map(|x| x.used)
+                .unwrap_or_default();
+
             match schedule.frequency {
                 config::Frequency::Hourly => {
                     if last_run_ago >= chrono::Duration::hours(1) {
@@ -169,16 +176,27 @@ impl Due {
                     }
                 }
                 config::Frequency::Daily { preferred_time } => {
+                    // TODO: does not do catch-up backups
                     let scheduled_datetime =
                         chrono::Local::today().and_time(preferred_time).unwrap();
+                    let scheduled_datetime_before = scheduled_datetime - chrono::Duration::days(1);
+
                     if last_run_datetime < scheduled_datetime
                         && scheduled_datetime < chrono::Local::now()
                     {
                         Ok(())
+                    } else if scheduled_datetime_before > last_run_datetime
+                        && activity >= super::USED_THRESHOLD
+                    {
+                        Ok(())
                     } else {
-                        Err(Self::NotDue {
-                            next: chrono::Local::now(),
-                        })
+                        let next = if scheduled_datetime > chrono::Local::now() {
+                            scheduled_datetime
+                        } else {
+                            scheduled_datetime + chrono::Duration::days(1)
+                        };
+
+                        Err(Self::NotDue { next })
                     }
                 }
                 // TODO
