@@ -83,7 +83,6 @@ impl Global {
         }
 
         if config.repo.is_network() && gio::NetworkMonitor::default().is_network_metered() {
-            // TODO: Does not seem to work inside Flatpak
             vec.push(Self::MeteredConnection)
         }
 
@@ -110,39 +109,20 @@ impl Hint {
 
 #[derive(Debug, Clone)]
 pub enum Due {
-    NotDue { next: DateTime<Local> },
+    NotDueDateTime { next: DateTime<Local> },
     NotDueDate { next: Date<Local> },
     Running,
 }
 
-impl std::fmt::Display for Due {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl Due {
+    pub fn next_due(&self) -> Option<chrono::Duration> {
         match self {
-            Self::NotDue { next } => write!(
-                f,
-                "{}",
-                // TODO: gettext string
-                format!(
-                    "Next Scheduled Backup: {}",
-                    glib::DateTime::from_unix_local(next.timestamp())
-                        .unwrap()
-                        .format("%c")
-                        .unwrap()
-                        .to_string()
-                )
-            ),
-            Self::NotDueDate { next } => write!(
-                f,
-                "{}",
-                // TODO: gettext string
-                format!("Next Scheduled Backup: {:?}", next)
-            ),
-            Self::Running => write!(f, "{}", gettext("Backup running")),
+            Self::NotDueDateTime { next } => Some(*next - chrono::Local::now()),
+            Self::NotDueDate { next } => Some(*next - chrono::Local::today()),
+            Self::Running => None,
         }
     }
-}
 
-impl Due {
     pub fn check(config: &config::Backup) -> Result<(), Self> {
         let schedule = &config.schedule;
 
@@ -177,7 +157,7 @@ impl Due {
                             "Last backup is only {} minutes ago.",
                             last_run_ago.num_minutes()
                         );
-                        Err(Self::NotDue {
+                        Err(Self::NotDueDateTime {
                             next: last_run.end + chrono::Duration::hours(1),
                         })
                     }
@@ -204,7 +184,7 @@ impl Due {
                             scheduled_datetime + chrono::Duration::days(1)
                         };
 
-                        Err(Self::NotDue { next })
+                        Err(Self::NotDueDateTime { next })
                     }
                 }
                 config::Frequency::Weekly { preferred_weekday } => {

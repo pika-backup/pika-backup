@@ -1,90 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkBox" id="widget">
-    <property name="orientation">vertical</property>
-    <property name="spacing">12</property>
-    <child>
-      <object class="GtkBox">
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkImage" id="location_icon">
-            <property name="icon-name">folder-symbolic</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="location">
-            <property name="label">&lt;location&gt;</property>
-            <property name="ellipsize">end</property>
-            <style>
-              <class name="heading"/>
-            </style>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkBox" id="include">
-        <property name="margin-start">12</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">6</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkGrid" id="status_area">
-        <property name="row-spacing">3</property>
-        <property name="column-spacing">6</property>
-        <child>
-          <object class="GtkLabel" id="status">
-            <property name="label">&lt;status&gt;</property>
-            <property name="wrap">1</property>
-            <property name="xalign">0</property>
-            <layout>
-              <property name="column">1</property>
-              <property name="row">0</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkStack" id="status_graphic">
-            <property name="transition-duration">0</property>
-            <child>
-              <object class="GtkImage" id="status_icon">
-                <property name="icon-name">access</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkStackPage">
-                <property name="child">
-                  <object class="GtkSpinner" id="status_spinner"/>
-                </property>
-              </object>
-            </child>
-            <layout>
-              <property name="column">0</property>
-              <property name="row">0</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="substatus">
-            <property name="label">&lt;substatus&gt;</property>
-            <property name="wrap">1</property>
-            <property name="xalign">0</property>
-            <style>
-              <class name="caption"/>
-            </style>
-            <layout>
-              <property name="column">1</property>
-              <property name="row">1</property>
-            </layout>
-          </object>
-        </child>
+  <object class="GtkListBoxRow" id="widget">
+    <property name="activatable">0</property>
+    <style>
+      <class name="overview-row"/>
+    </style>
+    <property name="child">
+      <object class="GtkListBox">
+        <property name="selection-mode">none</property>
         <style>
-          <class name="dim-label"/>
-          <class name="status-area"/>
+          <class name="content"/>
         </style>
+        <child>
+          <object class="AdwActionRow" id="location">
+            <property name="activatable">1</property>
+            <child type="prefix">
+              <object class="GtkBox">
+                <property name="spacing">6</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <child>
+                  <object class="GtkImage" id="location_icon">
+                    <property name="icon-name">folder-symbolic</property>
+                    <property name="valign">start</property>
+                    <property name="pixel-size">64</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="hexpand">1</property>
+                    <property name="spacing">3</property>
+                    <style>
+                      <class name="overview-location-box"/>
+                    </style>
+                    <child>
+                      <object class="GtkLabel" id="location_title">
+                        <property name="xalign">0</property>
+                        <property name="wrap">1</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="location_subtitle">
+                        <property name="xalign">0</property>
+                        <property name="wrap">1</property>
+                        <style>
+                          <class name="subtitle"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="include">
+                        <property name="spacing">3</property>
+                        <style>
+                          <class name="overview-includes"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="suffix">
+              <object class="GtkImage">
+                <property name="icon-name">go-next-symbolic</property>
+                <style>
+                  <class name="dim-label"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="status">
+            <child type="prefix">
+              <object class="GtkStack" id="status_graphic">
+                <property name="transition-duration">0</property>
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="child">
+                      <object class="PikaStatusIcon" id="status_icon"/>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="child">
+                      <object class="GtkSpinner" id="status_spinner"/>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="schedule">
+            <child type="prefix">
+              <object class="PikaStatusIcon" id="schedule_icon"/>
+            </child>
+          </object>
+        </child>
       </object>
-    </child>
+    </property>
   </object>
 </interface>

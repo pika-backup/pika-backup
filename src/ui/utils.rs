@@ -14,6 +14,36 @@ use ashpd::desktop::background;
 
 use std::io::Read;
 
+pub struct StatusRow {
+    pub title: String,
+    pub subtitle: String,
+    pub icon_name: String,
+    pub level: StatusLevel,
+}
+
+#[derive(Clone, Copy)]
+pub enum StatusLevel {
+    Ok,
+    Neutral,
+    Warning,
+    Error,
+}
+
+impl StatusRow {
+    pub fn action_row(&self) -> adw::ActionRow {
+        let icon = super::widgets::StatusIcon::new(&self.title, self.level);
+
+        let row = adw::ActionRow::builder()
+            .title(&self.title)
+            .subtitle(&self.subtitle)
+            .build();
+
+        row.add_prefix(&icon);
+
+        row
+    }
+}
+
 /// Checks if a directory is most likely a borg repository. Performed checks are
 ///
 /// - `data/` exists and is a directory

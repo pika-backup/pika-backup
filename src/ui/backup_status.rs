@@ -22,7 +22,6 @@ pub enum Stats {
 }
 
 pub enum Graphic {
-    Icon(String),
     OkIcon(String),
     WarningIcon(String),
     ErrorIcon(String),
@@ -65,6 +64,13 @@ impl From<&history::RunInfo> for Display {
                 title: gettext("Last backup successful"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::OkIcon("emblem-default-symbolic".to_string()),
+                progress: None,
+                stats: Some(Stats::Final(run_info.clone())),
+            },
+            borg::Outcome::Aborted(borg::error::Abort::User) => Self {
+                title: gettext("Last backup aborted"),
+                subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
+                graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
@@ -173,7 +179,7 @@ impl Default for Display {
         Self {
             title: gettext("Backup never ran"),
             subtitle: Some(gettext("Start by creating your first backup")),
-            graphic: Graphic::Icon("dialog-information-symbolic".to_string()),
+            graphic: Graphic::WarningIcon("dialog-information-symbolic".to_string()),
             progress: None,
             stats: None,
         }

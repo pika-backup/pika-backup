@@ -17,7 +17,7 @@ pub fn init() {
         main_ui()
             .main_stack()
             .set_visible_child(&main_ui().page_overview());
-        refresh();
+        rebuild_list();
     } else if let Some(config) = BACKUP_CONFIG.load().iter().next() {
         ui::page_backup::view_backup_conf(&config.id);
     } else {
@@ -52,7 +52,7 @@ fn is_visible() -> bool {
 
 fn on_main_stack_changed(_stack: &gtk::Stack) {
     if is_visible() {
-        refresh();
+        rebuild_list();
     }
 }
 
@@ -96,43 +96,46 @@ async fn on_remove_backup() -> Result<()> {
     Ok(())
 }
 
-fn refresh() {
+fn rebuild_list() {
     let list = main_ui().main_backups();
+
     ui::utils::clear(&list);
+
     ROWS.with(|rows| {
         let _lock_error = rows.write().map(|mut x| (*x).clear());
     });
 
     for config in BACKUP_CONFIG.load().iter() {
-        let list_row = adw::ActionRow::builder().activatable(true).build();
-        list.append(&list_row);
-
-        list_row.connect_activated(enclose!((config) move |_| {
-            ui::page_backup::view_backup_conf(&config.id);
-        }));
-
         let row = ui::builder::OverviewItem::new();
-        list_row.add_prefix(&row.widget());
+        list.append(&row.widget());
 
         row.status_spinner().connect_map(|s| s.start());
         row.status_spinner().connect_unmap(|s| s.stop());
 
+        // connect click
+
+        row.location()
+            .connect_activated(enclose!((config) move |_| {
+                ui::page_backup::view_backup_conf(&config.id);
+            }));
+
         // Repo Icon
 
-        if let Ok(icon) = gio::Icon::for_string(&config.repo.icon_symbolic()) {
+        if let Ok(icon) = gio::Icon::for_string(&config.repo.icon()) {
             row.location_icon().set_from_gicon(&icon);
         }
 
         // Repo Name
 
-        row.location().set_text(&config.repo.location());
+        row.location_title().set_label(&config.repo.title());
+        row.location_subtitle().set_label(&config.repo.subtitle());
 
         // Include
 
         for path in &config.include {
             let incl = gtk::Box::builder()
                 .orientation(gtk::Orientation::Horizontal)
-                .spacing(6)
+                .spacing(4)
                 .build();
             row.include().append(&incl);
 
@@ -172,58 +175,45 @@ pub fn refresh_status() {
                 if let Some(row) = rows.get(&config.id) {
                     let status = ui::backup_status::Display::new_from_id(&config.id);
 
-                    row.status().set_text(&status.title);
+                    row.status().set_title(&status.title);
 
-                    if let Some(subtitle) = status.subtitle {
-                        row.substatus().set_text(&subtitle);
-                        row.substatus().show();
-                    } else {
-                        row.substatus().hide();
-                    }
+                    row.status()
+                        .set_subtitle(&status.subtitle.unwrap_or_default());
 
                     match &status.graphic {
-                        ui::backup_status::Graphic::Icon(icon) => {
-                            row.status_area().remove_css_class("error");
-                            row.status_area().remove_css_class("warning");
-                            row.status_area().add_css_class("dim-label");
-
-                            row.status_icon().set_from_icon_name(Some(icon));
-                            row.status_graphic().set_visible_child(&row.status_icon());
-                        }
                         ui::backup_status::Graphic::OkIcon(icon) => {
-                            row.status_area().remove_css_class("error");
-                            row.status_area().remove_css_class("warning");
-                            row.status_area().add_css_class("dim-label");
+                            row.status_icon().set_ok();
+                            row.status_icon().set_icon_name(icon);
 
-                            row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
 
                         ui::backup_status::Graphic::WarningIcon(icon) => {
-                            row.status_area().remove_css_class("error");
-                            row.status_area().remove_css_class("dim-label");
-                            row.status_area().add_css_class("warning");
+                            row.status_icon().set_warning();
+                            row.status_icon().set_icon_name(icon);
 
-                            row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
                         ui::backup_status::Graphic::ErrorIcon(icon) => {
-                            row.status_area().remove_css_class("warning");
-                            row.status_area().remove_css_class("dim-label");
-                            row.status_area().add_css_class("error");
+                            row.status_icon().set_error();
+                            row.status_icon().set_icon_name(icon);
 
-                            row.status_icon().set_from_icon_name(Some(icon));
                             row.status_graphic().set_visible_child(&row.status_icon());
                         }
                         ui::backup_status::Graphic::Spinner => {
-                            row.status_area().remove_css_class("error");
-                            row.status_area().remove_css_class("warning");
-                            row.status_area().add_css_class("dim-label");
-
                             row.status_graphic()
                                 .set_visible_child(&row.status_spinner());
                         }
                     }
+
+                    // schedule status
+
+                    let status = ui::page_schedule::status::Status::new(config);
+
+                    row.schedule().set_title(&status.main.title);
+                    row.schedule().set_subtitle(&status.main.subtitle);
+                    row.schedule_icon().set_icon_name(&status.main.icon_name);
+                    row.schedule_icon().set_level(status.main.level);
                 }
             }
         });

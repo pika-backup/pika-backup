@@ -702,7 +702,7 @@ impl Main {
         self.get("schedule_status")
     }
 
-    pub fn schedule_status_icon(&self) -> gtk::Image {
+    pub fn schedule_status_icon(&self) -> crate::ui::export::StatusIcon {
         self.get("schedule_status_icon")
     }
 
@@ -778,7 +778,7 @@ impl OverviewItem {
         self.get("include")
     }
 
-    pub fn location(&self) -> gtk::Label {
+    pub fn location(&self) -> adw::ActionRow {
         self.get("location")
     }
 
@@ -786,19 +786,31 @@ impl OverviewItem {
         self.get("location_icon")
     }
 
-    pub fn status(&self) -> gtk::Label {
-        self.get("status")
+    pub fn location_subtitle(&self) -> gtk::Label {
+        self.get("location_subtitle")
     }
 
-    pub fn status_area(&self) -> gtk::Grid {
-        self.get("status_area")
+    pub fn location_title(&self) -> gtk::Label {
+        self.get("location_title")
+    }
+
+    pub fn schedule(&self) -> adw::ActionRow {
+        self.get("schedule")
+    }
+
+    pub fn schedule_icon(&self) -> crate::ui::export::StatusIcon {
+        self.get("schedule_icon")
+    }
+
+    pub fn status(&self) -> adw::ActionRow {
+        self.get("status")
     }
 
     pub fn status_graphic(&self) -> gtk::Stack {
         self.get("status_graphic")
     }
 
-    pub fn status_icon(&self) -> gtk::Image {
+    pub fn status_icon(&self) -> crate::ui::export::StatusIcon {
         self.get("status_icon")
     }
 
@@ -806,11 +818,7 @@ impl OverviewItem {
         self.get("status_spinner")
     }
 
-    pub fn substatus(&self) -> gtk::Label {
-        self.get("substatus")
-    }
-
-    pub fn widget(&self) -> gtk::Box {
+    pub fn widget(&self) -> gtk::ListBoxRow {
         self.get("widget")
     }
 }

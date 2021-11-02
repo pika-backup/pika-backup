@@ -363,19 +363,7 @@ pub fn refresh() -> Result<()> {
         main_ui().detail_repo_icon().set_from_gicon(&icon);
     }
 
-    match &backup.repo {
-        config::Repository::Local(local) => {
-            main_ui()
-                .detail_repo_row()
-                .set_title(&local.mount_name.clone().unwrap_or_default());
-        }
-        config::Repository::Remote(_) => {
-            main_ui()
-                .detail_repo_row()
-                .set_title(&gettext("Remote location"));
-        }
-    }
-
+    main_ui().detail_repo_row().set_title(&backup.repo.title());
     main_ui()
         .detail_repo_row()
         .set_subtitle(&backup.repo.subtitle());
@@ -559,8 +547,7 @@ fn refresh_status_display(status: &ui::backup_status::Display) {
     let running = match &status.graphic {
         ui::backup_status::Graphic::ErrorIcon(icon)
         | ui::backup_status::Graphic::WarningIcon(icon)
-        | ui::backup_status::Graphic::OkIcon(icon)
-        | ui::backup_status::Graphic::Icon(icon) => {
+        | ui::backup_status::Graphic::OkIcon(icon) => {
             main_ui()
                 .status_graphic()
                 .set_visible_child(&main_ui().status_icon());

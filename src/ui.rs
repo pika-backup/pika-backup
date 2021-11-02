@@ -29,6 +29,7 @@ mod page_schedule;
 mod prelude;
 mod update_config;
 mod utils;
+mod widgets;
 
 pub fn main() {
     // suppress "gdk_pixbuf_from_pixdata()" debug spam

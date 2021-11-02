@@ -61,98 +61,23 @@ pub async fn show_page() -> Result<()> {
 }
 
 fn update_status(config: &config::Backup) {
-    let due_requirements = requirements::Due::check(config);
-    let global_requirements = requirements::Global::check(config);
-    let hints = requirements::Hint::check(config);
+    let status = super::status::Status::new(config);
 
+    main_ui().schedule_status().set_title(&status.main.title);
+    main_ui()
+        .schedule_status()
+        .set_subtitle(&status.main.subtitle);
     main_ui()
         .schedule_status_icon()
-        .remove_css_class("warning-icon");
-    main_ui().schedule_status_icon().remove_css_class("ok-icon");
+        .set_icon_name(&status.main.icon_name);
+    main_ui()
+        .schedule_status_icon()
+        .set_level(status.main.level);
 
-    while let Some(row) = main_ui().schedule_status_list().row_at_index(1) {
-        main_ui().schedule_status_list().remove(&row);
-    }
-
-    main_ui().schedule_status().set_subtitle("");
-
-    if !config.schedule.enabled {
+    for problem in status.problems {
         main_ui()
-            .schedule_status()
-            .set_title(&gettext("Scheduled backups not enabled"));
-        main_ui()
-            .schedule_status_icon()
-            .add_css_class("warning-icon");
-    } else {
-        let mut problem_css = "error-icon";
-
-        if let Err(due) = due_requirements {
-            main_ui().schedule_status().set_title(&format!("{}", due));
-            if global_requirements.is_empty() && hints.is_empty() {
-                main_ui().schedule_status_icon().add_css_class("ok-icon");
-            }
-            problem_css = "warning-icon";
-        } else if !global_requirements.is_empty() || !hints.is_empty() {
-            main_ui().schedule_status().set_title("Backup past due");
-            main_ui()
-                .schedule_status()
-                .set_subtitle("Waiting until requirements are met");
-        } else {
-            main_ui()
-                .schedule_status()
-                .set_title("Waiting for backup to start");
-        }
-
-        main_ui().schedule_status_list();
-
-        let mut problems = Vec::new();
-
-        for problem in global_requirements {
-            problems.push(Problem::new("x", format!("{:?}", problem)));
-        }
-
-        for hint in hints {
-            match hint {
-                requirements::Hint::DeviceMissing => problems.push(Problem::new(
-                    "drive-removable-media-symbolic",
-                    gettext("Backup device needs to be connected"),
-                )),
-            }
-        }
-
-        for problem in problems {
-            main_ui()
-                .schedule_status_list()
-                .append(&problem.action_row(problem_css));
-        }
-    }
-}
-
-struct Problem {
-    icon: String,
-    title: String,
-}
-
-impl Problem {
-    pub fn new(icon: &str, title: String) -> Self {
-        Self {
-            icon: icon.to_string(),
-            title,
-        }
-    }
-
-    pub fn action_row(&self, class: &str) -> adw::ActionRow {
-        let icon = gtk::Image::builder()
-            .icon_name(&self.icon)
-            .css_classes(vec![String::from("status-icon"), String::from(class)])
-            .valign(gtk::Align::Center)
-            .build();
-
-        let row = adw::ActionRow::builder().title(&self.title).build();
-
-        row.add_prefix(&icon);
-
-        row
+            .schedule_status_list()
+            .append(&problem.action_row());
     }
 }
 

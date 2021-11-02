@@ -215,6 +215,9 @@ This might take a while.</property>
                                                   <object class="GtkListBox" id="target_listbox">
                                                     <property name="selection-mode">none</property>
                                                     <child>
+                                                      <object class="AdwActionRow" id="detail_repo_row"/>
+                                                    </child>
+                                                    <child>
                                                       <object class="AdwActionRow" id="detail_status_row">
                                                         <property name="activatable">False</property>
                                                         <property name="selectable">False</property>
@@ -241,9 +244,6 @@ This might take a while.</property>
                                                           </object>
                                                         </child>
                                                       </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow" id="detail_repo_row"/>
                                                     </child>
                                                     <style>
                                                       <class name="content"/>
@@ -495,7 +495,7 @@ This might take a while.</property>
                         <child>
                           <object class="AdwViewStackPage">
                             <property name="title" translatable="yes">Schedule</property>
-                            <property name="icon-name">alarm-symbolic</property>
+                            <property name="icon-name">x-office-calendar-symbolic</property>
                             <property name="child">
                               <object class="GtkScrolledWindow" id="page_schedule">
                                 <property name="child">
@@ -516,13 +516,7 @@ This might take a while.</property>
                                                 <child>
                                                   <object class="AdwActionRow" id="schedule_status">
                                                     <child type="prefix">
-                                                      <object class="GtkImage" id="schedule_status_icon">
-                                                        <property name="icon-name">alarm-symbolic</property>
-                                                        <property name="valign">center</property>
-                                                        <style>
-                                                          <class name="status-icon"/>
-                                                        </style>
-                                                      </object>
+                                                      <object class="PikaStatusIcon" id="schedule_status_icon"/>
                                                     </child>
                                                     <child>
                                                       <object class="GtkToggleButton" id="schedule_pause">
@@ -762,17 +756,15 @@ This might take a while.</property>
                             <property name="scroll-to-focus">1</property>
                             <child>
                               <object class="AdwClamp">
-                                <child>
+                                <property name="child">
                                   <object class="GtkListBox" id="main_backups">
                                     <property name="valign">start</property>
                                     <property name="selection-mode">none</property>
                                     <style>
-                                      <class name="content"/>
-                                      <class name="backup-overview"/>
                                       <class name="content-container"/>
                                     </style>
                                   </object>
-                                </child>
+                                </property>
                               </object>
                             </child>
                           </object>
@@ -958,7 +950,7 @@ This might take a while.</property>
       <object class="GtkStackPage">
         <property name="child">
           <object class="GtkImage" id="status_icon">
-        <property name="valign">center</property>
+            <property name="valign">center</property>
             <style>
               <class name="status-icon"/>
             </style>
