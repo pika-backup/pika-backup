@@ -55,7 +55,7 @@ impl Status {
         } else {
             let mut problem_level = StatusLevel::Error;
 
-            let mut main_title = String::new();
+            let main_title;
             let mut main_subtitle = String::new();
             let mut main_level = StatusLevel::Ok;
 
@@ -77,11 +77,9 @@ impl Status {
                             gettext("Will not start until requirements are met.")
                         );
                     }
-                } else {
-                    if BACKUP_COMMUNICATION.load().get(&config.id).is_none() {
-                        main_subtitle = gettext("Iconsitent backup information");
-                        main_level = StatusLevel::Error;
-                    }
+                } else if BACKUP_COMMUNICATION.load().get(&config.id).is_none() {
+                    main_subtitle = gettext("Iconsitent backup information");
+                    main_level = StatusLevel::Error;
                 }
 
                 problem_level = StatusLevel::Warning;
@@ -123,7 +121,7 @@ impl Status {
                     icon_name: String::from("x-office-calendar-symbolic"),
                     level: main_level,
                 },
-                problems: problems,
+                problems,
             }
         }
     }

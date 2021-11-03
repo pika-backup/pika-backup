@@ -31,7 +31,7 @@ pub enum StatusLevel {
 
 impl StatusRow {
     pub fn action_row(&self) -> adw::ActionRow {
-        let icon = super::widgets::StatusIcon::new(&self.title, self.level);
+        let icon = super::widgets::StatusIcon::new(&self.icon_name, self.level);
 
         let row = adw::ActionRow::builder()
             .title(&self.title)

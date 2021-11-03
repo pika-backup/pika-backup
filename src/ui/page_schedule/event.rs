@@ -5,7 +5,6 @@ use super::frequency;
 use super::init;
 use super::weekday;
 use crate::config;
-use crate::daemon::schedule::requirements;
 use crate::ui;
 use crate::ui::prelude::*;
 
@@ -73,6 +72,10 @@ fn update_status(config: &config::Backup) {
     main_ui()
         .schedule_status_icon()
         .set_level(status.main.level);
+
+    while let Some(row) = main_ui().schedule_status_list().row_at_index(1) {
+        main_ui().schedule_status_list().remove(&row);
+    }
 
     for problem in status.problems {
         main_ui()
