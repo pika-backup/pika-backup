@@ -20,48 +20,67 @@ cargo_env = [
   'APPLICATION_ID_SUFFIX=' + get_option('app_id_suffix'),
 ]
 
-cargo_build = custom_target(
-  'cargo-build',
-  build_by_default: true,
-  build_always_stale: true,
-  output: rust_target,
-  console: true,
-  command: [
-    'env', cargo_env,
-    cargo_bin, 'build',
-    cargo_options,
-  ],
-)
+if get_option('build_src')
 
-copy_binary = custom_target(
-  'cp-binary',
-  depends: cargo_build,
-  build_by_default: true,
-  build_always_stale: true,
-  install: true,
-  install_dir: bindir,
-  output: meson.project_name(),
-  command: [
-    'cp',
-    target_dir / rust_target / meson.project_name(),
-    '@OUTPUT@',
-  ],
-)
+  cargo_build = custom_target(
+    'cargo-build',
+    build_by_default: true,
+    build_always_stale: true,
+    output: rust_target,
+    console: true,
+    command: [
+      'env', cargo_env,
+      cargo_bin, 'build',
+      cargo_options,
+    ],
+  )
 
-copy_daemon_binary = custom_target(
-  'cp-daemon-binary',
-  depends: cargo_build,
-  build_by_default: true,
-  build_always_stale: true,
-  install: true,
-  install_dir: bindir,
-  output: meson.project_name() + 'd',
-  command: [
-    'cp',
-    target_dir / rust_target / meson.project_name() + 'd',
-    '@OUTPUT@',
-  ],
-)
+  copy_binary = custom_target(
+    'cp-binary',
+    depends: cargo_build,
+    build_by_default: true,
+    build_always_stale: true,
+    install: true,
+    install_dir: bindir,
+    output: meson.project_name(),
+    command: [
+      'cp',
+      target_dir / rust_target / meson.project_name(),
+      '@OUTPUT@',
+    ],
+  )
+
+  copy_daemon_binary = custom_target(
+    'cp-daemon-binary',
+    depends: cargo_build,
+    build_by_default: true,
+    build_always_stale: true,
+    install: true,
+    install_dir: bindir,
+    output: meson.project_name() + 'd',
+    command: [
+      'cp',
+      target_dir / rust_target / meson.project_name() + 'd',
+      '@OUTPUT@',
+    ],
+  )
+
+endif
+
+if get_option('src_docs')
+  cargo_build = custom_target(
+    'cargo-doc',
+    build_by_default: true,
+    build_always_stale: true,
+    output: 'doc',
+    console: true,
+    command: [
+      'env', cargo_env,
+      cargo_bin, 'doc',
+      cargo_options + ['--no-deps', '--document-private-items'],
+    ],
+  )
+endif
 
 test('cargo-test',
   cargo_bin,

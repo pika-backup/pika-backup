@@ -1,11 +1,12 @@
+variables:
+  FLATPAK_MODULE: pika-backup
+  MANIFEST_PATH: build-aux/org.gnome.World.PikaBackup.Devel.json
+
 test:
   image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:master
-  interruptible: true
   tags:
     - flatpak
-  variables:
-    FLATPAK_MODULE: pika-backup
-    MANIFEST_PATH: build-aux/org.gnome.World.PikaBackup.Devel.json
+  interruptible: true
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --socket=x11 --share=network flatpak_app
@@ -20,6 +21,7 @@ test:
 
 cargo-audit:
   interruptible: true
+  allow_failure: true
   image: rust
   script:
     - cargo install cargo-audit
@@ -27,6 +29,8 @@ cargo-audit:
 
 cargo-clippy:
   extends: test
+  tags:
+    - flatpak
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --share=network flatpak_app
@@ -40,15 +44,20 @@ cargo-fmt:
     - cargo fmt --all -- --color=always --check
 
 pages:
-  image: 'registry.fedoraproject.org/fedora:35'
+  image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/rust_bundle:master
+  tags:
+    - flatpak
   interruptible: true
   script:
-    - dnf install -y glib2-devel gtk3-devel libhandy-devel gobject-introspection-devel cairo-devel graphene-devel
-    - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    - source "$HOME/.cargo/env"
-    - cargo doc --no-deps --document-private-items
-    - mkdir public
-    - cp -r target/doc public/code-doc
+    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    - flatpak build-finish --socket=x11 --share=network flatpak_app
+    - >
+      flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} <<END
+        meson --reconfigure -Dbuild_src=false -Dsrc_docs=true
+        ninja
+
+      END
+    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc public
   artifacts:
     paths:
       - 'public'
