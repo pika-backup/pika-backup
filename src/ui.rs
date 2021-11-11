@@ -23,6 +23,7 @@ mod globals;
 mod headerbar;
 mod page_archives;
 mod page_backup;
+mod page_detail;
 mod page_overview;
 mod page_pending;
 mod page_schedule;
@@ -306,6 +307,8 @@ fn load_config() {
 }
 
 fn write_config_e() -> std::io::Result<()> {
+    debug!("Rewriting all configs");
+
     let config: &config::Backups = &BACKUP_CONFIG.load();
     let config_file = tempfile::NamedTempFile::new_in(glib::user_config_dir())?;
     serde_json::ser::to_writer_pretty(&config_file, config)?;

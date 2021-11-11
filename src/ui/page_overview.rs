@@ -119,6 +119,11 @@ fn rebuild_list() {
                 ui::page_backup::view_backup_conf(&config.id);
             }));
 
+        row.schedule()
+            .connect_activated(enclose!((config) move |_| {
+                ui::page_schedule::view(&config.id);
+            }));
+
         // Repo Icon
 
         if let Ok(icon) = gio::Icon::for_string(&config.repo.icon()) {

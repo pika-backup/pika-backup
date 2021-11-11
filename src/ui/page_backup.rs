@@ -107,21 +107,17 @@ pub fn activate_action_backup(id: ConfigId) {
 }
 
 fn is_visible() -> bool {
-    main_ui().detail_stack().visible_child()
-        == Some(main_ui().page_backup().upcast::<gtk::Widget>())
-        && main_ui().main_stack().visible_child()
-            == Some(main_ui().page_detail().upcast::<gtk::Widget>())
+    super::page_detail::is_visible(&main_ui().page_backup())
 }
 
 fn on_stack_changed() {
     if is_visible() {
-        refresh_status();
+        Handler::run(async { refresh() });
     }
 }
 
 pub fn view_backup_conf(id: &ConfigId) {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
-    Handler::run(async { refresh() });
 
     main_ui()
         .detail_stack()

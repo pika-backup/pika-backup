@@ -9,9 +9,7 @@ use crate::ui;
 use crate::ui::prelude::*;
 
 pub async fn show_page() -> Result<()> {
-    if main_ui().detail_stack().visible_child()
-        == Some(main_ui().page_schedule().upcast::<gtk::Widget>())
-    {
+    if super::is_visible() {
         let backups = BACKUP_CONFIG.load();
         let config = backups.active()?;
 
