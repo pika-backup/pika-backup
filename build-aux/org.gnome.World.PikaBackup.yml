@@ -7,6 +7,8 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
 build-options:
   append-path: /usr/lib/sdk/rust-stable/bin
+  build-args:
+    - "--share=network"
 
 finish-args:
   - --filesystem=host
@@ -115,6 +117,13 @@ modules:
           type: pypi
           name: llfuse
           versions: {<: '1.5'}
+
+  - name: gtk
+    buildsystem: meson
+    sources:
+     - type: git
+       url: https://gitlab.gnome.org/GNOME/gtk.git
+       commit: 8a7868d0066d3d40d32b5d06281cfb0c3fee2def
 
   - name: pika-backup
     buildsystem: meson
