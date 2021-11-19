@@ -95,20 +95,35 @@ impl Status {
             let mut problems = Vec::new();
 
             for problem in global_requirements {
-                problems.push(StatusRow {
-                    title: format!("{:?}", problem),
-                    subtitle: String::new(),
-                    icon_name: String::from("x"),
-                    level: problem_level,
-                });
+                match problem {
+                    requirements::Global::MeteredConnection => problems.push(StatusRow {
+                        title: gettext("Network connection must not be metered"),
+                        subtitle: String::new(),
+                        icon_name: String::from("network-vpn-symbolic"),
+                        level: problem_level,
+                    }),
+                    requirements::Global::OtherBackupRunning(_) => problems.push(StatusRow {
+                        title: gettext("Other backups on repository have to be completed"),
+                        subtitle: String::new(),
+                        icon_name: String::from("media-playback-start-symbolic"),
+                        level: problem_level,
+                    }),
+                    requirements::Global::ThisBackupRunning => (),
+                }
             }
 
             for hint in hints {
                 match hint {
                     requirements::Hint::DeviceMissing => problems.push(StatusRow {
-                        title: gettext("Backup device needs to be connected"),
+                        title: gettext("Backup device has to be connected"),
                         subtitle: String::new(),
                         icon_name: String::from("drive-removable-media-symbolic"),
+                        level: problem_level,
+                    }),
+                    requirements::Hint::NetworkMissing => problems.push(StatusRow {
+                        title: gettext("Network connection has to be available"),
+                        subtitle: String::new(),
+                        icon_name: String::from("network-offline-symbolic"),
                         level: problem_level,
                     }),
                 }

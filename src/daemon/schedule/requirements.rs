@@ -93,6 +93,7 @@ impl Global {
 #[derive(Debug, Clone)]
 pub enum Hint {
     DeviceMissing,
+    NetworkMissing,
 }
 
 impl Hint {
@@ -101,6 +102,10 @@ impl Hint {
 
         if config.repo.is_drive_connected() == Ok(false) {
             vec.push(Self::DeviceMissing)
+        }
+
+        if config.repo.is_network() && !gio::NetworkMonitor::default().is_network_available() {
+            vec.push(Self::NetworkMissing)
         }
 
         vec

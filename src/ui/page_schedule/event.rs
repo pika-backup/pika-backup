@@ -57,6 +57,14 @@ pub async fn show_page() -> Result<()> {
     Ok(())
 }
 
+pub async fn network_changed() -> Result<()> {
+    debug!("Network changed");
+    if super::is_visible() {
+        update_status(BACKUP_CONFIG.load().active()?);
+    }
+    Ok(())
+}
+
 fn update_status(config: &config::Backup) {
     let status = super::status::Status::new(config);
 

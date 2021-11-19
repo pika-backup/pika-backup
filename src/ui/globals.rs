@@ -39,6 +39,7 @@ thread_local!(
         ui::widgets::init();
         ui::builder::Main::new()
     });
+
     static GTK_APPLICATION: Rc<gtk::Application> = Rc::new({
         debug!("Setting up application with id '{}'", crate::app_id());
         gtk::Application::builder()

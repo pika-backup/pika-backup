@@ -67,6 +67,14 @@ pub fn init() {
     main_ui()
         .schedule_preferred_day_calendar()
         .connect_day_selected(|_| Handler::run(event::preferred_day_change()));
+
+    // Network
+
+    gio::NetworkMonitor::default()
+        .connect_network_metered_notify(|_| Handler::run(event::network_changed()));
+
+    gio::NetworkMonitor::default()
+        .connect_network_available_notify(|_| Handler::run(event::network_changed()));
 }
 
 fn init_schedule_active() -> glib::SignalHandlerId {
