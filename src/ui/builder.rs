@@ -317,7 +317,7 @@ impl DialogStorage {
         self.get("dialog")
     }
 
-    pub fn disk(&self) -> gtk::Grid {
+    pub fn disk(&self) -> gtk::ListBox {
         self.get("disk")
     }
 
@@ -337,31 +337,11 @@ impl DialogStorage {
         self.get("fs_usage")
     }
 
-    pub fn label1(&self) -> gtk::Label {
-        self.get("label1")
-    }
-
-    pub fn label2(&self) -> gtk::Label {
-        self.get("label2")
-    }
-
-    pub fn label3(&self) -> gtk::Label {
-        self.get("label3")
-    }
-
-    pub fn label4(&self) -> gtk::Label {
-        self.get("label4")
-    }
-
-    pub fn label5(&self) -> gtk::Label {
-        self.get("label5")
-    }
-
     pub fn path(&self) -> gtk::Label {
         self.get("path")
     }
 
-    pub fn remote(&self) -> gtk::Grid {
+    pub fn remote(&self) -> gtk::ListBox {
         self.get("remote")
     }
 
