@@ -78,7 +78,7 @@ impl Status {
                         );
                     }
                 } else if BACKUP_COMMUNICATION.load().get(&config.id).is_none() {
-                    main_subtitle = gettext("Iconsitent backup information");
+                    main_subtitle = gettext("Inconsistent backup information");
                     main_level = StatusLevel::Error;
                 }
 
