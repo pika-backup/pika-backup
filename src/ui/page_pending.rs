@@ -35,7 +35,7 @@ pub fn back() {
     });
 }
 
-fn on_main_stack_changed(stack: &gtk::Stack) {
+fn on_main_stack_changed(stack: &adw::ViewStack) {
     if stack.visible_child() == Some(main_ui().page_pending().upcast::<gtk::Widget>()) {
         main_ui().add_backup().hide();
     }

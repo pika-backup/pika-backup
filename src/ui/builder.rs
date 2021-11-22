@@ -530,7 +530,7 @@ impl Main {
         self.get("main_backups")
     }
 
-    pub fn main_stack(&self) -> gtk::Stack {
+    pub fn main_stack(&self) -> adw::ViewStack {
         self.get("main_stack")
     }
 

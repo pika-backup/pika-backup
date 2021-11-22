@@ -50,7 +50,7 @@ fn is_visible() -> bool {
         == Some(main_ui().page_overview().upcast::<gtk::Widget>())
 }
 
-fn on_main_stack_changed(_stack: &gtk::Stack) {
+fn on_main_stack_changed(_stack: &adw::ViewStack) {
     if is_visible() {
         rebuild_list();
     }

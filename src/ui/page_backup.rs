@@ -459,7 +459,7 @@ pub fn refresh() -> Result<()> {
     Ok(())
 }
 
-fn on_transition(stack: &gtk::Stack) {
+fn on_transition(stack: &adw::ViewStack) {
     if !stack.is_transition_running() && !is_visible() {
         for scrollable in &[main_ui().page_backup(), main_ui().page_archives()] {
             scrollable
