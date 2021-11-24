@@ -293,7 +293,7 @@ fn load_config_e() -> std::io::Result<()> {
     let config = config::Backups::from_default_path()?;
     BACKUP_CONFIG.update(|s| *s = config.clone());
 
-    let history = config::Histories::from_default_path()?;
+    let history = config::Histories::from_default_path_ui()?;
     BACKUP_HISTORY.update(|s| *s = history.clone());
 
     Ok(())

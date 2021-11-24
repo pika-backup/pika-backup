@@ -91,12 +91,15 @@ impl std::fmt::Display for Outcome {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum Abort {
     User,
+    /// program probably crashed while running
+    LeftRunning,
 }
 
 impl std::fmt::Display for Abort {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::User => write!(f, "{}", gettext("Aborted on user request.")),
+            Self::LeftRunning => write!(f, "{}", gettext("Potential internal error.")),
         }
     }
 }

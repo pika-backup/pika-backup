@@ -5,6 +5,8 @@ use crate::prelude::*;
 use chrono::prelude::*;
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
+const HISTORY_LENGTH: usize = 100;
+
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
 pub struct History {
     /// Last runs, latest run first
@@ -40,6 +42,20 @@ impl Histories {
         )?)?)
     }
 
+    pub fn from_default_path_ui() -> std::io::Result<Self> {
+        let mut histories = Self::from_default_path()?;
+
+        for (_, history) in histories.0.iter_mut() {
+            if history.running.is_some() {
+                history.running = None;
+                history.run.push_front(RunInfo::new_left_running());
+                history.run.truncate(HISTORY_LENGTH);
+            }
+        }
+
+        Ok(histories)
+    }
+
     pub fn insert(&mut self, config_id: ConfigId, entry: RunInfo) {
         let history = self.0.entry(config_id).or_default();
 
@@ -49,9 +65,11 @@ impl Histories {
 
         history.running = None;
         history.run.push_front(entry);
+        history.run.truncate(HISTORY_LENGTH);
     }
 
     pub fn set_running(&mut self, config_id: ConfigId) {
+        debug!("Set {:?} to state running.", config_id);
         let history = self.0.entry(config_id).or_default();
 
         history.running = Some(Running {
@@ -95,6 +113,16 @@ impl RunInfo {
             messages,
             include: config.include.clone(),
             exclude: config.exclude.clone(),
+        }
+    }
+
+    pub fn new_left_running() -> Self {
+        Self {
+            end: Local::now(),
+            outcome: borg::Outcome::Aborted(borg::error::Abort::LeftRunning),
+            messages: vec![],
+            include: Default::default(),
+            exclude: Default::default(),
         }
     }
 }
