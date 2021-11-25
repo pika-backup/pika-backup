@@ -126,7 +126,7 @@ async fn handle_lock<B: borg::BorgBasics + 'static>(borg: B) -> CombinedResult<(
     .set_destructive(true)
     .ask()
     .await?;
-    super::spawn_thread("xxxxx", move || borg.break_lock())
+    super::spawn_thread("borg_break_lock", move || borg.break_lock())
         .await
         .map_err(|_| borg::Error::ThreadPanicked)?
         .map_err(Into::into)

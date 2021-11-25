@@ -54,6 +54,9 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
         c.remove(&config_id);
     });
 
+    // Direct visual feedback
+    display::refresh_status();
+
     result
 }
 
@@ -76,6 +79,11 @@ async fn run_backup(config: config::Backup) -> Result<()> {
             .status
             .update(|status| status.run = borg::Run::SizeEstimation);
 
+        let config = crate::ui::dialog_device_missing::updated_config(
+            config.clone(),
+            &gettext("Creating new backup."),
+        )
+        .await?;
         let estimated_size = ui::utils::spawn_thread(
             "estimate_backup_size",
             enclose!((config, communication) move ||
@@ -123,11 +131,6 @@ async fn run_backup(config: config::Backup) -> Result<()> {
     )
     .await;
 
-    // Direct visual feedback for aborted backups
-    if matches!(result, Err(ui::error::Combined::Ui(_))) {
-        display::refresh_status();
-    }
-
     let result = result.into_borg_error()?;
 
     // This is because the error cannot be cloned
@@ -166,6 +169,7 @@ async fn run_backup(config: config::Backup) -> Result<()> {
             .into())
         }
         Ok(_) => {
+            // TODO: Should happen with warnings as well
             let _ignore = ui::page_archives::refresh_archives_cache(config.clone()).await;
             let _ignore = ui::utils::df::lookup_and_cache(&config).await;
             Ok(())
