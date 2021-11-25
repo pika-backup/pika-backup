@@ -77,7 +77,7 @@ fn status() -> borg::Communication {
 
 fn config() -> config::Backup {
     let uuid = glib::uuid_string_random().to_string();
-    let mut config = common::config(&std::path::Path::new(&format!("/tmp/{}", &uuid)));
+    let mut config = common::config(std::path::Path::new(&format!("/tmp/{}", &uuid)));
     config.include.insert("/dev/null".into());
     config
 }

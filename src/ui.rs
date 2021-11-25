@@ -113,7 +113,7 @@ fn on_startup(_app: &gtk::Application) {
     init_timeouts();
 
     ui::page_archives::init();
-    ui::page_backup::init();
+    ui::page_backup::init::init();
     ui::headerbar::init();
     ui::page_overview::init();
     ui::page_pending::init();
