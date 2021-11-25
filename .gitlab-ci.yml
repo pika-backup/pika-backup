@@ -57,7 +57,8 @@ pages:
         ninja
 
       END
-    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc public
+    - mkdir public
+    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc public/code-doc
     - chmod -R a=rwx public
   artifacts:
     paths:
