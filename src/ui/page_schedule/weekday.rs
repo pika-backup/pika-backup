@@ -2,7 +2,7 @@ use glib::prelude::*;
 use glib::subclass::prelude::*;
 use std::cell::RefCell;
 
-use glib::{ParamFlags, ParamSpec};
+use glib::{ParamFlags, ParamSpec, ParamSpecString};
 use once_cell::sync::Lazy;
 
 pub static LIST: [chrono::Weekday; 7] = [
@@ -55,7 +55,7 @@ mod imp {
 
     impl WeekdayObject {
         pub fn name(&self) -> String {
-            glib::DateTime::new_local(
+            glib::DateTime::from_local(
                 2021,
                 3,
                 self.weekday.borrow().number_from_monday() as i32,
@@ -81,7 +81,7 @@ mod imp {
     impl ObjectImpl for WeekdayObject {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpec::new_string(
+                vec![ParamSpecString::new(
                     "display",
                     "display",
                     "display",

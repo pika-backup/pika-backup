@@ -108,8 +108,7 @@ fn on_init_repo_list_activated(row: &gtk::ListBoxRow, ui: &builder::DialogAddCon
         if name != "-init-local" {
             trace!("Setting {} as init_path", &name);
             ui.init_path()
-                .set_property("file", gio::File::for_uri(&name))
-                .unwrap();
+                .set_property("file", gio::File::for_uri(&name));
         } else {
             ui.init_path().grab_focus();
         }

@@ -31,9 +31,11 @@ pub fn init() {
         .detail_repo_row()
         .connect_activated(|_| Handler::run(ui::dialog_storage::show()));
 
+    /*
     main_ui()
         .main_stack()
         .connect_transition_running_notify(events::on_transition);
+        */
     main_ui()
         .main_stack()
         .connect_visible_child_notify(|_| events::on_stack_changed());

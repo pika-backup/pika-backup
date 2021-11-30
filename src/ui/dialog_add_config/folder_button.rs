@@ -25,7 +25,7 @@ impl FolderButton {
 
 mod imp {
     use crate::ui::prelude::*;
-    use glib::{ParamFlags, ParamSpec, Value};
+    use glib::{ParamFlags, ParamSpec, ParamSpecObject, Value};
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
     use once_cell::sync::Lazy;
@@ -50,7 +50,7 @@ mod imp {
     impl ObjectImpl for FolderButton {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpec::new_object(
+                vec![ParamSpecObject::new(
                     "file",
                     "file",
                     "file",
@@ -77,14 +77,14 @@ mod imp {
                         x.query_info(
                             "standard::*",
                             gtk::gio::FileQueryInfoFlags::NONE,
-                            gtk::gio::NONE_CANCELLABLE,
+                            gtk::gio::Cancellable::NONE,
                         )
                         .ok()
                     });
 
                     let mount_icon = file
                         .as_ref()
-                        .and_then(|x| x.find_enclosing_mount(gtk::gio::NONE_CANCELLABLE).ok())
+                        .and_then(|x| x.find_enclosing_mount(gtk::gio::Cancellable::NONE).ok())
                         .map(|x| x.icon());
                     let file_icon = info.as_ref().and_then(|x| x.icon());
 
@@ -134,7 +134,7 @@ mod imp {
                 dialog.connect_response(move |file_chooser, s| {
                     if s == gtk::ResponseType::Accept {
                         if let Some(file) = file_chooser.file() {
-                            obj.set_property("file", file).unwrap();
+                            obj.set_property("file", file);
                         }
                     }
                 });
