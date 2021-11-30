@@ -71,7 +71,7 @@ impl std::convert::TryFrom<LogCollection> for Error {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Outcome {
     Completed { stats: json::Stats },
     Aborted(Abort),
@@ -88,7 +88,7 @@ impl std::fmt::Display for Outcome {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Abort {
     User,
     /// program probably crashed while running

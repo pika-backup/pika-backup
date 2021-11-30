@@ -1,13 +1,15 @@
 use crate::borg;
 use crate::config;
 
+use super::Loadable;
+
 use crate::prelude::*;
 use chrono::prelude::*;
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
 const HISTORY_LENGTH: usize = 100;
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct History {
     /// Last runs, latest run first
     pub run: VecDeque<RunInfo>,
@@ -15,10 +17,22 @@ pub struct History {
     pub last_completed: Option<RunInfo>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct Histories(pub BTreeMap<config::ConfigId, History>);
 
-impl LookupConfigId<History> for crate::config::Histories {
+impl super::ConfigType for Histories {
+    fn path() -> std::path::PathBuf {
+        let mut path = glib::user_config_dir();
+        path.push(env!("CARGO_PKG_NAME"));
+        path.push("history.json");
+
+        path
+    }
+}
+
+impl LookupConfigId for crate::config::Histories {
+    type Item = History;
+
     fn get_result_mut(
         &mut self,
         key: &ConfigId,
@@ -36,14 +50,8 @@ impl LookupConfigId<History> for crate::config::Histories {
 }
 
 impl Histories {
-    pub fn from_default_path() -> std::io::Result<Self> {
-        Ok(serde_json::de::from_reader(std::fs::File::open(
-            Self::default_path()?,
-        )?)?)
-    }
-
-    pub fn from_default_path_ui() -> std::io::Result<Self> {
-        let mut histories = Self::from_default_path()?;
+    pub fn from_file_ui() -> std::io::Result<Self> {
+        let mut histories = Self::from_file()?;
 
         for (_, history) in histories.0.iter_mut() {
             if history.running.is_some() {
@@ -83,16 +91,12 @@ impl Histories {
         history.running = None;
     }
 
-    pub fn default_path() -> std::io::Result<std::path::PathBuf> {
-        crate::utils::prepare_config_file("history.json", Self::default())
-    }
-
     pub fn iter(&self) -> std::collections::btree_map::Iter<'_, config::ConfigId, History> {
         self.0.iter()
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct RunInfo {
     pub messages: borg::msg::LogCollection,
     pub outcome: borg::Outcome,
@@ -127,7 +131,7 @@ impl RunInfo {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Running {
     pub start: DateTime<Local>,
 }

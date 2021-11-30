@@ -56,12 +56,12 @@ impl ArchiveName {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Stats {
     pub archive: NewArchive,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct NewArchive {
     pub duration: f64,
     pub id: ArchiveId,
@@ -69,7 +69,7 @@ pub struct NewArchive {
     pub stats: NewArchiveSize,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct NewArchiveSize {
     pub compressed_size: u64,
     pub deduplicated_size: u64,

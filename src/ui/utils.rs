@@ -92,15 +92,18 @@ pub async fn background_permission() -> std::result::Result<bool, ashpd::Error> 
     }
 }
 
-pub trait LookupActiveConfigId<T> {
+pub trait LookupActiveConfigId {
+    type Item;
     #[doc(alias = "get_active")]
-    fn active(&self) -> Result<&T>;
+    fn active(&self) -> Result<&Self::Item>;
     #[doc(alias = "get_active_mut")]
-    fn active_mut(&mut self) -> Result<&mut T>;
+    fn active_mut(&mut self) -> Result<&mut Self::Item>;
 }
 
 #[allow(clippy::implicit_hasher)]
-impl<T> LookupActiveConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
+impl<T> LookupActiveConfigId for std::collections::BTreeMap<ConfigId, T> {
+    type Item = T;
+
     fn active(&self) -> Result<&T> {
         Ok(self.get_result(&active_config_id_result()?)?)
     }
@@ -109,13 +112,27 @@ impl<T> LookupActiveConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
         Ok(self.get_result_mut(&active_config_id_result()?)?)
     }
 }
-impl LookupActiveConfigId<config::Backup> for config::Backups {
+impl LookupActiveConfigId for config::Backups {
+    type Item = config::Backup;
+
     fn active(&self) -> Result<&config::Backup> {
         Ok(self.get_result(&active_config_id_result()?)?)
     }
 
     fn active_mut(&mut self) -> Result<&mut config::Backup> {
         Ok(self.get_result_mut(&active_config_id_result()?)?)
+    }
+}
+
+impl<C: LookupActiveConfigId> LookupActiveConfigId for config::Writeable<C> {
+    type Item = C::Item;
+
+    fn active(&self) -> Result<&Self::Item> {
+        self.current_config.active()
+    }
+
+    fn active_mut(&mut self) -> Result<&mut Self::Item> {
+        self.current_config.active_mut()
     }
 }
 

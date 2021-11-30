@@ -1,24 +1,22 @@
 use crate::config;
 use std::collections::BTreeMap;
 
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 pub struct ScheduleStatus {
     pub activity: BTreeMap<config::ConfigId, Activity>,
 }
 
-impl ScheduleStatus {
-    pub fn default_path() -> std::io::Result<std::path::PathBuf> {
-        crate::utils::prepare_config_file("schedule_status.json", Self::default())
-    }
+impl super::ConfigType for ScheduleStatus {
+    fn path() -> std::path::PathBuf {
+        let mut path = glib::user_config_dir();
+        path.push(env!("CARGO_PKG_NAME"));
+        path.push("schedule_status.json");
 
-    pub fn load() -> std::io::Result<Self> {
-        Ok(serde_json::de::from_reader(std::fs::File::open(
-            Self::default_path()?,
-        )?)?)
+        path
     }
 }
 
-#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Activity {
     pub used: std::time::Duration,
 }

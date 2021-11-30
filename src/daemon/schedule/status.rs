@@ -1,12 +1,10 @@
 use crate::daemon::prelude::*;
 
 use crate::config;
+use crate::config::Loadable;
 
 fn write_result() -> crate::daemon::error::Result<()> {
-    let schedule_status: &config::ScheduleStatus = &SCHEDULE_STATUS.load();
-    let tmpfile = tempfile::NamedTempFile::new_in(glib::user_config_dir())?;
-    serde_json::ser::to_writer_pretty(&tmpfile, schedule_status)?;
-    tmpfile.persist(&config::ScheduleStatus::default_path()?)?;
+    SCHEDULE_STATUS.load().write_file()?;
 
     Ok(())
 }
@@ -16,7 +14,7 @@ pub fn write() {
 }
 
 fn load_result() -> crate::daemon::error::Result<()> {
-    let schedule_status = config::ScheduleStatus::load()?;
+    let schedule_status = config::ScheduleStatus::from_file()?;
     SCHEDULE_STATUS.update(|s| *s = schedule_status.clone());
 
     Ok(())

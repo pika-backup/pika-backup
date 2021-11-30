@@ -3,6 +3,7 @@ use gtk::prelude::*;
 
 use crate::borg;
 use crate::config;
+use crate::config::Loadable;
 use crate::ui;
 use crate::ui::prelude::*;
 
@@ -19,7 +20,8 @@ mod dialog_info;
 mod dialog_storage;
 mod error;
 mod export;
-mod globals;
+// TODO: this should not be global
+pub mod globals;
 mod headerbar;
 mod page_archives;
 mod page_backup;
@@ -290,11 +292,8 @@ fn load_config_e() -> std::io::Result<()> {
         dialog.show();
     }
 
-    let config = config::Backups::from_default_path()?;
-    BACKUP_CONFIG.update(|s| *s = config.clone());
-
-    let history = config::Histories::from_default_path_ui()?;
-    BACKUP_HISTORY.update(|s| *s = history.clone());
+    BACKUP_CONFIG.swap(Arc::new(config::Writeable::from_file()?));
+    BACKUP_HISTORY.swap(Arc::new(config::Writeable::from_file()?));
 
     Ok(())
 }
@@ -309,15 +308,8 @@ fn load_config() {
 fn write_config_e() -> std::io::Result<()> {
     debug!("Rewriting all configs");
 
-    let config: &config::Backups = &BACKUP_CONFIG.load();
-    let config_file = tempfile::NamedTempFile::new_in(glib::user_config_dir())?;
-    serde_json::ser::to_writer_pretty(&config_file, config)?;
-    config_file.persist(&config::Backups::default_path()?)?;
-
-    let history: &config::Histories = &BACKUP_HISTORY.load();
-    let history_file = tempfile::NamedTempFile::new_in(glib::user_config_dir())?;
-    serde_json::ser::to_writer_pretty(&history_file, history)?;
-    history_file.persist(&config::Histories::default_path()?)?;
+    BACKUP_CONFIG.load().write_file()?;
+    BACKUP_HISTORY.load().write_file()?;
 
     Ok(())
 }

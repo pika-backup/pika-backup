@@ -1,6 +1,7 @@
 pub use crate::globals::*;
 pub use glib::prelude::*;
 
+use crate::config;
 use crate::config::ConfigId;
 
 use std::collections::{BTreeMap, HashSet};
@@ -11,6 +12,11 @@ use once_cell::sync::Lazy;
 
 use crate::borg;
 use crate::ui;
+
+pub static BACKUP_CONFIG: Lazy<ArcSwap<config::Writeable<config::Backups>>> =
+    Lazy::new(Default::default);
+pub static BACKUP_HISTORY: Lazy<ArcSwap<config::Writeable<config::Histories>>> =
+    Lazy::new(Default::default);
 
 pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<BTreeMap<ConfigId, borg::Communication>>> =
     Lazy::new(Default::default);

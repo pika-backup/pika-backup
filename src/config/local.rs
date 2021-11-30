@@ -1,6 +1,6 @@
 use gio::prelude::*;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Repository {
     /// If not absulte, this path is prefixed with the `mount_path`
     pub path: std::path::PathBuf,

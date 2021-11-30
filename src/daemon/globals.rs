@@ -4,7 +4,11 @@ use arc_swap::ArcSwap;
 use once_cell::sync::Lazy;
 use std::rc::Rc;
 
-pub static SCHEDULE_STATUS: Lazy<ArcSwap<config::ScheduleStatus>> = Lazy::new(Default::default);
+pub static BACKUP_CONFIG: Lazy<ArcSwap<config::Backups>> = Lazy::new(Default::default);
+pub static BACKUP_HISTORY: Lazy<ArcSwap<config::Histories>> = Lazy::new(Default::default);
+
+pub static SCHEDULE_STATUS: Lazy<ArcSwap<config::Writeable<config::ScheduleStatus>>> =
+    Lazy::new(Default::default);
 
 thread_local!(
     static GIO_APPLICATION: Rc<gio::Application> = Rc::new(gio::Application::new(

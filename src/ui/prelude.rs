@@ -28,3 +28,20 @@ where
         result
     }
 }
+
+impl<C: Clone> ArcSwapResultExt<C> for ArcSwap<crate::config::Writeable<C>> {
+    fn update_result<F: Fn(&mut C) -> Result<()>>(&self, updater: F) -> Result<()> {
+        let mut result = Ok(());
+        self.rcu(|current| {
+            let mut new = C::clone(&current.current_config);
+            result = updater(&mut new);
+
+            crate::config::Writeable {
+                current_config: new,
+                written_config: current.written_config.clone(),
+            }
+        });
+
+        result
+    }
+}

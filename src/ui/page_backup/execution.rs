@@ -19,7 +19,7 @@ pub async fn start_backup(config: config::Backup) -> Result<()> {
 async fn startup_backup(config: config::Backup) -> Result<()> {
     let is_running_on_repo = BACKUP_COMMUNICATION.get().keys().any(|id| {
         BACKUP_CONFIG
-            .get()
+            .load()
             .get_result(id)
             .map(|config| &config.repo_id)
             == Ok(&config.repo_id)

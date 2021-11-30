@@ -1,4 +1,4 @@
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Repository {
     pub uri: String,
     pub settings: Option<super::BackupSettings>,

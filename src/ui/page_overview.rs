@@ -69,7 +69,7 @@ async fn on_remove_backup() -> Result<()> {
     )
     .await?;
 
-    let config_id = BACKUP_CONFIG.get().active()?.id.clone();
+    let config_id = BACKUP_CONFIG.load().active()?.id.clone();
 
     BACKUP_CONFIG.update_result(|s| {
         s.remove(&config_id)?;

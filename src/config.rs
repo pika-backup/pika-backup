@@ -1,20 +1,24 @@
 pub mod error;
 pub mod history;
+mod loadable;
 pub mod local;
 pub mod remote;
 mod schedule;
 mod schedule_status;
+mod writeable;
 
 pub use history::Histories;
+pub use loadable::{ConfigType, Loadable};
 pub use schedule::*;
 pub use schedule_status::*;
+pub use writeable::Writeable;
 
 use crate::borg;
 use crate::prelude::*;
 
 use gio::prelude::*;
 use serde::Deserialize;
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeSet;
 use std::path;
 use zeroize::Zeroizing;
 
@@ -59,7 +63,7 @@ impl glib::StaticVariantType for ConfigId {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Backup {
     #[serde(default)]
     pub config_version: u16,
@@ -150,7 +154,8 @@ impl Backup {
     }
 }
 
-impl LookupConfigId<Backup> for Backups {
+impl LookupConfigId for Backups {
+    type Item = Backup;
     fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
         self.iter_mut()
             .find(|x| x.id == *key)
@@ -239,7 +244,7 @@ impl Pattern {
 
 pub type Password = Zeroizing<Vec<u8>>;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(tag = "type")]
 pub enum Repository {
     Local(local::Repository),
@@ -348,42 +353,25 @@ impl std::fmt::Display for Repository {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct BackupSettings {
     pub command_line_args: Option<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq)]
 pub struct Backups(Vec<Backup>);
 
+impl ConfigType for Backups {
+    fn path() -> std::path::PathBuf {
+        let mut path = glib::user_config_dir();
+        path.push(env!("CARGO_PKG_NAME"));
+        path.push("backup.json");
+
+        path
+    }
+}
+
 impl Backups {
-    pub fn from_default_path() -> std::io::Result<Self> {
-        Self::from_path(&Self::default_path()?)
-    }
-
-    pub fn from_path(path: &std::path::Path) -> std::io::Result<Self> {
-        #[derive(Serialize, Deserialize, Debug)]
-        struct BackupsLegacy {
-            backups: BTreeMap<ConfigId, Backup>,
-        }
-
-        let conf: std::result::Result<Self, _> =
-            serde_json::de::from_reader(std::fs::File::open(&path)?);
-
-        // pre v2 parser
-        match conf {
-            Ok(conf) => Ok(conf),
-            Err(err) => {
-                let conf_legacy: std::result::Result<BackupsLegacy, _> =
-                    serde_json::de::from_reader(std::fs::File::open(path)?);
-                match conf_legacy {
-                    Ok(legacy) => Ok(Self(legacy.backups.into_iter().map(|x| x.1).collect())),
-                    Err(_) => Err(err.into()),
-                }
-            }
-        }
-    }
-
     pub fn exists(&self, id: &ConfigId) -> bool {
         self.iter().any(|x| x.id == *id)
     }
@@ -412,10 +400,6 @@ impl Backups {
 
     pub fn iter_mut(&mut self) -> std::slice::IterMut<'_, Backup> {
         self.0.iter_mut()
-    }
-
-    pub fn default_path() -> std::io::Result<std::path::PathBuf> {
-        crate::utils::prepare_config_file("backup.json", Self::default())
     }
 }
 

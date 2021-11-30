@@ -51,7 +51,7 @@ pub fn calculate(config: &config::Backup, communication: &Communication) -> Opti
     debug!("Estimating backup size");
 
     // datetime of last completed backup
-    let history = BACKUP_HISTORY.load();
+    let history = crate::ui::globals::BACKUP_HISTORY.load();
     let last_run = history
         .get_result(&config.id)
         .ok()

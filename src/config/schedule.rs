@@ -1,12 +1,12 @@
 use crate::prelude::*;
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct Schedule {
     pub enabled: bool,
     pub frequency: Frequency,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Frequency {
     Hourly,
     Daily { preferred_time: chrono::NaiveTime },

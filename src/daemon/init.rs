@@ -1,5 +1,7 @@
 use crate::action;
 use crate::config;
+use crate::config::ConfigType;
+use crate::config::Loadable;
 use crate::daemon;
 use crate::daemon::prelude::*;
 use daemon::error::Result;
@@ -33,8 +35,7 @@ fn on_startup(_app: &gio::Application) {
 }
 
 fn init_config_monitor() -> gio::FileMonitor {
-    let file =
-        gio::File::for_path(&config::Backups::default_path().expect("TODO: we need a config"));
+    let file = gio::File::for_path(&config::Backups::path());
     let monitor = file
         .monitor_file(gio::FileMonitorFlags::NONE, None::<&gio::Cancellable>)
         .expect("TODO: we need a config");
@@ -45,8 +46,7 @@ fn init_config_monitor() -> gio::FileMonitor {
 }
 
 fn init_history_monitor() -> gio::FileMonitor {
-    let file =
-        gio::File::for_path(&config::Histories::default_path().expect("TODO: we need a history"));
+    let file = gio::File::for_path(&config::Histories::path());
     let monitor = file
         .monitor_file(gio::FileMonitorFlags::NONE, None::<&gio::Cancellable>)
         .expect("TODO: we need a history");
@@ -70,10 +70,10 @@ fn on_config_change(
 }
 
 fn load_config() -> Result<()> {
-    let conf = config::Backups::from_default_path()?;
+    let conf = config::Backups::from_file()?;
     BACKUP_CONFIG.update(move |s| *s = conf.clone());
 
-    let history = config::Histories::from_default_path()?;
+    let history = config::Histories::from_file()?;
     BACKUP_HISTORY.update(|s| *s = history.clone());
 
     Ok(())

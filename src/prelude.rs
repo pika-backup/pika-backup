@@ -35,7 +35,8 @@ pub fn ngettextf_(msgid: &str, msgid_plural: &str, n: u32) -> String {
 }
 
 #[allow(clippy::implicit_hasher)]
-impl<T> LookupConfigId<T> for std::collections::BTreeMap<ConfigId, T> {
+impl<T> LookupConfigId for std::collections::BTreeMap<ConfigId, T> {
+    type Item = T;
     fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound> {
         self.get_mut(key)
             .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
@@ -79,6 +80,43 @@ where
 
     fn get(&self) -> T {
         T::clone(&self.load_full())
+    }
+}
+
+impl<T> ArcSwapExt<T> for ArcSwap<config::Writeable<T>>
+where
+    T: Clone,
+{
+    fn update<F: Fn(&mut T)>(&self, updater: F) {
+        self.rcu(|current| {
+            let mut new = T::clone(&current.current_config);
+            updater(&mut new);
+
+            config::Writeable {
+                current_config: new,
+                written_config: current.written_config.clone(),
+            }
+        });
+    }
+
+    fn update_return<R, F: Fn(&mut T) -> R>(&self, updater: F) -> R {
+        let mut cell = once_cell::sync::OnceCell::new();
+
+        self.rcu(|current| {
+            let mut new = T::clone(&current.current_config);
+            let _set = cell.set(updater(&mut new));
+
+            config::Writeable {
+                current_config: new,
+                written_config: current.written_config.clone(),
+            }
+        });
+
+        cell.take().unwrap()
+    }
+
+    fn get(&self) -> T {
+        T::clone(&self.load().current_config)
     }
 }
 

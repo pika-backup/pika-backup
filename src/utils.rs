@@ -23,9 +23,14 @@ pub fn prepare_config_file<V: serde::Serialize>(
     Ok(path)
 }
 
-pub trait LookupConfigId<T> {
-    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound>;
-    fn get_result(&self, key: &ConfigId) -> Result<&T, config::error::BackupNotFound>;
+pub trait LookupConfigId {
+    type Item;
+
+    fn get_result_mut(
+        &mut self,
+        key: &ConfigId,
+    ) -> Result<&mut Self::Item, config::error::BackupNotFound>;
+    fn get_result(&self, key: &ConfigId) -> Result<&Self::Item, config::error::BackupNotFound>;
 }
 
 pub fn mount_uuid(mount: &gio::Mount) -> Option<String> {

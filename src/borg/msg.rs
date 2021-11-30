@@ -13,7 +13,7 @@ pub struct MsgIdHelper {
     pub msgid: String,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub enum LogMessageEnum {
     ParsedErr(LogMessage),
     UnparsableErr(String),
@@ -103,7 +103,7 @@ impl LogExt for LogCollection {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct LogMessage {
     pub levelname: LogLevel,
     pub name: String,
