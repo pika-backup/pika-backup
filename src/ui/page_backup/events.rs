@@ -16,19 +16,6 @@ pub fn on_stack_changed() {
     }
 }
 
-/*
-pub fn on_transition(stack: &adw::ViewStack) {
-    if !stack.is_transition_running() && !super::is_visible() {
-        for scrollable in &[main_ui().page_backup(), main_ui().page_archives()] {
-            scrollable
-                .vadjustment()
-                .unwrap()
-                .set_value(scrollable.vadjustment().unwrap().lower());
-        }
-    }
-}
-*/
-
 pub async fn on_stop_backup_create() -> Result<()> {
     ui::utils::confirmation_dialog(
         &gettext("Abort running backup creation?"),

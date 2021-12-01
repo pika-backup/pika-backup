@@ -114,14 +114,18 @@ fn on_startup(_app: &gtk::Application) {
     init_actions();
     init_timeouts();
 
-    ui::page_archives::init();
-    ui::page_backup::init::init();
+    ui::app_window::init();
     ui::headerbar::init();
+
     ui::page_overview::init();
     ui::page_pending::init();
+
+    ui::page_detail::init();
+    ui::page_backup::init::init();
+    ui::page_archives::init();
     ui::page_schedule::init::init();
+
     ui::dialog_info::init();
-    ui::app_window::init();
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 }
