@@ -128,6 +128,18 @@ fn on_startup(_app: &gtk::Application) {
     ui::dialog_info::init();
 
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
+
+    if BACKUP_CONFIG.load().iter().count() > 1 {
+        main_ui()
+            .main_stack()
+            .set_visible_child(&main_ui().page_overview());
+    } else if let Some(config) = BACKUP_CONFIG.load().iter().next() {
+        ui::page_backup::view_backup_conf(&config.id);
+    } else {
+        main_ui()
+            .main_stack()
+            .set_visible_child(&main_ui().page_overview_empty());
+    }
 }
 
 fn on_activate(_app: &gtk::Application) {

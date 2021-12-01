@@ -11,7 +11,9 @@ use super::display;
 use super::execution;
 
 pub fn on_stack_changed() {
+    eprintln!("stack changed",);
     if super::is_visible() {
+        eprintln!("is visible",);
         Handler::run(async { display::refresh() });
     }
 }

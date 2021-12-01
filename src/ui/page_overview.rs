@@ -13,19 +13,6 @@ thread_local!(
 );
 
 pub fn init() {
-    if BACKUP_CONFIG.load().iter().count() > 1 {
-        main_ui()
-            .main_stack()
-            .set_visible_child(&main_ui().page_overview());
-        rebuild_list();
-    } else if let Some(config) = BACKUP_CONFIG.load().iter().next() {
-        ui::page_backup::view_backup_conf(&config.id);
-    } else {
-        main_ui()
-            .main_stack()
-            .set_visible_child(&main_ui().page_overview_empty());
-    }
-
     main_ui()
         .main_stack()
         .connect_visible_child_notify(on_main_stack_changed);
