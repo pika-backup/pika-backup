@@ -92,6 +92,7 @@ async fn on_remove_backup() -> Result<()> {
             .main_stack()
             .set_visible_child(&main_ui().page_overview());
     };
+    main_ui().leaflet().set_visible_child(&main_ui().overview());
 
     Ok(())
 }

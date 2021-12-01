@@ -526,12 +526,20 @@ impl Main {
         self.get("internal_message_text")
     }
 
+    pub fn leaflet(&self) -> adw::Leaflet {
+        self.get("leaflet")
+    }
+
     pub fn main_backups(&self) -> gtk::ListBox {
         self.get("main_backups")
     }
 
     pub fn main_stack(&self) -> adw::ViewStack {
         self.get("main_stack")
+    }
+
+    pub fn overview(&self) -> gtk::Box {
+        self.get("overview")
     }
 
     pub fn page_archives(&self) -> gtk::ScrolledWindow {

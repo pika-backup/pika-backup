@@ -21,7 +21,8 @@ pub fn view_backup_conf(id: &ConfigId) {
     main_ui()
         .detail_stack()
         .set_visible_child(&main_ui().page_backup());
+
     main_ui()
-        .main_stack()
+        .leaflet()
         .set_visible_child(&main_ui().page_detail());
 }

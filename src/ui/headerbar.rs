@@ -19,19 +19,12 @@ fn on_back(_button: &gtk::Button) {
     main_ui()
         .main_stack()
         .set_visible_child(&main_ui().page_overview());
+    main_ui().leaflet().set_visible_child(&main_ui().overview());
 }
 
 fn main_stack_changed(stack: &adw::ViewStack) {
     let is_detail_view =
         stack.visible_child() == Some(main_ui().page_detail().upcast::<gtk::Widget>());
-
-    // shown in detail view
-    main_ui().view_switcher_title().set_visible(is_detail_view);
-    main_ui().view_switcher_bottom().set_visible(is_detail_view);
-    main_ui().back_button().set_visible(is_detail_view);
-    main_ui()
-        .secondary_menu_button()
-        .set_visible(is_detail_view);
 
     // shown in overview
     main_ui().add_backup().set_visible(!is_detail_view);

@@ -37,7 +37,7 @@ pub fn init() {
         .connect_transition_running_notify(events::on_transition);
         */
     main_ui()
-        .main_stack()
+        .leaflet()
         .connect_visible_child_notify(|_| events::on_stack_changed());
 
     main_ui()

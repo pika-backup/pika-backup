@@ -10,7 +10,7 @@ pub fn view(id: &ConfigId) {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
 
     main_ui()
-        .main_stack()
+        .leaflet()
         .set_visible_child(&main_ui().page_detail());
     main_ui()
         .detail_stack()
