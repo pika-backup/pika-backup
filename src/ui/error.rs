@@ -40,15 +40,15 @@ impl Message {
         }
     }
 
-    pub fn show(&self) {
-        self.show_transient_for(&main_ui().window());
+    pub async fn show(&self) {
+        self.show_transient_for(&main_ui().window()).await;
     }
 
-    pub fn show_transient_for<W: IsA<gtk::Window> + IsA<gtk::Widget>>(&self, window: &W) {
+    pub async fn show_transient_for<W: IsA<gtk::Window> + IsA<gtk::Widget>>(&self, window: &W) {
         if let Some(secondary) = &self.secondary_text {
-            ui::utils::show_error_transient_for(&self.text, secondary, window);
+            ui::utils::show_error_transient_for(&self.text, secondary, window).await;
         } else {
-            ui::utils::show_error_transient_for(&self.text, "", window);
+            ui::utils::show_error_transient_for(&self.text, "", window).await;
         }
     }
 }
@@ -81,6 +81,14 @@ quick_error! {
                 )))
         }
         UserCanceled { from (UserCanceled) }
+    }
+}
+
+impl Error {
+    pub async fn show(&self) {
+        if let Self::Message(err) = self {
+            err.show().await;
+        }
     }
 }
 
@@ -158,9 +166,9 @@ impl<W: IsA<gtk::Window> + IsA<gtk::Widget>> Handler<W> {
                     }
 
                     if let Some(transient_for) = transient_for {
-                        err.show_transient_for(&transient_for);
+                        err.show_transient_for(&transient_for).await;
                     } else {
-                        err.show();
+                        err.show().await;
                     }
                 }
                 Err(Error::UserCanceled) => {

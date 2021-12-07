@@ -76,19 +76,55 @@ pub fn cache_dir() -> std::path::PathBuf {
         .collect()
 }
 
-pub async fn background_permission() -> std::result::Result<bool, ashpd::Error> {
-    let response = background::request(
-        &ashpd::WindowIdentifier::default(),
-        &gettext("Schedule and continue running backups in background."),
-        false,
-        None::<&[&str]>,
-        true,
-    )
-    .await;
+pub async fn background_permission() -> Result<()> {
+    if !ashpd::is_sandboxed() {
+        // without flatpak we can always run in background
+        Ok(())
+    } else {
+        let response = background::request(
+            &ashpd::WindowIdentifier::default(),
+            &gettext("Schedule backups and continue running backups."),
+            true,
+            Some(&["pika-backupd"]),
+            // Do not use dbus-activation because that would start the UI
+            // See <https://gitlab.gnome.org/Teams/Design/hig-www/-/issues/107>
+            false,
+        )
+        .await;
 
-    match response {
-        Err(ashpd::Error::Portal(ashpd::PortalError::Cancelled(_))) => Ok(false),
-        x => Ok(x?.run_in_background()),
+        let is_rejected = match &response {
+            Ok(background) if !background.run_in_background() || !background.auto_start() => true,
+            Err(ashpd::Error::Response(ashpd::desktop::ResponseError::Cancelled)) => true,
+            _ => false,
+        };
+
+        if is_rejected {
+            return Err(Message::new(gettext("Run in background disabled"),
+            gettext("Scheduled backup functionality and continuing backups in the background will not be available. You can enable the “run in background” option via your system settings.")).into());
+        }
+
+        match response {
+            Err(err) => {
+                warn!("Background portal response: {:?}", err);
+
+                Err(
+                    Message::new(
+                        gettext("Request to run in background failed"),
+                        gettext("Either your system does not support this feature or an error occurred. Scheduled backup functionality and continuing backups in the background will not be available.")
+                    + "\n\n" + &err.to_string()
+                    ).into()
+                )
+            }
+            Ok(_) => {
+                let cmd = std::process::Command::new("flatpak-spawn")
+                    .arg("--env=G_MESSAGES_DEBUG=all")
+                    .arg("pika-backupd")
+                    .spawn();
+
+                cmd.err_to_msg(gettext("Failed to start background process"))
+                    .map(|_| ())
+            }
+        }
     }
 }
 
@@ -112,6 +148,7 @@ impl<T> LookupActiveConfigId for std::collections::BTreeMap<ConfigId, T> {
         Ok(self.get_result_mut(&active_config_id_result()?)?)
     }
 }
+
 impl LookupActiveConfigId for config::Backups {
     type Item = config::Backup;
 
@@ -213,19 +250,6 @@ pub async fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBu
     folder_chooser_dialog(title).await.and_then(|x| x.path())
 }
 
-pub fn dialog_catch_err<X, P: std::fmt::Display, S: std::fmt::Display>(
-    res: std::result::Result<X, P>,
-    msg: S,
-) -> bool {
-    match res {
-        Err(e) => {
-            show_error(msg, e);
-            true
-        }
-        Ok(_) => false,
-    }
-}
-
 fn ellipsize<S: std::fmt::Display>(x: S) -> String {
     let s = x.to_string();
     let vec = s.chars().collect::<Vec<_>>();
@@ -241,10 +265,6 @@ fn ellipsize<S: std::fmt::Display>(x: S) -> String {
     }
 }
 
-pub fn show_error<S: std::fmt::Display, P: std::fmt::Display>(message: S, detail: P) {
-    show_error_transient_for(message, detail, &main_ui().window());
-}
-
 pub fn show_notice<S: std::fmt::Display>(message: S) {
     warn!("Displaying notice:\n  {}", &message);
     main_ui()
@@ -253,7 +273,11 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
     main_ui().internal_message().set_revealed(true);
 }
 
-pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: IsA<gtk::Window>>(
+pub async fn show_error_transient_for<
+    S: std::fmt::Display,
+    P: std::fmt::Display,
+    W: IsA<gtk::Window>,
+>(
     message: S,
     detail: P,
     window: &W,
@@ -280,12 +304,9 @@ pub fn show_error_transient_for<S: std::fmt::Display, P: std::fmt::Display, W: I
             Some(&secondary_text)
         });
 
-        dialog.connect_response(|dialog, _| {
-            dialog.close();
-            dialog.hide();
-        });
+        dialog.run_future().await;
 
-        dialog.show();
+        dialog.close();
     } else {
         let notification = gio::Notification::new(&primary_text);
         notification.set_body(if secondary_text.is_empty() {

@@ -1,3 +1,5 @@
+#![allow(clippy::new_without_default)]
+
 #[macro_use]
 extern crate serde_derive;
 #[macro_use]

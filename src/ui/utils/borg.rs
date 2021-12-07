@@ -37,7 +37,7 @@ where
         if let Err(Error::Message(err)) =
             crate::ui::utils::secret_service::store_password(&config, x)
         {
-            err.show();
+            err.show().await;
         }
     }
     result.map(|(x, _)| x)

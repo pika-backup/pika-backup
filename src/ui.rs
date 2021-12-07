@@ -10,7 +10,6 @@ use crate::ui::prelude::*;
 mod app_window;
 mod backup_status;
 #[allow(dead_code)]
-#[allow(clippy::new_without_default)]
 mod builder;
 mod dialog_about;
 mod dialog_add_config;
@@ -174,25 +173,25 @@ fn init_timeouts() {
 async fn quit() -> Result<()> {
     debug!("Running quit routine");
     if utils::borg::is_backup_running() {
-        let permission = utils::background_permission().await.unwrap_or_else(|err| {
-            warn!(
-                "background portal: Failed, maybe it's not supported: {:?}",
-                err
-            );
-            true
-        });
-        if permission {
-            gtk_app().remove_window(&main_ui().window());
-            main_ui().window().hide();
-        } else {
-            ui::utils::confirmation_dialog(
-                &gettext("Abort running backup creation?"),
-                &gettext("The backup will remain incomplete if aborted now."),
-                &gettext("Continue"),
-                &gettext("Abort"),
-            )
-            .await?;
-            gtk_app().quit();
+        let permission = utils::background_permission().await;
+
+        match permission {
+            Ok(()) => {
+                gtk_app().remove_window(&main_ui().window());
+                main_ui().window().hide();
+            }
+            Err(err) => {
+                err.show().await;
+
+                ui::utils::confirmation_dialog(
+                    &gettext("Abort running backup creation?"),
+                    &gettext("The backup will remain incomplete if aborted now."),
+                    &gettext("Continue"),
+                    &gettext("Abort"),
+                )
+                .await?;
+                gtk_app().quit();
+            }
         }
     } else {
         gtk_app().quit();
@@ -315,10 +314,10 @@ fn load_config_e() -> std::io::Result<()> {
 }
 
 fn load_config() {
-    utils::dialog_catch_err(
-        load_config_e(),
-        gettext("Could not load configuration file."),
-    );
+    let res = load_config_e().err_to_msg(gettext("Could not load configuration file."));
+    if let Err(err) = res {
+        glib::MainContext::default().block_on(err.show());
+    }
 }
 
 fn write_config_e() -> std::io::Result<()> {

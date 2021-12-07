@@ -215,7 +215,9 @@ pub async fn preferred_day_change() -> Result<()> {
 
 /// Scheduled backups activated/deactivated
 pub async fn active_change() -> Result<()> {
-    if !main_ui().schedule_active().enables_expansion()
+    let active = main_ui().schedule_active().enables_expansion();
+
+    if !active
         && ui::utils::confirmation_dialog(
             &gettext("Disable backup schedule."),
             &gettext("No longer remind of backups based on a schedule."),
@@ -234,5 +236,11 @@ pub async fn active_change() -> Result<()> {
     })?;
 
     update_status(BACKUP_CONFIG.load().active()?);
-    ui::write_config()
+    ui::write_config()?;
+
+    if active {
+        ui::utils::background_permission().await?;
+    }
+
+    Ok(())
 }
