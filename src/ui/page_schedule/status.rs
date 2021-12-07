@@ -88,6 +88,9 @@ impl Status {
                 main_title = gettext("Backup past due");
                 main_subtitle = gettext("Waiting until requirements are met");
                 main_level = StatusLevel::Warning;
+            } else if !DAEMON_RUNNING.get() {
+                main_title = gettext("Scheduled backups unavailable");
+                main_level = StatusLevel::Error;
             } else {
                 main_title = gettext("Waiting for backup to start");
                 main_level = StatusLevel::Error;
@@ -128,6 +131,15 @@ impl Status {
                         level: problem_level,
                     }),
                 }
+            }
+
+            if !DAEMON_RUNNING.get() {
+                problems.push(StatusRow {
+                    title: gettext("Background process inactive"),
+                    subtitle: gettext("This is required for scheduled backups"),
+                    icon_name: String::from("action-unavailable-symbolic"),
+                    level: StatusLevel::Error,
+                });
             }
 
             Status {
