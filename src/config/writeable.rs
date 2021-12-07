@@ -1,5 +1,7 @@
 use super::{ConfigType, Loadable};
 
+use arc_swap::ArcSwap;
+
 #[derive(Default)]
 pub struct Writeable<C> {
     pub current_config: C,
@@ -24,15 +26,15 @@ impl<C: Loadable + Clone> Loadable for Writeable<C> {
     }
 }
 
-impl<
-        C: ConfigType + super::Loadable + std::cmp::PartialEq + serde::Serialize + Default + Clone,
-    > Writeable<C>
+impl<C> Writeable<C>
+where
+    C: ConfigType + super::Loadable + std::cmp::PartialEq + serde::Serialize + Default + Clone,
 {
     pub fn is_changed(&self) -> bool {
         self.current_config != self.written_config
     }
 
-    pub fn write_file(&self) -> Result<(), std::io::Error> {
+    pub fn write_file(&mut self) -> Result<(), std::io::Error> {
         let path = C::path();
         debug!("Request to rewrite {:?}", path);
 
@@ -44,10 +46,41 @@ impl<
 
             debug!("Moving new file to {:?}", path);
             config_file.persist(&path)?;
+            self.written_config = self.current_config.clone();
         } else {
             debug!("Not rewriting because data is unchanged.");
         }
 
         Ok(())
+    }
+}
+
+pub trait ArcSwapWriteable {
+    fn write_file(&self) -> Result<(), std::io::Error>;
+}
+
+impl<C> ArcSwapWriteable for ArcSwap<Writeable<C>>
+where
+    C: ConfigType + super::Loadable + std::cmp::PartialEq + serde::Serialize + Default + Clone,
+{
+    fn write_file(&self) -> Result<(), std::io::Error> {
+        let mut cell = once_cell::sync::OnceCell::new();
+
+        if self.load().is_changed() {
+            self.rcu(|current| {
+                let mut new = Writeable {
+                    current_config: current.current_config.clone(),
+                    written_config: current.written_config.clone(),
+                };
+
+                let _set = cell.set(new.write_file());
+
+                new
+            });
+        } else {
+            let _set = cell.set(Ok(()));
+        }
+
+        cell.take().unwrap()
     }
 }

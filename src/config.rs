@@ -11,7 +11,7 @@ pub use history::Histories;
 pub use loadable::{ConfigType, Loadable};
 pub use schedule::*;
 pub use schedule_status::*;
-pub use writeable::Writeable;
+pub use writeable::{ArcSwapWriteable, Writeable};
 
 use crate::borg;
 use crate::prelude::*;

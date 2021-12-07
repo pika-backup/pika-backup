@@ -6,6 +6,7 @@ use crate::config;
 use crate::config::Loadable;
 use crate::ui;
 use crate::ui::prelude::*;
+use config::ArcSwapWriteable;
 
 mod app_window;
 mod backup_status;
@@ -323,8 +324,8 @@ fn load_config() {
 fn write_config_e() -> std::io::Result<()> {
     debug!("Rewriting all configs");
 
-    BACKUP_CONFIG.load().write_file()?;
-    BACKUP_HISTORY.load().write_file()?;
+    BACKUP_CONFIG.write_file()?;
+    BACKUP_HISTORY.write_file()?;
 
     Ok(())
 }

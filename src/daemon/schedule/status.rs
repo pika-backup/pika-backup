@@ -1,10 +1,11 @@
 use crate::daemon::prelude::*;
 
 use crate::config;
+use crate::config::ArcSwapWriteable;
 use crate::config::Loadable;
 
 fn write_result() -> crate::daemon::error::Result<()> {
-    SCHEDULE_STATUS.load().write_file()?;
+    SCHEDULE_STATUS.write_file()?;
 
     Ok(())
 }
