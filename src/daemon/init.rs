@@ -19,16 +19,18 @@ pub fn init() {
 
 fn on_startup(_app: &gio::Application) {
     gio_app().hold();
+
+    CONFIG_MONITOR.with(|_| {});
+    HISTORY_MONITOR.with(|_| {});
+
     load_config().handle("Initial config load failed");
+
     let action = crate::action::backup_start();
     action.connect_activate(daemon::utils::redirect_action(vec![
         action::backup_show(),
         action::backup_start(),
     ]));
     gio_app().add_action(&action);
-
-    CONFIG_MONITOR.with(|_| {});
-    HISTORY_MONITOR.with(|_| {});
 
     daemon::connect::init::init();
     daemon::schedule::init::init();

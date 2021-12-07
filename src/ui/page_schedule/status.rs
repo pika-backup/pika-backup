@@ -38,8 +38,9 @@ pub fn next_backup_in(d: &chrono::Duration) -> String {
 
 impl Status {
     pub fn new(config: &config::Backup) -> Self {
-        let due_requirements = requirements::Due::check(config);
-        let global_requirements = requirements::Global::check(config);
+        let due_requirements = requirements::Due::check(config, BACKUP_HISTORY.load().as_ref());
+        let global_requirements =
+            requirements::Global::check(config, BACKUP_HISTORY.load().as_ref());
         let hints = requirements::Hint::check(config);
 
         if !config.schedule.enabled {

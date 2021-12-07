@@ -43,8 +43,6 @@ async fn listen_remote_app_running() -> Result<()> {
 }
 
 pub fn init() {
-    super::status::load();
-
     glib::MainContext::default().spawn(async {
         listen_remote_app_running()
             .await
@@ -80,6 +78,8 @@ fn init_backup_status_monitor() {
 }
 
 fn minutely() -> glib::Continue {
+    debug!("Probing schedules");
+
     for config in BACKUP_CONFIG.load().iter() {
         if config.schedule.enabled {
             probe(config);
@@ -112,10 +112,11 @@ fn probe(config: &config::Backup) {
     debug!("Probing backup: {}", config.repo);
     debug!("Frequency: {:?}", schedule.frequency);
 
-    let global = requirements::Global::check(config);
-    let due = requirements::Due::check(config);
+    let global = requirements::Global::check(config, BACKUP_HISTORY.load().as_ref());
+    let due = requirements::Due::check(config, BACKUP_HISTORY.load().as_ref());
 
     if !global.is_empty() || due.is_err() {
+        debug!("Some requirements are not met");
         debug!("Global requirement: {:?}", global);
         debug!("Due requirement: {:?}", due);
     } else {

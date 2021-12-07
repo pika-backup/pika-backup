@@ -59,13 +59,10 @@ pub enum Global {
 
 impl Global {
     /// If any it returns the first requirement that is violated
-    pub fn check(config: &config::Backup) -> Vec<Self> {
+    pub fn check(config: &config::Backup, histories: &config::Histories) -> Vec<Self> {
         let mut vec = Vec::new();
 
-        let history = BACKUP_HISTORY.load();
-
-        let running_backup = history
-            .as_ref()
+        let running_backup = histories
             .iter()
             .filter(|(_, history)| history.running.is_some())
             .find(|(config_id, _)| {
@@ -128,11 +125,10 @@ impl Due {
         }
     }
 
-    pub fn check(config: &config::Backup) -> Result<(), Self> {
+    pub fn check(config: &config::Backup, histories: &config::Histories) -> Result<(), Self> {
         let schedule = &config.schedule;
 
-        let history_all = BACKUP_HISTORY.load();
-        let history = history_all.get_result(&config.id).ok();
+        let history = histories.get_result(&config.id).ok();
 
         if history.map(|x| x.running.is_some()) == Some(true) {
             Err(Self::Running)
