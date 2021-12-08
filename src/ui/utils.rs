@@ -75,9 +75,25 @@ pub fn cache_dir() -> std::path::PathBuf {
         .iter()
         .collect()
 }
-
+use std::convert::TryInto;
 pub async fn background_permission() -> Result<()> {
+    let generic_msg = gettext("Request to run in background failed");
+
     if !ashpd::is_sandboxed() {
+        // start
+        let conn = zbus::Connection::session().await.err_to_msg(&generic_msg)?;
+        let proxy = zbus::fdo::DBusProxy::new(&conn)
+            .await
+            .err_to_msg(&generic_msg)?;
+
+        proxy
+            .start_service_by_name(
+                crate::daemon_app_id().try_into().unwrap(),
+                Default::default(),
+            )
+            .await
+            .err_to_msg(&generic_msg)?;
+
         // without flatpak we can always run in background
         Ok(())
     } else {
@@ -109,7 +125,7 @@ pub async fn background_permission() -> Result<()> {
 
                 Err(
                     Message::new(
-                        gettext("Request to run in background failed"),
+                        gettext(&generic_msg),
                         gettext("Either your system does not support this feature or an error occurred. Scheduled backup functionality and continuing backups in the background will not be available.")
                     + "\n\n" + &err.to_string()
                     ).into()

@@ -42,6 +42,13 @@ configure_file(
     install_dir: usrdir / 'dbus-1' / 'services'
 )
 
+configure_file(
+    input: 'app.Daemon.service.in',
+    output: '@0@.Daemon.service'.format(application_id),
+    configuration: { 'app_id': application_id, 'bindir': bindir },
+    install_dir: usrdir / 'dbus-1' / 'services'
+)
+
 install_data(
     'app-symbolic.svg',
     rename: '@0@-symbolic.svg'.format(application_id),
