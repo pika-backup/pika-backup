@@ -68,25 +68,20 @@ spinner.row-icon {
 .status-icon {
   padding: 7px;
   border-radius: 9999px;
-  background-color: @shade_color;
-}
-
-.warning-icon {
-  background-color: #ffdeb5;
-  color: #c64600;
-}
-
-.error-icon {
-  background-color: #fbd3cf;
-  color: #ab3342;
+  background-color: alpha(currentColor, .1);
 }
 
 .ok-icon {
-  background-color: #b6f2c4;
-  color: #208255;
+  color: @success_bg_color;
 }
 
+.warning-icon {
+  color: @warning_bg_color;
+}
 
+.error-icon {
+  color: @error_bg_color;
+}
 
 .error {
   color: @error_color;
@@ -101,17 +96,11 @@ stackswitcher.cropped {
 }
 
 levelbar .full {
-  background-color: lighter(@error_color);
-  border-color: @error_color;
+  background-color: @error_bg_color;
 }
 
 levelbar .low {
-  background-color: lighter(@success_color);
-  border-color: @success_color;
-}
-
-levelbar block {
-  min-width: 10px;
+  background-color: @success_bg_color;
 }
 
 .not-active image {
