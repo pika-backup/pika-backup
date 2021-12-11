@@ -77,7 +77,7 @@ impl BorgCall {
                 "--rsh".into(),
                 // Avoid hangs from ssh asking for passwords via stdin
                 // https://borgbackup.readthedocs.io/en/stable/usage/notes.html#ssh-batch-mode
-                "ssh -o BatchMode=yes".into(),
+                "ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new".into(),
             ],
             ..Self::default()
         }
