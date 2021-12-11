@@ -27,11 +27,7 @@ pub fn init() {
 }
 
 pub fn is_displayed() -> bool {
-    is_initialized() && main_ui().window().is_visible()
-}
-
-pub fn is_initialized() -> bool {
-    main_ui().window().id() != 0
+    main_ui().window().is_visible()
 }
 
 pub fn show() {
@@ -41,10 +37,7 @@ pub fn show() {
         gtk_app().add_window(&main_ui().window());
         main_ui().window().present();
 
-        if !is_initialized() {
-            Handler::run(ui::init_check_borg());
-            ui::update_config::run();
-        }
+        Handler::run(ui::init_check_borg());
 
         // redo size estimates for backups running in background before
         std::thread::spawn(|| {

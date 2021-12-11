@@ -30,7 +30,6 @@ mod page_overview;
 mod page_pending;
 mod page_schedule;
 mod prelude;
-mod update_config;
 mod utils;
 mod widgets;
 
@@ -251,26 +250,43 @@ async fn init_check_borg() -> Result<()> {
             .into());
         }
         Ok(version_output) => {
-            if let Some(version_string) = version_output.split(' ').nth(1) {
-                let version_list = version_string
-                    .split('.')
-                    .map(str::parse)
-                    .map(std::result::Result::ok)
-                    .take(2);
-                if vec![Some(crate::BORG_MIN_MAJOR), Some(crate::BORG_MIN_MINOR)]
-                    .into_iter()
-                    .cmp(version_list)
-                    == std::cmp::Ordering::Greater
-                {
-                    return Err(Message::new(
+            if let Some(version_string) = version_output
+                .lines()
+                .next()
+                .and_then(|x| x.split(' ').nth(1))
+            {
+                let mut version_list = version_string.split('.').map(str::parse::<u32>);
+
+                if let (Some(Ok(major)), Some(Ok(minor)), Some(Ok(patch))) = (
+                    version_list.next(),
+                    version_list.next(),
+                    version_list.next(),
+                ) {
+                    if major < borg::MIN_MAJOR_VERSION
+                        || minor < borg::MIN_MINOR_VERSION
+                        || patch < borg::MIN_PATCH_VERSION
+                    {
+                        return Err(Message::new(
                     gettext("Borg version too old."),
                     gettextf(
-                        "The installed version of borg-backup is too old. Some features requiring borg-backup version {}.{} will not work.",
+                        "The installed version {} of borg-backup is too old. Some features requiring borg-backup version {}.{}.{} will not work.",
                         &[
-                            &crate::BORG_MIN_MAJOR.to_string(),
-                            &crate::BORG_MIN_MINOR.to_string(),
+                            &version_output,
+                            &borg::MIN_MAJOR_VERSION.to_string(),
+                            &borg::MIN_MINOR_VERSION.to_string(),
+                            &borg::MIN_PATCH_VERSION.to_string(),
                         ],
                     )).into());
+                    }
+                } else {
+                    return Err(Message::new(
+                        gettext("Cannot check borg-backup version"),
+                        gettextf(
+                            "The installed version {} might not work.",
+                            &[&version_output],
+                        ),
+                    )
+                    .into());
                 }
             }
         }

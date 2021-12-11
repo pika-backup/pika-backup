@@ -13,10 +13,6 @@ pub mod prelude;
 
 const REPO_MOUNT_DIR: &str = ".mnt/borg";
 
-// require borg 1.1
-const BORG_MIN_MAJOR: u32 = 1;
-const BORG_MIN_MINOR: u32 = 1;
-
 const NON_JOURNALING_FILESYSTEMS: &[&str] = &["exfat", "ext2", "vfat"];
 
 macro_rules! data_dir {

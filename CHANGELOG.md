@@ -6,6 +6,7 @@
 - Fix backups cannot be aborted if backup source is unresponsive
 - Change backup compression to the more effective "Zstandard" algorithm
 - Change to accept ssh host keys for new hosts
+- Change to no longer support migration from Pika Backup v0.2 configs
 - Add message to user interface if target devive or server is unrepsonive
 
 ## 0.3.5 (2021-09-08)
