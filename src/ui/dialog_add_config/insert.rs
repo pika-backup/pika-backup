@@ -13,6 +13,59 @@ use crate::ui::builder;
 use crate::ui::prelude::*;
 use ui::page_pending;
 
+struct RemoteLocation {
+    url: String,
+}
+
+impl RemoteLocation {
+    pub fn from_user_input(input: String) -> std::result::Result<Self, String> {
+        let url = if !input.contains("://") {
+            if let Some((target, path)) = input.split_once(":") {
+                let path_begin = path.chars().next();
+
+                let url_path = if path_begin == Some('~') {
+                    format!("/{}", path)
+                } else if path_begin != Some('/') {
+                    format!("/./{}", path)
+                } else {
+                    path.to_string()
+                };
+
+                format!("ssh://{}{}", target, url_path)
+            } else {
+                return Err(gettext("Incomplete URL or borg syntax"));
+            }
+        } else {
+            input
+        };
+
+        match glib::Uri::parse(&url, glib::UriFlags::NONE) {
+            Ok(uri) => {
+                if uri.path().is_empty() {
+                    return Err(gettext("The remote location must have a specified path."));
+                }
+            }
+            Err(err) => {
+                return Err(gettextf("Invalid remote location: „{}“", &[err.message()]));
+            }
+        }
+
+        Ok(Self { url })
+    }
+
+    pub fn url(&self) -> String {
+        self.url.clone()
+    }
+
+    pub fn as_gio_file(&self) -> gio::File {
+        gio::File::for_uri(&self.url)
+    }
+
+    pub fn is_borg_host(&self) -> bool {
+        self.url.get(..6) == Some("ssh://")
+    }
+}
+
 pub fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
     execute(on_init_button_clicked_future(Rc::clone(&ui)), ui.dialog());
 }
@@ -74,14 +127,16 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resul
     page_pending::show(&gettext("Loading backup repository"));
     ui.dialog().hide();
 
-    let url = ui.location_url().text();
-    let file = gio::File::for_uri(&url);
-    debug!("Add existing URI '{:?}'", file.path());
+    let remote_location = RemoteLocation::from_user_input(ui.location_url().text().to_string())
+        .err_to_msg(gettext("Invalid Remote Location"))?;
+    debug!("Add existing URI '{:?}'", remote_location.url());
 
-    let repo = if url.get(..6) == Some("ssh://") {
-        config::remote::Repository::from_uri(url.to_string()).into_config()
+    let repo = if remote_location.is_borg_host() {
+        config::remote::Repository::from_uri(remote_location.url()).into_config()
     } else {
-        mount_fuse_and_config(&file, false).await?.into_config()
+        mount_fuse_and_config(&remote_location.as_gio_file(), false)
+            .await?
+            .into_config()
     };
 
     add_repo_config(repo, ui).await
@@ -125,15 +180,13 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
             Err(Message::short(gettext("A repository location has to be given.")).into())
         }
     } else {
-        let url = ui.location_url().text().to_string();
-        let file = gio::File::for_uri(&ui.location_url().text());
+        let remote_location = RemoteLocation::from_user_input(ui.location_url().text().to_string())
+            .err_to_msg(gettext("Invalid Remote Location"))?;
 
-        if url.is_empty() {
-            Err(Message::short(gettext("A repository location has to be given.")).into())
-        } else if url.get(..6) == Some("ssh://") {
-            Ok(config::remote::Repository::from_uri(url).into_config())
+        if remote_location.is_borg_host() {
+            Ok(config::remote::Repository::from_uri(remote_location.url()).into_config())
         } else {
-            mount_fuse_and_config(&file, true)
+            mount_fuse_and_config(&remote_location.as_gio_file(), true)
                 .await
                 .map(|x| x.into_config())
         }
