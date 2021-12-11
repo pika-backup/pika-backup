@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-12-07 22:09+0000\n"
-"PO-Revision-Date: 2021-12-11 15:25+0100\n"
+"POT-Creation-Date: 2021-12-11 20:32+0000\n"
+"PO-Revision-Date: 2021-12-11 22:26+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -470,7 +470,7 @@ msgstr "Ytterligare säkerhetskopieringsutrymme som används"
 msgid "Current file"
 msgstr "Aktuell fil"
 
-#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:223
+#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:239
 msgid "The operation terminated unexpectedly."
 msgstr "Åtgärden avbröts oväntat."
 
@@ -586,19 +586,27 @@ msgstr "Avbryt"
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Det gick inte att köra ”borg”. Är borg-backup installerat korrekt?"
 
-#: src/ui.rs:265
+#: src/ui.rs:270
 msgid "Borg version too old."
 msgstr "Borg-version för gammal."
 
-#: src/ui.rs:267
+#: src/ui.rs:272
 msgid ""
-"The installed version of borg-backup is too old. Some features requiring "
-"borg-backup version {}.{} will not work."
+"The installed version {} of borg-backup is too old. Some features requiring "
+"borg-backup version {}.{}.{} will not work."
 msgstr ""
-"Den installerade versionen av borg-backup är för gammal. Vissa funktioner "
-"som kräver version {}.{} av borg-backup kommer inte att fungera."
+"Den installerade versionen {} av borg-backup är för gammal. Vissa funktioner "
+"som kräver version {}.{}.{} av borg-backup kommer inte att fungera."
 
-#: src/ui.rs:304
+#: src/ui.rs:283
+msgid "Cannot check borg-backup version"
+msgstr "Det går inte att kontrollera version av borg-backup"
+
+#: src/ui.rs:285
+msgid "The installed version {} might not work."
+msgstr "Den installerade versionen {} kommer kanske inte att fungera."
+
+#: src/ui.rs:321
 msgid ""
 "Welcome to Pika Backup version 0.3.\n"
 "\n"
@@ -612,11 +620,11 @@ msgstr ""
 "från den tidigare versionen av Pika Backup. Den kommer att finnas "
 "tillgänglig igen efter nästa säkerhetskopia."
 
-#: src/ui.rs:317
+#: src/ui.rs:334
 msgid "Could not load configuration file."
 msgstr "Kunde inte läsa in konfigurationsfil."
 
-#: src/ui.rs:333
+#: src/ui.rs:350
 msgid "Could not write configuration file."
 msgstr "Kunde inte skriva konfigurationsfil."
 
@@ -1041,23 +1049,19 @@ msgstr "Bakgrundsprocessen inaktiv"
 msgid "This is required for scheduled backups"
 msgstr "Detta krävs för schemalagda säkerhetskopior"
 
-#: src/ui/update_config.rs:20 src/ui/update_config.rs:47
-msgid "Updating configuration for new version"
-msgstr "Uppdaterar inställningarna för ny version"
+#: src/ui/utils.rs:80
+msgid "Request to run in background failed"
+msgstr "Begäran att köra i bakgrunden misslyckades"
 
-#: src/ui/update_config.rs:52
-msgid "Failed to retrieve backup information."
-msgstr "Det gick inte att hämta säkerhetskopieringsinformation."
-
-#: src/ui/utils.rs:86
+#: src/ui/utils.rs:102
 msgid "Schedule backups and continue running backups."
 msgstr "Schemalägg säkerhetskopior och fortsätt köra säkerhetskopiering."
 
-#: src/ui/utils.rs:102
+#: src/ui/utils.rs:118
 msgid "Run in background disabled"
 msgstr "Körning i bakgrunden inaktiverat"
 
-#: src/ui/utils.rs:103
+#: src/ui/utils.rs:119
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. You can enable the “run in background” option via your "
@@ -1067,11 +1071,7 @@ msgstr ""
 "säkerhetskopiering i bakgrunden kommer inte vara tillgängligt. Du kan "
 "aktivera alternativet ”kör i bakgrunden” genom dina systeminställningar."
 
-#: src/ui/utils.rs:112
-msgid "Request to run in background failed"
-msgstr "Begäran att köra i bakgrunden misslyckades"
-
-#: src/ui/utils.rs:113
+#: src/ui/utils.rs:129
 msgid ""
 "Either your system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1081,11 +1081,11 @@ msgstr ""
 "inträffat. Funktionalitet för schemalagda säkerhetskopior och att fortsätta "
 "säkerhetskopiering i bakgrunden kommer inte vara tillgänglig."
 
-#: src/ui/utils.rs:124
+#: src/ui/utils.rs:140
 msgid "Failed to start background process"
 msgstr "Misslyckades med att starta bakgrundsprocess"
 
-#: src/ui/utils.rs:231
+#: src/ui/utils.rs:247
 msgid "Select"
 msgstr "Välj"
 
@@ -1201,3 +1201,9 @@ msgstr "Kunde inte spara cache."
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Pika Backup-lösenord"
+
+#~ msgid "Updating configuration for new version"
+#~ msgstr "Uppdaterar inställningarna för ny version"
+
+#~ msgid "Failed to retrieve backup information."
+#~ msgstr "Det gick inte att hämta säkerhetskopieringsinformation."
