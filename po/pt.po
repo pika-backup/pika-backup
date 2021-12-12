@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-12-09 15:18+0000\n"
-"PO-Revision-Date: 2021-12-09 15:30+0000\n"
+"POT-Creation-Date: 2021-12-11 21:43+0000\n"
+"PO-Revision-Date: 2021-12-12 16:40+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #.
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
@@ -271,7 +271,7 @@ msgstr ""
 msgid "The following backup location needs to be connected:"
 msgstr "O seguinte local de backup precisa de ser ligado:"
 
-#: data/ui/dialog_encryption_password.ui:20 src/ui.rs:190
+#: data/ui/dialog_encryption_password.ui:20 src/ui.rs:189
 #: src/ui/page_backup/events.rs:23
 msgid "Continue"
 msgstr "Continuar"
@@ -300,15 +300,15 @@ msgstr "Dispositivo"
 msgid "Path"
 msgstr "Localização"
 
-#: data/ui/dialog_storage.ui:101
+#: data/ui/dialog_storage.ui:102
 msgid "Space"
 msgstr "Espaço"
 
-#: data/ui/dialog_storage.ui:115
+#: data/ui/dialog_storage.ui:116
 msgid "Total"
 msgstr "Total"
 
-#: data/ui/dialog_storage.ui:128
+#: data/ui/dialog_storage.ui:129
 msgid "Free"
 msgstr "Livre"
 
@@ -572,35 +572,43 @@ msgstr "{} no Disco “{}”"
 msgid "Run Backup"
 msgstr "Efetuar backup"
 
-#: src/ui.rs:188 src/ui/page_backup/events.rs:21
+#: src/ui.rs:187 src/ui/page_backup/events.rs:21
 msgid "Abort running backup creation?"
 msgstr "Abortar a criação do backup em execução?"
 
-#: src/ui.rs:189 src/ui/page_backup/events.rs:22
+#: src/ui.rs:188 src/ui/page_backup/events.rs:22
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se abortado agora."
 
-#: src/ui.rs:191 src/ui/page_backup/events.rs:24
+#: src/ui.rs:190 src/ui/page_backup/events.rs:24
 msgid "Abort"
 msgstr "Abortar"
 
-#: src/ui.rs:248
+#: src/ui.rs:247
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Falha ao executar “borg”. O borg-backup está instalado corretamente?"
 
-#: src/ui.rs:266
+#: src/ui.rs:270
 msgid "Borg version too old."
 msgstr "A versão do borg é demasiada antiga."
 
-#: src/ui.rs:268
+#: src/ui.rs:272
 msgid ""
-"The installed version of borg-backup is too old. Some features requiring "
-"borg-backup version {}.{} will not work."
+"The installed version {} of borg-backup is too old. Some features requiring "
+"borg-backup version {}.{}.{} will not work."
 msgstr ""
-"A versão instalada do borg-backup é demasiada antiga. Algumas "
-"funcionalidades que requerem a versão borg-backup {}.{} não funcionarão."
+"A versão instalada {} do borg-backup é demasiado antiga. Algumas "
+"funcionalidades que requerem a versão borg-backup {}.{}.{} não funcionarão."
 
-#: src/ui.rs:305
+#: src/ui.rs:283
+msgid "Cannot check borg-backup version"
+msgstr "Não é possível verificar a versão borg-backup"
+
+#: src/ui.rs:285
+msgid "The installed version {} might not work."
+msgstr "A versão instalada {} pode não funcionar."
+
+#: src/ui.rs:321
 msgid ""
 "Welcome to Pika Backup version 0.3.\n"
 "\n"
@@ -614,11 +622,11 @@ msgstr ""
 "versão anterior do Pika Backup. A mesma estará disponível novamente após o "
 "próximo backup."
 
-#: src/ui.rs:318
+#: src/ui.rs:334
 msgid "Could not load configuration file."
 msgstr "Não foi possível carregar ficheiro de configuração."
 
-#: src/ui.rs:334
+#: src/ui.rs:350
 msgid "Could not write configuration file."
 msgstr "Não foi possível gravar ficheiro de configuração."
 
@@ -721,69 +729,86 @@ msgstr "Espaço livre: {}"
 msgid "Select…"
 msgstr "Selecionar…"
 
-#: src/ui/dialog_add_config/insert.rs:36 src/ui/dialog_add_config/insert.rs:56
-#: src/ui/dialog_add_config/insert.rs:74 src/ui/dialog_add_config/insert.rs:199
+#: src/ui/dialog_add_config/insert.rs:36
+msgid "Incomplete URL or borg syntax"
+msgstr "URL ou sintaxe borg incompleto"
+
+#: src/ui/dialog_add_config/insert.rs:45
+msgid "The remote location must have a specified path."
+msgstr "O local remoto deve ter uma localização especificada."
+
+#: src/ui/dialog_add_config/insert.rs:49
+msgid "Invalid remote location: „{}“"
+msgstr "Localização remota inválida: „{}“"
+
+#: src/ui/dialog_add_config/insert.rs:89 src/ui/dialog_add_config/insert.rs:109
+#: src/ui/dialog_add_config/insert.rs:127
+#: src/ui/dialog_add_config/insert.rs:252
 msgid "Loading backup repository"
 msgstr "A carregar repositório de backup"
 
-#: src/ui/dialog_add_config/insert.rs:52
+#: src/ui/dialog_add_config/insert.rs:105
 msgid "Select existing repository"
 msgstr "Selecionar repositório existente"
 
-#: src/ui/dialog_add_config/insert.rs:61
+#: src/ui/dialog_add_config/insert.rs:114
 msgid "Location is not a valid backup repository."
 msgstr "A localização não é um repositório de backup válido."
 
-#: src/ui/dialog_add_config/insert.rs:62
+#: src/ui/dialog_add_config/insert.rs:115
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "O repositório deve ter origem no Pika Backup ou em software compatível."
 
-#: src/ui/dialog_add_config/insert.rs:97
+#: src/ui/dialog_add_config/insert.rs:131
+#: src/ui/dialog_add_config/insert.rs:184
+msgid "Invalid Remote Location"
+msgstr "Localização remota inválida"
+
+#: src/ui/dialog_add_config/insert.rs:152
 msgid "No password provided."
 msgstr "Nenhuma palavra-passe fornecida."
 
-#: src/ui/dialog_add_config/insert.rs:98
+#: src/ui/dialog_add_config/insert.rs:153
 msgid "To use encryption a password must be provided."
 msgstr "Para usar a encriptação, uma palavra-passe deve ser fornecida."
 
-#: src/ui/dialog_add_config/insert.rs:102
+#: src/ui/dialog_add_config/insert.rs:157
 msgid "Entered passwords do not match."
 msgstr "As palavras-passe introduzidas não coincidem."
 
-#: src/ui/dialog_add_config/insert.rs:125
-#: src/ui/dialog_add_config/insert.rs:132
+#: src/ui/dialog_add_config/insert.rs:180
 msgid "A repository location has to be given."
 msgstr "Tem de ser dada uma localização de repositório."
 
-#: src/ui/dialog_add_config/insert.rs:148
-#: src/ui/dialog_add_config/insert.rs:251
+#: src/ui/dialog_add_config/insert.rs:201
+#: src/ui/dialog_add_config/insert.rs:304
 msgid "Additional command line arguments invalid."
 msgstr "Argumentos adicionais de linha de comando inválidos."
 
-#: src/ui/dialog_add_config/insert.rs:149
-#: src/ui/dialog_add_config/insert.rs:252
+#: src/ui/dialog_add_config/insert.rs:202
+#: src/ui/dialog_add_config/insert.rs:305
 msgid "Please check for missing closing quotes."
 msgstr "Verifique se faltam as aspas de fecho."
 
-#: src/ui/dialog_add_config/insert.rs:154
-#: src/ui/dialog_add_config/insert.rs:164
+#: src/ui/dialog_add_config/insert.rs:207
+#: src/ui/dialog_add_config/insert.rs:217
 msgid "Creating backup repository"
 msgstr "A criar repositório de backup"
 
-#: src/ui/dialog_add_config/insert.rs:168
+#: src/ui/dialog_add_config/insert.rs:221
 msgid "Failed to initialize repository."
 msgstr "Falha ao iniciar o repositório."
 
-#: src/ui/dialog_add_config/insert.rs:176 src/ui/utils/secret_service.rs:56
+#: src/ui/dialog_add_config/insert.rs:229 src/ui/utils/secret_service.rs:56
 msgid "Failed to store password."
 msgstr "Falha ao armazenar a palavra-passe."
 
-#: src/ui/dialog_add_config/insert.rs:288
+#: src/ui/dialog_add_config/insert.rs:341
 msgid "Repository location not found."
 msgstr "Local do repositório não encontrado."
 
-#: src/ui/dialog_add_config/insert.rs:289
+#: src/ui/dialog_add_config/insert.rs:342
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Uma operação de montagem foi bem-sucedida mas o local ainda não está "
@@ -1044,14 +1069,6 @@ msgstr "Processo em segundo plano inativo"
 msgid "This is required for scheduled backups"
 msgstr "Isto é necessário para os backups programadas"
 
-#: src/ui/update_config.rs:20 src/ui/update_config.rs:47
-msgid "Updating configuration for new version"
-msgstr "A atualizar configuração para nova versão"
-
-#: src/ui/update_config.rs:52
-msgid "Failed to retrieve backup information."
-msgstr "Falha ao recuperar a informação do backup."
-
 #: src/ui/utils.rs:80
 msgid "Request to run in background failed"
 msgstr "Falha ao pedir para executar em segundo plano"
@@ -1204,3 +1221,9 @@ msgstr "Falha ao guardar cache."
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Palavra-passe do Pika Backup"
+
+#~ msgid "Updating configuration for new version"
+#~ msgstr "A atualizar configuração para nova versão"
+
+#~ msgid "Failed to retrieve backup information."
+#~ msgstr "Falha ao recuperar a informação do backup."
