@@ -3,7 +3,6 @@ podir = '../po'
 application_id = run_command('cat', 'APPLICATION_ID').stdout() + get_option('app_id_suffix')
 
 i18n.merge_file(
-    '.desktop',
     type: 'desktop',
     input: configure_file(
         input: 'app.desktop.in',
@@ -23,7 +22,6 @@ install_data(
 )
 
 i18n.merge_file(
-    '.metainfo.xml',
     input: configure_file(
         input: 'app.metainfo.xml.in',
         output: 'tmp.app.metainfo.xml',
