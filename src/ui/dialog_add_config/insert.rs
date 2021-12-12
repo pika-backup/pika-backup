@@ -46,7 +46,7 @@ impl RemoteLocation {
                 }
             }
             Err(err) => {
-                return Err(gettextf("Invalid remote location: „{}“", &[err.message()]));
+                return Err(gettextf("Invalid remote location: “{}”", &[err.message()]));
             }
         }
 
