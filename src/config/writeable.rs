@@ -16,6 +16,12 @@ impl<C> std::ops::Deref for Writeable<C> {
     }
 }
 
+impl<C> std::ops::DerefMut for Writeable<C> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.current_config
+    }
+}
+
 impl<C: Loadable + Clone> Loadable for Writeable<C> {
     fn from_file() -> Result<Self, std::io::Error> {
         let config = C::from_file()?;

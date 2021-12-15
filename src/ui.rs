@@ -325,7 +325,8 @@ fn load_config_e() -> std::io::Result<()> {
     }
 
     BACKUP_CONFIG.swap(Arc::new(config::Writeable::from_file()?));
-    BACKUP_HISTORY.swap(Arc::new(config::Writeable::from_file()?));
+    BACKUP_HISTORY.swap(Arc::new(config::Histories::from_file_ui()?));
+    BACKUP_HISTORY.write_file()?;
 
     Ok(())
 }

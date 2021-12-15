@@ -168,6 +168,7 @@ impl Due {
                         chrono::Local::today().and_time(preferred_time).unwrap();
                     let scheduled_datetime_before = scheduled_datetime - chrono::Duration::days(1);
 
+                    #[allow(clippy::if_same_then_else)]
                     if last_run_datetime < scheduled_datetime
                         && scheduled_datetime < chrono::Local::now()
                     {
@@ -217,6 +218,7 @@ impl Due {
 
                     let scheduled_date_before = chronoutil::delta::shift_months(scheduled_date, -1);
 
+                    #[allow(clippy::if_same_then_else)]
                     if chrono::Local::today() >= scheduled_date
                         && last_run_datetime.date() < scheduled_date
                     {

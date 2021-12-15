@@ -50,13 +50,15 @@ impl LookupConfigId for crate::config::Histories {
 }
 
 impl Histories {
-    pub fn from_file_ui() -> std::io::Result<Self> {
-        let mut histories = Self::from_file()?;
+    pub fn from_file_ui() -> std::io::Result<super::Writeable<Self>> {
+        let mut histories: super::Writeable<Self> = super::Writeable::from_file()?;
 
         for (_, history) in histories.0.iter_mut() {
-            if history.running.is_some() {
+            if let Some(running) = &history.running {
+                history
+                    .run
+                    .push_front(RunInfo::new_left_running(&running.start));
                 history.running = None;
-                history.run.push_front(RunInfo::new_left_running());
                 history.run.truncate(HISTORY_LENGTH);
             }
         }
@@ -120,9 +122,9 @@ impl RunInfo {
         }
     }
 
-    pub fn new_left_running() -> Self {
+    pub fn new_left_running(date: &DateTime<Local>) -> Self {
         Self {
-            end: Local::now(),
+            end: *date,
             outcome: borg::Outcome::Aborted(borg::error::Abort::LeftRunning),
             messages: vec![],
             include: Default::default(),
