@@ -33,18 +33,23 @@ impl BorgRunConfig for Borg {
     fn repo(&self) -> config::Repository {
         self.config.repo.clone()
     }
+
     fn password(&self) -> Option<config::Password> {
         self.password.clone()
     }
+
     fn set_password(&mut self, password: config::Password) {
         self.password = Some(password);
     }
+
     fn unset_password(&mut self) {
         self.password = None;
     }
+
     fn is_encrypted(&self) -> bool {
         self.config.encrypted
     }
+
     fn config_id(&self) -> Option<ConfigId> {
         Some(self.config.id.clone())
     }
@@ -54,18 +59,23 @@ impl BorgRunConfig for BorgOnlyRepo {
     fn repo(&self) -> config::Repository {
         self.repo.clone()
     }
+
     fn password(&self) -> Option<config::Password> {
         self.password.clone()
     }
+
     fn set_password(&mut self, password: config::Password) {
         self.password = Some(password);
     }
+
     fn unset_password(&mut self) {
         self.password = None;
     }
+
     fn is_encrypted(&self) -> bool {
         false
     }
+
     fn config_id(&self) -> Option<ConfigId> {
         None
     }
@@ -237,6 +247,10 @@ impl Borg {
 
                     last_skipped = skipped;
                     last_copied = copied;
+                } else {
+                    communication.status.update(move |status| {
+                        status.run = Run::Running;
+                    });
                 }
 
                 communication.status.update(move |status| {
