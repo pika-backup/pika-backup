@@ -518,14 +518,6 @@ impl Main {
         self.get("include_home_row")
     }
 
-    pub fn internal_message(&self) -> gtk::InfoBar {
-        self.get("internal_message")
-    }
-
-    pub fn internal_message_text(&self) -> gtk::Label {
-        self.get("internal_message_text")
-    }
-
     pub fn leaflet(&self) -> adw::Leaflet {
         self.get("leaflet")
     }
@@ -720,6 +712,10 @@ impl Main {
 
     pub fn target_listbox(&self) -> gtk::ListBox {
         self.get("target_listbox")
+    }
+
+    pub fn toast(&self) -> adw::ToastOverlay {
+        self.get("toast")
     }
 
     pub fn view_switcher_bottom(&self) -> adw::ViewSwitcherBar {

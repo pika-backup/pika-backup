@@ -12,7 +12,6 @@ pub struct Communication {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Instruction {
     Nothing,
-    AbortSizeEstimation,
     Abort,
 }
 

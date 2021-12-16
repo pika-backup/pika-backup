@@ -30,6 +30,7 @@ mod page_overview;
 mod page_pending;
 mod page_schedule;
 mod prelude;
+mod toast_size_estimate;
 mod utils;
 mod widgets;
 
@@ -313,15 +314,6 @@ fn load_config_e() -> std::io::Result<()> {
                 .join(env!("CARGO_PKG_NAME"))
                 .join("backup.json"),
         )?;
-        let dialog = gtk::MessageDialog::new(
-            Some(&main_ui().window()),
-            gtk::DialogFlags::MODAL,
-            gtk::MessageType::Info,
-            gtk::ButtonsType::Ok,
-            &gettext("Welcome to Pika Backup version 0.3.\n\nPlease note: The information about the last backup cannot be transferred from the previous version of Pika Backup. It will be available again after the next backup."),
-        );
-        dialog.connect_response(|dialog, _| dialog.close());
-        dialog.show();
     }
 
     BACKUP_CONFIG.swap(Arc::new(config::Writeable::from_file()?));

@@ -246,7 +246,6 @@ impl std::iter::Sum for DataRate {
 #[derive(Debug, Clone, Copy)]
 pub enum Run {
     Init,
-    SizeEstimation,
     Running,
     Stalled,
     Reconnecting,

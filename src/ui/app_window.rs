@@ -1,6 +1,5 @@
 use gtk::prelude::*;
 
-use crate::borg;
 use crate::ui;
 use crate::ui::prelude::*;
 
@@ -14,16 +13,6 @@ pub fn init() {
     {
         main_ui().window().style_context().add_class("devel");
     }
-
-    main_ui().internal_message().connect_close(|info_bar| {
-        info_bar.set_revealed(false);
-    });
-
-    main_ui()
-        .internal_message()
-        .connect_response(|info_bar, _| {
-            info_bar.set_revealed(false);
-        });
 }
 
 pub fn is_displayed() -> bool {
@@ -40,16 +29,17 @@ pub fn show() {
         Handler::run(ui::init_check_borg());
 
         // redo size estimates for backups running in background before
-        std::thread::spawn(|| {
-            for (config_id, communication) in BACKUP_COMMUNICATION.load().iter() {
-                if communication.status.load().estimated_size.is_none() {
-                    debug!("A running backup is lacking size estimate");
-                    if let Ok(config) = BACKUP_CONFIG.load().get_result(config_id) {
-                        borg::size_estimate::recalculate(config, communication.clone());
-                    }
+        for (config_id, communication) in BACKUP_COMMUNICATION.load().iter() {
+            if communication.status.load().estimated_size.is_none() {
+                debug!("A running backup is lacking size estimate");
+                if let Some(config) = BACKUP_CONFIG.load().get_result(config_id).ok().cloned() {
+                    let communication = communication.clone();
+                    glib::MainContext::default().spawn_local(async move {
+                        ui::toast_size_estimate::check(&config, communication).await
+                    });
                 }
             }
-        });
+        }
     } else {
         debug!("Not displaying ui because it is already visible.");
     }

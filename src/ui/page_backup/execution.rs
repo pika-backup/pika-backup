@@ -75,57 +75,22 @@ async fn run_backup(config: config::Backup) -> Result<()> {
 
     // estimate backup size if not running in background
     if crate::ui::app_window::is_displayed() {
-        communication
-            .status
-            .update(|status| status.run = borg::Run::SizeEstimation);
-
-        let config = crate::ui::dialog_device_missing::updated_config(
-            config.clone(),
-            &gettext("Creating new backup."),
-        )
-        .await?;
-        let estimated_size = ui::utils::spawn_thread(
-            "estimate_backup_size",
-            enclose!((config, communication) move ||
-                borg::size_estimate::calculate(&config, &communication)
-            ),
-        )
-        .await
-        .ok()
-        .flatten();
-
-        if estimated_size.is_some() {
-            communication.status.update(move |status| {
-                status.estimated_size = estimated_size.clone();
-            });
-        }
+        let config = config.clone();
+        let communication = communication.clone();
+        glib::MainContext::default().spawn_local(async move {
+            ui::toast_size_estimate::check(&config, communication).await
+        });
     }
 
-    let estimated_changed = communication
-        .status
-        .load()
-        .estimated_size
-        .as_ref()
-        .map(|x| x.changed);
-    let space_avail = ui::utils::df::cached_or_lookup(&config)
-        .await
-        .map(|x| x.avail);
-
-    if let (Some(estimated_changed), Some(space_avail)) = (estimated_changed, space_avail) {
-        if estimated_changed > space_avail {
-            ui::utils::show_notice(gettextf(
-                "Backup location “{}” might be filling up. Estimated space missing to store all data: {}.",
-                &[
-                    &config.repo.location(),
-                    &glib::format_size(estimated_changed - space_avail),
-                ],
-            ));
-        }
-    }
+    let config = crate::ui::dialog_device_missing::updated_config(
+        config.clone(),
+        &gettext("Create new Backup"),
+    )
+    .await?;
 
     // execute backup
     let result = ui::utils::borg::exec(
-        gettext("Creating new backup."),
+        gettext("Creating new backup"),
         config.clone(),
         enclose!((communication) move |borg| borg.create(communication)),
     )

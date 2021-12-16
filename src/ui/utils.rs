@@ -282,11 +282,19 @@ fn ellipsize<S: std::fmt::Display>(x: S) -> String {
 }
 
 pub fn show_notice<S: std::fmt::Display>(message: S) {
-    warn!("Displaying notice:\n  {}", &message);
-    main_ui()
-        .internal_message_text()
-        .set_text(&message.to_string());
-    main_ui().internal_message().set_revealed(true);
+    warn!("Displaying notice:\n  {}", message);
+
+    let toast = adw::Toast::builder()
+        .title(&message.to_string())
+        .timeout(0)
+        .build();
+
+    main_ui().toast().add_toast(&toast);
+
+    if !crate::ui::app_window::is_displayed() {
+        let notification = gio::Notification::new(&message.to_string());
+        gtk_app().send_notification(None, &notification);
+    }
 }
 
 pub async fn show_error_transient_for<

@@ -11,18 +11,6 @@ fn pathmatch(entry: &walkdir::DirEntry, pattern: &config::Pattern) -> bool {
     pattern.is_match(entry.path())
 }
 
-pub fn recalculate(config: &config::Backup, mut communication: Communication) {
-    communication.instruction = Default::default();
-
-    let estimated_size = calculate(config, &communication);
-
-    if estimated_size.is_some() {
-        communication.status.update(move |status| {
-            status.estimated_size = estimated_size.clone();
-        });
-    }
-}
-
 struct Exclude {
     exclude: BTreeSet<config::Pattern>,
 }
@@ -86,7 +74,7 @@ pub fn calculate(config: &config::Backup, communication: &Communication) -> Opti
             // Ignore errors
             .flatten()
         {
-            if !matches!(**communication.instruction.load(), Instruction::Nothing) {
+            if matches!(**communication.instruction.load(), Instruction::Abort) {
                 return None;
             }
 

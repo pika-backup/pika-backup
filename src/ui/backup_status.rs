@@ -149,7 +149,6 @@ impl From<&borg::Communication> for Display {
 
         let title = match status.run {
             Run::Init => gettext("Preparing backup"),
-            Run::SizeEstimation => gettext("Estimating backup size"),
             Run::Running => gettext("Backup running"),
             Run::Stalled => gettext("Backup destination unresponsive"),
             Run::Reconnecting => {
