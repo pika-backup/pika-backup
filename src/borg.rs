@@ -22,7 +22,7 @@ pub static MESSAGE_POLL_TIMEOUT: std::time::Duration = std::time::Duration::from
 
 /// Duration without new borg log output after which the status is set to
 /// [`status::Run::Stalled`]
-pub static STALL_THRESHOLD: std::time::Duration = std::time::Duration::from_secs(15);
+pub static STALL_THRESHOLD: std::time::Duration = std::time::Duration::from_secs(30);
 
 pub const MIN_MAJOR_VERSION: u32 = 1;
 pub const MIN_MINOR_VERSION: u32 = 1;

@@ -2,6 +2,7 @@ pub mod error;
 pub mod history;
 mod loadable;
 pub mod local;
+mod prune;
 pub mod remote;
 mod schedule;
 mod schedule_status;
@@ -9,6 +10,7 @@ mod writeable;
 
 pub use history::Histories;
 pub use loadable::{ConfigType, Loadable};
+pub use prune::*;
 pub use schedule::*;
 pub use schedule_status::*;
 pub use writeable::{ArcSwapWriteable, Writeable};
@@ -23,7 +25,7 @@ use std::path;
 use zeroize::Zeroizing;
 
 /// Compatibility config version
-pub static VERSION: u16 = 1;
+pub static VERSION: u16 = 2;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct ConfigId(String);
@@ -68,6 +70,8 @@ pub struct Backup {
     #[serde(default)]
     pub config_version: u16,
     pub id: ConfigId,
+    #[serde(default)]
+    pub archive_prefix: ArchivePrefix,
     #[serde(default = "fake_repo_id")]
     pub repo_id: borg::RepoId,
     pub repo: Repository,
@@ -78,6 +82,35 @@ pub struct Backup {
     pub exclude: BTreeSet<Pattern>,
     #[serde(default)]
     pub schedule: Schedule,
+    #[serde(default)]
+    pub prune: Prune,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct ArchivePrefix(String);
+
+impl ArchivePrefix {
+    pub fn generate() -> Self {
+        Self(format!(
+            "{}-",
+            glib::uuid_string_random()
+                .chars()
+                .take(6)
+                .collect::<String>()
+        ))
+    }
+}
+
+impl Default for ArchivePrefix {
+    fn default() -> Self {
+        Self::generate()
+    }
+}
+
+impl std::fmt::Display for ArchivePrefix {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
 }
 
 fn fake_repo_id() -> borg::RepoId {
@@ -97,6 +130,7 @@ impl Backup {
         Self {
             config_version: VERSION,
             id: ConfigId::new(glib::uuid_string_random().to_string()),
+            archive_prefix: ArchivePrefix::generate(),
             repo,
             repo_id: info.repository.id,
             encrypted,
@@ -104,6 +138,7 @@ impl Backup {
             include,
             exclude,
             schedule: Default::default(),
+            prune: Default::default(),
         }
     }
 

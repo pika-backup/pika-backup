@@ -594,6 +594,10 @@ impl Main {
         self.get("primary_menu_button")
     }
 
+    pub fn prune_enabled(&self) -> adw::ExpanderRow {
+        self.get("prune_enabled")
+    }
+
     pub fn refresh_archives(&self) -> gtk::Button {
         self.get("refresh_archives")
     }
@@ -606,20 +610,20 @@ impl Main {
         self.get("schedule_frequency")
     }
 
-    pub fn schedule_keep_annual(&self) -> gtk::SpinButton {
-        self.get("schedule_keep_annual")
-    }
-
-    pub fn schedule_keep_annual_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_keep_annual_adj")
-    }
-
     pub fn schedule_keep_daily(&self) -> gtk::SpinButton {
         self.get("schedule_keep_daily")
     }
 
     pub fn schedule_keep_daily_adj(&self) -> gtk::Adjustment {
         self.get("schedule_keep_daily_adj")
+    }
+
+    pub fn schedule_keep_hourly(&self) -> gtk::SpinButton {
+        self.get("schedule_keep_hourly")
+    }
+
+    pub fn schedule_keep_hourly_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_keep_hourly_adj")
     }
 
     pub fn schedule_keep_monthly(&self) -> gtk::SpinButton {
@@ -636,6 +640,14 @@ impl Main {
 
     pub fn schedule_keep_weekly_adj(&self) -> gtk::Adjustment {
         self.get("schedule_keep_weekly_adj")
+    }
+
+    pub fn schedule_keep_yearly(&self) -> gtk::SpinButton {
+        self.get("schedule_keep_yearly")
+    }
+
+    pub fn schedule_keep_yearly_adj(&self) -> gtk::Adjustment {
+        self.get("schedule_keep_yearly_adj")
     }
 
     pub fn schedule_pause(&self) -> gtk::ToggleButton {

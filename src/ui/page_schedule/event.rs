@@ -52,6 +52,28 @@ pub async fn show_page() -> Result<()> {
 
         // manually because signal might not have fired if already selected
         frequency_change().await?;
+
+        // prune
+
+        main_ui()
+            .prune_enabled()
+            .set_enable_expansion(config.prune.enabled);
+
+        main_ui()
+            .schedule_keep_hourly()
+            .set_value(config.prune.keep.hourly as f64);
+        main_ui()
+            .schedule_keep_daily()
+            .set_value(config.prune.keep.daily as f64);
+        main_ui()
+            .schedule_keep_weekly()
+            .set_value(config.prune.keep.weekly as f64);
+        main_ui()
+            .schedule_keep_monthly()
+            .set_value(config.prune.keep.monthly as f64);
+        main_ui()
+            .schedule_keep_yearly()
+            .set_value(config.prune.keep.yearly as f64);
     }
 
     Ok(())
@@ -243,4 +265,30 @@ pub async fn active_change() -> Result<()> {
     }
 
     Ok(())
+}
+
+pub async fn prune_enabled() -> Result<()> {
+    BACKUP_CONFIG.update_result(|config| {
+        config.active_mut()?.prune.enabled = main_ui().prune_enabled().enables_expansion();
+
+        Ok(())
+    })?;
+
+    ui::write_config()
+}
+
+pub async fn keep_change() -> Result<()> {
+    BACKUP_CONFIG.update_result(|config| {
+        let keep = &mut config.active_mut()?.prune.keep;
+
+        keep.hourly = main_ui().schedule_keep_hourly().value() as u32;
+        keep.daily = main_ui().schedule_keep_daily().value() as u32;
+        keep.weekly = main_ui().schedule_keep_weekly().value() as u32;
+        keep.monthly = main_ui().schedule_keep_monthly().value() as u32;
+        keep.yearly = main_ui().schedule_keep_yearly().value() as u32;
+
+        Ok(())
+    })?;
+
+    ui::write_config()
 }

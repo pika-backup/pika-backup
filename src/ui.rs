@@ -317,7 +317,22 @@ fn load_config_e() -> std::io::Result<()> {
     }
 
     BACKUP_CONFIG.swap(Arc::new(config::Writeable::from_file()?));
+    BACKUP_CONFIG.update(|backups| {
+        let mut new = backups.clone();
+
+        for mut config in new.iter_mut() {
+            if config.config_version < config::VERSION {
+                config.config_version = config::VERSION;
+            }
+        }
+
+        *backups = new;
+    });
+    // potentially write generated default value
+    BACKUP_CONFIG.write_file()?;
+
     BACKUP_HISTORY.swap(Arc::new(config::Histories::from_file_ui()?));
+    // potentially write internal error status
     BACKUP_HISTORY.write_file()?;
 
     Ok(())

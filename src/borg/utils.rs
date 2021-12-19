@@ -134,9 +134,10 @@ impl BorgCall {
     pub fn add_archive(&mut self, borg: &Borg) -> &mut Self {
         let random_str = glib::uuid_string_random();
         let arg = format!(
-            "{}::{}",
-            &borg.config.repo,
-            random_str.get(..8).unwrap_or(&random_str)
+            "{repo}::{archive_prefix}{archive}",
+            repo = borg.config.repo,
+            archive_prefix = borg.config.archive_prefix,
+            archive = random_str.get(..8).unwrap_or(&random_str)
         );
         if let Some(first) = self.positional.first_mut() {
             *first = arg;
