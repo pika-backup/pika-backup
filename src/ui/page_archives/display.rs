@@ -20,6 +20,9 @@ pub async fn show() -> Result<()> {
         main_ui().archives_location_icon().set_from_gicon(&icon);
     }
 
+    main_ui().archives_location_suffix_title().hide();
+    main_ui().archives_location_suffix_subtitle().hide();
+    main_ui().archives_fs_usage().hide();
     Handler::run(update_df());
 
     main_ui()
@@ -190,6 +193,10 @@ pub async fn update_df() -> Result<()> {
         main_ui()
             .archives_fs_usage()
             .set_value(1.0 - df.avail as f64 / df.size as f64);
+
+        main_ui().archives_location_suffix_title().show();
+        main_ui().archives_location_suffix_subtitle().show();
+        main_ui().archives_fs_usage().show();
     }
 
     Ok(())
