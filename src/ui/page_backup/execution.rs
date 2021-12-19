@@ -135,7 +135,7 @@ async fn run_backup(config: config::Backup) -> Result<()> {
         }
         Ok(_) => {
             // TODO: Should happen with warnings as well
-            let _ignore = ui::page_archives::refresh_archives_cache(config.clone()).await;
+            let _ignore = ui::page_archives::cache::refresh_archives(config.clone()).await;
             let _ignore = ui::utils::df::lookup_and_cache(&config).await;
             Ok(())
         }

@@ -398,8 +398,36 @@ impl Main {
         self.get("archive_list_placeholder")
     }
 
+    pub fn archives_cleanup(&self) -> adw::ActionRow {
+        self.get("archives_cleanup")
+    }
+
     pub fn archives_eject_button(&self) -> gtk::Button {
         self.get("archives_eject_button")
+    }
+
+    pub fn archives_fs_usage(&self) -> gtk::LevelBar {
+        self.get("archives_fs_usage")
+    }
+
+    pub fn archives_location_icon(&self) -> gtk::Image {
+        self.get("archives_location_icon")
+    }
+
+    pub fn archives_location_subtitle(&self) -> gtk::Label {
+        self.get("archives_location_subtitle")
+    }
+
+    pub fn archives_location_suffix_subtitle(&self) -> gtk::Label {
+        self.get("archives_location_suffix_subtitle")
+    }
+
+    pub fn archives_location_suffix_title(&self) -> gtk::Label {
+        self.get("archives_location_suffix_title")
+    }
+
+    pub fn archives_location_title(&self) -> gtk::Label {
+        self.get("archives_location_title")
     }
 
     pub fn archives_reloading_spinner(&self) -> gtk::Spinner {
