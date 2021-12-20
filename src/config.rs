@@ -347,7 +347,7 @@ impl Repository {
     pub fn title(&self) -> String {
         match self {
             Self::Local(local) => local.mount_name.clone().unwrap_or_default(),
-            Self::Remote(_) => gettext("Remote location"),
+            Self::Remote(_) => gettext("Remote Location"),
         }
     }
 
