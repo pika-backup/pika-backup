@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-12-16 00:51+0000\n"
-"PO-Revision-Date: 2021-12-16 15:49+0000\n"
+"POT-Creation-Date: 2021-12-20 14:40+0000\n"
+"PO-Revision-Date: 2021-12-21 16:06+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -23,8 +23,8 @@ msgstr ""
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 data/ui/main.ui:116
-#: data/ui/main.ui:247 src/ui/dialog_about.rs:19
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 data/ui/main.ui:122
+#: data/ui/main.ui:253 src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -140,6 +140,7 @@ msgid "Location on Disk"
 msgstr "Localização no disco"
 
 #: data/ui/dialog_add_config.ui:71 data/ui/dialog_add_config.ui:124
+#: src/config.rs:350
 msgid "Remote Location"
 msgstr "Localização remota"
 
@@ -328,147 +329,159 @@ msgstr ""
 "Estão a ser montados os arquivos.\n"
 "Isto pode levar algum tempo."
 
-#: data/ui/main.ui:99
+#: data/ui/main.ui:105
 msgid ":"
 msgstr ":"
 
-#: data/ui/main.ui:130
+#: data/ui/main.ui:136
 msgid "Add backup configuration"
 msgstr "Adicionar configuração de backup"
 
-#: data/ui/main.ui:155
+#: data/ui/main.ui:161
 msgid "No Backup Configured"
 msgstr "Nenhum backup configurado"
 
-#: data/ui/main.ui:156
+#: data/ui/main.ui:162
 msgid "Add a new configuration to start creating backups"
 msgstr "Adiciona uma nova configuração para começar a criar backups"
 
-#: data/ui/main.ui:159
+#: data/ui/main.ui:165
 msgid "Configure Backup"
 msgstr "Configurar backup"
 
-#: data/ui/main.ui:240
+#: data/ui/main.ui:246
 msgid "Back to overview"
 msgstr "Voltar à vista geral"
 
-#: data/ui/main.ui:275
+#: data/ui/main.ui:281
 msgid "Backup"
 msgstr "Backup"
 
-#: data/ui/main.ui:310
+#: data/ui/main.ui:316
 msgid "_Abort"
 msgstr "_Abortar"
 
-#: data/ui/main.ui:336
+#: data/ui/main.ui:342
 msgid "_Back Up Now"
 msgstr "Efetuar agora o _backup"
 
-#: data/ui/main.ui:357
+#: data/ui/main.ui:363
 msgid "Files to backup"
 msgstr "Ficheiros para backup"
 
-#: data/ui/main.ui:368
+#: data/ui/main.ui:374
 msgid "Include directory"
 msgstr "Incluir diretório"
 
-#: data/ui/main.ui:383 src/ui/page_overview.rs:142
+#: data/ui/main.ui:389 src/ui/page_overview.rs:142
 msgid "Home"
 msgstr "Pasta pessoal"
 
-#: data/ui/main.ui:384
+#: data/ui/main.ui:390
 msgid "Usually contains all personal data"
 msgstr "Normalmente contém todos os dados pessoais"
 
-#: data/ui/main.ui:417
+#: data/ui/main.ui:423
 msgid "Exclude from backup"
 msgstr "Excluir do backup"
 
-#: data/ui/main.ui:428
+#: data/ui/main.ui:434
 msgid "Add excluded directory"
 msgstr "Adicionar diretório excluído"
 
-#: data/ui/main.ui:451
+#: data/ui/main.ui:457
 msgid "Nothing excluded from backup"
 msgstr "Nada foi excluído do backup"
 
-#: data/ui/main.ui:475 data/ui/main.ui:499
+#: data/ui/main.ui:481 data/ui/main.ui:615
 msgid "Archives"
 msgstr "Arquivos"
 
-#: data/ui/main.ui:510
+#: data/ui/main.ui:592
+msgid "Cleanup Archives"
+msgstr "Limpar arquivos"
+
+#: data/ui/main.ui:593
+msgid "Delete some older archives"
+msgstr "Eliminar alguns arquivos mais antigos"
+
+#: data/ui/main.ui:626
 msgid "Refresh list of archives"
 msgstr "Atualizar lista de arquivos"
 
-#: data/ui/main.ui:531
+#: data/ui/main.ui:647
 msgid "Stop browsing archive files"
 msgstr "Parar navegação por arquivos"
 
-#: data/ui/main.ui:556
+#: data/ui/main.ui:672
 msgid "No archives available"
 msgstr "Nenhum arquivo disponível"
 
-#: data/ui/main.ui:578
+#: data/ui/main.ui:694
 msgid "Schedule"
 msgstr "Agenda"
 
-#: data/ui/main.ui:627
+#: data/ui/main.ui:743
 msgid "Frequency"
 msgstr "Frequência"
 
-#: data/ui/main.ui:635
+#: data/ui/main.ui:751
 msgid "Preferred Time"
 msgstr "Horário preferido"
 
-#: data/ui/main.ui:643
+#: data/ui/main.ui:759
 msgid "14:26"
 msgstr "14:26"
 
-#: data/ui/main.ui:656
+#: data/ui/main.ui:772
 msgid "Preferred Weekday"
 msgstr "Dia da semana preferido"
 
-#: data/ui/main.ui:661
+#: data/ui/main.ui:777
 msgid "Preferred Day"
 msgstr "Dia preferido"
 
-#: data/ui/main.ui:669
+#: data/ui/main.ui:785
 msgid "21st"
 msgstr "21st"
 
-#: data/ui/main.ui:696
+#: data/ui/main.ui:811
+msgid "Keep Hourly"
+msgstr "Manter de hora em hora"
+
+#: data/ui/main.ui:826
 msgid "Keep Daily"
 msgstr "Manter diariamente"
 
-#: data/ui/main.ui:712
+#: data/ui/main.ui:841
 msgid "Keep Weekly"
 msgstr "Manter semanalmente"
 
-#: data/ui/main.ui:726
+#: data/ui/main.ui:854
 msgid "Keep Monthly"
 msgstr "Manter mensalmente"
 
-#: data/ui/main.ui:740
+#: data/ui/main.ui:867
 msgid "Keep Annual"
 msgstr "Manter anualmente"
 
-#: data/ui/main.ui:791
+#: data/ui/main.ui:917
 msgid "Backup Info"
 msgstr "Informação de backup"
 
-#: data/ui/main.ui:849
+#: data/ui/main.ui:975
 msgid "Amount saved"
 msgstr "Quantidade guardada"
 
-#: data/ui/main.ui:865
+#: data/ui/main.ui:991
 msgid "Number of files saved"
 msgstr "Número de ficheiros guardados"
 
-#: data/ui/main.ui:881
+#: data/ui/main.ui:1007
 msgid "Additional backup space used"
 msgstr "Espaço de backup adicional utilizado"
 
-#: data/ui/main.ui:897
+#: data/ui/main.ui:1023
 msgid "Current file"
 msgstr "Ficheiro atual"
 
@@ -540,10 +553,6 @@ msgstr "Crítico"
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: src/config.rs:315
-msgid "Remote location"
-msgstr "Localização remota"
-
 #: src/config/schedule.rs:28
 msgid "Hourly"
 msgstr "A cada hora"
@@ -608,11 +617,11 @@ msgstr "Não é possível verificar a versão borg-backup"
 msgid "The installed version {} might not work."
 msgstr "A versão instalada {} pode não funcionar."
 
-#: src/ui.rs:327
+#: src/ui.rs:342
 msgid "Could not load configuration file."
 msgstr "Não foi possível carregar ficheiro de configuração."
 
-#: src/ui.rs:343
+#: src/ui.rs:358
 msgid "Could not write configuration file."
 msgstr "Não foi possível gravar ficheiro de configuração."
 
@@ -808,41 +817,49 @@ msgstr "Já existe backup com o id “{}”."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Não foi possível localizar a configuração de backup com o id “{}”."
 
-#: src/ui/page_archives.rs:39 src/ui/page_backup/execution.rs:43
-msgid "Failed to unmount repository."
-msgstr "Falha ao desmontar repositório."
-
-#: src/ui/page_archives.rs:65
+#: src/ui/page_archives/cache.rs:27
 msgid "Failed to refresh archives cache."
 msgstr "Falha ao atualizar cache de arquivos."
 
-#: src/ui/page_archives.rs:139
+#: src/ui/page_archives/display.rs:68
 msgid "Failed to open archive."
 msgstr "Falha ao abrir arquivo."
 
-#: src/ui/page_archives.rs:163
-msgid "Browse Archive"
-msgstr "Navegar no arquivo"
-
-#: src/ui/page_archives.rs:175
-msgid "Failed to make archives available for browsing."
-msgstr "Falha na disponibilização de arquivos para a navegação."
-
-#: src/ui/page_archives.rs:240
+#: src/ui/page_archives/display.rs:145
 msgid "Name"
 msgstr "Nome"
 
-#: src/ui/page_archives.rs:242
+#: src/ui/page_archives/display.rs:147
 msgid "Duration"
 msgstr "Duração"
 
-#: src/ui/page_archives.rs:246
+#: src/ui/page_archives/display.rs:151
 msgid "Comment"
 msgstr "Comentário"
 
-#: src/ui/page_archives.rs:250
+#: src/ui/page_archives/display.rs:155
 msgid "Browse saved files"
 msgstr "Explorar ficheiros guardados"
+
+#: src/ui/page_archives/display.rs:188
+msgid "{} Available"
+msgstr "{} Disponível"
+
+#: src/ui/page_archives/display.rs:191
+msgid "{} Total"
+msgstr "{} Total"
+
+#: src/ui/page_archives/events.rs:11 src/ui/page_backup/execution.rs:43
+msgid "Failed to unmount repository."
+msgstr "Falha ao desmontar repositório."
+
+#: src/ui/page_archives/events.rs:36
+msgid "Browse Archive"
+msgstr "Navegar no arquivo"
+
+#: src/ui/page_archives/events.rs:48
+msgid "Failed to make archives available for browsing."
+msgstr "Falha na disponibilização de arquivos para a navegação."
 
 #: src/ui/page_backup/display.rs:102
 msgid "Regular Expression"
@@ -923,35 +940,35 @@ msgstr ""
 "Falha na remoção de palavras-passe potencialmente restantes do armazenamento "
 "de chaves."
 
-#: src/ui/page_schedule/event.rs:107
+#: src/ui/page_schedule/event.rs:129
 msgid "Invalid time format."
 msgstr "Formato de horário inválido."
 
-#: src/ui/page_schedule/event.rs:115
+#: src/ui/page_schedule/event.rs:137
 msgid "Invalid weekday."
 msgstr "Dia da semana inválido."
 
-#: src/ui/page_schedule/event.rs:122
+#: src/ui/page_schedule/event.rs:144
 msgid "No frequency selected."
 msgstr "Sem frequência selecionada."
 
-#: src/ui/page_schedule/event.rs:222
+#: src/ui/page_schedule/event.rs:244
 msgid "Disable backup schedule."
 msgstr "Desativa o agendamento de backup."
 
-#: src/ui/page_schedule/event.rs:223
+#: src/ui/page_schedule/event.rs:245
 msgid "No longer remind of backups based on a schedule."
 msgstr "Deixar de lembrar os backups com base num horário."
 
-#: src/ui/page_schedule/event.rs:224
+#: src/ui/page_schedule/event.rs:246
 msgid "Keep Schedule"
 msgstr "Manter agendamento"
 
-#: src/ui/page_schedule/event.rs:225
+#: src/ui/page_schedule/event.rs:247
 msgid "Disable Schedule"
 msgstr "Desativar agendamento"
 
-#: src/ui/page_schedule/init.rs:87
+#: src/ui/page_schedule/init.rs:112
 msgid "Unable to determine background process status"
 msgstr "Não foi possível de determinar o estado do processo em segundo plano"
 
@@ -1207,6 +1224,9 @@ msgstr "Falha ao guardar cache."
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Palavra-passe do Pika Backup"
+
+#~ msgid "Remote location"
+#~ msgstr "Localização remota"
 
 #~ msgid ""
 #~ "Welcome to Pika Backup version 0.3.\n"
