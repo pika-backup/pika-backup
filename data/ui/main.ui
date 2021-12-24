@@ -801,11 +801,33 @@ This might take a while.</property>
                                               <object class="GtkListBox">
                                                 <property name="selection-mode">none</property>
                                                 <child>
-                                                  <object class="AdwExpanderRow" id="prune_enabled">
+                                                  <object class="AdwActionRow">
                                                     <property name="activatable">False</property>
-                                                    <property name="title">Delete Obsolete Backups</property>
-                                                    <property name="expanded">True</property>
-                                                    <property name="show-enable-switch">True</property>
+                                                    <property name="title" translatable="yes">Regularly Cleanup Archives</property>
+                                                    <property name="subtitle" translatable="yes">Delete some older archives</property>
+
+                                                    <child>
+                                                      <object class="GtkSwitch" id="prune_enabled">
+<property name="valign">center</property>
+
+                                                      </object>
+
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                                                                                    <child>
+                                                      <object class="AdwComboRow" id="prune_preset">
+                                                        <property name="title" translatable="yes">Keep Older Versions</property>
+                                                        <property name="expression">
+                                                          <lookup type="PikaBackupPrunePreset" name="display"/>
+                                                        </property>
+                                                      </object>
+                                                    </child>
+                                                <child>
+                                                  <object class="AdwExpanderRow">
+                                                    <property name="activatable">False</property>
+                                                    <property name="title" translatable="yes">Details</property>
+                                                    <property name="expanded">0</property>
                                                     <child>
                                                       <object class="AdwActionRow">
                                                         <property name="title" translatable="yes">Keep Hourly</property>

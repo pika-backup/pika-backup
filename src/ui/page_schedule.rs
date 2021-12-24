@@ -3,6 +3,7 @@ use crate::ui::prelude::*;
 mod event;
 pub mod frequency;
 pub mod init;
+pub mod prune_preset;
 pub mod status;
 pub mod weekday;
 

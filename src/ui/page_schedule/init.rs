@@ -2,6 +2,7 @@ use adw::prelude::*;
 
 use super::event;
 use super::frequency::{self, FrequencyObject};
+use super::prune_preset::PrunePresetObject;
 use super::weekday::{self, WeekdayObject};
 use crate::ui::prelude::*;
 
@@ -70,8 +71,12 @@ pub fn init() {
     // prune
 
     main_ui()
+        .prune_preset()
+        .set_model(Some(&PrunePresetObject::list_store()));
+
+    main_ui()
         .prune_enabled()
-        .connect_enable_expansion_notify(|_| Handler::run(event::prune_enabled()));
+        .connect_active_notify(|_| Handler::run(event::prune_enabled()));
 
     main_ui()
         .schedule_keep_hourly()

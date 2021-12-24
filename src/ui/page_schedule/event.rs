@@ -55,9 +55,7 @@ pub async fn show_page() -> Result<()> {
 
         // prune
 
-        main_ui()
-            .prune_enabled()
-            .set_enable_expansion(config.prune.enabled);
+        main_ui().prune_enabled().set_active(config.prune.enabled);
 
         main_ui()
             .schedule_keep_hourly()
@@ -269,7 +267,7 @@ pub async fn active_change() -> Result<()> {
 
 pub async fn prune_enabled() -> Result<()> {
     BACKUP_CONFIG.update_result(|config| {
-        config.active_mut()?.prune.enabled = main_ui().prune_enabled().enables_expansion();
+        config.active_mut()?.prune.enabled = main_ui().prune_enabled().is_active();
 
         Ok(())
     })?;

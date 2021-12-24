@@ -19,16 +19,6 @@ pub fn list() -> Vec<config::Frequency> {
     ]
 }
 
-/*
-pub fn name(obj: &glib::Object) -> String {
-    if let Some(obj) = obj.downcast_ref::<FrequencyObject>() {
-        obj.frequency().name()
-    } else {
-        String::new()
-    }
-}
-*/
-
 glib::wrapper! {
     pub struct FrequencyObject(ObjectSubclass<imp::FrequencyObject>);
 }
@@ -71,7 +61,7 @@ mod imp {
 
         fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
             match pspec.name() {
-                "display" => self.frequency.borrow().clone().name().to_value(),
+                "display" => self.frequency.borrow().name().to_value(),
                 _ => unimplemented!(),
             }
         }

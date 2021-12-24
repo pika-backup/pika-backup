@@ -4,6 +4,7 @@ use ui::utils::StatusLevel;
 
 pub fn init() {
     ui::page_schedule::frequency::FrequencyObject::static_type();
+    ui::page_schedule::prune_preset::PrunePresetObject::static_type();
     ui::page_schedule::weekday::WeekdayObject::static_type();
     ui::dialog_add_config::folder_button::FolderButton::static_type();
     ui::widgets::StatusIcon::static_type();

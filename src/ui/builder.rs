@@ -622,8 +622,12 @@ impl Main {
         self.get("primary_menu_button")
     }
 
-    pub fn prune_enabled(&self) -> adw::ExpanderRow {
+    pub fn prune_enabled(&self) -> gtk::Switch {
         self.get("prune_enabled")
+    }
+
+    pub fn prune_preset(&self) -> adw::ComboRow {
+        self.get("prune_preset")
     }
 
     pub fn refresh_archives(&self) -> gtk::Button {
