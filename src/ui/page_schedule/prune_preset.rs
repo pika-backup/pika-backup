@@ -1,3 +1,4 @@
+use crate::config;
 use crate::ui::prelude::*;
 
 use glib::prelude::*;
@@ -20,6 +21,30 @@ impl PrunePreset {
             Self::KeepSome => gettext("Keep Some"),
             Self::Custom => gettext("Custom"),
         }
+    }
+
+    pub fn keep(&self) -> Option<config::Keep> {
+        match self {
+            Self::KeepMany => Some(config::Keep::default()),
+            Self::KeepSome => Some(config::Keep {
+                hourly: 24,
+                daily: 7,
+                weekly: 2,
+                monthly: 6,
+                yearly: 0,
+            }),
+            Self::Custom => None,
+        }
+    }
+
+    pub fn matching(keep: &config::Keep) -> Self {
+        for preset in Self::list() {
+            if Some(keep) == preset.keep().as_ref() {
+                return preset;
+            }
+        }
+
+        Self::Custom
     }
 
     pub fn list() -> Vec<Self> {

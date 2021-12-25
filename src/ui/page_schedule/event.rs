@@ -3,6 +3,7 @@ use chrono::prelude::*;
 
 use super::frequency;
 use super::init;
+use super::prune_preset;
 use super::weekday;
 use crate::config;
 use crate::ui;
@@ -56,22 +57,11 @@ pub async fn show_page() -> Result<()> {
         // prune
 
         main_ui().prune_enabled().set_active(config.prune.enabled);
+        main_ui()
+            .prune_preset()
+            .set_selected(prune_preset::PrunePreset::matching(&config.prune.keep) as u32);
 
-        main_ui()
-            .schedule_keep_hourly()
-            .set_value(config.prune.keep.hourly as f64);
-        main_ui()
-            .schedule_keep_daily()
-            .set_value(config.prune.keep.daily as f64);
-        main_ui()
-            .schedule_keep_weekly()
-            .set_value(config.prune.keep.weekly as f64);
-        main_ui()
-            .schedule_keep_monthly()
-            .set_value(config.prune.keep.monthly as f64);
-        main_ui()
-            .schedule_keep_yearly()
-            .set_value(config.prune.keep.yearly as f64);
+        update_prune_details(config);
     }
 
     Ok(())
@@ -83,6 +73,24 @@ pub async fn network_changed() -> Result<()> {
         update_status(BACKUP_CONFIG.load().active()?);
     }
     Ok(())
+}
+
+fn update_prune_details(config: &config::Backup) {
+    main_ui()
+        .schedule_keep_hourly()
+        .set_value(config.prune.keep.hourly as f64);
+    main_ui()
+        .schedule_keep_daily()
+        .set_value(config.prune.keep.daily as f64);
+    main_ui()
+        .schedule_keep_weekly()
+        .set_value(config.prune.keep.weekly as f64);
+    main_ui()
+        .schedule_keep_monthly()
+        .set_value(config.prune.keep.monthly as f64);
+    main_ui()
+        .schedule_keep_yearly()
+        .set_value(config.prune.keep.yearly as f64);
 }
 
 fn update_status(config: &config::Backup) {
@@ -275,6 +283,29 @@ pub async fn prune_enabled() -> Result<()> {
     ui::write_config()
 }
 
+pub async fn prune_preset_change() -> Result<()> {
+    if let Some(preset) = main_ui()
+        .prune_preset()
+        .selected_item()
+        .and_then(|x| x.downcast::<prune_preset::PrunePresetObject>().ok())
+    {
+        if let Some(keep) = preset.preset().keep() {
+            BACKUP_CONFIG.update_result(|config| {
+                config.active_mut()?.prune.keep = keep.clone();
+                Ok(())
+            })?;
+
+            update_prune_details(BACKUP_CONFIG.load().active()?);
+        } else {
+            main_ui().prune_detail().set_expanded(true);
+        }
+
+        ui::write_config()
+    } else {
+        Err(Message::short(gettext("No preset selected.")).into())
+    }
+}
+
 pub async fn keep_change() -> Result<()> {
     BACKUP_CONFIG.update_result(|config| {
         let keep = &mut config.active_mut()?.prune.keep;
@@ -287,6 +318,12 @@ pub async fn keep_change() -> Result<()> {
 
         Ok(())
     })?;
+
+    main_ui()
+        .prune_preset()
+        .set_selected(prune_preset::PrunePreset::matching(
+            &BACKUP_CONFIG.load().active()?.prune.keep,
+        ) as u32);
 
     ui::write_config()
 }

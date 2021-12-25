@@ -71,12 +71,16 @@ pub fn init() {
     // prune
 
     main_ui()
+        .prune_enabled()
+        .connect_active_notify(|_| Handler::run(event::prune_enabled()));
+
+    main_ui()
         .prune_preset()
         .set_model(Some(&PrunePresetObject::list_store()));
 
     main_ui()
-        .prune_enabled()
-        .connect_active_notify(|_| Handler::run(event::prune_enabled()));
+        .prune_preset()
+        .connect_selected_item_notify(|_| Handler::run(event::prune_preset_change()));
 
     main_ui()
         .schedule_keep_hourly()
