@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-11-24 21:09+0000\n"
-"PO-Revision-Date: 2021-11-28 17:00+0100\n"
+"POT-Creation-Date: 2021-12-25 00:40+0000\n"
+"PO-Revision-Date: 2021-12-25 17:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -21,8 +21,7 @@ msgstr "Project-Id-Version: pika-backup main\n"
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 data/ui/main.ui:124
-#: src/ui/dialog_about.rs:19
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -124,6 +123,7 @@ msgid "Location on Disk"
 msgstr "Kokalekua diskoan"
 
 #: data/ui/dialog_add_config.ui:71 data/ui/dialog_add_config.ui:124
+#: src/config.rs:350
 msgid "Remote Location"
 msgstr "Urruneko kokalekua"
 
@@ -169,7 +169,7 @@ msgstr "Zifratzea"
 msgid "Encrypted"
 msgstr "Zifratua"
 
-#: data/ui/dialog_add_config.ui:349 src/ui/page_backup.rs:481
+#: data/ui/dialog_add_config.ui:349 src/ui/page_backup/events.rs:144
 msgid "Confirm"
 msgstr "Berretsi"
 
@@ -199,9 +199,9 @@ msgstr "Komando-lerroko argumentu gehigarriak"
 msgid "Advanced settings"
 msgstr "Ezarpen aurreratuak"
 
-#: data/ui/dialog_add_config.ui:477 data/ui/dialog_device_missing.ui:8
-#: data/ui/dialog_encryption_password.ui:15 src/ui/page_backup.rs:480
-#: src/ui/page_overview.rs:67 src/ui/utils/borg.rs:123
+#: data/ui/dialog_add_config.ui:477 data/ui/dialog_device_missing.ui:9
+#: data/ui/dialog_encryption_password.ui:15 src/ui/page_backup/events.rs:143
+#: src/ui/page_overview.rs:54 src/ui/utils/borg.rs:123
 msgid "Cancel"
 msgstr "Utzi"
 
@@ -239,8 +239,8 @@ msgstr "Horretaz aparte, GNOME fitxategi-sistema birtualak onartutako aurrizki g
 msgid "The following backup location needs to be connected:"
 msgstr "Honako babeskopia-kokalekuek konektatuta egon behar dute:"
 
-#: data/ui/dialog_encryption_password.ui:20 src/ui.rs:173
-#: src/ui/page_backup.rs:134
+#: data/ui/dialog_encryption_password.ui:20 src/ui.rs:190
+#: src/ui/page_backup/events.rs:23
 msgid "Continue"
 msgstr "Jarraitu"
 
@@ -268,15 +268,15 @@ msgstr "Gailua"
 msgid "Path"
 msgstr "Bide-izena"
 
-#: data/ui/dialog_storage.ui:101
+#: data/ui/dialog_storage.ui:102
 msgid "Space"
 msgstr "Lekua"
 
-#: data/ui/dialog_storage.ui:115
+#: data/ui/dialog_storage.ui:116
 msgid "Total"
 msgstr "Guztira"
 
-#: data/ui/dialog_storage.ui:128
+#: data/ui/dialog_storage.ui:129
 msgid "Free"
 msgstr "Librea"
 
@@ -288,158 +288,7 @@ msgstr "Pika Backup aplikazioari _buruz"
 msgid "Delete backup configuration"
 msgstr "Ezabatu babeskopiaren konfigurazioa"
 
-#: data/ui/main.ui:33
-msgid ""
-"Archives are being mounted.\n"
-"This might take a while."
-msgstr "Artxiboak muntatzen ari dira.\n"
-"Tartetxo bat beharko du horrek."
-
-#: data/ui/main.ui:99
-msgid ":"
-msgstr ":"
-
-#: data/ui/main.ui:141
-msgid "Add backup configuration"
-msgstr "Gehitu babeskopiaren konfigurazioa"
-
-#: data/ui/main.ui:159
-msgid "Back to overview"
-msgstr "Itzuli ikuspegi orokorrera"
-
-#: data/ui/main.ui:178
-msgid "No Backup Configured"
-msgstr "Ez dago babeskopiarik konfiguratuta"
-
-#: data/ui/main.ui:179
-msgid "Add a new configuration to start creating backups"
-msgstr "Gehitu konfigurazio berria babeskopiak sortzen hasteko"
-
-#: data/ui/main.ui:182
-msgid "Configure Backup"
-msgstr "Konfiguratu babeskopia"
-
-#: data/ui/main.ui:270
-msgid "Backup"
-msgstr "Babeskopia"
-
-#: data/ui/main.ui:305
-msgid "_Abort"
-msgstr "_Abortatu"
-
-#: data/ui/main.ui:331
-msgid "_Back Up Now"
-msgstr "Egin babeskopia _orain"
-
-#: data/ui/main.ui:352
-msgid "Files to backup"
-msgstr "Babeskopia egingo zaien fitxategiak"
-
-#: data/ui/main.ui:363
-msgid "Include directory"
-msgstr "Sartu direktorioa"
-
-#: data/ui/main.ui:378 src/ui/page_overview.rs:154
-msgid "Home"
-msgstr "Karpeta nagusia"
-
-#: data/ui/main.ui:379
-msgid "Usually contains all personal data"
-msgstr "Normalean dagu pertsonal guztiak ditu"
-
-#: data/ui/main.ui:412
-msgid "Exclude from backup"
-msgstr "Baztertu babeskopiatik"
-
-#: data/ui/main.ui:423
-msgid "Add excluded directory"
-msgstr "Gehitu baztertutako direktorioa"
-
-#: data/ui/main.ui:446
-msgid "Nothing excluded from backup"
-msgstr "Ez dago ezer baztertuta babeskopiatik"
-
-#: data/ui/main.ui:470 data/ui/main.ui:494
-msgid "Archives"
-msgstr "Artxiboak"
-
-#: data/ui/main.ui:505
-msgid "Refresh list of archives"
-msgstr "Freskatu artxiboen zerrenda"
-
-#: data/ui/main.ui:526
-msgid "Stop browsing archive files"
-msgstr "Gelditu artxibo-fitxategiak arakatzea"
-
-#: data/ui/main.ui:551
-msgid "No archives available"
-msgstr "Ez dago artxiborik erabilgarri"
-
-#: data/ui/main.ui:573
-msgid "Schedule"
-msgstr "Programazioa"
-
-#: data/ui/main.ui:622
-msgid "Frequency"
-msgstr "Maiztasuna"
-
-#: data/ui/main.ui:630
-msgid "Preferred Time"
-msgstr "Hobetsitako ordua"
-
-#: data/ui/main.ui:638
-msgid "14:26"
-msgstr "14:26"
-
-#: data/ui/main.ui:651
-msgid "Preferred Weekday"
-msgstr "Hobetsitako asteguna"
-
-#: data/ui/main.ui:656
-msgid "Preferred Day"
-msgstr "Hobetsitako eguna"
-
-#: data/ui/main.ui:664
-msgid "21st"
-msgstr "21."
-
-#: data/ui/main.ui:691
-msgid "Keep Daily"
-msgstr "Mantendu egunero"
-
-#: data/ui/main.ui:707
-msgid "Keep Weekly"
-msgstr "Mantendu astero"
-
-#: data/ui/main.ui:721
-msgid "Keep Monthly"
-msgstr "Mantendu hilero"
-
-#: data/ui/main.ui:735
-msgid "Keep Annual"
-msgstr "Mantendu urtero"
-
-#: data/ui/main.ui:788
-msgid "Backup Info"
-msgstr "Babeskopiaren informazioa"
-
-#: data/ui/main.ui:846
-msgid "Amount saved"
-msgstr "Gordetako kantitatea"
-
-#: data/ui/main.ui:862
-msgid "Number of files saved"
-msgstr "Gordetako fitxategi kopurua"
-
-#: data/ui/main.ui:878
-msgid "Additional backup space used"
-msgstr "Erabilitako babeskopia-espazio gehigarria"
-
-#: data/ui/main.ui:894
-msgid "Current file"
-msgstr "Uneko fitxategia"
-
-#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:169
+#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:239
 msgid "The operation terminated unexpectedly."
 msgstr "Eragiketa ustekabean amaitu da."
 
@@ -507,10 +356,6 @@ msgstr "Larria"
 msgid "Undefined"
 msgstr "Definitu gabea"
 
-#: src/config.rs:310
-msgid "Remote location"
-msgstr "Urruneko kokalekua"
-
 #: src/config/schedule.rs:28
 msgid "Hourly"
 msgstr "Orduro"
@@ -539,48 +384,45 @@ msgstr "{} “{}” diskoan"
 msgid "Run Backup"
 msgstr "Exekutatu babeskopia"
 
-#: src/ui.rs:171 src/ui/page_backup.rs:132
+#: src/ui.rs:188 src/ui/page_backup/events.rs:21
 msgid "Abort running backup creation?"
 msgstr "Abortatu abian dagoen babeskopiaren sorrera?"
 
-#: src/ui.rs:172 src/ui/page_backup.rs:133
+#: src/ui.rs:189 src/ui/page_backup/events.rs:22
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Babeskopia ez da osatuko orian abortatzen bada."
 
-#: src/ui.rs:174 src/ui/page_backup.rs:135
+#: src/ui.rs:191 src/ui/page_backup/events.rs:24
 msgid "Abort"
 msgstr "Abortatu"
 
-#: src/ui.rs:230
+#: src/ui.rs:248
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Huts egin du “borg” exekutatzeak. Ongi instalatuta al dago borg-backup?"
 
-#: src/ui.rs:248
+#: src/ui.rs:271
 msgid "Borg version too old."
 msgstr "Borg bertsioa zaharregia da."
 
-#: src/ui.rs:250
+#: src/ui.rs:273
 msgid ""
-"The installed version of borg-backup is too old. Some features requiring "
-"borg-backup version {}.{} will not work."
-msgstr "Instalatuta dagoen borg-backup bertsioa zaharregia da. Zenbait eginbidek borg-backup {}.{} bertsioa behar dute."
+"The installed version {} of borg-backup is too old. Some features requiring "
+"borg-backup version {}.{}.{} will not work."
+msgstr "Instalatuta dagoen borg-backup bertsioa, {}, zaharregia da. Zenbait eginbidek borg-backup {}.{}.{} bertsioa behar dute."
 
-#: src/ui.rs:287
-msgid ""
-"Welcome to Pika Backup version 0.3.\n"
-"\n"
-"Please note: The information about the last backup cannot be transferred "
-"from the previous version of Pika Backup. It will be available again after "
-"the next backup."
-msgstr "Ongi etorri Pika Backup 0.3 bertsiora.\n"
-"\n"
-"Kontuan izan azken babeskopiari buruzko informazioa ezin dela transferitau Pika Backup aplikazioaren aurreko bertsioetatik. Hurrengo babeskopiaren ondoren egongo da berriro erabilgarri."
+#: src/ui.rs:284
+msgid "Cannot check borg-backup version"
+msgstr "Ezin izan da egiaztatu borg-backup bertsioa"
 
-#: src/ui.rs:305
+#: src/ui.rs:286
+msgid "The installed version {} might not work."
+msgstr "Instalatutako {} bertsioa agian ez dabil."
+
+#: src/ui.rs:342
 msgid "Could not load configuration file."
 msgstr "Ezin izan da konfigurazio-fitxategia kargatu."
 
-#: src/ui.rs:326
+#: src/ui.rs:358
 msgid "Could not write configuration file."
 msgstr "Ezin izan da konfigurazio-fitxategia idatzi."
 
@@ -619,34 +461,30 @@ msgid "Preparing backup"
 msgstr "Babeskopia prestatzen"
 
 #: src/ui/backup_status.rs:152
-msgid "Estimating backup size"
-msgstr "Babeskopiaren tamaina kalkulatzen"
-
-#: src/ui/backup_status.rs:153
 msgid "Backup running"
 msgstr "Babeskopia exekutatzen"
 
-#: src/ui/backup_status.rs:154
+#: src/ui/backup_status.rs:153
 msgid "Backup destination unresponsive"
 msgstr "Babeskopiaren helburuak ez du erantzuten"
 
-#: src/ui/backup_status.rs:157
+#: src/ui/backup_status.rs:156
 msgid "Connection lost, reconnecting in {}"
 msgstr "Konexioa galdu da, {} denboran berriro konektatuko da"
 
-#: src/ui/backup_status.rs:162
+#: src/ui/backup_status.rs:161
 msgid "Reconnecting"
 msgstr "Berriro konektatzen"
 
-#: src/ui/backup_status.rs:164
+#: src/ui/backup_status.rs:163
 msgid "Stopping backup"
 msgstr "Babeskopia gelditzen"
 
-#: src/ui/backup_status.rs:180
+#: src/ui/backup_status.rs:179
 msgid "Backup never ran"
 msgstr "Babeskopia ez da exekutatu"
 
-#: src/ui/backup_status.rs:181
+#: src/ui/backup_status.rs:180
 msgid "Start by creating your first backup"
 msgstr "Hasteko, sortu zure lehen babeskopia"
 
@@ -671,11 +509,11 @@ msgstr "Court Witch"
 msgid "Fina Wilke"
 msgstr "Fina Wilke"
 
-#: src/ui/dialog_add_config.rs:155
+#: src/ui/dialog_add_config.rs:154
 msgid "Failed to list existing repositories."
 msgstr "Huts egin du existitzen diren biltegiak zerrendatzeak."
 
-#: src/ui/dialog_add_config.rs:242
+#: src/ui/dialog_add_config.rs:241
 msgid "Free space: {}"
 msgstr "Toki librea: {}"
 
@@ -683,68 +521,85 @@ msgstr "Toki librea: {}"
 msgid "Select…"
 msgstr "Hautatu…"
 
-#: src/ui/dialog_add_config/insert.rs:36 src/ui/dialog_add_config/insert.rs:56
-#: src/ui/dialog_add_config/insert.rs:74 src/ui/dialog_add_config/insert.rs:199
+#: src/ui/dialog_add_config/insert.rs:36
+msgid "Incomplete URL or borg syntax"
+msgstr "URL edo borg sintaxi osatu gabea"
+
+#: src/ui/dialog_add_config/insert.rs:45
+msgid "The remote location must have a specified path."
+msgstr "Urruneko kokalekuak bide-izen bat zehaztuta eduki behar du."
+
+#: src/ui/dialog_add_config/insert.rs:49
+msgid "Invalid remote location: “{}”"
+msgstr "Urruneko kokaleku baliogabea: “{}”"
+
+#: src/ui/dialog_add_config/insert.rs:89 src/ui/dialog_add_config/insert.rs:109
+#: src/ui/dialog_add_config/insert.rs:127
+#: src/ui/dialog_add_config/insert.rs:252
 msgid "Loading backup repository"
 msgstr "Babeskopia-biltegia kargatzen"
 
-#: src/ui/dialog_add_config/insert.rs:52
+#: src/ui/dialog_add_config/insert.rs:105
 msgid "Select existing repository"
 msgstr "Hautatu biltegi bat"
 
-#: src/ui/dialog_add_config/insert.rs:61
+#: src/ui/dialog_add_config/insert.rs:114
 msgid "Location is not a valid backup repository."
 msgstr "Kokalekua ez da baliozko babeskopia-biltegi bat."
 
-#: src/ui/dialog_add_config/insert.rs:62
+#: src/ui/dialog_add_config/insert.rs:115
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr "Biltegia Pika Backup aplikazioaren edo harekin bateragarria den software batekin sortua izan behar du."
 
-#: src/ui/dialog_add_config/insert.rs:97
+#: src/ui/dialog_add_config/insert.rs:131
+#: src/ui/dialog_add_config/insert.rs:184
+msgid "Invalid Remote Location"
+msgstr "Urruneko kokaleku baliogabea"
+
+#: src/ui/dialog_add_config/insert.rs:152
 msgid "No password provided."
 msgstr "Ez da pasahitzik eman."
 
-#: src/ui/dialog_add_config/insert.rs:98
+#: src/ui/dialog_add_config/insert.rs:153
 msgid "To use encryption a password must be provided."
 msgstr "Zifratzea erabili nahi bada, pasahitz bat eman behar da."
 
-#: src/ui/dialog_add_config/insert.rs:102
+#: src/ui/dialog_add_config/insert.rs:157
 msgid "Entered passwords do not match."
 msgstr "Sartutako pasahitzak ez datoz bat."
 
-#: src/ui/dialog_add_config/insert.rs:125
-#: src/ui/dialog_add_config/insert.rs:132
+#: src/ui/dialog_add_config/insert.rs:180
 msgid "A repository location has to be given."
 msgstr "Biltegiaren kokalekua eman behar da."
 
-#: src/ui/dialog_add_config/insert.rs:148
-#: src/ui/dialog_add_config/insert.rs:251
+#: src/ui/dialog_add_config/insert.rs:201
+#: src/ui/dialog_add_config/insert.rs:304
 msgid "Additional command line arguments invalid."
 msgstr "Komando-lerroko argumentu gehigarriak baliogabeak dira."
 
-#: src/ui/dialog_add_config/insert.rs:149
-#: src/ui/dialog_add_config/insert.rs:252
+#: src/ui/dialog_add_config/insert.rs:202
+#: src/ui/dialog_add_config/insert.rs:305
 msgid "Please check for missing closing quotes."
 msgstr "Begiratu itxierako komatxoak ez direla falta."
 
-#: src/ui/dialog_add_config/insert.rs:154
-#: src/ui/dialog_add_config/insert.rs:164
+#: src/ui/dialog_add_config/insert.rs:207
+#: src/ui/dialog_add_config/insert.rs:217
 msgid "Creating backup repository"
 msgstr "Babeskopia-biltegia sortzen"
 
-#: src/ui/dialog_add_config/insert.rs:168
+#: src/ui/dialog_add_config/insert.rs:221
 msgid "Failed to initialize repository."
 msgstr "Huts egin du biltegia hasieratzeak."
 
-#: src/ui/dialog_add_config/insert.rs:176 src/ui/utils/secret_service.rs:56
+#: src/ui/dialog_add_config/insert.rs:229 src/ui/utils/secret_service.rs:56
 msgid "Failed to store password."
 msgstr "Huts egin du pasahitza gordetzeak."
 
-#: src/ui/dialog_add_config/insert.rs:288
+#: src/ui/dialog_add_config/insert.rs:341
 msgid "Repository location not found."
 msgstr "Ez da aurkitu biltegiaren kokalekua."
 
-#: src/ui/dialog_add_config/insert.rs:289
+#: src/ui/dialog_add_config/insert.rs:342
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "Muntatze-eragiketa ongi gauzatu da baina kokalekua ez dago erabilgarri."
 
@@ -760,144 +615,174 @@ msgstr "Badago lehendik “{}” IDa duen babeskopia."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Ezin da aurkitu “{}” IDa duen babeskopia-konfigurazioa."
 
-#: src/ui/page_archives.rs:39 src/ui/page_backup.rs:185
-msgid "Failed to unmount repository."
-msgstr "Huts egin du biltegia desmuntatzeak."
-
-#: src/ui/page_archives.rs:65
+#: src/ui/page_archives/cache.rs:27
 msgid "Failed to refresh archives cache."
 msgstr "Huts egin du artxikoen cacheak freskatzeak."
 
-#: src/ui/page_archives.rs:139
+#: src/ui/page_archives/display.rs:68
 msgid "Failed to open archive."
 msgstr "Huts egin du artxiboa irekitzeak."
 
-#: src/ui/page_archives.rs:163
-msgid "Browse Archive"
-msgstr "Arakatu artxiboa"
-
-#: src/ui/page_archives.rs:175
-msgid "Failed to make archives available for browsing."
-msgstr "Huts egin du artxiboak arakatzeko aukera ezartzeak."
-
-#: src/ui/page_archives.rs:240
+#: src/ui/page_archives/display.rs:145
 msgid "Name"
 msgstr "Izena"
 
-#: src/ui/page_archives.rs:242
+#: src/ui/page_archives/display.rs:147
 msgid "Duration"
 msgstr "Iraupena"
 
-#: src/ui/page_archives.rs:246
+#: src/ui/page_archives/display.rs:151
 msgid "Comment"
 msgstr "Iruzkina"
 
-#: src/ui/page_archives.rs:250
+#: src/ui/page_archives/display.rs:155
 msgid "Browse saved files"
 msgstr "Arakatu gordetako fitxategiak"
 
-#: src/ui/page_backup.rs:170
-msgid "Backup on repository already running."
-msgstr "Biltegiko babeskopia jadanik exekutatzen ari da."
+#: src/ui/page_archives/display.rs:188
+msgid "{} Available"
+msgstr "{} erabilgarri"
 
-#: src/ui/page_backup.rs:177
-msgid "Stop browsing files and start backup?"
-msgstr "Gelditu fitxategien arakatzea eta hasi babeskopia?"
+#: src/ui/page_archives/display.rs:191
+msgid "{} Total"
+msgstr "{} guztira"
 
-#: src/ui/page_backup.rs:178
-msgid "Browsing through archived files is not possible while running a backup."
-msgstr "Ezin dira artxibatutako fitxategiak arakatu babeskopia bat exekutatzen ari den bitartean."
+#: src/ui/page_archives/events.rs:11 src/ui/page_backup/execution.rs:43
+msgid "Failed to unmount repository."
+msgstr "Huts egin du biltegia desmuntatzeak."
 
-#: src/ui/page_backup.rs:179
-msgid "Keep Browsing"
-msgstr "Jarraitu arakatzen"
+#: src/ui/page_archives/events.rs:36
+msgid "Browse Archive"
+msgstr "Arakatu artxiboa"
 
-#: src/ui/page_backup.rs:180
-msgid "Start Backup"
-msgstr "Hasi babeskopia"
+#: src/ui/page_archives/events.rs:48
+msgid "Failed to make archives available for browsing."
+msgstr "Huts egin du artxiboak arakatzeko aukera ezartzeak."
 
-#: src/ui/page_backup.rs:251
-msgid ""
-"Backup location “{}” might be filling up. Estimated space missing to store "
-"all data: {}."
-msgstr "Babeskopiaren kokalekua, “{}”, betetzen ari da. Datu guztiak gordetzeko falta den espazioa gutxi gorabehera: {}."
-
-#: src/ui/page_backup.rs:262
-msgid "Creating new backup."
-msgstr "Babeskopia berria sortzen."
-
-#: src/ui/page_backup.rs:299
-msgid "Creating a backup failed."
-msgstr "Babeskopia sortzeak huts egin du."
-
-#: src/ui/page_backup.rs:305
-msgid "Backup completed with warnings."
-msgstr "Babeskopia abisurik gabe osatu da."
-
-#: src/ui/page_backup.rs:420
+#: src/ui/page_backup/display.rs:102
 msgid "Regular Expression"
 msgstr "Adierazpen erregularra"
 
-#: src/ui/page_backup.rs:476
+#: src/ui/page_backup/events.rs:54
+msgid "Include directory in backups"
+msgstr "Sartu direktorioa babeskopietan"
+
+#: src/ui/page_backup/events.rs:69
+msgid "Exclude directory from backup"
+msgstr "Baztertu direktorioa babeskopiatik"
+
+#: src/ui/page_backup/events.rs:139
 msgid "No longer include “{}” in backups?"
 msgstr "Ez sartu “{}” babeskopietan?"
 
-#: src/ui/page_backup.rs:479
+#: src/ui/page_backup/events.rs:142
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr "Karpeta honetan dauden fitxategiak ez dira hemendik aurrerako babeskopietan egongo."
 
-#: src/ui/page_backup.rs:498
-msgid "Include directory in backups"
-msgstr "Sartu direktorioa babeskopietan"
+#: src/ui/page_backup/execution.rs:28
+msgid "Backup on repository already running."
+msgstr "Biltegiko babeskopia jadanik exekutatzen ari da."
 
-#: src/ui/page_backup.rs:513
-msgid "Exclude directory from backup"
-msgstr "Baztertu direktorioa babeskopiatik"
+#: src/ui/page_backup/execution.rs:35
+msgid "Stop browsing files and start backup?"
+msgstr "Gelditu fitxategien arakatzea eta hasi babeskopia?"
 
-#: src/ui/page_overview.rs:65
+#: src/ui/page_backup/execution.rs:36
+msgid "Browsing through archived files is not possible while running a backup."
+msgstr "Ezin dira artxibatutako fitxategiak arakatu babeskopia bat exekutatzen ari den bitartean."
+
+#: src/ui/page_backup/execution.rs:37
+msgid "Keep Browsing"
+msgstr "Jarraitu arakatzen"
+
+#: src/ui/page_backup/execution.rs:38
+msgid "Start Backup"
+msgstr "Hasi babeskopia"
+
+#: src/ui/page_backup/execution.rs:87
+msgid "Create new Backup"
+msgstr "Sortu beste babeskopia bat"
+
+#: src/ui/page_backup/execution.rs:93
+msgid "Creating new backup"
+msgstr "Babeskopia berria sortzen"
+
+#: src/ui/page_backup/execution.rs:125
+msgid "Creating a backup failed."
+msgstr "Babeskopia sortzeak huts egin du."
+
+#: src/ui/page_backup/execution.rs:131
+msgid "Backup completed with warnings."
+msgstr "Babeskopia abisurik gabe osatu da."
+
+#: src/ui/page_overview.rs:52
 msgid "Delete backup configuration?"
 msgstr "Ezabatu babeskopiaren konfigurazioa?"
 
-#: src/ui/page_overview.rs:66
+#: src/ui/page_overview.rs:53
 msgid "Deleting the configuration will not delete your saved data."
 msgstr "Konfigurazioa ezabatzen denean ez dira gordetako datuak ezabatzen."
 
-#: src/ui/page_overview.rs:68
+#: src/ui/page_overview.rs:55
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: src/ui/page_overview.rs:80 src/ui/utils/secret_service.rs:60
+#: src/ui/page_overview.rs:67 src/ui/utils/secret_service.rs:60
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Huts egin du gako-biltegian egon daitezkeen pasahitzak kentzeak."
 
-#: src/ui/page_schedule/event.rs:107
+#: src/ui/page_overview.rs:142
+msgid "Home"
+msgstr "Karpeta nagusia"
+
+#: src/ui/page_schedule/event.rs:135
 msgid "Invalid time format."
 msgstr "Ordu-formatu baliogabea."
 
-#: src/ui/page_schedule/event.rs:115
+#: src/ui/page_schedule/event.rs:143
 msgid "Invalid weekday."
 msgstr "Astegun baliogabea."
 
-#: src/ui/page_schedule/event.rs:122
+#: src/ui/page_schedule/event.rs:150
 msgid "No frequency selected."
 msgstr "Ez da maiztasunik hautatu."
 
-#: src/ui/page_schedule/event.rs:220
+#: src/ui/page_schedule/event.rs:250
 msgid "Disable backup schedule."
 msgstr "Desgaitu babeskopiaren programazioa."
 
-#: src/ui/page_schedule/event.rs:221
+#: src/ui/page_schedule/event.rs:251
 msgid "No longer remind of backups based on a schedule."
 msgstr "Ez oroitu berriro babeskopiak programazioaren arabera."
 
-#: src/ui/page_schedule/event.rs:222
+#: src/ui/page_schedule/event.rs:252
 msgid "Keep Schedule"
 msgstr "Mantendu programazioa"
 
-#: src/ui/page_schedule/event.rs:223
+#: src/ui/page_schedule/event.rs:253
 msgid "Disable Schedule"
 msgstr "Desgaitu programazioa"
+
+#: src/ui/page_schedule/event.rs:305
+msgid "No preset selected."
+msgstr "Ez da aurrezarpenik hautatu."
+
+#: src/ui/page_schedule/init.rs:121
+msgid "Unable to determine background process status"
+msgstr "Ezin izan da atzeko planoko prozesuaren egoera zehaztu"
+
+#: src/ui/page_schedule/prune_preset.rs:20
+msgid "Keep Many"
+msgstr "Mantendu anitz"
+
+#: src/ui/page_schedule/prune_preset.rs:21
+msgid "Keep Some"
+msgstr "Mantendu batzuk"
+
+#: src/ui/page_schedule/prune_preset.rs:22
+msgid "Custom"
+msgstr "Pertsonalizatua"
 
 #: src/ui/page_schedule/status.rs:14
 msgid "Next backup in one minute"
@@ -923,75 +808,111 @@ msgid_plural "Next backup in {} weeks"
 msgstr[0] "Hurrengo babeskopia aste batean"
 msgstr[1] "Hurrengo babeskopia {} astetan"
 
-#: src/ui/page_schedule/status.rs:48
+#: src/ui/page_schedule/status.rs:49
 msgid "Scheduled backups disabled"
 msgstr "Programatutako babeskopiak desgaitu dira"
 
-#: src/ui/page_schedule/status.rs:64
+#: src/ui/page_schedule/status.rs:65
 msgid "Hourly backups enabled"
 msgstr "Orduro diren babeskopiak gaitu dira"
 
-#: src/ui/page_schedule/status.rs:65
+#: src/ui/page_schedule/status.rs:66
 msgid "Daily backups enabled"
 msgstr "Egunero diren babeskopiak gaitu dira"
 
-#: src/ui/page_schedule/status.rs:66
+#: src/ui/page_schedule/status.rs:67
 msgid "Weekly backups enabled"
 msgstr "Astero diren babeskopiak gaitu dira"
 
-#: src/ui/page_schedule/status.rs:67
+#: src/ui/page_schedule/status.rs:68
 msgid "Monthly backups enabled"
 msgstr "Hilero diren babeskopiak gaitu dira"
 
-#: src/ui/page_schedule/status.rs:77
+#: src/ui/page_schedule/status.rs:78
 msgid "Will not start until requirements are met."
 msgstr "Ez da abiaraziko eskakizunak bete arte."
 
-#: src/ui/page_schedule/status.rs:81
+#: src/ui/page_schedule/status.rs:82
 msgid "Inconsistent backup information"
 msgstr "Babeskopiaren informazio inkoherentea"
 
-#: src/ui/page_schedule/status.rs:87
+#: src/ui/page_schedule/status.rs:88
 msgid "Backup past due"
 msgstr "Babeskopia iragan da"
 
-#: src/ui/page_schedule/status.rs:88
+#: src/ui/page_schedule/status.rs:89
 msgid "Waiting until requirements are met"
 msgstr "Itxaroten eskakizunak bete arte"
 
-#: src/ui/page_schedule/status.rs:91
+#: src/ui/page_schedule/status.rs:92
+msgid "Scheduled backups unavailable"
+msgstr "Programatutako babeskopiak ez daude erabilgarri"
+
+#: src/ui/page_schedule/status.rs:95
 msgid "Waiting for backup to start"
 msgstr "Babeskopia has dadin itxaroten"
 
-#: src/ui/page_schedule/status.rs:100
+#: src/ui/page_schedule/status.rs:104
 msgid "Network connection must not be metered"
 msgstr "Sareko konexioak ez du neurtuta egon behar"
 
-#: src/ui/page_schedule/status.rs:106
+#: src/ui/page_schedule/status.rs:110
 msgid "Other backups on repository have to be completed"
 msgstr "Biltegiko beste babeskopiak osatu behar dira"
 
-#: src/ui/page_schedule/status.rs:118
+#: src/ui/page_schedule/status.rs:122
 msgid "Backup device has to be connected"
 msgstr "Babeskopiarako gailua konektatu behar da"
 
-#: src/ui/page_schedule/status.rs:124
+#: src/ui/page_schedule/status.rs:128
 msgid "Network connection has to be available"
 msgstr "Sareko konexioak erabilgarri egon behar du"
 
-#: src/ui/update_config.rs:20 src/ui/update_config.rs:47
-msgid "Updating configuration for new version"
-msgstr "Konfigurazioa bertsio berrirako eguneratzen"
+#: src/ui/page_schedule/status.rs:138
+msgid "Background process inactive"
+msgstr "Atzeko planoko prozesua ez dago aktibo"
 
-#: src/ui/update_config.rs:52
-msgid "Failed to retrieve backup information."
-msgstr "Huts egin du babeskopiaren informazioa atzitzeak."
+#: src/ui/page_schedule/status.rs:139
+msgid "This is required for scheduled backups"
+msgstr "Hori beharrezkoa da programatutako babeskopietarako"
 
-#: src/ui/utils.rs:82
-msgid "Schedule and continue running backups in background."
-msgstr "Programatu eta jarraitu babeskopiak atzeko planoan exekutatzen."
+#: src/ui/toast_size_estimate.rs:31
+msgid ""
+"Backup location “{}” might be filling up. Estimated space missing to store "
+"all data: {}."
+msgstr "Babeskopiaren kokalekua, “{}”, betetzen ari da. Datu guztiak gordetzeko falta den espazioa gutxi gorabehera: {}."
 
-#: src/ui/utils.rs:177
+#: src/ui/utils.rs:80
+msgid "Request to run in background failed"
+msgstr "Atzeko planoan exekutatzeko eskariak huts egin du"
+
+#: src/ui/utils.rs:102
+msgid "Schedule backups and continue running backups."
+msgstr "Programatu eta jarraitu babeskopiak exekutatzen."
+
+#: src/ui/utils.rs:118
+msgid "Run in background disabled"
+msgstr "Atzeko planoko exekuzioa desgaitu da"
+
+#: src/ui/utils.rs:119
+msgid ""
+"Scheduled backup functionality and continuing backups in the background will "
+"not be available. You can enable the “run in background” option via your "
+"system settings."
+msgstr "Programatutako babeskopia-funtzionalitatea eta atzeko planoko babeskopiekin jarraitzea ez da erabilgarri egongo. Horretarako, “run in background” aukera gaitu daiteke sistema-ezarpenetan."
+
+#: src/ui/utils.rs:129
+msgid ""
+"Either your system does not support this feature or an error occurred. "
+"Scheduled backup functionality and continuing backups in the background will "
+"not be available."
+msgstr "Zure sistemak ez du eginbide hori onartzen edo errore bat gertatu da. Programatutako babeskopien funtzionalitatea eta atzeko planoko babeskopiekin jarraitzea ez da erabilgarri egongo."
+
+#: src/ui/utils.rs:140
+msgid "Failed to start background process"
+msgstr "Huts egin du atzeko planoko prozesua abiarazteak"
+
+#: src/ui/utils.rs:247
 msgid "Select"
 msgstr "Hautatu"
 
@@ -1104,6 +1025,140 @@ msgid "Pika Backup Password"
 msgstr "Pika Backup-en pasahitza"
 
 #~ msgid ""
+#~ "Archives are being mounted.\n"
+#~ "This might take a while."
+#~ msgstr ""
+#~ "Artxiboak muntatzen ari dira.\n"
+#~ "Tartetxo bat beharko du horrek."
+
+#~ msgid ":"
+#~ msgstr ":"
+
+#~ msgid "Add backup configuration"
+#~ msgstr "Gehitu babeskopiaren konfigurazioa"
+
+#~ msgid "Back to overview"
+#~ msgstr "Itzuli ikuspegi orokorrera"
+
+#~ msgid "No Backup Configured"
+#~ msgstr "Ez dago babeskopiarik konfiguratuta"
+
+#~ msgid "Add a new configuration to start creating backups"
+#~ msgstr "Gehitu konfigurazio berria babeskopiak sortzen hasteko"
+
+#~ msgid "Configure Backup"
+#~ msgstr "Konfiguratu babeskopia"
+
+#~ msgid "Backup"
+#~ msgstr "Babeskopia"
+
+#~ msgid "_Abort"
+#~ msgstr "_Abortatu"
+
+#~ msgid "_Back Up Now"
+#~ msgstr "Egin babeskopia _orain"
+
+#~ msgid "Files to backup"
+#~ msgstr "Babeskopia egingo zaien fitxategiak"
+
+#~ msgid "Include directory"
+#~ msgstr "Sartu direktorioa"
+
+#~ msgid "Usually contains all personal data"
+#~ msgstr "Normalean dagu pertsonal guztiak ditu"
+
+#~ msgid "Exclude from backup"
+#~ msgstr "Baztertu babeskopiatik"
+
+#~ msgid "Add excluded directory"
+#~ msgstr "Gehitu baztertutako direktorioa"
+
+#~ msgid "Nothing excluded from backup"
+#~ msgstr "Ez dago ezer baztertuta babeskopiatik"
+
+#~ msgid "Archives"
+#~ msgstr "Artxiboak"
+
+#~ msgid "Refresh list of archives"
+#~ msgstr "Freskatu artxiboen zerrenda"
+
+#~ msgid "Stop browsing archive files"
+#~ msgstr "Gelditu artxibo-fitxategiak arakatzea"
+
+#~ msgid "No archives available"
+#~ msgstr "Ez dago artxiborik erabilgarri"
+
+#~ msgid "Schedule"
+#~ msgstr "Programazioa"
+
+#~ msgid "Frequency"
+#~ msgstr "Maiztasuna"
+
+#~ msgid "Preferred Time"
+#~ msgstr "Hobetsitako ordua"
+
+#~ msgid "14:26"
+#~ msgstr "14:26"
+
+#~ msgid "Preferred Weekday"
+#~ msgstr "Hobetsitako asteguna"
+
+#~ msgid "Preferred Day"
+#~ msgstr "Hobetsitako eguna"
+
+#~ msgid "21st"
+#~ msgstr "21."
+
+#~ msgid "Keep Daily"
+#~ msgstr "Mantendu egunero"
+
+#~ msgid "Keep Weekly"
+#~ msgstr "Mantendu astero"
+
+#~ msgid "Keep Annual"
+#~ msgstr "Mantendu urtero"
+
+#~ msgid "Backup Info"
+#~ msgstr "Babeskopiaren informazioa"
+
+#~ msgid "Amount saved"
+#~ msgstr "Gordetako kantitatea"
+
+#~ msgid "Number of files saved"
+#~ msgstr "Gordetako fitxategi kopurua"
+
+#~ msgid "Additional backup space used"
+#~ msgstr "Erabilitako babeskopia-espazio gehigarria"
+
+#~ msgid "Current file"
+#~ msgstr "Uneko fitxategia"
+
+#~ msgid "Remote location"
+#~ msgstr "Urruneko kokalekua"
+
+#~ msgid ""
+#~ "Welcome to Pika Backup version 0.3.\n"
+#~ "\n"
+#~ "Please note: The information about the last backup cannot be transferred "
+#~ "from the previous version of Pika Backup. It will be available again "
+#~ "after the next backup."
+#~ msgstr ""
+#~ "Ongi etorri Pika Backup 0.3 bertsiora.\n"
+#~ "\n"
+#~ "Kontuan izan azken babeskopiari buruzko informazioa ezin dela "
+#~ "transferitau Pika Backup aplikazioaren aurreko bertsioetatik. Hurrengo "
+#~ "babeskopiaren ondoren egongo da berriro erabilgarri."
+
+#~ msgid "Estimating backup size"
+#~ msgstr "Babeskopiaren tamaina kalkulatzen"
+
+#~ msgid "Updating configuration for new version"
+#~ msgstr "Konfigurazioa bertsio berrirako eguneratzen"
+
+#~ msgid "Failed to retrieve backup information."
+#~ msgstr "Huts egin du babeskopiaren informazioa atzitzeak."
+
+#~ msgid ""
 #~ "This program comes with absolutely no warranty.\n"
 #~ "See the <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GNU General "
 #~ "Public License, version 3 or later</a> for details."
@@ -1120,9 +1175,6 @@ msgstr "Pika Backup-en pasahitza"
 
 #~ msgid "Please insert the backup medium"
 #~ msgstr "Sartu babeskopiarako euskarria"
-
-#~ msgid "Create Backup"
-#~ msgstr "Sortu babeskopia"
 
 #~ msgid "There was an error with the specified repository"
 #~ msgstr "Errore bat gertatu da zehaztutako biltegiarekin"
