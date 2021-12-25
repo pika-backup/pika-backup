@@ -81,6 +81,12 @@ impl BorgRunConfig for BorgOnlyRepo {
     }
 }
 
+#[derive(Clone, Debug)]
+pub struct PruneInfo {
+    pub keep: usize,
+    pub prune: usize,
+}
+
 /// Features that need a complete backup config
 impl Borg {
     pub fn new(config: config::Backup) -> Self {
@@ -136,6 +142,64 @@ impl Borg {
         check_stderr(&borg)?;
 
         Ok(())
+    }
+
+    pub fn prune(&self) -> Result<PruneInfo> {
+        self.prune_internal(false)
+    }
+
+    pub fn prune_info(&self) -> Result<PruneInfo> {
+        self.prune_internal(true)
+    }
+
+    fn prune_internal(&self, dry_run: bool) -> Result<PruneInfo> {
+        if self.config.prune.keep.hourly < 1
+            || self.config.prune.keep.daily < 1
+            || self.config.prune.keep.weekly < 1
+        {
+            return Err(Error::ImplausiblePrune);
+        }
+
+        let mut borg_call = BorgCall::new("prune");
+
+        borg_call.add_basics(self)?;
+        borg_call.add_options(&[
+            "--list",
+            &format!("--prefix={}", self.config.archive_prefix),
+            "--keep-within=1H",
+            &format!("--keep-hourly={}", self.config.prune.keep.hourly),
+            &format!("--keep-daily={}", self.config.prune.keep.daily),
+            &format!("--keep-weekly={}", self.config.prune.keep.weekly),
+            &format!("--keep-monthly={}", self.config.prune.keep.monthly),
+            &format!("--keep-yearly={}", self.config.prune.keep.yearly),
+        ]);
+
+        if dry_run {
+            borg_call.add_options(&["--dry-run"]);
+        }
+
+        let messages = check_stderr(&borg_call.output()?)?;
+
+        let list_messages = messages
+            .iter()
+            .filter_map(|x| {
+                if let LogMessageEnum::ParsedErr(msg) = x {
+                    Some(msg)
+                } else {
+                    None
+                }
+            })
+            .filter(|x| x.name == "borg.output.list");
+
+        let prune = list_messages
+            .clone()
+            .filter(|x| x.message.starts_with("Pruning") || x.message.starts_with("Would prune"))
+            .count();
+        let keep = list_messages
+            .filter(|x| x.message.starts_with("Keeping"))
+            .count();
+
+        Ok(PruneInfo { keep, prune })
     }
 
     pub fn create(&self, communication: Communication) -> Result<Stats> {

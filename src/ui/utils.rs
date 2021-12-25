@@ -116,7 +116,7 @@ pub async fn background_permission() -> Result<()> {
 
         if is_rejected {
             return Err(Message::new(gettext("Run in background disabled"),
-            gettext("Scheduled backup functionality and continuing backups in the background will not be available. You can enable the “run in background” option via your system settings.")).into());
+            gettext("Scheduled backup functionality and continuing backups in the background will not be available. The “run in background” option can be enabled via the system settings.")).into());
         }
 
         match response {
@@ -126,7 +126,7 @@ pub async fn background_permission() -> Result<()> {
                 Err(
                     Message::new(
                         gettext(&generic_msg),
-                        gettext("Either your system does not support this feature or an error occurred. Scheduled backup functionality and continuing backups in the background will not be available.")
+                        gettext("Either the system does not support this feature or an error occurred. Scheduled backup functionality and continuing backups in the background will not be available.")
                     + "\n\n" + &err.to_string()
                     ).into()
                 )

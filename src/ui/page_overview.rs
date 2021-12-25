@@ -50,7 +50,7 @@ pub fn remove_backup() {
 async fn on_remove_backup() -> Result<()> {
     ui::utils::confirmation_dialog(
         &gettext("Delete backup configuration?"),
-        &gettext("Deleting the configuration will not delete your saved data."),
+        &gettext("Deleting the configuration will not delete any archives."),
         &gettext("Cancel"),
         &gettext("Delete"),
     )

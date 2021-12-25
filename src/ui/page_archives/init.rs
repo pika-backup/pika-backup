@@ -12,6 +12,10 @@ pub fn init() {
         }
     });
 
+    main_ui()
+        .archives_cleanup()
+        .connect_activated(|_| Handler::run(events::cleanup()));
+
     main_ui().refresh_archives().connect_clicked(|_| {
         Handler::run(async move {
             let config = BACKUP_CONFIG.load().active()?.clone();

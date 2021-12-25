@@ -24,6 +24,7 @@ quick_error! {
         BorgReturnCode(err: ReturnCodeError) { from() }
         PasswordMissing { from(secret_service::Error) }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
+        ImplausiblePrune { display("{}", gettext("This delete operation would delete too many archives.")) }
         Failed(err: Failure) {
             from()
             from(err: String) -> (Failure::Other(err))

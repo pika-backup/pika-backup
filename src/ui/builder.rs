@@ -286,6 +286,46 @@ impl DialogEncryptionPassword {
     }
 }
 
+pub struct DialogPrune {
+    builder: gtk::Builder,
+}
+
+impl DialogPrune {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                data_dir!(),
+                "/ui/dialog_prune.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id)
+            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/dialog_prune.ui'", id))
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn delete(&self) -> gtk::Button {
+        self.get("delete")
+    }
+
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
+    pub fn keep(&self) -> gtk::Label {
+        self.get("keep")
+    }
+
+    pub fn prune(&self) -> gtk::Label {
+        self.get("prune")
+    }
+}
+
 pub struct DialogStorage {
     builder: gtk::Builder,
 }

@@ -5,6 +5,32 @@ use super::display;
 use crate::borg;
 use crate::ui;
 
+pub async fn cleanup() -> Result<()> {
+    let configs = BACKUP_CONFIG.load();
+    let config = configs.active()?;
+    let prune_info = ui::utils::borg::exec(
+        gettext("Determine how many archives would be deleted"),
+        config.clone(),
+        |borg| borg.prune_info(),
+    )
+    .await
+    .into_message(gettext(
+        "Failed to determine how many archives would be deleted",
+    ))?;
+
+    let delete = ui::dialog_prune::run(&prune_info).await;
+
+    if delete {
+        ui::utils::borg::exec(gettext("Delete old Archives"), config.clone(), |borg| {
+            borg.prune()
+        })
+        .await
+        .into_message(gettext("Delete old Archives"))?;
+    }
+
+    Ok(())
+}
+
 pub async fn eject_button_clicked() -> Result<()> {
     let repo_id = BACKUP_CONFIG.load().active()?.repo_id.clone();
 

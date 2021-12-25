@@ -21,6 +21,7 @@ mod dialog_storage;
 mod error;
 mod export;
 // TODO: this should not be global
+mod dialog_prune;
 pub mod globals;
 mod headerbar;
 mod page_archives;

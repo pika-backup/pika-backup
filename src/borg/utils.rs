@@ -27,20 +27,20 @@ fn is_msg_ignored(msg: &LogMessageEnum) -> bool {
             .contains("IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!")
 }
 
-pub fn check_stderr(output: &std::process::Output) -> Result<()> {
-    let mut errors = Vec::new();
+pub fn check_stderr(output: &std::process::Output) -> Result<Vec<LogMessageEnum>> {
+    let mut messages = Vec::new();
     for line in String::from_utf8_lossy(&output.stderr).lines() {
         let msg = check_line(line);
         if is_msg_ignored(&msg) {
             info!("Hiding this message");
         } else {
-            errors.push(msg);
+            messages.push(msg);
         }
     }
 
     if output.status.success() {
-        Ok(())
-    } else if let Ok(err) = Error::try_from(errors) {
+        Ok(messages)
+    } else if let Ok(err) = Error::try_from(messages) {
         Err(err)
     } else {
         error!(
