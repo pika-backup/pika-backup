@@ -87,7 +87,7 @@ pub struct Backup {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-pub struct ArchivePrefix(String);
+pub struct ArchivePrefix(pub String);
 
 impl ArchivePrefix {
     pub fn generate() -> Self {
@@ -251,6 +251,27 @@ impl std::cmp::PartialOrd for Pattern {
 }
 
 impl Pattern {
+    pub fn from_borg(s: String) -> Option<Self> {
+        if let Some((selector, pattern)) = s.split_once(":") {
+            match selector {
+                "pp" => Some(Self::PathPrefix(
+                    path::PathBuf::from(pattern)
+                        .strip_prefix(glib::home_dir())
+                        .map(|x| x.to_path_buf())
+                        .unwrap_or_else(|_| pattern.into()),
+                )),
+                "re" => regex::Regex::new(&s)
+                    .map(Box::new)
+                    .map(Self::RegularExpression)
+                    .ok(),
+                _ => None,
+            }
+        } else {
+            // TODO: support default style (fm:)
+            None
+        }
+    }
+
     pub fn is_match(&self, path: &std::path::Path) -> bool {
         match self {
             Self::PathPrefix(path_prefix) => path.starts_with(path_prefix),

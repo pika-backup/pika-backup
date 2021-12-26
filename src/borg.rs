@@ -1,6 +1,7 @@
 pub mod communication;
 pub mod error;
 mod functions;
+pub mod invert_command;
 pub mod json;
 pub mod msg;
 pub mod prelude;
