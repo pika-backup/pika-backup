@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2021-11-02 21:27+0000\n"
-"PO-Revision-Date: 2021-11-05 17:18+0100\n"
+"POT-Creation-Date: 2021-12-20 14:40+0000\n"
+"PO-Revision-Date: 2021-12-26 20:09+0100\n"
 "Last-Translator: maite guix <maite.guix@me.com>\n"
 "Language-Team: Catalan <gnome@llistes.softcatala.org>\n"
 "Language: ca\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #.
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 data/ui/main.ui:124
-#: src/ui/dialog_about.rs:19
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 data/ui/main.ui:122
+#: data/ui/main.ui:253 src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Còpies de seguretat Pika"
 
@@ -126,7 +126,7 @@ msgid ""
 "Encrypted backups for data safety: You can protect the data in your backups "
 "with a password"
 msgstr ""
-"Còpies de seguretat xifrades per la seguretat de les dades: podeu protegir "
+"Còpies de seguretat xifrades per a la seguretat de les dades: podeu protegir "
 "les dades de les còpies de seguretat amb una contrasenya"
 
 #: data/ui/dialog_add_config.ui:10
@@ -135,19 +135,20 @@ msgstr "Configuració de la còpia de seguretat"
 
 #: data/ui/dialog_add_config.ui:43
 msgid "Create new repository"
-msgstr "Crea un dipòsit nou"
+msgstr "Crea un repositori nou"
 
 #: data/ui/dialog_add_config.ui:56 data/ui/dialog_add_config.ui:109
 msgid "Location on Disk"
 msgstr "Ubicació al disc"
 
 #: data/ui/dialog_add_config.ui:71 data/ui/dialog_add_config.ui:124
+#: src/config.rs:350
 msgid "Remote Location"
 msgstr "Ubicació remota"
 
 #: data/ui/dialog_add_config.ui:96
 msgid "Use existing repository"
-msgstr "Utilitza un dipòsit existent"
+msgstr "Utilitza un repositori existent"
 
 #: data/ui/dialog_add_config.ui:177
 msgid "Location"
@@ -170,7 +171,7 @@ msgstr ""
 "com «NTFS» o «Ext4.» Tingueu en compte que el reformat suprimeix tots els "
 "fitxers de la ubicació!"
 
-#: data/ui/dialog_add_config.ui:257
+#: data/ui/dialog_add_config.ui:257 data/ui/dialog_storage.ui:80
 msgid "URL"
 msgstr "URL"
 
@@ -195,7 +196,7 @@ msgstr "Encriptació"
 msgid "Encrypted"
 msgstr "Encriptat"
 
-#: data/ui/dialog_add_config.ui:349 src/ui/page_backup.rs:485
+#: data/ui/dialog_add_config.ui:349 src/ui/page_backup/events.rs:144
 msgid "Confirm"
 msgstr "Confirma"
 
@@ -227,9 +228,9 @@ msgstr "Arguments addicionals de la línia d'ordres"
 msgid "Advanced settings"
 msgstr "Paràmetres avançats"
 
-#: data/ui/dialog_add_config.ui:477 data/ui/dialog_device_missing.ui:8
-#: data/ui/dialog_encryption_password.ui:15 src/ui/page_backup.rs:484
-#: src/ui/page_overview.rs:67 src/ui/utils/borg.rs:123
+#: data/ui/dialog_add_config.ui:477 data/ui/dialog_device_missing.ui:9
+#: data/ui/dialog_encryption_password.ui:15 src/ui/page_backup/events.rs:143
+#: src/ui/page_overview.rs:54 src/ui/utils/borg.rs:123
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -243,7 +244,7 @@ msgstr "Crea"
 
 #: data/ui/dialog_add_config.ui:528
 msgid "Location URL"
-msgstr "Ubicació"
+msgstr "Ubicació URL"
 
 #: data/ui/dialog_add_config.ui:539
 msgid ""
@@ -274,8 +275,8 @@ msgstr ""
 msgid "The following backup location needs to be connected:"
 msgstr "Cal connectar la següent ubicació de còpia de seguretat:"
 
-#: data/ui/dialog_encryption_password.ui:20 src/ui.rs:172
-#: src/ui/page_backup.rs:138
+#: data/ui/dialog_encryption_password.ui:20 src/ui.rs:190
+#: src/ui/page_backup/events.rs:23
 msgid "Continue"
 msgstr "Continua"
 
@@ -291,7 +292,7 @@ msgstr "Això requereix la contrasenya de xifratge del repositori."
 msgid "Backup Location"
 msgstr "Ubicació de la còpia de seguretat"
 
-#: data/ui/dialog_storage.ui:29
+#: data/ui/dialog_storage.ui:30
 msgid "Volume"
 msgstr "Volum"
 
@@ -299,23 +300,19 @@ msgstr "Volum"
 msgid "Device"
 msgstr "Dispositiu"
 
-#: data/ui/dialog_storage.ui:57
+#: data/ui/dialog_storage.ui:56
 msgid "Path"
 msgstr "Camí"
 
-#: data/ui/dialog_storage.ui:110
-msgid "URI"
-msgstr "URI"
-
-#: data/ui/dialog_storage.ui:141
+#: data/ui/dialog_storage.ui:102
 msgid "Space"
 msgstr "Espai"
 
-#: data/ui/dialog_storage.ui:154
+#: data/ui/dialog_storage.ui:116
 msgid "Total"
 msgstr "Total"
 
-#: data/ui/dialog_storage.ui:169
+#: data/ui/dialog_storage.ui:129
 msgid "Free"
 msgstr "Lliure"
 
@@ -335,152 +332,164 @@ msgstr ""
 "S'estan muntant els arxius.\n"
 "Això pot trigar una estona."
 
-#: data/ui/main.ui:99
+#: data/ui/main.ui:105
 msgid ":"
 msgstr ":"
 
-#: data/ui/main.ui:141
+#: data/ui/main.ui:136
 msgid "Add backup configuration"
 msgstr "Afegeix una configuració de còpia de seguretat"
 
-#: data/ui/main.ui:159
-msgid "Back to overview"
-msgstr "Torna a la vista general"
-
-#: data/ui/main.ui:194
-msgid "Backup"
-msgstr "Còpia de seguretat"
-
-#: data/ui/main.ui:229
-msgid "_Abort"
-msgstr "_Interromp"
-
-#: data/ui/main.ui:255
-msgid "_Back Up Now"
-msgstr "_Fes una còpia de seguretat ara"
-
-#: data/ui/main.ui:276
-msgid "Files to backup"
-msgstr "Fitxers per a la còpia de seguretat"
-
-#: data/ui/main.ui:287
-msgid "Include directory"
-msgstr "Inclou el directori"
-
-#: data/ui/main.ui:302 src/ui/page_overview.rs:149
-msgid "Home"
-msgstr "Inici"
-
-#: data/ui/main.ui:303
-msgid "Usually contains all personal data"
-msgstr "Normalment conté totes les dades personals"
-
-#: data/ui/main.ui:336
-msgid "Exclude from backup"
-msgstr "Exclou de la còpia de seguretat"
-
-#: data/ui/main.ui:347
-msgid "Add excluded directory"
-msgstr "Afegeix un directori exclòs"
-
-#: data/ui/main.ui:370
-msgid "Nothing excluded from backup"
-msgstr "No s'ha exclòs res de la còpia de seguretat"
-
-#: data/ui/main.ui:394 data/ui/main.ui:418
-msgid "Archives"
-msgstr "Arxius"
-
-#: data/ui/main.ui:429
-msgid "Refresh list of archives"
-msgstr "Actualitza la llista d'arxius"
-
-#: data/ui/main.ui:450
-msgid "Stop browsing archive files"
-msgstr "Atura la navegació dels fitxers d'arxiu"
-
-#: data/ui/main.ui:475
-msgid "No archives available"
-msgstr "No hi ha arxius disponibles"
-
-#: data/ui/main.ui:497
-msgid "Schedule"
-msgstr "Planificació"
-
-#: data/ui/main.ui:546
-msgid "Frequency"
-msgstr "Freqüència"
-
-#: data/ui/main.ui:554
-msgid "Preferred Time"
-msgstr "Hora preferida"
-
-#: data/ui/main.ui:562
-msgid "14:26"
-msgstr "14:26"
-
-#: data/ui/main.ui:575
-msgid "Preferred Weekday"
-msgstr "Dia de la setmana preferit"
-
-#: data/ui/main.ui:580
-msgid "Preferred Day"
-msgstr "Dia preferit"
-
-#: data/ui/main.ui:588
-msgid "21st"
-msgstr "21è"
-
-#: data/ui/main.ui:615
-msgid "Keep Daily"
-msgstr "Mantenir el diàriament"
-
-#: data/ui/main.ui:631
-msgid "Keep Weekly"
-msgstr "Mantén setmanalment"
-
-#: data/ui/main.ui:645
-msgid "Keep Monthly"
-msgstr "Conserva mensualment"
-
-#: data/ui/main.ui:659
-msgid "Keep Annual"
-msgstr "Mantenir anualment"
-
-#: data/ui/main.ui:704
+#: data/ui/main.ui:161
 msgid "No Backup Configured"
 msgstr "No s'ha configurat cap còpia de seguretat"
 
-#: data/ui/main.ui:705
+#: data/ui/main.ui:162
 msgid "Add a new configuration to start creating backups"
 msgstr ""
 "Afegeix una configuració nova per a començar a crear còpies de seguretat"
 
-#: data/ui/main.ui:708
+#: data/ui/main.ui:165
 msgid "Configure Backup"
 msgstr "Configura la còpia de seguretat"
 
-#: data/ui/main.ui:788
+#: data/ui/main.ui:246
+msgid "Back to overview"
+msgstr "Torna a la vista general"
+
+#: data/ui/main.ui:281
+msgid "Backup"
+msgstr "Còpia de seguretat"
+
+#: data/ui/main.ui:316
+msgid "_Abort"
+msgstr "_Interromp"
+
+#: data/ui/main.ui:342
+msgid "_Back Up Now"
+msgstr "_Fes una còpia de seguretat ara"
+
+#: data/ui/main.ui:363
+msgid "Files to backup"
+msgstr "Fitxers per a la còpia de seguretat"
+
+#: data/ui/main.ui:374
+msgid "Include directory"
+msgstr "Inclou el directori"
+
+#: data/ui/main.ui:389 src/ui/page_overview.rs:142
+msgid "Home"
+msgstr "Inici"
+
+#: data/ui/main.ui:390
+msgid "Usually contains all personal data"
+msgstr "Normalment conté totes les dades personals"
+
+#: data/ui/main.ui:423
+msgid "Exclude from backup"
+msgstr "Exclou de la còpia de seguretat"
+
+#: data/ui/main.ui:434
+msgid "Add excluded directory"
+msgstr "Afegeix un directori exclòs"
+
+#: data/ui/main.ui:457
+msgid "Nothing excluded from backup"
+msgstr "No s'ha exclòs res de la còpia de seguretat"
+
+#: data/ui/main.ui:481 data/ui/main.ui:615
+msgid "Archives"
+msgstr "Arxius"
+
+#: data/ui/main.ui:592
+msgid "Cleanup Archives"
+msgstr "Arxius de neteja"
+
+#: data/ui/main.ui:593
+msgid "Delete some older archives"
+msgstr "Suprimeix alguns arxius antics"
+
+#: data/ui/main.ui:626
+msgid "Refresh list of archives"
+msgstr "Actualitza la llista d'arxius"
+
+#: data/ui/main.ui:647
+msgid "Stop browsing archive files"
+msgstr "Atura la navegació dels fitxers d'arxiu"
+
+#: data/ui/main.ui:672
+msgid "No archives available"
+msgstr "No hi ha arxius disponibles"
+
+#: data/ui/main.ui:694
+msgid "Schedule"
+msgstr "Planificació"
+
+#: data/ui/main.ui:743
+msgid "Frequency"
+msgstr "Freqüència"
+
+#: data/ui/main.ui:751
+msgid "Preferred Time"
+msgstr "Hora preferida"
+
+#: data/ui/main.ui:759
+msgid "14:26"
+msgstr "14:26"
+
+#: data/ui/main.ui:772
+msgid "Preferred Weekday"
+msgstr "Dia de la setmana preferit"
+
+#: data/ui/main.ui:777
+msgid "Preferred Day"
+msgstr "Dia preferit"
+
+#: data/ui/main.ui:785
+msgid "21st"
+msgstr "21è"
+
+#: data/ui/main.ui:811
+msgid "Keep Hourly"
+msgstr "Mantén-ho cada hora"
+
+#: data/ui/main.ui:826
+msgid "Keep Daily"
+msgstr "Mantén-ho diàriament"
+
+#: data/ui/main.ui:841
+msgid "Keep Weekly"
+msgstr "Mantén-ho setmanalment"
+
+#: data/ui/main.ui:854
+msgid "Keep Monthly"
+msgstr "Mantén-ho mensualment"
+
+#: data/ui/main.ui:867
+msgid "Keep Annual"
+msgstr "Mantén-ho anualment"
+
+#: data/ui/main.ui:917
 msgid "Backup Info"
 msgstr "Informació de la còpia de seguretat"
 
-#: data/ui/main.ui:846
+#: data/ui/main.ui:975
 msgid "Amount saved"
 msgstr "Quantitat desada"
 
-#: data/ui/main.ui:862
+#: data/ui/main.ui:991
 msgid "Number of files saved"
 msgstr "Nombre de fitxers desats"
 
-#: data/ui/main.ui:878
+#: data/ui/main.ui:1007
 msgid "Additional backup space used"
 msgstr "Espai de còpia de seguretat addicional utilitzat"
 
-#: data/ui/main.ui:894
+#: data/ui/main.ui:1023
 msgid "Current file"
 msgstr "Fitxer actual"
 
-#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:169
+#: src/borg/error.rs:26 src/ui/error.rs:71 src/ui/utils.rs:239
 msgid "The operation terminated unexpectedly."
 msgstr "L'operació ha finalitzat inesperadament."
 
@@ -488,35 +497,39 @@ msgstr "L'operació ha finalitzat inesperadament."
 msgid "Completed"
 msgstr "Completat"
 
-#: src/borg/error.rs:99
+#: src/borg/error.rs:101
 msgid "Aborted on user request."
 msgstr "S'ha interromput a petició de l'usuari."
 
-#: src/borg/error.rs:127
+#: src/borg/error.rs:102
+msgid "Potential internal error."
+msgstr "Possible error intern."
+
+#: src/borg/error.rs:130
 msgid "Connection closed by remote host."
 msgstr "Connexió tancada pel servidor remot."
 
-#: src/borg/error.rs:129 src/ui/utils/borg.rs:121
+#: src/borg/error.rs:132 src/ui/utils/borg.rs:121
 msgid "Repository already in use."
 msgstr "El repositori ja s'està utilitzant."
 
-#: src/borg/error.rs:130
+#: src/borg/error.rs:133
 msgid "Invalid encryption password."
 msgstr "Contrasenya de xifratge no vàlida."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:135
 msgid "A repository already exists at this location."
 msgstr "Ja existeix un repositori en aquesta ubicació."
 
-#: src/borg/error.rs:134
+#: src/borg/error.rs:137
 msgid "No repository exists at this location."
 msgstr "No hi ha cap repositori en aquesta ubicació."
 
-#: src/borg/error.rs:137
+#: src/borg/error.rs:140
 msgid "Connection closed by remote host: “{}”"
 msgstr "Connexió tancada pel servidor remot: «{}»"
 
-#: src/borg/error.rs:140
+#: src/borg/error.rs:143
 msgid "Unspecified error."
 msgstr "Error no especificat."
 
@@ -543,10 +556,6 @@ msgstr "Crític"
 #: src/borg/msg.rs:165
 msgid "Undefined"
 msgstr "No definit"
-
-#: src/config.rs:310
-msgid "Remote location"
-msgstr "Ubicació remota"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -576,64 +585,59 @@ msgstr "{} al disc «{}»"
 msgid "Run Backup"
 msgstr "Executa una còpia de seguretat"
 
-#: src/ui.rs:170 src/ui/page_backup.rs:136
+#: src/ui.rs:188 src/ui/page_backup/events.rs:21
 msgid "Abort running backup creation?"
 msgstr "Voleu interrompre la creació de la còpia de seguretat en execució?"
 
-#: src/ui.rs:171 src/ui/page_backup.rs:137
+#: src/ui.rs:189 src/ui/page_backup/events.rs:22
 msgid "The backup will remain incomplete if aborted now."
 msgstr "La còpia de seguretat romandrà incompleta si s'interromp ara."
 
-#: src/ui.rs:173 src/ui/page_backup.rs:139
+#: src/ui.rs:191 src/ui/page_backup/events.rs:24
 msgid "Abort"
 msgstr "Interromp"
 
-#: src/ui.rs:229
+#: src/ui.rs:248
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "No s'ha pogut executar «borg». S'ha instal·lat correctament el borg-backup?"
 
-#: src/ui.rs:247
+#: src/ui.rs:271
 msgid "Borg version too old."
 msgstr "La versió de borg és massa antiga."
 
-#: src/ui.rs:249
+#: src/ui.rs:273
 msgid ""
-"The installed version of borg-backup is too old. Some features requiring "
-"borg-backup version {}.{} will not work."
+"The installed version {} of borg-backup is too old. Some features requiring "
+"borg-backup version {}.{}.{} will not work."
 msgstr ""
-"La versió instal·lada del borg-backup és massa antiga. Algunes "
-"característiques que requereixen la versió borg-backup {}.{} no funcionaran."
+"La versió {} instal·lada del borg-backup és massa antiga. Algunes "
+"característiques que requereixen la versió borg-backup {}.{}.{} no "
+"funcionaran."
+
+#: src/ui.rs:284
+msgid "Cannot check borg-backup version"
+msgstr "No es pot comprovar la versió borg-backup"
 
 #: src/ui.rs:286
-msgid ""
-"Welcome to Pika Backup version 0.3.\n"
-"\n"
-"Please note: The information about the last backup cannot be transferred "
-"from the previous version of Pika Backup. It will be available again after "
-"the next backup."
-msgstr ""
-"Us donem la benvinguda a la versió 0.3 del Pika.\n"
-"\n"
-"Tingueu en compte que la informació sobre l'última còpia de seguretat no es "
-"pot transferir des de la versió anterior del Pika. Estarà disponible de nou "
-"després de la següent còpia de seguretat."
+msgid "The installed version {} might not work."
+msgstr "Pot ser que la versió {} instal·lada no funcioni."
 
-#: src/ui.rs:304
+#: src/ui.rs:342
 msgid "Could not load configuration file."
 msgstr "No s'ha pogut carregar el fitxer de configuració."
 
-#: src/ui.rs:323
+#: src/ui.rs:358
 msgid "Could not write configuration file."
 msgstr "No s'ha pogut escriure el fitxer de configuració."
 
 #: src/ui/backup_status.rs:56
 msgid "Last backup completed with warnings"
-msgstr "Darrera còpia de seguretat completada amb avisos"
+msgstr "La darrera còpia de seguretat s’ha completat amb avisos"
 
 #: src/ui/backup_status.rs:64
 msgid "Last backup successful"
-msgstr "Darrera còpia de seguretat correcta"
+msgstr "La darrera còpia de seguretat ha estat correcta"
 
 #: src/ui/backup_status.rs:71
 msgid "Last backup aborted"
@@ -662,34 +666,30 @@ msgid "Preparing backup"
 msgstr "S'està preparant la còpia de seguretat"
 
 #: src/ui/backup_status.rs:152
-msgid "Estimating backup size"
-msgstr "S'està estimant la mida de la còpia de seguretat"
-
-#: src/ui/backup_status.rs:153
 msgid "Backup running"
 msgstr "Còpia de seguretat en execució"
 
-#: src/ui/backup_status.rs:154
+#: src/ui/backup_status.rs:153
 msgid "Backup destination unresponsive"
 msgstr "Destinació de còpia de seguretat sense resposta"
 
-#: src/ui/backup_status.rs:157
+#: src/ui/backup_status.rs:156
 msgid "Connection lost, reconnecting in {}"
 msgstr "S'ha perdut la connexió, es torna a connectar a {}"
 
-#: src/ui/backup_status.rs:162
+#: src/ui/backup_status.rs:161
 msgid "Reconnecting"
 msgstr "S'està tornant a connectar"
 
-#: src/ui/backup_status.rs:164
+#: src/ui/backup_status.rs:163
 msgid "Stopping backup"
 msgstr "S'està aturant la còpia de seguretat"
 
-#: src/ui/backup_status.rs:180
+#: src/ui/backup_status.rs:179
 msgid "Backup never ran"
 msgstr "La còpia de seguretat no s'ha executat mai"
 
-#: src/ui/backup_status.rs:181
+#: src/ui/backup_status.rs:180
 msgid "Start by creating your first backup"
 msgstr "Comença creant la primera còpia de seguretat"
 
@@ -717,11 +717,11 @@ msgstr "Bruixa de la cort"
 msgid "Fina Wilke"
 msgstr "Fina Wilke"
 
-#: src/ui/dialog_add_config.rs:155
+#: src/ui/dialog_add_config.rs:154
 msgid "Failed to list existing repositories."
 msgstr "No s'han pogut llistar els repositoris existents."
 
-#: src/ui/dialog_add_config.rs:242
+#: src/ui/dialog_add_config.rs:241
 msgid "Free space: {}"
 msgstr "Espai lliure: {}"
 
@@ -729,70 +729,87 @@ msgstr "Espai lliure: {}"
 msgid "Select…"
 msgstr "Selecciona…"
 
-#: src/ui/dialog_add_config/insert.rs:36 src/ui/dialog_add_config/insert.rs:56
-#: src/ui/dialog_add_config/insert.rs:74 src/ui/dialog_add_config/insert.rs:199
+#: src/ui/dialog_add_config/insert.rs:36
+msgid "Incomplete URL or borg syntax"
+msgstr "URL incomplet o sintaxi del borg"
+
+#: src/ui/dialog_add_config/insert.rs:45
+msgid "The remote location must have a specified path."
+msgstr "La ubicació remota ha de tenir un camí especificat."
+
+#: src/ui/dialog_add_config/insert.rs:49
+msgid "Invalid remote location: “{}”"
+msgstr "La ubicació remota no és vàlida: «{}»"
+
+#: src/ui/dialog_add_config/insert.rs:89 src/ui/dialog_add_config/insert.rs:109
+#: src/ui/dialog_add_config/insert.rs:127
+#: src/ui/dialog_add_config/insert.rs:252
 msgid "Loading backup repository"
-msgstr "S'està carregant el dipòsit de còpia de seguretat"
+msgstr "S'està carregant el repositori de còpia de seguretat"
 
-#: src/ui/dialog_add_config/insert.rs:52
+#: src/ui/dialog_add_config/insert.rs:105
 msgid "Select existing repository"
-msgstr "Selecciona el dipòsit existent"
+msgstr "Selecciona el repositori existent"
 
-#: src/ui/dialog_add_config/insert.rs:61
+#: src/ui/dialog_add_config/insert.rs:114
 msgid "Location is not a valid backup repository."
-msgstr "La ubicació no és un dipòsit de còpia de seguretat vàlid."
+msgstr "La ubicació no és un repositori de còpia de seguretat vàlid."
 
-#: src/ui/dialog_add_config/insert.rs:62
+#: src/ui/dialog_add_config/insert.rs:115
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "El repositori ha d'originar-se a partir de la còpia de seguretat Pika o de "
 "programari compatible."
 
-#: src/ui/dialog_add_config/insert.rs:97
+#: src/ui/dialog_add_config/insert.rs:131
+#: src/ui/dialog_add_config/insert.rs:184
+msgid "Invalid Remote Location"
+msgstr "La ubicació remota no és vàlida"
+
+#: src/ui/dialog_add_config/insert.rs:152
 msgid "No password provided."
 msgstr "No s'ha proporcionat cap contrasenya."
 
-#: src/ui/dialog_add_config/insert.rs:98
+#: src/ui/dialog_add_config/insert.rs:153
 msgid "To use encryption a password must be provided."
 msgstr "Per a utilitzar el xifratge cal proporcionar una contrasenya."
 
-#: src/ui/dialog_add_config/insert.rs:102
+#: src/ui/dialog_add_config/insert.rs:157
 msgid "Entered passwords do not match."
 msgstr "Les contrasenyes introduïdes no coincideixen."
 
-#: src/ui/dialog_add_config/insert.rs:125
-#: src/ui/dialog_add_config/insert.rs:132
+#: src/ui/dialog_add_config/insert.rs:180
 msgid "A repository location has to be given."
-msgstr "S'ha de donar una ubicació al repositori."
+msgstr "S'ha de donar una ubicació del repositori."
 
-#: src/ui/dialog_add_config/insert.rs:148
-#: src/ui/dialog_add_config/insert.rs:251
+#: src/ui/dialog_add_config/insert.rs:201
+#: src/ui/dialog_add_config/insert.rs:304
 msgid "Additional command line arguments invalid."
 msgstr "Arguments addicionals de la línia d'ordres no vàlids."
 
-#: src/ui/dialog_add_config/insert.rs:149
-#: src/ui/dialog_add_config/insert.rs:252
+#: src/ui/dialog_add_config/insert.rs:202
+#: src/ui/dialog_add_config/insert.rs:305
 msgid "Please check for missing closing quotes."
 msgstr "Comproveu que no falten les cometes de tancament."
 
-#: src/ui/dialog_add_config/insert.rs:154
-#: src/ui/dialog_add_config/insert.rs:164
+#: src/ui/dialog_add_config/insert.rs:207
+#: src/ui/dialog_add_config/insert.rs:217
 msgid "Creating backup repository"
 msgstr "S'està creant el repositori de còpia de seguretat"
 
-#: src/ui/dialog_add_config/insert.rs:168
+#: src/ui/dialog_add_config/insert.rs:221
 msgid "Failed to initialize repository."
-msgstr "No s'ha pogut inicialitzar el dipòsit."
+msgstr "No s'ha pogut inicialitzar el repositori."
 
-#: src/ui/dialog_add_config/insert.rs:176 src/ui/utils/secret_service.rs:56
+#: src/ui/dialog_add_config/insert.rs:229 src/ui/utils/secret_service.rs:56
 msgid "Failed to store password."
 msgstr "No s'ha pogut emmagatzemar la contrasenya."
 
-#: src/ui/dialog_add_config/insert.rs:288
+#: src/ui/dialog_add_config/insert.rs:341
 msgid "Repository location not found."
 msgstr "No s'ha trobat la ubicació del repositori."
 
-#: src/ui/dialog_add_config/insert.rs:289
+#: src/ui/dialog_add_config/insert.rs:342
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "S'ha realitzat una operació de muntatge, però la ubicació encara no està "
@@ -811,166 +828,299 @@ msgid "Could not find backup configuration with id “{}”."
 msgstr ""
 "No s'ha pogut trobar la configuració de la còpia de seguretat amb id «{}»."
 
-#: src/ui/page_archives.rs:39 src/ui/page_backup.rs:189
-msgid "Failed to unmount repository."
-msgstr "No s'ha pogut desmuntar el dipòsit."
-
-#: src/ui/page_archives.rs:65
+#: src/ui/page_archives/cache.rs:27
 msgid "Failed to refresh archives cache."
 msgstr "Ha fallat en refrescar la memòria cau dels arxius."
 
-#: src/ui/page_archives.rs:139
+#: src/ui/page_archives/display.rs:68
 msgid "Failed to open archive."
 msgstr "No s'ha pogut obrir l'arxiu."
 
-#: src/ui/page_archives.rs:163
-msgid "Browse Archive"
-msgstr "Navega per l'arxiu"
-
-#: src/ui/page_archives.rs:175
-msgid "Failed to make archives available for browsing."
-msgstr "No s'han pogut fer els arxius disponibles per a la navegació."
-
-#: src/ui/page_archives.rs:240
+#: src/ui/page_archives/display.rs:145
 msgid "Name"
 msgstr "Nom"
 
-#: src/ui/page_archives.rs:242
+#: src/ui/page_archives/display.rs:147
 msgid "Duration"
 msgstr "Durada"
 
-#: src/ui/page_archives.rs:246
+#: src/ui/page_archives/display.rs:151
 msgid "Comment"
 msgstr "Comentari"
 
-#: src/ui/page_archives.rs:250
+#: src/ui/page_archives/display.rs:155
 msgid "Browse saved files"
 msgstr "Navega pels fitxers desats"
 
-#: src/ui/page_backup.rs:174
-msgid "Backup on repository already running."
-msgstr "La còpia de seguretat del repositori ja s'està executant."
+#: src/ui/page_archives/display.rs:188
+msgid "{} Available"
+msgstr "{} disponible"
 
-#: src/ui/page_backup.rs:181
-msgid "Stop browsing files and start backup?"
-msgstr "Voleu deixar de navegar pels fitxers i iniciar la còpia de seguretat?"
+#: src/ui/page_archives/display.rs:191
+msgid "{} Total"
+msgstr "{} total"
 
-#: src/ui/page_backup.rs:182
-msgid "Browsing through archived files is not possible while running a backup."
-msgstr ""
-"No és possible navegar a través dels fitxers arxivats mentre s'executa una "
-"còpia de seguretat."
+#: src/ui/page_archives/events.rs:11 src/ui/page_backup/execution.rs:43
+msgid "Failed to unmount repository."
+msgstr "No s'ha pogut desmuntar el repositori."
 
-#: src/ui/page_backup.rs:183
-msgid "Keep Browsing"
-msgstr "Mantén la navegació"
+#: src/ui/page_archives/events.rs:36
+msgid "Browse Archive"
+msgstr "Navega per l'arxiu"
 
-#: src/ui/page_backup.rs:184
-msgid "Start Backup"
-msgstr "Inicia la còpia de seguretat"
+#: src/ui/page_archives/events.rs:48
+msgid "Failed to make archives available for browsing."
+msgstr "No s'han pogut fer els arxius disponibles per a la navegació."
 
-#: src/ui/page_backup.rs:255
-msgid ""
-"Backup location “{}” might be filling up. Estimated space missing to store "
-"all data: {}."
-msgstr ""
-"La ubicació de la còpia de seguretat «{}» podria estar massa plena. Espai "
-"estimat que falta per emmagatzemar totes les dades: {}."
-
-#: src/ui/page_backup.rs:266
-msgid "Creating new backup."
-msgstr "S'està creant una còpia de seguretat nova."
-
-#: src/ui/page_backup.rs:303
-msgid "Creating a backup failed."
-msgstr "Ha fallat la creació d'una còpia de seguretat."
-
-#: src/ui/page_backup.rs:309
-msgid "Backup completed with warnings."
-msgstr "S'ha completat la còpia de seguretat amb avisos."
-
-#: src/ui/page_backup.rs:424
+#: src/ui/page_backup/display.rs:102
 msgid "Regular Expression"
 msgstr "Expressió regular"
 
-#: src/ui/page_backup.rs:480
+#: src/ui/page_backup/events.rs:54
+msgid "Include directory in backups"
+msgstr "Inclou el directori a les còpies de seguretat"
+
+#: src/ui/page_backup/events.rs:69
+msgid "Exclude directory from backup"
+msgstr "Exclou el directori de la còpia de seguretat"
+
+#: src/ui/page_backup/events.rs:139
 msgid "No longer include “{}” in backups?"
 msgstr "Ja no voleu incloure «{}» a la còpia de seguretat?"
 
-#: src/ui/page_backup.rs:483
+#: src/ui/page_backup/events.rs:142
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Tots els fitxers continguts en aquesta carpeta ja no formaran part de les "
 "futures còpies de seguretat."
 
-#: src/ui/page_backup.rs:502
-msgid "Include directory in backups"
-msgstr "Inclou el directori a les còpies de seguretat"
+#: src/ui/page_backup/execution.rs:28
+msgid "Backup on repository already running."
+msgstr "La còpia de seguretat del repositori ja s'està executant."
 
-#: src/ui/page_backup.rs:517
-msgid "Exclude directory from backup"
-msgstr "Exclou el directori de la còpia de seguretat"
+#: src/ui/page_backup/execution.rs:35
+msgid "Stop browsing files and start backup?"
+msgstr "Voleu deixar de navegar pels fitxers i iniciar la còpia de seguretat?"
 
-#: src/ui/page_overview.rs:65
+#: src/ui/page_backup/execution.rs:36
+msgid "Browsing through archived files is not possible while running a backup."
+msgstr ""
+"No és possible navegar a través dels fitxers arxivats mentre s'executa una "
+"còpia de seguretat."
+
+#: src/ui/page_backup/execution.rs:37
+msgid "Keep Browsing"
+msgstr "Mantén la navegació"
+
+#: src/ui/page_backup/execution.rs:38
+msgid "Start Backup"
+msgstr "Inicia la còpia de seguretat"
+
+#: src/ui/page_backup/execution.rs:87
+msgid "Create new Backup"
+msgstr "Crea una còpia de seguretat nova"
+
+#: src/ui/page_backup/execution.rs:93
+msgid "Creating new backup"
+msgstr "S'està creant una còpia de seguretat nova"
+
+#: src/ui/page_backup/execution.rs:125
+msgid "Creating a backup failed."
+msgstr "Ha fallat la creació d'una còpia de seguretat."
+
+#: src/ui/page_backup/execution.rs:131
+msgid "Backup completed with warnings."
+msgstr "S'ha completat la còpia de seguretat amb avisos."
+
+#: src/ui/page_overview.rs:52
 msgid "Delete backup configuration?"
 msgstr "Voleu suprimir la configuració de la còpia de seguretat?"
 
-#: src/ui/page_overview.rs:66
+#: src/ui/page_overview.rs:53
 msgid "Deleting the configuration will not delete your saved data."
 msgstr "Si suprimiu la configuració no se suprimiran les dades desades."
 
-#: src/ui/page_overview.rs:68
+#: src/ui/page_overview.rs:55
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: src/ui/page_overview.rs:80 src/ui/utils/secret_service.rs:60
+#: src/ui/page_overview.rs:67 src/ui/utils/secret_service.rs:60
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "No s'han pogut eliminar les contrasenyes potencialment restants de "
 "l'emmagatzematge de claus."
 
-#: src/ui/page_schedule/event.rs:98
+#: src/ui/page_schedule/event.rs:129
 msgid "Invalid time format."
 msgstr "El format de temps no és vàlid."
 
-#: src/ui/page_schedule/event.rs:106
+#: src/ui/page_schedule/event.rs:137
 msgid "Invalid weekday."
 msgstr "El dia de la setmana no és vàlid."
 
-#: src/ui/page_schedule/event.rs:113
+#: src/ui/page_schedule/event.rs:144
 msgid "No frequency selected."
 msgstr "No s'ha seleccionat cap freqüència."
 
-#: src/ui/page_schedule/event.rs:211
+#: src/ui/page_schedule/event.rs:244
 msgid "Disable backup schedule."
 msgstr "Inhabilita la planificació de còpia de seguretat."
 
-#: src/ui/page_schedule/event.rs:212
+#: src/ui/page_schedule/event.rs:245
 msgid "No longer remind of backups based on a schedule."
 msgstr "Cap recordatori més de còpia de seguretat planificada."
 
-#: src/ui/page_schedule/event.rs:213
+#: src/ui/page_schedule/event.rs:246
 msgid "Keep Schedule"
-msgstr "Conserva la planificació"
+msgstr "Mantén la planificació"
 
-#: src/ui/page_schedule/event.rs:214
+#: src/ui/page_schedule/event.rs:247
 msgid "Disable Schedule"
 msgstr "Inhabilita la planificació"
 
-#: src/ui/update_config.rs:20 src/ui/update_config.rs:47
-msgid "Updating configuration for new version"
-msgstr "Actualitzant la configuració per a la nova versió"
+#: src/ui/page_schedule/init.rs:112
+msgid "Unable to determine background process status"
+msgstr "No es pot determinar l'estat del procés en segon pla"
 
-#: src/ui/update_config.rs:52
-msgid "Failed to retrieve backup information."
-msgstr "Ha fallat en recuperar la informació de la còpia de seguretat."
+#: src/ui/page_schedule/status.rs:14
+msgid "Next backup in one minute"
+msgid_plural "Next backup in {} minutes"
+msgstr[0] "Propera còpia de seguretat en un minut"
+msgstr[1] "Propera còpia de seguretat en {} minuts"
 
-#: src/ui/utils.rs:82
-msgid "Schedule and continue running backups in background."
-msgstr "Planifica i continua executant còpies de seguretat en segon pla."
+#: src/ui/page_schedule/status.rs:20
+msgid "Next backup in one hour"
+msgid_plural "Next backup in {} hours"
+msgstr[0] "Propera còpia de seguretat en una hora"
+msgstr[1] "Propera còpia de seguretat en {} hores"
 
-#: src/ui/utils.rs:177
+#: src/ui/page_schedule/status.rs:26
+msgid "Next backup in one day"
+msgid_plural "Next backup in {} days"
+msgstr[0] "Propera còpia de seguretat en un dia"
+msgstr[1] "Propera còpia de seguretat en {} dies"
+
+#: src/ui/page_schedule/status.rs:32
+msgid "Next backup in one week"
+msgid_plural "Next backup in {} weeks"
+msgstr[0] "Propera còpia de seguretat en una setmana"
+msgstr[1] "Propera còpia de seguretat en {} setmanes"
+
+#: src/ui/page_schedule/status.rs:49
+msgid "Scheduled backups disabled"
+msgstr "S'han inhabilitat les còpies de seguretat planificades"
+
+#: src/ui/page_schedule/status.rs:65
+msgid "Hourly backups enabled"
+msgstr "Còpies de seguretat horàries habilitades"
+
+#: src/ui/page_schedule/status.rs:66
+msgid "Daily backups enabled"
+msgstr "Còpies de seguretat diàries habilitades"
+
+#: src/ui/page_schedule/status.rs:67
+msgid "Weekly backups enabled"
+msgstr "Còpies de seguretat setmanals habilitades"
+
+#: src/ui/page_schedule/status.rs:68
+msgid "Monthly backups enabled"
+msgstr "Còpies de seguretat mensuals habilitades"
+
+#: src/ui/page_schedule/status.rs:78
+msgid "Will not start until requirements are met."
+msgstr "No s'iniciarà fins que es compleixin els requisits."
+
+#: src/ui/page_schedule/status.rs:82
+msgid "Inconsistent backup information"
+msgstr "Informació de còpia de seguretat inconsistent"
+
+#: src/ui/page_schedule/status.rs:88
+msgid "Backup past due"
+msgstr "Còpia de seguretat vençuda"
+
+#: src/ui/page_schedule/status.rs:89
+msgid "Waiting until requirements are met"
+msgstr "S’està esperant a que es compleixin els requisits"
+
+#: src/ui/page_schedule/status.rs:92
+msgid "Scheduled backups unavailable"
+msgstr "Les còpies de seguretat planificades no estan disponibles"
+
+#: src/ui/page_schedule/status.rs:95
+msgid "Waiting for backup to start"
+msgstr "S'està esperant que s'iniciï la còpia de seguretat"
+
+#: src/ui/page_schedule/status.rs:104
+msgid "Network connection must not be metered"
+msgstr "La connexió de xarxa no s'ha de mesurar"
+
+#: src/ui/page_schedule/status.rs:110
+msgid "Other backups on repository have to be completed"
+msgstr "S'han de completar altres còpies de seguretat al repositori"
+
+#: src/ui/page_schedule/status.rs:122
+msgid "Backup device has to be connected"
+msgstr "El dispositiu de còpia de seguretat ha d'estar connectat"
+
+#: src/ui/page_schedule/status.rs:128
+msgid "Network connection has to be available"
+msgstr "La connexió de xarxa ha d'estar disponible"
+
+#: src/ui/page_schedule/status.rs:138
+msgid "Background process inactive"
+msgstr "El procés en segon pla està inactiu"
+
+#: src/ui/page_schedule/status.rs:139
+msgid "This is required for scheduled backups"
+msgstr "Això és necessari per a les còpies de seguretat planificades"
+
+#: src/ui/toast_size_estimate.rs:31
+msgid ""
+"Backup location “{}” might be filling up. Estimated space missing to store "
+"all data: {}."
+msgstr ""
+"La ubicació de la còpia de seguretat «{}» podria estar massa plena. Espai "
+"estimat que falta per a emmagatzemar totes les dades: {}."
+
+#: src/ui/utils.rs:80
+msgid "Request to run in background failed"
+msgstr "Ha fallat la sol·licitud d'execució en segon pla"
+
+#: src/ui/utils.rs:102
+msgid "Schedule backups and continue running backups."
+msgstr ""
+"Planifica les còpies de seguretat i continua executant còpies de seguretat."
+
+#: src/ui/utils.rs:118
+msgid "Run in background disabled"
+msgstr "Execució en segon pla inhabilitat"
+
+#: src/ui/utils.rs:119
+msgid ""
+"Scheduled backup functionality and continuing backups in the background will "
+"not be available. You can enable the “run in background” option via your "
+"system settings."
+msgstr ""
+"La funcionalitat de còpia de seguretat planificada i les còpies de seguretat "
+"contínues en segon pla no estaran disponibles. Podeu habilitar l'opció "
+"«executa en segon pla» a través de la configuració del sistema."
+
+#: src/ui/utils.rs:129
+msgid ""
+"Either your system does not support this feature or an error occurred. "
+"Scheduled backup functionality and continuing backups in the background will "
+"not be available."
+msgstr ""
+"El sistema no admet aquesta característica o s'ha produït un error. La "
+"funcionalitat de còpia de seguretat planificada i les còpies de seguretat "
+"contínues en segon pla no estaran disponibles."
+
+#: src/ui/utils.rs:140
+msgid "Failed to start background process"
+msgstr "No s'ha pogut iniciar el procés en segon pla"
+
+#: src/ui/utils.rs:247
 msgid "Select"
 msgstr "Selecciona"
 
@@ -1086,6 +1236,31 @@ msgstr "Ha fallat en desar la memòria cau."
 #: src/ui/utils/secret_service.rs:12
 msgid "Pika Backup Password"
 msgstr "Contrasenya de còpia de seguretat del Pika"
+
+#~ msgid "URI"
+#~ msgstr "URI"
+
+#~ msgid "Remote location"
+#~ msgstr "Ubicació remota"
+
+#~ msgid ""
+#~ "Welcome to Pika Backup version 0.3.\n"
+#~ "\n"
+#~ "Please note: The information about the last backup cannot be transferred "
+#~ "from the previous version of Pika Backup. It will be available again "
+#~ "after the next backup."
+#~ msgstr ""
+#~ "Us donem la benvinguda a la versió 0.3 del Pika.\n"
+#~ "\n"
+#~ "Tingueu en compte que la informació sobre l'última còpia de seguretat no "
+#~ "es pot transferir des de la versió anterior del Pika. Estarà disponible "
+#~ "de nou després de la següent còpia de seguretat."
+
+#~ msgid "Estimating backup size"
+#~ msgstr "S'està estimant la mida de la còpia de seguretat"
+
+#~ msgid "Updating configuration for new version"
+#~ msgstr "Actualitzant la configuració per a la nova versió"
 
 #~ msgid ""
 #~ "This program comes with absolutely no warranty.\n"
