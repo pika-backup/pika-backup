@@ -79,7 +79,7 @@ pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::Dial
     if name == "-add-local" {
         execute(on_add_repo_list_activated_local(ui.clone()), ui.dialog());
     } else if name == "-add-remote" {
-        ui.stack().set_visible_child(&ui.new_page());
+        ui.leaflet().set_visible_child(&ui.page_detail());
         ui.location_stack().set_visible_child(&ui.location_remote());
         ui.button_stack().set_visible_child(&ui.add_button());
         ui.encryption_box().hide();

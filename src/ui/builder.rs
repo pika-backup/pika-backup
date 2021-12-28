@@ -61,19 +61,19 @@ impl DialogAddConfig {
         self.get("add_repo_list")
     }
 
-    pub fn button_stack(&self) -> gtk::Stack {
-        self.get("button_stack")
+    pub fn back_to_overview(&self) -> gtk::Button {
+        self.get("back_to_overview")
     }
 
-    pub fn cancel_button(&self) -> gtk::Button {
-        self.get("cancel_button")
+    pub fn button_stack(&self) -> gtk::Stack {
+        self.get("button_stack")
     }
 
     pub fn command_line_args(&self) -> gtk::TextView {
         self.get("command_line_args")
     }
 
-    pub fn dialog(&self) -> gtk::Dialog {
+    pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
     }
 
@@ -121,6 +121,10 @@ impl DialogAddConfig {
         self.get("label1")
     }
 
+    pub fn leaflet(&self) -> adw::Leaflet {
+        self.get("leaflet")
+    }
+
     pub fn location_local(&self) -> gtk::Box {
         self.get("location_local")
     }
@@ -141,16 +145,20 @@ impl DialogAddConfig {
         self.get("location_url_help")
     }
 
-    pub fn new_page(&self) -> gtk::ScrolledWindow {
-        self.get("new_page")
-    }
-
     pub fn no_button(&self) -> gtk::Box {
         self.get("no_button")
     }
 
     pub fn non_journaling_warning(&self) -> gtk::Box {
         self.get("non_journaling_warning")
+    }
+
+    pub fn page_detail(&self) -> gtk::Box {
+        self.get("page_detail")
+    }
+
+    pub fn page_overview(&self) -> gtk::Box {
+        self.get("page_overview")
     }
 
     pub fn password(&self) -> gtk::PasswordEntry {
@@ -171,10 +179,6 @@ impl DialogAddConfig {
 
     pub fn spacer_1(&self) -> gtk::Box {
         self.get("spacer_1")
-    }
-
-    pub fn stack(&self) -> gtk::Stack {
-        self.get("stack")
     }
 
     pub fn stackswitcher1(&self) -> gtk::StackSwitcher {

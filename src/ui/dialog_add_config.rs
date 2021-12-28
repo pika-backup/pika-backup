@@ -1,3 +1,4 @@
+mod event;
 pub mod folder_button;
 mod insert;
 
@@ -30,11 +31,8 @@ pub fn new_backup() {
 
     ui.dialog().set_transient_for(Some(&main_ui().window()));
 
-    let dialog = ui.dialog();
-    ui.cancel_button().connect_clicked(move |_| {
-        dialog.close();
-        dialog.hide();
-    });
+    ui.back_to_overview()
+        .connect_clicked(enclose!((ui) move |_| event::back_to_overview(&*ui)));
 
     ui.add_repo_list()
         .connect_row_activated(enclose!((ui) move |_, row| {
@@ -174,7 +172,7 @@ fn show_init(ui: &builder::DialogAddConfig) {
     ));
     ui.password_quality().set_value(0.0);
     on_path_change(ui);
-    ui.stack().set_visible_child(&ui.new_page());
+    ui.leaflet().set_visible_child(&ui.page_detail());
     ui.init_button().show();
     ui.dialog().set_default_widget(Some(&ui.init_button()));
 }
