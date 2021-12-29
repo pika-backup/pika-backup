@@ -6,15 +6,14 @@ import os.path as path
 import os
 import subprocess
 
-UI_PATH = "ui/*.ui"
+UI_PATH = "src/ui/*.ui"
 
-SRC_PATH = "../src/ui/builder.rs"
+SRC_PATH = "src/ui/builder.rs"
 
 
 def main():
     global UI_PATH, SRC_PATH
 
-    os.chdir("data")
     ui_files = glob.glob(UI_PATH)
     ui_files.sort()
 
@@ -80,7 +79,7 @@ impl {name} {{
     pub fn new() -> Self {{
         Self {{
             builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
+                env!("CARGO_MANIFEST_DIR"),
                 "/{path}"
             ))),
         }}

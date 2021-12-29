@@ -43,9 +43,9 @@ pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
 });
 
 thread_local!(
-    static MAIN_UI_STORE: Rc<ui::builder::Main> = Rc::new({
+    static MAIN_UI_STORE: Rc<ui::builder::AppWindow> = Rc::new({
         ui::widgets::init();
-        ui::builder::Main::new()
+        ui::builder::AppWindow::new()
     });
 
     static GTK_APPLICATION: Rc<gtk::Application> = Rc::new({
@@ -56,7 +56,7 @@ thread_local!(
     });
 );
 
-pub fn main_ui() -> Rc<ui::builder::Main> {
+pub fn main_ui() -> Rc<ui::builder::AppWindow> {
     MAIN_UI_STORE.with(|x| x.clone())
 }
 

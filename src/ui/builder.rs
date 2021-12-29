@@ -1,37 +1,13 @@
-pub struct DialogAbout {
+pub struct AppWindow {
     builder: gtk::Builder,
 }
 
-impl DialogAbout {
+impl AppWindow {
     pub fn new() -> Self {
         Self {
             builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/dialog_about.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id)
-            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/dialog_about.ui'", id))
-    }
-
-    pub fn dialog(&self) -> gtk::AboutDialog {
-        self.get("dialog")
-    }
-}
-
-pub struct DialogAddConfig {
-    builder: gtk::Builder,
-}
-
-impl DialogAddConfig {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/dialog_add_config.ui"
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/app_window.ui"
             ))),
         }
     }
@@ -39,379 +15,10 @@ impl DialogAddConfig {
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
             panic!(
-                "Object with id '{}' not found in 'ui/dialog_add_config.ui'",
+                "Object with id '{}' not found in 'src/ui/app_window.ui'",
                 id
             )
         })
-    }
-
-    pub fn add_button(&self) -> gtk::Button {
-        self.get("add_button")
-    }
-
-    pub fn add_local_row(&self) -> adw::ActionRow {
-        self.get("add_local_row")
-    }
-
-    pub fn add_remote_row(&self) -> adw::ActionRow {
-        self.get("add_remote_row")
-    }
-
-    pub fn add_repo_list(&self) -> gtk::ListBox {
-        self.get("add_repo_list")
-    }
-
-    pub fn back_to_overview(&self) -> gtk::Button {
-        self.get("back_to_overview")
-    }
-
-    pub fn button_stack(&self) -> gtk::Stack {
-        self.get("button_stack")
-    }
-
-    pub fn command_line_args(&self) -> gtk::TextView {
-        self.get("command_line_args")
-    }
-
-    pub fn dialog(&self) -> adw::Window {
-        self.get("dialog")
-    }
-
-    pub fn dialog_vbox(&self) -> gtk::Box {
-        self.get("dialog_vbox")
-    }
-
-    pub fn encryption(&self) -> gtk::Stack {
-        self.get("encryption")
-    }
-
-    pub fn encryption_box(&self) -> gtk::Box {
-        self.get("encryption_box")
-    }
-
-    pub fn existing_repos(&self) -> gtk::Box {
-        self.get("existing_repos")
-    }
-
-    pub fn init_button(&self) -> gtk::Button {
-        self.get("init_button")
-    }
-
-    pub fn init_dir(&self) -> gtk::Entry {
-        self.get("init_dir")
-    }
-
-    pub fn init_local_row(&self) -> adw::ActionRow {
-        self.get("init_local_row")
-    }
-
-    pub fn init_path(&self) -> crate::ui::export::FolderButton {
-        self.get("init_path")
-    }
-
-    pub fn init_remote_row(&self) -> adw::ActionRow {
-        self.get("init_remote_row")
-    }
-
-    pub fn init_repo_list(&self) -> gtk::ListBox {
-        self.get("init_repo_list")
-    }
-
-    pub fn label1(&self) -> gtk::Label {
-        self.get("label1")
-    }
-
-    pub fn leaflet(&self) -> adw::Leaflet {
-        self.get("leaflet")
-    }
-
-    pub fn location_local(&self) -> gtk::Box {
-        self.get("location_local")
-    }
-
-    pub fn location_remote(&self) -> gtk::Box {
-        self.get("location_remote")
-    }
-
-    pub fn location_stack(&self) -> gtk::Stack {
-        self.get("location_stack")
-    }
-
-    pub fn location_url(&self) -> gtk::Entry {
-        self.get("location_url")
-    }
-
-    pub fn location_url_help(&self) -> gtk::Popover {
-        self.get("location_url_help")
-    }
-
-    pub fn no_button(&self) -> gtk::Box {
-        self.get("no_button")
-    }
-
-    pub fn non_journaling_warning(&self) -> gtk::Box {
-        self.get("non_journaling_warning")
-    }
-
-    pub fn page_detail(&self) -> gtk::Box {
-        self.get("page_detail")
-    }
-
-    pub fn page_overview(&self) -> gtk::Box {
-        self.get("page_overview")
-    }
-
-    pub fn password(&self) -> gtk::PasswordEntry {
-        self.get("password")
-    }
-
-    pub fn password_confirm(&self) -> gtk::PasswordEntry {
-        self.get("password_confirm")
-    }
-
-    pub fn password_quality(&self) -> gtk::LevelBar {
-        self.get("password_quality")
-    }
-
-    pub fn password_store(&self) -> gtk::CheckButton {
-        self.get("password_store")
-    }
-
-    pub fn spacer_1(&self) -> gtk::Box {
-        self.get("spacer_1")
-    }
-
-    pub fn stackswitcher1(&self) -> gtk::StackSwitcher {
-        self.get("stackswitcher1")
-    }
-
-    pub fn unencrypted(&self) -> gtk::Box {
-        self.get("unencrypted")
-    }
-
-    pub fn x(&self) -> gtk::SizeGroup {
-        self.get("x")
-    }
-
-    pub fn y(&self) -> gtk::SizeGroup {
-        self.get("y")
-    }
-}
-
-pub struct DialogDeviceMissing {
-    builder: gtk::Builder,
-}
-
-impl DialogDeviceMissing {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/dialog_device_missing.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'ui/dialog_device_missing.ui'",
-                id
-            )
-        })
-    }
-
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn icon(&self) -> gtk::Box {
-        self.get("icon")
-    }
-
-    pub fn name(&self) -> gtk::Label {
-        self.get("name")
-    }
-
-    pub fn window(&self) -> gtk::Dialog {
-        self.get("window")
-    }
-}
-
-pub struct DialogEncryptionPassword {
-    builder: gtk::Builder,
-}
-
-impl DialogEncryptionPassword {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/dialog_encryption_password.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'ui/dialog_encryption_password.ui'",
-                id
-            )
-        })
-    }
-
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn dialog(&self) -> gtk::Dialog {
-        self.get("dialog")
-    }
-
-    pub fn ok(&self) -> gtk::Button {
-        self.get("ok")
-    }
-
-    pub fn password(&self) -> gtk::Entry {
-        self.get("password")
-    }
-
-    pub fn password_forget(&self) -> gtk::CheckButton {
-        self.get("password_forget")
-    }
-
-    pub fn password_store(&self) -> gtk::CheckButton {
-        self.get("password_store")
-    }
-
-    pub fn purpose(&self) -> gtk::Label {
-        self.get("purpose")
-    }
-}
-
-pub struct DialogPrune {
-    builder: gtk::Builder,
-}
-
-impl DialogPrune {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/dialog_prune.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id)
-            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/dialog_prune.ui'", id))
-    }
-
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn delete(&self) -> gtk::Button {
-        self.get("delete")
-    }
-
-    pub fn dialog(&self) -> gtk::Dialog {
-        self.get("dialog")
-    }
-
-    pub fn keep(&self) -> gtk::Label {
-        self.get("keep")
-    }
-
-    pub fn prune(&self) -> gtk::Label {
-        self.get("prune")
-    }
-}
-
-pub struct DialogStorage {
-    builder: gtk::Builder,
-}
-
-impl DialogStorage {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/dialog_storage.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'ui/dialog_storage.ui'",
-                id
-            )
-        })
-    }
-
-    pub fn device(&self) -> gtk::Label {
-        self.get("device")
-    }
-
-    pub fn dialog(&self) -> gtk::Dialog {
-        self.get("dialog")
-    }
-
-    pub fn disk(&self) -> gtk::ListBox {
-        self.get("disk")
-    }
-
-    pub fn fs(&self) -> gtk::Box {
-        self.get("fs")
-    }
-
-    pub fn fs_free(&self) -> gtk::Label {
-        self.get("fs_free")
-    }
-
-    pub fn fs_size(&self) -> gtk::Label {
-        self.get("fs_size")
-    }
-
-    pub fn fs_usage(&self) -> gtk::LevelBar {
-        self.get("fs_usage")
-    }
-
-    pub fn path(&self) -> gtk::Label {
-        self.get("path")
-    }
-
-    pub fn remote(&self) -> gtk::ListBox {
-        self.get("remote")
-    }
-
-    pub fn uri(&self) -> gtk::Label {
-        self.get("uri")
-    }
-
-    pub fn volume(&self) -> gtk::Label {
-        self.get("volume")
-    }
-}
-
-pub struct Main {
-    builder: gtk::Builder,
-}
-
-impl Main {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(data_dir!(), "/ui/main.ui"))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id)
-            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/main.ui'", id))
     }
 
     pub fn add_backup(&self) -> gtk::Button {
@@ -831,6 +438,414 @@ impl Main {
     }
 }
 
+pub struct DialogAbout {
+    builder: gtk::Builder,
+}
+
+impl DialogAbout {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_about.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_about.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn dialog(&self) -> gtk::AboutDialog {
+        self.get("dialog")
+    }
+}
+
+pub struct DialogAddConfig {
+    builder: gtk::Builder,
+}
+
+impl DialogAddConfig {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_add_config.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_add_config.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn add_button(&self) -> gtk::Button {
+        self.get("add_button")
+    }
+
+    pub fn add_local_row(&self) -> adw::ActionRow {
+        self.get("add_local_row")
+    }
+
+    pub fn add_remote_row(&self) -> adw::ActionRow {
+        self.get("add_remote_row")
+    }
+
+    pub fn add_repo_list(&self) -> gtk::ListBox {
+        self.get("add_repo_list")
+    }
+
+    pub fn back_to_overview(&self) -> gtk::Button {
+        self.get("back_to_overview")
+    }
+
+    pub fn button_stack(&self) -> gtk::Stack {
+        self.get("button_stack")
+    }
+
+    pub fn command_line_args(&self) -> gtk::TextView {
+        self.get("command_line_args")
+    }
+
+    pub fn dialog(&self) -> adw::Window {
+        self.get("dialog")
+    }
+
+    pub fn dialog_vbox(&self) -> gtk::Box {
+        self.get("dialog_vbox")
+    }
+
+    pub fn encryption(&self) -> gtk::Stack {
+        self.get("encryption")
+    }
+
+    pub fn encryption_box(&self) -> gtk::Box {
+        self.get("encryption_box")
+    }
+
+    pub fn existing_repos(&self) -> gtk::Box {
+        self.get("existing_repos")
+    }
+
+    pub fn init_button(&self) -> gtk::Button {
+        self.get("init_button")
+    }
+
+    pub fn init_dir(&self) -> gtk::Entry {
+        self.get("init_dir")
+    }
+
+    pub fn init_local_row(&self) -> adw::ActionRow {
+        self.get("init_local_row")
+    }
+
+    pub fn init_path(&self) -> crate::ui::export::FolderButton {
+        self.get("init_path")
+    }
+
+    pub fn init_remote_row(&self) -> adw::ActionRow {
+        self.get("init_remote_row")
+    }
+
+    pub fn init_repo_list(&self) -> gtk::ListBox {
+        self.get("init_repo_list")
+    }
+
+    pub fn label1(&self) -> gtk::Label {
+        self.get("label1")
+    }
+
+    pub fn leaflet(&self) -> adw::Leaflet {
+        self.get("leaflet")
+    }
+
+    pub fn location_local(&self) -> gtk::Box {
+        self.get("location_local")
+    }
+
+    pub fn location_remote(&self) -> gtk::Box {
+        self.get("location_remote")
+    }
+
+    pub fn location_stack(&self) -> gtk::Stack {
+        self.get("location_stack")
+    }
+
+    pub fn location_url(&self) -> gtk::Entry {
+        self.get("location_url")
+    }
+
+    pub fn location_url_help(&self) -> gtk::Popover {
+        self.get("location_url_help")
+    }
+
+    pub fn no_button(&self) -> gtk::Box {
+        self.get("no_button")
+    }
+
+    pub fn non_journaling_warning(&self) -> gtk::Box {
+        self.get("non_journaling_warning")
+    }
+
+    pub fn page_detail(&self) -> gtk::Box {
+        self.get("page_detail")
+    }
+
+    pub fn page_overview(&self) -> gtk::Box {
+        self.get("page_overview")
+    }
+
+    pub fn password(&self) -> gtk::PasswordEntry {
+        self.get("password")
+    }
+
+    pub fn password_confirm(&self) -> gtk::PasswordEntry {
+        self.get("password_confirm")
+    }
+
+    pub fn password_quality(&self) -> gtk::LevelBar {
+        self.get("password_quality")
+    }
+
+    pub fn password_store(&self) -> gtk::CheckButton {
+        self.get("password_store")
+    }
+
+    pub fn spacer_1(&self) -> gtk::Box {
+        self.get("spacer_1")
+    }
+
+    pub fn stackswitcher1(&self) -> gtk::StackSwitcher {
+        self.get("stackswitcher1")
+    }
+
+    pub fn unencrypted(&self) -> gtk::Box {
+        self.get("unencrypted")
+    }
+
+    pub fn x(&self) -> gtk::SizeGroup {
+        self.get("x")
+    }
+
+    pub fn y(&self) -> gtk::SizeGroup {
+        self.get("y")
+    }
+}
+
+pub struct DialogDeviceMissing {
+    builder: gtk::Builder,
+}
+
+impl DialogDeviceMissing {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_device_missing.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_device_missing.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn icon(&self) -> gtk::Box {
+        self.get("icon")
+    }
+
+    pub fn name(&self) -> gtk::Label {
+        self.get("name")
+    }
+
+    pub fn window(&self) -> gtk::Dialog {
+        self.get("window")
+    }
+}
+
+pub struct DialogEncryptionPassword {
+    builder: gtk::Builder,
+}
+
+impl DialogEncryptionPassword {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_encryption_password.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_encryption_password.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
+    pub fn ok(&self) -> gtk::Button {
+        self.get("ok")
+    }
+
+    pub fn password(&self) -> gtk::Entry {
+        self.get("password")
+    }
+
+    pub fn password_forget(&self) -> gtk::CheckButton {
+        self.get("password_forget")
+    }
+
+    pub fn password_store(&self) -> gtk::CheckButton {
+        self.get("password_store")
+    }
+
+    pub fn purpose(&self) -> gtk::Label {
+        self.get("purpose")
+    }
+}
+
+pub struct DialogPrune {
+    builder: gtk::Builder,
+}
+
+impl DialogPrune {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_prune.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_prune.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn delete(&self) -> gtk::Button {
+        self.get("delete")
+    }
+
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
+    pub fn keep(&self) -> gtk::Label {
+        self.get("keep")
+    }
+
+    pub fn prune(&self) -> gtk::Label {
+        self.get("prune")
+    }
+}
+
+pub struct DialogStorage {
+    builder: gtk::Builder,
+}
+
+impl DialogStorage {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_storage.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_storage.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn device(&self) -> gtk::Label {
+        self.get("device")
+    }
+
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
+    pub fn disk(&self) -> gtk::ListBox {
+        self.get("disk")
+    }
+
+    pub fn fs(&self) -> gtk::Box {
+        self.get("fs")
+    }
+
+    pub fn fs_free(&self) -> gtk::Label {
+        self.get("fs_free")
+    }
+
+    pub fn fs_size(&self) -> gtk::Label {
+        self.get("fs_size")
+    }
+
+    pub fn fs_usage(&self) -> gtk::LevelBar {
+        self.get("fs_usage")
+    }
+
+    pub fn path(&self) -> gtk::Label {
+        self.get("path")
+    }
+
+    pub fn remote(&self) -> gtk::ListBox {
+        self.get("remote")
+    }
+
+    pub fn uri(&self) -> gtk::Label {
+        self.get("uri")
+    }
+
+    pub fn volume(&self) -> gtk::Label {
+        self.get("volume")
+    }
+}
+
 pub struct OverviewItem {
     builder: gtk::Builder,
 }
@@ -839,15 +854,19 @@ impl OverviewItem {
     pub fn new() -> Self {
         Self {
             builder: gtk::Builder::from_string(include_str!(concat!(
-                data_dir!(),
-                "/ui/overview_item.ui"
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/overview_item.ui"
             ))),
         }
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id)
-            .unwrap_or_else(|| panic!("Object with id '{}' not found in 'ui/overview_item.ui'", id))
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/overview_item.ui'",
+                id
+            )
+        })
     }
 
     pub fn include(&self) -> gtk::Box {
