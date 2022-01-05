@@ -97,7 +97,7 @@ impl Hint {
     pub fn check(config: &config::Backup) -> Vec<Self> {
         let mut vec = Vec::new();
 
-        if config.repo.is_drive_connected() == Ok(false) {
+        if config.repo.is_drive_connected() == Some(false) {
             vec.push(Self::DeviceMissing)
         }
 
