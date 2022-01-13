@@ -17,7 +17,7 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
       <li>Recover files or folders via your file browser</li>
 </ul>
 
-Pika Backup is powered by the well-tested borg-backup software.
+Pika Backup is powered by the well-tested [BorgBackup](https://www.borgbackup.org/support/fund.html) software.
 
 ### Limitations
   
@@ -33,6 +33,6 @@ Frequent rumors that this software's name is related to a monster with electrica
 
 ### Alternative Software
 
-- [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), borg-backup as backend, supports scheduled backups, Qt frontend for advanced users
+- [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), BorgBackup as backend, supports scheduled backups, Qt frontend for advanced users
 - [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) as backend, supports scheduled backups, GTK frontend
 

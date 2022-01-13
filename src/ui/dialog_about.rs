@@ -30,6 +30,14 @@ pub fn show() {
         &[&gettext("Fina Wilke")],
     );
     dialog.set_artists(&["Jakub Steiner"]);
+    dialog.add_credit_section(
+        &gettext("Back end"),
+        &[
+            &gettext("Pika Backup uses BorgBackup."),
+            &gettext("This app wouldn't exist without Borg."),
+            &gettext("Support BorgBackup https://www.borgbackup.org/support/fund.html"),
+        ],
+    );
 
     dialog.show();
 }
