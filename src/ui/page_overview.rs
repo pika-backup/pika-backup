@@ -144,7 +144,7 @@ fn rebuild_list() {
 
             let label = gtk::Label::builder()
                 .label(&path_str)
-                .ellipsize(pango::EllipsizeMode::Middle)
+                .ellipsize(gtk::pango::EllipsizeMode::Middle)
                 .build();
             incl.append(&label);
         }

@@ -1,4 +1,3 @@
-use gdk_pixbuf::prelude::*;
 use gtk::prelude::*;
 
 use crate::borg;
