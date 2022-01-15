@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-01-13 22:20+0000\n"
-"PO-Revision-Date: 2022-01-14 20:25+0200\n"
+"POT-Creation-Date: 2022-01-15 20:15+0000\n"
+"PO-Revision-Date: 2022-01-15 22:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -90,7 +90,6 @@ msgstr ""
 "файлами"
 
 #: data/app.metainfo.xml.in:32
-#| msgid "Pika Backup is powered by the well-tested borg-backup software."
 msgid "Pika Backup is powered by the well-tested BorgBackup software."
 msgstr ""
 "«Пайка-копіювання» створено на основі надійного і перевіреного програмного "
@@ -101,11 +100,6 @@ msgid "Limitations"
 msgstr "Обмеження"
 
 #: data/app.metainfo.xml.in:36
-#| msgid ""
-#| "Currently, scheduled backups are not supported. Excluding files from a "
-#| "backup via regular expressions and alike is not implemented yet. Pika "
-#| "Backup is designed to save your personal data and does not support "
-#| "complete system recovery."
 msgid ""
 "Excluding files from a backup via regular expressions and alike is not "
 "implemented yet. Pika Backup is designed to save your personal data and does "
@@ -165,7 +159,7 @@ msgstr "Потенційна внутрішня помилка."
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:133 src/ui/utils/borg.rs:121
+#: src/borg/error.rs:133 src/ui/utils/borg.rs:136
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
@@ -217,7 +211,7 @@ msgstr "Критична помилка"
 msgid "Undefined"
 msgstr "Не визначено"
 
-#: src/config.rs:373
+#: src/config.rs:376
 msgid "Remote Location"
 msgstr "Місце на віддаленому комп'ютері"
 
@@ -249,33 +243,32 @@ msgstr "{} на диску «{}»"
 msgid "Run Backup"
 msgstr "Виконати резервне копіювання"
 
-#: src/ui.rs:189 src/ui/page_backup/events.rs:21
+#: src/ui.rs:187 src/ui/page_backup/events.rs:21
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:190 src/ui/page_backup/events.rs:22
+#: src/ui.rs:188 src/ui/page_backup/events.rs:22
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:191 src/ui/dialog_encryption_password.ui:20
-#: src/ui/page_backup/events.rs:23
+#: src/ui.rs:189 src/ui/page_backup/events.rs:23
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:192 src/ui/page_backup/events.rs:24
+#: src/ui.rs:190 src/ui/page_backup/events.rs:24
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/ui.rs:249
+#: src/ui.rs:247
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:272
+#: src/ui.rs:270
 msgid "Borg version too old."
 msgstr "Надто застаріла версія borg."
 
-#: src/ui.rs:274
+#: src/ui.rs:272
 msgid ""
 "The installed version {} of borg-backup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -283,19 +276,19 @@ msgstr ""
 "Встановлена версія borg-backup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
-#: src/ui.rs:285
+#: src/ui.rs:283
 msgid "Cannot check borg-backup version"
 msgstr "Не вдалося перевірити версію borg-backup"
 
-#: src/ui.rs:287
+#: src/ui.rs:285
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
 
-#: src/ui.rs:343
+#: src/ui.rs:341
 msgid "Could not load configuration file."
 msgstr "Не вдалося завантажити файл налаштувань."
 
-#: src/ui.rs:359
+#: src/ui.rs:357
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
@@ -374,8 +367,9 @@ msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Софі Герольд (Sophie Herold) <sophieherold@gnome.org>"
 
 #: src/ui/dialog_about.rs:25
-msgid "Copyright © 2018–2021 Sophie Herold et al."
-msgstr "© Sophie Herold та інші, 2018–2021"
+#| msgid "Copyright © 2018–2021 Sophie Herold et al."
+msgid "Copyright © 2018–2022 Sophie Herold et al."
+msgstr "© Sophie Herold та інші, 2018–2022"
 
 #: src/ui/dialog_about.rs:26
 msgid "translator-credits"
@@ -391,188 +385,132 @@ msgid "Fina Wilke"
 msgstr "Фіна Вільке (Fina Wilke)"
 
 #: src/ui/dialog_about.rs:34
-#| msgid "Backup failed"
 msgid "Back end"
 msgstr "Модуль обробки"
 
 #: src/ui/dialog_about.rs:36
-#| msgid "Pika Backup Password"
 msgid "Pika Backup uses BorgBackup."
 msgstr "У «Пайці-копіюванні» використано BorgBackup."
 
 #: src/ui/dialog_about.rs:37
 msgid "This app wouldn't exist without Borg."
-msgstr ""
-"Цієї програми ніколи б не було написано без Borg."
+msgstr "Цієї програми ніколи б не було написано без Borg."
 
 #: src/ui/dialog_about.rs:38
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
-msgstr ""
-"Підтримайте BorgBackup: https://www.borgbackup.org/support/fund.html"
-
-#: src/ui/dialog_add_config.rs:152
-msgid "Failed to list existing repositories."
-msgstr "Не вдалося створити список наявних сховищ."
-
-#: src/ui/dialog_add_config.rs:239
-msgid "Free space: {}"
-msgstr "Вільне місце: {}"
-
-#: src/ui/dialog_add_config/folder_button.rs:117
-msgid "Select…"
-msgstr "Вибрати…"
-
-#: src/ui/dialog_add_config/folder_button.rs:122 src/ui/dialog_storage.ui:5
-msgid "Backup Location"
-msgstr "Місце резервного копіювання"
-
-#: src/ui/dialog_add_config/insert.rs:36
-msgid "Incomplete URL or borg syntax"
-msgstr "Неповна адреса або неповний синтаксис borg"
-
-#: src/ui/dialog_add_config/insert.rs:45
-msgid "The remote location must have a specified path."
-msgstr "Віддалена адреса має бути вказаним шляхом."
-
-#: src/ui/dialog_add_config/insert.rs:49
-msgid "Invalid remote location: “{}”"
-msgstr "Некоректна віддалена адреса: «{}»"
-
-#: src/ui/dialog_add_config/insert.rs:89 src/ui/dialog_add_config/insert.rs:109
-#: src/ui/dialog_add_config/insert.rs:127
-#: src/ui/dialog_add_config/insert.rs:252
-msgid "Loading backup repository"
-msgstr "Завантажуємо сховище резервних копій"
-
-#: src/ui/dialog_add_config/insert.rs:105
-msgid "Select existing repository"
-msgstr "Виберіть наявне сховище"
-
-#: src/ui/dialog_add_config/insert.rs:114
-msgid "Location is not a valid backup repository."
-msgstr "Місце зберігання не є коректним сховищем резервних копій."
-
-#: src/ui/dialog_add_config/insert.rs:115
-msgid "The repository must originate from Pika Backup or compatible software."
-msgstr ""
-"Сховище має бути створено «Пайка-копіюванням» або сумісним програмним "
-"забезпеченням."
-
-#: src/ui/dialog_add_config/insert.rs:131
-#: src/ui/dialog_add_config/insert.rs:184
-msgid "Invalid Remote Location"
-msgstr "Некоректне місце на віддаленому комп'ютері"
-
-#: src/ui/dialog_add_config/insert.rs:152
-msgid "No password provided."
-msgstr "Не вказано пароль."
-
-#: src/ui/dialog_add_config/insert.rs:153
-msgid "To use encryption a password must be provided."
-msgstr "Щоб скористатися шифруванням, слід вказати пароль."
-
-#: src/ui/dialog_add_config/insert.rs:157
-msgid "Entered passwords do not match."
-msgstr "Введені паролі не збігаються."
-
-#: src/ui/dialog_add_config/insert.rs:180
-msgid "A repository location has to be given."
-msgstr "Слід вказати адресу сховища."
-
-#: src/ui/dialog_add_config/insert.rs:201
-#: src/ui/dialog_add_config/insert.rs:304
-msgid "Additional command line arguments invalid."
-msgstr "Некоректні додаткові аргументи командного рядка."
-
-#: src/ui/dialog_add_config/insert.rs:202
-#: src/ui/dialog_add_config/insert.rs:305
-msgid "Please check for missing closing quotes."
-msgstr "Будь ласка, перевірте, чи закрито лапки."
-
-#: src/ui/dialog_add_config/insert.rs:207
-#: src/ui/dialog_add_config/insert.rs:217
-msgid "Creating backup repository"
-msgstr "Створення сховища резервних копій"
-
-#: src/ui/dialog_add_config/insert.rs:221
-msgid "Failed to initialize repository."
-msgstr "Не вдалося ініціалізувати сховище."
-
-#: src/ui/dialog_add_config/insert.rs:229 src/ui/utils/secret_service.rs:56
-msgid "Failed to store password."
-msgstr "Не вдалося зберегти пароль."
-
-#: src/ui/dialog_add_config/insert.rs:341
-msgid "Repository location not found."
-msgstr "Не знайдено місця зберігання сховища."
-
-#: src/ui/dialog_add_config/insert.rs:342
-msgid "A mount operation succeeded but the location is still unavailable."
-msgstr ""
-"Дію з монтування було успішно виконано, але відповідний каталог усе ще "
-"лишається недоступним."
+msgstr "Підтримайте BorgBackup: https://www.borgbackup.org/support/fund.html"
 
 #: src/ui/dialog_device_missing.rs:45
 msgid "Failed to mount."
 msgstr "Не вдалося змонтувати."
 
-#: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
-#: src/ui/page_backup/events.rs:143 src/ui/page_overview.rs:54
-#: src/ui/utils/borg.rs:123
-msgid "Cancel"
-msgstr "Скасувати"
+#: src/ui/dialog_setup.rs:162
+msgid "Failed to list existing repositories."
+msgstr "Не вдалося створити список наявних сховищ."
 
-#: src/ui/dialog_device_missing.ui:31
-msgid "The following backup location needs to be connected:"
-msgstr "Має бути встановлено з'єднання із таким місцем для резервних копій:"
+#: src/ui/dialog_setup/display.rs:170
+msgid "Free space: {}"
+msgstr "Вільне місце: {}"
 
-#: src/ui/dialog_encryption_password.ui:6
-msgid "Encryption"
-msgstr "Шифрування"
+#: src/ui/dialog_setup/folder_button.rs:117
+msgid "Select…"
+msgstr "Вибрати…"
 
-#: src/ui/dialog_encryption_password.ui:47
-msgid "Password"
-msgstr "Пароль"
+#: src/ui/dialog_setup/folder_button.rs:122
+msgid "Backup Location"
+msgstr "Місце резервного копіювання"
 
-#: src/ui/dialog_encryption_password.ui:76
-msgid "Save password"
-msgstr "Запам'ятати пароль"
+#: src/ui/dialog_setup/insert.rs:21
+msgid "Select existing repository"
+msgstr "Виберіть наявне сховище"
 
-#: src/ui/dialog_encryption_password.ui:82
-msgid "Forget password immediately"
-msgstr "Негайно забути пароль"
+#: src/ui/dialog_setup/insert.rs:30
+msgid "Location is not a valid backup repository."
+msgstr "Місце зберігання не є коректним сховищем резервних копій."
 
-#: src/ui/dialog_encryption_password.ui:96
-msgid "This requires the encryption password of the repository."
-msgstr "Це потребує пароля для шифрування сховища."
+#: src/ui/dialog_setup/insert.rs:31
+msgid "The repository must originate from Pika Backup or compatible software."
+msgstr ""
+"Сховище має бути створено «Пайка-копіюванням» або сумісним програмним "
+"забезпеченням."
 
-#: src/ui/dialog_storage.ui:30
-msgid "Volume"
-msgstr "Том"
+#: src/ui/dialog_setup/insert.rs:44 src/ui/dialog_setup/insert.rs:98
+msgid "Invalid Remote Location"
+msgstr "Некоректне місце на віддаленому комп'ютері"
 
-#: src/ui/dialog_storage.ui:43
-msgid "Device"
-msgstr "Пристрій"
+#: src/ui/dialog_setup/insert.rs:66
+msgid "No password provided."
+msgstr "Не вказано пароль."
 
-#: src/ui/dialog_storage.ui:56
-msgid "Path"
-msgstr "Шлях"
+#: src/ui/dialog_setup/insert.rs:67
+msgid "To use encryption a password must be provided."
+msgstr "Щоб скористатися шифруванням, слід вказати пароль."
 
-#: src/ui/dialog_storage.ui:80
-msgid "URL"
-msgstr "Адреса"
+#: src/ui/dialog_setup/insert.rs:71
+msgid "Entered passwords do not match."
+msgstr "Введені паролі не збігаються."
 
-#: src/ui/dialog_storage.ui:102
-msgid "Space"
-msgstr "Місце"
+#: src/ui/dialog_setup/insert.rs:94
+msgid "A repository location has to be given."
+msgstr "Слід вказати адресу сховища."
 
-#: src/ui/dialog_storage.ui:116
-msgid "Total"
-msgstr "Загалом"
+#: src/ui/dialog_setup/insert.rs:115 src/ui/dialog_setup/insert.rs:251
+msgid "Additional command line arguments invalid."
+msgstr "Некоректні додаткові аргументи командного рядка."
 
-#: src/ui/dialog_storage.ui:129
-msgid "Free"
-msgstr "Вільно"
+#: src/ui/dialog_setup/insert.rs:116 src/ui/dialog_setup/insert.rs:252
+msgid "Please check for missing closing quotes."
+msgstr "Будь ласка, перевірте, чи закрито лапки."
+
+#: src/ui/dialog_setup/insert.rs:128
+msgid "Creating backup repository"
+msgstr "Створення сховища резервних копій"
+
+#: src/ui/dialog_setup/insert.rs:132
+msgid "Failed to initialize repository."
+msgstr "Не вдалося ініціалізувати сховище."
+
+#: src/ui/dialog_setup/insert.rs:172
+msgid "Loading backup repository"
+msgstr "Завантажуємо сховище резервних копій"
+
+#: src/ui/dialog_setup/insert.rs:193
+#| msgid "Failed to unmount repository."
+msgid "Failed to configure repository."
+msgstr "Не вдалося налаштувати сховище."
+
+#: src/ui/dialog_setup/insert.rs:207
+#| msgid "Next backup in one day"
+#| msgid_plural "Next backup in {} days"
+msgid "Get backup info"
+msgstr "Отримати дані щодо резервної копії"
+
+#: src/ui/dialog_setup/insert.rs:211
+msgid "Failed"
+msgstr ""
+"Помилка"
+
+#: src/ui/dialog_setup/insert.rs:288
+msgid "Repository location not found."
+msgstr "Не знайдено місця зберігання сховища."
+
+#: src/ui/dialog_setup/insert.rs:289
+msgid "A mount operation succeeded but the location is still unavailable."
+msgstr ""
+"Дію з монтування було успішно виконано, але відповідний каталог усе ще "
+"лишається недоступним."
+
+#: src/ui/dialog_setup/remote_location.rs:23
+msgid "Incomplete URL or borg syntax"
+msgstr "Неповна адреса або неповний синтаксис borg"
+
+#: src/ui/dialog_setup/remote_location.rs:32
+msgid "The remote location must have a specified path."
+msgstr "Віддалена адреса має бути вказаним шляхом."
+
+#: src/ui/dialog_setup/remote_location.rs:36
+msgid "Invalid remote location: “{}”"
+msgstr "Некоректна віддалена адреса: «{}»"
 
 #: src/ui/error.rs:74
 msgid "Backup with id “{}” already exists."
@@ -662,6 +600,11 @@ msgstr ""
 "Усі файли, що містяться у цій теці не буде включено до наступних резервних "
 "копій."
 
+#: src/ui/page_backup/events.rs:143 src/ui/page_overview.rs:54
+#: src/ui/utils/borg.rs:138
+msgid "Cancel"
+msgstr "Скасувати"
+
 #: src/ui/page_backup/events.rs:144
 msgid "Confirm"
 msgstr "Підтвердити"
@@ -715,11 +658,7 @@ msgstr "Вилучення налаштувань не призведе до в�
 msgid "Delete"
 msgstr "Вилучити"
 
-#: src/ui/page_overview.rs:67 src/ui/utils/secret_service.rs:60
-msgid "Failed to remove potentially remaining passwords from key storage."
-msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
-
-#: src/ui/page_overview.rs:142
+#: src/ui/page_overview.rs:140
 msgid "Home"
 msgstr "Домівка"
 
@@ -919,7 +858,7 @@ msgstr "Не вдалося запустити фоновий процес"
 msgid "Select"
 msgstr "Вибрати"
 
-#: src/ui/utils/borg.rs:122
+#: src/ui/utils/borg.rs:137
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the "
@@ -937,7 +876,7 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: src/ui/utils/borg.rs:124
+#: src/ui/utils/borg.rs:139
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
@@ -1053,10 +992,57 @@ msgstr[3] "Рік тому"
 msgid "Failed to save cache."
 msgstr "Не вдалося зберегти кеш."
 
+#: src/ui/utils/secret_service.rs:13
+msgid "Failed to store password."
+msgstr "Не вдалося зберегти пароль."
+
+#: src/ui/utils/secret_service.rs:21
+msgid "Failed to remove potentially remaining passwords from key storage."
+msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
+
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:12
+#: src/ui/utils/secret_service.rs:35
 msgid "Pika Backup Password"
 msgstr "Пароль до резервної копії Пайки"
+
+#~ msgid "The following backup location needs to be connected:"
+#~ msgstr "Має бути встановлено з'єднання із таким місцем для резервних копій:"
+
+#~ msgid "Encryption"
+#~ msgstr "Шифрування"
+
+#~ msgid "Password"
+#~ msgstr "Пароль"
+
+#~ msgid "Save password"
+#~ msgstr "Запам'ятати пароль"
+
+#~ msgid "Forget password immediately"
+#~ msgstr "Негайно забути пароль"
+
+#~ msgid "This requires the encryption password of the repository."
+#~ msgstr "Це потребує пароля для шифрування сховища."
+
+#~ msgid "Volume"
+#~ msgstr "Том"
+
+#~ msgid "Device"
+#~ msgstr "Пристрій"
+
+#~ msgid "Path"
+#~ msgstr "Шлях"
+
+#~ msgid "URL"
+#~ msgstr "Адреса"
+
+#~ msgid "Space"
+#~ msgstr "Місце"
+
+#~ msgid "Total"
+#~ msgstr "Загалом"
+
+#~ msgid "Free"
+#~ msgstr "Вільно"
 
 #~ msgid "Create new repository"
 #~ msgstr "Створити сховище"
