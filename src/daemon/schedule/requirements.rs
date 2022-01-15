@@ -133,12 +133,7 @@ impl Due {
         if history.map(|x| x.running.is_some()) == Some(true) {
             Err(Self::Running)
         } else if let Some(last_run) = history.and_then(|x| x.run.front()) {
-            let last_completed = history.and_then(|x| x.last_completed.as_ref());
-
             let last_run_datetime = last_run.end;
-
-            debug!("Last run: {:?}", last_run_datetime);
-            debug!("Last completed: {:?}", last_completed.map(|x| x.end));
 
             let last_run_ago = chrono::Local::now() - last_run.end;
 
@@ -154,10 +149,6 @@ impl Due {
                     if last_run_ago >= chrono::Duration::hours(1) {
                         Ok(())
                     } else {
-                        debug!(
-                            "Last backup is only {} minutes ago.",
-                            last_run_ago.num_minutes()
-                        );
                         Err(Self::NotDueDateTime {
                             next: last_run.end + chrono::Duration::hours(1),
                         })

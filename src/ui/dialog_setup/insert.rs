@@ -1,9 +1,8 @@
-use std::rc::Rc;
-
-use gio::prelude::*;
-use gtk::prelude::*;
+use adw::prelude::*;
 use zeroize::Zeroizing;
 
+use super::display;
+use super::remote_location::RemoteLocation;
 use crate::borg;
 use crate::borg::prelude::*;
 use crate::config;
@@ -11,104 +10,21 @@ use crate::config::*;
 use crate::ui;
 use crate::ui::builder;
 use crate::ui::prelude::*;
-use ui::page_pending;
 
-struct RemoteLocation {
-    url: String,
-}
-
-impl RemoteLocation {
-    pub fn from_user_input(input: String) -> std::result::Result<Self, String> {
-        let url = if !input.contains("://") {
-            if let Some((target, path)) = input.split_once(":") {
-                let path_begin = path.chars().next();
-
-                let url_path = if path_begin == Some('~') {
-                    format!("/{}", path)
-                } else if path_begin != Some('/') {
-                    format!("/./{}", path)
-                } else {
-                    path.to_string()
-                };
-
-                format!("ssh://{}{}", target, url_path)
-            } else {
-                return Err(gettext("Incomplete URL or borg syntax"));
-            }
-        } else {
-            input
-        };
-
-        match glib::Uri::parse(&url, glib::UriFlags::NONE) {
-            Ok(uri) => {
-                if uri.path().is_empty() {
-                    return Err(gettext("The remote location must have a specified path."));
-                }
-            }
-            Err(err) => {
-                return Err(gettextf("Invalid remote location: “{}”", &[err.message()]));
-            }
-        }
-
-        Ok(Self { url })
-    }
-
-    pub fn url(&self) -> String {
-        self.url.clone()
-    }
-
-    pub fn as_gio_file(&self) -> gio::File {
-        gio::File::for_uri(&self.url)
-    }
-
-    pub fn is_borg_host(&self) -> bool {
-        self.url.get(..6) == Some("ssh://")
-    }
-}
-
-pub fn on_init_button_clicked(ui: Rc<builder::DialogAddConfig>) {
+pub fn on_init_button_clicked(ui: Rc<builder::DialogSetup>) {
     execute(on_init_button_clicked_future(Rc::clone(&ui)), ui.dialog());
 }
 
-pub fn on_add_button_clicked(ui: Rc<builder::DialogAddConfig>) {
-    execute(on_add_button_clicked_future(ui.clone()), ui.dialog());
-}
-
-pub fn on_add_repo_list_activated(row: Rc<gtk::ListBoxRow>, ui: Rc<builder::DialogAddConfig>) {
-    let name = row.widget_name();
-    if name == "-add-local" {
-        execute(on_add_repo_list_activated_local(ui.clone()), ui.dialog());
-    } else if name == "-add-remote" {
-        ui.leaflet().set_visible_child(&ui.page_detail());
-        ui.location_stack().set_visible_child(&ui.location_remote());
-        ui.button_stack().set_visible_child(&ui.add_button());
-        ui.encryption_box().hide();
-        ui.add_button().show();
-        ui.dialog().set_default_widget(Some(&ui.add_button()));
-    } else {
-        page_pending::show(&gettext("Loading backup repository"));
-        ui.dialog().hide();
-
-        let uri = name;
-        if let Some(path) = gio::File::for_uri(&uri).path() {
-            execute(
-                add_repo_config(local::Repository::from_path(path).into_config(), ui.clone()),
-                ui.dialog(),
-            );
-        }
-    }
-}
-
-async fn on_add_repo_list_activated_local(ui: Rc<builder::DialogAddConfig>) -> Result<()> {
+pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Result<()> {
     ui.dialog().hide();
 
     if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository"))
         .await
         .and_then(|x| x.path())
     {
-        ui::page_pending::show(&gettext("Loading backup repository"));
+        ui.dialog().show();
         if ui::utils::is_backup_repo(&path) {
-            add_repo_config(local::Repository::from_path(path).into_config(), ui).await?;
+            add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await?;
         } else {
             return Err(Message::new(
                 gettext("Location is not a valid backup repository."),
@@ -123,12 +39,10 @@ async fn on_add_repo_list_activated_local(ui: Rc<builder::DialogAddConfig>) -> R
     Ok(())
 }
 
-async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Result<()> {
-    page_pending::show(&gettext("Loading backup repository"));
-    ui.dialog().hide();
-
+pub async fn add_button_clicked(ui: builder::DialogSetup) -> Result<()> {
     let remote_location = RemoteLocation::from_user_input(ui.location_url().text().to_string())
         .err_to_msg(gettext("Invalid Remote Location"))?;
+
     debug!("Add existing URI '{:?}'", remote_location.url());
 
     let repo = if remote_location.is_borg_host() {
@@ -139,10 +53,10 @@ async fn on_add_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resul
             .into_config()
     };
 
-    add_repo_config(repo, ui).await
+    add_first_try(repo, ui).await
 }
 
-async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Result<()> {
+async fn on_init_button_clicked_future(ui: Rc<builder::DialogSetup>) -> Result<()> {
     let encrypted =
         ui.encryption().visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
@@ -204,9 +118,6 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
         .into());
     }
 
-    page_pending::show(&gettext("Creating backup repository"));
-    ui.dialog().hide();
-
     let mut borg = borg::BorgOnlyRepo::new(repo.clone());
     let password = Zeroizing::new(ui.password().text().as_bytes().to_vec());
     if encrypted {
@@ -224,10 +135,8 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
             let config = config::Backup::new(repo.clone(), info, encrypted);
 
             insert_backup_config(config.clone())?;
-            if encrypted && ui.password_store().is_active() {
-                if let Err(err) = ui::utils::secret_service::set_password(&config, &password) {
-                    return Err(Message::new(gettext("Failed to store password."), err).into());
-                }
+            if encrypted {
+                ui::utils::secret_service::store_password(&config, &password)?;
             }
             ui::page_backup::view_backup_conf(&config.id);
         }
@@ -236,34 +145,72 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogAddConfig>) -> Resu
     Ok(())
 }
 
-async fn add_repo_config(
-    mut repo: config::Repository,
-    ui: Rc<builder::DialogAddConfig>,
-) -> Result<()> {
+pub async fn add_first_try(mut repo: config::Repository, ui: builder::DialogSetup) -> Result<()> {
     repo.set_settings(Some(BackupSettings {
         command_line_args: Some(command_line_args(&ui)?),
     }));
 
-    insert_backup_config_encryption_unknown(repo).await
+    ui.add_task().set_repo(Some(repo.clone()));
+
+    add(ui).await
 }
 
-async fn insert_backup_config_encryption_unknown(repo: config::Repository) -> Result<()> {
-    let (info, pw_data) = ui::utils::borg::only_repo_suggest_store(
+pub async fn add(ui: builder::DialogSetup) -> Result<()> {
+    display::pending_check(&ui);
+
+    let repo = ui.add_task().repo().unwrap();
+
+    let mut borg = borg::BorgOnlyRepo::new(repo.clone());
+
+    if !ui.ask_password().text().is_empty() {
+        borg.password = Some(zeroize::Zeroizing::new(
+            ui.ask_password().text().as_bytes().to_vec(),
+        ));
+    }
+
+    let result = ui::utils::borg::only_repo_suggest_store(
         &gettext("Loading backup repository"),
-        borg::BorgOnlyRepo::new(repo.clone()),
+        borg,
         |borg| borg.peek(),
     )
-    .await
-    .into_message("Failed to configure repository.")?;
+    .await;
 
-    let encrypted = pw_data
-        .clone()
-        .map(|(password, _)| !password.is_empty())
-        .unwrap_or_default();
+    if matches!(
+        result,
+        Err(ui::error::Combined::Borg(borg::Error::Failed(
+            borg::Failure::PassphraseWrong
+        )))
+    ) {
+        display::ask_password(&ui);
+
+        return Err(Error::UserCanceled);
+    }
+
+    if result.is_err() {
+        ui.leaflet().set_visible_child(&ui.page_detail());
+    }
+
+    let info = result.into_message(gettext("Failed to configure repository."))?;
+
+    let encrypted = !ui.ask_password().text().is_empty();
+
     let config = config::Backup::new(repo.clone(), info, encrypted);
     insert_backup_config(config.clone())?;
     ui::page_backup::view_backup_conf(&config.id);
-    ui::utils::secret_service::store_password(&config, &pw_data)?;
+    ui::utils::secret_service::store_password(
+        &config,
+        &zeroize::Zeroizing::new(ui.ask_password().text().as_bytes().to_vec()),
+    )?;
+
+    ui.leaflet().set_visible_child(&ui.page_transfer());
+
+    let archives = ui::utils::borg::exec(gettext("Get backup info"), config.clone(), |borg| {
+        borg.info(20)
+    })
+    .await
+    .into_message(gettext("Failed"))?;
+
+    display::transfer_selection(&ui, config.id.clone(), archives);
 
     Ok(())
 }
@@ -277,7 +224,7 @@ fn insert_backup_config(config: config::Backup) -> Result<()> {
     ui::write_config()
 }
 
-fn execute<
+pub fn execute<
     F: std::future::Future<Output = Result<()>> + 'static,
     W: IsA<gtk::Window> + IsA<gtk::Widget>,
 >(
@@ -285,12 +232,12 @@ fn execute<
     window: W,
 ) {
     Handler::new()
-        .error_transient_for(window.clone())
-        .dialog_auto_visibility(window)
+        .error_transient_for(window)
+        //.dialog_auto_visibility(window)
         .spawn(f);
 }
 
-fn command_line_args(ui: &builder::DialogAddConfig) -> Result<Vec<String>> {
+fn command_line_args(ui: &builder::DialogSetup) -> Result<Vec<String>> {
     let (start, end) = ui.command_line_args().buffer().bounds();
     if let Ok(args) = shell_words::split(
         &ui.command_line_args()

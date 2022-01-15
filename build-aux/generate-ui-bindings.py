@@ -71,8 +71,34 @@ def fn_code(objects):
 
 
 def struct_code(name, path):
-    template = """pub struct {name} {{
+    template = """#[derive(Clone)]
+pub struct {name} {{
     builder: gtk::Builder,
+}}
+
+#[derive(Clone)]
+pub struct {name}Weak {{
+    builder: glib::WeakRef<gtk::Builder>,
+}}
+
+impl glib::clone::Downgrade for {name} {{
+    type Weak = {name}Weak;
+
+    fn downgrade(&self) -> Self::Weak {{
+        Self::Weak {{
+            builder: self.builder.downgrade(),
+        }}
+    }}
+}}
+
+impl glib::clone::Upgrade for {name}Weak {{
+    type Strong = {name};
+
+    fn upgrade(&self) -> Option<Self::Strong> {{
+        Some(Self::Strong {{
+            builder: self.builder.upgrade()?,
+        }})
+    }}
 }}
 
 impl {name} {{

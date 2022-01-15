@@ -1,5 +1,31 @@
+#[derive(Clone)]
 pub struct AppWindow {
     builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct AppWindowWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for AppWindow {
+    type Weak = AppWindowWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for AppWindowWeak {
+    type Strong = AppWindow;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
 }
 
 impl AppWindow {
@@ -35,10 +61,6 @@ impl AppWindow {
 
     pub fn add_include(&self) -> gtk::Button {
         self.get("add_include")
-    }
-
-    pub fn add_pending_label(&self) -> gtk::Label {
-        self.get("add_pending_label")
     }
 
     pub fn archive_list(&self) -> gtk::ListBox {
@@ -231,14 +253,6 @@ impl AppWindow {
 
     pub fn page_overview_empty(&self) -> adw::StatusPage {
         self.get("page_overview_empty")
-    }
-
-    pub fn page_pending(&self) -> gtk::Box {
-        self.get("page_pending")
-    }
-
-    pub fn page_pending_spinner(&self) -> gtk::Spinner {
-        self.get("page_pending_spinner")
     }
 
     pub fn page_schedule(&self) -> gtk::ScrolledWindow {
@@ -438,8 +452,34 @@ impl AppWindow {
     }
 }
 
+#[derive(Clone)]
 pub struct DialogAbout {
     builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogAboutWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogAbout {
+    type Weak = DialogAboutWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogAboutWeak {
+    type Strong = DialogAbout;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
 }
 
 impl DialogAbout {
@@ -466,16 +506,42 @@ impl DialogAbout {
     }
 }
 
-pub struct DialogAddConfig {
+#[derive(Clone)]
+pub struct DialogDeviceMissing {
     builder: gtk::Builder,
 }
 
-impl DialogAddConfig {
+#[derive(Clone)]
+pub struct DialogDeviceMissingWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogDeviceMissing {
+    type Weak = DialogDeviceMissingWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogDeviceMissingWeak {
+    type Strong = DialogDeviceMissing;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogDeviceMissing {
     pub fn new() -> Self {
         Self {
             builder: gtk::Builder::from_string(include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
-                "/src/ui/dialog_add_config.ui"
+                "/src/ui/dialog_device_missing.ui"
             ))),
         }
     }
@@ -483,7 +549,213 @@ impl DialogAddConfig {
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
             panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_add_config.ui'",
+                "Object with id '{}' not found in 'src/ui/dialog_device_missing.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn icon(&self) -> gtk::Box {
+        self.get("icon")
+    }
+
+    pub fn name(&self) -> gtk::Label {
+        self.get("name")
+    }
+
+    pub fn window(&self) -> gtk::Dialog {
+        self.get("window")
+    }
+}
+
+#[derive(Clone)]
+pub struct DialogEncryptionPassword {
+    builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogEncryptionPasswordWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogEncryptionPassword {
+    type Weak = DialogEncryptionPasswordWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogEncryptionPasswordWeak {
+    type Strong = DialogEncryptionPassword;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogEncryptionPassword {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_encryption_password.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_encryption_password.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
+    pub fn ok(&self) -> gtk::Button {
+        self.get("ok")
+    }
+
+    pub fn password(&self) -> gtk::Entry {
+        self.get("password")
+    }
+
+    pub fn purpose(&self) -> gtk::Label {
+        self.get("purpose")
+    }
+}
+
+#[derive(Clone)]
+pub struct DialogPrune {
+    builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogPruneWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogPrune {
+    type Weak = DialogPruneWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogPruneWeak {
+    type Strong = DialogPrune;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogPrune {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_prune.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_prune.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn delete(&self) -> gtk::Button {
+        self.get("delete")
+    }
+
+    pub fn dialog(&self) -> gtk::Dialog {
+        self.get("dialog")
+    }
+
+    pub fn keep(&self) -> gtk::Label {
+        self.get("keep")
+    }
+
+    pub fn prune(&self) -> gtk::Label {
+        self.get("prune")
+    }
+}
+
+#[derive(Clone)]
+pub struct DialogSetup {
+    builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogSetupWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogSetup {
+    type Weak = DialogSetupWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogSetupWeak {
+    type Strong = DialogSetup;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogSetup {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_setup.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_setup.ui'",
                 id
             )
         })
@@ -503,6 +775,14 @@ impl DialogAddConfig {
 
     pub fn add_repo_list(&self) -> gtk::ListBox {
         self.get("add_repo_list")
+    }
+
+    pub fn add_task(&self) -> crate::ui::export::AddConfigTask {
+        self.get("add_task")
+    }
+
+    pub fn ask_password(&self) -> gtk::PasswordEntry {
+        self.get("ask_password")
     }
 
     pub fn back_to_overview(&self) -> gtk::Button {
@@ -585,14 +865,6 @@ impl DialogAddConfig {
         self.get("location_url")
     }
 
-    pub fn location_url_help(&self) -> gtk::Popover {
-        self.get("location_url_help")
-    }
-
-    pub fn no_button(&self) -> gtk::Box {
-        self.get("no_button")
-    }
-
     pub fn non_journaling_warning(&self) -> gtk::Box {
         self.get("non_journaling_warning")
     }
@@ -603,6 +875,34 @@ impl DialogAddConfig {
 
     pub fn page_overview(&self) -> gtk::Box {
         self.get("page_overview")
+    }
+
+    pub fn page_password(&self) -> gtk::Stack {
+        self.get("page_password")
+    }
+
+    pub fn page_password_continue(&self) -> gtk::Button {
+        self.get("page_password_continue")
+    }
+
+    pub fn page_password_input(&self) -> gtk::Box {
+        self.get("page_password_input")
+    }
+
+    pub fn page_password_pending(&self) -> gtk::ScrolledWindow {
+        self.get("page_password_pending")
+    }
+
+    pub fn page_transfer(&self) -> gtk::Stack {
+        self.get("page_transfer")
+    }
+
+    pub fn page_transfer_pending(&self) -> gtk::ScrolledWindow {
+        self.get("page_transfer_pending")
+    }
+
+    pub fn page_transfer_select(&self) -> gtk::Box {
+        self.get("page_transfer_select")
     }
 
     pub fn password(&self) -> gtk::PasswordEntry {
@@ -617,8 +917,12 @@ impl DialogAddConfig {
         self.get("password_quality")
     }
 
-    pub fn password_store(&self) -> gtk::CheckButton {
-        self.get("password_store")
+    pub fn pending_label(&self) -> gtk::Label {
+        self.get("pending_label")
+    }
+
+    pub fn pending_spinner(&self) -> gtk::Spinner {
+        self.get("pending_spinner")
     }
 
     pub fn spacer_1(&self) -> gtk::Box {
@@ -627,6 +931,18 @@ impl DialogAddConfig {
 
     pub fn stackswitcher1(&self) -> gtk::StackSwitcher {
         self.get("stackswitcher1")
+    }
+
+    pub fn transfer_pending_label(&self) -> gtk::Label {
+        self.get("transfer_pending_label")
+    }
+
+    pub fn transfer_pending_spinner(&self) -> gtk::Spinner {
+        self.get("transfer_pending_spinner")
+    }
+
+    pub fn transfer_suggestions(&self) -> gtk::ListBox {
+        self.get("transfer_suggestions")
     }
 
     pub fn unencrypted(&self) -> gtk::Box {
@@ -642,144 +958,34 @@ impl DialogAddConfig {
     }
 }
 
-pub struct DialogDeviceMissing {
-    builder: gtk::Builder,
-}
-
-impl DialogDeviceMissing {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                env!("CARGO_MANIFEST_DIR"),
-                "/src/ui/dialog_device_missing.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_device_missing.ui'",
-                id
-            )
-        })
-    }
-
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn icon(&self) -> gtk::Box {
-        self.get("icon")
-    }
-
-    pub fn name(&self) -> gtk::Label {
-        self.get("name")
-    }
-
-    pub fn window(&self) -> gtk::Dialog {
-        self.get("window")
-    }
-}
-
-pub struct DialogEncryptionPassword {
-    builder: gtk::Builder,
-}
-
-impl DialogEncryptionPassword {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                env!("CARGO_MANIFEST_DIR"),
-                "/src/ui/dialog_encryption_password.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_encryption_password.ui'",
-                id
-            )
-        })
-    }
-
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn dialog(&self) -> gtk::Dialog {
-        self.get("dialog")
-    }
-
-    pub fn ok(&self) -> gtk::Button {
-        self.get("ok")
-    }
-
-    pub fn password(&self) -> gtk::Entry {
-        self.get("password")
-    }
-
-    pub fn password_forget(&self) -> gtk::CheckButton {
-        self.get("password_forget")
-    }
-
-    pub fn password_store(&self) -> gtk::CheckButton {
-        self.get("password_store")
-    }
-
-    pub fn purpose(&self) -> gtk::Label {
-        self.get("purpose")
-    }
-}
-
-pub struct DialogPrune {
-    builder: gtk::Builder,
-}
-
-impl DialogPrune {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                env!("CARGO_MANIFEST_DIR"),
-                "/src/ui/dialog_prune.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_prune.ui'",
-                id
-            )
-        })
-    }
-
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn delete(&self) -> gtk::Button {
-        self.get("delete")
-    }
-
-    pub fn dialog(&self) -> gtk::Dialog {
-        self.get("dialog")
-    }
-
-    pub fn keep(&self) -> gtk::Label {
-        self.get("keep")
-    }
-
-    pub fn prune(&self) -> gtk::Label {
-        self.get("prune")
-    }
-}
-
+#[derive(Clone)]
 pub struct DialogStorage {
     builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogStorageWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogStorage {
+    type Weak = DialogStorageWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogStorageWeak {
+    type Strong = DialogStorage;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
 }
 
 impl DialogStorage {
@@ -846,8 +1052,34 @@ impl DialogStorage {
     }
 }
 
+#[derive(Clone)]
 pub struct OverviewItem {
     builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct OverviewItemWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for OverviewItem {
+    type Weak = OverviewItemWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for OverviewItemWeak {
+    type Strong = OverviewItem;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
 }
 
 impl OverviewItem {

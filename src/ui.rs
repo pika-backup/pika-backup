@@ -13,10 +13,10 @@ mod backup_status;
 #[allow(dead_code)]
 mod builder;
 mod dialog_about;
-mod dialog_add_config;
 mod dialog_device_missing;
 mod dialog_encryption_password;
 mod dialog_info;
+mod dialog_setup;
 mod dialog_storage;
 mod error;
 mod export;
@@ -28,7 +28,6 @@ mod page_archives;
 mod page_backup;
 mod page_detail;
 mod page_overview;
-mod page_pending;
 mod page_schedule;
 mod prelude;
 mod toast_size_estimate;
@@ -119,7 +118,6 @@ fn on_startup(_app: &gtk::Application) {
     ui::headerbar::init();
 
     ui::page_overview::init();
-    ui::page_pending::init();
 
     ui::page_detail::init();
     ui::page_backup::init::init();

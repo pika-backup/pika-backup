@@ -126,12 +126,17 @@ impl<R> CombinedToError<R> for std::result::Result<R, Combined> {
 #[derive(Default)]
 pub struct Handler<W: IsA<gtk::Window> + IsA<gtk::Widget>> {
     transient_for: Option<W>,
-    auto_visibility: Option<W>,
 }
 
 impl Handler<adw::ApplicationWindow> {
     pub fn run<F: std::future::Future<Output = Result<()>> + 'static>(f: F) {
         Self::new().error_transient_for(main_ui().window()).spawn(f);
+    }
+
+    pub fn handle(result: Result<()>) {
+        Self::new()
+            .error_transient_for(main_ui().window())
+            .spawn(async { result });
     }
 }
 
@@ -139,7 +144,6 @@ impl<W: IsA<gtk::Window> + IsA<gtk::Widget>> Handler<W> {
     pub fn new() -> Self {
         Self {
             transient_for: None,
-            auto_visibility: None,
         }
     }
 
@@ -148,40 +152,19 @@ impl<W: IsA<gtk::Window> + IsA<gtk::Widget>> Handler<W> {
         self
     }
 
-    pub fn dialog_auto_visibility(mut self, window: W) -> Self {
-        self.auto_visibility = Some(window);
-        self
-    }
-
     pub fn spawn<F: std::future::Future<Output = Result<()>> + 'static>(&self, f: F) {
         let transient_for = self.transient_for.clone();
-        let auto_visibility = self.auto_visibility.clone();
 
         glib::MainContext::default().spawn_local(async move {
             match f.await {
                 Err(Error::Message(err)) => {
-                    if let Some(auto_visibility) = auto_visibility {
-                        auto_visibility.show();
-                        ui::page_pending::back();
-                    }
-
                     if let Some(transient_for) = transient_for {
                         err.show_transient_for(&transient_for).await;
                     } else {
                         err.show().await;
                     }
                 }
-                Err(Error::UserCanceled) => {
-                    if let Some(auto_visibility) = auto_visibility {
-                        ui::page_pending::back();
-                        auto_visibility.show();
-                    }
-                }
-                Ok(()) => {
-                    if let Some(auto_visibility) = auto_visibility {
-                        auto_visibility.close();
-                    }
-                }
+                Err(Error::UserCanceled) | Ok(()) => {}
             }
         });
     }

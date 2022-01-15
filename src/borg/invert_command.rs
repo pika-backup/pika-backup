@@ -1,8 +1,9 @@
 use crate::config;
+use std::collections::BTreeSet;
 use std::path::PathBuf;
 
 #[derive(Clone, Debug)]
-pub enum CreateTerm {
+enum CreateTerm {
     OptExclude,
     UnknownOption,
     Value,
@@ -40,10 +41,10 @@ fn ast(cmd: Vec<String>) -> Vec<(CreateTerm, String)> {
     cmd.into_iter().map(CreateTerm::parse).flatten().collect()
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Parsed {
-    exclude: Vec<config::Pattern>,
-    include: Vec<PathBuf>,
+    pub exclude: BTreeSet<config::Pattern>,
+    pub include: BTreeSet<PathBuf>,
 }
 
 pub fn parse(cmd: Vec<String>) -> Parsed {
@@ -54,14 +55,16 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
     let ast_options = ast_split.next().map(|x| x.to_vec()).unwrap_or_default();
     let ast_include = ast_split.next().map(|x| x.to_vec()).unwrap_or_default();
 
-    let mut exclude = Vec::new();
+    let mut exclude = BTreeSet::new();
     let mut options = ast_options.into_iter();
 
     while let Some(option) = options.next() {
         if matches!(option.0, CreateTerm::OptExclude) {
             if let Some((CreateTerm::Value, value)) = options.next() {
-                if let Some(pattern) = config::Pattern::from_borg(value) {
-                    exclude.push(pattern);
+                if !value.ends_with(crate::REPO_MOUNT_DIR) {
+                    if let Some(pattern) = config::Pattern::from_borg(value) {
+                        exclude.insert(pattern);
+                    }
                 }
             }
         }
@@ -104,11 +107,11 @@ fn test() {
     assert_eq!(
         parse(cmd),
         Parsed {
-            exclude: vec![
-                config::Pattern::PathPrefix(PathBuf::from("/home/xuser/.cache")),
-                config::Pattern::PathPrefix(PathBuf::from("/home/xuser/.mnt/borg")),
-            ],
-            include: vec![PathBuf::from("/home/xuser/Music")],
+            exclude: [config::Pattern::PathPrefix(PathBuf::from(
+                "/home/xuser/.cache"
+            )),]
+            .into(),
+            include: [PathBuf::from("/home/xuser/Music")].into(),
         }
     );
 }

@@ -8,6 +8,7 @@ pub use crate::ui::utils::ext::*;
 pub use crate::ui::utils::LookupActiveConfigId;
 
 use arc_swap::ArcSwap;
+pub use glib::clone;
 
 pub trait ArcSwapResultExt<T> {
     fn update_result<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()>;

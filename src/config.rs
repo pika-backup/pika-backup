@@ -86,7 +86,7 @@ pub struct Backup {
     pub prune: Prune,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct ArchivePrefix(pub String);
 
 impl ArchivePrefix {
@@ -114,10 +114,7 @@ impl std::fmt::Display for ArchivePrefix {
 }
 
 fn fake_repo_id() -> borg::RepoId {
-    borg::RepoId::new(format!(
-        "-randomid-{}",
-        glib::uuid_string_random().to_string()
-    ))
+    borg::RepoId::new(format!("-randomid-{}", glib::uuid_string_random()))
 }
 
 impl Backup {
@@ -247,6 +244,12 @@ impl std::cmp::Ord for Pattern {
 impl std::cmp::PartialOrd for Pattern {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         Some(self.cmp(other))
+    }
+}
+
+impl std::hash::Hash for Pattern {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.borg_pattern().hash(state);
     }
 }
 

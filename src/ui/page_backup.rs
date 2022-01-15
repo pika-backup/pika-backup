@@ -3,6 +3,8 @@ mod events;
 mod execution;
 pub mod init;
 
+pub use display::refresh;
+
 use crate::ui::prelude::*;
 
 pub fn activate_action_backup(id: ConfigId) {

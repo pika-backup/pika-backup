@@ -3,6 +3,7 @@ use crate::ui::prelude::*;
 use crate::borg;
 use crate::config;
 use crate::ui;
+use ui::error::Combined;
 
 /// checks if there is any running backup
 pub fn is_backup_running() -> bool {
@@ -29,31 +30,20 @@ where
     F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
 {
-    let config = borg.config();
-
-    let result = spawn_borg_thread(name, borg, task, false).await;
-
-    if let Ok((_, ref x)) = result {
-        if let Err(Error::Message(err)) =
-            crate::ui::utils::secret_service::store_password(&config, x)
-        {
-            err.show().await;
-        }
-    }
-    result.map(|(x, _)| x)
+    spawn_borg_thread_ask_password(name, borg, task).await
 }
 
 pub async fn only_repo_suggest_store<P: core::fmt::Display, F, V, B>(
     name: P,
     borg: B,
     task: F,
-) -> CombinedResult<(V, Option<(config::Password, bool)>)>
+) -> CombinedResult<V>
 where
     F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
 {
-    spawn_borg_thread(name, borg, task, true).await
+    spawn_borg_thread(name, borg, task).await
 }
 
 fn set_scheduler_priority(priority: i32) {
@@ -64,14 +54,55 @@ fn set_scheduler_priority(priority: i32) {
     }
 }
 
-#[allow(clippy::type_complexity)]
-async fn spawn_borg_thread<P: core::fmt::Display, F, V, B>(
+async fn spawn_borg_thread_ask_password<P, F, V, B>(
     name: P,
     mut borg: B,
     task: F,
-    mut pre_select_store: bool,
-) -> CombinedResult<(V, Option<(config::Password, bool)>)>
+) -> CombinedResult<V>
 where
+    P: core::fmt::Display,
+    F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
+    V: Send + 'static,
+    B: borg::BorgBasics + 'static,
+{
+    let mut password_changed = false;
+
+    loop {
+        let result = spawn_borg_thread(name.to_string(), borg.clone(), task.clone()).await;
+
+        return match result {
+            Err(Combined::Borg(borg::Error::PasswordMissing))
+            | Err(Combined::Borg(borg::Error::Failed(borg::Failure::PassphraseWrong))) => {
+                if let Some(password) =
+                    crate::ui::utils::secret_service::password(name.to_string()).await
+                {
+                    borg.set_password(password);
+                    password_changed = true;
+
+                    continue;
+                } else {
+                    Err(Error::UserCanceled.into())
+                }
+            }
+            _ => {
+                if password_changed {
+                    if let (Some(password), Some(config)) = (&borg.password(), &borg.try_config()) {
+                        if let Err(Error::Message(err)) =
+                            crate::ui::utils::secret_service::store_password(config, password)
+                        {
+                            err.show().await;
+                        }
+                    }
+                }
+                result
+            }
+        };
+    }
+}
+
+async fn spawn_borg_thread<P, F, V, B>(name: P, borg: B, task: F) -> CombinedResult<V>
+where
+    P: core::fmt::Display,
     F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
@@ -89,28 +120,12 @@ where
         return match result {
             Err(futures::channel::oneshot::Canceled) => Err(borg::Error::ThreadPanicked.into()),
             Ok(result) => match result {
-                Err(borg::Error::PasswordMissing)
-                | Err(borg::Error::Failed(borg::Failure::PassphraseWrong)) => {
-                    if let Some((password, store)) = crate::ui::utils::secret_service::password(
-                        pre_select_store,
-                        name.to_string(),
-                    )
-                    .await
-                    {
-                        pre_select_store = store;
-                        borg.set_password(password);
-
-                        continue;
-                    } else {
-                        Err(Error::UserCanceled.into())
-                    }
-                }
                 Err(borg::Error::Failed(borg::Failure::LockTimeout)) => {
                     handle_lock(borg.clone()).await?;
                     continue;
                 }
                 Err(e) => Err(e.into()),
-                Ok(result) => Ok((result, borg.password().map(|p| (p, pre_select_store)))),
+                Ok(result) => Ok(result),
             },
         };
     }

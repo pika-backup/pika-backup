@@ -19,10 +19,10 @@ pub fn init() {
 
     main_ui()
         .add_backup()
-        .connect_clicked(|_| ui::dialog_add_config::new_backup());
+        .connect_clicked(|_| ui::dialog_setup::show());
     main_ui()
         .add_backup_empty()
-        .connect_clicked(|_| ui::dialog_add_config::new_backup());
+        .connect_clicked(|_| ui::dialog_setup::show());
 
     glib::timeout_add_seconds_local(1, || {
         if is_visible() {
@@ -56,16 +56,16 @@ async fn on_remove_backup() -> Result<()> {
     )
     .await?;
 
-    let config_id = BACKUP_CONFIG.load().active()?.id.clone();
+    let config = BACKUP_CONFIG.load().active()?.clone();
+
+    let config_id = config.id.clone();
 
     BACKUP_CONFIG.update_result(|s| {
         s.remove(&config_id)?;
         Ok(())
     })?;
 
-    ui::utils::secret_service::delete_passwords(&config_id).err_to_msg(gettext(
-        "Failed to remove potentially remaining passwords from key storage.",
-    ))?;
+    ui::utils::secret_service::remove_password(&config)?;
 
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
     ui::write_config()?;
@@ -131,8 +131,6 @@ fn rebuild_list() {
                 .spacing(4)
                 .build();
             row.include().append(&incl);
-
-            incl.add_css_class("backup-include");
 
             if let Some(icon) = ui::utils::file_symbolic_icon(&config::absolute(path)) {
                 incl.append(&icon);

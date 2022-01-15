@@ -79,13 +79,13 @@ pub struct NewArchiveSize {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct List {
-    pub archives: Vec<Archive>,
+    pub archives: Vec<ListArchive>,
     pub encryption: Encryption,
     pub repository: Repository,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Archive {
+pub struct ListArchive {
     pub id: ArchiveId,
     pub name: ArchiveName,
     pub comment: String,
@@ -93,6 +93,25 @@ pub struct Archive {
     pub hostname: String,
     pub start: chrono::naive::NaiveDateTime,
     pub end: chrono::naive::NaiveDateTime,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Info {
+    pub archives: Vec<InfoArchive>,
+    pub encryption: Encryption,
+    pub repository: Repository,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct InfoArchive {
+    pub id: ArchiveId,
+    pub name: ArchiveName,
+    pub comment: String,
+    pub username: String,
+    pub hostname: String,
+    pub start: chrono::naive::NaiveDateTime,
+    pub end: chrono::naive::NaiveDateTime,
+    pub command_line: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

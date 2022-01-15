@@ -9,7 +9,7 @@ use crate::ui;
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RepoCache {
     pub repo_id: borg::RepoId,
-    pub archives: Option<BTreeMap<borg::ArchiveName, borg::Archive>>,
+    pub archives: Option<BTreeMap<borg::ArchiveName, borg::ListArchive>>,
     #[serde(skip)]
     pub reloading: bool,
     pub space: Option<ui::utils::df::Space>,
@@ -67,7 +67,7 @@ impl RepoCache {
             .collect()
     }
 
-    pub fn archives_sorted_by_date(&self) -> Vec<(borg::ArchiveName, borg::Archive)> {
+    pub fn archives_sorted_by_date(&self) -> Vec<(borg::ArchiveName, borg::ListArchive)> {
         if let Some(archives) = self.archives.clone() {
             let mut vec = Vec::from_iter(archives);
             vec.sort_by(|x, y| y.1.start.cmp(&x.1.start));

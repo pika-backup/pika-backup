@@ -17,7 +17,7 @@ pub struct Borg {
 #[derive(Clone)]
 pub struct BorgOnlyRepo {
     repo: config::Repository,
-    password: Option<config::Password>,
+    pub password: Option<config::Password>,
 }
 
 pub trait BorgRunConfig {
@@ -27,6 +27,7 @@ pub trait BorgRunConfig {
     fn set_password(&mut self, password: config::Password);
     fn is_encrypted(&self) -> bool;
     fn config_id(&self) -> Option<ConfigId>;
+    fn try_config(&self) -> Option<config::Backup>;
 }
 
 impl BorgRunConfig for Borg {
@@ -53,6 +54,10 @@ impl BorgRunConfig for Borg {
     fn config_id(&self) -> Option<ConfigId> {
         Some(self.config.id.clone())
     }
+
+    fn try_config(&self) -> Option<config::Backup> {
+        Some(self.config.clone())
+    }
 }
 
 impl BorgRunConfig for BorgOnlyRepo {
@@ -77,6 +82,10 @@ impl BorgRunConfig for BorgOnlyRepo {
     }
 
     fn config_id(&self) -> Option<ConfigId> {
+        None
+    }
+
+    fn try_config(&self) -> Option<config::Backup> {
         None
     }
 }
@@ -424,7 +433,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json)
     }
 
-    fn list(&self, last: u64) -> Result<Vec<Archive>> {
+    fn list(&self, last: u64) -> Result<Vec<ListArchive>> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
@@ -437,6 +446,19 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         check_stderr(&borg)?;
 
         let json: List = serde_json::from_slice(&borg.stdout)?;
+
+        Ok(json.archives)
+    }
+
+    fn info(&self, last: u64) -> Result<Vec<InfoArchive>> {
+        let borg = BorgCall::new("info")
+            .add_options(&["--json", &format!("--last={}", last)])
+            .add_basics(self)?
+            .output()?;
+
+        check_stderr(&borg)?;
+
+        let json: Info = serde_json::from_slice(&borg.stdout)?;
 
         Ok(json.archives)
     }

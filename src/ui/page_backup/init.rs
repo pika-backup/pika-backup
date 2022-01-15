@@ -17,7 +17,6 @@ pub fn init() {
         .add_prefix(&main_ui().status_graphic());
 
     // Backup details
-    main_ui().detail_status_row().set_activatable(true);
     main_ui()
         .detail_status_row()
         .connect_activated(|_| main_ui().detail_running_backup_info().show());
@@ -26,7 +25,6 @@ pub fn init() {
         .detail_repo_row()
         .add_prefix(&main_ui().detail_repo_icon());
 
-    main_ui().detail_repo_row().set_activatable(true);
     main_ui()
         .detail_repo_row()
         .connect_activated(|_| Handler::run(ui::dialog_storage::show()));

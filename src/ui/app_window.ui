@@ -177,36 +177,6 @@ This might take a while.</property>
                         <child>
                           <object class="AdwViewStackPage">
                             <property name="child">
-                              <object class="GtkBox" id="page_pending">
-                                <property name="valign">center</property>
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">16</property>
-                                <child>
-                                  <object class="GtkSpinner" id="page_pending_spinner">
-                                    <property name="width-request">32</property>
-                                    <property name="height-request">32</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="add_pending_label">
-                                    <property name="margin-bottom">16</property>
-                                    <property name="label">&lt;label&gt;</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"></attribute>
-                                      <attribute name="scale" value="1.3999999999999999"></attribute>
-                                    </attributes>
-                                    <style>
-                                      <class name="dim-label"/>
-                                    </style>
-                                  </object>
-                                </child>
-                              </object>
-                            </property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="AdwViewStackPage">
-                            <property name="child">
                               <object class="GtkScrolledWindow" id="page_overview">
                                 <property name="child">
                                   <object class="GtkViewport">
@@ -302,12 +272,13 @@ This might take a while.</property>
                                                   <object class="GtkListBox" id="target_listbox">
                                                     <property name="selection-mode">none</property>
                                                     <child>
-                                                      <object class="AdwActionRow" id="detail_repo_row"/>
+                                                      <object class="AdwActionRow" id="detail_repo_row">
+                                                        <property name="activatable">1</property>
+                                                      </object>
                                                     </child>
                                                     <child>
                                                       <object class="AdwActionRow" id="detail_status_row">
-                                                        <property name="activatable">False</property>
-                                                        <property name="selectable">False</property>
+                                                        <property name="activatable">1</property>
                                                         <child>
                                                           <object class="GtkBox" id="detail_status_right">
                                                             <child>
@@ -333,7 +304,7 @@ This might take a while.</property>
                                                       </object>
                                                     </child>
                                                     <style>
-                                                      <class name="content"/>
+                                                      <class name="boxed-list"/>
                                                     </style>
                                                   </object>
                                                 </child>
@@ -406,7 +377,7 @@ This might take a while.</property>
                                                       </object>
                                                     </child>
                                                     <style>
-                                                      <class name="content"/>
+                                                      <class name="boxed-list"/>
                                                     </style>
                                                   </object>
                                                 </child>
@@ -446,7 +417,7 @@ This might take a while.</property>
                                                       <object class="GtkListBox" id="backup_exclude">
                                                         <property name="selection-mode">none</property>
                                                         <style>
-                                                          <class name="content"/>
+                                                          <class name="boxed-list"/>
                                                         </style>
                                                       </object>
                                                     </child>
@@ -499,10 +470,11 @@ This might take a while.</property>
                                                 <property name="selection-mode">none</property>
                                                 <property name="margin-bottom">18</property>
                                                 <style>
-                                                  <class name="content"/>
+                                                  <class name="boxed-list"/>
                                                 </style>
                                                 <child>
                                                   <object class="GtkListBoxRow">
+                                                    <property name="activatable">0</property>
                                                     <child>
                                                       <object class="GtkBox">
                                                         <property name="spacing">6</property>
@@ -661,7 +633,7 @@ This might take a while.</property>
                                                   <object class="GtkListBox" id="archive_list">
                                                     <property name="selection-mode">none</property>
                                                     <style>
-                                                      <class name="content"/>
+                                                      <class name="boxed-list"/>
                                                     </style>
                                                   </object>
                                                 </child>
@@ -725,7 +697,7 @@ This might take a while.</property>
                                                   </object>
                                                 </child>
                                                 <style>
-                                                  <class name="content"/>
+                                                  <class name="boxed-list"/>
                                                 </style>
                                               </object>
                                             </child>
@@ -793,7 +765,7 @@ This might take a while.</property>
                                                   </object>
                                                 </child>
                                                 <style>
-                                                  <class name="content"/>
+                                                  <class name="boxed-list"/>
                                                 </style>
                                               </object>
                                             </child>
@@ -897,7 +869,7 @@ This might take a while.</property>
                                                   </object>
                                                 </child>
                                                 <style>
-                                                  <class name="content"/>
+                                                  <class name="boxed-list"/>
                                                 </style>
                                               </object>
                                             </child>
@@ -1060,7 +1032,7 @@ This might take a while.</property>
                               </object>
                             </child>
                             <style>
-                              <class name="content"/>
+                              <class name="boxed-list"/>
                             </style>
                           </object>
                         </child>
