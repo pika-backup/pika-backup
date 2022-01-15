@@ -19,7 +19,7 @@ impl Default for Keep {
             hourly: 48,
             daily: 14,
             weekly: 4,
-            monthly: 6,
+            monthly: 12,
             yearly: 10,
         }
     }
