@@ -15,12 +15,13 @@ mod dialog_about;
 mod dialog_device_missing;
 mod dialog_encryption_password;
 mod dialog_info;
+mod dialog_prune;
 mod dialog_setup;
 mod dialog_storage;
 mod error;
 mod export;
 // TODO: this should not be global
-mod dialog_prune;
+mod dialog_shortcuts;
 pub mod globals;
 mod headerbar;
 mod page_archives;
@@ -125,6 +126,7 @@ fn on_startup(_app: &gtk::Application) {
 
     ui::dialog_info::init();
 
+    gtk_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
 
     if BACKUP_CONFIG.load().iter().count() > 1 {
@@ -223,6 +225,14 @@ fn init_actions() {
 
     let action = gio::SimpleAction::new("about", None);
     action.connect_activate(|_, _| ui::dialog_about::show());
+    gtk_app().add_action(&action);
+
+    let action = gio::SimpleAction::new("shortcuts", None);
+    action.connect_activate(|_, _| ui::dialog_shortcuts::show());
+    gtk_app().add_action(&action);
+
+    let action = gio::SimpleAction::new("setup", None);
+    action.connect_activate(|_, _| ui::dialog_setup::show());
     gtk_app().add_action(&action);
 
     let action = gio::SimpleAction::new("quit", None);

@@ -959,6 +959,60 @@ impl DialogSetup {
 }
 
 #[derive(Clone)]
+pub struct DialogShortcuts {
+    builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogShortcutsWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogShortcuts {
+    type Weak = DialogShortcutsWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogShortcutsWeak {
+    type Strong = DialogShortcuts;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogShortcuts {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_shortcuts.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_shortcuts.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn dialog(&self) -> gtk::ShortcutsWindow {
+        self.get("dialog")
+    }
+}
+
+#[derive(Clone)]
 pub struct DialogStorage {
     builder: gtk::Builder,
 }

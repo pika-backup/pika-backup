@@ -114,22 +114,21 @@ mod imp {
             self.image.hide();
 
             self.child.append(&*self.label);
-            self.label.set_label(&gettext("Select…"));
+            self.label.set_text_with_mnemonic(&gettext("_Select…"));
+            self.label.set_mnemonic_widget(Some(obj));
 
-            let objc = obj.clone();
-            obj.connect_clicked(move |_| {
+            obj.connect_clicked(|obj| {
                 let dialog = crate::ui::utils::folder_chooser(
                     &gettext("Backup Location"),
-                    &objc
-                        .root()
+                    &obj.root()
                         .and_then(|x| x.downcast::<gtk::Window>().ok())
                         .unwrap(),
                 );
 
-                let priv_ = Self::from_instance(&objc);
+                let priv_ = Self::from_instance(&obj);
                 *priv_.file_chooser.borrow_mut() = Some(dialog.clone());
 
-                let obj = objc.clone();
+                let obj = obj.clone();
 
                 dialog.connect_response(move |file_chooser, s| {
                     if s == gtk::ResponseType::Accept {

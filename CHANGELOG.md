@@ -13,6 +13,8 @@
 - Add message to user interface if target devive or server is unrepsonive
 - Add support for user@host:path borg remote location syntax
 - Add settup option to inherit include, exclude, and prefix from existing archives
+- Add several mnemonics
+- Add shortcuts dialog
 - Remove option to not store encryption passwords in secrete service
 
 ## 0.3.5 (2021-09-08)
