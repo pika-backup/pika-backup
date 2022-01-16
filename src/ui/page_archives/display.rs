@@ -156,7 +156,7 @@ pub fn ui_display_archives(repo_id: &borg::RepoId) {
             .activatable(true)
             .icon_name("folder-open-symbolic")
             .build();
-        browse_row.add_suffix(&gtk::Image::from_icon_name(Some("go-next-symbolic")));
+        browse_row.add_suffix(&gtk::Image::from_icon_name("go-next-symbolic"));
 
         row.add_row(&browse_row);
 

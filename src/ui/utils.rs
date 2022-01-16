@@ -430,7 +430,7 @@ pub fn file_icon(path: &std::path::Path) -> Option<gtk::Image> {
             gicon = Some(icon.clone());
 
             if let Some(theme) =
-                gtk::gdk::Display::default().and_then(|d| gtk::IconTheme::for_display(&d))
+                gtk::gdk::Display::default().map(|d| gtk::IconTheme::for_display(&d))
             {
                 if !theme.has_gicon(&icon) {
                     gicon = gio::Icon::for_string("system-run").ok();

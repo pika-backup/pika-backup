@@ -92,7 +92,7 @@ pub async fn remote(server: &str) -> Result<Space> {
 
 pub async fn local(root: &std::path::Path) -> Result<Space> {
     let fsinfo = gio::File::for_path(root)
-        .query_filesystem_info_async_future("*", Default::default())
+        .query_filesystem_info_future("*", Default::default())
         .await?;
 
     Ok(Space {

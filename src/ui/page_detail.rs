@@ -25,8 +25,7 @@ pub fn on_transition(stack: &adw::Leaflet) {
         ] {
             scrollable
                 .vadjustment()
-                .unwrap()
-                .set_value(scrollable.vadjustment().unwrap().lower());
+                .set_value(scrollable.vadjustment().lower());
         }
     }
 }
