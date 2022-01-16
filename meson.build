@@ -12,8 +12,8 @@ project(
 
 i18n = import ('i18n')
 
-dependency('gtk4', version: '>= 4.5.0')
-dependency('libadwaita-1', version: '>= 1.0.0-alpha.2')
+dependency('gtk4', version: '>= 4.6.0')
+dependency('libadwaita-1', version: '>= 1.0.0')
 
 bindir = get_option('prefix') / get_option('bindir')
 etcdir = get_option('prefix') / get_option('sysconfdir')

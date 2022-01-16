@@ -134,6 +134,7 @@ pub fn ui_display_archives(repo_id: &borg::RepoId) {
                 .label(info)
                 .wrap(true)
                 .wrap_mode(gtk::pango::WrapMode::WordChar)
+                .natural_wrap_mode(gtk::NaturalWrapMode::None)
                 .build();
             label.add_css_class("dim-label");
 
