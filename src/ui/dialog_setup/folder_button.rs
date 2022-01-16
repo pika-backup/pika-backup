@@ -125,7 +125,7 @@ mod imp {
                         .unwrap(),
                 );
 
-                let priv_ = Self::from_instance(&obj);
+                let priv_ = Self::from_instance(obj);
                 *priv_.file_chooser.borrow_mut() = Some(dialog.clone());
 
                 let obj = obj.clone();
