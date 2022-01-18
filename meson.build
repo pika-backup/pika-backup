@@ -11,6 +11,7 @@ project(
 )
 
 i18n = import ('i18n')
+gnome = import ('gnome')
 
 dependency('gtk4', version: '>= 4.6.0')
 dependency('libadwaita-1', version: '>= 1.0.0')
@@ -23,5 +24,6 @@ message(etcdir)
 meson.add_dist_script('build-aux/meson-dist-vendor.sh')
 
 subdir('data')
+subdir('help')
 subdir('po')
 subdir('src')
