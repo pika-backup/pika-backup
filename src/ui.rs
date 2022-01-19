@@ -126,8 +126,9 @@ fn on_startup(_app: &gtk::Application) {
 
     ui::dialog_info::init();
 
-    gtk_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
+    gtk_app().set_accels_for_action("app.help", &["F1"]);
     gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
+    gtk_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
 
     if BACKUP_CONFIG.load().iter().count() > 1 {
         main_ui()
@@ -233,6 +234,16 @@ fn init_actions() {
 
     let action = gio::SimpleAction::new("setup", None);
     action.connect_activate(|_, _| ui::dialog_setup::show());
+    gtk_app().add_action(&action);
+
+    let action = gio::SimpleAction::new("help", None);
+    action.connect_activate(|_, _| {
+        gtk::show_uri(
+            Some(&main_ui().window()),
+            "help:pika-backup",
+            gtk::gdk::CURRENT_TIME,
+        )
+    });
     gtk_app().add_action(&action);
 
     let action = gio::SimpleAction::new("quit", None);
