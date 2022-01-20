@@ -2,7 +2,8 @@ pages = [
   'index.page',
   'setup-drive.page',
   'setup-gvfs.page',
-  'recovery.page',
+  'recovery-pika.page',
+  'recovery-other.page',
 ]
 
 media = [
