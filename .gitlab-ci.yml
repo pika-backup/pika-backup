@@ -53,8 +53,7 @@ pages:
     - flatpak build-finish --socket=x11 --share=network flatpak_app
     - >
       flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} <<END
-        meson --reconfigure -Dbuild_src=false -Dsrc_docs=true
-        ninja
+        ninja src/doc
 
       END
     - mkdir public
