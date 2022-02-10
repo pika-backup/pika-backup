@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-02-04 19:08+0000\n"
-"PO-Revision-Date: 2022-02-04 22:48+0200\n"
+"POT-Creation-Date: 2022-02-10 14:10+0000\n"
+"PO-Revision-Date: 2022-02-10 22:48+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -58,7 +58,6 @@ msgid "Features"
 msgstr "Можливості"
 
 #: data/app.metainfo.xml.in:25
-#| msgid "Setup new backup repositories or uses existing ones"
 msgid "Set up new backup repositories or uses existing ones"
 msgstr ""
 "Можна налаштовувати нові сховища резервних копій або використовувати наявні"
@@ -145,71 +144,71 @@ msgid "This delete operation would delete too many archives."
 msgstr ""
 "Ця дія з вилучення призведе до вилучення надто великої кількості архівів."
 
-#: src/borg/error.rs:85
+#: src/borg/error.rs:88
 msgid "Completed"
 msgstr "Завершено"
 
-#: src/borg/error.rs:102
+#: src/borg/error.rs:105
 msgid "Aborted on user request."
 msgstr "Перервано за запитом користувача."
 
-#: src/borg/error.rs:103
+#: src/borg/error.rs:106
 msgid "Potential internal error."
 msgstr "Потенційна внутрішня помилка."
 
-#: src/borg/error.rs:131
+#: src/borg/error.rs:145
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:133 src/ui/utils/borg.rs:136
+#: src/borg/error.rs:147 src/ui/utils/borg.rs:136
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
-#: src/borg/error.rs:134
+#: src/borg/error.rs:148
 msgid "Invalid encryption password."
 msgstr "Некоректний пароль для шифрування."
 
-#: src/borg/error.rs:136
+#: src/borg/error.rs:150
 msgid "A repository already exists at this location."
 msgstr "За цією адресою вже є сховище."
 
-#: src/borg/error.rs:138
+#: src/borg/error.rs:152
 msgid "No repository exists at this location."
 msgstr "За цією адресою немає сховища."
 
-#: src/borg/error.rs:141
+#: src/borg/error.rs:155
 msgid "Connection closed by remote host: “{}”"
 msgstr "З'єднання розірвано віддаленим вузлом: «{}»"
 
-#: src/borg/error.rs:144
+#: src/borg/error.rs:158
 msgid "Unspecified error."
 msgstr "Невизначена помилка."
 
-#: src/borg/msg.rs:134
+#: src/borg/log_json.rs:76
 msgid "Standard error output"
 msgstr "Стандартне виведення помилок"
 
-#: src/borg/msg.rs:160
+#: src/borg/log_json.rs:195
 msgid "Debug"
 msgstr "Діагностика"
 
-#: src/borg/msg.rs:161
+#: src/borg/log_json.rs:196
 msgid "Info"
 msgstr "Відомості"
 
-#: src/borg/msg.rs:162 src/ui/dialog_setup.ui:283
+#: src/borg/log_json.rs:197 src/ui/dialog_setup.ui:283
 msgid "Warning"
 msgstr "Попередження"
 
-#: src/borg/msg.rs:163
+#: src/borg/log_json.rs:198
 msgid "Error"
 msgstr "Помилка"
 
-#: src/borg/msg.rs:164
+#: src/borg/log_json.rs:199
 msgid "Critical"
 msgstr "Критична помилка"
 
-#: src/borg/msg.rs:165
+#: src/borg/log_json.rs:200
 msgid "Undefined"
 msgstr "Не визначено"
 
@@ -268,30 +267,49 @@ msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
 #: src/ui.rs:290
-msgid "Borg version too old."
-msgstr "Надто застаріла версія borg."
+#| msgid "Borg version too old."
+msgid "BorgBackup version too old"
+msgstr "Надто застаріла версія BorgBackup"
 
 #: src/ui.rs:292
+#| msgid ""
+#| "The installed version {} of borg-backup is too old. Some features "
+#| "requiring borg-backup version {}.{}.{} will not work."
 msgid ""
-"The installed version {} of borg-backup is too old. Some features requiring "
+"The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
 msgstr ""
-"Встановлена версія borg-backup {} є надто застарілою. Деякі можливості, для "
+"Встановлена версія BorgBackup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
 #: src/ui.rs:303
+#| msgid "Borg version too old."
+msgid "BorgBackup version too new"
+msgstr "Надто нова версія BorgBackup"
+
+#: src/ui.rs:305
+#| msgid ""
+#| "The installed version {} of borg-backup is too old. Some features "
+#| "requiring borg-backup version {}.{}.{} will not work."
+msgid ""
+"The installed version {} of BorgBackup is too new. Version {}.{} is "
+"recommended. Some features might not work as expected."
+msgstr ""
+"Встановлена версія {} програми BorgBackup є надто новою. Рекомендуємо скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як ви на те сподівалися."
+
+#: src/ui.rs:315
 msgid "Cannot check borg-backup version"
 msgstr "Не вдалося перевірити версію borg-backup"
 
-#: src/ui.rs:305
+#: src/ui.rs:317
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
 
-#: src/ui.rs:361
+#: src/ui.rs:373
 msgid "Could not load configuration file."
 msgstr "Не вдалося завантажити файл налаштувань."
 
-#: src/ui.rs:377
+#: src/ui.rs:389
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
@@ -324,7 +342,6 @@ msgid ":"
 msgstr ":"
 
 #: src/ui/app_window.ui:144 src/ui/dialog_shortcuts.ui:13
-#| msgid "Setup new backup"
 msgid "Set up new backup"
 msgstr "Налаштувати нову резервну копію"
 
