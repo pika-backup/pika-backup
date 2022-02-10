@@ -15,12 +15,11 @@ codegen-units = 1
 [dependencies]
 async-executor = "1.4"
 async-process = "1.0"
-async-recursion = "1.0"
 async-std = "1.10"
 async-trait = "0.1"
 chrono = { version = "0.4", features = ["serde"] }
 chronoutil = "0.2"
-futures = "0.3.12"
+futures = { version = "0.3.12", features = ["thread-pool"] }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 nix = "0.23"
 num-format = "0.4"
@@ -30,6 +29,7 @@ tempfile = "3.2"
 url = "2.2"
 walkdir = "2.3"
 zxcvbn = "2.0"
+lazy-regex = "2.2"
 
 # data types and handling
 arc-swap = "1.0"
@@ -45,12 +45,12 @@ serde_derive = "1.0"
 serde_json = "1.0"
 
 # GNOME
-gio = { version = "*", features = ["v2_54"] }
 glib = "*"
+gio = { version = "*", features = ["v2_54"] }
 gtk = { package = "gtk4", version = "0.4", features = ["v4_6"] }
+adw = { version = "0.1", package = "libadwaita" }
 
 ashpd = "0.2"
-adw = { version = "0.1", package = "libadwaita" }
 secret-service = "2.0"
 zbus = "2.0"
 

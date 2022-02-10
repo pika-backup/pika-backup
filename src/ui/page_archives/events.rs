@@ -22,7 +22,7 @@ pub async fn cleanup() -> Result<()> {
 
     if delete {
         ui::utils::borg::exec(gettext("Delete old Archives"), config.clone(), |borg| {
-            borg.prune()
+            borg.prune(Default::default())
         })
         .await
         .into_message(gettext("Delete old Archives"))?;

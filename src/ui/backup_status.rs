@@ -1,7 +1,7 @@
 use chrono::prelude::*;
 
 use crate::borg;
-use crate::borg::msg;
+use crate::borg::log_json;
 use crate::borg::Run;
 use crate::config::history;
 use crate::config::*;
@@ -17,7 +17,7 @@ pub struct Display {
 }
 
 pub enum Stats {
-    Progress(msg::ProgressArchive),
+    Progress(log_json::ProgressArchive),
     Final(history::RunInfo),
 }
 
@@ -50,7 +50,7 @@ impl From<&history::RunInfo> for Display {
         match run_info.outcome {
             borg::Outcome::Completed { .. }
                 if run_info.messages.clone().filter_handled().max_log_level()
-                    > Some(borg::msg::LogLevel::Info) =>
+                    > Some(log_json::LogLevel::Info) =>
             {
                 Self {
                     title: gettext("Last backup completed with warnings"),
@@ -95,7 +95,7 @@ impl From<&borg::Communication> for Display {
 
         if let Some(ref last_message) = status.last_message {
             match *last_message {
-                msg::Progress::Archive(ref progress_archive_ref) => {
+                log_json::Progress::Archive(ref progress_archive_ref) => {
                     stats = Some(Stats::Progress(progress_archive_ref.clone()));
                     if let Some(size) = &status.estimated_size {
                         let fraction =
@@ -118,7 +118,7 @@ impl From<&borg::Communication> for Display {
                         subtitle = Some(sub);
                     }
                 }
-                msg::Progress::Message {
+                log_json::Progress::Message {
                     message: Some(ref message),
                     ref msgid,
                     ..
@@ -129,7 +129,7 @@ impl From<&borg::Communication> for Display {
                         subtitle = Some(message.clone());
                     }
                 }
-                msg::Progress::Percent {
+                log_json::Progress::Percent {
                     current: Some(current),
                     total: Some(total),
                     ..

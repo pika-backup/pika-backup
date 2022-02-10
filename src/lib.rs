@@ -7,7 +7,7 @@ extern crate quick_error;
 #[macro_use]
 extern crate enclose;
 #[macro_use]
-extern crate async_recursion;
+extern crate lazy_regex;
 #[macro_use]
 pub mod prelude;
 
@@ -39,10 +39,10 @@ pub fn daemon_app_id() -> String {
     format!("{}.Daemon", app_id())
 }
 
-pub mod action;
+mod action;
 pub mod borg;
 pub mod config;
 pub mod daemon;
-pub mod globals;
+mod globals;
 pub mod ui;
-pub mod utils;
+mod utils;

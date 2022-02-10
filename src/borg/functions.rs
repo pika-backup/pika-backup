@@ -1,11 +1,9 @@
 use futures::prelude::*;
 
-use std::time::Duration;
-
 use super::*;
 use crate::config;
 use crate::prelude::*;
-use msg::*;
+use process::*;
 use utils::*;
 
 #[derive(Clone)]
@@ -105,10 +103,6 @@ impl Borg {
         }
     }
 
-    pub fn config(&self) -> config::Backup {
-        self.config.clone()
-    }
-
     pub fn umount(repo_id: &RepoId) -> Result<()> {
         let mount_point = Self::mount_point(repo_id);
 
@@ -153,15 +147,7 @@ impl Borg {
         Ok(())
     }
 
-    pub fn prune(&self) -> Result<PruneInfo> {
-        self.prune_internal(false)
-    }
-
-    pub fn prune_info(&self) -> Result<PruneInfo> {
-        self.prune_internal(true)
-    }
-
-    fn prune_internal(&self, dry_run: bool) -> Result<PruneInfo> {
+    fn prune_call(&self) -> Result<BorgCall> {
         if self.config.prune.keep.hourly < 1
             || self.config.prune.keep.daily < 1
             || self.config.prune.keep.weekly < 1
@@ -171,8 +157,7 @@ impl Borg {
 
         let mut borg_call = BorgCall::new("prune");
 
-        borg_call.add_basics(self)?;
-        borg_call.add_options(&[
+        borg_call.add_basics(self)?.add_options(&[
             "--list",
             &format!("--prefix={}", self.config.archive_prefix),
             "--keep-within=1H",
@@ -183,16 +168,23 @@ impl Borg {
             &format!("--keep-yearly={}", self.config.prune.keep.yearly),
         ]);
 
-        if dry_run {
-            borg_call.add_options(&["--dry-run"]);
-        }
+        Ok(borg_call)
+    }
+
+    pub fn prune_info(&self) -> Result<PruneInfo> {
+        self.prune_info_()
+    }
+
+    fn prune_info_(&self) -> Result<PruneInfo> {
+        let mut borg_call = self.prune_call()?;
+        borg_call.add_options(&["--dry-run"]);
 
         let messages = check_stderr(&borg_call.output()?)?;
 
         let list_messages = messages
             .iter()
             .filter_map(|x| {
-                if let LogMessageEnum::ParsedErr(msg) = x {
+                if let log_json::LogEntry::ParsedErr(msg) = x {
                     Some(msg)
                 } else {
                     None
@@ -211,21 +203,46 @@ impl Borg {
         Ok(PruneInfo { keep, prune })
     }
 
-    pub fn create(&self, communication: Communication) -> Result<Stats> {
-        let executor = async_executor::Executor::new();
-
-        let task = executor.spawn(self.create_internal(communication, 0));
-
-        futures::executor::block_on(executor.run(task))
+    pub fn prune(&self, communication: Communication) -> Result<()> {
+        futures::executor::block_on(self.prune_(communication))
     }
 
-    #[async_recursion]
-    async fn create_internal(&self, communication: Communication, retries: u16) -> Result<Stats> {
+    async fn prune_(&self, communication: Communication) -> Result<()> {
+        if self.config.prune.keep.hourly < 1
+            || self.config.prune.keep.daily < 1
+            || self.config.prune.keep.weekly < 1
+        {
+            return Err(Error::ImplausiblePrune);
+        }
+
+        let borg_call = self.prune_call()?;
+
+        let mut process = borg_call.spawn_async_managed(communication)?;
+
+        while let Some(msg) = process.log.next().await {
+            if let log_json::Output::LogEntry(log_json::LogEntry::ParsedErr(msg)) = msg {
+                if msg.name == "borg.output.list" {
+                    if let Some((_, current, total)) =
+                        regex_captures!("Pruning archive: .*\\((.*)/(.*)\\)", &msg.message)
+                    {
+                        debug!("{current} of {total}");
+                    }
+                }
+            }
+        }
+
+        process.result.await?
+    }
+
+    pub fn create(&self, communication: Communication) -> Result<Stats> {
+        futures::executor::block_on(self.create_(communication))
+    }
+
+    async fn create_(&self, communication: Communication) -> Result<Stats> {
         communication
             .status
             .update(move |status| status.message_history.push(Default::default()));
 
-        // Do this early to fail if password is missing
         let mut borg_call = BorgCall::new("create");
         borg_call
             .add_options(&["--progress", "--json"])
@@ -236,157 +253,47 @@ impl Borg {
             .add_archive(self)
             .add_include_exclude(self);
 
-        if retries > 0 {
-            borg_call.add_options(&["--lock-wait", &LOCK_WAIT_RECONNECT.as_secs().to_string()]);
-        }
-
-        communication.status.update(move |status| {
-            status.run = Run::Running;
-        });
-        let mut borg = borg_call.spawn_async()?;
+        let mut process = borg_call.spawn_async_managed(communication.clone())?;
 
         let mut last_skipped = 0.;
         let mut last_copied = 0.;
         let mut last_time = std::time::Instant::now();
 
-        communication.status.update(move |status| {
-            status.started = Some(chrono::Local::now());
-        });
+        while let Some(msg) = process.log.next().await {
+            trace!("borg::create: {:?}", msg);
 
-        let mut line = String::new();
-        let mut reader = futures::io::BufReader::new(
-            borg.stderr
-                .take()
-                .ok_or_else(|| String::from("Failed to get stderr."))?,
-        );
-
-        let mut unresponsive = Duration::ZERO;
-
-        loop {
-            let read =
-                async_std::io::timeout(MESSAGE_POLL_TIMEOUT, reader.read_line(&mut line)).await;
-
-            // react to abort instruction before potentially listening for messages again
-            if matches!(**communication.instruction.load(), Instruction::Abort) {
-                communication.status.update(|status| {
-                    status.run = Run::Stopping;
+            if let log_json::Output::Progress(
+                ref archive @ log_json::Progress::Archive(ref progress),
+            ) = msg
+            {
+                // TODO: legacy? could be solved via channel
+                communication.status.update(move |status| {
+                    status.last_message = Some(archive.clone());
                 });
-                debug!("Sending SIGTERM to borg::create");
-                nix::sys::signal::kill(
-                    nix::unistd::Pid::from_raw(borg.id() as i32),
-                    nix::sys::signal::Signal::SIGTERM,
-                )?;
-                borg.status().await?;
-                return Err(Error::Aborted(error::Abort::User));
-            }
 
-            match read {
-                Err(err) if err.kind() == async_std::io::ErrorKind::TimedOut => {
-                    unresponsive += MESSAGE_POLL_TIMEOUT;
-                    if unresponsive > STALL_THRESHOLD {
-                        communication.status.update(|status| {
-                            status.run = Run::Stalled;
-                        });
-                    }
-                    continue;
-                }
-                Err(err) => return Err(err.into()),
-                Ok(0) => break,
-                Ok(_) => {}
-            }
-
-            unresponsive = Duration::ZERO;
-
-            if let Ok(ref msg) = serde_json::from_str::<msg::Progress>(&line) {
-                trace!("borg::create: {:?}", msg);
-
-                if let msg::Progress::Archive(progress) = msg {
-                    let skipped = progress.original_size as f64 - progress.deduplicated_size as f64;
-                    let copied = progress.deduplicated_size as f64;
-                    let interval = last_time.elapsed().as_secs_f64();
-                    last_time = std::time::Instant::now();
-
-                    communication.status.update(move |status| {
-                        status.run = Run::Running;
-                        status.total = progress.original_size as f64;
-                        status.copied = progress.deduplicated_size as f64;
-
-                        status.data_rate_history.insert(DataRate {
-                            interval,
-                            skipped: skipped - last_skipped,
-                            copied: copied - last_copied,
-                        });
-                    });
-
-                    last_skipped = skipped;
-                    last_copied = copied;
-                } else {
-                    communication.status.update(move |status| {
-                        status.run = Run::Running;
-                    });
-                }
+                let skipped = progress.original_size as f64 - progress.deduplicated_size as f64;
+                let copied = progress.deduplicated_size as f64;
+                let interval = last_time.elapsed().as_secs_f64();
+                last_time = std::time::Instant::now();
 
                 communication.status.update(move |status| {
-                    status.last_message = Some(msg.clone());
+                    status.run = Run::Running;
+                    status.total = progress.original_size as f64;
+                    status.copied = progress.deduplicated_size as f64;
+
+                    status.data_rate_history.insert(DataRate {
+                        interval,
+                        skipped: skipped - last_skipped,
+                        copied: copied - last_copied,
+                    });
                 });
-            } else {
-                let msg = check_line(&line);
-                if msg.is_connection_error() && retries <= MAX_RECONNECT {
-                    communication.status.update(|status| {
-                        status.run = Run::Reconnecting;
-                    });
-                    borg.status().await?;
-                    std::thread::sleep(DELAY_RECONNECT);
-                    return self.create_internal(communication, retries + 1).await;
-                } else {
-                    communication.status.update(move |status| {
-                        status.run = Run::Running;
-                        if let Some(history) = status.message_history.last_mut() {
-                            if history.0.len() < Status::MESSAGE_HISTORY_LENGTH {
-                                history.0.push(msg.clone());
-                            } else if history.1.len() < Status::MESSAGE_HISTORY_LENGTH {
-                                history.1.push(msg.clone());
-                            } else {
-                                if let Some(position) =
-                                    history.1.iter().position(|x| x.level() < msg.level())
-                                {
-                                    history.1.remove(position);
-                                } else {
-                                    history.1.remove(0);
-                                }
-                                history.1.push(msg.clone());
-                            }
-                        }
-                    });
-                }
+
+                last_skipped = skipped;
+                last_copied = copied;
             }
-
-            line.clear();
         }
 
-        let output = borg.output().await?;
-        let exit_status = output.status;
-        debug!("borg::create exited with {:?}", exit_status.code());
-
-        let stats = serde_json::from_slice(&output.stdout);
-        info!("Stats: {:#?}", stats);
-
-        if exit_status.success()
-            || communication
-                .status
-                .load()
-                .last_combined_message_history()
-                .max_log_level()
-                < Some(LogLevel::Error)
-        {
-            Ok(stats?)
-        } else if let Ok(err) =
-            Error::try_from(communication.status.load().last_combined_message_history())
-        {
-            Err(err)
-        } else {
-            Err(error::ReturnCodeError::new(exit_status.code()).into())
-        }
+        process.result.await?
     }
 }
 
@@ -482,5 +389,5 @@ pub fn version() -> Result<String> {
 
     check_stderr(&borg)?;
 
-    Ok(String::from_utf8_lossy(&borg.stdout).to_string())
+    Ok(String::from_utf8_lossy(&borg.stdout).trim().to_string())
 }

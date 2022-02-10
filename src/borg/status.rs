@@ -1,4 +1,4 @@
-use super::msg::*;
+use super::log_json::*;
 use itertools::Itertools;
 use std::collections::VecDeque;
 
@@ -25,6 +25,23 @@ fn positive(n: f64) -> f64 {
 
 impl Status {
     pub const MESSAGE_HISTORY_LENGTH: usize = 50;
+
+    pub fn add_message(&mut self, msg: &LogEntry) {
+        if let Some(history) = self.message_history.last_mut() {
+            if history.0.len() < Status::MESSAGE_HISTORY_LENGTH {
+                history.0.push(msg.clone());
+            } else if history.1.len() < Status::MESSAGE_HISTORY_LENGTH {
+                history.1.push(msg.clone());
+            } else {
+                if let Some(position) = history.1.iter().position(|x| x.level() < msg.level()) {
+                    history.1.remove(position);
+                } else {
+                    history.1.remove(0);
+                }
+                history.1.push(msg.clone());
+            }
+        }
+    }
 
     pub fn runs_concat_message_history(&self) -> (LogCollection, LogCollection) {
         self.message_history.clone().into_iter().fold(

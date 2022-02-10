@@ -3,8 +3,9 @@ pub mod error;
 mod functions;
 pub mod invert_command;
 pub mod json;
-pub mod msg;
+pub mod log_json;
 pub mod prelude;
+mod process;
 pub mod size_estimate;
 pub mod status;
 mod utils;
@@ -29,3 +30,6 @@ pub const MIN_MAJOR_VERSION: u32 = 1;
 pub const MIN_MINOR_VERSION: u32 = 1;
 /// require borg 1.1.4 because of zstd compression
 pub const MIN_PATCH_VERSION: u32 = 4;
+
+pub const MAX_MAJOR_VERSION: u32 = 1;
+pub const MAX_MINOR_VERSION: u32 = 1;

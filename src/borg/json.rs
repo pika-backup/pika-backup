@@ -1,3 +1,7 @@
+/*!
+Borg output to STDOUT with `--json` flag.
+*/
+
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct RepoId(String);
 

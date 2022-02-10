@@ -125,7 +125,7 @@ async fn run_backup(config: config::Backup) -> Result<()> {
         Err(err) => Err(Message::new(gettext("Creating a backup failed."), err).into()),
         Ok(_)
             if run_info.messages.clone().filter_handled().max_log_level()
-                >= Some(borg::msg::LogLevel::Warning) =>
+                >= Some(borg::log_json::LogLevel::Warning) =>
         {
             Err(Message::new(
                 gettext("Backup completed with warnings."),

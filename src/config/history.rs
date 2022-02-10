@@ -100,7 +100,7 @@ impl Histories {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct RunInfo {
-    pub messages: borg::msg::LogCollection,
+    pub messages: borg::log_json::LogCollection,
     pub outcome: borg::Outcome,
     pub end: DateTime<Local>,
     pub include: BTreeSet<std::path::PathBuf>,
@@ -111,7 +111,7 @@ impl RunInfo {
     pub fn new(
         config: &config::Backup,
         outcome: borg::Outcome,
-        messages: borg::msg::LogCollection,
+        messages: borg::log_json::LogCollection,
     ) -> Self {
         Self {
             end: Local::now(),

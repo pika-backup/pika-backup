@@ -1,5 +1,5 @@
 use super::json;
-use super::msg::*;
+use super::log_json::*;
 use super::prelude::*;
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -30,6 +30,9 @@ quick_error! {
             from(err: String) -> (Failure::Other(err))
             display("{}", err)
         }
+        TaskSpawn(err: futures::task::SpawnError) { from() }
+        MpscSend(err: futures::channel::mpsc::SendError) { from() }
+        OneshotCanceled(err: futures::channel::oneshot::Canceled) { from() }
         Aborted(err: Abort) { from() }
     }
 }
@@ -122,6 +125,17 @@ pub enum Failure {
     Other(String),
     #[serde(other)]
     Undefined,
+}
+
+impl Failure {
+    pub fn is_connection_error(&self) -> bool {
+        matches!(
+            self,
+            MsgId::ConnectionClosed
+                | MsgId::ConnectionClosedWithHint
+                | MsgId::ConnectionClosedWithHint_(_)
+        )
+    }
 }
 
 impl std::fmt::Display for Failure {

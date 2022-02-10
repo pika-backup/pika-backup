@@ -1,6 +1,81 @@
+/*!
+Borg output to STDERR with `--log-json` flag.
+*/
+
 use gettextrs::gettext;
 
 pub type MsgId = super::error::Failure;
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(tag = "type")]
+pub enum Progress {
+    #[serde(rename = "archive_progress")]
+    Archive(ProgressArchive),
+    #[serde(rename = "progress_message")]
+    Message {
+        operation: u64,
+        msgid: Option<String>,
+        finished: bool,
+        message: Option<String>,
+    },
+    #[serde(rename = "progress_percent")]
+    Percent {
+        operation: u64,
+        msgid: Option<String>,
+        finished: bool,
+        message: Option<String>,
+        current: Option<u64>,
+        total: Option<u64>,
+    },
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct ProgressArchive {
+    pub original_size: u64,
+    pub compressed_size: u64,
+    pub deduplicated_size: u64,
+    pub nfiles: u64,
+    pub path: String,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct LogMessage {
+    pub levelname: LogLevel,
+    pub name: String,
+    pub message: String,
+    #[serde(default)]
+    pub msgid: MsgId,
+}
+
+impl std::fmt::Display for LogMessage {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        if matches!(self.msgid, MsgId::Undefined) {
+            write!(f, "{}: {}", self.levelname, self.message)
+        } else {
+            write!(f, "{}: {} – {}", self.levelname, self.msgid, self.message)
+        }
+    }
+}
+
+impl std::error::Error for LogMessage {}
+
+#[derive(Clone, Debug)]
+pub struct BorgUnparsableErr {
+    pub stderr: String,
+}
+
+/// All possible output
+#[derive(Clone, Debug)]
+pub enum Output {
+    Progress(Progress),
+    LogEntry(LogEntry),
+}
+
+impl std::fmt::Display for BorgUnparsableErr {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}: {}", gettext("Standard error output"), self.stderr)
+    }
+}
 
 impl Default for MsgId {
     fn default() -> Self {
@@ -14,12 +89,12 @@ pub struct MsgIdHelper {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
-pub enum LogMessageEnum {
+pub enum LogEntry {
     ParsedErr(LogMessage),
     UnparsableErr(String),
 }
 
-impl LogMessageEnum {
+impl LogEntry {
     pub fn message(&self) -> String {
         match &self {
             Self::ParsedErr(LogMessage { ref message, .. }) => message.to_string(),
@@ -50,18 +125,9 @@ impl LogMessageEnum {
 
         false
     }
-
-    pub fn is_connection_error(&self) -> bool {
-        matches!(
-            self.id(),
-            Some(MsgId::ConnectionClosed)
-                | Some(MsgId::ConnectionClosedWithHint)
-                | Some(MsgId::ConnectionClosedWithHint_(_))
-        )
-    }
 }
 
-pub type LogCollection = Vec<LogMessageEnum>;
+pub type LogCollection = Vec<LogEntry>;
 
 pub trait LogExt {
     fn max_log_level(&self) -> Option<LogLevel>;
@@ -103,39 +169,7 @@ impl LogExt for LogCollection {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-pub struct LogMessage {
-    pub levelname: LogLevel,
-    pub name: String,
-    pub message: String,
-    #[serde(default)]
-    pub msgid: MsgId,
-}
-
-impl std::fmt::Display for LogMessage {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        if matches!(self.msgid, MsgId::Undefined) {
-            write!(f, "{}: {}", self.levelname, self.message)
-        } else {
-            write!(f, "{}: {} – {}", self.levelname, self.msgid, self.message)
-        }
-    }
-}
-
-impl std::error::Error for LogMessage {}
-
-#[derive(Debug)]
-pub struct BorgUnparsableErr {
-    pub stderr: String,
-}
-
-impl std::fmt::Display for BorgUnparsableErr {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}: {}", gettext("Standard error output"), self.stderr)
-    }
-}
-
-impl std::fmt::Display for LogMessageEnum {
+impl std::fmt::Display for LogEntry {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::ParsedErr(e) => write!(f, "{}", e),
@@ -154,6 +188,7 @@ pub enum LogLevel {
     Critical,
     Undefined,
 }
+
 impl std::fmt::Display for LogLevel {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let text = match self {
@@ -166,36 +201,4 @@ impl std::fmt::Display for LogLevel {
         };
         write!(f, "{}", text)
     }
-}
-
-#[derive(Deserialize, Clone, Debug)]
-#[serde(tag = "type")]
-pub enum Progress {
-    #[serde(rename = "archive_progress")]
-    Archive(ProgressArchive),
-    #[serde(rename = "progress_message")]
-    Message {
-        operation: u64,
-        msgid: Option<String>,
-        finished: bool,
-        message: Option<String>,
-    },
-    #[serde(rename = "progress_percent")]
-    Percent {
-        operation: u64,
-        msgid: Option<String>,
-        finished: bool,
-        message: Option<String>,
-        current: Option<u64>,
-        total: Option<u64>,
-    },
-}
-
-#[derive(Deserialize, Clone, Debug)]
-pub struct ProgressArchive {
-    pub original_size: u64,
-    pub compressed_size: u64,
-    pub deduplicated_size: u64,
-    pub nfiles: u64,
-    pub path: String,
 }

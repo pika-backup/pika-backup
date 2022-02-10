@@ -287,14 +287,26 @@ async fn init_check_borg() -> Result<()> {
                         || patch < borg::MIN_PATCH_VERSION
                     {
                         return Err(Message::new(
-                    gettext("Borg version too old."),
+                    gettext("BorgBackup version too old"),
                     gettextf(
-                        "The installed version {} of borg-backup is too old. Some features requiring borg-backup version {}.{}.{} will not work.",
+                        "The installed version {} of BorgBackup is too old. Some features requiring borg-backup version {}.{}.{} will not work.",
                         &[
                             &version_output,
                             &borg::MIN_MAJOR_VERSION.to_string(),
                             &borg::MIN_MINOR_VERSION.to_string(),
                             &borg::MIN_PATCH_VERSION.to_string(),
+                        ],
+                    )).into());
+                    }
+                    if major > borg::MAX_MAJOR_VERSION || minor > borg::MAX_MINOR_VERSION {
+                        return Err(Message::new(
+                    gettext("BorgBackup version too new"),
+                    gettextf(
+                        "The installed version {} of BorgBackup is too new. Version {}.{} is recommended. Some features might not work as expected.",
+                        &[
+                            &version_output,
+                            &borg::MAX_MAJOR_VERSION.to_string(),
+                            &borg::MAX_MINOR_VERSION.to_string(),
                         ],
                     )).into());
                     }
