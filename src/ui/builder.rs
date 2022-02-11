@@ -691,20 +691,36 @@ impl DialogPrune {
         })
     }
 
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
+    pub fn abort(&self) -> gtk::Button {
+        self.get("abort")
     }
 
     pub fn delete(&self) -> gtk::Button {
         self.get("delete")
     }
 
-    pub fn dialog(&self) -> gtk::Dialog {
+    pub fn deleting_status(&self) -> adw::StatusPage {
+        self.get("deleting_status")
+    }
+
+    pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
     }
 
     pub fn keep(&self) -> gtk::Label {
         self.get("keep")
+    }
+
+    pub fn leaflet(&self) -> adw::Leaflet {
+        self.get("leaflet")
+    }
+
+    pub fn page_decision(&self) -> gtk::Box {
+        self.get("page_decision")
+    }
+
+    pub fn page_deleting(&self) -> gtk::Box {
+        self.get("page_deleting")
     }
 
     pub fn prune(&self) -> gtk::Label {

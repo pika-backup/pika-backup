@@ -2,7 +2,6 @@ use adw::prelude::*;
 
 use crate::borg;
 use crate::config;
-
 use crate::ui;
 
 use crate::ui::prelude::*;
@@ -29,9 +28,7 @@ pub async fn on_stop_backup_create() -> Result<()> {
         .load()
         .active()?
         .instruction
-        .update(|inst| {
-            *inst = borg::Instruction::Abort;
-        });
+        .store(Arc::new(borg::Instruction::Abort));
 
     Ok(())
 }

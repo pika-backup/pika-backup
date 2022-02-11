@@ -342,6 +342,7 @@ impl BorgCall {
                     nix::sys::signal::Signal::SIGTERM,
                 )?;
                 process.status().await?;
+                debug!("Process terminated");
                 return Err(Error::Aborted(Abort::User));
             }
 

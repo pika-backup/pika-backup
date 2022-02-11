@@ -1,86 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkDialog" id="dialog">
+  <object class="AdwWindow" id="dialog">
     <property name="title" translatable="yes"></property>
     <property name="modal">1</property>
     <property name="default-width">390</property>
-    <property name="use-header-bar">1</property>
-    <child type="action">
-      <object class="GtkButton" id="cancel">
-        <property name="label" translatable="yes">Cancel</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="cancel">cancel</action-widget>
-    </action-widgets>
-    <child type="action">
-      <object class="GtkButton" id="delete">
-        <property name="label" translatable="yes">Delete Archives</property>
-        <style>
-          <class name="destructive-action"/>
-        </style>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="apply">delete</action-widget>
-    </action-widgets>
-    <child internal-child="content_area">
-      <object class="GtkBox">
-        <property name="margin-start">18</property>
-        <property name="margin-end">18</property>
-        <property name="margin-top">18</property>
-        <property name="margin-bottom">18</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+    <child>
+      <object class="AdwLeaflet" id="leaflet">
+        <property name="vexpand">1</property>
+        <property name="can-unfold">0</property>
         <child>
           <object class="GtkBox">
             <property name="orientation">vertical</property>
-            <property name="spacing">24</property>
             <child>
-              <object class="GtkLabel">
-                <property name="label" translatable="yes">Proceeding with this operation will irretrievably delete some of the archives. The saved data for those specific points in time will no longer be available.</property>
-                <property name="wrap">1</property>
-                <property name="justify">center</property>
-                <style>
-                  <class name="dim-label"/>
-                </style>
+              <object class="AdwHeaderBar">
+                <property name="show-end-title-buttons">0</property>
+                <property name="show-start-title-buttons">0</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">Cancel</property>
+                    <property name="action-name">window.close</property>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
-              <object class="GtkListBox">
-                <property name="selection-mode">none</property>
-                <style>
-                  <class name="boxed-list"/>
-                </style>
+              <object class="AdwStatusPage">
+                <property name="title" translatable="yes">Checking for old Archives</property>
+                <property name="description" translatable="yes">Creating a list of old archives to be approved for deletion.</property>
                 <child>
-                  <object class="AdwActionRow">
-                    <property name="title" translatable="yes">Delete Archives</property>
+                  <object class="GtkSpinner">
+                    <property name="spinning">1</property>
+                    <property name="width-request">32</property>
+                    <property name="height-request">32</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="page_decision">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="AdwHeaderBar">
+                <property name="show-end-title-buttons">0</property>
+                <property name="show-start-title-buttons">0</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">Cancel</property>
+                    <property name="action-name">window.close</property>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkButton" id="delete">
+                    <property name="label" translatable="yes">Delete Archives</property>
+                    <style>
+                      <class name="destructive-action"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="margin-start">18</property>
+                <property name="margin-end">18</property>
+                <property name="margin-top">18</property>
+                <property name="margin-bottom">18</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">2</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">24</property>
                     <child>
-                      <object class="GtkLabel" id="prune">
-                        <property name="label">&lt;placeholder&gt;</property>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Proceeding with this operation will irretrievably delete some of the archives. The saved data for those specific points in time will no longer be available.</property>
+                        <property name="wrap">1</property>
+                        <property name="justify">center</property>
                         <style>
                           <class name="dim-label"/>
                         </style>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title" translatable="yes">Keep Archives</property>
                     <child>
-                      <object class="GtkLabel" id="keep">
-                        <property name="label">&lt;placeholder&gt;</property>
+                      <object class="GtkListBox">
+                        <property name="selection-mode">none</property>
                         <style>
-                          <class name="dim-label"/>
+                          <class name="boxed-list"/>
                         </style>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Delete Archives</property>
+                            <child>
+                              <object class="GtkLabel" id="prune">
+                                <property name="label">&lt;placeholder&gt;</property>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="title" translatable="yes">Keep Archives</property>
+                            <child>
+                              <object class="GtkLabel" id="keep">
+                                <property name="label">&lt;placeholder&gt;</property>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
                 </child>
               </object>
             </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="page_deleting">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="AdwHeaderBar">
+                <property name="show-end-title-buttons">0</property>
+                <property name="show-start-title-buttons">0</property>
+                <child>
+                  <object class="GtkButton" id="abort">
+                    <property name="label" translatable="yes">Abort</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwStatusPage" id="deleting_status">
+                <property name="title" translatable="yes">Deleting old Archives</property>
+                <child>
+                  <object class="GtkSpinner">
+                    <property name="spinning">1</property>
+                    <property name="width-request">32</property>
+                    <property name="height-request">32</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child/>
           </object>
         </child>
       </object>

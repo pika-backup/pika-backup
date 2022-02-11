@@ -1,5 +1,7 @@
 use futures::prelude::*;
 
+use futures::channel::mpsc::UnboundedSender;
+
 use super::*;
 use crate::config;
 use crate::prelude::*;
@@ -203,11 +205,19 @@ impl Borg {
         Ok(PruneInfo { keep, prune })
     }
 
-    pub fn prune(&self, communication: Communication) -> Result<()> {
-        futures::executor::block_on(self.prune_(communication))
+    pub fn prune(
+        &self,
+        communication: Communication,
+        sender: UnboundedSender<(u32, u32)>,
+    ) -> Result<()> {
+        futures::executor::block_on(self.prune_(communication, sender))
     }
 
-    async fn prune_(&self, communication: Communication) -> Result<()> {
+    async fn prune_(
+        &self,
+        communication: Communication,
+        mut sender: UnboundedSender<(u32, u32)>,
+    ) -> Result<()> {
         if self.config.prune.keep.hourly < 1
             || self.config.prune.keep.daily < 1
             || self.config.prune.keep.weekly < 1
@@ -226,6 +236,12 @@ impl Borg {
                         regex_captures!("Pruning archive: .*\\((.*)/(.*)\\)", &msg.message)
                     {
                         debug!("{current} of {total}");
+                        if let Ok(status) = current
+                            .parse()
+                            .and_then(|current| total.parse().map(|total| (current, total)))
+                        {
+                            let _res = sender.send(status).await;
+                        }
                     }
                 }
             }

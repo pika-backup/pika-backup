@@ -8,27 +8,8 @@ use crate::ui;
 pub async fn cleanup() -> Result<()> {
     let configs = BACKUP_CONFIG.load();
     let config = configs.active()?;
-    let prune_info = ui::utils::borg::exec(
-        gettext("Determine how many archives would be deleted"),
-        config.clone(),
-        |borg| borg.prune_info(),
-    )
-    .await
-    .into_message(gettext(
-        "Failed to determine how many archives would be deleted",
-    ))?;
 
-    let delete = ui::dialog_prune::run(&prune_info).await;
-
-    if delete {
-        ui::utils::borg::exec(gettext("Delete old Archives"), config.clone(), |borg| {
-            borg.prune(Default::default())
-        })
-        .await
-        .into_message(gettext("Delete old Archives"))?;
-    }
-
-    Ok(())
+    ui::dialog_prune::run(config).await
 }
 
 pub async fn eject_button_clicked() -> Result<()> {
