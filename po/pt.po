@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-02-04 19:08+0000\n"
-"PO-Revision-Date: 2022-02-06 21:43+0000\n"
+"POT-Creation-Date: 2022-02-11 18:54+0000\n"
+"PO-Revision-Date: 2022-02-11 23:38+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -133,71 +133,71 @@ msgstr "A operação terminou inesperadamente."
 msgid "This delete operation would delete too many archives."
 msgstr "Esta operação de eliminação eliminaria demasiados arquivos."
 
-#: src/borg/error.rs:85
+#: src/borg/error.rs:88
 msgid "Completed"
 msgstr "Concluído"
 
-#: src/borg/error.rs:102
+#: src/borg/error.rs:105
 msgid "Aborted on user request."
 msgstr "Abortado por solicitação do utilizador."
 
-#: src/borg/error.rs:103
+#: src/borg/error.rs:106
 msgid "Potential internal error."
 msgstr "Potencial erro interno."
 
-#: src/borg/error.rs:131
+#: src/borg/error.rs:145
 msgid "Connection closed by remote host."
 msgstr "Ligação terminada pela máquina remota."
 
-#: src/borg/error.rs:133 src/ui/utils/borg.rs:136
+#: src/borg/error.rs:147 src/ui/utils/borg.rs:136
 msgid "Repository already in use."
 msgstr "Repositório já em uso."
 
-#: src/borg/error.rs:134
+#: src/borg/error.rs:148
 msgid "Invalid encryption password."
 msgstr "Palavra-passe de encriptação inválida."
 
-#: src/borg/error.rs:136
+#: src/borg/error.rs:150
 msgid "A repository already exists at this location."
 msgstr "Já existe um repositório neste local."
 
-#: src/borg/error.rs:138
+#: src/borg/error.rs:152
 msgid "No repository exists at this location."
 msgstr "Não existem repositórios neste local."
 
-#: src/borg/error.rs:141
+#: src/borg/error.rs:155
 msgid "Connection closed by remote host: “{}”"
 msgstr "Ligação terminada pela máquina remota: “{}”"
 
-#: src/borg/error.rs:144
+#: src/borg/error.rs:158
 msgid "Unspecified error."
 msgstr "Erro não especificado."
 
-#: src/borg/msg.rs:134
+#: src/borg/log_json.rs:76
 msgid "Standard error output"
 msgstr "Saída de erro padrão"
 
-#: src/borg/msg.rs:160
+#: src/borg/log_json.rs:195
 msgid "Debug"
 msgstr "Depurar"
 
-#: src/borg/msg.rs:161
+#: src/borg/log_json.rs:196
 msgid "Info"
 msgstr "Informação"
 
-#: src/borg/msg.rs:162 src/ui/dialog_setup.ui:283
+#: src/borg/log_json.rs:197 src/ui/dialog_setup.ui:283
 msgid "Warning"
 msgstr "Aviso"
 
-#: src/borg/msg.rs:163
+#: src/borg/log_json.rs:198
 msgid "Error"
 msgstr "Erro"
 
-#: src/borg/msg.rs:164
+#: src/borg/log_json.rs:199
 msgid "Critical"
 msgstr "Crítico"
 
-#: src/borg/msg.rs:165
+#: src/borg/log_json.rs:200
 msgid "Undefined"
 msgstr "Indefinido"
 
@@ -233,20 +233,20 @@ msgstr "{} no Disco “{}”"
 msgid "Run Backup"
 msgstr "Efetuar backup"
 
-#: src/ui.rs:189 src/ui/page_backup/events.rs:21
+#: src/ui.rs:189 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Abortar a criação do backup em execução?"
 
-#: src/ui.rs:190 src/ui/page_backup/events.rs:22
+#: src/ui.rs:190 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se abortado agora."
 
 #: src/ui.rs:191 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:636 src/ui/page_backup/events.rs:23
+#: src/ui/dialog_setup.ui:636 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui.rs:192 src/ui/page_backup/events.rs:24
+#: src/ui.rs:192 src/ui/dialog_prune.ui:147 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Abortar"
 
@@ -255,30 +255,42 @@ msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Falha ao executar “borg”. O borg-backup está instalado corretamente?"
 
 #: src/ui.rs:290
-msgid "Borg version too old."
-msgstr "A versão do borg é demasiada antiga."
+msgid "BorgBackup version too old"
+msgstr "A versão do BorgBackup é muito antiga"
 
 #: src/ui.rs:292
 msgid ""
-"The installed version {} of borg-backup is too old. Some features requiring "
+"The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
 msgstr ""
-"A versão instalada {} do borg-backup é demasiado antiga. Algumas "
-"funcionalidades que requerem a versão borg-backup {}.{}.{} não funcionarão."
+"A versão instalada {} do BorgBackup é muito antiga. Algumas funcionalidades "
+"que requerem a versão borg-backup {}.{}.{} não funcionarão."
 
 #: src/ui.rs:303
+msgid "BorgBackup version too new"
+msgstr "A versão do BorgBackup é muito nova"
+
+#: src/ui.rs:305
+msgid ""
+"The installed version {} of BorgBackup is too new. Version {}.{} is "
+"recommended. Some features might not work as expected."
+msgstr ""
+"A versão instalada {} do BorgBackup é muito nova. A versão {}.{} é "
+"recomendada. Algumas funcionalidades podem não funcionar como esperado."
+
+#: src/ui.rs:315
 msgid "Cannot check borg-backup version"
 msgstr "Não é possível verificar a versão borg-backup"
 
-#: src/ui.rs:305
+#: src/ui.rs:317
 msgid "The installed version {} might not work."
 msgstr "A versão instalada {} pode não funcionar."
 
-#: src/ui.rs:361
+#: src/ui.rs:373
 msgid "Could not load configuration file."
 msgstr "Não foi possível carregar ficheiro de configuração."
 
-#: src/ui.rs:377
+#: src/ui.rs:389
 msgid "Could not write configuration file."
 msgstr "Não foi possível gravar ficheiro de configuração."
 
@@ -582,8 +594,9 @@ msgid "Failed to mount."
 msgstr "Falha ao montar."
 
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:11 src/ui/page_backup/events.rs:143
-#: src/ui/page_overview.rs:54 src/ui/utils/borg.rs:138
+#: src/ui/dialog_prune.ui:32 src/ui/dialog_prune.ui:62
+#: src/ui/page_backup/events.rs:140 src/ui/page_overview.rs:54
+#: src/ui/utils/borg.rs:138
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -604,11 +617,38 @@ msgstr "Palavra-passe"
 msgid "This requires the encryption password of the repository."
 msgstr "Isto requer a palavra-passe de encriptação do repositório."
 
-#: src/ui/dialog_prune.ui:19 src/ui/dialog_prune.ui:58
+#: src/ui/dialog_prune.rs:17
+msgid "Determine how many archives would be deleted"
+msgstr "Determinar quantos arquivos seriam eliminados"
+
+#: src/ui/dialog_prune.rs:23
+msgid "Failed to determine how many archives would be deleted"
+msgstr "Falha ao determinar quantos arquivos seriam eliminados"
+
+#: src/ui/dialog_prune.rs:59
+msgid "Deleting archive {}/{}"
+msgid_plural "Deleting archives {}/{}"
+msgstr[0] "A eliminar arquivo {}/{}"
+msgstr[1] "A eliminar arquivos {}/{}"
+
+#: src/ui/dialog_prune.rs:72 src/ui/dialog_prune.rs:87
+msgid "Delete old Archives"
+msgstr "Eliminar arquivos antigos"
+
+#: src/ui/dialog_prune.ui:40
+msgid "Checking for old Archives"
+msgstr "A procurar por arquivos antigos"
+
+#: src/ui/dialog_prune.ui:41
+msgid "Creating a list of old archives to be approved for deletion."
+msgstr ""
+"Criação de uma lista de arquivos antigos a serem aprovados para eliminação."
+
+#: src/ui/dialog_prune.ui:68 src/ui/dialog_prune.ui:106
 msgid "Delete Archives"
 msgstr "Eliminar arquivos"
 
-#: src/ui/dialog_prune.ui:42
+#: src/ui/dialog_prune.ui:90
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -618,9 +658,13 @@ msgstr ""
 "arquivos. Os dados guardados para esses pontos específicos no tempo já não "
 "estarão disponíveis."
 
-#: src/ui/dialog_prune.ui:71
+#: src/ui/dialog_prune.ui:119
 msgid "Keep Archives"
 msgstr "Manter arquivos"
+
+#: src/ui/dialog_prune.ui:154
+msgid "Deleting old Archives"
+msgstr "A eliminar arquivos antigos"
 
 #: src/ui/dialog_setup.rs:162
 msgid "Failed to list existing repositories."
@@ -727,7 +771,7 @@ msgstr ""
 msgid "Encrypted"
 msgstr "Encriptado"
 
-#: src/ui/dialog_setup.ui:475 src/ui/page_backup/events.rs:144
+#: src/ui/dialog_setup.ui:475 src/ui/page_backup/events.rs:141
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -957,27 +1001,15 @@ msgstr "{} Disponível"
 msgid "{} Total"
 msgstr "{} Total"
 
-#: src/ui/page_archives/events.rs:12
-msgid "Determine how many archives would be deleted"
-msgstr "Determinar quantos arquivos seriam eliminados"
-
-#: src/ui/page_archives/events.rs:18
-msgid "Failed to determine how many archives would be deleted"
-msgstr "Falha ao determinar quantos arquivos seriam eliminados"
-
-#: src/ui/page_archives/events.rs:24 src/ui/page_archives/events.rs:28
-msgid "Delete old Archives"
-msgstr "Eliminar arquivos antigos"
-
-#: src/ui/page_archives/events.rs:37 src/ui/page_backup/execution.rs:43
+#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:43
 msgid "Failed to unmount repository."
 msgstr "Falha ao desmontar repositório."
 
-#: src/ui/page_archives/events.rs:62
+#: src/ui/page_archives/events.rs:43
 msgid "Browse Archive"
 msgstr "Navegar no arquivo"
 
-#: src/ui/page_archives/events.rs:74
+#: src/ui/page_archives/events.rs:55
 msgid "Failed to make archives available for browsing."
 msgstr "Falha na disponibilização de arquivos para a navegação."
 
@@ -985,19 +1017,19 @@ msgstr "Falha na disponibilização de arquivos para a navegação."
 msgid "Regular Expression"
 msgstr "Expressão regular"
 
-#: src/ui/page_backup/events.rs:54
+#: src/ui/page_backup/events.rs:51
 msgid "Include directory in backups"
 msgstr "Incluir diretório nos backups"
 
-#: src/ui/page_backup/events.rs:69
+#: src/ui/page_backup/events.rs:66
 msgid "Exclude directory from backup"
 msgstr "Excluir diretório do backup"
 
-#: src/ui/page_backup/events.rs:139
+#: src/ui/page_backup/events.rs:136
 msgid "No longer include “{}” in backups?"
 msgstr "Não incluir mais “{}” nos backups?"
 
-#: src/ui/page_backup/events.rs:142
+#: src/ui/page_backup/events.rs:139
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
