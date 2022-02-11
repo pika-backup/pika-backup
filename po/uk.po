@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-02-10 14:10+0000\n"
-"PO-Revision-Date: 2022-02-10 22:48+0200\n"
+"POT-Creation-Date: 2022-02-11 18:54+0000\n"
+"PO-Revision-Date: 2022-02-11 22:37+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -244,20 +244,20 @@ msgstr "{} на диску «{}»"
 msgid "Run Backup"
 msgstr "Виконати резервне копіювання"
 
-#: src/ui.rs:189 src/ui/page_backup/events.rs:21
+#: src/ui.rs:189 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:190 src/ui/page_backup/events.rs:22
+#: src/ui.rs:190 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
 #: src/ui.rs:191 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:636 src/ui/page_backup/events.rs:23
+#: src/ui/dialog_setup.ui:636 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:192 src/ui/page_backup/events.rs:24
+#: src/ui.rs:192 src/ui/dialog_prune.ui:147 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Перервати"
 
@@ -267,14 +267,10 @@ msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
 #: src/ui.rs:290
-#| msgid "Borg version too old."
 msgid "BorgBackup version too old"
 msgstr "Надто застаріла версія BorgBackup"
 
 #: src/ui.rs:292
-#| msgid ""
-#| "The installed version {} of borg-backup is too old. Some features "
-#| "requiring borg-backup version {}.{}.{} will not work."
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -283,19 +279,17 @@ msgstr ""
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
 #: src/ui.rs:303
-#| msgid "Borg version too old."
 msgid "BorgBackup version too new"
 msgstr "Надто нова версія BorgBackup"
 
 #: src/ui.rs:305
-#| msgid ""
-#| "The installed version {} of borg-backup is too old. Some features "
-#| "requiring borg-backup version {}.{}.{} will not work."
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
 msgstr ""
-"Встановлена версія {} програми BorgBackup є надто новою. Рекомендуємо скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як ви на те сподівалися."
+"Встановлена версія {} програми BorgBackup є надто новою. Рекомендуємо "
+"скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як "
+"ви на те сподівалися."
 
 #: src/ui.rs:315
 msgid "Cannot check borg-backup version"
@@ -613,8 +607,9 @@ msgid "Failed to mount."
 msgstr "Не вдалося змонтувати."
 
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:11 src/ui/page_backup/events.rs:143
-#: src/ui/page_overview.rs:54 src/ui/utils/borg.rs:138
+#: src/ui/dialog_prune.ui:32 src/ui/dialog_prune.ui:62
+#: src/ui/page_backup/events.rs:140 src/ui/page_overview.rs:54
+#: src/ui/utils/borg.rs:138
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -635,11 +630,42 @@ msgstr "Пароль"
 msgid "This requires the encryption password of the repository."
 msgstr "Це потребує пароля для шифрування сховища."
 
-#: src/ui/dialog_prune.ui:19 src/ui/dialog_prune.ui:58
+#: src/ui/dialog_prune.rs:17
+msgid "Determine how many archives would be deleted"
+msgstr "Визначити, скільки архівів має бути вилучено"
+
+#: src/ui/dialog_prune.rs:23
+msgid "Failed to determine how many archives would be deleted"
+msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
+
+#: src/ui/dialog_prune.rs:59
+#| msgid "Delete Archives"
+msgid "Deleting archive {}/{}"
+msgid_plural "Deleting archives {}/{}"
+msgstr[0] "Вилучаємо архіви ({} з {})"
+msgstr[1] "Вилучаємо архіви ({} з {})"
+msgstr[2] "Вилучаємо архіви ({} з {})"
+msgstr[3] "Вилучаємо архіви ({} з {})"
+
+#: src/ui/dialog_prune.rs:72 src/ui/dialog_prune.rs:87
+msgid "Delete old Archives"
+msgstr "Вилучити застарілі архіви"
+
+#: src/ui/dialog_prune.ui:40
+#| msgid "Delete old Archives"
+msgid "Checking for old Archives"
+msgstr "Шукаємо застарілих архівів"
+
+#: src/ui/dialog_prune.ui:41
+msgid "Creating a list of old archives to be approved for deletion."
+msgstr ""
+"Створення списку застарілих архівів, вилучення яких слід підтвердити."
+
+#: src/ui/dialog_prune.ui:68 src/ui/dialog_prune.ui:106
 msgid "Delete Archives"
 msgstr "Вилучити архіви"
 
-#: src/ui/dialog_prune.ui:42
+#: src/ui/dialog_prune.ui:90
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -649,9 +675,14 @@ msgstr ""
 "архівів. Ви більше не зможете скористатися збереженими для відповідних "
 "моментів часу даними."
 
-#: src/ui/dialog_prune.ui:71
+#: src/ui/dialog_prune.ui:119
 msgid "Keep Archives"
 msgstr "Зберегти архіви"
+
+#: src/ui/dialog_prune.ui:154
+#| msgid "Delete old Archives"
+msgid "Deleting old Archives"
+msgstr "Вилучаємо застарілі архіви"
 
 #: src/ui/dialog_setup.rs:162
 msgid "Failed to list existing repositories."
@@ -762,7 +793,7 @@ msgstr ""
 msgid "Encrypted"
 msgstr "Шифроване"
 
-#: src/ui/dialog_setup.ui:475 src/ui/page_backup/events.rs:144
+#: src/ui/dialog_setup.ui:475 src/ui/page_backup/events.rs:141
 msgid "Confirm"
 msgstr "Підтвердити"
 
@@ -993,27 +1024,15 @@ msgstr "Доступно {}"
 msgid "{} Total"
 msgstr "Загалом {}"
 
-#: src/ui/page_archives/events.rs:12
-msgid "Determine how many archives would be deleted"
-msgstr "Визначити, скільки архівів має бути вилучено"
-
-#: src/ui/page_archives/events.rs:18
-msgid "Failed to determine how many archives would be deleted"
-msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
-
-#: src/ui/page_archives/events.rs:24 src/ui/page_archives/events.rs:28
-msgid "Delete old Archives"
-msgstr "Вилучити застарілі архіви"
-
-#: src/ui/page_archives/events.rs:37 src/ui/page_backup/execution.rs:43
+#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:43
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
-#: src/ui/page_archives/events.rs:62
+#: src/ui/page_archives/events.rs:43
 msgid "Browse Archive"
 msgstr "Навігація архівом"
 
-#: src/ui/page_archives/events.rs:74
+#: src/ui/page_archives/events.rs:55
 msgid "Failed to make archives available for browsing."
 msgstr "Не вдалося зробити архіви доступними для навігації."
 
@@ -1021,19 +1040,19 @@ msgstr "Не вдалося зробити архіви доступними д�
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: src/ui/page_backup/events.rs:54
+#: src/ui/page_backup/events.rs:51
 msgid "Include directory in backups"
 msgstr "Включити каталог до резервного копіювання"
 
-#: src/ui/page_backup/events.rs:69
+#: src/ui/page_backup/events.rs:66
 msgid "Exclude directory from backup"
 msgstr "Виключити каталог з резервної копіювання"
 
-#: src/ui/page_backup/events.rs:139
+#: src/ui/page_backup/events.rs:136
 msgid "No longer include “{}” in backups?"
 msgstr "Більше не включати «{}» до резервних копій?"
 
-#: src/ui/page_backup/events.rs:142
+#: src/ui/page_backup/events.rs:139
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
