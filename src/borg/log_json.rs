@@ -199,12 +199,10 @@ impl std::fmt::Display for LogMessage {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         if self.message.is_empty() {
             write!(f, "")
+        } else if matches!(self.msgid, MsgId::Undefined) {
+            write!(f, "{}: {}", self.levelname, self.message)
         } else {
-            if matches!(self.msgid, MsgId::Undefined) {
-                write!(f, "{}: {}", self.levelname, self.message)
-            } else {
-                write!(f, "{}: {} – {}", self.levelname, self.msgid, self.message)
-            }
+            write!(f, "{}: {} – {}", self.levelname, self.msgid, self.message)
         }
     }
 }
