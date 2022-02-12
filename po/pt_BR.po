@@ -1,18 +1,18 @@
 # Brazilian Portuguese translation for pika-backup.
 # Copyright (C) 2022 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2021.
 # Rodrigo Costa <rodrigo.costa@outlook.it>, 2021.
 # Enrico Nicoletto <liverig@gmail.com>, 2020-2022.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-02-10 14:10+0000\n"
-"PO-Revision-Date: 2022-02-10 17:33-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2022-02-11 18:54+0000\n"
+"PO-Revision-Date: 2022-02-11 21:42-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -240,20 +240,20 @@ msgstr "{} no Disco “{}”"
 msgid "Run Backup"
 msgstr "Efetuar Backup"
 
-#: src/ui.rs:189 src/ui/page_backup/events.rs:21
+#: src/ui.rs:189 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Anular a criação do backup em execução?"
 
-#: src/ui.rs:190 src/ui/page_backup/events.rs:22
+#: src/ui.rs:190 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se anulado agora."
 
 #: src/ui.rs:191 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:636 src/ui/page_backup/events.rs:23
+#: src/ui/dialog_setup.ui:636 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui.rs:192 src/ui/page_backup/events.rs:24
+#: src/ui.rs:192 src/ui/dialog_prune.ui:147 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Anular"
 
@@ -607,8 +607,9 @@ msgid "Failed to mount."
 msgstr "Falha ao montar."
 
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:11 src/ui/page_backup/events.rs:143
-#: src/ui/page_overview.rs:54 src/ui/utils/borg.rs:138
+#: src/ui/dialog_prune.ui:32 src/ui/dialog_prune.ui:62
+#: src/ui/page_backup/events.rs:140 src/ui/page_overview.rs:54
+#: src/ui/utils/borg.rs:138
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -629,11 +630,38 @@ msgstr "Senha"
 msgid "This requires the encryption password of the repository."
 msgstr "É necessária a senha de criptografia do repositório."
 
-#: src/ui/dialog_prune.ui:19 src/ui/dialog_prune.ui:58
+#: src/ui/dialog_prune.rs:17
+msgid "Determine how many archives would be deleted"
+msgstr "Determinar quantos arquivos seria excluídos"
+
+#: src/ui/dialog_prune.rs:23
+msgid "Failed to determine how many archives would be deleted"
+msgstr "Falha ao determinar quantos arquivos seria excluídos"
+
+#: src/ui/dialog_prune.rs:59
+#| msgid "Delete Archives"
+msgid "Deleting archive {}/{}"
+msgid_plural "Deleting archives {}/{}"
+msgstr[0] "Excluindo arquivo {}/{}"
+msgstr[1] "Excluindo arquivos {}/{}"
+
+#: src/ui/dialog_prune.rs:72 src/ui/dialog_prune.rs:87
+msgid "Delete old Archives"
+msgstr "Excluir arquivos antigos"
+
+#: src/ui/dialog_prune.ui:40
+msgid "Checking for old Archives"
+msgstr "Verificando arquivos antigos"
+
+#: src/ui/dialog_prune.ui:41
+msgid "Creating a list of old archives to be approved for deletion."
+msgstr "Criando uma lista de arquivos antigos para ser aprovada para exclusão."
+
+#: src/ui/dialog_prune.ui:68 src/ui/dialog_prune.ui:106
 msgid "Delete Archives"
 msgstr "Excluir arquivos"
 
-#: src/ui/dialog_prune.ui:42
+#: src/ui/dialog_prune.ui:90
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -643,9 +671,13 @@ msgstr ""
 "dados salvos para estes pontos específicos no tempo não estarão mais "
 "disponíveis."
 
-#: src/ui/dialog_prune.ui:71
+#: src/ui/dialog_prune.ui:119
 msgid "Keep Archives"
 msgstr "Manter arquivos"
+
+#: src/ui/dialog_prune.ui:154
+msgid "Deleting old Archives"
+msgstr "Excluindo arquivos antigos"
 
 #: src/ui/dialog_setup.rs:162
 msgid "Failed to list existing repositories."
@@ -751,7 +783,7 @@ msgstr ""
 msgid "Encrypted"
 msgstr "Criptografado"
 
-#: src/ui/dialog_setup.ui:475 src/ui/page_backup/events.rs:144
+#: src/ui/dialog_setup.ui:475 src/ui/page_backup/events.rs:141
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -980,27 +1012,15 @@ msgstr "{} Disponível"
 msgid "{} Total"
 msgstr "{} Total"
 
-#: src/ui/page_archives/events.rs:12
-msgid "Determine how many archives would be deleted"
-msgstr "Determinar quantos arquivos seria excluídos"
-
-#: src/ui/page_archives/events.rs:18
-msgid "Failed to determine how many archives would be deleted"
-msgstr "Falha ao determinar quantos arquivos seria excluídos"
-
-#: src/ui/page_archives/events.rs:24 src/ui/page_archives/events.rs:28
-msgid "Delete old Archives"
-msgstr "Excluir arquivos antigos"
-
-#: src/ui/page_archives/events.rs:37 src/ui/page_backup/execution.rs:43
+#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:43
 msgid "Failed to unmount repository."
 msgstr "Falha ao desmontar repositório."
 
-#: src/ui/page_archives/events.rs:62
+#: src/ui/page_archives/events.rs:43
 msgid "Browse Archive"
 msgstr "Navegar no arquivamento"
 
-#: src/ui/page_archives/events.rs:74
+#: src/ui/page_archives/events.rs:55
 msgid "Failed to make archives available for browsing."
 msgstr "Falha em tornar disponíveis para navegação os arquivamentos."
 
@@ -1008,19 +1028,19 @@ msgstr "Falha em tornar disponíveis para navegação os arquivamentos."
 msgid "Regular Expression"
 msgstr "Expressão Regular"
 
-#: src/ui/page_backup/events.rs:54
+#: src/ui/page_backup/events.rs:51
 msgid "Include directory in backups"
 msgstr "Incluir diretório em backups"
 
-#: src/ui/page_backup/events.rs:69
+#: src/ui/page_backup/events.rs:66
 msgid "Exclude directory from backup"
 msgstr "Excluir diretório do backup"
 
-#: src/ui/page_backup/events.rs:139
+#: src/ui/page_backup/events.rs:136
 msgid "No longer include “{}” in backups?"
 msgstr "Não incluir mais “{}” nos backups?"
 
-#: src/ui/page_backup/events.rs:142
+#: src/ui/page_backup/events.rs:139
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
