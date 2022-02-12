@@ -1,7 +1,5 @@
 use futures::prelude::*;
 
-use futures::channel::mpsc::UnboundedSender;
-
 use super::*;
 use crate::config;
 use crate::prelude::*;
@@ -160,7 +158,6 @@ impl Borg {
         let mut borg_call = BorgCall::new("prune");
 
         borg_call.add_basics(self)?.add_options(&[
-            "--list",
             &format!("--prefix={}", self.config.archive_prefix),
             "--keep-within=1H",
             &format!("--keep-hourly={}", self.config.prune.keep.hourly),
@@ -179,7 +176,7 @@ impl Borg {
 
     fn prune_info_(&self) -> Result<PruneInfo> {
         let mut borg_call = self.prune_call()?;
-        borg_call.add_options(&["--dry-run"]);
+        borg_call.add_options(&["--dry-run", "--list"]);
 
         let messages = check_stderr(&borg_call.output()?)?;
 
@@ -196,7 +193,7 @@ impl Borg {
 
         let prune = list_messages
             .clone()
-            .filter(|x| x.message.starts_with("Pruning") || x.message.starts_with("Would prune"))
+            .filter(|x| x.message.starts_with("Would prune"))
             .count();
         let keep = list_messages
             .filter(|x| x.message.starts_with("Keeping"))
@@ -205,47 +202,15 @@ impl Borg {
         Ok(PruneInfo { keep, prune })
     }
 
-    pub fn prune(
-        &self,
-        communication: Communication,
-        sender: UnboundedSender<(u32, u32)>,
-    ) -> Result<()> {
-        futures::executor::block_on(self.prune_(communication, sender))
+    pub fn prune(&self, communication: Communication) -> Result<()> {
+        futures::executor::block_on(self.prune_(communication))
     }
 
-    async fn prune_(
-        &self,
-        communication: Communication,
-        mut sender: UnboundedSender<(u32, u32)>,
-    ) -> Result<()> {
-        if self.config.prune.keep.hourly < 1
-            || self.config.prune.keep.daily < 1
-            || self.config.prune.keep.weekly < 1
-        {
-            return Err(Error::ImplausiblePrune);
-        }
+    async fn prune_(&self, communication: Communication) -> Result<()> {
+        let mut borg_call = self.prune_call()?;
+        borg_call.add_options(&["--progress"]);
 
-        let borg_call = self.prune_call()?;
-
-        let mut process = borg_call.spawn_async_managed(communication)?;
-
-        while let Some(msg) = process.log.next().await {
-            if let log_json::Output::LogEntry(log_json::LogEntry::ParsedErr(msg)) = msg {
-                if msg.name == "borg.output.list" {
-                    if let Some((_, current, total)) =
-                        regex_captures!("Pruning archive: .*\\((.*)/(.*)\\)", &msg.message)
-                    {
-                        debug!("{current} of {total}");
-                        if let Ok(status) = current
-                            .parse()
-                            .and_then(|current| total.parse().map(|total| (current, total)))
-                        {
-                            let _res = sender.send(status).await;
-                        }
-                    }
-                }
-            }
-        }
+        let process = borg_call.spawn_async_managed(communication)?;
 
         process.result.await?
     }
@@ -269,13 +234,15 @@ impl Borg {
             .add_archive(self)
             .add_include_exclude(self);
 
-        let mut process = borg_call.spawn_async_managed(communication.clone())?;
+        let process = borg_call.spawn_async_managed(communication.clone())?;
 
         let mut last_skipped = 0.;
         let mut last_copied = 0.;
         let mut last_time = std::time::Instant::now();
 
-        while let Some(msg) = process.log.next().await {
+        let mut log = communication.new_receiver();
+
+        while let Some(msg) = log.next().await {
             trace!("borg::create: {:?}", msg);
 
             if let log_json::Output::Progress(
@@ -293,7 +260,6 @@ impl Borg {
                 last_time = std::time::Instant::now();
 
                 communication.status.update(move |status| {
-                    status.run = Run::Running;
                     status.total = progress.original_size as f64;
                     status.copied = progress.deduplicated_size as f64;
 

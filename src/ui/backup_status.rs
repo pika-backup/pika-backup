@@ -118,32 +118,9 @@ impl From<&borg::Communication> for Display {
                         subtitle = Some(sub);
                     }
                 }
-                log_json::Progress::Message {
-                    message: Some(ref message),
-                    ref msgid,
-                    ..
-                } => {
-                    if msgid.as_ref().map(|x| x.starts_with("cache.")) == Some(true) {
-                        subtitle = Some(gettext("Updating repository information"));
-                    } else {
-                        subtitle = Some(message.clone());
-                    }
+                ref other_message => {
+                    subtitle = Some(other_message.to_string());
                 }
-                log_json::Progress::Percent {
-                    current: Some(current),
-                    total: Some(total),
-                    ..
-                } => {
-                    let fraction = current as f64 / total as f64;
-                    progress = Some(fraction);
-                    subtitle = Some(gettextf(
-                        // xgettext:no-c-format
-                        "{} % prepared",
-                        &[&format!("{:.1}", fraction * 100.0)],
-                    ))
-                }
-                // TODO: cover progress message?
-                _ => {}
             }
         }
 

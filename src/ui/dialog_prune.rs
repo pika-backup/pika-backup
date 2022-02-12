@@ -51,14 +51,14 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
     ui.leaflet().set_visible_child(&ui.page_deleting());
 
     let communication = borg::Communication::default();
-    let (sender, mut receiver) = futures::channel::mpsc::unbounded::<(u32, u32)>();
 
-    glib::MainContext::default().spawn_local(enclose!((ui) async move {
-        while let Some((current, total)) = receiver.next().await {
-            ui.deleting_status().set_description(Some(
-                &ngettextf("Deleting archive {}/{}", "Deleting archives {}/{}",
-                    current, &[&current.to_string(), &total.to_string()])
-            ));
+    glib::MainContext::default().spawn_local(enclose!((ui, mut communication) async move {
+        let mut receiver = communication.new_receiver();
+        while let Some(log) = receiver.next().await {
+            let msg = log.to_string();
+            if !msg.is_empty() {
+               ui.deleting_status().set_description(Some(&msg));
+            }
         }
         ui.deleting_status().set_description(None);
     }));
@@ -72,8 +72,7 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
         gettext("Delete old Archives"),
         config.clone(),
         enclose!((communication) move |borg| {
-            let result = borg.prune(communication, sender);
-            result
+            borg.prune(communication)
         }),
     )
     .await;

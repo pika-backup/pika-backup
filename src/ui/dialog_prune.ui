@@ -4,18 +4,8 @@
   <object class="AdwWindow" id="dialog">
     <property name="title" translatable="yes"></property>
     <property name="modal">1</property>
-    <property name="default-width">390</property>
-    <child>
-      <object class="GtkShortcutController">
-        <property name="scope">managed</property>
-        <child>
-          <object class="GtkShortcut">
-            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
-            <property name="action">action(window.close)</property>
-          </object>
-        </child>
-      </object>
-    </child>
+    <property name="default-width">430</property>
+    <property name="default-height">350</property>
     <child>
       <object class="AdwLeaflet" id="leaflet">
         <property name="vexpand">1</property>
@@ -39,6 +29,7 @@
               <object class="AdwStatusPage">
                 <property name="title" translatable="yes">Checking for old Archives</property>
                 <property name="description" translatable="yes">Creating a list of old archives to be approved for deletion.</property>
+                <property name="vexpand">1</property>
                 <child>
                   <object class="GtkSpinner">
                     <property name="spinning">1</property>
@@ -151,6 +142,7 @@
             </child>
             <child>
               <object class="AdwStatusPage" id="deleting_status">
+                <property name="vexpand">1</property>
                 <property name="title" translatable="yes">Deleting old Archives</property>
                 <child>
                   <object class="GtkSpinner">

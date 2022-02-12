@@ -11,7 +11,6 @@ use futures::prelude::*;
 use futures::task::SpawnExt;
 use zeroize::Zeroizing;
 
-use futures::channel::mpsc::{UnboundedReceiver, UnboundedSender};
 use futures::channel::oneshot;
 use std::time::Duration;
 
@@ -33,7 +32,6 @@ pub struct BorgCall {
 }
 
 pub struct Process<T> {
-    pub log: UnboundedReceiver<log_json::Output>,
     pub result: oneshot::Receiver<Result<T>>,
 }
 
@@ -250,22 +248,20 @@ impl BorgCall {
         self,
         communication: super::Communication,
     ) -> Result<Process<T>> {
-        let (log_sink, log) = futures::channel::mpsc::unbounded();
         let (result_sink, result) = futures::channel::oneshot::channel();
 
         let pool = futures::executor::ThreadPool::new()?;
         pool.spawn(async {
             result_sink
-                .send(self.handle_disconnect(log_sink, communication).await)
+                .send(self.handle_disconnect(communication).await)
                 .unwrap();
         })?;
 
-        Ok(Process { log, result })
+        Ok(Process { result })
     }
 
     async fn handle_disconnect<T: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
         mut self,
-        mut sender: UnboundedSender<log_json::Output>,
         communication: super::Communication,
     ) -> Result<T> {
         communication.status.update(move |status| {
@@ -276,9 +272,7 @@ impl BorgCall {
         let mut retried = false;
 
         loop {
-            let result = self
-                .managed_process(&mut sender, communication.clone())
-                .await;
+            let result = self.managed_process(communication.clone()).await;
             match &result {
                 Err(Error::Failed(ref failure)) if failure.is_connection_error() => {
                     if !retried {
@@ -316,7 +310,6 @@ impl BorgCall {
 
     async fn managed_process<T: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
         &self,
-        sender: &mut UnboundedSender<log_json::Output>,
         communication: super::Communication,
     ) -> Result<T> {
         let mut line = String::new();
@@ -373,24 +366,36 @@ impl BorgCall {
 
             unresponsive = Duration::ZERO;
 
-            if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&line) {
+            debug!("borg output: {}", line);
+
+            let msg = if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&line) {
                 if !matches!(communication.status.load().run, Run::Running) {
                     communication.status.update(|status| {
                         status.run = Run::Running;
                     });
                 }
-                sender.send(log_json::Output::Progress(msg)).await?;
+                log_json::Output::Progress(msg)
             } else {
                 let msg = utils::check_line(&line);
 
                 communication.status.update(|status| {
                     status.add_message(&msg);
                 });
-                sender.send(log_json::Output::LogEntry(msg)).await?
+                log_json::Output::LogEntry(msg)
+            };
+
+            for mut sender in communication.sender.load().iter() {
+                sender.send(msg.clone()).await?;
             }
         }
 
+        for mut sender in communication.sender.load().iter() {
+            sender.close().await?;
+        }
+
         let output = process.output().await?;
+
+        debug!("Process terminated");
 
         let result = if TypeId::of::<T>() == TypeId::of::<()>() {
             serde_json::from_slice(b"null")

@@ -2,7 +2,24 @@
 Borg output to STDERR with `--log-json` flag.
 */
 
-use gettextrs::gettext;
+use crate::prelude::*;
+use std::fmt;
+
+/// All possible output
+#[derive(Clone, Debug)]
+pub enum Output {
+    Progress(Progress),
+    LogEntry(LogEntry),
+}
+
+impl fmt::Display for Output {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Self::Progress(progress) => write!(f, "{}", progress),
+            Self::LogEntry(log_entry) => write!(f, "{}", log_entry),
+        }
+    }
+}
 
 pub type MsgId = super::error::Failure;
 
@@ -12,21 +29,19 @@ pub enum Progress {
     #[serde(rename = "archive_progress")]
     Archive(ProgressArchive),
     #[serde(rename = "progress_message")]
-    Message {
-        operation: u64,
-        msgid: Option<String>,
-        finished: bool,
-        message: Option<String>,
-    },
+    Message(ProgressMessage),
     #[serde(rename = "progress_percent")]
-    Percent {
-        operation: u64,
-        msgid: Option<String>,
-        finished: bool,
-        message: Option<String>,
-        current: Option<u64>,
-        total: Option<u64>,
-    },
+    Percent(ProgressPercent),
+}
+
+impl fmt::Display for Progress {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Self::Archive(archive) => write!(f, "{}", archive),
+            Self::Message(message) => write!(f, "{}", message),
+            Self::Percent(percent) => write!(f, "{}", percent),
+        }
+    }
 }
 
 #[derive(Deserialize, Clone, Debug)]
@@ -36,6 +51,139 @@ pub struct ProgressArchive {
     pub deduplicated_size: u64,
     pub nfiles: u64,
     pub path: String,
+}
+
+impl fmt::Display for ProgressArchive {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct ProgressPercent {
+    #[serde(default)]
+    msgid: Operation,
+    finished: bool,
+    #[serde(default)]
+    message: String,
+    current: Option<u64>,
+    total: Option<u64>,
+}
+
+impl fmt::Display for ProgressPercent {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        if let (Some(current), Some(total)) = (self.current, self.total) {
+            let current = if current > 0 { current - 1 } else { current };
+
+            let percent = current as f64 / total as f64 * 100.0;
+            // xgettext:no-c-format
+            write!(
+                f,
+                "{} {}",
+                self.msgid,
+                gettextf(
+                    "Operation {} % completed ({}/{})",
+                    &[
+                        &format!("{percent:.0}"),
+                        &current.to_string(),
+                        &total.to_string()
+                    ]
+                )
+            )
+        } else if self.finished {
+            write!(f, "{} {}", self.msgid, gettext("Operation completed."))
+        } else if !self.message.is_empty() {
+            write!(f, "{} {}", self.msgid, self.message)
+        } else {
+            write!(f, "{}", self.msgid)
+        }
+    }
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct ProgressMessage {
+    #[serde(default)]
+    msgid: Operation,
+    #[serde(default)]
+    message: String,
+}
+
+impl fmt::Display for ProgressMessage {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        if self.message.is_empty() {
+            write!(f, "{}", self.msgid)
+        } else {
+            write!(f, "{} {}", self.msgid, self.message)
+        }
+    }
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(rename_all = "snake_case")]
+pub enum Operation {
+    #[serde(rename = "cache.begin_transaction")]
+    CacheBeginTransaction,
+    #[serde(rename = "cache.download_chunks")]
+    CacheDownloadChunks,
+    #[serde(rename = "cache.commit")]
+    CacheCommit,
+    #[serde(rename = "cache.sync")]
+    CacheSync,
+    #[serde(rename = "repository.compact_segments")]
+    RepositoryCompactSegments,
+    #[serde(rename = "repository.replay_segments")]
+    RepositoryReplaySegments,
+    #[serde(rename = "repository.check")]
+    RepositoryCheck,
+    #[serde(rename = "check.verify_data")]
+    CheckVerifyData,
+    #[serde(rename = "check.rebuild_manifest")]
+    CheckRebuildManifest,
+    Extract,
+    #[serde(rename = "extract.permissions")]
+    ExtractPermissions,
+    #[serde(rename = "archive.delete")]
+    ArchiveDelete,
+    #[serde(rename = "archive.calc_stats")]
+    ArchiveCalcStats,
+    Prune,
+    #[serde(rename = "upgrade.convert_segments")]
+    UpgradeConvertSegments,
+    Unspecified,
+    #[serde(other)]
+    Unknown,
+}
+
+impl Default for Operation {
+    fn default() -> Self {
+        Self::Unspecified
+    }
+}
+
+impl fmt::Display for Operation {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let msg = match self {
+            Self::CacheBeginTransaction => gettext("Beginning cache transaction."),
+            Self::CacheDownloadChunks => gettext("Downloading cache data."),
+            Self::CacheCommit => gettext("Writing cache."),
+            Self::CacheSync => gettext("Synchronizing cache."),
+            Self::RepositoryCompactSegments => gettext("Compacting repository."),
+            Self::RepositoryReplaySegments => gettext("Updating repository."),
+            Self::RepositoryCheck => gettext("Checking repository."),
+            Self::CheckVerifyData => gettext("Verifying data."),
+            Self::CheckRebuildManifest => gettext("Rebuilding main database."),
+            Self::Extract => gettext("Extracting data."),
+            Self::ExtractPermissions => gettext("Extracting permissions."),
+            Self::ArchiveDelete => gettext("Marking archives as deleted."),
+            Self::ArchiveCalcStats => gettext("Calculating archive statistics."),
+            Self::Prune => gettext("Marking old archives as deleted."),
+            Self::UpgradeConvertSegments => gettext("Upgrading repository."),
+            Self::Unspecified => gettext("Unspecified operation."),
+            Self::Unknown => gettext("Unknown operation"),
+        };
+
+        write!(f, "{}", msg)
+    }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
@@ -49,10 +197,14 @@ pub struct LogMessage {
 
 impl std::fmt::Display for LogMessage {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        if matches!(self.msgid, MsgId::Undefined) {
-            write!(f, "{}: {}", self.levelname, self.message)
+        if self.message.is_empty() {
+            write!(f, "")
         } else {
-            write!(f, "{}: {} – {}", self.levelname, self.msgid, self.message)
+            if matches!(self.msgid, MsgId::Undefined) {
+                write!(f, "{}: {}", self.levelname, self.message)
+            } else {
+                write!(f, "{}: {} – {}", self.levelname, self.msgid, self.message)
+            }
         }
     }
 }
@@ -62,13 +214,6 @@ impl std::error::Error for LogMessage {}
 #[derive(Clone, Debug)]
 pub struct BorgUnparsableErr {
     pub stderr: String,
-}
-
-/// All possible output
-#[derive(Clone, Debug)]
-pub enum Output {
-    Progress(Progress),
-    LogEntry(LogEntry),
 }
 
 impl std::fmt::Display for BorgUnparsableErr {

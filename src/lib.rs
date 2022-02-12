@@ -7,8 +7,6 @@ extern crate quick_error;
 #[macro_use]
 extern crate enclose;
 #[macro_use]
-extern crate lazy_regex;
-#[macro_use]
 pub mod prelude;
 
 const REPO_MOUNT_DIR: &str = ".mnt/borg";
