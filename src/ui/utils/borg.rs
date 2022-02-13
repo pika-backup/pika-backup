@@ -10,7 +10,7 @@ pub fn is_backup_running() -> bool {
     !BACKUP_COMMUNICATION.load().is_empty()
 }
 
-pub async fn exec<P: core::fmt::Display, F, V>(
+pub async fn exec<P: core::fmt::Display + Clone, F, V>(
     purpose: P,
     config: config::Backup,
     task: F,
@@ -19,18 +19,27 @@ where
     F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
     V: Send + 'static,
 {
+    let repo_id = config.repo_id.clone();
+    if let Some(current_purpose) = BACKUP_LOCK.load().get(&repo_id) {
+        return Err(Combined::Ui(
+            Message::new(gettext("Repository already in use"), current_purpose).into(),
+        ));
+    }
     let config =
         crate::ui::dialog_device_missing::updated_config(config, &purpose.to_string()).await?;
     let borg = borg::Borg::new(config);
-    spawn(purpose, borg, task).await
-}
 
-async fn spawn<P: core::fmt::Display, F, V>(name: P, borg: borg::Borg, task: F) -> CombinedResult<V>
-where
-    F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
-    V: Send + 'static,
-{
-    spawn_borg_thread_ask_password(name, borg, task).await
+    BACKUP_LOCK.update(enclose!((repo_id, purpose) move |x| {
+        x.insert(repo_id.clone(), purpose.to_string());
+    }));
+
+    let result = spawn_borg_thread_ask_password(purpose, borg, task).await;
+
+    BACKUP_LOCK.update(move |x| {
+        x.remove(&repo_id);
+    });
+
+    result
 }
 
 pub async fn only_repo_suggest_store<P: core::fmt::Display, F, V, B>(

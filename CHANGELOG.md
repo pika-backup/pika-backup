@@ -11,6 +11,7 @@
 - Change setup dialog to include password question
 - Add better error messages for incorrect remote locations
 - Add message to user interface if target devive or server is unrepsonive
+- Add message to inform user about what task is locking the repo
 - Add support for user@host:path borg remote location syntax
 - Add settup option to inherit include, exclude, and prefix from existing archives
 - Add several mnemonics
