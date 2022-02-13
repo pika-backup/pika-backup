@@ -80,8 +80,8 @@ impl fmt::Display for ProgressPercent {
                 f,
                 "{} {}",
                 self.msgid,
-                // xgettext:no-c-format
                 gettextf(
+                    // xgettext:no-c-format
                     "Operation {} % completed ({}/{})",
                     &[
                         &format!("{percent:.0}"),
