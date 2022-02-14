@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-02-11 18:54+0000\n"
-"PO-Revision-Date: 2022-02-11 23:38+0000\n"
+"POT-Creation-Date: 2022-02-13 14:45+0000\n"
+"PO-Revision-Date: 2022-02-14 14:11+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -149,7 +149,7 @@ msgstr "Potencial erro interno."
 msgid "Connection closed by remote host."
 msgstr "Ligação terminada pela máquina remota."
 
-#: src/borg/error.rs:147 src/ui/utils/borg.rs:136
+#: src/borg/error.rs:147 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Repositório já em uso."
 
@@ -173,31 +173,108 @@ msgstr "Ligação terminada pela máquina remota: “{}”"
 msgid "Unspecified error."
 msgstr "Erro não especificado."
 
-#: src/borg/log_json.rs:76
+#: src/borg/log_json.rs:85
+#, no-c-format
+msgid "Operation {} % completed ({}/{})"
+msgstr "Operação {} % concluída ({}/{})"
+
+#: src/borg/log_json.rs:94
+msgid "Operation completed."
+msgstr "Operação concluída."
+
+#: src/borg/log_json.rs:166
+msgid "Beginning cache transaction."
+msgstr "A iniciar a transação de cache."
+
+#: src/borg/log_json.rs:167
+msgid "Downloading cache data."
+msgstr "A transferir dados de cache."
+
+#: src/borg/log_json.rs:168
+msgid "Writing cache."
+msgstr "A escrever cache."
+
+#: src/borg/log_json.rs:169
+msgid "Synchronizing cache."
+msgstr "A sincronizar cache."
+
+#: src/borg/log_json.rs:170
+msgid "Compacting repository."
+msgstr "Repositório de compactação."
+
+#: src/borg/log_json.rs:171
+msgid "Updating repository."
+msgstr "Repositório de atualizações."
+
+#: src/borg/log_json.rs:172
+msgid "Checking repository."
+msgstr "A verificar repositório."
+
+#: src/borg/log_json.rs:173
+msgid "Verifying data."
+msgstr "A verificar dados."
+
+#: src/borg/log_json.rs:174
+msgid "Rebuilding main database."
+msgstr "A reconstruir base de dados principal."
+
+#: src/borg/log_json.rs:175
+msgid "Extracting data."
+msgstr "A extrair dados."
+
+#: src/borg/log_json.rs:176
+msgid "Extracting permissions."
+msgstr "A extrair permissões."
+
+#: src/borg/log_json.rs:177
+msgid "Marking archives as deleted."
+msgstr "A marcar arquivos como eliminados."
+
+#: src/borg/log_json.rs:178
+msgid "Calculating archive statistics."
+msgstr "A calcular estatísticas de arquivo."
+
+#: src/borg/log_json.rs:179
+msgid "Marking old archives as deleted."
+msgstr "A marcar arquivos antigos como eliminados."
+
+#: src/borg/log_json.rs:180
+msgid "Upgrading repository."
+msgstr "A atualizar repositório."
+
+#: src/borg/log_json.rs:181
+msgid "Unspecified operation."
+msgstr "Operação não especificada."
+
+#: src/borg/log_json.rs:182
+msgid "Unknown operation"
+msgstr "Operação desconhecida"
+
+#: src/borg/log_json.rs:219
 msgid "Standard error output"
 msgstr "Saída de erro padrão"
 
-#: src/borg/log_json.rs:195
+#: src/borg/log_json.rs:338
 msgid "Debug"
 msgstr "Depurar"
 
-#: src/borg/log_json.rs:196
+#: src/borg/log_json.rs:339
 msgid "Info"
 msgstr "Informação"
 
-#: src/borg/log_json.rs:197 src/ui/dialog_setup.ui:283
+#: src/borg/log_json.rs:340 src/ui/dialog_setup.ui:283
 msgid "Warning"
 msgstr "Aviso"
 
-#: src/borg/log_json.rs:198
+#: src/borg/log_json.rs:341
 msgid "Error"
 msgstr "Erro"
 
-#: src/borg/log_json.rs:199
+#: src/borg/log_json.rs:342
 msgid "Critical"
 msgstr "Crítico"
 
-#: src/borg/log_json.rs:200
+#: src/borg/log_json.rs:343
 msgid "Undefined"
 msgstr "Indefinido"
 
@@ -246,7 +323,7 @@ msgstr "O backup permanecerá incompleto se abortado agora."
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui.rs:192 src/ui/dialog_prune.ui:147 src/ui/page_backup/events.rs:23
+#: src/ui.rs:192 src/ui/dialog_prune.ui:138 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Abortar"
 
@@ -511,44 +588,35 @@ msgstr "Último backup falhou"
 msgid "{} % finished"
 msgstr "{} % finalizado"
 
-#: src/ui/backup_status.rs:127
-msgid "Updating repository information"
-msgstr "A atualizar a informação do repositório"
-
-#: src/ui/backup_status.rs:141
-#, no-c-format
-msgid "{} % prepared"
-msgstr "{} % preparado"
-
-#: src/ui/backup_status.rs:151
+#: src/ui/backup_status.rs:128
 msgid "Preparing backup"
 msgstr "A preparar backup"
 
-#: src/ui/backup_status.rs:152
+#: src/ui/backup_status.rs:129
 msgid "Backup running"
 msgstr "Backup em execução"
 
-#: src/ui/backup_status.rs:153
+#: src/ui/backup_status.rs:130
 msgid "Backup destination unresponsive"
 msgstr "O destino de Backup não responde"
 
-#: src/ui/backup_status.rs:156
+#: src/ui/backup_status.rs:133
 msgid "Connection lost, reconnecting in {}"
 msgstr "Ligação perdida, a restabelecer ligação em {}"
 
-#: src/ui/backup_status.rs:161
+#: src/ui/backup_status.rs:138
 msgid "Reconnecting"
 msgstr "A restabelecer ligação"
 
-#: src/ui/backup_status.rs:163
+#: src/ui/backup_status.rs:140
 msgid "Stopping backup"
 msgstr "A parar o backup"
 
-#: src/ui/backup_status.rs:179
+#: src/ui/backup_status.rs:156
 msgid "Backup never ran"
 msgstr "Backup nunca foi executado"
 
-#: src/ui/backup_status.rs:180
+#: src/ui/backup_status.rs:157
 msgid "Start by creating your first backup"
 msgstr "Comece por criar o seu primeiro backup"
 
@@ -594,9 +662,9 @@ msgid "Failed to mount."
 msgstr "Falha ao montar."
 
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:32 src/ui/dialog_prune.ui:62
+#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/page_backup/events.rs:140 src/ui/page_overview.rs:54
-#: src/ui/utils/borg.rs:138
+#: src/ui/utils/borg.rs:147
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -625,30 +693,24 @@ msgstr "Determinar quantos arquivos seriam eliminados"
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Falha ao determinar quantos arquivos seriam eliminados"
 
-#: src/ui/dialog_prune.rs:59
-msgid "Deleting archive {}/{}"
-msgid_plural "Deleting archives {}/{}"
-msgstr[0] "A eliminar arquivo {}/{}"
-msgstr[1] "A eliminar arquivos {}/{}"
-
-#: src/ui/dialog_prune.rs:72 src/ui/dialog_prune.rs:87
+#: src/ui/dialog_prune.rs:72 src/ui/dialog_prune.rs:86
 msgid "Delete old Archives"
 msgstr "Eliminar arquivos antigos"
 
-#: src/ui/dialog_prune.ui:40
+#: src/ui/dialog_prune.ui:30
 msgid "Checking for old Archives"
 msgstr "A procurar por arquivos antigos"
 
-#: src/ui/dialog_prune.ui:41
+#: src/ui/dialog_prune.ui:31
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr ""
 "Criação de uma lista de arquivos antigos a serem aprovados para eliminação."
 
-#: src/ui/dialog_prune.ui:68 src/ui/dialog_prune.ui:106
+#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:97
 msgid "Delete Archives"
 msgstr "Eliminar arquivos"
 
-#: src/ui/dialog_prune.ui:90
+#: src/ui/dialog_prune.ui:81
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -658,11 +720,11 @@ msgstr ""
 "arquivos. Os dados guardados para esses pontos específicos no tempo já não "
 "estarão disponíveis."
 
-#: src/ui/dialog_prune.ui:119
+#: src/ui/dialog_prune.ui:110
 msgid "Keep Archives"
 msgstr "Manter arquivos"
 
-#: src/ui/dialog_prune.ui:154
+#: src/ui/dialog_prune.ui:146
 msgid "Deleting old Archives"
 msgstr "A eliminar arquivos antigos"
 
@@ -1278,7 +1340,11 @@ msgstr "Falha em iniciar o processo em segundo plano"
 msgid "Select"
 msgstr "Selecionar"
 
-#: src/ui/utils/borg.rs:137
+#: src/ui/utils/borg.rs:25
+msgid "Repository already in use"
+msgstr "Repositório já em uso"
+
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the "
@@ -1296,7 +1362,7 @@ msgstr ""
 "Continuar enquanto um outro programa usa o repositório pode corromper os "
 "dados de backup!"
 
-#: src/ui/utils/borg.rs:139
+#: src/ui/utils/borg.rs:148
 msgid "Continue Anyway"
 msgstr "Continuar mesmo assim"
 
@@ -1400,6 +1466,14 @@ msgstr ""
 #: src/ui/utils/secret_service.rs:35
 msgid "Pika Backup Password"
 msgstr "Palavra-passe do Pika Backup"
+
+#~ msgid "{} % prepared"
+#~ msgstr "{} % preparado"
+
+#~ msgid "Deleting archive {}/{}"
+#~ msgid_plural "Deleting archives {}/{}"
+#~ msgstr[0] "A eliminar arquivo {}/{}"
+#~ msgstr[1] "A eliminar arquivos {}/{}"
 
 #~ msgid "Save password"
 #~ msgstr "Guardar palavra-passe"
