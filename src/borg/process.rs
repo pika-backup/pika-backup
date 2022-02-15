@@ -267,12 +267,13 @@ impl BorgCall {
         communication.status.update(move |status| {
             status.started = Some(chrono::Local::now());
         });
+        let sender = communication.new_sender();
 
         let mut retries = 0;
         let mut retried = false;
 
         loop {
-            let result = self.managed_process(communication.clone()).await;
+            let result = self.managed_process(communication.clone(), &sender).await;
             match &result {
                 Err(Error::Failed(ref failure)) if failure.is_connection_error() => {
                     if !retried {
@@ -311,6 +312,7 @@ impl BorgCall {
     async fn managed_process<T: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
         &self,
         communication: super::Communication,
+        sender: &Sender,
     ) -> Result<T> {
         let mut line = String::new();
         let mut process = self.spawn_async()?;
@@ -384,13 +386,7 @@ impl BorgCall {
                 log_json::Output::LogEntry(msg)
             };
 
-            for mut sender in communication.sender.load().iter() {
-                sender.send(msg.clone()).await?;
-            }
-        }
-
-        for mut sender in communication.sender.load().iter() {
-            sender.close().await?;
+            sender.send(msg.clone()).await?;
         }
 
         let output = process.output().await?;
