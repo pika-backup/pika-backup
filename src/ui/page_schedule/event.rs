@@ -96,10 +96,12 @@ fn update_prune_details(config: &config::Backup) {
 fn update_status(config: &config::Backup) {
     let status = super::status::Status::new(config);
 
-    main_ui().schedule_status().set_title(&status.main.title);
     main_ui()
         .schedule_status()
-        .set_subtitle(&status.main.subtitle);
+        .set_title(&glib::markup_escape_text(&status.main.title));
+    main_ui()
+        .schedule_status()
+        .set_subtitle(&glib::markup_escape_text(&status.main.subtitle));
     main_ui()
         .schedule_status_icon()
         .set_icon_name(&status.main.icon_name);

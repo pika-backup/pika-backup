@@ -10,7 +10,7 @@ use super::events;
 
 pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
     let row = adw::ActionRow::builder()
-        .title(&file.to_string_lossy())
+        .title(&glib::markup_escape_text(&file.to_string_lossy()))
         .activatable(false)
         .build();
     list.append(&row);
@@ -52,10 +52,12 @@ pub fn refresh() -> Result<()> {
         main_ui().detail_repo_icon().set_from_gicon(&icon);
     }
 
-    main_ui().detail_repo_row().set_title(&backup.repo.title());
     main_ui()
         .detail_repo_row()
-        .set_subtitle(&backup.repo.subtitle());
+        .set_title(&glib::markup_escape_text(&backup.repo.title()));
+    main_ui()
+        .detail_repo_row()
+        .set_subtitle(&glib::markup_escape_text(&backup.repo.subtitle()));
 
     // include list
     ui::utils::clear(&main_ui().include());
@@ -98,7 +100,7 @@ pub fn refresh() -> Result<()> {
             }
             config::Pattern::RegularExpression(regex) => {
                 let row = adw::ActionRow::builder()
-                    .title(regex.as_str())
+                    .title(&glib::markup_escape_text(regex.as_str()))
                     .subtitle(&gettext("Regular Expression"))
                     .activatable(false)
                     .icon_name("folder-saved-search")
@@ -150,10 +152,14 @@ pub fn refresh_status() {
 }
 
 fn refresh_status_display(status: &ui::backup_status::Display) {
-    main_ui().detail_status_row().set_title(&status.title);
     main_ui()
         .detail_status_row()
-        .set_subtitle(&status.subtitle.clone().unwrap_or_default());
+        .set_title(&glib::markup_escape_text(&status.title));
+    main_ui()
+        .detail_status_row()
+        .set_subtitle(&glib::markup_escape_text(
+            &status.subtitle.clone().unwrap_or_default(),
+        ));
 
     let running = match &status.graphic {
         ui::backup_status::Graphic::ErrorIcon(icon)

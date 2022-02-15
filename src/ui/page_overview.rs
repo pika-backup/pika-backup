@@ -166,10 +166,12 @@ pub fn refresh_status() {
                 if let Some(row) = rows.get(&config.id) {
                     let status = ui::backup_status::Display::new_from_id(&config.id);
 
-                    row.status().set_title(&status.title);
-
                     row.status()
-                        .set_subtitle(&status.subtitle.unwrap_or_default());
+                        .set_title(&glib::markup_escape_text(&status.title));
+
+                    row.status().set_subtitle(&glib::markup_escape_text(
+                        &status.subtitle.unwrap_or_default(),
+                    ));
 
                     match &status.graphic {
                         ui::backup_status::Graphic::OkIcon(icon) => {
@@ -201,8 +203,10 @@ pub fn refresh_status() {
 
                     let status = ui::page_schedule::status::Status::new(config);
 
-                    row.schedule().set_title(&status.main.title);
-                    row.schedule().set_subtitle(&status.main.subtitle);
+                    row.schedule()
+                        .set_title(&glib::markup_escape_text(&status.main.title));
+                    row.schedule()
+                        .set_subtitle(&glib::markup_escape_text(&status.main.subtitle));
                     row.schedule_icon().set_icon_name(&status.main.icon_name);
                     row.schedule_icon().set_level(status.main.level);
                 }

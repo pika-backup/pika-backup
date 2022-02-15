@@ -50,7 +50,7 @@ pub fn transfer_selection(
             .build();
 
         if let Some(prefix) = &suggestion.prefix {
-            row.set_subtitle(&prefix.to_string());
+            row.set_subtitle(&glib::markup_escape_text(&prefix.to_string()));
         }
 
         let box_ = gtk::Box::new(gtk::Orientation::Horizontal, 6);
@@ -180,8 +180,8 @@ pub async fn add_mount<F: 'static + Fn()>(
         }
     }
 
-    row.set_title(&label1);
-    row.set_subtitle(&label2);
+    row.set_title(&glib::markup_escape_text(&label1));
+    row.set_subtitle(&glib::markup_escape_text(&label2));
 }
 
 pub fn pending_check(ui: &DialogSetup) {
