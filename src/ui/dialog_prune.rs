@@ -10,6 +10,15 @@ use ui::builder::DialogPrune;
 
 pub async fn run(config: &config::Backup) -> Result<()> {
     let ui = DialogPrune::new();
+
+    let result = show(config, &ui).await;
+    if result.is_err() {
+        ui.dialog().destroy();
+    }
+    result
+}
+
+async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
     ui.dialog().set_transient_for(Some(&main_ui().window()));
     ui.dialog().present();
 
@@ -27,11 +36,14 @@ pub async fn run(config: &config::Backup) -> Result<()> {
     ui.keep().set_label(&prune_info.keep.to_string());
     ui.leaflet().set_visible_child(&ui.page_decision());
 
-    ui.delete().connect_clicked(
-        clone!(@weak ui, @strong config =>
-            move |_|  Handler::new().error_transient_for(ui.dialog()).spawn(delete(ui, config.clone()))
-         )
-    );
+    ui.delete()
+        .connect_clicked(clone!(@weak ui, @strong config =>
+           move |_|  Handler::new().error_transient_for(ui.dialog()).spawn(enclose!((config) async move {
+               let result = delete(ui.clone(), config.clone()).await;
+               ui.dialog().destroy();
+               result
+           }))
+        ));
 
     // ensure lifetime until window closes
     let mutex = std::sync::Mutex::new(Some(ui.clone()));
@@ -86,6 +98,5 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
         result.into_message(gettext("Delete old Archives"))?;
     }
 
-    ui.dialog().destroy();
     Ok(())
 }
