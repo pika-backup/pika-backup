@@ -5,6 +5,7 @@
 - Fix not all data in mounted archives where always readable
 - Fix backups cannot be aborted if backup source is unresponsive
 - Fix memory leak from setup dialog
+- Fix sometimes free space of the wrong device is reported for remote repositories
 - Change backup compression to the more effective "Zstandard" algorithm
 - Change to accept ssh host keys for new hosts
 - Change to no longer support migration from Pika Backup v0.2 configs

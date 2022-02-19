@@ -1,5 +1,6 @@
+//! Disk space information
+
 use crate::ui::prelude::*;
-/// Disk space information
 use gio::prelude::*;
 
 use async_process as process;
@@ -50,19 +51,42 @@ pub async fn lookup_and_cache(config: &config::Backup) -> Result<Space> {
 }
 
 pub async fn remote(server: &str) -> Result<Space> {
-    let mut url = url::Url::parse(server)?;
-    let _ignore = url.set_scheme("sftp");
-    url.set_path("");
+    let original_uri = glib::Uri::parse(server, glib::UriFlags::NONE)?;
 
-    debug!("sftp connect to '{}'", url.as_str());
+    let connect_url = glib::Uri::build(
+        glib::UriFlags::NONE,
+        "sftp",
+        original_uri.userinfo().as_ref().map(|x| x.as_str()),
+        original_uri.host().as_ref().map(|x| x.as_str()),
+        -1,
+        "",
+        None,
+        None,
+    );
+
+    // just hope that the home path is the same as the default path
+    let path = &original_uri
+        .path()
+        .replace('~', ".")
+        .get(1..)
+        .map(ToString::to_string)
+        .unwrap_or_default();
+
+    debug!("sftp connect to '{}'", connect_url.to_str());
 
     let mut child = process::Command::new("sftp")
-        .arg(url.as_str())
+        .arg(connect_url.to_str())
         .stdin(process::Stdio::piped())
         .stderr(process::Stdio::piped())
         .stdout(process::Stdio::piped())
         .spawn()?;
     let mut stdin = child.stdin.take().ok_or("STDIN not available.")?;
+
+    // this might fail but we don't care since output goes to STDERR
+    debug!("sftp: try to change to dir {:?}", path);
+    stdin
+        .write_all(format!("cd {}\n", shell_words::quote(&path)).as_bytes())
+        .await?;
 
     stdin.write_all(b"df\nexit\n").await?;
 
@@ -76,8 +100,8 @@ pub async fn remote(server: &str) -> Result<Space> {
 
     let df: Vec<String> = String::from_utf8_lossy(&out.stdout)
         .lines()
-        .nth(2)
-        .ok_or("Third line missing in output.")?
+        .nth(3)
+        .ok_or("Fourth line missing in output.")?
         .split_whitespace()
         .map(str::to_string)
         .collect();
@@ -108,7 +132,6 @@ quick_error! {
         GLib(err: glib::Error) { from() }
         ParseInt(err: std::num::ParseIntError) { from() }
         StdIo(err: std::io::Error) { from() }
-        Url(err: url::ParseError) { from() }
         TheadPaniced(err: futures::channel::oneshot::Canceled) { from() }
         Other(err: String) { from(err: &str) -> (err.to_string()) }
     }
