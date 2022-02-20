@@ -123,21 +123,24 @@ async fn run_backup(config: config::Backup) -> Result<()> {
     match result {
         Err(borg::Error::Aborted(_)) => Ok(()),
         Err(err) => Err(Message::new(gettext("Creating a backup failed."), err).into()),
-        Ok(_)
-            if run_info.messages.clone().filter_handled().max_log_level()
-                >= Some(borg::log_json::LogLevel::Warning) =>
-        {
-            Err(Message::new(
-                gettext("Backup completed with warnings."),
-                run_info.messages.filter_hidden().to_string(),
-            )
-            .into())
-        }
         Ok(_) => {
-            // TODO: Should happen with warnings as well
+            if config.prune.enabled {
+                let _ignore = ui::dialog_prune::execute(config.clone()).await;
+            }
             let _ignore = ui::page_archives::cache::refresh_archives(config.clone()).await;
             let _ignore = ui::utils::df::lookup_and_cache(&config).await;
-            Ok(())
+
+            if run_info.messages.clone().filter_handled().max_log_level()
+                >= Some(borg::log_json::LogLevel::Warning)
+            {
+                Err(Message::new(
+                    gettext("Backup completed with warnings."),
+                    run_info.messages.filter_hidden().to_string(),
+                )
+                .into())
+            } else {
+                Ok(())
+            }
         }
     }
 }

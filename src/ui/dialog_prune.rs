@@ -8,6 +8,30 @@ use crate::ui::error;
 use crate::ui::prelude::*;
 use ui::builder::DialogPrune;
 
+pub async fn execute(config: config::Backup) -> Result<()> {
+    let communication = borg::Communication::default();
+
+    let result = ui::utils::borg::exec(
+        gettext("Delete old Archives"),
+        config.clone(),
+        enclose!((communication) move |borg| {
+            borg.prune(communication)
+        }),
+    )
+    .await;
+
+    if !matches!(
+        result,
+        Err(error::Combined::Borg(borg::Error::Aborted(
+            borg::error::Abort::User
+        )))
+    ) {
+        result.into_message(gettext("Delete old Archives"))?;
+    }
+
+    Ok(())
+}
+
 pub async fn run(config: &config::Backup) -> Result<()> {
     let ui = DialogPrune::new();
 
