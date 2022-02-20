@@ -85,7 +85,7 @@ pub async fn remote(server: &str) -> Result<Space> {
     // this might fail but we don't care since output goes to STDERR
     debug!("sftp: try to change to dir {:?}", path);
     stdin
-        .write_all(format!("cd {}\n", shell_words::quote(&path)).as_bytes())
+        .write_all(format!("cd {}\n", shell_words::quote(path)).as_bytes())
         .await?;
 
     stdin.write_all(b"df\nexit\n").await?;
