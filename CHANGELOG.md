@@ -2,21 +2,22 @@
 
 ## 0.4.0 Unreleased
 
-- Fix not all data in mounted archives where always readable
 - Fix backups cannot be aborted if backup source is unresponsive
 - Fix memory leak from setup dialog
+- Fix not all data in mounted archives where always readable
 - Fix sometimes free space of the wrong device is reported for remote repositories
 - Change backup compression to the more effective "Zstandard" algorithm
+- Change setup dialog to include password question
 - Change to accept ssh host keys for new hosts
 - Change to no longer support migration from Pika Backup v0.2 configs
-- Change setup dialog to include password question
 - Add better error messages for incorrect remote locations
-- Add message to user interface if target devive or server is unrepsonive
 - Add message to inform user about what task is locking the repo
-- Add support for user@host:path borg remote location syntax
-- Add settup option to inherit include, exclude, and prefix from existing archives
+- Add message to user interface if target devive or server is unrepsonive
+- Add setup option to inherit include, exclude, and prefix from existing archives
 - Add several mnemonics
 - Add shortcuts dialog
+- Add support for manually and automatically deleting old archives
+- Add support for user@host:path borg remote location syntax
 - Remove option to not store encryption passwords in secrete service
 
 ## 0.3.5 (2021-09-08)

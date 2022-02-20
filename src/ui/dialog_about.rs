@@ -29,7 +29,7 @@ pub fn show() {
         &gettext("Court Witch"),
         &[&gettext("Fina Wilke")],
     );
-    dialog.set_artists(&["Jakub Steiner"]);
+    dialog.set_artists(&["Jakub Steiner", "Tobias Bernard"]);
     dialog.add_credit_section(
         &gettext("Back end"),
         &[
