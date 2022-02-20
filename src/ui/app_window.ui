@@ -782,13 +782,41 @@ This might take a while.</property>
                                               </object>
                                             </child>
                                             <child>
+                                              <object class="GtkBox">
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="label" translatable="yes">Delete old Archives</property>
+                                                    <property name="hexpand">1</property>
+                                                    <property name="xalign">0</property>
+                                                    <style>
+                                                      <class name="heading"/>
+                                                    </style>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkRevealer" id="prune_save_revealer">
+                                                    <property name="transition-type">crossfade</property>
+                                                    <property name="child">
+                                                      <object class="GtkButton" id="prune_save">
+                                                        <property name="label" translatable="yes">Save Configuration</property>
+                                                        <property name="valign">center</property>
+                                                        <style>
+                                                          <class name="suggested-action"/>
+                                                        </style>
+                                                      </object>
+                                                    </property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
                                               <object class="GtkListBox">
                                                 <property name="selection-mode">none</property>
                                                 <child>
                                                   <object class="AdwActionRow">
                                                     <property name="activatable">False</property>
                                                     <property name="title" translatable="yes">Regularly Cleanup Archives</property>
-                                                    <property name="subtitle" translatable="yes">Delete some older archives</property>
+                                                    <property name="subtitle" translatable="yes">Remove old archives after creating new backups</property>
                                                     <child>
                                                       <object class="GtkSwitch" id="prune_enabled">
                                                         <property name="valign">center</property>
@@ -798,7 +826,8 @@ This might take a while.</property>
                                                 </child>
                                                 <child>
                                                   <object class="AdwComboRow" id="prune_preset">
-                                                    <property name="title" translatable="yes">Keep Older Versions</property>
+                                                    <property name="title" translatable="yes">Preserved Archives</property>
+                                                    <property name="subtitle" translatable="yes">Amount and time span of retained archives</property>
                                                     <property name="expression">
                                                       <lookup type="PikaBackupPrunePreset" name="display"></lookup>
                                                     </property>

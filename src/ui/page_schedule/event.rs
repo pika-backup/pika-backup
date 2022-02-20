@@ -55,6 +55,7 @@ pub async fn show_page() -> Result<()> {
         frequency_change().await?;
 
         // prune
+        main_ui().prune_save_revealer().set_reveal_child(false);
 
         main_ui().prune_enabled().set_active(config.prune.enabled);
         main_ui()
@@ -275,14 +276,40 @@ pub async fn active_change() -> Result<()> {
     Ok(())
 }
 
-pub async fn prune_enabled() -> Result<()> {
+pub async fn prune_save() -> Result<()> {
     BACKUP_CONFIG.update_result(|config| {
-        config.active_mut()?.prune.enabled = main_ui().prune_enabled().is_active();
+        update_prune_config(config.active_mut()?);
 
         Ok(())
     })?;
 
-    ui::write_config()
+    ui::write_config()?;
+
+    main_ui().prune_save_revealer().set_reveal_child(false);
+
+    Ok(())
+}
+
+pub async fn prune_enabled() -> Result<()> {
+    if !main_ui().prune_enabled().is_active() {
+        BACKUP_CONFIG.update_result(|config| {
+            config.active_mut()?.prune.enabled = false;
+
+            Ok(())
+        })?;
+
+        ui::write_config()?;
+    }
+
+    let mut config = BACKUP_CONFIG.load().active()?.clone();
+    update_prune_config(&mut config);
+
+    let config_changed = &config != BACKUP_CONFIG.load().active()?;
+    main_ui()
+        .prune_save_revealer()
+        .set_reveal_child(config_changed);
+
+    Ok(())
 }
 
 pub async fn prune_preset_change() -> Result<()> {
@@ -292,40 +319,41 @@ pub async fn prune_preset_change() -> Result<()> {
         .and_then(|x| x.downcast::<prune_preset::PrunePresetObject>().ok())
     {
         if let Some(keep) = preset.preset().keep() {
-            BACKUP_CONFIG.update_result(|config| {
-                config.active_mut()?.prune.keep = keep.clone();
-                Ok(())
-            })?;
-
-            update_prune_details(BACKUP_CONFIG.load().active()?);
+            let mut config = BACKUP_CONFIG.load().active()?.clone();
+            config.prune.keep = keep;
+            update_prune_details(&config);
         } else {
             main_ui().prune_detail().set_expanded(true);
         }
 
-        ui::write_config()
+        Ok(())
     } else {
         Err(Message::short(gettext("No preset selected.")).into())
     }
 }
 
 pub async fn keep_change() -> Result<()> {
-    BACKUP_CONFIG.update_result(|config| {
-        let keep = &mut config.active_mut()?.prune.keep;
-
-        keep.hourly = main_ui().schedule_keep_hourly().value() as u32;
-        keep.daily = main_ui().schedule_keep_daily().value() as u32;
-        keep.weekly = main_ui().schedule_keep_weekly().value() as u32;
-        keep.monthly = main_ui().schedule_keep_monthly().value() as u32;
-        keep.yearly = main_ui().schedule_keep_yearly().value() as u32;
-
-        Ok(())
-    })?;
+    let mut config = BACKUP_CONFIG.load().active()?.clone();
+    update_prune_config(&mut config);
 
     main_ui()
         .prune_preset()
-        .set_selected(prune_preset::PrunePreset::matching(
-            &BACKUP_CONFIG.load().active()?.prune.keep,
-        ) as u32);
+        .set_selected(prune_preset::PrunePreset::matching(&config.prune.keep) as u32);
 
-    ui::write_config()
+    let config_changed = &config != BACKUP_CONFIG.load().active()?;
+    main_ui()
+        .prune_save_revealer()
+        .set_reveal_child(config_changed);
+
+    Ok(())
+}
+
+fn update_prune_config(config: &mut config::Backup) {
+    config.prune.enabled = main_ui().prune_enabled().is_active();
+
+    config.prune.keep.hourly = main_ui().schedule_keep_hourly().value() as u32;
+    config.prune.keep.daily = main_ui().schedule_keep_daily().value() as u32;
+    config.prune.keep.weekly = main_ui().schedule_keep_weekly().value() as u32;
+    config.prune.keep.monthly = main_ui().schedule_keep_monthly().value() as u32;
+    config.prune.keep.yearly = main_ui().schedule_keep_yearly().value() as u32;
 }

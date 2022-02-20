@@ -299,6 +299,14 @@ impl AppWindow {
         self.get("prune_preset")
     }
 
+    pub fn prune_save(&self) -> gtk::Button {
+        self.get("prune_save")
+    }
+
+    pub fn prune_save_revealer(&self) -> gtk::Revealer {
+        self.get("prune_save_revealer")
+    }
+
     pub fn refresh_archives(&self) -> gtk::Button {
         self.get("refresh_archives")
     }

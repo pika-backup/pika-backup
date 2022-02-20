@@ -71,6 +71,10 @@ pub fn init() {
     // prune
 
     main_ui()
+        .prune_save()
+        .connect_clicked(|_| Handler::run(event::prune_save()));
+
+    main_ui()
         .prune_enabled()
         .connect_active_notify(|_| Handler::run(event::prune_enabled()));
 
