@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-02-13 01:04+0000\n"
-"PO-Revision-Date: 2022-02-13 09:33+0200\n"
+"POT-Creation-Date: 2022-02-20 21:40+0000\n"
+"PO-Revision-Date: 2022-02-21 08:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -185,7 +185,7 @@ msgid "Unspecified error."
 msgstr "Невизначена помилка."
 
 #: src/borg/log_json.rs:85
-#, c-format
+#, no-c-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Дію завершено на {} % c({} з {})"
 
@@ -480,7 +480,7 @@ msgstr "_Архіви"
 msgid "Cleanup Archives"
 msgstr "Очистити архіви"
 
-#: src/ui/app_window.ui:576 src/ui/app_window.ui:791
+#: src/ui/app_window.ui:576
 msgid "Delete some older archives"
 msgstr "Вилучити деякі застарілі архіви"
 
@@ -528,55 +528,76 @@ msgstr "Бажаний день"
 msgid "21st"
 msgstr "21"
 
-#: src/ui/app_window.ui:790
+#: src/ui/app_window.ui:788 src/ui/dialog_prune.rs:15 src/ui/dialog_prune.rs:29
+#: src/ui/dialog_prune.rs:108 src/ui/dialog_prune.rs:122
+msgid "Delete old Archives"
+msgstr "Вилучити застарілі архіви"
+
+#: src/ui/app_window.ui:801
+#| msgid "Backup Configuration"
+msgid "Save Configuration"
+msgstr "Зберегти налаштування"
+
+#: src/ui/app_window.ui:818
 msgid "Regularly Cleanup Archives"
 msgstr "Регулярно чистити архіви"
 
-#: src/ui/app_window.ui:801
-msgid "Keep Older Versions"
-msgstr "Зберегти застарілі версії"
+#: src/ui/app_window.ui:819
+msgid "Remove old archives after creating new backups"
+msgstr ""
+"Вилучати застарілі архіви після створення нових резервних копій"
 
-#: src/ui/app_window.ui:810
+#: src/ui/app_window.ui:829
+#| msgid "Delete Archives"
+msgid "Preserved Archives"
+msgstr "Збережені архіви"
+
+#: src/ui/app_window.ui:830
+msgid "Amount and time span of retained archives"
+msgstr ""
+"Кількість та часовий проміжок збережених архівів"
+
+#: src/ui/app_window.ui:839
 msgid "Details"
 msgstr "Подробиці"
 
-#: src/ui/app_window.ui:814
+#: src/ui/app_window.ui:843
 msgid "Keep Hourly"
 msgstr "Продовжувати щогодини"
 
-#: src/ui/app_window.ui:829
+#: src/ui/app_window.ui:858
 msgid "Keep Daily"
 msgstr "Продовжувати щодня"
 
-#: src/ui/app_window.ui:844
+#: src/ui/app_window.ui:873
 msgid "Keep Weekly"
 msgstr "Продовжувати щотижня"
 
-#: src/ui/app_window.ui:857
+#: src/ui/app_window.ui:886
 msgid "Keep Monthly"
 msgstr "Продовжувати щомісяця"
 
-#: src/ui/app_window.ui:870
+#: src/ui/app_window.ui:899
 msgid "Keep Annual"
 msgstr "Продовжувати щороку"
 
-#: src/ui/app_window.ui:920
+#: src/ui/app_window.ui:949
 msgid "Backup Info"
 msgstr "Відомості щодо резервного копіювання"
 
-#: src/ui/app_window.ui:978
+#: src/ui/app_window.ui:1007
 msgid "Amount saved"
 msgstr "Обсяг збереженого"
 
-#: src/ui/app_window.ui:994
+#: src/ui/app_window.ui:1023
 msgid "Number of files saved"
 msgstr "Кількість збережених файлів"
 
-#: src/ui/app_window.ui:1010
+#: src/ui/app_window.ui:1039
 msgid "Additional backup space used"
 msgstr "Використане додаткове місце для резервного копіювання"
 
-#: src/ui/app_window.ui:1026
+#: src/ui/app_window.ui:1055
 msgid "Current file"
 msgstr "Поточний файл"
 
@@ -698,17 +719,13 @@ msgstr "Пароль"
 msgid "This requires the encryption password of the repository."
 msgstr "Це потребує пароля для шифрування сховища."
 
-#: src/ui/dialog_prune.rs:17
+#: src/ui/dialog_prune.rs:50
 msgid "Determine how many archives would be deleted"
 msgstr "Визначити, скільки архівів має бути вилучено"
 
-#: src/ui/dialog_prune.rs:23
+#: src/ui/dialog_prune.rs:56
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
-
-#: src/ui/dialog_prune.rs:72 src/ui/dialog_prune.rs:86
-msgid "Delete old Archives"
-msgstr "Вилучити застарілі архіви"
 
 #: src/ui/dialog_prune.ui:30
 msgid "Checking for old Archives"
@@ -1092,7 +1109,7 @@ msgstr "Навігація архівом"
 msgid "Failed to make archives available for browsing."
 msgstr "Не вдалося зробити архіви доступними для навігації."
 
-#: src/ui/page_backup/display.rs:102
+#: src/ui/page_backup/display.rs:104
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
@@ -1148,7 +1165,7 @@ msgstr "Створюємо резервну копію"
 msgid "Creating a backup failed."
 msgstr "Не вдалося створити резервну копію."
 
-#: src/ui/page_backup/execution.rs:131
+#: src/ui/page_backup/execution.rs:137
 msgid "Backup completed with warnings."
 msgstr "Резервне копіювання було завершено із попередженнями."
 
@@ -1168,39 +1185,39 @@ msgstr "Вилучити"
 msgid "Home"
 msgstr "Домівка"
 
-#: src/ui/page_schedule/event.rs:135
+#: src/ui/page_schedule/event.rs:138
 msgid "Invalid time format."
 msgstr "Некоректний формат визначення часу."
 
-#: src/ui/page_schedule/event.rs:143
+#: src/ui/page_schedule/event.rs:146
 msgid "Invalid weekday."
 msgstr "Некоректний день тижня."
 
-#: src/ui/page_schedule/event.rs:150
+#: src/ui/page_schedule/event.rs:153
 msgid "No frequency selected."
 msgstr "Не вибрано частоти."
 
-#: src/ui/page_schedule/event.rs:250
+#: src/ui/page_schedule/event.rs:253
 msgid "Disable backup schedule."
 msgstr "Вимкнути розклад резервного копіювання."
 
-#: src/ui/page_schedule/event.rs:251
+#: src/ui/page_schedule/event.rs:254
 msgid "No longer remind of backups based on a schedule."
 msgstr "Більше не нагадувати про резервне копіювання на основі розкладу."
 
-#: src/ui/page_schedule/event.rs:252
+#: src/ui/page_schedule/event.rs:255
 msgid "Keep Schedule"
 msgstr "Зберігати розклад"
 
-#: src/ui/page_schedule/event.rs:253
+#: src/ui/page_schedule/event.rs:256
 msgid "Disable Schedule"
 msgstr "Вимкнути розклад"
 
-#: src/ui/page_schedule/event.rs:305
+#: src/ui/page_schedule/event.rs:331
 msgid "No preset selected."
 msgstr "Не вибрано жодного набору."
 
-#: src/ui/page_schedule/init.rs:121
+#: src/ui/page_schedule/init.rs:125
 msgid "Unable to determine background process status"
 msgstr "Не вдалося визначити стан фонового процесу"
 
@@ -1365,7 +1382,6 @@ msgid "Select"
 msgstr "Вибрати"
 
 #: src/ui/utils/borg.rs:25
-#| msgid "Repository already in use."
 msgid "Repository already in use"
 msgstr "Сховище вже використано"
 
@@ -1516,6 +1532,9 @@ msgstr "Не вдалося вилучити потенційно збереже
 msgid "Pika Backup Password"
 msgstr "Пароль до резервної копії Пайки"
 
+#~ msgid "Keep Older Versions"
+#~ msgstr "Зберегти застарілі версії"
+
 #~ msgid "{} % prepared"
 #~ msgstr "Приготовано на {} %"
 
@@ -1541,9 +1560,6 @@ msgstr "Пароль до резервної копії Пайки"
 
 #~ msgid "Location URL"
 #~ msgstr "Адреса місця"
-
-#~ msgid "Backup Configuration"
-#~ msgstr "Налаштовування резервного копіювання"
 
 #~ msgid "Remote location"
 #~ msgstr "Віддалене місце"
