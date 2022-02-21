@@ -13,13 +13,10 @@ lto = true
 codegen-units = 1
 
 [dependencies]
-async-executor = "1.4"
-async-process = "1.0"
-async-std = { version = "1.10", features = ["attributes"] }
+async-std = { version = "1.10", features = ["attributes", "unstable"] }
 async-trait = "0.1"
 chrono = { version = "0.4", features = ["serde"] }
 chronoutil = "0.2"
-futures = { version = "0.3.12", features = ["thread-pool"] }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 nix = "0.23"
 num-format = "0.4"
@@ -43,13 +40,13 @@ serde_derive = "1.0"
 serde_json = "1.0"
 
 # GNOME
+adw = { version = "0.1", package = "libadwaita" }
 glib = "*"
 gio = { version = "*", features = ["v2_54"] }
 gtk = { package = "gtk4", version = "0.4", features = ["v4_6"] }
-adw = { version = "0.1", package = "libadwaita" }
+libsecret = "0.1"
 
 ashpd = "0.2"
-libsecret = "0.1"
 zbus = "2.0"
 
 [dev-dependencies]

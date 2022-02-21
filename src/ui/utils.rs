@@ -195,42 +195,16 @@ fn active_config_id_result() -> Result<ConfigId> {
         .ok_or_else(|| Message::short("There is no active backup in the interface.").into())
 }
 
-pub async fn spawn_thread<P: core::fmt::Display, F, R>(
-    name: P,
-    task: F,
-) -> std::result::Result<R, futures::channel::oneshot::Canceled>
+pub async fn spawn_thread<P: core::fmt::Display, F, R>(name: P, task: F) -> Result<R>
 where
     F: FnOnce() -> R + Send + 'static,
     R: Send + 'static,
 {
-    let (send, recv) = futures::channel::oneshot::channel();
+    let result = async_std::task::Builder::new()
+        .name(name.to_string())
+        .spawn(async { task() });
 
-    let sender = std::cell::Cell::new(Some(send));
-
-    let task_name = name.to_string();
-    let result = std::thread::Builder::new()
-        .name(task_name.to_string())
-        .spawn(move || {
-            if let Some(sender) = sender.replace(None) {
-                if sender.send(task()).is_err() {
-                    error!(
-                        "spawn_thread({}): Error sending to handler: Receiving end hung up",
-                        task_name
-                    );
-                }
-            } else {
-                error!(
-                    "spawn_thread({}): Error sending to handler: Already send",
-                    task_name
-                );
-            }
-        });
-
-    if let Err(err) = result {
-        error!("Failed to create thread for '{}': {}", name, err);
-    }
-
-    recv.await
+    Ok(result.err_to_msg(gettext("Failed to Create Thread"))?.await)
 }
 
 quick_error! {

@@ -1,10 +1,10 @@
 //! Disk space information
 
 use crate::ui::prelude::*;
+use async_std::prelude::*;
 use gio::prelude::*;
 
-use async_process as process;
-use futures::AsyncWriteExt;
+use async_std::process;
 
 use crate::config;
 use crate::ui::utils::repo_cache::RepoCache;
@@ -132,7 +132,6 @@ quick_error! {
         GLib(err: glib::Error) { from() }
         ParseInt(err: std::num::ParseIntError) { from() }
         StdIo(err: std::io::Error) { from() }
-        TheadPaniced(err: futures::channel::oneshot::Canceled) { from() }
         Other(err: String) { from(err: &str) -> (err.to_string()) }
     }
 }

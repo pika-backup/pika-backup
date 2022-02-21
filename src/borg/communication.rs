@@ -1,7 +1,6 @@
 use super::Result;
 use arc_swap::ArcSwap;
-use futures::channel::mpsc::{unbounded, UnboundedReceiver, UnboundedSender};
-use futures::prelude::*;
+use async_std::channel::{self, unbounded};
 use std::sync::Arc;
 
 use super::log_json;
@@ -11,11 +10,11 @@ use super::status::Status;
 pub struct Communication {
     pub status: Arc<ArcSwap<Status>>,
     pub instruction: Arc<ArcSwap<Instruction>>,
-    pub sender: Arc<ArcSwap<Vec<UnboundedSender<log_json::Output>>>>,
+    pub sender: Arc<ArcSwap<Vec<channel::Sender<log_json::Output>>>>,
 }
 
 impl Communication {
-    pub fn new_receiver(&self) -> UnboundedReceiver<log_json::Output> {
+    pub fn new_receiver(&self) -> channel::Receiver<log_json::Output> {
         let (sender, receiver) = unbounded::<log_json::Output>();
         self.sender
             .rcu(move |v| [v.to_vec(), vec![sender.clone()]].concat());
@@ -43,7 +42,7 @@ pub(super) struct Sender(Communication);
 
 impl Sender {
     pub async fn send(&self, msg: log_json::Output) -> Result<()> {
-        for mut sender in self.0.sender.load().iter() {
+        for sender in self.0.sender.load().iter() {
             sender.send(msg.clone()).await?;
         }
         Ok(())

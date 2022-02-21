@@ -1,4 +1,6 @@
 use super::prelude::*;
+use async_std::prelude::*;
+
 use super::{Borg, BorgRunConfig, Error, Result};
 
 use std::any::TypeId;
@@ -8,10 +10,6 @@ use std::os::unix::io::AsRawFd;
 use std::os::unix::io::IntoRawFd;
 use std::process::{Command, Stdio};
 
-use futures::prelude::*;
-use futures::task::SpawnExt;
-
-use futures::channel::oneshot;
 use std::time::Duration;
 
 use super::communication::*;
@@ -19,6 +17,8 @@ use super::log_json;
 use super::status::*;
 use super::utils;
 use crate::config;
+
+use async_std::process as async_process;
 
 use super::error::*;
 
@@ -32,7 +32,7 @@ pub struct BorgCall {
 }
 
 pub struct Process<T> {
-    pub result: oneshot::Receiver<Result<T>>,
+    pub result: async_std::task::JoinHandle<Result<T>>,
 }
 
 impl BorgCall {
@@ -247,14 +247,7 @@ impl BorgCall {
         self,
         communication: super::Communication,
     ) -> Result<Process<T>> {
-        let (result_sink, result) = futures::channel::oneshot::channel();
-
-        let pool = futures::executor::ThreadPool::new()?;
-        pool.spawn(async {
-            result_sink
-                .send(self.handle_disconnect(communication).await)
-                .unwrap();
-        })?;
+        let result = async_std::task::spawn(self.handle_disconnect(communication));
 
         Ok(Process { result })
     }
@@ -315,7 +308,7 @@ impl BorgCall {
     ) -> Result<T> {
         let mut line = String::new();
         let mut process = self.spawn_async()?;
-        let mut reader = futures::io::BufReader::new(
+        let mut reader = async_std::io::BufReader::new(
             process
                 .stderr
                 .take()

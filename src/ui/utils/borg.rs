@@ -126,21 +126,18 @@ where
             name.to_string(),
             enclose!((borg, task) move || {
                 set_scheduler_priority(10);
-                futures::executor::block_on(task(borg))
+                async_std::task::block_on(task(borg))
             }),
         )
         .await;
 
-        return match result {
-            Err(futures::channel::oneshot::Canceled) => Err(borg::Error::ThreadPanicked.into()),
-            Ok(result) => match result {
-                Err(borg::Error::Failed(borg::Failure::LockTimeout)) => {
-                    handle_lock(borg.clone()).await?;
-                    continue;
-                }
-                Err(e) => Err(e.into()),
-                Ok(result) => Ok(result),
-            },
+        return match result? {
+            Err(borg::Error::Failed(borg::Failure::LockTimeout)) => {
+                handle_lock(borg.clone()).await?;
+                continue;
+            }
+            Err(e) => Err(e.into()),
+            Ok(result) => Ok(result),
         };
     }
 }

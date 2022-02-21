@@ -1,7 +1,7 @@
 use crate::config;
 use crate::prelude::*;
+use async_std::prelude::*;
 
-use futures::StreamExt;
 use gio::prelude::*;
 use std::convert::TryInto;
 

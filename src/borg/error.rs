@@ -31,9 +31,7 @@ quick_error! {
             from(err: String) -> (Failure::Other(err))
             display("{}", err)
         }
-        TaskSpawn(err: futures::task::SpawnError) { from() }
-        MpscSend(err: futures::channel::mpsc::SendError) { from() }
-        OneshotCanceled(err: futures::channel::oneshot::Canceled) { from() }
+        ChannelSend(err: async_std::channel::SendError<Output>) { from() }
         Aborted(err: Abort) { from() }
     }
 }

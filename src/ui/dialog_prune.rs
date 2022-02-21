@@ -1,5 +1,5 @@
 use adw::prelude::*;
-use futures::prelude::*;
+use async_std::prelude::*;
 
 use crate::borg;
 use crate::config;

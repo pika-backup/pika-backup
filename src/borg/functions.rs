@@ -1,8 +1,7 @@
-use futures::prelude::*;
-
 use super::*;
 use crate::config;
 use crate::prelude::*;
+use async_std::prelude::*;
 use process::*;
 use utils::*;
 
@@ -204,7 +203,7 @@ impl Borg {
 
         let process = borg_call.spawn_async_managed(communication)?;
 
-        process.result.await?
+        process.result.await
     }
 
     pub async fn create(self, communication: Communication) -> Result<Stats> {
@@ -263,7 +262,7 @@ impl Borg {
             }
         }
 
-        process.result.await?
+        process.result.await
     }
 }
 
