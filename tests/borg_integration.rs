@@ -8,49 +8,52 @@ use pika_backup::{borg, borg::prelude::*, config};
 // Currently, there are no init tasks
 fn init() {}
 
-#[test]
-fn simple_backup() {
+#[async_std::test]
+async fn simple_backup() {
     init();
     let borg = borg::Borg::new(config());
-    assert_matches!(borg.init(), Ok(borg::List { .. }));
-    assert_matches!(borg.create(status()), Ok(_));
+    assert_matches!(borg.clone().init().await, Ok(borg::List { .. }));
+    assert_matches!(borg.create(status()).await, Ok(_));
 }
 
-#[test]
-fn backup_communication() -> borg::Result<()> {
+#[async_std::test]
+async fn backup_communication() -> borg::Result<()> {
     let borg = borg::Borg::new(config());
     let communication = status();
 
-    borg.init()?;
-    borg.create(communication.clone())?;
+    borg.clone().init().await?;
+    borg.create(communication.clone()).await?;
 
     assert_matches!(communication.status.get().run, borg::Run::Running);
 
     Ok(())
 }
 
-#[test]
-fn encrypted_backup() {
+#[async_std::test]
+async fn encrypted_backup() {
     init();
     let mut config = config();
     config.encrypted = true;
 
     let mut borg = borg::Borg::new(config);
-    borg.set_password(b"x".to_vec().into());
+    borg.set_password(config::Password::new("x".into()));
 
-    assert_matches!(borg.init(), Ok(borg::List { .. }));
+    assert_matches!(borg.clone().init().await, Ok(borg::List { .. }));
 
     borg.unset_password();
-    assert_matches!(borg.create(status()), Err(borg::Error::PasswordMissing));
+
+    let result = borg.create(status()).await;
+
+    assert!(result.is_err());
 }
 
-#[test]
-fn failed_ssh_connection() {
+#[async_std::test]
+async fn failed_ssh_connection() {
     init();
     let repo = config::remote::Repository::from_uri("ssh://backup.server.invalid/repo".to_string())
         .into_config();
 
-    let result = borg::BorgOnlyRepo::new(repo).peek();
+    let result = borg::BorgOnlyRepo::new(repo).peek().await;
     assert_matches!(
         result,
         Err(borg::Error::Failed(
@@ -59,10 +62,10 @@ fn failed_ssh_connection() {
     );
 }
 
-#[test]
-fn failed_repo() {
+#[async_std::test]
+async fn failed_repo() {
     init();
-    let result = borg::Borg::new(config()).peek();
+    let result = borg::Borg::new(config()).peek().await;
     assert_matches!(
         result,
         Err(borg::Error::Failed(

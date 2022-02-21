@@ -1,5 +1,4 @@
 use adw::prelude::*;
-use zeroize::Zeroizing;
 
 use super::display;
 use super::remote_location::RemoteLocation;
@@ -119,28 +118,26 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogSetup>) -> Result<(
     }
 
     let mut borg = borg::BorgOnlyRepo::new(repo.clone());
-    let password = Zeroizing::new(ui.password().text().as_bytes().to_vec());
+    let password = config::Password::new(ui.password().text().to_string());
     if encrypted {
         borg.set_password(password.clone());
     }
 
-    let result =
-        ui::utils::spawn_thread(&gettext("Creating backup repository"), move || borg.init()).await;
+    let info = ui::utils::borg::only_repo_suggest_store(
+        &gettext("Creating backup repository"),
+        borg,
+        |borg| borg.init(),
+    )
+    .await
+    .into_message("Failed to initialize repository.")?;
 
-    match result.unwrap_or(Err(borg::Error::ThreadPanicked)) {
-        Err(err) => {
-            return Err(Message::new(gettext("Failed to initialize repository."), err).into());
-        }
-        Ok(info) => {
-            let config = config::Backup::new(repo.clone(), info, encrypted);
+    let config = config::Backup::new(repo.clone(), info, encrypted);
 
-            insert_backup_config(config.clone())?;
-            if encrypted {
-                ui::utils::secret_service::store_password(&config, &password)?;
-            }
-            ui::page_backup::view_backup_conf(&config.id);
-        }
-    };
+    insert_backup_config(config.clone())?;
+    if encrypted {
+        ui::utils::secret_service::store_password(&config, &password).await?;
+    }
+    ui::page_backup::view_backup_conf(&config.id);
 
     Ok(())
 }
@@ -163,9 +160,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     let mut borg = borg::BorgOnlyRepo::new(repo.clone());
 
     if !ui.ask_password().text().is_empty() {
-        borg.password = Some(zeroize::Zeroizing::new(
-            ui.ask_password().text().as_bytes().to_vec(),
-        ));
+        borg.password = Some(config::Password::new(ui.ask_password().text().to_string()));
     }
 
     let result = ui::utils::borg::only_repo_suggest_store(
@@ -199,8 +194,9 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     ui::page_backup::view_backup_conf(&config.id);
     ui::utils::secret_service::store_password(
         &config,
-        &zeroize::Zeroizing::new(ui.ask_password().text().as_bytes().to_vec()),
-    )?;
+        &config::Password::new(ui.ask_password().text().to_string()),
+    )
+    .await?;
 
     ui.leaflet().set_visible_child(&ui.page_transfer());
 

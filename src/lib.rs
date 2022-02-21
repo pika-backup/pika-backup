@@ -5,6 +5,8 @@ extern crate serde_derive;
 #[macro_use]
 extern crate quick_error;
 #[macro_use]
+extern crate async_trait;
+#[macro_use]
 extern crate enclose;
 #[macro_use]
 pub mod prelude;

@@ -65,7 +65,7 @@ async fn on_remove_backup() -> Result<()> {
         Ok(())
     })?;
 
-    ui::utils::secret_service::remove_password(&config)?;
+    ui::utils::secret_service::remove_password(&config).await?;
 
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
     ui::write_config()?;

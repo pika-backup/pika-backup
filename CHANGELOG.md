@@ -8,6 +8,7 @@
 - Fix sometimes free space of the wrong device is reported for remote repositories
 - Change backup compression to the more effective "Zstandard" algorithm
 - Change setup dialog to include password question
+- Change to a different password storage
 - Change to accept ssh host keys for new hosts
 - Change to no longer support migration from Pika Backup v0.2 configs
 - Add better error messages for incorrect remote locations

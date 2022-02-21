@@ -20,12 +20,12 @@ use crate::prelude::*;
 
 use gio::prelude::*;
 use serde::Deserialize;
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, HashMap};
 use std::path;
 use zeroize::Zeroizing;
 
 /// Compatibility config version
-pub static VERSION: u16 = 2;
+pub const VERSION: u16 = 2;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct ConfigId(String);
@@ -301,7 +301,30 @@ impl Pattern {
     }
 }
 
-pub type Password = Zeroizing<Vec<u8>>;
+#[derive(Clone, Default)]
+pub struct Password(Zeroizing<String>);
+
+impl Password {
+    pub fn new(password: String) -> Self {
+        Self(Zeroizing::new(password))
+    }
+
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+
+    pub fn as_bytes(&self) -> &[u8] {
+        self.0.as_bytes()
+    }
+
+    pub fn libsecret_schema() -> libsecret::Schema {
+        libsecret::Schema::new(
+            &crate::app_id(),
+            libsecret::SchemaFlags::NONE,
+            HashMap::from([("repo-id", libsecret::SchemaAttributeType::String)]),
+        )
+    }
+}
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(tag = "type")]

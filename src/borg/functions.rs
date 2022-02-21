@@ -129,13 +129,13 @@ impl Borg {
         dir
     }
 
-    pub fn mount(&self) -> Result<()> {
+    pub async fn mount(self) -> Result<()> {
         std::fs::DirBuilder::new()
             .recursive(true)
             .create(Self::mount_point(&self.config.repo_id))?;
 
         let borg = BorgCall::new("mount")
-            .add_basics(self)?
+            .add_basics(&self)?
             // Make all data readable for the current user
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
             .add_options(&["-o", &format!("umask=0277,uid={}", nix::unistd::getuid())])
@@ -147,7 +147,7 @@ impl Borg {
         Ok(())
     }
 
-    fn prune_call(&self) -> Result<BorgCall> {
+    fn prune_call(self) -> Result<BorgCall> {
         if self.config.prune.keep.hourly < 1
             || self.config.prune.keep.daily < 1
             || self.config.prune.keep.weekly < 1
@@ -157,7 +157,7 @@ impl Borg {
 
         let mut borg_call = BorgCall::new("prune");
 
-        borg_call.add_basics(self)?.add_options(&[
+        borg_call.add_basics(&self)?.add_options(&[
             &format!("--prefix={}", self.config.archive_prefix),
             "--keep-within=1H",
             &format!("--keep-hourly={}", self.config.prune.keep.hourly),
@@ -170,11 +170,7 @@ impl Borg {
         Ok(borg_call)
     }
 
-    pub fn prune_info(&self) -> Result<PruneInfo> {
-        self.prune_info_()
-    }
-
-    fn prune_info_(&self) -> Result<PruneInfo> {
+    pub async fn prune_info(self) -> Result<PruneInfo> {
         let mut borg_call = self.prune_call()?;
         borg_call.add_options(&["--dry-run", "--list"]);
 
@@ -202,11 +198,7 @@ impl Borg {
         Ok(PruneInfo { keep, prune })
     }
 
-    pub fn prune(&self, communication: Communication) -> Result<()> {
-        futures::executor::block_on(self.prune_(communication))
-    }
-
-    async fn prune_(&self, communication: Communication) -> Result<()> {
+    pub async fn prune(self, communication: Communication) -> Result<()> {
         let mut borg_call = self.prune_call()?;
         borg_call.add_options(&["--progress"]);
 
@@ -215,11 +207,7 @@ impl Borg {
         process.result.await?
     }
 
-    pub fn create(&self, communication: Communication) -> Result<Stats> {
-        futures::executor::block_on(self.create_(communication))
-    }
-
-    async fn create_(&self, communication: Communication) -> Result<Stats> {
+    pub async fn create(self, communication: Communication) -> Result<Stats> {
         communication
             .status
             .update(move |status| status.message_history.push(Default::default()));
@@ -230,9 +218,9 @@ impl Borg {
             // Good and fast compression
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/51>
             .add_options(&["--compression=zstd"])
-            .add_basics(self)?
-            .add_archive(self)
-            .add_include_exclude(self);
+            .add_basics(&self)?
+            .add_archive(&self)
+            .add_include_exclude(&self);
 
         let process = borg_call.spawn_async_managed(communication.clone())?;
 
@@ -292,6 +280,7 @@ impl BorgBasics for Borg {}
 impl BorgBasics for BorgOnlyRepo {}
 
 /// Features that are available without complete backup config
+#[async_trait]
 pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
     fn break_lock(&self) -> Result<()> {
         let borg = BorgCall::new("break-lock")
@@ -301,7 +290,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(())
     }
 
-    fn peek(&self) -> Result<List> {
+    async fn peek(self) -> Result<List> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
@@ -312,7 +301,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
                 ("BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK", "yes"),
                 ("BORG_RELOCATED_REPO_ACCESS_IS_OK", "yes"),
             ])
-            .add_basics(self)?
+            .add_basics(&self)?
             .output()?;
 
         check_stderr(&borg)?;
@@ -322,14 +311,14 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json)
     }
 
-    fn list(&self, last: u64) -> Result<Vec<ListArchive>> {
+    async fn list(self, last: u64) -> Result<Vec<ListArchive>> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
                 &format!("--last={}", last),
                 "--format={hostname}{username}{comment}{end}",
             ])
-            .add_basics(self)?
+            .add_basics(&self)?
             .output()?;
 
         check_stderr(&borg)?;
@@ -339,10 +328,10 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json.archives)
     }
 
-    fn info(&self, last: u64) -> Result<Vec<InfoArchive>> {
+    async fn info(self, last: u64) -> Result<Vec<InfoArchive>> {
         let borg = BorgCall::new("info")
             .add_options(&["--json", &format!("--last={}", last)])
-            .add_basics(self)?
+            .add_basics(&self)?
             .output()?;
 
         check_stderr(&borg)?;
@@ -352,15 +341,15 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json.archives)
     }
 
-    fn init(&self) -> Result<List> {
+    async fn init(self) -> Result<List> {
         let borg = BorgCall::new("init")
             .add_options(&["--encryption=repokey"])
-            .add_basics(self)?
+            .add_basics(&self)?
             .output()?;
 
         check_stderr(&borg)?;
 
-        self.peek()
+        self.peek().await
     }
 }
 

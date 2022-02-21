@@ -22,7 +22,8 @@ quick_error! {
         Json(err: serde_json::error::Error) { from () }
         Unix(err: nix::Error) { from() }
         BorgReturnCode(err: ReturnCodeError) { from() }
-        PasswordMissing { from(secret_service::Error) }
+        PasswordMissing { }
+        Glib(err: glib::Error) { from() }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
         ImplausiblePrune { display("{}", gettext("This delete operation would delete too many archives.")) }
         Failed(err: Failure) {

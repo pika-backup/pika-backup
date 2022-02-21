@@ -2,6 +2,7 @@ use super::prelude::*;
 use super::{Borg, BorgRunConfig, Error, Result};
 
 use std::any::TypeId;
+use std::collections::HashMap;
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
 use std::os::unix::io::IntoRawFd;
@@ -9,7 +10,6 @@ use std::process::{Command, Stdio};
 
 use futures::prelude::*;
 use futures::task::SpawnExt;
-use zeroize::Zeroizing;
 
 use futures::channel::oneshot;
 use std::time::Duration;
@@ -18,7 +18,7 @@ use super::communication::*;
 use super::log_json;
 use super::status::*;
 use super::utils;
-use crate::config::Password;
+use crate::config;
 
 use super::error::*;
 
@@ -28,7 +28,7 @@ pub struct BorgCall {
     options: Vec<String>,
     envs: std::collections::BTreeMap<String, String>,
     pub positional: Vec<String>,
-    password: Password,
+    password: config::Password,
 }
 
 pub struct Process<T> {
@@ -120,17 +120,16 @@ impl BorgCall {
             self.password = password.clone();
         } else if borg.is_encrypted() {
             debug!("Config says the backup is encrypted");
-            if let Some(config_id) = borg.config_id() {
-                let password: Zeroizing<Vec<u8>> =
-                    secret_service::SecretService::new(secret_service::EncryptionType::Dh)?
-                        .search_items(vec![
-                            ("backup_id", config_id.as_str()),
-                            ("program", env!("CARGO_PKG_NAME")),
-                        ])?
-                        .get(0)
-                        .ok_or(Error::PasswordMissing)?
-                        .get_secret()?
-                        .into();
+            if let Some(config) = borg.try_config() {
+                let password = config::Password::new(
+                    libsecret::password_lookup_sync(
+                        Some(&config::Password::libsecret_schema()),
+                        HashMap::from([("repo-id", config.repo_id.as_str())]),
+                        gio::Cancellable::NONE,
+                    )?
+                    .ok_or(Error::PasswordMissing)?
+                    .to_string(),
+                );
 
                 self.password = password;
             } else {
@@ -139,7 +138,7 @@ impl BorgCall {
             }
         } else {
             trace!("Config says no encryption. Writing empty password.");
-            self.password = Password::default();
+            self.password = config::Password::default();
         }
 
         Ok(self)
@@ -161,7 +160,7 @@ impl BorgCall {
             nix::fcntl::FcntlArg::F_SETFD(flags),
         )?;
 
-        pipe_writer.write_all(&self.password)?;
+        pipe_writer.write_all(self.password.as_bytes())?;
 
         Ok((
             String::from("BORG_PASSPHRASE_FD"),

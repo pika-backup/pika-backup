@@ -3,6 +3,7 @@ use crate::ui::prelude::*;
 use crate::borg;
 use crate::config;
 use crate::ui;
+use std::future::Future;
 use ui::error::Combined;
 
 /// checks if there is any running backup
@@ -10,13 +11,14 @@ pub fn is_backup_running() -> bool {
     !BACKUP_COMMUNICATION.load().is_empty()
 }
 
-pub async fn exec<P: core::fmt::Display + Clone, F, V>(
+pub async fn exec<P: core::fmt::Display + Clone, F, R, V>(
     purpose: P,
     config: config::Backup,
     task: F,
 ) -> CombinedResult<V>
 where
-    F: FnOnce(borg::Borg) -> borg::Result<V> + Send + Clone + 'static + Sync,
+    F: FnOnce(borg::Borg) -> R + Send + Clone + 'static + Sync,
+    R: Future<Output = borg::Result<V>>,
     V: Send + 'static,
 {
     let repo_id = config.repo_id.clone();
@@ -42,13 +44,14 @@ where
     result
 }
 
-pub async fn only_repo_suggest_store<P: core::fmt::Display, F, V, B>(
+pub async fn only_repo_suggest_store<P: core::fmt::Display, F, R, V, B>(
     name: P,
     borg: B,
     task: F,
 ) -> CombinedResult<V>
 where
-    F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
+    F: FnOnce(B) -> R + Send + Clone + 'static + Sync,
+    R: Future<Output = borg::Result<V>>,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
 {
@@ -63,14 +66,15 @@ fn set_scheduler_priority(priority: i32) {
     }
 }
 
-async fn spawn_borg_thread_ask_password<P, F, V, B>(
+async fn spawn_borg_thread_ask_password<P, F, R, V, B>(
     name: P,
     mut borg: B,
     task: F,
 ) -> CombinedResult<V>
 where
     P: core::fmt::Display,
-    F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
+    F: FnOnce(B) -> R + Send + Clone + 'static + Sync,
+    R: Future<Output = borg::Result<V>>,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
 {
@@ -97,7 +101,7 @@ where
                 if password_changed {
                     if let (Some(password), Some(config)) = (&borg.password(), &borg.try_config()) {
                         if let Err(Error::Message(err)) =
-                            crate::ui::utils::secret_service::store_password(config, password)
+                            crate::ui::utils::secret_service::store_password(config, password).await
                         {
                             err.show().await;
                         }
@@ -109,10 +113,11 @@ where
     }
 }
 
-async fn spawn_borg_thread<P, F, V, B>(name: P, borg: B, task: F) -> CombinedResult<V>
+async fn spawn_borg_thread<P, F, R, V, B>(name: P, borg: B, task: F) -> CombinedResult<V>
 where
     P: core::fmt::Display,
-    F: FnOnce(B) -> borg::Result<V> + Send + Clone + 'static + Sync,
+    F: FnOnce(B) -> R + Send + Clone + 'static + Sync,
+    R: Future<Output = borg::Result<V>>,
     V: Send + 'static,
     B: borg::BorgBasics + 'static,
 {
@@ -121,7 +126,7 @@ where
             name.to_string(),
             enclose!((borg, task) move || {
                 set_scheduler_priority(10);
-                task(borg)
+                futures::executor::block_on(task(borg))
             }),
         )
         .await;
