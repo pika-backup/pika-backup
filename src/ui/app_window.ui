@@ -260,199 +260,140 @@ This might take a while.</property>
                             <property name="title" translatable="yes">_Backup</property>
                             <property name="icon-name">media-playback-start-symbolic</property>
                             <property name="child">
-                              <object class="GtkScrolledWindow" id="page_backup">
-                                <property name="child">
-                                  <object class="GtkViewport" id="viewport_detail">
-                                    <property name="scroll-to-focus">1</property>
+                              <object class="AdwPreferencesPage" id="page_backup">
+                                <child>
+                                  <object class="AdwPreferencesGroup" id="target_listbox">
                                     <child>
-                                      <object class="AdwClamp">
+                                      <object class="AdwActionRow" id="detail_repo_row">
+                                        <property name="activatable">1</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwActionRow" id="detail_status_row">
+                                        <property name="activatable">1</property>
                                         <child>
-                                          <object class="GtkBox">
-                                            <property name="orientation">vertical</property>
-                                            <property name="spacing">16</property>
-                                            <style>
-                                              <class name="content-container"/>
-                                            </style>
+                                          <object class="GtkBox" id="detail_status_right">
                                             <child>
-                                              <object class="GtkBox">
-                                                <property name="orientation">vertical</property>
-                                                <property name="spacing">18</property>
-                                                <child>
-                                                  <object class="GtkListBox" id="target_listbox">
-                                                    <property name="selection-mode">none</property>
-                                                    <child>
-                                                      <object class="AdwActionRow" id="detail_repo_row">
-                                                        <property name="activatable">1</property>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow" id="detail_status_row">
-                                                        <property name="activatable">1</property>
-                                                        <child>
-                                                          <object class="GtkBox" id="detail_status_right">
-                                                            <child>
-                                                              <object class="GtkButton" id="stop_backup_create">
-                                                                <property name="visible">0</property>
-                                                                <property name="label" translatable="yes">_Abort</property>
-                                                                <property name="halign">center</property>
-                                                                <property name="valign">center</property>
-                                                                <property name="use-underline">1</property>
-                                                              </object>
-                                                            </child>
-                                                            <child>
-                                                              <object class="GtkImage" id="detail_hint_icon">
-                                                                <property name="visible">0</property>
-                                                                <property name="icon-name">go-next-symbolic</property>
-                                                                <style>
-                                                                  <class name="dim-label"/>
-                                                                </style>
-                                                              </object>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                    <style>
-                                                      <class name="boxed-list"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkButton" id="backup_run">
-                                                    <property name="use-underline">1</property>
-                                                    <property name="label" translatable="yes">Back Up _Now</property>
-                                                    <property name="halign">center</property>
-                                                    <property name="valign">start</property>
-                                                    <style>
-                                                      <class name="suggested-action"/>
-                                                      <class name="text-button"/>
-                                                      <class name="pill"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
+                                              <object class="GtkButton" id="stop_backup_create">
+                                                <property name="visible">0</property>
+                                                <property name="label" translatable="yes">_Abort</property>
+                                                <property name="halign">center</property>
+                                                <property name="valign">center</property>
+                                                <property name="use-underline">1</property>
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkBox">
-                                                <property name="orientation">vertical</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkBox">
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">Files to backup</property>
-                                                        <property name="halign">start</property>
-                                                        <property name="hexpand">1</property>
-                                                        <property name="hexpand-set">1</property>
-                                                        <style>
-                                                          <class name="heading"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="add_include">
-                                                        <property name="tooltip-text" translatable="yes">Include directory</property>
-                                                        <property name="icon-name">list-add-symbolic</property>
-                                                        <style>
-                                                          <class name="flat"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkListBox" id="include">
-                                                    <property name="selection-mode">none</property>
-                                                    <child>
-                                                      <object class="AdwActionRow" id="include_home_row">
-                                                        <property name="name">-home</property>
-                                                        <property name="use-underline">1</property>
-                                                        <property name="title" translatable="yes">_Home</property>
-                                                        <property name="subtitle" translatable="yes">Usually contains all personal data</property>
-                                                        <child type="prefix">
-                                                          <object class="GtkImage">
-                                                            <property name="icon-name">user-home</property>
-                                                            <style>
-                                                              <class name="row-icon"/>
-                                                            </style>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkSwitch" id="include_home">
-                                                            <property name="halign">end</property>
-                                                            <property name="valign">center</property>
-                                                            <property name="active">1</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                    <style>
-                                                      <class name="boxed-list"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkBox">
-                                                <property name="orientation">vertical</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkBox">
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">Exclude from backup</property>
-                                                        <property name="halign">start</property>
-                                                        <property name="hexpand">1</property>
-                                                        <property name="hexpand-set">1</property>
-                                                        <style>
-                                                          <class name="heading"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="add_exclude">
-                                                        <property name="tooltip-text" translatable="yes">Add excluded directory</property>
-                                                        <property name="icon-name">list-add-symbolic</property>
-                                                        <style>
-                                                          <class name="flat"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkStack" id="detail_exclude_stack">
-                                                    <child>
-                                                      <object class="GtkListBox" id="backup_exclude">
-                                                        <property name="selection-mode">none</property>
-                                                        <style>
-                                                          <class name="boxed-list"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkStackPage">
-                                                        <property name="child">
-                                                          <object class="GtkLabel" id="detail_exclude_placeholder">
-                                                            <property name="label" translatable="yes">Nothing excluded from backup</property>
-                                                            <style>
-                                                              <class name="dim-label"/>
-                                                            </style>
-                                                          </object>
-                                                        </property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
+                                              <object class="GtkImage" id="detail_hint_icon">
+                                                <property name="visible">0</property>
+                                                <property name="icon-name">go-next-symbolic</property>
+                                                <style>
+                                                  <class name="dim-label"/>
+                                                </style>
                                               </object>
                                             </child>
                                           </object>
                                         </child>
                                       </object>
                                     </child>
+                                    <child>
+                                      <object class="GtkButton" id="backup_run">
+                                        <property name="use-underline">1</property>
+                                        <property name="label" translatable="yes">Back Up _Now</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">start</property>
+                                        <property name="margin-top">24</property>
+                                        <style>
+                                          <class name="suggested-action"/>
+                                          <class name="pill"/>
+                                        </style>
+                                      </object>
+                                    </child>
                                   </object>
-                                </property>
+                                </child>
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Files to backup</property>
+                                    <property name="header-suffix">
+                                      <object class="GtkButton" id="add_include">
+                                        <property name="tooltip-text" translatable="yes">Include directory</property>
+                                        <property name="icon-name">list-add-symbolic</property>
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </property>
+                                    <child>
+                                      <object class="GtkListBox" id="include">
+                                        <property name="selection-mode">none</property>
+                                        <child>
+                                          <object class="AdwActionRow" id="include_home_row">
+                                            <property name="name">-home</property>
+                                            <property name="use-underline">1</property>
+                                            <property name="title" translatable="yes">_Home</property>
+                                            <property name="subtitle" translatable="yes">Usually contains all personal data</property>
+                                            <child type="prefix">
+                                              <object class="GtkImage">
+                                                <property name="icon-name">user-home</property>
+                                                <style>
+                                                  <class name="row-icon"/>
+                                                </style>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSwitch" id="include_home">
+                                                <property name="halign">end</property>
+                                                <property name="valign">center</property>
+                                                <property name="active">1</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Exclude from backup</property>
+                                    <property name="header-suffix">
+                                      <object class="GtkButton" id="add_exclude">
+                                        <property name="tooltip-text" translatable="yes">Add excluded directory</property>
+                                        <property name="icon-name">list-add-symbolic</property>
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </property>
+                                    <child>
+                                      <object class="GtkStack" id="detail_exclude_stack">
+                                        <child>
+                                          <object class="GtkListBox" id="backup_exclude">
+                                            <property name="selection-mode">none</property>
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkListBox" id="detail_exclude_placeholder">
+                                            <property name="selection-mode">none</property>
+                                            <child>
+                                              <object class="AdwActionRow">
+                                                <property name="title" translatable="yes">Nothing excluded from backup</property>
+                                              </object>
+                                            </child>
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
                               </object>
                             </property>
                           </object>
@@ -463,201 +404,86 @@ This might take a while.</property>
                             <property name="title" translatable="yes">_Archives</property>
                             <property name="icon-name">drive-harddisk-symbolic</property>
                             <property name="child">
-                              <object class="GtkScrolledWindow" id="page_archives">
-                                <property name="child">
-                                  <object class="GtkViewport" id="viewport_archives">
-                                    <property name="scroll-to-focus">1</property>
+                              <object class="AdwPreferencesPage" id="page_archives">
+                                <child>
+                                  <object class="AdwPreferencesGroup">
                                     <child>
-                                      <object class="AdwClamp">
+                                      <object class="AdwPreferencesRow">
                                         <child>
                                           <object class="GtkBox">
-                                            <property name="orientation">vertical</property>
                                             <property name="spacing">6</property>
-                                            <style>
-                                              <class name="content-container"/>
-                                            </style>
+                                            <property name="margin-start">12</property>
+                                            <property name="margin-end">12</property>
+                                            <property name="margin-top">6</property>
+                                            <property name="margin-bottom">6</property>
                                             <child>
-                                              <object class="GtkListBox">
-                                                <property name="selection-mode">none</property>
-                                                <property name="margin-bottom">18</property>
-                                                <style>
-                                                  <class name="boxed-list"/>
-                                                </style>
-                                                <child>
-                                                  <object class="GtkListBoxRow">
-                                                    <property name="activatable">0</property>
-                                                    <child>
-                                                      <object class="GtkBox">
-                                                        <property name="spacing">6</property>
-                                                        <property name="margin-start">12</property>
-                                                        <property name="margin-end">12</property>
-                                                        <property name="margin-top">6</property>
-                                                        <property name="margin-bottom">6</property>
-                                                        <child>
-                                                          <object class="GtkImage" id="archives_location_icon">
-                                                            <property name="icon-name">folder-symbolic</property>
-                                                            <property name="valign">start</property>
-                                                            <property name="pixel-size">64</property>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkBox">
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="hexpand">1</property>
-                                                            <property name="spacing">3</property>
-                                                            <style>
-                                                              <class name="overview-location-box"/>
-                                                            </style>
-                                                            <child>
-                                                              <object class="GtkBox">
-                                                                <child>
-                                                                  <object class="GtkBox">
-                                                                    <property name="orientation">vertical</property>
-                                                                    <child>
-                                                                      <object class="GtkLabel" id="archives_location_title">
-                                                                        <property name="xalign">0</property>
-                                                                        <property name="wrap">1</property>
-                                                                        <style>
-                                                                          <class name="heading"/>
-                                                                        </style>
-                                                                      </object>
-                                                                    </child>
-                                                                    <child>
-                                                                      <object class="GtkLabel" id="archives_location_subtitle">
-                                                                        <property name="xalign">0</property>
-                                                                        <property name="wrap">1</property>
-                                                                        <style>
-                                                                          <class name="subtitle"/>
-                                                                        </style>
-                                                                      </object>
-                                                                    </child>
-                                                                  </object>
-                                                                </child>
-                                                                <child>
-                                                                  <object class="GtkBox">
-                                                                    <property name="orientation">vertical</property>
-                                                                    <child>
-                                                                      <object class="GtkLabel" id="archives_location_suffix_title">
-                                                                        <property name="xalign">1</property>
-                                                                        <property name="hexpand">1</property>
-                                                                        <property name="wrap">1</property>
-                                                                        <property name="label">700 MB</property>
-                                                                      </object>
-                                                                    </child>
-                                                                    <child>
-                                                                      <object class="GtkLabel" id="archives_location_suffix_subtitle">
-                                                                        <property name="xalign">1</property>
-                                                                        <property name="wrap">1</property>
-                                                                        <property name="label">1 GB</property>
-                                                                        <style>
-                                                                          <class name="subtitle"/>
-                                                                        </style>
-                                                                      </object>
-                                                                    </child>
-                                                                  </object>
-                                                                </child>
-                                                              </object>
-                                                            </child>
-                                                            <child>
-                                                              <object class="GtkLevelBar" id="archives_fs_usage">
-                                                                <property name="margin-top">9</property>
-                                                              </object>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="AdwActionRow" id="archives_cleanup">
-                                                    <property name="activatable">1</property>
-                                                    <property name="title" translatable="yes">Cleanup Archives</property>
-                                                    <property name="subtitle" translatable="yes">Delete some older archives</property>
-                                                    <property name="icon-name">user-trash-symbolic</property>
-                                                    <child type="suffix">
-                                                      <object class="GtkImage">
-                                                        <property name="icon-name">go-next-symbolic</property>
-                                                        <style>
-                                                          <class name="dim-label"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
+                                              <object class="GtkImage" id="archives_location_icon">
+                                                <property name="icon-name">folder-symbolic</property>
+                                                <property name="valign">start</property>
+                                                <property name="pixel-size">64</property>
                                               </object>
                                             </child>
                                             <child>
                                               <object class="GtkBox">
-                                                <property name="spacing">6</property>
+                                                <property name="orientation">vertical</property>
+                                                <property name="hexpand">1</property>
+                                                <property name="spacing">3</property>
+                                                <style>
+                                                  <class name="overview-location-box"/>
+                                                </style>
                                                 <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="halign">start</property>
-                                                    <property name="hexpand">1</property>
-                                                    <property name="hexpand-set">1</property>
-                                                    <property name="label" translatable="yes">Archives</property>
-                                                    <style>
-                                                      <class name="heading"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkStack" id="archives_reloading_stack">
-                                                    <property name="transition-duration">0</property>
+                                                  <object class="GtkBox">
                                                     <child>
-                                                      <object class="GtkButton" id="refresh_archives">
-                                                        <property name="tooltip-text" translatable="yes">Refresh list of archives</property>
-                                                        <property name="icon-name">view-refresh-symbolic</property>
-                                                        <style>
-                                                          <class name="flat"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkStackPage">
-                                                        <property name="child">
-                                                          <object class="GtkSpinner" id="archives_reloading_spinner">
-                                                            <property name="halign">center</property>
-                                                            <property name="valign">center</property>
+                                                      <object class="GtkBox">
+                                                        <property name="orientation">vertical</property>
+                                                        <child>
+                                                          <object class="GtkLabel" id="archives_location_title">
+                                                            <property name="xalign">0</property>
+                                                            <property name="wrap">1</property>
+                                                            <style>
+                                                              <class name="heading"/>
+                                                            </style>
                                                           </object>
-                                                        </property>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkLabel" id="archives_location_subtitle">
+                                                            <property name="xalign">0</property>
+                                                            <property name="wrap">1</property>
+                                                            <style>
+                                                              <class name="subtitle"/>
+                                                            </style>
+                                                          </object>
+                                                        </child>
+                                                      </object>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkBox">
+                                                        <property name="orientation">vertical</property>
+                                                        <child>
+                                                          <object class="GtkLabel" id="archives_location_suffix_title">
+                                                            <property name="xalign">1</property>
+                                                            <property name="hexpand">1</property>
+                                                            <property name="wrap">1</property>
+                                                            <property name="label">700 MB</property>
+                                                          </object>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkLabel" id="archives_location_suffix_subtitle">
+                                                            <property name="xalign">1</property>
+                                                            <property name="wrap">1</property>
+                                                            <property name="label">1 GB</property>
+                                                            <style>
+                                                              <class name="subtitle"/>
+                                                            </style>
+                                                          </object>
+                                                        </child>
                                                       </object>
                                                     </child>
                                                   </object>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkButton" id="archives_eject_button">
-                                                    <property name="tooltip-text" translatable="yes">Stop browsing archive files</property>
-                                                    <property name="icon-name">media-eject-symbolic</property>
-                                                    <style>
-                                                      <class name="flat"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkStack" id="archives_stack">
-                                                <property name="hhomogeneous">0</property>
-                                                <property name="vhomogeneous">0</property>
-                                                <child>
-                                                  <object class="GtkListBox" id="archive_list">
-                                                    <property name="selection-mode">none</property>
-                                                    <style>
-                                                      <class name="boxed-list"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkStackPage">
-                                                    <property name="child">
-                                                      <object class="GtkLabel" id="archive_list_placeholder">
-                                                        <property name="label" translatable="yes">No archives available</property>
-                                                        <style>
-                                                          <class name="dim-label"/>
-                                                        </style>
-                                                      </object>
-                                                    </property>
+                                                  <object class="GtkLevelBar" id="archives_fs_usage">
+                                                    <property name="margin-top">9</property>
                                                   </object>
                                                 </child>
                                               </object>
@@ -666,8 +492,94 @@ This might take a while.</property>
                                         </child>
                                       </object>
                                     </child>
+                                    <child>
+                                      <object class="AdwActionRow" id="archives_cleanup">
+                                        <property name="activatable">1</property>
+                                        <property name="title" translatable="yes">Cleanup Archives</property>
+                                        <property name="subtitle" translatable="yes">Delete some older archives</property>
+                                        <property name="icon-name">user-trash-symbolic</property>
+                                        <child type="suffix">
+                                          <object class="GtkImage">
+                                            <property name="icon-name">go-next-symbolic</property>
+                                            <style>
+                                              <class name="dim-label"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
                                   </object>
-                                </property>
+                                </child>
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title" translatable="yes">Archives</property>
+                                    <property name="header-suffix">
+                                      <object class="GtkBox">
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkStack" id="archives_reloading_stack">
+                                            <property name="transition-duration">0</property>
+                                            <child>
+                                              <object class="GtkButton" id="refresh_archives">
+                                                <property name="tooltip-text" translatable="yes">Refresh list of archives</property>
+                                                <property name="icon-name">view-refresh-symbolic</property>
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkStackPage">
+                                                <property name="child">
+                                                  <object class="GtkSpinner" id="archives_reloading_spinner">
+                                                    <property name="halign">center</property>
+                                                    <property name="valign">center</property>
+                                                  </object>
+                                                </property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="archives_eject_button">
+                                            <property name="tooltip-text" translatable="yes">Stop browsing archive files</property>
+                                            <property name="icon-name">media-eject-symbolic</property>
+                                            <style>
+                                              <class name="flat"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </property>
+                                    <child>
+                                      <object class="GtkStack" id="archives_stack">
+                                        <property name="hhomogeneous">0</property>
+                                        <property name="vhomogeneous">0</property>
+                                        <child>
+                                          <object class="GtkListBox" id="archive_list">
+                                            <property name="selection-mode">none</property>
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkListBox" id="archive_list_placeholder">
+                                            <property name="selection-mode">none</property>
+                                            <child>
+                                              <object class="AdwActionRow">
+                                                <property name="title" translatable="yes">No archives available</property>
+                                              </object>
+                                            </child>
+                                            <style>
+                                              <class name="boxed-list"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
                               </object>
                             </property>
                           </object>
@@ -678,239 +590,89 @@ This might take a while.</property>
                             <property name="title" translatable="yes">_Schedule</property>
                             <property name="icon-name">x-office-calendar-symbolic</property>
                             <property name="child">
-                              <object class="GtkScrolledWindow" id="page_schedule">
-                                <property name="child">
-                                  <object class="GtkViewport">
-                                    <property name="scroll-to-focus">1</property>
+                              <object class="AdwPreferencesPage" id="page_schedule">
+                                <child>
+                                  <object class="AdwPreferencesGroup">
                                     <child>
-                                      <object class="AdwClamp">
+                                      <object class="GtkListBox" id="schedule_status_list">
+                                        <property name="selection-mode">none</property>
                                         <child>
-                                          <object class="GtkBox">
-                                            <property name="orientation">vertical</property>
-                                            <property name="spacing">30</property>
-                                            <style>
-                                              <class name="content-container"/>
-                                            </style>
+                                          <object class="AdwActionRow" id="schedule_status">
+                                            <child type="prefix">
+                                              <object class="PikaStatusIcon" id="schedule_status_icon"/>
+                                            </child>
                                             <child>
-                                              <object class="GtkListBox" id="schedule_status_list">
-                                                <property name="selection-mode">none</property>
-                                                <child>
-                                                  <object class="AdwActionRow" id="schedule_status">
-                                                    <child type="prefix">
-                                                      <object class="PikaStatusIcon" id="schedule_status_icon"/>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkToggleButton" id="schedule_pause">
-                                                        <property name="valign">center</property>
-                                                        <property name="visible">0</property>
-                                                        <property name="icon-name">media-playback-pause-symbolic</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
+                                              <object class="GtkToggleButton" id="schedule_pause">
+                                                <property name="valign">center</property>
+                                                <property name="visible">0</property>
+                                                <property name="icon-name">media-playback-pause-symbolic</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title">Scheduled Backups</property>
+                                    <child>
+                                      <object class="AdwExpanderRow" id="schedule_active">
+                                        <property name="activatable">False</property>
+                                        <property name="title">Regularly Create Backups</property>
+                                        <property name="expanded">True</property>
+                                        <property name="show-enable-switch">True</property>
+                                        <child>
+                                          <object class="AdwComboRow" id="schedule_frequency">
+                                            <property name="title" translatable="yes">Frequency</property>
+                                            <property name="expression">
+                                              <lookup type="PikaBackupScheduleFrequency" name="display"></lookup>
+                                            </property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="AdwActionRow" id="preferred_time_row">
+                                            <property name="title" translatable="yes">Preferred Time</property>
+                                            <property name="activatable-widget">schedule_preferred_time_button</property>
+                                            <child>
+                                              <object class="GtkMenuButton" id="schedule_preferred_time_button">
+                                                <property name="focus-on-click">0</property>
+                                                <property name="halign">end</property>
+                                                <property name="valign">center</property>
+                                                <property name="popover">schedule_preferred_time_popover</property>
+                                                <property name="label" translatable="yes">14:26</property>
                                                 <style>
-                                                  <class name="boxed-list"/>
+                                                  <class name="flat"/>
                                                 </style>
                                               </object>
                                             </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="AdwComboRow" id="preferred_weekday_row">
+                                            <property name="expression">
+                                              <lookup type="PikaBackupWeekday" name="display"></lookup>
+                                            </property>
+                                            <property name="title" translatable="yes">Preferred Weekday</property>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="AdwActionRow" id="preferred_day_row">
+                                            <property name="title" translatable="yes">Preferred Day</property>
+                                            <property name="activatable-widget">schedule_preferred_day</property>
                                             <child>
-                                              <object class="GtkListBox">
-                                                <property name="selection-mode">none</property>
-                                                <child>
-                                                  <object class="AdwExpanderRow" id="schedule_active">
-                                                    <property name="activatable">False</property>
-                                                    <property name="title">Scheduled Backups</property>
-                                                    <property name="expanded">True</property>
-                                                    <property name="show-enable-switch">True</property>
-                                                    <child>
-                                                      <object class="AdwComboRow" id="schedule_frequency">
-                                                        <property name="title" translatable="yes">Frequency</property>
-                                                        <property name="expression">
-                                                          <lookup type="PikaBackupScheduleFrequency" name="display"></lookup>
-                                                        </property>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow" id="preferred_time_row">
-                                                        <property name="title" translatable="yes">Preferred Time</property>
-                                                        <property name="activatable-widget">schedule_preferred_time_button</property>
-                                                        <child>
-                                                          <object class="GtkMenuButton" id="schedule_preferred_time_button">
-                                                            <property name="focus-on-click">0</property>
-                                                            <property name="halign">end</property>
-                                                            <property name="valign">center</property>
-                                                            <property name="popover">schedule_preferred_time_popover</property>
-                                                            <property name="label" translatable="yes">14:26</property>
-                                                            <style>
-                                                              <class name="flat"/>
-                                                            </style>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwComboRow" id="preferred_weekday_row">
-                                                        <property name="expression">
-                                                          <lookup type="PikaBackupWeekday" name="display"></lookup>
-                                                        </property>
-                                                        <property name="title" translatable="yes">Preferred Weekday</property>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow" id="preferred_day_row">
-                                                        <property name="title" translatable="yes">Preferred Day</property>
-                                                        <property name="activatable-widget">schedule_preferred_day</property>
-                                                        <child>
-                                                          <object class="GtkMenuButton" id="schedule_preferred_day">
-                                                            <property name="focus-on-click">0</property>
-                                                            <property name="halign">end</property>
-                                                            <property name="valign">center</property>
-                                                            <property name="popover">schedule_preferred_day_popover</property>
-                                                            <property name="label" translatable="yes">21st</property>
-                                                            <style>
-                                                              <class name="flat"/>
-                                                            </style>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
+                                              <object class="GtkMenuButton" id="schedule_preferred_day">
+                                                <property name="focus-on-click">0</property>
+                                                <property name="halign">end</property>
+                                                <property name="valign">center</property>
+                                                <property name="popover">schedule_preferred_day_popover</property>
+                                                <property name="label" translatable="yes">21st</property>
                                                 <style>
-                                                  <class name="boxed-list"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkBox">
-                                                <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="label" translatable="yes">Delete old Archives</property>
-                                                    <property name="hexpand">1</property>
-                                                    <property name="xalign">0</property>
-                                                    <style>
-                                                      <class name="heading"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkRevealer" id="prune_save_revealer">
-                                                    <property name="transition-type">crossfade</property>
-                                                    <property name="child">
-                                                      <object class="GtkButton" id="prune_save">
-                                                        <property name="label" translatable="yes">Save Configuration</property>
-                                                        <property name="valign">center</property>
-                                                        <style>
-                                                          <class name="suggested-action"/>
-                                                        </style>
-                                                      </object>
-                                                    </property>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkListBox">
-                                                <property name="selection-mode">none</property>
-                                                <child>
-                                                  <object class="AdwActionRow">
-                                                    <property name="activatable">False</property>
-                                                    <property name="title" translatable="yes">Regularly Cleanup Archives</property>
-                                                    <property name="subtitle" translatable="yes">Remove old archives after creating new backups</property>
-                                                    <child>
-                                                      <object class="GtkSwitch" id="prune_enabled">
-                                                        <property name="valign">center</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="AdwComboRow" id="prune_preset">
-                                                    <property name="title" translatable="yes">Preserved Archives</property>
-                                                    <property name="subtitle" translatable="yes">Amount and time span of retained archives</property>
-                                                    <property name="expression">
-                                                      <lookup type="PikaBackupPrunePreset" name="display"></lookup>
-                                                    </property>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="AdwExpanderRow" id="prune_detail">
-                                                    <property name="activatable">False</property>
-                                                    <property name="title" translatable="yes">Details</property>
-                                                    <property name="expanded">0</property>
-                                                    <child>
-                                                      <object class="AdwActionRow">
-                                                        <property name="title" translatable="yes">Keep Hourly</property>
-                                                        <property name="activatable-widget">schedule_keep_hourly</property>
-                                                        <child>
-                                                          <object class="GtkSpinButton" id="schedule_keep_hourly">
-                                                            <property name="halign">end</property>
-                                                            <property name="valign">center</property>
-                                                            <property name="adjustment">schedule_keep_hourly_adj</property>
-                                                            <property name="climb-rate">1</property>
-                                                            <property name="numeric">1</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow">
-                                                        <property name="title" translatable="yes">Keep Daily</property>
-                                                        <property name="activatable-widget">schedule_keep_daily</property>
-                                                        <child>
-                                                          <object class="GtkSpinButton" id="schedule_keep_daily">
-                                                            <property name="halign">end</property>
-                                                            <property name="valign">center</property>
-                                                            <property name="adjustment">schedule_keep_daily_adj</property>
-                                                            <property name="climb-rate">1</property>
-                                                            <property name="numeric">1</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow">
-                                                        <property name="title" translatable="yes">Keep Weekly</property>
-                                                        <property name="activatable-widget">schedule_keep_weekly</property>
-                                                        <child>
-                                                          <object class="GtkSpinButton" id="schedule_keep_weekly">
-                                                            <property name="valign">center</property>
-                                                            <property name="adjustment">schedule_keep_weekly_adj</property>
-                                                            <property name="numeric">1</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow">
-                                                        <property name="title" translatable="yes">Keep Monthly</property>
-                                                        <property name="activatable-widget">schedule_keep_monthly</property>
-                                                        <child>
-                                                          <object class="GtkSpinButton" id="schedule_keep_monthly">
-                                                            <property name="valign">center</property>
-                                                            <property name="adjustment">schedule_keep_monthly_adj</property>
-                                                            <property name="numeric">1</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="AdwActionRow">
-                                                        <property name="title" translatable="yes">Keep Annual</property>
-                                                        <property name="activatable-widget">schedule_keep_yearly</property>
-                                                        <child>
-                                                          <object class="GtkSpinButton" id="schedule_keep_yearly">
-                                                            <property name="valign">center</property>
-                                                            <property name="adjustment">schedule_keep_yearly_adj</property>
-                                                            <property name="numeric">1</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                                <style>
-                                                  <class name="boxed-list"/>
+                                                  <class name="flat"/>
                                                 </style>
                                               </object>
                                             </child>
@@ -919,7 +681,123 @@ This might take a while.</property>
                                       </object>
                                     </child>
                                   </object>
-                                </property>
+                                </child>
+                                <child>
+                                  <object class="AdwPreferencesGroup">
+                                    <property name="title">Delete old Archives</property>
+                                    <property name="header-suffix">
+                                      <object class="GtkRevealer" id="prune_save_revealer">
+                                        <property name="transition-type">crossfade</property>
+                                        <property name="child">
+                                          <object class="GtkButton" id="prune_save">
+                                            <property name="label" translatable="yes">Save Configuration</property>
+                                            <property name="valign">center</property>
+                                            <style>
+                                              <class name="suggested-action"/>
+                                            </style>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </property>
+                                    <child>
+                                      <object class="AdwActionRow">
+                                        <property name="activatable">False</property>
+                                        <property name="title" translatable="yes">Regularly Cleanup Archives</property>
+                                        <property name="subtitle" translatable="yes">Remove old archives after creating new backups</property>
+                                        <child>
+                                          <object class="GtkSwitch" id="prune_enabled">
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwComboRow" id="prune_preset">
+                                        <property name="title" translatable="yes">Preserved Archives</property>
+                                        <property name="subtitle" translatable="yes">Amount and time span of retained archives</property>
+                                        <property name="expression">
+                                          <lookup type="PikaBackupPrunePreset" name="display"></lookup>
+                                        </property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwExpanderRow" id="prune_detail">
+                                        <property name="activatable">False</property>
+                                        <property name="title" translatable="yes">Details</property>
+                                        <property name="expanded">0</property>
+                                        <child>
+                                          <object class="AdwActionRow">
+                                            <property name="title" translatable="yes">Keep Hourly</property>
+                                            <property name="activatable-widget">schedule_keep_hourly</property>
+                                            <child>
+                                              <object class="GtkSpinButton" id="schedule_keep_hourly">
+                                                <property name="halign">end</property>
+                                                <property name="valign">center</property>
+                                                <property name="adjustment">schedule_keep_hourly_adj</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="numeric">1</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="AdwActionRow">
+                                            <property name="title" translatable="yes">Keep Daily</property>
+                                            <property name="activatable-widget">schedule_keep_daily</property>
+                                            <child>
+                                              <object class="GtkSpinButton" id="schedule_keep_daily">
+                                                <property name="halign">end</property>
+                                                <property name="valign">center</property>
+                                                <property name="adjustment">schedule_keep_daily_adj</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="numeric">1</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="AdwActionRow">
+                                            <property name="title" translatable="yes">Keep Weekly</property>
+                                            <property name="activatable-widget">schedule_keep_weekly</property>
+                                            <child>
+                                              <object class="GtkSpinButton" id="schedule_keep_weekly">
+                                                <property name="valign">center</property>
+                                                <property name="adjustment">schedule_keep_weekly_adj</property>
+                                                <property name="numeric">1</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="AdwActionRow">
+                                            <property name="title" translatable="yes">Keep Monthly</property>
+                                            <property name="activatable-widget">schedule_keep_monthly</property>
+                                            <child>
+                                              <object class="GtkSpinButton" id="schedule_keep_monthly">
+                                                <property name="valign">center</property>
+                                                <property name="adjustment">schedule_keep_monthly_adj</property>
+                                                <property name="numeric">1</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="AdwActionRow">
+                                            <property name="title" translatable="yes">Keep Annual</property>
+                                            <property name="activatable-widget">schedule_keep_yearly</property>
+                                            <child>
+                                              <object class="GtkSpinButton" id="schedule_keep_yearly">
+                                                <property name="valign">center</property>
+                                                <property name="adjustment">schedule_keep_yearly_adj</property>
+                                                <property name="numeric">1</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
                               </object>
                             </property>
                           </object>

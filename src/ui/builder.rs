@@ -67,7 +67,7 @@ impl AppWindow {
         self.get("archive_list")
     }
 
-    pub fn archive_list_placeholder(&self) -> gtk::Label {
+    pub fn archive_list_placeholder(&self) -> gtk::ListBox {
         self.get("archive_list_placeholder")
     }
 
@@ -139,7 +139,7 @@ impl AppWindow {
         self.get("detail_dialog_vbox")
     }
 
-    pub fn detail_exclude_placeholder(&self) -> gtk::Label {
+    pub fn detail_exclude_placeholder(&self) -> gtk::ListBox {
         self.get("detail_exclude_placeholder")
     }
 
@@ -235,11 +235,11 @@ impl AppWindow {
         self.get("overview")
     }
 
-    pub fn page_archives(&self) -> gtk::ScrolledWindow {
+    pub fn page_archives(&self) -> adw::PreferencesPage {
         self.get("page_archives")
     }
 
-    pub fn page_backup(&self) -> gtk::ScrolledWindow {
+    pub fn page_backup(&self) -> adw::PreferencesPage {
         self.get("page_backup")
     }
 
@@ -255,7 +255,7 @@ impl AppWindow {
         self.get("page_overview_empty")
     }
 
-    pub fn page_schedule(&self) -> gtk::ScrolledWindow {
+    pub fn page_schedule(&self) -> adw::PreferencesPage {
         self.get("page_schedule")
     }
 
@@ -431,7 +431,7 @@ impl AppWindow {
         self.get("stop_backup_create")
     }
 
-    pub fn target_listbox(&self) -> gtk::ListBox {
+    pub fn target_listbox(&self) -> adw::PreferencesGroup {
         self.get("target_listbox")
     }
 
@@ -445,14 +445,6 @@ impl AppWindow {
 
     pub fn view_switcher_title(&self) -> adw::ViewSwitcherTitle {
         self.get("view_switcher_title")
-    }
-
-    pub fn viewport_archives(&self) -> gtk::Viewport {
-        self.get("viewport_archives")
-    }
-
-    pub fn viewport_detail(&self) -> gtk::Viewport {
-        self.get("viewport_detail")
     }
 
     pub fn window(&self) -> adw::ApplicationWindow {
