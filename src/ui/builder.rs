@@ -825,12 +825,8 @@ impl DialogSetup {
         self.get("encryption")
     }
 
-    pub fn encryption_box(&self) -> gtk::Box {
+    pub fn encryption_box(&self) -> adw::PreferencesGroup {
         self.get("encryption_box")
-    }
-
-    pub fn existing_repos(&self) -> gtk::Box {
-        self.get("existing_repos")
     }
 
     pub fn init_button(&self) -> gtk::Button {
@@ -855,10 +851,6 @@ impl DialogSetup {
 
     pub fn init_repo_list(&self) -> gtk::ListBox {
         self.get("init_repo_list")
-    }
-
-    pub fn label1(&self) -> gtk::Label {
-        self.get("label1")
     }
 
     pub fn leaflet(&self) -> adw::Leaflet {
@@ -941,14 +933,6 @@ impl DialogSetup {
         self.get("pending_spinner")
     }
 
-    pub fn spacer_1(&self) -> gtk::Box {
-        self.get("spacer_1")
-    }
-
-    pub fn stackswitcher1(&self) -> gtk::StackSwitcher {
-        self.get("stackswitcher1")
-    }
-
     pub fn transfer_pending_label(&self) -> gtk::Label {
         self.get("transfer_pending_label")
     }
@@ -963,14 +947,6 @@ impl DialogSetup {
 
     pub fn unencrypted(&self) -> gtk::Box {
         self.get("unencrypted")
-    }
-
-    pub fn x(&self) -> gtk::SizeGroup {
-        self.get("x")
-    }
-
-    pub fn y(&self) -> gtk::SizeGroup {
-        self.get("y")
     }
 }
 

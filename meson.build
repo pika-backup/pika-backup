@@ -14,7 +14,7 @@ i18n = import ('i18n')
 gnome = import ('gnome')
 
 dependency('gtk4', version: '>= 4.6.0')
-dependency('libadwaita-1', version: '>= 1.0.0')
+dependency('libadwaita-1', version: '>= 1.1.alpha.0')
 dependency('libsecret-1', version: '>= 0.18.0')
 
 bindir = get_option('prefix') / get_option('bindir')

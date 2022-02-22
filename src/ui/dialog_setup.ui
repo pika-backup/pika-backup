@@ -34,134 +34,93 @@
                   <object class="AdwHeaderBar"/>
                 </child>
                 <child>
-                  <object class="GtkScrolledWindow">
-                    <property name="vexpand">1</property>
-                    <property name="child">
-                      <object class="GtkViewport">
-                        <property name="scroll-to-focus">1</property>
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Create new Repository</property>
                         <child>
-                          <object class="AdwClamp">
+                          <object class="GtkListBox" id="init_repo_list">
+                            <property name="selection-mode">none</property>
                             <child>
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">28</property>
-                                <style>
-                                  <class name="content-container"/>
-                                </style>
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">12</property>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="halign">start</property>
-                                        <property name="label" translatable="yes">Create new repository</property>
-                                        <property name="wrap">1</property>
-                                        <style>
-                                          <class name="heading"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkListBox" id="init_repo_list">
-                                        <property name="selection-mode">none</property>
-                                        <child>
-                                          <object class="AdwActionRow" id="init_local_row">
-                                            <property name="name">-init-local</property>
-                                            <property name="activatable">1</property>
-                                            <property name="title" translatable="yes">Location on Disk</property>
-                                            <child type="prefix">
-                                              <object class="GtkImage">
-                                                <property name="icon-name">drive-harddisk</property>
-                                                <style>
-                                                  <class name="row-icon"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="AdwActionRow" id="init_remote_row">
-                                            <property name="name">-init-remote</property>
-                                            <property name="activatable">1</property>
-                                            <property name="title" translatable="yes">Remote Location</property>
-                                            <child type="prefix">
-                                              <object class="GtkImage">
-                                                <property name="icon-name">network-server</property>
-                                                <style>
-                                                  <class name="row-icon"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkBox" id="existing_repos">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">12</property>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="halign">start</property>
-                                        <property name="label" translatable="yes">Use existing repository</property>
-                                        <property name="wrap">1</property>
-                                        <style>
-                                          <class name="heading"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkListBox" id="add_repo_list">
-                                        <property name="selection-mode">none</property>
-                                        <child>
-                                          <object class="AdwActionRow" id="add_local_row">
-                                            <property name="name">-add-local</property>
-                                            <property name="activatable">1</property>
-                                            <property name="title" translatable="yes">Location on Disk</property>
-                                            <child type="prefix">
-                                              <object class="GtkImage">
-                                                <property name="icon-name">drive-harddisk</property>
-                                                <style>
-                                                  <class name="row-icon"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="AdwActionRow" id="add_remote_row">
-                                            <property name="name">-add-remote</property>
-                                            <property name="activatable">1</property>
-                                            <property name="title" translatable="yes">Remote Location</property>
-                                            <child type="prefix">
-                                              <object class="GtkImage">
-                                                <property name="icon-name">network-server</property>
-                                                <style>
-                                                  <class name="row-icon"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-                                        <style>
-                                          <class name="boxed-list"/>
-                                        </style>
-                                      </object>
-                                    </child>
+                              <object class="AdwActionRow" id="init_local_row">
+                                <property name="name">-init-local</property>
+                                <property name="activatable">1</property>
+                                <property name="title" translatable="yes">Location on Disk</property>
+                                <child type="prefix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">drive-harddisk</property>
+                                    <style>
+                                      <class name="row-icon"/>
+                                    </style>
                                   </object>
                                 </child>
                               </object>
                             </child>
+                            <child>
+                              <object class="AdwActionRow" id="init_remote_row">
+                                <property name="name">-init-remote</property>
+                                <property name="activatable">1</property>
+                                <property name="title" translatable="yes">Remote Location</property>
+                                <child type="prefix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">network-server</property>
+                                    <style>
+                                      <class name="row-icon"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="boxed-list"/>
+                            </style>
                           </object>
                         </child>
                       </object>
-                    </property>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Use existing repository</property>
+                        <child>
+                          <object class="GtkListBox" id="add_repo_list">
+                            <property name="selection-mode">none</property>
+                            <child>
+                              <object class="AdwActionRow" id="add_local_row">
+                                <property name="name">-add-local</property>
+                                <property name="activatable">1</property>
+                                <property name="title" translatable="yes">Location on Disk</property>
+                                <child type="prefix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">drive-harddisk</property>
+                                    <style>
+                                      <class name="row-icon"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwActionRow" id="add_remote_row">
+                                <property name="name">-add-remote</property>
+                                <property name="activatable">1</property>
+                                <property name="title" translatable="yes">Remote Location</property>
+                                <child type="prefix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">network-server</property>
+                                    <style>
+                                      <class name="row-icon"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="boxed-list"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -212,375 +171,273 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkScrolledWindow">
-                    <property name="hscrollbar-policy">never</property>
-                    <property name="child">
-                      <object class="GtkViewport">
-                        <property name="vexpand">1</property>
-                        <property name="scroll-to-focus">1</property>
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Location</property>
                         <child>
-                          <object class="AdwClamp">
+                          <object class="GtkStack" id="location_stack">
+                            <property name="vhomogeneous">0</property>
+                            <property name="hhomogeneous">0</property>
                             <child>
-                              <object class="GtkBox">
+                              <object class="GtkBox" id="location_local">
                                 <property name="orientation">vertical</property>
-                                <property name="spacing">28</property>
-                                <style>
-                                  <class name="content-container"/>
-                                </style>
+                                <property name="spacing">12</property>
                                 <child>
                                   <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">12</property>
+                                    <property name="vexpand">0</property>
+                                    <style>
+                                      <class name="location-row"/>
+                                      <class name="linked"/>
+                                    </style>
+                                    <child>
+                                      <object class="PikaFolderButton" id="init_path"/>
+                                    </child>
                                     <child>
                                       <object class="GtkLabel">
-                                        <property name="halign">start</property>
-                                        <property name="label" translatable="yes">Location</property>
+                                        <property name="label">/</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="init_dir">
+                                        <property name="hexpand">1</property>
+                                        <property name="vexpand">1</property>
+                                        <property name="activates-default">1</property>
+                                        <property name="width-chars">9</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="non_journaling_warning">
+                                    <property name="visible">0</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label" translatable="yes">Warning</property>
+                                        <property name="xalign">0</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"></attribute>
                                         </attributes>
+                                        <style>
+                                          <class name="warning"/>
+                                        </style>
                                       </object>
                                     </child>
                                     <child>
-                                      <object class="GtkStack" id="location_stack">
-                                        <property name="vhomogeneous">0</property>
-                                        <property name="hhomogeneous">0</property>
-                                        <child>
-                                          <object class="GtkBox" id="location_local">
-                                            <property name="orientation">vertical</property>
-                                            <property name="spacing">12</property>
-                                            <child>
-                                              <object class="GtkBox">
-                                                <property name="vexpand">0</property>
-                                                <style>
-                                                  <class name="location-row"/>
-                                                  <class name="linked"/>
-                                                </style>
-                                                <child>
-                                                  <object class="PikaFolderButton" id="init_path"/>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="label">/</property>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkEntry" id="init_dir">
-                                                    <property name="hexpand">1</property>
-                                                    <property name="vexpand">1</property>
-                                                    <property name="activates-default">1</property>
-                                                    <property name="width-chars">9</property>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkBox" id="non_journaling_warning">
-                                                <property name="visible">0</property>
-                                                <property name="orientation">vertical</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="label" translatable="yes">Warning</property>
-                                                    <property name="xalign">0</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"></attribute>
-                                                    </attributes>
-                                                    <style>
-                                                      <class name="warning"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="label" translatable="yes">Backups to the selected location could be corrupted if the device is disconnected or powered down with a backup in progress. If possible, reformat the backup location with a format like “NTFS” or “Ext4.” Note that reformatting deletes all files on the location!</property>
-                                                    <property name="wrap">1</property>
-                                                    <property name="xalign">0</property>
-                                                    <style>
-                                                      <class name="dim-label"/>
-                                                    </style>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkStackPage">
-                                            <property name="child">
-                                              <object class="GtkBox" id="location_remote">
-                                                <property name="orientation">vertical</property>
-                                                <property name="spacing">12</property>
-                                                <child>
-                                                  <object class="GtkBox">
-                                                    <property name="spacing">6</property>
-                                                    <child>
-                                                      <object class="GtkEntry" id="location_url">
-                                                        <property name="hexpand">1</property>
-                                                        <property name="activates-default">1</property>
-                                                        <property name="placeholder-text" translatable="yes">ssh://user@server.example.org/~/backup</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkBox">
-                                                    <property name="margin-top">6</property>
-                                                    <property name="orientation">vertical</property>
-                                                    <property name="spacing">6</property>
-                                                    <style>
-                                                      <class name="card"/>
-                                                      <class name="info-card"/>
-                                                    </style>
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">Conventional Locations</property>
-                                                        <property name="wrap">1</property>
-                                                        <property name="xalign">0</property>
-                                                        <style>
-                                                          <class name="heading"/>
-                                                          <class name="accent"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">Conventional remote backup locations can be provided as a URL with protocol prefix, address, and folder.</property>
-                                                        <property name="wrap">1</property>
-                                                        <property name="xalign">0</property>
-                                                        <style>
-                                                          <class name="dim-label"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">The “ssh://” protocol is reserved for locations with explicit borg support (see below). The “sftp://” prefix can be used instead.</property>
-                                                        <property name="wrap">1</property>
-                                                        <property name="xalign">0</property>
-                                                        <style>
-                                                          <class name="dim-label"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">Apart from that, all prefixes supported by the GNOME Virtual file system are supported.</property>
-                                                        <property name="wrap">1</property>
-                                                        <property name="xalign">0</property>
-                                                        <style>
-                                                          <class name="dim-label"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">Locations with Borg-Backup Support</property>
-                                                        <property name="margin-top">6</property>
-                                                        <property name="wrap">1</property>
-                                                        <property name="xalign">0</property>
-                                                        <style>
-                                                          <class name="heading"/>
-                                                          <class name="accent"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel">
-                                                        <property name="label" translatable="yes">Locations with explicit borg-backup support can provide better Performance. They are special in that the server has a borg-backup binary installed. For those locations, either the “&lt;server address&gt;:&lt;folder&gt;” syntax or the “ssh://” prefix can be used.</property>
-                                                        <property name="wrap">1</property>
-                                                        <property name="xalign">0</property>
-                                                        <style>
-                                                          <class name="dim-label"/>
-                                                        </style>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkBox" id="encryption_box">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">19</property>
-                                    <child>
-                                      <object class="GtkBox">
-                                        <property name="orientation">vertical</property>
-                                        <property name="spacing">12</property>
-                                        <child>
-                                          <object class="AdwPreferencesGroup">
-                                            <property name="description" translatable="yes">The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.</property>
-                                            <property name="title" translatable="yes">Encryption</property>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkGrid">
-                                            <property name="row-spacing">6</property>
-                                            <property name="column-spacing">12</property>
-                                            <child>
-                                              <object class="GtkBox" id="spacer_1">
-                                                <property name="orientation">vertical</property>
-                                                <layout>
-                                                  <property name="column">0</property>
-                                                  <property name="row">0</property>
-                                                </layout>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkStackSwitcher" id="stackswitcher1">
-                                                <property name="halign">start</property>
-                                                <property name="stack">encryption</property>
-                                                <style>
-                                                  <class name="cropped"/>
-                                                </style>
-                                                <layout>
-                                                  <property name="column">1</property>
-                                                  <property name="row">0</property>
-                                                </layout>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkStack" id="encryption">
-                                        <property name="vhomogeneous">0</property>
-                                        <property name="transition-type">crossfade</property>
-                                        <child>
-                                          <object class="GtkStackPage">
-                                            <property name="title" translatable="yes">Encrypted</property>
-                                            <property name="child">
-                                              <object class="GtkGrid">
-                                                <property name="row-spacing">6</property>
-                                                <property name="column-spacing">12</property>
-                                                <child>
-                                                  <object class="GtkPasswordEntry" id="password">
-                                                    <property name="activates-default">1</property>
-                                                    <property name="show-peek-icon">1</property>
-                                                    <layout>
-                                                      <property name="column">1</property>
-                                                      <property name="row">0</property>
-                                                    </layout>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="halign">end</property>
-                                                    <property name="label" translatable="yes">Confirm</property>
-                                                    <property name="justify">right</property>
-                                                    <style>
-                                                      <class name="dim-label"/>
-                                                    </style>
-                                                    <layout>
-                                                      <property name="column">0</property>
-                                                      <property name="row">2</property>
-                                                    </layout>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkPasswordEntry" id="password_confirm">
-                                                    <property name="activates-default">1</property>
-                                                    <property name="show-peek-icon">1</property>
-                                                    <layout>
-                                                      <property name="column">1</property>
-                                                      <property name="row">2</property>
-                                                    </layout>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLevelBar" id="password_quality">
-                                                    <property name="margin-bottom">6</property>
-                                                    <property name="max-value">7</property>
-                                                    <property name="mode">discrete</property>
-                                                    <layout>
-                                                      <property name="column">1</property>
-                                                      <property name="row">1</property>
-                                                    </layout>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel" id="label1">
-                                                    <property name="halign">end</property>
-                                                    <property name="label" translatable="yes">Password</property>
-                                                    <property name="justify">right</property>
-                                                    <style>
-                                                      <class name="dim-label"/>
-                                                    </style>
-                                                    <layout>
-                                                      <property name="column">0</property>
-                                                      <property name="row">0</property>
-                                                    </layout>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </property>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkStackPage">
-                                            <property name="title" translatable="yes">Unencrypted</property>
-                                            <property name="child">
-                                              <object class="GtkBox" id="unencrypted">
-                                                <property name="orientation">vertical</property>
-                                              </object>
-                                            </property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkExpander">
-                                    <child>
-                                      <object class="GtkBox">
-                                        <property name="margin-start">12</property>
-                                        <property name="margin-end">12</property>
-                                        <property name="margin-top">12</property>
-                                        <property name="orientation">vertical</property>
-                                        <child>
-                                          <object class="AdwPreferencesGroup">
-                                            <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>
-                                            <property name="title" translatable="yes">Additional command line arguments</property>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkScrolledWindow">
-                                            <property name="height-request">100</property>
-                                            <property name="child">
-                                              <object class="GtkTextView" id="command_line_args">
-                                                <property name="wrap-mode">word-char</property>
-                                                <property name="monospace">1</property>
-                                                <style>
-                                                  <class name="frame"/>
-                                                </style>
-                                              </object>
-                                            </property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                    <child type="label">
                                       <object class="GtkLabel">
-                                        <property name="use-underline">1</property>
-                                        <property name="margin-start">6</property>
-                                        <property name="label" translatable="yes">_Advanced settings</property>
+                                        <property name="label" translatable="yes">Backups to the selected location could be corrupted if the device is disconnected or powered down with a backup in progress. If possible, reformat the backup location with a format like “NTFS” or “Ext4.” Note that reformatting deletes all files on the location!</property>
+                                        <property name="wrap">1</property>
+                                        <property name="xalign">0</property>
+                                        <style>
+                                          <class name="dim-label"/>
+                                        </style>
                                       </object>
                                     </child>
                                   </object>
                                 </child>
                               </object>
                             </child>
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="child">
+                                  <object class="GtkBox" id="location_remote">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">12</property>
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkEntry" id="location_url">
+                                            <property name="hexpand">1</property>
+                                            <property name="activates-default">1</property>
+                                            <property name="placeholder-text" translatable="yes">ssh://user@server.example.org/~/backup</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox">
+                                        <property name="margin-top">6</property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">6</property>
+                                        <style>
+                                          <class name="card"/>
+                                          <class name="info-card"/>
+                                        </style>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">Conventional Locations</property>
+                                            <property name="wrap">1</property>
+                                            <property name="xalign">0</property>
+                                            <style>
+                                              <class name="heading"/>
+                                              <class name="accent"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">Conventional remote backup locations can be provided as a URL with protocol prefix, address, and folder.</property>
+                                            <property name="wrap">1</property>
+                                            <property name="xalign">0</property>
+                                            <style>
+                                              <class name="dim-label"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">The “ssh://” protocol is reserved for locations with explicit borg support (see below). The “sftp://” prefix can be used instead.</property>
+                                            <property name="wrap">1</property>
+                                            <property name="xalign">0</property>
+                                            <style>
+                                              <class name="dim-label"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">Apart from that, all prefixes supported by the GNOME Virtual file system are supported.</property>
+                                            <property name="wrap">1</property>
+                                            <property name="xalign">0</property>
+                                            <style>
+                                              <class name="dim-label"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">Locations with Borg-Backup Support</property>
+                                            <property name="margin-top">6</property>
+                                            <property name="wrap">1</property>
+                                            <property name="xalign">0</property>
+                                            <style>
+                                              <class name="heading"/>
+                                              <class name="accent"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="label" translatable="yes">Locations with explicit borg-backup support can provide better Performance. They are special in that the server has a borg-backup binary installed. For those locations, either the “&lt;server address&gt;:&lt;folder&gt;” syntax or the “ssh://” prefix can be used.</property>
+                                            <property name="wrap">1</property>
+                                            <property name="xalign">0</property>
+                                            <style>
+                                              <class name="dim-label"/>
+                                            </style>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
-                    </property>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="encryption_box">
+                        <property name="description" translatable="yes">The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.</property>
+                        <property name="title" translatable="yes">Encryption</property>
+                        <child>
+                          <object class="GtkStackSwitcher">
+                            <property name="halign">start</property>
+                            <property name="stack">encryption</property>
+                            <property name="margin-bottom">12</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkStack" id="encryption">
+                            <property name="vhomogeneous">0</property>
+                            <property name="transition-type">crossfade</property>
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="title" translatable="yes">Encrypted</property>
+                                <property name="child">
+                                  <object class="GtkListBox">
+                                    <property name="selection-mode">none</property>
+                                    <style>
+                                      <class name="boxed-list"/>
+                                    </style>
+                                    <child>
+                                      <object class="AdwActionRow">
+                                        <property name="title" translatable="yes">Password</property>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="orientation">vertical</property>
+                                            <property name="spacing">6</property>
+                                            <property name="margin-top">6</property>
+                                            <child>
+                                              <object class="GtkPasswordEntry" id="password">
+                                                <property name="activates-default">1</property>
+                                                <property name="show-peek-icon">1</property>
+                                                <property name="width-request">250</property>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLevelBar" id="password_quality">
+                                                <property name="margin-bottom">6</property>
+                                                <property name="max-value">7</property>
+                                                <property name="mode">discrete</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwActionRow">
+                                        <property name="title" translatable="yes">Confirm</property>
+                                        <child>
+                                          <object class="GtkPasswordEntry" id="password_confirm">
+                                            <property name="width-request">250</property>
+                                            <property name="activates-default">1</property>
+                                            <property name="show-peek-icon">1</property>
+                                            <property name="valign">center</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkStackPage">
+                                <property name="title" translatable="yes">Unencrypted</property>
+                                <property name="child">
+                                  <object class="GtkBox" id="unencrypted"/>
+                                </property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>
+                        <property name="title" translatable="yes">Additional command line arguments</property>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="height-request">100</property>
+                            <property name="child">
+                              <object class="GtkTextView" id="command_line_args">
+                                <property name="wrap-mode">word-char</property>
+                                <property name="monospace">1</property>
+                                <style>
+                                  <class name="frame"/>
+                                </style>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -780,18 +637,6 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkSizeGroup" id="x">
-    <widgets>
-      <widget name="stackswitcher1"/>
-      <widget name="password"/>
-    </widgets>
-  </object>
-  <object class="GtkSizeGroup" id="y">
-    <widgets>
-      <widget name="spacer_1"/>
-      <widget name="label1"/>
-    </widgets>
   </object>
   <object class="PikaAddConfigTask" id="add_task"/>
 </interface>
