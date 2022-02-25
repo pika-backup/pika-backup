@@ -38,7 +38,7 @@ pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
         .ok()
         .as_deref()
         .and_then(|s| s.split('.').next())
-        .map(|s| s.replace("_", "-"))
+        .map(|s| s.replace('_', "-"))
         .and_then(|name| num_format::Locale::from_name(&name).ok())
         .unwrap_or(num_format::Locale::fr)
 });

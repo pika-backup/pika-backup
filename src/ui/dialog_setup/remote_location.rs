@@ -7,7 +7,7 @@ pub struct RemoteLocation {
 impl RemoteLocation {
     pub fn from_user_input(input: String) -> std::result::Result<Self, String> {
         let url = if !input.contains("://") {
-            if let Some((target, path)) = input.split_once(":") {
+            if let Some((target, path)) = input.split_once(':') {
                 let path_begin = path.chars().next();
 
                 let url_path = if path_begin == Some('~') {

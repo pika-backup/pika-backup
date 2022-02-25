@@ -255,7 +255,7 @@ impl std::hash::Hash for Pattern {
 
 impl Pattern {
     pub fn from_borg(s: String) -> Option<Self> {
-        if let Some((selector, pattern)) = s.split_once(":") {
+        if let Some((selector, pattern)) = s.split_once(':') {
             match selector {
                 "pp" => Some(Self::PathPrefix(
                     path::PathBuf::from(pattern)

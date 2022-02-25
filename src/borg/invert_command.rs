@@ -38,7 +38,7 @@ impl CreateTerm {
 }
 
 fn ast(cmd: Vec<String>) -> Vec<(CreateTerm, String)> {
-    cmd.into_iter().map(CreateTerm::parse).flatten().collect()
+    cmd.into_iter().flat_map(CreateTerm::parse).collect()
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]

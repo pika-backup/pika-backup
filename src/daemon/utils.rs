@@ -10,7 +10,7 @@ pub fn forward_action(action: &gio::SimpleAction, target_value: Option<&glib::Va
     let group = gio::DBusActionGroup::get(
         &dbus_connection,
         Some(&crate::app_id()),
-        &format!("/{}", crate::app_id().replace(".", "/")),
+        &format!("/{}", crate::app_id().replace('.', "/")),
     );
     group.activate_action(&action.name(), target_value);
 }

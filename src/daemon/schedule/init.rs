@@ -15,7 +15,7 @@ thread_local!(
     static ACTION_GROUP: gio::DBusActionGroup = gio::DBusActionGroup::get(
         &gio_app().dbus_connection().unwrap(),
         Some(&crate::app_id()),
-        &format!("/{}", crate::app_id().replace(".", "/")),
+        &format!("/{}", crate::app_id().replace('.', "/")),
     );
 );
 
