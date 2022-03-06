@@ -1,6 +1,6 @@
 podir = '../po'
 
-application_id = run_command('cat', 'APPLICATION_ID').stdout() + get_option('app_id_suffix')
+application_id = run_command('cat', 'APPLICATION_ID', check: true).stdout() + get_option('app_id_suffix')
 
 i18n.merge_file(
     type: 'desktop',

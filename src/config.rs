@@ -123,6 +123,10 @@ impl Backup {
         include.insert("".into());
         let mut exclude = std::collections::BTreeSet::new();
         exclude.insert(Pattern::PathPrefix(".cache".into()));
+        // Flatpak app caches
+        exclude.insert(Pattern::RegularExpression(Box::new(
+            regex::Regex::new(r"/\.var/app/[^/]+/cache/").unwrap(),
+        )));
 
         Self {
             config_version: VERSION,

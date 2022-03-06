@@ -1,12 +1,14 @@
 project(
     run_command(
         find_program(meson.source_root() / 'build-aux/meson-cargo-manifest.py'),
-        'package', 'name'
+        'package', 'name',
+        check: true
     ).stdout(),
     'rust',
     version: run_command(
         find_program(meson.source_root() / 'build-aux/meson-cargo-manifest.py'),
-        'package', 'version'
+        'package', 'version',
+        check: true
     ).stdout()
 )
 
