@@ -1,14 +1,14 @@
 use super::prelude::*;
 use async_std::prelude::*;
 
-use super::{Borg, BorgRunConfig, Error, Result};
+use super::{BorgRunConfig, Command, Error, Result};
 
 use std::any::TypeId;
 use std::collections::HashMap;
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
 use std::os::unix::io::IntoRawFd;
-use std::process::{Command, Stdio};
+use std::process::{self, Stdio};
 
 use std::time::Duration;
 
@@ -16,6 +16,7 @@ use super::communication::*;
 use super::log_json;
 use super::status::*;
 use super::utils;
+use super::Task;
 use crate::config;
 
 use async_std::process as async_process;
@@ -82,7 +83,7 @@ impl BorgCall {
         self
     }
 
-    pub fn add_include_exclude(&mut self, borg: &Borg) -> &mut Self {
+    pub fn add_include_exclude<T: Task>(&mut self, borg: &Command<T>) -> &mut Self {
         for exclude in &borg.config.exclude_dirs_internal() {
             self.add_options(vec![format!("--exclude={}", exclude.borg_pattern())]);
         }
@@ -97,7 +98,7 @@ impl BorgCall {
         self
     }
 
-    pub fn add_archive(&mut self, borg: &Borg) -> &mut Self {
+    pub fn add_archive<T: Task>(&mut self, borg: &Command<T>) -> &mut Self {
         let random_str = glib::uuid_string_random();
         let arg = format!(
             "{repo}::{archive_prefix}{archive}",
@@ -201,8 +202,8 @@ impl BorgCall {
         args
     }
 
-    pub fn cmd(&self) -> Result<Command> {
-        let mut cmd = Command::new("borg");
+    pub fn cmd(&self) -> Result<process::Command> {
+        let mut cmd = process::Command::new("borg");
 
         cmd.envs([self.set_password()?]);
 
@@ -242,21 +243,25 @@ impl BorgCall {
     }
 
     pub fn spawn_async_managed<
-        T: std::fmt::Debug + serde::de::DeserializeOwned + Send + 'static,
+        T: Task,
+        S: std::fmt::Debug + serde::de::DeserializeOwned + Send + 'static,
     >(
         self,
-        communication: super::Communication,
-    ) -> Result<Process<T>> {
+        communication: super::Communication<T>,
+    ) -> Result<Process<S>> {
         let result = async_std::task::spawn(self.handle_disconnect(communication));
 
         Ok(Process { result })
     }
 
-    async fn handle_disconnect<T: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
+    async fn handle_disconnect<
+        T: Task,
+        S: std::fmt::Debug + serde::de::DeserializeOwned + 'static,
+    >(
         mut self,
-        communication: super::Communication,
-    ) -> Result<T> {
-        communication.status.update(move |status| {
+        communication: super::Communication<T>,
+    ) -> Result<S> {
+        communication.general_info.update(move |status| {
             status.started = Some(chrono::Local::now());
         });
         let sender = communication.new_sender();
@@ -277,12 +282,10 @@ impl BorgCall {
                         ]);
                     }
 
-                    if !matches!(communication.status.load().run, Run::Reconnecting) {
+                    if !matches!(communication.status(), Run::Reconnecting) {
                         debug!("Starting reconnect attempts");
                         retries = 0;
-                        communication.status.update(|status| {
-                            status.run = Run::Reconnecting;
-                        });
+                        communication.set_status(Run::Reconnecting);
                     }
 
                     if retries < super::MAX_RECONNECT {
@@ -301,11 +304,14 @@ impl BorgCall {
         }
     }
 
-    async fn managed_process<T: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
+    async fn managed_process<
+        T: Task,
+        S: std::fmt::Debug + serde::de::DeserializeOwned + 'static,
+    >(
         &self,
-        communication: super::Communication,
-        sender: &Sender,
-    ) -> Result<T> {
+        communication: super::Communication<T>,
+        sender: &Sender<T>,
+    ) -> Result<S> {
         let mut line = String::new();
         let mut process = self.spawn_async()?;
         let mut reader = async_std::io::BufReader::new(
@@ -319,10 +325,8 @@ impl BorgCall {
 
         loop {
             // react to abort instruction before potentially listening for messages again
-            if matches!(**communication.instruction.load(), Instruction::Abort) {
-                communication.status.update(|status| {
-                    status.run = Run::Stopping;
-                });
+            if let Instruction::Abort(ref reason) = **communication.instruction.load() {
+                communication.set_status(Run::Stopping);
                 debug!("Sending SIGTERM to borg process");
                 nix::sys::signal::kill(
                     nix::unistd::Pid::from_raw(process.id() as i32),
@@ -330,7 +334,7 @@ impl BorgCall {
                 )?;
                 process.status().await?;
                 debug!("Process terminated");
-                return Err(Error::Aborted(Abort::User));
+                return Err(Error::Aborted(reason.clone()));
             }
 
             line.clear();
@@ -343,11 +347,9 @@ impl BorgCall {
                 Err(err) if err.kind() == async_std::io::ErrorKind::TimedOut => {
                     unresponsive += super::MESSAGE_POLL_TIMEOUT;
                     if unresponsive > super::STALL_THRESHOLD
-                        && !matches!(communication.status.load().run, Run::Reconnecting)
+                        && !matches!(communication.status(), Run::Reconnecting)
                     {
-                        communication.status.update(|status| {
-                            status.run = Run::Stalled;
-                        });
+                        communication.set_status(Run::Stalled);
                     }
                     continue;
                 }
@@ -363,16 +365,14 @@ impl BorgCall {
             debug!("borg output: {}", line);
 
             let msg = if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&line) {
-                if !matches!(communication.status.load().run, Run::Running) {
-                    communication.status.update(|status| {
-                        status.run = Run::Running;
-                    });
+                if !matches!(communication.status(), Run::Running) {
+                    communication.set_status(Run::Running);
                 }
                 log_json::Output::Progress(msg)
             } else {
                 let msg = utils::check_line(&line);
 
-                communication.status.update(|status| {
+                communication.general_info.update(|status| {
                     status.add_message(&msg);
                 });
                 log_json::Output::LogEntry(msg)
@@ -393,9 +393,12 @@ impl BorgCall {
 
         if output.status.success() {
             Ok(result?)
-        } else if let Ok(err) =
-            Error::try_from(communication.status.load().last_combined_message_history())
-        {
+        } else if let Ok(err) = Error::try_from(
+            communication
+                .general_info
+                .load()
+                .last_combined_message_history(),
+        ) {
             Err(err)
         } else {
             Err(ReturnCodeError::new(output.status.code()).into())

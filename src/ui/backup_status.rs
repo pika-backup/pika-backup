@@ -5,9 +5,11 @@ use crate::borg::log_json;
 use crate::borg::Run;
 use crate::config::history;
 use crate::config::*;
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils;
 
+#[derive(Debug)]
 pub struct Display {
     pub title: String,
     pub subtitle: Option<String>,
@@ -16,11 +18,13 @@ pub struct Display {
     pub stats: Option<Stats>,
 }
 
+#[derive(Debug)]
 pub enum Stats {
     Progress(log_json::ProgressArchive),
     Final(history::RunInfo),
 }
 
+#[derive(Debug)]
 pub enum Graphic {
     OkIcon(String),
     WarningIcon(String),
@@ -30,18 +34,20 @@ pub enum Graphic {
 
 impl Display {
     pub fn new_from_id(config_id: &ConfigId) -> Self {
-        if let Some(communication) = BACKUP_COMMUNICATION.load().get(config_id) {
-            Self::from(communication)
-        } else if let Some(last_run) = BACKUP_HISTORY
-            .load()
-            .get_result(config_id)
-            .ok()
-            .and_then(|x| x.run.get(0))
-        {
-            Self::from(last_run)
-        } else {
-            Self::default()
-        }
+        BORG_OPERATION.with(|operations| {
+            if let Some(op) = operations.load().get(config_id) {
+                Self::from(op.as_ref())
+            } else if let Some(last_run) = BACKUP_HISTORY
+                .load()
+                .get_result(config_id)
+                .ok()
+                .and_then(|x| x.run.get(0))
+            {
+                Self::from(last_run)
+            } else {
+                Self::default()
+            }
+        })
     }
 }
 
@@ -85,17 +91,29 @@ impl From<&history::RunInfo> for Display {
     }
 }
 
-impl From<&borg::Communication> for Display {
-    fn from(communication: &borg::Communication) -> Self {
-        let status = communication.status.get();
+impl From<&dyn ui::operation::OperationExt> for Display {
+    fn from(op: &dyn ui::operation::OperationExt) -> Self {
+        if let Some(op_create) = op.try_as_create() {
+            Self::from(op_create)
+        } else {
+            Default::default()
+        }
+    }
+}
+
+impl From<&ui::operation::Operation<borg::task::Create>> for Display {
+    fn from(op: &ui::operation::Operation<borg::task::Create>) -> Self {
+        let status = op.communication().specific_info.get();
 
         let mut progress = None;
         let mut stats = None;
         let mut subtitle = None;
 
-        if let Some(ref last_message) = status.last_message {
-            match *last_message {
-                log_json::Progress::Archive(ref progress_archive_ref) => {
+        if let Some(ref last_message) = op.last_log() {
+            match last_message.as_ref() {
+                log_json::Output::Progress(log_json::Progress::Archive(
+                    ref progress_archive_ref,
+                )) => {
                     stats = Some(Stats::Progress(progress_archive_ref.clone()));
                     if let Some(size) = &status.estimated_size {
                         let fraction =
@@ -109,7 +127,7 @@ impl From<&borg::Communication> for Display {
                         );
 
                         // Do not show estimate when stalled for example
-                        if matches!(status.run, borg::status::Run::Running) {
+                        if matches!(op.communication().status(), borg::status::Run::Running) {
                             if let Some(remaining) = status.time_remaining() {
                                 sub.push_str(&format!(" – {}", utils::duration::left(&remaining)));
                             }
@@ -124,7 +142,7 @@ impl From<&borg::Communication> for Display {
             }
         }
 
-        let title = match status.run {
+        let title = match op.communication().status() {
             Run::Init => gettext("Preparing backup"),
             Run::Running => gettext("Backup running"),
             Run::Stalled => gettext("Backup destination unresponsive"),
@@ -139,6 +157,12 @@ impl From<&borg::Communication> for Display {
             }
             Run::Stopping => gettext("Stopping backup"),
         };
+
+        if subtitle.is_none() {
+            if let Some(log) = op.last_log() {
+                subtitle = Some(log.to_string());
+            }
+        }
 
         Self {
             title,

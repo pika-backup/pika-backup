@@ -24,11 +24,12 @@ pub async fn on_stop_backup_create() -> Result<()> {
     )
     .await?;
 
-    BACKUP_COMMUNICATION
-        .load()
-        .active()?
-        .instruction
-        .store(Arc::new(borg::Instruction::Abort));
+    BORG_OPERATION.with(|op| {
+        op.load()
+            .active()?
+            .set_instruction(borg::Instruction::Abort(borg::Abort::User));
+        Ok::<_, Error>(())
+    })?;
 
     Ok(())
 }

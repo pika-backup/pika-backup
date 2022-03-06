@@ -18,13 +18,15 @@ pub static BACKUP_CONFIG: Lazy<ArcSwap<config::Writeable<config::Backups>>> =
 pub static BACKUP_HISTORY: Lazy<ArcSwap<config::Writeable<config::Histories>>> =
     Lazy::new(Default::default);
 
-pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<BTreeMap<ConfigId, borg::Communication>>> =
-    Lazy::new(Default::default);
-pub static BACKUP_LOCK: Lazy<ArcSwap<BTreeMap<borg::RepoId, String>>> = Lazy::new(Default::default);
+//pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<BTreeMap<ConfigId, borg::Communication>>> =
+//    Lazy::new(Default::default);
+
+//pub static BACKUP_LOCK: Lazy<ArcSwap<BTreeMap<borg::RepoId, String>>> = Lazy::new(Default::default);
 pub static ACTIVE_BACKUP_ID: Lazy<ArcSwap<Option<ConfigId>>> = Lazy::new(Default::default);
 pub static INHIBIT_COOKIE: Lazy<ArcSwap<Option<u32>>> = Lazy::new(Default::default);
 
 pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<borg::RepoId>>> = Lazy::new(Default::default);
+
 /// Is the app currently shutting down
 pub static IS_SHUTDOWN: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
 
@@ -55,6 +57,9 @@ thread_local!(
             .application_id(&crate::app_id())
             .build()
     });
+
+    pub static BORG_OPERATION: ArcSwap<BTreeMap<ConfigId, Rc<dyn ui::operation::OperationExt>>> =
+        Default::default();
 );
 
 pub fn main_ui() -> Rc<ui::builder::AppWindow> {

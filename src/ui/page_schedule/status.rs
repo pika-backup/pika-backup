@@ -78,7 +78,7 @@ impl Status {
                             gettext("Will not start until requirements are met.")
                         );
                     }
-                } else if BACKUP_COMMUNICATION.load().get(&config.id).is_none() {
+                } else if BORG_OPERATION.with(|op| op.load().get(&config.id).is_none()) {
                     main_subtitle = gettext("Inconsistent backup information");
                     main_level = StatusLevel::Error;
                 }

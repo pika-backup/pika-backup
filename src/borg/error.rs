@@ -91,9 +91,10 @@ impl std::fmt::Display for Outcome {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub enum Abort {
     User,
+    MeteredConnection,
     /// program probably crashed while running
     LeftRunning,
 }
@@ -102,6 +103,11 @@ impl std::fmt::Display for Abort {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::User => write!(f, "{}", gettext("Aborted on user request.")),
+            Self::MeteredConnection => write!(
+                f,
+                "{}",
+                gettext("Aborted because only metered connection was available.")
+            ),
             Self::LeftRunning => write!(f, "{}", gettext("Potential internal error.")),
         }
     }

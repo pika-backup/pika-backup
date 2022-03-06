@@ -15,7 +15,7 @@ pub async fn cleanup() -> Result<()> {
 pub async fn eject_button_clicked() -> Result<()> {
     let repo_id = BACKUP_CONFIG.load().active()?.repo_id.clone();
 
-    borg::Borg::umount(&repo_id).err_to_msg(gettext("Failed to unmount repository."))?;
+    borg::functions::umount(&repo_id).err_to_msg(gettext("Failed to unmount repository."))?;
     ACTIVE_MOUNTS.update(|mounts| {
         mounts.remove(&repo_id);
     });
@@ -31,7 +31,7 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
 
     let backup_mounted = ACTIVE_MOUNTS.load().contains(repo_id);
 
-    let mut path = borg::Borg::mount_point(repo_id);
+    let mut path = borg::functions::mount_point(repo_id);
     path.push(archive_name.as_str());
 
     if !backup_mounted {
@@ -40,10 +40,8 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
         });
 
         main_ui().pending_menu().show();
-        let mount = ui::utils::borg::exec(gettext("Browse Archive"), config.clone(), move |borg| {
-            borg.mount()
-        })
-        .await;
+        let mount =
+            ui::utils::borg::exec__(borg::Command::<borg::task::Mount>::new(config.clone())).await;
 
         if mount.is_err() {
             ACTIVE_MOUNTS.update(|mounts| {

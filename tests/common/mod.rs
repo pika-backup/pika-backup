@@ -1,3 +1,4 @@
+pub use pika_backup::borg::CommandRun;
 use pika_backup::{borg, config, prelude::*};
 pub use std::path::{Path, PathBuf};
 

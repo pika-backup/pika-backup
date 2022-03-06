@@ -16,7 +16,7 @@ struct ArchiveParams {
     username: String,
 }
 
-fn extract_archive_params(archive: borg::InfoArchive) -> ArchiveParams {
+fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
     let prefix = archive
         .name
         .as_str()
@@ -35,7 +35,7 @@ fn extract_archive_params(archive: borg::InfoArchive) -> ArchiveParams {
 pub fn transfer_selection(
     ui: &DialogSetup,
     config_id: config::ConfigId,
-    archives: Vec<borg::InfoArchive>,
+    archives: Vec<borg::ListArchive>,
 ) {
     let archive_params: Vec<_> = archives
         .into_iter()

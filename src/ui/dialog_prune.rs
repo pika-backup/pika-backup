@@ -9,16 +9,8 @@ use crate::ui::prelude::*;
 use ui::builder::DialogPrune;
 
 pub async fn execute(config: config::Backup) -> Result<()> {
-    let communication = borg::Communication::default();
-
-    let result = ui::utils::borg::exec(
-        gettext("Delete old Archives"),
-        config.clone(),
-        enclose!((communication) move |borg| {
-            borg.prune(communication)
-        }),
-    )
-    .await;
+    let result =
+        ui::utils::borg::exec__(borg::Command::<borg::task::Prune>::new(config.clone())).await;
 
     if !matches!(
         result,
@@ -46,15 +38,12 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
     ui.dialog().set_transient_for(Some(&main_ui().window()));
     ui.dialog().present();
 
-    let prune_info = ui::utils::borg::exec(
-        gettext("Determine how many archives would be deleted"),
-        config.clone(),
-        |borg| borg.prune_info(),
-    )
-    .await
-    .into_message(gettext(
-        "Failed to determine how many archives would be deleted",
-    ))?;
+    let prune_info =
+        ui::utils::borg::exec__(borg::Command::<borg::task::PruneInfo>::new(config.clone()))
+            .await
+            .into_message(gettext(
+                "Failed to determine how many archives would be deleted",
+            ))?;
 
     ui.prune().set_label(&prune_info.prune.to_string());
     ui.keep().set_label(&prune_info.keep.to_string());
@@ -86,7 +75,8 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
 async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
     ui.leaflet().set_visible_child(&ui.page_deleting());
 
-    let communication = borg::Communication::default();
+    let command = borg::Command::<borg::task::Prune>::new(config.clone());
+    let communication = command.communication.clone();
 
     glib::MainContext::default().spawn_local(enclose!((ui, mut communication) async move {
         let mut receiver = communication.new_receiver();
@@ -101,17 +91,10 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
 
     ui.abort()
         .connect_clicked(enclose!((communication) move |_| {communication.instruction
-        .store(Arc::new(borg::Instruction::Abort)
+        .store(Arc::new(borg::Instruction::Abort(borg::Abort::User))
         );} ));
 
-    let result = ui::utils::borg::exec(
-        gettext("Delete old Archives"),
-        config.clone(),
-        enclose!((communication) move |borg| {
-            borg.prune(communication)
-        }),
-    )
-    .await;
+    let result = ui::utils::borg::exec__(command).await;
 
     if !matches!(
         result,

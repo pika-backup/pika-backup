@@ -97,6 +97,7 @@ pub struct ListArchive {
     pub hostname: String,
     pub start: chrono::naive::NaiveDateTime,
     pub end: chrono::naive::NaiveDateTime,
+    pub command_line: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

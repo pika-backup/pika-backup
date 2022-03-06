@@ -3,7 +3,10 @@ use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
 
-pub async fn check(config: &config::Backup, communication: borg::Communication) {
+pub async fn check(
+    config: &config::Backup,
+    communication: borg::Communication<borg::task::Create>,
+) {
     let estimated_size = ui::utils::spawn_thread(
         "estimate_backup_size",
         enclose!((config, communication) move ||
@@ -16,7 +19,7 @@ pub async fn check(config: &config::Backup, communication: borg::Communication) 
 
     if let Some(estimate) = &estimated_size {
         communication
-            .status
+            .specific_info
             .update(enclose!((estimated_size) move |status| {
                 status.estimated_size = estimated_size.clone();
             }));

@@ -1,3 +1,4 @@
+use super::task::Task;
 use super::*;
 use crate::config;
 use crate::prelude::*;
@@ -6,9 +7,166 @@ use process::*;
 use utils::*;
 
 #[derive(Clone)]
-pub struct Borg {
+pub struct Command<T: Task> {
     pub config: config::Backup,
+    pub communication: Communication<T>,
     password: Option<config::Password>,
+}
+
+#[async_trait]
+pub trait CommandRun<T: Task>: Clone + BorgBasics + BorgRunConfig {
+    async fn run(self) -> Result<T::Return>;
+}
+
+impl<T: Task> Command<T> {
+    pub fn new(config: config::Backup) -> Self {
+        Self {
+            config,
+            communication: Communication::default(),
+            password: None,
+        }
+    }
+}
+
+#[async_trait]
+impl CommandRun<task::List> for Command<task::List> {
+    async fn run(self) -> Result<Vec<ListArchive>> {
+        let borg = BorgCall::new("list")
+            .add_options(&[
+                "--json",
+                &format!("--last={}", 10),
+                "--format={hostname}{username}{comment}{end}{command_line}",
+            ])
+            .add_basics(&self)?
+            .output()?;
+
+        check_stderr(&borg)?;
+
+        let json: List = serde_json::from_slice(&borg.stdout)?;
+
+        Ok(json.archives)
+    }
+}
+
+#[async_trait]
+impl CommandRun<task::Mount> for Command<task::Mount> {
+    async fn run(self) -> Result<()> {
+        std::fs::DirBuilder::new()
+            .recursive(true)
+            .create(mount_point(&self.config.repo_id))?;
+
+        let borg = BorgCall::new("mount")
+            .add_basics(&self)?
+            // Make all data readable for the current user
+            // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
+            .add_options(&["-o", &format!("umask=0277,uid={}", nix::unistd::getuid())])
+            .add_positional(&mount_point(&self.config.repo_id).to_string_lossy())
+            .output()?;
+
+        check_stderr(&borg)?;
+
+        Ok(())
+    }
+}
+
+#[async_trait]
+impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
+    async fn run(self) -> Result<PruneInfo> {
+        let mut borg_call = prune_call(&self)?;
+        borg_call.add_options(&["--dry-run", "--list"]);
+
+        let messages = check_stderr(&borg_call.output()?)?;
+
+        let list_messages = messages
+            .iter()
+            .filter_map(|x| {
+                if let log_json::LogEntry::ParsedErr(msg) = x {
+                    Some(msg)
+                } else {
+                    None
+                }
+            })
+            .filter(|x| x.name == "borg.output.list");
+
+        let prune = list_messages
+            .clone()
+            .filter(|x| x.message.starts_with("Would prune"))
+            .count();
+        let keep = list_messages
+            .filter(|x| x.message.starts_with("Keeping"))
+            .count();
+
+        Ok(PruneInfo { keep, prune })
+    }
+}
+
+#[async_trait]
+impl CommandRun<task::Prune> for Command<task::Prune> {
+    async fn run(self) -> Result<()> {
+        let mut borg_call = prune_call(&self)?;
+        borg_call.add_options(&["--progress"]);
+
+        let process = borg_call.spawn_async_managed(self.communication.clone())?;
+
+        process.result.await
+    }
+}
+
+#[async_trait]
+impl CommandRun<task::Create> for Command<task::Create> {
+    async fn run(self) -> Result<Stats> {
+        // TODO: Delete old history because ... why?
+        /*
+                self.communication
+                    .info
+                    .update(move |info| info.message_history.push(Default::default()));
+        */
+
+        let mut borg_call = BorgCall::new("create");
+        borg_call
+            .add_options(&["--progress", "--json"])
+            // Good and fast compression
+            // <https://gitlab.gnome.org/World/pika-backup/-/issues/51>
+            .add_options(&["--compression=zstd"])
+            .add_basics(&self)?
+            .add_archive(&self)
+            .add_include_exclude(&self);
+
+        let process = borg_call.spawn_async_managed(self.communication.clone())?;
+
+        let mut last_skipped = 0.;
+        let mut last_copied = 0.;
+        let mut last_time = std::time::Instant::now();
+
+        let mut log = self.communication.new_receiver();
+
+        while let Some(msg) = log.next().await {
+            trace!("borg::create: {:?}", msg);
+
+            if let log_json::Output::Progress(log_json::Progress::Archive(ref progress)) = msg {
+                let skipped = progress.original_size as f64 - progress.deduplicated_size as f64;
+                let copied = progress.deduplicated_size as f64;
+                let interval = last_time.elapsed().as_secs_f64();
+                last_time = std::time::Instant::now();
+
+                self.communication.specific_info.update(move |status| {
+                    status.total = progress.original_size as f64;
+                    status.copied = progress.deduplicated_size as f64;
+
+                    status.data_rate_history.insert(DataRate {
+                        interval,
+                        skipped: skipped - last_skipped,
+                        copied: copied - last_copied,
+                    });
+                });
+
+                last_skipped = skipped;
+                last_copied = copied;
+            }
+        }
+
+        process.result.await
+    }
 }
 
 #[derive(Clone)]
@@ -27,7 +185,7 @@ pub trait BorgRunConfig {
     fn try_config(&self) -> Option<config::Backup>;
 }
 
-impl BorgRunConfig for Borg {
+impl<T: Task> BorgRunConfig for Command<T> {
     fn repo(&self) -> config::Repository {
         self.config.repo.clone()
     }
@@ -93,177 +251,53 @@ pub struct PruneInfo {
     pub prune: usize,
 }
 
-/// Features that need a complete backup config
-impl Borg {
-    pub fn new(config: config::Backup) -> Self {
-        Self {
-            config,
-            password: None,
-        }
+pub fn umount(repo_id: &RepoId) -> Result<()> {
+    let mount_point = mount_point(repo_id);
+
+    let borg = BorgCall::new("umount")
+        .add_options(&["--log-json"])
+        .add_positional(&mount_point.to_string_lossy())
+        .output()?;
+
+    check_stderr(&borg)?;
+
+    std::fs::remove_dir(mount_point)?;
+    let _ = std::fs::remove_dir(mount_dir());
+
+    Ok(())
+}
+
+pub fn mount_point(repo_id: &RepoId) -> std::path::PathBuf {
+    let mut dir = mount_dir();
+    dir.push(&format!("{:.8}", repo_id.as_str()));
+    dir
+}
+
+pub fn mount_dir() -> std::path::PathBuf {
+    glib::home_dir().join(crate::REPO_MOUNT_DIR)
+}
+
+fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
+    if command.config.prune.keep.hourly < 1
+        || command.config.prune.keep.daily < 1
+        || command.config.prune.keep.weekly < 1
+    {
+        return Err(Error::ImplausiblePrune);
     }
 
-    pub fn umount(repo_id: &RepoId) -> Result<()> {
-        let mount_point = Self::mount_point(repo_id);
+    let mut borg_call = BorgCall::new("prune");
 
-        let borg = BorgCall::new("umount")
-            .add_options(&["--log-json"])
-            .add_positional(&mount_point.to_string_lossy())
-            .output()?;
+    borg_call.add_basics(command)?.add_options(&[
+        &format!("--prefix={}", command.config.archive_prefix),
+        "--keep-within=1H",
+        &format!("--keep-hourly={}", command.config.prune.keep.hourly),
+        &format!("--keep-daily={}", command.config.prune.keep.daily),
+        &format!("--keep-weekly={}", command.config.prune.keep.weekly),
+        &format!("--keep-monthly={}", command.config.prune.keep.monthly),
+        &format!("--keep-yearly={}", command.config.prune.keep.yearly),
+    ]);
 
-        check_stderr(&borg)?;
-
-        std::fs::remove_dir(mount_point)?;
-        let _ = std::fs::remove_dir(Self::mount_dir());
-
-        Ok(())
-    }
-
-    pub fn mount_dir() -> std::path::PathBuf {
-        glib::home_dir().join(crate::REPO_MOUNT_DIR)
-    }
-
-    pub fn mount_point(repo_id: &RepoId) -> std::path::PathBuf {
-        let mut dir = Self::mount_dir();
-        dir.push(&format!("{:.8}", repo_id.as_str()));
-        dir
-    }
-
-    pub async fn mount(self) -> Result<()> {
-        std::fs::DirBuilder::new()
-            .recursive(true)
-            .create(Self::mount_point(&self.config.repo_id))?;
-
-        let borg = BorgCall::new("mount")
-            .add_basics(&self)?
-            // Make all data readable for the current user
-            // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
-            .add_options(&["-o", &format!("umask=0277,uid={}", nix::unistd::getuid())])
-            .add_positional(&Self::mount_point(&self.config.repo_id).to_string_lossy())
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        Ok(())
-    }
-
-    fn prune_call(self) -> Result<BorgCall> {
-        if self.config.prune.keep.hourly < 1
-            || self.config.prune.keep.daily < 1
-            || self.config.prune.keep.weekly < 1
-        {
-            return Err(Error::ImplausiblePrune);
-        }
-
-        let mut borg_call = BorgCall::new("prune");
-
-        borg_call.add_basics(&self)?.add_options(&[
-            &format!("--prefix={}", self.config.archive_prefix),
-            "--keep-within=1H",
-            &format!("--keep-hourly={}", self.config.prune.keep.hourly),
-            &format!("--keep-daily={}", self.config.prune.keep.daily),
-            &format!("--keep-weekly={}", self.config.prune.keep.weekly),
-            &format!("--keep-monthly={}", self.config.prune.keep.monthly),
-            &format!("--keep-yearly={}", self.config.prune.keep.yearly),
-        ]);
-
-        Ok(borg_call)
-    }
-
-    pub async fn prune_info(self) -> Result<PruneInfo> {
-        let mut borg_call = self.prune_call()?;
-        borg_call.add_options(&["--dry-run", "--list"]);
-
-        let messages = check_stderr(&borg_call.output()?)?;
-
-        let list_messages = messages
-            .iter()
-            .filter_map(|x| {
-                if let log_json::LogEntry::ParsedErr(msg) = x {
-                    Some(msg)
-                } else {
-                    None
-                }
-            })
-            .filter(|x| x.name == "borg.output.list");
-
-        let prune = list_messages
-            .clone()
-            .filter(|x| x.message.starts_with("Would prune"))
-            .count();
-        let keep = list_messages
-            .filter(|x| x.message.starts_with("Keeping"))
-            .count();
-
-        Ok(PruneInfo { keep, prune })
-    }
-
-    pub async fn prune(self, communication: Communication) -> Result<()> {
-        let mut borg_call = self.prune_call()?;
-        borg_call.add_options(&["--progress"]);
-
-        let process = borg_call.spawn_async_managed(communication)?;
-
-        process.result.await
-    }
-
-    pub async fn create(self, communication: Communication) -> Result<Stats> {
-        communication
-            .status
-            .update(move |status| status.message_history.push(Default::default()));
-
-        let mut borg_call = BorgCall::new("create");
-        borg_call
-            .add_options(&["--progress", "--json"])
-            // Good and fast compression
-            // <https://gitlab.gnome.org/World/pika-backup/-/issues/51>
-            .add_options(&["--compression=zstd"])
-            .add_basics(&self)?
-            .add_archive(&self)
-            .add_include_exclude(&self);
-
-        let process = borg_call.spawn_async_managed(communication.clone())?;
-
-        let mut last_skipped = 0.;
-        let mut last_copied = 0.;
-        let mut last_time = std::time::Instant::now();
-
-        let mut log = communication.new_receiver();
-
-        while let Some(msg) = log.next().await {
-            trace!("borg::create: {:?}", msg);
-
-            if let log_json::Output::Progress(
-                ref archive @ log_json::Progress::Archive(ref progress),
-            ) = msg
-            {
-                // TODO: legacy? could be solved via channel
-                communication.status.update(move |status| {
-                    status.last_message = Some(archive.clone());
-                });
-
-                let skipped = progress.original_size as f64 - progress.deduplicated_size as f64;
-                let copied = progress.deduplicated_size as f64;
-                let interval = last_time.elapsed().as_secs_f64();
-                last_time = std::time::Instant::now();
-
-                communication.status.update(move |status| {
-                    status.total = progress.original_size as f64;
-                    status.copied = progress.deduplicated_size as f64;
-
-                    status.data_rate_history.insert(DataRate {
-                        interval,
-                        skipped: skipped - last_skipped,
-                        copied: copied - last_copied,
-                    });
-                });
-
-                last_skipped = skipped;
-                last_copied = copied;
-            }
-        }
-
-        process.result.await
-    }
+    Ok(borg_call)
 }
 
 impl BorgOnlyRepo {
@@ -275,8 +309,8 @@ impl BorgOnlyRepo {
     }
 }
 
-impl BorgBasics for Borg {}
 impl BorgBasics for BorgOnlyRepo {}
+impl<T: Task> BorgBasics for Command<T> {}
 
 /// Features that are available without complete backup config
 #[async_trait]
@@ -308,23 +342,6 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         let json: List = serde_json::from_slice(&borg.stdout)?;
 
         Ok(json)
-    }
-
-    async fn list(self, last: u64) -> Result<Vec<ListArchive>> {
-        let borg = BorgCall::new("list")
-            .add_options(&[
-                "--json",
-                &format!("--last={}", last),
-                "--format={hostname}{username}{comment}{end}",
-            ])
-            .add_basics(&self)?
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        let json: List = serde_json::from_slice(&borg.stdout)?;
-
-        Ok(json.archives)
     }
 
     async fn info(self, last: u64) -> Result<Vec<InfoArchive>> {

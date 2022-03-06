@@ -17,11 +17,12 @@ mod dialog_encryption_password;
 mod dialog_info;
 mod dialog_prune;
 mod dialog_setup;
+mod dialog_shortcuts;
 mod dialog_storage;
 mod error;
 mod export;
+mod operation;
 // TODO: this should not be global
-mod dialog_shortcuts;
 pub mod globals;
 mod headerbar;
 mod page_archives;
@@ -69,11 +70,11 @@ pub fn main() {
 fn on_ctrlc() -> Continue {
     debug!("Quit: SIGINT (Ctrl+C)");
 
-    for com in BACKUP_COMMUNICATION.load().values() {
-        com.instruction.update(|instruction| {
-            *instruction = borg::Instruction::Abort;
-        })
-    }
+    BORG_OPERATION.with(|operations| {
+        for op in operations.load().values() {
+            op.set_instruction(borg::Instruction::Abort(borg::Abort::User));
+        }
+    });
 
     gtk_app().release();
     Continue(true)
@@ -84,7 +85,7 @@ fn on_shutdown(app: &gtk::Application) {
     IS_SHUTDOWN.swap(std::sync::Arc::new(true));
     while !ACTIVE_MOUNTS.load().is_empty() {
         for repo_id in ACTIVE_MOUNTS.load().iter() {
-            if borg::Borg::umount(repo_id).is_ok() {
+            if borg::functions::umount(repo_id).is_ok() {
                 ACTIVE_MOUNTS.update(|mounts| {
                     mounts.remove(repo_id);
                 });
@@ -282,6 +283,7 @@ async fn init_check_borg() -> Result<()> {
                     version_list.next(),
                     version_list.next(),
                 ) {
+                    #[allow(clippy::absurd_extreme_comparisons)]
                     if major < borg::MIN_MAJOR_VERSION
                         || minor < borg::MIN_MINOR_VERSION
                         || patch < borg::MIN_PATCH_VERSION

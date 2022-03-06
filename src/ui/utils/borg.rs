@@ -1,44 +1,48 @@
 use crate::ui::prelude::*;
 
 use crate::borg;
-use crate::config;
 use crate::ui;
+use borg::task::Task;
 use std::future::Future;
 use ui::error::Combined;
 
 /// checks if there is any running backup
 pub fn is_backup_running() -> bool {
-    !BACKUP_COMMUNICATION.load().is_empty()
+    !BORG_OPERATION.with(|op| op.load().is_empty())
 }
 
-pub async fn exec<P: core::fmt::Display + Clone, F, R, V>(
-    purpose: P,
-    config: config::Backup,
-    task: F,
-) -> CombinedResult<V>
+pub async fn exec__<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Return>
 where
-    F: FnOnce(borg::Borg) -> R + Send + Clone + 'static + Sync,
-    R: Future<Output = borg::Result<V>>,
-    V: Send + 'static,
+    borg::Command<T>: borg::CommandRun<T>,
 {
-    let repo_id = config.repo_id.clone();
-    if let Some(current_purpose) = BACKUP_LOCK.load().get(&repo_id) {
-        return Err(Combined::Ui(
-            Message::new(gettext("Repository already in use"), current_purpose).into(),
-        ));
-    }
-    let config =
-        crate::ui::dialog_device_missing::updated_config(config, &purpose.to_string()).await?;
-    let borg = borg::Borg::new(config);
+    let config_id = command.config.id.clone();
 
-    BACKUP_LOCK.update(enclose!((repo_id, purpose) move |x| {
-        x.insert(repo_id.clone(), purpose.to_string());
-    }));
+    command.config =
+        crate::ui::dialog_device_missing::updated_config(command.config.clone(), &T::name())
+            .await?;
 
-    let result = spawn_borg_thread_ask_password(purpose, borg, task).await;
+    BORG_OPERATION.with(enclose!((command) move |operations| {
+        if let Some(operation) = operations
+            .load()
+            .values()
+            .find(|x| x.repo_id() == &command.config.repo_id)
+        {
+            return Err(Combined::Ui(
+                Message::new(gettext("Repository already in use"), operation.name()).into(),
+            ));
+        }
 
-    BACKUP_LOCK.update(move |x| {
-        x.remove(&repo_id);
+        ui::operation::Operation::register(command);
+
+        Ok(())
+    }))?;
+
+    let result = spawn_borg_thread_ask_password(command).await;
+
+    BORG_OPERATION.with(move |operations| {
+        operations.update(|op| {
+            op.remove(&config_id);
+        });
     });
 
     result
@@ -66,30 +70,20 @@ fn set_scheduler_priority(priority: i32) {
     }
 }
 
-async fn spawn_borg_thread_ask_password<P, F, R, V, B>(
-    name: P,
-    mut borg: B,
-    task: F,
-) -> CombinedResult<V>
-where
-    P: core::fmt::Display,
-    F: FnOnce(B) -> R + Send + Clone + 'static + Sync,
-    R: Future<Output = borg::Result<V>>,
-    V: Send + 'static,
-    B: borg::BorgBasics + 'static,
-{
+async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Task>(
+    mut command: C,
+) -> CombinedResult<T::Return> {
     let mut password_changed = false;
 
     loop {
-        let result = spawn_borg_thread(name.to_string(), borg.clone(), task.clone()).await;
+        let result = spawn_borg_thread(T::name(), command.clone(), |x| x.run()).await;
 
         return match result {
             Err(Combined::Borg(borg::Error::PasswordMissing))
             | Err(Combined::Borg(borg::Error::Failed(borg::Failure::PassphraseWrong))) => {
-                if let Some(password) =
-                    crate::ui::utils::secret_service::password(name.to_string()).await
+                if let Some(password) = crate::ui::utils::secret_service::password(T::name()).await
                 {
-                    borg.set_password(password);
+                    command.set_password(password);
                     password_changed = true;
 
                     continue;
@@ -99,7 +93,9 @@ where
             }
             _ => {
                 if password_changed {
-                    if let (Some(password), Some(config)) = (&borg.password(), &borg.try_config()) {
+                    if let (Some(password), Some(config)) =
+                        (&command.password(), &command.try_config())
+                    {
                         if let Err(Error::Message(err)) =
                             crate::ui::utils::secret_service::store_password(config, password).await
                         {

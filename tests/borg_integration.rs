@@ -1,4 +1,5 @@
 mod common;
+pub use pika_backup::borg::CommandRun;
 
 #[macro_use]
 extern crate matches;
@@ -11,20 +12,29 @@ fn init() {}
 #[async_std::test]
 async fn simple_backup() {
     init();
-    let borg = borg::Borg::new(config());
-    assert_matches!(borg.clone().init().await, Ok(borg::List { .. }));
-    assert_matches!(borg.create(status()).await, Ok(_));
+
+    let config = config();
+
+    let init = borg::Command::<borg::task::List>::new(config.clone());
+    assert_matches!(init.init().await, Ok(borg::List { .. }));
+
+    let create = borg::Command::<borg::task::Create>::new(config);
+    assert_matches!(create.run().await, Ok(_));
 }
 
 #[async_std::test]
 async fn backup_communication() -> borg::Result<()> {
-    let borg = borg::Borg::new(config());
-    let communication = status();
+    let config = config();
 
-    borg.clone().init().await?;
-    borg.create(communication.clone()).await?;
+    let init = borg::Command::<borg::task::List>::new(config.clone());
+    init.init().await?;
 
-    assert_matches!(communication.status.get().run, borg::Run::Running);
+    let create = borg::Command::<borg::task::List>::new(config);
+    let communication = create.communication.clone();
+    create.run().await?;
+
+    // TODO: We would probably need one file to get this into 'running'
+    assert_matches!(communication.status(), borg::Run::Init);
 
     Ok(())
 }
@@ -35,14 +45,14 @@ async fn encrypted_backup() {
     let mut config = config();
     config.encrypted = true;
 
-    let mut borg = borg::Borg::new(config);
-    borg.set_password(config::Password::new("x".into()));
+    let mut init = borg::Command::<borg::task::List>::new(config.clone());
+    init.set_password(config::Password::new("x".into()));
 
-    assert_matches!(borg.clone().init().await, Ok(borg::List { .. }));
+    assert_matches!(init.init().await, Ok(borg::List { .. }));
 
-    borg.unset_password();
+    let create = borg::Command::<borg::task::Create>::new(config);
 
-    let result = borg.create(status()).await;
+    let result = create.run().await;
 
     assert!(result.is_err());
 }
@@ -62,20 +72,19 @@ async fn failed_ssh_connection() {
     );
 }
 
+// TODO: peek with what task
 #[async_std::test]
 async fn failed_repo() {
     init();
-    let result = borg::Borg::new(config()).peek().await;
+    let result = borg::Command::<borg::task::List>::new(config())
+        .peek()
+        .await;
     assert_matches!(
         result,
         Err(borg::Error::Failed(
             borg::error::Failure::RepositoryDoesNotExist
         ))
     );
-}
-
-fn status() -> borg::Communication {
-    Default::default()
 }
 
 fn config() -> config::Backup {

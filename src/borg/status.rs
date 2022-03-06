@@ -3,9 +3,15 @@ use itertools::Itertools;
 use std::collections::VecDeque;
 
 #[derive(Default, Debug, Clone)]
+pub struct GeneralStatus {
+    pub run: Run,
+    pub started: Option<chrono::DateTime<chrono::Local>>,
+    pub message_history: Vec<(LogCollection, LogCollection)>,
+}
+
+#[derive(Default, Debug, Clone)]
 pub struct Status {
     pub run: Run,
-    pub last_message: Option<Progress>,
     pub estimated_size: Option<SizeEstimate>,
     pub started: Option<chrono::DateTime<chrono::Local>>,
     pub total: f64,
@@ -23,14 +29,14 @@ fn positive(n: f64) -> f64 {
     }
 }
 
-impl Status {
+impl GeneralStatus {
     pub const MESSAGE_HISTORY_LENGTH: usize = 50;
 
     pub fn add_message(&mut self, msg: &LogEntry) {
         if let Some(history) = self.message_history.last_mut() {
-            if history.0.len() < Status::MESSAGE_HISTORY_LENGTH {
+            if history.0.len() < Self::MESSAGE_HISTORY_LENGTH {
                 history.0.push(msg.clone());
-            } else if history.1.len() < Status::MESSAGE_HISTORY_LENGTH {
+            } else if history.1.len() < Self::MESSAGE_HISTORY_LENGTH {
                 history.1.push(msg.clone());
             } else {
                 if let Some(position) = history.1.iter().position(|x| x.level() < msg.level()) {
@@ -62,7 +68,9 @@ impl Status {
             LogCollection::new()
         }
     }
+}
 
+impl Status {
     pub fn time_remaining(&self) -> Option<chrono::Duration> {
         if let (Some(skip_remaining_size), Some(copy_remaining_size)) =
             (self.skip_remaining(), self.copy_remaining())

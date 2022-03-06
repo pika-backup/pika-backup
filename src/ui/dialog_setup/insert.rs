@@ -200,11 +200,9 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
 
     ui.leaflet().set_visible_child(&ui.page_transfer());
 
-    let archives = ui::utils::borg::exec(gettext("Get backup info"), config.clone(), |borg| {
-        borg.info(20)
-    })
-    .await
-    .into_message(gettext("Failed"))?;
+    let archives = ui::utils::borg::exec__(borg::Command::<borg::task::List>::new(config.clone()))
+        .await
+        .into_message(gettext("Failed"))?;
 
     display::transfer_selection(&ui, config.id.clone(), archives);
 

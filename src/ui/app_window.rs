@@ -29,17 +29,29 @@ pub fn show() {
         Handler::run(ui::init_check_borg());
 
         // redo size estimates for backups running in background before
-        for (config_id, communication) in BACKUP_COMMUNICATION.load().iter() {
-            if communication.status.load().estimated_size.is_none() {
-                debug!("A running backup is lacking size estimate");
-                if let Some(config) = BACKUP_CONFIG.load().get_result(config_id).ok().cloned() {
-                    let communication = communication.clone();
-                    glib::MainContext::default().spawn_local(async move {
-                        ui::toast_size_estimate::check(&config, communication).await
-                    });
+        BORG_OPERATION.with(|operations| {
+            for (config_id, operation) in operations.load().iter() {
+                if let Some(create_op) = operation.try_as_create() {
+                    if create_op
+                        .communication()
+                        .specific_info
+                        .load()
+                        .estimated_size
+                        .is_none()
+                    {
+                        debug!("A running backup is lacking size estimate");
+                        if let Some(config) =
+                            BACKUP_CONFIG.load().get_result(config_id).ok().cloned()
+                        {
+                            let communication = create_op.communication().clone();
+                            glib::MainContext::default().spawn_local(async move {
+                                ui::toast_size_estimate::check(&config, communication).await
+                            });
+                        }
+                    }
                 }
             }
-        }
+        });
     } else {
         debug!("Not displaying ui because it is already visible.");
     }

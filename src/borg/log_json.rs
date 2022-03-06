@@ -55,7 +55,14 @@ pub struct ProgressArchive {
 
 impl fmt::Display for ProgressArchive {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
+        write!(
+            f,
+            "{}",
+            gettextf(
+                "Backed up data: {}",
+                &[&glib::format_size(self.original_size)]
+            )
+        )
     }
 }
 

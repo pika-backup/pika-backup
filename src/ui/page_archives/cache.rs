@@ -1,6 +1,7 @@
 use crate::ui::prelude::*;
 
 use super::display;
+use crate::borg;
 use crate::config;
 use crate::ui;
 use crate::ui::utils::repo_cache::RepoCache;
@@ -21,10 +22,9 @@ pub async fn refresh_archives(config: config::Backup) -> Result<()> {
     }
     display::ui_update_archives_spinner();
 
-    let result =
-        ui::utils::borg::exec("Update Archive List", config.clone(), |borg| borg.list(100))
-            .await
-            .into_message(gettext("Failed to refresh archives cache."));
+    let result = ui::utils::borg::exec__(borg::Command::<borg::task::List>::new(config.clone()))
+        .await
+        .into_message(gettext("Failed to refresh archives cache."));
 
     REPO_CACHE.update(|repos| {
         repos

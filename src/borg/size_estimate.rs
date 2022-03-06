@@ -35,7 +35,10 @@ impl Exclude {
 ///
 /// Returns the total size of the backup and the size of all created/modified files.
 /// Using `u64` is sufficient for several exabytes.
-pub fn calculate(config: &config::Backup, communication: &Communication) -> Option<SizeEstimate> {
+pub fn calculate(
+    config: &config::Backup,
+    communication: &Communication<task::Create>,
+) -> Option<SizeEstimate> {
     debug!("Estimating backup size");
 
     // datetime of last completed backup
@@ -74,7 +77,7 @@ pub fn calculate(config: &config::Backup, communication: &Communication) -> Opti
             // Ignore errors
             .flatten()
         {
-            if matches!(**communication.instruction.load(), Instruction::Abort) {
+            if matches!(**communication.instruction.load(), Instruction::Abort(_)) {
                 return None;
             }
 

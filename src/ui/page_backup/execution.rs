@@ -17,17 +17,6 @@ pub async fn start_backup(config: config::Backup) -> Result<()> {
 }
 
 async fn startup_backup(config: config::Backup) -> Result<()> {
-    let is_running_on_repo = BACKUP_COMMUNICATION.get().keys().any(|id| {
-        BACKUP_CONFIG
-            .load()
-            .get_result(id)
-            .map(|config| &config.repo_id)
-            == Ok(&config.repo_id)
-    });
-    if is_running_on_repo {
-        return Err(Message::short(gettext("Backup on repository already running.")).into());
-    }
-
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
@@ -40,19 +29,15 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
         .await?;
 
         trace!("User decided to unmount repo.");
-        borg::Borg::umount(&config.repo_id).err_to_msg(gettext("Failed to unmount repository."))?;
+        borg::functions::umount(&config.repo_id)
+            .err_to_msg(gettext("Failed to unmount repository."))?;
 
         ACTIVE_MOUNTS.update(|mounts| {
             mounts.remove(&config.repo_id);
         });
     }
 
-    let config_id = config.id.clone();
     let result = run_backup(config).await;
-
-    BACKUP_COMMUNICATION.update(|c| {
-        c.remove(&config_id);
-    });
 
     // Direct visual feedback
     display::refresh_status();
@@ -61,17 +46,15 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
 }
 
 async fn run_backup(config: config::Backup) -> Result<()> {
-    let communication: borg::Communication = Default::default();
-
-    BACKUP_COMMUNICATION.update(|x| {
-        x.insert(config.id.clone(), communication.clone());
-    });
     display::refresh_status();
 
     BACKUP_HISTORY.update(|history| {
         history.set_running(config.id.clone());
     });
     ui::write_config()?;
+
+    let command = borg::Command::<borg::task::Create>::new(config.clone());
+    let communication = command.communication.clone();
 
     // estimate backup size if not running in background
     if crate::ui::app_window::is_displayed() {
@@ -82,19 +65,8 @@ async fn run_backup(config: config::Backup) -> Result<()> {
         });
     }
 
-    let config = crate::ui::dialog_device_missing::updated_config(
-        config.clone(),
-        &gettext("Create new Backup"),
-    )
-    .await?;
-
     // execute backup
-    let result = ui::utils::borg::exec(
-        gettext("Creating new backup"),
-        config.clone(),
-        enclose!((communication) move |borg| borg.create(communication)),
-    )
-    .await;
+    let result = ui::utils::borg::exec__(command).await;
 
     let result = result.into_borg_error()?;
 
@@ -108,7 +80,10 @@ async fn run_backup(config: config::Backup) -> Result<()> {
         },
     };
 
-    let message_history = communication.status.load().all_combined_message_history();
+    let message_history = communication
+        .general_info
+        .load()
+        .all_combined_message_history();
 
     let run_info = history::RunInfo::new(&config, outcome, message_history);
 
