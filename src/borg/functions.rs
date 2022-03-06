@@ -14,7 +14,7 @@ pub struct Command<T: Task> {
 }
 
 #[async_trait]
-pub trait CommandRun<T: Task>: Clone + BorgBasics + BorgRunConfig {
+pub trait CommandRun<T: Task>: Clone + BorgRunConfig {
     async fn run(self) -> Result<T::Return>;
 }
 
@@ -170,12 +170,12 @@ impl CommandRun<task::Create> for Command<task::Create> {
 }
 
 #[derive(Clone)]
-pub struct BorgOnlyRepo {
+pub struct CommandOnlyRepo {
     repo: config::Repository,
     pub password: Option<config::Password>,
 }
 
-pub trait BorgRunConfig {
+pub trait BorgRunConfig: Clone + Send + 'static {
     fn repo(&self) -> config::Repository;
     fn password(&self) -> Option<config::Password>;
     fn unset_password(&mut self);
@@ -215,7 +215,7 @@ impl<T: Task> BorgRunConfig for Command<T> {
     }
 }
 
-impl BorgRunConfig for BorgOnlyRepo {
+impl BorgRunConfig for CommandOnlyRepo {
     fn repo(&self) -> config::Repository {
         self.repo.clone()
     }
@@ -300,22 +300,16 @@ fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
     Ok(borg_call)
 }
 
-impl BorgOnlyRepo {
+/// Features that are available without complete backup config
+impl CommandOnlyRepo {
     pub fn new(repo: config::Repository) -> Self {
         Self {
             repo,
             password: None,
         }
     }
-}
 
-impl BorgBasics for BorgOnlyRepo {}
-impl<T: Task> BorgBasics for Command<T> {}
-
-/// Features that are available without complete backup config
-#[async_trait]
-pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
-    fn break_lock(&self) -> Result<()> {
+    pub fn break_lock(&self) -> Result<()> {
         let borg = BorgCall::new("break-lock")
             .add_basics_without_password(self)
             .output()?;
@@ -323,7 +317,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(())
     }
 
-    async fn peek(self) -> Result<List> {
+    pub async fn peek(self) -> Result<List> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
@@ -344,20 +338,7 @@ pub trait BorgBasics: BorgRunConfig + Sized + Clone + Send {
         Ok(json)
     }
 
-    async fn info(self, last: u64) -> Result<Vec<InfoArchive>> {
-        let borg = BorgCall::new("info")
-            .add_options(&["--json", &format!("--last={}", last)])
-            .add_basics(&self)?
-            .output()?;
-
-        check_stderr(&borg)?;
-
-        let json: Info = serde_json::from_slice(&borg.stdout)?;
-
-        Ok(json.archives)
-    }
-
-    async fn init(self) -> Result<List> {
+    pub async fn init(self) -> Result<List> {
         let borg = BorgCall::new("init")
             .add_options(&["--encryption=repokey"])
             .add_basics(&self)?

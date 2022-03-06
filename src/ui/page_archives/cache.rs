@@ -22,7 +22,7 @@ pub async fn refresh_archives(config: config::Backup) -> Result<()> {
     }
     display::ui_update_archives_spinner();
 
-    let result = ui::utils::borg::exec__(borg::Command::<borg::task::List>::new(config.clone()))
+    let result = ui::utils::borg::exec(borg::Command::<borg::task::List>::new(config.clone()))
         .await
         .into_message(gettext("Failed to refresh archives cache."));
 

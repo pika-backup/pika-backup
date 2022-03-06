@@ -66,7 +66,7 @@ async fn run_backup(config: config::Backup) -> Result<()> {
     }
 
     // execute backup
-    let result = ui::utils::borg::exec__(command).await;
+    let result = ui::utils::borg::exec(command).await;
 
     let result = result.into_borg_error()?;
 

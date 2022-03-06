@@ -117,19 +117,18 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogSetup>) -> Result<(
         .into());
     }
 
-    let mut borg = borg::BorgOnlyRepo::new(repo.clone());
+    let mut borg = borg::CommandOnlyRepo::new(repo.clone());
     let password = config::Password::new(ui.password().text().to_string());
     if encrypted {
         borg.set_password(password.clone());
     }
 
-    let info = ui::utils::borg::only_repo_suggest_store(
-        &gettext("Creating backup repository"),
-        borg,
-        |borg| borg.init(),
-    )
-    .await
-    .into_message("Failed to initialize repository.")?;
+    let info =
+        ui::utils::borg::exec_repo_only(&gettext("Creating Backup Repository"), borg, |borg| {
+            borg.init()
+        })
+        .await
+        .into_message("Failed to initialize repository.")?;
 
     let config = config::Backup::new(repo.clone(), info, encrypted);
 
@@ -157,18 +156,17 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
 
     let repo = ui.add_task().repo().unwrap();
 
-    let mut borg = borg::BorgOnlyRepo::new(repo.clone());
+    let mut borg = borg::CommandOnlyRepo::new(repo.clone());
 
     if !ui.ask_password().text().is_empty() {
         borg.password = Some(config::Password::new(ui.ask_password().text().to_string()));
     }
 
-    let result = ui::utils::borg::only_repo_suggest_store(
-        &gettext("Loading backup repository"),
-        borg,
-        |borg| borg.peek(),
-    )
-    .await;
+    let result =
+        ui::utils::borg::exec_repo_only(&gettext("Loading backup repository"), borg, |borg| {
+            borg.peek()
+        })
+        .await;
 
     if matches!(
         result,
@@ -200,7 +198,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
 
     ui.leaflet().set_visible_child(&ui.page_transfer());
 
-    let archives = ui::utils::borg::exec__(borg::Command::<borg::task::List>::new(config.clone()))
+    let archives = ui::utils::borg::exec(borg::Command::<borg::task::List>::new(config.clone()))
         .await
         .into_message(gettext("Failed"))?;
 

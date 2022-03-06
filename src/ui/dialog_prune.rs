@@ -10,7 +10,7 @@ use ui::builder::DialogPrune;
 
 pub async fn execute(config: config::Backup) -> Result<()> {
     let result =
-        ui::utils::borg::exec__(borg::Command::<borg::task::Prune>::new(config.clone())).await;
+        ui::utils::borg::exec(borg::Command::<borg::task::Prune>::new(config.clone())).await;
 
     if !matches!(
         result,
@@ -39,7 +39,7 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
     ui.dialog().present();
 
     let prune_info =
-        ui::utils::borg::exec__(borg::Command::<borg::task::PruneInfo>::new(config.clone()))
+        ui::utils::borg::exec(borg::Command::<borg::task::PruneInfo>::new(config.clone()))
             .await
             .into_message(gettext(
                 "Failed to determine how many archives would be deleted",
@@ -94,7 +94,7 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
         .store(Arc::new(borg::Instruction::Abort(borg::Abort::User))
         );} ));
 
-    let result = ui::utils::borg::exec__(command).await;
+    let result = ui::utils::borg::exec(command).await;
 
     if !matches!(
         result,

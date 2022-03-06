@@ -15,7 +15,7 @@ async fn simple_backup() {
 
     let config = config();
 
-    let init = borg::Command::<borg::task::List>::new(config.clone());
+    let init = borg::CommandOnlyRepo::new(config.repo.clone());
     assert_matches!(init.init().await, Ok(borg::List { .. }));
 
     let create = borg::Command::<borg::task::Create>::new(config);
@@ -26,7 +26,7 @@ async fn simple_backup() {
 async fn backup_communication() -> borg::Result<()> {
     let config = config();
 
-    let init = borg::Command::<borg::task::List>::new(config.clone());
+    let init = borg::CommandOnlyRepo::new(config.repo.clone());
     init.init().await?;
 
     let create = borg::Command::<borg::task::List>::new(config);
@@ -45,7 +45,7 @@ async fn encrypted_backup() {
     let mut config = config();
     config.encrypted = true;
 
-    let mut init = borg::Command::<borg::task::List>::new(config.clone());
+    let mut init = borg::CommandOnlyRepo::new(config.repo.clone());
     init.set_password(config::Password::new("x".into()));
 
     assert_matches!(init.init().await, Ok(borg::List { .. }));
@@ -63,7 +63,7 @@ async fn failed_ssh_connection() {
     let repo = config::remote::Repository::from_uri("ssh://backup.server.invalid/repo".to_string())
         .into_config();
 
-    let result = borg::BorgOnlyRepo::new(repo).peek().await;
+    let result = borg::CommandOnlyRepo::new(repo).peek().await;
     assert_matches!(
         result,
         Err(borg::Error::Failed(
@@ -76,9 +76,7 @@ async fn failed_ssh_connection() {
 #[async_std::test]
 async fn failed_repo() {
     init();
-    let result = borg::Command::<borg::task::List>::new(config())
-        .peek()
-        .await;
+    let result = borg::CommandOnlyRepo::new(config().repo).peek().await;
     assert_matches!(
         result,
         Err(borg::Error::Failed(

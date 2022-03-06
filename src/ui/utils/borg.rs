@@ -11,7 +11,7 @@ pub fn is_backup_running() -> bool {
     !BORG_OPERATION.with(|op| op.load().is_empty())
 }
 
-pub async fn exec__<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Return>
+pub async fn exec<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Return>
 where
     borg::Command<T>: borg::CommandRun<T>,
 {
@@ -48,16 +48,16 @@ where
     result
 }
 
-pub async fn only_repo_suggest_store<P: core::fmt::Display, F, R, V, B>(
+pub async fn exec_repo_only<P: core::fmt::Display, F, R, V>(
     name: P,
-    borg: B,
+    borg: borg::CommandOnlyRepo,
     task: F,
 ) -> CombinedResult<V>
 where
-    F: FnOnce(B) -> R + Send + Clone + 'static + Sync,
+    F: FnOnce(borg::CommandOnlyRepo) -> R + Send + Clone + 'static + Sync,
     R: Future<Output = borg::Result<V>>,
     V: Send + 'static,
-    B: borg::BorgBasics + 'static,
+    //B: borg::BorgBasics + 'static,
 {
     spawn_borg_thread(name, borg, task).await
 }
@@ -115,7 +115,7 @@ where
     F: FnOnce(B) -> R + Send + Clone + 'static + Sync,
     R: Future<Output = borg::Result<V>>,
     V: Send + 'static,
-    B: borg::BorgBasics + 'static,
+    B: borg::BorgRunConfig,
 {
     loop {
         let result = super::spawn_thread(
@@ -138,18 +138,22 @@ where
     }
 }
 
-async fn handle_lock<B: borg::BorgBasics + 'static>(borg: B) -> CombinedResult<()> {
+async fn handle_lock<B: borg::BorgRunConfig>(borg: B) -> CombinedResult<()> {
     ui::utils::ConfirmationDialog::new(
         &gettext("Repository already in use."),
-        &gettext("The backup repository is marked as already in use. This information can be outdated if, for example, the computer lost power while using the repository.\n\nOnly continue if it is certain that the repository is not used by any program! Continuing while another program uses the repository might corrupt backup data!"),
+        &(gettext("The backup repository is marked as already in use. This information can be outdated if, for example, the computer lost power while using the repository.")
+        + "\n\n"
+        + &gettext("Only continue if it is certain that the repository is not used by any program! Continuing while another program uses the repository might corrupt backup data!")),
         &gettext("Cancel"),
         &gettext("Continue Anyway"),
     )
     .set_destructive(true)
     .ask()
     .await?;
-    super::spawn_thread("borg_break_lock", move || borg.break_lock())
-        .await
-        .map_err(|_| borg::Error::ThreadPanicked)?
-        .map_err(Into::into)
+    super::spawn_thread("borg_break_lock", move || {
+        borg::CommandOnlyRepo::new(borg.repo()).break_lock()
+    })
+    .await
+    .map_err(|_| borg::Error::ThreadPanicked)?
+    .map_err(Into::into)
 }

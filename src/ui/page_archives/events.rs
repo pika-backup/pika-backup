@@ -41,7 +41,7 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
 
         main_ui().pending_menu().show();
         let mount =
-            ui::utils::borg::exec__(borg::Command::<borg::task::Mount>::new(config.clone())).await;
+            ui::utils::borg::exec(borg::Command::<borg::task::Mount>::new(config.clone())).await;
 
         if mount.is_err() {
             ACTIVE_MOUNTS.update(|mounts| {

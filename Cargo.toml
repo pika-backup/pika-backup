@@ -11,6 +11,7 @@ default-run = "pika-backup"
 [profile.release]
 lto = true
 codegen-units = 1
+strip = true
 
 [dependencies]
 async-std = { version = "1.10", features = ["attributes", "unstable"] }
@@ -42,7 +43,7 @@ serde_json = "1.0"
 # GNOME
 adw = { version = "0.1", package = "libadwaita" }
 glib = "*"
-gio = { version = "*", features = ["v2_54"] }
+gio = "*"
 gtk = { package = "gtk4", version = "0.4", features = ["v4_6"] }
 libsecret = "0.1"
 
