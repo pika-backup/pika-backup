@@ -89,10 +89,9 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
         ui.deleting_status().set_description(None);
     }));
 
-    ui.abort()
-        .connect_clicked(enclose!((communication) move |_| {communication.instruction
-        .store(Arc::new(borg::Instruction::Abort(borg::Abort::User))
-        );} ));
+    ui.abort().connect_clicked(enclose!((communication) move |_|
+        communication.set_instruction(borg::Instruction::Abort(borg::Abort::User))
+    ));
 
     let result = ui::utils::borg::exec(command).await;
 

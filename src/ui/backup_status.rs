@@ -45,9 +45,19 @@ impl Display {
             {
                 Self::from(last_run)
             } else {
-                Self::default()
+                Self::never_ran()
             }
         })
+    }
+
+    fn never_ran() -> Self {
+        Self {
+            title: gettext("Backup never ran"),
+            subtitle: Some(gettext("Start by creating your first backup")),
+            graphic: Graphic::WarningIcon("dialog-information-symbolic".to_string()),
+            progress: None,
+            stats: None,
+        }
     }
 }
 
@@ -96,7 +106,13 @@ impl From<&dyn ui::operation::OperationExt> for Display {
         if let Some(op_create) = op.try_as_create() {
             Self::from(op_create)
         } else {
-            Default::default()
+            Self {
+                title: op.name(),
+                subtitle: op.last_log().map(|x| x.to_string()),
+                graphic: Graphic::Spinner,
+                progress: None,
+                stats: None,
+            }
         }
     }
 }
@@ -170,18 +186,6 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
             graphic: Graphic::Spinner,
             progress,
             stats,
-        }
-    }
-}
-
-impl Default for Display {
-    fn default() -> Self {
-        Self {
-            title: gettext("Backup never ran"),
-            subtitle: Some(gettext("Start by creating your first backup")),
-            graphic: Graphic::WarningIcon("dialog-information-symbolic".to_string()),
-            progress: None,
-            stats: None,
         }
     }
 }

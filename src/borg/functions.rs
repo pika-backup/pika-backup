@@ -115,13 +115,6 @@ impl CommandRun<task::Prune> for Command<task::Prune> {
 #[async_trait]
 impl CommandRun<task::Create> for Command<task::Create> {
     async fn run(self) -> Result<Stats> {
-        // TODO: Delete old history because ... why?
-        /*
-                self.communication
-                    .info
-                    .update(move |info| info.message_history.push(Default::default()));
-        */
-
         let mut borg_call = BorgCall::new("create");
         borg_call
             .add_options(&["--progress", "--json"])
@@ -137,6 +130,10 @@ impl CommandRun<task::Create> for Command<task::Create> {
         let mut last_skipped = 0.;
         let mut last_copied = 0.;
         let mut last_time = std::time::Instant::now();
+
+        self.communication.specific_info.update(move |status| {
+            status.started = Some(chrono::Local::now());
+        });
 
         let mut log = self.communication.new_receiver();
 

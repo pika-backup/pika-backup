@@ -10,12 +10,11 @@ use super::task::Task;
 
 #[derive(Default, Debug, Clone)]
 pub struct Communication<T: Task> {
-    //pub status: Arc<ArcSwap<T::Status>>,
     pub general_info: Arc<ArcSwap<super::status::GeneralStatus>>,
     pub specific_info: Arc<ArcSwap<T::Info>>,
     pub status: Arc<ArcSwap<Status>>,
-    pub instruction: Arc<ArcSwap<Instruction>>,
-    pub sender: Arc<ArcSwap<Vec<channel::Sender<log_json::Output>>>>,
+    pub(in crate::borg) instruction: Arc<ArcSwap<Instruction>>,
+    sender: Arc<ArcSwap<Vec<channel::Sender<log_json::Output>>>>,
 }
 
 impl<T: Task> Communication<T> {

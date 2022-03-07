@@ -10,7 +10,6 @@ use glib::{Continue, SignalHandlerId};
 use std::any::Any;
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
-use std::sync::Arc;
 use std::time::{Duration, Instant};
 
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
@@ -97,10 +96,7 @@ impl<T: borg::Task> Operation<T> {
         if self.time_metered_exceeded() {
             info!("Stopping operation on metered connection now.");
             self.communication()
-                .instruction
-                .store(Arc::new(borg::Instruction::Abort(
-                    borg::Abort::MeteredConnection,
-                )));
+                .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));
         }
 
         Continue(true)
@@ -131,6 +127,7 @@ pub trait OperationExt {
     fn repo_id(&self) -> &borg::RepoId;
     fn set_instruction(&self, instruction: borg::Instruction);
     fn try_as_create(&self) -> Option<&Operation<borg::task::Create>>;
+    fn last_log(&self) -> Option<Rc<borg::log_json::Output>>;
 }
 
 impl<T: borg::Task> OperationExt for Operation<T> {
@@ -149,5 +146,9 @@ impl<T: borg::Task> OperationExt for Operation<T> {
 
     fn try_as_create(&self) -> Option<&Operation<borg::task::Create>> {
         self.any().downcast_ref()
+    }
+
+    fn last_log(&self) -> Option<Rc<borg::log_json::Output>> {
+        self.last_log()
     }
 }

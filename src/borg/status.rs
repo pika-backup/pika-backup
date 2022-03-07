@@ -11,14 +11,12 @@ pub struct GeneralStatus {
 
 #[derive(Default, Debug, Clone)]
 pub struct Status {
-    pub run: Run,
     pub estimated_size: Option<SizeEstimate>,
     pub started: Option<chrono::DateTime<chrono::Local>>,
     pub total: f64,
     pub copied: f64,
     pub stalled: bool,
     pub data_rate_history: DataRateHistory,
-    pub message_history: Vec<(LogCollection, LogCollection)>,
 }
 
 fn positive(n: f64) -> f64 {
