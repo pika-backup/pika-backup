@@ -88,7 +88,10 @@ impl<T: borg::Task> Operation<T> {
 
     fn check_output(&self, output: borg::log_json::Output) {
         // TODO call other stuff
-        self.last_log.replace(Some(Rc::new(output)));
+        if !output.to_string().is_empty() {
+            self.last_log.replace(Some(Rc::new(output)));
+        }
+
         ui::page_backup::refresh_status();
     }
 

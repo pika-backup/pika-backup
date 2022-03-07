@@ -385,7 +385,7 @@ impl BorgCall {
 
         debug!("Process terminated");
 
-        let result = if TypeId::of::<T>() == TypeId::of::<()>() {
+        let result = if TypeId::of::<S>() == TypeId::of::<()>() {
             serde_json::from_slice(b"null")
         } else {
             serde_json::from_slice(&output.stdout)

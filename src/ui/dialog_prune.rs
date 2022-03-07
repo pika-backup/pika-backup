@@ -1,5 +1,4 @@
 use adw::prelude::*;
-use async_std::prelude::*;
 
 use crate::borg;
 use crate::config;
@@ -73,27 +72,10 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
 }
 
 async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
-    ui.leaflet().set_visible_child(&ui.page_deleting());
+    ui.dialog().destroy();
 
-    let command = borg::Command::<borg::task::Prune>::new(config.clone());
-    let communication = command.communication.clone();
-
-    glib::MainContext::default().spawn_local(enclose!((ui, mut communication) async move {
-        let mut receiver = communication.new_receiver();
-        while let Some(log) = receiver.next().await {
-            let msg = log.to_string();
-            if !msg.is_empty() {
-               ui.deleting_status().set_description(Some(&msg));
-            }
-        }
-        ui.deleting_status().set_description(None);
-    }));
-
-    ui.abort().connect_clicked(enclose!((communication) move |_|
-        communication.set_instruction(borg::Instruction::Abort(borg::Abort::User))
-    ));
-
-    let result = ui::utils::borg::exec(command).await;
+    let result =
+        ui::utils::borg::exec(borg::Command::<borg::task::Prune>::new(config.clone())).await;
 
     if !matches!(
         result,

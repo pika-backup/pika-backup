@@ -691,16 +691,8 @@ impl DialogPrune {
         })
     }
 
-    pub fn abort(&self) -> gtk::Button {
-        self.get("abort")
-    }
-
     pub fn delete(&self) -> gtk::Button {
         self.get("delete")
-    }
-
-    pub fn deleting_status(&self) -> adw::StatusPage {
-        self.get("deleting_status")
     }
 
     pub fn dialog(&self) -> adw::Window {
@@ -717,10 +709,6 @@ impl DialogPrune {
 
     pub fn page_decision(&self) -> gtk::Box {
         self.get("page_decision")
-    }
-
-    pub fn page_deleting(&self) -> gtk::Box {
-        self.get("page_deleting")
     }
 
     pub fn prune(&self) -> gtk::Label {
