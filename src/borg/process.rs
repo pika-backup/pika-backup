@@ -391,7 +391,15 @@ impl BorgCall {
             serde_json::from_slice(&output.stdout)
         };
 
-        if output.status.success() {
+        // borg also returns >0 for warnings, therefore check messages
+        if output.status.success()
+            || communication
+                .general_info
+                .load()
+                .last_combined_message_history()
+                .max_log_level()
+                < Some(log_json::LogLevel::Error)
+        {
             Ok(result?)
         } else if let Ok(err) = Error::try_from(
             communication
