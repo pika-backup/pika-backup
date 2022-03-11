@@ -44,8 +44,10 @@ Outside of GNOME Builder the flatpak manifests depend on the generated `generate
 The log level can be adjusted by setting the `G_MESSAGES_DEBUG` to `all`. For example
 
 ```sh
-$ G_MESSAGES_DEBUG=all cargo run
+$ G_MESSAGES_PREFIXED="" G_MESSAGES_DEBUG=all cargo run
 ```
+
+Currently, `pika-backup` and `pika-backup-trace` are used as logging domains. You can use `G_MESSAGES_DEBUG=pika-backup` to get debug, but no trace output.
 
 See ["Running GLib Applications"](https://developer.gnome.org/glib/stable/glib-running.html) for more options.
 

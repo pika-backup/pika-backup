@@ -123,34 +123,42 @@ where
 #[macro_export]
 macro_rules! error {
     ($($arg:tt)+) => (
-        glib::g_log!(module_path!(), glib::LogLevel::Critical, $($arg)+)
+        generic!("", glib::LogLevel::Critical, $($arg)+)
     )
 }
 
 #[macro_export]
 macro_rules! warn {
     ($($arg:tt)+) => (
-        glib::g_log!(module_path!(), glib::LogLevel::Warning, $($arg)+)
+        generic!("", glib::LogLevel::Warning, $($arg)+)
     )
 }
 
 #[macro_export]
 macro_rules! info {
     ($($arg:tt)+) => (
-        glib::g_log!(module_path!(), glib::LogLevel::Info, $($arg)+)
+        generic!("", glib::LogLevel::Info, $($arg)+)
     )
 }
 
 #[macro_export]
 macro_rules! debug {
     ($($arg:tt)+) => (
-        glib::g_log!(module_path!(), glib::LogLevel::Debug, $($arg)+)
+        generic!("", glib::LogLevel::Debug, $($arg)+)
     )
 }
 
 #[macro_export]
 macro_rules! trace {
     ($($arg:tt)+) => (
-        glib::g_log!(module_path!(), glib::LogLevel::Debug, $($arg)+)
+        generic!("-trace", glib::LogLevel::Debug, $($arg)+)
+    )
+}
+
+#[macro_export]
+macro_rules! generic {
+    ($suffix:tt, $level:expr, $($arg:tt)*) => (
+        let domain = env!("CARGO_PKG_NAME").to_string() + $suffix;
+        glib::g_log!(domain.as_str(), $level, "{}:{}:0: {}", file!(), line!(), format!($($arg)+))
     )
 }
