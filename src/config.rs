@@ -343,7 +343,7 @@ impl Repository {
             Self::Local(local) => local
                 .uri
                 .as_ref()
-                .and_then(|x| glib::Uri::parse(&x, glib::UriFlags::NONE).ok())
+                .and_then(|x| glib::Uri::parse(x, glib::UriFlags::NONE).ok())
                 .and_then(|x| x.host()),
             Self::Remote(remote) => glib::Uri::parse(&remote.uri, glib::UriFlags::NONE)
                 .ok()
