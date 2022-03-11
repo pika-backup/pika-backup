@@ -24,6 +24,7 @@ pub struct Operation<T: borg::Task> {
 }
 
 impl<T: borg::Task> Operation<T> {
+    /// Globally register a running borg command
     pub fn register(command: borg::Command<T>) -> Rc<dyn OperationExt> {
         let process = Rc::new(Self {
             //battery_since: Cell::new(None),
@@ -59,7 +60,10 @@ impl<T: borg::Task> Operation<T> {
 
         glib::source::timeout_add_local(
             POLL_INTERVAL,
-            glib::clone!(@weak process => @default-return Continue(false), move || process.check()),
+            glib::clone!(@weak process => @default-return Continue(false), move || {
+                glib::MainContext::default().spawn_local(Self::check(process));
+                glib::Continue(true)
+            }),
         );
 
         BORG_OPERATION.with(enclose!((process) move |operations| {
@@ -95,14 +99,16 @@ impl<T: borg::Task> Operation<T> {
         ui::page_backup::refresh_status();
     }
 
-    fn check(&self) -> Continue {
-        if self.time_metered_exceeded() {
+    async fn check(self_: Rc<Self>) {
+        // TODO: check if scheduled backup
+        if self_.time_metered_exceeded()
+            && self_.command.config.repo.is_host_local().await == Some(false)
+        {
             info!("Stopping operation on metered connection now.");
-            self.communication()
+            self_
+                .communication()
                 .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));
         }
-
-        Continue(true)
     }
 
     pub fn time_metered_exceeded(&self) -> bool {

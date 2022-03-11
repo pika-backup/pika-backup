@@ -24,7 +24,7 @@ pub async fn show_page() -> Result<()> {
             .schedule_active()
             .unblock_signal(&init::SCHEDULE_ACTIVE_SIGNAL_HANDLER);
 
-        update_status(config);
+        update_status(config).await;
 
         match config.schedule.frequency {
             config::Frequency::Hourly => main_ui().schedule_frequency().set_selected(0),
@@ -71,7 +71,7 @@ pub async fn show_page() -> Result<()> {
 pub async fn network_changed() -> Result<()> {
     debug!("Network changed");
     if super::is_visible() {
-        update_status(BACKUP_CONFIG.load().active()?);
+        update_status(BACKUP_CONFIG.load().active()?).await;
     }
     Ok(())
 }
@@ -94,8 +94,8 @@ fn update_prune_details(config: &config::Backup) {
         .set_value(config.prune.keep.yearly as f64);
 }
 
-fn update_status(config: &config::Backup) {
-    let status = super::status::Status::new(config);
+async fn update_status(config: &config::Backup) {
+    let status = super::status::Status::new(config).await;
 
     main_ui()
         .schedule_status()
@@ -190,7 +190,7 @@ pub async fn frequency_change() -> Result<()> {
         }
     ))?;
 
-    update_status(BACKUP_CONFIG.load().active()?);
+    update_status(BACKUP_CONFIG.load().active()?).await;
     ui::write_config()
 }
 
@@ -200,7 +200,7 @@ pub async fn preferred_time_close() -> Result<()> {
         Ok(())
     })?;
 
-    update_status(BACKUP_CONFIG.load().active()?);
+    update_status(BACKUP_CONFIG.load().active()?).await;
     ui::write_config()
 }
 
@@ -224,7 +224,7 @@ pub async fn preferred_weekday_change() -> Result<()> {
         Ok(())
     })?;
 
-    update_status(BACKUP_CONFIG.load().active()?);
+    update_status(BACKUP_CONFIG.load().active()?).await;
     ui::write_config()
 }
 
@@ -240,7 +240,7 @@ pub async fn preferred_day_change() -> Result<()> {
         Ok(())
     })?;
 
-    update_status(BACKUP_CONFIG.load().active()?);
+    update_status(BACKUP_CONFIG.load().active()?).await;
     ui::write_config()
 }
 
@@ -266,7 +266,7 @@ pub async fn active_change() -> Result<()> {
         Ok(())
     })?;
 
-    update_status(BACKUP_CONFIG.load().active()?);
+    update_status(BACKUP_CONFIG.load().active()?).await;
     ui::write_config()?;
 
     if active {

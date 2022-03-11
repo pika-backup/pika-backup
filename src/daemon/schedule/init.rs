@@ -30,7 +30,7 @@ fn minutely() -> glib::Continue {
 
     for config in BACKUP_CONFIG.load().iter() {
         if config.schedule.enabled {
-            probe(config);
+            glib::MainContext::default().block_on(probe(config));
         }
     }
     track_activity();
@@ -54,13 +54,13 @@ fn track_activity() {
     super::status::write();
 }
 
-fn probe(config: &config::Backup) {
+async fn probe(config: &config::Backup) {
     let schedule = &config.schedule;
     debug!("---");
     debug!("Probing backup: {}", config.repo);
     debug!("Frequency: {:?}", schedule.frequency);
 
-    let global = requirements::Global::check(config, BACKUP_HISTORY.load().as_ref());
+    let global = requirements::Global::check(config, BACKUP_HISTORY.load().as_ref()).await;
     let due = requirements::Due::check(config, BACKUP_HISTORY.load().as_ref());
 
     if !global.is_empty() || due.is_err() {

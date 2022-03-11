@@ -160,57 +160,60 @@ fn rebuild_list() {
 }
 
 pub fn refresh_status() {
-    for config in BACKUP_CONFIG.load().iter() {
-        ROWS.with(|rows| {
-            if let Ok(rows) = rows.try_read() {
-                if let Some(row) = rows.get(&config.id) {
-                    let status = ui::backup_status::Display::new_from_id(&config.id);
+    glib::MainContext::default().spawn_local(async move {
+        for config in BACKUP_CONFIG.load().iter() {
+            let scheudle_status = ui::page_schedule::status::Status::new(config).await;
+            ROWS.with(move |rows| {
+                if let Ok(rows) = rows.try_read() {
+                    if let Some(row) = rows.get(&config.id) {
+                        let status = ui::backup_status::Display::new_from_id(&config.id);
 
-                    row.status()
-                        .set_title(&glib::markup_escape_text(&status.title));
+                        row.status()
+                            .set_title(&glib::markup_escape_text(&status.title));
 
-                    row.status().set_subtitle(&glib::markup_escape_text(
-                        &status.subtitle.unwrap_or_default(),
-                    ));
+                        row.status().set_subtitle(&glib::markup_escape_text(
+                            &status.subtitle.unwrap_or_default(),
+                        ));
 
-                    match &status.graphic {
-                        ui::backup_status::Graphic::OkIcon(icon) => {
-                            row.status_icon().set_ok();
-                            row.status_icon().set_icon_name(icon);
+                        match &status.graphic {
+                            ui::backup_status::Graphic::OkIcon(icon) => {
+                                row.status_icon().set_ok();
+                                row.status_icon().set_icon_name(icon);
 
-                            row.status_graphic().set_visible_child(&row.status_icon());
+                                row.status_graphic().set_visible_child(&row.status_icon());
+                            }
+
+                            ui::backup_status::Graphic::WarningIcon(icon) => {
+                                row.status_icon().set_warning();
+                                row.status_icon().set_icon_name(icon);
+
+                                row.status_graphic().set_visible_child(&row.status_icon());
+                            }
+                            ui::backup_status::Graphic::ErrorIcon(icon) => {
+                                row.status_icon().set_error();
+                                row.status_icon().set_icon_name(icon);
+
+                                row.status_graphic().set_visible_child(&row.status_icon());
+                            }
+                            ui::backup_status::Graphic::Spinner => {
+                                row.status_graphic()
+                                    .set_visible_child(&row.status_spinner());
+                            }
                         }
 
-                        ui::backup_status::Graphic::WarningIcon(icon) => {
-                            row.status_icon().set_warning();
-                            row.status_icon().set_icon_name(icon);
+                        // schedule status
 
-                            row.status_graphic().set_visible_child(&row.status_icon());
-                        }
-                        ui::backup_status::Graphic::ErrorIcon(icon) => {
-                            row.status_icon().set_error();
-                            row.status_icon().set_icon_name(icon);
-
-                            row.status_graphic().set_visible_child(&row.status_icon());
-                        }
-                        ui::backup_status::Graphic::Spinner => {
-                            row.status_graphic()
-                                .set_visible_child(&row.status_spinner());
-                        }
+                        row.schedule()
+                            .set_title(&glib::markup_escape_text(&scheudle_status.main.title));
+                        row.schedule().set_subtitle(&glib::markup_escape_text(
+                            &scheudle_status.main.subtitle,
+                        ));
+                        row.schedule_icon()
+                            .set_icon_name(&scheudle_status.main.icon_name);
+                        row.schedule_icon().set_level(scheudle_status.main.level);
                     }
-
-                    // schedule status
-
-                    let status = ui::page_schedule::status::Status::new(config);
-
-                    row.schedule()
-                        .set_title(&glib::markup_escape_text(&status.main.title));
-                    row.schedule()
-                        .set_subtitle(&glib::markup_escape_text(&status.main.subtitle));
-                    row.schedule_icon().set_icon_name(&status.main.icon_name);
-                    row.schedule_icon().set_level(status.main.level);
                 }
-            }
-        });
-    }
+            })
+        }
+    });
 }

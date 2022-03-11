@@ -59,7 +59,7 @@ pub enum Global {
 
 impl Global {
     /// If any it returns the first requirement that is violated
-    pub fn check(config: &config::Backup, histories: &config::Histories) -> Vec<Self> {
+    pub async fn check(config: &config::Backup, histories: &config::Histories) -> Vec<Self> {
         let mut vec = Vec::new();
 
         let running_backup = histories
@@ -79,7 +79,9 @@ impl Global {
             }
         }
 
-        if config.repo.is_network() && gio::NetworkMonitor::default().is_network_metered() {
+        if gio::NetworkMonitor::default().is_network_metered()
+            && config.repo.is_host_local().await == Some(false)
+        {
             vec.push(Self::MeteredConnection)
         }
 

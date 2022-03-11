@@ -338,6 +338,35 @@ pub enum Repository {
 }
 
 impl Repository {
+    pub fn host(&self) -> Option<glib::GString> {
+        match self {
+            Self::Local(local) => local
+                .uri
+                .as_ref()
+                .and_then(|x| glib::Uri::parse(&x, glib::UriFlags::NONE).ok())
+                .and_then(|x| x.host()),
+            Self::Remote(remote) => glib::Uri::parse(&remote.uri, glib::UriFlags::NONE)
+                .ok()
+                .and_then(|x| x.host()),
+        }
+    }
+
+    pub async fn host_address(&self) -> Option<gio::InetAddress> {
+        if let Some(host) = self.host() {
+            gio::Resolver::default()
+                .lookup_by_name_future(&host)
+                .await
+                .ok()
+                .and_then(|x| x.first().cloned())
+        } else {
+            None
+        }
+    }
+
+    pub async fn is_host_local(&self) -> Option<bool> {
+        self.host_address().await.map(|x| x.is_site_local())
+    }
+
     pub fn icon(&self) -> String {
         match self {
             Self::Local(local) => local.icon.clone().unwrap_or_else(|| String::from("folder")),
