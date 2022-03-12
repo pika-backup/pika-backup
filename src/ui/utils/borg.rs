@@ -6,9 +6,18 @@ use borg::task::Task;
 use std::future::Future;
 use ui::error::Combined;
 
+// TODO: this does no really check for backups
 /// checks if there is any running backup
 pub fn is_backup_running() -> bool {
     !BORG_OPERATION.with(|op| op.load().is_empty())
+}
+
+#[async_std::test]
+async fn test_exec_operation_register() {
+    let command = borg::Command::<borg::task::List>::new(crate::config::Backup::test_new_mock());
+    assert!(!is_backup_running());
+    assert!(exec(command.clone()).await.is_err());
+    assert!(!is_backup_running());
 }
 
 pub async fn exec<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Return>

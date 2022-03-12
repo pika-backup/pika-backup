@@ -21,22 +21,22 @@ macro_rules! data_dir {
     };
 }
 
-macro_rules! application_id {
-    () => {
-        include_str!(concat!(data_dir!(), "/APPLICATION_ID"))
-    };
-}
+const UNPREFIXED_APP_ID: &str = include_str!(concat!(data_dir!(), "/APPLICATION_ID"));
 
-pub fn app_id() -> String {
+fn app_id() -> String {
     format!(
         "{}{}",
-        application_id!(),
+        UNPREFIXED_APP_ID,
         option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
     )
 }
 
-pub fn daemon_app_id() -> String {
-    format!("{}.Daemon", app_id())
+fn daemon_app_id() -> String {
+    format!(
+        "{}.Daemon{}",
+        UNPREFIXED_APP_ID,
+        option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
+    )
 }
 
 mod action;

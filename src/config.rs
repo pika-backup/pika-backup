@@ -143,6 +143,25 @@ impl Backup {
         }
     }
 
+    #[cfg(test)]
+    pub fn test_new_mock() -> Backup {
+        let info = borg::List {
+            archives: vec![],
+            encryption: borg::Encryption {
+                mode: String::from("none"),
+                keyfile: None,
+            },
+            repository: borg::Repository {
+                id: fake_repo_id(),
+                last_modified: chrono::MIN_DATETIME.naive_utc(),
+                location: std::path::PathBuf::new(),
+            },
+        };
+        let repo =
+            local::Repository::from_path(std::path::PathBuf::from("/tmp/INVALID")).into_config();
+        Backup::new(repo, info, false)
+    }
+
     pub fn include_dirs(&self) -> BTreeSet<path::PathBuf> {
         let mut dirs = BTreeSet::new();
 
