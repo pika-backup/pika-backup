@@ -23,6 +23,7 @@ mod error;
 mod export;
 mod operation;
 // TODO: this should not be global
+mod dbus;
 pub mod globals;
 mod headerbar;
 mod page_archives;
@@ -114,6 +115,7 @@ fn on_startup(_app: &gtk::Application) {
 
     init_actions();
     init_timeouts();
+    ui::dbus::init();
 
     ui::app_window::init();
     ui::headerbar::init();

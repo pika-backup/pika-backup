@@ -27,8 +27,7 @@ pub fn mount_uuid(mount: &gio::Mount) -> Option<String> {
 }
 
 pub async fn listen_remote_app_running(app_id: &str, update: fn(bool)) -> Result<(), zbus::Error> {
-    let conn = zbus::Connection::session().await?;
-    let proxy = zbus::fdo::DBusProxy::new(&conn).await?;
+    let proxy = zbus::fdo::DBusProxy::new(&ZBUS_SESSION).await?;
 
     let has_owner = proxy.name_has_owner(app_id.try_into().unwrap()).await?;
     update(has_owner);

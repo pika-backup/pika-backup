@@ -31,6 +31,18 @@ fn app_id() -> String {
     )
 }
 
+fn dbus_api_name() -> String {
+    format!(
+        "{}{}.Api",
+        UNPREFIXED_APP_ID,
+        option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
+    )
+}
+
+fn dbus_api_path() -> String {
+    format!("/{}", app_id().replace('.', "/"))
+}
+
 fn daemon_app_id() -> String {
     format!(
         "{}.Daemon{}",

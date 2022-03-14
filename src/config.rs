@@ -27,7 +27,9 @@ use zeroize::Zeroizing;
 /// Compatibility config version
 pub const VERSION: u16 = 2;
 
-#[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
+#[derive(
+    Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq, zbus::zvariant::Type,
+)]
 pub struct ConfigId(String);
 
 impl ConfigId {

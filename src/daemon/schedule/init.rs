@@ -1,13 +1,11 @@
 /*!
 # Daemon initialization
 */
-
-use super::requirements;
+use crate::daemon::prelude::*;
 
 use crate::config;
-
-use crate::daemon::prelude::*;
-use crate::daemon::utils;
+use crate::daemon::dbus;
+use crate::daemon::schedule::requirements;
 
 use gio::prelude::*;
 
@@ -22,7 +20,10 @@ thread_local!(
 pub fn init() {
     super::status::load();
 
-    glib::timeout_add_seconds(60, minutely);
+    glib::timeout_add_seconds(
+        crate::daemon::schedule::SCHEDULE_PROBE_FREQUENCY.as_secs() as u32,
+        minutely,
+    );
 }
 
 fn minutely() -> glib::Continue {
@@ -68,10 +69,9 @@ async fn probe(config: &config::Backup) {
         debug!("Global requirement: {:?}", global);
         debug!("Due requirement: {:?}", due);
     } else {
-        info!("Trying to start backup '{}'", config.id);
-        utils::forward_action(
-            &crate::action::backup_start(),
-            Some(&config.id.to_variant()),
-        );
+        info!("Trying to start backup {:?}", config.id);
+        dbus::PikaBackup::start_scheduled_backup(&config.id)
+            .await
+            .handle(gettext("Failed to start scheduled backup"));
     }
 }

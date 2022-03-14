@@ -81,8 +81,7 @@ pub async fn background_permission() -> Result<()> {
 
     if !ashpd::is_sandboxed() {
         // start
-        let conn = zbus::Connection::session().await.err_to_msg(&generic_msg)?;
-        let proxy = zbus::fdo::DBusProxy::new(&conn)
+        let proxy = zbus::fdo::DBusProxy::new(&ZBUS_SESSION)
             .await
             .err_to_msg(&generic_msg)?;
 

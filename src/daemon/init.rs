@@ -1,4 +1,3 @@
-use crate::action;
 use crate::config;
 use crate::config::ConfigType;
 use crate::config::Loadable;
@@ -24,13 +23,6 @@ fn on_startup(_app: &gio::Application) {
     HISTORY_MONITOR.with(|_| {});
 
     load_config().handle("Initial config load failed");
-
-    let action = crate::action::backup_start();
-    action.connect_activate(daemon::utils::redirect_action(vec![
-        action::backup_show(),
-        action::backup_start(),
-    ]));
-    gio_app().add_action(&action);
 
     daemon::connect::init::init();
     daemon::schedule::init::init();
