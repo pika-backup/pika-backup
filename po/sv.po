@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-07 00:57+0000\n"
-"PO-Revision-Date: 2022-03-08 10:36+0100\n"
+"POT-Creation-Date: 2022-03-14 15:29+0000\n"
+"PO-Revision-Date: 2022-03-14 19:10+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -126,7 +126,7 @@ msgstr ""
 "Krypterade säkerhetskopior för datasäkerhet: du kan skydda data i dina "
 "säkerhetskopior med ett lösenord"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:213
+#: src/borg/error.rs:27 src/ui/utils.rs:212
 msgid "The operation terminated unexpectedly."
 msgstr "Åtgärden avbröts oväntat."
 
@@ -154,7 +154,7 @@ msgstr "Potentiellt internt fel."
 msgid "Connection closed by remote host."
 msgstr "Anslutning stängdes av fjärrvärd."
 
-#: src/borg/error.rs:152 src/ui/utils/borg.rs:143
+#: src/borg/error.rs:152 src/ui/utils/borg.rs:152
 msgid "Repository already in use."
 msgstr "Lagringsplats används redan."
 
@@ -307,7 +307,7 @@ msgstr "Avgör hur många arkiv som skulle raderas"
 msgid "Update Archive List"
 msgstr "Uppdaterar arkivlista"
 
-#: src/config.rs:403 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:453 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Fjärrlagring"
 
@@ -339,32 +339,36 @@ msgstr "{} på disken ”{}”"
 msgid "Run Backup"
 msgstr "Kör säkerhetskopia"
 
-#: src/ui.rs:190 src/ui/page_backup/events.rs:20
+#: src/daemon/schedule/init.rs:75
+msgid "Failed to start scheduled backup"
+msgstr "Misslyckades med att starta schemalagd säkerhetskopia"
+
+#: src/ui.rs:192 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Avbryt skapande av säkerhetskopia?"
 
-#: src/ui.rs:191 src/ui/page_backup/events.rs:21
+#: src/ui.rs:193 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Säkerhetskopian förblir ofullständig om den avbryts nu."
 
-#: src/ui.rs:192 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:194 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/ui.rs:193 src/ui/page_backup/events.rs:23
+#: src/ui.rs:195 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Avbryt"
 
-#: src/ui.rs:268
+#: src/ui.rs:270
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Misslyckades med att köra ”borg”. Är borg-backup installerat korrekt?"
 
-#: src/ui.rs:292
+#: src/ui.rs:294
 msgid "BorgBackup version too old"
 msgstr "BorgBackup-version för gammal"
 
-#: src/ui.rs:294
+#: src/ui.rs:296
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -372,11 +376,11 @@ msgstr ""
 "Den installerade versionen {} av BorgBackup är för gammal. Vissa funktioner "
 "som kräver version {}.{}.{} av borg-backup kommer inte att fungera."
 
-#: src/ui.rs:305
+#: src/ui.rs:307
 msgid "BorgBackup version too new"
 msgstr "BorgBackup-version för ny"
 
-#: src/ui.rs:307
+#: src/ui.rs:309
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -384,19 +388,19 @@ msgstr ""
 "Den installerade versionen {} av BorgBackup är för ny. Vissa funktioner som "
 "kräver version {}.{}.{} av borg-backup kommer inte att fungera."
 
-#: src/ui.rs:317
+#: src/ui.rs:319
 msgid "Cannot check borg-backup version"
 msgstr "Det går inte att kontrollera version av borg-backup"
 
-#: src/ui.rs:319
+#: src/ui.rs:321
 msgid "The installed version {} might not work."
 msgstr "Den installerade versionen {} kommer kanske inte att fungera."
 
-#: src/ui.rs:375
+#: src/ui.rs:377
 msgid "Could not load configuration file."
 msgstr "Kunde inte läsa in konfigurationsfil."
 
-#: src/ui.rs:391
+#: src/ui.rs:393
 msgid "Could not write configuration file."
 msgstr "Kunde inte skriva konfigurationsfil."
 
@@ -661,6 +665,11 @@ msgstr "Återansluter"
 msgid "Stopping backup"
 msgstr "Stoppar säkerhetskopiering"
 
+#: src/ui/dbus.rs:30
+msgid "Failed to spawn interface for scheduled backups."
+msgstr ""
+"Misslyckades med att starta gränssnitt för schemalagda säkerhetskopior."
+
 #: src/ui/dialog_about.rs:24
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
@@ -708,7 +717,7 @@ msgstr "Misslyckades med att montera."
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:156
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -1302,15 +1311,15 @@ msgstr ""
 msgid "Request to run in background failed"
 msgstr "Begäran att köra i bakgrunden misslyckades"
 
-#: src/ui/utils.rs:102
+#: src/ui/utils.rs:101
 msgid "Schedule backups and continue running backups."
 msgstr "Schemalägg säkerhetskopior och fortsätt köra säkerhetskopiering."
 
-#: src/ui/utils.rs:118
+#: src/ui/utils.rs:117
 msgid "Run in background disabled"
 msgstr "Körning i bakgrunden inaktiverat"
 
-#: src/ui/utils.rs:119
+#: src/ui/utils.rs:118
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1320,7 +1329,7 @@ msgstr ""
 "bakgrunden kommer inte att vara tillgängliga. Alternativet ”kör i "
 "bakgrunden” kan aktiveras via systeminställningarna."
 
-#: src/ui/utils.rs:129
+#: src/ui/utils.rs:128
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1330,23 +1339,23 @@ msgstr ""
 "inträffat. Schemalagd säkerhetskopiering och fortsatta säkerhetskopieringar "
 "i bakgrunden kommer inte att vara tillgängliga."
 
-#: src/ui/utils.rs:140
+#: src/ui/utils.rs:139
 msgid "Failed to start background process"
 msgstr "Misslyckades med att starta bakgrundsprocess"
 
-#: src/ui/utils.rs:207
+#: src/ui/utils.rs:206
 msgid "Failed to Create Thread"
 msgstr "Misslyckades med att skapa tråd"
 
-#: src/ui/utils.rs:221
+#: src/ui/utils.rs:220
 msgid "Select"
 msgstr "Välj"
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:40
 msgid "Repository already in use"
 msgstr "Lagringsplats används redan"
 
-#: src/ui/utils/borg.rs:144
+#: src/ui/utils/borg.rs:153
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1355,7 +1364,7 @@ msgstr ""
 "kan vara föråldrad om datorn exempelvis förlorade strömmen under tiden den "
 "använde lagringsplatsen."
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:155
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1365,7 +1374,7 @@ msgstr ""
 "program! Om du fortsätter medan ett annat program använder lagringsplatsen "
 "kan säkerhetskopieringsdata skadas!"
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:157
 msgid "Continue Anyway"
 msgstr "Fortsätt ändå"
 
