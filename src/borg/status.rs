@@ -6,6 +6,9 @@ use std::collections::VecDeque;
 pub struct GeneralStatus {
     pub run: Run,
     pub started: Option<chrono::DateTime<chrono::Local>>,
+    /// History per borg command execution. There can be multiple command
+    /// executions because of disconnects. The first entry stores early, the
+    // second late log messages.
     pub message_history: Vec<(LogCollection, LogCollection)>,
 }
 
@@ -31,20 +34,26 @@ impl GeneralStatus {
     pub const MESSAGE_HISTORY_LENGTH: usize = 50;
 
     pub fn add_message(&mut self, msg: &LogEntry) {
-        if let Some(history) = self.message_history.last_mut() {
-            if history.0.len() < Self::MESSAGE_HISTORY_LENGTH {
-                history.0.push(msg.clone());
-            } else if history.1.len() < Self::MESSAGE_HISTORY_LENGTH {
-                history.1.push(msg.clone());
+        let mut history = if let Some(h) = self.message_history.pop() {
+            h
+        } else {
+            Default::default()
+        };
+
+        if history.0.len() < Self::MESSAGE_HISTORY_LENGTH {
+            history.0.push(msg.clone());
+        } else if history.1.len() < Self::MESSAGE_HISTORY_LENGTH {
+            history.1.push(msg.clone());
+        } else {
+            if let Some(position) = history.1.iter().position(|x| x.level() < msg.level()) {
+                history.1.remove(position);
             } else {
-                if let Some(position) = history.1.iter().position(|x| x.level() < msg.level()) {
-                    history.1.remove(position);
-                } else {
-                    history.1.remove(0);
-                }
-                history.1.push(msg.clone());
+                history.1.remove(0);
             }
+            history.1.push(msg.clone());
         }
+
+        self.message_history.push(history);
     }
 
     pub fn runs_concat_message_history(&self) -> (LogCollection, LogCollection) {

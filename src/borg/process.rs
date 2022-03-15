@@ -270,6 +270,10 @@ impl BorgCall {
         let mut retried = false;
 
         loop {
+            // track separate history for each run
+            communication.general_info.update(|x| {
+                x.message_history.push(Default::default());
+            });
             let result = self.managed_process(communication.clone(), &sender).await;
             match &result {
                 Err(Error::Failed(ref failure)) if failure.is_connection_error() => {
@@ -362,7 +366,7 @@ impl BorgCall {
 
             unresponsive = Duration::ZERO;
 
-            debug!("borg output: {}", line);
+            trace!("borg output: {}", line);
 
             let msg = if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&line) {
                 if !matches!(communication.status(), Run::Running) {
@@ -391,15 +395,17 @@ impl BorgCall {
             serde_json::from_slice(&output.stdout)
         };
 
+        let max_log_level = dbg!(communication
+            .general_info
+            .load()
+            .last_combined_message_history())
+        .max_log_level();
+
+        debug!("Return code: {:?}", output.status.code());
+        debug!("Maximum log level entry: {:?}", max_log_level);
+
         // borg also returns >0 for warnings, therefore check messages
-        if output.status.success()
-            || communication
-                .general_info
-                .load()
-                .last_combined_message_history()
-                .max_log_level()
-                < Some(log_json::LogLevel::Error)
-        {
+        if output.status.success() || max_log_level < Some(log_json::LogLevel::Error) {
             Ok(result?)
         } else if let Ok(err) = Error::try_from(
             communication

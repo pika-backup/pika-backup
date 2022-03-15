@@ -12,19 +12,6 @@ pub fn is_backup_running() -> bool {
     !BORG_OPERATION.with(|op| op.load().is_empty())
 }
 
-#[async_std::test]
-async fn test_exec_operation_register() {
-    gtk::init().unwrap();
-
-    let mut config = crate::config::Backup::test_new_mock();
-    config.schedule.frequency = crate::config::Frequency::Hourly;
-
-    let command = borg::Command::<borg::task::List>::new(config).set_from_schedule(true);
-    assert!(!is_backup_running());
-    assert!(exec(command.clone()).await.is_err());
-    assert!(!is_backup_running());
-}
-
 pub async fn exec<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Return>
 where
     borg::Command<T>: borg::CommandRun<T>,
@@ -170,4 +157,17 @@ async fn handle_lock<B: borg::BorgRunConfig>(borg: B) -> CombinedResult<()> {
     .await
     .map_err(|_| borg::Error::ThreadPanicked)?
     .map_err(Into::into)
+}
+
+#[async_std::test]
+async fn test_exec_operation_register() {
+    gtk::init().unwrap();
+
+    let mut config = crate::config::Backup::test_new_mock();
+    config.schedule.frequency = crate::config::Frequency::Hourly;
+
+    let command = borg::Command::<borg::task::List>::new(config).set_from_schedule(true);
+    assert!(!is_backup_running());
+    assert!(exec(command.clone()).await.is_err());
+    assert!(!is_backup_running());
 }

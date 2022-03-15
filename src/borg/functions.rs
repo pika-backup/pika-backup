@@ -174,6 +174,17 @@ impl CommandRun<task::Create> for Command<task::Create> {
     }
 }
 
+#[async_std::test]
+async fn create_non_existent_location() {
+    let config = config::Backup::test_new_mock();
+
+    let result = Command::<task::Create>::new(config).run().await;
+    matches::assert_matches!(
+        result,
+        Err(error::Error::Failed(error::Failure::RepositoryDoesNotExist))
+    );
+}
+
 #[derive(Clone)]
 pub struct CommandOnlyRepo {
     repo: config::Repository,
