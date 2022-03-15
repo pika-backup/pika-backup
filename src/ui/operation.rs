@@ -108,11 +108,11 @@ impl<T: borg::Task> Operation<T> {
     }
 
     async fn check(self_: Rc<Self>) {
-        // TODO: check if scheduled backup
-        if self_.time_metered_exceeded()
+        if self_.command.from_schedule
+            && self_.time_metered_exceeded()
             && self_.command.config.repo.is_host_local().await == Some(false)
         {
-            info!("Stopping operation on metered connection now.");
+            info!("Stopping scheduled operation on metered connection now.");
             self_
                 .communication()
                 .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));

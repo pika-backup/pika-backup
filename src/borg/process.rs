@@ -395,11 +395,11 @@ impl BorgCall {
             serde_json::from_slice(&output.stdout)
         };
 
-        let max_log_level = dbg!(communication
+        let max_log_level = communication
             .general_info
             .load()
-            .last_combined_message_history())
-        .max_log_level();
+            .last_combined_message_history()
+            .max_log_level();
 
         debug!("Return code: {:?}", output.status.code());
         debug!("Maximum log level entry: {:?}", max_log_level);
