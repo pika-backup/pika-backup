@@ -115,7 +115,6 @@ fn on_startup(_app: &gtk::Application) {
     }
 
     init_actions();
-    init_timeouts();
     ui::dbus::init();
 
     ui::app_window::init();
@@ -150,30 +149,6 @@ fn on_startup(_app: &gtk::Application) {
 fn on_activate(_app: &gtk::Application) {
     debug!("Signal 'activate'");
     app_window::show();
-}
-
-fn init_timeouts() {
-    glib::timeout_add_local(Duration::from_secs(1), move || {
-        let inhibit_cookie = INHIBIT_COOKIE.get();
-
-        if utils::borg::is_backup_running() {
-            if inhibit_cookie.is_none() {
-                INHIBIT_COOKIE.update(|c| {
-                    *c = Some(gtk_app().inhibit(
-                        Some(&main_ui().window()),
-                        gtk::ApplicationInhibitFlags::LOGOUT
-                            | gtk::ApplicationInhibitFlags::SUSPEND,
-                        Some("Backup in Progress"),
-                    ))
-                });
-            }
-        } else if let Some(cookie) = inhibit_cookie {
-            gtk_app().uninhibit(cookie);
-            INHIBIT_COOKIE.update(|c| *c = None);
-        }
-
-        Continue(true)
-    });
 }
 
 async fn quit() -> Result<()> {

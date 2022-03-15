@@ -32,7 +32,7 @@ pub fn init() {
 
     Handler::run(async move {
         while let Some(config_id) = receiver.next().await {
-            ui::page_backup::activate_action_backup(config_id);
+            ui::page_backup::dbus_start_scheduled_backup(config_id);
         }
         Ok(())
     })

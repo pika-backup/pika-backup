@@ -5,6 +5,7 @@ use async_std::prelude::*;
 use ui::prelude::*;
 
 use crate::borg;
+use crate::config;
 use crate::ui;
 use glib::{Continue, SignalHandlerId};
 use std::any::Any;
@@ -21,6 +22,7 @@ pub struct Operation<T: borg::Task> {
     metered_since: Cell<Option<Instant>>,
     metered_signal_handler: Cell<Option<SignalHandlerId>>,
     last_log: RefCell<Option<Rc<borg::log_json::Output>>>,
+    inhibit_cookie: Cell<Option<u32>>,
 }
 
 impl<T: borg::Task> Operation<T> {
@@ -32,6 +34,7 @@ impl<T: borg::Task> Operation<T> {
             metered_since: Default::default(),
             metered_signal_handler: Default::default(),
             last_log: Default::default(),
+            inhibit_cookie: Default::default(),
         });
 
         process.metered_signal_handler.set(Some(
@@ -65,6 +68,11 @@ impl<T: borg::Task> Operation<T> {
                 glib::Continue(true)
             }),
         );
+
+        // prevent shutdown etc.
+        if process.is_application_inhibit() {
+            process.application_inhibit();
+        }
 
         BORG_OPERATION.with(enclose!((process) move |operations| {
             operations.update(|op| {
@@ -118,11 +126,39 @@ impl<T: borg::Task> Operation<T> {
             false
         }
     }
+
+    pub fn is_application_inhibit(&self) -> bool {
+        // Do not inhibit for hourly backups
+        !(self.command.from_schedule
+            && matches!(
+                self.command.config.schedule.frequency,
+                config::Frequency::Hourly
+            ))
+    }
+
+    /// Prevent shutdown as long as operation is in progress
+    fn application_inhibit(&self) {
+        let cookie = gtk_app().inhibit(
+            Some(&main_ui().window()),
+            gtk::ApplicationInhibitFlags::LOGOUT | gtk::ApplicationInhibitFlags::SUSPEND,
+            Some(&T::name()),
+        );
+
+        if cookie > 0 {
+            self.inhibit_cookie.set(Some(cookie));
+        } else {
+            warn!("Failed to set application inhibit.");
+        }
+    }
 }
 
 impl<T: borg::Task> Drop for Operation<T> {
     fn drop(&mut self) {
         debug!("Dropping operation tracking '{}'.", T::name());
+
+        if let Some(cookie) = self.inhibit_cookie.take() {
+            gtk_app().uninhibit(cookie);
+        }
 
         if let Some(handler) = self.metered_signal_handler.take() {
             gio::NetworkMonitor::default().disconnect(handler);

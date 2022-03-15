@@ -10,6 +10,7 @@ use utils::*;
 pub struct Command<T: Task> {
     pub config: config::Backup,
     pub communication: Communication<T>,
+    pub from_schedule: bool,
     password: Option<config::Password>,
 }
 
@@ -23,8 +24,15 @@ impl<T: Task> Command<T> {
         Self {
             config,
             communication: Communication::default(),
+            from_schedule: false,
             password: None,
         }
+    }
+
+    pub fn set_from_schedule(mut self, from_schedule: bool) -> Self {
+        self.from_schedule = from_schedule;
+
+        self
     }
 }
 

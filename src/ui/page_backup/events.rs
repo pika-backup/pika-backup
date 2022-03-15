@@ -35,7 +35,7 @@ pub async fn on_stop_backup_create() -> Result<()> {
 }
 
 pub async fn on_backup_run() -> Result<()> {
-    execution::start_backup(BACKUP_CONFIG.load().active()?.clone()).await
+    execution::start_backup(BACKUP_CONFIG.load().active()?.clone(), false).await
 }
 
 /// Returns a relative path for sub directories of home

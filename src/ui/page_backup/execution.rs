@@ -9,14 +9,14 @@ use crate::ui::prelude::*;
 
 use super::display;
 
-pub async fn start_backup(config: config::Backup) -> Result<()> {
+pub async fn start_backup(config: config::Backup, scheduled: bool) -> Result<()> {
     gtk_app().hold();
-    let result = startup_backup(config).await;
+    let result = startup_backup(config, scheduled).await;
     gtk_app().release();
     result
 }
 
-async fn startup_backup(config: config::Backup) -> Result<()> {
+async fn startup_backup(config: config::Backup, scheduled: bool) -> Result<()> {
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
@@ -37,7 +37,7 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
         });
     }
 
-    let result = run_backup(config).await;
+    let result = run_backup(config, scheduled).await;
 
     // Direct visual feedback
     display::refresh_status();
@@ -45,7 +45,7 @@ async fn startup_backup(config: config::Backup) -> Result<()> {
     result
 }
 
-async fn run_backup(config: config::Backup) -> Result<()> {
+async fn run_backup(config: config::Backup, scheduled: bool) -> Result<()> {
     display::refresh_status();
 
     BACKUP_HISTORY.update(|history| {
@@ -53,7 +53,8 @@ async fn run_backup(config: config::Backup) -> Result<()> {
     });
     ui::write_config()?;
 
-    let command = borg::Command::<borg::task::Create>::new(config.clone());
+    let command =
+        borg::Command::<borg::task::Create>::new(config.clone()).set_from_schedule(scheduled);
     let communication = command.communication.clone();
 
     // estimate backup size if not running in background

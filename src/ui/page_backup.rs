@@ -9,7 +9,13 @@ use crate::ui::prelude::*;
 
 pub fn activate_action_backup(id: ConfigId) {
     Handler::run(async move {
-        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone()).await
+        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone(), false).await
+    });
+}
+
+pub fn dbus_start_scheduled_backup(id: ConfigId) {
+    Handler::run(async move {
+        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone(), true).await
     });
 }
 

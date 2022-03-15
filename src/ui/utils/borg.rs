@@ -14,7 +14,12 @@ pub fn is_backup_running() -> bool {
 
 #[async_std::test]
 async fn test_exec_operation_register() {
-    let command = borg::Command::<borg::task::List>::new(crate::config::Backup::test_new_mock());
+    gtk::init().unwrap();
+
+    let mut config = crate::config::Backup::test_new_mock();
+    config.schedule.frequency = crate::config::Frequency::Hourly;
+
+    let command = borg::Command::<borg::task::List>::new(config).set_from_schedule(true);
     assert!(!is_backup_running());
     assert!(exec(command.clone()).await.is_err());
     assert!(!is_backup_running());
