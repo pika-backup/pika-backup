@@ -10,7 +10,7 @@ pub async fn check(
     let estimated_size = ui::utils::spawn_thread(
         "estimate_backup_size",
         enclose!((config, communication) move ||
-            borg::size_estimate::calculate(&config, &communication)
+            borg::size_estimate::calculate(&config, &BACKUP_HISTORY.load(), &communication)
         ),
     )
     .await

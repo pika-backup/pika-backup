@@ -5,7 +5,7 @@ use crate::daemon::prelude::*;
 
 use crate::config;
 use crate::daemon::dbus;
-use crate::daemon::schedule::requirements;
+use crate::schedule::requirements;
 
 use gio::prelude::*;
 

@@ -1,5 +1,6 @@
 use super::{ConfigType, Loadable};
 
+use crate::config;
 use arc_swap::ArcSwap;
 
 #[derive(Default)]
@@ -29,6 +30,21 @@ impl<C: Loadable + Clone> Loadable for Writeable<C> {
             current_config: config.clone(),
             written_config: config,
         })
+    }
+}
+
+impl<T, C: crate::utils::LookupConfigId<Item = T>> crate::utils::LookupConfigId for Writeable<C> {
+    type Item = T;
+
+    fn get_result_mut(
+        &mut self,
+        key: &config::ConfigId,
+    ) -> Result<&mut T, config::error::BackupNotFound> {
+        self.current_config.get_result_mut(key)
+    }
+
+    fn get_result(&self, key: &config::ConfigId) -> Result<&T, config::error::BackupNotFound> {
+        self.current_config.get_result(key)
     }
 }
 

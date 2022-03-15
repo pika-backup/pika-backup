@@ -4,7 +4,9 @@ mod error;
 mod globals;
 mod init;
 mod prelude;
-pub mod schedule;
+mod schedule;
+
+pub use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
 
 use gio::prelude::*;
 use prelude::*;

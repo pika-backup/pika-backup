@@ -18,10 +18,8 @@ pub static BACKUP_CONFIG: Lazy<ArcSwap<config::Writeable<config::Backups>>> =
 pub static BACKUP_HISTORY: Lazy<ArcSwap<config::Writeable<config::Histories>>> =
     Lazy::new(Default::default);
 
-//pub static BACKUP_COMMUNICATION: Lazy<ArcSwap<BTreeMap<ConfigId, borg::Communication>>> =
-//    Lazy::new(Default::default);
+pub static SCHEDULE_STATUS: Lazy<ArcSwap<config::ScheduleStatus>> = Lazy::new(Default::default);
 
-//pub static BACKUP_LOCK: Lazy<ArcSwap<BTreeMap<borg::RepoId, String>>> = Lazy::new(Default::default);
 pub static ACTIVE_BACKUP_ID: Lazy<ArcSwap<Option<ConfigId>>> = Lazy::new(Default::default);
 pub static INHIBIT_COOKIE: Lazy<ArcSwap<Option<u32>>> = Lazy::new(Default::default);
 

@@ -1,5 +1,5 @@
 use crate::config;
-use crate::daemon::schedule::requirements;
+use crate::schedule::requirements;
 use crate::ui::prelude::*;
 use crate::ui::utils::{StatusLevel, StatusRow};
 

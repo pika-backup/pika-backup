@@ -17,7 +17,7 @@ fn config(include: &[&str], exclude: &[Pattern]) -> config::Backup {
 }
 
 fn calc(config: &config::Backup) -> SizeEstimate {
-    calculate(config, &Default::default()).unwrap()
+    calculate(config, &config::Histories::default(), &Default::default()).unwrap()
 }
 
 fn total(path: &str) -> std::path::PathBuf {

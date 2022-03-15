@@ -37,12 +37,12 @@ impl Exclude {
 /// Using `u64` is sufficient for several exabytes.
 pub fn calculate(
     config: &config::Backup,
+    history: &config::history::Histories,
     communication: &Communication<task::Create>,
 ) -> Option<SizeEstimate> {
     debug!("Estimating backup size");
 
     // datetime of last completed backup
-    let history = crate::ui::globals::BACKUP_HISTORY.load();
     let last_run = history
         .get_result(&config.id)
         .ok()

@@ -56,5 +56,6 @@ pub mod borg;
 pub mod config;
 pub mod daemon;
 mod globals;
+mod schedule;
 pub mod ui;
 mod utils;

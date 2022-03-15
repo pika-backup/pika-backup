@@ -7,10 +7,13 @@ use crate::ui;
 use crate::ui::prelude::*;
 use config::ArcSwapWriteable;
 
+pub use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
+
 mod app_window;
 mod backup_status;
 #[allow(dead_code)]
 mod builder;
+mod dbus;
 mod dialog_about;
 mod dialog_device_missing;
 mod dialog_encryption_password;
@@ -21,11 +24,9 @@ mod dialog_shortcuts;
 mod dialog_storage;
 mod error;
 mod export;
-mod operation;
-// TODO: this should not be global
-mod dbus;
-pub mod globals;
+mod globals;
 mod headerbar;
+mod operation;
 mod page_archives;
 mod page_backup;
 mod page_detail;

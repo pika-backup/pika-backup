@@ -16,6 +16,24 @@ impl super::ConfigType for ScheduleStatus {
     }
 }
 
+impl crate::utils::LookupConfigId for ScheduleStatus {
+    type Item = Activity;
+
+    fn get_result_mut(
+        &mut self,
+        key: &config::ConfigId,
+    ) -> Result<&mut Activity, config::error::BackupNotFound> {
+        self.activity.get_result_mut(key)
+    }
+
+    fn get_result(
+        &self,
+        key: &config::ConfigId,
+    ) -> Result<&Activity, config::error::BackupNotFound> {
+        self.activity.get_result(key)
+    }
+}
+
 #[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Activity {
     pub used: std::time::Duration,
@@ -23,7 +41,7 @@ pub struct Activity {
 
 impl Activity {
     pub fn tick(&mut self) {
-        if self.used < crate::daemon::schedule::USED_THRESHOLD {
+        if self.used < crate::schedule::USED_THRESHOLD {
             self.used += std::time::Duration::from_secs(60);
         }
     }

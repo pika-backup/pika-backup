@@ -38,7 +38,7 @@ use chrono::prelude::*;
 use gio::prelude::*;
 
 use crate::config;
-use crate::daemon::prelude::*;
+use crate::prelude::*;
 
 /**
 Global requirements
@@ -66,15 +66,14 @@ impl Global {
             .iter()
             .filter(|(_, history)| history.running.is_some())
             .find(|(config_id, _)| {
-                BACKUP_CONFIG
-                    .load()
-                    .get_result(config_id)
-                    .map(|x| &x.repo_id)
-                    == Ok(&config.repo_id)
+                backup_config().get_result(config_id).map(|x| &x.repo_id) == Ok(&config.repo_id)
             });
 
         if let Some((running_config_id, _)) = running_backup {
-            if *running_config_id != config.id {
+            // TODO: Is this ever triggered?
+            if *running_config_id == config.id {
+                vec.push(Self::ThisBackupRunning)
+            } else {
                 vec.push(Self::OtherBackupRunning(running_config_id.clone()))
             }
         }
@@ -139,10 +138,8 @@ impl Due {
 
             let last_run_ago = chrono::Local::now() - last_run.end;
 
-            let activity = SCHEDULE_STATUS
-                .load()
-                .activity
-                .get(&config.id)
+            let activity = schedule_status()
+                .get_result(&config.id)
                 .map(|x| x.used)
                 .unwrap_or_default();
 
