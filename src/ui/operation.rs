@@ -146,7 +146,7 @@ impl<T: borg::Task> Operation<T> {
             info!("Stopping scheduled operation on battery now.");
             self_
                 .communication()
-                .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));
+                .set_instruction(borg::Instruction::Abort(borg::Abort::OnBattery));
         }
     }
 

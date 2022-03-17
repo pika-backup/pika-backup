@@ -94,7 +94,10 @@ impl std::fmt::Display for Outcome {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub enum Abort {
     User,
+    /// Too long on metered connection
     MeteredConnection,
+    /// Too long on battery
+    OnBattery,
     /// program probably crashed while running
     LeftRunning,
 }
@@ -107,6 +110,11 @@ impl std::fmt::Display for Abort {
                 f,
                 "{}",
                 gettext("Aborted because only metered connection was available.")
+            ),
+            Self::OnBattery => write!(
+                f,
+                "{}",
+                gettext("Aborted because too long not connected to power.")
             ),
             Self::LeftRunning => write!(f, "{}", gettext("Potential internal error.")),
         }
