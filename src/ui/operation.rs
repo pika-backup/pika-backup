@@ -14,11 +14,12 @@ use std::rc::Rc;
 use std::time::{Duration, Instant};
 
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
+const TIME_ON_BATTERY_ABORT: Duration = Duration::from_secs(20 * 60);
 const POLL_INTERVAL: Duration = Duration::from_secs(60);
 
 pub struct Operation<T: borg::Task> {
-    //battery_since: Rc<Cell<Option<Instant>>>,
     command: borg::Command<T>,
+    on_battery_since: Rc<Cell<Option<Instant>>>,
     metered_since: Cell<Option<Instant>>,
     metered_signal_handler: Cell<Option<SignalHandlerId>>,
     last_log: RefCell<Option<Rc<borg::log_json::Output>>>,
@@ -29,12 +30,37 @@ impl<T: borg::Task> Operation<T> {
     /// Globally register a running borg command
     pub fn register(command: borg::Command<T>) -> Rc<dyn OperationExt> {
         let process = Rc::new(Self {
-            //battery_since: Cell::new(None),
             command,
+            on_battery_since: Default::default(),
             metered_since: Default::default(),
             metered_signal_handler: Default::default(),
             last_log: Default::default(),
             inhibit_cookie: Default::default(),
+        });
+
+        let weak_process = Rc::downgrade(&process);
+        glib::MainContext::default().spawn_local(async move {
+            if let Some(mut stream) =
+                crate::utils::upower::UPower::receive_on_battery_changed().await
+            {
+                while let (Some(result), Some(process)) =
+                    (stream.next().await, weak_process.upgrade())
+                {
+                    match result.get().await {
+                        Ok(true) => {
+                            debug!("Device now battery powered.");
+                            process.on_battery_since.set(Some(Instant::now()));
+                        }
+                        Ok(false) => {
+                            debug!("Device no longer battery powered.");
+                            process.on_battery_since.set(None);
+                        }
+                        Err(err) => {
+                            warn!("Failed to get new OnBattery() status: {}", err);
+                        }
+                    }
+                }
+            }
         });
 
         process.metered_signal_handler.set(Some(
@@ -109,19 +135,32 @@ impl<T: borg::Task> Operation<T> {
 
     async fn check(self_: Rc<Self>) {
         if self_.command.from_schedule
-            && self_.time_metered_exceeded()
+            && self_.is_time_metered_exceeded()
             && self_.command.config.repo.is_host_local().await == Some(false)
         {
             info!("Stopping scheduled operation on metered connection now.");
             self_
                 .communication()
                 .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));
+        } else if self_.command.from_schedule && self_.is_time_on_battery_exceeded() {
+            info!("Stopping scheduled operation on battery now.");
+            self_
+                .communication()
+                .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));
         }
     }
 
-    pub fn time_metered_exceeded(&self) -> bool {
+    pub fn is_time_metered_exceeded(&self) -> bool {
         if let Some(instant) = self.metered_since.get() {
             instant.elapsed() > TIME_METERED_ABORT
+        } else {
+            false
+        }
+    }
+
+    pub fn is_time_on_battery_exceeded(&self) -> bool {
+        if let Some(instant) = self.on_battery_since.get() {
+            instant.elapsed() > TIME_ON_BATTERY_ABORT
         } else {
             false
         }

@@ -4,11 +4,21 @@ use once_cell::sync::OnceCell;
 use crate::config;
 use crate::prelude::*;
 
+/// Session Bus
 pub static ZBUS_SESSION: Lazy<zbus::Connection> = Lazy::new(|| {
     async_std::task::block_on(async {
         zbus::Connection::session()
             .await
             .expect("Failed to create ZBus session connection.")
+    })
+});
+
+/// System Bus
+pub static ZBUS_SYSTEM: Lazy<zbus::Connection> = Lazy::new(|| {
+    async_std::task::block_on(async {
+        zbus::Connection::system()
+            .await
+            .expect("Failed to create ZBus system connection.")
     })
 });
 

@@ -113,6 +113,12 @@ impl Status {
                         level: problem_level,
                     }),
                     requirements::Global::ThisBackupRunning => (),
+                    requirements::Global::OnBattery => problems.push(StatusRow {
+                        title: gettext("Device must be connected to power"),
+                        subtitle: String::new(),
+                        icon_name: String::from("battery-good-symbolic"),
+                        level: problem_level,
+                    }),
                 }
             }
 

@@ -39,6 +39,7 @@ use gio::prelude::*;
 
 use crate::config;
 use crate::prelude::*;
+use crate::utils::upower::UPower;
 
 /**
 Global requirements
@@ -55,10 +56,11 @@ pub enum Global {
     OtherBackupRunning(config::ConfigId),
     /// May not use metered connection
     MeteredConnection,
+    OnBattery,
 }
 
 impl Global {
-    /// If any it returns the first requirement that is violated
+    /// Returns all requirements that are violated
     pub async fn check(config: &config::Backup, histories: &config::Histories) -> Vec<Self> {
         let mut vec = Vec::new();
 
@@ -82,6 +84,10 @@ impl Global {
             && config.repo.is_host_local().await == Some(false)
         {
             vec.push(Self::MeteredConnection)
+        }
+
+        if UPower::on_battery().await == Some(true) {
+            vec.push(Self::OnBattery)
         }
 
         vec

@@ -1,3 +1,5 @@
+pub mod upower;
+
 use crate::config;
 use crate::prelude::*;
 use async_std::prelude::*;
