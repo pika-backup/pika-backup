@@ -1,3 +1,5 @@
+//! Daemon
+
 mod connect;
 mod dbus;
 mod error;
@@ -6,7 +8,7 @@ mod init;
 mod prelude;
 mod schedule;
 
-pub use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
+pub(crate) use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
 
 use gio::prelude::*;
 use prelude::*;

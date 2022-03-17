@@ -10,7 +10,7 @@ Note: The term "last backup" includes failed backups.
 Requirements
 
 - Last backup is more than one hour ago. (Manual backups are considered here.)
-- System is in use for more than [`MIN_USAGE`]
+- System is in use for more than [`crate::schedule::USED_THRESHOLD`]
 
 ### Daily
 

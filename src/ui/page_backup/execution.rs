@@ -9,14 +9,14 @@ use crate::ui::prelude::*;
 
 use super::display;
 
-pub async fn start_backup(config: config::Backup, scheduled: bool) -> Result<()> {
+pub async fn start_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
     gtk_app().hold();
-    let result = startup_backup(config, scheduled).await;
+    let result = startup_backup(config, from_schedule).await;
     gtk_app().release();
     result
 }
 
-async fn startup_backup(config: config::Backup, scheduled: bool) -> Result<()> {
+async fn startup_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
@@ -37,7 +37,7 @@ async fn startup_backup(config: config::Backup, scheduled: bool) -> Result<()> {
         });
     }
 
-    let result = run_backup(config, scheduled).await;
+    let result = run_backup(config, from_schedule).await;
 
     // Direct visual feedback
     display::refresh_status();
@@ -45,7 +45,7 @@ async fn startup_backup(config: config::Backup, scheduled: bool) -> Result<()> {
     result
 }
 
-async fn run_backup(config: config::Backup, scheduled: bool) -> Result<()> {
+async fn run_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
     display::refresh_status();
 
     BACKUP_HISTORY.update(|history| {
@@ -54,7 +54,7 @@ async fn run_backup(config: config::Backup, scheduled: bool) -> Result<()> {
     ui::write_config()?;
 
     let command =
-        borg::Command::<borg::task::Create>::new(config.clone()).set_from_schedule(scheduled);
+        borg::Command::<borg::task::Create>::new(config.clone()).set_from_schedule(from_schedule);
     let communication = command.communication.clone();
 
     // estimate backup size if not running in background
@@ -101,9 +101,12 @@ async fn run_backup(config: config::Backup, scheduled: bool) -> Result<()> {
         Err(err) => Err(Message::new(gettext("Creating a backup failed."), err).into()),
         Ok(_) => {
             if config.prune.enabled {
-                let _ignore = ui::dialog_prune::execute(config.clone()).await;
+                let command = borg::Command::<borg::task::Prune>::new(config.clone())
+                    .set_from_schedule(from_schedule);
+                let _ignore = ui::utils::borg::exec(command).await;
             }
-            let _ignore = ui::page_archives::cache::refresh_archives(config.clone()).await;
+            let _ignore =
+                ui::page_archives::cache::refresh_archives(config.clone(), from_schedule).await;
             let _ignore = ui::utils::df::lookup_and_cache(&config).await;
 
             if run_info.messages.clone().filter_handled().max_log_level()

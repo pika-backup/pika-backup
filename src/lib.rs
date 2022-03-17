@@ -9,7 +9,7 @@ extern crate async_trait;
 #[macro_use]
 extern crate enclose;
 #[macro_use]
-pub mod prelude;
+mod prelude;
 
 const REPO_MOUNT_DIR: &str = ".mnt/borg";
 

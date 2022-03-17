@@ -7,16 +7,6 @@ use crate::config;
 use crate::daemon::dbus;
 use crate::schedule::requirements;
 
-use gio::prelude::*;
-
-thread_local!(
-    static ACTION_GROUP: gio::DBusActionGroup = gio::DBusActionGroup::get(
-        &gio_app().dbus_connection().unwrap(),
-        Some(&crate::app_id()),
-        &format!("/{}", crate::app_id().replace('.', "/")),
-    );
-);
-
 pub fn init() {
     super::status::load();
 

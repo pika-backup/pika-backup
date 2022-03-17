@@ -19,7 +19,7 @@ pub fn init() {
     main_ui().refresh_archives().connect_clicked(|_| {
         Handler::run(async move {
             let config = BACKUP_CONFIG.load().active()?.clone();
-            cache::refresh_archives(config).await
+            cache::refresh_archives(config, false).await
         });
     });
 

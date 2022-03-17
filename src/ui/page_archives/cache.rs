@@ -6,7 +6,7 @@ use crate::config;
 use crate::ui;
 use crate::ui::utils::repo_cache::RepoCache;
 
-pub async fn refresh_archives(config: config::Backup) -> Result<()> {
+pub async fn refresh_archives(config: config::Backup, from_schedule: bool) -> Result<()> {
     info!("Refreshing archives cache");
 
     if Some(true) == REPO_CACHE.load().get(&config.repo_id).map(|x| x.reloading) {
@@ -22,7 +22,9 @@ pub async fn refresh_archives(config: config::Backup) -> Result<()> {
     }
     display::ui_update_archives_spinner();
 
-    let result = ui::utils::borg::exec(borg::Command::<borg::task::List>::new(config.clone()))
+    let command =
+        borg::Command::<borg::task::List>::new(config.clone()).set_from_schedule(from_schedule);
+    let result = ui::utils::borg::exec(command)
         .await
         .into_message(gettext("Failed to refresh archives cache."));
 

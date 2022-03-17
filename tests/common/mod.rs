@@ -1,5 +1,5 @@
 pub use pika_backup::borg::CommandRun;
-use pika_backup::{borg, config, prelude::*};
+use pika_backup::{borg, config, config::ConfigId};
 pub use std::path::{Path, PathBuf};
 
 pub fn config(path: &std::path::Path) -> config::Backup {

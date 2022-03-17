@@ -38,7 +38,7 @@ pub async fn show() -> Result<()> {
 
     let result = if repo_archives.archives.as_ref().is_none() {
         trace!("Archives have never been retrieved");
-        cache::refresh_archives(config.clone()).await
+        cache::refresh_archives(config.clone(), false).await
     } else {
         Ok(())
     };

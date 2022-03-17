@@ -1,13 +1,4 @@
-use gtk::prelude::*;
-
-use crate::borg;
-use crate::config;
-use crate::config::Loadable;
-use crate::ui;
-use crate::ui::prelude::*;
-use config::ArcSwapWriteable;
-
-pub use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
+//! User interface
 
 mod app_window;
 mod backup_status;
@@ -36,6 +27,17 @@ mod prelude;
 mod toast_size_estimate;
 mod utils;
 mod widgets;
+
+pub(crate) use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
+
+use gtk::prelude::*;
+
+use crate::borg;
+use crate::config;
+use crate::config::Loadable;
+use crate::ui;
+use crate::ui::prelude::*;
+use config::ArcSwapWriteable;
 
 pub fn main() {
     // suppress "gdk_pixbuf_from_pixdata()" debug spam
