@@ -338,7 +338,7 @@ impl CommandOnlyRepo {
             .add_options(&[
                 "--json",
                 "--last=1",
-                "--format={hostname}{username}{comment}{end}",
+                "--format={hostname}{username}{comment}{end}{command_line}",
             ])
             .add_envs(vec![
                 ("BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK", "yes"),

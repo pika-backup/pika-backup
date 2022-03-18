@@ -358,22 +358,61 @@ pub enum Repository {
     Remote(remote::Repository),
 }
 
+async fn ssh_host_lookup(host: &str) -> String {
+    let result = async_std::process::Command::new("ssh")
+        .args(["-G", host])
+        .stdout(async_std::process::Stdio::piped())
+        .output()
+        .await;
+
+    match result {
+        Err(err) => {
+            warn!("SSH config lookup failed: {}", err);
+            host.to_string()
+        }
+        Ok(output) => String::from_utf8_lossy(&output.stdout)
+            .lines()
+            .find_map(|x| x.strip_prefix("hostname "))
+            .unwrap_or(host)
+            .to_string(),
+    }
+}
+
 impl Repository {
-    pub fn host(&self) -> Option<glib::GString> {
+    pub async fn host(&self) -> Option<String> {
         match self {
-            Self::Local(local) => local
-                .uri
-                .as_ref()
-                .and_then(|x| glib::Uri::parse(x, glib::UriFlags::NONE).ok())
-                .and_then(|x| x.host()),
-            Self::Remote(remote) => glib::Uri::parse(&remote.uri, glib::UriFlags::NONE)
-                .ok()
-                .and_then(|x| x.host()),
+            Self::Local(local) => {
+                let uri = local
+                    .uri
+                    .as_ref()
+                    .and_then(|x| glib::Uri::parse(x, glib::UriFlags::NONE).ok());
+
+                match uri {
+                    Some(uri) if ["sftp", "ssh"].contains(&uri.scheme().as_str()) => {
+                        if let Some(host) = uri.host() {
+                            Some(ssh_host_lookup(&host).await)
+                        } else {
+                            None
+                        }
+                    }
+                    _ => uri.and_then(|x| x.host()).map(|x| x.to_string()),
+                }
+            }
+            Self::Remote(remote) => {
+                if let Some(host) = glib::Uri::parse(&remote.uri, glib::UriFlags::NONE)
+                    .ok()
+                    .and_then(|x| x.host())
+                {
+                    Some(ssh_host_lookup(&host).await)
+                } else {
+                    None
+                }
+            }
         }
     }
 
     pub async fn host_address(&self) -> Option<gio::InetAddress> {
-        if let Some(host) = self.host() {
+        if let Some(host) = self.host().await {
             gio::Resolver::default()
                 .lookup_by_name_future(&host)
                 .await
