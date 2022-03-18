@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-14 15:29+0000\n"
-"PO-Revision-Date: 2022-03-14 19:41+0300\n"
+"POT-Creation-Date: 2022-03-17 21:59+0000\n"
+"PO-Revision-Date: 2022-03-18 13:54+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -144,43 +144,47 @@ msgstr ""
 msgid "Completed"
 msgstr "Выполнено"
 
-#: src/borg/error.rs:105
+#: src/borg/error.rs:108
 msgid "Aborted on user request."
 msgstr "Прервано по запросу пользователя."
 
-#: src/borg/error.rs:109
+#: src/borg/error.rs:112
 msgid "Aborted because only metered connection was available."
 msgstr "Прервано, так как было доступно только тарифное подключение."
 
-#: src/borg/error.rs:111
+#: src/borg/error.rs:117
+msgid "Aborted because too long not connected to power."
+msgstr "Прервано из-за слишком долгого отсутствия питания."
+
+#: src/borg/error.rs:119
 msgid "Potential internal error."
 msgstr "Потенциальная внутренняя ошибка."
 
-#: src/borg/error.rs:150
+#: src/borg/error.rs:158
 msgid "Connection closed by remote host."
 msgstr "Соединение закрыто удаленным узлом."
 
-#: src/borg/error.rs:152 src/ui/utils/borg.rs:152
+#: src/borg/error.rs:160 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Репозиторий уже используется."
 
-#: src/borg/error.rs:153
+#: src/borg/error.rs:161
 msgid "Invalid encryption password."
 msgstr "Неверный пароль шифрования."
 
-#: src/borg/error.rs:155
+#: src/borg/error.rs:163
 msgid "A repository already exists at this location."
 msgstr "В этом месте уже существует репозиторий."
 
-#: src/borg/error.rs:157
+#: src/borg/error.rs:165
 msgid "No repository exists at this location."
 msgstr "В этом месте нет репозитория."
 
-#: src/borg/error.rs:160
+#: src/borg/error.rs:168
 msgid "Connection closed by remote host: “{}”"
 msgstr "Соединение закрыто удаленным хостом: \"{}\""
 
-#: src/borg/error.rs:163
+#: src/borg/error.rs:171
 msgid "Unspecified error."
 msgstr "Неизвестная ошибка."
 
@@ -301,7 +305,7 @@ msgstr "Резервное копирование данных"
 msgid "Mounting Backup Archives"
 msgstr "Монтирование архивов резервного копирования"
 
-#: src/borg/task.rs:43 src/ui/dialog_prune.rs:20 src/ui/dialog_prune.rs:86
+#: src/borg/task.rs:43 src/ui/dialog_prune.rs:70
 msgid "Delete old Archives"
 msgstr "Удалить старые архивы"
 
@@ -345,37 +349,37 @@ msgstr "{} на диске \"{}\""
 msgid "Run Backup"
 msgstr "Выполнить резервное копирование"
 
-#: src/daemon/schedule/init.rs:75
+#: src/daemon/schedule/init.rs:65
 msgid "Failed to start scheduled backup"
 msgstr "Не удалось запустить запланированное резервное копирование"
 
-#: src/ui.rs:192 src/ui/page_backup/events.rs:20
+#: src/ui.rs:170 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Прервать выполнение создания резервной копии?"
 
-#: src/ui.rs:193 src/ui/page_backup/events.rs:21
+#: src/ui.rs:171 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас."
 
-#: src/ui.rs:194 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:172 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui.rs:195 src/ui/page_backup/events.rs:23
+#: src/ui.rs:173 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Прервать"
 
-#: src/ui.rs:270
+#: src/ui.rs:248
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Не удалось запустить \"borg\". Правильно ли установлен borg-backup?"
 
-#: src/ui.rs:294
+#: src/ui.rs:272
 msgid "BorgBackup version too old"
 msgstr "Версия BorgBackup слишком старая"
 
-#: src/ui.rs:296
+#: src/ui.rs:274
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -383,11 +387,11 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком старая. Некоторые функции, "
 "требующие borg-backup версии {}.{}.{}, не будут работать."
 
-#: src/ui.rs:307
+#: src/ui.rs:285
 msgid "BorgBackup version too new"
 msgstr "Версия BorgBackup слишком новая"
 
-#: src/ui.rs:309
+#: src/ui.rs:287
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -395,19 +399,19 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком новая. Рекомендуется версия {}."
 "{}. Некоторые функции могут работать не так, как ожидается."
 
-#: src/ui.rs:319
+#: src/ui.rs:297
 msgid "Cannot check borg-backup version"
 msgstr "Невозможно проверить версию borg-backup"
 
-#: src/ui.rs:321
+#: src/ui.rs:299
 msgid "The installed version {} might not work."
 msgstr "Установленная версия {} может не работать."
 
-#: src/ui.rs:377
+#: src/ui.rs:355
 msgid "Could not load configuration file."
 msgstr "Не удалось загрузить файл конфигурации."
 
-#: src/ui.rs:393
+#: src/ui.rs:371
 msgid "Could not write configuration file."
 msgstr "Не удалось записать файл конфигурации."
 
@@ -726,7 +730,7 @@ msgstr "Не удалось смонтировать."
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
-#: src/ui/utils/borg.rs:156
+#: src/ui/utils/borg.rs:148
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -747,7 +751,7 @@ msgstr "Пароль"
 msgid "This requires the encryption password of the repository."
 msgstr "Для этого требуется пароль шифрования репозитория."
 
-#: src/ui/dialog_prune.rs:44
+#: src/ui/dialog_prune.rs:28
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Не удалось установить, сколько архивов будет удалено"
 
@@ -1071,7 +1075,7 @@ msgstr "Резервная копия с идентификатором \"{}\" �
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Не удалось найти резервную конфигурацию с идентификатором \"{}\"."
 
-#: src/ui/page_archives/cache.rs:27
+#: src/ui/page_archives/cache.rs:29
 msgid "Failed to refresh archives cache."
 msgstr "Не удалось обновить кэш архивов."
 
@@ -1152,11 +1156,11 @@ msgstr "Продолжить просмотр"
 msgid "Start Backup"
 msgstr "Запуск резервного копирования"
 
-#: src/ui/page_backup/execution.rs:100
+#: src/ui/page_backup/execution.rs:101
 msgid "Creating a backup failed."
 msgstr "Создание резервной копии не удалось."
 
-#: src/ui/page_backup/execution.rs:112
+#: src/ui/page_backup/execution.rs:116
 msgid "Backup completed with warnings."
 msgstr "Резервное копирование завершено с предупреждениями."
 
@@ -1304,19 +1308,23 @@ msgstr "Сетевое подключение не должно быть доз�
 msgid "Other backups on repository have to be completed"
 msgstr "Другие резервные копии репозитория должны быть завершены"
 
-#: src/ui/page_schedule/status.rs:122
+#: src/ui/page_schedule/status.rs:117
+msgid "Device must be connected to power"
+msgstr "Устройство должно быть подключено к питанию"
+
+#: src/ui/page_schedule/status.rs:128
 msgid "Backup device has to be connected"
 msgstr "Резервное устройство должно быть подключено"
 
-#: src/ui/page_schedule/status.rs:128
+#: src/ui/page_schedule/status.rs:134
 msgid "Network connection has to be available"
 msgstr "Сетевое подключение должно быть доступно"
 
-#: src/ui/page_schedule/status.rs:138
+#: src/ui/page_schedule/status.rs:144
 msgid "Background process inactive"
 msgstr "Фоновый процесс неактивен"
 
-#: src/ui/page_schedule/status.rs:139
+#: src/ui/page_schedule/status.rs:145
 msgid "This is required for scheduled backups"
 msgstr "Требуется для поддержки резервирования по расписанию"
 
@@ -1374,11 +1382,11 @@ msgstr "Не удалось создать поток"
 msgid "Select"
 msgstr "Выбрать"
 
-#: src/ui/utils/borg.rs:40
+#: src/ui/utils/borg.rs:32
 msgid "Repository already in use"
 msgstr "Репозиторий уже используется"
 
-#: src/ui/utils/borg.rs:153
+#: src/ui/utils/borg.rs:145
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1387,7 +1395,7 @@ msgstr ""
 "информация может быть устаревшей, если, например, во время использования "
 "репозитория компьютер потерял питание."
 
-#: src/ui/utils/borg.rs:155
+#: src/ui/utils/borg.rs:147
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1397,7 +1405,7 @@ msgstr ""
 "программой! Продолжение работы, пока репозиторий используется другой "
 "программой, может привести к повреждению данных резервного копирования!"
 
-#: src/ui/utils/borg.rs:157
+#: src/ui/utils/borg.rs:149
 msgid "Continue Anyway"
 msgstr "Всё равно продолжить"
 
