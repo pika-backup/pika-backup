@@ -47,7 +47,6 @@ Global requirements
 ### Planned option
 
 - Travel mode is not active
-- On battery (optional?)
 */
 #[derive(Debug, Clone)]
 pub enum Global {
@@ -186,19 +185,31 @@ impl Due {
                     }
                 }
                 config::Frequency::Weekly { preferred_weekday } => {
-                    let day_difference = chrono::Local::today().weekday().number_from_sunday()
-                        as i64
-                        - preferred_weekday.number_from_sunday() as i64;
-                    let scheduled_date =
-                        chrono::Local::today() - chrono::Duration::days(-day_difference.abs());
+                    let today = chrono::Local::today();
 
-                    if chrono::Local::today() >= scheduled_date
+                    let scheduled_date = {
+                        let iso_week = today.iso_week();
+                        let schedule_date = chrono::Local.isoywd(
+                            iso_week.year(),
+                            iso_week.week(),
+                            preferred_weekday,
+                        );
+
+                        if schedule_date >= today {
+                            schedule_date - chrono::Duration::weeks(1)
+                        } else {
+                            schedule_date
+                        }
+                    };
+
+                    // TODO: This needs additional return states for used
+                    if today >= scheduled_date
                         && last_run_datetime.date() < scheduled_date
                         && activity >= super::USED_THRESHOLD
                     {
                         Ok(())
                     } else {
-                        let next = if chrono::Local::today() < scheduled_date {
+                        let next = if today < scheduled_date {
                             scheduled_date
                         } else {
                             scheduled_date + chrono::Duration::weeks(1)
@@ -239,4 +250,48 @@ impl Due {
             Ok(())
         }
     }
+}
+
+#[test]
+fn test_check_hourly() {
+    let mut config = config::Backup::test_new_mock();
+    let mut histories = Default::default();
+
+    let due = Due::check(&config, &histories);
+    matches::assert_matches!(due, Ok(()));
+
+    // due yesterday and executed yesterday
+
+    histories.insert(
+        config.id.clone(),
+        config::history::RunInfo::test_new_mock(chrono::Duration::days(1)),
+    );
+
+    config.schedule.frequency = config::Frequency::Weekly {
+        preferred_weekday: (chrono::Local::today() - chrono::Duration::days(1)).weekday(),
+    };
+
+    let due = Due::check(&config, &histories);
+    assert!(match due {
+        Err(Due::NotDueDate { next }) => {
+            assert_eq!(next, chrono::Local::today() + chrono::Duration::days(6));
+            true
+        }
+        _ => false,
+    });
+
+    // due today
+
+    config.schedule.frequency = config::Frequency::Weekly {
+        preferred_weekday: chrono::Local::today().weekday(),
+    };
+
+    let due = Due::check(&config, &histories);
+    assert!(match due {
+        Err(Due::NotDueDate { next }) => {
+            assert_eq!(next, chrono::Local::today());
+            true
+        }
+        _ => false,
+    });
 }

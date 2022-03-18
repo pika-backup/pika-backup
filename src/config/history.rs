@@ -100,9 +100,9 @@ impl Histories {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct RunInfo {
-    pub messages: borg::log_json::LogCollection,
-    pub outcome: borg::Outcome,
     pub end: DateTime<Local>,
+    pub outcome: borg::Outcome,
+    pub messages: borg::log_json::LogCollection,
     pub include: BTreeSet<std::path::PathBuf>,
     pub exclude: BTreeSet<config::Pattern>,
 }
@@ -127,6 +127,17 @@ impl RunInfo {
             end: *date,
             outcome: borg::Outcome::Aborted(borg::error::Abort::LeftRunning),
             messages: vec![],
+            include: Default::default(),
+            exclude: Default::default(),
+        }
+    }
+
+    #[cfg(test)]
+    pub fn test_new_mock(ago: chrono::Duration) -> Self {
+        Self {
+            end: Local::now() - ago,
+            outcome: borg::Outcome::Aborted(borg::error::Abort::User),
+            messages: Default::default(),
             include: Default::default(),
             exclude: Default::default(),
         }
