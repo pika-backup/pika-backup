@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-12 00:49+0000\n"
-"PO-Revision-Date: 2022-03-12 19:39+0100\n"
+"POT-Creation-Date: 2022-03-17 21:59+0000\n"
+"PO-Revision-Date: 2022-03-19 23:20+0100\n"
 "Last-Translator: \n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -129,9 +129,9 @@ msgstr ""
 "Šifriranje sigurnosnih kopija u svrhu sigurnosti podataka: možete zaštititi "
 "podatke u svojim sigurnosnim kopijama lozinkom"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:213
+#: src/borg/error.rs:27 src/ui/utils.rs:212
 msgid "The operation terminated unexpectedly."
-msgstr "Radnja je prekinuta neočekivano"
+msgstr "Radnja je prekinuta neočekivano."
 
 #: src/borg/error.rs:28
 msgid "This delete operation would delete too many archives."
@@ -141,43 +141,47 @@ msgstr "Ova radnja brisanja će obrisati previše arhiva."
 msgid "Completed"
 msgstr "Završeno"
 
-#: src/borg/error.rs:105
+#: src/borg/error.rs:108
 msgid "Aborted on user request."
 msgstr "Prekinuto po zahtjevu korisnika."
 
-#: src/borg/error.rs:109
+#: src/borg/error.rs:112
 msgid "Aborted because only metered connection was available."
 msgstr "Prekinuto zato jer je samo povezivanje ograničeno podacima dostupno."
 
-#: src/borg/error.rs:111
+#: src/borg/error.rs:117
+msgid "Aborted because too long not connected to power."
+msgstr "Prekinuto zato jer napajanje nije predugo priključeno."
+
+#: src/borg/error.rs:119
 msgid "Potential internal error."
 msgstr "Potencijalna unutrašnja greška."
 
-#: src/borg/error.rs:150
+#: src/borg/error.rs:158
 msgid "Connection closed by remote host."
 msgstr "Udaljeni poslužitelj je zatvorio povezivanje."
 
-#: src/borg/error.rs:152 src/ui/utils/borg.rs:152
+#: src/borg/error.rs:160 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Repozitorij se već koristi."
 
-#: src/borg/error.rs:153
+#: src/borg/error.rs:161
 msgid "Invalid encryption password."
 msgstr "Nevaljana lozinka šifriranja."
 
-#: src/borg/error.rs:155
+#: src/borg/error.rs:163
 msgid "A repository already exists at this location."
 msgstr "Repozitorij već postoji na ovoj lokaciji."
 
-#: src/borg/error.rs:157
+#: src/borg/error.rs:165
 msgid "No repository exists at this location."
 msgstr "Nema repozitorija na ovoj lokaciji."
 
-#: src/borg/error.rs:160
+#: src/borg/error.rs:168
 msgid "Connection closed by remote host: “{}”"
 msgstr "Udaljeni poslužitelj je zatvorio povezivanje: “{}”"
 
-#: src/borg/error.rs:163
+#: src/borg/error.rs:171
 msgid "Unspecified error."
 msgstr "Neodređena greška."
 
@@ -298,7 +302,7 @@ msgstr "Sigurnosno kopiranje podataka"
 msgid "Mounting Backup Archives"
 msgstr "Montiranje arhiva sigurnosnog kopiranja"
 
-#: src/borg/task.rs:43 src/ui/dialog_prune.rs:20 src/ui/dialog_prune.rs:86
+#: src/borg/task.rs:43 src/ui/dialog_prune.rs:70
 msgid "Delete old Archives"
 msgstr "Obriši stare arhive"
 
@@ -310,7 +314,7 @@ msgstr "Odredi koliko arhiva treba obrisati"
 msgid "Update Archive List"
 msgstr "Nadopuni popis arhiva"
 
-#: src/config.rs:451 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:453 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Udaljena lokacija"
 
@@ -342,34 +346,38 @@ msgstr "{} na disku “{}”"
 msgid "Run Backup"
 msgstr "Pokreni sigurnosno kopiranje"
 
-#: src/ui.rs:190 src/ui/page_backup/events.rs:20
+#: src/daemon/schedule/init.rs:65
+msgid "Failed to start scheduled backup"
+msgstr "Neuspjelo pokretanje zakazanog sigurnosnog kopiranja"
+
+#: src/ui.rs:170 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Prekini pokrenuto stvaranje sigurnosne kopije?"
 
-#: src/ui.rs:191 src/ui/page_backup/events.rs:21
+#: src/ui.rs:171 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Sigurnosna kopija će ostati nepotpuna ako sada prekinete stvaranje."
 
-#: src/ui.rs:192 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:172 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Nastavi"
 
-#: src/ui.rs:193 src/ui/page_backup/events.rs:23
+#: src/ui.rs:173 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Prekini"
 
-#: src/ui.rs:268
+#: src/ui.rs:248
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Neuspjelo “borg” pokretanje. Je li borg sigurnosno kopiranje instalirano "
 "ispravno?"
 
-#: src/ui.rs:292
+#: src/ui.rs:272
 msgid "BorgBackup version too old"
 msgstr "Inačica Borg sigurnosnog kopiranja je prestara"
 
-#: src/ui.rs:294
+#: src/ui.rs:274
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -377,11 +385,11 @@ msgstr ""
 "Instalirana inačica {} Borg sigurnosnog kopiranja je prestara. Određene "
 "značajke potrebne za borg sigurnosno kopiranje inačice {}.{}.{} neće raditi."
 
-#: src/ui.rs:305
+#: src/ui.rs:285
 msgid "BorgBackup version too new"
 msgstr "Inačica Borg sigurnosnog kopiranja je prenova"
 
-#: src/ui.rs:307
+#: src/ui.rs:287
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -389,19 +397,19 @@ msgstr ""
 "Instalirana inačica {} Borg sigurnosnog kopiranja je prenova. Inačica {}.{} "
 "je preporučena. Određene značajke neće raditi očekivano."
 
-#: src/ui.rs:317
+#: src/ui.rs:297
 msgid "Cannot check borg-backup version"
 msgstr "Nemoguća provjera inačice Borg sigurnosnog kopiranja"
 
-#: src/ui.rs:319
+#: src/ui.rs:299
 msgid "The installed version {} might not work."
 msgstr "Instalirana inačica {} možda neće raditi."
 
-#: src/ui.rs:375
+#: src/ui.rs:355
 msgid "Could not load configuration file."
 msgstr "Nemoguće učitavanje datoteke podešavanja."
 
-#: src/ui.rs:391
+#: src/ui.rs:371
 msgid "Could not write configuration file."
 msgstr "Nemoguće zapisivanje datoteke podešavanja."
 
@@ -668,6 +676,10 @@ msgstr "Ponovno povezivanje"
 msgid "Stopping backup"
 msgstr "Zaustavljanje sigurnosnog kopiranja"
 
+#: src/ui/dbus.rs:30
+msgid "Failed to spawn interface for scheduled backups."
+msgstr "Neuspjelo pokretanje sučelja rasporeda sigurnosnog kopiranja."
+
 #: src/ui/dialog_about.rs:24
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
@@ -716,7 +728,7 @@ msgstr "Neuspjelo montiranje."
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
-#: src/ui/utils/borg.rs:156
+#: src/ui/utils/borg.rs:148
 msgid "Cancel"
 msgstr "Odustani"
 
@@ -737,7 +749,7 @@ msgstr "Lozinka"
 msgid "This requires the encryption password of the repository."
 msgstr "Ovo zahtijeva lozinku šifriranja repozitorija."
 
-#: src/ui/dialog_prune.rs:44
+#: src/ui/dialog_prune.rs:28
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Neuspjelo otkrivanje koliko arhiva treba obrisati"
 
@@ -1057,7 +1069,7 @@ msgstr "Sigurnosna kopija s ID “{}” već postoji."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Nemoguć pronalazak podešavanja sigurnosnog kopiranja s ID “{}”."
 
-#: src/ui/page_archives/cache.rs:27
+#: src/ui/page_archives/cache.rs:29
 msgid "Failed to refresh archives cache."
 msgstr "Neuspjelo osvježavanje predmemorije arhive."
 
@@ -1137,11 +1149,11 @@ msgstr "Nastavi pregledavanje"
 msgid "Start Backup"
 msgstr "Pokreni pregledavanje"
 
-#: src/ui/page_backup/execution.rs:100
+#: src/ui/page_backup/execution.rs:101
 msgid "Creating a backup failed."
 msgstr "Neuspjelo stvaranje sigurnosne kopije."
 
-#: src/ui/page_backup/execution.rs:112
+#: src/ui/page_backup/execution.rs:116
 msgid "Backup completed with warnings."
 msgstr "Sigurnosno kopiranje je završeno s upozorenjima."
 
@@ -1290,19 +1302,23 @@ msgid "Other backups on repository have to be completed"
 msgstr ""
 "Preostala sigurnosna kopiranja na ovom repozitoriju moraju biti završena"
 
-#: src/ui/page_schedule/status.rs:122
+#: src/ui/page_schedule/status.rs:117
+msgid "Device must be connected to power"
+msgstr "Uređaj mora biti priključen na napajanje"
+
+#: src/ui/page_schedule/status.rs:128
 msgid "Backup device has to be connected"
 msgstr "Uređaj sigurnosnog kopiranja mora biti povezan"
 
-#: src/ui/page_schedule/status.rs:128
+#: src/ui/page_schedule/status.rs:134
 msgid "Network connection has to be available"
 msgstr "Mrežno povezivanje mora biti dostupno"
 
-#: src/ui/page_schedule/status.rs:138
+#: src/ui/page_schedule/status.rs:144
 msgid "Background process inactive"
 msgstr "Pozadinski proces je neaktivan"
 
-#: src/ui/page_schedule/status.rs:139
+#: src/ui/page_schedule/status.rs:145
 msgid "This is required for scheduled backups"
 msgstr "Ovo je potrebno za raspored sigurnosnog kopiranja"
 
@@ -1318,15 +1334,15 @@ msgstr ""
 msgid "Request to run in background failed"
 msgstr "Zahtjev za pokretanjem u pozadini je neuspio"
 
-#: src/ui/utils.rs:102
+#: src/ui/utils.rs:101
 msgid "Schedule backups and continue running backups."
 msgstr "Zakaži sigurnosno kopiranje i nastavi sigurnosno kopiranje."
 
-#: src/ui/utils.rs:118
+#: src/ui/utils.rs:117
 msgid "Run in background disabled"
 msgstr "Pokretanje u pozadini je onemogućeno"
 
-#: src/ui/utils.rs:119
+#: src/ui/utils.rs:118
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1336,7 +1352,7 @@ msgstr ""
 "kopiranja u pozadini neće biti dostupni. “Pokreni u pozadini” mogućnost se "
 "može omogućiti putem postavki sustava."
 
-#: src/ui/utils.rs:129
+#: src/ui/utils.rs:128
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1346,23 +1362,23 @@ msgstr ""
 "rasporeda sigurnosnog kopiranja i nastavak sigurnosnog kopiranja u pozadini "
 "neće biti dostupni."
 
-#: src/ui/utils.rs:140
+#: src/ui/utils.rs:139
 msgid "Failed to start background process"
 msgstr "Neuspjelo pokretanje pozadinskog procesa"
 
-#: src/ui/utils.rs:207
+#: src/ui/utils.rs:206
 msgid "Failed to Create Thread"
 msgstr "Neuspješno stvaranje niti"
 
-#: src/ui/utils.rs:221
+#: src/ui/utils.rs:220
 msgid "Select"
 msgstr "Odaberi"
 
-#: src/ui/utils/borg.rs:40
+#: src/ui/utils/borg.rs:32
 msgid "Repository already in use"
 msgstr "Repozitorij se već koristi"
 
-#: src/ui/utils/borg.rs:153
+#: src/ui/utils/borg.rs:145
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1371,7 +1387,7 @@ msgstr ""
 "informacija je možda zastarjela, na primjer, računalo je ostalo bez energije "
 "tijekom korištenja repozitorija."
 
-#: src/ui/utils/borg.rs:155
+#: src/ui/utils/borg.rs:147
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1381,7 +1397,7 @@ msgstr ""
 "Nastavak dok drugi program koristi repozitorij može oštetiti podatke "
 "sigurnosne kopije!"
 
-#: src/ui/utils/borg.rs:157
+#: src/ui/utils/borg.rs:149
 msgid "Continue Anyway"
 msgstr "Svejedno nastavi"
 
