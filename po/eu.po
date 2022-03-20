@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-08 14:38+0000\n"
-"PO-Revision-Date: 2022-03-09 17:00+0100\n"
+"POT-Creation-Date: 2022-03-17 21:59+0000\n"
+"PO-Revision-Date: 2022-03-20 17:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -110,7 +110,7 @@ msgid ""
 "with a password"
 msgstr "Zifratutako babeskopiak datuak seguru edukitzeko: Babeskopietako datuak pasahitzarekin babestu daitezke"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:213
+#: src/borg/error.rs:27 src/ui/utils.rs:212
 msgid "The operation terminated unexpectedly."
 msgstr "Eragiketa ustekabean amaitu da."
 
@@ -122,43 +122,47 @@ msgstr "Ezabatzeko eragiketa honek artxibo gehiegi ezabatuko lituzke."
 msgid "Completed"
 msgstr "Osatuta"
 
-#: src/borg/error.rs:105
+#: src/borg/error.rs:108
 msgid "Aborted on user request."
 msgstr "Abortatuta erabiltzaileak eskatu duelako."
 
-#: src/borg/error.rs:109
+#: src/borg/error.rs:112
 msgid "Aborted because only metered connection was available."
 msgstr "Abortatuta neurtutako konexioa soilik dagoelako erabilgarri."
 
-#: src/borg/error.rs:111
+#: src/borg/error.rs:117
+msgid "Aborted because too long not connected to power."
+msgstr "Abortatuta argindarrari konektatzeko denbora gehiegi erabili delako."
+
+#: src/borg/error.rs:119
 msgid "Potential internal error."
 msgstr "Balizko barneko errorea."
 
-#: src/borg/error.rs:150
+#: src/borg/error.rs:158
 msgid "Connection closed by remote host."
 msgstr "Urruneko ostalariak konexioa itxi du."
 
-#: src/borg/error.rs:152 src/ui/utils/borg.rs:143
+#: src/borg/error.rs:160 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Biltegia dagoeneko erabilia dago."
 
-#: src/borg/error.rs:153
+#: src/borg/error.rs:161
 msgid "Invalid encryption password."
 msgstr "Zifratze-pasahitz baliogabea."
 
-#: src/borg/error.rs:155
+#: src/borg/error.rs:163
 msgid "A repository already exists at this location."
 msgstr "Badago lehendik biltegi bat kokaleku horretan."
 
-#: src/borg/error.rs:157
+#: src/borg/error.rs:165
 msgid "No repository exists at this location."
 msgstr "Ez dago biltegirik kokaleku horretan."
 
-#: src/borg/error.rs:160
+#: src/borg/error.rs:168
 msgid "Connection closed by remote host: “{}”"
 msgstr "Urruneko ostalariak konexioa itxi du: “{}“"
 
-#: src/borg/error.rs:163
+#: src/borg/error.rs:171
 msgid "Unspecified error."
 msgstr "Zehaztu gabeko errorea."
 
@@ -279,7 +283,7 @@ msgstr "Datuen babeskopia egiten"
 msgid "Mounting Backup Archives"
 msgstr "Babeskopia-artxiboak muntatzen"
 
-#: src/borg/task.rs:43 src/ui/dialog_prune.rs:20 src/ui/dialog_prune.rs:86
+#: src/borg/task.rs:43 src/ui/dialog_prune.rs:70
 msgid "Delete old Archives"
 msgstr "Ezabatu artxibo zaharrak"
 
@@ -291,7 +295,7 @@ msgstr "Zehaztu zenbat artxibo ezabatu beharko liratekeen"
 msgid "Update Archive List"
 msgstr "Eguneratu artxibo-zerrenda"
 
-#: src/config.rs:403 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:453 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Urruneko kokalekua"
 
@@ -323,60 +327,64 @@ msgstr "{} “{}” diskoan"
 msgid "Run Backup"
 msgstr "Exekutatu babeskopia"
 
-#: src/ui.rs:190 src/ui/page_backup/events.rs:20
+#: src/daemon/schedule/init.rs:65
+msgid "Failed to start scheduled backup"
+msgstr "Huts egin du babeskopia programatzeak"
+
+#: src/ui.rs:170 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Abortatu abian dagoen babeskopiaren sorrera?"
 
-#: src/ui.rs:191 src/ui/page_backup/events.rs:21
+#: src/ui.rs:171 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Babeskopia ez da osatuko orian abortatzen bada."
 
-#: src/ui.rs:192 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:172 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Jarraitu"
 
-#: src/ui.rs:193 src/ui/page_backup/events.rs:23
+#: src/ui.rs:173 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Abortatu"
 
-#: src/ui.rs:268
+#: src/ui.rs:248
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Huts egin du “borg” exekutatzeak. Ongi instalatuta al dago borg-backup?"
 
-#: src/ui.rs:292
+#: src/ui.rs:272
 msgid "BorgBackup version too old"
 msgstr "BorgBackup bertsioa zaharregia da"
 
-#: src/ui.rs:294
+#: src/ui.rs:274
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
 msgstr "Instalatuta dagoen BorgBackup bertsioa, {}, zaharregia da. Zenbait eginbidek borg-backup {}.{}.{} bertsioa behar dute."
 
-#: src/ui.rs:305
+#: src/ui.rs:285
 msgid "BorgBackup version too new"
 msgstr "BorgBackup bertsioa berriegia da"
 
-#: src/ui.rs:307
+#: src/ui.rs:287
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
 msgstr "Instalatuta dagoen BorgBackup bertsioa, {}, berriegia da. {}.{} bertsioa gomendatzen da. Beharbada zenbait eginbidek ez dute behar den moduan funtzionatuko."
 
-#: src/ui.rs:317
+#: src/ui.rs:297
 msgid "Cannot check borg-backup version"
 msgstr "Ezin izan da egiaztatu borg-backup bertsioa"
 
-#: src/ui.rs:319
+#: src/ui.rs:299
 msgid "The installed version {} might not work."
 msgstr "Instalatutako {} bertsioa agian ez dabil."
 
-#: src/ui.rs:375
+#: src/ui.rs:355
 msgid "Could not load configuration file."
 msgstr "Ezin izan da konfigurazio-fitxategia kargatu."
 
-#: src/ui.rs:391
+#: src/ui.rs:371
 msgid "Could not write configuration file."
 msgstr "Ezin izan da konfigurazio-fitxategia idatzi."
 
@@ -640,6 +648,10 @@ msgstr "Berriro konektatzen"
 msgid "Stopping backup"
 msgstr "Babeskopia gelditzen"
 
+#: src/ui/dbus.rs:30
+msgid "Failed to spawn interface for scheduled backups."
+msgstr "Huts egin du programatutako babeskopiak abiarazteak."
+
 #: src/ui/dialog_about.rs:24
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
@@ -684,7 +696,7 @@ msgstr "Muntatzeak huts egin du."
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid "Cancel"
 msgstr "Utzi"
 
@@ -705,7 +717,7 @@ msgstr "Pasahitza"
 msgid "This requires the encryption password of the repository."
 msgstr "Honek biltegiaren zifratze-pasahitza behar du."
 
-#: src/ui/dialog_prune.rs:44
+#: src/ui/dialog_prune.rs:28
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Huts egin du zenbat artxibo ezabatu beharko liratekeen zehazteak"
 
@@ -997,7 +1009,7 @@ msgstr "Badago lehendik “{}” IDa duen babeskopia."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Ezin da aurkitu “{}” IDa duen babeskopia-konfigurazioa."
 
-#: src/ui/page_archives/cache.rs:27
+#: src/ui/page_archives/cache.rs:29
 msgid "Failed to refresh archives cache."
 msgstr "Huts egin du artxikoen cacheak freskatzeak."
 
@@ -1074,11 +1086,11 @@ msgstr "Jarraitu arakatzen"
 msgid "Start Backup"
 msgstr "Hasi babeskopia"
 
-#: src/ui/page_backup/execution.rs:100
+#: src/ui/page_backup/execution.rs:101
 msgid "Creating a backup failed."
 msgstr "Babeskopia sortzeak huts egin du."
 
-#: src/ui/page_backup/execution.rs:112
+#: src/ui/page_backup/execution.rs:116
 msgid "Backup completed with warnings."
 msgstr "Babeskopia abisurik gabe osatu da."
 
@@ -1222,19 +1234,23 @@ msgstr "Sareko konexioak ez du neurtuta egon behar"
 msgid "Other backups on repository have to be completed"
 msgstr "Biltegiko beste babeskopiak osatu behar dira"
 
-#: src/ui/page_schedule/status.rs:122
+#: src/ui/page_schedule/status.rs:117
+msgid "Device must be connected to power"
+msgstr "Gailuak argindarrari konektatuta egon behar du"
+
+#: src/ui/page_schedule/status.rs:128
 msgid "Backup device has to be connected"
 msgstr "Babeskopiarako gailua konektatu behar da"
 
-#: src/ui/page_schedule/status.rs:128
+#: src/ui/page_schedule/status.rs:134
 msgid "Network connection has to be available"
 msgstr "Sareko konexioak erabilgarri egon behar du"
 
-#: src/ui/page_schedule/status.rs:138
+#: src/ui/page_schedule/status.rs:144
 msgid "Background process inactive"
 msgstr "Atzeko planoko prozesua ez dago aktibo"
 
-#: src/ui/page_schedule/status.rs:139
+#: src/ui/page_schedule/status.rs:145
 msgid "This is required for scheduled backups"
 msgstr "Hori beharrezkoa da programatutako babeskopietarako"
 
@@ -1248,58 +1264,58 @@ msgstr "Babeskopiaren kokalekua, “{}”, betetzen ari da. Datu guztiak gordetz
 msgid "Request to run in background failed"
 msgstr "Atzeko planoan exekutatzeko eskariak huts egin du"
 
-#: src/ui/utils.rs:102
+#: src/ui/utils.rs:101
 msgid "Schedule backups and continue running backups."
 msgstr "Programatu eta jarraitu babeskopiak exekutatzen."
 
-#: src/ui/utils.rs:118
+#: src/ui/utils.rs:117
 msgid "Run in background disabled"
 msgstr "Atzeko planoko exekuzioa desgaitu da"
 
-#: src/ui/utils.rs:119
+#: src/ui/utils.rs:118
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
 "system settings."
 msgstr "Programatutako babeskopia-funtzionalitatea eta atzeko planoko babeskopiekin jarraitzea ez da erabilgarri egongo. Horretarako, “exekutatu atzeko planoan” aukera gaitu daiteke sistema-ezarpenetan."
 
-#: src/ui/utils.rs:129
+#: src/ui/utils.rs:128
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available."
 msgstr "Sistemak ez du eginbide hori onartzen edo errore bat gertatu da. Programatutako babeskopien funtzionalitatea eta atzeko planoko babeskopiekin jarraitzea ez da erabilgarri egongo."
 
-#: src/ui/utils.rs:140
+#: src/ui/utils.rs:139
 msgid "Failed to start background process"
 msgstr "Huts egin du atzeko planoko prozesua abiarazteak"
 
-#: src/ui/utils.rs:207
+#: src/ui/utils.rs:206
 msgid "Failed to Create Thread"
 msgstr "Huts egin du haria sortzeak"
 
-#: src/ui/utils.rs:221
+#: src/ui/utils.rs:220
 msgid "Select"
 msgstr "Hautatu"
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:32
 msgid "Repository already in use"
 msgstr "Biltegia dagoeneko erabilia dago"
 
-#: src/ui/utils/borg.rs:144
+#: src/ui/utils/borg.rs:145
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
 msgstr "Babeskopiaren biltegia erabilia izaten ari dela dago markatuta. Informazio hau zaharkituta egon daiteke, adibidez ordenagailua argindarrik gabe geratu bazen biltegia erabiltzen ari zinen bitartean."
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:147
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
 "backup data!"
 msgstr "Jarraitu biltegia inor erabiltzen ari ez dela ziur baldin badakizu soilik! Beste programa bat biltegia erabiltzen ari bada, aurrera jarraitzen baduzu, babeskopiaren datuak hondatu egin daitezke!"
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:149
 msgid "Continue Anyway"
 msgstr "Jarraitu dena den"
 
