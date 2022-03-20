@@ -33,10 +33,19 @@ i18n.merge_file(
     install_dir: usrdir / 'metainfo'
 )
 
+# D-Bus activation
+
 configure_file(
     input: 'app.service.in',
     output: '@0@.service'.format(application_id),
     configuration: { 'app_id': application_id, 'bindir': bindir },
+    install_dir: usrdir / 'dbus-1' / 'services'
+)
+
+configure_file(
+    input: 'app.service.in',
+    output: '@0@.Api.service'.format(application_id),
+    configuration: { 'app_id': '@0@.Api'.format(application_id), 'bindir': bindir },
     install_dir: usrdir / 'dbus-1' / 'services'
 )
 
@@ -46,6 +55,8 @@ configure_file(
     configuration: { 'app_id': application_id, 'bindir': bindir },
     install_dir: usrdir / 'dbus-1' / 'services'
 )
+
+# App icons
 
 install_data(
     'app-symbolic.svg',
@@ -58,6 +69,8 @@ install_data(
     rename: '@0@.svg'.format(application_id),
     install_dir: usrdir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
+
+# Post install
 
 meson.add_install_script(
     find_program('update-desktop-database').path(),
