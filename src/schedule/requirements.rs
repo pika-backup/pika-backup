@@ -313,11 +313,9 @@ fn test_check_hourly() {
 
     // no activity
 
-    history
-        .run
-        .push_front(config::history::RunInfo::new_left_running(
-            &(chrono::Local::now() - chrono::Duration::days(1)),
-        ));
+    history.insert(config::history::RunInfo::new_left_running(
+        &(chrono::Local::now() - chrono::Duration::days(1)),
+    ));
 
     let due = Due::check_full(&config, Some(&history), None);
     assert!(match due {
@@ -340,11 +338,9 @@ fn test_check_hourly() {
 
     // due yesterday and completed yesterday
 
-    history
-        .run
-        .push_front(config::history::RunInfo::test_new_mock(
-            chrono::Duration::days(1),
-        ));
+    history.insert(config::history::RunInfo::test_new_mock(
+        chrono::Duration::days(1),
+    ));
 
     let due = Due::check_full(&config, Some(&history), Some(&activity));
 
@@ -370,11 +366,9 @@ fn test_check_hourly() {
 
     // due today and completed today
 
-    history
-        .run
-        .push_front(config::history::RunInfo::test_new_mock(
-            chrono::Duration::zero(),
-        ));
+    history.insert(config::history::RunInfo::test_new_mock(
+        chrono::Duration::zero(),
+    ));
 
     let due = Due::check_full(&config, Some(&history), Some(&activity));
 

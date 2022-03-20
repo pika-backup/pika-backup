@@ -17,6 +17,18 @@ pub struct History {
     pub last_completed: Option<RunInfo>,
 }
 
+impl History {
+    pub fn insert(&mut self, entry: RunInfo) {
+        if matches!(entry.outcome, borg::Outcome::Completed { .. }) {
+            self.last_completed = Some(entry.clone());
+        }
+
+        self.running = None;
+        self.run.push_front(entry);
+        self.run.truncate(HISTORY_LENGTH);
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct Histories(pub BTreeMap<config::ConfigId, History>);
 
@@ -69,13 +81,7 @@ impl Histories {
     pub fn insert(&mut self, config_id: ConfigId, entry: RunInfo) {
         let history = self.0.entry(config_id).or_default();
 
-        if matches!(entry.outcome, borg::Outcome::Completed { .. }) {
-            history.last_completed = Some(entry.clone());
-        }
-
-        history.running = None;
-        history.run.push_front(entry);
-        history.run.truncate(HISTORY_LENGTH);
+        history.insert(entry);
     }
 
     pub fn set_running(&mut self, config_id: ConfigId) {
