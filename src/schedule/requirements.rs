@@ -210,34 +210,33 @@ impl Due {
                         }
                     };
 
-                    if activity >= super::USED_THRESHOLD
-                        && today >= scheduled_date
-                        && last_run.end.date() < scheduled_date
-                    {
-                        Ok(DueCause::Regular)
-                    } else if activity >= super::USED_THRESHOLD
-                        && today >= scheduled_date
-                        && last_completed.map(|x| x.end.date()) < Some(scheduled_date)
-                    {
+                    if last_run.end.date() < scheduled_date {
+                        if activity >= super::USED_THRESHOLD {
+                            Ok(DueCause::Regular)
+                        } else {
+                            Err(Self::NotDue {
+                                next: chrono::Local::now()
+                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                        .unwrap(),
+                            })
+                        }
+                    } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
                         if last_run.end.date() == today {
                             let next = last_run.end.date().succ().and_hms(0, 0, 0);
                             Err(Self::NotDue { next })
+                        } else if activity < super::USED_THRESHOLD {
+                            Err(Self::NotDue {
+                                next: chrono::Local::now()
+                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                        .unwrap(),
+                            })
                         } else {
                             Ok(DueCause::Retry)
                         }
                     } else {
-                        let next = if today < scheduled_date {
-                            scheduled_date.and_hms(0, 0, 0)
-                        } else if activity >= super::USED_THRESHOLD {
-                            scheduled_date.and_hms(0, 0, 0) + chrono::Duration::weeks(1)
-                        } else {
-                            // only wait until device used enough
-                            chrono::Local::now()
-                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                    .unwrap()
-                        };
-
-                        Err(Self::NotDue { next })
+                        Err(Self::NotDue {
+                            next: scheduled_date.and_hms(0, 0, 0) + chrono::Duration::weeks(1),
+                        })
                     }
                 }
                 config::Frequency::Monthly { preferred_day } => {
