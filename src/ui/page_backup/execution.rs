@@ -3,20 +3,27 @@ use adw::prelude::*;
 use crate::borg;
 use crate::config;
 use crate::config::history;
+use crate::schedule;
 use crate::ui;
 
 use crate::ui::prelude::*;
 
 use super::display;
 
-pub async fn start_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
+pub async fn start_backup(
+    config: config::Backup,
+    from_schedule: Option<schedule::DueCause>,
+) -> Result<()> {
     gtk_app().hold();
     let result = startup_backup(config, from_schedule).await;
     gtk_app().release();
     result
 }
 
-async fn startup_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
+async fn startup_backup(
+    config: config::Backup,
+    from_schedule: Option<schedule::DueCause>,
+) -> Result<()> {
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
@@ -45,7 +52,10 @@ async fn startup_backup(config: config::Backup, from_schedule: bool) -> Result<(
     result
 }
 
-async fn run_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
+async fn run_backup(
+    config: config::Backup,
+    from_schedule: Option<schedule::DueCause>,
+) -> Result<()> {
     display::refresh_status();
 
     BACKUP_HISTORY.update(|history| {
@@ -53,8 +63,8 @@ async fn run_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
     });
     ui::write_config()?;
 
-    let command =
-        borg::Command::<borg::task::Create>::new(config.clone()).set_from_schedule(from_schedule);
+    let command = borg::Command::<borg::task::Create>::new(config.clone())
+        .set_from_schedule(from_schedule.clone());
     let communication = command.communication.clone();
 
     // estimate backup size if not running in background
@@ -102,7 +112,7 @@ async fn run_backup(config: config::Backup, from_schedule: bool) -> Result<()> {
         Ok(_) => {
             if config.prune.enabled {
                 let command = borg::Command::<borg::task::Prune>::new(config.clone())
-                    .set_from_schedule(from_schedule);
+                    .set_from_schedule(from_schedule.clone());
                 let _ignore = ui::utils::borg::exec(command).await;
             }
             let _ignore =

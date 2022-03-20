@@ -1,5 +1,7 @@
 pub mod requirements;
 
+pub use requirements::DueCause;
+
 use std::time::Duration;
 
 /// Time in seconds after which the computer is consider "in use"

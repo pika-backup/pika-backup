@@ -5,15 +5,13 @@ use crate::daemon::prelude::*;
 
 use crate::config;
 use crate::daemon::dbus;
+use crate::daemon::schedule;
 use crate::schedule::requirements;
 
 pub fn init() {
     super::status::load();
 
-    glib::timeout_add_seconds(
-        crate::daemon::schedule::SCHEDULE_PROBE_FREQUENCY.as_secs() as u32,
-        minutely,
-    );
+    glib::timeout_add_seconds(schedule::PROBE_FREQUENCY.as_secs() as u32, minutely);
 }
 
 fn minutely() -> glib::Continue {
@@ -36,8 +34,17 @@ fn track_activity() {
         {
             SCHEDULE_STATUS.update_return(|s| {
                 let activity = s.activity.entry(config.id.clone()).or_default();
-
-                activity.tick()
+                match BACKUP_HISTORY
+                    .load()
+                    .get_result(&config.id)
+                    .ok()
+                    .and_then(|x| x.last_completed.as_ref())
+                {
+                    Some(last_completed) if activity.last_update < last_completed.end => {
+                        activity.reset()
+                    }
+                    _ => activity.tick(schedule::PROBE_FREQUENCY),
+                }
             });
         }
     }
@@ -51,17 +58,23 @@ async fn probe(config: &config::Backup) {
     debug!("Probing backup: {}", config.repo);
     debug!("Frequency: {:?}", schedule.frequency);
 
-    let global = requirements::Global::check(config, BACKUP_HISTORY.load().as_ref()).await;
-    let due = requirements::Due::check(config, BACKUP_HISTORY.load().as_ref());
+    let due = requirements::Due::check(config);
 
-    if !global.is_empty() || due.is_err() {
-        debug!("Some requirements are not met");
-        debug!("Global requirement: {:?}", global);
-        debug!("Due requirement: {:?}", due);
-    } else {
-        info!("Trying to start backup {:?}", config.id);
-        dbus::PikaBackup::start_scheduled_backup(&config.id)
-            .await
-            .handle(gettext("Failed to start scheduled backup"));
+    match due {
+        Ok(due_cause) => {
+            debug!("Backup is due because: {:?}", due_cause);
+            let global = requirements::Global::check(config, BACKUP_HISTORY.load().as_ref()).await;
+            if global.is_empty() {
+                info!("Trying to start backup {:?}", config.id);
+                dbus::PikaBackup::start_scheduled_backup(&config.id, due_cause)
+                    .await
+                    .handle(gettext("Failed to start scheduled backup"));
+            } else {
+                debug!("Global requirements are not met: {:#?}", global);
+            }
+        }
+        Err(err) => {
+            debug!("Backup is not yet due: {:?}", err);
+        }
     }
 }

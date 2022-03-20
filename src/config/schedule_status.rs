@@ -34,15 +34,31 @@ impl crate::utils::LookupConfigId for ScheduleStatus {
     }
 }
 
-#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Activity {
     pub used: std::time::Duration,
+    pub last_update: chrono::DateTime<chrono::Local>,
 }
 
 impl Activity {
-    pub fn tick(&mut self) {
+    pub fn tick(&mut self, length: std::time::Duration) {
         if self.used < crate::schedule::USED_THRESHOLD {
-            self.used += std::time::Duration::from_secs(60);
+            self.used += length;
+            self.last_update = chrono::Local::now();
+        }
+    }
+
+    pub fn reset(&mut self) {
+        self.used = std::time::Duration::ZERO;
+        self.last_update = chrono::Local::now();
+    }
+}
+
+impl Default for Activity {
+    fn default() -> Self {
+        Self {
+            used: Default::default(),
+            last_update: chrono::Local::now(),
         }
     }
 }

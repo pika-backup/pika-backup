@@ -2,9 +2,15 @@ use crate::daemon::prelude::*;
 
 use zbus::Result;
 
+use crate::schedule;
+
 #[zbus::dbus_proxy(interface = "org.gnome.World.PikaBackup1")]
 trait PikaBackup {
-    fn start_scheduled_backup(&self, config_id: &ConfigId) -> Result<()>;
+    fn start_scheduled_backup(
+        &self,
+        config_id: &ConfigId,
+        due_cause: schedule::DueCause,
+    ) -> Result<()>;
 }
 
 pub struct PikaBackup;
@@ -18,7 +24,13 @@ impl PikaBackup {
             .await
     }
 
-    pub async fn start_scheduled_backup(config_id: &ConfigId) -> Result<()> {
-        Self::proxy().await?.start_scheduled_backup(config_id).await
+    pub async fn start_scheduled_backup(
+        config_id: &ConfigId,
+        due_cause: schedule::DueCause,
+    ) -> Result<()> {
+        Self::proxy()
+            .await?
+            .start_scheduled_backup(config_id, due_cause)
+            .await
     }
 }

@@ -5,17 +5,22 @@ pub mod init;
 
 pub use display::{refresh, refresh_status};
 
+use crate::schedule;
 use crate::ui::prelude::*;
 
 pub fn activate_action_backup(id: ConfigId) {
     Handler::run(async move {
-        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone(), false).await
+        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone(), None).await
     });
 }
 
-pub fn dbus_start_scheduled_backup(id: ConfigId) {
+pub fn dbus_start_scheduled_backup(id: ConfigId, due_cause: schedule::DueCause) {
     Handler::run(async move {
-        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone(), true).await
+        execution::start_backup(
+            BACKUP_CONFIG.load().get_result(&id)?.clone(),
+            Some(due_cause),
+        )
+        .await
     });
 }
 

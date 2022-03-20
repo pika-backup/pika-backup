@@ -2,6 +2,7 @@ use super::task::Task;
 use super::*;
 use crate::config;
 use crate::prelude::*;
+use crate::schedule;
 use async_std::prelude::*;
 use process::*;
 use utils::*;
@@ -10,7 +11,7 @@ use utils::*;
 pub struct Command<T: Task> {
     pub config: config::Backup,
     pub communication: Communication<T>,
-    pub from_schedule: bool,
+    pub from_schedule: Option<schedule::DueCause>,
     password: Option<config::Password>,
 }
 
@@ -24,12 +25,12 @@ impl<T: Task> Command<T> {
         Self {
             config,
             communication: Communication::default(),
-            from_schedule: false,
+            from_schedule: None,
             password: None,
         }
     }
 
-    pub fn set_from_schedule(mut self, from_schedule: bool) -> Self {
+    pub fn set_from_schedule(mut self, from_schedule: Option<schedule::DueCause>) -> Self {
         self.from_schedule = from_schedule;
 
         self

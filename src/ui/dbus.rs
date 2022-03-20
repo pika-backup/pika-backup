@@ -1,19 +1,22 @@
 use crate::ui::prelude::*;
 use async_std::prelude::*;
 
-use crate::ui;
+use crate::{schedule, ui};
 use async_std::channel::Sender;
 use once_cell::sync::Lazy;
 
 struct PikaBackup {
-    sender: Sender<ConfigId>,
+    sender: Sender<(ConfigId, schedule::DueCause)>,
 }
 
 #[zbus::dbus_interface(name = "org.gnome.World.PikaBackup1")]
 impl PikaBackup {
-    async fn start_scheduled_backup(&self, config_id: ConfigId) {
-        info!("Request to start scheduled backup {:?}", config_id);
-        if let Err(err) = self.sender.send(config_id).await {
+    async fn start_scheduled_backup(&self, config_id: ConfigId, due_cause: schedule::DueCause) {
+        info!(
+            "Request to start scheduled backup {:?} {:?}",
+            config_id, due_cause
+        );
+        if let Err(err) = self.sender.send((config_id, due_cause)).await {
             error!("{}", err);
         }
     }
@@ -31,14 +34,14 @@ pub fn init() {
     });
 
     Handler::run(async move {
-        while let Some(config_id) = receiver.next().await {
-            ui::page_backup::dbus_start_scheduled_backup(config_id);
+        while let Some((config_id, due_cause)) = receiver.next().await {
+            ui::page_backup::dbus_start_scheduled_backup(config_id, due_cause);
         }
         Ok(())
     })
 }
 
-async fn spawn_server(sender: Sender<ConfigId>) -> zbus::Result<()> {
+async fn spawn_server(sender: Sender<(ConfigId, schedule::DueCause)>) -> zbus::Result<()> {
     ZBUS_SESSION
         .object_server()
         .at(crate::dbus_api_path(), PikaBackup { sender })

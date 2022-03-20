@@ -136,7 +136,9 @@ impl RunInfo {
     pub fn test_new_mock(ago: chrono::Duration) -> Self {
         Self {
             end: Local::now() - ago,
-            outcome: borg::Outcome::Aborted(borg::error::Abort::User),
+            outcome: borg::Outcome::Completed {
+                stats: borg::json::Stats::test_new_mock(),
+            },
             messages: Default::default(),
             include: Default::default(),
             exclude: Default::default(),

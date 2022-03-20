@@ -81,6 +81,12 @@ pub enum Outcome {
     Failed(Failure),
 }
 
+impl Outcome {
+    pub fn is_completed(&self) -> bool {
+        matches!(self, Outcome::Completed { .. })
+    }
+}
+
 impl std::fmt::Display for Outcome {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {

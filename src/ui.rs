@@ -28,7 +28,7 @@ mod toast_size_estimate;
 mod utils;
 mod widgets;
 
-pub(crate) use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
+pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
 
 use gtk::prelude::*;
 
@@ -38,6 +38,7 @@ use crate::config::Loadable;
 use crate::ui;
 use crate::ui::prelude::*;
 use config::ArcSwapWriteable;
+use config::TrackChanges;
 
 pub fn main() {
     // suppress "gdk_pixbuf_from_pixdata()" debug spam
@@ -104,6 +105,8 @@ fn on_startup(_app: &gtk::Application) {
     adw::init();
     debug!("Signal 'startup'");
     load_config();
+    config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS)
+        .expect("Failed to load schedule status.");
 
     if let Some(display) = gtk::gdk::Display::default() {
         let provider = gtk::CssProvider::new();

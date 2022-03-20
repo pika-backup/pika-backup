@@ -32,6 +32,14 @@ pub fn backup_config() -> std::sync::Arc<dyn LookupConfigId<Item = config::Backu
     }
 }
 
+pub fn backup_history() -> std::sync::Arc<dyn LookupConfigId<Item = config::history::History>> {
+    if matches!(LIB_USER.get(), Some(&LibUser::Daemon)) {
+        Lazy::force(&crate::daemon::BACKUP_HISTORY).load().clone()
+    } else {
+        Lazy::force(&crate::ui::BACKUP_HISTORY).load().clone()
+    }
+}
+
 pub fn schedule_status() -> std::sync::Arc<dyn LookupConfigId<Item = config::Activity>> {
     if matches!(LIB_USER.get(), Some(&LibUser::Daemon)) {
         Lazy::force(&crate::daemon::SCHEDULE_STATUS).load().clone()

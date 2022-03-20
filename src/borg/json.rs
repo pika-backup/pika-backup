@@ -65,6 +65,25 @@ pub struct Stats {
     pub archive: NewArchive,
 }
 
+#[cfg(test)]
+impl Stats {
+    pub fn test_new_mock() -> Self {
+        Stats {
+            archive: NewArchive {
+                duration: 0.,
+                id: ArchiveId::new(String::new()),
+                name: ArchiveName::new(String::new()),
+                stats: NewArchiveSize {
+                    compressed_size: 0,
+                    deduplicated_size: 0,
+                    nfiles: 0,
+                    original_size: 0,
+                },
+            },
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct NewArchive {
     pub duration: f64,

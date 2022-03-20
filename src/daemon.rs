@@ -8,12 +8,15 @@ mod init;
 mod prelude;
 mod schedule;
 
-pub(crate) use globals::{BACKUP_CONFIG, SCHEDULE_STATUS};
+pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
 
 use gio::prelude::*;
 use prelude::*;
 
 pub fn main() {
+    LIB_USER
+        .set(LibUser::Daemon)
+        .expect("Could not set daemon mode for library.");
     init::init();
     gio_app().run();
 }

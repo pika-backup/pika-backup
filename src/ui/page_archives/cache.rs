@@ -3,10 +3,14 @@ use crate::ui::prelude::*;
 use super::display;
 use crate::borg;
 use crate::config;
+use crate::schedule;
 use crate::ui;
 use crate::ui::utils::repo_cache::RepoCache;
 
-pub async fn refresh_archives(config: config::Backup, from_schedule: bool) -> Result<()> {
+pub async fn refresh_archives(
+    config: config::Backup,
+    from_schedule: Option<schedule::DueCause>,
+) -> Result<()> {
     info!("Refreshing archives cache");
 
     if Some(true) == REPO_CACHE.load().get(&config.repo_id).map(|x| x.reloading) {

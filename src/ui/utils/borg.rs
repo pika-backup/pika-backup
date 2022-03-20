@@ -166,7 +166,9 @@ async fn test_exec_operation_register() {
     let mut config = crate::config::Backup::test_new_mock();
     config.schedule.frequency = crate::config::Frequency::Hourly;
 
-    let command = borg::Command::<borg::task::List>::new(config).set_from_schedule(true);
+    let command = borg::Command::<borg::task::List>::new(config)
+        .set_from_schedule(Some(crate::schedule::DueCause::Regular));
+
     assert!(!is_backup_running());
     assert!(exec(command.clone()).await.is_err());
     assert!(!is_backup_running());

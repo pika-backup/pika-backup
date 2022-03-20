@@ -9,7 +9,7 @@ mod schedule_status;
 mod writeable;
 
 pub use history::Histories;
-pub use loadable::{ConfigType, Loadable};
+pub use loadable::{ConfigType, Loadable, TrackChanges};
 pub use prune::*;
 pub use schedule::*;
 pub use schedule_status::*;

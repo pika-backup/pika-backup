@@ -134,7 +134,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     async fn check(self_: Rc<Self>) {
-        if self_.command.from_schedule
+        if self_.command.from_schedule.is_some()
             && self_.is_time_metered_exceeded()
             && self_.command.config.repo.is_host_local().await == Some(false)
         {
@@ -142,7 +142,7 @@ impl<T: borg::Task> Operation<T> {
             self_
                 .communication()
                 .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));
-        } else if self_.command.from_schedule && self_.is_time_on_battery_exceeded() {
+        } else if self_.command.from_schedule.is_some() && self_.is_time_on_battery_exceeded() {
             info!("Stopping scheduled operation on battery now.");
             self_
                 .communication()
@@ -168,7 +168,7 @@ impl<T: borg::Task> Operation<T> {
 
     pub fn is_application_inhibit(&self) -> bool {
         // Do not inhibit for hourly backups
-        !(self.command.from_schedule
+        !(self.command.from_schedule.is_some()
             && matches!(
                 self.command.config.schedule.frequency,
                 config::Frequency::Hourly

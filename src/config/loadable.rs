@@ -1,3 +1,10 @@
+use crate::prelude::*;
+use gio::prelude::*;
+
+use arc_swap::ArcSwap;
+use once_cell::sync::Lazy;
+use std::cell::Cell;
+
 pub trait Loadable: Sized {
     fn from_file() -> Result<Self, std::io::Error>;
 }
@@ -17,6 +24,54 @@ impl<C: ConfigType + serde::de::DeserializeOwned + Default> Loadable for C {
         }
 
         Ok(serde_json::de::from_reader(file?)?)
+    }
+}
+
+pub trait TrackChanges: Sized {
+    fn update_on_change(store: &'static Lazy<ArcSwap<Self>>) -> std::io::Result<()>;
+}
+
+thread_local! {
+static FILE_MONITORS: Cell<Vec<gio::FileMonitor>> = Default::default();
+}
+
+impl<C: ConfigType + serde::de::DeserializeOwned + Default + Clone> TrackChanges for C {
+    fn update_on_change(store: &'static Lazy<ArcSwap<Self>>) -> std::io::Result<()> {
+        let path = Self::path();
+        let file = gio::File::for_path(&path);
+        let monitor = file
+            .monitor_file(gio::FileMonitorFlags::NONE, gio::Cancellable::NONE)
+            .unwrap_or_else(|err| {
+                panic!("Failed to initiate file monitor for {:?} ({})", path, err)
+            });
+
+        monitor.connect_changed(
+            |_monitor: &gio::FileMonitor,
+             file: &gio::File,
+             _other_file: Option<&gio::File>,
+             event: gio::FileMonitorEvent| {
+                if event == gio::FileMonitorEvent::ChangesDoneHint {
+                    info!("Reloading file after change {:?}", file.path());
+                    // TODO unwrap
+                    let new = Self::from_file().unwrap();
+                    store.update(|s| *s = new.clone());
+                }
+            },
+        );
+
+        debug!("File monitor connected for {:?}", path);
+
+        FILE_MONITORS.with(|file_monitors| {
+            let mut new = file_monitors.take();
+            new.push(monitor);
+            file_monitors.set(new);
+        });
+
+        info!("Initial load for {:?}", path);
+        let new = Self::from_file()?;
+        store.update(|s| *s = new.clone());
+
+        Ok(())
     }
 }
 
