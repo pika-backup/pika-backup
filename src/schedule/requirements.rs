@@ -167,29 +167,35 @@ impl Due {
                     }
                 }
                 config::Frequency::Daily { preferred_time } => {
-                    let scheduled_datetime =
-                        chrono::Local::today().and_time(preferred_time).unwrap();
-                    let scheduled_datetime_before = scheduled_datetime - chrono::Duration::days(1);
+                    let now = chrono::Local::now();
 
-                    #[allow(clippy::if_same_then_else)]
-                    if last_run.end < scheduled_datetime
-                        && scheduled_datetime < chrono::Local::now()
-                    {
-                        // regular backup
-                        Ok(DueCause::Regular)
-                    } else if scheduled_datetime_before > last_run.end
-                        && activity >= super::USED_THRESHOLD
-                    {
-                        // catch-up backup
-                        Ok(DueCause::Regular)
-                    } else {
-                        let next = if chrono::Local::now() < scheduled_datetime {
-                            scheduled_datetime
+                    let scheduled_datetime = {
+                        let datetime = now
+                            .date()
+                            .and_time(preferred_time)
+                            .unwrap_or_else(|| now.date().pred().and_hms(0, 0, 0));
+
+                        if datetime > now {
+                            datetime - chrono::Duration::days(1)
                         } else {
-                            scheduled_datetime + chrono::Duration::days(1)
-                        };
+                            datetime
+                        }
+                    };
 
-                        Err(Self::NotDue { next })
+                    if last_run.end < scheduled_datetime {
+                        if activity >= super::USED_THRESHOLD {
+                            Ok(DueCause::Regular)
+                        } else {
+                            Err(Self::NotDue {
+                                next: chrono::Local::now()
+                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                        .unwrap_or_else(|_| chrono::Duration::zero()),
+                            })
+                        }
+                    } else {
+                        Err(Self::NotDue {
+                            next: scheduled_datetime + chrono::Duration::days(1),
+                        })
                     }
                 }
                 config::Frequency::Weekly { preferred_weekday } => {
@@ -217,7 +223,7 @@ impl Due {
                             Err(Self::NotDue {
                                 next: chrono::Local::now()
                                     + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                        .unwrap(),
+                                        .unwrap_or_else(|_| chrono::Duration::zero()),
                             })
                         }
                     } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
@@ -228,7 +234,7 @@ impl Due {
                             Err(Self::NotDue {
                                 next: chrono::Local::now()
                                     + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                        .unwrap(),
+                                        .unwrap_or_else(|_| chrono::Duration::zero()),
                             })
                         } else {
                             Ok(DueCause::Retry)
@@ -293,7 +299,101 @@ fn test_check_running() {
 }
 
 #[test]
-fn test_check_hourly() {
+fn test_check_daily() {
+    let mut config = config::Backup::test_new_mock();
+    let mut history = config::history::History::default();
+    let activity = config::Activity {
+        used: super::USED_THRESHOLD,
+        last_update: chrono::Local::now(),
+    };
+    let preferred_time = chrono::Local::now().time() - chrono::Duration::hours(1);
+
+    config.schedule.frequency = config::Frequency::Daily { preferred_time };
+
+    // no activity
+
+    history.insert(config::history::RunInfo::test_new_mock(
+        chrono::Duration::hours(2),
+    ));
+
+    let due = Due::check_full(&config, Some(&history), None);
+    assert!(match due {
+        Err(Due::NotDue { next }) => {
+            // due after device used enough
+            assert!(
+                (chrono::Local::now() + chrono::Duration::from_std(super::USED_THRESHOLD).unwrap())
+                    - next
+                    < chrono::Duration::seconds(1)
+            );
+            true
+        }
+        _ => false,
+    });
+
+    // is due
+
+    history.insert(config::history::RunInfo::test_new_mock(
+        chrono::Duration::hours(2),
+    ));
+
+    let due = Due::check_full(&config, Some(&history), Some(&activity));
+    matches::assert_matches!(due, Ok(DueCause::Regular));
+
+    // failed today before preferred time
+
+    history.insert(config::history::RunInfo::new_left_running(
+        &(chrono::Local::now() - chrono::Duration::hours(2)),
+    ));
+
+    let due = Due::check_full(&config, Some(&history), Some(&activity));
+    matches::assert_matches!(due, Ok(DueCause::Regular));
+
+    // failed now, try again tomorrow
+
+    history.insert(config::history::RunInfo::new_left_running(
+        &chrono::Local::now(),
+    ));
+
+    let due = Due::check_full(&config, Some(&history), Some(&activity));
+    assert!(match due {
+        Err(Due::NotDue { next }) => {
+            assert_eq!(
+                next,
+                chrono::Local::today()
+                    .succ()
+                    .and_time(preferred_time)
+                    .unwrap()
+            );
+            true
+        }
+        _ => false,
+    });
+
+    // completed today
+
+    history.run = Default::default();
+    history.insert(config::history::RunInfo::test_new_mock(
+        chrono::Duration::zero(),
+    ));
+
+    let due = Due::check_full(&config, Some(&history), Some(&activity));
+    assert!(match due {
+        Err(Due::NotDue { next }) => {
+            assert_eq!(
+                next,
+                chrono::Local::today()
+                    .succ()
+                    .and_time(preferred_time)
+                    .unwrap()
+            );
+            true
+        }
+        _ => false,
+    });
+}
+
+#[test]
+fn test_check_weekly() {
     let mut config = config::Backup::test_new_mock();
     let mut history = Default::default();
     let activity = config::Activity {
@@ -375,7 +475,7 @@ fn test_check_hourly() {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
-                (chrono::Local::today() + chrono::Duration::days(7)).and_hms(0, 0, 0)
+                chrono::Local::today().and_hms(0, 0, 0) + chrono::Duration::weeks(1)
             );
             true
         }
