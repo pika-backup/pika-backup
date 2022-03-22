@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-14 15:29+0000\n"
-"PO-Revision-Date: 2022-03-14 19:10+0100\n"
+"POT-Creation-Date: 2022-03-18 00:21+0000\n"
+"PO-Revision-Date: 2022-03-18 18:36+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -138,43 +138,47 @@ msgstr "Denna raderingsåtgärd skulle radera för många arkiv."
 msgid "Completed"
 msgstr "Färdig"
 
-#: src/borg/error.rs:105
+#: src/borg/error.rs:108
 msgid "Aborted on user request."
 msgstr "Avbröts på användarens begäran."
 
-#: src/borg/error.rs:109
+#: src/borg/error.rs:112
 msgid "Aborted because only metered connection was available."
 msgstr "Avbröts då bara anslutning med datakvot fanns tillgänglig."
 
-#: src/borg/error.rs:111
+#: src/borg/error.rs:117
+msgid "Aborted because too long not connected to power."
+msgstr "Avbröts på grund av för lång tid utan anslutning till nätspänning."
+
+#: src/borg/error.rs:119
 msgid "Potential internal error."
 msgstr "Potentiellt internt fel."
 
-#: src/borg/error.rs:150
+#: src/borg/error.rs:158
 msgid "Connection closed by remote host."
 msgstr "Anslutning stängdes av fjärrvärd."
 
-#: src/borg/error.rs:152 src/ui/utils/borg.rs:152
+#: src/borg/error.rs:160 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Lagringsplats används redan."
 
-#: src/borg/error.rs:153
+#: src/borg/error.rs:161
 msgid "Invalid encryption password."
 msgstr "Ogiltigt krypteringslösenord."
 
-#: src/borg/error.rs:155
+#: src/borg/error.rs:163
 msgid "A repository already exists at this location."
 msgstr "En lagringsplats finns redan på denna plats."
 
-#: src/borg/error.rs:157
+#: src/borg/error.rs:165
 msgid "No repository exists at this location."
 msgstr "Ingen lagringsplats finns på denna plats."
 
-#: src/borg/error.rs:160
+#: src/borg/error.rs:168
 msgid "Connection closed by remote host: “{}”"
 msgstr "Anslutning stängdes av fjärrvärd: ”{}”"
 
-#: src/borg/error.rs:163
+#: src/borg/error.rs:171
 msgid "Unspecified error."
 msgstr "Ospecificerat fel."
 
@@ -295,7 +299,7 @@ msgstr "Säkerhetskopierar data"
 msgid "Mounting Backup Archives"
 msgstr "Monterar säkerhetskopieringsarkiv"
 
-#: src/borg/task.rs:43 src/ui/dialog_prune.rs:20 src/ui/dialog_prune.rs:86
+#: src/borg/task.rs:43 src/ui/dialog_prune.rs:70
 msgid "Delete old Archives"
 msgstr "Ta bort äldre arkiv"
 
@@ -307,7 +311,7 @@ msgstr "Avgör hur många arkiv som skulle raderas"
 msgid "Update Archive List"
 msgstr "Uppdaterar arkivlista"
 
-#: src/config.rs:453 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:492 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Fjärrlagring"
 
@@ -339,36 +343,36 @@ msgstr "{} på disken ”{}”"
 msgid "Run Backup"
 msgstr "Kör säkerhetskopia"
 
-#: src/daemon/schedule/init.rs:75
+#: src/daemon/schedule/init.rs:65
 msgid "Failed to start scheduled backup"
 msgstr "Misslyckades med att starta schemalagd säkerhetskopia"
 
-#: src/ui.rs:192 src/ui/page_backup/events.rs:20
+#: src/ui.rs:170 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Avbryt skapande av säkerhetskopia?"
 
-#: src/ui.rs:193 src/ui/page_backup/events.rs:21
+#: src/ui.rs:171 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Säkerhetskopian förblir ofullständig om den avbryts nu."
 
-#: src/ui.rs:194 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:172 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/ui.rs:195 src/ui/page_backup/events.rs:23
+#: src/ui.rs:173 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Avbryt"
 
-#: src/ui.rs:270
+#: src/ui.rs:248
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Misslyckades med att köra ”borg”. Är borg-backup installerat korrekt?"
 
-#: src/ui.rs:294
+#: src/ui.rs:272
 msgid "BorgBackup version too old"
 msgstr "BorgBackup-version för gammal"
 
-#: src/ui.rs:296
+#: src/ui.rs:274
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -376,11 +380,11 @@ msgstr ""
 "Den installerade versionen {} av BorgBackup är för gammal. Vissa funktioner "
 "som kräver version {}.{}.{} av borg-backup kommer inte att fungera."
 
-#: src/ui.rs:307
+#: src/ui.rs:285
 msgid "BorgBackup version too new"
 msgstr "BorgBackup-version för ny"
 
-#: src/ui.rs:309
+#: src/ui.rs:287
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -388,19 +392,19 @@ msgstr ""
 "Den installerade versionen {} av BorgBackup är för ny. Vissa funktioner som "
 "kräver version {}.{}.{} av borg-backup kommer inte att fungera."
 
-#: src/ui.rs:319
+#: src/ui.rs:297
 msgid "Cannot check borg-backup version"
 msgstr "Det går inte att kontrollera version av borg-backup"
 
-#: src/ui.rs:321
+#: src/ui.rs:299
 msgid "The installed version {} might not work."
 msgstr "Den installerade versionen {} kommer kanske inte att fungera."
 
-#: src/ui.rs:377
+#: src/ui.rs:355
 msgid "Could not load configuration file."
 msgstr "Kunde inte läsa in konfigurationsfil."
 
-#: src/ui.rs:393
+#: src/ui.rs:371
 msgid "Could not write configuration file."
 msgstr "Kunde inte skriva konfigurationsfil."
 
@@ -717,7 +721,7 @@ msgstr "Misslyckades med att montera."
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
-#: src/ui/utils/borg.rs:156
+#: src/ui/utils/borg.rs:148
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -738,7 +742,7 @@ msgstr "Lösenord"
 msgid "This requires the encryption password of the repository."
 msgstr "Detta kräver krypteringslösenordet för lagringsplatsen."
 
-#: src/ui/dialog_prune.rs:44
+#: src/ui/dialog_prune.rs:28
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Misslyckades med att avgöra hur många arkiv som skulle raderas"
 
@@ -1055,7 +1059,7 @@ msgstr "Säkerhetskopiering med id ”{}” finns redan."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Kunde inte hitta säkerhetskopieringskonfiguration med id ”{}”."
 
-#: src/ui/page_archives/cache.rs:27
+#: src/ui/page_archives/cache.rs:29
 msgid "Failed to refresh archives cache."
 msgstr "Misslyckades med att uppdatera arkivcache."
 
@@ -1135,11 +1139,11 @@ msgstr "Fortsätt bläddra"
 msgid "Start Backup"
 msgstr "Starta säkerhetskopiering"
 
-#: src/ui/page_backup/execution.rs:100
+#: src/ui/page_backup/execution.rs:101
 msgid "Creating a backup failed."
 msgstr "Det gick inte att skapa en säkerhetskopia."
 
-#: src/ui/page_backup/execution.rs:112
+#: src/ui/page_backup/execution.rs:116
 msgid "Backup completed with warnings."
 msgstr "Säkerhetskopia slutförd med varningar."
 
@@ -1283,19 +1287,23 @@ msgstr "Nätverksanslutning får inte ha datakvot"
 msgid "Other backups on repository have to be completed"
 msgstr "Andra säkerhetskopior i förrådet måste slutföras"
 
-#: src/ui/page_schedule/status.rs:122
+#: src/ui/page_schedule/status.rs:117
+msgid "Device must be connected to power"
+msgstr "Enheten måste vara ansluten till nätspänning"
+
+#: src/ui/page_schedule/status.rs:128
 msgid "Backup device has to be connected"
 msgstr "Enhet för säkerhetskopia måste anslutas"
 
-#: src/ui/page_schedule/status.rs:128
+#: src/ui/page_schedule/status.rs:134
 msgid "Network connection has to be available"
 msgstr "Nätverksanslutning måste finnas tillgänglig"
 
-#: src/ui/page_schedule/status.rs:138
+#: src/ui/page_schedule/status.rs:144
 msgid "Background process inactive"
 msgstr "Bakgrundsprocessen inaktiv"
 
-#: src/ui/page_schedule/status.rs:139
+#: src/ui/page_schedule/status.rs:145
 msgid "This is required for scheduled backups"
 msgstr "Detta krävs för schemalagda säkerhetskopior"
 
@@ -1351,11 +1359,11 @@ msgstr "Misslyckades med att skapa tråd"
 msgid "Select"
 msgstr "Välj"
 
-#: src/ui/utils/borg.rs:40
+#: src/ui/utils/borg.rs:32
 msgid "Repository already in use"
 msgstr "Lagringsplats används redan"
 
-#: src/ui/utils/borg.rs:153
+#: src/ui/utils/borg.rs:145
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1364,7 +1372,7 @@ msgstr ""
 "kan vara föråldrad om datorn exempelvis förlorade strömmen under tiden den "
 "använde lagringsplatsen."
 
-#: src/ui/utils/borg.rs:155
+#: src/ui/utils/borg.rs:147
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1374,7 +1382,7 @@ msgstr ""
 "program! Om du fortsätter medan ett annat program använder lagringsplatsen "
 "kan säkerhetskopieringsdata skadas!"
 
-#: src/ui/utils/borg.rs:157
+#: src/ui/utils/borg.rs:149
 msgid "Continue Anyway"
 msgstr "Fortsätt ändå"
 
