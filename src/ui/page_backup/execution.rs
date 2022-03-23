@@ -111,9 +111,13 @@ async fn run_backup(
         Err(err) => Err(Message::new(gettext("Creating a backup failed."), err).into()),
         Ok(_) => {
             if config.prune.enabled {
-                let command = borg::Command::<borg::task::Prune>::new(config.clone())
-                    .set_from_schedule(from_schedule.clone());
-                let _ignore = ui::utils::borg::exec(command).await;
+                // use current config for pruning archives
+                // assuming it's closer to what users expect
+                if let Ok(current_config) = BACKUP_CONFIG.load().get_result(&config.id) {
+                    let command = borg::Command::<borg::task::Prune>::new(current_config.clone())
+                        .set_from_schedule(from_schedule.clone());
+                    let _ignore = ui::utils::borg::exec(command).await;
+                }
             }
             let _ignore =
                 ui::page_archives::cache::refresh_archives(config.clone(), from_schedule).await;
