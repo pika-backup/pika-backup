@@ -100,7 +100,7 @@ pub async fn background_permission() -> Result<()> {
             &ashpd::WindowIdentifier::default(),
             &gettext("Schedule backups and continue running backups."),
             true,
-            Some(&["pika-backupd"]),
+            Some(&["pika-backup-monitor"]),
             // Do not use dbus-activation because that would start the UI
             // See <https://gitlab.gnome.org/Teams/Design/hig-www/-/issues/107>
             false,
@@ -132,8 +132,9 @@ pub async fn background_permission() -> Result<()> {
             }
             Ok(_) => {
                 let cmd = std::process::Command::new("flatpak-spawn")
+                    // TODO: wow that's aggressive :)
                     .arg("--env=G_MESSAGES_DEBUG=all")
-                    .arg("pika-backupd")
+                    .arg("pika-backup-monitor")
                     .spawn();
 
                 cmd.err_to_msg(gettext("Failed to start background process"))

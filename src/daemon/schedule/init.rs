@@ -65,10 +65,17 @@ async fn probe(config: &config::Backup) {
             debug!("Backup is due because: {:?}", due_cause);
             let global = requirements::Global::check(config, BACKUP_HISTORY.load().as_ref()).await;
             if global.is_empty() {
-                info!("Trying to start backup {:?}", config.id);
-                dbus::PikaBackup::start_scheduled_backup(&config.id, due_cause)
-                    .await
-                    .handle(gettext("Failed to start scheduled backup"));
+                let hint = requirements::Hint::check(config);
+
+                if hint.contains(&requirements::Hint::DeviceMissing) {
+                    // TODO: check if path maybe still exists
+                    debug!("Backup device is not connected");
+                } else {
+                    info!("Trying to start backup {:?}", config.id);
+                    dbus::PikaBackup::start_scheduled_backup(&config.id, due_cause)
+                        .await
+                        .handle(gettext("Failed to start scheduled backup"));
+                }
             } else {
                 debug!("Global requirements are not met: {:#?}", global);
             }

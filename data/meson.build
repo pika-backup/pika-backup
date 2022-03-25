@@ -16,8 +16,8 @@ i18n.merge_file(
 )
 
 install_data(
-    'app.Daemon.desktop',
-    rename: '@0@.Daemon.desktop'.format(application_id),
+    'app.Monitor.desktop',
+    rename: '@0@.Monitor.desktop'.format(application_id),
     install_dir: etcdir / 'xdg' / 'autostart'
 )
 
@@ -50,8 +50,8 @@ configure_file(
 )
 
 configure_file(
-    input: 'app.Daemon.service.in',
-    output: '@0@.Daemon.service'.format(application_id),
+    input: 'app.Monitor.service.in',
+    output: '@0@.Monitor.service'.format(application_id),
     configuration: { 'app_id': application_id, 'bindir': bindir },
     install_dir: usrdir / 'dbus-1' / 'services'
 )

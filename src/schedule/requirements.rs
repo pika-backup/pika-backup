@@ -93,7 +93,7 @@ impl Global {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Hint {
     DeviceMissing,
     NetworkMissing,
@@ -447,7 +447,7 @@ fn test_check_weekly() {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
-                (chrono::Local::today() + chrono::Duration::days(6)).and_hms(0, 0, 0)
+                chrono::Local::today().and_hms(0, 0, 0) + chrono::Duration::days(6)
             );
             true
         }
