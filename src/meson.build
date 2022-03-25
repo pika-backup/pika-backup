@@ -55,10 +55,10 @@ copy_daemon_binary = custom_target(
   build_always_stale: true,
   install: true,
   install_dir: bindir,
-  output: meson.project_name() + 'd',
+  output: meson.project_name() + '-monitor',
   command: [
     'cp',
-    target_dir / rust_target / meson.project_name() + 'd',
+    target_dir / rust_target / meson.project_name() + '-monitor',
     '@OUTPUT@',
   ],
 )

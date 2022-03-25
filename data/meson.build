@@ -1,6 +1,10 @@
 podir = '../po'
 
-application_id = run_command('cat', 'APPLICATION_ID', check: true).stdout() + get_option('app_id_suffix')
+plain_id = run_command('cat', 'APPLICATION_ID', check: true).stdout()
+application_id = plain_id + get_option('app_id_suffix')
+daemon_id = plain_id + '.Monitor' + get_option('app_id_suffix')
+
+# Desktop files
 
 i18n.merge_file(
     type: 'desktop',
@@ -15,11 +19,27 @@ i18n.merge_file(
     install_dir: usrdir / 'applications'
 )
 
+daemon_desktop_target = i18n.merge_file(
+    type: 'desktop',
+    input: configure_file(
+        input: 'app.Monitor.desktop.in',
+        output: 'tmp.app.Monitor.desktop',
+        configuration: { 'app_id': application_id }
+    ),
+    output: '@0@.desktop'.format(daemon_id),
+    po_dir: podir,
+    install: true,
+    install_dir: usrdir / 'applications'
+)
+
+# Autostart
+
 install_data(
-    'app.Monitor.desktop',
-    rename: '@0@.Monitor.desktop'.format(application_id),
+    daemon_desktop_target[0].full_path(),
     install_dir: etcdir / 'xdg' / 'autostart'
 )
+
+# Appdata
 
 i18n.merge_file(
     input: configure_file(
@@ -45,14 +65,14 @@ configure_file(
 configure_file(
     input: 'app.service.in',
     output: '@0@.Api.service'.format(application_id),
-    configuration: { 'app_id': '@0@.Api'.format(application_id), 'bindir': bindir },
+    configuration: { 'app_id': daemon_id, 'bindir': bindir },
     install_dir: usrdir / 'dbus-1' / 'services'
 )
 
 configure_file(
     input: 'app.Monitor.service.in',
-    output: '@0@.Monitor.service'.format(application_id),
-    configuration: { 'app_id': application_id, 'bindir': bindir },
+    output: '@0@.service'.format(daemon_id),
+    configuration: { 'app_id': daemon_id, 'bindir': bindir },
     install_dir: usrdir / 'dbus-1' / 'services'
 )
 

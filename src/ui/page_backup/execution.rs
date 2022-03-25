@@ -108,7 +108,7 @@ async fn run_backup(
 
     match result {
         Err(borg::Error::Aborted(_)) => Ok(()),
-        Err(err) => Err(Message::new(gettext("Creating a backup failed."), err).into()),
+        Err(err) => Err(Message::new(gettext("Backup Failed"), err).into()),
         Ok(_) => {
             if config.prune.enabled {
                 // use current config for pruning archives
@@ -127,7 +127,7 @@ async fn run_backup(
                 >= Some(borg::log_json::LogLevel::Warning)
             {
                 Err(Message::new(
-                    gettext("Backup completed with warnings."),
+                    gettext("Backup Completed with Warnings"),
                     run_info.messages.filter_hidden().to_string(),
                 )
                 .into())

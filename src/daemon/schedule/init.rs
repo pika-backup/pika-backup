@@ -2,6 +2,8 @@
 # Daemon initialization
 */
 use crate::daemon::prelude::*;
+use gio::prelude::*;
+use std::collections::HashMap;
 
 use crate::config;
 use crate::daemon::dbus;
@@ -52,6 +54,22 @@ fn track_activity() {
     super::status::write();
 }
 
+pub struct Reminder;
+
+impl Reminder {
+    fn is_remind_again(id: &ConfigId) -> bool {
+        !matches!(LAST_REMINDED.load().get(id), Some(instant) if instant.elapsed() < super::REMIND_UNMET_CRITERIA)
+    }
+
+    fn reminded_now(id: &ConfigId) {
+        LAST_REMINDED.rcu(|x| {
+            let mut new = HashMap::clone(x);
+            new.insert(id.clone(), std::time::Instant::now());
+            new
+        });
+    }
+}
+
 async fn probe(config: &config::Backup) {
     let schedule = &config.schedule;
     debug!("---");
@@ -68,13 +86,28 @@ async fn probe(config: &config::Backup) {
                 let hint = requirements::Hint::check(config);
 
                 if hint.contains(&requirements::Hint::DeviceMissing) {
-                    // TODO: check if path maybe still exists
+                    // TODO: check if path maybe still exists despite device being undetected
                     debug!("Backup device is not connected");
+
+                    if Reminder::is_remind_again(&config.id) {
+                        debug!("Send reminding notification");
+                        let notification =
+                            gio::Notification::new(&gettext("Backup Device Required"));
+                        notification.set_body(Some(&gettextf(
+                            "“{}” has to be connected for the scheduled backup to start.",
+                            &[&config.repo.location()],
+                        )));
+                        gio_app().send_notification(Some(config.id.as_str()), &notification);
+                        Reminder::reminded_now(&config.id);
+                    }
                 } else {
                     info!("Trying to start backup {:?}", config.id);
                     dbus::PikaBackup::start_scheduled_backup(&config.id, due_cause)
                         .await
                         .handle(gettext("Failed to start scheduled backup"));
+
+                    // reset reminder if criteria are met to alert if they are violated again
+                    Reminder::reminded_now(&config.id);
                 }
             } else {
                 debug!("Global requirements are not met: {:#?}", global);
