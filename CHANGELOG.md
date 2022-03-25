@@ -11,6 +11,7 @@
 - Change to a different password storage
 - Change to accept ssh host keys for new hosts
 - Change to no longer support migration from Pika Backup v0.2 configs
+- Change to mount the flatpak dir (xdg-data/flatpak) inside of flatpaks
 - Add better error messages for incorrect remote locations
 - Add message to inform user about what task is locking the repo
 - Add message to user interface if target devive or server is unrepsonive

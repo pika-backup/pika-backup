@@ -13,7 +13,11 @@ build-options:
 finish-args:
   - --filesystem=host
   # flatpak puts a tmpfs here to hide other apps
+  # it contains configs of all flatpak apps
   - --filesystem=~/.var/app/
+  # flatpak puts a tmpfs here to hide all apps
+  # it contains the apps and overrides for app priviledges
+  - --filesystem=xdg-data/flatpak:ro
   # sftp mounts etc.
   - --share=network
   - --socket=wayland

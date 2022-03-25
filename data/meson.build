@@ -19,13 +19,15 @@ i18n.merge_file(
     install_dir: usrdir / 'applications'
 )
 
-daemon_desktop_target = i18n.merge_file(
-    type: 'desktop',
-    input: configure_file(
+daemon_desktop = configure_file(
         input: 'app.Monitor.desktop.in',
         output: 'tmp.app.Monitor.desktop',
         configuration: { 'app_id': application_id }
-    ),
+    )
+
+i18n.merge_file(
+    type: 'desktop',
+    input: daemon_desktop,
     output: '@0@.desktop'.format(daemon_id),
     po_dir: podir,
     install: true,
@@ -35,7 +37,8 @@ daemon_desktop_target = i18n.merge_file(
 # Autostart
 
 install_data(
-    daemon_desktop_target[0].full_path(),
+    daemon_desktop,
+    rename: '@0@.desktop'.format(application_id),
     install_dir: etcdir / 'xdg' / 'autostart'
 )
 
