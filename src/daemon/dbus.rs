@@ -11,6 +11,8 @@ trait PikaBackup {
         config_id: &ConfigId,
         due_cause: schedule::DueCause,
     ) -> Result<()>;
+
+    fn start_backup(&self, config_id: &ConfigId) -> Result<()>;
 }
 
 pub struct PikaBackup;
@@ -32,5 +34,9 @@ impl PikaBackup {
             .await?
             .start_scheduled_backup(config_id, due_cause)
             .await
+    }
+
+    pub async fn start_backup(config_id: &ConfigId) -> Result<()> {
+        Self::proxy().await?.start_backup(config_id).await
     }
 }

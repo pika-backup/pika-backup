@@ -1,5 +1,6 @@
 use gio::prelude::*;
 
+use super::action;
 use crate::config;
 use crate::config::TrackChanges;
 use crate::daemon;
@@ -17,4 +18,6 @@ fn on_startup(_app: &gio::Application) {
 
     daemon::connect::init::init();
     daemon::schedule::init::init();
+
+    gio_app().add_action(&action::StartBackup::action());
 }

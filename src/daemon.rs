@@ -1,5 +1,6 @@
 //! Daemon
 
+mod action;
 mod connect;
 mod dbus;
 mod error;

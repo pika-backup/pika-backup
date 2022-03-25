@@ -1,51 +1,68 @@
-use crate::config;
-use crate::daemon::globals::gio_app;
 use crate::daemon::prelude::*;
 use gio::prelude::*;
 
-pub fn mount_added(mount: &gio::Mount) {
-    let backups = &BACKUP_CONFIG.load();
-    let uuid = crate::utils::mount_uuid(mount);
-    debug!("Log: Connected {:?}", uuid);
-    if let Some(uuid) = uuid {
-        let backup = backups.iter().find(|b| {
-            debug!("Log: Checking {:?}", &b);
-            if let config::Backup {
-                repo: config::Repository::Local(local),
-                ..
-            } = b
-            {
-                local.volume_uuid.as_ref() == Some(&uuid)
-            } else {
-                false
-            }
-        });
+use crate::config;
+use crate::daemon::action;
 
-        if let Some(config::Backup {
-            id,
-            repo: config::Repository::Local(local),
-            ..
-        }) = backup
-        {
-            let notification = gio::Notification::new(&gettext("Backup Medium Connected"));
-            notification.set_body(Some(
-                gettextf(
-                    "{} on Disk “{}”",
-                    &[
-                        local.mount_name.as_ref().unwrap(),
-                        local.drive_name.as_ref().unwrap(),
-                    ],
-                )
-                .as_str(),
-            ));
+pub fn mount_added(mount: &gio::Mount) {
+    let backups = BACKUP_CONFIG.load();
+    let uuid = crate::utils::mount_uuid(mount);
+    debug!("Mount added {:?}, {:?}", uuid, mount.root().uri());
+
+    if let Some(uuid) = uuid {
+        let backups = backups
+            .iter()
+            .filter_map(|config| match &config.repo {
+                repo @ config::Repository::Local(local)
+                    if (local.volume_uuid.as_ref() == Some(&uuid)
+                        || local.uri.as_ref().map(|x| x.as_str())
+                            == Some(mount.root().uri().as_str()))
+                        && !config.schedule.enabled =>
+                {
+                    eprintln!("match");
+                    Some((&config.id, local, repo))
+                }
+                _ => None,
+            })
+            .collect::<Vec<_>>();
+
+        if backups.len() > 1 {
+            debug!("Device has several configured backups without schedule");
+
+            let (_, _, repo) = backups[0];
+            let notification = gio::Notification::new(&gettext("Backup Device Connected"));
+
+            notification.set_body(Some(&gettextf(
+                "“{}” contains multiple configured backups.",
+                &[&repo.location()],
+            )));
+
+            // TODO: default action
+            notification.set_default_action("");
+
+            // TODO: show backups button
+
+            gio_app().send_notification(Some(uuid.as_str()), &notification);
+        } else if let Some((id, _, repo)) = backups.first() {
+            debug!("Device has one configured backup without schedule");
+
+            let notification = gio::Notification::new(&gettext("Backup Device Connected"));
+
+            notification.set_body(Some(&gettextf(
+                "“{}” contains one configured backup.",
+                &[&repo.location()],
+            )));
+
+            // TODO: default action
+            notification.set_default_action("");
 
             notification.add_button_with_target_value(
-                &gettext("Run Backup"),
-                &format!("app.{}", crate::action::backup_start().name()),
-                Some(&id.to_string().to_variant()),
+                &gettext("Back Up Now"),
+                &action::StartBackup::name(),
+                Some(&id.as_str().to_variant()),
             );
+
             gio_app().send_notification(Some(uuid.as_str()), &notification);
-            debug!("Log: Notification send");
         }
     }
 }
