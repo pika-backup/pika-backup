@@ -124,11 +124,8 @@ impl Backup {
         let mut include = std::collections::BTreeSet::new();
         include.insert("".into());
         let mut exclude = std::collections::BTreeSet::new();
-        exclude.insert(Pattern::PathPrefix(".cache".into()));
-        // Flatpak app caches
-        exclude.insert(Pattern::RegularExpression(Box::new(
-            regex::Regex::new(r"/\.var/app/[^/]+/cache/").unwrap(),
-        )));
+        exclude.insert(Pattern::cache());
+        exclude.insert(Pattern::flatpak_app_cache());
 
         Self {
             config_version: VERSION,
@@ -300,12 +297,23 @@ impl Pattern {
         }
     }
 
+    pub fn cache() -> Self {
+        Self::PathPrefix(".cache".into())
+    }
+
+    pub fn flatpak_app_cache() -> Self {
+        Self::RegularExpression(Box::new(
+            regex::Regex::new(r"/\.var/app/[^/]+/cache/").unwrap(),
+        ))
+    }
+
     pub fn is_match(&self, path: &std::path::Path) -> bool {
         match self {
             Self::PathPrefix(path_prefix) => path.starts_with(path_prefix),
             Self::RegularExpression(regex) => regex.is_match(&path.to_string_lossy()),
         }
     }
+
     pub fn selector(&self) -> String {
         match self {
             Self::PathPrefix(_) => "pp",
@@ -317,12 +325,20 @@ impl Pattern {
     pub fn pattern(&self) -> String {
         match self {
             Self::PathPrefix(path) => path.to_string_lossy().to_string(),
-            Self::RegularExpression(pattern) => pattern.as_str().to_string(),
+            Self::RegularExpression(regex) => regex.as_str().to_string(),
         }
     }
 
     pub fn borg_pattern(&self) -> String {
         format!("{}:{}", self.selector(), self.pattern())
+    }
+
+    pub fn description(&self) -> String {
+        match self {
+            pattern if pattern == &Self::flatpak_app_cache() => gettext("Flatpak App Cache"),
+            Self::PathPrefix(path) => path.display().to_string(),
+            Self::RegularExpression(regex) => regex.to_string(),
+        }
     }
 }
 

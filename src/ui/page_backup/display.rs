@@ -79,10 +79,10 @@ pub fn refresh() -> Result<()> {
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
     for pattern in backup.exclude.clone() {
-        match pattern {
+        match &pattern {
             config::Pattern::PathPrefix(file) => {
                 let button = add_list_row(&main_ui().backup_exclude(), &file);
-                button.connect_clicked(move |_| {
+                button.connect_clicked(enclose!((file) move |_| {
                     let path = file.clone();
                     Handler::run(async move {
                         BACKUP_CONFIG.update_result(move |settings| {
@@ -96,20 +96,27 @@ pub fn refresh() -> Result<()> {
                         refresh()?;
                         Ok(())
                     });
-                });
+                }));
             }
             config::Pattern::RegularExpression(regex) => {
                 let row = adw::ActionRow::builder()
-                    .title(&glib::markup_escape_text(regex.as_str()))
+                    .title(&glib::markup_escape_text(&pattern.description()))
                     .subtitle(&gettext("Regular Expression"))
                     .activatable(false)
-                    .icon_name("folder-saved-search")
                     .build();
+
+                row.add_prefix(
+                    &gtk::Image::builder()
+                        .icon_name("folder-saved-search")
+                        .pixel_size(64)
+                        .build(),
+                );
+
                 let button = gtk::Button::builder()
                     .icon_name("edit-delete-symbolic")
                     .build();
                 button.set_valign(gtk::Align::Center);
-                button.connect_clicked(move |_| {
+                button.connect_clicked(enclose!((regex) move |_| {
                     let regex = regex.clone();
                     Handler::run(async move {
                         BACKUP_CONFIG.update_result(move |settings| {
@@ -123,7 +130,7 @@ pub fn refresh() -> Result<()> {
                         refresh()?;
                         Ok(())
                     });
-                });
+                }));
                 row.add_suffix(&button);
                 main_ui().backup_exclude().append(&row);
             }
