@@ -8,7 +8,7 @@ impl StartBackup {
     const NAME: &'static str = "startbackup";
 
     pub fn action() -> gio::SimpleAction {
-        let action = gio::SimpleAction::new(Self::NAME, Some(&glib::VariantTy::STRING));
+        let action = gio::SimpleAction::new(Self::NAME, Some(glib::VariantTy::STRING));
         action.connect_activate(|_, config_id| {
             if let Some(config_id) = config_id.and_then(|v| v.str().map(|x| x.to_string())) {
                 glib::MainContext::default().spawn(async move {

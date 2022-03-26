@@ -15,8 +15,7 @@ pub fn mount_added(mount: &gio::Mount) {
             .filter_map(|config| match &config.repo {
                 repo @ config::Repository::Local(local)
                     if (local.volume_uuid.as_ref() == Some(&uuid)
-                        || local.uri.as_ref().map(|x| x.as_str())
-                            == Some(mount.root().uri().as_str()))
+                        || local.uri.as_deref() == Some(mount.root().uri().as_str()))
                         && !config.schedule.enabled =>
                 {
                     eprintln!("match");

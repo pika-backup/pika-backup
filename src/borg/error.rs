@@ -26,6 +26,7 @@ quick_error! {
         Glib(err: glib::Error) { from() }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
         ImplausiblePrune { display("{}", gettext("This delete operation would delete too many archives.")) }
+        EmptyIncldue { display("{}", gettext("No files selected to be included into backup.")) }
         Failed(err: Failure) {
             from()
             from(err: String) -> (Failure::Other(err))

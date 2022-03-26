@@ -124,6 +124,10 @@ impl CommandRun<task::Prune> for Command<task::Prune> {
 #[async_trait]
 impl CommandRun<task::Create> for Command<task::Create> {
     async fn run(self) -> Result<Stats> {
+        if self.config.include.is_empty() {
+            return Err(Error::EmptyIncldue);
+        }
+
         let mut borg_call = BorgCall::new("create");
         borg_call
             .add_options(&["--progress", "--json"])

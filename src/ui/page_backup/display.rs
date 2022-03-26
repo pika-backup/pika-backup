@@ -61,7 +61,7 @@ pub fn refresh() -> Result<()> {
 
     // include list
     ui::utils::clear(&main_ui().include());
-    // TODO: Warn if there a no includes, disable backup button
+
     for file in &backup.include {
         if *file == std::path::PathBuf::new() {
             continue;
@@ -81,7 +81,7 @@ pub fn refresh() -> Result<()> {
     for pattern in backup.exclude.clone() {
         match &pattern {
             config::Pattern::PathPrefix(file) => {
-                let button = add_list_row(&main_ui().backup_exclude(), &file);
+                let button = add_list_row(&main_ui().backup_exclude(), file);
                 button.connect_clicked(enclose!((file) move |_| {
                     let path = file.clone();
                     Handler::run(async move {
@@ -108,7 +108,7 @@ pub fn refresh() -> Result<()> {
                 row.add_prefix(
                     &gtk::Image::builder()
                         .icon_name("folder-saved-search")
-                        .pixel_size(64)
+                        .pixel_size(32)
                         .build(),
                 );
 
