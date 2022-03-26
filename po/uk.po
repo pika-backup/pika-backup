@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-17 21:59+0000\n"
-"PO-Revision-Date: 2022-03-18 09:48+0200\n"
+"POT-Creation-Date: 2022-03-26 19:01+0000\n"
+"PO-Revision-Date: 2022-03-26 22:08+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -18,6 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.12.0\n"
+
+#: data/app.Monitor.desktop.in:4
+#| msgid "Pika Backup"
+msgid "Pika Backup Monitor"
+msgstr "Монітор Пайки-копіювання"
 
 #.
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
@@ -136,7 +141,7 @@ msgstr ""
 "Шифрування резервних копій для захисту даних: ви можете захистити дані у "
 "ваших резервних копіях паролем"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:212
+#: src/borg/error.rs:27 src/ui/utils.rs:213
 msgid "The operation terminated unexpectedly."
 msgstr "Дію було неочікувано перервано."
 
@@ -145,52 +150,55 @@ msgid "This delete operation would delete too many archives."
 msgstr ""
 "Ця дія з вилучення призведе до вилучення надто великої кількості архівів."
 
-#: src/borg/error.rs:87
+#: src/borg/error.rs:29
+msgid "No files selected to be included into backup."
+msgstr "Не вибрано жодного файла для включення до резервної копії."
+
+#: src/borg/error.rs:94
 msgid "Completed"
 msgstr "Завершено"
 
-#: src/borg/error.rs:108
+#: src/borg/error.rs:115
 msgid "Aborted on user request."
 msgstr "Перервано за запитом користувача."
 
-#: src/borg/error.rs:112
+#: src/borg/error.rs:119
 msgid "Aborted because only metered connection was available."
 msgstr "Перервано, оскільки доступним є лише обмежене з'єднання."
 
-#: src/borg/error.rs:117
-#| msgid "Aborted because only metered connection was available."
+#: src/borg/error.rs:124
 msgid "Aborted because too long not connected to power."
 msgstr "Перервано, оскільки довго немає доступу до живлення."
 
-#: src/borg/error.rs:119
+#: src/borg/error.rs:126
 msgid "Potential internal error."
 msgstr "Потенційна внутрішня помилка."
 
-#: src/borg/error.rs:158
+#: src/borg/error.rs:165
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:160 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:167 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
-#: src/borg/error.rs:161
+#: src/borg/error.rs:168
 msgid "Invalid encryption password."
 msgstr "Некоректний пароль для шифрування."
 
-#: src/borg/error.rs:163
+#: src/borg/error.rs:170
 msgid "A repository already exists at this location."
 msgstr "За цією адресою вже є сховище."
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:172
 msgid "No repository exists at this location."
 msgstr "За цією адресою немає сховища."
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:175
 msgid "Connection closed by remote host: “{}”"
 msgstr "З'єднання розірвано віддаленим вузлом: «{}»"
 
-#: src/borg/error.rs:171
+#: src/borg/error.rs:178
 msgid "Unspecified error."
 msgstr "Невизначена помилка."
 
@@ -323,7 +331,11 @@ msgstr "Визначити, скільки архівів має бути вил
 msgid "Update Archive List"
 msgstr "Оновлення списку архівів"
 
-#: src/config.rs:453 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:338
+msgid "Flatpak App Cache"
+msgstr "Кеш програм Flatpak"
+
+#: src/config.rs:508 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Місце на віддаленому комп'ютері"
 
@@ -343,49 +355,80 @@ msgstr "Щотижня"
 msgid "Monthly"
 msgstr "Щомісяця"
 
-#: src/daemon/connect/event.rs:30
-msgid "Backup Medium Connected"
-msgstr "З'єднано носій резервних копій"
+#: src/daemon/action.rs:25
+#| msgid "Failed to start background process"
+msgid "Failed to start backup from daemon"
+msgstr "Не вдалося запустити резервне копіювання з фонової служби"
 
-#: src/daemon/connect/event.rs:33
-msgid "{} on Disk “{}”"
-msgstr "{} на диску «{}»"
+#: src/daemon/action.rs:46
+msgid "Failed to show overview from daemon"
+msgstr "Не вдалося показати огляд з фонової служби"
 
-#: src/daemon/connect/event.rs:43
-msgid "Run Backup"
-msgstr "Виконати резервне копіювання"
+#: src/daemon/connect/event.rs:32 src/daemon/connect/event.rs:51
+#| msgid "Backup Medium Connected"
+msgid "Backup Device Connected"
+msgstr "З'єднано пристрій для резервного копіювання"
 
-#: src/daemon/schedule/init.rs:65
+#: src/daemon/connect/event.rs:35
+msgid "“{}” contains multiple configured backups."
+msgstr "«{}» містить декілька налаштованих резервних копій."
+
+#: src/daemon/connect/event.rs:42
+#| msgid "Backups"
+msgid "Show Backups"
+msgstr "Показати резервні копії"
+
+#: src/daemon/connect/event.rs:54
+msgid "“{}” contains one configured backup."
+msgstr "«{}» містить одну налаштовану резервну копію."
+
+#: src/daemon/connect/event.rs:61
+#| msgid "Back Up _Now"
+msgid "Back Up Now"
+msgstr "Створити резервну копію зараз"
+
+#: src/daemon/schedule/init.rs:95
+#| msgid "Backup never ran"
+msgid "Backup Device Required"
+msgstr "Потрібен пристрій для резервного копіювання"
+
+#: src/daemon/schedule/init.rs:97
+msgid "“{}” has to be connected for the scheduled backup to start."
+msgstr ""
+"Має бути встановлено з'єднання із «{}», щоб можна було розпочати вибране"
+" резервне копіювання."
+
+#: src/daemon/schedule/init.rs:107
 msgid "Failed to start scheduled backup"
 msgstr "Не вдалося розпочати резервне копіювання за розкладом"
 
-#: src/ui.rs:170 src/ui/page_backup/events.rs:20
+#: src/ui.rs:173 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:171 src/ui/page_backup/events.rs:21
+#: src/ui.rs:174 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:172 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:175 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:173 src/ui/page_backup/events.rs:23
+#: src/ui.rs:176 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/ui.rs:248
+#: src/ui.rs:251
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:272
+#: src/ui.rs:275
 msgid "BorgBackup version too old"
 msgstr "Надто застаріла версія BorgBackup"
 
-#: src/ui.rs:274
+#: src/ui.rs:277
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -393,11 +436,11 @@ msgstr ""
 "Встановлена версія BorgBackup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
-#: src/ui.rs:285
+#: src/ui.rs:288
 msgid "BorgBackup version too new"
 msgstr "Надто нова версія BorgBackup"
 
-#: src/ui.rs:287
+#: src/ui.rs:290
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -406,19 +449,19 @@ msgstr ""
 "скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як "
 "ви на те сподівалися."
 
-#: src/ui.rs:297
+#: src/ui.rs:300
 msgid "Cannot check borg-backup version"
 msgstr "Не вдалося перевірити версію borg-backup"
 
-#: src/ui.rs:299
+#: src/ui.rs:302
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
 
-#: src/ui.rs:355
+#: src/ui.rs:358
 msgid "Could not load configuration file."
 msgstr "Не вдалося завантажити файл налаштувань."
 
-#: src/ui.rs:371
+#: src/ui.rs:374
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
@@ -683,7 +726,7 @@ msgstr "Повторна спроба з'єднання"
 msgid "Stopping backup"
 msgstr "Припиняємо резервне копіювання"
 
-#: src/ui/dbus.rs:30
+#: src/ui/dbus.rs:60
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Не вдалося відкрити інтерфейс для резервного копіювання за розкладом"
 
@@ -730,7 +773,7 @@ msgstr "Не вдалося змонтувати."
 
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
+#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
 #: src/ui/utils/borg.rs:148
 msgid "Cancel"
 msgstr "Скасувати"
@@ -1078,7 +1121,7 @@ msgid "Could not find backup configuration with id “{}”."
 msgstr ""
 "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»."
 
-#: src/ui/page_archives/cache.rs:29
+#: src/ui/page_archives/cache.rs:33
 msgid "Failed to refresh archives cache."
 msgstr "Не вдалося освіжити кеш архівів."
 
@@ -1110,7 +1153,7 @@ msgstr "Доступно {}"
 msgid "{} Total"
 msgstr "Загалом {}"
 
-#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:33
+#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:40
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
@@ -1141,44 +1184,46 @@ msgstr ""
 "Усі файли, що містяться у цій теці не буде включено до наступних резервних "
 "копій."
 
-#: src/ui/page_backup/execution.rs:24
+#: src/ui/page_backup/execution.rs:31
 msgid "Stop browsing files and start backup?"
 msgstr "Припинити навігацію файлами і почати створення резервної копії?"
 
-#: src/ui/page_backup/execution.rs:25
+#: src/ui/page_backup/execution.rs:32
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Навігація архівованими файлами під час створення резервної копії неможлива."
 
-#: src/ui/page_backup/execution.rs:26
+#: src/ui/page_backup/execution.rs:33
 msgid "Keep Browsing"
 msgstr "Продовжити перегляд"
 
-#: src/ui/page_backup/execution.rs:27
+#: src/ui/page_backup/execution.rs:34
 msgid "Start Backup"
 msgstr "Розпочати копіювання"
 
-#: src/ui/page_backup/execution.rs:101
-msgid "Creating a backup failed."
-msgstr "Не вдалося створити резервну копію."
+#: src/ui/page_backup/execution.rs:111
+#| msgid "Last backup failed"
+msgid "Backup Failed"
+msgstr "Не вдалося виконати резервне копіювання"
 
-#: src/ui/page_backup/execution.rs:116
-msgid "Backup completed with warnings."
-msgstr "Резервне копіювання було завершено із попередженнями."
+#: src/ui/page_backup/execution.rs:130
+#| msgid "Backup completed with warnings."
+msgid "Backup Completed with Warnings"
+msgstr "Резервне копіювання було завершено із попередженнями"
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:60
 msgid "Delete backup configuration?"
 msgstr "Вилучити налаштування резервного копіювання?"
 
-#: src/ui/page_overview.rs:53
+#: src/ui/page_overview.rs:61
 msgid "Deleting the configuration will not delete any archives."
 msgstr "Вилучення налаштувань не призведе до вилучення архівів."
 
-#: src/ui/page_overview.rs:55
+#: src/ui/page_overview.rs:63
 msgid "Delete"
 msgstr "Вилучити"
 
-#: src/ui/page_overview.rs:140
+#: src/ui/page_overview.rs:148
 msgid "Home"
 msgstr "Домівка"
 
@@ -1315,7 +1360,6 @@ msgid "Other backups on repository have to be completed"
 msgstr "Має бути завершено інші резервні копіювання до сховища"
 
 #: src/ui/page_schedule/status.rs:117
-#| msgid "Backup device has to be connected"
 msgid "Device must be connected to power"
 msgstr "Пристрій має бути з'єднано із джерелом живлення"
 
@@ -1375,15 +1419,15 @@ msgstr ""
 "Функціональні можливості резервного копіювання за розкладом та виконання "
 "копіювання у фоновому режимі будуть недоступними."
 
-#: src/ui/utils.rs:139
+#: src/ui/utils.rs:140
 msgid "Failed to start background process"
 msgstr "Не вдалося запустити фоновий процес"
 
-#: src/ui/utils.rs:206
+#: src/ui/utils.rs:207
 msgid "Failed to Create Thread"
 msgstr "Не вдалося створити потік обробки"
 
-#: src/ui/utils.rs:220
+#: src/ui/utils.rs:221
 msgid "Select"
 msgstr "Вибрати"
 
@@ -1538,6 +1582,15 @@ msgstr "Не вдалося вилучити потенційно збереже
 #: src/ui/utils/secret_service.rs:39
 msgid "Pika Backup “{}”"
 msgstr "Пайка-копіювання «{}»"
+
+#~ msgid "{} on Disk “{}”"
+#~ msgstr "{} на диску «{}»"
+
+#~ msgid "Run Backup"
+#~ msgstr "Виконати резервне копіювання"
+
+#~ msgid "Creating a backup failed."
+#~ msgstr "Не вдалося створити резервну копію."
 
 #~ msgid "Get backup info"
 #~ msgstr "Отримати дані щодо резервної копії"
