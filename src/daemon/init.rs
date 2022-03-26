@@ -13,6 +13,8 @@ pub fn init() {
 fn on_startup(_app: &gio::Application) {
     gio_app().hold();
 
+    crate::utils::init_gettext();
+
     config::Histories::update_on_change(&BACKUP_HISTORY).handle("Initial config load failed");
     config::Backups::update_on_change(&BACKUP_CONFIG).handle("Initial config load failed");
 

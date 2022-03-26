@@ -42,6 +42,7 @@ use config::TrackChanges;
 
 pub fn main() {
     // suppress "gdk_pixbuf_from_pixdata()" debug spam
+    /*
     glib::log_set_handler(
         Some("GdkPixbuf"),
         glib::LogLevels::LEVEL_DEBUG,
@@ -49,18 +50,9 @@ pub fn main() {
         false,
         |_, _, _| {},
     );
+    */
 
-    let mut text_domain = gettextrs::TextDomain::new(env!("CARGO_PKG_NAME"));
-    if let Some(localedir) = option_env!("LOCALEDIR") {
-        text_domain = text_domain.prepend(localedir);
-    }
-
-    if let Err(err) = text_domain
-        .locale_category(gettextrs::LocaleCategory::LcAll)
-        .init()
-    {
-        info!("TextDomain::init() failed: {}", err);
-    }
+    crate::utils::init_gettext();
 
     gtk_app().connect_startup(on_startup);
     gtk_app().connect_activate(on_activate);
