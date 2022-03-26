@@ -36,10 +36,13 @@ pub fn mount_added(mount: &gio::Mount) {
                 &[&repo.location()],
             )));
 
-            // TODO: default action
-            notification.set_default_action("");
+            notification.set_default_action(&action::ShowOverview::name());
 
-            // TODO: show backups button
+            notification.add_button_with_target_value(
+                &gettext("Show Backups"),
+                &action::ShowOverview::name(),
+                None,
+            );
 
             gio_app().send_notification(Some(uuid.as_str()), &notification);
         } else if let Some((id, _, repo)) = backups.first() {
@@ -52,8 +55,7 @@ pub fn mount_added(mount: &gio::Mount) {
                 &[&repo.location()],
             )));
 
-            // TODO: default action
-            notification.set_default_action("");
+            notification.set_default_action(&action::ShowOverview::name());
 
             notification.add_button_with_target_value(
                 &gettext("Back Up Now"),

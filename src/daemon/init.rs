@@ -20,4 +20,5 @@ fn on_startup(_app: &gio::Application) {
     daemon::schedule::init::init();
 
     gio_app().add_action(&action::StartBackup::action());
+    gio_app().add_action(&action::ShowOverview::action());
 }

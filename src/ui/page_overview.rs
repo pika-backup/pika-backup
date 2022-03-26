@@ -7,6 +7,14 @@ use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
 
+pub fn dbus_show() {
+    main_ui()
+        .main_stack()
+        .set_visible_child(&main_ui().page_overview());
+    ui::app_window::show();
+    main_ui().window().present();
+}
+
 thread_local!(
     static ROWS: RwLock<BTreeMap<ConfigId, ui::builder::OverviewItem>> =
         RwLock::new(Default::default());

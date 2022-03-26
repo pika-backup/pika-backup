@@ -6,7 +6,12 @@ use async_std::channel::Sender;
 use once_cell::sync::Lazy;
 
 struct PikaBackup {
-    sender: Sender<(ConfigId, Option<schedule::DueCause>)>,
+    command: Sender<Command>,
+}
+
+enum Command {
+    StartBackup(ConfigId, Option<schedule::DueCause>),
+    ShowOverview,
 }
 
 #[zbus::dbus_interface(name = "org.gnome.World.PikaBackup1")]
@@ -16,14 +21,29 @@ impl PikaBackup {
             "Request to start scheduled backup {:?} {:?}",
             config_id, due_cause
         );
-        if let Err(err) = self.sender.send((config_id, Some(due_cause))).await {
+        if let Err(err) = self
+            .command
+            .send(Command::StartBackup(config_id, Some(due_cause)))
+            .await
+        {
             error!("{}", err);
         }
     }
 
     async fn start_backup(&self, config_id: ConfigId) {
         info!("Request to start backup {:?}", config_id);
-        if let Err(err) = self.sender.send((config_id, None)).await {
+        if let Err(err) = self
+            .command
+            .send(Command::StartBackup(config_id, None))
+            .await
+        {
+            error!("{}", err);
+        }
+    }
+
+    async fn show_overview(&self) {
+        info!("Request to show overview");
+        if let Err(err) = self.command.send(Command::ShowOverview).await {
             error!("{}", err);
         }
     }
@@ -41,17 +61,22 @@ pub fn init() {
     });
 
     Handler::run(async move {
-        while let Some((config_id, due_cause)) = receiver.next().await {
-            ui::page_backup::dbus_start_backup(config_id, due_cause);
+        while let Some(command) = receiver.next().await {
+            match command {
+                Command::StartBackup(config_id, due_cause) => {
+                    ui::page_backup::dbus_start_backup(config_id, due_cause)
+                }
+                Command::ShowOverview => ui::page_overview::dbus_show(),
+            }
         }
         Ok(())
     })
 }
 
-async fn spawn_server(sender: Sender<(ConfigId, Option<schedule::DueCause>)>) -> zbus::Result<()> {
+async fn spawn_server(command: Sender<Command>) -> zbus::Result<()> {
     ZBUS_SESSION
         .object_server()
-        .at(crate::dbus_api_path(), PikaBackup { sender })
+        .at(crate::dbus_api_path(), PikaBackup { command })
         .await?;
 
     ZBUS_SESSION.request_name(crate::dbus_api_name()).await
