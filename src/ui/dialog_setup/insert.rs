@@ -10,10 +10,6 @@ use crate::ui;
 use crate::ui::builder;
 use crate::ui::prelude::*;
 
-pub fn on_init_button_clicked(ui: Rc<builder::DialogSetup>) {
-    execute(on_init_button_clicked_future(Rc::clone(&ui)), ui.dialog());
-}
-
 pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Result<()> {
     ui.dialog().hide();
 
@@ -55,7 +51,7 @@ pub async fn add_button_clicked(ui: builder::DialogSetup) -> Result<()> {
     add_first_try(repo, ui).await
 }
 
-async fn on_init_button_clicked_future(ui: Rc<builder::DialogSetup>) -> Result<()> {
+pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
     let encrypted =
         ui.encryption().visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
@@ -137,6 +133,7 @@ async fn on_init_button_clicked_future(ui: Rc<builder::DialogSetup>) -> Result<(
         ui::utils::secret_service::store_password(&config, &password).await?;
     }
     ui::page_backup::view_backup_conf(&config.id);
+    ui.dialog().close();
 
     Ok(())
 }

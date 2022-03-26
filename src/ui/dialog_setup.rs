@@ -5,7 +5,7 @@ pub mod folder_button;
 mod insert;
 mod remote_location;
 
-use std::{convert::Into, rc::Rc};
+use std::convert::Into;
 
 use adw::prelude::*;
 
@@ -58,7 +58,7 @@ pub fn show() {
     );
 
     ui.init_button()
-        .connect_clicked(clone!(@weak ui => move |_| insert::on_init_button_clicked(Rc::new(ui))));
+        .connect_clicked(clone!(@weak ui => move |_| event::init_repo(&ui)));
 
     ui.init_path()
         .connect_folder_change(clone!(@weak ui => move || event::path_change(&ui)));

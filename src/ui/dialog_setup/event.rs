@@ -52,6 +52,10 @@ pub fn show_init_remote(ui: &DialogSetup) {
     display::show_init_remote(ui);
 }
 
+pub fn init_repo(ui: &DialogSetup) {
+    execute(insert::on_init_button_clicked(ui.clone()), ui.dialog());
+}
+
 pub fn show_add_local(ui: &DialogSetup) {
     execute(
         insert::on_add_repo_list_activated_local(ui.clone()),
