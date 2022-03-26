@@ -3,6 +3,7 @@ podir = '../po'
 plain_id = run_command('cat', 'APPLICATION_ID', check: true).stdout()
 application_id = plain_id + get_option('app_id_suffix')
 daemon_id = plain_id + '.Monitor' + get_option('app_id_suffix')
+api_id = plain_id + '.Api' + get_option('app_id_suffix')
 
 # Desktop files
 
@@ -67,8 +68,8 @@ configure_file(
 
 configure_file(
     input: 'app.service.in',
-    output: '@0@.Api.service'.format(application_id),
-    configuration: { 'app_id': daemon_id, 'bindir': bindir },
+    output: '@0@.service'.format(api_id),
+    configuration: { 'app_id': api_id, 'bindir': bindir },
     install_dir: usrdir / 'dbus-1' / 'services'
 )
 
