@@ -194,7 +194,11 @@ impl Due {
                         }
                     } else {
                         Err(Self::NotDue {
-                            next: scheduled_datetime + chrono::Duration::days(1),
+                            next: scheduled_datetime
+                                .date()
+                                .succ()
+                                .and_time(preferred_time)
+                                .unwrap_or_else(|| scheduled_datetime + chrono::Duration::days(1)),
                         })
                     }
                 }
