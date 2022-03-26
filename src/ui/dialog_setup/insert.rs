@@ -52,6 +52,18 @@ pub async fn add_button_clicked(ui: builder::DialogSetup) -> Result<()> {
 }
 
 pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
+    let result = init_repo(ui.clone()).await;
+
+    if result.is_ok() {
+        ui.dialog().close();
+    } else {
+        ui.leaflet().set_visible_child(&ui.page_detail());
+    }
+
+    result
+}
+
+async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
     let encrypted =
         ui.encryption().visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
 
@@ -113,6 +125,8 @@ pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
         .into());
     }
 
+    ui.leaflet().set_visible_child(&ui.page_creating());
+
     let mut borg = borg::CommandOnlyRepo::new(repo.clone());
     let password = config::Password::new(ui.password().text().to_string());
     if encrypted {
@@ -133,7 +147,6 @@ pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
         ui::utils::secret_service::store_password(&config, &password).await?;
     }
     ui::page_backup::view_backup_conf(&config.id);
-    ui.dialog().close();
 
     Ok(())
 }

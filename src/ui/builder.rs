@@ -865,6 +865,10 @@ impl DialogSetup {
         self.get("non_journaling_warning")
     }
 
+    pub fn page_creating(&self) -> gtk::WindowHandle {
+        self.get("page_creating")
+    }
+
     pub fn page_detail(&self) -> gtk::Box {
         self.get("page_detail")
     }
