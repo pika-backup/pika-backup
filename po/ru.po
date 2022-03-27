@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-17 21:59+0000\n"
-"PO-Revision-Date: 2022-03-18 13:54+0300\n"
+"POT-Creation-Date: 2022-03-27 05:55+0000\n"
+"PO-Revision-Date: 2022-03-27 11:34+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 3.0.1\n"
+
+#: data/app.Monitor.desktop.in:4
+msgid "Pika Backup Monitor"
+msgstr "Монитор Pika Backup"
 
 #.
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
@@ -130,7 +134,7 @@ msgstr ""
 "Зашифрованные резервные копии для безопасности данных: Вы можете защитить "
 "данные в своих резервных копиях с помощью пароля"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:212
+#: src/borg/error.rs:27 src/ui/utils.rs:213
 msgid "The operation terminated unexpectedly."
 msgstr "Операция завершилась неожиданно."
 
@@ -140,51 +144,55 @@ msgstr ""
 "Эта операция удаления приведет к удалению слишком большого количества "
 "архивов."
 
-#: src/borg/error.rs:87
+#: src/borg/error.rs:29
+msgid "No files selected to be included into backup."
+msgstr "Не выбраны файлы для включения в резервную копию."
+
+#: src/borg/error.rs:94
 msgid "Completed"
 msgstr "Выполнено"
 
-#: src/borg/error.rs:108
+#: src/borg/error.rs:115
 msgid "Aborted on user request."
 msgstr "Прервано по запросу пользователя."
 
-#: src/borg/error.rs:112
+#: src/borg/error.rs:119
 msgid "Aborted because only metered connection was available."
 msgstr "Прервано, так как было доступно только тарифное подключение."
 
-#: src/borg/error.rs:117
+#: src/borg/error.rs:124
 msgid "Aborted because too long not connected to power."
 msgstr "Прервано из-за слишком долгого отсутствия питания."
 
-#: src/borg/error.rs:119
+#: src/borg/error.rs:126
 msgid "Potential internal error."
 msgstr "Потенциальная внутренняя ошибка."
 
-#: src/borg/error.rs:158
+#: src/borg/error.rs:165
 msgid "Connection closed by remote host."
 msgstr "Соединение закрыто удаленным узлом."
 
-#: src/borg/error.rs:160 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:167 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Репозиторий уже используется."
 
-#: src/borg/error.rs:161
+#: src/borg/error.rs:168
 msgid "Invalid encryption password."
 msgstr "Неверный пароль шифрования."
 
-#: src/borg/error.rs:163
+#: src/borg/error.rs:170
 msgid "A repository already exists at this location."
 msgstr "В этом месте уже существует репозиторий."
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:172
 msgid "No repository exists at this location."
 msgstr "В этом месте нет репозитория."
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:175
 msgid "Connection closed by remote host: “{}”"
 msgstr "Соединение закрыто удаленным хостом: \"{}\""
 
-#: src/borg/error.rs:171
+#: src/borg/error.rs:178
 msgid "Unspecified error."
 msgstr "Неизвестная ошибка."
 
@@ -317,7 +325,11 @@ msgstr "Установите, сколько архивов будет удал�
 msgid "Update Archive List"
 msgstr "Обновить список архивов"
 
-#: src/config.rs:453 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:338
+msgid "Flatpak App Cache"
+msgstr "Кэш приложения Flatpak"
+
+#: src/config.rs:508 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Удаленное местоположение"
 
@@ -337,49 +349,75 @@ msgstr "Еженедельно"
 msgid "Monthly"
 msgstr "Ежемесячно"
 
-#: src/daemon/connect/event.rs:30
-msgid "Backup Medium Connected"
-msgstr "Резервное средство Подключено"
+#: src/daemon/action.rs:25
+msgid "Failed to start backup from daemon"
+msgstr "Не удалось запустить резервное копирование с помощью демона"
 
-#: src/daemon/connect/event.rs:33
-msgid "{} on Disk “{}”"
-msgstr "{} на диске \"{}\""
+#: src/daemon/action.rs:46
+msgid "Failed to show overview from daemon"
+msgstr "Не удалось показать обзор копий с помощью демона"
 
-#: src/daemon/connect/event.rs:43
-msgid "Run Backup"
-msgstr "Выполнить резервное копирование"
+#: src/daemon/connect/event.rs:32 src/daemon/connect/event.rs:51
+msgid "Backup Device Connected"
+msgstr "Устройство резервного копирования подключено"
 
-#: src/daemon/schedule/init.rs:65
+#: src/daemon/connect/event.rs:35
+msgid "“{}” contains multiple configured backups."
+msgstr "\"{}\" содержит несколько настроенных резервных копий."
+
+#: src/daemon/connect/event.rs:42
+msgid "Show Backups"
+msgstr "Показать резервные копии"
+
+#: src/daemon/connect/event.rs:54
+msgid "“{}” contains one configured backup."
+msgstr "\"{}\" содержит одну настроенную резервную копию."
+
+#: src/daemon/connect/event.rs:61
+msgid "Back Up Now"
+msgstr "Сделать резервную копию сейчас"
+
+#: src/daemon/schedule/init.rs:95
+msgid "Backup Device Required"
+msgstr "Требуется устройство резервного копирования"
+
+#: src/daemon/schedule/init.rs:97
+msgid "“{}” has to be connected for the scheduled backup to start."
+msgstr ""
+"\"{}\" должен быть подключен для запуска запланированного резервного "
+"копирования."
+
+#: src/daemon/schedule/init.rs:107
 msgid "Failed to start scheduled backup"
 msgstr "Не удалось запустить запланированное резервное копирование"
 
-#: src/ui.rs:170 src/ui/page_backup/events.rs:20
+#: src/ui.rs:165 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Прервать выполнение создания резервной копии?"
 
-#: src/ui.rs:171 src/ui/page_backup/events.rs:21
+#: src/ui.rs:166 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас."
 
-#: src/ui.rs:172 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
+#: src/ui.rs:167 src/ui/dialog_encryption_password.ui:20
+#: src/ui/dialog_setup.ui:484 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui.rs:173 src/ui/page_backup/events.rs:23
+#: src/ui.rs:168 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Прервать"
 
-#: src/ui.rs:248
+#: src/ui.rs:243
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Не удалось запустить \"borg\". Правильно ли установлен borg-backup?"
 
-#: src/ui.rs:272
+#: src/ui.rs:267
 msgid "BorgBackup version too old"
 msgstr "Версия BorgBackup слишком старая"
 
-#: src/ui.rs:274
+#: src/ui.rs:269
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -387,11 +425,11 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком старая. Некоторые функции, "
 "требующие borg-backup версии {}.{}.{}, не будут работать."
 
-#: src/ui.rs:285
+#: src/ui.rs:280
 msgid "BorgBackup version too new"
 msgstr "Версия BorgBackup слишком новая"
 
-#: src/ui.rs:287
+#: src/ui.rs:282
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -399,19 +437,19 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком новая. Рекомендуется версия {}."
 "{}. Некоторые функции могут работать не так, как ожидается."
 
-#: src/ui.rs:297
+#: src/ui.rs:292
 msgid "Cannot check borg-backup version"
 msgstr "Невозможно проверить версию borg-backup"
 
-#: src/ui.rs:299
+#: src/ui.rs:294
 msgid "The installed version {} might not work."
 msgstr "Установленная версия {} может не работать."
 
-#: src/ui.rs:355
+#: src/ui.rs:350
 msgid "Could not load configuration file."
 msgstr "Не удалось загрузить файл конфигурации."
 
-#: src/ui.rs:371
+#: src/ui.rs:366
 msgid "Could not write configuration file."
 msgstr "Не удалось записать файл конфигурации."
 
@@ -676,7 +714,7 @@ msgstr "Переподключение"
 msgid "Stopping backup"
 msgstr "Остановка резервного копирования"
 
-#: src/ui/dbus.rs:30
+#: src/ui/dbus.rs:60
 msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Не удалось создать интерфейс для запланированного резервного копирования."
@@ -729,7 +767,7 @@ msgstr "Не удалось смонтировать."
 
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
+#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
 #: src/ui/utils/borg.rs:148
 msgid "Cancel"
 msgstr "Отменить"
@@ -743,7 +781,7 @@ msgid "Encryption"
 msgstr "Шифрование"
 
 #: src/ui/dialog_encryption_password.ui:47 src/ui/dialog_setup.ui:368
-#: src/ui/dialog_setup.ui:526
+#: src/ui/dialog_setup.ui:517
 msgid "Password"
 msgstr "Пароль"
 
@@ -799,7 +837,7 @@ msgid "Location on Disk"
 msgstr "Расположение на диске"
 
 #: src/ui/dialog_setup.ui:83
-msgid "Use existing repository"
+msgid "Use Existing Repository"
 msgstr "Использовать существующий репозиторий"
 
 #: src/ui/dialog_setup.ui:148
@@ -907,32 +945,44 @@ msgstr ""
 msgid "Additional command line arguments"
 msgstr "Дополнительные аргументы командной строки"
 
-#: src/ui/dialog_setup.ui:470
-msgid "Checking backup repository"
+#: src/ui/dialog_setup.ui:462
+msgid "Checking Backup Repository"
 msgstr "Проверка репозитория резервных копий"
 
-#: src/ui/dialog_setup.ui:512
+#: src/ui/dialog_setup.ui:503
 msgid ""
 "The encryption password of this backup repository is required to use it."
 msgstr ""
 "Для использования этого репозитория резервных копий требуется пароль "
 "шифрования."
 
-#: src/ui/dialog_setup.ui:570
-msgid "Checking for previous configurations"
-msgstr "Проверка предыдущих конфигураций"
-
-#: src/ui/dialog_setup.ui:594
+#: src/ui/dialog_setup.ui:553 src/ui/dialog_setup.ui:589
 msgid "S_kip"
 msgstr "Пропу_стить"
 
-#: src/ui/dialog_setup.ui:614
+#: src/ui/dialog_setup.ui:565
+msgid "Checking for Previous Configurations"
+msgstr "Проверка предыдущих конфигураций"
+
+#: src/ui/dialog_setup.ui:566
+msgid ""
+"Collecting information to transfer previously used settings. This step is "
+"optional."
+msgstr ""
+"Сбор информации для переноса ранее использовавшихся настроек. Этот шаг "
+"является необязательным."
+
+#: src/ui/dialog_setup.ui:609
 msgid ""
 "Some of the settings used for previous backups can be transferred to this "
 "setup."
 msgstr ""
 "Некоторые настройки, использованные для предыдущих резервных копий, могут "
 "быть перенесены в эту установку."
+
+#: src/ui/dialog_setup.ui:646 src/ui/dialog_setup/insert.rs:137
+msgid "Creating Backup Repository"
+msgstr "Создание репозитория резервного копирования"
 
 #: src/ui/dialog_setup/display.rs:170
 msgid "Free space: {}"
@@ -946,70 +996,66 @@ msgstr "_Выбрать…"
 msgid "Backup Location"
 msgstr "Место сохранения резервной копии"
 
-#: src/ui/dialog_setup/insert.rs:20
+#: src/ui/dialog_setup/insert.rs:16
 msgid "Select existing repository"
 msgstr "Выберите существующий репозиторий"
 
-#: src/ui/dialog_setup/insert.rs:29
+#: src/ui/dialog_setup/insert.rs:25
 msgid "Location is not a valid backup repository."
 msgstr ""
 "Местоположение не является действительным репозиторием резервных копий."
 
-#: src/ui/dialog_setup/insert.rs:30
+#: src/ui/dialog_setup/insert.rs:26
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Репозиторий должен быть создан с помощью Pika Backup или совместимого "
 "программного обеспечения."
 
-#: src/ui/dialog_setup/insert.rs:43 src/ui/dialog_setup/insert.rs:97
+#: src/ui/dialog_setup/insert.rs:39 src/ui/dialog_setup/insert.rs:105
 msgid "Invalid Remote Location"
 msgstr "Неверная удалённая локация"
 
-#: src/ui/dialog_setup/insert.rs:65
+#: src/ui/dialog_setup/insert.rs:73
 msgid "No password provided."
 msgstr "Пароль не предоставляется."
 
-#: src/ui/dialog_setup/insert.rs:66
+#: src/ui/dialog_setup/insert.rs:74
 msgid "To use encryption a password must be provided."
 msgstr "Для использования шифрования необходимо ввести пароль."
 
-#: src/ui/dialog_setup/insert.rs:70
+#: src/ui/dialog_setup/insert.rs:78
 msgid "Entered passwords do not match."
 msgstr "Введенные пароли не совпадают."
 
-#: src/ui/dialog_setup/insert.rs:93
+#: src/ui/dialog_setup/insert.rs:101
 msgid "A repository location has to be given."
 msgstr "Необходимо указать местоположение репозитория."
 
-#: src/ui/dialog_setup/insert.rs:114 src/ui/dialog_setup/insert.rs:243
+#: src/ui/dialog_setup/insert.rs:122 src/ui/dialog_setup/insert.rs:253
 msgid "Additional command line arguments invalid."
 msgstr "Дополнительные аргументы командной строки недействительны."
 
-#: src/ui/dialog_setup/insert.rs:115 src/ui/dialog_setup/insert.rs:244
+#: src/ui/dialog_setup/insert.rs:123 src/ui/dialog_setup/insert.rs:254
 msgid "Please check for missing closing quotes."
 msgstr "Проверьте, нет ли закрывающих кавычек."
 
-#: src/ui/dialog_setup/insert.rs:127
-msgid "Creating Backup Repository"
-msgstr "Создание репозитория резервного копирования"
-
-#: src/ui/dialog_setup/insert.rs:166
+#: src/ui/dialog_setup/insert.rs:176
 msgid "Loading backup repository"
 msgstr "Загрузка репозитория резервных копий"
 
-#: src/ui/dialog_setup/insert.rs:186
+#: src/ui/dialog_setup/insert.rs:196
 msgid "Failed to configure repository."
 msgstr "Не удалось настроить репозиторий."
 
-#: src/ui/dialog_setup/insert.rs:203
+#: src/ui/dialog_setup/insert.rs:213
 msgid "Failed"
 msgstr "Ошибка"
 
-#: src/ui/dialog_setup/insert.rs:280
+#: src/ui/dialog_setup/insert.rs:290
 msgid "Repository location not found."
 msgstr "Местоположение репозитория не найдено."
 
-#: src/ui/dialog_setup/insert.rs:281
+#: src/ui/dialog_setup/insert.rs:291
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Операция монтирования прошла успешно, но местоположение по-прежнему "
@@ -1075,7 +1121,7 @@ msgstr "Резервная копия с идентификатором \"{}\" �
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Не удалось найти резервную конфигурацию с идентификатором \"{}\"."
 
-#: src/ui/page_archives/cache.rs:29
+#: src/ui/page_archives/cache.rs:33
 msgid "Failed to refresh archives cache."
 msgstr "Не удалось обновить кэш архивов."
 
@@ -1107,7 +1153,7 @@ msgstr "{} Доступно"
 msgid "{} Total"
 msgstr "{} Всего"
 
-#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:33
+#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:40
 msgid "Failed to unmount repository."
 msgstr "Не удалось размонтировать репозиторий."
 
@@ -1138,45 +1184,45 @@ msgstr ""
 "Все файлы, содержащиеся в этой папке, больше не будут входить в будущие "
 "резервные копии."
 
-#: src/ui/page_backup/execution.rs:24
+#: src/ui/page_backup/execution.rs:31
 msgid "Stop browsing files and start backup?"
 msgstr "Прекратить просмотр файлов и начать резервное копирование?"
 
-#: src/ui/page_backup/execution.rs:25
+#: src/ui/page_backup/execution.rs:32
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Во время выполнения резервного копирования просмотр архивных файлов "
 "невозможен."
 
-#: src/ui/page_backup/execution.rs:26
+#: src/ui/page_backup/execution.rs:33
 msgid "Keep Browsing"
 msgstr "Продолжить просмотр"
 
-#: src/ui/page_backup/execution.rs:27
+#: src/ui/page_backup/execution.rs:34
 msgid "Start Backup"
 msgstr "Запуск резервного копирования"
 
-#: src/ui/page_backup/execution.rs:101
-msgid "Creating a backup failed."
-msgstr "Создание резервной копии не удалось."
+#: src/ui/page_backup/execution.rs:111
+msgid "Backup Failed"
+msgstr "Сбой резервного копирования"
 
-#: src/ui/page_backup/execution.rs:116
-msgid "Backup completed with warnings."
-msgstr "Резервное копирование завершено с предупреждениями."
+#: src/ui/page_backup/execution.rs:130
+msgid "Backup Completed with Warnings"
+msgstr "Резервное копирование завершено с предупреждениями"
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:60
 msgid "Delete backup configuration?"
 msgstr "Удалить резервную конфигурацию?"
 
-#: src/ui/page_overview.rs:53
+#: src/ui/page_overview.rs:61
 msgid "Deleting the configuration will not delete any archives."
 msgstr "Удаление конфигурации не приведет к удалению сохраненных данных."
 
-#: src/ui/page_overview.rs:55
+#: src/ui/page_overview.rs:63
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/ui/page_overview.rs:140
+#: src/ui/page_overview.rs:148
 msgid "Home"
 msgstr "Домашняя папка"
 
@@ -1370,15 +1416,15 @@ msgstr ""
 "резервного копирования по расписанию и продолжения резервного копирования в "
 "фоновом режиме будут недоступны."
 
-#: src/ui/utils.rs:139
+#: src/ui/utils.rs:140
 msgid "Failed to start background process"
 msgstr "Не удалось запустить фоновый процесс"
 
-#: src/ui/utils.rs:206
+#: src/ui/utils.rs:207
 msgid "Failed to Create Thread"
 msgstr "Не удалось создать поток"
 
-#: src/ui/utils.rs:220
+#: src/ui/utils.rs:221
 msgid "Select"
 msgstr "Выбрать"
 
@@ -1520,18 +1566,3 @@ msgstr "Не удалось удалить потенциально оставш
 #: src/ui/utils/secret_service.rs:39
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
-
-#~ msgid "Get backup info"
-#~ msgstr "Получить информацию о резервном копировании"
-
-#~ msgid "Browse Archive"
-#~ msgstr "Обзор Архивов"
-
-#~ msgid "Backup on repository already running."
-#~ msgstr "Резервное копирование на уже запущенном репозитории."
-
-#~ msgid "Create new Backup"
-#~ msgstr "Создать новую резервную копию"
-
-#~ msgid "Creating new backup"
-#~ msgstr "Создание новой резервной копии"
