@@ -445,34 +445,25 @@
             <child>
               <object class="GtkStack" id="page_password">
                 <child>
-                  <object class="GtkScrolledWindow" id="page_password_pending">
-                    <property name="hscrollbar-policy">never</property>
+                  <object class="GtkWindowHandle" id="page_password_pending">
                     <property name="child">
-                      <object class="GtkViewport">
-                        <property name="vexpand">1</property>
-                        <property name="scroll-to-focus">1</property>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="AdwClamp">
+                          <object class="AdwHeaderBar">
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwStatusPage">
+                            <property name="vexpand">true</property>
+                            <property name="title" translatable="yes">Checking Backup Repository</property>
                             <child>
-                              <object class="GtkBox">
-                                <property name="valign">center</property>
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">16</property>
-                                <child>
-                                  <object class="GtkSpinner" id="pending_spinner">
-                                    <property name="width-request">32</property>
-                                    <property name="height-request">32</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="pending_label">
-                                    <property name="margin-bottom">18</property>
-                                    <property name="label" translatable="yes">Checking backup repository</property>
-                                    <style>
-                                      <class name="title-3"/>
-                                    </style>
-                                  </object>
-                                </child>
+                              <object class="GtkSpinner" id="pending_spinner">
+                                <property name="width-request">32</property>
+                                <property name="height-request">32</property>
                               </object>
                             </child>
                           </object>
@@ -545,34 +536,38 @@
             <child>
               <object class="GtkStack" id="page_transfer">
                 <child>
-                  <object class="GtkScrolledWindow" id="page_transfer_pending">
-                    <property name="hscrollbar-policy">never</property>
+                  <object class="GtkWindowHandle" id="page_transfer_pending">
                     <property name="child">
-                      <object class="GtkViewport">
-                        <property name="vexpand">1</property>
-                        <property name="scroll-to-focus">1</property>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="AdwClamp">
+                          <object class="AdwHeaderBar">
+                            <property name="show-start-title-buttons">0</property>
+                            <property name="show-end-title-buttons">0</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <child type="end">
+                              <object class="GtkButton">
+                                <property name="use-underline">1</property>
+                                <property name="label" translatable="yes">S_kip</property>
+                                <property name="action-name">window.close</property>
+                                <style>
+                                  <class name="suggested-action"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwStatusPage">
+                            <property name="vexpand">true</property>
+                            <property name="title" translatable="yes">Checking for Previous Configurations</property>
+                            <property name="description" translatable="yes">Collecting information to transfer previously used settings. This step is optional.</property>
                             <child>
-                              <object class="GtkBox">
-                                <property name="valign">center</property>
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">16</property>
-                                <child>
-                                  <object class="GtkSpinner" id="transfer_pending_spinner">
-                                    <property name="width-request">32</property>
-                                    <property name="height-request">32</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="transfer_pending_label">
-                                    <property name="margin-bottom">18</property>
-                                    <property name="label" translatable="yes">Checking for previous configurations</property>
-                                    <style>
-                                      <class name="title-3"/>
-                                    </style>
-                                  </object>
-                                </child>
+                              <object class="GtkSpinner" id="transfer_pending_spinner">
+                                <property name="width-request">32</property>
+                                <property name="height-request">32</property>
                               </object>
                             </child>
                           </object>

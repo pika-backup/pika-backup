@@ -889,7 +889,7 @@ impl DialogSetup {
         self.get("page_password_input")
     }
 
-    pub fn page_password_pending(&self) -> gtk::ScrolledWindow {
+    pub fn page_password_pending(&self) -> gtk::WindowHandle {
         self.get("page_password_pending")
     }
 
@@ -897,7 +897,7 @@ impl DialogSetup {
         self.get("page_transfer")
     }
 
-    pub fn page_transfer_pending(&self) -> gtk::ScrolledWindow {
+    pub fn page_transfer_pending(&self) -> gtk::WindowHandle {
         self.get("page_transfer_pending")
     }
 
@@ -917,16 +917,8 @@ impl DialogSetup {
         self.get("password_quality")
     }
 
-    pub fn pending_label(&self) -> gtk::Label {
-        self.get("pending_label")
-    }
-
     pub fn pending_spinner(&self) -> gtk::Spinner {
         self.get("pending_spinner")
-    }
-
-    pub fn transfer_pending_label(&self) -> gtk::Label {
-        self.get("transfer_pending_label")
     }
 
     pub fn transfer_pending_spinner(&self) -> gtk::Spinner {
