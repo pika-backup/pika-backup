@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-25 19:47+0000\n"
-"PO-Revision-Date: 2022-03-25 20:43+0000\n"
+"POT-Creation-Date: 2022-03-27 00:30+0000\n"
+"PO-Revision-Date: 2022-03-27 22:14+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -137,51 +137,55 @@ msgstr "A operação terminou inesperadamente."
 msgid "This delete operation would delete too many archives."
 msgstr "Esta operação de eliminação eliminaria demasiados arquivos."
 
-#: src/borg/error.rs:93
+#: src/borg/error.rs:29
+msgid "No files selected to be included into backup."
+msgstr "Nenhum ficheiro selecionado para ser incluído no backup."
+
+#: src/borg/error.rs:94
 msgid "Completed"
 msgstr "Concluído"
 
-#: src/borg/error.rs:114
+#: src/borg/error.rs:115
 msgid "Aborted on user request."
 msgstr "Abortado por solicitação do utilizador."
 
-#: src/borg/error.rs:118
+#: src/borg/error.rs:119
 msgid "Aborted because only metered connection was available."
 msgstr "Abortado porque apenas a ligação limitada estava disponível."
 
-#: src/borg/error.rs:123
+#: src/borg/error.rs:124
 msgid "Aborted because too long not connected to power."
 msgstr "Abortado devido a não estar ligado à corrente há muito tempo."
 
-#: src/borg/error.rs:125
+#: src/borg/error.rs:126
 msgid "Potential internal error."
 msgstr "Potencial erro interno."
 
-#: src/borg/error.rs:164
+#: src/borg/error.rs:165
 msgid "Connection closed by remote host."
 msgstr "Ligação terminada pela máquina remota."
 
-#: src/borg/error.rs:166 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:167 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Repositório já em uso."
 
-#: src/borg/error.rs:167
+#: src/borg/error.rs:168
 msgid "Invalid encryption password."
 msgstr "Palavra-passe de encriptação inválida."
 
-#: src/borg/error.rs:169
+#: src/borg/error.rs:170
 msgid "A repository already exists at this location."
 msgstr "Já existe um repositório neste local."
 
-#: src/borg/error.rs:171
+#: src/borg/error.rs:172
 msgid "No repository exists at this location."
 msgstr "Não existem repositórios neste local."
 
-#: src/borg/error.rs:174
+#: src/borg/error.rs:175
 msgid "Connection closed by remote host: “{}”"
 msgstr "Ligação terminada pela máquina remota: “{}”"
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:178
 msgid "Unspecified error."
 msgstr "Erro não especificado."
 
@@ -314,7 +318,11 @@ msgstr "Determinar quantos arquivos seriam eliminados"
 msgid "Update Archive List"
 msgstr "Atualizar lista de arquivos"
 
-#: src/config.rs:492 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:338
+msgid "Flatpak App Cache"
+msgstr "Cache de aplicações Flatpak"
+
+#: src/config.rs:508 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Localização remota"
 
@@ -334,17 +342,33 @@ msgstr "Semanalmente"
 msgid "Monthly"
 msgstr "Mensalmente"
 
-#: src/daemon/connect/event.rs:30
-msgid "Backup Medium Connected"
-msgstr "Unidade de backup ligada"
+#: src/daemon/action.rs:25
+msgid "Failed to start backup from daemon"
+msgstr "Falha ao iniciar o backup do daemon"
 
-#: src/daemon/connect/event.rs:33
-msgid "{} on Disk “{}”"
-msgstr "{} no Disco “{}”"
+#: src/daemon/action.rs:46
+msgid "Failed to show overview from daemon"
+msgstr "Falha ao mostrar a visão geral do daemon"
 
-#: src/daemon/connect/event.rs:43
-msgid "Run Backup"
-msgstr "Efetuar backup"
+#: src/daemon/connect/event.rs:32 src/daemon/connect/event.rs:51
+msgid "Backup Device Connected"
+msgstr "Dispositivo de backup ligado"
+
+#: src/daemon/connect/event.rs:35
+msgid "“{}” contains multiple configured backups."
+msgstr "\"{}\" contém vários backups configurados."
+
+#: src/daemon/connect/event.rs:42
+msgid "Show Backups"
+msgstr "Mostrar backups"
+
+#: src/daemon/connect/event.rs:54
+msgid "“{}” contains one configured backup."
+msgstr "\"{}\" contém um backup configurado."
+
+#: src/daemon/connect/event.rs:61
+msgid "Back Up Now"
+msgstr "Efetuar agora o backup"
 
 #: src/daemon/schedule/init.rs:95
 msgid "Backup Device Required"
@@ -358,32 +382,32 @@ msgstr "“{}” deve estar ligado para que o backup agendado seja iniciado."
 msgid "Failed to start scheduled backup"
 msgstr "Falha ao iniciar o backup agendado"
 
-#: src/ui.rs:173 src/ui/page_backup/events.rs:20
+#: src/ui.rs:165 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Abortar a criação do backup em execução?"
 
-#: src/ui.rs:174 src/ui/page_backup/events.rs:21
+#: src/ui.rs:166 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se abortado agora."
 
-#: src/ui.rs:175 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:493 src/ui/page_backup/events.rs:22
+#: src/ui.rs:167 src/ui/dialog_encryption_password.ui:20
+#: src/ui/dialog_setup.ui:484 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui.rs:176 src/ui/page_backup/events.rs:23
+#: src/ui.rs:168 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Abortar"
 
-#: src/ui.rs:251
+#: src/ui.rs:243
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr "Falha ao executar “borg”. O borg-backup está instalado corretamente?"
 
-#: src/ui.rs:275
+#: src/ui.rs:267
 msgid "BorgBackup version too old"
 msgstr "A versão do BorgBackup é muito antiga"
 
-#: src/ui.rs:277
+#: src/ui.rs:269
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -391,11 +415,11 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito antiga. Algumas funcionalidades "
 "que requerem a versão borg-backup {}.{}.{} não funcionarão."
 
-#: src/ui.rs:288
+#: src/ui.rs:280
 msgid "BorgBackup version too new"
 msgstr "A versão do BorgBackup é muito nova"
 
-#: src/ui.rs:290
+#: src/ui.rs:282
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -403,19 +427,19 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito nova. A versão {}.{} é "
 "recomendada. Algumas funcionalidades podem não funcionar como esperado."
 
-#: src/ui.rs:300
+#: src/ui.rs:292
 msgid "Cannot check borg-backup version"
 msgstr "Não é possível verificar a versão borg-backup"
 
-#: src/ui.rs:302
+#: src/ui.rs:294
 msgid "The installed version {} might not work."
 msgstr "A versão instalada {} pode não funcionar."
 
-#: src/ui.rs:358
+#: src/ui.rs:350
 msgid "Could not load configuration file."
 msgstr "Não foi possível carregar ficheiro de configuração."
 
-#: src/ui.rs:374
+#: src/ui.rs:366
 msgid "Could not write configuration file."
 msgstr "Não foi possível gravar ficheiro de configuração."
 
@@ -680,7 +704,7 @@ msgstr "A restabelecer ligação"
 msgid "Stopping backup"
 msgstr "A parar o backup"
 
-#: src/ui/dbus.rs:33
+#: src/ui/dbus.rs:60
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Falha ao gerar interface para os backups agendados."
 
@@ -727,7 +751,7 @@ msgstr "Falha ao montar."
 
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:54
+#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
 #: src/ui/utils/borg.rs:148
 msgid "Cancel"
 msgstr "Cancelar"
@@ -741,7 +765,7 @@ msgid "Encryption"
 msgstr "Encriptação"
 
 #: src/ui/dialog_encryption_password.ui:47 src/ui/dialog_setup.ui:368
-#: src/ui/dialog_setup.ui:526
+#: src/ui/dialog_setup.ui:517
 msgid "Password"
 msgstr "Palavra-passe"
 
@@ -797,7 +821,7 @@ msgid "Location on Disk"
 msgstr "Localização no disco"
 
 #: src/ui/dialog_setup.ui:83
-msgid "Use existing repository"
+msgid "Use Existing Repository"
 msgstr "Usar repositório existente"
 
 #: src/ui/dialog_setup.ui:148
@@ -905,32 +929,44 @@ msgstr ""
 msgid "Additional command line arguments"
 msgstr "Argumentos adicionais de linha de comandos"
 
-#: src/ui/dialog_setup.ui:470
-msgid "Checking backup repository"
+#: src/ui/dialog_setup.ui:462
+msgid "Checking Backup Repository"
 msgstr "A verificar repositório de backup"
 
-#: src/ui/dialog_setup.ui:512
+#: src/ui/dialog_setup.ui:503
 msgid ""
 "The encryption password of this backup repository is required to use it."
 msgstr ""
 "A palavra-passe de encriptação deste repositório de backup é necessária para "
 "a sua utilização."
 
-#: src/ui/dialog_setup.ui:570
-msgid "Checking for previous configurations"
-msgstr "Verificação de configurações anteriores"
-
-#: src/ui/dialog_setup.ui:594
+#: src/ui/dialog_setup.ui:553 src/ui/dialog_setup.ui:589
 msgid "S_kip"
 msgstr "_Ignorar"
 
-#: src/ui/dialog_setup.ui:614
+#: src/ui/dialog_setup.ui:565
+msgid "Checking for Previous Configurations"
+msgstr "Verificação de configurações anteriores"
+
+#: src/ui/dialog_setup.ui:566
+msgid ""
+"Collecting information to transfer previously used settings. This step is "
+"optional."
+msgstr ""
+"Recolha de informação para transferir definições utilizadas anteriormente. "
+"Este passo é opcional."
+
+#: src/ui/dialog_setup.ui:609
 msgid ""
 "Some of the settings used for previous backups can be transferred to this "
 "setup."
 msgstr ""
 "Algumas das configurações utilizadas para backups anteriores podem ser "
 "transferidas para esta configuração."
+
+#: src/ui/dialog_setup.ui:646 src/ui/dialog_setup/insert.rs:137
+msgid "Creating Backup Repository"
+msgstr "A criar repositório de backup"
 
 #: src/ui/dialog_setup/display.rs:170
 msgid "Free space: {}"
@@ -944,68 +980,64 @@ msgstr "_Selecionar…"
 msgid "Backup Location"
 msgstr "Localização do backup"
 
-#: src/ui/dialog_setup/insert.rs:20
+#: src/ui/dialog_setup/insert.rs:16
 msgid "Select existing repository"
 msgstr "Selecionar repositório existente"
 
-#: src/ui/dialog_setup/insert.rs:29
+#: src/ui/dialog_setup/insert.rs:25
 msgid "Location is not a valid backup repository."
 msgstr "A localização não é um repositório de backup válido."
 
-#: src/ui/dialog_setup/insert.rs:30
+#: src/ui/dialog_setup/insert.rs:26
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "O repositório deve ter origem no Pika Backup ou em software compatível."
 
-#: src/ui/dialog_setup/insert.rs:43 src/ui/dialog_setup/insert.rs:97
+#: src/ui/dialog_setup/insert.rs:39 src/ui/dialog_setup/insert.rs:105
 msgid "Invalid Remote Location"
 msgstr "Localização remota inválida"
 
-#: src/ui/dialog_setup/insert.rs:65
+#: src/ui/dialog_setup/insert.rs:73
 msgid "No password provided."
 msgstr "Nenhuma palavra-passe fornecida."
 
-#: src/ui/dialog_setup/insert.rs:66
+#: src/ui/dialog_setup/insert.rs:74
 msgid "To use encryption a password must be provided."
 msgstr "Para usar a encriptação, uma palavra-passe deve ser fornecida."
 
-#: src/ui/dialog_setup/insert.rs:70
+#: src/ui/dialog_setup/insert.rs:78
 msgid "Entered passwords do not match."
 msgstr "As palavras-passe introduzidas não coincidem."
 
-#: src/ui/dialog_setup/insert.rs:93
+#: src/ui/dialog_setup/insert.rs:101
 msgid "A repository location has to be given."
 msgstr "Tem de ser dada uma localização de repositório."
 
-#: src/ui/dialog_setup/insert.rs:114 src/ui/dialog_setup/insert.rs:243
+#: src/ui/dialog_setup/insert.rs:122 src/ui/dialog_setup/insert.rs:253
 msgid "Additional command line arguments invalid."
 msgstr "Argumentos adicionais de linha de comando inválidos."
 
-#: src/ui/dialog_setup/insert.rs:115 src/ui/dialog_setup/insert.rs:244
+#: src/ui/dialog_setup/insert.rs:123 src/ui/dialog_setup/insert.rs:254
 msgid "Please check for missing closing quotes."
 msgstr "Verifique se faltam as aspas de fecho."
 
-#: src/ui/dialog_setup/insert.rs:127
-msgid "Creating Backup Repository"
-msgstr "A criar repositório de backup"
-
-#: src/ui/dialog_setup/insert.rs:166
+#: src/ui/dialog_setup/insert.rs:176
 msgid "Loading backup repository"
 msgstr "A carregar repositório de backup"
 
-#: src/ui/dialog_setup/insert.rs:186
+#: src/ui/dialog_setup/insert.rs:196
 msgid "Failed to configure repository."
 msgstr "Falha ao configurar repositório."
 
-#: src/ui/dialog_setup/insert.rs:203
+#: src/ui/dialog_setup/insert.rs:213
 msgid "Failed"
 msgstr "Falhou"
 
-#: src/ui/dialog_setup/insert.rs:280
+#: src/ui/dialog_setup/insert.rs:290
 msgid "Repository location not found."
 msgstr "Local do repositório não encontrado."
 
-#: src/ui/dialog_setup/insert.rs:281
+#: src/ui/dialog_setup/insert.rs:291
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Uma operação de montagem foi bem-sucedida mas o local ainda não está "
@@ -1160,19 +1192,19 @@ msgstr "Falha no backup"
 msgid "Backup Completed with Warnings"
 msgstr "Backup concluído com avisos"
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:60
 msgid "Delete backup configuration?"
 msgstr "Eliminar configuração de backup?"
 
-#: src/ui/page_overview.rs:53
+#: src/ui/page_overview.rs:61
 msgid "Deleting the configuration will not delete any archives."
 msgstr "A eliminação da configuração não eliminará quaisquer arquivos."
 
-#: src/ui/page_overview.rs:55
+#: src/ui/page_overview.rs:63
 msgid "Delete"
 msgstr "Eliminar"
 
-#: src/ui/page_overview.rs:140
+#: src/ui/page_overview.rs:148
 msgid "Home"
 msgstr "Pasta pessoal"
 
@@ -1499,6 +1531,12 @@ msgstr ""
 #: src/ui/utils/secret_service.rs:39
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
+
+#~ msgid "{} on Disk “{}”"
+#~ msgstr "{} no Disco “{}”"
+
+#~ msgid "Run Backup"
+#~ msgstr "Efetuar backup"
 
 #~ msgid "Creating a backup failed."
 #~ msgstr "Falha ao criar um backup."
