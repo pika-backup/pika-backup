@@ -41,17 +41,6 @@ use config::ArcSwapWriteable;
 use config::TrackChanges;
 
 pub fn main() {
-    // suppress "gdk_pixbuf_from_pixdata()" debug spam
-    /*
-    glib::log_set_handler(
-        Some("GdkPixbuf"),
-        glib::LogLevels::LEVEL_DEBUG,
-        false,
-        false,
-        |_, _, _| {},
-    );
-    */
-
     crate::utils::init_gettext();
 
     gtk_app().connect_startup(on_startup);
@@ -109,6 +98,11 @@ fn on_startup(_app: &gtk::Application) {
             &provider,
             gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
         );
+    }
+
+    // Workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/3833
+    if let Some(settings) = gtk::Settings::default() {
+        settings.set_property("gtk-hint-font-metrics", true);
     }
 
     init_actions();
