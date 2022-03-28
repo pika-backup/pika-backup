@@ -13,6 +13,7 @@ use crate::ui::prelude::*;
 use ashpd::desktop::background;
 
 use std::io::Read;
+use std::os::unix::process::CommandExt;
 
 pub struct StatusRow {
     pub title: String,
@@ -131,13 +132,23 @@ pub async fn background_permission() -> Result<()> {
                 )
             }
             Ok(_) => {
-                let cmd = std::process::Command::new("flatpak-spawn")
-                    // TODO: wow that's aggressive :)
-                    .arg("--env=G_MESSAGES_DEBUG=all")
-                    .arg("pika-backup-monitor")
-                    .spawn();
+                let mut command = std::process::Command::new("pika-backup-monitor");
 
-                cmd.err_to_msg(gettext("Failed to start background process"))
+                if let Ok(debug) = std::env::var("G_MESSAGES_DEBUG") {
+                    command.env("G_MESSAGES_DEBUG", debug);
+                }
+
+                unsafe {
+                    command.pre_exec(|| {
+                        nix::unistd::setsid()
+                            .map_err(|err| std::io::Error::new(std::io::ErrorKind::Other, err))
+                            .map(|_| ())
+                    });
+                }
+
+                command
+                    .spawn()
+                    .err_to_msg(gettext("Failed to start background process"))
                     .map(|_| ())
             }
         }
