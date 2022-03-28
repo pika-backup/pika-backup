@@ -98,10 +98,16 @@ pub fn refresh() -> Result<()> {
                     });
                 }));
             }
-            config::Pattern::RegularExpression(regex) => {
+            config::Pattern::RegularExpression(_) | config::Pattern::Fnmatch(_) => {
+                let name = if matches!(pattern, config::Pattern::RegularExpression(_)) {
+                    gettext("Regular Expression")
+                } else {
+                    gettext("Shell Wildcard Patter")
+                };
+
                 let row = adw::ActionRow::builder()
                     .title(&glib::markup_escape_text(&pattern.description()))
-                    .subtitle(&gettext("Regular Expression"))
+                    .subtitle(&name)
                     .activatable(false)
                     .build();
 
@@ -116,21 +122,19 @@ pub fn refresh() -> Result<()> {
                     .icon_name("edit-delete-symbolic")
                     .build();
                 button.set_valign(gtk::Align::Center);
-                button.connect_clicked(enclose!((regex) move |_| {
-                    let regex = regex.clone();
+                let pattern_ = pattern.clone();
+                button.connect_clicked(move |_| {
+                    let pattern = pattern_.clone();
                     Handler::run(async move {
                         BACKUP_CONFIG.update_result(move |settings| {
-                            settings
-                                .active_mut()?
-                                .exclude
-                                .remove(&config::Pattern::RegularExpression(regex.clone()));
+                            settings.active_mut()?.exclude.remove(&pattern.clone());
                             Ok(())
                         })?;
                         crate::ui::write_config()?;
                         refresh()?;
                         Ok(())
                     });
-                }));
+                });
                 row.add_suffix(&button);
                 main_ui().backup_exclude().append(&row);
             }

@@ -6,6 +6,8 @@ use async_std::prelude::*;
 
 use gio::prelude::*;
 use std::convert::TryInto;
+use std::ffi::CStr;
+use std::os::raw::{c_char, c_int};
 
 pub trait LookupConfigId {
     type Item;
@@ -15,6 +17,14 @@ pub trait LookupConfigId {
         key: &ConfigId,
     ) -> Result<&mut Self::Item, config::error::BackupNotFound>;
     fn get_result(&self, key: &ConfigId) -> Result<&Self::Item, config::error::BackupNotFound>;
+}
+
+extern "C" {
+    fn fnmatch(pattern: *const c_char, string: *const c_char, flags: c_int) -> c_int;
+}
+
+pub fn posix_fnmatch(pattern: &CStr, string: &CStr) -> bool {
+    unsafe { fnmatch(pattern.as_ptr(), string.as_ptr(), 0) == 0 }
 }
 
 pub fn mount_uuid(mount: &gio::Mount) -> Option<String> {

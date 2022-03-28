@@ -21,6 +21,8 @@ use crate::prelude::*;
 use gio::prelude::*;
 use serde::Deserialize;
 use std::collections::{BTreeSet, HashMap};
+use std::ffi::CString;
+use std::os::unix::ffi::OsStrExt;
 use std::path;
 use zeroize::Zeroizing;
 
@@ -225,6 +227,7 @@ impl LookupConfigId for Backups {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum Pattern {
+    Fnmatch(std::ffi::OsString),
     PathPrefix(path::PathBuf),
     #[serde(
         deserialize_with = "deserialize_regex",
@@ -279,6 +282,7 @@ impl Pattern {
     pub fn from_borg(s: String) -> Option<Self> {
         if let Some((selector, pattern)) = s.split_once(':') {
             match selector {
+                "fm" => Some(Self::Fnmatch(std::ffi::OsString::from(pattern))),
                 "pp" => Some(Self::PathPrefix(
                     path::PathBuf::from(pattern)
                         .strip_prefix(glib::home_dir())
@@ -292,8 +296,16 @@ impl Pattern {
                 _ => None,
             }
         } else {
-            // TODO: support default style (fm:)
-            None
+            if s.contains(['*', '?', '[']) {
+                Some(Self::Fnmatch(std::ffi::OsString::from(s)))
+            } else {
+                Some(Self::PathPrefix(
+                    path::PathBuf::from(&s)
+                        .strip_prefix(glib::home_dir())
+                        .map(|x| x.to_path_buf())
+                        .unwrap_or_else(|_| s.into()),
+                ))
+            }
         }
     }
 
@@ -309,6 +321,16 @@ impl Pattern {
 
     pub fn is_match(&self, path: &std::path::Path) -> bool {
         match self {
+            Self::Fnmatch(pattern) => {
+                if let (Ok(pattern), Ok(path)) = (
+                    CString::new(pattern.as_bytes()),
+                    CString::new(path.as_os_str().as_bytes()),
+                ) {
+                    crate::utils::posix_fnmatch(&pattern, &path)
+                } else {
+                    false
+                }
+            }
             Self::PathPrefix(path_prefix) => path.starts_with(path_prefix),
             Self::RegularExpression(regex) => regex.is_match(&path.to_string_lossy()),
         }
@@ -316,6 +338,7 @@ impl Pattern {
 
     pub fn selector(&self) -> String {
         match self {
+            Self::Fnmatch(_) => "fm",
             Self::PathPrefix(_) => "pp",
             Self::RegularExpression(_) => "re",
         }
@@ -324,11 +347,13 @@ impl Pattern {
 
     pub fn pattern(&self) -> String {
         match self {
+            Self::Fnmatch(pattern) => pattern.to_string_lossy().to_string(),
             Self::PathPrefix(path) => path.to_string_lossy().to_string(),
             Self::RegularExpression(regex) => regex.as_str().to_string(),
         }
     }
 
+    // TODO: shouldn't this be OsString?
     pub fn borg_pattern(&self) -> String {
         format!("{}:{}", self.selector(), self.pattern())
     }
@@ -336,6 +361,7 @@ impl Pattern {
     pub fn description(&self) -> String {
         match self {
             pattern if pattern == &Self::flatpak_app_cache() => gettext("Flatpak App Cache"),
+            Self::Fnmatch(pattern) => pattern.to_string_lossy().to_string(),
             Self::PathPrefix(path) => path.display().to_string(),
             Self::RegularExpression(regex) => regex.to_string(),
         }
