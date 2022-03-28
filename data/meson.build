@@ -2,8 +2,8 @@ podir = '../po'
 
 plain_id = run_command('cat', 'APPLICATION_ID', check: true).stdout()
 application_id = plain_id + get_option('app_id_suffix')
-daemon_id = plain_id + '.Monitor' + get_option('app_id_suffix')
-api_id = plain_id + '.Api' + get_option('app_id_suffix')
+daemon_id = plain_id + get_option('app_id_suffix') + '.Monitor'
+api_id = plain_id + get_option('app_id_suffix') + '.Api'
 
 # Desktop files
 

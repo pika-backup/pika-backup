@@ -295,17 +295,15 @@ impl Pattern {
                     .ok(),
                 _ => None,
             }
+        } else if s.contains(['*', '?', '[']) {
+            Some(Self::Fnmatch(std::ffi::OsString::from(s)))
         } else {
-            if s.contains(['*', '?', '[']) {
-                Some(Self::Fnmatch(std::ffi::OsString::from(s)))
-            } else {
-                Some(Self::PathPrefix(
-                    path::PathBuf::from(&s)
-                        .strip_prefix(glib::home_dir())
-                        .map(|x| x.to_path_buf())
-                        .unwrap_or_else(|_| s.into()),
-                ))
-            }
+            Some(Self::PathPrefix(
+                path::PathBuf::from(&s)
+                    .strip_prefix(glib::home_dir())
+                    .map(|x| x.to_path_buf())
+                    .unwrap_or_else(|_| s.into()),
+            ))
         }
     }
 

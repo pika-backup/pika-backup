@@ -101,7 +101,7 @@ pub async fn background_permission() -> Result<()> {
             &ashpd::WindowIdentifier::default(),
             &gettext("Schedule backups and continue running backups."),
             true,
-            Some(&["pika-backup-monitor"]),
+            Some(&[crate::DAEMON_BINARY]),
             // Do not use dbus-activation because that would start the UI
             // See <https://gitlab.gnome.org/Teams/Design/hig-www/-/issues/107>
             false,
@@ -132,7 +132,7 @@ pub async fn background_permission() -> Result<()> {
                 )
             }
             Ok(_) => {
-                let mut command = std::process::Command::new("pika-backup-monitor");
+                let mut command = std::process::Command::new(crate::DAEMON_BINARY);
 
                 if let Ok(debug) = std::env::var("G_MESSAGES_DEBUG") {
                     command.env("G_MESSAGES_DEBUG", debug);

@@ -47,11 +47,13 @@ fn dbus_api_path() -> String {
 
 fn daemon_app_id() -> String {
     format!(
-        "{}.Monitor{}",
+        "{}{}.Monitor",
         UNPREFIXED_APP_ID,
         option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
     )
 }
+
+const DAEMON_BINARY: &str = concat!(env!("CARGO_PKG_NAME"), "-monitor");
 
 mod action;
 pub mod borg;
