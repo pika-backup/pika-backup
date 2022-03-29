@@ -82,7 +82,8 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
         return match result {
             Err(Combined::Borg(borg::Error::PasswordMissing))
             | Err(Combined::Borg(borg::Error::Failed(borg::Failure::PassphraseWrong))) => {
-                if let Some(password) = crate::ui::utils::secret_service::password(T::name()).await
+                if let Some(password) =
+                    crate::ui::utils::secret_service::password(command.repo(), T::name()).await
                 {
                     command.set_password(password);
                     password_changed = true;

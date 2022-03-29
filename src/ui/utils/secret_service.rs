@@ -2,9 +2,8 @@ use crate::config::{self, Password};
 use crate::ui::prelude::*;
 use std::collections::HashMap;
 
-pub async fn password(purpose: String) -> Option<config::Password> {
-    crate::ui::dialog_encryption_password::Ask::new()
-        .purpose(purpose)
+pub async fn password(repo: config::Repository, purpose: String) -> Option<config::Password> {
+    crate::ui::dialog_encryption_password::Ask::new(repo, purpose)
         .run()
         .await
 }

@@ -625,6 +625,10 @@ impl DialogEncryptionPassword {
         self.get("cancel")
     }
 
+    pub fn description(&self) -> gtk::Label {
+        self.get("description")
+    }
+
     pub fn dialog(&self) -> gtk::Dialog {
         self.get("dialog")
     }
@@ -635,10 +639,6 @@ impl DialogEncryptionPassword {
 
     pub fn password(&self) -> gtk::Entry {
         self.get("password")
-    }
-
-    pub fn purpose(&self) -> gtk::Label {
-        self.get("purpose")
     }
 }
 
