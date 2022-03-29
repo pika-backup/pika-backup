@@ -102,7 +102,7 @@ pub fn refresh() -> Result<()> {
                 let name = if matches!(pattern, config::Pattern::RegularExpression(_)) {
                     gettext("Regular Expression")
                 } else {
-                    gettext("Shell Wildcard Patter")
+                    gettext("Shell Wildcard Pattern")
                 };
 
                 let row = adw::ActionRow::builder()
