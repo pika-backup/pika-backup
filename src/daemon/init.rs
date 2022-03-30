@@ -42,7 +42,7 @@ fn app_running(is_running: bool) {
         if backups_running > 0 {
             let notification = gio::Notification::new(&gettext("Fatal Error During Back Up"));
 
-            notification.set_body(Some(&ngettextf(
+            notification.set_body(Some(&ngettextf_(
                 "Pika Backup crashed while running a backup.",
                 "Pika Backup crashed while running {} backups.",
                 backups_running as u32,
