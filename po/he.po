@@ -2,22 +2,23 @@
 # Copyright (C) 2022 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2022.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-29 05:40+0000\n"
-"PO-Revision-Date: 2022-03-29 12:25+0300\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <he@li.org>\n"
+"POT-Creation-Date: 2022-03-30 16:06+0000\n"
+"PO-Revision-Date: 2022-03-30 19:56+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"Language-Team: Hebrew <GNOME Hebrew Translation Project>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
-"2 : 3);\n"
-"X-Generator: Poedit 3.0.1\n"
+"2 : 3)\n"
+"X-Generator: Gtranslator 40.0\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -163,7 +164,7 @@ msgstr "שגיאה פנימית ככל הנראה."
 msgid "Connection closed by remote host."
 msgstr "החיבור נסגר על ידי המארח המרוחק."
 
-#: src/borg/error.rs:167 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:167 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "המאגר כבר בשימוש."
 
@@ -348,6 +349,11 @@ msgstr "התחלת הגיבוי מהסוכן נכשלה"
 msgid "Failed to show overview from daemon"
 msgstr "הצגת הסקירה מהסוכן נכשלה"
 
+#: src/daemon/action.rs:65
+#| msgid "Failed to show overview from daemon"
+msgid "Failed to show schedule from daemon"
+msgstr "הצגת לוח הזמנים מהסוכן נכשלה"
+
 #: src/daemon/connect/event.rs:32 src/daemon/connect/event.rs:51
 msgid "Backup Device Connected"
 msgstr "התקן הגיבוי מחובר"
@@ -368,15 +374,36 @@ msgstr "„{}” מכיל גיבוי מוגדר אחד."
 msgid "Back Up Now"
 msgstr "לגבות כעת"
 
-#: src/daemon/schedule/init.rs:95
+#: src/daemon/schedule/init.rs:90
+#| msgid "Repository already in use."
+msgid "The backup repository is already in use."
+msgstr "מאגר הגיבוי נמצא כבר בשימוש."
+
+#: src/daemon/schedule/init.rs:93
+#| msgid "Aborted because only metered connection was available."
+msgid "Only metered internet connections available."
+msgstr "רק רשת מוגבלת זמינה."
+
+#: src/daemon/schedule/init.rs:96
+#| msgid "Device must be connected to power"
+msgid "Device not connected to power."
+msgstr "ההתקן לא מחובר לחשמל."
+
+#: src/daemon/schedule/init.rs:102
+#, fuzzy
+#| msgid "Scheduled backups disabled"
+msgid "Scheduled Backup Postponed"
+msgstr "גיבויים מתוזמנים מושבתים"
+
+#: src/daemon/schedule/init.rs:123
 msgid "Backup Device Required"
 msgstr "דרוש התקן גיבוי"
 
-#: src/daemon/schedule/init.rs:97
+#: src/daemon/schedule/init.rs:125
 msgid "“{}” has to be connected for the scheduled backup to start."
 msgstr "„{}” חייב להיות מחובר כדי שהחיבור המתוזמן יתחיל."
 
-#: src/daemon/schedule/init.rs:107
+#: src/daemon/schedule/init.rs:135
 msgid "Failed to start scheduled backup"
 msgstr "התחלת הגיבוי המתוזמן נכשלה"
 
@@ -702,7 +729,7 @@ msgstr "התחברות מחדש"
 msgid "Stopping backup"
 msgstr "הגיבוי נעצר"
 
-#: src/ui/dbus.rs:60
+#: src/ui/dbus.rs:68
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "יצירת מנשק לגיבויים מתוזמנים נכשלה."
 
@@ -751,7 +778,7 @@ msgstr "העיגון נכשל."
 #: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -759,18 +786,21 @@ msgstr "ביטול"
 msgid "The following backup location needs to be connected:"
 msgstr "יש לחבר את מיקום הגיבוי הבא:"
 
+#: src/ui/dialog_encryption_password.rs:24
+#| msgid "This requires the encryption password of the repository."
+msgid ""
+"The operation “{}” requires the encryption password of the repository on "
+"“{}”."
+msgstr "הפעולה „{}” דורשת את ססמת ההצפנה של המאגר „{}”."
+
 #: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:345
 msgid "Encryption"
 msgstr "הצפנה"
 
-#: src/ui/dialog_encryption_password.ui:47 src/ui/dialog_setup.ui:368
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:368
 #: src/ui/dialog_setup.ui:517
 msgid "Password"
 msgstr "ססמה"
-
-#: src/ui/dialog_encryption_password.ui:72
-msgid "This requires the encryption password of the repository."
-msgstr "דורש את ססמת ההצפנה של המאגר."
 
 #: src/ui/dialog_prune.rs:28
 msgid "Failed to determine how many archives would be deleted"
@@ -1134,7 +1164,9 @@ msgid "Regular Expression"
 msgstr "ביטוי רגולרי"
 
 #: src/ui/page_backup/display.rs:105
-msgid "Shell Wildcard Patter"
+#, fuzzy
+#| msgid "Shell Wildcard Patter"
+msgid "Shell Wildcard Pattern"
 msgstr "תבנית תווי כל של המעטפת"
 
 #: src/ui/page_backup/events.rs:52
@@ -1398,7 +1430,7 @@ msgstr "בחירה"
 msgid "Repository already in use"
 msgstr "המאגר כבר בשימוש"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1406,7 +1438,7 @@ msgstr ""
 "מאגר הגיבויים מסומן כמאגר בשימוש. יכול להיות שהמידע הזה כבר אינו עדכני, "
 "למשל, אם המחשב התנתק מהחשמל בעת השימוש במאגר."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1415,7 +1447,7 @@ msgstr ""
 "יש להמשיך רק אם המאגר אינו משמש אף תוכנית אחרת בוודאות! המשך בתהליך תוך כדי "
 "שתוכנית אחרת משתמשת במאגר עלולה לפגום בנתוני הגיבוי!"
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "להמשיך בכל זאת"
 
@@ -1531,16 +1563,16 @@ msgstr[3] "לפני {} שנים"
 msgid "Failed to save cache."
 msgstr "שמירת המטמון נכשלה."
 
-#: src/ui/utils/secret_service.rs:16
+#: src/ui/utils/secret_service.rs:15
 msgid "Failed to store password."
 msgstr "אחסון הססמה נכשל."
 
-#: src/ui/utils/secret_service.rs:24
+#: src/ui/utils/secret_service.rs:23
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "הסרת הססמאות שאולי נותרו באחסון המפתחות נכשלה."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:39
+#: src/ui/utils/secret_service.rs:38
 msgid "Pika Backup “{}”"
 msgstr "גיבוי פיקה „{}”"
 
