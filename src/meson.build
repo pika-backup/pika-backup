@@ -18,7 +18,7 @@ cargo_env = [
   'CARGO_HOME=' + meson.build_root() / 'cargo',
   'LOCALEDIR=' + get_option('prefix') / get_option('localedir'),
   'APPLICATION_ID_SUFFIX=' + get_option('app_id_suffix'),
-  'G_RESOURCES_PATH=' + resources.full_path(),
+  'G_RESOURCES_PATH=' + resources_path,
 ]
 
 cargo_build = custom_target(
