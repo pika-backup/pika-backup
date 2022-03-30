@@ -94,6 +94,18 @@ install_data(
     install_dir: usrdir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
 
+# Ressources
+
+resources = gnome.compile_resources(
+  'resources',
+  configure_file(
+      input: 'resources.gresource.xml.in',
+      output: 'tmp.resources.gresource.xml',
+      configuration: { 'prefix': '/' + application_id.replace('.', '/') }
+  ),
+  gresource_bundle: true,
+)
+
 # Post install
 
 meson.add_install_script(

@@ -106,7 +106,7 @@ impl Status {
                     requirements::Global::MeteredConnection => problems.push(StatusRow {
                         title: gettext("Network connection must not be metered"),
                         subtitle: String::new(),
-                        icon_name: String::from("network-vpn-symbolic"),
+                        icon_name: String::from("money-symbolic"),
                         level: problem_level,
                     }),
                     requirements::Global::OtherBackupRunning(_) => problems.push(StatusRow {

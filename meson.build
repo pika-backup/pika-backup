@@ -22,7 +22,6 @@ dependency('libsecret-1', version: '>= 0.18.0')
 bindir = get_option('prefix') / get_option('bindir')
 etcdir = get_option('prefix') / get_option('sysconfdir')
 usrdir = get_option('prefix') / get_option('datadir')
-message(etcdir)
 
 meson.add_dist_script('build-aux/meson-dist-vendor.sh')
 
