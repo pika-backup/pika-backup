@@ -24,4 +24,33 @@ fn on_startup(_app: &gio::Application) {
     gio_app().add_action(&action::StartBackup::action());
     gio_app().add_action(&action::ShowOverview::action());
     gio_app().add_action(&action::ShowSchedule::action());
+
+    glib::MainContext::default().spawn(async {
+        crate::utils::listen_remote_app_running(&crate::app_id(), app_running)
+            .await
+            .handle("Cannot monitor ui status.")
+    });
+}
+
+fn app_running(is_running: bool) {
+    if !is_running {
+        let backups_running = BACKUP_HISTORY
+            .load()
+            .iter()
+            .filter(|(_, x)| x.running.is_some())
+            .count();
+        if backups_running > 0 {
+            let notification = gio::Notification::new(&gettext("Fatal Error During Back Up"));
+
+            notification.set_body(Some(&ngettextf(
+                "Pika Backup crashed while running a backup.",
+                "Pika Backup crashed while running {} backups.",
+                backups_running as u32,
+            )));
+
+            notification.set_default_action(&action::ShowOverview::name());
+
+            gio_app().send_notification(None, &notification);
+        }
+    }
 }
