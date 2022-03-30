@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-29 23:17+0000\n"
-"PO-Revision-Date: 2022-03-30 13:49+0300\n"
+"POT-Creation-Date: 2022-03-30 18:10+0000\n"
+"PO-Revision-Date: 2022-03-30 21:44+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -362,6 +362,11 @@ msgstr "Не вдалося запустити резервне копіюван
 msgid "Failed to show overview from daemon"
 msgstr "Не вдалося показати огляд з фонової служби"
 
+#: src/daemon/action.rs:65
+#| msgid "Failed to show overview from daemon"
+msgid "Failed to show schedule from daemon"
+msgstr "Не вдалося показати розклад з фонової служби"
+
 #: src/daemon/connect/event.rs:32 src/daemon/connect/event.rs:51
 msgid "Backup Device Connected"
 msgstr "З'єднано пристрій для резервного копіювання"
@@ -382,17 +387,37 @@ msgstr "«{}» містить одну налаштовану резервну �
 msgid "Back Up Now"
 msgstr "Створити резервну копію зараз"
 
-#: src/daemon/schedule/init.rs:95
+#: src/daemon/schedule/init.rs:90
+#| msgid "Repository already in use."
+msgid "The backup repository is already in use."
+msgstr "Сховище резервних копій вже використано."
+
+#: src/daemon/schedule/init.rs:93
+#| msgid "Aborted because only metered connection was available."
+msgid "Only metered internet connections available."
+msgstr "Доступним є лише обмежене з'єднання з інтернетом."
+
+#: src/daemon/schedule/init.rs:96
+#| msgid "Device must be connected to power"
+msgid "Device not connected to power."
+msgstr "Пристрій не з'єднано із джерелом живлення."
+
+#: src/daemon/schedule/init.rs:102
+#| msgid "Scheduled backups disabled"
+msgid "Scheduled Backup Postponed"
+msgstr "Резервне копіювання за розкладом відкладено"
+
+#: src/daemon/schedule/init.rs:123
 msgid "Backup Device Required"
 msgstr "Потрібен пристрій для резервного копіювання"
 
-#: src/daemon/schedule/init.rs:97
+#: src/daemon/schedule/init.rs:125
 msgid "“{}” has to be connected for the scheduled backup to start."
 msgstr ""
 "Має бути встановлено з'єднання із «{}», щоб можна було розпочати вибране "
 "резервне копіювання."
 
-#: src/daemon/schedule/init.rs:107
+#: src/daemon/schedule/init.rs:135
 msgid "Failed to start scheduled backup"
 msgstr "Не вдалося розпочати резервне копіювання за розкладом"
 
@@ -720,7 +745,7 @@ msgstr "Повторна спроба з'єднання"
 msgid "Stopping backup"
 msgstr "Припиняємо резервне копіювання"
 
-#: src/ui/dbus.rs:60
+#: src/ui/dbus.rs:68
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Не вдалося відкрити інтерфейс для резервного копіювання за розкладом"
 
@@ -777,7 +802,6 @@ msgid "The following backup location needs to be connected:"
 msgstr "Має бути встановлено з'єднання із таким місцем для резервних копій:"
 
 #: src/ui/dialog_encryption_password.rs:24
-#| msgid "This requires the encryption password of the repository."
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -1318,71 +1342,75 @@ msgstr[3] "Наступне резервне копіювання за тижд�
 msgid "Scheduled backups disabled"
 msgstr "Резервне копіювання за розкладом вимкнено"
 
-#: src/ui/page_schedule/status.rs:65
+#: src/ui/page_schedule/status.rs:67
 msgid "Hourly backups enabled"
 msgstr "Увімкнено щогодинне резервне копіювання"
 
-#: src/ui/page_schedule/status.rs:66
+#: src/ui/page_schedule/status.rs:68
 msgid "Daily backups enabled"
 msgstr "Увімкнено щоденне резервне копіювання"
 
-#: src/ui/page_schedule/status.rs:67
+#: src/ui/page_schedule/status.rs:69
 msgid "Weekly backups enabled"
 msgstr "Увімкнено щотижневе резервне копіювання"
 
-#: src/ui/page_schedule/status.rs:68
+#: src/ui/page_schedule/status.rs:70
 msgid "Monthly backups enabled"
 msgstr "Увімкнено щомісячне резервне копіювання"
 
-#: src/ui/page_schedule/status.rs:78
+#: src/ui/page_schedule/status.rs:80
 msgid "Will not start until requirements are met."
 msgstr "Не розпочнемо, доки не буде виконано умови."
 
-#: src/ui/page_schedule/status.rs:82
+#: src/ui/page_schedule/status.rs:85
 msgid "Inconsistent backup information"
 msgstr "Несумісність даних щодо резервного копіювання"
 
-#: src/ui/page_schedule/status.rs:88
+#: src/ui/page_schedule/status.rs:91
 msgid "Backup past due"
 msgstr "Момент резервного копіювання пропущено"
 
-#: src/ui/page_schedule/status.rs:89
+#: src/ui/page_schedule/status.rs:92
 msgid "Waiting until requirements are met"
 msgstr "Очікуємо на встановлення відповідних умов"
 
-#: src/ui/page_schedule/status.rs:92
+#: src/ui/page_schedule/status.rs:95
 msgid "Scheduled backups unavailable"
 msgstr "Резервне копіювання за розкладом є недоступним"
 
-#: src/ui/page_schedule/status.rs:95
+#: src/ui/page_schedule/status.rs:98
 msgid "Waiting for backup to start"
 msgstr "Очікуємо на початок резервного копіювання"
 
-#: src/ui/page_schedule/status.rs:104
+#: src/ui/page_schedule/status.rs:107
 msgid "Network connection must not be metered"
 msgstr "З'єднання має бути з'єднанням без обліку даних"
 
-#: src/ui/page_schedule/status.rs:110
+#: src/ui/page_schedule/status.rs:113
 msgid "Other backups on repository have to be completed"
 msgstr "Має бути завершено інші резервні копіювання до сховища"
 
-#: src/ui/page_schedule/status.rs:117
+#: src/ui/page_schedule/status.rs:120
 msgid "Device must be connected to power"
 msgstr "Пристрій має бути з'єднано із джерелом живлення"
 
-#: src/ui/page_schedule/status.rs:128
+#: src/ui/page_schedule/status.rs:131
 msgid "Backup device has to be connected"
 msgstr "Не з'єднано пристрій для зберігання резервних копій"
 
-#: src/ui/page_schedule/status.rs:134
+#: src/ui/page_schedule/status.rs:133
+msgid "Reminder will be sent when device is required"
+msgstr "Коли виникне потреба у пристрої, буде надіслано нагадування"
+
+#: src/ui/page_schedule/status.rs:141
 msgid "Network connection has to be available"
 msgstr "Має бути доступним з'єднання із мережею"
 
-#: src/ui/page_schedule/status.rs:144
+#: src/ui/page_schedule/status.rs:151
 msgid "Background process inactive"
 msgstr "Фоновий процес є неактивним"
 
-#: src/ui/page_schedule/status.rs:145
+#: src/ui/page_schedule/status.rs:152
 msgid "This is required for scheduled backups"
 msgstr "Потрібен для резервного копіювання за розкладом"
 
