@@ -60,6 +60,8 @@ impl Status {
             let mut main_subtitle = String::new();
             let mut main_level = StatusLevel::Ok;
 
+            let mut upcoming_requirements_not_met = false;
+
             if let Err(due) = due_requirements {
                 main_title = match config.schedule.frequency {
                     config::Frequency::Hourly => gettext("Hourly backups enabled"),
@@ -77,6 +79,7 @@ impl Status {
                             " – {}",
                             gettext("Will not start until requirements are met.")
                         );
+                        upcoming_requirements_not_met = true;
                     }
                 } else if BORG_OPERATION.with(|op| op.load().get(&config.id).is_none()) {
                     main_subtitle = gettext("Inconsistent backup information");
@@ -126,7 +129,11 @@ impl Status {
                 match hint {
                     requirements::Hint::DeviceMissing => problems.push(StatusRow {
                         title: gettext("Backup device has to be connected"),
-                        subtitle: String::new(),
+                        subtitle: if upcoming_requirements_not_met {
+                            gettext("Reminder will be sent when device is required")
+                        } else {
+                            String::new()
+                        },
                         icon_name: String::from("drive-removable-media-symbolic"),
                         level: problem_level,
                     }),
