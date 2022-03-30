@@ -15,6 +15,8 @@ trait PikaBackup {
     fn start_backup(&self, config_id: &ConfigId) -> Result<()>;
 
     fn show_overview(&self) -> Result<()>;
+
+    fn show_schedule(&self, config_id: &ConfigId) -> Result<()>;
 }
 
 pub struct PikaBackup;
@@ -44,5 +46,9 @@ impl PikaBackup {
 
     pub async fn show_overview() -> Result<()> {
         Self::proxy().await?.show_overview().await
+    }
+
+    pub async fn show_schedule(config_id: &ConfigId) -> Result<()> {
+        Self::proxy().await?.show_schedule(config_id).await
     }
 }

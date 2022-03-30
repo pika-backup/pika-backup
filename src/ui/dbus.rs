@@ -12,6 +12,7 @@ struct PikaBackup {
 enum Command {
     StartBackup(ConfigId, Option<schedule::DueCause>),
     ShowOverview,
+    ShowSchedule(ConfigId),
 }
 
 #[zbus::dbus_interface(name = "org.gnome.World.PikaBackup1")]
@@ -47,6 +48,13 @@ impl PikaBackup {
             error!("{}", err);
         }
     }
+
+    async fn show_schedule(&self, config_id: ConfigId) {
+        info!("Request to show schedule {:?}", config_id);
+        if let Err(err) = self.command.send(Command::ShowSchedule(config_id)).await {
+            error!("{}", err);
+        }
+    }
 }
 
 pub fn init() {
@@ -67,6 +75,7 @@ pub fn init() {
                     ui::page_backup::dbus_start_backup(config_id, due_cause)
                 }
                 Command::ShowOverview => ui::page_overview::dbus_show(),
+                Command::ShowSchedule(backup_id) => ui::page_schedule::dbus_show(backup_id),
             }
         }
         Ok(())

@@ -48,7 +48,7 @@ Global requirements
 
 - Travel mode is not active
 */
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Global {
     /// Backup must not be running
     ThisBackupRunning,

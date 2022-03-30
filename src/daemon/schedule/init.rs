@@ -6,8 +6,7 @@ use gio::prelude::*;
 use std::collections::HashMap;
 
 use crate::config;
-use crate::daemon::dbus;
-use crate::daemon::schedule;
+use crate::daemon::{action, dbus, schedule};
 use crate::schedule::requirements;
 
 pub fn init() {
@@ -82,7 +81,36 @@ async fn probe(config: &config::Backup) {
         Ok(due_cause) => {
             debug!("Backup is due because: {:?}", due_cause);
             let global = requirements::Global::check(config, BACKUP_HISTORY.load().as_ref()).await;
-            if global.is_empty() {
+            if let Some(global_first) = global.first() {
+                debug!("Global requirements are not met: {:#?}", global);
+                if Reminder::is_remind_again(&config.id) {
+                    let body = match global_first {
+                        requirements::Global::ThisBackupRunning => None,
+                        requirements::Global::OtherBackupRunning(_) => {
+                            Some(gettext("The backup repository is already in use."))
+                        }
+                        requirements::Global::MeteredConnection => {
+                            Some(gettext("Only metered internet connections available."))
+                        }
+                        requirements::Global::OnBattery => {
+                            Some(gettext("Device not connected to power."))
+                        }
+                    };
+
+                    if body.is_some() {
+                        let notification =
+                            gio::Notification::new(&gettext("Scheduled Backup Postponed"));
+                        notification.set_body(body.as_deref());
+                        notification.set_default_action_and_target_value(
+                            &action::ShowSchedule::name(),
+                            Some(&config.id.to_variant()),
+                        );
+
+                        gio_app().send_notification(Some(config.id.as_str()), &notification);
+                        Reminder::reminded_now(&config.id);
+                    }
+                }
+            } else {
                 let hint = requirements::Hint::check(config);
 
                 if hint.contains(&requirements::Hint::DeviceMissing) {
@@ -109,8 +137,6 @@ async fn probe(config: &config::Backup) {
                     // reset reminder if criteria are met to alert if they are violated again
                     Reminder::reminded_now(&config.id);
                 }
-            } else {
-                debug!("Global requirements are not met: {:#?}", global);
             }
         }
         Err(err) => {

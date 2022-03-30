@@ -1,4 +1,5 @@
 use crate::ui::prelude::*;
+use adw::prelude::*;
 
 mod event;
 pub mod frequency;
@@ -6,6 +7,12 @@ pub mod init;
 pub mod prune_preset;
 pub mod status;
 pub mod weekday;
+
+pub fn dbus_show(id: ConfigId) {
+    view(&id);
+    crate::ui::app_window::show();
+    main_ui().window().present();
+}
 
 pub fn view(id: &ConfigId) {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));

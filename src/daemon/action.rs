@@ -18,7 +18,7 @@ impl Action for StartBackup {
     fn action() -> gio::SimpleAction {
         let action = gio::SimpleAction::new(Self::NAME, Some(glib::VariantTy::STRING));
         action.connect_activate(|_, config_id| {
-            if let Some(config_id) = config_id.and_then(|v| v.str().map(|x| x.to_string())) {
+            if let Some(config_id) = config_id.and_then(glib::FromVariant::from_variant) {
                 glib::MainContext::default().spawn(async move {
                     dbus::PikaBackup::start_backup(&ConfigId::new(config_id))
                         .await
@@ -45,6 +45,28 @@ impl Action for ShowOverview {
                     .await
                     .handle(gettext("Failed to show overview from daemon"));
             });
+        });
+        action
+    }
+}
+
+pub struct ShowSchedule;
+
+impl Action for ShowSchedule {
+    const NAME: &'static str = "show-schedule";
+
+    fn action() -> gio::SimpleAction {
+        let action = gio::SimpleAction::new(Self::NAME, Some(glib::VariantTy::STRING));
+        action.connect_activate(|_, config_id| {
+            if let Some(config_id) = config_id.and_then(glib::FromVariant::from_variant) {
+                glib::MainContext::default().spawn(async move {
+                    dbus::PikaBackup::show_schedule(&ConfigId::new(config_id))
+                        .await
+                        .handle(gettext("Failed to show schedule from daemon"));
+                });
+            } else {
+                error!("Invalid parameter for {}: {:?}", Self::NAME, config_id);
+            }
         });
         action
     }

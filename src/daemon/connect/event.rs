@@ -60,7 +60,7 @@ pub fn mount_added(mount: &gio::Mount) {
             notification.add_button_with_target_value(
                 &gettext("Back Up Now"),
                 &action::StartBackup::name(),
-                Some(&id.as_str().to_variant()),
+                Some(&id.to_variant()),
             );
 
             gio_app().send_notification(Some(uuid.as_str()), &notification);

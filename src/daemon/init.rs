@@ -23,4 +23,5 @@ fn on_startup(_app: &gio::Application) {
 
     gio_app().add_action(&action::StartBackup::action());
     gio_app().add_action(&action::ShowOverview::action());
+    gio_app().add_action(&action::ShowSchedule::action());
 }
