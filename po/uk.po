@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-30 18:10+0000\n"
-"PO-Revision-Date: 2022-03-30 21:44+0300\n"
+"POT-Creation-Date: 2022-03-31 00:23+0000\n"
+"PO-Revision-Date: 2022-03-31 09:04+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -363,7 +363,6 @@ msgid "Failed to show overview from daemon"
 msgstr "Не вдалося показати огляд з фонової служби"
 
 #: src/daemon/action.rs:65
-#| msgid "Failed to show overview from daemon"
 msgid "Failed to show schedule from daemon"
 msgstr "Не вдалося показати розклад з фонової служби"
 
@@ -387,23 +386,36 @@ msgstr "«{}» містить одну налаштовану резервну �
 msgid "Back Up Now"
 msgstr "Створити резервну копію зараз"
 
+#: src/daemon/init.rs:43
+msgid "Fatal Error During Back Up"
+msgstr "Критична помилка під час резервного копіювання"
+
+#: src/daemon/init.rs:46
+#| msgid "Pika Backup uses BorgBackup."
+msgid "Pika Backup crashed while running a backup."
+msgid_plural "Pika Backup crashed while running {} backups."
+msgstr[0] ""
+"У «Пайці-копіюванні» сталася аварія під час створення {} резервної копії."
+msgstr[1] ""
+"У «Пайці-копіюванні» сталася аварія під час створення {} резервних копій."
+msgstr[2] ""
+"У «Пайці-копіюванні» сталася аварія під час створення {} резервних копій."
+msgstr[3] ""
+"У «Пайці-копіюванні» сталася аварія під час створення резервної копії."
+
 #: src/daemon/schedule/init.rs:90
-#| msgid "Repository already in use."
 msgid "The backup repository is already in use."
 msgstr "Сховище резервних копій вже використано."
 
 #: src/daemon/schedule/init.rs:93
-#| msgid "Aborted because only metered connection was available."
 msgid "Only metered internet connections available."
 msgstr "Доступним є лише обмежене з'єднання з інтернетом."
 
 #: src/daemon/schedule/init.rs:96
-#| msgid "Device must be connected to power"
 msgid "Device not connected to power."
 msgstr "Пристрій не з'єднано із джерелом живлення."
 
 #: src/daemon/schedule/init.rs:102
-#| msgid "Scheduled backups disabled"
 msgid "Scheduled Backup Postponed"
 msgstr "Резервне копіювання за розкладом відкладено"
 
@@ -421,33 +433,33 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не вдалося розпочати резервне копіювання за розкладом"
 
-#: src/ui.rs:159 src/ui/page_backup/events.rs:20
+#: src/ui.rs:149 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:160 src/ui/page_backup/events.rs:21
+#: src/ui.rs:150 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:161 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:151 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:484 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:162 src/ui/page_backup/events.rs:23
+#: src/ui.rs:152 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/ui.rs:237
+#: src/ui.rs:227
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином borg-backup?"
 
-#: src/ui.rs:261
+#: src/ui.rs:251
 msgid "BorgBackup version too old"
 msgstr "Надто застаріла версія BorgBackup"
 
-#: src/ui.rs:263
+#: src/ui.rs:253
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -455,11 +467,11 @@ msgstr ""
 "Встановлена версія BorgBackup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
-#: src/ui.rs:274
+#: src/ui.rs:264
 msgid "BorgBackup version too new"
 msgstr "Надто нова версія BorgBackup"
 
-#: src/ui.rs:276
+#: src/ui.rs:266
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -468,19 +480,19 @@ msgstr ""
 "скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як "
 "ви на те сподівалися."
 
-#: src/ui.rs:286
+#: src/ui.rs:276
 msgid "Cannot check borg-backup version"
 msgstr "Не вдалося перевірити версію borg-backup"
 
-#: src/ui.rs:288
+#: src/ui.rs:278
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
 
-#: src/ui.rs:344
+#: src/ui.rs:334
 msgid "Could not load configuration file."
 msgstr "Не вдалося завантажити файл налаштувань."
 
-#: src/ui.rs:360
+#: src/ui.rs:350
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
