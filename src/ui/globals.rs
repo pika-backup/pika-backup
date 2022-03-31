@@ -48,9 +48,9 @@ thread_local!(
         ui::builder::AppWindow::new()
     });
 
-    static GTK_APPLICATION: Rc<gtk::Application> = Rc::new({
+    static ADW_APPLICATION: Rc<adw::Application> = Rc::new({
         debug!("Setting up application with id '{}'", crate::app_id());
-        gtk::Application::builder()
+        adw::Application::builder()
             .application_id(&crate::app_id())
             .build()
     });
@@ -63,6 +63,6 @@ pub fn main_ui() -> Rc<ui::builder::AppWindow> {
     MAIN_UI_STORE.with(|x| x.clone())
 }
 
-pub fn gtk_app() -> Rc<gtk::Application> {
-    GTK_APPLICATION.with(|x| x.clone())
+pub fn gtk_app() -> Rc<adw::Application> {
+    ADW_APPLICATION.with(|x| x.clone())
 }

@@ -50,6 +50,8 @@ pub fn main() {
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
+    register_resources();
+
     gtk_app().run();
 }
 
@@ -66,7 +68,7 @@ fn on_ctrlc() -> Continue {
     Continue(true)
 }
 
-fn on_shutdown(app: &gtk::Application) {
+fn on_shutdown(app: &adw::Application) {
     app.mark_busy();
     IS_SHUTDOWN.swap(std::sync::Arc::new(true));
     while !ACTIVE_MOUNTS.load().is_empty() {
@@ -82,23 +84,11 @@ fn on_shutdown(app: &gtk::Application) {
     debug!("Good bye!");
 }
 
-fn on_startup(_app: &gtk::Application) {
-    adw::init();
+fn on_startup(_app: &adw::Application) {
     debug!("Signal 'startup'");
     load_config();
     config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS)
         .expect("Failed to load schedule status.");
-
-    if let Some(display) = gtk::gdk::Display::default() {
-        let provider = gtk::CssProvider::new();
-        provider.load_from_data(include_bytes!("../data/style.css"));
-
-        gtk::StyleContext::add_provider_for_display(
-            &display,
-            &provider,
-            gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
-        );
-    }
 
     // Workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/3833
     if let Some(settings) = gtk::Settings::default() {
@@ -137,7 +127,7 @@ fn on_startup(_app: &gtk::Application) {
     }
 }
 
-fn on_activate(_app: &gtk::Application) {
+fn on_activate(_app: &adw::Application) {
     debug!("Signal 'activate'");
     app_window::show();
 }
@@ -358,4 +348,29 @@ fn write_config_e() -> std::io::Result<()> {
 
 fn write_config() -> Result<()> {
     write_config_e().err_to_msg(gettext("Could not write configuration file."))
+}
+
+#[cfg(not(debug_assertions))]
+fn resource() -> std::result::Result<gio::Resource, glib::Error> {
+    gio::Resource::from_data(&glib::Bytes::from_static(include_bytes!(env!(
+        "G_RESOURCES_PATH"
+    ))))
+}
+
+#[cfg(debug_assertions)]
+fn resource() -> std::result::Result<gio::Resource, glib::Error> {
+    if let Some(path) = option_env!("G_RESOURCES_PATH") {
+        gio::Resource::load(&path)
+    } else {
+        gio::Resource::load("data/resources.gresource")
+    }
+}
+
+fn register_resources() {
+    match resource() {
+        Err(err) => {
+            error!("Failed to load resources: {}", err);
+        }
+        Ok(res) => gio::resources_register(&res),
+    }
 }
