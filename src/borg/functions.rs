@@ -43,7 +43,8 @@ impl CommandRun<task::List> for Command<task::List> {
         let borg = BorgCall::new("list")
             .add_options(&[
                 "--json",
-                &format!("--last={}", 10),
+                &format!("--last={}", 100),
+                "--consider-checkpoints",
                 "--format={hostname}{username}{comment}{end}{command_line}",
             ])
             .add_basics(&self)?

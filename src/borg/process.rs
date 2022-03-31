@@ -316,6 +316,7 @@ impl BorgCall {
         communication: super::Communication<T>,
         sender: &Sender<T>,
     ) -> Result<S> {
+        let mut return_message = None;
         let mut line = String::new();
         let mut process = self.spawn_async()?;
         let mut reader = async_std::io::BufReader::new(
@@ -331,14 +332,13 @@ impl BorgCall {
             // react to abort instruction before potentially listening for messages again
             if let Instruction::Abort(ref reason) = **communication.instruction.load() {
                 communication.set_status(Run::Stopping);
-                debug!("Sending SIGTERM to borg process");
+                debug!("Sending SIGINT to borg process");
                 nix::sys::signal::kill(
                     nix::unistd::Pid::from_raw(process.id() as i32),
-                    nix::sys::signal::Signal::SIGTERM,
+                    nix::sys::signal::Signal::SIGINT,
                 )?;
-                process.status().await?;
-                debug!("Process terminated");
-                return Err(Error::Aborted(reason.clone()));
+                return_message = Some(Err(Error::Aborted(reason.clone())));
+                communication.set_instruction(Instruction::Nothing);
             }
 
             line.clear();
@@ -403,6 +403,10 @@ impl BorgCall {
 
         debug!("Return code: {:?}", output.status.code());
         debug!("Maximum log level entry: {:?}", max_log_level);
+
+        if let Some(msg) = return_message {
+            return msg;
+        }
 
         // borg also returns >0 for warnings, therefore check messages
         if output.status.success() || max_log_level < Some(log_json::LogLevel::Error) {

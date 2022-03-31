@@ -30,7 +30,9 @@ impl<T: Task> Communication<T> {
     }
 
     pub(in crate::borg) fn set_status(&self, status: Status) {
-        self.status.store(Arc::new(status));
+        if !matches!(**self.status.load(), Status::Stopping) {
+            self.status.store(Arc::new(status));
+        }
     }
 
     pub fn status(&self) -> Status {
