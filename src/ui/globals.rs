@@ -63,6 +63,6 @@ pub fn main_ui() -> Rc<ui::builder::AppWindow> {
     MAIN_UI_STORE.with(|x| x.clone())
 }
 
-pub fn gtk_app() -> Rc<adw::Application> {
+pub fn adw_app() -> Rc<adw::Application> {
     ADW_APPLICATION.with(|x| x.clone())
 }

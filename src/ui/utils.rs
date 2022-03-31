@@ -278,7 +278,7 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
 
     if !crate::ui::app_window::is_displayed() {
         let notification = gio::Notification::new(&message.to_string());
-        gtk_app().send_notification(None, &notification);
+        adw_app().send_notification(None, &notification);
     }
 }
 
@@ -323,7 +323,7 @@ pub async fn show_error_transient_for<
         } else {
             Some(&secondary_text)
         });
-        gtk_app().send_notification(None, &notification);
+        adw_app().send_notification(None, &notification);
     }
 }
 

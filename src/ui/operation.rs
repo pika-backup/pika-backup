@@ -177,7 +177,7 @@ impl<T: borg::Task> Operation<T> {
 
     /// Prevent shutdown as long as operation is in progress
     fn application_inhibit(&self) {
-        let cookie = gtk_app().inhibit(
+        let cookie = adw_app().inhibit(
             Some(&main_ui().window()),
             gtk::ApplicationInhibitFlags::LOGOUT | gtk::ApplicationInhibitFlags::SUSPEND,
             Some(&T::name()),
@@ -196,7 +196,7 @@ impl<T: borg::Task> Drop for Operation<T> {
         debug!("Dropping operation tracking '{}'.", T::name());
 
         if let Some(cookie) = self.inhibit_cookie.take() {
-            gtk_app().uninhibit(cookie);
+            adw_app().uninhibit(cookie);
         }
 
         if let Some(handler) = self.metered_signal_handler.take() {

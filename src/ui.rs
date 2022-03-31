@@ -43,16 +43,16 @@ use config::TrackChanges;
 pub fn main() {
     crate::utils::init_gettext();
 
-    gtk_app().connect_startup(on_startup);
-    gtk_app().connect_activate(on_activate);
-    gtk_app().connect_shutdown(on_shutdown);
+    adw_app().connect_startup(on_startup);
+    adw_app().connect_activate(on_activate);
+    adw_app().connect_shutdown(on_shutdown);
 
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
     register_resources();
 
-    gtk_app().run();
+    adw_app().run();
 }
 
 fn on_ctrlc() -> Continue {
@@ -64,7 +64,7 @@ fn on_ctrlc() -> Continue {
         }
     });
 
-    gtk_app().release();
+    adw_app().release();
     Continue(true)
 }
 
@@ -110,9 +110,9 @@ fn on_startup(_app: &adw::Application) {
 
     ui::dialog_info::init();
 
-    gtk_app().set_accels_for_action("app.help", &["F1"]);
-    gtk_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
-    gtk_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
+    adw_app().set_accels_for_action("app.help", &["F1"]);
+    adw_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
+    adw_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
 
     if BACKUP_CONFIG.load().iter().count() > 1 {
         main_ui()
@@ -139,7 +139,7 @@ async fn quit() -> Result<()> {
 
         match permission {
             Ok(()) => {
-                gtk_app().remove_window(&main_ui().window());
+                adw_app().remove_window(&main_ui().window());
                 main_ui().window().hide();
             }
             Err(err) => {
@@ -152,11 +152,11 @@ async fn quit() -> Result<()> {
                     &gettext("Abort"),
                 )
                 .await?;
-                gtk_app().quit();
+                adw_app().quit();
             }
         }
     } else {
-        gtk_app().quit();
+        adw_app().quit();
     }
 
     Ok(())
@@ -171,7 +171,7 @@ fn init_actions() {
             main_ui().window().present();
         }
     });
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 
     let action = crate::action::backup_start();
     action.connect_activate(|_, config_id| {
@@ -182,19 +182,19 @@ fn init_actions() {
             error!("action backup.start: Did not receivce valid config id");
         }
     });
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("about", None);
     action.connect_activate(|_, _| ui::dialog_about::show());
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("shortcuts", None);
     action.connect_activate(|_, _| ui::dialog_shortcuts::show());
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("setup", None);
     action.connect_activate(|_, _| ui::dialog_setup::show());
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("help", None);
     action.connect_activate(|_, _| {
@@ -204,18 +204,18 @@ fn init_actions() {
             gtk::gdk::CURRENT_TIME,
         )
     });
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("quit", None);
     action.connect_activate(|_, _| {
         debug!("Potential quit: Action app.quit (Ctrl+Q)");
         Handler::run(quit());
     });
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("remove", None);
     action.connect_activate(|_, _| page_overview::remove_backup());
-    gtk_app().add_action(&action);
+    adw_app().add_action(&action);
 }
 
 async fn init_check_borg() -> Result<()> {

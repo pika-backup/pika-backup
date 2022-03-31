@@ -14,7 +14,7 @@ pub fn init() {
         main_ui().window().style_context().add_class("devel");
     }
 
-    gtk_app().add_window(&main_ui().window());
+    adw_app().add_window(&main_ui().window());
 }
 
 pub fn is_displayed() -> bool {

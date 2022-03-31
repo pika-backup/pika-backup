@@ -14,9 +14,9 @@ pub async fn start_backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
-    gtk_app().hold();
+    adw_app().hold();
     let result = startup_backup(config, from_schedule).await;
-    gtk_app().release();
+    adw_app().release();
     result
 }
 
