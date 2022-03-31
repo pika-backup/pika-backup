@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libhandy" version="1.0"/>
+  <object class="GtkDialog" id="dialog">
+    <property name="title" translatable="yes">Archive Prefix</property>
+    <property name="modal">1</property>
+    <property name="use-header-bar">1</property>
+    <action-widgets>
+      <action-widget response="cancel">cancel</action-widget>
+      <action-widget response="apply" default="1">ok</action-widget>
+    </action-widgets>
+    <child type="action">
+      <object class="GtkButton" id="cancel">
+        <property name="label" translatable="yes">Cancel</property>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="ok">
+        <property name="label" translatable="yes">Save</property>
+        <style>
+          <class name="suggested-action"/>
+        </style>
+      </object>
+    </child>
+    <property name="default-width">500</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="margin-start">12</property>
+        <property name="margin-end">12</property>
+        <property name="margin-top">24</property>
+        <property name="margin-bottom">18</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwClamp">
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">24</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <style>
+                      <class name="card"/>
+                      <class name="info-card"/>
+                    </style>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Archive Prefixes</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="heading"/>
+                          <class name="accent"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Each backup run creates a new archive. The archive&apos;s name is always prefixed with the current archive prefix.</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">This is especially relevant for the “Cleanup Archives” function. Only archives with the currently configured prefix in their name are considered for deletion.</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">If the archive prefix is empty, no prefix is added.</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBox">
+                    <property name="selection-mode">none</property>
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title" translatable="yes">Archive Prefix</property>
+                        <child>
+                          <object class="GtkEntry" id="archive_prefix">
+                            <property name="hexpand">1</property>
+                            <property name="activates-default">1</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

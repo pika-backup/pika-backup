@@ -64,10 +64,6 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
         dialog.icon().append(&img);
     }
 
-    dialog.cancel().connect_clicked(enclose!((dialog) move |_| {
-        dialog.window().response(gtk::ResponseType::Cancel);
-    }));
-
     let volume_monitor = gio::VolumeMonitor::get();
 
     volume_monitor.connect_mount_added(enclose!((dialog) move |_, new_mount| {

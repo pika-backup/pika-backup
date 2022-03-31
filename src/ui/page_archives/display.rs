@@ -3,9 +3,8 @@ use adw::prelude::*;
 
 use super::cache;
 use super::events;
-use crate::borg;
-use crate::ui;
 use crate::ui::utils::repo_cache::RepoCache;
+use crate::{borg, config, ui};
 
 pub async fn show() -> Result<()> {
     update_eject_button()?;
@@ -16,6 +15,25 @@ pub async fn show() -> Result<()> {
 
     // location info
 
+    update_info(&config);
+
+    // archives list
+
+    let repo_archives = RepoCache::get(&config.repo_id);
+
+    let result = if repo_archives.archives.as_ref().is_none() {
+        trace!("Archives have never been retrieved");
+        cache::refresh_archives(config.clone(), None).await
+    } else {
+        Ok(())
+    };
+
+    ui_display_archives(&config.repo_id);
+
+    result
+}
+
+pub fn update_info(config: &config::Backup) {
     if let Ok(icon) = gio::Icon::for_string(&config.repo.icon()) {
         main_ui().archives_location_icon().set_from_gicon(&icon);
     }
@@ -32,20 +50,14 @@ pub async fn show() -> Result<()> {
         .archives_location_subtitle()
         .set_label(&config.repo.subtitle());
 
-    // archives list
-
-    let repo_archives = RepoCache::get(&config.repo_id);
-
-    let result = if repo_archives.archives.as_ref().is_none() {
-        trace!("Archives have never been retrieved");
-        cache::refresh_archives(config.clone(), None).await
-    } else {
-        Ok(())
-    };
-
-    ui_display_archives(&config.repo_id);
-
-    result
+    match config.archive_prefix.to_string() {
+        prefix if !prefix.is_empty() => {
+            main_ui().archives_prefix().set_label(&prefix);
+        }
+        _ => {
+            main_ui().archives_prefix().set_label(&gettext("None"));
+        }
+    }
 }
 
 pub fn show_dir(path: &std::path::Path) -> Result<()> {

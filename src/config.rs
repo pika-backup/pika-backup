@@ -94,6 +94,10 @@ pub struct Backup {
 pub struct ArchivePrefix(pub String);
 
 impl ArchivePrefix {
+    pub fn new(prefix: &str) -> Self {
+        Self(prefix.trim().to_string())
+    }
+
     pub fn generate() -> Self {
         Self(format!(
             "{}-",

@@ -12,6 +12,15 @@ pub async fn cleanup() -> Result<()> {
     ui::dialog_prune::run(config).await
 }
 
+pub async fn edit_prefix() -> Result<()> {
+    let configs = BACKUP_CONFIG.load();
+    let config = configs.active()?;
+
+    ui::dialog_archive_prefix::run(config).await?;
+    display::update_info(BACKUP_CONFIG.load().active()?);
+    Ok(())
+}
+
 pub async fn eject_button_clicked() -> Result<()> {
     let repo_id = BACKUP_CONFIG.load().active()?.repo_id.clone();
 

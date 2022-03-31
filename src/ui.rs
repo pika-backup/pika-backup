@@ -6,6 +6,7 @@ mod backup_status;
 mod builder;
 mod dbus;
 mod dialog_about;
+mod dialog_archive_prefix;
 mod dialog_device_missing;
 mod dialog_encryption_password;
 mod dialog_info;
