@@ -69,6 +69,11 @@ impl Reminder {
     }
 }
 
+pub enum Note {
+    Postponed(config::ConfigId),
+    DeviceRequired(config::ConfigId),
+}
+
 async fn probe(config: &config::Backup) {
     let schedule = &config.schedule;
     debug!("---");
