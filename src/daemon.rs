@@ -6,6 +6,7 @@ mod dbus;
 mod error;
 mod globals;
 mod init;
+mod notification;
 mod prelude;
 mod schedule;
 

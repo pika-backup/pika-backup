@@ -6,7 +6,7 @@ use gio::prelude::*;
 use std::collections::HashMap;
 
 use crate::config;
-use crate::daemon::{action, dbus, schedule};
+use crate::daemon::{action, dbus, notification::Note, schedule};
 use crate::schedule::requirements;
 
 pub fn init() {
@@ -69,11 +69,6 @@ impl Reminder {
     }
 }
 
-pub enum Note {
-    Postponed(config::ConfigId),
-    DeviceRequired(config::ConfigId),
-}
-
 async fn probe(config: &config::Backup) {
     let schedule = &config.schedule;
     debug!("---");
@@ -111,7 +106,10 @@ async fn probe(config: &config::Backup) {
                             Some(&config.id.to_variant()),
                         );
 
-                        gio_app().send_notification(Some(config.id.as_str()), &notification);
+                        gio_app().send_notification(
+                            Some(&Note::Postponed(&config.id).to_string()),
+                            &notification,
+                        );
                         Reminder::reminded_now(&config.id);
                     }
                 }
@@ -130,7 +128,10 @@ async fn probe(config: &config::Backup) {
                             "“{}” has to be connected for the scheduled backup to start.",
                             &[&config.repo.location()],
                         )));
-                        gio_app().send_notification(Some(config.id.as_str()), &notification);
+                        gio_app().send_notification(
+                            Some(&Note::DeviceRequired(&config.id).to_string()),
+                            &notification,
+                        );
                         Reminder::reminded_now(&config.id);
                     }
                 } else {
@@ -138,6 +139,10 @@ async fn probe(config: &config::Backup) {
                     dbus::PikaBackup::start_scheduled_backup(&config.id, due_cause)
                         .await
                         .handle(gettext("Failed to start scheduled backup"));
+
+                    // withdraw notifications
+                    gio_app().withdraw_notification(&Note::Postponed(&config.id).to_string());
+                    gio_app().withdraw_notification(&Note::DeviceRequired(&config.id).to_string());
 
                     // reset reminder if criteria are met to alert if they are violated again
                     Reminder::reminded_now(&config.id);
