@@ -2,23 +2,21 @@ use crate::daemon::prelude::*;
 use gio::prelude::*;
 
 use crate::config;
-use crate::daemon::action;
+use crate::daemon::{action, notification::Note};
 
-pub fn mount_added(mount: &gio::Mount) {
-    let backups = BACKUP_CONFIG.load();
-    let uuid = crate::utils::mount_uuid(mount);
-    debug!("Mount added {:?}, {:?}", uuid, mount.root().uri());
+pub fn volume_added(volume: &gio::Volume) {
+    let uuid = volume.uuid();
+    debug!("Volume added {:?}", uuid);
 
     if let Some(uuid) = uuid {
+        let backups = BACKUP_CONFIG.load();
         let backups = backups
             .iter()
             .filter_map(|config| match &config.repo {
                 repo @ config::Repository::Local(local)
-                    if (local.volume_uuid.as_ref() == Some(&uuid)
-                        || local.uri.as_deref() == Some(mount.root().uri().as_str()))
+                    if local.volume_uuid.as_deref() == Some(uuid.as_str())
                         && !config.schedule.enabled =>
                 {
-                    eprintln!("match");
                     Some((&config.id, local, repo))
                 }
                 _ => None,
@@ -44,7 +42,10 @@ pub fn mount_added(mount: &gio::Mount) {
                 None,
             );
 
-            gio_app().send_notification(Some(uuid.as_str()), &notification);
+            gio_app().send_notification(
+                Some(&Note::DeviceAvailable(&uuid).to_string()),
+                &notification,
+            );
         } else if let Some((id, _, repo)) = backups.first() {
             debug!("Device has one configured backup without schedule");
 
@@ -63,7 +64,19 @@ pub fn mount_added(mount: &gio::Mount) {
                 Some(&id.to_variant()),
             );
 
-            gio_app().send_notification(Some(uuid.as_str()), &notification);
+            gio_app().send_notification(
+                Some(&Note::DeviceAvailable(&uuid).to_string()),
+                &notification,
+            );
         }
+    }
+}
+
+pub fn volume_removed(volume: &gio::Volume) {
+    let uuid = volume.uuid();
+    debug!("Volume removed {:?}", uuid);
+
+    if let Some(uuid) = uuid {
+        gio_app().withdraw_notification(&Note::DeviceAvailable(&uuid).to_string());
     }
 }

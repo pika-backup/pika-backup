@@ -10,8 +10,12 @@ pub fn init() {
 
 fn init_device_monitor() {
     VOLUME_MONITOR.with(|volume_monitor| {
-        volume_monitor.connect_mount_added(|_, mount| {
-            super::event::mount_added(mount);
+        volume_monitor.connect_volume_added(|_, volume| {
+            super::event::volume_added(volume);
+        });
+
+        volume_monitor.connect_volume_removed(|_, volume| {
+            super::event::volume_removed(volume);
         });
     });
 }
