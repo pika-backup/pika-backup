@@ -6,12 +6,12 @@ pub enum Note<'a> {
     DeviceAvailable(&'a str),
 }
 
-impl<'a> Note<'a> {
-    pub fn to_string(&self) -> String {
+impl<'a> std::fmt::Display for Note<'a> {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::Postponed(id) => format!("postponed-{}", id),
-            Self::DeviceRequired(id) => format!("device-required-{}", id),
-            Self::DeviceAvailable(id) => format!("device-available-{}", id),
+            Self::Postponed(id) => write!(f, "postponed-{}", id),
+            Self::DeviceRequired(id) => write!(f, "device-required-{}", id),
+            Self::DeviceAvailable(id) => write!(f, "device-available-{}", id),
         }
     }
 }
