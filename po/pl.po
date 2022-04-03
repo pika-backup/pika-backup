@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-27 00:30+0000\n"
-"PO-Revision-Date: 2022-03-27 15:05+0200\n"
+"POT-Creation-Date: 2022-03-31 19:55+0000\n"
+"PO-Revision-Date: 2022-04-03 14:24+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -133,7 +133,7 @@ msgstr ""
 "Zaszyfrowane kopie zapasowe zapewniają bezpieczeństwo danych: możesz chronić "
 "dane w kopiach zapasowych hasłem"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:213
+#: src/borg/error.rs:27 src/ui/utils.rs:224
 msgid "The operation terminated unexpectedly."
 msgstr "Działanie zostało nieoczekiwanie zakończone."
 
@@ -169,7 +169,7 @@ msgstr "Potencjalny błąd wewnętrzny."
 msgid "Connection closed by remote host."
 msgstr "Zdalny komputer zamknął połączenie."
 
-#: src/borg/error.rs:167 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:167 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Repozytorium jest już używane."
 
@@ -322,11 +322,11 @@ msgstr "Ustal, ile archiwów zostałoby usuniętych"
 msgid "Update Archive List"
 msgstr "Zaktualizuj listę archiwów"
 
-#: src/config.rs:338
+#: src/config.rs:365
 msgid "Flatpak App Cache"
 msgstr "Pamięć podręczna programów Flatpak"
 
-#: src/config.rs:508 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:536 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Zdalne położenie"
 
@@ -354,6 +354,10 @@ msgstr "Rozpoczęcie kopii zapasowej z usługi się nie powiodło"
 msgid "Failed to show overview from daemon"
 msgstr "Wyświetlenie przeglądu z usługi się nie powiodło"
 
+#: src/daemon/action.rs:65
+msgid "Failed to show schedule from daemon"
+msgstr "Wyświetlenie harmonogramu z usługi się nie powiodło"
+
 #: src/daemon/connect/event.rs:32 src/daemon/connect/event.rs:51
 msgid "Backup Device Connected"
 msgstr "Podłączono urządzenie kopii zapasowej"
@@ -374,48 +378,75 @@ msgstr "„{}” zawiera jedną skonfigurowaną kopię zapasową."
 msgid "Back Up Now"
 msgstr "Wykonaj kopię zapasową"
 
-#: src/daemon/schedule/init.rs:95
+#: src/daemon/init.rs:43
+msgid "Fatal Error During Back Up"
+msgstr "Krytyczny błąd podczas wykonywania kopii zapasowej"
+
+#: src/daemon/init.rs:46
+msgid "Pika Backup crashed while running a backup."
+msgid_plural "Pika Backup crashed while running {} backups."
+msgstr[0] "Pika uległa awarii podczas wykonywania kopii zapasowej."
+msgstr[1] "Pika uległa awarii podczas wykonywania {} kopii zapasowych."
+msgstr[2] "Pika uległa awarii podczas wykonywania {} kopii zapasowych."
+
+#: src/daemon/schedule/init.rs:90
+msgid "The backup repository is already in use."
+msgstr "Repozytorium kopii zapasowej jest już używane."
+
+#: src/daemon/schedule/init.rs:93
+msgid "Only metered internet connections available."
+msgstr "Dostępne są tylko mierzone połączenia z Internetem."
+
+#: src/daemon/schedule/init.rs:96
+msgid "Device not connected to power."
+msgstr "Urządzenie nie jest podłączone do zasilania."
+
+#: src/daemon/schedule/init.rs:102
+msgid "Scheduled Backup Postponed"
+msgstr "Przełożono zaplanowaną kopię zapasową"
+
+#: src/daemon/schedule/init.rs:123
 msgid "Backup Device Required"
 msgstr "Wymagane jest urządzenie kopii zapasowej"
 
-#: src/daemon/schedule/init.rs:97
+#: src/daemon/schedule/init.rs:125
 msgid "“{}” has to be connected for the scheduled backup to start."
 msgstr ""
 "„{}” musi być podłączone, aby można było rozpocząć zaplanowaną kopię "
 "zapasową."
 
-#: src/daemon/schedule/init.rs:107
+#: src/daemon/schedule/init.rs:135
 msgid "Failed to start scheduled backup"
 msgstr "Rozpoczęcie zaplanowanej kopii zapasowej się nie powiodło"
 
-#: src/ui.rs:165 src/ui/page_backup/events.rs:20
+#: src/ui.rs:150 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Przerwać tworzenie kopii zapasowej?"
 
-#: src/ui.rs:166 src/ui/page_backup/events.rs:21
+#: src/ui.rs:151 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Przerwanie w tej chwili spowoduje, że kopia zapasowa będzie niepełna."
 
-#: src/ui.rs:167 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:152 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:484 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Kontynuuj"
 
-#: src/ui.rs:168 src/ui/page_backup/events.rs:23
+#: src/ui.rs:153 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Przerwij"
 
-#: src/ui.rs:243
+#: src/ui.rs:228
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Wykonanie polecenia „borg” się nie powiodło. Czy prawidłowo zainstalowano "
 "program borg-backup?"
 
-#: src/ui.rs:267
+#: src/ui.rs:252
 msgid "BorgBackup version too old"
 msgstr "Wersja programu BorgBackup jest za stara"
 
-#: src/ui.rs:269
+#: src/ui.rs:254
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -423,11 +454,11 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za stara. Część funkcji do "
 "działania wymaga wersji {}.{}.{}."
 
-#: src/ui.rs:280
+#: src/ui.rs:265
 msgid "BorgBackup version too new"
 msgstr "Wersja programu BorgBackup jest za nowa"
 
-#: src/ui.rs:282
+#: src/ui.rs:267
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -435,19 +466,19 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za nowa. Zalecana jest "
 "wersja {}.{}. Część funkcji może nie działać poprawnie."
 
-#: src/ui.rs:292
+#: src/ui.rs:277
 msgid "Cannot check borg-backup version"
 msgstr "Nie można sprawdzić wersji programu borg-backup"
 
-#: src/ui.rs:294
+#: src/ui.rs:279
 msgid "The installed version {} might not work."
 msgstr "Zainstalowana wersja, {}, może nie działać."
 
-#: src/ui.rs:350
+#: src/ui.rs:335
 msgid "Could not load configuration file."
 msgstr "Nie można wczytać pliku konfiguracji."
 
-#: src/ui.rs:366
+#: src/ui.rs:351
 msgid "Could not write configuration file."
 msgstr "Nie można zapisać pliku konfiguracji."
 
@@ -543,119 +574,128 @@ msgstr "Nic nie wykluczono z kopii zapasowej"
 msgid "_Archives"
 msgstr "_Archiwa"
 
-#: src/ui/app_window.ui:498
+#: src/ui/app_window.ui:498 src/ui/dialog_archive_prefix.ui:6
+#: src/ui/dialog_archive_prefix.ui:88
+msgid "Archive Prefix"
+msgstr "Przedrostek archiwum"
+
+#: src/ui/app_window.ui:499
+msgid "Added in front of all archive names"
+msgstr "Dodawany przed nazwami archiwów"
+
+#: src/ui/app_window.ui:526
 msgid "Cleanup Archives"
 msgstr "Wyczyść archiwa"
 
-#: src/ui/app_window.ui:499
+#: src/ui/app_window.ui:527
 msgid "Delete some older archives"
 msgstr "Usuwa część starszych archiwów"
 
-#: src/ui/app_window.ui:515
+#: src/ui/app_window.ui:543
 msgid "Archives"
 msgstr "Archiwa"
 
-#: src/ui/app_window.ui:524
+#: src/ui/app_window.ui:552
 msgid "Refresh list of archives"
 msgstr "Odświeża listę archiwów"
 
-#: src/ui/app_window.ui:545
+#: src/ui/app_window.ui:573
 msgid "Stop browsing archive files"
 msgstr "Kończy przeglądanie plików archiwum"
 
-#: src/ui/app_window.ui:571
+#: src/ui/app_window.ui:599
 msgid "No archives available"
 msgstr "Brak dostępnych archiwów"
 
-#: src/ui/app_window.ui:590
+#: src/ui/app_window.ui:618
 msgid "_Schedule"
 msgstr "_Harmonogram"
 
-#: src/ui/app_window.ui:631
+#: src/ui/app_window.ui:659
 msgid "Frequency"
 msgstr "Częstotliwość"
 
-#: src/ui/app_window.ui:639
+#: src/ui/app_window.ui:667
 msgid "Preferred Time"
 msgstr "Preferowany czas"
 
-#: src/ui/app_window.ui:647
+#: src/ui/app_window.ui:675
 msgid "14:26"
 msgstr "14∶26"
 
-#: src/ui/app_window.ui:660
+#: src/ui/app_window.ui:688
 msgid "Preferred Weekday"
 msgstr "Preferowany dzień tygodnia"
 
-#: src/ui/app_window.ui:665
+#: src/ui/app_window.ui:693
 msgid "Preferred Day"
 msgstr "Preferowany dzień"
 
-#: src/ui/app_window.ui:673
+#: src/ui/app_window.ui:701
 msgid "21st"
 msgstr "21."
 
-#: src/ui/app_window.ui:693
+#: src/ui/app_window.ui:721
 msgid "Save Configuration"
 msgstr "Zapisz konfigurację"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:733
 msgid "Regularly Cleanup Archives"
 msgstr "Regularne czyszczenie archiwów"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:734
 msgid "Remove old archives after creating new backups"
 msgstr "Usuwanie starych archiwów po utworzeniu nowych kopii zapasowych"
 
-#: src/ui/app_window.ui:716
+#: src/ui/app_window.ui:744
 msgid "Preserved Archives"
 msgstr "Przechowywane archiwa"
 
-#: src/ui/app_window.ui:717
+#: src/ui/app_window.ui:745
 msgid "Amount and time span of retained archives"
 msgstr "Ilość i czas zachowywanych archiwów"
 
-#: src/ui/app_window.ui:726
+#: src/ui/app_window.ui:754
 msgid "Details"
 msgstr "Szczegóły"
 
-#: src/ui/app_window.ui:730
+#: src/ui/app_window.ui:758
 msgid "Keep Hourly"
 msgstr "Co godzinę"
 
-#: src/ui/app_window.ui:745
+#: src/ui/app_window.ui:773
 msgid "Keep Daily"
 msgstr "Codziennie"
 
-#: src/ui/app_window.ui:760
+#: src/ui/app_window.ui:788
 msgid "Keep Weekly"
 msgstr "Co tydzień"
 
-#: src/ui/app_window.ui:773
+#: src/ui/app_window.ui:801
 msgid "Keep Monthly"
 msgstr "Co miesiąc"
 
-#: src/ui/app_window.ui:786
+#: src/ui/app_window.ui:814
 msgid "Keep Annual"
 msgstr "Co roku"
 
-#: src/ui/app_window.ui:827
+#: src/ui/app_window.ui:855
 msgid "Backup Info"
 msgstr "Informacje o kopii zapasowej"
 
-#: src/ui/app_window.ui:885
+#: src/ui/app_window.ui:913
 msgid "Amount saved"
 msgstr "Zapisana ilość"
 
-#: src/ui/app_window.ui:901
+#: src/ui/app_window.ui:929
 msgid "Number of files saved"
 msgstr "Liczba zapisanych plików"
 
-#: src/ui/app_window.ui:917
+#: src/ui/app_window.ui:945
 msgid "Additional backup space used"
 msgstr "Używane dodatkowe miejsce na kopię zapasową"
 
-#: src/ui/app_window.ui:933
+#: src/ui/app_window.ui:961
 msgid "Current file"
 msgstr "Obecny plik"
 
@@ -712,7 +752,7 @@ msgstr "Łączenie ponownie"
 msgid "Stopping backup"
 msgstr "Zatrzymywanie kopii zapasowej"
 
-#: src/ui/dbus.rs:60
+#: src/ui/dbus.rs:68
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Wywołanie interfejsu do planowania kopii zapasowych się nie powiodło."
 
@@ -755,33 +795,65 @@ msgstr "Ten program nie mógłby istnieć bez projektu Borg."
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "Wspieraj BorgBackup: https://www.borgbackup.org/support/fund.html"
 
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
+#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
+#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
+#: src/ui/utils/borg.rs:149
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: src/ui/dialog_archive_prefix.ui:20
+msgid "Save"
+msgstr "Zapisz"
+
+#: src/ui/dialog_archive_prefix.ui:51
+msgid "Archive Prefixes"
+msgstr "Przedrostki archiwów"
+
+#: src/ui/dialog_archive_prefix.ui:62
+msgid ""
+"Each backup run creates a new archive. The archive's name is always prefixed "
+"with the current archive prefix."
+msgstr ""
+"Każde wykonanie kopii zapasowej tworzy nowe archiwum. Nazwa archiwum jest "
+"zawsze poprzedzana podanym przedrostkiem."
+
+#: src/ui/dialog_archive_prefix.ui:69
+msgid ""
+"This is especially relevant for the “Cleanup Archives” function. Only "
+"archives with the currently configured prefix in their name are considered "
+"for deletion."
+msgstr ""
+"Ma to znaczenie zwłaszcza w przypadku funkcji czyszczenia archiwów. Tylko "
+"archiwa z obecnie skonfigurowanym przedrostkiem w nazwie są uwzględniane "
+"podczas wyboru archiwów do usunięcia."
+
+#: src/ui/dialog_archive_prefix.ui:76
+msgid "If the archive prefix is empty, no prefix is added."
+msgstr "Jeśli pole jest puste, to żaden przedrostek nie jest dodawany."
+
 #: src/ui/dialog_device_missing.rs:45
 msgid "Failed to mount."
 msgstr "Zamontowanie się nie powiodło."
 
-#: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
-#: src/ui/utils/borg.rs:148
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: src/ui/dialog_device_missing.ui:31
+#: src/ui/dialog_device_missing.ui:23
 msgid "The following backup location needs to be connected:"
 msgstr "To położenie kopii zapasowej musi być podłączone:"
+
+#: src/ui/dialog_encryption_password.rs:24
+msgid ""
+"The operation “{}” requires the encryption password of the repository on "
+"“{}”."
+msgstr "Działanie „{}” wymaga hasła szyfrowania repozytorium w „{}”."
 
 #: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:345
 msgid "Encryption"
 msgstr "Szyfrowanie"
 
-#: src/ui/dialog_encryption_password.ui:47 src/ui/dialog_setup.ui:368
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:368
 #: src/ui/dialog_setup.ui:517
 msgid "Password"
 msgstr "Hasło"
-
-#: src/ui/dialog_encryption_password.ui:72
-msgid "This requires the encryption password of the repository."
-msgstr "Wymaga to hasła szyfrowania repozytorium."
 
 #: src/ui/dialog_prune.rs:28
 msgid "Failed to determine how many archives would be deleted"
@@ -1114,45 +1186,53 @@ msgstr ""
 msgid "Failed to refresh archives cache."
 msgstr "Odświeżenie pamięci podręcznej archiwów się nie powiodło."
 
-#: src/ui/page_archives/display.rs:68
+#: src/ui/page_archives/display.rs:58
+msgid "None"
+msgstr "Brak"
+
+#: src/ui/page_archives/display.rs:80
 msgid "Failed to open archive."
 msgstr "Otwarcie archiwum się nie powiodło."
 
-#: src/ui/page_archives/display.rs:146
+#: src/ui/page_archives/display.rs:158
 msgid "Name"
 msgstr "Nazwa"
 
-#: src/ui/page_archives/display.rs:148
+#: src/ui/page_archives/display.rs:160
 msgid "Duration"
 msgstr "Czas trwania"
 
-#: src/ui/page_archives/display.rs:152
+#: src/ui/page_archives/display.rs:164
 msgid "Comment"
 msgstr "Komentarz"
 
-#: src/ui/page_archives/display.rs:156
+#: src/ui/page_archives/display.rs:168
 msgid "Browse saved files"
 msgstr "Przeglądaj zapisane pliki"
 
-#: src/ui/page_archives/display.rs:189
+#: src/ui/page_archives/display.rs:201
 msgid "{} Available"
 msgstr "Dostępne: {}"
 
-#: src/ui/page_archives/display.rs:192
+#: src/ui/page_archives/display.rs:204
 msgid "{} Total"
 msgstr "Razem: {}"
 
-#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:40
+#: src/ui/page_archives/events.rs:27 src/ui/page_backup/execution.rs:40
 msgid "Failed to unmount repository."
 msgstr "Odmontowanie repozytorium się nie powiodło."
 
-#: src/ui/page_archives/events.rs:53
+#: src/ui/page_archives/events.rs:62
 msgid "Failed to make archives available for browsing."
 msgstr "Udostępnienie archiwów do przeglądania się nie powiodło."
 
-#: src/ui/page_backup/display.rs:104
+#: src/ui/page_backup/display.rs:103
 msgid "Regular Expression"
 msgstr "Wyrażenie regularne"
+
+#: src/ui/page_backup/display.rs:105
+msgid "Shell Wildcard Pattern"
+msgstr "Wzorzec wieloznacznika powłoki"
 
 #: src/ui/page_backup/events.rs:52
 msgid "Include directory in backups"
@@ -1296,71 +1376,75 @@ msgstr[2] "Następna kopia zapasowa za {} tygodni"
 msgid "Scheduled backups disabled"
 msgstr "Wyłączono planowanie kopii zapasowych"
 
-#: src/ui/page_schedule/status.rs:65
+#: src/ui/page_schedule/status.rs:67
 msgid "Hourly backups enabled"
 msgstr "Włączono wykonywanie kopii zapasowych co godzinę"
 
-#: src/ui/page_schedule/status.rs:66
+#: src/ui/page_schedule/status.rs:68
 msgid "Daily backups enabled"
 msgstr "Włączono codzienne wykonywanie kopii zapasowych"
 
-#: src/ui/page_schedule/status.rs:67
+#: src/ui/page_schedule/status.rs:69
 msgid "Weekly backups enabled"
 msgstr "Włączono wykonywanie kopii zapasowych co tydzień"
 
-#: src/ui/page_schedule/status.rs:68
+#: src/ui/page_schedule/status.rs:70
 msgid "Monthly backups enabled"
 msgstr "Włączono wykonywanie kopii zapasowych co miesiąc"
 
-#: src/ui/page_schedule/status.rs:78
+#: src/ui/page_schedule/status.rs:80
 msgid "Will not start until requirements are met."
 msgstr "Nie zostanie rozpoczęte, dopóki warunki nie zostaną spełnione."
 
-#: src/ui/page_schedule/status.rs:82
+#: src/ui/page_schedule/status.rs:85
 msgid "Inconsistent backup information"
 msgstr "Niespójne informacje o kopii zapasowej"
 
-#: src/ui/page_schedule/status.rs:88
+#: src/ui/page_schedule/status.rs:91
 msgid "Backup past due"
 msgstr "Zaległa kopia zapasowa"
 
-#: src/ui/page_schedule/status.rs:89
+#: src/ui/page_schedule/status.rs:92
 msgid "Waiting until requirements are met"
 msgstr "Oczekiwanie na spełnienie warunków"
 
-#: src/ui/page_schedule/status.rs:92
+#: src/ui/page_schedule/status.rs:95
 msgid "Scheduled backups unavailable"
 msgstr "Planowanie kopii zapasowych jest niedostępne"
 
-#: src/ui/page_schedule/status.rs:95
+#: src/ui/page_schedule/status.rs:98
 msgid "Waiting for backup to start"
 msgstr "Oczekiwanie na rozpoczęcie wykonywania kopii zapasowej"
 
-#: src/ui/page_schedule/status.rs:104
+#: src/ui/page_schedule/status.rs:107
 msgid "Network connection must not be metered"
 msgstr "Połączenie sieciowe nie może być mierzone"
 
-#: src/ui/page_schedule/status.rs:110
+#: src/ui/page_schedule/status.rs:113
 msgid "Other backups on repository have to be completed"
 msgstr "Inne kopie zapasowe na repozytorium muszą być ukończone"
 
-#: src/ui/page_schedule/status.rs:117
+#: src/ui/page_schedule/status.rs:120
 msgid "Device must be connected to power"
 msgstr "Urządzenie musi być podłączone do zasilania"
 
-#: src/ui/page_schedule/status.rs:128
+#: src/ui/page_schedule/status.rs:131
 msgid "Backup device has to be connected"
 msgstr "Urządzenie kopii zapasowej musi być podłączone"
 
-#: src/ui/page_schedule/status.rs:134
+#: src/ui/page_schedule/status.rs:133
+msgid "Reminder will be sent when device is required"
+msgstr "Przypomnienie zostanie wysłane, kiedy urządzenie jest wymagane"
+
+#: src/ui/page_schedule/status.rs:141
 msgid "Network connection has to be available"
 msgstr "Połączenie sieciowe musi być dostępne"
 
-#: src/ui/page_schedule/status.rs:144
+#: src/ui/page_schedule/status.rs:151
 msgid "Background process inactive"
 msgstr "Proces w tle jest nieaktywny"
 
-#: src/ui/page_schedule/status.rs:145
+#: src/ui/page_schedule/status.rs:152
 msgid "This is required for scheduled backups"
 msgstr "Jest to wymagane do planowania kopii zapasowych"
 
@@ -1372,19 +1456,19 @@ msgstr ""
 "Położenie kopii zapasowej „{}” może być pełne. Szacowane wymagane miejsce do "
 "przechowania wszystkich danych: {}."
 
-#: src/ui/utils.rs:80
+#: src/ui/utils.rs:81
 msgid "Request to run in background failed"
 msgstr "Żądanie działania w tle się nie powiodło"
 
-#: src/ui/utils.rs:101
+#: src/ui/utils.rs:102
 msgid "Schedule backups and continue running backups."
 msgstr "Planowanie i wykonywanie kopii zapasowych w tle."
 
-#: src/ui/utils.rs:117
+#: src/ui/utils.rs:118
 msgid "Run in background disabled"
 msgstr "Wyłączono działanie w tle"
 
-#: src/ui/utils.rs:118
+#: src/ui/utils.rs:119
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1393,7 +1477,7 @@ msgstr ""
 "Funkcja planowania i wykonywania kopii zapasowych w tle nie będzie dostępna. "
 "Opcja „działanie w tle” może zostać włączona w ustawieniach systemu."
 
-#: src/ui/utils.rs:128
+#: src/ui/utils.rs:129
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1402,15 +1486,15 @@ msgstr ""
 "System nie obsługuje tej funkcji lub wystąpił błąd. Funkcja planowania "
 "i wykonywania kopii zapasowych w tle nie będzie dostępna."
 
-#: src/ui/utils.rs:140
+#: src/ui/utils.rs:151
 msgid "Failed to start background process"
 msgstr "Uruchomienie procesu w tle się nie powiodło"
 
-#: src/ui/utils.rs:207
+#: src/ui/utils.rs:218
 msgid "Failed to Create Thread"
 msgstr "Utworzenie wątku się nie powiodło"
 
-#: src/ui/utils.rs:221
+#: src/ui/utils.rs:232
 msgid "Select"
 msgstr "Wybierz"
 
@@ -1418,7 +1502,7 @@ msgstr "Wybierz"
 msgid "Repository already in use"
 msgstr "Repozytorium jest już używane"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1427,7 +1511,7 @@ msgstr ""
 "może być nieaktualna, jeśli na przykład komputer został odłączony z prądu "
 "podczas używania repozytorium."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1437,7 +1521,7 @@ msgstr ""
 "używane przez żaden program. Kontynuowanie, kiedy inny program używa "
 "repozytorium może spowodować uszkodzenie danych w kopii zapasowej."
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Kontynuuj mimo to"
 
@@ -1540,16 +1624,16 @@ msgstr[2] "{} lat temu"
 msgid "Failed to save cache."
 msgstr "Zapisanie pamięci podręcznej się nie powiodło."
 
-#: src/ui/utils/secret_service.rs:16
+#: src/ui/utils/secret_service.rs:15
 msgid "Failed to store password."
 msgstr "Przechowanie hasła się nie powiodło."
 
-#: src/ui/utils/secret_service.rs:24
+#: src/ui/utils/secret_service.rs:23
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Usunięcie potencjalnie pozostawionych haseł z bazy kluczy się nie powiodło."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:39
+#: src/ui/utils/secret_service.rs:38
 msgid "Pika Backup “{}”"
 msgstr "Kopia zapasowa „{}” programu Pika"
