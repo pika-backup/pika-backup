@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-03-29 13:14+0000\n"
-"PO-Revision-Date: 2022-03-29 16:48+0200\n"
+"POT-Creation-Date: 2022-03-31 19:55+0000\n"
+"PO-Revision-Date: 2022-04-04 18:33+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -168,7 +168,7 @@ msgstr "Potencialna notranja napaka."
 msgid "Connection closed by remote host."
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena."
 
-#: src/borg/error.rs:167 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:167 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Skladišče je že v uporabi"
 
@@ -321,11 +321,11 @@ msgstr "Določanje, koliko arhivov bi bilo izbrisanih"
 msgid "Update Archive List"
 msgstr "Posodobi seznam arhivov"
 
-#: src/config.rs:361
+#: src/config.rs:365
 msgid "Flatpak App Cache"
 msgstr "Predpomnilnik programa Flatpak"
 
-#: src/config.rs:532 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:536 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Oddaljeno mesto"
 
@@ -353,6 +353,10 @@ msgstr "Zagon varnostnega kopiranja v ozadju je spodletel"
 msgid "Failed to show overview from daemon"
 msgstr "Prikazovanje pregleda ozadnjega programa je spodletelo"
 
+#: src/daemon/action.rs:65
+msgid "Failed to show schedule from daemon"
+msgstr "Prikaz urnika ozadnjega programa je spodletel"
+
 #: src/daemon/connect/event.rs:32 src/daemon/connect/event.rs:51
 msgid "Backup Device Connected"
 msgstr "Naprava za varnostno kopije je priklopljena"
@@ -373,48 +377,81 @@ msgstr "Mesto »{}« vsebuje eno nastavljeno varnostno kopijo."
 msgid "Back Up Now"
 msgstr "Ustvari varnostno kopijo"
 
-#: src/daemon/schedule/init.rs:95
+#: src/daemon/init.rs:43
+msgid "Fatal Error During Back Up"
+msgstr "Usodna napaka med varnostnim kopiranjem"
+
+#: src/daemon/init.rs:46
+msgid "Pika Backup crashed while running a backup."
+msgid_plural "Pika Backup crashed while running {} backups."
+msgstr[0] ""
+"Varnostno kopiranje Pika se je sesulo med izvajanjem {} varnostnega "
+"kopiranja."
+msgstr[1] ""
+"Varnostno kopiranje Pika se je sesulo med izvajanjem {} varnostnih kopiranj."
+msgstr[2] ""
+"Varnostno kopiranje Pika se je sesulo med izvajanjem {} varnostnih kopiranj."
+msgstr[3] ""
+"Varnostno kopiranje Pika se je sesulo med izvajanjem {} varnostnih kopiranj."
+
+#: src/daemon/schedule/init.rs:90
+msgid "The backup repository is already in use."
+msgstr "Skladišče varnostnih kopij je že v uporabi."
+
+#: src/daemon/schedule/init.rs:93
+msgid "Only metered internet connections available."
+msgstr "Na voljo so le omejene internetne povezave."
+
+#: src/daemon/schedule/init.rs:96
+msgid "Device not connected to power."
+msgstr "Naprava ni priključena na napajanje."
+
+#: src/daemon/schedule/init.rs:102
+msgid "Scheduled Backup Postponed"
+msgstr "Preloženo načrtovano varnostno kopiranje"
+
+#: src/daemon/schedule/init.rs:123
 msgid "Backup Device Required"
 msgstr "Zahtevana je naprava za varnostno kopiranje."
 
-#: src/daemon/schedule/init.rs:97
+#: src/daemon/schedule/init.rs:125
 msgid "“{}” has to be connected for the scheduled backup to start."
 msgstr ""
 "Mesto »{}« mora biti za izvajanje načrtovanega varnostnega kopiranja "
 "priklopljeno."
 
-#: src/daemon/schedule/init.rs:107
+#: src/daemon/schedule/init.rs:135
 msgid "Failed to start scheduled backup"
 msgstr "Zagon načrtovanega varnostnega kopiranja je spodletel"
 
-#: src/ui.rs:159 src/ui/page_backup/events.rs:20
+#: src/ui.rs:150 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Ali želite preklicati ustvarjanje varnostne kopije?"
 
-#: src/ui.rs:160 src/ui/page_backup/events.rs:21
+#: src/ui.rs:151 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Varnostna kopija, če bo opravilo preklicano, ne bo popolna."
 
-#: src/ui.rs:161 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:152 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:484 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: src/ui.rs:162 src/ui/page_backup/events.rs:23
+#: src/ui.rs:153 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Prekliči"
 
-#: src/ui.rs:237
+#: src/ui.rs:228
 msgid "Failed to run “borg”. Is borg-backup installed correctly?"
 msgstr ""
 "Izvajanje ukazov »borg« je spodletelo. Ali je program borg-backup pravilno "
 "nameščen?"
 
-#: src/ui.rs:261
+#: src/ui.rs:252
 msgid "BorgBackup version too old"
 msgstr "Različica programa BorgBackup je prestara."
 
-#: src/ui.rs:263
+#: src/ui.rs:254
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -422,11 +459,11 @@ msgstr ""
 "Nameščena različica programa BorgBackup je prestara. Nekatere funkcije, ki "
 "zahtevajo borg-backup različice {}.{}, ne bodo delovale."
 
-#: src/ui.rs:274
+#: src/ui.rs:265
 msgid "BorgBackup version too new"
 msgstr "Različica programa BorgBackup je preveč nova"
 
-#: src/ui.rs:276
+#: src/ui.rs:267
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -434,19 +471,19 @@ msgstr ""
 "Nameščena različica programa BorgBackup je preveč nova. Nekatere funkcije, "
 "ki zahtevajo borg-backup različice {}.{}, ne bodo delovale."
 
-#: src/ui.rs:286
+#: src/ui.rs:277
 msgid "Cannot check borg-backup version"
 msgstr "Ni mogoče preveriti različice borg-backup"
 
-#: src/ui.rs:288
+#: src/ui.rs:279
 msgid "The installed version {} might not work."
 msgstr "Nameščena različica {} morda ne bo delovala."
 
-#: src/ui.rs:344
+#: src/ui.rs:335
 msgid "Could not load configuration file."
 msgstr "Ni mogoče naložiti nastavitvene datoteke."
 
-#: src/ui.rs:360
+#: src/ui.rs:351
 msgid "Could not write configuration file."
 msgstr "Ni mogoče zapisati nastavitvene datoteke."
 
@@ -542,119 +579,128 @@ msgstr "Ni izključenih predmetov varnostne kopije"
 msgid "_Archives"
 msgstr "_Arhivi"
 
-#: src/ui/app_window.ui:498
+#: src/ui/app_window.ui:498 src/ui/dialog_archive_prefix.ui:6
+#: src/ui/dialog_archive_prefix.ui:88
+msgid "Archive Prefix"
+msgstr "Predpona arhiva"
+
+#: src/ui/app_window.ui:499
+msgid "Added in front of all archive names"
+msgstr "Dodano pred vsa imena arhivov"
+
+#: src/ui/app_window.ui:526
 msgid "Cleanup Archives"
 msgstr "Počisti arhive"
 
-#: src/ui/app_window.ui:499
+#: src/ui/app_window.ui:527
 msgid "Delete some older archives"
 msgstr "Izbriše nekatere starejše arhive"
 
-#: src/ui/app_window.ui:515
+#: src/ui/app_window.ui:543
 msgid "Archives"
 msgstr "Arhivi"
 
-#: src/ui/app_window.ui:524
+#: src/ui/app_window.ui:552
 msgid "Refresh list of archives"
 msgstr "Osveži seznam arhivov"
 
-#: src/ui/app_window.ui:545
+#: src/ui/app_window.ui:573
 msgid "Stop browsing archive files"
 msgstr "Zaustavi brskanje po arhivskih datotekah"
 
-#: src/ui/app_window.ui:571
+#: src/ui/app_window.ui:599
 msgid "No archives available"
 msgstr "Ni še ustvarjenih arhivov"
 
-#: src/ui/app_window.ui:590
+#: src/ui/app_window.ui:618
 msgid "_Schedule"
 msgstr "_Urnik"
 
-#: src/ui/app_window.ui:631
+#: src/ui/app_window.ui:659
 msgid "Frequency"
 msgstr "Pogostost"
 
-#: src/ui/app_window.ui:639
+#: src/ui/app_window.ui:667
 msgid "Preferred Time"
 msgstr "Prednostni čas"
 
-#: src/ui/app_window.ui:647
+#: src/ui/app_window.ui:675
 msgid "14:26"
 msgstr "14.26"
 
-#: src/ui/app_window.ui:660
+#: src/ui/app_window.ui:688
 msgid "Preferred Weekday"
 msgstr "Prednostni dan v tednu"
 
-#: src/ui/app_window.ui:665
+#: src/ui/app_window.ui:693
 msgid "Preferred Day"
 msgstr "Prednostni dan"
 
-#: src/ui/app_window.ui:673
+#: src/ui/app_window.ui:701
 msgid "21st"
 msgstr "21."
 
-#: src/ui/app_window.ui:693
+#: src/ui/app_window.ui:721
 msgid "Save Configuration"
 msgstr "Shrani nastavitev"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:733
 msgid "Regularly Cleanup Archives"
 msgstr "Redno počisti arhive"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:734
 msgid "Remove old archives after creating new backups"
 msgstr "Odstrani stare arhive po ustvarjanju novih varnostnih kopij"
 
-#: src/ui/app_window.ui:716
+#: src/ui/app_window.ui:744
 msgid "Preserved Archives"
 msgstr "Ohranjeni arhivi"
 
-#: src/ui/app_window.ui:717
+#: src/ui/app_window.ui:745
 msgid "Amount and time span of retained archives"
 msgstr "Količina in časovni razpon zadržanih arhivov"
 
-#: src/ui/app_window.ui:726
+#: src/ui/app_window.ui:754
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/ui/app_window.ui:730
+#: src/ui/app_window.ui:758
 msgid "Keep Hourly"
 msgstr "Ohrani urne"
 
-#: src/ui/app_window.ui:745
+#: src/ui/app_window.ui:773
 msgid "Keep Daily"
 msgstr "Dnevno ponavljanje"
 
-#: src/ui/app_window.ui:760
+#: src/ui/app_window.ui:788
 msgid "Keep Weekly"
 msgstr "Tedensko ponavljanje"
 
-#: src/ui/app_window.ui:773
+#: src/ui/app_window.ui:801
 msgid "Keep Monthly"
 msgstr "Mesečno ponavljanje"
 
-#: src/ui/app_window.ui:786
+#: src/ui/app_window.ui:814
 msgid "Keep Annual"
 msgstr "Letno ponavljanje"
 
-#: src/ui/app_window.ui:827
+#: src/ui/app_window.ui:855
 msgid "Backup Info"
 msgstr "Podrobnosti varnostne kopije"
 
-#: src/ui/app_window.ui:885
+#: src/ui/app_window.ui:913
 msgid "Amount saved"
 msgstr "Podatki so shranjeni."
 
-#: src/ui/app_window.ui:901
+#: src/ui/app_window.ui:929
 msgid "Number of files saved"
 msgstr "Število shranjenih datotek"
 
-#: src/ui/app_window.ui:917
+#: src/ui/app_window.ui:945
 msgid "Additional backup space used"
 msgstr "Uporabljen je dodaten prostor varnostnega kopiranja"
 
-#: src/ui/app_window.ui:933
+#: src/ui/app_window.ui:961
 msgid "Current file"
 msgstr "Trenutna datoteka"
 
@@ -711,7 +757,7 @@ msgstr "Ponovno vzpostavljanje povezave"
 msgid "Stopping backup"
 msgstr "Poteka zaustavljanje ustvarjanja varnostne kopije"
 
-#: src/ui/dbus.rs:60
+#: src/ui/dbus.rs:68
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Ni uspelo zagnati vmesnika za načrtovano varnostno kopiranje."
 
@@ -752,33 +798,64 @@ msgstr "Ta program ne bi obstajal brez Borga."
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "Podprite BorgBackup https://www.borgbackup.org/support/fund.html"
 
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
+#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
+#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
+#: src/ui/utils/borg.rs:149
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: src/ui/dialog_archive_prefix.ui:20
+msgid "Save"
+msgstr "Shrani"
+
+#: src/ui/dialog_archive_prefix.ui:51
+msgid "Archive Prefixes"
+msgstr "Predpone arhiva"
+
+#: src/ui/dialog_archive_prefix.ui:62
+msgid ""
+"Each backup run creates a new archive. The archive's name is always prefixed "
+"with the current archive prefix."
+msgstr ""
+"Vsako varnostno kopiranje ustvari nov arhiv. Ime arhiva ima za predpono "
+"vedno trenutno predpono arhiva."
+
+#: src/ui/dialog_archive_prefix.ui:69
+msgid ""
+"This is especially relevant for the “Cleanup Archives” function. Only "
+"archives with the currently configured prefix in their name are considered "
+"for deletion."
+msgstr ""
+"To je še posebej pomembno za funkcijo »Počisti arhive«. Za brisanje se "
+"upoštevajo samo arhivi s trenutno prilagojeno predpono v njihovem imenu."
+
+#: src/ui/dialog_archive_prefix.ui:76
+msgid "If the archive prefix is empty, no prefix is added."
+msgstr "Če je predpona arhiva prazna, ni dodana nobena predpona."
+
 #: src/ui/dialog_device_missing.rs:45
 msgid "Failed to mount."
 msgstr "Priklapljanje mesta je spodletelo."
 
-#: src/ui/dialog_device_missing.ui:9 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:62
-#: src/ui/utils/borg.rs:148
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: src/ui/dialog_device_missing.ui:31
+#: src/ui/dialog_device_missing.ui:23
 msgid "The following backup location needs to be connected:"
 msgstr "Priključiti je treba navedena mesta za ustvarjanje varnostne kopije:"
+
+#: src/ui/dialog_encryption_password.rs:24
+msgid ""
+"The operation “{}” requires the encryption password of the repository on "
+"“{}”."
+msgstr "Operacija »{}« zahteva šifriranje gesla skladišča na »{}«."
 
 #: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:345
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: src/ui/dialog_encryption_password.ui:47 src/ui/dialog_setup.ui:368
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:368
 #: src/ui/dialog_setup.ui:517
 msgid "Password"
 msgstr "Geslo"
-
-#: src/ui/dialog_encryption_password.ui:72
-msgid "This requires the encryption password of the repository."
-msgstr "Izvedba opravila zahteva šifrirno geslo za dostop do skladišča."
 
 #: src/ui/dialog_prune.rs:28
 msgid "Failed to determine how many archives would be deleted"
@@ -1114,39 +1191,43 @@ msgstr "Ni mogoče najti nastavitev varnostne kopije z ID »{}«."
 msgid "Failed to refresh archives cache."
 msgstr "Osveževanje predpomnilnika arhivov je spodletelo."
 
-#: src/ui/page_archives/display.rs:68
+#: src/ui/page_archives/display.rs:58
+msgid "None"
+msgstr "Brez"
+
+#: src/ui/page_archives/display.rs:80
 msgid "Failed to open archive."
 msgstr "Odpiranje arhiva je spodletelo."
 
-#: src/ui/page_archives/display.rs:146
+#: src/ui/page_archives/display.rs:158
 msgid "Name"
 msgstr "Ime"
 
-#: src/ui/page_archives/display.rs:148
+#: src/ui/page_archives/display.rs:160
 msgid "Duration"
 msgstr "Trajanje"
 
-#: src/ui/page_archives/display.rs:152
+#: src/ui/page_archives/display.rs:164
 msgid "Comment"
 msgstr "Opomba"
 
-#: src/ui/page_archives/display.rs:156
+#: src/ui/page_archives/display.rs:168
 msgid "Browse saved files"
 msgstr "Prebrskaj shranjene datoteke"
 
-#: src/ui/page_archives/display.rs:189
+#: src/ui/page_archives/display.rs:201
 msgid "{} Available"
 msgstr "Na voljo {} "
 
-#: src/ui/page_archives/display.rs:192
+#: src/ui/page_archives/display.rs:204
 msgid "{} Total"
 msgstr "Skupaj {} "
 
-#: src/ui/page_archives/events.rs:18 src/ui/page_backup/execution.rs:40
+#: src/ui/page_archives/events.rs:27 src/ui/page_backup/execution.rs:40
 msgid "Failed to unmount repository."
 msgstr "Odklapljanje skladišča je spodletelo."
 
-#: src/ui/page_archives/events.rs:53
+#: src/ui/page_archives/events.rs:62
 msgid "Failed to make archives available for browsing."
 msgstr "Omogočanje brskanja po arhivih je spodletelo."
 
@@ -1302,71 +1383,75 @@ msgstr[3] "Naslednje varnostno kopiranje bo izvedeno čez {} tedne"
 msgid "Scheduled backups disabled"
 msgstr "Načrtovanje varnostnega kopiranja je onemogočeno"
 
-#: src/ui/page_schedule/status.rs:65
+#: src/ui/page_schedule/status.rs:67
 msgid "Hourly backups enabled"
 msgstr "Urno varnostno kopiranje je omogočeno"
 
-#: src/ui/page_schedule/status.rs:66
+#: src/ui/page_schedule/status.rs:68
 msgid "Daily backups enabled"
 msgstr "Dnevno varnostno kopiranje je omogočeno"
 
-#: src/ui/page_schedule/status.rs:67
+#: src/ui/page_schedule/status.rs:69
 msgid "Weekly backups enabled"
 msgstr "Tedensko varnostno kopiranje je omogočeno"
 
-#: src/ui/page_schedule/status.rs:68
+#: src/ui/page_schedule/status.rs:70
 msgid "Monthly backups enabled"
 msgstr "Mesečno varnostno kopiranje je omogočeno"
 
-#: src/ui/page_schedule/status.rs:78
+#: src/ui/page_schedule/status.rs:80
 msgid "Will not start until requirements are met."
 msgstr "Ne bo zagnano, dokler ne bodo izpolnjene zahteve."
 
-#: src/ui/page_schedule/status.rs:82
+#: src/ui/page_schedule/status.rs:85
 msgid "Inconsistent backup information"
 msgstr "Podatki varnostne kopije niso skladni"
 
-#: src/ui/page_schedule/status.rs:88
+#: src/ui/page_schedule/status.rs:91
 msgid "Backup past due"
 msgstr "Varnostno kopiranje po zapadlosti"
 
-#: src/ui/page_schedule/status.rs:89
+#: src/ui/page_schedule/status.rs:92
 msgid "Waiting until requirements are met"
 msgstr "Poteka čakanje na izpolnitev zahtev"
 
-#: src/ui/page_schedule/status.rs:92
+#: src/ui/page_schedule/status.rs:95
 msgid "Scheduled backups unavailable"
 msgstr "Načrtovana varnostna kopiranja niso na voljo"
 
-#: src/ui/page_schedule/status.rs:95
+#: src/ui/page_schedule/status.rs:98
 msgid "Waiting for backup to start"
 msgstr "Poteka čakanje na začetek varnostnega kopiranja"
 
-#: src/ui/page_schedule/status.rs:104
+#: src/ui/page_schedule/status.rs:107
 msgid "Network connection must not be metered"
 msgstr "Omrežna povezava ne sme biti omejena"
 
-#: src/ui/page_schedule/status.rs:110
+#: src/ui/page_schedule/status.rs:113
 msgid "Other backups on repository have to be completed"
 msgstr "Druge varnostne kopije v skladišču je treba dokončati"
 
-#: src/ui/page_schedule/status.rs:117
+#: src/ui/page_schedule/status.rs:120
 msgid "Device must be connected to power"
 msgstr "Naprava mora biti priključena na napajanje"
 
-#: src/ui/page_schedule/status.rs:128
+#: src/ui/page_schedule/status.rs:131
 msgid "Backup device has to be connected"
 msgstr "Napravo za varnostno kopiranje je treba povezati"
 
-#: src/ui/page_schedule/status.rs:134
+#: src/ui/page_schedule/status.rs:133
+msgid "Reminder will be sent when device is required"
+msgstr "Opomnik bo poslan, ko je naprava potrebna"
+
+#: src/ui/page_schedule/status.rs:141
 msgid "Network connection has to be available"
 msgstr "Omrežna povezava mora biti na voljo"
 
-#: src/ui/page_schedule/status.rs:144
+#: src/ui/page_schedule/status.rs:151
 msgid "Background process inactive"
 msgstr "Postopek v ozadju je nedejaven"
 
-#: src/ui/page_schedule/status.rs:145
+#: src/ui/page_schedule/status.rs:152
 msgid "This is required for scheduled backups"
 msgstr "To je zahtevano za načrtovano varnostno kopiranje"
 
@@ -1428,7 +1513,7 @@ msgstr "Izbor"
 msgid "Repository already in use"
 msgstr "Skladišče je že v uporabi"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1437,7 +1522,7 @@ msgstr ""
 "lahko zastareli podatki, če je bilo npr. napajanje računalnika med uporabo "
 "skladišča prekinjeno."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1447,7 +1532,7 @@ msgstr ""
 "Nadaljevanje opravila, če je skladišče že rezervirano za drug program, lahko "
 "okvari varnostno kopirane podatke!"
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Vseeno nadaljuj"
 
@@ -1563,16 +1648,16 @@ msgstr[3] "Pred {} leti"
 msgid "Failed to save cache."
 msgstr "Shranjevanje predpomnilnika je spodletelo."
 
-#: src/ui/utils/secret_service.rs:16
+#: src/ui/utils/secret_service.rs:15
 msgid "Failed to store password."
 msgstr "Shranjevanje gesla je spodletelo."
 
-#: src/ui/utils/secret_service.rs:24
+#: src/ui/utils/secret_service.rs:23
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Odstranjevanje morebitnih preostalih gesel iz shrambe ključev je spodletelo."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:39
+#: src/ui/utils/secret_service.rs:38
 msgid "Pika Backup “{}”"
 msgstr "Varnostno kopiranje Pika »{}«"
