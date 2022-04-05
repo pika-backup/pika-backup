@@ -143,10 +143,6 @@ impl AppWindow {
         self.get("detail_deduplicated_size")
     }
 
-    pub fn detail_dialog_vbox(&self) -> gtk::Box {
-        self.get("detail_dialog_vbox")
-    }
-
     pub fn detail_exclude_placeholder(&self) -> gtk::ListBox {
         self.get("detail_exclude_placeholder")
     }
@@ -205,10 +201,6 @@ impl AppWindow {
 
     pub fn detail_stats(&self) -> gtk::ListBox {
         self.get("detail_stats")
-    }
-
-    pub fn detail_status_right(&self) -> gtk::Box {
-        self.get("detail_status_right")
     }
 
     pub fn detail_status_row(&self) -> adw::ActionRow {
@@ -275,10 +267,6 @@ impl AppWindow {
         self.get("pending_menu_spinner")
     }
 
-    pub fn pending_popover(&self) -> gtk::Popover {
-        self.get("pending_popover")
-    }
-
     pub fn preferred_day_row(&self) -> adw::ActionRow {
         self.get("preferred_day_row")
     }
@@ -331,44 +319,20 @@ impl AppWindow {
         self.get("schedule_keep_daily")
     }
 
-    pub fn schedule_keep_daily_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_keep_daily_adj")
-    }
-
     pub fn schedule_keep_hourly(&self) -> gtk::SpinButton {
         self.get("schedule_keep_hourly")
-    }
-
-    pub fn schedule_keep_hourly_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_keep_hourly_adj")
     }
 
     pub fn schedule_keep_monthly(&self) -> gtk::SpinButton {
         self.get("schedule_keep_monthly")
     }
 
-    pub fn schedule_keep_monthly_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_keep_monthly_adj")
-    }
-
     pub fn schedule_keep_weekly(&self) -> gtk::SpinButton {
         self.get("schedule_keep_weekly")
     }
 
-    pub fn schedule_keep_weekly_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_keep_weekly_adj")
-    }
-
     pub fn schedule_keep_yearly(&self) -> gtk::SpinButton {
         self.get("schedule_keep_yearly")
-    }
-
-    pub fn schedule_keep_yearly_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_keep_yearly_adj")
-    }
-
-    pub fn schedule_pause(&self) -> gtk::ToggleButton {
-        self.get("schedule_pause")
     }
 
     pub fn schedule_preferred_day(&self) -> gtk::MenuButton {
@@ -387,16 +351,8 @@ impl AppWindow {
         self.get("schedule_preferred_hour")
     }
 
-    pub fn schedule_preferred_hour_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_preferred_hour_adj")
-    }
-
     pub fn schedule_preferred_minute(&self) -> gtk::SpinButton {
         self.get("schedule_preferred_minute")
-    }
-
-    pub fn schedule_preferred_minute_adj(&self) -> gtk::Adjustment {
-        self.get("schedule_preferred_minute_adj")
     }
 
     pub fn schedule_preferred_time_button(&self) -> gtk::MenuButton {
@@ -419,10 +375,6 @@ impl AppWindow {
         self.get("schedule_status_list")
     }
 
-    pub fn secondary_menu_button(&self) -> gtk::MenuButton {
-        self.get("secondary_menu_button")
-    }
-
     pub fn status_graphic(&self) -> gtk::Stack {
         self.get("status_graphic")
     }
@@ -439,16 +391,8 @@ impl AppWindow {
         self.get("stop_backup_create")
     }
 
-    pub fn target_listbox(&self) -> adw::PreferencesGroup {
-        self.get("target_listbox")
-    }
-
     pub fn toast(&self) -> adw::ToastOverlay {
         self.get("toast")
-    }
-
-    pub fn view_switcher_bottom(&self) -> adw::ViewSwitcherBar {
-        self.get("view_switcher_bottom")
     }
 
     pub fn view_switcher_title(&self) -> adw::ViewSwitcherTitle {
@@ -873,10 +817,6 @@ impl DialogSetup {
 
     pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
-    }
-
-    pub fn dialog_vbox(&self) -> gtk::Box {
-        self.get("dialog_vbox")
     }
 
     pub fn encryption(&self) -> gtk::Stack {

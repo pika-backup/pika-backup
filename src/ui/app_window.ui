@@ -31,46 +31,6 @@
       </item>
     </section>
   </menu>
-  <object class="GtkPopover" id="pending_popover">
-    <property name="child">
-      <object class="GtkLabel">
-        <property name="margin-start">12</property>
-        <property name="margin-end">12</property>
-        <property name="margin-top">12</property>
-        <property name="margin-bottom">12</property>
-        <property name="label" translatable="yes">Archives are being mounted.
-This might take a while.</property>
-      </object>
-    </property>
-  </object>
-  <object class="GtkAdjustment" id="schedule_keep_hourly_adj">
-    <property name="lower">1</property>
-    <property name="upper">9999</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="schedule_keep_daily_adj">
-    <property name="lower">1</property>
-    <property name="upper">9999</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="schedule_keep_weekly_adj">
-    <property name="lower">1</property>
-    <property name="upper">1000</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="schedule_keep_monthly_adj">
-    <property name="upper">1000</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="schedule_keep_yearly_adj">
-    <property name="upper">1000</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
   <object class="GtkPopover" id="schedule_preferred_day_popover">
     <property name="child">
       <object class="GtkCalendar" id="schedule_preferred_day_calendar">
@@ -81,16 +41,6 @@ This might take a while.</property>
         <property name="show-day-names">0</property>
       </object>
     </property>
-  </object>
-  <object class="GtkAdjustment" id="schedule_preferred_hour_adj">
-    <property name="upper">23</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="schedule_preferred_minute_adj">
-    <property name="upper">59</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
   </object>
   <object class="GtkPopover" id="schedule_preferred_time_popover">
     <property name="child">
@@ -104,7 +54,13 @@ This might take a while.</property>
           <object class="GtkSpinButton" id="schedule_preferred_hour">
             <property name="max-width-chars">2</property>
             <property name="orientation">vertical</property>
-            <property name="adjustment">schedule_preferred_hour_adj</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment">
+                <property name="upper">23</property>
+                <property name="step-increment">1</property>
+                <property name="page-increment">10</property>
+              </object>
+            </property>
             <property name="numeric">1</property>
           </object>
         </child>
@@ -117,7 +73,13 @@ This might take a while.</property>
           <object class="GtkSpinButton" id="schedule_preferred_minute">
             <property name="max-width-chars">2</property>
             <property name="orientation">vertical</property>
-            <property name="adjustment">schedule_preferred_minute_adj</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment">
+                <property name="upper">59</property>
+                <property name="step-increment">1</property>
+                <property name="page-increment">10</property>
+              </object>
+            </property>
             <property name="numeric">1</property>
           </object>
         </child>
@@ -188,7 +150,6 @@ This might take a while.</property>
                               <object class="GtkScrolledWindow" id="page_overview">
                                 <property name="child">
                                   <object class="GtkViewport">
-                                    <property name="scroll-to-focus">1</property>
                                     <child>
                                       <object class="AdwClamp">
                                         <property name="child">
@@ -234,14 +195,27 @@ This might take a while.</property>
                     <child type="end">
                       <object class="GtkMenuButton" id="pending_menu">
                         <property name="visible">0</property>
-                        <property name="popover">pending_popover</property>
+                        <property name="popover">
+                          <object class="GtkPopover">
+                            <property name="child">
+                              <object class="GtkLabel">
+                                <property name="margin-start">12</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-top">12</property>
+                                <property name="margin-bottom">12</property>
+                                <property name="label" translatable="yes">Archives are being mounted.
+This might take a while.</property>
+                              </object>
+                            </property>
+                          </object>
+                        </property>
                         <child>
                           <object class="GtkSpinner" id="pending_menu_spinner"/>
                         </child>
                       </object>
                     </child>
                     <child type="end">
-                      <object class="GtkMenuButton" id="secondary_menu_button">
+                      <object class="GtkMenuButton">
                         <property name="menu-model">detail_menu</property>
                         <property name="icon-name">view-more-symbolic</property>
                       </object>
@@ -262,7 +236,7 @@ This might take a while.</property>
                             <property name="child">
                               <object class="AdwPreferencesPage" id="page_backup">
                                 <child>
-                                  <object class="AdwPreferencesGroup" id="target_listbox">
+                                  <object class="AdwPreferencesGroup">
                                     <child>
                                       <object class="AdwActionRow" id="detail_repo_row">
                                         <property name="activatable">1</property>
@@ -272,7 +246,7 @@ This might take a while.</property>
                                       <object class="AdwActionRow" id="detail_status_row">
                                         <property name="activatable">1</property>
                                         <child>
-                                          <object class="GtkBox" id="detail_status_right">
+                                          <object class="GtkBox">
                                             <child>
                                               <object class="GtkButton" id="stop_backup_create">
                                                 <property name="visible">0</property>
@@ -629,13 +603,6 @@ This might take a while.</property>
                                             <child type="prefix">
                                               <object class="PikaStatusIcon" id="schedule_status_icon"/>
                                             </child>
-                                            <child>
-                                              <object class="GtkToggleButton" id="schedule_pause">
-                                                <property name="valign">center</property>
-                                                <property name="visible">0</property>
-                                                <property name="icon-name">media-playback-pause-symbolic</property>
-                                              </object>
-                                            </child>
                                           </object>
                                         </child>
                                         <style>
@@ -761,7 +728,14 @@ This might take a while.</property>
                                               <object class="GtkSpinButton" id="schedule_keep_hourly">
                                                 <property name="halign">end</property>
                                                 <property name="valign">center</property>
-                                                <property name="adjustment">schedule_keep_hourly_adj</property>
+                                                <property name="adjustment">
+                                                  <object class="GtkAdjustment">
+                                                    <property name="lower">1</property>
+                                                    <property name="upper">9999</property>
+                                                    <property name="step-increment">1</property>
+                                                    <property name="page-increment">10</property>
+                                                  </object>
+                                                </property>
                                                 <property name="climb-rate">1</property>
                                                 <property name="numeric">1</property>
                                               </object>
@@ -776,7 +750,14 @@ This might take a while.</property>
                                               <object class="GtkSpinButton" id="schedule_keep_daily">
                                                 <property name="halign">end</property>
                                                 <property name="valign">center</property>
-                                                <property name="adjustment">schedule_keep_daily_adj</property>
+                                                <property name="adjustment">
+                                                  <object class="GtkAdjustment">
+                                                    <property name="lower">1</property>
+                                                    <property name="upper">9999</property>
+                                                    <property name="step-increment">1</property>
+                                                    <property name="page-increment">10</property>
+                                                  </object>
+                                                </property>
                                                 <property name="climb-rate">1</property>
                                                 <property name="numeric">1</property>
                                               </object>
@@ -790,7 +771,14 @@ This might take a while.</property>
                                             <child>
                                               <object class="GtkSpinButton" id="schedule_keep_weekly">
                                                 <property name="valign">center</property>
-                                                <property name="adjustment">schedule_keep_weekly_adj</property>
+                                                <property name="adjustment">
+                                                  <object class="GtkAdjustment">
+                                                    <property name="lower">1</property>
+                                                    <property name="upper">1000</property>
+                                                    <property name="step-increment">1</property>
+                                                    <property name="page-increment">10</property>
+                                                  </object>
+                                                </property>
                                                 <property name="numeric">1</property>
                                               </object>
                                             </child>
@@ -803,7 +791,13 @@ This might take a while.</property>
                                             <child>
                                               <object class="GtkSpinButton" id="schedule_keep_monthly">
                                                 <property name="valign">center</property>
-                                                <property name="adjustment">schedule_keep_monthly_adj</property>
+                                                <property name="adjustment">
+                                                  <object class="GtkAdjustment">
+                                                    <property name="upper">1000</property>
+                                                    <property name="step-increment">1</property>
+                                                    <property name="page-increment">10</property>
+                                                  </object>
+                                                </property>
                                                 <property name="numeric">1</property>
                                               </object>
                                             </child>
@@ -816,7 +810,13 @@ This might take a while.</property>
                                             <child>
                                               <object class="GtkSpinButton" id="schedule_keep_yearly">
                                                 <property name="valign">center</property>
-                                                <property name="adjustment">schedule_keep_yearly_adj</property>
+                                                <property name="adjustment">
+                                                  <object class="GtkAdjustment">
+                                                    <property name="upper">1000</property>
+                                                    <property name="step-increment">1</property>
+                                                    <property name="page-increment">10</property>
+                                                  </object>
+                                                </property>
                                                 <property name="numeric">1</property>
                                               </object>
                                             </child>
@@ -833,7 +833,7 @@ This might take a while.</property>
                       </object>
                     </child>
                     <child>
-                      <object class="AdwViewSwitcherBar" id="view_switcher_bottom">
+                      <object class="AdwViewSwitcherBar">
                         <property name="stack">detail_stack</property>
                         <property name="reveal" bind-source="view_switcher_title" bind-property="title-visible" bind-flags="sync-create"/>
                       </object>
@@ -855,7 +855,7 @@ This might take a while.</property>
     <property name="title" translatable="yes">Backup Info</property>
     <property name="hide-on-close">1</property>
     <child internal-child="content_area">
-      <object class="GtkBox" id="detail_dialog_vbox">
+      <object class="GtkBox">
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkScrolledWindow">
@@ -863,7 +863,6 @@ This might take a while.</property>
             <property name="hscrollbar-policy">never</property>
             <property name="child">
               <object class="GtkViewport">
-                <property name="scroll-to-focus">1</property>
                 <child>
                   <object class="AdwClamp">
                     <property name="margin-start">6</property>
