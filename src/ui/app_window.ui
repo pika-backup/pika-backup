@@ -467,9 +467,10 @@ This might take a while.</property>
                                       </object>
                                     </child>
                                     <child>
-                                      <object class="AdwActionRow" id="archives_prefix_edit">
-                                        <property name="activatable">1</property>
-                                        <property name="title" translatable="yes">Archive Prefix</property>
+                                      <object class="AdwActionRow">
+                                        <property name="activatable-widget">archives_prefix_edit</property>
+                                        <property name="title" translatable="yes">Archive _Prefix</property>
+                                        <property name="use-underline">1</property>
                                         <property name="subtitle" translatable="yes">Added in front of all archive names</property>
                                         <property name="icon-name">emblem-documents-symbolic</property>
                                         <child type="suffix">
@@ -483,10 +484,11 @@ This might take a while.</property>
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkImage">
+                                              <object class="GtkButton" id="archives_prefix_edit">
                                                 <property name="icon-name">document-edit-symbolic</property>
+                                                <property name="valign">center</property>
                                                 <style>
-                                                  <class name="dim-label"/>
+                                                  <class name="flat"/>
                                                 </style>
                                               </object>
                                             </child>
@@ -497,7 +499,8 @@ This might take a while.</property>
                                     <child>
                                       <object class="AdwActionRow" id="archives_cleanup">
                                         <property name="activatable">1</property>
-                                        <property name="title" translatable="yes">Cleanup Archives</property>
+                                        <property name="use-underline">1</property>
+                                        <property name="title" translatable="yes">_Cleanup Archives</property>
                                         <property name="subtitle" translatable="yes">Delete some older archives</property>
                                         <property name="icon-name">user-trash-symbolic</property>
                                         <child type="suffix">

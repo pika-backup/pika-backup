@@ -14,7 +14,7 @@ pub fn init() {
 
     main_ui()
         .archives_prefix_edit()
-        .connect_activated(|_| Handler::run(events::edit_prefix()));
+        .connect_clicked(|_| Handler::run(events::edit_prefix()));
 
     main_ui()
         .archives_cleanup()

@@ -107,7 +107,7 @@ impl AppWindow {
         self.get("archives_prefix")
     }
 
-    pub fn archives_prefix_edit(&self) -> adw::ActionRow {
+    pub fn archives_prefix_edit(&self) -> gtk::Button {
         self.get("archives_prefix_edit")
     }
 
