@@ -46,7 +46,7 @@ impl Status {
         if !config.schedule.enabled {
             Status {
                 main: StatusRow {
-                    title: gettext("Scheduled backups disabled"),
+                    title: gettext("Scheduled Backups Disabled"),
                     subtitle: String::new(),
                     icon_name: String::from("x-office-calendar-symbolic"),
                     level: StatusLevel::Warning,
@@ -64,10 +64,10 @@ impl Status {
 
             if let Err(due) = due_requirements {
                 main_title = match config.schedule.frequency {
-                    config::Frequency::Hourly => gettext("Hourly backups enabled"),
-                    config::Frequency::Daily { .. } => gettext("Daily backups enabled"),
-                    config::Frequency::Weekly { .. } => gettext("Weekly backups enabled"),
-                    config::Frequency::Monthly { .. } => gettext("Monthly backups enabled"),
+                    config::Frequency::Hourly => gettext("Hourly Backups Enabled"),
+                    config::Frequency::Daily { .. } => gettext("Daily Backups Enabled"),
+                    config::Frequency::Weekly { .. } => gettext("Weekly Backups Enabled"),
+                    config::Frequency::Monthly { .. } => gettext("Monthly Backups Enabled"),
                 };
 
                 if let Some(scheduled_in) = &due.next_due() {
@@ -88,14 +88,14 @@ impl Status {
 
                 problem_level = StatusLevel::Warning;
             } else if !global_requirements.is_empty() || !hints.is_empty() {
-                main_title = gettext("Backup past due");
+                main_title = gettext("Backup Past Due");
                 main_subtitle = gettext("Waiting until requirements are met");
                 main_level = StatusLevel::Warning;
             } else if !DAEMON_RUNNING.get() {
-                main_title = gettext("Scheduled backups unavailable");
+                main_title = gettext("Scheduled Backups Unavailable");
                 main_level = StatusLevel::Error;
             } else {
-                main_title = gettext("Waiting for backup to start");
+                main_title = gettext("Waiting for Backup to Start");
                 main_level = StatusLevel::Error;
             }
 

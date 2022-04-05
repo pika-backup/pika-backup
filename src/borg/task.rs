@@ -40,7 +40,7 @@ impl Task for Prune {
     type Return = ();
 
     fn name() -> String {
-        gettext("Delete old Archives")
+        gettext("Deleting old Archives")
     }
 }
 
@@ -52,7 +52,7 @@ impl Task for PruneInfo {
     type Return = super::PruneInfo;
 
     fn name() -> String {
-        gettext("Determine how many archives would be deleted")
+        gettext("Identifying old Archives")
     }
 }
 

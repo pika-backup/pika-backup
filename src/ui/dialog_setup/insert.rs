@@ -173,7 +173,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     }
 
     let result =
-        ui::utils::borg::exec_repo_only(&gettext("Loading backup repository"), borg, |borg| {
+        ui::utils::borg::exec_repo_only(&gettext("Loading Backup Repository"), borg, |borg| {
             borg.peek()
         })
         .await;

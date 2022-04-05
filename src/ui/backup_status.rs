@@ -52,8 +52,8 @@ impl Display {
 
     fn never_ran() -> Self {
         Self {
-            title: gettext("Backup never ran"),
-            subtitle: Some(gettext("Start by creating your first backup")),
+            title: gettext("Backup Never Ran"),
+            subtitle: Some(gettext("Begin by carrying out your first backup")),
             graphic: Graphic::WarningIcon("dialog-information-symbolic".to_string()),
             progress: None,
             stats: None,
@@ -77,21 +77,21 @@ impl From<&history::RunInfo> for Display {
                 }
             }
             borg::Outcome::Completed { .. } => Self {
-                title: gettext("Last backup successful"),
+                title: gettext("Last Backup Successful"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::OkIcon("emblem-default-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
             borg::Outcome::Aborted(borg::error::Abort::User) => Self {
-                title: gettext("Last backup aborted"),
+                title: gettext("Last Backup Aborted"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
             _ => Self {
-                title: gettext("Last backup failed"),
+                title: gettext("Last Backup Failed"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                 graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),
                 progress: None,
@@ -160,8 +160,8 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
 
         let title = match op.communication().status() {
             Run::Init => gettext("Preparing backup"),
-            Run::Running => gettext("Backup running"),
-            Run::Stalled => gettext("Backup destination unresponsive"),
+            Run::Running => gettext("Backup Running"),
+            Run::Stalled => gettext("Backup Destination Unresponsive"),
             Run::Reconnecting => {
                 subtitle = Some(gettextf(
                     "Connection lost, reconnecting in {}",
@@ -171,7 +171,7 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
                 ));
                 gettext("Reconnecting")
             }
-            Run::Stopping => gettext("Stopping backup"),
+            Run::Stopping => gettext("Stopping Backup"),
         };
 
         if subtitle.is_none() {

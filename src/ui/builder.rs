@@ -247,7 +247,7 @@ impl AppWindow {
         self.get("page_detail")
     }
 
-    pub fn page_overview(&self) -> gtk::ScrolledWindow {
+    pub fn page_overview(&self) -> adw::PreferencesPage {
         self.get("page_overview")
     }
 
