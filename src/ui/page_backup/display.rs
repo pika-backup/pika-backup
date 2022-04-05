@@ -21,9 +21,10 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 
     let button = gtk::Button::builder()
         .icon_name("edit-delete-symbolic")
+        .valign(gtk::Align::Center)
         .build();
+    button.add_css_class("flat");
     row.add_suffix(&button);
-    button.set_valign(gtk::Align::Center);
 
     button
 }
@@ -120,8 +121,9 @@ pub fn refresh() -> Result<()> {
 
                 let button = gtk::Button::builder()
                     .icon_name("edit-delete-symbolic")
+                    .valign(gtk::Align::Center)
                     .build();
-                button.set_valign(gtk::Align::Center);
+                button.add_css_class("flat");
                 let pattern_ = pattern.clone();
                 button.connect_clicked(move |_| {
                     let pattern = pattern_.clone();

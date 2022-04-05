@@ -57,10 +57,7 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
                 if let Ok(metadata) = cfg.metadata() {
                     if metadata.len() < 1024 * 1024 {
                         let mut content = String::new();
-                        #[allow(unused_must_use)]
-                        {
-                            cfg.read_to_string(&mut content);
-                        }
+                        let _result = cfg.read_to_string(&mut content);
                         return content.contains("[repository]");
                     }
                 }
