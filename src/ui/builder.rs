@@ -1141,7 +1141,7 @@ impl OverviewItem {
         })
     }
 
-    pub fn include(&self) -> gtk::Box {
+    pub fn include(&self) -> crate::ui::export::WrapBox {
         self.get("include")
     }
 

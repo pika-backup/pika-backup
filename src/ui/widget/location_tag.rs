@@ -19,6 +19,7 @@ impl LocationTag {
             .valign(gtk::Align::Center)
             .spacing(4)
             .build();
+        incl.add_css_class("tag");
 
         if let Some(icon) = ui::utils::file_symbolic_icon(&config::absolute(&self.path)) {
             incl.append(&icon);
@@ -33,6 +34,7 @@ impl LocationTag {
         let label = gtk::Label::builder()
             .label(&path_str)
             .ellipsize(gtk::pango::EllipsizeMode::Middle)
+            .natural_wrap_mode(gtk::NaturalWrapMode::None)
             .build();
         incl.append(&label);
 

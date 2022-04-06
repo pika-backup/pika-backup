@@ -53,8 +53,8 @@ pub fn transfer_selection(
             row.set_subtitle(&glib::markup_escape_text(&prefix.to_string()));
         }
 
-        let box_ = gtk::Box::new(gtk::Orientation::Horizontal, 6);
-        box_.add_css_class("overview-includes");
+        let box_ = ui::widget::WrapBox::new();
+        box_.add_css_class("tag-box");
         row.add_suffix(&box_);
 
         row.connect_activated(
@@ -65,7 +65,7 @@ pub fn transfer_selection(
 
         for include in suggestion.parsed.include {
             let tag = ui::widget::LocationTag::new(include);
-            box_.append(&tag.build());
+            box_.add_child(&tag.build());
         }
 
         ui.transfer_suggestions().append(&row);

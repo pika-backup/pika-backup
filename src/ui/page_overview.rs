@@ -135,7 +135,7 @@ fn rebuild_list() {
         for path in &config.include {
             let incl = ui::widget::LocationTag::new(path.clone());
 
-            row.include().append(&incl.build());
+            row.include().add_child(&incl.build());
         }
 
         ROWS.with(|rows| {

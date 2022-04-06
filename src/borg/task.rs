@@ -40,7 +40,7 @@ impl Task for Prune {
     type Return = ();
 
     fn name() -> String {
-        gettext("Deleting old Archives")
+        gettext("Removing old Archives")
     }
 }
 
@@ -64,6 +64,6 @@ impl Task for List {
     type Return = Vec<super::ListArchive>;
 
     fn name() -> String {
-        gettext("Update Archive List")
+        gettext("Refreshing Archive List")
     }
 }
