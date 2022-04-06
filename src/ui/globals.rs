@@ -44,7 +44,7 @@ pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
 
 thread_local!(
     static MAIN_UI_STORE: Rc<ui::builder::AppWindow> = Rc::new({
-        ui::widgets::init();
+        ui::widget::init();
         ui::builder::AppWindow::new()
     });
 

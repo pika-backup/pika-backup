@@ -27,7 +27,7 @@ mod page_schedule;
 mod prelude;
 mod toast_size_estimate;
 mod utils;
-mod widgets;
+mod widget;
 
 pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
 

@@ -64,11 +64,8 @@ pub fn transfer_selection(
         );
 
         for include in suggestion.parsed.include {
-            let label = gtk::Label::new(Some(&include.to_string_lossy()));
-            let include_box = gtk::Box::new(gtk::Orientation::Horizontal, 3);
-            include_box.append(&label);
-            include_box.set_valign(gtk::Align::Center);
-            box_.append(&include_box);
+            let tag = ui::widget::LocationTag::new(include);
+            box_.append(&tag.build());
         }
 
         ui.transfer_suggestions().append(&row);

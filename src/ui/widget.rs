@@ -1,3 +1,7 @@
+mod location_tag;
+
+pub use location_tag::LocationTag;
+
 use crate::ui;
 use glib::prelude::*;
 use ui::utils::StatusLevel;
@@ -8,7 +12,7 @@ pub fn init() {
     ui::page_schedule::weekday::WeekdayObject::static_type();
     ui::dialog_setup::folder_button::FolderButton::static_type();
     ui::dialog_setup::add_task::AddConfigTask::static_type();
-    ui::widgets::StatusIcon::static_type();
+    ui::widget::StatusIcon::static_type();
 }
 
 use gtk::prelude::*;

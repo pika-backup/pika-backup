@@ -1,11 +1,10 @@
+use crate::ui::prelude::*;
 use adw::prelude::*;
 
 use std::collections::BTreeMap;
 use std::sync::RwLock;
 
-use crate::config;
 use crate::ui;
-use crate::ui::prelude::*;
 
 pub fn dbus_show() {
     main_ui()
@@ -134,27 +133,9 @@ fn rebuild_list() {
         // Include
 
         for path in &config.include {
-            let incl = gtk::Box::builder()
-                .orientation(gtk::Orientation::Horizontal)
-                .spacing(4)
-                .build();
-            row.include().append(&incl);
+            let incl = ui::widget::LocationTag::new(path.clone());
 
-            if let Some(icon) = ui::utils::file_symbolic_icon(&config::absolute(path)) {
-                incl.append(&icon);
-            }
-
-            let path_str = if path.iter().next().is_none() {
-                gettext("Home")
-            } else {
-                path.to_string_lossy().to_string()
-            };
-
-            let label = gtk::Label::builder()
-                .label(&path_str)
-                .ellipsize(gtk::pango::EllipsizeMode::Middle)
-                .build();
-            incl.append(&label);
+            row.include().append(&incl.build());
         }
 
         ROWS.with(|rows| {
