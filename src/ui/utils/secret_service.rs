@@ -30,7 +30,8 @@ async fn set_password(
     config: &config::Backup,
     password: &Password,
 ) -> std::result::Result<(), glib::Error> {
-    libsecret::password_store_future(
+    debug!("Starting to store password");
+    let result = libsecret::password_store_future(
         Some(&config::Password::libsecret_schema()),
         HashMap::from([("repo-id", config.repo_id.as_str())]),
         None,
@@ -38,13 +39,18 @@ async fn set_password(
         &gettextf("Pika Backup “{}”", &[&config.repo.location()]),
         password.as_str(),
     )
-    .await
+    .await;
+    debug!("Storing password returned");
+    result
 }
 
 async fn delete_passwords(config: &config::Backup) -> std::result::Result<(), glib::Error> {
-    libsecret::password_clear_future(
+    debug!("Starting to clear passwords");
+    let result = libsecret::password_clear_future(
         Some(&config::Password::libsecret_schema()),
         HashMap::from([("repo-id", config.repo_id.as_str())]),
     )
-    .await
+    .await;
+    debug!("Clearing password returned");
+    result
 }

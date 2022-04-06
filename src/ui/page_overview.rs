@@ -21,15 +21,13 @@ thread_local!(
 
 pub fn init() {
     main_ui()
-        .main_stack()
-        .connect_visible_child_notify(on_main_stack_changed);
-
-    main_ui()
         .add_backup()
         .connect_clicked(|_| ui::dialog_setup::show());
     main_ui()
         .add_backup_empty()
         .connect_clicked(|_| ui::dialog_setup::show());
+
+    main_ui().main_backups().connect_map(|_| rebuild_list());
 
     glib::timeout_add_seconds_local(1, || {
         if is_visible() {
@@ -42,12 +40,6 @@ pub fn init() {
 fn is_visible() -> bool {
     main_ui().main_stack().visible_child()
         == Some(main_ui().page_overview().upcast::<gtk::Widget>())
-}
-
-fn on_main_stack_changed(_stack: &adw::ViewStack) {
-    if is_visible() {
-        rebuild_list();
-    }
 }
 
 pub fn remove_backup() {
