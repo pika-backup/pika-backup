@@ -45,8 +45,6 @@ async fn startup_backup(
     }
 
     let result = run_backup(config, from_schedule).await;
-
-    // Direct visual feedback
     display::refresh_status();
 
     result
@@ -56,7 +54,12 @@ async fn run_backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
-    display::refresh_status();
+    scopeguard::defer_on_success! {
+        BACKUP_HISTORY.update(|history| {
+            history.remove_running(config.id.clone());
+        });
+        Handler::handle(ui::write_config());
+    }
 
     BACKUP_HISTORY.update(|history| {
         history.set_running(config.id.clone());
@@ -102,7 +105,6 @@ async fn run_backup(
         history.insert(config.id.clone(), run_info.clone());
         history.remove_running(config.id.clone());
     });
-    display::refresh_status();
 
     ui::write_config()?;
 
