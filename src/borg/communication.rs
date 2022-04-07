@@ -37,6 +37,10 @@ impl<T: Task> Communication<T> {
         Sender(self.clone())
     }
 
+    pub fn drop_sender(&self) {
+        self.sender.store(Default::default());
+    }
+
     pub(in crate::borg) fn set_status(&self, status: Status) {
         if !matches!(**self.status.load(), Status::Stopping) {
             self.status.store(Arc::new(status));

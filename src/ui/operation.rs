@@ -19,9 +19,9 @@ const POLL_INTERVAL: Duration = Duration::from_secs(60);
 
 pub struct Operation<T: borg::Task> {
     command: borg::Command<T>,
-
     last_log: RefCell<Option<Rc<borg::log_json::Output>>>,
     inhibit_cookie: Cell<Option<u32>>,
+    operation_shutdown: Cell<bool>,
 }
 
 impl<T: borg::Task> Operation<T> {
@@ -31,14 +31,25 @@ impl<T: borg::Task> Operation<T> {
             command,
             last_log: Default::default(),
             inhibit_cookie: Default::default(),
+            operation_shutdown: Default::default(),
         });
 
-        let mut log_receiver = process.communication().new_receiver();
         let weak_process = Rc::downgrade(&process);
         glib::MainContext::default().spawn_local(async move {
-            while let Some(output) = log_receiver.next().await {
-                if let Some(process) = weak_process.upgrade() {
-                    process.check_output(output);
+            while let Some(mut log_receiver) = weak_process
+                .upgrade()
+                .map(|x| x.communication().new_receiver())
+            {
+                debug!("Connect to new communication messages");
+                while let Some(output) = log_receiver.next().await {
+                    if let Some(process) = weak_process.upgrade() {
+                        process.check_output(output);
+                    }
+                }
+
+                if Some(false) != weak_process.upgrade().map(|x| x.operation_shutdown.get()) {
+                    debug!("Stop listening to communication messages because of shutdown");
+                    return;
                 }
             }
         });
@@ -180,6 +191,9 @@ impl<T: borg::Task> Operation<T> {
 impl<T: borg::Task> Drop for Operation<T> {
     fn drop(&mut self) {
         debug!("Dropping operation tracking '{}'.", T::name());
+
+        self.operation_shutdown.replace(true);
+        self.communication().drop_sender();
 
         self.ui_status_update();
         self.ui_schedule_update();
