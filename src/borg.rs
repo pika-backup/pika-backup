@@ -28,7 +28,7 @@ pub static MESSAGE_POLL_TIMEOUT: std::time::Duration = std::time::Duration::from
 /// [`status::Run::Stalled`]
 ///
 /// TODO: Increase before release
-pub static STALL_THRESHOLD: std::time::Duration = std::time::Duration::from_secs(30);
+pub static STALL_THRESHOLD: std::time::Duration = std::time::Duration::from_secs(60 * 2);
 
 pub const MIN_MAJOR_VERSION: u32 = 1;
 pub const MIN_MINOR_VERSION: u32 = 2;
