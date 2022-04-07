@@ -249,6 +249,8 @@ impl Due {
                         })
                     }
                 }
+
+                // TODO: repeat after error missing
                 config::Frequency::Monthly { preferred_day } => {
                     let scheduled_date = chrono::Local::today()
                         .with_day(preferred_day as u32)
