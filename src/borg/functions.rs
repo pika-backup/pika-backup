@@ -154,7 +154,10 @@ impl CommandRun<task::Create> for Command<task::Create> {
         while let Some(msg) = log.next().await {
             trace!("borg::create: {:?}", msg);
 
-            if let log_json::Output::Progress(log_json::Progress::Archive(ref progress)) = msg {
+            if let Update::Msg(log_json::Output::Progress(log_json::Progress::Archive(
+                ref progress,
+            ))) = msg
+            {
                 let skipped = progress.original_size as f64 - progress.deduplicated_size as f64;
                 let copied = progress.deduplicated_size as f64;
                 let interval = last_time.elapsed().as_secs_f64();

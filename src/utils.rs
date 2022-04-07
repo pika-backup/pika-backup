@@ -51,7 +51,10 @@ pub fn init_gettext() {
     );
 }
 
-pub async fn listen_remote_app_running(app_id: &str, update: fn(bool)) -> Result<(), zbus::Error> {
+pub async fn listen_remote_app_running<T: Fn(bool)>(
+    app_id: &str,
+    update: T,
+) -> Result<(), zbus::Error> {
     let proxy = zbus::fdo::DBusProxy::new(&ZBUS_SESSION).await?;
 
     let has_owner = proxy.name_has_owner(app_id.try_into().unwrap()).await?;

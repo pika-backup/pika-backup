@@ -94,7 +94,7 @@ fn update_prune_details(config: &config::Backup) {
         .set_value(config.prune.keep.yearly as f64);
 }
 
-async fn update_status(config: &config::Backup) {
+pub async fn update_status(config: &config::Backup) {
     let status = super::status::Status::new(config).await;
 
     main_ui()

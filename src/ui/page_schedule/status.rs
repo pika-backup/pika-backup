@@ -91,7 +91,7 @@ impl Status {
                 main_title = gettext("Backup Past Due");
                 main_subtitle = gettext("Waiting until requirements are met");
                 main_level = StatusLevel::Warning;
-            } else if !DAEMON_RUNNING.get() {
+            } else if !status_tracking().daemon_running.get() {
                 main_title = gettext("Scheduled Backups Unavailable");
                 main_level = StatusLevel::Error;
             } else {
@@ -146,7 +146,7 @@ impl Status {
                 }
             }
 
-            if !DAEMON_RUNNING.get() {
+            if !status_tracking().daemon_running.get() {
                 problems.push(StatusRow {
                     title: gettext("Background process inactive"),
                     subtitle: gettext("This is required for scheduled backups"),

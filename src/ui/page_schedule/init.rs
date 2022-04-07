@@ -113,17 +113,6 @@ pub fn init() {
 
     gio::NetworkMonitor::default()
         .connect_network_available_notify(|_| Handler::run(event::network_changed()));
-
-    // Daemon status
-
-    Handler::run(async {
-        crate::utils::listen_remote_app_running(&crate::daemon_app_id(), |running| {
-            DAEMON_RUNNING.store(Arc::new(running));
-            Handler::run(event::network_changed());
-        })
-        .await
-        .err_to_msg(gettext("Unable to determine background process status"))
-    });
 }
 
 fn init_schedule_active() -> glib::SignalHandlerId {

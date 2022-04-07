@@ -14,6 +14,12 @@ pub fn dbus_show() {
     main_ui().window().present();
 }
 
+pub fn refresh_status() {
+    if is_visible() {
+        force_refresh_status();
+    }
+}
+
 thread_local!(
     static ROWS: RwLock<BTreeMap<ConfigId, ui::builder::OverviewItem>> =
         RwLock::new(Default::default());
@@ -28,13 +34,6 @@ pub fn init() {
         .connect_clicked(|_| ui::dialog_setup::show());
 
     main_ui().main_backups().connect_map(|_| rebuild_list());
-
-    glib::timeout_add_seconds_local(1, || {
-        if is_visible() {
-            refresh_status();
-        }
-        Continue(true)
-    });
 }
 
 fn is_visible() -> bool {
@@ -137,10 +136,10 @@ fn rebuild_list() {
         });
     }
 
-    refresh_status();
+    force_refresh_status();
 }
 
-pub fn refresh_status() {
+fn force_refresh_status() {
     glib::MainContext::default().spawn_local(async move {
         for config in BACKUP_CONFIG.load().iter() {
             let scheudle_status = ui::page_schedule::status::Status::new(config).await;

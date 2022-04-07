@@ -7,11 +7,11 @@ use ui::prelude::*;
 use crate::borg;
 use crate::config;
 use crate::ui;
-use glib::{Continue, SignalHandlerId};
+use glib::Continue;
 use std::any::Any;
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
-use std::time::{Duration, Instant};
+use std::time::Duration;
 
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
 const TIME_ON_BATTERY_ABORT: Duration = Duration::from_secs(20 * 60);
@@ -19,9 +19,7 @@ const POLL_INTERVAL: Duration = Duration::from_secs(60);
 
 pub struct Operation<T: borg::Task> {
     command: borg::Command<T>,
-    on_battery_since: Rc<Cell<Option<Instant>>>,
-    metered_since: Cell<Option<Instant>>,
-    metered_signal_handler: Cell<Option<SignalHandlerId>>,
+
     last_log: RefCell<Option<Rc<borg::log_json::Output>>>,
     inhibit_cookie: Cell<Option<u32>>,
 }
@@ -31,51 +29,9 @@ impl<T: borg::Task> Operation<T> {
     pub fn register(command: borg::Command<T>) -> Rc<dyn OperationExt> {
         let process = Rc::new(Self {
             command,
-            on_battery_since: Default::default(),
-            metered_since: Default::default(),
-            metered_signal_handler: Default::default(),
             last_log: Default::default(),
             inhibit_cookie: Default::default(),
         });
-
-        let weak_process = Rc::downgrade(&process);
-        glib::MainContext::default().spawn_local(async move {
-            if let Some(mut stream) =
-                crate::utils::upower::UPower::receive_on_battery_changed().await
-            {
-                while let (Some(result), Some(process)) =
-                    (stream.next().await, weak_process.upgrade())
-                {
-                    match result.get().await {
-                        Ok(true) => {
-                            debug!("Device now battery powered.");
-                            process.on_battery_since.set(Some(Instant::now()));
-                        }
-                        Ok(false) => {
-                            debug!("Device no longer battery powered.");
-                            process.on_battery_since.set(None);
-                        }
-                        Err(err) => {
-                            warn!("Failed to get new OnBattery() status: {}", err);
-                        }
-                    }
-                }
-            }
-        });
-
-        process.metered_signal_handler.set(Some(
-            gio::NetworkMonitor::default().connect_network_metered_notify(
-                glib::clone!(@weak process => move |x| {
-                    if x.is_network_metered() {
-                        debug!("Connection now metered.");
-                        process.metered_since.set(Some(Instant::now()));
-                    } else {
-                        debug!("Connection no longer metered.");
-                        process.metered_since.set(None);
-                    }
-                }),
-            ),
-        ));
 
         let mut log_receiver = process.communication().new_receiver();
         let weak_process = Rc::downgrade(&process);
@@ -109,6 +65,9 @@ impl<T: borg::Task> Operation<T> {
             });
         }));
 
+        process.ui_status_update();
+        process.ui_schedule_update();
+
         process
     }
 
@@ -124,13 +83,19 @@ impl<T: borg::Task> Operation<T> {
         &self.command.communication
     }
 
-    fn check_output(&self, output: borg::log_json::Output) {
-        // TODO call other stuff
-        if !output.to_string().is_empty() {
-            self.last_log.replace(Some(Rc::new(output)));
+    fn check_output(&self, update: borg::Update) {
+        match update {
+            borg::Update::Msg(output) => {
+                if !output.to_string().is_empty() {
+                    self.last_log.replace(Some(Rc::new(output)));
+                }
+            }
+            _ => {
+                self.ui_schedule_update();
+            }
         }
 
-        ui::page_backup::refresh_status();
+        self.ui_status_update();
     }
 
     async fn check(self_: Rc<Self>) {
@@ -151,7 +116,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_metered_exceeded(&self) -> bool {
-        if let Some(instant) = self.metered_since.get() {
+        if let Some(instant) = status_tracking().metered_since.get() {
             instant.elapsed() > TIME_METERED_ABORT
         } else {
             false
@@ -159,7 +124,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_on_battery_exceeded(&self) -> bool {
-        if let Some(instant) = self.on_battery_since.get() {
+        if let Some(instant) = status_tracking().on_battery_since.get() {
             instant.elapsed() > TIME_ON_BATTERY_ABORT
         } else {
             false
@@ -189,18 +154,38 @@ impl<T: borg::Task> Operation<T> {
             warn!("Failed to set application inhibit.");
         }
     }
+
+    fn ui_status_update(&self) {
+        debug!("UI status update");
+
+        if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
+            ui::page_backup::refresh_status();
+            ui::dialog_info::refresh_status();
+        }
+
+        ui::page_overview::refresh_status();
+    }
+
+    fn ui_schedule_update(&self) {
+        debug!("UI schedule update");
+
+        if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
+            ui::page_schedule::refresh_status();
+        }
+
+        ui::page_overview::refresh_status();
+    }
 }
 
 impl<T: borg::Task> Drop for Operation<T> {
     fn drop(&mut self) {
         debug!("Dropping operation tracking '{}'.", T::name());
 
+        self.ui_status_update();
+        self.ui_schedule_update();
+
         if let Some(cookie) = self.inhibit_cookie.take() {
             adw_app().uninhibit(cookie);
-        }
-
-        if let Some(handler) = self.metered_signal_handler.take() {
-            gio::NetworkMonitor::default().disconnect(handler);
         }
     }
 }

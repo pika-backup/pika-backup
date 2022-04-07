@@ -4,7 +4,6 @@ use crate::ui;
 
 use crate::ui::prelude::*;
 
-use super::display;
 use super::events;
 
 pub fn init() {
@@ -54,9 +53,4 @@ pub fn init() {
 
     main_ui().status_spinner().connect_map(|s| s.start());
     main_ui().status_spinner().connect_unmap(|s| s.stop());
-
-    glib::timeout_add_seconds_local(1, || {
-        display::refresh_status();
-        Continue(true)
-    });
 }

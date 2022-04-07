@@ -1,3 +1,5 @@
+use crate::borg::prelude::*;
+
 use super::error;
 use super::Result;
 use arc_swap::ArcSwap;
@@ -8,18 +10,24 @@ use super::log_json;
 use super::status::Run as Status;
 use super::task::Task;
 
+#[derive(Debug, Clone)]
+pub enum Update {
+    Msg(log_json::Output),
+    Status(Status),
+}
+
 #[derive(Default, Debug, Clone)]
 pub struct Communication<T: Task> {
     pub general_info: Arc<ArcSwap<super::status::GeneralStatus>>,
     pub specific_info: Arc<ArcSwap<T::Info>>,
     pub status: Arc<ArcSwap<Status>>,
     pub(in crate::borg) instruction: Arc<ArcSwap<Instruction>>,
-    sender: Arc<ArcSwap<Vec<channel::Sender<log_json::Output>>>>,
+    sender: Arc<ArcSwap<Vec<channel::Sender<Update>>>>,
 }
 
 impl<T: Task> Communication<T> {
-    pub fn new_receiver(&self) -> channel::Receiver<log_json::Output> {
-        let (sender, receiver) = unbounded::<log_json::Output>();
+    pub fn new_receiver(&self) -> channel::Receiver<Update> {
+        let (sender, receiver) = unbounded::<Update>();
         self.sender
             .rcu(move |v| [v.to_vec(), vec![sender.clone()]].concat());
         receiver
@@ -32,6 +40,14 @@ impl<T: Task> Communication<T> {
     pub(in crate::borg) fn set_status(&self, status: Status) {
         if !matches!(**self.status.load(), Status::Stopping) {
             self.status.store(Arc::new(status));
+            let senders = self.sender.get().into_iter();
+            async_std::task::spawn(async move {
+                for sender in senders {
+                    if let Err(err) = sender.send(Update::Status(status)).await {
+                        error!("Failed to send status update: {}", err);
+                    }
+                }
+            });
         }
     }
 
@@ -61,7 +77,7 @@ pub(super) struct Sender<T: Task>(Communication<T>);
 impl<T: Task> Sender<T> {
     pub async fn send(&self, msg: log_json::Output) -> Result<()> {
         for sender in self.0.sender.load().iter() {
-            sender.send(msg.clone()).await?;
+            sender.send(Update::Msg(msg.clone())).await?;
         }
         Ok(())
     }

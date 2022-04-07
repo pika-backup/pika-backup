@@ -28,3 +28,12 @@ pub fn view(id: &ConfigId) {
 pub fn is_visible() -> bool {
     super::page_detail::is_visible(&main_ui().page_schedule())
 }
+
+pub fn refresh_status() {
+    if is_visible() {
+        if let Ok(config) = BACKUP_CONFIG.load().active().cloned() {
+            glib::MainContext::default()
+                .spawn_local(async move { event::update_status(&config).await });
+        }
+    }
+}

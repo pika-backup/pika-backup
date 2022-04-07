@@ -30,8 +30,6 @@ pub static IS_SHUTDOWN: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
 pub static REPO_CACHE: Lazy<ArcSwap<BTreeMap<borg::RepoId, ui::utils::repo_cache::RepoCache>>> =
     Lazy::new(Default::default);
 
-pub static DAEMON_RUNNING: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
-
 pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
     std::env::var("LC_NUMERIC")
         .ok()
@@ -57,6 +55,9 @@ thread_local!(
 
     pub static BORG_OPERATION: ArcSwap<BTreeMap<ConfigId, Rc<dyn ui::operation::OperationExt>>> =
         Default::default();
+
+    pub static STATUS_TRACKING: Rc<ui::status::StatusTracking> =
+        ui::status::StatusTracking::new_rc();
 );
 
 pub fn main_ui() -> Rc<ui::builder::AppWindow> {
@@ -65,4 +66,8 @@ pub fn main_ui() -> Rc<ui::builder::AppWindow> {
 
 pub fn adw_app() -> Rc<adw::Application> {
     ADW_APPLICATION.with(|x| x.clone())
+}
+
+pub fn status_tracking() -> Rc<ui::status::StatusTracking> {
+    STATUS_TRACKING.with(|x| x.clone())
 }

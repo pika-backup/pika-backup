@@ -7,18 +7,11 @@ use crate::config::history::*;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
 
-pub fn init() {
-    glib::timeout_add_local(Duration::from_millis(250), || {
-        refresh_status();
-        Continue(true)
-    });
-}
-
 fn is_visible() -> bool {
     main_ui().detail_running_backup_info().is_visible()
 }
 
-fn refresh_status() {
+pub fn refresh_status() {
     if is_visible() {
         if let Some(id) = ACTIVE_BACKUP_ID.load().as_ref().as_ref() {
             refresh_status_display(&backup_status::Display::new_from_id(id));

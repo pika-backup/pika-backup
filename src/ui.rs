@@ -25,6 +25,7 @@ mod page_detail;
 mod page_overview;
 mod page_schedule;
 mod prelude;
+mod status;
 mod toast_size_estimate;
 mod utils;
 mod widget;
@@ -109,7 +110,8 @@ fn on_startup(_app: &adw::Application) {
     ui::page_archives::init();
     ui::page_schedule::init::init();
 
-    ui::dialog_info::init();
+    // init status tracking
+    status_tracking();
 
     adw_app().set_accels_for_action("app.help", &["F1"]);
     adw_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
