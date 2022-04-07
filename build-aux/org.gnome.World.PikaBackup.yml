@@ -217,3 +217,9 @@ modules:
           #tag-pattern: ^v([\d]+.*)
       # generated via flatpak-builder-tools
       - generated-sources.json
+      # copy generated cargo config
+      - type: shell
+        commands:
+         - mkdir -p .cargo
+         - cp cargo/config .cargo/
+

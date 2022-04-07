@@ -5,7 +5,6 @@ target_dir = meson.build_root() / 'src'
 cargo_options = [
   '--target-dir', target_dir,
   '--manifest-path', meson.source_root() / 'Cargo.toml',
-  '--offline',
 ]
 
 if get_option('profile') == 'release'
