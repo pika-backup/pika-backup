@@ -18,7 +18,7 @@ pub fn init() {
     // Backup details
     main_ui()
         .detail_status_row()
-        .connect_activated(|_| main_ui().detail_running_backup_info().show());
+        .connect_activated(|_| ui::dialog_info::show());
 
     main_ui()
         .detail_repo_row()

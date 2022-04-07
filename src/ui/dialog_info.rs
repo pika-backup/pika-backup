@@ -11,6 +11,11 @@ fn is_visible() -> bool {
     main_ui().detail_running_backup_info().is_visible()
 }
 
+pub fn show() {
+    main_ui().detail_running_backup_info().show();
+    refresh_status();
+}
+
 pub fn refresh_status() {
     if is_visible() {
         if let Some(id) = ACTIVE_BACKUP_ID.load().as_ref().as_ref() {
