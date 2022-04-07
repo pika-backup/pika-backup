@@ -7,10 +7,9 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
 build-options:
   append-path: /usr/lib/sdk/rust-stable/bin
-  build-args:
-    - "--share=network"
 
 finish-args:
+  - --device=dri
   - --filesystem=host
   # flatpak puts a tmpfs here to hide other apps
   # it contains configs of all flatpak apps
@@ -42,49 +41,14 @@ finish-args:
   # see https://github.com/flatpak/flatpak/issues/4280
   - --unset-env=LD_PRELOAD
 modules:
-  - name: Jinja2
-    buildsystem: simple
-    build-commands:
-      - pip3 install --no-index --find-links=. --prefix=/app Jinja2
-    cleanup: ['*']
-    sources:
-      - type: file
-        url: https://files.pythonhosted.org/packages/91/a5/429efc6246119e1e3fbf562c00187d04e83e54619249eb732bb423efa6c6/Jinja2-3.0.3.tar.gz
-        sha256: 611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7
-      - type: file
-        url: https://files.pythonhosted.org/packages/62/0f/52c009332fdadd484e898dc8f2acca0663c1031b3517070fd34ad9c1b64e/MarkupSafe-2.1.0.tar.gz
-        sha256: 80beaf63ddfbc64a0452b841d8036ca0611e049650e20afcb882f5d3c266d65f
-
-  - name: systemd
-    buildsystem: meson
-    build-options:
-      prefix: /app/systemd-build
-    config-opts:
-      - -Drootprefix=/app/systemd-build
-      - --sysconfdir=/app/systemd-build/etc
-    post-install:
-      - mkdir -p /app/share/pkgconfig/
-      - cp /app/systemd-build/share/pkgconfig/udev.pc /app/share/pkgconfig/udev.pc
-      - mkdir -p /app/lib
-      - cp -r /app/systemd-build/lib/udev /app/lib/udev
-    cleanup: ['*']
-    sources:
-      - type: archive
-        url: https://github.com/systemd/systemd/archive/refs/tags/v249.tar.gz
-        sha256: 174091ce5f2c02123f76d546622b14078097af105870086d18d55c1c2667d855
-        x-checker-data:
-          type: anitya
-          project-id: 5440
-          url-template: https://github.com/systemd/systemd/archive/refs/tags/v$version.tar.gz
-
   - name: fusermout
     buildsystem: meson
     config-opts:
       - -Dexamples=false
       - -Duseroot=false
       - -Dtests=false
-      #- MOUNT_FUSE_PATH=/app/bin
-     # - -Dutils=false
+      # don't install rules on the host
+      - -Dudevrulesdir=/tmp/
     sources:
       - type: archive
         url: https://github.com/libfuse/libfuse/releases/download/fuse-3.10.5/fuse-3.10.5.tar.xz
@@ -120,7 +84,7 @@ modules:
         x-checker-data:
           type: pypi
           name: pkgconfig
-          versions: {'>=': '1.5.5'}
+          versions: {'>=': 1.5.5}
       # pkgconfig dependency
       - type: file
         url: https://files.pythonhosted.org/packages/51/be/c4dce945cf7de2dc38d94cf724525f2a97d83b18403eeeb87eecb715dada/poetry-core-1.0.8.tar.gz
@@ -128,7 +92,7 @@ modules:
         x-checker-data:
           type: pypi
           name: poetry-core
-          versions: {'>=': '1.0.8'}
+          versions: {'>=': 1.0.8}
       - type: file
         url: https://files.pythonhosted.org/packages/54/85/514ba3ca2a022bddd68819f187ae826986051d130ec5b972076e4f58a9f3/setuptools_scm-3.2.0.tar.gz
         sha256: 52ab47715fa0fc7d8e6cd15168d1a69ba995feb1505131c3e814eb7087b57358
@@ -137,36 +101,42 @@ modules:
           name: setuptools_scm
           versions: {<: '3.3'}
       - type: file
-        url: https://files.pythonhosted.org/packages/11/c6/9e16df5a5526f7dd2ad17284928e36fc341305fe74c7ab06bb5960a5da94/setuptools-58.0.2.tar.gz
-        sha256: 19e48d0270a86c996bf09e5282584d3c0adf407f37f0aa6e3c762a349ff41811
+        url: https://files.pythonhosted.org/packages/a2/13/229d17002cbab8c8f07b46f8a9adc6bfdd127733a7457f10da06756e1cc3/setuptools-62.0.0.tar.gz
+        sha256: 7999cbd87f1b6e1f33bf47efa368b224bed5e27b5ef2c4d46580186cbcb1a86a
         x-checker-data:
           type: pypi
           name: setuptools
       - type: file
-        url: https://files.pythonhosted.org/packages/4e/be/8139f127b4db2f79c8b117c80af56a3078cc4824b5b94250c7f81a70e03b/wheel-0.37.0.tar.gz
-        sha256: e2ef7239991699e3355d54f8e968a21bb940a1dbf34a4d226741e64462516fad
+        url: https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz
+        sha256: e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4
         x-checker-data:
           type: pypi
           name: wheel
       - type: file
-        url: https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz
-        sha256: c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1
+        url: https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz
+        sha256: e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4
         x-checker-data:
           type: pypi
           name: wheel
       - type: file
-        url: https://files.pythonhosted.org/packages/df/86/aef78bab3afd461faecf9955a6501c4999933a48394e90f03cd512aad844/packaging-21.0.tar.gz
-        sha256: 7dc96269f53a4ccec5c0670940a4281106dd0bb343f47b7471f779df49c2fbe7
+        url: https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz
+        sha256: dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb
         x-checker-data:
           type: pypi
           name: packaging
+      - type: file
+        url: https://files.pythonhosted.org/packages/d6/60/9bed18f43275b34198eb9720d4c1238c68b3755620d20df0afd89424d32b/pyparsing-3.0.7.tar.gz
+        sha256: 18ee9022775d270c55187733956460083db60b37d0d0fb357445f3094eed3eea
+        x-checker-data:
+          type: pypi
+          name: pyparsing
       - type: file
         url: https://files.pythonhosted.org/packages/61/3c/2206f39880d38ca7ad8ac1b28d2d5ca81632d163b2d68ef90e46409ca057/msgpack-1.0.3.tar.gz
         sha256: 51fdc7fb93615286428ee7758cecc2f374d5ff363bdd884c7ea622a7a327a81e
         x-checker-data:
           type: pypi
           name: msgpack
-          versions: {==: '1.0.3'}
+          versions: {==: 1.0.3}
       - type: file
         url: https://files.pythonhosted.org/packages/0f/e9/0b07aaff39e22eee9a983a48507bff46cf0d634e8a24e635e336cd7b3bce/borgbackup-1.2.0.tar.gz
         sha256: e39a5547902ef456101aa4c779fa66b345bda70d16788e8bd18e458f93af7f67
@@ -237,11 +207,13 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/World/pika-backup.git
-        tag: v0.3.0-beta.3
-        commit: 10d7053bfb4ddeca1cd9ff985b1e470715da1e67
+        tag: v0.4.0-beta.1
+        commit: 64f0681f6fd130d93d7c402ea8c897e98f3956b7
         x-checker-data:
           type: git
+          # stable
           tag-pattern: ^v([\d.]+)$
+          # beta
+          #tag-pattern: ^v([\d]+.*)
       # generated via flatpak-builder-tools
       - generated-sources.json
-

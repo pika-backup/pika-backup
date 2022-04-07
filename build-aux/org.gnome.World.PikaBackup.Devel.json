@@ -8,12 +8,10 @@
     "org.freedesktop.Sdk.Extension.rust-stable"
   ],
   "build-options": {
-    "append-path": "/usr/lib/sdk/rust-stable/bin",
-    "build-args": [
-      "--share=network"
-    ]
+    "append-path": "/usr/lib/sdk/rust-stable/bin"
   },
   "finish-args": [
+    "--device=dri",
     "--filesystem=host",
     "--filesystem=~/.var/app/",
     "--filesystem=xdg-data/flatpak:ro",
@@ -34,66 +32,13 @@
   ],
   "modules": [
     {
-      "name": "Jinja2",
-      "buildsystem": "simple",
-      "build-commands": [
-        "pip3 install --no-index --find-links=. --prefix=/app Jinja2"
-      ],
-      "cleanup": [
-        "*"
-      ],
-      "sources": [
-        {
-          "type": "file",
-          "url": "https://files.pythonhosted.org/packages/91/a5/429efc6246119e1e3fbf562c00187d04e83e54619249eb732bb423efa6c6/Jinja2-3.0.3.tar.gz",
-          "sha256": "611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7"
-        },
-        {
-          "type": "file",
-          "url": "https://files.pythonhosted.org/packages/62/0f/52c009332fdadd484e898dc8f2acca0663c1031b3517070fd34ad9c1b64e/MarkupSafe-2.1.0.tar.gz",
-          "sha256": "80beaf63ddfbc64a0452b841d8036ca0611e049650e20afcb882f5d3c266d65f"
-        }
-      ]
-    },
-    {
-      "name": "systemd",
-      "buildsystem": "meson",
-      "build-options": {
-        "prefix": "/app/systemd-build"
-      },
-      "config-opts": [
-        "-Drootprefix=/app/systemd-build",
-        "--sysconfdir=/app/systemd-build/etc"
-      ],
-      "post-install": [
-        "mkdir -p /app/share/pkgconfig/",
-        "cp /app/systemd-build/share/pkgconfig/udev.pc /app/share/pkgconfig/udev.pc",
-        "mkdir -p /app/lib",
-        "cp -r /app/systemd-build/lib/udev /app/lib/udev"
-      ],
-      "cleanup": [
-        "*"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/systemd/systemd/archive/refs/tags/v249.tar.gz",
-          "sha256": "174091ce5f2c02123f76d546622b14078097af105870086d18d55c1c2667d855",
-          "x-checker-data": {
-            "type": "anitya",
-            "project-id": 5440,
-            "url-template": "https://github.com/systemd/systemd/archive/refs/tags/v$version.tar.gz"
-          }
-        }
-      ]
-    },
-    {
       "name": "fusermout",
       "buildsystem": "meson",
       "config-opts": [
         "-Dexamples=false",
         "-Duseroot=false",
-        "-Dtests=false"
+        "-Dtests=false",
+        "-Dudevrulesdir=/tmp/"
       ],
       "sources": [
         {
@@ -177,8 +122,8 @@
         },
         {
           "type": "file",
-          "url": "https://files.pythonhosted.org/packages/11/c6/9e16df5a5526f7dd2ad17284928e36fc341305fe74c7ab06bb5960a5da94/setuptools-58.0.2.tar.gz",
-          "sha256": "19e48d0270a86c996bf09e5282584d3c0adf407f37f0aa6e3c762a349ff41811",
+          "url": "https://files.pythonhosted.org/packages/a2/13/229d17002cbab8c8f07b46f8a9adc6bfdd127733a7457f10da06756e1cc3/setuptools-62.0.0.tar.gz",
+          "sha256": "7999cbd87f1b6e1f33bf47efa368b224bed5e27b5ef2c4d46580186cbcb1a86a",
           "x-checker-data": {
             "type": "pypi",
             "name": "setuptools"
@@ -186,8 +131,8 @@
         },
         {
           "type": "file",
-          "url": "https://files.pythonhosted.org/packages/4e/be/8139f127b4db2f79c8b117c80af56a3078cc4824b5b94250c7f81a70e03b/wheel-0.37.0.tar.gz",
-          "sha256": "e2ef7239991699e3355d54f8e968a21bb940a1dbf34a4d226741e64462516fad",
+          "url": "https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz",
+          "sha256": "e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4",
           "x-checker-data": {
             "type": "pypi",
             "name": "wheel"
@@ -195,8 +140,8 @@
         },
         {
           "type": "file",
-          "url": "https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz",
-          "sha256": "c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
+          "url": "https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz",
+          "sha256": "e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4",
           "x-checker-data": {
             "type": "pypi",
             "name": "wheel"
@@ -204,11 +149,20 @@
         },
         {
           "type": "file",
-          "url": "https://files.pythonhosted.org/packages/df/86/aef78bab3afd461faecf9955a6501c4999933a48394e90f03cd512aad844/packaging-21.0.tar.gz",
-          "sha256": "7dc96269f53a4ccec5c0670940a4281106dd0bb343f47b7471f779df49c2fbe7",
+          "url": "https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz",
+          "sha256": "dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb",
           "x-checker-data": {
             "type": "pypi",
             "name": "packaging"
+          }
+        },
+        {
+          "type": "file",
+          "url": "https://files.pythonhosted.org/packages/d6/60/9bed18f43275b34198eb9720d4c1238c68b3755620d20df0afd89424d32b/pyparsing-3.0.7.tar.gz",
+          "sha256": "18ee9022775d270c55187733956460083db60b37d0d0fb357445f3094eed3eea",
+          "x-checker-data": {
+            "type": "pypi",
+            "name": "pyparsing"
           }
         },
         {
