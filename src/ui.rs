@@ -205,7 +205,7 @@ fn init_actions() {
             Some(&main_ui().window()),
             "help:pika-backup",
             gtk::gdk::CURRENT_TIME,
-        )
+        );
     });
     adw_app().add_action(&action);
 

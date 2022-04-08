@@ -5,14 +5,14 @@ pub struct Repository {
 }
 
 impl Repository {
-    pub fn from_uri(uri: String) -> Self {
+    pub const fn from_uri(uri: String) -> Self {
         Self {
             uri,
             settings: None,
         }
     }
 
-    pub fn into_config(self) -> super::Repository {
+    pub const fn into_config(self) -> super::Repository {
         super::Repository::Remote(self)
     }
 }

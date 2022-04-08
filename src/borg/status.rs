@@ -141,7 +141,7 @@ pub struct SizeEstimate {
 }
 
 impl SizeEstimate {
-    pub fn unchanged(&self) -> u64 {
+    pub const fn unchanged(&self) -> u64 {
         self.total - self.changed
     }
 }
@@ -269,7 +269,7 @@ impl std::ops::Add for DataRate {
 impl std::iter::Sum for DataRate {
     fn sum<I>(iter: I) -> Self
     where
-        I: Iterator<Item = DataRate>,
+        I: Iterator<Item = Self>,
     {
         iter.fold(Self::default(), |x, y| x + y)
     }

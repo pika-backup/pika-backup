@@ -50,7 +50,7 @@ impl Repository {
         }
     }
 
-    pub fn from_mount(mount: gio::Mount, mut path: std::path::PathBuf, uri: String) -> Repository {
+    pub fn from_mount(mount: gio::Mount, mut path: std::path::PathBuf, uri: String) -> Self {
         let mut mount_path = "/".into();
 
         if let Some(mount_root) = mount.root().path() {
@@ -81,7 +81,7 @@ impl Repository {
         self.mount_path.join(&self.path)
     }
 
-    pub fn into_config(self) -> super::Repository {
+    pub const fn into_config(self) -> super::Repository {
         super::Repository::Local(self)
     }
 }

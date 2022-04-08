@@ -327,7 +327,7 @@ fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
 
 /// Features that are available without complete backup config
 impl CommandOnlyRepo {
-    pub fn new(repo: config::Repository) -> Self {
+    pub const fn new(repo: config::Repository) -> Self {
         Self {
             repo,
             password: None,

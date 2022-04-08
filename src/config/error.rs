@@ -9,7 +9,7 @@ pub struct BackupNotFound {
 }
 
 impl BackupNotFound {
-    pub fn new(id: super::ConfigId) -> Self {
+    pub const fn new(id: super::ConfigId) -> Self {
         Self { id }
     }
 }

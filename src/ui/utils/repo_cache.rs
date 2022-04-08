@@ -25,14 +25,14 @@ impl RepoCache {
         }
     }
 
-    pub fn get(repo_id: &borg::RepoId) -> RepoCache {
+    pub fn get(repo_id: &borg::RepoId) -> Self {
         if let Some(repo_archives) = REPO_CACHE.load().get(repo_id) {
             debug!("Repo cache already loaded from file");
             repo_archives.clone()
         } else {
             debug!("Try loading repo cache from file");
 
-            let repo_cache: Option<RepoCache> = std::fs::File::open(Self::path(repo_id))
+            let repo_cache: Option<Self> = std::fs::File::open(Self::path(repo_id))
                 .ok()
                 .and_then(|f| serde_json::from_reader(f).ok());
 

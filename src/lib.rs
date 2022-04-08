@@ -1,4 +1,8 @@
+#![warn(clippy::nursery)]
 #![allow(clippy::new_without_default)]
+#![allow(clippy::future_not_send)]
+#![allow(clippy::option_if_let_else)]
+#![allow(clippy::branches_sharing_code)]
 
 #[macro_use]
 extern crate serde_derive;

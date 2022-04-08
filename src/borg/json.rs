@@ -6,7 +6,7 @@ Borg output to STDOUT with `--json` flag.
 pub struct RepoId(String);
 
 impl RepoId {
-    pub fn new(id: String) -> Self {
+    pub const fn new(id: String) -> Self {
         Self(id)
     }
 
@@ -24,7 +24,7 @@ impl glib::ToVariant for RepoId {
 impl glib::FromVariant for RepoId {
     fn from_variant(variant: &glib::Variant) -> Option<Self> {
         let id = glib::FromVariant::from_variant(variant)?;
-        Some(RepoId::new(id))
+        Some(Self::new(id))
     }
 }
 
@@ -38,7 +38,7 @@ impl glib::StaticVariantType for RepoId {
 pub struct ArchiveId(String);
 
 impl ArchiveId {
-    pub fn new(id: String) -> Self {
+    pub const fn new(id: String) -> Self {
         Self(id)
     }
 
@@ -51,7 +51,7 @@ impl ArchiveId {
 pub struct ArchiveName(String);
 
 impl ArchiveName {
-    pub fn new(id: String) -> Self {
+    pub const fn new(id: String) -> Self {
         Self(id)
     }
 

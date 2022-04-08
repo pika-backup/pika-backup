@@ -44,7 +44,7 @@ impl Status {
         let hints = requirements::Hint::check(config);
 
         if !config.schedule.enabled {
-            Status {
+            Self {
                 main: StatusRow {
                     title: gettext("Scheduled Backups Disabled"),
                     subtitle: String::new(),
@@ -155,7 +155,7 @@ impl Status {
                 });
             }
 
-            Status {
+            Self {
                 main: StatusRow {
                     title: main_title,
                     subtitle: main_subtitle,

@@ -57,8 +57,8 @@ impl Message {
 pub struct UserCanceled {}
 
 impl UserCanceled {
-    pub fn new() -> Self {
-        UserCanceled {}
+    pub const fn new() -> Self {
+        Self {}
     }
 }
 

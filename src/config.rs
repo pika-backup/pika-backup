@@ -35,7 +35,7 @@ pub const VERSION: u16 = 2;
 pub struct ConfigId(String);
 
 impl ConfigId {
-    pub fn new(id: String) -> Self {
+    pub const fn new(id: String) -> Self {
         Self(id)
     }
 
@@ -59,7 +59,7 @@ impl glib::ToVariant for ConfigId {
 impl glib::FromVariant for ConfigId {
     fn from_variant(variant: &glib::Variant) -> Option<Self> {
         let id = glib::FromVariant::from_variant(variant)?;
-        Some(ConfigId::new(id))
+        Some(Self::new(id))
     }
 }
 

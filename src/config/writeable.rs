@@ -26,7 +26,7 @@ impl<C> std::ops::DerefMut for Writeable<C> {
 impl<C: Loadable + Clone> Loadable for Writeable<C> {
     fn from_file() -> Result<Self, std::io::Error> {
         let config = C::from_file()?;
-        Ok(Writeable {
+        Ok(Self {
             current_config: config.clone(),
             written_config: config,
         })

@@ -11,7 +11,7 @@ pub struct Ask {
 }
 
 impl Ask {
-    pub fn new(repo: config::Repository, purpose: String) -> Self {
+    pub const fn new(repo: config::Repository, purpose: String) -> Self {
         Self { repo, purpose }
     }
 

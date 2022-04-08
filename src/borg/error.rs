@@ -10,7 +10,7 @@ pub struct ReturnCodeError {
 }
 
 impl ReturnCodeError {
-    pub fn new(code: Option<i32>) -> Self {
+    pub const fn new(code: Option<i32>) -> Self {
         Self { code }
     }
 }
@@ -83,7 +83,7 @@ pub enum Outcome {
 }
 
 impl Outcome {
-    pub fn is_completed(&self) -> bool {
+    pub const fn is_completed(&self) -> bool {
         matches!(self, Outcome::Completed { .. })
     }
 }
@@ -148,12 +148,12 @@ pub enum Failure {
 }
 
 impl Failure {
-    pub fn is_connection_error(&self) -> bool {
+    pub const fn is_connection_error(&self) -> bool {
         matches!(
             self,
-            MsgId::ConnectionClosed
-                | MsgId::ConnectionClosedWithHint
-                | MsgId::ConnectionClosedWithHint_(_)
+            Self::ConnectionClosed
+                | Self::ConnectionClosedWithHint
+                | Self::ConnectionClosedWithHint_(_)
         )
     }
 }
