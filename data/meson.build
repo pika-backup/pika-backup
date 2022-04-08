@@ -104,6 +104,7 @@ resources = gnome.compile_resources(
       output: 'tmp.resources.gresource.xml',
       configuration: { 'prefix': '/' + application_id.replace('.', '/') },
   ),
+  extra_args: ['--target=' + meson.current_build_dir() / 'resources.gresource'],
   gresource_bundle: true,
   install: get_option('profile').startswith('dev'),
   install_dir: install_dir
@@ -112,7 +113,7 @@ resources = gnome.compile_resources(
 if get_option('profile').startswith('dev')
   resources_path = install_dir / 'resources.gresource'
 else
-  resources_path = resources.full_path()
+  resources_path = meson.current_build_dir() / 'resources.gresource'
 endif
 
 # Post install
