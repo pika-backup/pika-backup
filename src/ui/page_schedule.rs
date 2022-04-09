@@ -10,8 +10,7 @@ pub mod weekday;
 
 pub fn dbus_show(id: ConfigId) {
     view(&id);
-    crate::ui::app_window::show();
-    main_ui().window().present();
+    adw_app().activate();
 }
 
 pub fn view(id: &ConfigId) {

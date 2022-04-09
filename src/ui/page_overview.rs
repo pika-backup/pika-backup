@@ -10,8 +10,7 @@ pub fn dbus_show() {
     main_ui()
         .main_stack()
         .set_visible_child(&main_ui().page_overview());
-    ui::app_window::show();
-    main_ui().window().present();
+    adw_app().activate();
 }
 
 pub fn refresh_status() {

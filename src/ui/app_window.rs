@@ -22,10 +22,11 @@ pub fn is_displayed() -> bool {
 }
 
 pub fn show() {
-    if !is_displayed() {
-        debug!("Displaying ui that was hidden before.");
+    let displayed = is_displayed();
+    main_ui().window().present();
 
-        main_ui().window().present();
+    if !displayed {
+        debug!("Displaying ui that was hidden before.");
 
         Handler::run(ui::init_check_borg());
 

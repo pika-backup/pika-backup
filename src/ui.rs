@@ -66,7 +66,7 @@ fn on_ctrlc() -> Continue {
         }
     });
 
-    adw_app().release();
+    adw_app().quit();
     Continue(true)
 }
 
@@ -142,7 +142,6 @@ async fn quit() -> Result<()> {
 
         match permission {
             Ok(()) => {
-                adw_app().remove_window(&main_ui().window());
                 main_ui().window().hide();
             }
             Err(err) => {
@@ -169,9 +168,8 @@ fn init_actions() {
     let action = crate::action::backup_show();
     action.connect_activate(|_, config_id| {
         if let Some(config_id) = config_id.and_then(|v| v.str()) {
-            app_window::show();
             ui::page_backup::view_backup_conf(&ConfigId::new(config_id.to_string()));
-            main_ui().window().present();
+            adw_app().activate();
         }
     });
     adw_app().add_action(&action);
