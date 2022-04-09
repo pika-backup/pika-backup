@@ -39,7 +39,7 @@ i18n.merge_file(
 
 install_data(
     daemon_desktop,
-    rename: '@0@.desktop'.format(application_id),
+    rename: '@0@.desktop'.format(daemon_id),
     install_dir: etcdir / 'xdg' / 'autostart'
 )
 
