@@ -62,6 +62,9 @@ where
 
         if self.is_changed() {
             let dir = path.parent().map(|x| x.to_path_buf()).unwrap_or_default();
+
+            std::fs::create_dir_all(&dir)?;
+
             let config_file = tempfile::NamedTempFile::new_in(dir)?;
             debug!("Writing new file to {:?}", config_file);
             serde_json::ser::to_writer_pretty(&config_file, &self.current_config)?;
