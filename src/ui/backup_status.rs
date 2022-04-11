@@ -127,13 +127,10 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
 
         if let Some(ref last_message) = op.last_log() {
             match last_message.as_ref() {
-                log_json::Output::Progress(log_json::Progress::Archive(
-                    ref progress_archive_ref,
-                )) => {
-                    stats = Some(Stats::Progress(progress_archive_ref.clone()));
+                log_json::Output::Progress(log_json::Progress::Archive(progress_archive)) => {
+                    stats = Some(Stats::Progress(progress_archive.clone()));
                     if let Some(size) = &status.estimated_size {
-                        let fraction =
-                            progress_archive_ref.original_size as f64 / size.total as f64;
+                        let fraction = progress_archive.original_size as f64 / size.total as f64;
                         progress = Some(fraction);
 
                         let mut sub = gettextf(
