@@ -356,18 +356,30 @@ fn test_check_daily() {
 
     // failed now, try again tomorrow
 
+    let mut config_close = config.clone();
+    let preferred_time_close = chrono::Local::now().time() - chrono::Duration::seconds(1);
+
+    let mut history_close = history.clone();
+    history_close.insert(config::history::RunInfo::test_new_mock(
+        chrono::Duration::seconds(1),
+    ));
+
+    config_close.schedule.frequency = config::Frequency::Daily {
+        preferred_time: preferred_time_close,
+    };
+
     history.insert(config::history::RunInfo::new_left_running(
         &chrono::Local::now(),
     ));
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
+    let due = Due::check_full(&config_close, Some(&history_close), Some(&activity));
     assert!(match due {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
                 chrono::Local::today()
                     .succ()
-                    .and_time(preferred_time)
+                    .and_time(preferred_time_close)
                     .unwrap()
             );
             true
@@ -382,14 +394,14 @@ fn test_check_daily() {
         chrono::Duration::zero(),
     ));
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
+    let due = Due::check_full(&config_close, Some(&history), Some(&activity));
     assert!(match due {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
                 chrono::Local::today()
                     .succ()
-                    .and_time(preferred_time)
+                    .and_time(preferred_time_close)
                     .unwrap()
             );
             true
