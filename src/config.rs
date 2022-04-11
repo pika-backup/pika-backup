@@ -293,7 +293,7 @@ impl Pattern {
                         .map(|x| x.to_path_buf())
                         .unwrap_or_else(|_| pattern.into()),
                 )),
-                "re" => regex::Regex::new(&pattern)
+                "re" => regex::Regex::new(pattern)
                     .map(Box::new)
                     .map(Self::RegularExpression)
                     .ok(),
