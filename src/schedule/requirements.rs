@@ -252,30 +252,47 @@ impl Due {
 
                 // TODO: repeat after error missing
                 config::Frequency::Monthly { preferred_day } => {
-                    let scheduled_date = chrono::Local::today()
-                        .with_day(preferred_day as u32)
-                        .unwrap_or_else(chrono::Local::today);
+                    let today = chrono::Local::today();
 
-                    let scheduled_date_before = chronoutil::delta::shift_months(scheduled_date, -1);
+                    let scheduled_date = {
+                        let scheduled_date = chrono::Local::today()
+                            .with_day(preferred_day as u32)
+                            .unwrap_or_else(chrono::Local::today);
 
-                    #[allow(clippy::if_same_then_else)]
-                    if chrono::Local::today() >= scheduled_date
-                        && last_run.end.date() < scheduled_date
-                    {
-                        Ok(DueCause::Regular)
-                    } else if chrono::Local::today() >= scheduled_date_before
-                        && last_run.end.date() < scheduled_date_before
-                    {
-                        Ok(DueCause::Regular)
-                    } else {
-                        let next = if chrono::Local::today() < scheduled_date {
-                            scheduled_date
+                        if scheduled_date > today {
+                            chronoutil::delta::shift_months(scheduled_date, -1)
                         } else {
-                            chronoutil::delta::shift_months(scheduled_date, 1)
-                        };
+                            scheduled_date
+                        }
+                    };
 
+                    if last_run.end.date() < scheduled_date {
+                        if activity >= super::USED_THRESHOLD {
+                            Ok(DueCause::Regular)
+                        } else {
+                            Err(Self::NotDue {
+                                next: chrono::Local::now()
+                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                        .unwrap_or_else(|_| chrono::Duration::zero()),
+                            })
+                        }
+                    } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
+                        if last_run.end.date() == today {
+                            let next = last_run.end.date().succ().and_hms(0, 0, 0);
+                            Err(Self::NotDue { next })
+                        } else if activity < super::USED_THRESHOLD {
+                            Err(Self::NotDue {
+                                next: chrono::Local::now()
+                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                        .unwrap_or_else(|_| chrono::Duration::zero()),
+                            })
+                        } else {
+                            Ok(DueCause::Retry)
+                        }
+                    } else {
                         Err(Self::NotDue {
-                            next: next.and_hms(0, 0, 0),
+                            next: (chronoutil::delta::shift_months(scheduled_date, 1))
+                                .and_hms(0, 0, 0),
                         })
                     }
                 }
@@ -494,6 +511,48 @@ fn test_check_weekly() {
             assert_eq!(
                 next,
                 chrono::Local::today().and_hms(0, 0, 0) + chrono::Duration::weeks(1)
+            );
+            true
+        }
+        _ => false,
+    });
+}
+
+#[test]
+fn test_check_monthly() {
+    let mut config = config::Backup::test_new_mock();
+    let mut history = config::history::History::default();
+    let activity = config::Activity {
+        used: super::USED_THRESHOLD,
+        last_update: chrono::Local::now(),
+    };
+
+    let preferred_day = chrono::Local::today() - chrono::Duration::days(1);
+    config.schedule.frequency = config::Frequency::Monthly {
+        preferred_day: preferred_day.day() as u8,
+    };
+
+    // due yesterday and failed now
+
+    history.insert(config::history::RunInfo::new_left_running(
+        &(preferred_day.and_hms(0, 0, 0) + chrono::Duration::seconds(1)),
+    ));
+
+    let due = Due::check_full(&config, Some(&history), Some(&activity));
+    matches::assert_matches!(due, Ok(DueCause::Retry));
+
+    // Completed yesterday
+    history.insert(config::history::RunInfo::test_new_mock(
+        chrono::Duration::days(1),
+    ));
+
+    let due = Due::check_full(&config, Some(&history), Some(&activity));
+
+    assert!(match due {
+        Err(Due::NotDue { next }) => {
+            assert_eq!(
+                next,
+                chronoutil::delta::shift_months(preferred_day, 1).and_hms(0, 0, 0)
             );
             true
         }
