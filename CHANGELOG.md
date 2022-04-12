@@ -7,11 +7,13 @@
 - Fix not all data in mounted archives where always readable
 - Fix sometimes free space of the wrong device is reported for remote repositories
 - Change backup compression to the more effective "Zstandard" algorithm
+- Change design of many UI components
 - Change setup dialog to include password question
+- Change to GTK 4 and libadwaita for frontend
 - Change to a different password storage
 - Change to accept ssh host keys for new hosts
-- Change to no longer support migration from Pika Backup v0.2 configs
 - Change to mount the flatpak dir (xdg-data/flatpak) inside of flatpaks
+- Add archive name prefixes
 - Add better error messages for incorrect remote locations
 - Add message to inform user about what task is locking the repo
 - Add message to user interface if target devive or server is unrepsonive
@@ -19,8 +21,10 @@
 - Add several mnemonics
 - Add shortcuts dialog
 - Add support for manually and automatically deleting old archives
+- Add support for scheduled backups
 - Add support for user@host:path borg remote location syntax
 - Remove option to not store encryption passwords in secrete service
+- Remove support for migrating from Pika Backup v0.2 configs
 
 ## 0.3.5 (2021-09-08)
 
