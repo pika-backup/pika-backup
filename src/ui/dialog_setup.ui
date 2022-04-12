@@ -491,6 +491,8 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesPage">
+                        <property name="vexpand">1</property>
+                        <property name="valign">center</property>
                         <child>
                           <object class="AdwPreferencesGroup">
                             <child>
@@ -498,30 +500,48 @@
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">28</property>
                                 <child>
-                                  <object class="GtkLabel">
-                                    <property name="label" translatable="yes">The encryption password of this backup repository is required to use it.</property>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">padlock-open-symbolic</property>
+                                    <property name="pixel-size">128</property>
                                     <style>
                                       <class name="dim-label"/>
                                     </style>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkListBox">
-                                    <property name="selection-mode">none</property>
-                                    <style>
-                                      <class name="boxed-list"/>
-                                    </style>
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
                                     <child>
-                                      <object class="AdwActionRow">
-                                        <property name="title" translatable="yes">Password</property>
-                                        <child>
-                                          <object class="GtkPasswordEntry" id="ask_password">
-                                            <property name="valign">center</property>
-                                            <property name="activates-default">1</property>
-                                          </object>
-                                        </child>
+                                      <object class="GtkLabel">
+                                        <property name="label" translatable="yes">Encryption Password Required</property>
+                                        <property name="wrap">1</property>
+                                        <style>
+                                          <class name="title-3"/>
+                                        </style>
                                       </object>
                                     </child>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label" translatable="yes">The encryption password of this backup repository is required access it.</property>
+                                        <property name="wrap">1</property>
+                                        <style>
+                                          <class name="dim-label"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkPasswordEntry" id="ask_password">
+                                    <property name="placeholder-text" translatable="yes">Password</property>
+                                    <property name="halign">center</property>
+                                    <property name="activates-default">1</property>
+                                    <property name="width-request">270</property>
+                                    <property name="show-peek-icon">1</property>
+                                    <style>
+                                      <class name="card"/>
+                                    </style>
                                   </object>
                                 </child>
                               </object>

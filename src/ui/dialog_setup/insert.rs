@@ -138,7 +138,7 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
             borg.init()
         })
         .await
-        .into_message("Failed to initialize repository.")?;
+        .into_message("Failed to Initialize Repository")?;
 
     let config = config::Backup::new(repo.clone(), info, encrypted);
 
@@ -193,7 +193,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
         ui.leaflet().set_visible_child(&ui.page_detail());
     }
 
-    let info = result.into_message(gettext("Failed to configure repository."))?;
+    let info = result.into_message(gettext("Failed to Configure Repository"))?;
 
     let encrypted = !ui.ask_password().text().is_empty();
 
