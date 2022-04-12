@@ -145,7 +145,7 @@ pub async fn background_permission() -> Result<()> {
 
                 command
                     .spawn()
-                    .err_to_msg(gettext("Failed to start background process"))
+                    .err_to_msg(gettext("Failed to Start Monitor"))
                     .map(|_| ())
             }
         }

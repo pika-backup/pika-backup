@@ -225,7 +225,7 @@ async fn init_check_borg() -> Result<()> {
     match version_result {
         Err(err) => {
             return Err(Message::new(
-                gettext("Failed to run “borg”. Is borg-backup installed correctly?"),
+                gettext("Failed to run “borg”. Is BorgBackup installed correctly?"),
                 err,
             )
             .into());
@@ -274,7 +274,7 @@ async fn init_check_borg() -> Result<()> {
                     }
                 } else {
                     return Err(Message::new(
-                        gettext("Cannot check borg-backup version"),
+                        gettext("Failed to Check BorgBackup Version"),
                         gettextf(
                             "The installed version {} might not work.",
                             &[&version_output],

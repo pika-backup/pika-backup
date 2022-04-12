@@ -250,7 +250,7 @@ pub async fn active_change() -> Result<()> {
 
     if !active
         && ui::utils::confirmation_dialog(
-            &gettext("Disable backup schedule."),
+            &gettext("Disable backup schedule?"),
             &gettext("No longer remind of backups based on a schedule."),
             &gettext("Keep Schedule"),
             &gettext("Disable Schedule"),

@@ -56,7 +56,7 @@ impl RepoCache {
             .and_then(|_| std::fs::File::create(Self::path(repo_id)))
         {
             Ok(file) => serde_json::ser::to_writer(&file, &REPO_CACHE.load().get(repo_id))
-                .err_to_msg(gettext("Failed to save cache.")),
+                .err_to_msg(gettext("Failed to Save Cache")),
             Err(err) => Err(Message::new("Failed to open cache file.", err).into()),
         }
     }

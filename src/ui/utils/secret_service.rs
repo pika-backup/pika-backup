@@ -12,7 +12,7 @@ pub async fn store_password(config: &config::Backup, password: &Password) -> Res
     debug!("Storing new password at secret service");
     set_password(config, password)
         .await
-        .err_to_msg(gettext("Failed to store password."))?;
+        .err_to_msg(gettext("Failed to Store Password"))?;
 
     Ok(())
 }
