@@ -21,6 +21,8 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
 
 Pika Backup is designed to save your personal data and does not support complete system recovery. Pika Backup is powered by the well-tested [BorgBackup](https://www.borgbackup.org/support/fund.html) software.
 
+![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/1e287bea9923d89213442658e152cc6c/pika-backup-1.png)
+
 ### The Name
 
 The name “Pika Backup” derives from the American pika. Pikas are small mammals belonging to the lagomorphs. The American pika is known for caching food in skillfully constructed haypiles. Techniques used by American pikas for building haypiles include: storing piles below overhanging rocks, using certain plants which inhibit bacterial growth as preservative and preferring plants with high nutrition value for haying. Last but not least, pikas do not only create very sophisticated haypiles but are quick in collecting vegetation as well.
