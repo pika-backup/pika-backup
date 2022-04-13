@@ -4,26 +4,22 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
 
 [<img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png' />](https://flathub.org/apps/details/org.gnome.World.PikaBackup)
 
+[<img width='240' alt='More on Apps for GNOME' src='https://gitlab.gnome.org/World/pika-backup/uploads/2406312cda45cf979df75f1e15263c54/button.png' />](https://apps.gnome.org/app/org.gnome.World.PikaBackup/)
+
 [<img width='240' alt='Part of GNOME Circle' src='https://gitlab.gnome.org/Teams/Circle/-/raw/91de93edbb3e75eb0882d56bd466e58b525135d5/assets/button/circle-button-fullcolor.svg' />](https://circle.gnome.org/)
 
 ### Features
 
 <ul>
-      <li>Set up new backup repositories or uses existing ones</li>
       <li>Create backups locally and remote</li>
+      <li>Set a schedule for regular backups</li>
       <li>Save time and disk space because Pika Backup does not need to copy known data again</li>
       <li>Encrypt your backups</li>
       <li>List created archives and browse through their contents</li>
       <li>Recover files or folders via your file browser</li>
 </ul>
 
-Pika Backup is powered by the well-tested [BorgBackup](https://www.borgbackup.org/support/fund.html) software.
-
-### Limitations
-  
-Currently, scheduled backups are not supported. Excluding files from a backup via regular expressions and alike is not implemented yet. Pika Backup is designed to save your personal data and does not support complete system recovery.
-
-![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/265fa0f59b62587b5eb48a8a83617b6e/pika-backup-1.png)
+Pika Backup is designed to save your personal data and does not support complete system recovery. Pika Backup is powered by the well-tested [BorgBackup](https://www.borgbackup.org/support/fund.html) software.
 
 ### The Name
 
@@ -33,6 +29,6 @@ Frequent rumors that this software's name is related to a monster with electrica
 
 ### Alternative Software
 
-- [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), BorgBackup as backend, supports scheduled backups, Qt frontend for advanced users
-- [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) as backend, supports scheduled backups, GTK frontend
+- [Vorta](https://flathub.org/apps/details/com.borgbase.Vorta), BorgBackup as backend, Qt frontend for advanced users
+- [Déjà Dup Backups](https://flathub.org/apps/details/org.gnome.DejaDup), duplicity (librsync) or restic as backend, GTK frontend
 
