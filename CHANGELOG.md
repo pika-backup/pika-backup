@@ -13,6 +13,7 @@
 - Change to a different password storage
 - Change to accept ssh host keys for new hosts
 - Change to mount the flatpak dir (xdg-data/flatpak) inside of flatpaks
+- Change to require at least borg version 1.2
 - Add archive name prefixes
 - Add better error messages for incorrect remote locations
 - Add message to inform user about what task is locking the repo
