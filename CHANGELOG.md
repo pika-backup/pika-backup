@@ -16,6 +16,7 @@
 - Change to require at least borg version 1.2
 - Add archive name prefixes
 - Add better error messages for incorrect remote locations
+- Add help with information about recovery
 - Add message to inform user about what task is locking the repo
 - Add message to user interface if target devive or server is unrepsonive
 - Add setup option to inherit include, exclude, and prefix from existing archives
