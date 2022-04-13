@@ -22,8 +22,7 @@ pub async fn remove_password(config: &config::Backup) -> Result<()> {
     if BACKUP_CONFIG
         .load()
         .iter()
-        .find(|x| x.id != config.id && x.repo_id == config.repo_id)
-        .is_none()
+        .any(|x| x.id != config.id && x.repo_id == config.repo_id)
     {
         debug!("Removing password from secret service");
         delete_passwords(config).await.err_to_msg(gettext(
