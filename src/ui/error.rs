@@ -54,11 +54,11 @@ impl Message {
 }
 
 #[derive(Debug)]
-pub struct UserCanceled {}
+pub struct UserCanceled;
 
 impl UserCanceled {
     pub const fn new() -> Self {
-        Self {}
+        Self
     }
 }
 

@@ -19,9 +19,14 @@ pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Resul
     {
         ui.dialog().show();
         if ui::utils::is_backup_repo(&path) {
-            add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await?;
+            let result =
+                add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await;
             // add_first_try moves us to detail, fix here for now
-            ui.leaflet().set_visible_child(&ui.page_overview());
+            if !matches!(result, Err(Error::UserCanceled) | Ok(())) {
+                eprintln!("{:#?}", result);
+                ui.leaflet().set_visible_child(&ui.page_overview());
+            }
+            return result;
         } else {
             return Err(Message::new(
                 gettext("Location is not a valid backup repository."),
