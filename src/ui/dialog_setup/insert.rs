@@ -13,13 +13,15 @@ use crate::ui::prelude::*;
 pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Result<()> {
     ui.dialog().hide();
 
-    if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Select existing repository"))
+    if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Setup Existing Repository"))
         .await
         .and_then(|x| x.path())
     {
         ui.dialog().show();
         if ui::utils::is_backup_repo(&path) {
             add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await?;
+            // add_first_try moves us to detail, fix here for now
+            ui.leaflet().set_visible_child(&ui.page_overview());
         } else {
             return Err(Message::new(
                 gettext("Location is not a valid backup repository."),
@@ -233,10 +235,7 @@ pub fn execute<
     f: F,
     window: W,
 ) {
-    Handler::new()
-        .error_transient_for(window)
-        //.dialog_auto_visibility(window)
-        .spawn(f);
+    Handler::new().error_transient_for(window).spawn(f);
 }
 
 fn command_line_args(ui: &builder::DialogSetup) -> Result<Vec<String>> {
