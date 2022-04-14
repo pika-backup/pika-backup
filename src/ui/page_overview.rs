@@ -123,7 +123,7 @@ fn rebuild_list() {
         // Include
 
         for path in &config.include {
-            let incl = ui::widget::LocationTag::new(path.clone());
+            let incl = ui::widget::LocationTag::from_path(path.clone());
 
             row.include().add_child(&incl.build());
         }

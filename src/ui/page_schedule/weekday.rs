@@ -15,19 +15,6 @@ pub static LIST: [chrono::Weekday; 7] = [
     chrono::Weekday::Sun,
 ];
 
-/*
-pub fn name(obj: &glib::Object) -> String {
-    obj.downcast_ref::<WeekdayObject>()
-        .and_then(|obj| {
-            glib::DateTime::new_local(2021, 3, obj.weekday().number_from_monday() as i32, 0, 0, 0.)
-                .ok()
-        })
-        .and_then(|dt| dt.format("%A").ok())
-        .map(|x| x.to_string())
-        .unwrap_or_default()
-}
-*/
-
 glib::wrapper! {
     pub struct WeekdayObject(ObjectSubclass<imp::WeekdayObject>);
 }

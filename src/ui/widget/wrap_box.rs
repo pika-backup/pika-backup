@@ -21,7 +21,7 @@ impl WrapBox {
     }
 
     pub fn rebuild(&self) {
-        let max_width = 350;
+        let max_width = self.imp().width_estimate.get();
         let spacing = 4;
 
         while let Some(hbox) = self
@@ -58,14 +58,19 @@ impl WrapBox {
 }
 
 mod imp {
+    use crate::ui::prelude::*;
+
+    use glib::{ParamFlags, ParamSpec, ParamSpecInt, Value};
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
 
-    use std::cell::RefCell;
+    use once_cell::sync::Lazy;
+    use std::cell::{Cell, RefCell};
 
     #[derive(Debug, Default)]
     pub struct WrapBox {
         pub children: RefCell<Vec<gtk::Widget>>,
+        pub width_estimate: Cell<i32>,
     }
 
     #[glib::object_subclass]
@@ -76,9 +81,45 @@ mod imp {
     }
 
     impl ObjectImpl for WrapBox {
+        fn properties() -> &'static [ParamSpec] {
+            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
+                vec![ParamSpecInt::new(
+                    "width-estimate",
+                    "width-estimate",
+                    "width-estimate",
+                    100,
+                    1000,
+                    350,
+                    ParamFlags::READWRITE,
+                )]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "width-estimate" => self.width_estimate.get().to_value(),
+                _ => unimplemented!(),
+            }
+        }
+
+        fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+            match pspec.name() {
+                "width-estimate" => {
+                    if let Ok(width) = value.get() {
+                        self.width_estimate.set(width);
+                    } else {
+                        error!("Invalid value for property width-estimate");
+                    }
+                }
+                _ => unimplemented!(),
+            }
+        }
+
         fn constructed(&self, obj: &Self::Type) {
             obj.set_orientation(gtk::Orientation::Vertical);
             obj.set_hexpand(true);
+            self.width_estimate.set(350);
         }
     }
 

@@ -3,6 +3,8 @@
 #![allow(clippy::future_not_send)]
 #![allow(clippy::option_if_let_else)]
 #![allow(clippy::branches_sharing_code)]
+// this one has been buggy
+#![allow(clippy::missing_const_for_fn)]
 
 #[macro_use]
 extern crate serde_derive;

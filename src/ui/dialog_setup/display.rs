@@ -44,31 +44,35 @@ pub fn transfer_selection(
         .collect();
 
     for suggestion in archive_params {
-        let row = adw::ActionRow::builder()
-            .activatable(true)
-            .title(&format!("{}: {}", suggestion.hostname, suggestion.username))
-            .build();
+        let row = ui::builder::DialogSetupTransferOption::new();
 
-        if let Some(prefix) = &suggestion.prefix {
-            row.set_subtitle(&glib::markup_escape_text(&prefix.to_string()));
+        row.hostname().set_label(&suggestion.hostname);
+        row.username().set_label(&suggestion.username);
+        row.prefix().set_label(
+            &suggestion
+                .prefix
+                .as_ref()
+                .map(|x| x.to_string())
+                .unwrap_or_else(|| gettext("None")),
+        );
+
+        for include in suggestion.parsed.include.iter() {
+            let tag = ui::widget::LocationTag::from_path(include.clone());
+            row.include().add_child(&tag.build());
         }
 
-        let box_ = ui::widget::WrapBox::new();
-        box_.add_css_class("tag-box");
-        row.add_suffix(&box_);
+        for exclude in suggestion.parsed.exclude.iter() {
+            let tag = ui::widget::LocationTag::from_pattern(exclude.clone());
+            row.exclude().add_child(&tag.build());
+        }
 
-        row.connect_activated(
+        row.transfer().connect_activated(
             clone!(@weak ui, @strong suggestion, @strong config_id => move |_|
             Handler::handle(insert_transfer(ui, &suggestion, &config_id))
             ),
         );
 
-        for include in suggestion.parsed.include {
-            let tag = ui::widget::LocationTag::new(include);
-            box_.add_child(&tag.build());
-        }
-
-        ui.transfer_suggestions().append(&row);
+        ui.transfer_suggestions().append(&row.widget());
     }
 
     ui.page_transfer()
