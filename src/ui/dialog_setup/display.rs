@@ -14,6 +14,7 @@ struct ArchiveParams {
     parsed: borg::invert_command::Parsed,
     hostname: String,
     username: String,
+    end: chrono::NaiveDateTime,
 }
 
 fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
@@ -29,6 +30,7 @@ fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
         parsed,
         hostname: archive.hostname,
         username: archive.username,
+        end: archive.end,
     }
 }
 
@@ -37,13 +39,20 @@ pub fn transfer_selection(
     config_id: config::ConfigId,
     archives: Vec<borg::ListArchive>,
 ) {
-    let archive_params: Vec<_> = archives
-        .into_iter()
-        .map(extract_archive_params)
-        .unique()
+    let archive_params: Vec<_> = archives.into_iter().map(extract_archive_params).collect();
+
+    let valid_prefixes: Vec<_> = archive_params
+        .iter()
+        .map(|x| &x.prefix)
+        .duplicates()
         .collect();
 
-    for suggestion in archive_params {
+    let options = archive_params
+        .iter()
+        .filter(|x| valid_prefixes.contains(&&x.prefix))
+        .unique_by(|x| (&x.prefix, &x.parsed, &x.hostname, &x.username));
+
+    for suggestion in options.take(10) {
         let row = ui::builder::DialogSetupTransferOption::new();
 
         row.hostname().set_label(&suggestion.hostname);
@@ -72,7 +81,7 @@ pub fn transfer_selection(
             ),
         );
 
-        ui.transfer_suggestions().append(&row.widget());
+        ui.transfer_suggestions().prepend(&row.widget());
     }
 
     ui.page_transfer()
