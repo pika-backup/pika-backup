@@ -75,3 +75,24 @@ pub async fn listen_remote_app_running<T: Fn(bool)>(
 
     Ok(())
 }
+
+pub fn file_icon(path: &std::path::Path) -> Option<gio::Icon> {
+    let file = gio::File::for_path(path);
+    let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE);
+
+    if let Ok(info) = info {
+        info.icon()
+    } else {
+        None
+    }
+}
+
+pub fn file_symbolic_icon(path: &std::path::Path) -> Option<gio::Icon> {
+    let file = gio::File::for_path(path);
+    let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE);
+    if let Ok(info) = info {
+        info.symbolic_icon()
+    } else {
+        None
+    }
+}

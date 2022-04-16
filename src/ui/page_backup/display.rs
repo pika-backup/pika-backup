@@ -15,8 +15,11 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
         .build();
     list.append(&row);
 
-    if let Some(img) = ui::utils::file_icon(&config::absolute(file)) {
-        row.add_prefix(&img);
+    if let Some(image) =
+        crate::utils::file_icon(&config::absolute(file)).map(|x| gtk::Image::from_gicon(&x))
+    {
+        image.add_css_class("row-icon");
+        row.add_prefix(&image);
     }
 
     let button = gtk::Button::builder()
@@ -80,67 +83,43 @@ pub fn refresh() -> Result<()> {
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
     for pattern in backup.exclude.clone() {
-        match &pattern {
-            config::Pattern::PathPrefix(file) => {
-                let button = add_list_row(&main_ui().backup_exclude(), file);
-                button.connect_clicked(enclose!((file) move |_| {
-                    let path = file.clone();
-                    Handler::run(async move {
-                        BACKUP_CONFIG.update_result(move |settings| {
-                            settings
-                                .active_mut()?
-                                .exclude
-                                .remove(&config::Pattern::PathPrefix(path.clone()));
-                            Ok(())
-                        })?;
-                        crate::ui::write_config()?;
-                        refresh()?;
-                        Ok(())
-                    });
-                }));
-            }
-            config::Pattern::RegularExpression(_) | config::Pattern::Fnmatch(_) => {
-                let name = if matches!(pattern, config::Pattern::RegularExpression(_)) {
-                    gettext("Regular Expression")
-                } else {
-                    gettext("Shell Wildcard Pattern")
-                };
+        let name = match &pattern {
+            config::Pattern::PathPrefix(_) => String::new(),
+            config::Pattern::RegularExpression(_) => gettext("Regular Expression"),
+            config::Pattern::Fnmatch(_) => gettext("Shell Wildcard Pattern"),
+        };
 
-                let row = adw::ActionRow::builder()
-                    .title(&glib::markup_escape_text(&pattern.description()))
-                    .subtitle(&name)
-                    .activatable(false)
-                    .build();
+        let row = adw::ActionRow::builder()
+            .title(&glib::markup_escape_text(&pattern.description()))
+            .subtitle(&name)
+            .activatable(false)
+            .build();
 
-                row.add_prefix(
-                    &gtk::Image::builder()
-                        .icon_name("folder-saved-search")
-                        .pixel_size(32)
-                        .build(),
-                );
-
-                let button = gtk::Button::builder()
-                    .icon_name("edit-delete-symbolic")
-                    .valign(gtk::Align::Center)
-                    .build();
-                button.add_css_class("flat");
-                let pattern_ = pattern.clone();
-                button.connect_clicked(move |_| {
-                    let pattern = pattern_.clone();
-                    Handler::run(async move {
-                        BACKUP_CONFIG.update_result(move |settings| {
-                            settings.active_mut()?.exclude.remove(&pattern.clone());
-                            Ok(())
-                        })?;
-                        crate::ui::write_config()?;
-                        refresh()?;
-                        Ok(())
-                    });
-                });
-                row.add_suffix(&button);
-                main_ui().backup_exclude().append(&row);
-            }
+        if let Some(image) = pattern.icon().map(|x| gtk::Image::from_gicon(&x)) {
+            image.add_css_class("row-icon");
+            row.add_prefix(&image);
         }
+
+        let button = gtk::Button::builder()
+            .icon_name("edit-delete-symbolic")
+            .valign(gtk::Align::Center)
+            .build();
+        button.add_css_class("flat");
+        let pattern_ = pattern.clone();
+        button.connect_clicked(move |_| {
+            let pattern = pattern_.clone();
+            Handler::run(async move {
+                BACKUP_CONFIG.update_result(move |settings| {
+                    settings.active_mut()?.exclude.remove(&pattern.clone());
+                    Ok(())
+                })?;
+                crate::ui::write_config()?;
+                refresh()?;
+                Ok(())
+            });
+        });
+        row.add_suffix(&button);
+        main_ui().backup_exclude().append(&row);
     }
 
     if backup.exclude.is_empty() {

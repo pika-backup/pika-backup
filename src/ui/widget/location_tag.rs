@@ -1,7 +1,6 @@
 use adw::prelude::*;
-use ui::prelude::*;
 
-use crate::{config, ui};
+use crate::config;
 use std::path::PathBuf;
 
 pub enum LocationTag {
@@ -23,22 +22,17 @@ impl LocationTag {
 
     pub fn label(&self) -> String {
         match self {
-            Self::Location(path) => {
-                if path.iter().next().is_none() {
-                    gettext("Home")
-                } else {
-                    path.to_string_lossy().to_string()
-                }
-            }
+            Self::Location(path) => config::display_path(path),
             Self::Pattern(pattern) => pattern.description(),
         }
     }
 
     pub fn icon(&self) -> Option<gtk::Image> {
         match self {
-            Self::Location(path) => ui::utils::file_symbolic_icon(&config::absolute(path)),
-            Self::Pattern(_) => Some(gtk::Image::from_icon_name("folder-saved-search-symbolic")),
+            Self::Location(path) => crate::utils::file_symbolic_icon(&config::absolute(path)),
+            Self::Pattern(pattern) => pattern.symbolic_icon(),
         }
+        .map(|x| gtk::Image::from_gicon(&x))
     }
 
     pub fn build(&self) -> gtk::Box {

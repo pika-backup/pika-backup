@@ -364,8 +364,26 @@ impl Pattern {
         match self {
             pattern if pattern == &Self::flatpak_app_cache() => gettext("Flatpak App Cache"),
             Self::Fnmatch(pattern) => pattern.to_string_lossy().to_string(),
-            Self::PathPrefix(path) => path.display().to_string(),
+            Self::PathPrefix(path) => display_path(path),
             Self::RegularExpression(regex) => regex.to_string(),
+        }
+    }
+
+    pub fn icon(&self) -> Option<gio::Icon> {
+        match self {
+            Self::PathPrefix(path) => crate::utils::file_icon(&absolute(path)),
+            Self::Fnmatch(_) | Self::RegularExpression(_) => {
+                gio::Icon::for_string("folder-saved-search").ok()
+            }
+        }
+    }
+
+    pub fn symbolic_icon(&self) -> Option<gio::Icon> {
+        match self {
+            Self::PathPrefix(path) => crate::utils::file_symbolic_icon(&absolute(path)),
+            Self::Fnmatch(_) | Self::RegularExpression(_) => {
+                gio::Icon::for_string("folder-saved-search-symbolic").ok()
+            }
         }
     }
 }
@@ -621,6 +639,14 @@ impl Backups {
 
     pub fn iter_mut(&mut self) -> std::slice::IterMut<'_, Backup> {
         self.0.iter_mut()
+    }
+}
+
+pub fn display_path(path: &path::Path) -> String {
+    if path.iter().next().is_none() {
+        gettext("Home")
+    } else {
+        path.display().to_string()
     }
 }
 

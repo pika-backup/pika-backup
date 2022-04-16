@@ -398,56 +398,6 @@ pub fn clear(listbox: &gtk::ListBox) {
     }
 }
 
-pub fn file_icon(path: &std::path::Path) -> Option<gtk::Image> {
-    let file = gio::File::for_path(path);
-    let info = file.query_info(
-        "*",
-        gio::FileQueryInfoFlags::NONE,
-        gtk::gio::Cancellable::NONE,
-    );
-
-    let mut gicon = None;
-    if let Ok(info) = info {
-        if let Some(icon) = info.icon() {
-            gicon = Some(icon.clone());
-
-            if let Some(theme) =
-                gtk::gdk::Display::default().map(|d| gtk::IconTheme::for_display(&d))
-            {
-                if !theme.has_gicon(&icon) {
-                    gicon = gio::Icon::for_string("system-run").ok();
-                }
-            }
-        }
-    }
-
-    if gicon.is_none() {
-        gicon = gio::Icon::for_string("folder-visiting").ok();
-    }
-
-    gicon.map(|x| {
-        gtk::Image::builder()
-            .gicon(&x)
-            .css_classes(vec![String::from("row-icon")])
-            .build()
-    })
-}
-
-pub fn file_symbolic_icon(path: &std::path::Path) -> Option<gtk::Image> {
-    let file = gio::File::for_path(path);
-    let info = file.query_info(
-        "*",
-        gio::FileQueryInfoFlags::NONE,
-        gtk::gio::Cancellable::NONE,
-    );
-    if let Ok(info) = info {
-        let icon = info.symbolic_icon();
-        icon.map(|icon| gtk::Image::from_gicon(&icon))
-    } else {
-        None
-    }
-}
-
 pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> adw::ActionRow {
     let row = adw::ActionRow::builder().activatable(true).build();
 
