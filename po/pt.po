@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-13 20:33+0000\n"
-"PO-Revision-Date: 2022-04-14 14:48+0100\n"
+"POT-Creation-Date: 2022-04-16 00:23+0000\n"
+"PO-Revision-Date: 2022-04-16 17:37+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -305,9 +305,13 @@ msgstr "A atualizar lista de arquivos"
 msgid "Flatpak App Cache"
 msgstr "Cache de aplicações Flatpak"
 
-#: src/config.rs:536 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:554 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Localização remota"
+
+#: src/config.rs:647
+msgid "Home"
+msgstr "Pasta pessoal"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -469,8 +473,8 @@ msgid "_About Pika Backup"
 msgstr "_Acerca do Pika Backup"
 
 #: src/ui/app_window.ui:29
-msgid "Delete backup configuration"
-msgstr "Eliminar configuração de backup"
+msgid "Remove Backup Setup"
+msgstr "Remover configuração do backup"
 
 #: src/ui/app_window.ui:69
 msgid ":"
@@ -516,7 +520,7 @@ msgstr "_Abortar"
 msgid "Back Up _Now"
 msgstr "Efetuar agora o backup"
 
-#: src/ui/app_window.ui:285
+#: src/ui/app_window.ui:285 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Ficheiros para backup"
 
@@ -538,7 +542,7 @@ msgstr "_Pasta pessoal"
 msgid "Usually contains all personal data"
 msgstr "Normalmente contém todos os dados pessoais"
 
-#: src/ui/app_window.ui:332
+#: src/ui/app_window.ui:332 src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Excluir do backup"
 
@@ -1015,7 +1019,7 @@ msgid ""
 "The encryption password of this backup repository is required access it."
 msgstr ""
 "A palavra-passe de encriptação deste repositório de backup é necessária para "
-"aceder ao mesmo"
+"aceder ao mesmo."
 
 #: src/ui/dialog_setup.ui:570 src/ui/dialog_setup.ui:604
 msgid "S_kip"
@@ -1041,11 +1045,15 @@ msgstr ""
 "Algumas das configurações utilizadas para backups anteriores podem ser "
 "transferidas para esta configuração."
 
-#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:139
+#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "A criar repositório de backup"
 
-#: src/ui/dialog_setup/display.rs:167
+#: src/ui/dialog_setup/display.rs:56 src/ui/page_archives/display.rs:58
+msgid "None"
+msgstr "Nenhum"
+
+#: src/ui/dialog_setup/display.rs:171
 msgid "Free space: {}"
 msgstr "Espaço livre: {}"
 
@@ -1061,60 +1069,60 @@ msgstr "Localização do backup"
 msgid "Setup Existing Repository"
 msgstr "Configurar repositório existente"
 
-#: src/ui/dialog_setup/insert.rs:27
+#: src/ui/dialog_setup/insert.rs:32
 msgid "Location is not a valid backup repository."
 msgstr "A localização não é um repositório de backup válido."
 
-#: src/ui/dialog_setup/insert.rs:28
+#: src/ui/dialog_setup/insert.rs:33
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "O repositório deve ter origem no Pika Backup ou em software compatível."
 
-#: src/ui/dialog_setup/insert.rs:41 src/ui/dialog_setup/insert.rs:107
+#: src/ui/dialog_setup/insert.rs:46 src/ui/dialog_setup/insert.rs:112
 msgid "Invalid Remote Location"
 msgstr "Localização remota inválida"
 
-#: src/ui/dialog_setup/insert.rs:75
-msgid "No password provided."
-msgstr "Nenhuma palavra-passe fornecida."
+#: src/ui/dialog_setup/insert.rs:80
+msgid "No Password Provided"
+msgstr "Nenhuma palavra-passe fornecida"
 
-#: src/ui/dialog_setup/insert.rs:76
+#: src/ui/dialog_setup/insert.rs:81
 msgid "To use encryption a password must be provided."
 msgstr "Para usar a encriptação, uma palavra-passe deve ser fornecida."
 
-#: src/ui/dialog_setup/insert.rs:80
+#: src/ui/dialog_setup/insert.rs:85
 msgid "Entered passwords do not match."
 msgstr "As palavras-passe introduzidas não coincidem."
 
-#: src/ui/dialog_setup/insert.rs:103
+#: src/ui/dialog_setup/insert.rs:108
 msgid "A repository location has to be given."
 msgstr "Tem de ser dada uma localização de repositório."
 
-#: src/ui/dialog_setup/insert.rs:124 src/ui/dialog_setup/insert.rs:252
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:257
 msgid "Additional command line arguments invalid."
 msgstr "Argumentos adicionais de linha de comando inválidos."
 
-#: src/ui/dialog_setup/insert.rs:125 src/ui/dialog_setup/insert.rs:253
+#: src/ui/dialog_setup/insert.rs:130 src/ui/dialog_setup/insert.rs:258
 msgid "Please check for missing closing quotes."
 msgstr "Verifique se faltam as aspas de fecho."
 
-#: src/ui/dialog_setup/insert.rs:178
+#: src/ui/dialog_setup/insert.rs:183
 msgid "Loading Backup Repository"
 msgstr "A carregar repositório de backup"
 
-#: src/ui/dialog_setup/insert.rs:198
+#: src/ui/dialog_setup/insert.rs:203
 msgid "Failed to Configure Repository"
 msgstr "Falha ao configurar repositório"
 
-#: src/ui/dialog_setup/insert.rs:215
+#: src/ui/dialog_setup/insert.rs:220
 msgid "Failed"
 msgstr "Falhou"
 
-#: src/ui/dialog_setup/insert.rs:289
+#: src/ui/dialog_setup/insert.rs:294
 msgid "Repository location not found."
 msgstr "Local do repositório não encontrado."
 
-#: src/ui/dialog_setup/insert.rs:290
+#: src/ui/dialog_setup/insert.rs:295
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Uma operação de montagem foi bem-sucedida mas o local ainda não está "
@@ -1184,10 +1192,6 @@ msgstr "Não foi possível localizar a configuração de backup com o id “{}�
 msgid "Failed to refresh archives cache."
 msgstr "Falha ao atualizar cache de arquivos."
 
-#: src/ui/page_archives/display.rs:58
-msgid "None"
-msgstr "Nenhum"
-
 #: src/ui/page_archives/display.rs:80
 msgid "Failed to open archive."
 msgstr "Falha ao abrir arquivo."
@@ -1224,11 +1228,11 @@ msgstr "Falha ao desmontar repositório."
 msgid "Failed to make archives available for browsing."
 msgstr "Falha na disponibilização de arquivos para a navegação."
 
-#: src/ui/page_backup/display.rs:104
+#: src/ui/page_backup/display.rs:88
 msgid "Regular Expression"
 msgstr "Expressão regular"
 
-#: src/ui/page_backup/display.rs:106
+#: src/ui/page_backup/display.rs:89
 msgid "Shell Wildcard Pattern"
 msgstr "Shell Wildcard Padrão"
 
@@ -1278,16 +1282,16 @@ msgid "Backup Completed with Warnings"
 msgstr "Backup concluído com avisos"
 
 #: src/ui/page_overview.rs:49
-msgid "Delete backup configuration?"
-msgstr "Eliminar configuração de backup?"
+msgid "Remove Backup Setup?"
+msgstr "Remover configuração do backup?"
 
 #: src/ui/page_overview.rs:50
-msgid "Deleting the configuration will not delete any archives."
+msgid "Removing the setup will not delete any archives."
 msgstr "A eliminação da configuração não eliminará quaisquer arquivos."
 
 #: src/ui/page_overview.rs:52
-msgid "Delete"
-msgstr "Eliminar"
+msgid "Remove Setup"
+msgstr "Remover configuração"
 
 #: src/ui/page_schedule/event.rs:138
 msgid "Invalid time format."
@@ -1479,7 +1483,7 @@ msgstr ""
 
 #: src/ui/utils.rs:148
 msgid "Failed to Start Monitor"
-msgstr "Falha ao iniciar a monotorização."
+msgstr "Falha ao iniciar a monitorização"
 
 #: src/ui/utils.rs:215
 msgid "Failed to Create Thread"
@@ -1606,20 +1610,25 @@ msgstr "Falha ao guardar cache"
 msgid "Failed to Store Password"
 msgstr "Falha ao armazenar a palavra-passe"
 
-#: src/ui/utils/secret_service.rs:23
+#: src/ui/utils/secret_service.rs:29
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Falha na remoção de palavras-passe potencialmente restantes do armazenamento "
 "de chaves."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:39
+#: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
 
-#: src/ui/widget/location_tag.rs:29
-msgid "Home"
-msgstr "Pasta pessoal"
+#~ msgid "Delete backup configuration"
+#~ msgstr "Eliminar configuração de backup"
+
+#~ msgid "Delete backup configuration?"
+#~ msgstr "Eliminar configuração de backup?"
+
+#~ msgid "Delete"
+#~ msgstr "Eliminar"
 
 #~ msgid "Features"
 #~ msgstr "Funcionalidades"
