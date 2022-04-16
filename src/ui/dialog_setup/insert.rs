@@ -77,7 +77,7 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
     if encrypted {
         if ui.password().text().is_empty() {
             return Err(Message::new(
-                gettext("No password provided."),
+                gettext("No Password Provided"),
                 gettext("To use encryption a password must be provided."),
             )
             .into());
