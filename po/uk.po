@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-13 20:33+0000\n"
-"PO-Revision-Date: 2022-04-14 09:04+0300\n"
+"POT-Creation-Date: 2022-04-16 00:23+0000\n"
+"PO-Revision-Date: 2022-04-16 18:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -312,9 +312,13 @@ msgstr "Оновлення списку архівів"
 msgid "Flatpak App Cache"
 msgstr "Кеш програм Flatpak"
 
-#: src/config.rs:536 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config.rs:554 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Місце на віддаленому комп'ютері"
+
+#: src/config.rs:647
+msgid "Home"
+msgstr "Домівка"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -485,8 +489,8 @@ msgid "_About Pika Backup"
 msgstr "_Про «Пайка-копіювання»"
 
 #: src/ui/app_window.ui:29
-msgid "Delete backup configuration"
-msgstr "Вилучити налаштування резервного копіювання"
+msgid "Remove Backup Setup"
+msgstr "Вилучити налаштування копіювання"
 
 #: src/ui/app_window.ui:69
 msgid ":"
@@ -532,7 +536,7 @@ msgstr "_Перервати"
 msgid "Back Up _Now"
 msgstr "Створити _резервну копію зараз"
 
-#: src/ui/app_window.ui:285
+#: src/ui/app_window.ui:285 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Файли для резервного копіювання"
 
@@ -553,7 +557,7 @@ msgstr "До_мівка"
 msgid "Usually contains all personal data"
 msgstr "Зазвичай, містить усі особисті дані"
 
-#: src/ui/app_window.ui:332
+#: src/ui/app_window.ui:332 src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Виключити з резервної копії"
 
@@ -1056,11 +1060,15 @@ msgstr ""
 "Деякі з параметрів, які було використано для попередніх резервних копій, "
 "може бути перенесено до цих налаштувань."
 
-#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:139
+#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "Створення сховища резервних копій"
 
-#: src/ui/dialog_setup/display.rs:167
+#: src/ui/dialog_setup/display.rs:56 src/ui/page_archives/display.rs:58
+msgid "None"
+msgstr "Немає"
+
+#: src/ui/dialog_setup/display.rs:171
 msgid "Free space: {}"
 msgstr "Вільне місце: {}"
 
@@ -1073,65 +1081,65 @@ msgid "Backup Location"
 msgstr "Місце резервного копіювання"
 
 #: src/ui/dialog_setup/insert.rs:16
-#| msgid "Use Existing Repository"
 msgid "Setup Existing Repository"
 msgstr "Налаштувати наявне сховище"
 
-#: src/ui/dialog_setup/insert.rs:27
+#: src/ui/dialog_setup/insert.rs:32
 msgid "Location is not a valid backup repository."
 msgstr "Місце зберігання не є коректним сховищем резервних копій."
 
-#: src/ui/dialog_setup/insert.rs:28
+#: src/ui/dialog_setup/insert.rs:33
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Сховище має бути створено «Пайка-копіюванням» або сумісним програмним "
 "забезпеченням."
 
-#: src/ui/dialog_setup/insert.rs:41 src/ui/dialog_setup/insert.rs:107
+#: src/ui/dialog_setup/insert.rs:46 src/ui/dialog_setup/insert.rs:112
 msgid "Invalid Remote Location"
 msgstr "Некоректне місце на віддаленому комп'ютері"
 
-#: src/ui/dialog_setup/insert.rs:75
-msgid "No password provided."
-msgstr "Не вказано пароль."
+#: src/ui/dialog_setup/insert.rs:80
+#| msgid "No password provided."
+msgid "No Password Provided"
+msgstr "Не вказано пароль"
 
-#: src/ui/dialog_setup/insert.rs:76
+#: src/ui/dialog_setup/insert.rs:81
 msgid "To use encryption a password must be provided."
 msgstr "Щоб скористатися шифруванням, слід вказати пароль."
 
-#: src/ui/dialog_setup/insert.rs:80
+#: src/ui/dialog_setup/insert.rs:85
 msgid "Entered passwords do not match."
 msgstr "Введені паролі не збігаються."
 
-#: src/ui/dialog_setup/insert.rs:103
+#: src/ui/dialog_setup/insert.rs:108
 msgid "A repository location has to be given."
 msgstr "Слід вказати адресу сховища."
 
-#: src/ui/dialog_setup/insert.rs:124 src/ui/dialog_setup/insert.rs:252
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:257
 msgid "Additional command line arguments invalid."
 msgstr "Некоректні додаткові аргументи командного рядка."
 
-#: src/ui/dialog_setup/insert.rs:125 src/ui/dialog_setup/insert.rs:253
+#: src/ui/dialog_setup/insert.rs:130 src/ui/dialog_setup/insert.rs:258
 msgid "Please check for missing closing quotes."
 msgstr "Будь ласка, перевірте, чи закрито лапки."
 
-#: src/ui/dialog_setup/insert.rs:178
+#: src/ui/dialog_setup/insert.rs:183
 msgid "Loading Backup Repository"
 msgstr "Завантажуємо сховище резервних копій"
 
-#: src/ui/dialog_setup/insert.rs:198
+#: src/ui/dialog_setup/insert.rs:203
 msgid "Failed to Configure Repository"
 msgstr "Не вдалося налаштувати сховище"
 
-#: src/ui/dialog_setup/insert.rs:215
+#: src/ui/dialog_setup/insert.rs:220
 msgid "Failed"
 msgstr "Помилка"
 
-#: src/ui/dialog_setup/insert.rs:289
+#: src/ui/dialog_setup/insert.rs:294
 msgid "Repository location not found."
 msgstr "Не знайдено місця зберігання сховища."
 
-#: src/ui/dialog_setup/insert.rs:290
+#: src/ui/dialog_setup/insert.rs:295
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Дію з монтування було успішно виконано, але відповідний каталог усе ще "
@@ -1202,10 +1210,6 @@ msgstr ""
 msgid "Failed to refresh archives cache."
 msgstr "Не вдалося освіжити кеш архівів."
 
-#: src/ui/page_archives/display.rs:58
-msgid "None"
-msgstr "Немає"
-
 #: src/ui/page_archives/display.rs:80
 msgid "Failed to open archive."
 msgstr "Не вдалося відкрити архів."
@@ -1242,11 +1246,11 @@ msgstr "Не вдалося демонтувати сховище."
 msgid "Failed to make archives available for browsing."
 msgstr "Не вдалося зробити архіви доступними для навігації."
 
-#: src/ui/page_backup/display.rs:104
+#: src/ui/page_backup/display.rs:88
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: src/ui/page_backup/display.rs:106
+#: src/ui/page_backup/display.rs:89
 msgid "Shell Wildcard Pattern"
 msgstr "Взірець оболонки"
 
@@ -1295,16 +1299,17 @@ msgid "Backup Completed with Warnings"
 msgstr "Резервне копіювання було завершено із попередженнями"
 
 #: src/ui/page_overview.rs:49
-msgid "Delete backup configuration?"
-msgstr "Вилучити налаштування резервного копіювання?"
+msgid "Remove Backup Setup?"
+msgstr "Вилучити налаштування копіювання?"
 
 #: src/ui/page_overview.rs:50
-msgid "Deleting the configuration will not delete any archives."
+#| msgid "Deleting the configuration will not delete any archives."
+msgid "Removing the setup will not delete any archives."
 msgstr "Вилучення налаштувань не призведе до вилучення архівів."
 
 #: src/ui/page_overview.rs:52
-msgid "Delete"
-msgstr "Вилучити"
+msgid "Remove Setup"
+msgstr "Вилучити налаштування"
 
 #: src/ui/page_schedule/event.rs:138
 msgid "Invalid time format."
@@ -1657,18 +1662,23 @@ msgstr "Не вдалося зберегти кеш"
 msgid "Failed to Store Password"
 msgstr "Не вдалося зберегти пароль"
 
-#: src/ui/utils/secret_service.rs:23
+#: src/ui/utils/secret_service.rs:29
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:39
+#: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Пайка-копіювання «{}»"
 
-#: src/ui/widget/location_tag.rs:29
-msgid "Home"
-msgstr "Домівка"
+#~ msgid "Delete backup configuration"
+#~ msgstr "Вилучити налаштування резервного копіювання"
+
+#~ msgid "Delete backup configuration?"
+#~ msgstr "Вилучити налаштування резервного копіювання?"
+
+#~ msgid "Delete"
+#~ msgstr "Вилучити"
 
 #~ msgid "Select existing repository"
 #~ msgstr "Виберіть наявне сховище"
