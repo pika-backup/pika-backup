@@ -195,11 +195,15 @@ impl<T: borg::Task> Drop for Operation<T> {
         self.operation_shutdown.replace(true);
         self.communication().drop_sender();
 
-        self.ui_status_update();
-        self.ui_schedule_update();
+        if BORG_OPERATION.try_with(|_| {}).is_err() {
+            debug!("Not doing any external operations.");
+        } else {
+            self.ui_status_update();
+            self.ui_schedule_update();
 
-        if let Some(cookie) = self.inhibit_cookie.take() {
-            adw_app().uninhibit(cookie);
+            if let Some(cookie) = self.inhibit_cookie.take() {
+                adw_app().uninhibit(cookie);
+            }
         }
     }
 }

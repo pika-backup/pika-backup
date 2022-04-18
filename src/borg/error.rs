@@ -105,6 +105,8 @@ pub enum Abort {
     MeteredConnection,
     /// Too long on battery
     OnBattery,
+    /// program was shutdown via signal
+    Shutdown,
     /// program probably crashed while running
     LeftRunning,
 }
@@ -123,7 +125,12 @@ impl std::fmt::Display for Abort {
                 "{}",
                 gettext("Aborted because too long not connected to power.")
             ),
-            Self::LeftRunning => write!(f, "{}", gettext("Potential internal error.")),
+            Self::Shutdown => write!(f, "{}", gettext("Aborted by system.")),
+            Self::LeftRunning => write!(
+                f,
+                "{}",
+                gettext("The program or system seems to have crashed.")
+            ),
         }
     }
 }

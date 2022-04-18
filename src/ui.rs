@@ -73,6 +73,14 @@ fn on_ctrlc() -> Continue {
 fn on_shutdown(app: &adw::Application) {
     app.mark_busy();
     IS_SHUTDOWN.swap(std::sync::Arc::new(true));
+
+    BACKUP_HISTORY.update(|histories| {
+        config::Histories::handle_shutdown(histories);
+    });
+    if let Err(err) = write_config() {
+        error!("Failed to write config during shutdown: {}", err);
+    }
+
     while !ACTIVE_MOUNTS.load().is_empty() {
         for repo_id in ACTIVE_MOUNTS.load().iter() {
             if borg::functions::umount(repo_id).is_ok() {

@@ -78,6 +78,18 @@ impl Histories {
         Ok(histories)
     }
 
+    pub fn handle_shutdown(histories: &mut Self) {
+        for (_, history) in histories.0.iter_mut() {
+            if let Some(running) = &history.running {
+                history
+                    .run
+                    .push_front(RunInfo::new_shutdown(&running.start));
+                history.running = None;
+                history.run.truncate(HISTORY_LENGTH);
+            }
+        }
+    }
+
     pub fn insert(&mut self, config_id: ConfigId, entry: RunInfo) {
         let history = self.0.entry(config_id).or_default();
 
@@ -132,6 +144,16 @@ impl RunInfo {
         Self {
             end: *date,
             outcome: borg::Outcome::Aborted(borg::error::Abort::LeftRunning),
+            messages: vec![],
+            include: Default::default(),
+            exclude: Default::default(),
+        }
+    }
+
+    pub fn new_shutdown(date: &DateTime<Local>) -> Self {
+        Self {
+            end: *date,
+            outcome: borg::Outcome::Aborted(borg::error::Abort::Shutdown),
             messages: vec![],
             include: Default::default(),
             exclude: Default::default(),
