@@ -11,6 +11,7 @@
 - Change setup dialog to include password question
 - Change to GTK 4 and libadwaita for frontend
 - Change to a different password storage
+- Change to a new app icon by @bertob
 - Change to accept ssh host keys for new hosts
 - Change to mount the flatpak dir (xdg-data/flatpak) inside of flatpaks
 - Change to require at least borg version 1.2
