@@ -98,7 +98,7 @@ fn on_startup(_app: &adw::Application) {
     debug!("Signal 'startup'");
     load_config();
     config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS)
-        .expect("Failed to load schedule status.");
+        .handle("Failed to Load Schedule Status");
 
     // Workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/3833
     if let Some(settings) = gtk::Settings::default() {

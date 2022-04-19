@@ -5,13 +5,13 @@ pub mod ext;
 pub mod repo_cache;
 pub mod secret_service;
 
+use crate::ui::prelude::*;
 use adw::prelude::*;
 
 use crate::config;
-use crate::ui::prelude::*;
 
 use ashpd::desktop::background;
-
+use std::fmt::Display;
 use std::io::Read;
 use std::os::unix::process::CommandExt;
 
@@ -411,4 +411,22 @@ pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> adw::ActionRow {
     }
 
     row
+}
+
+pub trait Logable {
+    fn handle<D: Display>(&self, msg: D);
+}
+
+impl<T, E: Display> Logable for std::result::Result<T, E> {
+    fn handle<D: Display>(&self, msg: D) {
+        if let Err(err) = self {
+            error!("Error: {}: {}", msg, err);
+
+            let notification = gio::Notification::new(&msg.to_string());
+
+            notification.set_body(Some(&err.to_string()));
+
+            adw_app().send_notification(None, &notification);
+        }
+    }
 }

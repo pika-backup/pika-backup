@@ -11,7 +11,7 @@ fn write_result() -> crate::daemon::error::Result<()> {
 }
 
 pub fn write() {
-    write_result().handle("Could not write schedule status.");
+    write_result().handle("Could not Write Schedule Status");
 }
 
 fn load_result() -> crate::daemon::error::Result<()> {
@@ -22,5 +22,5 @@ fn load_result() -> crate::daemon::error::Result<()> {
 }
 
 pub fn load() {
-    load_result().expect("Could not load schedule status.");
+    load_result().handle("Could not Load Schedule Status");
 }

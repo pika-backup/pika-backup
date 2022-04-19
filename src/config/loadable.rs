@@ -52,9 +52,13 @@ impl<C: ConfigType + serde::de::DeserializeOwned + Default + Clone> TrackChanges
              event: gio::FileMonitorEvent| {
                 if event == gio::FileMonitorEvent::ChangesDoneHint {
                     info!("Reloading file after change {:?}", file.path());
-                    // TODO unwrap
-                    let new = Self::from_file().unwrap();
-                    store.update(|s| *s = new.clone());
+                    // TODO send notification?
+                    match Self::from_file() {
+                        Ok(new) => store.update(|s| *s = new.clone()),
+                        Err(err) => {
+                            error!("Failed to reload {:?}: {}", file.path(), err);
+                        }
+                    }
                 }
             },
         );
