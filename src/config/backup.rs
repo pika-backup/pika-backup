@@ -1,11 +1,10 @@
 use crate::borg;
 use crate::prelude::*;
 
-use gio::prelude::*;
 use std::collections::BTreeSet;
 use std::path;
 
-use super::{absolute, error, local, ConfigType, Pattern, Prune, Repository, Schedule};
+use super::{absolute, error, ConfigType, Pattern, Prune, Repository, Schedule};
 
 /// Compatibility config version
 pub const VERSION: u16 = 2;
@@ -71,41 +70,6 @@ pub struct Backup {
     pub prune: Prune,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
-pub struct ArchivePrefix(pub String);
-
-impl ArchivePrefix {
-    pub fn new(prefix: &str) -> Self {
-        Self(prefix.trim().to_string())
-    }
-
-    pub fn generate() -> Self {
-        Self(format!(
-            "{}-",
-            glib::uuid_string_random()
-                .chars()
-                .take(6)
-                .collect::<String>()
-        ))
-    }
-}
-
-impl Default for ArchivePrefix {
-    fn default() -> Self {
-        Self::generate()
-    }
-}
-
-impl std::fmt::Display for ArchivePrefix {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-
-fn fake_repo_id() -> borg::RepoId {
-    borg::RepoId::new(format!("-randomid-{}", glib::uuid_string_random()))
-}
-
 impl Backup {
     pub fn new(repo: Repository, info: borg::List, encrypted: bool) -> Self {
         let mut include = std::collections::BTreeSet::new();
@@ -148,6 +112,22 @@ impl Backup {
         Backup::new(repo, info, false)
     }
 
+    pub fn set_archive_prefix<'a>(
+        &mut self,
+        prefix: ArchivePrefix,
+        mut backups: impl Iterator<Item = &'a Backup>,
+    ) -> Result<(), error::BackupPrefixTaken> {
+        if !prefix.is_empty()
+            && backups
+                .any(|x| x.archive_prefix == prefix && x.repo_id == self.repo_id && x.id != self.id)
+        {
+            Err(error::BackupPrefixTaken)
+        } else {
+            self.archive_prefix = prefix;
+            Ok(())
+        }
+    }
+
     pub fn include_dirs(&self) -> BTreeSet<path::PathBuf> {
         let mut dirs = BTreeSet::new();
 
@@ -174,54 +154,62 @@ impl Backup {
 
         dirs
     }
+}
 
-    pub fn update_version_0(&mut self, info: borg::List, icon_symbolic_new: Option<gio::Icon>) {
-        if self.config_version == 0 {
-            self.config_version = 1;
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
+pub struct ArchivePrefix(pub String);
 
-            if let Repository::Local(local::Repository {
-                ref mut icon_symbolic,
-                ..
-            }) = self.repo
-            {
-                *icon_symbolic = icon_symbolic_new
-                    .and_then(|icon| IconExt::to_string(&icon))
-                    .as_ref()
-                    .map(ToString::to_string);
-            }
-            self.repo_id = info.repository.id;
-            self.encryption_mode = info.encryption.mode;
+/**
+```
+# use pika_backup::config::ArchivePrefix;
+assert_eq!(ArchivePrefix::new("x").to_string(), String::from("x-"));
+assert_eq!(ArchivePrefix::new(" x-").to_string(), String::from("x-"));
+assert_eq!(ArchivePrefix::new("").to_string(), String::from(""));
+```
+**/
+impl ArchivePrefix {
+    pub fn new(prefix: &str) -> Self {
+        let mut result = prefix.trim().to_string();
+        if !matches!(result.chars().last(), Some('-') | None) {
+            result.push('-');
         }
+
+        Self(result)
+    }
+
+    pub fn generate() -> Self {
+        Self(format!(
+            "{}-",
+            glib::uuid_string_random()
+                .chars()
+                .take(6)
+                .collect::<String>()
+        ))
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
     }
 }
 
-impl LookupConfigId for Backups {
-    type Item = Backup;
-    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
-        self.iter_mut()
-            .find(|x| x.id == *key)
-            .ok_or_else(|| error::BackupNotFound::new(key.clone()))
+impl Default for ArchivePrefix {
+    fn default() -> Self {
+        Self::generate()
     }
+}
 
-    fn get_result(&self, key: &ConfigId) -> Result<&Backup, error::BackupNotFound> {
-        self.iter()
-            .find(|x| x.id == *key)
-            .ok_or_else(|| error::BackupNotFound::new(key.clone()))
+impl std::fmt::Display for ArchivePrefix {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
+}
+
+fn fake_repo_id() -> borg::RepoId {
+    borg::RepoId::new(format!("-randomid-{}", glib::uuid_string_random()))
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq)]
 pub struct Backups(Vec<Backup>);
-
-impl ConfigType for Backups {
-    fn path() -> std::path::PathBuf {
-        let mut path = glib::user_config_dir();
-        path.push(env!("CARGO_PKG_NAME"));
-        path.push("backup.json");
-
-        path
-    }
-}
 
 impl Backups {
     pub fn exists(&self, id: &ConfigId) -> bool {
@@ -252,5 +240,30 @@ impl Backups {
 
     pub fn iter_mut(&mut self) -> std::slice::IterMut<'_, Backup> {
         self.0.iter_mut()
+    }
+}
+
+impl LookupConfigId for Backups {
+    type Item = Backup;
+    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
+        self.iter_mut()
+            .find(|x| x.id == *key)
+            .ok_or_else(|| error::BackupNotFound::new(key.clone()))
+    }
+
+    fn get_result(&self, key: &ConfigId) -> Result<&Backup, error::BackupNotFound> {
+        self.iter()
+            .find(|x| x.id == *key)
+            .ok_or_else(|| error::BackupNotFound::new(key.clone()))
+    }
+}
+
+impl ConfigType for Backups {
+    fn path() -> std::path::PathBuf {
+        let mut path = glib::user_config_dir();
+        path.push(env!("CARGO_PKG_NAME"));
+        path.push("backup.json");
+
+        path
     }
 }

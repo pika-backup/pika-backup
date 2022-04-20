@@ -21,8 +21,13 @@ pub async fn run(config: &config::Backup) -> Result<()> {
 
         BACKUP_CONFIG.update_result(enclose!(
             (config_id, new_prefix) | config | {
-                config.get_result_mut(&config_id)?.archive_prefix =
-                    config::ArchivePrefix::new(&new_prefix);
+                config
+                    .get_result_mut(&config_id)?
+                    .set_archive_prefix(
+                        config::ArchivePrefix::new(&new_prefix),
+                        BACKUP_CONFIG.load().iter(),
+                    )
+                    .err_to_msg(gettext("Invalid Archive Prefix"))?;
                 Ok(())
             }
         ))?;

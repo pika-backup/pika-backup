@@ -100,7 +100,7 @@ fn insert_transfer(
         conf.exclude = archive_params.parsed.exclude.clone();
 
         if let Some(prefix) = &archive_params.prefix {
-            conf.archive_prefix = prefix.clone();
+            conf.set_archive_prefix(prefix.clone(), BACKUP_CONFIG.load().iter()).err_to_msg(gettext("Invalid Archive Prefix"))?;
         }
 
         Ok(())
