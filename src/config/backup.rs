@@ -107,15 +107,15 @@ impl Backup {
                 location: std::path::PathBuf::new(),
             },
         };
-        let repo =
-            local::Repository::from_path(std::path::PathBuf::from("/tmp/INVALID")).into_config();
+        let repo = super::local::Repository::from_path(std::path::PathBuf::from("/tmp/INVALID"))
+            .into_config();
         Backup::new(repo, info, false)
     }
 
     pub fn set_archive_prefix<'a>(
         &mut self,
         prefix: ArchivePrefix,
-        mut backups: impl Iterator<Item = &'a Backup>,
+        mut backups: impl Iterator<Item = &'a Self>,
     ) -> Result<(), error::BackupPrefixTaken> {
         if !prefix.is_empty()
             && backups
