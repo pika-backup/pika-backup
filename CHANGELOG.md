@@ -15,6 +15,7 @@
 - Change to accept ssh host keys for new hosts
 - Change to mount the flatpak dir (xdg-data/flatpak) inside of flatpaks
 - Change to require at least borg version 1.2
+- Change to use faster blake2 hash algorithm if no SHA256 CPU instruction is available
 - Add archive name prefixes
 - Add better error messages for incorrect remote locations
 - Add help with information about recovery
