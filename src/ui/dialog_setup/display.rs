@@ -47,45 +47,50 @@ pub fn transfer_selection(
         .duplicates()
         .collect();
 
-    let options = archive_params
+    let mut options = archive_params
         .iter()
         .filter(|x| valid_prefixes.contains(&&x.prefix))
-        .unique_by(|x| (&x.prefix, &x.parsed, &x.hostname, &x.username));
+        .unique_by(|x| (&x.prefix, &x.parsed, &x.hostname, &x.username))
+        .peekable();
 
-    for suggestion in options.take(10) {
-        let row = ui::builder::DialogSetupTransferOption::new();
+    if options.peek().is_none() {
+        ui.dialog().close();
+    } else {
+        for suggestion in options.take(10) {
+            let row = ui::builder::DialogSetupTransferOption::new();
 
-        row.hostname().set_label(&suggestion.hostname);
-        row.username().set_label(&suggestion.username);
-        row.prefix().set_label(
-            &suggestion
-                .prefix
-                .as_ref()
-                .map(|x| x.to_string())
-                .unwrap_or_else(|| gettext("None")),
-        );
+            row.hostname().set_label(&suggestion.hostname);
+            row.username().set_label(&suggestion.username);
+            row.prefix().set_label(
+                &suggestion
+                    .prefix
+                    .as_ref()
+                    .map(|x| x.to_string())
+                    .unwrap_or_else(|| gettext("None")),
+            );
 
-        for include in suggestion.parsed.include.iter() {
-            let tag = ui::widget::LocationTag::from_path(include.clone());
-            row.include().add_child(&tag.build());
+            for include in suggestion.parsed.include.iter() {
+                let tag = ui::widget::LocationTag::from_path(include.clone());
+                row.include().add_child(&tag.build());
+            }
+
+            for exclude in suggestion.parsed.exclude.iter() {
+                let tag = ui::widget::LocationTag::from_pattern(exclude.clone());
+                row.exclude().add_child(&tag.build());
+            }
+
+            row.transfer().connect_activated(
+                clone!(@weak ui, @strong suggestion, @strong config_id => move |_|
+                Handler::handle(insert_transfer(ui, &suggestion, &config_id))
+                ),
+            );
+
+            ui.transfer_suggestions().prepend(&row.widget());
         }
 
-        for exclude in suggestion.parsed.exclude.iter() {
-            let tag = ui::widget::LocationTag::from_pattern(exclude.clone());
-            row.exclude().add_child(&tag.build());
-        }
-
-        row.transfer().connect_activated(
-            clone!(@weak ui, @strong suggestion, @strong config_id => move |_|
-            Handler::handle(insert_transfer(ui, &suggestion, &config_id))
-            ),
-        );
-
-        ui.transfer_suggestions().prepend(&row.widget());
+        ui.page_transfer()
+            .set_visible_child(&ui.page_transfer_select());
     }
-
-    ui.page_transfer()
-        .set_visible_child(&ui.page_transfer_select());
 }
 
 fn insert_transfer(
