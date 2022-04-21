@@ -53,3 +53,22 @@ pub fn check_line(line: &str) -> LogEntry {
         LogEntry::UnparsableErr(line.to_string())
     }
 }
+
+fn is_sha256_faster() -> bool {
+    #[cfg(target_arch = "x86_64")]
+    {
+        is_x86_feature_detected!("sha")
+    }
+    #[cfg(not(target_arch = "x86_64"))]
+    {
+        false
+    }
+}
+
+pub fn fasted_hash_algorithm() -> &'static str {
+    if is_sha256_faster() {
+        ""
+    } else {
+        "-blake2"
+    }
+}

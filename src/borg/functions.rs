@@ -365,7 +365,7 @@ impl CommandOnlyRepo {
 
     pub async fn init(self) -> Result<List> {
         let borg = BorgCall::new("init")
-            .add_options(&["--encryption=repokey"])
+            .add_options(&[format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
             .add_basics(&self)?
             .output()?;
 
