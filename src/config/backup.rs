@@ -117,9 +117,8 @@ impl Backup {
         prefix: ArchivePrefix,
         mut backups: impl Iterator<Item = &'a Self>,
     ) -> Result<(), error::BackupPrefixTaken> {
-        if !prefix.is_empty()
-            && backups
-                .any(|x| x.archive_prefix == prefix && x.repo_id == self.repo_id && x.id != self.id)
+        if backups
+            .any(|x| x.archive_prefix == prefix && x.repo_id == self.repo_id && x.id != self.id)
         {
             Err(error::BackupPrefixTaken)
         } else {
