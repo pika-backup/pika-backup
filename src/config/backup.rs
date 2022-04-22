@@ -115,14 +115,28 @@ impl Backup {
     pub fn set_archive_prefix<'a>(
         &mut self,
         prefix: ArchivePrefix,
-        mut backups: impl Iterator<Item = &'a Self>,
-    ) -> Result<(), error::BackupPrefixTaken> {
-        if backups
-            .any(|x| x.archive_prefix == prefix && x.repo_id == self.repo_id && x.id != self.id)
-        {
-            Err(error::BackupPrefixTaken)
+        configs: impl Iterator<Item = &'a Self> + Clone,
+    ) -> Result<(), error::BackupPrefix> {
+        self.is_archive_prefix_ok(&prefix, configs)?;
+
+        self.archive_prefix = prefix;
+        Ok(())
+    }
+
+    pub fn is_archive_prefix_ok<'a>(
+        &self,
+        prefix: &ArchivePrefix,
+        configs: impl Iterator<Item = &'a Self> + Clone,
+    ) -> Result<(), error::BackupPrefix> {
+        let other_configs = configs.filter(|x| x.repo_id == self.repo_id && x.id != self.id);
+
+        if other_configs.clone().any(|x| &x.archive_prefix == prefix) {
+            Err(error::BackupPrefix::Taken)
+        } else if other_configs.clone().any(|x| x.archive_prefix.is_empty()) {
+            Err(error::BackupPrefix::OtherEmptyExists)
+        } else if prefix.is_empty() && other_configs.clone().next().is_some() {
+            Err(error::BackupPrefix::EmptyButOtherExists)
         } else {
-            self.archive_prefix = prefix;
             Ok(())
         }
     }
