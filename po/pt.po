@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-18 20:36+0000\n"
-"PO-Revision-Date: 2022-04-19 12:41+0100\n"
+"POT-Creation-Date: 2022-04-22 16:08+0000\n"
+"PO-Revision-Date: 2022-04-22 19:19+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -305,17 +305,50 @@ msgstr "A identificar arquivos antigos"
 msgid "Refreshing Archive List"
 msgstr "A atualizar lista de arquivos"
 
-#: src/config.rs:365
+#: src/config.rs:62
+msgid "Home"
+msgstr "Pasta pessoal"
+
+#: src/config/error.rs:31
+msgid ""
+"This archive prefix is already used by another backup configuration for the "
+"same backup repository."
+msgstr ""
+"Este prefixo de arquivo já é utilizado por outra configuração de backup para "
+"o mesmo repositório de backup."
+
+#: src/config/error.rs:36
+msgid ""
+"A configuration for the same backup repository with an empty archive prefix "
+"exists."
+msgstr ""
+"Existe uma configuração para o mesmo repositório de backup com um prefixo de "
+"arquivo vazio."
+
+#: src/config/error.rs:37 src/config/error.rs:43
+msgid ""
+"There can only be one configuration for a backup repository if the archive "
+"prefix is empty."
+msgstr ""
+"Só pode haver uma configuração para um repositório de backup se o prefixo do "
+"arquivo estiver vazio."
+
+#: src/config/error.rs:42
+msgid ""
+"The archive prefix is empty and a configuration for the same backup "
+"repository already exists."
+msgstr ""
+"O prefixo do arquivo está vazio e já existe uma configuração para o mesmo "
+"repositório de backup."
+
+#: src/config/pattern.rs:142
 msgid "Flatpak App Cache"
 msgstr "Cache de aplicações Flatpak"
 
-#: src/config.rs:554 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
+#: src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Localização remota"
-
-#: src/config.rs:647
-msgid "Home"
-msgstr "Pasta pessoal"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -784,6 +817,10 @@ msgstr "Esta aplicação não existiria sem o Borg."
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "Apoie o BorgBackup https://www.borgbackup.org/support/fund.html"
 
+#: src/ui/dialog_archive_prefix.rs:30 src/ui/dialog_setup/display.rs:108
+msgid "Invalid Archive Prefix"
+msgstr "Prefixo de arquivo inválido"
+
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:88
 msgid "Archive Prefix"
 msgstr "Prefixo de arquivo"
@@ -1042,22 +1079,27 @@ msgstr ""
 "Este passo é opcional."
 
 #: src/ui/dialog_setup.ui:618
-msgid ""
-"Some of the settings used for previous backups can be transferred to this "
-"setup."
-msgstr ""
-"Algumas das configurações utilizadas para backups anteriores podem ser "
-"transferidas para esta configuração."
+msgid "Transfer Settings"
+msgstr "Definições de transferência"
 
-#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:619
+msgid ""
+"One set of configurations used for previous backups can be selected for "
+"transfer to the new setup. The configuration can be adjusted afterward."
+msgstr ""
+"Um conjunto de configurações utilizadas para backups anteriores pode ser "
+"selecionado para transferência para a nova configuração. A configuração pode "
+"ser ajustada posteriormente."
+
+#: src/ui/dialog_setup.ui:657 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "A criar repositório de backup"
 
-#: src/ui/dialog_setup/display.rs:65 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:69 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Nenhum"
 
-#: src/ui/dialog_setup/display.rs:180
+#: src/ui/dialog_setup/display.rs:185
 msgid "Free space: {}"
 msgstr "Espaço livre: {}"
 
@@ -1625,6 +1667,13 @@ msgstr ""
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
 
+#~ msgid ""
+#~ "Some of the settings used for previous backups can be transferred to this "
+#~ "setup."
+#~ msgstr ""
+#~ "Algumas das configurações utilizadas para backups anteriores podem ser "
+#~ "transferidas para esta configuração."
+
 #~ msgid "Potential internal error."
 #~ msgstr "Potencial erro interno."
 
@@ -1710,9 +1759,6 @@ msgstr "Pika Backup “{}”"
 
 #~ msgid "Creating new backup"
 #~ msgstr "A criar novo backup"
-
-#~ msgid "_Advanced settings"
-#~ msgstr "Definições _avançadas"
 
 #~ msgid "Failed to initialize repository."
 #~ msgstr "Falha ao iniciar o repositório."
