@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-16 00:23+0000\n"
-"PO-Revision-Date: 2022-04-16 13:42+0300\n"
+"POT-Creation-Date: 2022-04-22 16:08+0000\n"
+"PO-Revision-Date: 2022-04-23 11:44+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -133,47 +133,51 @@ msgstr "Не выбраны файлы для включения в резерв
 msgid "Completed"
 msgstr "Выполнено"
 
-#: src/borg/error.rs:115
+#: src/borg/error.rs:117
 msgid "Aborted on user request."
 msgstr "Прервано по запросу пользователя."
 
-#: src/borg/error.rs:119
+#: src/borg/error.rs:121
 msgid "Aborted because only metered connection was available."
 msgstr "Прервано, так как было доступно только тарифное подключение."
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:126
 msgid "Aborted because too long not connected to power."
 msgstr "Прервано из-за слишком долгого отсутствия питания."
 
-#: src/borg/error.rs:126
-msgid "Potential internal error."
-msgstr "Потенциальная внутренняя ошибка."
+#: src/borg/error.rs:128
+msgid "Aborted by system."
+msgstr "Прервано системой."
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:132
+msgid "The program or system seems to have crashed."
+msgstr "Кажется, что программа или система потерпела крах."
+
+#: src/borg/error.rs:172
 msgid "Connection closed by remote host."
 msgstr "Соединение закрыто удаленным узлом."
 
-#: src/borg/error.rs:167 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:174 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Репозиторий уже используется."
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:175
 msgid "Invalid encryption password."
 msgstr "Неверный пароль шифрования."
 
-#: src/borg/error.rs:170
+#: src/borg/error.rs:177
 msgid "A repository already exists at this location."
 msgstr "В этом месте уже существует репозиторий."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:179
 msgid "No repository exists at this location."
 msgstr "В этом месте нет репозитория."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:182
 msgid "Connection closed by remote host: “{}”"
 msgstr "Соединение закрыто удаленным хостом: \"{}\""
 
-#: src/borg/error.rs:178
+#: src/borg/error.rs:185
 msgid "Unspecified error."
 msgstr "Неизвестная ошибка."
 
@@ -306,17 +310,50 @@ msgstr "Выявление старых архивов"
 msgid "Refreshing Archive List"
 msgstr "Обновление списка архивов"
 
-#: src/config.rs:365
+#: src/config.rs:62
+msgid "Home"
+msgstr "Домашняя папка"
+
+#: src/config/error.rs:31
+msgid ""
+"This archive prefix is already used by another backup configuration for the "
+"same backup repository."
+msgstr ""
+"Этот префикс архива уже используется другой конфигурацией резервного "
+"копирования для того же репозитория резервных копий."
+
+#: src/config/error.rs:36
+msgid ""
+"A configuration for the same backup repository with an empty archive prefix "
+"exists."
+msgstr ""
+"Конфигурация для того же репозитория резервного копирования с пустым "
+"префиксом архива."
+
+#: src/config/error.rs:37 src/config/error.rs:43
+msgid ""
+"There can only be one configuration for a backup repository if the archive "
+"prefix is empty."
+msgstr ""
+"Для репозитория резервного копирования может быть только одна конфигурация, "
+"если префикс архива пуст."
+
+#: src/config/error.rs:42
+msgid ""
+"The archive prefix is empty and a configuration for the same backup "
+"repository already exists."
+msgstr ""
+"Префикс архива пуст, и конфигурация для того же репозитория резервного "
+"копирования уже существует."
+
+#: src/config/pattern.rs:142
 msgid "Flatpak App Cache"
 msgstr "Кэш приложения Flatpak"
 
-#: src/config.rs:554 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
+#: src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Удаленное местоположение"
-
-#: src/config.rs:647
-msgid "Home"
-msgstr "Домашняя папка"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -408,33 +445,33 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не удалось запустить запланированное резервное копирование"
 
-#: src/ui.rs:151 src/ui/page_backup/events.rs:20
+#: src/ui.rs:159 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Прервать выполнение создания резервной копии?"
 
-#: src/ui.rs:152 src/ui/page_backup/events.rs:21
+#: src/ui.rs:160 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас."
 
-#: src/ui.rs:153 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:161 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:482 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui.rs:154 src/ui/page_backup/events.rs:23
+#: src/ui.rs:162 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Прервать"
 
-#: src/ui.rs:228
+#: src/ui.rs:236
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Не удалось запустить \"borg\". Правильно ли установлен BorgBackup?"
 
-#: src/ui.rs:252
+#: src/ui.rs:260
 msgid "BorgBackup version too old"
 msgstr "Версия BorgBackup слишком старая"
 
-#: src/ui.rs:254
+#: src/ui.rs:262
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -442,11 +479,11 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком старая. Некоторые функции, "
 "требующие borg-backup версии {}.{}.{}, не будут работать."
 
-#: src/ui.rs:265
+#: src/ui.rs:273
 msgid "BorgBackup version too new"
 msgstr "Версия BorgBackup слишком новая"
 
-#: src/ui.rs:267
+#: src/ui.rs:275
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -454,19 +491,19 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком новая. Рекомендуется версия {}."
 "{}. Некоторые функции могут работать не так, как ожидается."
 
-#: src/ui.rs:277
+#: src/ui.rs:285
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не удалось проверить версию BorgBackup"
 
-#: src/ui.rs:279
+#: src/ui.rs:287
 msgid "The installed version {} might not work."
 msgstr "Установленная версия {} может не работать."
 
-#: src/ui.rs:335
+#: src/ui.rs:343
 msgid "Could not load configuration file."
 msgstr "Не удалось загрузить файл конфигурации."
 
-#: src/ui.rs:351
+#: src/ui.rs:359
 msgid "Could not write configuration file."
 msgstr "Не удалось записать файл конфигурации."
 
@@ -795,6 +832,10 @@ msgstr "Это приложение не существовало бы без Б
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "Поддержка BorgBackup https://www.borgbackup.org/support/fund.html"
 
+#: src/ui/dialog_archive_prefix.rs:30 src/ui/dialog_setup/display.rs:108
+msgid "Invalid Archive Prefix"
+msgstr "Неверный префикс архива"
+
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:88
 msgid "Archive Prefix"
 msgstr "Префикс архива"
@@ -1051,22 +1092,27 @@ msgstr ""
 "является необязательным."
 
 #: src/ui/dialog_setup.ui:618
-msgid ""
-"Some of the settings used for previous backups can be transferred to this "
-"setup."
-msgstr ""
-"Некоторые настройки, использованные для предыдущих резервных копий, могут "
-"быть перенесены в эту установку."
+msgid "Transfer Settings"
+msgstr "Настройки переноса"
 
-#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:619
+msgid ""
+"One set of configurations used for previous backups can be selected for "
+"transfer to the new setup. The configuration can be adjusted afterward."
+msgstr ""
+"Для переноса в новую установку можно выбрать один набор конфигураций, "
+"использованных для предыдущих резервных копий. Конфигурация может быть "
+"скорректирована впоследствии."
+
+#: src/ui/dialog_setup.ui:657 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "Создание репозитория резервного копирования"
 
-#: src/ui/dialog_setup/display.rs:56 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:69 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/dialog_setup/display.rs:171
+#: src/ui/dialog_setup/display.rs:185
 msgid "Free space: {}"
 msgstr "Свободное пространство: {}"
 
@@ -1201,7 +1247,9 @@ msgstr "Резервная копия с идентификатором \"{}\" �
 
 #: src/ui/error.rs:77
 msgid "Could not find backup configuration with id “{}”."
-msgstr "Не удалось найти резервную конфигурацию с идентификатором \"{}\"."
+msgstr ""
+"Не удалось найти конфигурацию резервного копирования с идентификатором "
+"\"{}\"."
 
 #: src/ui/page_archives/cache.rs:33
 msgid "Failed to refresh archives cache."
@@ -1652,6 +1700,16 @@ msgstr "Не удалось удалить потенциально оставш
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
+
+#~ msgid "Potential internal error."
+#~ msgstr "Потенциальная внутренняя ошибка."
+
+#~ msgid ""
+#~ "Some of the settings used for previous backups can be transferred to this "
+#~ "setup."
+#~ msgstr ""
+#~ "Некоторые настройки, использованные для предыдущих резервных копий, могут "
+#~ "быть перенесены в эту установку."
 
 #~ msgid "Delete backup configuration"
 #~ msgstr "Удаление резервной конфигурации"
