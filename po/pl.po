@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-16 00:23+0000\n"
-"PO-Revision-Date: 2022-04-17 16:08+0200\n"
+"POT-Creation-Date: 2022-04-22 16:08+0000\n"
+"PO-Revision-Date: 2022-04-24 12:25+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -131,47 +131,51 @@ msgstr "Nie wybrano żadnych plików do zawarcia w kopii zapasowej."
 msgid "Completed"
 msgstr "Ukończono"
 
-#: src/borg/error.rs:115
+#: src/borg/error.rs:117
 msgid "Aborted on user request."
 msgstr "Przerwano na żądanie użytkownika."
 
-#: src/borg/error.rs:119
+#: src/borg/error.rs:121
 msgid "Aborted because only metered connection was available."
 msgstr "Przerwano, ponieważ dostępne było tylko mierzone połączenie."
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:126
 msgid "Aborted because too long not connected to power."
 msgstr "Przerwano, ponieważ za długo nie podłączono do zasilania."
 
-#: src/borg/error.rs:126
-msgid "Potential internal error."
-msgstr "Potencjalny błąd wewnętrzny."
+#: src/borg/error.rs:128
+msgid "Aborted by system."
+msgstr "Przerwano przez system."
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:132
+msgid "The program or system seems to have crashed."
+msgstr "Program lub system uległ awarii."
+
+#: src/borg/error.rs:172
 msgid "Connection closed by remote host."
 msgstr "Zdalny komputer zamknął połączenie."
 
-#: src/borg/error.rs:167 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:174 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Repozytorium jest już używane."
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:175
 msgid "Invalid encryption password."
 msgstr "Nieprawidłowe hasło szyfrowania."
 
-#: src/borg/error.rs:170
+#: src/borg/error.rs:177
 msgid "A repository already exists at this location."
 msgstr "W tym położeniu już jest repozytorium."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:179
 msgid "No repository exists at this location."
 msgstr "W tym położeniu nie ma żadnego repozytorium."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:182
 msgid "Connection closed by remote host: “{}”"
 msgstr "Zdalny komputer zamknął połączenie: „{}”"
 
-#: src/borg/error.rs:178
+#: src/borg/error.rs:185
 msgid "Unspecified error."
 msgstr "Nieokreślony błąd."
 
@@ -304,17 +308,50 @@ msgstr "Identyfikowanie starych archiwów"
 msgid "Refreshing Archive List"
 msgstr "Odświeżanie listy archiwów"
 
-#: src/config.rs:365
+#: src/config.rs:62
+msgid "Home"
+msgstr "Katalog domowy"
+
+#: src/config/error.rs:31
+msgid ""
+"This archive prefix is already used by another backup configuration for the "
+"same backup repository."
+msgstr ""
+"Ten przedrostek archiwum jest już używany przez inną konfigurację kopii "
+"zapasowej dla tego samego repozytorium kopii zapasowej."
+
+#: src/config/error.rs:36
+msgid ""
+"A configuration for the same backup repository with an empty archive prefix "
+"exists."
+msgstr ""
+"Istnieje konfiguracja dla tego samego repozytorium kopii zapasowej z pustym "
+"przedrostkiem archiwum."
+
+#: src/config/error.rs:37 src/config/error.rs:43
+msgid ""
+"There can only be one configuration for a backup repository if the archive "
+"prefix is empty."
+msgstr ""
+"Może być tylko jedna konfiguracja dla repozytorium kopii zapasowej, jeśli "
+"przedrostek archiwum jest pusty."
+
+#: src/config/error.rs:42
+msgid ""
+"The archive prefix is empty and a configuration for the same backup "
+"repository already exists."
+msgstr ""
+"Przedrostek archiwum jest pusty, a konfiguracja dla tego samego repozytorium "
+"kopii zapasowej już istnieje."
+
+#: src/config/pattern.rs:142
 msgid "Flatpak App Cache"
 msgstr "Pamięć podręczna programów Flatpak"
 
-#: src/config.rs:554 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
+#: src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Zdalne położenie"
-
-#: src/config.rs:647
-msgid "Home"
-msgstr "Katalog domowy"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -405,34 +442,34 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Rozpoczęcie zaplanowanej kopii zapasowej się nie powiodło"
 
-#: src/ui.rs:151 src/ui/page_backup/events.rs:20
+#: src/ui.rs:159 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Przerwać tworzenie kopii zapasowej?"
 
-#: src/ui.rs:152 src/ui/page_backup/events.rs:21
+#: src/ui.rs:160 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Przerwanie w tej chwili spowoduje, że kopia zapasowa będzie niepełna."
 
-#: src/ui.rs:153 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:161 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:482 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Kontynuuj"
 
-#: src/ui.rs:154 src/ui/page_backup/events.rs:23
+#: src/ui.rs:162 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Przerwij"
 
-#: src/ui.rs:228
+#: src/ui.rs:236
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Wykonanie polecenia „borg” się nie powiodło. Czy prawidłowo zainstalowano "
 "program BorgBackup?"
 
-#: src/ui.rs:252
+#: src/ui.rs:260
 msgid "BorgBackup version too old"
 msgstr "Wersja programu BorgBackup jest za stara"
 
-#: src/ui.rs:254
+#: src/ui.rs:262
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -440,11 +477,11 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za stara. Część funkcji do "
 "działania wymaga wersji {}.{}.{}."
 
-#: src/ui.rs:265
+#: src/ui.rs:273
 msgid "BorgBackup version too new"
 msgstr "Wersja programu BorgBackup jest za nowa"
 
-#: src/ui.rs:267
+#: src/ui.rs:275
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -452,19 +489,19 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za nowa. Zalecana jest "
 "wersja {}.{}. Część funkcji może nie działać poprawnie."
 
-#: src/ui.rs:277
+#: src/ui.rs:285
 msgid "Failed to Check BorgBackup Version"
 msgstr "Sprawdzenie wersji programu BorgBackup się nie powiodło"
 
-#: src/ui.rs:279
+#: src/ui.rs:287
 msgid "The installed version {} might not work."
 msgstr "Zainstalowana wersja, {}, może nie działać."
 
-#: src/ui.rs:335
+#: src/ui.rs:343
 msgid "Could not load configuration file."
 msgstr "Nie można wczytać pliku konfiguracji."
 
-#: src/ui.rs:351
+#: src/ui.rs:359
 msgid "Could not write configuration file."
 msgstr "Nie można zapisać pliku konfiguracji."
 
@@ -789,6 +826,10 @@ msgstr "Ten program nie mógłby istnieć bez projektu Borg."
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "Wspieraj BorgBackup: https://www.borgbackup.org/support/fund.html"
 
+#: src/ui/dialog_archive_prefix.rs:30 src/ui/dialog_setup/display.rs:108
+msgid "Invalid Archive Prefix"
+msgstr "Nieprawidłowy przedrostek archiwum"
+
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:88
 msgid "Archive Prefix"
 msgstr "Przedrostek archiwum"
@@ -1041,22 +1082,27 @@ msgstr ""
 "krok jest opcjonalny."
 
 #: src/ui/dialog_setup.ui:618
-msgid ""
-"Some of the settings used for previous backups can be transferred to this "
-"setup."
-msgstr ""
-"Część ustawień używanych dla poprzednich kopii zapasowych może zostać "
-"przeniesionych do tej konfiguracji."
+msgid "Transfer Settings"
+msgstr "Przeniesienie ustawień"
 
-#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:619
+msgid ""
+"One set of configurations used for previous backups can be selected for "
+"transfer to the new setup. The configuration can be adjusted afterward."
+msgstr ""
+"Można wybrać jeden zestaw konfiguracji używany przy poprzednich kopiach "
+"zapasowych do przeniesienia do nowej konfiguracji. Później można ją "
+"dostosować."
+
+#: src/ui/dialog_setup.ui:657 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "Tworzenie repozytorium kopii zapasowej"
 
-#: src/ui/dialog_setup/display.rs:56 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:69 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Brak"
 
-#: src/ui/dialog_setup/display.rs:171
+#: src/ui/dialog_setup/display.rs:185
 msgid "Free space: {}"
 msgstr "Wolne miejsce: {}"
 
