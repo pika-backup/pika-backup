@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-16 00:23+0000\n"
-"PO-Revision-Date: 2022-04-16 15:35+0800\n"
+"POT-Creation-Date: 2022-04-22 16:08+0000\n"
+"PO-Revision-Date: 2022-04-23 10:08+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -123,47 +123,51 @@ msgstr "未选择要包含进备份的文件。"
 msgid "Completed"
 msgstr "已完成"
 
-#: src/borg/error.rs:115
+#: src/borg/error.rs:117
 msgid "Aborted on user request."
 msgstr "已按用户请求中止。"
 
-#: src/borg/error.rs:119
+#: src/borg/error.rs:121
 msgid "Aborted because only metered connection was available."
 msgstr "已因为仅有流量计费网络连接可用而中止。"
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:126
 msgid "Aborted because too long not connected to power."
 msgstr "已因为太长时间未连接电源而中止。"
 
-#: src/borg/error.rs:126
-msgid "Potential internal error."
-msgstr "可能的内部错误。"
+#: src/borg/error.rs:128
+msgid "Aborted by system."
+msgstr "已被系统中止。"
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:132
+msgid "The program or system seems to have crashed."
+msgstr "该程序或系统似乎已经崩溃。"
+
+#: src/borg/error.rs:172
 msgid "Connection closed by remote host."
 msgstr "连接被远程主机关闭。"
 
-#: src/borg/error.rs:167 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:174 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "仓库已被使用。"
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:175
 msgid "Invalid encryption password."
 msgstr "无效的加密密码。"
 
-#: src/borg/error.rs:170
+#: src/borg/error.rs:177
 msgid "A repository already exists at this location."
 msgstr "此位置已存在一个仓库。"
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:179
 msgid "No repository exists at this location."
 msgstr "此位置没有仓库存在。"
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:182
 msgid "Connection closed by remote host: “{}”"
 msgstr "连接被远程主机关闭：“{}”"
 
-#: src/borg/error.rs:178
+#: src/borg/error.rs:185
 msgid "Unspecified error."
 msgstr "未指定的错误。"
 
@@ -296,17 +300,42 @@ msgstr "正在识别旧归档文件"
 msgid "Refreshing Archive List"
 msgstr "正在刷新归档文件列表"
 
-#: src/config.rs:365
+#: src/config.rs:62
+msgid "Home"
+msgstr "主目录"
+
+#: src/config/error.rs:31
+msgid ""
+"This archive prefix is already used by another backup configuration for the "
+"same backup repository."
+msgstr "该归档文件前缀已被另一个相同仓库的备份配置使用。"
+
+#: src/config/error.rs:36
+msgid ""
+"A configuration for the same backup repository with an empty archive prefix "
+"exists."
+msgstr "相同备份仓库存在带有空归档文件前缀的配置。"
+
+#: src/config/error.rs:37 src/config/error.rs:43
+msgid ""
+"There can only be one configuration for a backup repository if the archive "
+"prefix is empty."
+msgstr "如果归档文件前缀为空则每个备份仓库只能有一个配置。"
+
+#: src/config/error.rs:42
+msgid ""
+"The archive prefix is empty and a configuration for the same backup "
+"repository already exists."
+msgstr "归档文件前缀为空且相同备份仓库已有一个配置存在。"
+
+#: src/config/pattern.rs:142
 msgid "Flatpak App Cache"
 msgstr "Flatpak 应用缓存"
 
-#: src/config.rs:554 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
+#: src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "远程位置"
-
-#: src/config.rs:647
-msgid "Home"
-msgstr "主目录"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -393,32 +422,32 @@ msgstr "必须连接“{}”以使计划备份开始。"
 msgid "Failed to start scheduled backup"
 msgstr "开始计划备份失败"
 
-#: src/ui.rs:151 src/ui/page_backup/events.rs:20
+#: src/ui.rs:159 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "中止备份创建的运行？"
 
-#: src/ui.rs:152 src/ui/page_backup/events.rs:21
+#: src/ui.rs:160 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "备份会保存不完整如果现在中止。"
 
-#: src/ui.rs:153 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:161 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:482 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "继续"
 
-#: src/ui.rs:154 src/ui/page_backup/events.rs:23
+#: src/ui.rs:162 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "中止"
 
-#: src/ui.rs:228
+#: src/ui.rs:236
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "运行“borg”失败。BorgBackup 是否已正确安装？"
 
-#: src/ui.rs:252
+#: src/ui.rs:260
 msgid "BorgBackup version too old"
 msgstr "BorgBackup 版本太旧"
 
-#: src/ui.rs:254
+#: src/ui.rs:262
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -426,11 +455,11 @@ msgstr ""
 "BorgBackup 的安装版本 {} 太旧。有些需要 borg-backup 版本 {}.{}.{} 的功能将不"
 "可用。"
 
-#: src/ui.rs:265
+#: src/ui.rs:273
 msgid "BorgBackup version too new"
 msgstr "BorgBackup 版本太新"
 
-#: src/ui.rs:267
+#: src/ui.rs:275
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -438,19 +467,19 @@ msgstr ""
 "BorgBackup 的安装版本 {} 太新。推荐使用 {}.{} 版本。有些功能可能不会按预期工"
 "作。"
 
-#: src/ui.rs:277
+#: src/ui.rs:285
 msgid "Failed to Check BorgBackup Version"
 msgstr "检查 BorgBackup 版本失败"
 
-#: src/ui.rs:279
+#: src/ui.rs:287
 msgid "The installed version {} might not work."
 msgstr "已安装的版本 {} 可能无法工作。"
 
-#: src/ui.rs:335
+#: src/ui.rs:343
 msgid "Could not load configuration file."
 msgstr "无法载入配置文件。"
 
-#: src/ui.rs:351
+#: src/ui.rs:359
 msgid "Could not write configuration file."
 msgstr "无法写入配置文件。"
 
@@ -775,6 +804,10 @@ msgstr "如果没有 Borg 该应用将不会存在。"
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "支持 BorgBackup https://www.borgbackup.org/support/fund.html"
 
+#: src/ui/dialog_archive_prefix.rs:30 src/ui/dialog_setup/display.rs:108
+msgid "Invalid Archive Prefix"
+msgstr "无效的归档文件前缀"
+
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:88
 msgid "Archive Prefix"
 msgstr "归档文件前缀"
@@ -1012,20 +1045,25 @@ msgid ""
 msgstr "收集信息来传输上次使用的设置。该步骤是可选的。"
 
 #: src/ui/dialog_setup.ui:618
-msgid ""
-"Some of the settings used for previous backups can be transferred to this "
-"setup."
-msgstr "之前备份使用的一些设置可以转移到这次部署。"
+msgid "Transfer Settings"
+msgstr "迁移设置"
 
-#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:619
+msgid ""
+"One set of configurations used for previous backups can be selected for "
+"transfer to the new setup. The configuration can be adjusted afterward."
+msgstr ""
+"可以选择用于先前备份的配置并将其迁移到新的部署。随后可以对配置进行调整。"
+
+#: src/ui/dialog_setup.ui:657 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "正在创建备份仓库"
 
-#: src/ui/dialog_setup/display.rs:56 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:69 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "无"
 
-#: src/ui/dialog_setup/display.rs:171
+#: src/ui/dialog_setup/display.rs:185
 msgid "Free space: {}"
 msgstr "空闲空间：{}"
 
@@ -1558,6 +1596,14 @@ msgid "Pika Backup “{}”"
 msgstr "Pika 备份“{}”"
 
 #~ msgid ""
+#~ "Some of the settings used for previous backups can be transferred to this "
+#~ "setup."
+#~ msgstr "之前备份使用的一些设置可以转移到这次部署。"
+
+#~ msgid "Potential internal error."
+#~ msgstr "可能的内部错误。"
+
+#~ msgid ""
 #~ "Encrypted backups for data safety: You can protect the data in your "
 #~ "backups with a password"
 #~ msgstr "为了数据安全加密备份：您可以使用密码来保护备份中的数据"
@@ -1635,9 +1681,6 @@ msgstr "Pika 备份“{}”"
 
 #~ msgid "Creating new backup"
 #~ msgstr "正在创建新备份"
-
-#~ msgid "_Advanced settings"
-#~ msgstr "高级设置(_A)"
 
 #~ msgid "Failed to initialize repository."
 #~ msgstr "无法初始化仓库。"
