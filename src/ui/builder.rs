@@ -911,6 +911,10 @@ impl DialogSetup {
         self.get("page_transfer_pending")
     }
 
+    pub fn page_transfer_prefix(&self) -> gtk::Box {
+        self.get("page_transfer_prefix")
+    }
+
     pub fn page_transfer_select(&self) -> gtk::Box {
         self.get("page_transfer_select")
     }
@@ -929,6 +933,14 @@ impl DialogSetup {
 
     pub fn pending_spinner(&self) -> gtk::Spinner {
         self.get("pending_spinner")
+    }
+
+    pub fn prefix(&self) -> gtk::Entry {
+        self.get("prefix")
+    }
+
+    pub fn prefix_submit(&self) -> gtk::Button {
+        self.get("prefix_submit")
     }
 
     pub fn transfer_pending_spinner(&self) -> gtk::Spinner {

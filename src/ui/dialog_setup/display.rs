@@ -104,16 +104,45 @@ fn insert_transfer(
         conf.include = archive_params.parsed.include.clone();
         conf.exclude = archive_params.parsed.exclude.clone();
 
-        if let Some(prefix) = &archive_params.prefix {
-            conf.set_archive_prefix(prefix.clone(), BACKUP_CONFIG.load().iter()).err_to_msg(gettext("Invalid Archive Prefix"))?;
-        }
-
         Ok(())
     }))?;
 
     crate::ui::write_config()?;
-
     ui::page_backup::refresh()?;
+
+    let configs = BACKUP_CONFIG.load();
+    let config = configs.get_result(config_id)?;
+
+    if let Some(prefix) = &archive_params.prefix {
+        ui.prefix().set_text(&prefix.to_string());
+    } else {
+        ui.prefix().set_text(&config.archive_prefix.to_string());
+    }
+    ui.prefix().grab_focus();
+    ui.dialog().set_default_widget(Some(&ui.prefix_submit()));
+
+    ui.prefix_submit().connect_clicked(clone!(@weak ui, @strong config_id => move |_|
+        Handler::new().error_transient_for(ui.dialog()).handle_sync(set_prefix(&ui, config_id.clone()))));
+
+    ui.page_transfer()
+        .set_visible_child(&ui.page_transfer_prefix());
+
+    Ok(())
+}
+
+pub fn set_prefix(ui: &DialogSetup, config_id: ConfigId) -> Result<()> {
+    let prefix = ui.prefix().text();
+
+    BACKUP_CONFIG.update_result(enclose!((prefix, config_id) move |config| {
+        config
+            .get_result_mut(&config_id)?
+            .set_archive_prefix(
+                config::ArchivePrefix::new(&prefix),
+                BACKUP_CONFIG.load().iter(),
+            )
+            .err_to_msg(gettext("Invalid Archive Prefix"))
+    }))?;
+
     ui.dialog().close();
 
     Ok(())
