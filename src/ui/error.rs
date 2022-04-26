@@ -166,4 +166,8 @@ impl<W: IsA<gtk::Window> + IsA<gtk::Widget>> Handler<W> {
             }
         });
     }
+
+    pub fn handle_sync(&self, result: Result<()>) {
+        self.spawn(async { result });
+    }
 }

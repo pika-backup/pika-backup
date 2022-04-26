@@ -16,8 +16,7 @@ pub async fn edit_prefix() -> Result<()> {
     let configs = BACKUP_CONFIG.load();
     let config = configs.active()?;
 
-    ui::dialog_archive_prefix::run(config).await?;
-    display::update_info(BACKUP_CONFIG.load().active()?);
+    ui::dialog_archive_prefix::run(config);
     Ok(())
 }
 

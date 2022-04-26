@@ -3,6 +3,7 @@ mod display;
 mod events;
 mod init;
 
+pub use display::update_info;
 pub use init::init;
 
 use adw::prelude::*;
