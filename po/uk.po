@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-22 16:08+0000\n"
-"PO-Revision-Date: 2022-04-22 20:29+0300\n"
+"POT-Creation-Date: 2022-04-26 22:55+0000\n"
+"PO-Revision-Date: 2022-04-27 10:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -317,9 +317,6 @@ msgid "Home"
 msgstr "Домівка"
 
 #: src/config/error.rs:31
-#| msgid ""
-#| "This archive prefix is already set for another backup configuration using "
-#| "the same repository."
 msgid ""
 "This archive prefix is already used by another backup configuration for the "
 "same backup repository."
@@ -332,27 +329,24 @@ msgid ""
 "A configuration for the same backup repository with an empty archive prefix "
 "exists."
 msgstr ""
-"Існує налаштування того самого сховища резервних копій із порожнім префіксом"
-" архіву."
+"Існує налаштування того самого сховища резервних копій із порожнім префіксом "
+"архіву."
 
 #: src/config/error.rs:37 src/config/error.rs:43
 msgid ""
 "There can only be one configuration for a backup repository if the archive "
 "prefix is empty."
 msgstr ""
-"Якщо префікс архіву є порожнім, може бути лише одне налаштування для сховища"
-" резервних копій."
+"Якщо префікс архіву є порожнім, може бути лише одне налаштування для сховища "
+"резервних копій."
 
 #: src/config/error.rs:42
-#| msgid ""
-#| "This archive prefix is already set for another backup configuration using "
-#| "the same repository."
 msgid ""
 "The archive prefix is empty and a configuration for the same backup "
 "repository already exists."
 msgstr ""
-"Префікс архіву є порожнім і вже існують налаштування для того самого сховища"
-" резервних копій."
+"Префікс архіву є порожнім і вже існують налаштування для того самого сховища "
+"резервних копій."
 
 #: src/config/pattern.rs:142
 msgid "Flatpak App Cache"
@@ -838,11 +832,12 @@ msgstr "Цієї програми ніколи б не було написано
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "Підтримайте BorgBackup: https://www.borgbackup.org/support/fund.html"
 
-#: src/ui/dialog_archive_prefix.rs:30 src/ui/dialog_setup/display.rs:108
+#: src/ui/dialog_archive_prefix.rs:43 src/ui/dialog_setup/display.rs:143
 msgid "Invalid Archive Prefix"
 msgstr "Некоректний префікс архівів"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:88
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
+#: src/ui/dialog_setup.ui:660
 msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
@@ -853,15 +848,15 @@ msgstr "Префікс архівів"
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/dialog_archive_prefix.ui:20
+#: src/ui/dialog_archive_prefix.ui:21
 msgid "Save"
 msgstr "Зберегти"
 
-#: src/ui/dialog_archive_prefix.ui:51
+#: src/ui/dialog_archive_prefix.ui:52
 msgid "Archive Prefixes"
 msgstr "Префікси архівів"
 
-#: src/ui/dialog_archive_prefix.ui:62
+#: src/ui/dialog_archive_prefix.ui:63
 msgid ""
 "Each backup run creates a new archive. The archive's name is always prefixed "
 "with the current archive prefix."
@@ -869,7 +864,7 @@ msgstr ""
 "Кожен сеанс резервного копіювання призводить до створення архіву. Префіксом "
 "назви архіву завжди буде поточний префікс архівів."
 
-#: src/ui/dialog_archive_prefix.ui:69
+#: src/ui/dialog_archive_prefix.ui:70
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -879,7 +874,7 @@ msgstr ""
 "розглядатиме вилучення лише архівів з поточним налаштованим префіксом у "
 "назві."
 
-#: src/ui/dialog_archive_prefix.ui:76
+#: src/ui/dialog_archive_prefix.ui:77
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Якщо префікс архівів є порожнім, ніякого префікса додано не буде."
 
@@ -1112,7 +1107,23 @@ msgstr ""
 "попередніх резервних копій, для перенесення до нових налаштувань. "
 "Налаштування згодом можна буде скоригувати."
 
-#: src/ui/dialog_setup.ui:657 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:647
+#| msgid "Save"
+msgid "_Save"
+msgstr "З_берегти"
+
+#: src/ui/dialog_setup.ui:661
+msgid ""
+"Archive prefixes must be unique to every backup configuration. Using the "
+"same prefix on two devices is discouraged unless a new device supersedes the "
+"old one."
+msgstr ""
+"Префікси архівів мають бути унікальними для кожного з набору налаштувань"
+" резервного копіювання. Не варто використовувати однакові префікси на двох"
+" різних пристроях, якщо копії на новому пристрої не мають заміщувати копії на"
+" старому."
+
+#: src/ui/dialog_setup.ui:702 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "Створення сховища резервних копій"
 
@@ -1120,7 +1131,7 @@ msgstr "Створення сховища резервних копій"
 msgid "None"
 msgstr "Немає"
 
-#: src/ui/dialog_setup/display.rs:185
+#: src/ui/dialog_setup/display.rs:214
 msgid "Free space: {}"
 msgstr "Вільне місце: {}"
 
@@ -1289,11 +1300,11 @@ msgstr "Доступно {}"
 msgid "{} Total"
 msgstr "Загалом {}"
 
-#: src/ui/page_archives/events.rs:27 src/ui/page_backup/execution.rs:40
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:40
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
-#: src/ui/page_archives/events.rs:62
+#: src/ui/page_archives/events.rs:61
 msgid "Failed to make archives available for browsing."
 msgstr "Не вдалося зробити архіви доступними для навігації."
 
