@@ -57,11 +57,11 @@ pub fn check_line(line: &str) -> LogEntry {
 fn is_sha256_faster() -> bool {
     #[cfg(target_arch = "x86_64")]
     {
-        is_x86_feature_detected!("sha")
+        std::arch::is_x86_feature_detected!("sha")
     }
     #[cfg(target_arch = "aarch64")]
     {
-        is_aarch64_feature_detected!("sha2")
+        std::arch::is_aarch64_feature_detected!("sha2")
     }
     #[cfg(not(any(target_arch = "x86_64", target_arch = "aarch64")))]
     {
