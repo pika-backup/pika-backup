@@ -26,8 +26,9 @@ pub async fn refresh_archives(
     }
     display::ui_update_archives_spinner();
 
-    let command =
+    let mut command =
         borg::Command::<borg::task::List>::new(config.clone()).set_from_schedule(from_schedule);
+    command.task.set_limit_first(100);
     let result = ui::utils::borg::exec(command)
         .await
         .into_message(gettext("Failed to refresh archives cache."));

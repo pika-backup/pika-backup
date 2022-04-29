@@ -28,8 +28,16 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
                 "Failed to determine how many archives would be deleted",
             ))?;
 
+    let list_all = ui::utils::borg::exec(borg::Command::<borg::task::List>::new(config.clone()))
+        .await
+        .into_message("List Archives")?;
+
+    let num_untouched_archives = list_all.len() - prune_info.prune - prune_info.keep;
+
     ui.prune().set_label(&prune_info.prune.to_string());
     ui.keep().set_label(&prune_info.keep.to_string());
+    ui.untouched()
+        .set_label(&num_untouched_archives.to_string());
     ui.leaflet().set_visible_child(&ui.page_decision());
 
     ui.delete()

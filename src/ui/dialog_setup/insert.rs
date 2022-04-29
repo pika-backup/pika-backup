@@ -214,8 +214,10 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     .await?;
 
     ui.leaflet().set_visible_child(&ui.page_transfer());
+    let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
+    list_command.task.set_limit_first(100);
 
-    let archives = ui::utils::borg::exec(borg::Command::<borg::task::List>::new(config.clone()))
+    let archives = ui::utils::borg::exec(list_command)
         .await
         .into_message(gettext("Failed"))?;
 

@@ -728,6 +728,10 @@ impl DialogPrune {
     pub fn prune(&self) -> gtk::Label {
         self.get("prune")
     }
+
+    pub fn untouched(&self) -> gtk::Label {
+        self.get("untouched")
+    }
 }
 
 #[derive(Clone)]

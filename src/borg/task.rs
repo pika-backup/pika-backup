@@ -57,7 +57,16 @@ impl Task for PruneInfo {
 }
 
 #[derive(Clone, Default)]
-pub struct List {}
+pub struct List {
+    pub(super) limit: NumArchives,
+}
+
+impl List {
+    pub fn set_limit_first(&mut self, limit: u32) -> &mut Self {
+        self.limit = NumArchives::First(limit);
+        self
+    }
+}
 
 impl Task for List {
     type Info = ();
@@ -65,5 +74,17 @@ impl Task for List {
 
     fn name() -> String {
         gettext("Refreshing Archive List")
+    }
+}
+
+#[derive(Clone)]
+pub(super) enum NumArchives {
+    All,
+    First(u32),
+}
+
+impl Default for NumArchives {
+    fn default() -> Self {
+        Self::All
     }
 }

@@ -13,6 +13,7 @@ pub struct Command<T: Task> {
     pub communication: Communication<T>,
     pub from_schedule: Option<schedule::DueCause>,
     password: Option<config::Password>,
+    pub task: T,
 }
 
 #[async_trait]
@@ -27,6 +28,7 @@ impl<T: Task> Command<T> {
             communication: Communication::default(),
             from_schedule: None,
             password: None,
+            task: T::default(),
         }
     }
 
@@ -40,19 +42,27 @@ impl<T: Task> Command<T> {
 #[async_trait]
 impl CommandRun<task::List> for Command<task::List> {
     async fn run(self) -> Result<Vec<ListArchive>> {
-        let borg = BorgCall::new("list")
-            .add_options(&[
-                "--json",
-                &format!("--last={}", 100),
-                "--consider-checkpoints",
-                "--format={hostname}{username}{comment}{end}{command_line}",
-            ])
-            .add_basics(&self)?
-            .output()?;
+        let mut borg = BorgCall::new("list");
 
-        check_stderr(&borg)?;
+        borg.add_options([
+            "--json",
+            "--consider-checkpoints",
+            "--format={hostname}{username}{comment}{end}{command_line}",
+        ])
+        .add_basics(&self)?;
 
-        let json: List = serde_json::from_slice(&borg.stdout)?;
+        let output = borg.output()?;
+
+        match self.task.limit {
+            task::NumArchives::First(n) => {
+                borg.add_options([format!("--last={}", n)]);
+            }
+            task::NumArchives::All => (),
+        }
+
+        check_stderr(&output)?;
+
+        let json: List = serde_json::from_slice(&output.stdout)?;
 
         Ok(json.archives)
     }
@@ -83,7 +93,7 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
 impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
     async fn run(self) -> Result<PruneInfo> {
         let mut borg_call = prune_call(&self)?;
-        borg_call.add_options(&["--dry-run", "--list"]);
+        borg_call.add_options(["--dry-run", "--list"]);
 
         let messages = check_stderr(&borg_call.output()?)?;
 
@@ -114,7 +124,7 @@ impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
 impl CommandRun<task::Prune> for Command<task::Prune> {
     async fn run(self) -> Result<()> {
         let mut borg_call = prune_call(&self)?;
-        borg_call.add_options(&["--progress"]);
+        borg_call.add_options(["--progress"]);
 
         let process = borg_call.spawn_async_managed(self.communication.clone())?;
 
@@ -131,7 +141,7 @@ impl CommandRun<task::Create> for Command<task::Create> {
 
         let mut borg_call = BorgCall::new("create");
         borg_call
-            .add_options(&["--progress", "--json"])
+            .add_options(["--progress", "--json"])
             // Good and fast compression
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/51>
             .add_options(&["--compression=zstd"])
@@ -280,7 +290,7 @@ pub fn umount(repo_id: &RepoId) -> Result<()> {
     let mount_point = mount_point(repo_id);
 
     let borg = BorgCall::new("umount")
-        .add_options(&["--log-json"])
+        .add_options(["--log-json"])
         .add_positional(&mount_point.to_string_lossy())
         .output()?;
 
@@ -312,7 +322,7 @@ fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
 
     let mut borg_call = BorgCall::new("prune");
 
-    borg_call.add_basics(command)?.add_options(&[
+    borg_call.add_basics(command)?.add_options([
         &format!("--prefix={}", command.config.archive_prefix),
         "--keep-within=1H",
         &format!("--keep-hourly={}", command.config.prune.keep.hourly),
@@ -344,7 +354,7 @@ impl CommandOnlyRepo {
 
     pub async fn peek(self) -> Result<List> {
         let borg = BorgCall::new("list")
-            .add_options(&[
+            .add_options([
                 "--json",
                 "--last=1",
                 "--format={hostname}{username}{comment}{end}{command_line}",
@@ -365,7 +375,7 @@ impl CommandOnlyRepo {
 
     pub async fn init(self) -> Result<List> {
         let borg = BorgCall::new("init")
-            .add_options(&[format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
+            .add_options([format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
             .add_basics(&self)?
             .output()?;
 
@@ -377,7 +387,7 @@ impl CommandOnlyRepo {
 
 pub fn version() -> Result<String> {
     let borg = BorgCall::new_raw()
-        .add_options(&["--log-json", "--version"])
+        .add_options(["--log-json", "--version"])
         .output()?;
 
     check_stderr(&borg)?;
