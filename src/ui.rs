@@ -11,6 +11,7 @@ mod dialog_device_missing;
 mod dialog_encryption_password;
 mod dialog_info;
 mod dialog_prune;
+mod dialog_prune_review;
 mod dialog_setup;
 mod dialog_shortcuts;
 mod dialog_storage;

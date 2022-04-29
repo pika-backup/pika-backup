@@ -17,7 +17,7 @@ pub fn run(config: &config::Backup) {
     let config_id = config.id.clone();
     ui.ok()
         .connect_clicked(clone!(@weak ui, @strong config_id =>
-            move |_| Handler::new().error_transient_for(ui.dialog()).handle_sync(on_ok(ui, config_id.clone()))));
+            move |_| Handler::new().error_transient_for(ui.dialog()).spawn(on_ok(ui, config_id.clone()))));
 
     ui.dialog().show();
 
@@ -29,8 +29,21 @@ pub fn run(config: &config::Backup) {
     });
 }
 
-fn on_ok(ui: DialogArchivePrefix, config_id: ConfigId) -> Result<()> {
+async fn on_ok(ui: DialogArchivePrefix, config_id: ConfigId) -> Result<()> {
     let new_prefix = ui.archive_prefix().text();
+    let mut config = BACKUP_CONFIG.load().get_result(&config_id)?.clone();
+
+    if config.prune.enabled {
+        config
+            .set_archive_prefix(
+                config::ArchivePrefix::new(&new_prefix),
+                BACKUP_CONFIG.load().iter(),
+            )
+            .err_to_msg(gettext("Invalid Archive Prefix"))?;
+
+        ui.dialog().close();
+        ui::dialog_prune_review::run(&config).await?;
+    }
 
     BACKUP_CONFIG.update_result(enclose!(
         (config_id, new_prefix) | config | {
@@ -47,7 +60,7 @@ fn on_ok(ui: DialogArchivePrefix, config_id: ConfigId) -> Result<()> {
 
     ui::write_config()?;
     ui::page_archives::update_info(BACKUP_CONFIG.load().active()?);
-    ui.dialog().close();
+    ui.dialog().destroy();
 
     Ok(())
 }

@@ -277,6 +277,11 @@ pub async fn active_change() -> Result<()> {
 }
 
 pub async fn prune_save() -> Result<()> {
+    let mut config = BACKUP_CONFIG.load().active()?.clone();
+    update_prune_config(&mut config);
+
+    ui::dialog_prune_review::run(&config).await?;
+
     BACKUP_CONFIG.update_result(|config| {
         update_prune_config(config.active_mut()?);
 
