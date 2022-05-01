@@ -173,7 +173,7 @@ impl fmt::Display for Operation {
             Self::CacheBeginTransaction => gettext("Beginning cache transaction"),
             Self::CacheDownloadChunks => gettext("Downloading cache data"),
             Self::CacheCommit => gettext("Writing cache"),
-            Self::CacheSync => gettext("Synchronizing cache."),
+            Self::CacheSync => gettext("Synchronizing cache"),
             Self::RepositoryCompactSegments => gettext("Compacting repository"),
             Self::RepositoryReplaySegments => gettext("Updating repository"),
             Self::RepositoryCheck => gettext("Checking repository"),
