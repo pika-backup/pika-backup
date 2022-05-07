@@ -101,11 +101,6 @@ fn on_startup(_app: &adw::Application) {
     config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS)
         .handle("Failed to Load Schedule Status");
 
-    // Workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/3833
-    if let Some(settings) = gtk::Settings::default() {
-        settings.set_property("gtk-hint-font-metrics", true);
-    }
-
     init_actions();
     ui::dbus::init();
 
