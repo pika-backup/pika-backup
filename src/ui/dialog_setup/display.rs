@@ -39,7 +39,11 @@ pub fn transfer_selection(
     config_id: config::ConfigId,
     archives: Vec<borg::ListArchive>,
 ) {
-    let archive_params: Vec<_> = archives.into_iter().map(extract_archive_params).collect();
+    let archive_params: Vec<_> = archives
+        .into_iter()
+        .map(extract_archive_params)
+        .rev()
+        .collect();
 
     let valid_prefixes: Vec<_> = archive_params
         .iter()
@@ -85,7 +89,7 @@ pub fn transfer_selection(
                 ),
             );
 
-            ui.transfer_suggestions().prepend(&row.widget());
+            ui.transfer_suggestions().append(&row.widget());
         }
 
         ui.page_transfer()

@@ -51,14 +51,14 @@ impl CommandRun<task::List> for Command<task::List> {
         ])
         .add_basics(&self)?;
 
-        let output = borg.output()?;
-
         match self.task.limit {
             task::NumArchives::First(n) => {
-                borg.add_options([format!("--last={}", n)]);
+                borg.add_options([format!("--first={}", n)]);
             }
             task::NumArchives::All => (),
         }
+
+        let output = borg.output()?;
 
         check_stderr(&output)?;
 
@@ -356,7 +356,7 @@ impl CommandOnlyRepo {
         let borg = BorgCall::new("list")
             .add_options([
                 "--json",
-                "--last=1",
+                "--first=1",
                 "--format={hostname}{username}{comment}{end}{command_line}",
             ])
             .add_envs(vec![
