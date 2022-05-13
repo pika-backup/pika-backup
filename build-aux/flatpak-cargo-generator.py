@@ -6,7 +6,6 @@ https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo
 
 __license__ = 'MIT'
 import json
-from urllib.parse import quote as urlquote
 from urllib.parse import urlparse, ParseResult, parse_qs
 import os
 import glob
@@ -216,8 +215,8 @@ async def get_git_package_sources(package, git_repos):
             ],
         },
         {
-            'type': 'file',
-            'url': 'data:' + urlquote(json.dumps({'package': None, 'files': {}})),
+            'type': 'inline',
+            'contents': json.dumps({'package': None, 'files': {}}),
             'dest': f'{CARGO_CRATES}/{name}', #-{version}',
             'dest-filename': '.cargo-checksum.json',
         }
@@ -256,8 +255,8 @@ async def get_package_sources(package, cargo_lock, git_repos):
             'dest': f'{CARGO_CRATES}/{name}-{version}',
         },
         {
-            'type': 'file',
-            'url': 'data:' + urlquote(json.dumps({'package': checksum, 'files': {}})),
+            'type': 'inline',
+            'contents': json.dumps({'package': checksum, 'files': {}}),
             'dest': f'{CARGO_CRATES}/{name}-{version}',
             'dest-filename': '.cargo-checksum.json',
         },
@@ -303,10 +302,10 @@ async def generate_sources(cargo_lock, git_tarballs=False):
 
     logging.debug('Vendored sources:\n%s', json.dumps(cargo_vendored_sources, indent=4))
     sources.append({
-        'type': 'file',
-        'url': 'data:' + urlquote(toml.dumps({
+        'type': 'inline',
+        'contents': toml.dumps({
             'source': cargo_vendored_sources,
-        })),
+        }),
         'dest': CARGO_HOME,
         'dest-filename': 'config'
     })
