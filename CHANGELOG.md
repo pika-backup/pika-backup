@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 Unreleased
+## 0.4.0 (2022-05-15)
 
 - Fix backups cannot be aborted if backup source is unresponsive
 - Fix memory leak from setup dialog
