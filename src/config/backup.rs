@@ -165,6 +165,13 @@ impl Backup {
             crate::REPO_MOUNT_DIR,
         ))));
 
+        if ashpd::is_sandboxed() {
+            dirs.insert(Pattern::PathPrefix(absolute(path::Path::new(&format!(
+                ".var/app/{}/data/flatpak/",
+                crate::app_id()
+            )))));
+        }
+
         dirs
     }
 }
