@@ -124,7 +124,7 @@ meson.add_install_script(
 )
 
 meson.add_install_script(
-    find_program('gtk-update-icon-cache').path(),
+    find_program('gtk4-update-icon-cache').path(),
     '-qtf',
     usrdir / 'icons' / 'hicolor'
 )
