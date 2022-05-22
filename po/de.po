@@ -6,15 +6,16 @@
 # Volker Thiel <volker@warp-nine.de>, 2021.
 # Tim Sabsch <tim@sabsch.com>, 2021-2022.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2020-2022.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-05-13 20:12+0000\n"
-"PO-Revision-Date: 2022-05-14 00:25+0200\n"
-"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
+"POT-Creation-Date: 2022-05-16 13:49+0000\n"
+"PO-Revision-Date: 2022-05-22 01:21+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"Language-Team: German <Christian.Kirbach@gmail.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
-msgstr "Pika Datensicherungsmonitor"
+msgstr "Pika Datensicherungsüberwachung"
 
 #.
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
@@ -42,7 +43,7 @@ msgstr "Datensicherungen"
 
 #: data/app.desktop.in:8 data/app.metainfo.xml.in:5
 msgid "Keep your data safe"
-msgstr ""
+msgstr "Bewahren Sie Ihre Daten sicher auf"
 
 #: data/app.desktop.in:14
 msgid "archive;back-up;borg;"
@@ -88,12 +89,16 @@ msgstr "Erstellte Archive auflisten und deren Inhalt durchsuchen"
 msgid "Recover files or folders via your file browser"
 msgstr "Dateien oder Ordner über die Dateiverwaltung wiederherstellen"
 
+# Etwas freier, aber eindeutiger.
 #: data/app.metainfo.xml.in:31
 msgid ""
 "Pika Backup is designed to save your personal data and does not support "
 "complete system recovery. Pika Backup is powered by the well-tested "
 "BorgBackup software."
 msgstr ""
+"Pika Datensicherung ist dafür gemacht, Ihre persönlichen Daten zu sichern. "
+"Es bietet aber keine vollständige Systemwiederherstellung. Pika "
+"Datensicherung verwendet das gut getestete Programm BorgBackup."
 
 #: data/app.metainfo.xml.in:52
 msgid "Just activate “Back Up Now” and your data will be saved"
@@ -102,6 +107,8 @@ msgstr "Aktivieren Sie »Jetzt sichern« und Ihre Daten werden gesichert"
 #: data/app.metainfo.xml.in:56
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr ""
+"Richten Sie regelmäßige Datensicherungen ein von monatlich bis hin zu "
+"stündlich"
 
 #: data/app.metainfo.xml.in:60
 msgid "Keep backups on local drives and at online services at the same time"
@@ -136,7 +143,7 @@ msgid "Aborted because only metered connection was available."
 msgstr ""
 "Abgebrochen, da lediglich eine getaktete Verbindung zur Verfügung stand."
 
-# "externe" eingefügt, da ja auch zB duch den Akku eines Laptops eine Stromversorgung besteht - pk
+# "externe" eingefügt, da ja auch zB duch den Akku eines Laptops eine Stromversorgung besteht - pk
 #: src/borg/error.rs:126
 msgid "Aborted because too long not connected to power."
 msgstr "Abgebrochen, da zu lange keine externe Stromversorgung bestand."
@@ -147,7 +154,7 @@ msgstr "Durch das System abgebrochen."
 
 #: src/borg/error.rs:132
 msgid "The program or system seems to have crashed."
-msgstr ""
+msgstr "Das Programm oder System scheint abgestürzt zu sein."
 
 #: src/borg/error.rs:172
 msgid "Connection closed by remote host."
@@ -316,24 +323,32 @@ msgid ""
 "This archive prefix is already used by another backup configuration for the "
 "same backup repository."
 msgstr ""
+"Dieses Archiv-Präfix wird bereits von einer anderen "
+"Datensicherungseinstellung für das selbe Datensicherungsdepot verwendet."
 
 #: src/config/error.rs:36
 msgid ""
 "A configuration for the same backup repository with an empty archive prefix "
 "exists."
 msgstr ""
+"Es existiert bereits eine Einstellung für das selbe Datensicherungsdepot mit "
+"einem leeren Archiv-Präfix."
 
 #: src/config/error.rs:37 src/config/error.rs:43
 msgid ""
 "There can only be one configuration for a backup repository if the archive "
 "prefix is empty."
 msgstr ""
+"Es kann nur eine Einstellung für ein Datensicherungsdepot geben, falls das "
+"Archiv-Präfix leer ist."
 
 #: src/config/error.rs:42
 msgid ""
 "The archive prefix is empty and a configuration for the same backup "
 "repository already exists."
 msgstr ""
+"Das Archiv-Präfix ist leer und es gibt bereits eine Einstellung für das "
+"selbe Datensicherungsdepot."
 
 #: src/config/pattern.rs:142
 msgid "Flatpak App Cache"
@@ -365,12 +380,10 @@ msgid "Failed to start backup from daemon"
 msgstr "Starten der Sicherung durch Hintergrundprozess fehlgeschlagen"
 
 #: src/daemon/action.rs:46
-#, fuzzy
 msgid "Failed to show overview from daemon"
 msgstr "Darstellen der Übersicht durch den Hintergrunddienst fehlgeschlagen"
 
 #: src/daemon/action.rs:65
-#, fuzzy
 msgid "Failed to show schedule from daemon"
 msgstr "Darstellen des Zeitplans durch den Hintergrunddienst fehlgeschlagen"
 
@@ -396,7 +409,7 @@ msgstr "Jetzt sichern"
 
 #: src/daemon/init.rs:43
 msgid "Fatal Error During Back Up"
-msgstr ""
+msgstr "Kritischer Fehler während der Datensicherung"
 
 #: src/daemon/init.rs:46
 msgid "Pika Backup crashed while running a backup."
@@ -513,7 +526,7 @@ msgstr "_Info zu Pika Datensicherung"
 
 #: src/ui/app_window.ui:29
 msgid "Remove Backup Setup"
-msgstr ""
+msgstr "Datensicherungseinstellung entfernen"
 
 #: src/ui/app_window.ui:69
 msgid ":"
@@ -566,10 +579,12 @@ msgstr "Zu sichernde Dateien"
 #: src/ui/app_window.ui:286
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr ""
+"Nur Dateien in den folgenden Ordnern werden im Datensicherungsdepot "
+"gespeichert."
 
 #: src/ui/app_window.ui:289
 msgid "Select directory to include…"
-msgstr ""
+msgstr "Ordner wählen, der einbezogen werden soll …"
 
 #: src/ui/app_window.ui:304
 msgid "_Home"
@@ -585,11 +600,11 @@ msgstr "Von Sicherung ausschließen"
 
 #: src/ui/app_window.ui:333
 msgid "The following folders are excluded from the backup repository."
-msgstr ""
+msgstr "Die folgenden Ordner werden vom Datensicherungsdepot ausgeschlossen."
 
 #: src/ui/app_window.ui:336
 msgid "Select directory to exclude…"
-msgstr ""
+msgstr "Ordner wählen, der ausgeschlossen werden soll …"
 
 #: src/ui/app_window.ui:359
 msgid "Nothing excluded from backup"
@@ -605,11 +620,11 @@ msgstr "Archiv-_Präfix"
 
 #: src/ui/app_window.ui:475
 msgid "Added in front of all archive names"
-msgstr ""
+msgstr "An den Anfang von allen Archiv-Namen hinzugefügt"
 
 #: src/ui/app_window.ui:504
 msgid "_Cleanup Archives"
-msgstr "Archive aus_dünnen"
+msgstr "Archive ausdünnen"
 
 #: src/ui/app_window.ui:505
 msgid "Delete some older archives"
@@ -643,85 +658,77 @@ msgstr "Häufigkeit"
 msgid "Preferred Time"
 msgstr "Bevorzugte Zeit"
 
-#: src/ui/app_window.ui:646
-msgid "14:26"
-msgstr "14:26"
-
-#: src/ui/app_window.ui:659
+#: src/ui/app_window.ui:658
 msgid "Preferred Weekday"
 msgstr "Bevorzugter Wochentag"
 
-#: src/ui/app_window.ui:664
+#: src/ui/app_window.ui:663
 msgid "Preferred Day"
 msgstr "Bevorzugter Tag"
 
-#: src/ui/app_window.ui:672
-msgid "21st"
-msgstr "21."
-
-#: src/ui/app_window.ui:692
+#: src/ui/app_window.ui:690
 msgid "Save Configuration"
 msgstr "Konfiguration speichern"
 
-#: src/ui/app_window.ui:704
+#: src/ui/app_window.ui:702
 msgid "Regularly Cleanup Archives"
 msgstr "Archive regelmäßig ausdünnen"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:703
 msgid "Remove old archives after creating new backups"
 msgstr "Nach dem Erstellen neuer Sicherungen alte Archive entfernen"
 
 # "Behalten" im Sinne der Ausdünnung alter Archive. Siehe Strings weiter unten: Der Nutzer kann auswählen, wie viele Archive stündlich, täglich, wöchentlich etc. behalten werden sollen. - pk
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:713
 msgid "Preserved Archives"
 msgstr "Behaltene Archive"
 
-#: src/ui/app_window.ui:716
+#: src/ui/app_window.ui:714
 msgid "Amount and time span of retained archives"
 msgstr "Anzahl und Zeitspanne der behaltenen Archive"
 
-#: src/ui/app_window.ui:725
+#: src/ui/app_window.ui:723
 msgid "Details"
 msgstr "Details"
 
-#: src/ui/app_window.ui:729
+#: src/ui/app_window.ui:727
 msgid "Keep Hourly"
 msgstr "Stündlich behalten"
 
-#: src/ui/app_window.ui:751
+#: src/ui/app_window.ui:749
 msgid "Keep Daily"
 msgstr "Täglich behalten"
 
-#: src/ui/app_window.ui:773
+#: src/ui/app_window.ui:771
 msgid "Keep Weekly"
 msgstr "Wöchentlich behalten"
 
-#: src/ui/app_window.ui:793
+#: src/ui/app_window.ui:791
 msgid "Keep Monthly"
 msgstr "Monatlich behalten"
 
-#: src/ui/app_window.ui:812
+#: src/ui/app_window.ui:810
 msgid "Keep Annual"
 msgstr "Jährlich behalten"
 
-#: src/ui/app_window.ui:859
+#: src/ui/app_window.ui:857
 msgid "Backup Info"
 msgstr "Sicherungsdetails"
 
 # Es geht um Ersparnis, nicht um Daten speichern.
-#: src/ui/app_window.ui:916
+#: src/ui/app_window.ui:914
 msgid "Amount saved"
 msgstr "Gespart"
 
-#: src/ui/app_window.ui:932
+#: src/ui/app_window.ui:930
 msgid "Number of files saved"
 msgstr "Die Anzahl gespeicherter Dateien"
 
-#: src/ui/app_window.ui:948
+#: src/ui/app_window.ui:946
 msgid "Additional backup space used"
 msgstr "Zusätzlich genutzter Sicherungs-Speicherplatz"
 
-#: src/ui/app_window.ui:964
+#: src/ui/app_window.ui:962
 msgid "Current file"
 msgstr "Aktuelle Datei"
 
@@ -796,7 +803,8 @@ msgstr ""
 "Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Volker Thiel <volker@warp-nine.de>\n"
-"Tim Sabsch <tim@sabsch.com>"
+"Tim Sabsch <tim@sabsch.com>\n"
+"Jürgen Benvenuti <gastornis@posteo.org>"
 
 #. Translators: This is an inside joke
 #: src/ui/dialog_about.rs:29
@@ -855,6 +863,8 @@ msgid ""
 "Each backup run creates a new archive. The archive's name is always prefixed "
 "with the current archive prefix."
 msgstr ""
+"Jeder Durchlauf der Datensicherung erzeugt ein neues Archiv. Dem Namen des "
+"Archivs wird immer das aktuelle Archiv-Präfix vorangestellt."
 
 #: src/ui/dialog_archive_prefix.ui:70
 msgid ""
@@ -862,10 +872,13 @@ msgid ""
 "archives with the currently configured prefix in their name are considered "
 "for deletion."
 msgstr ""
+"Das ist besonders wichtig für die Funktion »Archive ausdünnen«. Nur Archive "
+"mit dem derzeit eingestellten Präfix in ihrem Namen sind zur Löschung "
+"vorgesehen."
 
 #: src/ui/dialog_archive_prefix.ui:77
 msgid "If the archive prefix is empty, no prefix is added."
-msgstr ""
+msgstr "Sollte das Archiv-Präfix leer sein, wird kein Präfix hinzugefügt."
 
 #: src/ui/dialog_device_missing.rs:45
 msgid "Failed to Mount"
@@ -900,6 +913,7 @@ msgstr "Das Ermitteln der Anzahl zu löschender Archive ist fehlgeschlagen"
 msgid "Delete old Archives"
 msgstr "Alte Archive löschen"
 
+#. Translators: Header while creating a list of old archives to be approved for deletion.
 #: src/ui/dialog_prune.ui:30
 msgid "Checking for old Archives"
 msgstr "Nach alten Archiven wird gesucht"
@@ -939,7 +953,7 @@ msgstr "Archive mit anderem Präfix"
 
 #: src/ui/dialog_prune_review.ui:5
 msgid "Review Changes"
-msgstr ""
+msgstr "Änderungen überprüfen"
 
 #: src/ui/dialog_prune_review.ui:30
 msgid "Assessing Impact on old Archives"
@@ -948,6 +962,8 @@ msgstr "Auswirkungen auf alte Archive wird überprüft"
 #: src/ui/dialog_prune_review.ui:31
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr ""
+"Informationen über die Auswirkungen der Änderungen auf alte Archive werden "
+"gesammelt"
 
 #: src/ui/dialog_prune_review.ui:59
 msgid "Apply"
@@ -958,6 +974,8 @@ msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
 msgstr ""
+"Nach dem Anwenden dieser Änderungen hätte die nächste automatische Löschung "
+"alter Archive die folgenden Auswirkungen."
 
 #: src/ui/dialog_setup.rs:162
 msgid "Failed to list existing repositories."
@@ -1034,7 +1052,7 @@ msgid ""
 "Apart from that, all prefixes supported by the GNOME Virtual file system are "
 "supported."
 msgstr ""
-"Abgesehen davon, werden alle Präfixe unterstützt, die mit dem GNOME Virtual "
+"Abgesehen davon, werden alle Präfixe unterstützt, die mit dem GNOME Virtual "
 "File System kompatibel sind."
 
 #: src/ui/dialog_setup.ui:312
@@ -1127,6 +1145,9 @@ msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
+"Eine Gruppe von Einstellungen, die für vorherige Datensicherungen verwendet "
+"wurden, kann für eine Übertragung auf eine neue Einrichtung ausgewählt "
+"werden. Die Einstellung kann später geändert werden."
 
 #: src/ui/dialog_setup.ui:647
 msgid "_Save"
@@ -1138,6 +1159,9 @@ msgid ""
 "same prefix on two devices is discouraged unless a new device supersedes the "
 "old one."
 msgstr ""
+"Archiv-Präfixe müssen pro Datensicherungseinstellung einzigartig sein. Vom "
+"Verwenden desselben Präfixes auf zwei Geräten wird abgeraten, außer das neue "
+"Gerät ersetzt das alte."
 
 #: src/ui/dialog_setup.ui:702 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
@@ -1379,7 +1403,7 @@ msgstr "Datensicherung mit Warnungen abgeschlossen"
 
 #: src/ui/page_overview.rs:49
 msgid "Remove Backup Setup?"
-msgstr ""
+msgstr "Datensicherungskonfiguration entfernen?"
 
 #: src/ui/page_overview.rs:50
 msgid "Removing the setup will not delete any archives."
@@ -1387,7 +1411,7 @@ msgstr "Das Löschen der Konfiguration wird keine Archive entfernen."
 
 #: src/ui/page_overview.rs:52
 msgid "Remove Setup"
-msgstr ""
+msgstr "Konfiguration entfernen"
 
 #: src/ui/page_schedule/event.rs:138
 msgid "Invalid time format."
@@ -1519,7 +1543,7 @@ msgstr "Sicherungsmedium muss verbunden sein"
 
 #: src/ui/page_schedule/status.rs:133
 msgid "Reminder will be sent when device is required"
-msgstr ""
+msgstr "Es wird eine Erinnerung gesendet, sofern ein Gerät benötigt wird"
 
 #: src/ui/page_schedule/status.rs:141
 msgid "Network connection has to be available"
@@ -1579,7 +1603,7 @@ msgstr ""
 
 #: src/ui/utils.rs:148
 msgid "Failed to Start Monitor"
-msgstr ""
+msgstr "Starten der Überwachung ist fehlgeschlagen"
 
 #: src/ui/utils.rs:215
 msgid "Failed to Create Thread"
@@ -1717,6 +1741,12 @@ msgstr ""
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Datensicherung »{}«"
+
+#~ msgid "14:26"
+#~ msgstr "14:26"
+
+#~ msgid "21st"
+#~ msgstr "21."
 
 #~ msgid "Simple backups based on borg"
 #~ msgstr "Einfache Datensicherungen basierend auf borg"
