@@ -5,6 +5,7 @@
 #![allow(clippy::branches_sharing_code)]
 // this one has been buggy
 #![allow(clippy::missing_const_for_fn)]
+#![allow(clippy::use_self)]
 
 #[macro_use]
 extern crate serde_derive;
