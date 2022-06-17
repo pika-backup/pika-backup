@@ -132,6 +132,8 @@ fn on_startup(_app: &adw::Application) {
             .main_stack()
             .set_visible_child(&main_ui().page_overview_empty());
     }
+
+    Handler::handle(ui::utils::fix_flatpak_autostart());
 }
 
 fn on_activate(_app: &adw::Application) {
