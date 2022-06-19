@@ -457,7 +457,7 @@ pub fn fix_flatpak_autostart() -> Result<()> {
                     }
                     Ok(()) => {
                         return Err(
-                            Message::new(gettext("Scheduled Backups Repaired"), gettext("The system contained an error that potentially caused scheduled backups to no work properly. This problem is now resoled.")).into()
+                            Message::new(gettext("Scheduled Backups Repaired"), gettext("The system contained an error that potentially caused scheduled backups not to work properly. This problem is now resolved.")).into()
                         );
                     }
                 }
