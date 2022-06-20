@@ -4,6 +4,7 @@
 
 - Fix some xdg-desktop-portal versions writing broken autostart files (workaround)
 - Change to borg version 1.2.1 (flatpak)
+- Change status labels to use fixed width numbers
 
 ## 0.4.0 (2022-05-15)
 
