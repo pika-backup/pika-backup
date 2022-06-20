@@ -51,8 +51,8 @@ modules:
       - -Dudevrulesdir=/tmp/
     sources:
       - type: archive
-        url: https://github.com/libfuse/libfuse/releases/download/fuse-3.10.5/fuse-3.10.5.tar.xz
-        sha256: b2e283485d47404ac896dd0bb7f7ba81e1470838e677e45f659804c3a3b69666
+        url: https://github.com/libfuse/libfuse/releases/download/fuse-3.11.0/fuse-3.11.0.tar.xz
+        sha256: 8982c4c521daf3974dda8a5d55d575c988da13a571970f00aea149eb54fdf14c
         x-checker-data:
           type: anitya
           project-id: 861
@@ -70,135 +70,9 @@ modules:
       - type: file
         path: umount-wrapper.sh
 
-  - name: borg
-    buildsystem: simple
-    build-commands:
-      - pip3 install --no-index --find-links=. --prefix=/app pkgconfig
-      - pip3 install --no-index --find-links=. --prefix=/app setuptools_scm
-      - pip3 install --no-index --find-links=. --prefix=/app pyfuse3
-      - pip3 install --no-index --find-links=. --prefix=/app borgbackup
-    sources:
-      - type: file
-        url: https://files.pythonhosted.org/packages/c4/e0/e05fee8b5425db6f83237128742e7e5ef26219b687ab8f0d41ed0422125e/pkgconfig-1.5.5.tar.gz
-        sha256: deb4163ef11f75b520d822d9505c1f462761b4309b1bb713d08689759ea8b899
-        x-checker-data:
-          type: pypi
-          name: pkgconfig
-          versions: {'>=': 1.5.5}
-      # pkgconfig dependency
-      - type: file
-        url: https://files.pythonhosted.org/packages/51/be/c4dce945cf7de2dc38d94cf724525f2a97d83b18403eeeb87eecb715dada/poetry-core-1.0.8.tar.gz
-        sha256: 951fc7c1f8d710a94cb49019ee3742125039fc659675912ea614ac2aa405b118
-        x-checker-data:
-          type: pypi
-          name: poetry-core
-          versions: {'>=': 1.0.8}
-      - type: file
-        url: https://files.pythonhosted.org/packages/54/85/514ba3ca2a022bddd68819f187ae826986051d130ec5b972076e4f58a9f3/setuptools_scm-3.2.0.tar.gz
-        sha256: 52ab47715fa0fc7d8e6cd15168d1a69ba995feb1505131c3e814eb7087b57358
-        x-checker-data:
-          type: pypi
-          name: setuptools_scm
-          versions: {<: '3.3'}
-      - type: file
-        url: https://files.pythonhosted.org/packages/a2/13/229d17002cbab8c8f07b46f8a9adc6bfdd127733a7457f10da06756e1cc3/setuptools-62.0.0.tar.gz
-        sha256: 7999cbd87f1b6e1f33bf47efa368b224bed5e27b5ef2c4d46580186cbcb1a86a
-        x-checker-data:
-          type: pypi
-          name: setuptools
-      - type: file
-        url: https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz
-        sha256: e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4
-        x-checker-data:
-          type: pypi
-          name: wheel
-      - type: file
-        url: https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz
-        sha256: e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4
-        x-checker-data:
-          type: pypi
-          name: wheel
-      - type: file
-        url: https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz
-        sha256: dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb
-        x-checker-data:
-          type: pypi
-          name: packaging
-      - type: file
-        url: https://files.pythonhosted.org/packages/d6/60/9bed18f43275b34198eb9720d4c1238c68b3755620d20df0afd89424d32b/pyparsing-3.0.7.tar.gz
-        sha256: 18ee9022775d270c55187733956460083db60b37d0d0fb357445f3094eed3eea
-        x-checker-data:
-          type: pypi
-          name: pyparsing
-      - type: file
-        url: https://files.pythonhosted.org/packages/61/3c/2206f39880d38ca7ad8ac1b28d2d5ca81632d163b2d68ef90e46409ca057/msgpack-1.0.3.tar.gz
-        sha256: 51fdc7fb93615286428ee7758cecc2f374d5ff363bdd884c7ea622a7a327a81e
-        x-checker-data:
-          type: pypi
-          name: msgpack
-          versions: {==: 1.0.3}
-      - type: file
-        url: https://files.pythonhosted.org/packages/0f/e9/0b07aaff39e22eee9a983a48507bff46cf0d634e8a24e635e336cd7b3bce/borgbackup-1.2.0.tar.gz
-        sha256: e39a5547902ef456101aa4c779fa66b345bda70d16788e8bd18e458f93af7f67
-        x-checker-data:
-          type: pypi
-          name: borgbackup
-          versions: {'>=': 1.2.0}
-      # pyfuse3 + extra dependencies for it
-      - type: file
-        url: https://files.pythonhosted.org/packages/2f/99/ceb3f424cfac5011b6749160285fa265a2297344351381f524cdbb5542a2/pyfuse3-3.2.1.tar.gz
-        sha256: 22d146dac59a8429115e9a93317975ea54b35e0278044a94d3fac5b4ad5f7e33
-        x-checker-data:
-          type: pypi
-          name: pyfuse3
-          versions: {<: '4.0'}
-      - type: file
-        url: https://files.pythonhosted.org/packages/0a/0f/e9c02a866e32d85fdead0f1c9425b31ba57b69dd08714770232089cc7839/trio-0.20.0.tar.gz
-        sha256: 670a52d3115d0e879e1ac838a4eb999af32f858163e3a704fe4839de2a676070
-        x-checker-data:
-          type: pypi
-          name: trio
-      - type: file
-        url: https://files.pythonhosted.org/packages/ce/b6/6fa6b3b598a03cba5e80f829e0dadbb49d7645f523d209b2fb7ea0bbb02a/async_generator-1.10.tar.gz
-        sha256: 6ebb3d106c12920aaae42ccb6f787ef5eefdcdd166ea3d628fa8476abe712144
-        x-checker-data:
-          type: pypi
-          name: async_generator
-          versions: {<: '2'}
-      - type: file
-        url: https://files.pythonhosted.org/packages/d7/77/ebb15fc26d0f815839ecd897b919ed6d85c050feeb83e100e020df9153d2/attrs-21.4.0.tar.gz
-        sha256: 626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd
-        x-checker-data:
-          type: pypi
-          name: attrs
-      - type: file
-        url: https://files.pythonhosted.org/packages/e8/c4/ba2f8066cceb6f23394729afe52f3bf7adec04bf9ed2c820b39e19299111/sortedcontainers-2.4.0.tar.gz
-        sha256: 25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88
-        x-checker-data:
-          type: pypi
-          name: sortedcontainers
-          versions: {<: '3'}
-      - type: file
-        url: https://files.pythonhosted.org/packages/a6/ae/44ed7978bcb1f6337a3e2bef19c941de750d73243fc9389140d62853b686/sniffio-1.2.0.tar.gz
-        sha256: c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de
-        x-checker-data:
-          type: pypi
-          name: sniffio
-          versions: {<: '2'}
-      - type: file
-        url: https://files.pythonhosted.org/packages/88/b5/9ccedd89d641dcfa5771f636a8a2e99f9d98b09f511f4f870d382ef2b007/outcome-1.1.0.tar.gz
-        sha256: e862f01d4e626e63e8f92c38d1f8d5546d3f9cce989263c521b2e7990d186967
-        x-checker-data:
-          type: pypi
-          name: outcome
-          versions: {<: '2'}
-      - type: file
-        url: https://files.pythonhosted.org/packages/62/08/e3fc7c8161090f742f504f40b1bccbfc544d4a4e09eb774bf40aafce5436/idna-3.3.tar.gz
-        sha256: 9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d
-        x-checker-data:
-          type: pypi
-          name: idna
-          versions: {<: '4'}
+  - python3-pkgconfig.json
+  - python3-pyfuse3.json
+  - python3-borgbackup.json
 
   - name: pika-backup
     buildsystem: meson
@@ -207,8 +81,8 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/World/pika-backup.git
-        tag: v0.4.0-beta.1
-        commit: 64f0681f6fd130d93d7c402ea8c897e98f3956b7
+        tag: v0.4.0
+        commit: 402fa0bf9c3f0f569e43a9400b0d8f6f07e1998e
         x-checker-data:
           type: git
           # stable
@@ -220,6 +94,5 @@ modules:
       # copy generated cargo config
       - type: shell
         commands:
-         - mkdir .cargo
-         - cp cargo/config .cargo/
-
+          - mkdir .cargo
+          - cp cargo/config .cargo/
