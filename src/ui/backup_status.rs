@@ -130,7 +130,11 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
                 log_json::Output::Progress(log_json::Progress::Archive(progress_archive)) => {
                     stats = Some(Stats::Progress(progress_archive.clone()));
                     if let Some(size) = &status.estimated_size {
-                        let fraction = progress_archive.original_size as f64 / size.total as f64;
+                        let fraction = if progress_archive.finished {
+                            1.
+                        } else {
+                            progress_archive.original_size as f64 / size.total as f64
+                        };
                         progress = Some(fraction);
 
                         let mut sub = gettextf(
@@ -140,7 +144,9 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
                         );
 
                         // Do not show estimate when stalled for example
-                        if matches!(op.communication().status(), borg::status::Run::Running) {
+                        if matches!(op.communication().status(), borg::status::Run::Running)
+                            && !progress_archive.finished
+                        {
                             if let Some(remaining) = status.time_remaining() {
                                 sub.push_str(&format!(" – {}", utils::duration::left(&remaining)));
                             }

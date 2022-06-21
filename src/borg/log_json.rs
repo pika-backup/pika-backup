@@ -46,11 +46,18 @@ impl fmt::Display for Progress {
 
 #[derive(Deserialize, Clone, Debug)]
 pub struct ProgressArchive {
+    #[serde(default)]
     pub original_size: u64,
+    #[serde(default)]
     pub compressed_size: u64,
+    #[serde(default)]
     pub deduplicated_size: u64,
+    #[serde(default)]
     pub nfiles: u64,
+    #[serde(default)]
     pub path: String,
+    #[serde(default)]
+    pub finished: bool,
 }
 
 impl fmt::Display for ProgressArchive {
@@ -323,7 +330,7 @@ impl std::fmt::Display for LogEntry {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::ParsedErr(e) => write!(f, "{}", e),
-            Self::UnparsableErr(s) => write!(f, "{}", s),
+            Self::UnparsableErr(s) => write!(f, "Unknown Message: {}", s),
         }
     }
 }
