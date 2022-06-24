@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.1 Unreleased
+## 0.4.1 (2022-06-24)
 
 - Fix some xdg-desktop-portal versions writing broken autostart files (workaround)
 - Change to borg version 1.2.1 (flatpak)
