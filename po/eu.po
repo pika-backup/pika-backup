@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-04-16 00:23+0000\n"
-"PO-Revision-Date: 2022-04-16 17:00+0100\n"
+"POT-Creation-Date: 2022-06-20 15:32+0000\n"
+"PO-Revision-Date: 2022-06-25 17:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -34,17 +34,13 @@ msgstr "Pika Backup"
 msgid "Backups"
 msgstr "Babeskopiak"
 
-#: data/app.desktop.in:8
-msgid "Simple backups based on borg"
-msgstr "Borg aplikazioan oinarritutako babeskopia sinpleak"
+#: data/app.desktop.in:8 data/app.metainfo.xml.in:5
+msgid "Keep your data safe"
+msgstr "Gorde zure datuak seguru"
 
 #: data/app.desktop.in:14
 msgid "archive;back-up;borg;"
 msgstr "artxiboa;babeskopia;borg;"
-
-#: data/app.metainfo.xml.in:5
-msgid "Keep your data safe"
-msgstr "Gorde zure datuak seguru"
 
 #: data/app.metainfo.xml.in:8
 msgid "Sophie Herold"
@@ -102,7 +98,7 @@ msgstr "Programatu aldizkako babeskopiak, hilerokoak izan daitezke, baina baita 
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr "Mantendu babeskopia unitate lokaletan eta lineako zerbitzuetan aldi berean"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:221
+#: src/borg/error.rs:27 src/ui/utils.rs:223
 msgid "The operation terminated unexpectedly."
 msgstr "Eragiketa ustekabean amaitu da."
 
@@ -118,47 +114,51 @@ msgstr "Ez da fitxategirik hautatu babeskopian sartzeko."
 msgid "Completed"
 msgstr "Osatuta"
 
-#: src/borg/error.rs:115
+#: src/borg/error.rs:117
 msgid "Aborted on user request."
 msgstr "Abortatuta erabiltzaileak eskatu duelako."
 
-#: src/borg/error.rs:119
+#: src/borg/error.rs:121
 msgid "Aborted because only metered connection was available."
 msgstr "Abortatuta neurtutako konexioa soilik dagoelako erabilgarri."
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:126
 msgid "Aborted because too long not connected to power."
 msgstr "Abortatuta argindarrari konektatzeko denbora gehiegi erabili delako."
 
-#: src/borg/error.rs:126
-msgid "Potential internal error."
-msgstr "Balizko barneko errorea."
+#: src/borg/error.rs:128
+msgid "Aborted by system."
+msgstr "Sistemak abortatua."
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:132
+msgid "The program or system seems to have crashed."
+msgstr "Programa edo sistema kraskatu dela dirudi."
+
+#: src/borg/error.rs:172
 msgid "Connection closed by remote host."
 msgstr "Urruneko ostalariak konexioa itxi du."
 
-#: src/borg/error.rs:167 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:174 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Biltegia dagoeneko erabilia dago."
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:175
 msgid "Invalid encryption password."
 msgstr "Zifratze-pasahitz baliogabea."
 
-#: src/borg/error.rs:170
+#: src/borg/error.rs:177
 msgid "A repository already exists at this location."
 msgstr "Badago lehendik biltegi bat kokaleku horretan."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:179
 msgid "No repository exists at this location."
 msgstr "Ez dago biltegirik kokaleku horretan."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:182
 msgid "Connection closed by remote host: “{}”"
 msgstr "Urruneko ostalariak konexioa itxi du: “{}“"
 
-#: src/borg/error.rs:178
+#: src/borg/error.rs:185
 msgid "Unspecified error."
 msgstr "Zehaztu gabeko errorea."
 
@@ -188,8 +188,8 @@ msgid "Writing cache"
 msgstr "Cachea idazten"
 
 #: src/borg/log_json.rs:176
-msgid "Synchronizing cache."
-msgstr "Cachea sinkronizatzen."
+msgid "Synchronizing cache"
+msgstr "Cachea sinkronizatzen"
 
 #: src/borg/log_json.rs:177
 msgid "Compacting repository"
@@ -287,21 +287,46 @@ msgstr "Artxibo zaharrak kentzen"
 msgid "Identifying old Archives"
 msgstr "Artxibo zaharrak identifikatzen"
 
-#: src/borg/task.rs:67
+#: src/borg/task.rs:76
 msgid "Refreshing Archive List"
 msgstr "Artxibo-zerrenda freskatzen"
 
-#: src/config.rs:365
+#: src/config.rs:62
+msgid "Home"
+msgstr "Karpeta nagusia"
+
+#: src/config/error.rs:31
+msgid ""
+"This archive prefix is already used by another backup configuration for the "
+"same backup repository."
+msgstr "Artxibo-aurrizki hori dagoeneko erabili du biltegi bereko beste babeskopia-konfigurazio batek."
+
+#: src/config/error.rs:36
+msgid ""
+"A configuration for the same backup repository with an empty archive prefix "
+"exists."
+msgstr "Badago hutsik dagoen artxibo-aurrizki bat duen konfigurazio bat babeskopia-biltegi bererako."
+
+#: src/config/error.rs:37 src/config/error.rs:43
+msgid ""
+"There can only be one configuration for a backup repository if the archive "
+"prefix is empty."
+msgstr "Artxibo-aurrizkia hutsik badago, konfigurazio bakar bat egon daiteke babeskopia-biltegi baterako."
+
+#: src/config/error.rs:42
+msgid ""
+"The archive prefix is empty and a configuration for the same backup "
+"repository already exists."
+msgstr "Artxibo-aurrizkia hutsik dago eta badago lehendik babeskopia-biltegi bererako konfigurazio bat."
+
+#: src/config/pattern.rs:142
 msgid "Flatpak App Cache"
 msgstr "Flatpak App cachea"
 
-#: src/config.rs:554 src/ui/dialog_setup.ui:63 src/ui/dialog_setup.ui:106
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
+#: src/ui/dialog_setup.ui:106
 msgid "Remote Location"
 msgstr "Urruneko kokalekua"
-
-#: src/config.rs:647
-msgid "Home"
-msgstr "Karpeta nagusia"
 
 #: src/config/schedule.rs:28
 msgid "Hourly"
@@ -389,60 +414,60 @@ msgstr "“{}” konektatu behar da programatutako babeskopia hasi dadin."
 msgid "Failed to start scheduled backup"
 msgstr "Huts egin du babeskopia programatzeak"
 
-#: src/ui.rs:151 src/ui/page_backup/events.rs:20
+#: src/ui.rs:157 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Abortatu abian dagoen babeskopiaren sorrera?"
 
-#: src/ui.rs:152 src/ui/page_backup/events.rs:21
+#: src/ui.rs:158 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Babeskopia ez da osatuko orian abortatzen bada."
 
-#: src/ui.rs:153 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:159 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:482 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Jarraitu"
 
-#: src/ui.rs:154 src/ui/page_backup/events.rs:23
+#: src/ui.rs:160 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Abortatu"
 
-#: src/ui.rs:228
+#: src/ui.rs:234
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Huts egin du “borg” exekutatzeak. Ongi instalatuta al dago BorgBackup?"
 
-#: src/ui.rs:252
+#: src/ui.rs:258
 msgid "BorgBackup version too old"
 msgstr "BorgBackup bertsioa zaharregia da"
 
-#: src/ui.rs:254
+#: src/ui.rs:260
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
 msgstr "Instalatuta dagoen BorgBackup bertsioa, {}, zaharregia da. Zenbait eginbidek borg-backup {}.{}.{} bertsioa behar dute."
 
-#: src/ui.rs:265
+#: src/ui.rs:271
 msgid "BorgBackup version too new"
 msgstr "BorgBackup bertsioa berriegia da"
 
-#: src/ui.rs:267
+#: src/ui.rs:273
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
 msgstr "Instalatuta dagoen BorgBackup bertsioa, {}, berriegia da. {}.{} bertsioa gomendatzen da. Beharbada zenbait eginbidek ez dute behar den moduan funtzionatuko."
 
-#: src/ui.rs:277
+#: src/ui.rs:283
 msgid "Failed to Check BorgBackup Version"
 msgstr "Huts egin du BorgBackup bertsioa egiaztatzeak"
 
-#: src/ui.rs:279
+#: src/ui.rs:285
 msgid "The installed version {} might not work."
 msgstr "Instalatutako {} bertsioa agian ez dabil."
 
-#: src/ui.rs:335
+#: src/ui.rs:341
 msgid "Could not load configuration file."
 msgstr "Ezin izan da konfigurazio-fitxategia kargatu."
 
-#: src/ui.rs:351
+#: src/ui.rs:357
 msgid "Could not write configuration file."
 msgstr "Ezin izan da konfigurazio-fitxategia idatzi."
 
@@ -545,53 +570,49 @@ msgstr "Ez dago ezer baztertuta babeskopiatik"
 msgid "_Archives"
 msgstr "_Artxiboak"
 
-#: src/ui/app_window.ui:472
+#: src/ui/app_window.ui:473
 msgid "Archive _Prefix"
 msgstr "Artxibo-a_urrizkia"
 
-#: src/ui/app_window.ui:474
+#: src/ui/app_window.ui:475
 msgid "Added in front of all archive names"
 msgstr "Artxibo-izen guztien aurren gehitua"
 
-#: src/ui/app_window.ui:503
+#: src/ui/app_window.ui:504
 msgid "_Cleanup Archives"
 msgstr "_Garbitu artxiboak"
 
-#: src/ui/app_window.ui:504
+#: src/ui/app_window.ui:505
 msgid "Delete some older archives"
 msgstr "Ezabatu zenbait artxibo zahar"
 
-#: src/ui/app_window.ui:520
+#: src/ui/app_window.ui:521
 msgid "Archives"
 msgstr "Artxiboak"
 
-#: src/ui/app_window.ui:529
+#: src/ui/app_window.ui:530
 msgid "Refresh list of archives"
 msgstr "Freskatu artxiboen zerrenda"
 
-#: src/ui/app_window.ui:550
+#: src/ui/app_window.ui:551
 msgid "Stop browsing archive files"
 msgstr "Gelditu artxibo-fitxategiak arakatzea"
 
-#: src/ui/app_window.ui:576
+#: src/ui/app_window.ui:577
 msgid "No archives available"
 msgstr "Ez dago artxiborik erabilgarri"
 
-#: src/ui/app_window.ui:595
+#: src/ui/app_window.ui:596
 msgid "_Schedule"
 msgstr "_Programazioa"
 
-#: src/ui/app_window.ui:629
+#: src/ui/app_window.ui:630
 msgid "Frequency"
 msgstr "Maiztasuna"
 
-#: src/ui/app_window.ui:637
+#: src/ui/app_window.ui:638
 msgid "Preferred Time"
 msgstr "Hobetsitako ordua"
-
-#: src/ui/app_window.ui:645
-msgid "14:26"
-msgstr "14:26"
 
 #: src/ui/app_window.ui:658
 msgid "Preferred Weekday"
@@ -601,71 +622,67 @@ msgstr "Hobetsitako asteguna"
 msgid "Preferred Day"
 msgstr "Hobetsitako eguna"
 
-#: src/ui/app_window.ui:671
-msgid "21st"
-msgstr "21."
-
-#: src/ui/app_window.ui:691
+#: src/ui/app_window.ui:690
 msgid "Save Configuration"
 msgstr "Gorde konfigurazioa"
 
-#: src/ui/app_window.ui:703
+#: src/ui/app_window.ui:702
 msgid "Regularly Cleanup Archives"
 msgstr "Garbitu artxiboak tarte erregularretan"
 
-#: src/ui/app_window.ui:704
+#: src/ui/app_window.ui:703
 msgid "Remove old archives after creating new backups"
 msgstr "Kendu artxibo zaharrak babeskopia berriak sortu ondoren"
 
-#: src/ui/app_window.ui:714
+#: src/ui/app_window.ui:713
 msgid "Preserved Archives"
 msgstr "Gordetako artxiboak"
 
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:714
 msgid "Amount and time span of retained archives"
 msgstr "Gordetako artxiboen kopurua eta denbora-tartea"
 
-#: src/ui/app_window.ui:724
+#: src/ui/app_window.ui:723
 msgid "Details"
 msgstr "Xehetasunak"
 
-#: src/ui/app_window.ui:728
+#: src/ui/app_window.ui:727
 msgid "Keep Hourly"
 msgstr "Mantendu orduro"
 
-#: src/ui/app_window.ui:750
+#: src/ui/app_window.ui:749
 msgid "Keep Daily"
 msgstr "Mantendu egunero"
 
-#: src/ui/app_window.ui:772
+#: src/ui/app_window.ui:771
 msgid "Keep Weekly"
 msgstr "Mantendu astero"
 
-#: src/ui/app_window.ui:792
+#: src/ui/app_window.ui:791
 msgid "Keep Monthly"
 msgstr "Mantendu hilero"
 
-#: src/ui/app_window.ui:811
+#: src/ui/app_window.ui:810
 msgid "Keep Annual"
 msgstr "Mantendu urtero"
 
-#: src/ui/app_window.ui:858
+#: src/ui/app_window.ui:857
 msgid "Backup Info"
 msgstr "Babeskopiaren informazioa"
 
-#: src/ui/app_window.ui:915
+#: src/ui/app_window.ui:914
 msgid "Amount saved"
 msgstr "Gordetako kantitatea"
 
-#: src/ui/app_window.ui:931
+#: src/ui/app_window.ui:930
 msgid "Number of files saved"
 msgstr "Gordetako fitxategi kopurua"
 
-#: src/ui/app_window.ui:947
+#: src/ui/app_window.ui:946
 msgid "Additional backup space used"
 msgstr "Erabilitako babeskopia-espazio gehigarria"
 
-#: src/ui/app_window.ui:963
+#: src/ui/app_window.ui:962
 msgid "Current file"
 msgstr "Uneko fitxategia"
 
@@ -763,39 +780,46 @@ msgstr "Aplikazio hau ez litzateke egongo Borg existituko ez balitz."
 msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
 msgstr "Lagungu BorgBackup aplikazioari: https://www.borgbackup.org/support/fund.html"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:88
+#: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
+#: src/ui/dialog_setup/display.rs:147
+msgid "Invalid Archive Prefix"
+msgstr "Artxibo-aurrizki baliogabea"
+
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
+#: src/ui/dialog_setup.ui:660
 msgid "Archive Prefix"
 msgstr "Artxibo-aurrizkia"
 
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
+#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
 #: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:51
 #: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Utzi"
 
-#: src/ui/dialog_archive_prefix.ui:20
+#: src/ui/dialog_archive_prefix.ui:21
 msgid "Save"
 msgstr "Gorde"
 
-#: src/ui/dialog_archive_prefix.ui:51
+#: src/ui/dialog_archive_prefix.ui:52
 msgid "Archive Prefixes"
 msgstr "Artxibo-aurrizkiak"
 
-#: src/ui/dialog_archive_prefix.ui:62
+#: src/ui/dialog_archive_prefix.ui:63
 msgid ""
 "Each backup run creates a new archive. The archive's name is always prefixed "
 "with the current archive prefix."
 msgstr "Babeskopia-exekuzio bakoitzak artxibo berria sortzen du. Artxiboaren izenak beti izango du uneko artxiboaren aurrizkia."
 
-#: src/ui/dialog_archive_prefix.ui:69
+#: src/ui/dialog_archive_prefix.ui:70
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
 "for deletion."
 msgstr "Hori garrantzitsua da batez ere “Garbitu artxiboak“ funtziorako. Izenean unean konfiguratutako aurrizkia duten artxiboak soilik hartuko dira kontuan ezabaketarako."
 
-#: src/ui/dialog_archive_prefix.ui:76
+#: src/ui/dialog_archive_prefix.ui:77
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Artxibo-aurrizkia hutsik badago, ez da aurrizkirik gehituko."
 
@@ -822,14 +846,15 @@ msgstr "Zifratzea"
 msgid "Password"
 msgstr "Pasahitza"
 
-#: src/ui/dialog_prune.rs:28
+#: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Huts egin du zenbat artxibo ezabatu beharko liratekeen zehazteak"
 
-#: src/ui/dialog_prune.rs:70
+#: src/ui/dialog_prune.rs:78
 msgid "Delete old Archives"
 msgstr "Ezabatu artxibo zaharrak"
 
+#. Translators: Header while creating a list of old archives to be approved for deletion.
 #: src/ui/dialog_prune.ui:30
 msgid "Checking for old Archives"
 msgstr "Artxibo zaharrak ote dauden begiratzen"
@@ -838,20 +863,51 @@ msgstr "Artxibo zaharrak ote dauden begiratzen"
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr "Ezabatzea onartuko den artxibo zaharren zerrenda bat sortzen."
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:97
+#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
+#: src/ui/dialog_prune_review.ui:82
 msgid "Delete Archives"
 msgstr "Ezabatu artxiboak"
 
-#: src/ui/dialog_prune.ui:81
+#: src/ui/dialog_prune.ui:72
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
 "available."
 msgstr "Eragiketa hau gauzatzen bada, artxiboetako batzuk betiko ezabatuko dira. Denborako puntu zehatz horietarako gorde diren datuak ez dira eskuragarri egongo une horretatik aurrera."
 
-#: src/ui/dialog_prune.ui:110
+#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
 msgid "Keep Archives"
 msgstr "Mantendu artxiboak"
+
+#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+msgid "Not Considered"
+msgstr "Ez da kontuan hartzen"
+
+#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+msgid "Archives with different prefix"
+msgstr "Aurrizki desberdina duten artxiboak"
+
+#: src/ui/dialog_prune_review.ui:5
+msgid "Review Changes"
+msgstr "Berrikusi aldaketak"
+
+#: src/ui/dialog_prune_review.ui:30
+msgid "Assessing Impact on old Archives"
+msgstr "Artxibo zaharretan duen inpaktua ebaluatzen"
+
+#: src/ui/dialog_prune_review.ui:31
+msgid "Collecting information about the effect of the changes on old archives"
+msgstr "Aldaketek artxibo zaharretan duen eraginari buruzko informazioa biltzen"
+
+#: src/ui/dialog_prune_review.ui:59
+msgid "Apply"
+msgstr "Aplikatu"
+
+#: src/ui/dialog_prune_review.ui:72
+msgid ""
+"After applying these changes, the next automatic deletion of old archives "
+"would have the following consequences."
+msgstr "Aldaketa horiek aplikatu ondoren, artxibo zaharrak ezabatzeko hurrengo ekintza automatikoak honako ondorioak izango ditu."
 
 #: src/ui/dialog_setup.rs:162
 msgid "Failed to list existing repositories."
@@ -969,7 +1025,7 @@ msgstr "zifratze-pasahitza behar da"
 
 #: src/ui/dialog_setup.ui:524
 msgid ""
-"The encryption password of this backup repository is required access it."
+"The encryption password of this backup repository is required to access it."
 msgstr "Babeskopia-biltegi honen zifratze-pasahitza behar da hura atzitu nahi bada."
 
 #: src/ui/dialog_setup.ui:570 src/ui/dialog_setup.ui:604
@@ -987,20 +1043,35 @@ msgid ""
 msgstr "Aurretik erabilitako ezarpenak transferitzeko informazioa biltzen. Urrats hau hautazkoa da."
 
 #: src/ui/dialog_setup.ui:618
-msgid ""
-"Some of the settings used for previous backups can be transferred to this "
-"setup."
-msgstr "Aurreko babeskopiek erabilitako ezarpenetako batzuk konfigurazio honetara transferitu daitezke."
+msgid "Transfer Settings"
+msgstr "Transferentziaren ezarpenak"
 
-#: src/ui/dialog_setup.ui:656 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:619
+msgid ""
+"One set of configurations used for previous backups can be selected for "
+"transfer to the new setup. The configuration can be adjusted afterward."
+msgstr "Aurreko babeskopietan erabilitako konfigurazio multzo bat hautatu daiteke konfigurazio berrira transferitua izan dadin. Konfigurazioa geroago ere doitu daiteke."
+
+#: src/ui/dialog_setup.ui:647
+msgid "_Save"
+msgstr "_Gorde"
+
+#: src/ui/dialog_setup.ui:661
+msgid ""
+"Archive prefixes must be unique to every backup configuration. Using the "
+"same prefix on two devices is discouraged unless a new device supersedes the "
+"old one."
+msgstr "Artxibo-aurrizkiek bakarrak izan behar dute babeskopia-konfigurazio bakoitzean. Ez da gomendagarria aurrizki bera bi gailutan erabiltzea, gailu batek gailu zaharra ordezten badu salbu."
+
+#: src/ui/dialog_setup.ui:702 src/ui/dialog_setup/insert.rs:144
 msgid "Creating Backup Repository"
 msgstr "Babeskopia-biltegia sortzen"
 
-#: src/ui/dialog_setup/display.rs:56 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:73 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Bat ere ez"
 
-#: src/ui/dialog_setup/display.rs:171
+#: src/ui/dialog_setup/display.rs:218
 msgid "Free space: {}"
 msgstr "Toki librea: {}"
 
@@ -1044,11 +1115,11 @@ msgstr "Sartutako pasahitzak ez datoz bat."
 msgid "A repository location has to be given."
 msgstr "Biltegiaren kokalekua eman behar da."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:257
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
 msgid "Additional command line arguments invalid."
 msgstr "Komando-lerroko argumentu gehigarriak baliogabeak dira."
 
-#: src/ui/dialog_setup/insert.rs:130 src/ui/dialog_setup/insert.rs:258
+#: src/ui/dialog_setup/insert.rs:130 src/ui/dialog_setup/insert.rs:260
 msgid "Please check for missing closing quotes."
 msgstr "Begiratu itxierako komatxoak ez direla falta."
 
@@ -1060,15 +1131,15 @@ msgstr "Babeskopia-biltegia kargatzen"
 msgid "Failed to Configure Repository"
 msgstr "Biltegia konfiguratzeak huts egin du"
 
-#: src/ui/dialog_setup/insert.rs:220
+#: src/ui/dialog_setup/insert.rs:222
 msgid "Failed"
 msgstr "Huts egin du"
 
-#: src/ui/dialog_setup/insert.rs:294
+#: src/ui/dialog_setup/insert.rs:296
 msgid "Repository location not found."
 msgstr "Ez da aurkitu biltegiaren kokalekua."
 
-#: src/ui/dialog_setup/insert.rs:295
+#: src/ui/dialog_setup/insert.rs:297
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "Muntatze-eragiketa ongi gauzatu da baina kokalekua ez dago erabilgarri."
 
@@ -1132,7 +1203,7 @@ msgstr "Badago lehendik “{}” IDa duen babeskopia."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Ezin da aurkitu “{}” IDa duen babeskopia-konfigurazioa."
 
-#: src/ui/page_archives/cache.rs:33
+#: src/ui/page_archives/cache.rs:34
 msgid "Failed to refresh archives cache."
 msgstr "Huts egin du artxikoen cacheak freskatzeak."
 
@@ -1164,11 +1235,11 @@ msgstr "{} erabilgarri"
 msgid "{} Total"
 msgstr "{} guztira"
 
-#: src/ui/page_archives/events.rs:27 src/ui/page_backup/execution.rs:40
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:40
 msgid "Failed to unmount repository."
 msgstr "Huts egin du biltegia desmuntatzeak."
 
-#: src/ui/page_archives/events.rs:62
+#: src/ui/page_archives/events.rs:61
 msgid "Failed to make archives available for browsing."
 msgstr "Huts egin du artxiboak arakatzeko aukera ezartzeak."
 
@@ -1261,7 +1332,7 @@ msgstr "Mantendu programazioa"
 msgid "Disable Schedule"
 msgstr "Desgaitu programazioa"
 
-#: src/ui/page_schedule/event.rs:331
+#: src/ui/page_schedule/event.rs:336
 msgid "No preset selected."
 msgstr "Ez da aurrezarpenik hautatu."
 
@@ -1417,13 +1488,27 @@ msgstr "Sistemak ez du eginbide hori onartzen edo errore bat gertatu da. Program
 msgid "Failed to Start Monitor"
 msgstr "Huts egin du monitorizazioa hasteak"
 
-#: src/ui/utils.rs:215
+#: src/ui/utils.rs:217
 msgid "Failed to Create Thread"
 msgstr "Huts egin du haria sortzeak"
 
-#: src/ui/utils.rs:229
+#: src/ui/utils.rs:231
 msgid "Select"
 msgstr "Hautatu"
+
+#: src/ui/utils.rs:455
+msgid "Failed to fix Scheduled Backups"
+msgstr "Huts egin du programatutako babeskopiak konpontzeak"
+
+#: src/ui/utils.rs:460
+msgid "Scheduled Backups Repaired"
+msgstr "Programatutako babeskopiak konpondu dira"
+
+#: src/ui/utils.rs:460
+msgid ""
+"The system contained an error that potentially caused scheduled backups not "
+"to work properly. This problem is now resolved."
+msgstr "Sistemak errore bat zuen eta agian horrek eragin du programatutako babeskopiek ongi ez funtzionatzea. Arazoa konpondu egin da."
 
 #: src/ui/utils/borg.rs:32
 msgid "Repository already in use"
@@ -1545,6 +1630,25 @@ msgstr "Huts egin du gako-biltegian egon daitezkeen pasahitzak kentzeak."
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
 
+#~ msgid "Simple backups based on borg"
+#~ msgstr "Borg aplikazioan oinarritutako babeskopia sinpleak"
+
+#~ msgid "Potential internal error."
+#~ msgstr "Balizko barneko errorea."
+
+#~ msgid "14:26"
+#~ msgstr "14:26"
+
+#~ msgid "21st"
+#~ msgstr "21."
+
+#~ msgid ""
+#~ "Some of the settings used for previous backups can be transferred to this "
+#~ "setup."
+#~ msgstr ""
+#~ "Aurreko babeskopiek erabilitako ezarpenetako batzuk konfigurazio honetara "
+#~ "transferitu daitezke."
+
 #~ msgid "Features"
 #~ msgstr "Ezaugarriak"
 
@@ -1626,9 +1730,6 @@ msgstr "Pika Backup “{}”"
 
 #~ msgid "Save password"
 #~ msgstr "Gorde pasahitza"
-
-#~ msgid "Advanced settings"
-#~ msgstr "Ezarpen aurreratuak"
 
 #~ msgid "Location URL"
 #~ msgstr "Kokalekuaren URLa"
