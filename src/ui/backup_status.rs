@@ -8,6 +8,7 @@ use crate::config::*;
 use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils;
+use std::fmt::Write;
 
 #[derive(Debug)]
 pub struct Display {
@@ -148,7 +149,7 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
                             && !progress_archive.finished
                         {
                             if let Some(remaining) = status.time_remaining() {
-                                sub.push_str(&format!(" – {}", utils::duration::left(&remaining)));
+                                let _ = write!(sub, " – {}", utils::duration::left(&remaining));
                             }
                         }
 

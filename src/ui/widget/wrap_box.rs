@@ -60,7 +60,7 @@ impl WrapBox {
 mod imp {
     use crate::ui::prelude::*;
 
-    use glib::{ParamFlags, ParamSpec, ParamSpecInt, Value};
+    use glib::{ParamSpec, ParamSpecInt, Value};
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
 
@@ -83,15 +83,11 @@ mod imp {
     impl ObjectImpl for WrapBox {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecInt::new(
-                    "width-estimate",
-                    "width-estimate",
-                    "width-estimate",
-                    100,
-                    1000,
-                    350,
-                    ParamFlags::READWRITE,
-                )]
+                vec![ParamSpecInt::builder("width-estimate")
+                    .minimum(100)
+                    .maximum(1000)
+                    .default_value(350)
+                    .build()]
             });
             PROPERTIES.as_ref()
         }

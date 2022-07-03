@@ -2,6 +2,7 @@ use crate::config;
 use crate::schedule::requirements;
 use crate::ui::prelude::*;
 use crate::ui::utils::{StatusLevel, StatusRow};
+use std::fmt::Write;
 
 pub struct Status {
     pub main: StatusRow,
@@ -75,7 +76,8 @@ impl Status {
 
                     if !global_requirements.is_empty() || !hints.is_empty() {
                         // TODO proper format
-                        main_subtitle += &format!(
+                        let _ = write!(
+                            main_subtitle,
                             " – {}",
                             gettext("Will not start until requirements are met.")
                         );

@@ -23,6 +23,17 @@ Pika Backup is designed to save your personal data and does not support complete
 
 ![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/1e287bea9923d89213442658e152cc6c/pika-backup-1.png)
 
+### Hosting Providers
+
+You can rent backup space for safely storing your data at a different location. This section is listing providers that have specific support for the BorgBackup technology that Pika Backup uses.
+
+#### BorgBase
+[BorgBase](https://www.borgbase.com/?utm_source=pika) generously supports the development of Pika Backup. Their service is specialized for the use with BorgBackup and offers security features like append-only repositories and two-factor authentication. You can get 10 GB storage for free on [borgbase.com](https://www.borgbase.com/?utm_source=pika).
+
+#### Other Providers
+
+Currently, [rsync.net](https://www.rsync.net/products/borg.html) and [Hetzner](https://www.hetzner.com/storage/storage-box) are offering storage with BorgBackup support as well.
+
 ### The Name
 
 The name “Pika Backup” derives from the American pika. Pikas are small mammals belonging to the lagomorphs. The American pika is known for caching food in skillfully constructed haypiles. Techniques used by American pikas for building haypiles include: storing piles below overhanging rocks, using certain plants which inhibit bacterial growth as preservative and preferring plants with high nutrition value for haying. Last but not least, pikas do not only create very sophisticated haypiles but are quick in collecting vegetation as well.

@@ -2,7 +2,7 @@ use crate::config;
 
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::{ParamFlags, ParamSpec, ParamSpecString};
+use glib::{ParamSpec, ParamSpecString};
 use once_cell::sync::Lazy;
 use std::cell::RefCell;
 
@@ -47,15 +47,8 @@ mod imp {
 
     impl ObjectImpl for FrequencyObject {
         fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecString::new(
-                    "display",
-                    "display",
-                    "display",
-                    None,
-                    ParamFlags::READABLE,
-                )]
-            });
+            static PROPERTIES: Lazy<Vec<ParamSpec>> =
+                Lazy::new(|| vec![ParamSpecString::builder("display").build()]);
             PROPERTIES.as_ref()
         }
 

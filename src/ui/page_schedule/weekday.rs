@@ -2,7 +2,7 @@ use glib::prelude::*;
 use glib::subclass::prelude::*;
 use std::cell::RefCell;
 
-use glib::{ParamFlags, ParamSpec, ParamSpecString};
+use glib::{ParamSpec, ParamSpecString};
 use once_cell::sync::Lazy;
 
 pub static LIST: [chrono::Weekday; 7] = [
@@ -67,15 +67,8 @@ mod imp {
 
     impl ObjectImpl for WeekdayObject {
         fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecString::new(
-                    "display",
-                    "display",
-                    "display",
-                    None,
-                    ParamFlags::READABLE,
-                )]
-            });
+            static PROPERTIES: Lazy<Vec<ParamSpec>> =
+                Lazy::new(|| vec![ParamSpecString::builder("display").build()]);
             PROPERTIES.as_ref()
         }
 

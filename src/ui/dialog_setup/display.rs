@@ -2,6 +2,7 @@ use crate::ui::prelude::*;
 use adw::prelude::*;
 
 use itertools::Itertools;
+use std::fmt::Write;
 
 use crate::borg;
 use crate::config;
@@ -212,7 +213,7 @@ pub async fn add_mount<F: 'static + Fn()>(
 
     if let Some(mount_path) = mount.root().path() {
         if let Ok(df) = ui::utils::df::local(&mount_path).await {
-            label1.push_str(&format!(" – {}", &glib::format_size(df.size)));
+            let _ = write!(label1, " – {}", &glib::format_size(df.size));
 
             label2.push_str(" – ");
             label2.push_str(&gettextf("Free space: {}", &[&glib::format_size(df.avail)]));
@@ -222,7 +223,7 @@ pub async fn add_mount<F: 'static + Fn()>(
             row.set_widget_name(&gio::File::for_path(repo_path).uri());
             if let Ok(suffix) = repo_path.strip_prefix(mount_path) {
                 if !suffix.to_string_lossy().is_empty() {
-                    label1.push_str(&format!(" / {}", suffix.to_string_lossy()));
+                    let _ = write!(label1, " / {}", suffix.to_string_lossy());
                 }
             }
         }

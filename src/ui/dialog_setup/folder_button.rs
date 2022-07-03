@@ -25,7 +25,7 @@ impl FolderButton {
 
 mod imp {
     use crate::ui::prelude::*;
-    use glib::{ParamFlags, ParamSpec, ParamSpecObject, Value};
+    use glib::{ParamSpec, ParamSpecObject, Value};
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
     use once_cell::sync::Lazy;
@@ -50,13 +50,7 @@ mod imp {
     impl ObjectImpl for FolderButton {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecObject::new(
-                    "file",
-                    "file",
-                    "file",
-                    gio::File::static_type(),
-                    ParamFlags::READWRITE,
-                )]
+                vec![ParamSpecObject::builder("file", gio::File::static_type()).build()]
             });
             PROPERTIES.as_ref()
         }
