@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.4.2 Unreleased
+## 0.4.2 (2022-07-12)
 
-- Indicate mobile device support in metadata
+- Fix again some xdg-desktop-portal versions writing broken autostart files (workaround)
+- Add mobile device support indication in metadata
 
 ## 0.4.1 (2022-06-24)
 
