@@ -444,7 +444,11 @@ pub fn fix_flatpak_autostart() -> Result<()> {
         debug!("Checking flatpak autostart file {path:?}");
 
         if let Ok(content) = std::fs::read_to_string(&path) {
-            let new_content = content.replace(r"''\''", "").replace(r"'\'''", "");
+            let new_content = content
+                .replace(r"''\''", "")
+                .replace(r"'\'''", "")
+                .replace(r"''\\''", "")
+                .replace(r"'\\'''", "");
 
             if new_content != content {
                 warn!("Trying to fix autostart file");
