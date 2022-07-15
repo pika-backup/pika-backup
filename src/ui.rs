@@ -101,6 +101,11 @@ fn on_startup(_app: &adw::Application) {
     config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS)
         .handle("Failed to Load Schedule Status");
 
+    // Force adwaita icon theme
+    if let Some(settings) = gtk::Settings::default() {
+        settings.set_property("gtk-icon-theme-name", "Adwaita");
+    }
+
     init_actions();
     ui::dbus::init();
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 Unreleased
+
+- Change to always use Adwaita icon theme
+
 ## 0.4.2 (2022-07-12)
 
 - Fix again some xdg-desktop-portal versions writing broken autostart files (workaround)
