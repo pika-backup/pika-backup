@@ -2,7 +2,7 @@
   "app-id": "org.gnome.World.PikaBackup.Devel",
   "command": "pika-backup",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "42",
+  "runtime-version": "master",
   "sdk": "org.gnome.Sdk",
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.rust-stable"
@@ -32,7 +32,14 @@
   ],
   "modules": [
     {
-      "name": "fusermout",
+      "name": "paths",
+      "buildsystem": "simple",
+      "build-commands": [
+        "mkdir /app/bin"
+      ]
+    },
+    {
+      "name": "libfuse",
       "buildsystem": "meson",
       "config-opts": [
         "-Dexamples=false",
@@ -53,6 +60,10 @@
               "<": "4.0"
             }
           }
+        },
+        {
+          "type": "patch",
+          "path": "fuse-install.patch"
         }
       ]
     },
@@ -72,6 +83,13 @@
           "type": "file",
           "path": "umount-wrapper.sh"
         }
+      ]
+    },
+    {
+      "name": "paths",
+      "buildsystem": "simple",
+      "build-commands": [
+        "find /app"
       ]
     },
     "python3-pkgconfig.json",
