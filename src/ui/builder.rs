@@ -453,7 +453,7 @@ impl DialogAbout {
         })
     }
 
-    pub fn dialog(&self) -> gtk::AboutDialog {
+    pub fn dialog(&self) -> adw::AboutWindow {
         self.get("dialog")
     }
 }
