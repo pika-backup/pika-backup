@@ -11,7 +11,7 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
 ### Features
 
 <ul>
-      <li>Create backups locally and remote</li>
+      <li>Create backups locally and remotely</li>
       <li>Set a schedule for regular backups</li>
       <li>Save time and disk space because Pika Backup does not need to copy known data again</li>
       <li>Encrypt your backups</li>
