@@ -3,6 +3,7 @@
 ## 0.5.0 Unreleased
 
 - Change to always use Adwaita icon theme
+- Change desktop entry category from "System" to "Utility/Archiving"
 
 ## 0.4.2 (2022-07-12)
 
