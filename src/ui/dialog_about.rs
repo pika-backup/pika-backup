@@ -39,7 +39,7 @@ pub fn show() {
         &gettext("Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider <a href='https://www.borgbackup.org/support/fund.html'>supporting BorgBackup</a>.") +
         "\n\n<span line_height='1.6' weight='bold'>" +
         &gettext("The Name") +
-        &gettext("</span>\n") +
+        "</span>\n" +
         &gettext("The name “Pika Backup” derives from the American pika. Pikas are small mammals belonging to the lagomorphs. The American pika is known for caching food in skillfully constructed haypiles. Techniques used by American pikas for building haypiles include: storing piles below overhanging rocks, using certain plants which inhibit bacterial growth as preservative and preferring plants with high nutrition value for haying. Last but not least, pikas do not only create very sophisticated haypiles but are quick in collecting vegetation as well.") +
         "\n\n" +
         &gettext("Frequent rumors that this software’s name is related to a monster with electrical abilities are unfounded.")
