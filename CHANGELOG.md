@@ -2,8 +2,10 @@
 
 ## 0.5.0 Unreleased
 
-- Change to always use Adwaita icon theme
 - Change desktop entry category from "System" to "Utility/Archiving"
+- Change to always use Adwaita icon theme
+- Change to use AdwAboutWindow
+- Change to use AdwMessageDialog
 
 ## 0.4.2 (2022-07-12)
 

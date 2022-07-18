@@ -298,21 +298,15 @@ pub async fn show_error_transient_for<
     );
 
     if crate::ui::app_window::is_displayed() {
-        let dialog = gtk::MessageDialog::builder()
+        let dialog = adw::MessageDialog::builder()
             .modal(true)
             .transient_for(window)
-            .message_type(gtk::MessageType::Error)
-            .buttons(gtk::ButtonsType::Close)
-            .text(&primary_text)
+            .heading(&primary_text)
+            .body(&secondary_text)
             .build();
 
-        dialog.set_secondary_text(if secondary_text.is_empty() {
-            None
-        } else {
-            Some(&secondary_text)
-        });
-
-        dialog.run_future().await;
+        dialog.add_responses(&[("close", &gettext("Close"))]);
+        dialog.run_future(None).await;
 
         dialog.close();
     } else {
@@ -362,26 +356,23 @@ impl ConfirmationDialog {
     }
 
     pub async fn ask(&self) -> std::result::Result<(), UserCanceled> {
-        let dialog = gtk::MessageDialog::builder()
+        let dialog = adw::MessageDialog::builder()
             .transient_for(&main_ui().window())
             .modal(true)
-            .message_type(gtk::MessageType::Question)
-            .text(&self.title)
-            .secondary_text(&self.message)
+            .heading(&self.title)
+            .body(&self.message)
             .build();
 
-        dialog.add_button(&self.cancel, gtk::ResponseType::Cancel);
-        let accept_button = dialog.add_button(&self.accept, gtk::ResponseType::Accept);
+        dialog.add_responses(&[("cancel", &self.cancel), ("accept", &self.accept)]);
 
         if self.destructive {
-            accept_button.add_css_class("destructive-action");
+            dialog.set_response_appearance("replace", adw::ResponseAppearance::Destructive);
         }
 
-        let result = dialog.run_future().await;
-        dialog.close();
-        dialog.hide();
+        let result = dialog.run_future(None).await;
+        dialog.destroy();
 
-        if result == gtk::ResponseType::Accept {
+        if result == "accept" {
             Ok(())
         } else {
             Err(UserCanceled::new())
