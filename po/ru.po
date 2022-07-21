@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-06-26 13:51+0000\n"
-"PO-Revision-Date: 2022-06-26 17:13+0300\n"
+"POT-Creation-Date: 2022-07-18 21:55+0000\n"
+"PO-Revision-Date: 2022-07-19 11:51+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -45,7 +45,7 @@ msgstr "Обеспечьте сохранность своих данных"
 msgid "archive;back-up;borg;"
 msgstr "archive;back-up;borg;"
 
-#: data/app.metainfo.xml.in:8
+#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:25
 msgid "Sophie Herold"
 msgstr "Софи Герольд (Sophie Herold)"
 
@@ -58,7 +58,7 @@ msgstr ""
 "пусть Pika сделает все остальное за вас."
 
 #: data/app.metainfo.xml.in:24
-msgid "Create backups locally and remote"
+msgid "Create backups locally and remotely"
 msgstr "Создание резервных копий локально и удаленно"
 
 #: data/app.metainfo.xml.in:25
@@ -95,18 +95,18 @@ msgstr ""
 "поддерживает полное восстановление системы. Pika Backup работает на базе "
 "хорошо зарекомендовавшего себя программного обеспечения BorgBackup."
 
-#: data/app.metainfo.xml.in:52
+#: data/app.metainfo.xml.in:58
 msgid "Just activate “Back Up Now” and your data will be saved"
 msgstr ""
 "Просто активируйте функцию “Сделать резервную копию сейчас”, и ваши данные "
 "будут сохранены"
 
-#: data/app.metainfo.xml.in:56
+#: data/app.metainfo.xml.in:62
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr ""
 "Планируйте регулярное резервное копирование от ежемесячного до ежечасного"
 
-#: data/app.metainfo.xml.in:60
+#: data/app.metainfo.xml.in:66
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr ""
 "Одновременно храните резервные копии на локальных дисках и в онлайн-сервисах"
@@ -441,33 +441,33 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не удалось запустить запланированное резервное копирование"
 
-#: src/ui.rs:157 src/ui/page_backup/events.rs:20
+#: src/ui.rs:162 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Прервать выполнение создания резервной копии?"
 
-#: src/ui.rs:158 src/ui/page_backup/events.rs:21
+#: src/ui.rs:163 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас."
 
-#: src/ui.rs:159 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:164 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:479 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui.rs:160 src/ui/page_backup/events.rs:23
+#: src/ui.rs:165 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Прервать"
 
-#: src/ui.rs:234
+#: src/ui.rs:239
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Не удалось запустить \"borg\". Правильно ли установлен BorgBackup?"
 
-#: src/ui.rs:258
+#: src/ui.rs:263
 msgid "BorgBackup version too old"
 msgstr "Версия BorgBackup слишком старая"
 
-#: src/ui.rs:260
+#: src/ui.rs:265
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -475,11 +475,11 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком старая. Некоторые функции, "
 "требующие borg-backup версии {}.{}.{}, не будут работать."
 
-#: src/ui.rs:271
+#: src/ui.rs:276
 msgid "BorgBackup version too new"
 msgstr "Версия BorgBackup слишком новая"
 
-#: src/ui.rs:273
+#: src/ui.rs:278
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -487,19 +487,19 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком новая. Рекомендуется версия {}."
 "{}. Некоторые функции могут работать не так, как ожидается."
 
-#: src/ui.rs:283
+#: src/ui.rs:288
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не удалось проверить версию BorgBackup"
 
-#: src/ui.rs:285
+#: src/ui.rs:290
 msgid "The installed version {} might not work."
 msgstr "Установленная версия {} может не работать."
 
-#: src/ui.rs:341
+#: src/ui.rs:346
 msgid "Could not load configuration file."
 msgstr "Не удалось загрузить файл конфигурации."
 
-#: src/ui.rs:357
+#: src/ui.rs:362
 msgid "Could not write configuration file."
 msgstr "Не удалось записать файл конфигурации."
 
@@ -732,56 +732,56 @@ msgstr "Используется дополнительное пространс
 msgid "Current file"
 msgstr "Текущий файл"
 
-#: src/ui/backup_status.rs:55
+#: src/ui/backup_status.rs:56
 msgid "Backup Never Ran"
 msgstr "Резервное копирование никогда не запускалось"
 
-#: src/ui/backup_status.rs:56
+#: src/ui/backup_status.rs:57
 msgid "Begin by carrying out your first backup"
 msgstr "Начните с выполнения первого резервного копирования"
 
-#: src/ui/backup_status.rs:72
+#: src/ui/backup_status.rs:73
 msgid "Last backup completed with warnings"
 msgstr "Последнее резервное копирование завершено с предупреждениями"
 
-#: src/ui/backup_status.rs:80
+#: src/ui/backup_status.rs:81
 msgid "Last Backup Successful"
 msgstr "Последнее резервное копирование успешно"
 
-#: src/ui/backup_status.rs:87
+#: src/ui/backup_status.rs:88
 msgid "Last Backup Aborted"
 msgstr "Последнее резервное копирование прервано"
 
-#: src/ui/backup_status.rs:94
+#: src/ui/backup_status.rs:95
 msgid "Last Backup Failed"
 msgstr "Последнее резервное копирование не удалось"
 
-#: src/ui/backup_status.rs:142
+#: src/ui/backup_status.rs:143
 #, no-c-format
 msgid "{} % finished"
 msgstr "{} % закончено"
 
-#: src/ui/backup_status.rs:165
+#: src/ui/backup_status.rs:166
 msgid "Preparing backup"
 msgstr "Подготовка резервного копирования"
 
-#: src/ui/backup_status.rs:166
+#: src/ui/backup_status.rs:167
 msgid "Backup Running"
 msgstr "Выполняется резервное копирование"
 
-#: src/ui/backup_status.rs:167
+#: src/ui/backup_status.rs:168
 msgid "Backup Destination Unresponsive"
 msgstr "Место назначения резервного копирования не реагирует"
 
-#: src/ui/backup_status.rs:170
+#: src/ui/backup_status.rs:171
 msgid "Connection lost, reconnecting in {}"
 msgstr "Соединение потеряно, переподключение через {}"
 
-#: src/ui/backup_status.rs:175
+#: src/ui/backup_status.rs:176
 msgid "Reconnecting"
 msgstr "Переподключение"
 
-#: src/ui/backup_status.rs:177
+#: src/ui/backup_status.rs:178
 msgid "Stopping Backup"
 msgstr "Остановка резервного копирования"
 
@@ -790,15 +790,15 @@ msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Не удалось создать интерфейс для запланированного резервного копирования."
 
-#: src/ui/dialog_about.rs:24
+#: src/ui/dialog_about.rs:26
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Софи Герольд <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:25
+#: src/ui/dialog_about.rs:27
 msgid "Copyright © 2018–2022 Sophie Herold et al."
 msgstr "Copyright © 2018-2022 Sophie Herold et al."
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:28
 msgid "translator-credits"
 msgstr ""
 "Stas Solovey <whats_up@tut.by>, 2014-2019.\n"
@@ -808,32 +808,62 @@ msgstr ""
 "Aleksandr Melman <alexmelman88@gmail.com>, 2022"
 
 #. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:29
+#: src/ui/dialog_about.rs:31
 msgid "Court Witch"
 msgstr "Курт Уитч (Court Witch)"
 
-#: src/ui/dialog_about.rs:30
+#: src/ui/dialog_about.rs:32
 msgid "Fina Wilke"
 msgstr "Фина Вильке"
 
-#: src/ui/dialog_about.rs:34
-msgid "Back end"
+#: src/ui/dialog_about.rs:37
+msgid "Back End"
 msgstr "Внутренний интерфейс"
 
-#: src/ui/dialog_about.rs:36
-msgid "Pika Backup uses BorgBackup."
-msgstr "Pika Backup использует BorgBackup."
+#: src/ui/dialog_about.rs:39
+msgid ""
+"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
+"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
+"BorgBackup</a>."
+msgstr ""
+"Pika Backup использует BorgBackup. Это приложение не существовало бы без "
+"Borg. Рассмотрите возможность <a href='https://www.borgbackup.org/support/"
+"fund.html'>поддержки BorgBackup</a>."
 
-#: src/ui/dialog_about.rs:37
-msgid "This app wouldn't exist without Borg."
-msgstr "Это приложение не существовало бы без Борга."
+#: src/ui/dialog_about.rs:41
+msgid "The Name"
+msgstr "Имя"
 
-#: src/ui/dialog_about.rs:38
-msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
-msgstr "Поддержка BorgBackup https://www.borgbackup.org/support/fund.html"
+#: src/ui/dialog_about.rs:43
+msgid ""
+"The name “Pika Backup” derives from the American pika. Pikas are small "
+"mammals belonging to the lagomorphs. The American pika is known for caching "
+"food in skillfully constructed haypiles. Techniques used by American pikas "
+"for building haypiles include: storing piles below overhanging rocks, using "
+"certain plants which inhibit bacterial growth as preservative and preferring "
+"plants with high nutrition value for haying. Last but not least, pikas do "
+"not only create very sophisticated haypiles but are quick in collecting "
+"vegetation as well."
+msgstr ""
+"Название \"Pika Backup\" происходит от американской пищухи. Пищухи - это "
+"небольшие млекопитающие, относящиеся к отряду лагоморфов. Американская "
+"пищуха известна тем, что прячет еду в искусно сооруженных кучах сена. "
+"Американские пищухи строят сеновалы следующим образом: складывают кучи под "
+"нависающими скалами, используют определенные растения, подавляющие рост "
+"бактерий, в качестве консерванта и предпочитают растения с высокой "
+"питательной ценностью для сена. И последнее, но не менее важное: пищухи не "
+"только создают очень сложные кучи сена, но и быстро собирают растительность."
+
+#: src/ui/dialog_about.rs:45
+msgid ""
+"Frequent rumors that this software’s name is related to a monster with "
+"electrical abilities are unfounded."
+msgstr ""
+"Частые слухи о том, что название этой программы связано с монстром, "
+"обладающим электрическими способностями, беспочвенны."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:147
+#: src/ui/dialog_setup/display.rs:148
 msgid "Invalid Archive Prefix"
 msgstr "Неверный префикс архива"
 
@@ -860,7 +890,7 @@ msgstr "Префиксы архива"
 
 #: src/ui/dialog_archive_prefix.ui:63
 msgid ""
-"Each backup run creates a new archive. The archive's name is always prefixed "
+"Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
 msgstr ""
 "При каждом запуске резервного копирования создается новый архив. Имя архива "
@@ -1052,7 +1082,7 @@ msgstr "Места с поддержкой Borg-Backup"
 
 #: src/ui/dialog_setup.ui:321
 msgid ""
-"Locations with explicit borg-backup support can provide better Performance. "
+"Locations with explicit borg-backup support can provide better performance. "
 "They are special in that the server has a borg-backup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
@@ -1155,19 +1185,19 @@ msgstr ""
 msgid "Creating Backup Repository"
 msgstr "Создание репозитория резервного копирования"
 
-#: src/ui/dialog_setup/display.rs:73 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/dialog_setup/display.rs:218
+#: src/ui/dialog_setup/display.rs:219
 msgid "Free space: {}"
 msgstr "Свободное пространство: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:117
+#: src/ui/dialog_setup/folder_button.rs:111
 msgid "_Select…"
 msgstr "_Выбрать…"
 
-#: src/ui/dialog_setup/folder_button.rs:122 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Место сохранения резервной копии"
 
@@ -1330,7 +1360,7 @@ msgstr "{} Доступно"
 msgid "{} Total"
 msgstr "{} Всего"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:40
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:39
 msgid "Failed to unmount repository."
 msgstr "Не удалось размонтировать репозиторий."
 
@@ -1365,29 +1395,29 @@ msgstr ""
 "Все файлы, содержащиеся в этой папке, больше не будут входить в будущие "
 "резервные копии."
 
-#: src/ui/page_backup/execution.rs:31
+#: src/ui/page_backup/execution.rs:30
 msgid "Stop browsing files and start backup?"
 msgstr "Прекратить просмотр файлов и начать резервное копирование?"
 
-#: src/ui/page_backup/execution.rs:32
+#: src/ui/page_backup/execution.rs:31
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Во время выполнения резервного копирования просмотр архивных файлов "
 "невозможен."
 
-#: src/ui/page_backup/execution.rs:33
+#: src/ui/page_backup/execution.rs:32
 msgid "Keep Browsing"
 msgstr "Продолжить просмотр"
 
-#: src/ui/page_backup/execution.rs:34
+#: src/ui/page_backup/execution.rs:33
 msgid "Start Backup"
 msgstr "Запуск резервного копирования"
 
-#: src/ui/page_backup/execution.rs:113
+#: src/ui/page_backup/execution.rs:112
 msgid "Backup Failed"
 msgstr "Сбой резервного копирования"
 
-#: src/ui/page_backup/execution.rs:132
+#: src/ui/page_backup/execution.rs:131
 msgid "Backup Completed with Warnings"
 msgstr "Резервное копирование завершено с предупреждениями"
 
@@ -1447,107 +1477,107 @@ msgstr "Сохранить несколько"
 msgid "Custom"
 msgstr "Другое"
 
-#: src/ui/page_schedule/status.rs:14
+#: src/ui/page_schedule/status.rs:15
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Следующее резервное копирование через одну минуту"
 msgstr[1] "Следующее резервное копирование через {} минуты"
 msgstr[2] "Следующее резервное копирование через {} минут"
 
-#: src/ui/page_schedule/status.rs:20
+#: src/ui/page_schedule/status.rs:21
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Следующее резервное копирование через час"
 msgstr[1] "Следующее резервное копирование через {} минуты"
 msgstr[2] "Следующее резервное копирование через {} часов"
 
-#: src/ui/page_schedule/status.rs:26
+#: src/ui/page_schedule/status.rs:27
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Следующее резервное копирование через один день"
 msgstr[1] "Следующее резервное копирование через {} дня"
 msgstr[2] "Следующее резервное копирование через {} дней"
 
-#: src/ui/page_schedule/status.rs:32
+#: src/ui/page_schedule/status.rs:33
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Следующее резервное копирование через неделю"
 msgstr[1] "Следующее резервное копирование через {} недели"
 msgstr[2] "Следующее резервное копирование через {} недель"
 
-#: src/ui/page_schedule/status.rs:49
+#: src/ui/page_schedule/status.rs:50
 msgid "Scheduled Backups Disabled"
 msgstr "Резервное копирование по расписанию отключено"
 
-#: src/ui/page_schedule/status.rs:67
+#: src/ui/page_schedule/status.rs:68
 msgid "Hourly Backups Enabled"
 msgstr "Включено почасовое резервное копирование"
 
-#: src/ui/page_schedule/status.rs:68
+#: src/ui/page_schedule/status.rs:69
 msgid "Daily Backups Enabled"
 msgstr "Включено ежедневное резервное копирование"
 
-#: src/ui/page_schedule/status.rs:69
+#: src/ui/page_schedule/status.rs:70
 msgid "Weekly Backups Enabled"
 msgstr "Включено еженедельное резервное копирование"
 
-#: src/ui/page_schedule/status.rs:70
+#: src/ui/page_schedule/status.rs:71
 msgid "Monthly Backups Enabled"
 msgstr "Включено ежемесячное резервное копирование"
 
-#: src/ui/page_schedule/status.rs:80
+#: src/ui/page_schedule/status.rs:82
 msgid "Will not start until requirements are met."
 msgstr "Не запускается до тех пор, пока не будут выполнены все требования."
 
-#: src/ui/page_schedule/status.rs:85
+#: src/ui/page_schedule/status.rs:87
 msgid "Inconsistent backup information"
 msgstr "Непоследовательная информация о резервном копировании"
 
-#: src/ui/page_schedule/status.rs:91
+#: src/ui/page_schedule/status.rs:93
 msgid "Backup Past Due"
 msgstr "Просроченная резервная копия"
 
-#: src/ui/page_schedule/status.rs:92
+#: src/ui/page_schedule/status.rs:94
 msgid "Waiting until requirements are met"
 msgstr "Ожидание выполнения требований"
 
-#: src/ui/page_schedule/status.rs:95
+#: src/ui/page_schedule/status.rs:97
 msgid "Scheduled Backups Unavailable"
 msgstr "Запланированное резервное копирование недоступно"
 
-#: src/ui/page_schedule/status.rs:98
+#: src/ui/page_schedule/status.rs:100
 msgid "Waiting for Backup to Start"
 msgstr "Ожидание начала резервного копирования"
 
-#: src/ui/page_schedule/status.rs:107
+#: src/ui/page_schedule/status.rs:109
 msgid "Network connection must not be metered"
 msgstr "Сетевое подключение не должно быть дозированным"
 
-#: src/ui/page_schedule/status.rs:113
+#: src/ui/page_schedule/status.rs:115
 msgid "Other backups on repository have to be completed"
 msgstr "Другие резервные копии репозитория должны быть завершены"
 
-#: src/ui/page_schedule/status.rs:120
+#: src/ui/page_schedule/status.rs:122
 msgid "Device must be connected to power"
 msgstr "Устройство должно быть подключено к питанию"
 
-#: src/ui/page_schedule/status.rs:131
+#: src/ui/page_schedule/status.rs:133
 msgid "Backup device has to be connected"
 msgstr "Резервное устройство должно быть подключено"
 
-#: src/ui/page_schedule/status.rs:133
+#: src/ui/page_schedule/status.rs:135
 msgid "Reminder will be sent when device is required"
 msgstr "Напоминание будет отправлено, когда устройство будет необходимо"
 
-#: src/ui/page_schedule/status.rs:141
+#: src/ui/page_schedule/status.rs:143
 msgid "Network connection has to be available"
 msgstr "Сетевое подключение должно быть доступно"
 
-#: src/ui/page_schedule/status.rs:151
+#: src/ui/page_schedule/status.rs:153
 msgid "Background process inactive"
 msgstr "Фоновый процесс неактивен"
 
-#: src/ui/page_schedule/status.rs:152
+#: src/ui/page_schedule/status.rs:154
 msgid "This is required for scheduled backups"
 msgstr "Требуется для поддержки резервирования по расписанию"
 
@@ -1609,15 +1639,19 @@ msgstr "Не удалось создать поток"
 msgid "Select"
 msgstr "Выбрать"
 
-#: src/ui/utils.rs:455
+#: src/ui/utils.rs:308
+msgid "Close"
+msgstr "Закрыть"
+
+#: src/ui/utils.rs:450
 msgid "Failed to fix Scheduled Backups"
 msgstr "Не удалось исправить запланированное резервное копирование"
 
-#: src/ui/utils.rs:460
+#: src/ui/utils.rs:455
 msgid "Scheduled Backups Repaired"
 msgstr "Запланированное резервное копирование восстановлено"
 
-#: src/ui/utils.rs:460
+#: src/ui/utils.rs:455
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1764,6 +1798,18 @@ msgstr "Не удалось удалить потенциально оставш
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
+
+#~ msgid "</span>\n"
+#~ msgstr "</span>\n"
+
+#~ msgid "Pika Backup uses BorgBackup."
+#~ msgstr "Pika Backup использует BorgBackup."
+
+#~ msgid "This app wouldn't exist without Borg."
+#~ msgstr "Это приложение не существовало бы без Борга."
+
+#~ msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
+#~ msgstr "Поддержка BorgBackup https://www.borgbackup.org/support/fund.html"
 
 #~ msgid "14:26"
 #~ msgstr "14:26"
