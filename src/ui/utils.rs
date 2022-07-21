@@ -306,7 +306,7 @@ pub async fn show_error_transient_for<
             .build();
 
         dialog.add_responses(&[("close", &gettext("Close"))]);
-        dialog.run_future(None).await;
+        dialog.run_future().await;
 
         dialog.close();
     } else {
@@ -369,7 +369,7 @@ impl ConfirmationDialog {
             dialog.set_response_appearance("replace", adw::ResponseAppearance::Destructive);
         }
 
-        let result = dialog.run_future(None).await;
+        let result = dialog.run_future().await;
         dialog.destroy();
 
         if result == "accept" {
