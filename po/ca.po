@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-07-12 21:41+0000\n"
-"PO-Revision-Date: 2022-07-18 19:13+0200\n"
+"POT-Creation-Date: 2022-07-21 02:20+0000\n"
+"PO-Revision-Date: 2022-07-24 17:07+0200\n"
 "Last-Translator: maite guix <maite.guix@me.com>\n"
 "Language-Team: Catalan <gnome@llistes.softcatala.org>\n"
 "Language: ca\n"
@@ -44,7 +44,7 @@ msgstr "Mantingueu les vostres dades segures"
 msgid "archive;back-up;borg;"
 msgstr "arxiu;còpia de seguretat;borg;"
 
-#: data/app.metainfo.xml.in:8
+#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:25
 msgid "Sophie Herold"
 msgstr "Sophie Herold"
 
@@ -57,7 +57,7 @@ msgstr ""
 "que el Pika faci la resta."
 
 #: data/app.metainfo.xml.in:24
-msgid "Create backups locally and remote"
+msgid "Create backups locally and remotely"
 msgstr "Crea còpies de seguretat localment i remotes"
 
 #: data/app.metainfo.xml.in:25
@@ -437,33 +437,33 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "No s'ha pogut iniciar la còpia de seguretat planificada"
 
-#: src/ui.rs:157 src/ui/page_backup/events.rs:20
+#: src/ui.rs:162 src/ui/page_backup/events.rs:20
 msgid "Abort running backup creation?"
 msgstr "Voleu interrompre la creació de la còpia de seguretat en execució?"
 
-#: src/ui.rs:158 src/ui/page_backup/events.rs:21
+#: src/ui.rs:163 src/ui/page_backup/events.rs:21
 msgid "The backup will remain incomplete if aborted now."
 msgstr "La còpia de seguretat romandrà incompleta si s'interromp ara."
 
-#: src/ui.rs:159 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:164 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:479 src/ui/page_backup/events.rs:22
 msgid "Continue"
 msgstr "Continua"
 
-#: src/ui.rs:160 src/ui/page_backup/events.rs:23
+#: src/ui.rs:165 src/ui/page_backup/events.rs:23
 msgid "Abort"
 msgstr "Interromp"
 
-#: src/ui.rs:234
+#: src/ui.rs:239
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "No s'ha pogut executar «borg». Està instal·lat correctament BorgBackup?"
 
-#: src/ui.rs:258
+#: src/ui.rs:263
 msgid "BorgBackup version too old"
 msgstr "La versió de BorgBackup és massa antiga"
 
-#: src/ui.rs:260
+#: src/ui.rs:265
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -472,11 +472,11 @@ msgstr ""
 "funcionalitats que requereixen la versió de borg-backup {}.{}.{} no "
 "funcionaran."
 
-#: src/ui.rs:271
+#: src/ui.rs:276
 msgid "BorgBackup version too new"
 msgstr "La versió de BorgBackup és massa nova"
 
-#: src/ui.rs:273
+#: src/ui.rs:278
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -484,19 +484,19 @@ msgstr ""
 "La versió instal·lada {} de BorgBackup és massa nova. Es recomana la versió "
 "{}.{}. És possible que algunes funcionalitats no funcionin com s'esperava."
 
-#: src/ui.rs:283
+#: src/ui.rs:288
 msgid "Failed to Check BorgBackup Version"
 msgstr "No s'ha pogut comprovar la versió de BorgBackup"
 
-#: src/ui.rs:285
+#: src/ui.rs:290
 msgid "The installed version {} might not work."
 msgstr "Pot ser que la versió {} instal·lada no funcioni."
 
-#: src/ui.rs:341
+#: src/ui.rs:346
 msgid "Could not load configuration file."
 msgstr "No s'ha pogut carregar el fitxer de configuració."
 
-#: src/ui.rs:357
+#: src/ui.rs:362
 msgid "Could not write configuration file."
 msgstr "No s'ha pogut escriure el fitxer de configuració."
 
@@ -790,15 +790,15 @@ msgstr ""
 "No s'ha pogut generar la interfície per a les còpies de seguretat "
 "planificades."
 
-#: src/ui/dialog_about.rs:24
+#: src/ui/dialog_about.rs:26
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:25
+#: src/ui/dialog_about.rs:27
 msgid "Copyright © 2018–2022 Sophie Herold et al."
 msgstr "Copyright © 2018–2022 Sophie Herold et al."
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:28
 msgid "translator-credits"
 msgstr ""
 "equip de traducció:\n"
@@ -806,29 +806,60 @@ msgstr ""
 "Maite Guix <maite.guix@gmail.com>, 2021, 2022"
 
 #. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:29
+#: src/ui/dialog_about.rs:31
 msgid "Court Witch"
 msgstr "Bruixa de la cort"
 
-#: src/ui/dialog_about.rs:30
+#: src/ui/dialog_about.rs:32
 msgid "Fina Wilke"
 msgstr "Fina Wilke"
 
-#: src/ui/dialog_about.rs:34
-msgid "Back end"
+#: src/ui/dialog_about.rs:37
+msgid "Back End"
 msgstr "Back end"
 
-#: src/ui/dialog_about.rs:36
-msgid "Pika Backup uses BorgBackup."
-msgstr "Pika Backup utilitza BorgBackup."
+#: src/ui/dialog_about.rs:39
+msgid ""
+"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
+"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
+"BorgBackup</a>."
+msgstr ""
+"Pika Backup utilitza BorgBackup. Aquesta aplicació no existiria sense Borg. "
+"Penseu en <a href='https://www.borgbackup.org/support/fund.html'>donar "
+"suport a BorgBackup</a>."
 
-#: src/ui/dialog_about.rs:37
-msgid "This app wouldn't exist without Borg."
-msgstr "Aquesta aplicació no existiria sense Borg."
+#: src/ui/dialog_about.rs:41
+msgid "The Name"
+msgstr "El nom"
 
-#: src/ui/dialog_about.rs:38
-msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
-msgstr "Suport BorgBackup https://www.borgbackup.org/support/fund.html"
+#: src/ui/dialog_about.rs:43
+msgid ""
+"The name “Pika Backup” derives from the American pika. Pikas are small "
+"mammals belonging to the lagomorphs. The American pika is known for caching "
+"food in skillfully constructed haypiles. Techniques used by American pikas "
+"for building haypiles include: storing piles below overhanging rocks, using "
+"certain plants which inhibit bacterial growth as preservative and preferring "
+"plants with high nutrition value for haying. Last but not least, pikas do "
+"not only create very sophisticated haypiles but are quick in collecting "
+"vegetation as well."
+msgstr ""
+"El nom «Pika Backup» deriva de la pica nord-americana. Les piques són petits "
+"mamífers pertanyents als lagomorfs. La pica nord-americana és coneguda per "
+"emmagatzemar aliments en pallers hàbilment construïts. Les tècniques "
+"utilitzades per les piques nord-americans per a construir pallers inclouen: "
+"emmagatzemar piles per sota de les roques voladissos, utilitzar certes "
+"plantes que inhibeixen el creixement bacterià com a conservants i preferir "
+"plantes amb alt valor nutritiu. Finalment, però no menys important, les "
+"piques no només creen pallers molt sofisticats, sinó que també són ràpides "
+"en la recollida de vegetació."
+
+#: src/ui/dialog_about.rs:45
+msgid ""
+"Frequent rumors that this software’s name is related to a monster with "
+"electrical abilities are unfounded."
+msgstr ""
+"Els rumors freqüents que el nom d'aquest programari està relacionat amb un "
+"monstre amb habilitats elèctriques són infundats."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
 #: src/ui/dialog_setup/display.rs:148
@@ -858,7 +889,7 @@ msgstr "Prefixos d'arxiu"
 
 #: src/ui/dialog_archive_prefix.ui:63
 msgid ""
-"Each backup run creates a new archive. The archive's name is always prefixed "
+"Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
 msgstr ""
 "Cada execució de còpia de seguretat crea un arxiu nou. El nom de l'arxiu "
@@ -1052,7 +1083,7 @@ msgstr "Ubicacions amb suport de Borg-Backup"
 
 #: src/ui/dialog_setup.ui:321
 msgid ""
-"Locations with explicit borg-backup support can provide better Performance. "
+"Locations with explicit borg-backup support can provide better performance. "
 "They are special in that the server has a borg-backup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
@@ -1330,7 +1361,7 @@ msgstr "{} disponible"
 msgid "{} Total"
 msgstr "{} total"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:40
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:39
 msgid "Failed to unmount repository."
 msgstr "No s'ha pogut desmuntar el repositori."
 
@@ -1365,29 +1396,29 @@ msgstr ""
 "Tots els fitxers continguts en aquesta carpeta ja no formaran part de les "
 "futures còpies de seguretat."
 
-#: src/ui/page_backup/execution.rs:31
+#: src/ui/page_backup/execution.rs:30
 msgid "Stop browsing files and start backup?"
 msgstr "Voleu deixar de navegar pels fitxers i iniciar la còpia de seguretat?"
 
-#: src/ui/page_backup/execution.rs:32
+#: src/ui/page_backup/execution.rs:31
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "No és possible navegar a través dels fitxers arxivats mentre s'executa una "
 "còpia de seguretat."
 
-#: src/ui/page_backup/execution.rs:33
+#: src/ui/page_backup/execution.rs:32
 msgid "Keep Browsing"
 msgstr "Mantén la navegació"
 
-#: src/ui/page_backup/execution.rs:34
+#: src/ui/page_backup/execution.rs:33
 msgid "Start Backup"
 msgstr "Inicia la còpia de seguretat"
 
-#: src/ui/page_backup/execution.rs:113
+#: src/ui/page_backup/execution.rs:112
 msgid "Backup Failed"
 msgstr "Ha fallat la còpia de seguretat"
 
-#: src/ui/page_backup/execution.rs:132
+#: src/ui/page_backup/execution.rs:131
 msgid "Backup Completed with Warnings"
 msgstr "S'ha completat la còpia de seguretat amb avisos"
 
@@ -1604,15 +1635,19 @@ msgstr "No s'ha pogut crear un fil"
 msgid "Select"
 msgstr "Selecciona"
 
-#: src/ui/utils.rs:459
+#: src/ui/utils.rs:308
+msgid "Close"
+msgstr "Tanca"
+
+#: src/ui/utils.rs:450
 msgid "Failed to fix Scheduled Backups"
 msgstr "No s'han pogut corregir les còpies de seguretat planificades"
 
-#: src/ui/utils.rs:464
+#: src/ui/utils.rs:455
 msgid "Scheduled Backups Repaired"
 msgstr "S'han reparat les còpies de seguretat planificades"
 
-#: src/ui/utils.rs:464
+#: src/ui/utils.rs:455
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1747,6 +1782,15 @@ msgstr ""
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup «{}»"
+
+#~ msgid "Pika Backup uses BorgBackup."
+#~ msgstr "Pika Backup utilitza BorgBackup."
+
+#~ msgid "This app wouldn't exist without Borg."
+#~ msgstr "Aquesta aplicació no existiria sense Borg."
+
+#~ msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
+#~ msgstr "Suport BorgBackup https://www.borgbackup.org/support/fund.html"
 
 #~ msgid "Simple backups based on borg"
 #~ msgstr "Còpies de seguretat senzilles basades en borg"
