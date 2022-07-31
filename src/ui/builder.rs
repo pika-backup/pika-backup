@@ -897,6 +897,10 @@ impl DialogSetup {
         self.get("command_line_args")
     }
 
+    pub fn detail_stack(&self) -> adw::ViewStack {
+        self.get("detail_stack")
+    }
+
     pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
     }
@@ -965,6 +969,14 @@ impl DialogSetup {
         self.get("page_detail")
     }
 
+    pub fn page_detail_default(&self) -> adw::PreferencesPage {
+        self.get("page_detail_default")
+    }
+
+    pub fn page_detail_settings(&self) -> adw::PreferencesPage {
+        self.get("page_detail_settings")
+    }
+
     pub fn page_overview(&self) -> gtk::Box {
         self.get("page_overview")
     }
@@ -1023,6 +1035,10 @@ impl DialogSetup {
 
     pub fn prefix_submit(&self) -> gtk::Button {
         self.get("prefix_submit")
+    }
+
+    pub fn show_settings(&self) -> gtk::ToggleButton {
+        self.get("show_settings")
     }
 
     pub fn transfer_pending_spinner(&self) -> gtk::Spinner {

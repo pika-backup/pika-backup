@@ -3,7 +3,10 @@
 ## 0.5.0 Unreleased
 
 - Change desktop entry category from "System" to "Utility/Archiving"
+- Change some of the setup dialogs design
+- Change status icon colors for better contrast
 - Change to always use Adwaita icon theme
+- Change to hide advanced settings behind toggle button in setup
 - Change to use AdwAboutWindow
 - Change to use AdwMessageDialog
 

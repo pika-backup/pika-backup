@@ -33,9 +33,12 @@ pub fn show() {
     ui.add_remote_row()
         .connect_activated(clone!(@weak ui => move |_| event::show_add_remote(&ui)));
 
+    load_available_mounts_and_repos(&ui);
+
     // Page Detail
 
-    load_available_mounts_and_repos(&ui);
+    ui.show_settings()
+        .connect_toggled(clone!(@weak ui => move |_| event::toggle_settings(&ui)));
 
     ui.password_quality()
         .add_offset_value(&gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
