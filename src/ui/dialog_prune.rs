@@ -38,6 +38,12 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
     ui.keep().set_label(&prune_info.keep.to_string());
     ui.untouched()
         .set_label(&num_untouched_archives.to_string());
+
+    if prune_info.prune == 0 {
+        ui.delete().set_visible(false);
+        ui.cancel().set_label(&gettext("Close"));
+    }
+
     ui.leaflet().set_visible_child(&ui.page_decision());
 
     ui.delete()

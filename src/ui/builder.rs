@@ -705,6 +705,10 @@ impl DialogPrune {
         })
     }
 
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
     pub fn delete(&self) -> gtk::Button {
         self.get("delete")
     }
