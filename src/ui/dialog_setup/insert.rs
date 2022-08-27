@@ -23,7 +23,6 @@ pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Resul
                 add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await;
             // add_first_try moves us to detail, fix here for now
             if !matches!(result, Err(Error::UserCanceled) | Ok(())) {
-                eprintln!("{:#?}", result);
                 ui.leaflet().set_visible_child(&ui.page_overview());
             }
             return result;
@@ -247,12 +246,8 @@ pub fn execute<
 
 fn command_line_args(ui: &builder::DialogSetup) -> Result<Vec<String>> {
     let (start, end) = ui.command_line_args().buffer().bounds();
-    if let Ok(args) = shell_words::split(
-        &ui.command_line_args()
-            .buffer()
-            .text(&start, &end, false)
-            .to_string(),
-    ) {
+    if let Ok(args) = shell_words::split(&ui.command_line_args().buffer().text(&start, &end, false))
+    {
         Ok(args)
     } else {
         Err(Message::new(

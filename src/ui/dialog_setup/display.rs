@@ -80,7 +80,7 @@ pub fn transfer_selection(
             }
 
             for exclude in suggestion.parsed.exclude.iter() {
-                let tag = ui::widget::LocationTag::from_pattern(exclude.clone());
+                let tag = ui::widget::LocationTag::from_exclude(exclude.clone());
                 row.exclude().add_child(&tag.build());
             }
 

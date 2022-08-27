@@ -1,5 +1,6 @@
 mod backup;
 pub mod error;
+pub mod exclude;
 pub mod history;
 mod loadable;
 pub mod local;
@@ -12,6 +13,7 @@ mod schedule_status;
 mod writeable;
 
 pub use backup::*;
+pub use exclude::Exclude;
 pub use history::Histories;
 pub use loadable::{ConfigType, Loadable, TrackChanges};
 pub use pattern::*;
@@ -66,5 +68,9 @@ pub fn display_path(path: &path::Path) -> String {
 }
 
 pub fn absolute(path: &path::Path) -> path::PathBuf {
-    glib::home_dir().join(path)
+    if path.starts_with("/") {
+        path.to_path_buf()
+    } else {
+        glib::home_dir().join(path)
+    }
 }

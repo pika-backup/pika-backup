@@ -1,8 +1,10 @@
 mod common;
 
-use pika_backup::{borg::size_estimate::*, borg::status::SizeEstimate, config, config::Pattern};
+use pika_backup::{
+    borg::size_estimate::*, borg::status::SizeEstimate, config, config::Exclude, config::Pattern,
+};
 
-fn config(include: &[&str], exclude: &[Pattern]) -> config::Backup {
+fn config(include: &[&str], exclude: &[Exclude]) -> config::Backup {
     let mut config = common::config(std::path::Path::new("backup_data"));
 
     for path in include {
@@ -56,10 +58,10 @@ fn simple_regex_exclude() {
     assert_eq!(pp_exclude.total, complex_exclude.total);
 }
 
-fn pp(pp: &str) -> Pattern {
-    Pattern::PathPrefix(total(pp))
+fn pp(pp: &str) -> Exclude {
+    Exclude::from_pattern(Pattern::PathPrefix(total(pp)))
 }
 
-fn re(re: &str) -> Pattern {
-    Pattern::RegularExpression(Box::new(regex::Regex::new(re).unwrap()))
+fn re(re: &str) -> Exclude {
+    Exclude::from_pattern(Pattern::RegularExpression(regex::Regex::new(re).unwrap()))
 }

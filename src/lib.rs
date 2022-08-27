@@ -1,11 +1,6 @@
-#![warn(clippy::nursery)]
 #![allow(clippy::new_without_default)]
-#![allow(clippy::future_not_send)]
-#![allow(clippy::option_if_let_else)]
-#![allow(clippy::branches_sharing_code)]
-// this one has been buggy
-#![allow(clippy::missing_const_for_fn)]
-#![allow(clippy::use_self)]
+//requires rust 1.63
+//#![allow(clippy::derive_partial_eq_without_eq)]
 
 #[macro_use]
 extern crate serde_derive;

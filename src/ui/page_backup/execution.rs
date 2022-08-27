@@ -15,8 +15,7 @@ pub async fn start_backup(
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
     let _guard = adw_app().hold();
-    let result = startup_backup(config, from_schedule).await;
-    result
+    startup_backup(config, from_schedule).await
 }
 
 async fn startup_backup(

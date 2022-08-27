@@ -5,6 +5,7 @@ use super::{BorgRunConfig, Command, Error, Result};
 
 use std::any::TypeId;
 use std::collections::HashMap;
+use std::ffi::OsString;
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
 use std::os::unix::io::IntoRawFd;
@@ -85,7 +86,12 @@ impl BorgCall {
 
     pub fn add_include_exclude<T: Task>(&mut self, borg: &Command<T>) -> &mut Self {
         for exclude in &borg.config.exclude_dirs_internal() {
-            self.add_options(vec![format!("--exclude={}", exclude.borg_pattern())]);
+            for patterns in exclude.borg_patterns() {
+                let mut arg = OsString::from("--exclude=");
+                arg.push(patterns);
+                // TODO: use OsString everywhere
+                self.add_options(vec![arg.to_string_lossy()]);
+            }
         }
 
         self.positional.extend(

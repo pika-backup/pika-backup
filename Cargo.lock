@@ -348,6 +348,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "cmd_lib"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0ba0f413777386d37f85afa5242f277a7b461905254c1af3c339d4af06800f62"
+dependencies = [
+ "cmd_lib_macros",
+ "faccess",
+ "lazy_static",
+ "log",
+ "os_pipe",
+]
+
+[[package]]
+name = "cmd_lib_macros"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9e66605092ff6c6e37e0246601ae6c3f62dc1880e0599359b5f303497c112dc0"
+dependencies = [
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "concurrent-queue"
 version = "1.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -513,10 +538,31 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77f3309417938f28bf8228fcff79a4a37103981e3e186d2ccd19c74b38f4eb71"
 
 [[package]]
+name = "faccess"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "59ae66425802d6a903e268ae1a08b8c38ba143520f227a205edf4e9c7e3e26d5"
+dependencies = [
+ "bitflags",
+ "libc",
+ "winapi",
+]
+
+[[package]]
 name = "fancy-regex"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d95b4efe5be9104a4a18a9916e86654319895138be727b229820c39257c30dda"
+dependencies = [
+ "bit-set",
+ "regex",
+]
+
+[[package]]
+name = "fancy-regex"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0678ab2d46fa5195aaf59ad034c083d351377d4af57f3e073c074d0da3e3c766"
 dependencies = [
  "bit-set",
  "regex",
@@ -1268,6 +1314,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "os_pipe"
+version = "0.9.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fb233f06c2307e1f5ce2ecad9f8121cffbbee2c95428f44ea85222e460d0d213"
+dependencies = [
+ "libc",
+ "winapi",
+]
+
+[[package]]
 name = "pango"
 version = "0.16.0"
 source = "git+https://github.com/gtk-rs/gtk-rs-core#a6e33bfa41cfae49fdee93f33b5cbb2cb83652d8"
@@ -1339,7 +1395,9 @@ dependencies = [
  "async-trait",
  "chrono",
  "chronoutil",
+ "cmd_lib",
  "enclose",
+ "fancy-regex 0.10.0",
  "gettext-rs",
  "gio",
  "glib",
@@ -1352,13 +1410,13 @@ dependencies = [
  "num-format",
  "once_cell",
  "quick-error",
- "regex",
  "scopeguard",
  "serde",
  "serde_derive",
  "serde_json",
  "shell-words",
  "tempfile",
+ "tmp_env",
  "walkdir",
  "zbus",
  "zeroize",
@@ -1798,6 +1856,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "tmp_env"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a56eb9e5a28c3c4f0a6aa8ea70a8ad2d6c53e4bf364571ce78f57945b6766843"
+dependencies = [
+ "rand",
+]
+
+[[package]]
 name = "toml"
 version = "0.5.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2173,7 +2240,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "568becce91e872373a4b33f24ddc67e5280ae2536ccb8c9d22a25d398b72c8b0"
 dependencies = [
  "derive_builder",
- "fancy-regex",
+ "fancy-regex 0.8.0",
  "itertools",
  "js-sys",
  "lazy_static",

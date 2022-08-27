@@ -7,6 +7,7 @@ homepage = "https://apps.gnome.org/app/org.gnome.World.PikaBackup/"
 repository = "https://gitlab.gnome.org/World/pika-backup"
 edition = "2021"
 default-run = "pika-backup"
+rust-version = "1.62"
 
 [profile.release]
 lto = true
@@ -21,7 +22,7 @@ chronoutil = "0.2"
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 nix = "0.24"
 num-format = "0.4"
-regex = "1.4"
+regex = { package = "fancy-regex", version = "0.10", default-features = false }
 shell-words = "1.0"
 scopeguard = "1.1"
 tempfile = "3.2"
@@ -42,7 +43,7 @@ serde_derive = "1.0"
 serde_json = "1.0"
 
 # GNOME
-adw = { version = "0.2", package = "libadwaita", git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs.git", features = ["v1_2"] }
+adw = { package = "libadwaita", version = "0.2", git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs.git", features = ["v1_2"] }
 glib = { version = "*", git = "https://github.com/gtk-rs/gtk-rs-core" }
 gio = { version = "*", git = "https://github.com/gtk-rs/gtk-rs-core" }
 gtk = { package = "gtk4", version = "0.5", features = ["v4_6"], git = "https://github.com/gtk-rs/gtk4-rs" }
@@ -53,3 +54,5 @@ zbus = "2.0"
 
 [dev-dependencies]
 matches = "0.1"
+cmd_lib = "1.3"
+tmp_env = "0.1"

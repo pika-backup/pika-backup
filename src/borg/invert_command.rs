@@ -43,7 +43,7 @@ fn ast(cmd: Vec<String>) -> Vec<(CreateTerm, String)> {
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Parsed {
-    pub exclude: BTreeSet<config::Pattern>,
+    pub exclude: BTreeSet<config::Exclude>,
     pub include: BTreeSet<PathBuf>,
 }
 
@@ -65,7 +65,7 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
                     && !value.ends_with(&format!(".var/app/{}/data/flatpak/", crate::app_id()))
                 {
                     if let Some(pattern) = config::Pattern::from_borg(value) {
-                        exclude.insert(pattern);
+                        exclude.insert(config::Exclude::from_pattern(pattern));
                     }
                 }
             }
@@ -109,8 +109,8 @@ fn test() {
     assert_eq!(
         parse(cmd),
         Parsed {
-            exclude: [config::Pattern::PathPrefix(PathBuf::from(
-                "/home/xuser/.cache"
+            exclude: [config::Exclude::from_pattern(config::Pattern::PathPrefix(
+                PathBuf::from("/home/xuser/.cache")
             )),]
             .into(),
             include: [PathBuf::from("/home/xuser/Music")].into(),

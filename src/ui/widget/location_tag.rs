@@ -13,10 +13,12 @@ impl LocationTag {
         Self::Location(path)
     }
 
-    pub fn from_pattern(pattern: config::Pattern) -> Self {
-        match pattern {
-            config::Pattern::PathPrefix(path) => Self::Location(path),
-            pattern => Self::Pattern(pattern),
+    pub fn from_exclude(exclude: config::Exclude) -> Self {
+        match exclude {
+            config::Exclude::Pattern(config::Pattern::PathPrefix(path)) => Self::Location(path),
+            config::Exclude::Pattern(pattern) => Self::Pattern(pattern),
+            // TODO
+            _ => Self::Location("unimplemented".into()),
         }
     }
 

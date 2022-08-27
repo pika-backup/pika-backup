@@ -7,12 +7,8 @@ use std::collections::BTreeSet;
 /// Empirical value for the space that borg needs
 pub static DIRECTORY_SIZE: u64 = 109;
 
-fn pathmatch(entry: &walkdir::DirEntry, pattern: &config::Pattern) -> bool {
-    pattern.is_match(entry.path())
-}
-
 struct Exclude {
-    exclude: BTreeSet<config::Pattern>,
+    exclude: BTreeSet<config::Exclude>,
 }
 
 impl Exclude {
@@ -20,14 +16,19 @@ impl Exclude {
         glib::user_cache_dir().join(std::path::Path::new("borg"))
     }
 
-    pub fn new(mut exclude: BTreeSet<config::Pattern>) -> Self {
-        exclude.insert(config::Pattern::PathPrefix(Self::borg_cache()));
+    pub fn new(mut exclude: BTreeSet<config::Exclude>) -> Self {
+        exclude.insert(config::Exclude::from_pattern(config::Pattern::PathPrefix(
+            Self::borg_cache(),
+        )));
 
         Self { exclude }
     }
 
     pub fn is_included(&self, entry: &walkdir::DirEntry) -> bool {
-        !self.exclude.iter().any(|x| pathmatch(entry, x))
+        !self
+            .exclude
+            .iter()
+            .any(|pattern| pattern.is_match(entry.path()))
     }
 }
 

@@ -45,6 +45,15 @@ impl StatusRow {
     }
 }
 
+/// Returns a relative path for sub directories of home
+pub fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
+    if let Ok(rel_path) = path.strip_prefix(glib::home_dir().as_path()) {
+        rel_path.to_path_buf()
+    } else {
+        path.to_path_buf()
+    }
+}
+
 /// Checks if a directory is most likely a borg repository. Performed checks are
 ///
 /// - `data/` exists and is a directory
@@ -237,17 +246,32 @@ pub fn folder_chooser<T: IsA<gtk::Window>>(title: &str, parent: &T) -> gtk::File
 pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
     let dialog = folder_chooser(title, &main_ui().window());
 
+    if dialog.run_future().await == gtk::ResponseType::Accept {
+        dialog.file()
+    } else {
+        None
+    }
+}
+
+pub async fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
+    folder_chooser_dialog(title).await.and_then(|x| x.path())
+}
+
+pub async fn file_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
+    let dialog = gtk::FileChooserNative::builder()
+        .title(title)
+        .accept_label(&gettext("Select"))
+        .modal(true)
+        .transient_for(&main_ui().window())
+        .build();
+
     let result = if dialog.run_future().await == gtk::ResponseType::Accept {
         dialog.file()
     } else {
         None
     };
 
-    result
-}
-
-pub async fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
-    folder_chooser_dialog(title).await.and_then(|x| x.path())
+    result.and_then(|x| x.path())
 }
 
 fn ellipsize<S: std::fmt::Display>(x: S) -> String {

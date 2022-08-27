@@ -122,7 +122,7 @@ pub struct RunInfo {
     pub outcome: borg::Outcome,
     pub messages: borg::log_json::LogCollection,
     pub include: BTreeSet<std::path::PathBuf>,
-    pub exclude: BTreeSet<config::Pattern>,
+    pub exclude: BTreeSet<config::Exclude>,
 }
 
 impl RunInfo {

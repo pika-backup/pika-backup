@@ -83,15 +83,9 @@ pub fn refresh() -> Result<()> {
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
     for pattern in backup.exclude.clone() {
-        let name = match &pattern {
-            config::Pattern::PathPrefix(_) => String::new(),
-            config::Pattern::RegularExpression(_) => gettext("Regular Expression"),
-            config::Pattern::Fnmatch(_) => gettext("Shell Wildcard Pattern"),
-        };
-
         let row = adw::ActionRow::builder()
             .title(&glib::markup_escape_text(&pattern.description()))
-            .subtitle(&name)
+            .subtitle(&pattern.kind())
             .activatable(false)
             .build();
 

@@ -1,7 +1,6 @@
 use adw::prelude::*;
 
 use crate::borg;
-use crate::config;
 use crate::ui;
 
 use crate::ui::prelude::*;
@@ -38,21 +37,15 @@ pub async fn on_backup_run() -> Result<()> {
     execution::start_backup(BACKUP_CONFIG.load().active()?.clone(), None).await
 }
 
-/// Returns a relative path for sub directories of home
-fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
-    if let Ok(rel_path) = path.strip_prefix(glib::home_dir().as_path()) {
-        rel_path.to_path_buf()
-    } else {
-        path.to_path_buf()
-    }
-}
-
 pub async fn add_include() -> Result<()> {
     if let Some(path) =
         ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups")).await
     {
         BACKUP_CONFIG.update_result(|settings| {
-            settings.active_mut()?.include.insert(rel_path(&path));
+            settings
+                .active_mut()?
+                .include
+                .insert(ui::utils::rel_path(&path));
             Ok(())
         })?;
         crate::ui::write_config()?;
@@ -63,19 +56,7 @@ pub async fn add_include() -> Result<()> {
 }
 
 pub async fn add_exclude() -> Result<()> {
-    if let Some(path) =
-        ui::utils::folder_chooser_dialog_path(&gettext("Exclude directory from backup")).await
-    {
-        BACKUP_CONFIG.update_result(|settings| {
-            settings
-                .active_mut()?
-                .exclude
-                .insert(config::Pattern::PathPrefix(rel_path(&path)));
-            Ok(())
-        })?;
-        crate::ui::write_config()?;
-        display::refresh()?;
-    }
+    ui::dialog_exclude::show();
 
     Ok(())
 }

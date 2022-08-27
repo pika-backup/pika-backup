@@ -1,3 +1,4 @@
+pub mod host;
 pub mod upower;
 
 use crate::config;

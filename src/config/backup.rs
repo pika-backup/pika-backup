@@ -4,7 +4,7 @@ use crate::prelude::*;
 use std::collections::BTreeSet;
 use std::path;
 
-use super::{absolute, error, ConfigType, Pattern, Prune, Repository, Schedule};
+use super::{absolute, error, exclude, ConfigType, Exclude, Pattern, Prune, Repository, Schedule};
 
 /// Compatibility config version
 pub const VERSION: u16 = 2;
@@ -63,7 +63,7 @@ pub struct Backup {
     #[serde(default)]
     pub encryption_mode: String,
     pub include: BTreeSet<path::PathBuf>,
-    pub exclude: BTreeSet<Pattern>,
+    pub exclude: BTreeSet<Exclude>,
     #[serde(default)]
     pub schedule: Schedule,
     #[serde(default)]
@@ -75,8 +75,7 @@ impl Backup {
         let mut include = std::collections::BTreeSet::new();
         include.insert("".into());
         let mut exclude = std::collections::BTreeSet::new();
-        exclude.insert(Pattern::cache());
-        exclude.insert(Pattern::flatpak_app_cache());
+        exclude.insert(Exclude::Predefined(exclude::Predefined::Caches));
 
         Self {
             config_version: VERSION,
@@ -151,25 +150,27 @@ impl Backup {
         dirs
     }
 
-    pub fn exclude_dirs_internal(&self) -> BTreeSet<Pattern> {
-        let mut dirs = BTreeSet::new();
+    pub fn exclude_dirs_internal(&self) -> BTreeSet<Exclude> {
+        let mut dirs = self.exclude.clone();
 
+        // TODO: cleanup
+        /*
         for pattern in &self.exclude {
             match pattern {
                 Pattern::PathPrefix(dir) => dirs.insert(Pattern::PathPrefix(absolute(dir))),
                 other => dirs.insert(other.clone()),
             };
         }
+        */
 
-        dirs.insert(Pattern::PathPrefix(absolute(path::Path::new(
-            crate::REPO_MOUNT_DIR,
+        dirs.insert(Exclude::from_pattern(Pattern::PathPrefix(absolute(
+            path::Path::new(crate::REPO_MOUNT_DIR),
         ))));
 
         if ashpd::is_sandboxed() {
-            dirs.insert(Pattern::PathPrefix(absolute(path::Path::new(&format!(
-                ".var/app/{}/data/flatpak/",
-                crate::app_id()
-            )))));
+            dirs.insert(Exclude::from_pattern(Pattern::PathPrefix(absolute(
+                path::Path::new(&format!(".var/app/{}/data/flatpak/", crate::app_id())),
+            ))));
         }
 
         dirs

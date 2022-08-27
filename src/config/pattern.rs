@@ -3,28 +3,28 @@ use crate::prelude::*;
 use super::{absolute, display_path};
 use serde::Deserialize;
 use std::ffi::CString;
+use std::ffi::OsString;
 use std::os::unix::ffi::OsStrExt;
 use std::path;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum Pattern {
-    Fnmatch(std::ffi::OsString),
+    Fnmatch(OsString),
+    PathFullMatch(path::PathBuf),
     PathPrefix(path::PathBuf),
     #[serde(
         deserialize_with = "deserialize_regex",
         serialize_with = "serialize_regex"
     )]
-    RegularExpression(Box<regex::Regex>),
+    RegularExpression(regex::Regex),
 }
 
-fn deserialize_regex<'de, D>(deserializer: D) -> Result<Box<regex::Regex>, D::Error>
+fn deserialize_regex<'de, D>(deserializer: D) -> Result<regex::Regex, D::Error>
 where
     D: serde::Deserializer<'de>,
 {
     let string = String::deserialize(deserializer)?;
-    regex::Regex::new(&string)
-        .map(Box::new)
-        .map_err(serde::de::Error::custom)
+    regex::Regex::new(&string).map_err(serde::de::Error::custom)
 }
 
 fn serialize_regex<S>(regex: &regex::Regex, s: S) -> Result<S::Ok, S::Error>
@@ -70,10 +70,13 @@ impl Pattern {
                         .map(|x| x.to_path_buf())
                         .unwrap_or_else(|_| pattern.into()),
                 )),
-                "re" => regex::Regex::new(pattern)
-                    .map(Box::new)
-                    .map(Self::RegularExpression)
-                    .ok(),
+                "re" => regex::Regex::new(pattern).map(Self::RegularExpression).ok(),
+                "pf" => Some(Self::PathFullMatch(
+                    path::PathBuf::from(pattern)
+                        .strip_prefix(glib::home_dir())
+                        .map(|x| x.to_path_buf())
+                        .unwrap_or_else(|_| pattern.into()),
+                )),
                 _ => None,
             }
         } else if s.contains(['*', '?', '[']) {
@@ -88,16 +91,6 @@ impl Pattern {
         }
     }
 
-    pub fn cache() -> Self {
-        Self::PathPrefix(".cache".into())
-    }
-
-    pub fn flatpak_app_cache() -> Self {
-        Self::RegularExpression(Box::new(
-            regex::Regex::new(r"/\.var/app/[^/]+/cache/").unwrap(),
-        ))
-    }
-
     pub fn is_match(&self, path: &std::path::Path) -> bool {
         match self {
             Self::Fnmatch(pattern) => {
@@ -110,8 +103,16 @@ impl Pattern {
                     false
                 }
             }
-            Self::PathPrefix(path_prefix) => path.starts_with(path_prefix),
-            Self::RegularExpression(regex) => regex.is_match(&path.to_string_lossy()),
+            Self::PathPrefix(path_prefix) => path.starts_with(absolute(path_prefix)),
+            // TODO: warn if fail
+            Self::RegularExpression(regex) => {
+                let mut path_ = path.to_string_lossy().to_string();
+                if let Some(unprefixed) = path_.strip_prefix('/') {
+                    path_ = unprefixed.to_string();
+                }
+                regex.is_match(&path_).unwrap_or_default()
+            }
+            Self::PathFullMatch(full_path) => path == absolute(full_path),
         }
     }
 
@@ -120,35 +121,49 @@ impl Pattern {
             Self::Fnmatch(_) => "fm",
             Self::PathPrefix(_) => "pp",
             Self::RegularExpression(_) => "re",
+            Self::PathFullMatch(_) => "pf",
         }
         .to_string()
     }
 
-    pub fn pattern(&self) -> String {
+    pub fn pattern(&self) -> OsString {
         match self {
-            Self::Fnmatch(pattern) => pattern.to_string_lossy().to_string(),
-            Self::PathPrefix(path) => path.to_string_lossy().to_string(),
-            Self::RegularExpression(regex) => regex.as_str().to_string(),
+            Self::Fnmatch(pattern) => pattern.into(),
+            Self::PathPrefix(path) | Self::PathFullMatch(path) => absolute(path).into(),
+            Self::RegularExpression(regex) => regex.as_str().into(),
         }
     }
 
     // TODO: shouldn't this be OsString?
-    pub fn borg_pattern(&self) -> String {
-        format!("{}:{}", self.selector(), self.pattern())
+    pub fn borg_pattern(&self) -> OsString {
+        let mut pattern = OsString::from(self.selector());
+        pattern.push(":");
+        pattern.push(self.pattern());
+
+        pattern
     }
 
     pub fn description(&self) -> String {
         match self {
-            pattern if pattern == &Self::flatpak_app_cache() => gettext("Flatpak App Cache"),
             Self::Fnmatch(pattern) => pattern.to_string_lossy().to_string(),
-            Self::PathPrefix(path) => display_path(path),
+            Self::PathPrefix(path) | Self::PathFullMatch(path) => display_path(path),
             Self::RegularExpression(regex) => regex.to_string(),
+        }
+    }
+
+    pub fn kind(&self) -> String {
+        match self {
+            Self::PathPrefix(_) | Self::PathFullMatch(_) => String::new(),
+            Self::RegularExpression(_) => gettext("Regular Expression"),
+            Self::Fnmatch(_) => gettext("Shell Wildcard Pattern"),
         }
     }
 
     pub fn icon(&self) -> Option<gio::Icon> {
         match self {
-            Self::PathPrefix(path) => crate::utils::file_icon(&absolute(path)),
+            Self::PathPrefix(path) | Self::PathFullMatch(path) => {
+                crate::utils::file_icon(&absolute(path))
+            }
             Self::Fnmatch(_) | Self::RegularExpression(_) => {
                 gio::Icon::for_string("folder-saved-search").ok()
             }
@@ -157,7 +172,9 @@ impl Pattern {
 
     pub fn symbolic_icon(&self) -> Option<gio::Icon> {
         match self {
-            Self::PathPrefix(path) => crate::utils::file_symbolic_icon(&absolute(path)),
+            Self::PathPrefix(path) | Self::PathFullMatch(path) => {
+                crate::utils::file_symbolic_icon(&absolute(path))
+            }
             Self::Fnmatch(_) | Self::RegularExpression(_) => {
                 gio::Icon::for_string("folder-saved-search-symbolic").ok()
             }

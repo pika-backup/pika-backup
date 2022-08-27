@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libhandy" version="1.0"/>
+  <object class="AdwWindow" id="dialog">
+    <property name="title" translatable="yes">Exclude from Backup</property>
+    <property name="modal">1</property>
+    <property name="default-width">500</property>
+    <property name="default-height">550</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwHeaderBar"/>
+        </child>
+        <child>
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwActionRow" id="exclude_folder">
+                    <property name="icon-name">folder-symbolic</property>
+                    <property name="title">Exclude Folder</property>
+                    <property name="activatable">1</property>
+                    <child type="suffix">
+                      <object class="GtkImage">
+                        <property name="icon-name">go-next-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow" id="exclude_file">
+                    <property name="icon-name">text-x-generic-symbolic</property>
+                    <property name="title">Exclude Single File</property>
+                    <property name="activatable">1</property>
+                    <child type="suffix">
+                      <object class="GtkImage">
+                        <property name="icon-name">go-next-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="icon-name">folder-saved-search-symbolic</property>
+                    <property name="title">Exclude Pattern</property>
+                    <property name="subtitle">Define regular expression or shell style rules</property>
+                    <property name="activatable">1</property>
+                    <child type="suffix">
+                      <object class="GtkImage">
+                        <property name="icon-name">go-next-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup" id="suggestions">
+                <property name="title" translatable="yes">Suggested Exclusions</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
