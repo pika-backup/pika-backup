@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-07-31 22:15+0000\n"
-"PO-Revision-Date: 2022-08-01 11:08+0300\n"
+"POT-Creation-Date: 2022-08-27 23:50+0000\n"
+"PO-Revision-Date: 2022-08-28 13:35+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -111,7 +111,7 @@ msgid "Keep backups on local drives and at online services at the same time"
 msgstr ""
 "Одновременно храните резервные копии на локальных дисках и в онлайн-сервисах"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:223
+#: src/borg/error.rs:27 src/ui/utils.rs:232
 msgid "The operation terminated unexpectedly."
 msgstr "Операция завершилась неожиданно."
 
@@ -306,7 +306,7 @@ msgstr "Выявление старых архивов"
 msgid "Refreshing Archive List"
 msgstr "Обновление списка архивов"
 
-#: src/config.rs:62
+#: src/config.rs:64
 msgid "Home"
 msgstr "Домашняя папка"
 
@@ -342,9 +342,33 @@ msgstr ""
 "Префикс архива пуст, и конфигурация для того же репозитория резервного "
 "копирования уже существует."
 
-#: src/config/pattern.rs:142
-msgid "Flatpak App Cache"
-msgstr "Кэш приложения Flatpak"
+#: src/config/exclude.rs:114
+msgid "Caches"
+msgstr "Кэши"
+
+#: src/config/exclude.rs:115
+msgid "Flatpak App Installations"
+msgstr "Установки приложений Flatpak"
+
+#: src/config/exclude.rs:116
+msgid "Trash"
+msgstr "Корзина"
+
+#: src/config/exclude.rs:122
+msgid "Data that can be regenerated when needed"
+msgstr "Данные, которые могут быть воссозданы при необходимости"
+
+#: src/config/exclude.rs:123
+msgid "Documents and data are still backed up"
+msgstr "Документы и данные по-прежнему резервируются"
+
+#: src/config/pattern.rs:157
+msgid "Regular Expression"
+msgstr "Регулярное выражение"
+
+#: src/config/pattern.rs:158
+msgid "Shell Wildcard Pattern"
+msgstr "Оболочка шаблона подстановки"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
 #: src/ui/dialog_setup.ui:106
@@ -441,33 +465,33 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не удалось запустить запланированное резервное копирование"
 
-#: src/ui.rs:162 src/ui/page_backup/events.rs:20
+#: src/ui.rs:163 src/ui/page_backup/events.rs:19
 msgid "Abort running backup creation?"
 msgstr "Прервать выполнение создания резервной копии?"
 
-#: src/ui.rs:163 src/ui/page_backup/events.rs:21
+#: src/ui.rs:164 src/ui/page_backup/events.rs:20
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас."
 
-#: src/ui.rs:164 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:22
+#: src/ui.rs:165 src/ui/dialog_encryption_password.ui:20
+#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:21
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui.rs:165 src/ui/page_backup/events.rs:23
+#: src/ui.rs:166 src/ui/page_backup/events.rs:22
 msgid "Abort"
 msgstr "Прервать"
 
-#: src/ui.rs:239
+#: src/ui.rs:240
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Не удалось запустить \"borg\". Правильно ли установлен BorgBackup?"
 
-#: src/ui.rs:263
+#: src/ui.rs:264
 msgid "BorgBackup version too old"
 msgstr "Версия BorgBackup слишком старая"
 
-#: src/ui.rs:265
+#: src/ui.rs:266
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -475,11 +499,11 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком старая. Некоторые функции, "
 "требующие borg-backup версии {}.{}.{}, не будут работать."
 
-#: src/ui.rs:276
+#: src/ui.rs:277
 msgid "BorgBackup version too new"
 msgstr "Версия BorgBackup слишком новая"
 
-#: src/ui.rs:278
+#: src/ui.rs:279
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -487,19 +511,19 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком новая. Рекомендуется версия {}."
 "{}. Некоторые функции могут работать не так, как ожидается."
 
-#: src/ui.rs:288
+#: src/ui.rs:289
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не удалось проверить версию BorgBackup"
 
-#: src/ui.rs:290
+#: src/ui.rs:291
 msgid "The installed version {} might not work."
 msgstr "Установленная версия {} может не работать."
 
-#: src/ui.rs:346
+#: src/ui.rs:347
 msgid "Could not load configuration file."
 msgstr "Не удалось загрузить файл конфигурации."
 
-#: src/ui.rs:362
+#: src/ui.rs:363
 msgid "Could not write configuration file."
 msgstr "Не удалось записать файл конфигурации."
 
@@ -576,159 +600,160 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Выберите каталог для добавления…"
 
-#: src/ui/app_window.ui:307
+#: src/ui/app_window.ui:304
 msgid "_Home"
 msgstr "_Домашняя папка"
 
-#: src/ui/app_window.ui:308
+#: src/ui/app_window.ui:305
 msgid "Usually contains all personal data"
 msgstr "Обычно содержит все персональные данные"
 
-#: src/ui/app_window.ui:335 src/ui/dialog_setup_transfer_option.ui:111
+#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:6
+#: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Исключить из резервного копирования"
 
-#: src/ui/app_window.ui:336
+#: src/ui/app_window.ui:333
 msgid "The following folders are excluded from the backup repository."
 msgstr "Следующие папки исключаются из репозитория резервных копий."
 
-#: src/ui/app_window.ui:339
+#: src/ui/app_window.ui:336
 msgid "Select directory to exclude…"
 msgstr "Выберите каталог для исключения…"
 
-#: src/ui/app_window.ui:362
+#: src/ui/app_window.ui:356
 msgid "Nothing excluded from backup"
 msgstr "Ничего не исключено из резервного копирования"
 
-#: src/ui/app_window.ui:381
+#: src/ui/app_window.ui:375
 msgid "_Archives"
 msgstr "_Архивы"
 
-#: src/ui/app_window.ui:476
+#: src/ui/app_window.ui:470
 msgid "Archive _Prefix"
 msgstr "Префикс _архива"
 
-#: src/ui/app_window.ui:478
+#: src/ui/app_window.ui:472
 msgid "Added in front of all archive names"
 msgstr "Добавляется перед всеми именами архивов"
 
-#: src/ui/app_window.ui:507
+#: src/ui/app_window.ui:501
 msgid "_Cleanup Archives"
 msgstr "_Очистка архивов"
 
-#: src/ui/app_window.ui:508
+#: src/ui/app_window.ui:502
 msgid "Delete some older archives"
 msgstr "Удалить некоторые старые архивы"
 
-#: src/ui/app_window.ui:524
+#: src/ui/app_window.ui:518
 msgid "Archives"
 msgstr "Архивы"
 
-#: src/ui/app_window.ui:533
+#: src/ui/app_window.ui:527
 msgid "Refresh list of archives"
 msgstr "Обновить список архивов"
 
-#: src/ui/app_window.ui:554
+#: src/ui/app_window.ui:548
 msgid "Stop browsing archive files"
 msgstr "Остановить просмотр архивных файлов"
 
-#: src/ui/app_window.ui:580
+#: src/ui/app_window.ui:574
 msgid "No archives available"
 msgstr "Архивы отсутствуют"
 
-#: src/ui/app_window.ui:599
+#: src/ui/app_window.ui:593
 msgid "_Schedule"
 msgstr "_Расписание"
 
-#: src/ui/app_window.ui:624
+#: src/ui/app_window.ui:618
 msgid "Scheduled Backups"
 msgstr "Резервное копирование по расписанию"
 
-#: src/ui/app_window.ui:628
+#: src/ui/app_window.ui:622
 msgid "Regularly Create Backups"
 msgstr "Регулярное создание резервных копий"
 
-#: src/ui/app_window.ui:633
+#: src/ui/app_window.ui:627
 msgid "Frequency"
 msgstr "Частота"
 
-#: src/ui/app_window.ui:641
+#: src/ui/app_window.ui:635
 msgid "Preferred Time"
 msgstr "Предпочтительное время"
 
-#: src/ui/app_window.ui:661
+#: src/ui/app_window.ui:655
 msgid "Preferred Weekday"
 msgstr "Предпочтительный будний день"
 
-#: src/ui/app_window.ui:666
+#: src/ui/app_window.ui:660
 msgid "Preferred Day"
 msgstr "Предпочтительный день"
 
-#: src/ui/app_window.ui:687 src/ui/dialog_prune.rs:78
+#: src/ui/app_window.ui:681 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Удалить старые архивы"
 
-#: src/ui/app_window.ui:693
+#: src/ui/app_window.ui:687
 msgid "Save Configuration"
 msgstr "Сохранить конфигурацию"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:699
 msgid "Regularly Cleanup Archives"
 msgstr "Регулярная очистка архивов"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:700
 msgid "Remove old archives after creating new backups"
 msgstr "Удалить старые архивы после создания новых резервных копий"
 
-#: src/ui/app_window.ui:716
+#: src/ui/app_window.ui:710
 msgid "Preserved Archives"
 msgstr "Сохраненные архивы"
 
-#: src/ui/app_window.ui:717
+#: src/ui/app_window.ui:711
 msgid "Amount and time span of retained archives"
 msgstr "Объем и срок хранения архивов"
 
-#: src/ui/app_window.ui:726
+#: src/ui/app_window.ui:720
 msgid "Details"
 msgstr "Подробности"
 
-#: src/ui/app_window.ui:730
+#: src/ui/app_window.ui:724
 msgid "Keep Hourly"
 msgstr "Каждый час"
 
-#: src/ui/app_window.ui:752
+#: src/ui/app_window.ui:746
 msgid "Keep Daily"
 msgstr "Ежедневно"
 
-#: src/ui/app_window.ui:774
+#: src/ui/app_window.ui:768
 msgid "Keep Weekly"
 msgstr "Вести еженедельник"
 
-#: src/ui/app_window.ui:794
+#: src/ui/app_window.ui:788
 msgid "Keep Monthly"
 msgstr "Вести ежемесячный учет"
 
-#: src/ui/app_window.ui:813
+#: src/ui/app_window.ui:807
 msgid "Keep Annual"
 msgstr "Ежегодно"
 
-#: src/ui/app_window.ui:860
+#: src/ui/app_window.ui:854
 msgid "Backup Info"
 msgstr "Резервная информация"
 
-#: src/ui/app_window.ui:920
+#: src/ui/app_window.ui:914
 msgid "Amount saved"
 msgstr "Сумма экономии"
 
-#: src/ui/app_window.ui:936
+#: src/ui/app_window.ui:930
 msgid "Number of files saved"
 msgstr "Количество сохраненных файлов"
 
-#: src/ui/app_window.ui:952
+#: src/ui/app_window.ui:946
 msgid "Additional backup space used"
 msgstr "Используется дополнительное пространство для резервного копирования"
 
-#: src/ui/app_window.ui:968
+#: src/ui/app_window.ui:962
 msgid "Current file"
 msgstr "Текущий файл"
 
@@ -875,7 +900,7 @@ msgstr "Префикс архива"
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:51
+#: src/ui/page_backup/events.rs:122 src/ui/page_overview.rs:51
 #: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Отменить"
@@ -933,9 +958,25 @@ msgstr "Шифрование"
 msgid "Password"
 msgstr "Пароль"
 
+#: src/ui/dialog_exclude.rs:124
+msgid "Exclude Directory"
+msgstr "Исключить каталог"
+
+#: src/ui/dialog_exclude.rs:142
+msgid "Exclude File"
+msgstr "Исключить файл"
+
+#: src/ui/dialog_exclude.ui:72
+msgid "Suggested Exclusions"
+msgstr "Предлагаемые исключения"
+
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Не удалось установить, сколько архивов будет удалено"
+
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+msgid "Close"
+msgstr "Закрыть"
 
 #. Translators: Header while creating a list of old archives to be approved for deletion.
 #: src/ui/dialog_prune.ui:30
@@ -1192,7 +1233,7 @@ msgstr ""
 "копирования. Не рекомендуется использовать один и тот же префикс на двух "
 "устройствах, если только новое устройство не заменяет старое."
 
-#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Создание репозитория резервного копирования"
 
@@ -1216,62 +1257,62 @@ msgstr "Место сохранения резервной копии"
 msgid "Setup Existing Repository"
 msgstr "Настройка существующего репозитория"
 
-#: src/ui/dialog_setup/insert.rs:32
+#: src/ui/dialog_setup/insert.rs:31
 msgid "Location is not a valid backup repository."
 msgstr ""
 "Местоположение не является действительным репозиторием резервных копий."
 
-#: src/ui/dialog_setup/insert.rs:33
+#: src/ui/dialog_setup/insert.rs:32
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Репозиторий должен быть создан с помощью Pika Backup или совместимого "
 "программного обеспечения."
 
-#: src/ui/dialog_setup/insert.rs:46 src/ui/dialog_setup/insert.rs:112
+#: src/ui/dialog_setup/insert.rs:45 src/ui/dialog_setup/insert.rs:111
 msgid "Invalid Remote Location"
 msgstr "Неверная удалённая локация"
 
-#: src/ui/dialog_setup/insert.rs:80
+#: src/ui/dialog_setup/insert.rs:79
 msgid "No Password Provided"
 msgstr "Пароль не предоставляется"
 
-#: src/ui/dialog_setup/insert.rs:81
+#: src/ui/dialog_setup/insert.rs:80
 msgid "To use encryption a password must be provided."
 msgstr "Для использования шифрования необходимо ввести пароль."
 
-#: src/ui/dialog_setup/insert.rs:85
+#: src/ui/dialog_setup/insert.rs:84
 msgid "Entered passwords do not match."
 msgstr "Введенные пароли не совпадают."
 
-#: src/ui/dialog_setup/insert.rs:108
+#: src/ui/dialog_setup/insert.rs:107
 msgid "A repository location has to be given."
 msgstr "Необходимо указать местоположение репозитория."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:254
 msgid "Additional command line arguments invalid."
 msgstr "Дополнительные аргументы командной строки недействительны."
 
-#: src/ui/dialog_setup/insert.rs:130 src/ui/dialog_setup/insert.rs:260
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:255
 msgid "Please check for missing closing quotes."
 msgstr "Проверьте, нет ли закрывающих кавычек."
 
-#: src/ui/dialog_setup/insert.rs:183
+#: src/ui/dialog_setup/insert.rs:182
 msgid "Loading Backup Repository"
 msgstr "Загрузка репозитория резервных копий"
 
-#: src/ui/dialog_setup/insert.rs:203
+#: src/ui/dialog_setup/insert.rs:202
 msgid "Failed to Configure Repository"
 msgstr "Не удалось настроить репозиторий"
 
-#: src/ui/dialog_setup/insert.rs:222
+#: src/ui/dialog_setup/insert.rs:221
 msgid "Failed"
 msgstr "Ошибка"
 
-#: src/ui/dialog_setup/insert.rs:296
+#: src/ui/dialog_setup/insert.rs:291
 msgid "Repository location not found."
 msgstr "Местоположение репозитория не найдено."
 
-#: src/ui/dialog_setup/insert.rs:297
+#: src/ui/dialog_setup/insert.rs:292
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Операция монтирования прошла успешно, но местоположение по-прежнему "
@@ -1371,7 +1412,7 @@ msgstr "{} Доступно"
 msgid "{} Total"
 msgstr "{} Всего"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:39
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:38
 msgid "Failed to unmount repository."
 msgstr "Не удалось размонтировать репозиторий."
 
@@ -1379,60 +1420,48 @@ msgstr "Не удалось размонтировать репозиторий.
 msgid "Failed to make archives available for browsing."
 msgstr "Не удалось сделать архивы доступными для просмотра."
 
-#: src/ui/page_backup/display.rs:88
-msgid "Regular Expression"
-msgstr "Регулярное выражение"
-
-#: src/ui/page_backup/display.rs:89
-msgid "Shell Wildcard Pattern"
-msgstr "Оболочка шаблона подстановки"
-
-#: src/ui/page_backup/events.rs:52
+#: src/ui/page_backup/events.rs:42
 msgid "Include directory in backups"
 msgstr "Включение каталога в резервные копии"
 
-#: src/ui/page_backup/events.rs:67
-msgid "Exclude directory from backup"
-msgstr "Исключить каталог из резервного копирования"
-
-#: src/ui/page_backup/events.rs:137
+#: src/ui/page_backup/events.rs:118
 msgid "No longer include “{}” in backups?"
 msgstr "Больше не включать \"{}\" в резервные копии?"
 
-#: src/ui/page_backup/events.rs:140
+#: src/ui/page_backup/events.rs:121
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Все файлы, содержащиеся в этой папке, больше не будут входить в будущие "
 "резервные копии."
 
-#: src/ui/page_backup/events.rs:142
+#: src/ui/page_backup/events.rs:123
 msgid "Confirm"
 msgstr "Подтвердить"
 
-#: src/ui/page_backup/execution.rs:30
+#: src/ui/page_backup/execution.rs:29
 msgid "Stop browsing files and start backup?"
 msgstr "Прекратить просмотр файлов и начать резервное копирование?"
 
-#: src/ui/page_backup/execution.rs:31
+#: src/ui/page_backup/execution.rs:30
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Во время выполнения резервного копирования просмотр архивных файлов "
 "невозможен."
 
-#: src/ui/page_backup/execution.rs:32
+#: src/ui/page_backup/execution.rs:31
 msgid "Keep Browsing"
 msgstr "Продолжить просмотр"
 
-#: src/ui/page_backup/execution.rs:33
+#: src/ui/page_backup/execution.rs:32
 msgid "Start Backup"
 msgstr "Запуск резервного копирования"
 
-#: src/ui/page_backup/execution.rs:112
+#: src/ui/page_backup/execution.rs:111
 msgid "Backup Failed"
 msgstr "Сбой резервного копирования"
 
-#: src/ui/page_backup/execution.rs:131
+#: src/ui/page_backup/execution.rs:130
 msgid "Backup Completed with Warnings"
 msgstr "Резервное копирование завершено с предупреждениями"
 
@@ -1608,21 +1637,21 @@ msgstr ""
 "Место резервного копирования \"{}\" может быть заполнено. Предполагаемое "
 "место, недостающее для хранения всех данных: {}."
 
-#: src/ui/utils.rs:78
+#: src/ui/utils.rs:87
 msgid "Request to run in background failed"
 msgstr "Запрос на выполнение в фоновом режиме не выполнен"
 
-#: src/ui/utils.rs:99
+#: src/ui/utils.rs:108
 msgid "Schedule backups and continue running backups."
 msgstr ""
 "Запланировать резервное копирование и продолжить выполнение резервного "
 "копирования."
 
-#: src/ui/utils.rs:115
+#: src/ui/utils.rs:124
 msgid "Run in background disabled"
 msgstr "Запуск в фоновом режиме отключен"
 
-#: src/ui/utils.rs:116
+#: src/ui/utils.rs:125
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1632,7 +1661,7 @@ msgstr ""
 "копирования в фоновом режиме будут недоступны. Опцию \"запуск в фоновом "
 "режиме\" можно включить через системные настройки."
 
-#: src/ui/utils.rs:126
+#: src/ui/utils.rs:135
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1642,31 +1671,27 @@ msgstr ""
 "резервного копирования по расписанию и продолжения резервного копирования в "
 "фоновом режиме будут недоступны."
 
-#: src/ui/utils.rs:148
+#: src/ui/utils.rs:157
 msgid "Failed to Start Monitor"
 msgstr "Не удалось запустить монитор"
 
-#: src/ui/utils.rs:217
+#: src/ui/utils.rs:226
 msgid "Failed to Create Thread"
 msgstr "Не удалось создать поток"
 
-#: src/ui/utils.rs:231
+#: src/ui/utils.rs:240 src/ui/utils.rs:263
 msgid "Select"
 msgstr "Выбрать"
 
-#: src/ui/utils.rs:308
-msgid "Close"
-msgstr "Закрыть"
-
-#: src/ui/utils.rs:450
+#: src/ui/utils.rs:474
 msgid "Failed to fix Scheduled Backups"
 msgstr "Не удалось исправить запланированное резервное копирование"
 
-#: src/ui/utils.rs:455
+#: src/ui/utils.rs:479
 msgid "Scheduled Backups Repaired"
 msgstr "Запланированное резервное копирование восстановлено"
 
-#: src/ui/utils.rs:455
+#: src/ui/utils.rs:479
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
