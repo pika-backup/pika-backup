@@ -65,6 +65,7 @@ pub enum Predefined {
     Caches,
     FlatpakApps,
     Trash,
+    VmsContainers,
 }
 
 mod patterns {
@@ -85,6 +86,26 @@ mod patterns {
         ]
     });
 
+    pub static VMS_CONTAINERS: Lazy<[Pattern; 8]> = Lazy::new(|| {
+        [
+            // Boxes (host)
+            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("gnome-boxes")),
+            // Boxes (flatpak)
+            Pattern::PathPrefix(glib::home_dir().join(".var/app/org.gnome.Boxes")),
+            Pattern::PathPrefix(glib::home_dir().join(".var/app/org.gnome.BoxesDevel")),
+            // Bottles (host)
+            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("bottles")),
+            // Bottles (flatpak)
+            Pattern::PathPrefix(glib::home_dir().join(".var/app/com.usebottles.bottles")),
+            // libvirt
+            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("libvirt")),
+            // stores libvirt snapshots etc
+            Pattern::PathPrefix(crate::utils::host::user_config_dir().join("libvirt")),
+            // podman/toolbox
+            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("containers")),
+        ]
+    });
+
     pub static FLATPAK_APPS: Lazy<[Pattern; 1]> = Lazy::new(|| {
         [Pattern::RegularExpression(
             regex::Regex::new(&format!(
@@ -100,11 +121,18 @@ mod patterns {
 }
 
 impl Predefined {
-    pub const VALUES: [Self; 3] = [Self::Caches, Self::FlatpakApps, Self::Trash];
+    pub const VALUES: [Self; 4] = [
+        Self::Caches,
+        Self::FlatpakApps,
+        Self::Trash,
+        Self::VmsContainers,
+    ];
 
     pub fn icon(&self) -> Option<gio::Icon> {
         match self {
             Self::Trash => gio::Icon::for_string("user-trash-symbolic").ok(),
+            Self::VmsContainers => gio::Icon::for_string("computer-symbolic").ok(),
+            Self::FlatpakApps => gio::Icon::for_string("preferences-desktop-apps-symbolic").ok(),
             _ => gio::Icon::for_string("folder-saved-search-symbolic").ok(),
         }
     }
@@ -114,6 +142,7 @@ impl Predefined {
             Self::Caches => gettext("Caches"),
             Self::FlatpakApps => gettext("Flatpak App Installations"),
             Self::Trash => gettext("Trash"),
+            Self::VmsContainers => gettext("Virtual Machines and Containers"),
         }
     }
 
@@ -121,7 +150,8 @@ impl Predefined {
         match self {
             Self::Caches => gettext("Data that can be regenerated when needed"),
             Self::FlatpakApps => gettext("Documents and data are still backed up"),
-            Self::Trash => gettext(""),
+            Self::Trash => String::new(),
+            Self::VmsContainers => String::new(),
         }
     }
 
@@ -130,6 +160,7 @@ impl Predefined {
             Self::Caches => patterns::CACHES.as_ref(),
             Self::FlatpakApps => patterns::FLATPAK_APPS.as_ref(),
             Self::Trash => patterns::TRASH.as_ref(),
+            Self::VmsContainers => patterns::VMS_CONTAINERS.as_ref(),
         }
     }
 

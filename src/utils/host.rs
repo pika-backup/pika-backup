@@ -13,3 +13,10 @@ pub fn user_cache_dir() -> PathBuf {
         _ => glib::user_cache_dir(),
     }
 }
+
+pub fn user_config_dir() -> PathBuf {
+    match std::env::var_os("HOST_XDG_CONFIG_HOME") {
+        Some(dir) if ashpd::is_sandboxed() => dir.into(),
+        _ => glib::user_cache_dir(),
+    }
+}

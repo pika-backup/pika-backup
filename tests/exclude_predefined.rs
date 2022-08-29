@@ -14,10 +14,22 @@ async fn predefined() -> Result<(), Box<dyn std::error::Error>> {
     ];
 
     let mut excluded = Excluded::new(&home);
+    // Caches
     excluded.add(".cache");
-    excluded.add(".local/share/flatpak/repo/");
-    excluded.add(".local/share/Trash");
     excluded.add(".var/app/example.app/cache");
+    // Flatpak apps
+    excluded.add(".local/share/flatpak/repo/");
+    // Trash
+    excluded.add(".local/share/Trash");
+    // VMs
+    excluded.add(".local/share/gnome-boxes");
+    excluded.add(".var/app/org.gnome.Boxes");
+    excluded.add(".var/app/org.gnome.BoxesDevel");
+    excluded.add(".local/share/bottles");
+    excluded.add(".var/app/com.usebottles.bottles");
+    excluded.add(".local/share/libvirt");
+    excluded.add(".local/share/libvirt");
+    excluded.add(".local/share/containers");
 
     let mut included = Included::new(&home);
     included.add("");
@@ -34,6 +46,7 @@ async fn predefined() -> Result<(), Box<dyn std::error::Error>> {
         config::Exclude::from_predefined(config::exclude::Predefined::Caches),
         config::Exclude::from_predefined(config::exclude::Predefined::FlatpakApps),
         config::Exclude::from_predefined(config::exclude::Predefined::Trash),
+        config::Exclude::from_predefined(config::exclude::Predefined::VmsContainers),
     ]);
 
     excluded.test(&config.exclude);
