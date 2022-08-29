@@ -10,6 +10,7 @@
 - Change to use AdwAboutWindow
 - Change to use AdwMessageDialog
 - Change to symbolic icons in include/exclude list
+- Add debug information to about window
 - Add predefined exclusion rules
 
 ## 0.4.2 (2022-07-12)

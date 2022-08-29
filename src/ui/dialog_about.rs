@@ -45,5 +45,53 @@ pub fn show() {
         &gettext("Frequent rumors that this software’s name is related to a monster with electrical abilities are unfounded.")
     ));
 
+    dialog.set_debug_info(&debug_info());
+
     dialog.show();
+}
+
+fn etc() -> std::path::PathBuf {
+    if ashpd::is_sandboxed() {
+        std::path::PathBuf::from("/run/host/etc")
+    } else {
+        std::path::PathBuf::from("/etc")
+    }
+}
+
+fn os_release() -> String {
+    std::fs::read_to_string(etc().join("os-release")).unwrap_or_default()
+}
+
+fn user_autostart() -> String {
+    eprintln!(
+        "{:?}",
+        crate::utils::host::user_config_dir()
+            .join(format!("autostart/{}.desktop", crate::app_id()))
+    );
+    std::fs::read_to_string(
+        crate::utils::host::user_config_dir()
+            .join(format!("autostart/{}.desktop", crate::app_id())),
+    )
+    .unwrap_or_default()
+}
+
+fn global_autostart() -> String {
+    std::fs::read_to_string(etc().join(format!("xdg/autostart/{}.desktop", crate::app_id())))
+        .unwrap_or_default()
+}
+
+fn debug_info() -> String {
+    [
+        format!("- Version: {}", env!("CARGO_PKG_VERSION")),
+        format!("- App ID: {}", crate::app_id()),
+        format!(
+            "- Sandboxed: {} {}",
+            ashpd::is_sandboxed(),
+            std::env::var("container").unwrap_or_default()
+        ),
+        format!("\n##### OS Information\n```\n{}\n```", os_release()),
+        format!("\n##### User Autostart\n```\n{}\n```", user_autostart()),
+        format!("\n##### Global Autostart\n```\n{}\n```", global_autostart()),
+    ]
+    .join("\n")
 }
