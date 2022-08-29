@@ -449,7 +449,7 @@ impl<T, E: Display> Logable for std::result::Result<T, E> {
 }
 
 /// Workaround for distros that ship(ed) xdg-desktop-portal 1.14.x, x<4
-/// https://github.com/flatpak/xdg-desktop-portal/releases/tag/1.14.4
+/// <https://github.com/flatpak/xdg-desktop-portal/releases/tag/1.14.4>
 pub fn fix_flatpak_autostart() -> Result<()> {
     if ashpd::is_sandboxed() {
         let mut path = glib::home_dir();
