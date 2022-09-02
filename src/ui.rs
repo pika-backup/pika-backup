@@ -72,8 +72,7 @@ fn on_ctrlc() -> Continue {
     Continue(true)
 }
 
-fn on_shutdown(app: &adw::Application) {
-    app.mark_busy();
+fn on_shutdown(_app: &adw::Application) {
     IS_SHUTDOWN.swap(std::sync::Arc::new(true));
 
     BACKUP_HISTORY.update(|histories| {

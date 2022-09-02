@@ -14,7 +14,13 @@ pub async fn start_backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
-    let _guard = adw_app().hold();
+    scopeguard::defer_on_success! {
+        if BORG_OPERATION.with(|x| x.load().len()) == 0 && !main_ui().window().is_visible() {
+            info!("Shutting down because window is invisible and no borg operations running");
+            adw_app().quit();
+        }
+    }
+
     startup_backup(config, from_schedule).await
 }
 

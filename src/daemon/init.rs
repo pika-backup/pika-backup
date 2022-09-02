@@ -1,4 +1,5 @@
 use gio::prelude::*;
+use once_cell::unsync::OnceCell;
 
 use super::action;
 use crate::config;
@@ -10,8 +11,12 @@ pub fn init() {
     gio_app().connect_startup(on_startup);
 }
 
+thread_local! {
+static HOLD: OnceCell<ApplicationHoldGuard> = OnceCell::default();
+}
+
 fn on_startup(_app: &gio::Application) {
-    gio_app().hold();
+    HOLD.with(|hold| hold.set(gio_app().hold()).unwrap());
 
     crate::utils::init_gettext();
 
