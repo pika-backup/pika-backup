@@ -211,14 +211,6 @@ impl AppWindow {
         self.get("include")
     }
 
-    pub fn include_home(&self) -> gtk::Switch {
-        self.get("include_home")
-    }
-
-    pub fn include_home_row(&self) -> adw::ActionRow {
-        self.get("include_home_row")
-    }
-
     pub fn leaflet(&self) -> adw::Leaflet {
         self.get("leaflet")
     }

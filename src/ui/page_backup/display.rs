@@ -9,8 +9,22 @@ use crate::ui::prelude::*;
 use super::events;
 
 pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
+    let title = if file == std::path::Path::new("") {
+        gettext("Home")
+    } else {
+        file.display().to_string()
+    };
+
+    let subtitle = if file == std::path::Path::new("") {
+        gettext("Usually contains all personal data")
+    } else {
+        String::new()
+    };
+
     let row = adw::ActionRow::builder()
-        .title(&glib::markup_escape_text(&file.to_string_lossy()))
+        .use_markup(false)
+        .title(&title)
+        .subtitle(&subtitle)
         .activatable(false)
         .build();
     list.append(&row);
@@ -38,19 +52,6 @@ pub fn refresh() -> Result<()> {
 
     refresh_status();
 
-    let include_home = backup.include.contains(&std::path::PathBuf::new());
-
-    if include_home != main_ui().include_home().is_active() {
-        main_ui().include_home().set_sensitive(false);
-        main_ui().include_home().set_active(include_home);
-    }
-
-    if include_home {
-        main_ui().include_home_row().remove_css_class("not-active");
-    } else {
-        main_ui().include_home_row().add_css_class("not-active");
-    }
-
     // backup target ui
     if let Ok(icon) = gio::Icon::for_string(&backup.repo.icon()) {
         main_ui().detail_repo_icon().set_from_gicon(&icon);
@@ -67,10 +68,6 @@ pub fn refresh() -> Result<()> {
     ui::utils::clear(&main_ui().include());
 
     for file in &backup.include {
-        if *file == std::path::PathBuf::new() {
-            continue;
-        }
-
         let button = add_list_row(&main_ui().include(), file);
 
         let path = file.clone();

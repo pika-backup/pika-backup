@@ -37,10 +37,6 @@ pub fn init() {
         .connect_visible_child_notify(|_| events::on_stack_changed());
 
     main_ui()
-        .include_home()
-        .connect_active_notify(|_| Handler::run(events::on_include_home_changed()));
-
-    main_ui()
         .add_include()
         .connect_clicked(|_| Handler::run(events::add_include()));
     main_ui()

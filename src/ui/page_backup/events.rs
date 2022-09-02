@@ -1,5 +1,3 @@
-use adw::prelude::*;
-
 use crate::borg;
 use crate::ui;
 
@@ -38,8 +36,7 @@ pub async fn on_backup_run() -> Result<()> {
 }
 
 pub async fn add_include() -> Result<()> {
-    if let Some(path) =
-        ui::utils::folder_chooser_dialog_path(&gettext("Include directory in backups")).await
+    if let Some(path) = ui::utils::folder_chooser_dialog_path(&gettext("Include in Backups")).await
     {
         BACKUP_CONFIG.update_result(|settings| {
             settings
@@ -61,44 +58,6 @@ pub async fn add_exclude() -> Result<()> {
     Ok(())
 }
 
-pub async fn on_include_home_changed() -> Result<()> {
-    if main_ui().include_home().is_sensitive() {
-        let change: bool = if main_ui().include_home().is_active() {
-            true
-        } else {
-            confirm_remove_include(std::path::Path::new("Home")).await
-        };
-
-        BACKUP_CONFIG.update_result(|settings| {
-            if !change {
-                main_ui()
-                    .include_home()
-                    .set_active(!main_ui().include_home().is_active());
-            } else if main_ui().include_home().is_active() {
-                settings
-                    .active_mut()?
-                    .include
-                    .insert(std::path::PathBuf::new());
-            } else {
-                settings
-                    .active_mut()?
-                    .include
-                    .remove(&std::path::PathBuf::new());
-            }
-            Ok(())
-        })?;
-
-        if change {
-            crate::ui::write_config()?;
-            display::refresh()?;
-        }
-    } else {
-        main_ui().include_home().set_sensitive(true);
-    }
-
-    Ok(())
-}
-
 pub async fn on_remove_include(path: std::path::PathBuf) -> Result<()> {
     if confirm_remove_include(&path).await {
         BACKUP_CONFIG.update_result(|settings| {
@@ -113,11 +72,14 @@ pub async fn on_remove_include(path: std::path::PathBuf) -> Result<()> {
 }
 
 async fn confirm_remove_include(path: &std::path::Path) -> bool {
+    let path_string = if path == std::path::Path::new("") {
+        gettext("Home")
+    } else {
+        path.display().to_string()
+    };
+
     ui::utils::confirmation_dialog(
-        &gettextf(
-            "No longer include “{}” in backups?",
-            &[&path.to_string_lossy()],
-        ),
+        &gettextf("No longer include “{}” in backups?", &[&path_string]),
         &gettext("All files contained in this folder will no longer be part of future backups."),
         &gettext("Cancel"),
         &gettext("Confirm"),

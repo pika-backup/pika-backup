@@ -12,6 +12,7 @@
 - Change to symbolic icons in include/exclude list
 - Add debug information to about window
 - Add predefined exclusion rules
+- Remove special representation with switch for Home folder
 
 ## 0.4.2 (2022-07-12)
 
