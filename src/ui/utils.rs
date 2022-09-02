@@ -422,7 +422,7 @@ pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> adw::ActionRow {
         row.add_prefix(
             &gtk::Image::builder()
                 .gicon(gicon)
-                .css_classes(vec![String::from("row-icon")])
+                .css_classes(vec![String::from("large-row-icon")])
                 .build(),
         );
     }

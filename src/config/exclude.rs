@@ -38,10 +38,10 @@ impl Exclude {
         }
     }
 
-    pub fn icon(&self) -> Option<gio::Icon> {
+    pub fn symbolic_icon(&self) -> Option<gio::Icon> {
         match self {
             Self::Pattern(pattern) => pattern.symbolic_icon(),
-            Self::Predefined(predefined) => predefined.icon(),
+            Self::Predefined(predefined) => predefined.symbolic_icon(),
         }
     }
 
@@ -128,7 +128,7 @@ impl Predefined {
         Self::VmsContainers,
     ];
 
-    pub fn icon(&self) -> Option<gio::Icon> {
+    pub fn symbolic_icon(&self) -> Option<gio::Icon> {
         match self {
             Self::Trash => gio::Icon::for_string("user-trash-symbolic").ok(),
             Self::VmsContainers => gio::Icon::for_string("computer-symbolic").ok(),

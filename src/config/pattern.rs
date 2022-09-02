@@ -159,17 +159,6 @@ impl Pattern {
         }
     }
 
-    pub fn icon(&self) -> Option<gio::Icon> {
-        match self {
-            Self::PathPrefix(path) | Self::PathFullMatch(path) => {
-                crate::utils::file_icon(&absolute(path))
-            }
-            Self::Fnmatch(_) | Self::RegularExpression(_) => {
-                gio::Icon::for_string("folder-saved-search").ok()
-            }
-        }
-    }
-
     pub fn symbolic_icon(&self) -> Option<gio::Icon> {
         match self {
             Self::PathPrefix(path) | Self::PathFullMatch(path) => {
