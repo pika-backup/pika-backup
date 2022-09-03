@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-08-29 01:04+0000\n"
-"PO-Revision-Date: 2022-09-01 18:13+0100\n"
+"POT-Creation-Date: 2022-09-03 00:57+0000\n"
+"PO-Revision-Date: 2022-09-03 15:16+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -301,7 +301,8 @@ msgstr "A identificar arquivos antigos"
 msgid "Refreshing Archive List"
 msgstr "A atualizar lista de arquivos"
 
-#: src/config.rs:64
+#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Pasta pessoal"
 
@@ -422,11 +423,11 @@ msgstr "\"{}\" contém um backup configurado."
 msgid "Back Up Now"
 msgstr "Efetuar agora o backup"
 
-#: src/daemon/init.rs:43
+#: src/daemon/init.rs:48
 msgid "Fatal Error During Back Up"
 msgstr "Erro fatal durante o backup"
 
-#: src/daemon/init.rs:46
+#: src/daemon/init.rs:51
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "O Pika Backup falhou enquanto executava um backup."
@@ -460,32 +461,32 @@ msgstr "“{}” deve estar ligado para que o backup agendado seja iniciado."
 msgid "Failed to start scheduled backup"
 msgstr "Falha ao iniciar o backup agendado"
 
-#: src/ui.rs:163 src/ui/page_backup/events.rs:19
+#: src/ui.rs:162 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Abortar a criação do backup em execução?"
 
-#: src/ui.rs:164 src/ui/page_backup/events.rs:20
+#: src/ui.rs:163 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se abortado agora."
 
-#: src/ui.rs:165 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:21
+#: src/ui.rs:164 src/ui/dialog_encryption_password.ui:20
+#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui.rs:166 src/ui/page_backup/events.rs:22
+#: src/ui.rs:165 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Abortar"
 
-#: src/ui.rs:240
+#: src/ui.rs:239
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Falha ao executar o “borg”. O BorgBackup está instalado corretamente?"
 
-#: src/ui.rs:264
+#: src/ui.rs:263
 msgid "BorgBackup version too old"
 msgstr "A versão do BorgBackup é muito antiga"
 
-#: src/ui.rs:266
+#: src/ui.rs:265
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -493,11 +494,11 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito antiga. Algumas funcionalidades "
 "que requerem a versão borg-backup {}.{}.{} não funcionarão."
 
-#: src/ui.rs:277
+#: src/ui.rs:276
 msgid "BorgBackup version too new"
 msgstr "A versão do BorgBackup é muito nova"
 
-#: src/ui.rs:279
+#: src/ui.rs:278
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -505,19 +506,19 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito nova. A versão {}.{} é "
 "recomendada. Algumas funcionalidades podem não funcionar como esperado."
 
-#: src/ui.rs:289
+#: src/ui.rs:288
 msgid "Failed to Check BorgBackup Version"
 msgstr "Não é possível verificar a versão do BorgBackup"
 
-#: src/ui.rs:291
+#: src/ui.rs:290
 msgid "The installed version {} might not work."
 msgstr "A versão instalada {} pode não funcionar."
 
-#: src/ui.rs:347
+#: src/ui.rs:346
 msgid "Could not load configuration file."
 msgstr "Não foi possível carregar ficheiro de configuração."
 
-#: src/ui.rs:363
+#: src/ui.rs:362
 msgid "Could not write configuration file."
 msgstr "Não foi possível gravar ficheiro de configuração."
 
@@ -595,160 +596,152 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Selecionar diretório a incluir…"
 
-#: src/ui/app_window.ui:304
-msgid "_Home"
-msgstr "_Pasta pessoal"
-
-#: src/ui/app_window.ui:305
-msgid "Usually contains all personal data"
-msgstr "Normalmente contém todos os dados pessoais"
-
-#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:309 src/ui/dialog_exclude.ui:6
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Excluir do backup"
 
-#: src/ui/app_window.ui:333
+#: src/ui/app_window.ui:310
 msgid "The following folders are excluded from the backup repository."
 msgstr "As seguintes pastas são excluídas do repositório de backup."
 
-#: src/ui/app_window.ui:336
+#: src/ui/app_window.ui:313
 msgid "Select directory to exclude…"
 msgstr "Selecionar diretório a excluir…"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:333
 msgid "Nothing excluded from backup"
 msgstr "Nada foi excluído do backup"
 
-#: src/ui/app_window.ui:375
+#: src/ui/app_window.ui:352
 msgid "_Archives"
 msgstr "_Arquivos"
 
-#: src/ui/app_window.ui:470
+#: src/ui/app_window.ui:447
 msgid "Archive _Prefix"
 msgstr "Prefixo de arquivo"
 
-#: src/ui/app_window.ui:472
+#: src/ui/app_window.ui:449
 msgid "Added in front of all archive names"
 msgstr "Adicionado na frente de todos os nomes de arquivo"
 
-#: src/ui/app_window.ui:501
+#: src/ui/app_window.ui:478
 msgid "_Cleanup Archives"
 msgstr "_Limpar arquivos"
 
-#: src/ui/app_window.ui:502
+#: src/ui/app_window.ui:479
 msgid "Delete some older archives"
 msgstr "Eliminar alguns arquivos antigos"
 
-#: src/ui/app_window.ui:518
+#: src/ui/app_window.ui:495
 msgid "Archives"
 msgstr "Arquivos"
 
-#: src/ui/app_window.ui:527
+#: src/ui/app_window.ui:504
 msgid "Refresh list of archives"
 msgstr "Atualizar lista de arquivos"
 
-#: src/ui/app_window.ui:548
+#: src/ui/app_window.ui:525
 msgid "Stop browsing archive files"
 msgstr "Parar navegação por arquivos"
 
-#: src/ui/app_window.ui:574
+#: src/ui/app_window.ui:551
 msgid "No archives available"
 msgstr "Nenhum arquivo disponível"
 
-#: src/ui/app_window.ui:593
+#: src/ui/app_window.ui:570
 msgid "_Schedule"
 msgstr "_Agenda"
 
-#: src/ui/app_window.ui:618
+#: src/ui/app_window.ui:595
 msgid "Scheduled Backups"
 msgstr "Backups agendados"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:599
 msgid "Regularly Create Backups"
 msgstr "Criar regularmente Backups"
 
-#: src/ui/app_window.ui:627
+#: src/ui/app_window.ui:604
 msgid "Frequency"
 msgstr "Frequência"
 
-#: src/ui/app_window.ui:635
+#: src/ui/app_window.ui:612
 msgid "Preferred Time"
 msgstr "Horário preferido"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:632
 msgid "Preferred Weekday"
 msgstr "Dia da semana preferido"
 
-#: src/ui/app_window.ui:660
+#: src/ui/app_window.ui:637
 msgid "Preferred Day"
 msgstr "Dia preferido"
 
-#: src/ui/app_window.ui:681 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:658 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Eliminar arquivos antigos"
 
-#: src/ui/app_window.ui:687
+#: src/ui/app_window.ui:664
 msgid "Save Configuration"
 msgstr "Guardar configuração"
 
-#: src/ui/app_window.ui:699
+#: src/ui/app_window.ui:676
 msgid "Regularly Cleanup Archives"
 msgstr "Limpar arquivos regularmente"
 
-#: src/ui/app_window.ui:700
+#: src/ui/app_window.ui:677
 msgid "Remove old archives after creating new backups"
 msgstr "Remover arquivos antigos após a criação de novos backups"
 
-#: src/ui/app_window.ui:710
+#: src/ui/app_window.ui:687
 msgid "Preserved Archives"
 msgstr "Arquivos preservados"
 
-#: src/ui/app_window.ui:711
+#: src/ui/app_window.ui:688
 msgid "Amount and time span of retained archives"
 msgstr "Quantidade e duração dos arquivos retidos"
 
-#: src/ui/app_window.ui:720
+#: src/ui/app_window.ui:697
 msgid "Details"
 msgstr "Detalhes"
 
-#: src/ui/app_window.ui:724
+#: src/ui/app_window.ui:701
 msgid "Keep Hourly"
 msgstr "Manter de hora em hora"
 
-#: src/ui/app_window.ui:746
+#: src/ui/app_window.ui:723
 msgid "Keep Daily"
 msgstr "Manter diariamente"
 
-#: src/ui/app_window.ui:768
+#: src/ui/app_window.ui:745
 msgid "Keep Weekly"
 msgstr "Manter semanalmente"
 
-#: src/ui/app_window.ui:788
+#: src/ui/app_window.ui:765
 msgid "Keep Monthly"
 msgstr "Manter mensalmente"
 
-#: src/ui/app_window.ui:807
+#: src/ui/app_window.ui:784
 msgid "Keep Annual"
 msgstr "Manter anualmente"
 
-#: src/ui/app_window.ui:854
+#: src/ui/app_window.ui:831
 msgid "Backup Info"
 msgstr "Informação de backup"
 
-#: src/ui/app_window.ui:914
+#: src/ui/app_window.ui:891
 msgid "Amount saved"
 msgstr "Quantidade guardada"
 
-#: src/ui/app_window.ui:930
+#: src/ui/app_window.ui:907
 msgid "Number of files saved"
 msgstr "Número de ficheiros guardados"
 
-#: src/ui/app_window.ui:946
+#: src/ui/app_window.ui:923
 msgid "Additional backup space used"
 msgstr "Espaço de backup adicional utilizado"
 
-#: src/ui/app_window.ui:962
+#: src/ui/app_window.ui:939
 msgid "Current file"
 msgstr "Ficheiro atual"
 
@@ -890,7 +883,7 @@ msgstr "Prefixo de arquivo"
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:122 src/ui/page_overview.rs:51
+#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
 #: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Cancelar"
@@ -949,11 +942,16 @@ msgstr "Encriptação"
 msgid "Password"
 msgstr "Palavra-passe"
 
-#: src/ui/dialog_exclude.rs:124
+#: src/ui/dialog_exclude.rs:127
 msgid "Exclude Directory"
 msgstr "Excluir diretório"
 
-#: src/ui/dialog_exclude.rs:142
+#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
+#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:240
+msgid "Select"
+msgstr "Selecionar"
+
+#: src/ui/dialog_exclude.rs:156
 msgid "Exclude File"
 msgstr "Excluir ficheiro"
 
@@ -965,7 +963,7 @@ msgstr "Exclusões sugeridas"
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Falha ao determinar quantos arquivos seriam eliminados"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:328
 msgid "Close"
 msgstr "Fechar"
 
@@ -1401,7 +1399,7 @@ msgstr "{} Disponível"
 msgid "{} Total"
 msgstr "{} Total"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:38
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
 msgid "Failed to unmount repository."
 msgstr "Falha ao desmontar repositório."
 
@@ -1409,48 +1407,52 @@ msgstr "Falha ao desmontar repositório."
 msgid "Failed to make archives available for browsing."
 msgstr "Falha na disponibilização de arquivos para a navegação."
 
-#: src/ui/page_backup/events.rs:42
-msgid "Include directory in backups"
-msgstr "Incluir diretório nos backups"
+#: src/ui/page_backup/display.rs:19
+msgid "Usually contains all personal data"
+msgstr "Normalmente contém todos os dados pessoais"
 
-#: src/ui/page_backup/events.rs:118
+#: src/ui/page_backup/events.rs:42
+msgid "Include Folder"
+msgstr "Incluir pasta"
+
+#: src/ui/page_backup/events.rs:93
 msgid "No longer include “{}” in backups?"
 msgstr "Não incluir mais “{}” nos backups?"
 
-#: src/ui/page_backup/events.rs:121
+#: src/ui/page_backup/events.rs:94
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Todos os ficheiros contidos nesta pasta deixarão de fazer parte de futuros "
 "backups."
 
-#: src/ui/page_backup/events.rs:123
+#: src/ui/page_backup/events.rs:96
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/ui/page_backup/execution.rs:29
+#: src/ui/page_backup/execution.rs:35
 msgid "Stop browsing files and start backup?"
 msgstr "Parar de navegar nos ficheiros e iniciar o backup?"
 
-#: src/ui/page_backup/execution.rs:30
+#: src/ui/page_backup/execution.rs:36
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Não é possível navegar pelos ficheiros arquivados durante a execução de um "
 "backup."
 
-#: src/ui/page_backup/execution.rs:31
+#: src/ui/page_backup/execution.rs:37
 msgid "Keep Browsing"
 msgstr "Continuar a navegar"
 
-#: src/ui/page_backup/execution.rs:32
+#: src/ui/page_backup/execution.rs:38
 msgid "Start Backup"
 msgstr "Iniciar backup"
 
-#: src/ui/page_backup/execution.rs:111
+#: src/ui/page_backup/execution.rs:117
 msgid "Backup Failed"
 msgstr "Falha no backup"
 
-#: src/ui/page_backup/execution.rs:130
+#: src/ui/page_backup/execution.rs:136
 msgid "Backup Completed with Warnings"
 msgstr "Backup concluído com avisos"
 
@@ -1662,19 +1664,15 @@ msgstr "Falha ao iniciar a monitorização"
 msgid "Failed to Create Thread"
 msgstr "Falha ao criar tarefa"
 
-#: src/ui/utils.rs:240 src/ui/utils.rs:263
-msgid "Select"
-msgstr "Selecionar"
-
-#: src/ui/utils.rs:474
+#: src/ui/utils.rs:470
 msgid "Failed to fix Scheduled Backups"
 msgstr "Falha ao corrigir backups agendados"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:475
 msgid "Scheduled Backups Repaired"
 msgstr "Backups agendados reparados"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:475
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1809,6 +1807,12 @@ msgstr ""
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
+
+#~ msgid "_Home"
+#~ msgstr "_Pasta pessoal"
+
+#~ msgid "Include directory in backups"
+#~ msgstr "Incluir diretório nos backups"
 
 #~ msgid "Exclude directory from backup"
 #~ msgstr "Excluir diretório do backup"
