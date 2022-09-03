@@ -121,37 +121,60 @@ fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton
 }
 
 pub async fn exclude_folder() -> Result<()> {
-    if let Some(path) = ui::utils::folder_chooser_dialog_path(&gettext("Exclude Directory")).await {
-        BACKUP_CONFIG.update_result(|settings| {
+    let chooser = gtk::FileChooserNative::builder()
+        .action(gtk::FileChooserAction::SelectFolder)
+        .select_multiple(true)
+        .title(&gettext("Exclude Directory"))
+        .accept_label(&gettext("Select"))
+        .modal(true)
+        .transient_for(&main_ui().window())
+        .build();
+
+    let paths = ui::utils::paths(chooser).await?;
+
+    BACKUP_CONFIG.update_result(|settings| {
+        for path in &paths {
             settings
                 .active_mut()?
                 .exclude
                 .insert(config::Exclude::from_pattern(config::Pattern::PathPrefix(
-                    ui::utils::rel_path(&path),
+                    ui::utils::rel_path(path),
                 )));
-            Ok(())
-        })?;
-        crate::ui::write_config()?;
-        ui::page_backup::refresh()?;
-    }
+        }
+        Ok(())
+    })?;
+    crate::ui::write_config()?;
+    ui::page_backup::refresh()?;
 
     Ok(())
 }
 
 pub async fn exclude_file() -> Result<()> {
-    if let Some(path) = ui::utils::file_chooser_dialog_path(&gettext("Exclude File")).await {
-        BACKUP_CONFIG.update_result(|settings| {
+    let chooser = gtk::FileChooserNative::builder()
+        .action(gtk::FileChooserAction::SelectFolder)
+        .select_multiple(true)
+        .title(&gettext("Exclude File"))
+        .accept_label(&gettext("Select"))
+        .modal(true)
+        .transient_for(&main_ui().window())
+        .build();
+
+    let paths = ui::utils::paths(chooser).await?;
+
+    BACKUP_CONFIG.update_result(|settings| {
+        for path in &paths {
             settings
                 .active_mut()?
                 .exclude
                 .insert(config::Exclude::from_pattern(
-                    config::Pattern::PathFullMatch(ui::utils::rel_path(&path)),
+                    config::Pattern::PathFullMatch(ui::utils::rel_path(path)),
                 ));
-            Ok(())
-        })?;
-        crate::ui::write_config()?;
-        ui::page_backup::refresh()?;
-    }
+        }
+        Ok(())
+    })?;
+
+    crate::ui::write_config()?;
+    ui::page_backup::refresh()?;
 
     Ok(())
 }

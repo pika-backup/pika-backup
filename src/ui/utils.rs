@@ -253,25 +253,21 @@ pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
     }
 }
 
-pub async fn folder_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
-    folder_chooser_dialog(title).await.and_then(|x| x.path())
-}
+pub async fn paths(dialog: gtk::FileChooserNative) -> Result<Vec<std::path::PathBuf>> {
+    dialog.run_future().await;
 
-pub async fn file_chooser_dialog_path(title: &str) -> Option<std::path::PathBuf> {
-    let dialog = gtk::FileChooserNative::builder()
-        .title(title)
-        .accept_label(&gettext("Select"))
-        .modal(true)
-        .transient_for(&main_ui().window())
-        .build();
+    let paths: Vec<_> = dialog
+        .files()
+        .snapshot()
+        .into_iter()
+        .filter_map(|obj| obj.downcast_ref::<gio::File>().and_then(|x| x.path()))
+        .collect();
 
-    let result = if dialog.run_future().await == gtk::ResponseType::Accept {
-        dialog.file()
+    if paths.is_empty() {
+        Err(UserCanceled::new().into())
     } else {
-        None
-    };
-
-    result.and_then(|x| x.path())
+        Ok(paths)
+    }
 }
 
 fn ellipsize<S: std::fmt::Display>(x: S) -> String {

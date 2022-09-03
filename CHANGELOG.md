@@ -10,6 +10,7 @@
 - Change to use AdwAboutWindow
 - Change to use AdwMessageDialog
 - Change to symbolic icons in include/exclude list
+- Add ability to add multiple includes/excludes at once from file chooser
 - Add debug information to about window
 - Add predefined exclusion rules
 - Remove special representation with switch for Home folder

@@ -36,18 +36,29 @@ pub async fn on_backup_run() -> Result<()> {
 }
 
 pub async fn add_include() -> Result<()> {
-    if let Some(path) = ui::utils::folder_chooser_dialog_path(&gettext("Include in Backups")).await
-    {
-        BACKUP_CONFIG.update_result(|settings| {
+    let chooser = gtk::FileChooserNative::builder()
+        .action(gtk::FileChooserAction::SelectFolder)
+        .select_multiple(true)
+        .title(&gettext("Include Folder"))
+        .accept_label(&gettext("Select"))
+        .modal(true)
+        .transient_for(&main_ui().window())
+        .build();
+
+    let paths = ui::utils::paths(chooser).await?;
+
+    BACKUP_CONFIG.update_result(|settings| {
+        for path in &paths {
             settings
                 .active_mut()?
                 .include
-                .insert(ui::utils::rel_path(&path));
-            Ok(())
-        })?;
-        crate::ui::write_config()?;
-        display::refresh()?;
-    }
+                .insert(ui::utils::rel_path(path));
+        }
+        Ok(())
+    })?;
+
+    crate::ui::write_config()?;
+    display::refresh()?;
 
     Ok(())
 }
