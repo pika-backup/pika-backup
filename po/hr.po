@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-08-29 01:04+0000\n"
-"PO-Revision-Date: 2022-08-30 13:59+0200\n"
+"POT-Creation-Date: 2022-09-03 00:57+0000\n"
+"PO-Revision-Date: 2022-09-03 12:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -304,7 +304,8 @@ msgstr "Identifikacija starih arhiva"
 msgid "Refreshing Archive List"
 msgstr "Osvježavanje popisa arhiva"
 
-#: src/config.rs:64
+#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Osobna mapa"
 
@@ -425,11 +426,11 @@ msgstr "“{}” sadrži jednu podešenu sigurnosnu kopiju."
 msgid "Back Up Now"
 msgstr "Sigurnosno kopiraj odmah"
 
-#: src/daemon/init.rs:43
+#: src/daemon/init.rs:48
 msgid "Fatal Error During Back Up"
 msgstr "Kobna greška tijekom sigurnosnog kopiranja"
 
-#: src/daemon/init.rs:46
+#: src/daemon/init.rs:51
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] ""
@@ -467,32 +468,32 @@ msgstr "“{}” mora biti povezan kako bi zakazano sigurnosno kopiranje započe
 msgid "Failed to start scheduled backup"
 msgstr "Neuspjelo pokretanje zakazanog sigurnosnog kopiranja"
 
-#: src/ui.rs:163 src/ui/page_backup/events.rs:19
+#: src/ui.rs:162 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Prekini pokrenuto stvaranje sigurnosne kopije?"
 
-#: src/ui.rs:164 src/ui/page_backup/events.rs:20
+#: src/ui.rs:163 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Sigurnosna kopija će ostati nepotpuna ako sada prekinete stvaranje."
 
-#: src/ui.rs:165 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:21
+#: src/ui.rs:164 src/ui/dialog_encryption_password.ui:20
+#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Nastavi"
 
-#: src/ui.rs:166 src/ui/page_backup/events.rs:22
+#: src/ui.rs:165 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Prekini"
 
-#: src/ui.rs:240
+#: src/ui.rs:239
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Neuspjelo “borg” pokretanje. Je li BorgBackup instaliran ispravno?"
 
-#: src/ui.rs:264
+#: src/ui.rs:263
 msgid "BorgBackup version too old"
 msgstr "Inačica BorgBackupa kopiranja je prestara"
 
-#: src/ui.rs:266
+#: src/ui.rs:265
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -500,11 +501,11 @@ msgstr ""
 "Instalirana inačica {} BorgBackupa je prestara. Određene značajke potrebne "
 "za BorgBackup inačice {}.{}.{} neće raditi."
 
-#: src/ui.rs:277
+#: src/ui.rs:276
 msgid "BorgBackup version too new"
 msgstr "Inačica BorgBackupa je prenova"
 
-#: src/ui.rs:279
+#: src/ui.rs:278
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -512,19 +513,19 @@ msgstr ""
 "Instalirana inačica {} BorgBackupa je prenova. Inačica {}.{} je preporučena. "
 "Određene značajke neće raditi očekivano."
 
-#: src/ui.rs:289
+#: src/ui.rs:288
 msgid "Failed to Check BorgBackup Version"
 msgstr "Nemoguća provjera inačice BorgBackupa"
 
-#: src/ui.rs:291
+#: src/ui.rs:290
 msgid "The installed version {} might not work."
 msgstr "Instalirana inačica {} možda neće raditi."
 
-#: src/ui.rs:347
+#: src/ui.rs:346
 msgid "Could not load configuration file."
 msgstr "Nemoguće učitavanje datoteke podešavanja."
 
-#: src/ui.rs:363
+#: src/ui.rs:362
 msgid "Could not write configuration file."
 msgstr "Nemoguće zapisivanje datoteke podešavanja."
 
@@ -604,160 +605,152 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Obuhvati direktorije sigurnosnim kopiranjem…"
 
-#: src/ui/app_window.ui:304
-msgid "_Home"
-msgstr "_Osobna mapa"
-
-#: src/ui/app_window.ui:305
-msgid "Usually contains all personal data"
-msgstr "Uobičajeno sadrži osobne podatke"
-
-#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:309 src/ui/dialog_exclude.ui:6
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Izostavi iz sigurnosne kopije"
 
-#: src/ui/app_window.ui:333
+#: src/ui/app_window.ui:310
 msgid "The following folders are excluded from the backup repository."
 msgstr "Sljedeće mape su izostavljene iz repozitorija sigurnosnog kopiranja."
 
-#: src/ui/app_window.ui:336
+#: src/ui/app_window.ui:313
 msgid "Select directory to exclude…"
 msgstr "Izostavi direktorije iz sigurnosnog kopiranja…"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:333
 msgid "Nothing excluded from backup"
 msgstr "Ništa nije izuzeto iz sigurnosne kopije"
 
-#: src/ui/app_window.ui:375
+#: src/ui/app_window.ui:352
 msgid "_Archives"
 msgstr "_Arhive"
 
-#: src/ui/app_window.ui:470
+#: src/ui/app_window.ui:447
 msgid "Archive _Prefix"
 msgstr "Prefiks _arhive"
 
-#: src/ui/app_window.ui:472
+#: src/ui/app_window.ui:449
 msgid "Added in front of all archive names"
 msgstr "Dodan na početak svih naziva arhiva"
 
-#: src/ui/app_window.ui:501
+#: src/ui/app_window.ui:478
 msgid "_Cleanup Archives"
 msgstr "_Uklanjanje arhiva"
 
-#: src/ui/app_window.ui:502
+#: src/ui/app_window.ui:479
 msgid "Delete some older archives"
 msgstr "Obrišite određene stare arhive"
 
-#: src/ui/app_window.ui:518
+#: src/ui/app_window.ui:495
 msgid "Archives"
 msgstr "Arhive"
 
-#: src/ui/app_window.ui:527
+#: src/ui/app_window.ui:504
 msgid "Refresh list of archives"
 msgstr "Osvježi popis arhiva"
 
-#: src/ui/app_window.ui:548
+#: src/ui/app_window.ui:525
 msgid "Stop browsing archive files"
 msgstr "Prekini pregledavanje datoteka arhive"
 
-#: src/ui/app_window.ui:574
+#: src/ui/app_window.ui:551
 msgid "No archives available"
 msgstr "Nema dostupnih arhiva"
 
-#: src/ui/app_window.ui:593
+#: src/ui/app_window.ui:570
 msgid "_Schedule"
 msgstr "_Raspored"
 
-#: src/ui/app_window.ui:618
+#: src/ui/app_window.ui:595
 msgid "Scheduled Backups"
 msgstr "Raspored sigurnosnog kopiranja"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:599
 msgid "Regularly Create Backups"
 msgstr "Redovito stvaranje arhiva"
 
-#: src/ui/app_window.ui:627
+#: src/ui/app_window.ui:604
 msgid "Frequency"
 msgstr "Učestalost"
 
-#: src/ui/app_window.ui:635
+#: src/ui/app_window.ui:612
 msgid "Preferred Time"
 msgstr "Željeno vrijeme"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:632
 msgid "Preferred Weekday"
 msgstr "Željeni dan u tjednu"
 
-#: src/ui/app_window.ui:660
+#: src/ui/app_window.ui:637
 msgid "Preferred Day"
 msgstr "Željeni dan"
 
-#: src/ui/app_window.ui:681 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:658 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Obriši stare arhive"
 
-#: src/ui/app_window.ui:687
+#: src/ui/app_window.ui:664
 msgid "Save Configuration"
 msgstr "Spremi podešavanje"
 
-#: src/ui/app_window.ui:699
+#: src/ui/app_window.ui:676
 msgid "Regularly Cleanup Archives"
 msgstr "Redovito uklanjanje arhiva"
 
-#: src/ui/app_window.ui:700
+#: src/ui/app_window.ui:677
 msgid "Remove old archives after creating new backups"
 msgstr "Ukloni stare arhive nakon stvaranja novih sigurnosnih kopija"
 
-#: src/ui/app_window.ui:710
+#: src/ui/app_window.ui:687
 msgid "Preserved Archives"
 msgstr "Očuvane arhive"
 
-#: src/ui/app_window.ui:711
+#: src/ui/app_window.ui:688
 msgid "Amount and time span of retained archives"
 msgstr "Količina i vremenski raspon pohranjenih arhiva"
 
-#: src/ui/app_window.ui:720
+#: src/ui/app_window.ui:697
 msgid "Details"
 msgstr "Pojedinosti"
 
-#: src/ui/app_window.ui:724
+#: src/ui/app_window.ui:701
 msgid "Keep Hourly"
 msgstr "Zadrži satno"
 
-#: src/ui/app_window.ui:746
+#: src/ui/app_window.ui:723
 msgid "Keep Daily"
 msgstr "Zadrži dnevno"
 
-#: src/ui/app_window.ui:768
+#: src/ui/app_window.ui:745
 msgid "Keep Weekly"
 msgstr "Zadrži tjedno"
 
-#: src/ui/app_window.ui:788
+#: src/ui/app_window.ui:765
 msgid "Keep Monthly"
 msgstr "Zadrži mjesečno"
 
-#: src/ui/app_window.ui:807
+#: src/ui/app_window.ui:784
 msgid "Keep Annual"
 msgstr "Zadrži godišnje"
 
-#: src/ui/app_window.ui:854
+#: src/ui/app_window.ui:831
 msgid "Backup Info"
 msgstr "Informacije sigurnosne kopije"
 
-#: src/ui/app_window.ui:914
+#: src/ui/app_window.ui:891
 msgid "Amount saved"
 msgstr "Spremljena količina"
 
-#: src/ui/app_window.ui:930
+#: src/ui/app_window.ui:907
 msgid "Number of files saved"
 msgstr "Broj spremljenih datoteka"
 
-#: src/ui/app_window.ui:946
+#: src/ui/app_window.ui:923
 msgid "Additional backup space used"
 msgstr "Dodatni prostor za korištenje sigurnosnog kopiranja"
 
-#: src/ui/app_window.ui:962
+#: src/ui/app_window.ui:939
 msgid "Current file"
 msgstr "Trenutna datoteka"
 
@@ -900,7 +893,7 @@ msgstr "Prefiks arhive"
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:122 src/ui/page_overview.rs:51
+#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
 #: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Odustani"
@@ -956,11 +949,16 @@ msgstr "Šifriranje"
 msgid "Password"
 msgstr "Lozinka"
 
-#: src/ui/dialog_exclude.rs:124
+#: src/ui/dialog_exclude.rs:127
 msgid "Exclude Directory"
 msgstr "Obuhvati direktorij"
 
-#: src/ui/dialog_exclude.rs:142
+#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
+#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:240
+msgid "Select"
+msgstr "Odaberi"
+
+#: src/ui/dialog_exclude.rs:156
 msgid "Exclude File"
 msgstr "Izostavi datoteku"
 
@@ -972,7 +970,7 @@ msgstr "Predloženi izostavci"
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Neuspjelo otkrivanje koliko arhiva treba obrisati"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:328
 msgid "Close"
 msgstr "Zatvori"
 
@@ -1405,7 +1403,7 @@ msgstr "{} dostupno"
 msgid "{} Total"
 msgstr "{} ukupno"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:38
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
 msgid "Failed to unmount repository."
 msgstr "Neuspjelo odmontiravanje repozitorija."
 
@@ -1413,47 +1411,51 @@ msgstr "Neuspjelo odmontiravanje repozitorija."
 msgid "Failed to make archives available for browsing."
 msgstr "Neuspjelo postavljanje arhiva dostupnim za pregledavanje."
 
-#: src/ui/page_backup/events.rs:42
-msgid "Include directory in backups"
-msgstr "Obuhvati direktorije sigurnosnim kopiranjem"
+#: src/ui/page_backup/display.rs:19
+msgid "Usually contains all personal data"
+msgstr "Uobičajeno sadrži osobne podatke"
 
-#: src/ui/page_backup/events.rs:118
+#: src/ui/page_backup/events.rs:42
+msgid "Include Folder"
+msgstr "Obuhvati mapu"
+
+#: src/ui/page_backup/events.rs:93
 msgid "No longer include “{}” in backups?"
 msgstr "“{}” više nije uključeno u sigurnosno kopiranje?"
 
-#: src/ui/page_backup/events.rs:121
+#: src/ui/page_backup/events.rs:94
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Sve datoteke sadržane u ovoj mapi više neće biti obuhvaćene budućim "
 "sigurnosnim kopiranjima."
 
-#: src/ui/page_backup/events.rs:123
+#: src/ui/page_backup/events.rs:96
 msgid "Confirm"
 msgstr "Potvrdi"
 
-#: src/ui/page_backup/execution.rs:29
+#: src/ui/page_backup/execution.rs:35
 msgid "Stop browsing files and start backup?"
 msgstr "Prekini pregledavanje datoteka i pokreni sigurnosno kopiranje?"
 
-#: src/ui/page_backup/execution.rs:30
+#: src/ui/page_backup/execution.rs:36
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Pregledavanje arhiviranih datoteka nije moguće tijekom sigurnosnog kopiranja."
 
-#: src/ui/page_backup/execution.rs:31
+#: src/ui/page_backup/execution.rs:37
 msgid "Keep Browsing"
 msgstr "Nastavi pregledavanje"
 
-#: src/ui/page_backup/execution.rs:32
+#: src/ui/page_backup/execution.rs:38
 msgid "Start Backup"
 msgstr "Pokreni pregledavanje"
 
-#: src/ui/page_backup/execution.rs:111
+#: src/ui/page_backup/execution.rs:117
 msgid "Backup Failed"
 msgstr "Sigurnosno kopirnje nije uspjelo"
 
-#: src/ui/page_backup/execution.rs:130
+#: src/ui/page_backup/execution.rs:136
 msgid "Backup Completed with Warnings"
 msgstr "Sigurnosno kopiranje je završeno s upozorenjima"
 
@@ -1670,19 +1672,15 @@ msgstr "Neuspjelo pokretanje nadgledanja"
 msgid "Failed to Create Thread"
 msgstr "Neuspješno stvaranje niti"
 
-#: src/ui/utils.rs:240 src/ui/utils.rs:263
-msgid "Select"
-msgstr "Odaberi"
-
-#: src/ui/utils.rs:474
+#: src/ui/utils.rs:470
 msgid "Failed to fix Scheduled Backups"
 msgstr "Neuspjelo popravljanje rasporeda sigurnosnog kopiranja"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:475
 msgid "Scheduled Backups Repaired"
 msgstr "Raspored sigurnosnog kopiranja je popravljen"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:475
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1829,6 +1827,12 @@ msgstr ""
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika sigurnosno kopiranje “{}”"
+
+#~ msgid "_Home"
+#~ msgstr "_Osobna mapa"
+
+#~ msgid "Include directory in backups"
+#~ msgstr "Obuhvati direktorije sigurnosnim kopiranjem"
 
 #~ msgid "Exclude directory from backup"
 #~ msgstr "Izostavi direktorije iz sigurnosnog kopiranja"
