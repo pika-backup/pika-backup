@@ -17,9 +17,9 @@ pub static LAST_REMINDED: Lazy<ArcSwap<HashMap<config::ConfigId, std::time::Inst
 
 thread_local!(
     static GIO_APPLICATION: Rc<gio::Application> = Rc::new({
-        debug!("Creating gio::Application {:?}", crate::daemon_app_id());
+        debug!("Creating gio::Application {:?}", crate::DAEMON_APP_ID);
         gio::Application::new(
-            Some(&crate::daemon_app_id()),
+            Some(crate::DAEMON_APP_ID),
             gio::ApplicationFlags::IS_SERVICE,
         )
     });

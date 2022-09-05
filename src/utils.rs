@@ -41,10 +41,9 @@ pub fn mount_uuid(mount: &gio::Mount) -> Option<String> {
 
 pub fn init_gettext() {
     gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
-    let localedir = option_env!("LOCALEDIR").unwrap_or(crate::DEFAULT_LOCALEDIR);
     debug!(
         "bindtextdomain: {:?}",
-        gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), localedir)
+        gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), crate::LOCALEDIR)
     );
     debug!(
         "textdomain: {:?}",

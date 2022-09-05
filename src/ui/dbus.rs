@@ -85,8 +85,8 @@ pub fn init() {
 async fn spawn_server(command: Sender<Command>) -> zbus::Result<()> {
     ZBUS_SESSION
         .object_server()
-        .at(crate::dbus_api_path(), PikaBackup { command })
+        .at(crate::DBUS_API_PATH, PikaBackup { command })
         .await?;
 
-    ZBUS_SESSION.request_name(crate::dbus_api_name()).await
+    ZBUS_SESSION.request_name(crate::DBUS_API_NAME).await
 }

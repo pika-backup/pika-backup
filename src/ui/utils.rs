@@ -93,10 +93,7 @@ pub async fn background_permission() -> Result<()> {
             .err_to_msg(&generic_msg)?;
 
         proxy
-            .start_service_by_name(
-                crate::daemon_app_id().try_into().unwrap(),
-                Default::default(),
-            )
+            .start_service_by_name(crate::DAEMON_APP_ID.try_into().unwrap(), Default::default())
             .await
             .err_to_msg(&generic_msg)?;
 
@@ -450,7 +447,7 @@ pub fn fix_flatpak_autostart() -> Result<()> {
     if ashpd::is_sandboxed() {
         let mut path = glib::home_dir();
         path.push(".config/autostart");
-        path.push(format!("{}.desktop", crate::app_id()));
+        path.push(format!("{}.desktop", crate::APP_ID));
 
         debug!("Checking flatpak autostart file {path:?}");
 

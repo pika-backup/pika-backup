@@ -35,6 +35,7 @@ mod widget;
 pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
 
 use gtk::prelude::*;
+use gvdb_macros::include_gresource_from_dir;
 
 use crate::borg;
 use crate::config;
@@ -43,6 +44,15 @@ use crate::ui;
 use crate::ui::prelude::*;
 use config::ArcSwapWriteable;
 use config::TrackChanges;
+
+static GRESOURCE_BYTES: &[u8] =
+    if const_str::equal!("/org/gnome/World/PikaBackup", crate::DBUS_API_PATH) {
+        include_gresource_from_dir!("/org/gnome/World/PikaBackup", "data/resources")
+    } else if const_str::equal!("/org/gnome/World/PikaBackup/Devel", crate::DBUS_API_PATH) {
+        include_gresource_from_dir!("/org/gnome/World/PikaBackup/Devel", "data/resources")
+    } else {
+        panic!("Invalid DBUS_API_PATH")
+    };
 
 pub fn main() {
     crate::utils::init_gettext();
@@ -54,7 +64,9 @@ pub fn main() {
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
-    register_resources();
+    gio::resources_register(
+        &gio::Resource::from_data(&glib::Bytes::from_static(GRESOURCE_BYTES)).unwrap(),
+    );
 
     adw_app().run();
 }
@@ -360,29 +372,4 @@ fn write_config_e() -> std::io::Result<()> {
 
 fn write_config() -> Result<()> {
     write_config_e().err_to_msg(gettext("Could not write configuration file."))
-}
-
-#[cfg(not(debug_assertions))]
-fn resource() -> std::result::Result<gio::Resource, glib::Error> {
-    gio::Resource::from_data(&glib::Bytes::from_static(include_bytes!(env!(
-        "G_RESOURCES_PATH"
-    ))))
-}
-
-#[cfg(debug_assertions)]
-fn resource() -> std::result::Result<gio::Resource, glib::Error> {
-    if let Some(path) = option_env!("G_RESOURCES_PATH") {
-        gio::Resource::load(&path)
-    } else {
-        gio::Resource::load("data/resources.gresource")
-    }
-}
-
-fn register_resources() {
-    match resource() {
-        Err(err) => {
-            error!("Failed to load resources: {}", err);
-        }
-        Ok(res) => gio::resources_register(&res),
-    }
 }

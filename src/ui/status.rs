@@ -76,7 +76,7 @@ impl StatusTracking {
 
         // Daemon
         Handler::run(enclose!((tracking) async {
-            crate::utils::listen_remote_app_running(&crate::daemon_app_id(), move |running| {
+            crate::utils::listen_remote_app_running(crate::DAEMON_APP_ID, move |running| {
                 tracking.daemon_running.set(running);
                 tracking.ui_schedule_update();
             })

@@ -24,8 +24,8 @@ pub struct PikaBackup;
 impl PikaBackup {
     pub async fn proxy() -> Result<PikaBackupProxy<'static>> {
         PikaBackupProxy::builder(&ZBUS_SESSION)
-            .destination(crate::dbus_api_name())?
-            .path(crate::dbus_api_path())?
+            .destination(crate::DBUS_API_NAME)?
+            .path(crate::DBUS_API_PATH)?
             .build()
             .await
     }

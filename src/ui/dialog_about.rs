@@ -7,7 +7,7 @@ pub fn show() {
     let dialog = ui::builder::DialogAbout::new().dialog();
     dialog.set_transient_for(Some(&main_ui().window()));
 
-    dialog.set_application_icon(&crate::app_id());
+    dialog.set_application_icon(crate::APP_ID);
 
     /*
     Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," \
@@ -63,27 +63,21 @@ fn os_release() -> String {
 }
 
 fn user_autostart() -> String {
-    eprintln!(
-        "{:?}",
-        crate::utils::host::user_config_dir()
-            .join(format!("autostart/{}.desktop", crate::app_id()))
-    );
     std::fs::read_to_string(
-        crate::utils::host::user_config_dir()
-            .join(format!("autostart/{}.desktop", crate::app_id())),
+        crate::utils::host::user_config_dir().join(format!("autostart/{}.desktop", crate::APP_ID)),
     )
     .unwrap_or_default()
 }
 
 fn global_autostart() -> String {
-    std::fs::read_to_string(etc().join(format!("xdg/autostart/{}.desktop", crate::app_id())))
+    std::fs::read_to_string(etc().join(format!("xdg/autostart/{}.desktop", crate::APP_ID)))
         .unwrap_or_default()
 }
 
 fn debug_info() -> String {
     [
         format!("- Version: {}", env!("CARGO_PKG_VERSION")),
-        format!("- App ID: {}", crate::app_id()),
+        format!("- App ID: {}", crate::APP_ID),
         format!(
             "- Sandboxed: {} {}",
             ashpd::is_sandboxed(),

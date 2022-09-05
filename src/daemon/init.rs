@@ -31,7 +31,7 @@ fn on_startup(_app: &gio::Application) {
     gio_app().add_action(&action::ShowSchedule::action());
 
     glib::MainContext::default().spawn(async {
-        crate::utils::listen_remote_app_running(&crate::app_id(), app_running)
+        crate::utils::listen_remote_app_running(crate::APP_ID, app_running)
             .await
             .handle("Cannot monitor ui status.")
     });

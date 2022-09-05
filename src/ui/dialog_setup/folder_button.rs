@@ -49,9 +49,8 @@ mod imp {
 
     impl ObjectImpl for FolderButton {
         fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                vec![ParamSpecObject::builder("file", gio::File::static_type()).build()]
-            });
+            static PROPERTIES: Lazy<Vec<ParamSpec>> =
+                Lazy::new(|| vec![ParamSpecObject::builder::<gio::File>("file").build()]);
             PROPERTIES.as_ref()
         }
 

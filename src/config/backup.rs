@@ -169,7 +169,7 @@ impl Backup {
 
         if ashpd::is_sandboxed() {
             dirs.insert(Exclude::from_pattern(Pattern::PathPrefix(absolute(
-                path::Path::new(&format!(".var/app/{}/data/flatpak/", crate::app_id())),
+                path::Path::new(&format!(".var/app/{}/data/flatpak/", crate::APP_ID)),
             ))));
         }
 

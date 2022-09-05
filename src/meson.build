@@ -19,12 +19,10 @@ cargo_env = {
   'CARGO_HOME': meson.project_build_root() / 'cargo',
   'LOCALEDIR': get_option('prefix') / get_option('localedir'),
   'APPLICATION_ID_SUFFIX': get_option('app_id_suffix'),
-  'G_RESOURCES_PATH': resources_path,
 }
 
 cargo_build = custom_target(
   'cargo-build',
-  depends: resources,
   build_by_default: true,
   build_always_stale: true,
   output: rust_target,
@@ -68,7 +66,6 @@ copy_daemon_binary = custom_target(
 
 cargo_doc = custom_target(
   'cargo-doc',
-  depends: resources,
   build_by_default: false,
   build_always_stale: true,
   output: 'doc',
@@ -83,7 +80,6 @@ cargo_doc = custom_target(
 test(
   'cargo-test',
   cargo_bin,
-  depends: resources,
   args: [
     'test',
     cargo_options,

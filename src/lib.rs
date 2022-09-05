@@ -13,48 +13,27 @@ extern crate enclose;
 #[macro_use]
 mod prelude;
 
+use default_env::default_env;
+
 const REPO_MOUNT_DIR: &str = ".mnt/borg";
 
 const NON_JOURNALING_FILESYSTEMS: &[&str] = &["exfat", "ext2", "vfat"];
 
 const DEFAULT_LOCALEDIR: &str = "/usr/share/locale";
+const LOCALEDIR: &str = default_env!("LOCALEDIR", DEFAULT_LOCALEDIR);
 
-macro_rules! data_dir {
-    () => {
-        concat!(env!("CARGO_MANIFEST_DIR"), "/data")
-    };
-}
+const APP_ID_WITHOUT_SUFFIX: &str = include_str!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/data",
+    "/APPLICATION_ID"
+));
+const APP_ID_SUFFIX: &str = default_env!("APPLICATION_ID_SUFFIX", "");
 
-const UNPREFIXED_APP_ID: &str = include_str!(concat!(data_dir!(), "/APPLICATION_ID"));
+const APP_ID: &str = const_str::concat!(APP_ID_WITHOUT_SUFFIX, APP_ID_SUFFIX);
+const DBUS_API_NAME: &str = const_str::concat!(APP_ID, ".Api");
+const DBUS_API_PATH: &str = const_str::concat!("/", const_str::replace!(APP_ID, ".", "/"));
 
-fn app_id() -> String {
-    format!(
-        "{}{}",
-        UNPREFIXED_APP_ID,
-        option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
-    )
-}
-
-fn dbus_api_name() -> String {
-    format!(
-        "{}{}.Api",
-        UNPREFIXED_APP_ID,
-        option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
-    )
-}
-
-fn dbus_api_path() -> String {
-    format!("/{}", app_id().replace('.', "/"))
-}
-
-fn daemon_app_id() -> String {
-    format!(
-        "{}{}.Monitor",
-        UNPREFIXED_APP_ID,
-        option_env!("APPLICATION_ID_SUFFIX").unwrap_or_default()
-    )
-}
-
+const DAEMON_APP_ID: &str = const_str::concat!(APP_ID, ".Montior");
 const DAEMON_BINARY: &str = concat!(env!("CARGO_PKG_NAME"), "-monitor");
 
 mod action;

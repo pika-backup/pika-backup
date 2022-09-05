@@ -47,7 +47,7 @@ impl Password {
 
     pub fn libsecret_schema() -> libsecret::Schema {
         libsecret::Schema::new(
-            &crate::app_id(),
+            crate::APP_ID,
             libsecret::SchemaFlags::NONE,
             HashMap::from([("repo-id", libsecret::SchemaAttributeType::String)]),
         )

@@ -47,9 +47,9 @@ thread_local!(
     });
 
     static ADW_APPLICATION: Rc<adw::Application> = Rc::new({
-        debug!("Setting up application with id '{}'", crate::app_id());
+        debug!("Setting up application with id '{}'", crate::APP_ID);
         adw::Application::builder()
-            .application_id(&crate::app_id())
+            .application_id(crate::APP_ID)
             .build()
     });
 
