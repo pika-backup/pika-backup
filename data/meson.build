@@ -118,13 +118,4 @@ endif
 
 # Post install
 
-meson.add_install_script(
-    find_program('update-desktop-database').path(),
-    usrdir / 'applications'
-)
-
-meson.add_install_script(
-    find_program('gtk4-update-icon-cache').path(),
-    '-qtf',
-    usrdir / 'icons' / 'hicolor'
-)
+gnome.post_install()

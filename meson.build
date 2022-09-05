@@ -1,22 +1,23 @@
 project(
     run_command(
-        find_program(meson.source_root() / 'build-aux/meson-cargo-manifest.py'),
+        find_program(meson.project_source_root() / 'build-aux/meson-cargo-manifest.py'),
         'package', 'name',
         check: true
     ).stdout(),
     'rust',
     version: run_command(
-        find_program(meson.source_root() / 'build-aux/meson-cargo-manifest.py'),
+        find_program(meson.project_source_root() / 'build-aux/meson-cargo-manifest.py'),
         'package', 'version',
         check: true
-    ).stdout()
+    ).stdout(),
+    meson_version: '>=0.57',
 )
 
 i18n = import ('i18n')
 gnome = import ('gnome')
 
 dependency('gtk4', version: '>= 4.6.0')
-dependency('libadwaita-1', version: '>= 1.1.alpha.0')
+dependency('libadwaita-1', version: '>= 1.2.beta')
 dependency('libsecret-1', version: '>= 0.18.0')
 
 bindir = get_option('prefix') / get_option('bindir')
