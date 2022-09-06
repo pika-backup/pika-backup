@@ -151,7 +151,7 @@ pub async fn exclude_folder() -> Result<()> {
 
 pub async fn exclude_file() -> Result<()> {
     let chooser = gtk::FileChooserNative::builder()
-        .action(gtk::FileChooserAction::SelectFolder)
+        .action(gtk::FileChooserAction::Open)
         .select_multiple(true)
         .title(&gettext("Exclude File"))
         .accept_label(&gettext("Select"))
