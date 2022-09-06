@@ -19,8 +19,7 @@ const REPO_MOUNT_DIR: &str = ".mnt/borg";
 
 const NON_JOURNALING_FILESYSTEMS: &[&str] = &["exfat", "ext2", "vfat"];
 
-const DEFAULT_LOCALEDIR: &str = "/usr/share/locale";
-const LOCALEDIR: &str = default_env!("LOCALEDIR", DEFAULT_LOCALEDIR);
+const LOCALEDIR: &str = default_env!("LOCALEDIR", "/usr/share/locale");
 
 const APP_ID_WITHOUT_SUFFIX: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),

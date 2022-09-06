@@ -19,6 +19,7 @@ cargo_env = {
   'CARGO_HOME': meson.project_build_root() / 'cargo',
   'LOCALEDIR': get_option('prefix') / get_option('localedir'),
   'APPLICATION_ID_SUFFIX': get_option('app_id_suffix'),
+  'GIT_DESCRIBE': run_command('git', 'describe', '--tags', '--dirty', check: true).stdout().strip(),
 }
 
 cargo_build = custom_target(

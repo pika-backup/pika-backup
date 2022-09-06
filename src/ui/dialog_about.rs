@@ -77,6 +77,10 @@ fn global_autostart() -> String {
 fn debug_info() -> String {
     [
         format!("- Version: {}", env!("CARGO_PKG_VERSION")),
+        format!(
+            "- Commit: {}",
+            option_env!("GIT_DESCRIBE").unwrap_or("not set")
+        ),
         format!("- App ID: {}", crate::APP_ID),
         format!(
             "- Sandboxed: {} {}",
