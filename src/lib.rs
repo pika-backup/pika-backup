@@ -1,6 +1,5 @@
 #![allow(clippy::new_without_default)]
-//requires rust 1.63
-//#![allow(clippy::derive_partial_eq_without_eq)]
+#![allow(clippy::derive_partial_eq_without_eq)]
 
 #[macro_use]
 extern crate serde_derive;
