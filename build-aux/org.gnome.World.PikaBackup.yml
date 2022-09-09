@@ -53,17 +53,17 @@ modules:
       - -Dtests=false
       # don't install rules on the host
       - -Dudevrulesdir=/tmp/
+      # don't install init script
+      - -Dinitscriptdir=
     sources:
       - type: archive
-        url: https://github.com/libfuse/libfuse/releases/download/fuse-3.11.0/fuse-3.11.0.tar.xz
-        sha256: 8982c4c521daf3974dda8a5d55d575c988da13a571970f00aea149eb54fdf14c
+        url: https://github.com/libfuse/libfuse/releases/download/fuse-3.12.0/fuse-3.12.0.tar.xz
+        sha256: 33b8a92d6f7a88e6a889f0009206933482f48f3eb85d88cf09ef551313ac7373
         x-checker-data:
           type: anitya
           project-id: 861
           url-template: https://github.com/libfuse/libfuse/releases/download/fuse-$version/fuse-$version.tar.xz
           versions: {<: '4.0'}
-      - type: patch
-        path: fuse-install.patch
 
   - name: host-command-wrapper
     buildsystem: simple
