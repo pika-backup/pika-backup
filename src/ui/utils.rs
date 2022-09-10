@@ -1,4 +1,5 @@
 pub mod borg;
+pub mod config_io;
 pub mod df;
 pub mod duration;
 pub mod ext;

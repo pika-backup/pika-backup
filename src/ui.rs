@@ -1,5 +1,6 @@
 //! User interface
 
+mod actions;
 mod app_window;
 mod backup_status;
 #[allow(dead_code)]
@@ -39,11 +40,10 @@ use gvdb_macros::include_gresource_from_dir;
 
 use crate::borg;
 use crate::config;
-use crate::config::Loadable;
 use crate::ui;
 use crate::ui::prelude::*;
-use config::ArcSwapWriteable;
 use config::TrackChanges;
+use utils::config_io::write_config;
 
 static GRESOURCE_BYTES: &[u8] =
     if const_str::equal!("/org/gnome/World/PikaBackup", crate::DBUS_API_PATH) {
@@ -54,6 +54,7 @@ static GRESOURCE_BYTES: &[u8] =
         panic!("Invalid DBUS_API_PATH")
     };
 
+// Run application
 pub fn main() {
     crate::utils::init_gettext();
 
@@ -109,7 +110,7 @@ fn on_shutdown(_app: &adw::Application) {
 
 fn on_startup(_app: &adw::Application) {
     debug!("Signal 'startup'");
-    load_config();
+    ui::utils::config_io::load_config();
     config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS)
         .handle("Failed to Load Schedule Status");
 
@@ -118,7 +119,7 @@ fn on_startup(_app: &adw::Application) {
         settings.set_property("gtk-icon-theme-name", "Adwaita");
     }
 
-    init_actions();
+    ui::actions::init();
     ui::dbus::init();
 
     ui::app_window::init();
@@ -185,61 +186,6 @@ async fn quit() -> Result<()> {
     }
 
     Ok(())
-}
-
-fn init_actions() {
-    let action = crate::action::backup_show();
-    action.connect_activate(|_, config_id| {
-        if let Some(config_id) = config_id.and_then(|v| v.str()) {
-            ui::page_backup::view_backup_conf(&ConfigId::new(config_id.to_string()));
-            adw_app().activate();
-        }
-    });
-    adw_app().add_action(&action);
-
-    let action = crate::action::backup_start();
-    action.connect_activate(|_, config_id| {
-        info!("action backup.start: called");
-        if let Some(config_id) = config_id.and_then(|v| v.str()) {
-            ui::page_backup::activate_action_backup(ConfigId::new(config_id.to_string()));
-        } else {
-            error!("action backup.start: Did not receivce valid config id");
-        }
-    });
-    adw_app().add_action(&action);
-
-    let action = gio::SimpleAction::new("about", None);
-    action.connect_activate(|_, _| ui::dialog_about::show());
-    adw_app().add_action(&action);
-
-    let action = gio::SimpleAction::new("shortcuts", None);
-    action.connect_activate(|_, _| ui::dialog_shortcuts::show());
-    adw_app().add_action(&action);
-
-    let action = gio::SimpleAction::new("setup", None);
-    action.connect_activate(|_, _| ui::dialog_setup::show());
-    adw_app().add_action(&action);
-
-    let action = gio::SimpleAction::new("help", None);
-    action.connect_activate(|_, _| {
-        gtk::show_uri(
-            Some(&main_ui().window()),
-            "help:pika-backup",
-            gtk::gdk::CURRENT_TIME,
-        );
-    });
-    adw_app().add_action(&action);
-
-    let action = gio::SimpleAction::new("quit", None);
-    action.connect_activate(|_, _| {
-        debug!("Potential quit: Action app.quit (Ctrl+Q)");
-        Handler::run(quit());
-    });
-    adw_app().add_action(&action);
-
-    let action = gio::SimpleAction::new("remove", None);
-    action.connect_activate(|_, _| page_overview::remove_backup());
-    adw_app().add_action(&action);
 }
 
 async fn init_check_borg() -> Result<()> {
@@ -310,66 +256,4 @@ async fn init_check_borg() -> Result<()> {
     }
 
     Ok(())
-}
-
-fn load_config_e() -> std::io::Result<()> {
-    if glib::user_config_dir()
-        .join(env!("CARGO_PKG_NAME"))
-        .join("config.json")
-        .is_file()
-        && !glib::user_config_dir()
-            .join(env!("CARGO_PKG_NAME"))
-            .join("backup.json")
-            .is_file()
-    {
-        std::fs::rename(
-            glib::user_config_dir()
-                .join(env!("CARGO_PKG_NAME"))
-                .join("config.json"),
-            glib::user_config_dir()
-                .join(env!("CARGO_PKG_NAME"))
-                .join("backup.json"),
-        )?;
-    }
-
-    BACKUP_CONFIG.swap(Arc::new(config::Writeable::from_file()?));
-    BACKUP_CONFIG.update(|backups| {
-        let mut new = backups.clone();
-
-        for mut config in new.iter_mut() {
-            if config.config_version < config::VERSION {
-                config.config_version = config::VERSION;
-            }
-        }
-
-        *backups = new;
-    });
-    // potentially write generated default value
-    BACKUP_CONFIG.write_file()?;
-
-    BACKUP_HISTORY.swap(Arc::new(config::Histories::from_file_ui()?));
-    // potentially write internal error status
-    BACKUP_HISTORY.write_file()?;
-
-    Ok(())
-}
-
-fn load_config() {
-    let res = load_config_e().err_to_msg(gettext("Could not load configuration file."));
-    if let Err(err) = res {
-        glib::MainContext::default().block_on(err.show());
-    }
-}
-
-fn write_config_e() -> std::io::Result<()> {
-    debug!("Rewriting all configs");
-
-    BACKUP_CONFIG.write_file()?;
-    BACKUP_HISTORY.write_file()?;
-
-    Ok(())
-}
-
-fn write_config() -> Result<()> {
-    write_config_e().err_to_msg(gettext("Could not write configuration file."))
 }
