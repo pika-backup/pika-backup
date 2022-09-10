@@ -2,7 +2,7 @@
 
 src="$(find src/ -path '*.rs')"
 git ls-files \
-	$src "src/*.ui" "data/*.desktop.in" "data/*.xml.in" \
+	$src "src/*.ui" "data/*.ui" "data/*.desktop.in" "data/*.xml.in" \
 	> po/POTFILES.in
 
 cd po

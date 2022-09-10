@@ -11,7 +11,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
-        <attribute name="action">app.shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Help</attribute>
@@ -111,6 +111,17 @@
                       <object class="GtkMenuButton" id="primary_menu_button">
                         <property name="menu-model">app_menu</property>
                         <property name="icon-name">open-menu-symbolic</property>
+                        <child>
+                          <object class="GtkShortcutController">
+                            <property name="scope">managed</property>
+                            <child>
+                              <object class="GtkShortcut">
+                                <property name="trigger">F10</property>
+                                <property name="action">activate</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -214,6 +225,17 @@ This might take a while.</property>
                       <object class="GtkMenuButton">
                         <property name="menu-model">detail_menu</property>
                         <property name="icon-name">view-more-symbolic</property>
+                        <child>
+                          <object class="GtkShortcutController">
+                            <property name="scope">managed</property>
+                            <child>
+                              <object class="GtkShortcut">
+                                <property name="trigger">F10</property>
+                                <property name="action">activate</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>

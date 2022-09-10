@@ -27,10 +27,6 @@ pub fn init() {
     action.connect_activate(|_, _| ui::dialog_about::show());
     adw_app().add_action(&action);
 
-    let action = gio::SimpleAction::new("shortcuts", None);
-    action.connect_activate(|_, _| ui::dialog_shortcuts::show());
-    adw_app().add_action(&action);
-
     let action = gio::SimpleAction::new("setup", None);
     action.connect_activate(|_, _| ui::dialog_setup::show());
     adw_app().add_action(&action);
