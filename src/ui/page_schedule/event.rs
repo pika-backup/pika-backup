@@ -278,17 +278,11 @@ pub async fn active_change() -> Result<()> {
 
 pub async fn prune_save() -> Result<()> {
     let mut config = BACKUP_CONFIG.load().active()?.clone();
-    update_prune_config(&mut config);
+    config.prune.keep = keep();
 
     ui::dialog_prune_review::run(&config).await?;
 
-    BACKUP_CONFIG.update_result(|config| {
-        update_prune_config(config.active_mut()?);
-
-        Ok(())
-    })?;
-
-    ui::write_config()?;
+    prune_write_changes().await?;
 
     main_ui().prune_save_revealer().set_reveal_child(false);
 
@@ -296,23 +290,15 @@ pub async fn prune_save() -> Result<()> {
 }
 
 pub async fn prune_enabled() -> Result<()> {
-    if !main_ui().prune_enabled().is_active() {
-        BACKUP_CONFIG.update_result(|config| {
-            config.active_mut()?.prune.enabled = false;
+    let unsafe_changes = prune_pending_unsafe_changes()?;
 
-            Ok(())
-        })?;
-
-        ui::write_config()?;
-    }
-
-    let mut config = BACKUP_CONFIG.load().active()?.clone();
-    update_prune_config(&mut config);
-
-    let config_changed = &config != BACKUP_CONFIG.load().active()?;
     main_ui()
         .prune_save_revealer()
-        .set_reveal_child(config_changed);
+        .set_reveal_child(unsafe_changes);
+
+    if !unsafe_changes {
+        prune_write_changes().await?;
+    }
 
     Ok(())
 }
@@ -338,27 +324,55 @@ pub async fn prune_preset_change() -> Result<()> {
 }
 
 pub async fn keep_change() -> Result<()> {
-    let mut config = BACKUP_CONFIG.load().active()?.clone();
-    update_prune_config(&mut config);
-
     main_ui()
         .prune_preset()
-        .set_selected(prune_preset::PrunePreset::matching(&config.prune.keep) as u32);
+        .set_selected(prune_preset::PrunePreset::matching(&keep()) as u32);
 
-    let config_changed = &config != BACKUP_CONFIG.load().active()?;
+    let unsafe_changes = prune_pending_unsafe_changes()?;
     main_ui()
         .prune_save_revealer()
-        .set_reveal_child(config_changed);
+        .set_reveal_child(unsafe_changes);
+
+    if !unsafe_changes {
+        prune_write_changes().await?;
+    }
 
     Ok(())
 }
 
-fn update_prune_config(config: &mut config::Backup) {
-    config.prune.enabled = main_ui().prune_enabled().is_active();
+fn prune_pending_unsafe_changes() -> Result<bool> {
+    let configs = BACKUP_CONFIG.load();
+    let current_config = configs.active()?;
 
-    config.prune.keep.hourly = main_ui().schedule_keep_hourly().value() as u32;
-    config.prune.keep.daily = main_ui().schedule_keep_daily().value() as u32;
-    config.prune.keep.weekly = main_ui().schedule_keep_weekly().value() as u32;
-    config.prune.keep.monthly = main_ui().schedule_keep_monthly().value() as u32;
-    config.prune.keep.yearly = main_ui().schedule_keep_yearly().value() as u32;
+    Ok(
+        // true if pruning enabled
+        (main_ui().prune_enabled().is_active()
+            && current_config.prune.enabled != main_ui().prune_enabled().is_active()) ||
+            // true if keeping less archives
+            (!keep().is_greater_eq_everywhere(&current_config.prune.keep)
+                && main_ui().prune_enabled().is_active()),
+    )
+}
+
+async fn prune_write_changes() -> Result<()> {
+    BACKUP_CONFIG.update_result(|configs| {
+        let config = configs.active_mut()?;
+
+        config.prune.enabled = main_ui().prune_enabled().is_active();
+        config.prune.keep = keep();
+
+        Ok(())
+    })?;
+
+    ui::write_config()
+}
+
+fn keep() -> config::Keep {
+    config::Keep {
+        hourly: main_ui().schedule_keep_hourly().value() as u32,
+        daily: main_ui().schedule_keep_daily().value() as u32,
+        weekly: main_ui().schedule_keep_weekly().value() as u32,
+        monthly: main_ui().schedule_keep_monthly().value() as u32,
+        yearly: main_ui().schedule_keep_yearly().value() as u32,
+    }
 }

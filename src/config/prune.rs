@@ -24,3 +24,13 @@ impl Default for Keep {
         }
     }
 }
+
+impl Keep {
+    pub fn is_greater_eq_everywhere(&self, other: &Keep) -> bool {
+        self.hourly >= other.hourly
+            && self.daily >= other.daily
+            && self.weekly >= other.weekly
+            && self.monthly >= other.monthly
+            && self.yearly >= other.yearly
+    }
+}

@@ -3,6 +3,7 @@
 ## 0.5.0 Unreleased
 
 - Change desktop entry category from "System" to "Utility/Archiving"
+- Change prune section to only ask for confirmation if more archives could be deleted
 - Change some of the setup dialogs design
 - Change status icon colors for better contrast
 - Change to always use Adwaita icon theme
