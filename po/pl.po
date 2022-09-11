@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-03 00:57+0000\n"
-"PO-Revision-Date: 2022-09-04 13:28+0200\n"
+"POT-Creation-Date: 2022-09-10 17:25+0000\n"
+"PO-Revision-Date: 2022-09-11 15:15+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -29,7 +29,7 @@ msgstr "Monitor kopii zapasowych Pika"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:188 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Kopie zapasowe Pika"
 
@@ -111,7 +111,27 @@ msgstr ""
 "Przechowuj kopie na lokalnych dyskach i w serwisach internetowych w tym "
 "samym czasie"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:232
+#: data/resources/gtk/help-overlay.ui:9
+msgid "General"
+msgstr "Ogólne"
+
+#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+msgid "Set up new backup"
+msgstr "Konfiguruje nową kopię zapasową"
+
+#: data/resources/gtk/help-overlay.ui:19
+msgid "Quit"
+msgstr "Kończy działanie"
+
+#: data/resources/gtk/help-overlay.ui:25
+msgid "Back"
+msgstr "Wstecz"
+
+#: data/resources/gtk/help-overlay.ui:31
+msgid "Open menu"
+msgstr "Otwiera menu"
+
+#: src/borg/error.rs:27 src/ui/utils.rs:230
 msgid "The operation terminated unexpectedly."
 msgstr "Działanie zostało nieoczekiwanie zakończone."
 
@@ -467,34 +487,34 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Rozpoczęcie zaplanowanej kopii zapasowej się nie powiodło"
 
-#: src/ui.rs:162 src/ui/page_backup/events.rs:17
+#: src/ui.rs:174 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Przerwać tworzenie kopii zapasowej?"
 
-#: src/ui.rs:163 src/ui/page_backup/events.rs:18
+#: src/ui.rs:175 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Przerwanie w tej chwili spowoduje, że kopia zapasowa będzie niepełna."
 
-#: src/ui.rs:164 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Kontynuuj"
 
-#: src/ui.rs:165 src/ui/page_backup/events.rs:20
+#: src/ui.rs:177 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Przerwij"
 
-#: src/ui.rs:239
+#: src/ui.rs:196
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Wykonanie polecenia „borg” się nie powiodło. Czy prawidłowo zainstalowano "
 "program BorgBackup?"
 
-#: src/ui.rs:263
+#: src/ui.rs:220
 msgid "BorgBackup version too old"
 msgstr "Wersja programu BorgBackup jest za stara"
 
-#: src/ui.rs:265
+#: src/ui.rs:222
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -502,11 +522,11 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za stara. Część funkcji do "
 "działania wymaga wersji {}.{}.{}."
 
-#: src/ui.rs:276
+#: src/ui.rs:233
 msgid "BorgBackup version too new"
 msgstr "Wersja programu BorgBackup jest za nowa"
 
-#: src/ui.rs:278
+#: src/ui.rs:235
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -514,21 +534,13 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za nowa. Zalecana jest "
 "wersja {}.{}. Część funkcji może nie działać poprawnie."
 
-#: src/ui.rs:288
+#: src/ui.rs:245
 msgid "Failed to Check BorgBackup Version"
 msgstr "Sprawdzenie wersji programu BorgBackup się nie powiodło"
 
-#: src/ui.rs:290
+#: src/ui.rs:247
 msgid "The installed version {} might not work."
 msgstr "Zainstalowana wersja, {}, może nie działać."
-
-#: src/ui.rs:346
-msgid "Could not load configuration file."
-msgstr "Nie można wczytać pliku konfiguracji."
-
-#: src/ui.rs:362
-msgid "Could not write configuration file."
-msgstr "Nie można zapisać pliku konfiguracji."
 
 #: src/ui/app_window.ui:13
 msgid "_Keyboard Shortcuts"
@@ -550,27 +562,23 @@ msgstr "Usuń konfigurację kopii zapasowych"
 msgid ":"
 msgstr "∶"
 
-#: src/ui/app_window.ui:106 src/ui/dialog_shortcuts.ui:13
-msgid "Set up new backup"
-msgstr "Konfiguruje nową kopię zapasową"
-
-#: src/ui/app_window.ui:131
+#: src/ui/app_window.ui:142
 msgid "No Backup Configured"
 msgstr "Nie skonfigurowano kopii zapasowej"
 
-#: src/ui/app_window.ui:132
+#: src/ui/app_window.ui:143
 msgid "Add a new configuration to start creating backups"
 msgstr "Należy dodać nową konfigurację, aby zacząć tworzyć kopie zapasowe"
 
-#: src/ui/app_window.ui:135
+#: src/ui/app_window.ui:146
 msgid "Setup Backup"
 msgstr "Skonfiguruj kopię zapasową"
 
-#: src/ui/app_window.ui:181
+#: src/ui/app_window.ui:192
 msgid "Back to overview"
 msgstr "Wraca do przeglądu"
 
-#: src/ui/app_window.ui:202
+#: src/ui/app_window.ui:213
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -578,177 +586,177 @@ msgstr ""
 "Archiwa są montowane.\n"
 "Może to chwilę zająć."
 
-#: src/ui/app_window.ui:230
+#: src/ui/app_window.ui:252
 msgid "_Backup"
 msgstr "_Kopia zapasowa"
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:274
 msgid "_Abort"
 msgstr "_Przerwij"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:296
 msgid "Back Up _Now"
 msgstr "_Wykonaj kopię zapasową"
 
-#: src/ui/app_window.ui:288 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Pliki w kopii zapasowej"
 
-#: src/ui/app_window.ui:289
+#: src/ui/app_window.ui:311
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr ""
 "Tylko pliki w tych katalogach są zapisywane w repozytorium kopii zapasowej."
 
-#: src/ui/app_window.ui:292
+#: src/ui/app_window.ui:314
 msgid "Select directory to include…"
 msgstr "Wybiera katalog do dołączenia…"
 
-#: src/ui/app_window.ui:309 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:6
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Wykluczone z kopii zapasowej"
 
-#: src/ui/app_window.ui:310
+#: src/ui/app_window.ui:332
 msgid "The following folders are excluded from the backup repository."
 msgstr "Te katalogi są wykluczone z repozytorium kopii zapasowej."
 
-#: src/ui/app_window.ui:313
+#: src/ui/app_window.ui:335
 msgid "Select directory to exclude…"
 msgstr "Wybiera katalog do wykluczenia…"
 
-#: src/ui/app_window.ui:333
+#: src/ui/app_window.ui:355
 msgid "Nothing excluded from backup"
 msgstr "Nic nie wykluczono z kopii zapasowej"
 
-#: src/ui/app_window.ui:352
+#: src/ui/app_window.ui:374
 msgid "_Archives"
 msgstr "_Archiwa"
 
-#: src/ui/app_window.ui:447
+#: src/ui/app_window.ui:469
 msgid "Archive _Prefix"
 msgstr "_Przedrostek archiwum"
 
-#: src/ui/app_window.ui:449
+#: src/ui/app_window.ui:471
 msgid "Added in front of all archive names"
 msgstr "Dodawany przed nazwami archiwów"
 
-#: src/ui/app_window.ui:478
+#: src/ui/app_window.ui:500
 msgid "_Cleanup Archives"
 msgstr "Wy_czyść archiwa"
 
-#: src/ui/app_window.ui:479
+#: src/ui/app_window.ui:501
 msgid "Delete some older archives"
 msgstr "Usuwa część starszych archiwów"
 
-#: src/ui/app_window.ui:495
+#: src/ui/app_window.ui:517
 msgid "Archives"
 msgstr "Archiwa"
 
-#: src/ui/app_window.ui:504
+#: src/ui/app_window.ui:526
 msgid "Refresh list of archives"
 msgstr "Odświeża listę archiwów"
 
-#: src/ui/app_window.ui:525
+#: src/ui/app_window.ui:547
 msgid "Stop browsing archive files"
 msgstr "Kończy przeglądanie plików archiwum"
 
-#: src/ui/app_window.ui:551
+#: src/ui/app_window.ui:573
 msgid "No archives available"
 msgstr "Brak dostępnych archiwów"
 
-#: src/ui/app_window.ui:570
+#: src/ui/app_window.ui:592
 msgid "_Schedule"
 msgstr "_Harmonogram"
 
-#: src/ui/app_window.ui:595
+#: src/ui/app_window.ui:617
 msgid "Scheduled Backups"
 msgstr "Zaplanowane kopie zapasowe"
 
-#: src/ui/app_window.ui:599
+#: src/ui/app_window.ui:621
 msgid "Regularly Create Backups"
 msgstr "Regularne tworzenie kopii zapasowych"
 
-#: src/ui/app_window.ui:604
+#: src/ui/app_window.ui:626
 msgid "Frequency"
 msgstr "Częstotliwość"
 
-#: src/ui/app_window.ui:612
+#: src/ui/app_window.ui:634
 msgid "Preferred Time"
 msgstr "Preferowany czas"
 
-#: src/ui/app_window.ui:632
+#: src/ui/app_window.ui:654
 msgid "Preferred Weekday"
 msgstr "Preferowany dzień tygodnia"
 
-#: src/ui/app_window.ui:637
+#: src/ui/app_window.ui:659
 msgid "Preferred Day"
 msgstr "Preferowany dzień"
 
-#: src/ui/app_window.ui:658 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:680 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Usuwanie starych archiwów"
 
-#: src/ui/app_window.ui:664
+#: src/ui/app_window.ui:686
 msgid "Save Configuration"
 msgstr "Zapisz konfigurację"
 
-#: src/ui/app_window.ui:676
+#: src/ui/app_window.ui:698
 msgid "Regularly Cleanup Archives"
 msgstr "Regularne czyszczenie archiwów"
 
-#: src/ui/app_window.ui:677
+#: src/ui/app_window.ui:699
 msgid "Remove old archives after creating new backups"
 msgstr "Usuwanie starych archiwów po utworzeniu nowych kopii zapasowych"
 
-#: src/ui/app_window.ui:687
+#: src/ui/app_window.ui:709
 msgid "Preserved Archives"
 msgstr "Przechowywane archiwa"
 
-#: src/ui/app_window.ui:688
+#: src/ui/app_window.ui:710
 msgid "Amount and time span of retained archives"
 msgstr "Ilość i czas zachowywanych archiwów"
 
-#: src/ui/app_window.ui:697
+#: src/ui/app_window.ui:719
 msgid "Details"
 msgstr "Szczegóły"
 
-#: src/ui/app_window.ui:701
+#: src/ui/app_window.ui:723
 msgid "Keep Hourly"
 msgstr "Co godzinę"
 
-#: src/ui/app_window.ui:723
+#: src/ui/app_window.ui:745
 msgid "Keep Daily"
 msgstr "Codziennie"
 
-#: src/ui/app_window.ui:745
+#: src/ui/app_window.ui:767
 msgid "Keep Weekly"
 msgstr "Co tydzień"
 
-#: src/ui/app_window.ui:765
+#: src/ui/app_window.ui:787
 msgid "Keep Monthly"
 msgstr "Co miesiąc"
 
-#: src/ui/app_window.ui:784
+#: src/ui/app_window.ui:806
 msgid "Keep Annual"
 msgstr "Co roku"
 
-#: src/ui/app_window.ui:831
+#: src/ui/app_window.ui:853
 msgid "Backup Info"
 msgstr "Informacje o kopii zapasowej"
 
-#: src/ui/app_window.ui:891
+#: src/ui/app_window.ui:913
 msgid "Amount saved"
 msgstr "Zapisana ilość"
 
-#: src/ui/app_window.ui:907
+#: src/ui/app_window.ui:929
 msgid "Number of files saved"
 msgstr "Liczba zapisanych plików"
 
-#: src/ui/app_window.ui:923
+#: src/ui/app_window.ui:945
 msgid "Additional backup space used"
 msgstr "Używane dodatkowe miejsce na kopię zapasową"
 
-#: src/ui/app_window.ui:939
+#: src/ui/app_window.ui:961
 msgid "Current file"
 msgstr "Obecny plik"
 
@@ -953,7 +961,7 @@ msgid "Exclude Directory"
 msgstr "Wykluczenie katalogu"
 
 #: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
-#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:240
+#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:238
 msgid "Select"
 msgstr "Wybierz"
 
@@ -969,7 +977,7 @@ msgstr "Proponowane wykluczenia"
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Ustalenie, ile archiwów zostałoby usuniętych się nie powiodło"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:328
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:326
 msgid "Close"
 msgstr "Zamknij"
 
@@ -1237,11 +1245,11 @@ msgstr "Brak"
 msgid "Free space: {}"
 msgstr "Wolne miejsce: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:111
+#: src/ui/dialog_setup/folder_button.rs:110
 msgid "_Select…"
 msgstr "_Wybierz…"
 
-#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Położenie kopii zapasowej"
 
@@ -1318,18 +1326,6 @@ msgstr "Zdalne położenie musi mieć podaną ścieżkę."
 #: src/ui/dialog_setup/remote_location.rs:36
 msgid "Invalid remote location: “{}”"
 msgstr "Nieprawidłowe zdalne położenie: „{}”"
-
-#: src/ui/dialog_shortcuts.ui:9
-msgid "General"
-msgstr "Ogólne"
-
-#: src/ui/dialog_shortcuts.ui:19
-msgid "Quit"
-msgstr "Kończy działanie"
-
-#: src/ui/dialog_shortcuts.ui:25
-msgid "Back"
-msgstr "Wstecz"
 
 #: src/ui/dialog_storage.ui:30
 msgid "Volume"
@@ -1630,19 +1626,19 @@ msgstr ""
 "Położenie kopii zapasowej „{}” może być pełne. Szacowane wymagane miejsce do "
 "przechowania wszystkich danych: {}."
 
-#: src/ui/utils.rs:87
+#: src/ui/utils.rs:88
 msgid "Request to run in background failed"
 msgstr "Żądanie działania w tle się nie powiodło"
 
-#: src/ui/utils.rs:108
+#: src/ui/utils.rs:106
 msgid "Schedule backups and continue running backups."
 msgstr "Planowanie i wykonywanie kopii zapasowych w tle."
 
-#: src/ui/utils.rs:124
+#: src/ui/utils.rs:122
 msgid "Run in background disabled"
 msgstr "Wyłączono działanie w tle"
 
-#: src/ui/utils.rs:125
+#: src/ui/utils.rs:123
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1651,7 +1647,7 @@ msgstr ""
 "Funkcja planowania i wykonywania kopii zapasowych w tle nie będzie dostępna. "
 "Opcja „działanie w tle” może zostać włączona w ustawieniach systemu."
 
-#: src/ui/utils.rs:135
+#: src/ui/utils.rs:133
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1660,23 +1656,23 @@ msgstr ""
 "System nie obsługuje tej funkcji lub wystąpił błąd. Funkcja planowania "
 "i wykonywania kopii zapasowych w tle nie będzie dostępna."
 
-#: src/ui/utils.rs:157
+#: src/ui/utils.rs:155
 msgid "Failed to Start Monitor"
 msgstr "Uruchomienie monitora się nie powiodło"
 
-#: src/ui/utils.rs:226
+#: src/ui/utils.rs:224
 msgid "Failed to Create Thread"
 msgstr "Utworzenie wątku się nie powiodło"
 
-#: src/ui/utils.rs:470
+#: src/ui/utils.rs:468
 msgid "Failed to fix Scheduled Backups"
 msgstr "Naprawienie zaplanowanych kopii zapasowych się nie powiodło"
 
-#: src/ui/utils.rs:475
+#: src/ui/utils.rs:473
 msgid "Scheduled Backups Repaired"
 msgstr "Naprawiono zaplanowane kopie zapasowe"
 
-#: src/ui/utils.rs:475
+#: src/ui/utils.rs:473
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1710,6 +1706,14 @@ msgstr ""
 #: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Kontynuuj mimo to"
+
+#: src/ui/utils/config_io.rs:49
+msgid "Could not load configuration file."
+msgstr "Nie można wczytać pliku konfiguracji."
+
+#: src/ui/utils/config_io.rs:65
+msgid "Could not write configuration file."
+msgstr "Nie można zapisać pliku konfiguracji."
 
 #: src/ui/utils/duration.rs:10
 msgid "One second"
