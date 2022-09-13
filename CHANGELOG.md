@@ -8,7 +8,8 @@
 - Change status icon colors for better contrast
 - Change to always use Adwaita icon theme
 - Change to hide advanced settings behind toggle button in setup
-- Change to only list mounted sftp and smb locations in setup dialog
+- Change to only list mounted SMB and SFTP locations in setup dialog
+- Change to only mention SMB and SFTP schemas in setup dialog
 - Change to use AdwAboutWindow
 - Change to use AdwMessageDialog
 - Change to symbolic icons in include/exclude list
