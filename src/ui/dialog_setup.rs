@@ -14,6 +14,8 @@ use crate::ui::prelude::*;
 use insert::execute;
 use ui::builder::DialogSetup;
 
+const LISTED_URI_SCHEMES: &[&str] = &["smb", "sftp", "ssh"];
+
 pub fn show() {
     let ui = DialogSetup::new();
 
@@ -136,6 +138,17 @@ fn load_available_mounts_and_repos(ui: &DialogSetup) {
 }
 
 async fn load_mount(ui: DialogSetup, mount: gio::Mount) -> Result<()> {
+    let uri_scheme = mount
+        .root()
+        .uri_scheme()
+        .unwrap_or_else(|| glib::GString::from(""))
+        .to_lowercase();
+
+    if !LISTED_URI_SCHEMES.contains(&uri_scheme.as_str()) {
+        info!("Ignoring volume because of URI scheme '{}'", uri_scheme);
+        return Ok(());
+    }
+
     if let Some(mount_point) = mount.root().path() {
         display::add_mount(
             &ui.init_repo_list(),
