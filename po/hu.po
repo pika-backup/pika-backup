@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-10 17:25+0000\n"
-"PO-Revision-Date: 2022-09-10 21:22+0200\n"
+"POT-Creation-Date: 2022-09-13 21:52+0000\n"
+"PO-Revision-Date: 2022-09-14 02:44+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -498,7 +498,7 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja."
 
 #: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
+#: src/ui/dialog_setup.ui:448 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Folytatás"
 
@@ -894,7 +894,7 @@ msgid "Invalid Archive Prefix"
 msgstr "Érvénytelen archívumelőtag"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:652
+#: src/ui/dialog_setup.ui:626
 msgid "Archive Prefix"
 msgstr "Archívumelőtag"
 
@@ -950,11 +950,11 @@ msgid ""
 "“{}”."
 msgstr "A(z) „{}” művelethez a(z) „{}” tároló titkosítási jelszava szükséges."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:351
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:325
 msgid "Encryption"
 msgstr "Titkosítás"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:527
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:501
 msgid "Password"
 msgstr "Jelszó"
 
@@ -1043,7 +1043,7 @@ msgstr ""
 "A változtatások alkalmazása után a régi archívumok következő automatikus "
 "törlése a következőket eredményezné."
 
-#: src/ui/dialog_setup.rs:165
+#: src/ui/dialog_setup.rs:178
 msgid "Failed to list existing repositories."
 msgstr "A meglévő tárolók felsorolása sikertelen."
 
@@ -1105,46 +1105,39 @@ msgid "Conventional Locations"
 msgstr "Szokásos helyek"
 
 #: src/ui/dialog_setup.ui:288
+#| msgid ""
+#| "Conventional remote backup locations can be provided as a URL with "
+#| "protocol prefix, address, and folder."
 msgid ""
-"Conventional remote backup locations can be provided as a URL with protocol "
-"prefix, address, and folder."
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"A szokásos távoli biztonsági mentési helyek URL-ként adhatók meg "
-"protokollelőtaggal, címmel és mappával."
+"Az SMB és SFTP távoli biztonsági mentési helyek URL-ként adhatók meg az"
+" „smb://” vagy „sftp://” protokollelőtaggal."
 
-#: src/ui/dialog_setup.ui:298
+#: src/ui/dialog_setup.ui:295
+#| msgid "Locations with Borg-Backup Support"
+msgid "Locations with BorgBackup Support"
+msgstr "BorgBackup támogatással rendelkező helyek"
+
+#: src/ui/dialog_setup.ui:307
+#| msgid ""
+#| "Locations with explicit borg-backup support can provide better "
+#| "performance. They are special in that the server has a borg-backup binary "
+#| "installed. For those locations, either the “<server address>:<folder>” "
+#| "syntax or the “ssh://” prefix can be used."
 msgid ""
-"The “ssh://” protocol is reserved for locations with explicit borg support "
-"(see below). The “sftp://” prefix can be used instead."
-msgstr ""
-"Az „ssh://” protokoll a kifejezetten borg támogatással rendelkező helyekhez "
-"van fenntartva (lásd lent). Helyette az „sftp://” előtag használható."
-
-#: src/ui/dialog_setup.ui:308
-msgid ""
-"Apart from that, all prefixes supported by the GNOME Virtual file system are "
-"supported."
-msgstr ""
-"Ezeket leszámítva az összes, a GNOME virtuális fájlrendszer által támogatott "
-"előtag támogatott."
-
-#: src/ui/dialog_setup.ui:318
-msgid "Locations with Borg-Backup Support"
-msgstr "Helyek Borg-Backup támogatással"
-
-#: src/ui/dialog_setup.ui:330
-msgid ""
-"Locations with explicit borg-backup support can provide better performance. "
-"They are special in that the server has a borg-backup binary installed. For "
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"A kifejezetten borg-backup támogatással rendelkező helyek jobb teljesítményt "
-"biztosíthatnak. Abban különlegesek, hogy a kiszolgálón telepítve van a borg-"
-"backup bináris. Ezeknél a helyeknél a „<kiszolgálócím>:<mappa>” szintaxis, "
-"vagy az „ssh://” előtag használható."
+"A kifejezetten BorgBackup támogatással rendelkező helyek jobb teljesítményt"
+" biztosíthatnak. Abban különlegesek, hogy a kiszolgálón telepítve van a"
+" BorgBackup bináris. Ezeknél a helyeknél a „<kiszolgálócím>:<mappa>”"
+" szintaxis, vagy az „ssh://” előtag használható."
 
-#: src/ui/dialog_setup.ui:350
+#: src/ui/dialog_setup.ui:324
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1152,23 +1145,23 @@ msgstr ""
 "A titkosított biztonsági mentésekben tárolt adatok jelszóval védettek. Ha "
 "titkosítást használ, akkor jelszó szükséges a biztonsági mentések eléréséhez."
 
-#: src/ui/dialog_setup.ui:365
+#: src/ui/dialog_setup.ui:339
 msgid "Encrypted"
 msgstr "Titkosított"
 
-#: src/ui/dialog_setup.ui:372
+#: src/ui/dialog_setup.ui:346
 msgid "Encryption Password"
 msgstr "Titkosítási jelszó"
 
-#: src/ui/dialog_setup.ui:386
+#: src/ui/dialog_setup.ui:360
 msgid "Repeat Password"
 msgstr "Jelszó ismétlése"
 
-#: src/ui/dialog_setup.ui:397
+#: src/ui/dialog_setup.ui:371
 msgid "Unencrypted"
 msgstr "Titkosítatlan"
 
-#: src/ui/dialog_setup.ui:413
+#: src/ui/dialog_setup.ui:387
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1176,33 +1169,33 @@ msgstr ""
 "Ezek az argumentumok hozzá lesznek adva a borg bináris meghívásához. Csak a "
 "hosszú kapcsolók támogatottak, amelyek „--” karakterekkel kezdődnek."
 
-#: src/ui/dialog_setup.ui:414
+#: src/ui/dialog_setup.ui:388
 msgid "Additional command line arguments"
 msgstr "További parancssori argumentumok"
 
-#: src/ui/dialog_setup.ui:454
+#: src/ui/dialog_setup.ui:428
 msgid "Checking Backup Repository"
 msgstr "Biztonsági mentési tároló ellenőrzése"
 
-#: src/ui/dialog_setup.ui:507
+#: src/ui/dialog_setup.ui:481
 msgid "Encryption Password Required"
 msgstr "Titkosítási jelszó szükséges"
 
-#: src/ui/dialog_setup.ui:516
+#: src/ui/dialog_setup.ui:490
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "A biztonsági mentési tároló titkosítási jelszava kötelező a hozzáféréséhez."
 
-#: src/ui/dialog_setup.ui:562 src/ui/dialog_setup.ui:596
+#: src/ui/dialog_setup.ui:536 src/ui/dialog_setup.ui:570
 msgid "S_kip"
 msgstr "_Kihagyás"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:548
 msgid "Checking for Previous Configurations"
 msgstr "Korábbi beállítások ellenőrzése"
 
-#: src/ui/dialog_setup.ui:575
+#: src/ui/dialog_setup.ui:549
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1210,11 +1203,11 @@ msgstr ""
 "Információk gyűjtése a korábban használt beállítások átviteléhez. Ez a lépés "
 "kihagyható."
 
-#: src/ui/dialog_setup.ui:610
+#: src/ui/dialog_setup.ui:584
 msgid "Transfer Settings"
 msgstr "Átviteli beállítások"
 
-#: src/ui/dialog_setup.ui:611
+#: src/ui/dialog_setup.ui:585
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1223,11 +1216,11 @@ msgstr ""
 "kiválasztható ahhoz, hogy átvitelre kerüljön az új beállításba. A beállítás "
 "utána módosítható."
 
-#: src/ui/dialog_setup.ui:639
+#: src/ui/dialog_setup.ui:613
 msgid "_Save"
 msgstr "_Mentés"
 
-#: src/ui/dialog_setup.ui:653
+#: src/ui/dialog_setup.ui:627
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1237,7 +1230,7 @@ msgstr ""
 "előtag két különböző eszközön történő használata nem javasolt, kivéve ha az "
 "új eszköz leváltja a régit."
 
-#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:668 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Biztonsági mentési tároló létrehozása"
 
@@ -1496,7 +1489,7 @@ msgstr "Ütemezés megtartása"
 msgid "Disable Schedule"
 msgstr "Ütemezés letiltása"
 
-#: src/ui/page_schedule/event.rs:336
+#: src/ui/page_schedule/event.rs:322
 msgid "No preset selected."
 msgstr "Nincs előbeállítás kiválasztva."
 
