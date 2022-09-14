@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-10 17:25+0000\n"
-"PO-Revision-Date: 2022-09-11 09:09+0300\n"
+"POT-Creation-Date: 2022-09-13 21:52+0000\n"
+"PO-Revision-Date: 2022-09-14 14:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -505,7 +505,7 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
 #: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
+#: src/ui/dialog_setup.ui:448 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Продовжити"
 
@@ -901,7 +901,7 @@ msgid "Invalid Archive Prefix"
 msgstr "Некоректний префікс архівів"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:652
+#: src/ui/dialog_setup.ui:626
 msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
@@ -957,11 +957,11 @@ msgid ""
 "“{}”."
 msgstr "Для виконання дії «{}» потрібен пароль шифрування до сховища у «{}»."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:351
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:325
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:527
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:501
 msgid "Password"
 msgstr "Пароль"
 
@@ -1050,7 +1050,7 @@ msgstr ""
 "Після застосування цих змін наступне автоматичне вилучення застарілих "
 "архівів матиме вказані нижче наслідки."
 
-#: src/ui/dialog_setup.rs:165
+#: src/ui/dialog_setup.rs:178
 msgid "Failed to list existing repositories."
 msgstr "Не вдалося створити список наявних сховищ."
 
@@ -1113,48 +1113,39 @@ msgid "Conventional Locations"
 msgstr "Традиційні місця"
 
 #: src/ui/dialog_setup.ui:288
+#| msgid ""
+#| "Conventional remote backup locations can be provided as a URL with "
+#| "protocol prefix, address, and folder."
 msgid ""
-"Conventional remote backup locations can be provided as a URL with protocol "
-"prefix, address, and folder."
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"Традиційні місця для зберігання резервних копій на віддалених комп'ютерах "
-"можна вказати у форматі адреси, що складається із префікса протоколу, власне "
-"адреси та теки."
+"Місця віддаленого резервного копіювання за протоколами SMB і SFTP можна"
+" вказати як адреси із префіксом протоколу «smb://» або «sftp://»."
 
-#: src/ui/dialog_setup.ui:298
+#: src/ui/dialog_setup.ui:295
+#| msgid "Locations with Borg-Backup Support"
+msgid "Locations with BorgBackup Support"
+msgstr "Місця з підтримкою BorgBackup"
+
+#: src/ui/dialog_setup.ui:307
+#| msgid ""
+#| "Locations with explicit borg-backup support can provide better "
+#| "performance. They are special in that the server has a borg-backup binary "
+#| "installed. For those locations, either the “<server address>:<folder>” "
+#| "syntax or the “ssh://” prefix can be used."
 msgid ""
-"The “ssh://” protocol is reserved for locations with explicit borg support "
-"(see below). The “sftp://” prefix can be used instead."
-msgstr ""
-"Протокол «ssh://» зарезервовано для місць із явною підтримкою borg (див. "
-"нижче). Замість його явного використання можна скористатися префіксом "
-"«sftp://»."
-
-#: src/ui/dialog_setup.ui:308
-msgid ""
-"Apart from that, all prefixes supported by the GNOME Virtual file system are "
-"supported."
-msgstr ""
-"Окрім цього, можна користуватися усіма префіксами, підтримку яких "
-"передбачено у віртуальних файлових системах GNOME."
-
-#: src/ui/dialog_setup.ui:318
-msgid "Locations with Borg-Backup Support"
-msgstr "Місця з підтримкою Borg-Backup"
-
-#: src/ui/dialog_setup.ui:330
-msgid ""
-"Locations with explicit borg-backup support can provide better performance. "
-"They are special in that the server has a borg-backup binary installed. For "
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"Використання місць із явною підтримкою borg-backup може забезпечити кращу "
+"Використання місць із явною підтримкою BorgBackup може забезпечити кращу "
 "швидкодію. Вони є особливими у тому сенсі, що на відповідному сервері "
-"встановлено виконуваний файл borg-backup. Для цих місць можна скористатися "
+"встановлено виконуваний файл BorgBackup. Для цих місць можна скористатися "
 "форматом «<адреса сервера>:<тека>» або префіксом «ssh://»."
 
-#: src/ui/dialog_setup.ui:350
+#: src/ui/dialog_setup.ui:324
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1163,23 +1154,23 @@ msgstr ""
 "Якщо використано шифрування, для доступу до резервних копій доведеться "
 "ввести пароль."
 
-#: src/ui/dialog_setup.ui:365
+#: src/ui/dialog_setup.ui:339
 msgid "Encrypted"
 msgstr "Шифроване"
 
-#: src/ui/dialog_setup.ui:372
+#: src/ui/dialog_setup.ui:346
 msgid "Encryption Password"
 msgstr "Пароль для шифрування"
 
-#: src/ui/dialog_setup.ui:386
+#: src/ui/dialog_setup.ui:360
 msgid "Repeat Password"
 msgstr "Повторіть пароль"
 
-#: src/ui/dialog_setup.ui:397
+#: src/ui/dialog_setup.ui:371
 msgid "Unencrypted"
 msgstr "Не зашифровано"
 
-#: src/ui/dialog_setup.ui:413
+#: src/ui/dialog_setup.ui:387
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1187,33 +1178,33 @@ msgstr ""
 "Ці аргументи буде додано до виклику виконуваного файла borg. Передбачено "
 "підтримку лише довгих версій параметрів, які починаються з «--»."
 
-#: src/ui/dialog_setup.ui:414
+#: src/ui/dialog_setup.ui:388
 msgid "Additional command line arguments"
 msgstr "Додаткові аргументи командного рядка"
 
-#: src/ui/dialog_setup.ui:454
+#: src/ui/dialog_setup.ui:428
 msgid "Checking Backup Repository"
 msgstr "Перевірка сховища резервних копій"
 
-#: src/ui/dialog_setup.ui:507
+#: src/ui/dialog_setup.ui:481
 msgid "Encryption Password Required"
 msgstr "Потрібен пароль для шифрування"
 
-#: src/ui/dialog_setup.ui:516
+#: src/ui/dialog_setup.ui:490
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "Для користування цим сховищем резервних копій слід вказати пароль шифрування."
 
-#: src/ui/dialog_setup.ui:562 src/ui/dialog_setup.ui:596
+#: src/ui/dialog_setup.ui:536 src/ui/dialog_setup.ui:570
 msgid "S_kip"
 msgstr "Пр_опустити"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:548
 msgid "Checking for Previous Configurations"
 msgstr "Шукаємо попередні налаштування"
 
-#: src/ui/dialog_setup.ui:575
+#: src/ui/dialog_setup.ui:549
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1221,11 +1212,11 @@ msgstr ""
 "Збираємо відомості для перенесення раніше використаних параметрів. Цей крок "
 "є необов'язковим."
 
-#: src/ui/dialog_setup.ui:610
+#: src/ui/dialog_setup.ui:584
 msgid "Transfer Settings"
 msgstr "Параметри перенесення"
 
-#: src/ui/dialog_setup.ui:611
+#: src/ui/dialog_setup.ui:585
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1234,11 +1225,11 @@ msgstr ""
 "попередніх резервних копій, для перенесення до нових налаштувань. "
 "Налаштування згодом можна буде скоригувати."
 
-#: src/ui/dialog_setup.ui:639
+#: src/ui/dialog_setup.ui:613
 msgid "_Save"
 msgstr "З_берегти"
 
-#: src/ui/dialog_setup.ui:653
+#: src/ui/dialog_setup.ui:627
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1249,7 +1240,7 @@ msgstr ""
 "різних пристроях, якщо копії на новому пристрої не мають заміщувати копії на "
 "старому."
 
-#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:668 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Створення сховища резервних копій"
 
@@ -1511,7 +1502,7 @@ msgstr "Зберігати розклад"
 msgid "Disable Schedule"
 msgstr "Вимкнути розклад"
 
-#: src/ui/page_schedule/event.rs:336
+#: src/ui/page_schedule/event.rs:322
 msgid "No preset selected."
 msgstr "Не вибрано жодного набору."
 
@@ -1862,6 +1853,21 @@ msgstr "Не вдалося вилучити потенційно збереже
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Пайка-копіювання «{}»"
+
+#~ msgid ""
+#~ "The “ssh://” protocol is reserved for locations with explicit borg "
+#~ "support (see below). The “sftp://” prefix can be used instead."
+#~ msgstr ""
+#~ "Протокол «ssh://» зарезервовано для місць із явною підтримкою borg (див. "
+#~ "нижче). Замість його явного використання можна скористатися префіксом "
+#~ "«sftp://»."
+
+#~ msgid ""
+#~ "Apart from that, all prefixes supported by the GNOME Virtual file system "
+#~ "are supported."
+#~ msgstr ""
+#~ "Окрім цього, можна користуватися усіма префіксами, підтримку яких "
+#~ "передбачено у віртуальних файлових системах GNOME."
 
 #~ msgid "_Home"
 #~ msgstr "До_мівка"
