@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-10 17:25+0000\n"
-"PO-Revision-Date: 2022-09-11 14:38+0100\n"
+"POT-Creation-Date: 2022-09-13 21:52+0000\n"
+"PO-Revision-Date: 2022-09-14 11:39+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -490,7 +490,7 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se abortado agora."
 
 #: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
+#: src/ui/dialog_setup.ui:448 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Continuar"
 
@@ -884,7 +884,7 @@ msgid "Invalid Archive Prefix"
 msgstr "Prefixo de arquivo inválido"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:652
+#: src/ui/dialog_setup.ui:626
 msgid "Archive Prefix"
 msgstr "Prefixo de arquivo"
 
@@ -942,11 +942,11 @@ msgstr ""
 "A operação \"{}\" requer a palavra-passe de encriptação do repositório em "
 "\"{}\"."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:351
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:325
 msgid "Encryption"
 msgstr "Encriptação"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:527
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:501
 msgid "Password"
 msgstr "Palavra-passe"
 
@@ -1037,7 +1037,7 @@ msgstr ""
 "Após a aplicação destas alterações, a próxima eliminação automática dos "
 "arquivos antigos teria as seguintes consequências."
 
-#: src/ui/dialog_setup.rs:165
+#: src/ui/dialog_setup.rs:178
 msgid "Failed to list existing repositories."
 msgstr "Falha ao listar repositórios existentes."
 
@@ -1099,45 +1099,29 @@ msgstr "Locais convencionais"
 
 #: src/ui/dialog_setup.ui:288
 msgid ""
-"Conventional remote backup locations can be provided as a URL with protocol "
-"prefix, address, and folder."
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"Os locais de backup remoto convencionais podem ser fornecidos como um URL "
-"com prefixo de protocolo, endereço e pasta."
+"Os locais de backup remoto SMB e SFTP podem ser fornecidos como um URL com o "
+"prefixo do protocolo \"smb://\" ou \"sftp://\"."
 
-#: src/ui/dialog_setup.ui:298
+#: src/ui/dialog_setup.ui:295
+msgid "Locations with BorgBackup Support"
+msgstr "Locais com o suporte do BorgBackup"
+
+#: src/ui/dialog_setup.ui:307
 msgid ""
-"The “ssh://” protocol is reserved for locations with explicit borg support "
-"(see below). The “sftp://” prefix can be used instead."
-msgstr ""
-"O protocolo \"ssh://\" é reservado para locais com apoio explícito do borg "
-"(ver abaixo). O prefixo \"sftp://\" pode ser utilizado em seu lugar."
-
-#: src/ui/dialog_setup.ui:308
-msgid ""
-"Apart from that, all prefixes supported by the GNOME Virtual file system are "
-"supported."
-msgstr ""
-"Além disso, há suporte a todos os prefixos do sistema de ficheiros virtual "
-"para o GNOME."
-
-#: src/ui/dialog_setup.ui:318
-msgid "Locations with Borg-Backup Support"
-msgstr "Locais com o suporte do Borg-Backup"
-
-#: src/ui/dialog_setup.ui:330
-msgid ""
-"Locations with explicit borg-backup support can provide better performance. "
-"They are special in that the server has a borg-backup binary installed. For "
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"Os locais com apoio explícito do borg-backup podem proporcionar um melhor "
-"desempenho. São especiais na medida em que o servidor tem um binário borg-"
-"backup instalado. Para esses locais, pode ser usada a sintaxe \"<server "
+"Os locais com apoio explícito do BorgBackup podem proporcionar um melhor "
+"desempenho. São especiais na medida em que o servidor tem um binário "
+"BorgBackup instalado. Para esses locais, pode ser usada a sintaxe \"<server "
 "address>:<folder>\" ou o prefixo \"ssh://\"."
 
-#: src/ui/dialog_setup.ui:350
+#: src/ui/dialog_setup.ui:324
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1146,23 +1130,23 @@ msgstr ""
 "passe. Se a encriptação for usada, a palavra-passe será necessária para "
 "aceder ao seus backups."
 
-#: src/ui/dialog_setup.ui:365
+#: src/ui/dialog_setup.ui:339
 msgid "Encrypted"
 msgstr "Encriptado"
 
-#: src/ui/dialog_setup.ui:372
+#: src/ui/dialog_setup.ui:346
 msgid "Encryption Password"
 msgstr "Palavra-passe de encriptação"
 
-#: src/ui/dialog_setup.ui:386
+#: src/ui/dialog_setup.ui:360
 msgid "Repeat Password"
 msgstr "Repetir palavra-passe"
 
-#: src/ui/dialog_setup.ui:397
+#: src/ui/dialog_setup.ui:371
 msgid "Unencrypted"
 msgstr "Sem encriptação"
 
-#: src/ui/dialog_setup.ui:413
+#: src/ui/dialog_setup.ui:387
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1170,34 +1154,34 @@ msgstr ""
 "Estes argumentos serão adicionados à chamada do binário borg. Apenas opções "
 "longas, começando com \"--\", são suportadas."
 
-#: src/ui/dialog_setup.ui:414
+#: src/ui/dialog_setup.ui:388
 msgid "Additional command line arguments"
 msgstr "Argumentos adicionais de linha de comandos"
 
-#: src/ui/dialog_setup.ui:454
+#: src/ui/dialog_setup.ui:428
 msgid "Checking Backup Repository"
 msgstr "A verificar repositório de backup"
 
-#: src/ui/dialog_setup.ui:507
+#: src/ui/dialog_setup.ui:481
 msgid "Encryption Password Required"
 msgstr "Palavra-passe de encriptação necessária"
 
-#: src/ui/dialog_setup.ui:516
+#: src/ui/dialog_setup.ui:490
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "A palavra-passe de encriptação deste repositório de backup é necessária para "
 "aceder ao mesmo."
 
-#: src/ui/dialog_setup.ui:562 src/ui/dialog_setup.ui:596
+#: src/ui/dialog_setup.ui:536 src/ui/dialog_setup.ui:570
 msgid "S_kip"
 msgstr "_Ignorar"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:548
 msgid "Checking for Previous Configurations"
 msgstr "Verificação de configurações anteriores"
 
-#: src/ui/dialog_setup.ui:575
+#: src/ui/dialog_setup.ui:549
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1205,11 +1189,11 @@ msgstr ""
 "Recolha de informação para transferir definições utilizadas anteriormente. "
 "Este passo é opcional."
 
-#: src/ui/dialog_setup.ui:610
+#: src/ui/dialog_setup.ui:584
 msgid "Transfer Settings"
 msgstr "Definições de transferência"
 
-#: src/ui/dialog_setup.ui:611
+#: src/ui/dialog_setup.ui:585
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1218,11 +1202,11 @@ msgstr ""
 "selecionado para transferência para a nova configuração. A configuração pode "
 "ser ajustada posteriormente."
 
-#: src/ui/dialog_setup.ui:639
+#: src/ui/dialog_setup.ui:613
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/ui/dialog_setup.ui:653
+#: src/ui/dialog_setup.ui:627
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1232,7 +1216,7 @@ msgstr ""
 "utilização do mesmo prefixo em dois dispositivos é desencorajada, a menos "
 "que um novo dispositivo se sobreponha ao antigo."
 
-#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:668 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "A criar repositório de backup"
 
@@ -1492,7 +1476,7 @@ msgstr "Manter agendamento"
 msgid "Disable Schedule"
 msgstr "Desativar agendamento"
 
-#: src/ui/page_schedule/event.rs:336
+#: src/ui/page_schedule/event.rs:322
 msgid "No preset selected."
 msgstr "Nenhuma predefinição selecionada."
 
@@ -1811,6 +1795,20 @@ msgstr ""
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
+
+#~ msgid ""
+#~ "The “ssh://” protocol is reserved for locations with explicit borg "
+#~ "support (see below). The “sftp://” prefix can be used instead."
+#~ msgstr ""
+#~ "O protocolo \"ssh://\" é reservado para locais com apoio explícito do "
+#~ "borg (ver abaixo). O prefixo \"sftp://\" pode ser utilizado em seu lugar."
+
+#~ msgid ""
+#~ "Apart from that, all prefixes supported by the GNOME Virtual file system "
+#~ "are supported."
+#~ msgstr ""
+#~ "Além disso, há suporte a todos os prefixos do sistema de ficheiros "
+#~ "virtual para o GNOME."
 
 #~ msgid "_Home"
 #~ msgstr "_Pasta pessoal"
