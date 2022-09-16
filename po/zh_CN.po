@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-10 22:28+0000\n"
-"PO-Revision-Date: 2022-09-11 10:49+0800\n"
+"POT-Creation-Date: 2022-09-13 21:52+0000\n"
+"PO-Revision-Date: 2022-09-16 19:15+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -476,7 +476,7 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "备份会保存不完整如果现在中止。"
 
 #: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
+#: src/ui/dialog_setup.ui:448 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "继续"
 
@@ -865,7 +865,7 @@ msgid "Invalid Archive Prefix"
 msgstr "无效的归档文件前缀"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:652
+#: src/ui/dialog_setup.ui:626
 msgid "Archive Prefix"
 msgstr "归档文件前缀"
 
@@ -920,11 +920,11 @@ msgid ""
 "“{}”."
 msgstr "“{}”操作需要在“{}”的仓库的加密密码。"
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:351
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:325
 msgid "Encryption"
 msgstr "加密"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:527
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:501
 msgid "Password"
 msgstr "密码"
 
@@ -1009,7 +1009,7 @@ msgid ""
 "would have the following consequences."
 msgstr "应用这些更改之后，下次自动删除旧归档文件将有下列结果。"
 
-#: src/ui/dialog_setup.rs:165
+#: src/ui/dialog_setup.rs:178
 msgid "Failed to list existing repositories."
 msgstr "列出现有仓库失败。"
 
@@ -1070,114 +1070,101 @@ msgstr "常规位置"
 
 #: src/ui/dialog_setup.ui:288
 msgid ""
-"Conventional remote backup locations can be provided as a URL with protocol "
-"prefix, address, and folder."
-msgstr "常规远程备份位置可由带有协议前缀、地址和文件夹的网址提供。"
-
-#: src/ui/dialog_setup.ui:298
-msgid ""
-"The “ssh://” protocol is reserved for locations with explicit borg support "
-"(see below). The “sftp://” prefix can be used instead."
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"“ssh://”协议是为明确具有 borg 支持（参见下方）的位置保留的。可以使"
-"用“sftp://”前缀代替。"
+"SMB 和 SFTP 远程备份位置可由带有“smb://”或“sftp://”协议前缀的网址提供。"
 
-#: src/ui/dialog_setup.ui:308
+#: src/ui/dialog_setup.ui:295
+msgid "Locations with BorgBackup Support"
+msgstr "支持 BorgBackup 的位置"
+
+#: src/ui/dialog_setup.ui:307
 msgid ""
-"Apart from that, all prefixes supported by the GNOME Virtual file system are "
-"supported."
-msgstr "除开那个，支持所有 GNOME 虚拟文件系统所支持的前缀。"
-
-#: src/ui/dialog_setup.ui:318
-msgid "Locations with Borg-Backup Support"
-msgstr "支持 Borg-Backup 的位置"
-
-#: src/ui/dialog_setup.ui:330
-msgid ""
-"Locations with explicit borg-backup support can provide better performance. "
-"They are special in that the server has a borg-backup binary installed. For "
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"明确支持 borg-backup 的位置可以提供更好性能。它们比较特殊因为服务器需要安装 "
-"borg-backup 程序。对于这些位置，可以使用“<server address>:<folder>”语法"
+"明确支持 BorgBackup 的位置可以提供更好性能。它们比较特殊因为服务器需要安装 "
+"BorgBackup 程序。对于这些位置，可以使用“<server address>:<folder>”语法"
 "或“ssh://”前缀。"
 
-#: src/ui/dialog_setup.ui:350
+#: src/ui/dialog_setup.ui:324
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
 msgstr "加密备份中储存的数据受密码保护。如果使用了加密，则访问备份需要密码。"
 
-#: src/ui/dialog_setup.ui:365
+#: src/ui/dialog_setup.ui:339
 msgid "Encrypted"
 msgstr "已加密"
 
-#: src/ui/dialog_setup.ui:372
+#: src/ui/dialog_setup.ui:346
 msgid "Encryption Password"
 msgstr "加密密码"
 
-#: src/ui/dialog_setup.ui:386
+#: src/ui/dialog_setup.ui:360
 msgid "Repeat Password"
 msgstr "重复密码"
 
-#: src/ui/dialog_setup.ui:397
+#: src/ui/dialog_setup.ui:371
 msgid "Unencrypted"
 msgstr "未加密"
 
-#: src/ui/dialog_setup.ui:413
+#: src/ui/dialog_setup.ui:387
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
 msgstr "这些参数将添加到 Borg 程序的调用中。只支持以“--”开头的长选项。"
 
-#: src/ui/dialog_setup.ui:414
+#: src/ui/dialog_setup.ui:388
 msgid "Additional command line arguments"
 msgstr "附加命令行参数"
 
-#: src/ui/dialog_setup.ui:454
+#: src/ui/dialog_setup.ui:428
 msgid "Checking Backup Repository"
 msgstr "检查备份仓库"
 
-#: src/ui/dialog_setup.ui:507
+#: src/ui/dialog_setup.ui:481
 msgid "Encryption Password Required"
 msgstr "需要加密密码"
 
-#: src/ui/dialog_setup.ui:516
+#: src/ui/dialog_setup.ui:490
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr "需要该备份仓库的加密密码来访问它。"
 
-#: src/ui/dialog_setup.ui:562 src/ui/dialog_setup.ui:596
+#: src/ui/dialog_setup.ui:536 src/ui/dialog_setup.ui:570
 msgid "S_kip"
 msgstr "跳过(_K)"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:548
 msgid "Checking for Previous Configurations"
 msgstr "检查先前配置"
 
-#: src/ui/dialog_setup.ui:575
+#: src/ui/dialog_setup.ui:549
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
 msgstr "收集信息来传输上次使用的设置。该步骤是可选的。"
 
-#: src/ui/dialog_setup.ui:610
+#: src/ui/dialog_setup.ui:584
 msgid "Transfer Settings"
 msgstr "迁移设置"
 
-#: src/ui/dialog_setup.ui:611
+#: src/ui/dialog_setup.ui:585
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
 "可以选择用于先前备份的配置并将其迁移到新的部署。随后可以对配置进行调整。"
 
-#: src/ui/dialog_setup.ui:639
+#: src/ui/dialog_setup.ui:613
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: src/ui/dialog_setup.ui:653
+#: src/ui/dialog_setup.ui:627
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1186,7 +1173,7 @@ msgstr ""
 "归档文件前缀必须对每个备份配置是独一无二的。除非是新设备替换旧设备否则不鼓励"
 "在两个设备上使用相同前缀。"
 
-#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:668 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "正在创建备份仓库"
 
@@ -1727,6 +1714,18 @@ msgstr "无法从密钥存储中移除可能遗留的密码。"
 #: src/ui/utils/secret_service.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika 备份“{}”"
+
+#~ msgid ""
+#~ "The “ssh://” protocol is reserved for locations with explicit borg "
+#~ "support (see below). The “sftp://” prefix can be used instead."
+#~ msgstr ""
+#~ "“ssh://”协议是为明确具有 borg 支持（参见下方）的位置保留的。可以使"
+#~ "用“sftp://”前缀代替。"
+
+#~ msgid ""
+#~ "Apart from that, all prefixes supported by the GNOME Virtual file system "
+#~ "are supported."
+#~ msgstr "除开那个，支持所有 GNOME 虚拟文件系统所支持的前缀。"
 
 #~ msgid "_Home"
 #~ msgstr "主目录(_H)"
