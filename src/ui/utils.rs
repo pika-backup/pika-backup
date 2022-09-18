@@ -68,13 +68,17 @@ pub fn is_backup_repo(path: &std::path::Path) -> bool {
                     if metadata.len() < 1024 * 1024 {
                         let mut content = String::new();
                         let _result = cfg.read_to_string(&mut content);
-                        return content.contains("[repository]");
+                        if content.contains("[repository]") {
+                            trace!("Is a repository");
+                            return true;
+                        }
                     }
                 }
             }
         }
     };
 
+    trace!("Is not a repository");
     false
 }
 

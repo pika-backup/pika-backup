@@ -373,7 +373,7 @@ fn test_check_daily() {
 
     // failed now, try again tomorrow
 
-    let mut config_close = config.clone();
+    let mut config_close = config;
     let preferred_time_close = chrono::Local::now().time() - chrono::Duration::seconds(1);
 
     let mut history_close = history.clone();

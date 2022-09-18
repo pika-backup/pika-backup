@@ -28,17 +28,6 @@ pub fn posix_fnmatch(pattern: &CStr, string: &CStr) -> bool {
     unsafe { fnmatch(pattern.as_ptr(), string.as_ptr(), 0) == 0 }
 }
 
-pub fn mount_uuid(mount: &gio::Mount) -> Option<String> {
-    let volume = mount.volume();
-
-    volume
-        .as_ref()
-        .and_then(gio::Volume::uuid)
-        .or_else(|| volume.as_ref().and_then(|v| v.identifier("uuid")))
-        .as_ref()
-        .map(std::string::ToString::to_string)
-}
-
 pub fn init_gettext() {
     gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
     debug!(

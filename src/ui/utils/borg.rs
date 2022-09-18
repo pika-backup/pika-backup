@@ -19,8 +19,7 @@ where
     let config_id = command.config.id.clone();
 
     command.config =
-        crate::ui::dialog_device_missing::updated_config(command.config.clone(), &T::name())
-            .await?;
+        crate::ui::dialog_device_missing::updated_config(&command.config, &T::name()).await?;
 
     BORG_OPERATION.with(enclose!((command) move |operations| {
         if let Some(operation) = operations

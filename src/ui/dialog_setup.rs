@@ -14,7 +14,7 @@ use crate::ui::prelude::*;
 use insert::execute;
 use ui::builder::DialogSetup;
 
-const LISTED_URI_SCHEMES: &[&str] = &["smb", "sftp", "ssh"];
+const LISTED_URI_SCHEMES: &[&str] = &["file", "smb", "sftp", "ssh"];
 
 pub fn show() {
     let ui = DialogSetup::new();

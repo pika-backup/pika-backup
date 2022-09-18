@@ -11,7 +11,14 @@ pub struct Repository {
     pub drive_name: Option<String>,
     #[serde(alias = "label")]
     pub mount_name: Option<String>,
+    /// Outer volume if not equal to `volume_uuid_identifier`
+    ///
+    ///  Retrieved via `gio::Volume::uuid()`
     pub volume_uuid: Option<String>,
+    /// Inner volume if not equal to `volume_uuid`
+    ///
+    /// Retrieved via `gio::Volume::identifier("uuid")`
+    pub volume_uuid_identifier: Option<String>,
     pub removable: bool,
     pub icon: Option<String>,
     pub icon_symbolic: Option<String>,
@@ -45,6 +52,7 @@ impl Repository {
                 drive_name: None,
                 removable: false,
                 volume_uuid: None,
+                volume_uuid_identifier: None,
                 settings: None,
             }
         }
@@ -72,13 +80,46 @@ impl Repository {
                 .drive()
                 .as_ref()
                 .map_or(false, gio::Drive::is_removable),
-            volume_uuid: crate::utils::mount_uuid(&mount),
+            volume_uuid: mount.volume().and_then(|v| v.uuid()).map(|x| x.to_string()),
+            volume_uuid_identifier: mount
+                .volume()
+                .and_then(|v| v.identifier("uuid"))
+                .map(|x| x.to_string()),
             settings: None,
         }
     }
 
     pub fn path(&self) -> std::path::PathBuf {
         self.mount_path.join(&self.path)
+    }
+
+    pub fn is_likely_on_volume(&self, volume: &gio::Volume) -> bool {
+        let new_path = volume
+            .get_mount()
+            .and_then(|x| x.root().path())
+            .and_then(|x| x.canonicalize().ok());
+
+        if new_path.is_some() && self.mount_path.canonicalize().ok() == new_path {
+            return true;
+        }
+
+        let new_uuids = [volume.uuid(), volume.identifier("uuid")]
+            .into_iter()
+            .flatten()
+            .map(|x| x.to_string())
+            .collect::<Vec<_>>();
+        if [
+            self.volume_uuid.as_ref(),
+            self.volume_uuid_identifier.as_ref(),
+        ]
+        .iter()
+        .flatten()
+        .any(|&x| dbg!(&new_uuids).contains(&dbg!(x).into()))
+        {
+            return true;
+        }
+
+        false
     }
 
     pub const fn into_config(self) -> super::Repository {
