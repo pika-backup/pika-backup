@@ -45,6 +45,7 @@ modules:
     buildsystem: simple
     build-commands:
      - mkdir /app/bin
+
   - name: libfuse
     buildsystem: meson
     config-opts:
@@ -75,11 +76,6 @@ modules:
         path: fusermount-wrapper.sh
       - type: file
         path: umount-wrapper.sh
-
-  - name: paths
-    buildsystem: simple
-    build-commands:
-     - find /app
 
   - python3-pkgconfig.json
   - python3-pyfuse3.json

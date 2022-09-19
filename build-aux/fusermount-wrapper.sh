@@ -10,4 +10,4 @@ if [ -e /proc/self/fd/3 ] && [ 3 != "$_FUSE_COMMFD" ]; then
     FD_ARGS="$FD_ARGS --forward-fd=3"
 fi
 
-exec flatpak-spawn --host --forward-fd=1 --forward-fd=2 $FD_ARGS fusermount3 "$@"
+exec flatpak-spawn --host --forward-fd=1 --forward-fd=2 $FD_ARGS fusermount "$@"
