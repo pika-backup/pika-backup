@@ -88,6 +88,10 @@ fn debug_info() -> String {
             std::env::var("container").unwrap_or_default()
         ),
         format!("\n##### OS Information\n```\n{}\n```", os_release()),
+        format!(
+            "\n##### Flatpak Information\n```\n{:#?}\n```",
+            ui::utils::flatpak_info::get()
+        ),
         format!("\n##### User Autostart\n```\n{}\n```", user_autostart()),
         format!("\n##### Global Autostart\n```\n{}\n```", global_autostart()),
     ]
