@@ -74,16 +74,6 @@ pub fn show_add_remote(ui: &DialogSetup) {
     ui.leaflet().set_visible_child(&ui.page_detail());
 }
 
-pub fn toggle_settings(ui: &DialogSetup) {
-    if ui.show_settings().is_active() {
-        ui.detail_stack()
-            .set_visible_child(&ui.page_detail_settings());
-    } else {
-        ui.detail_stack()
-            .set_visible_child(&ui.page_detail_default());
-    }
-}
-
 pub fn add_local(ui: &DialogSetup, path: Option<&std::path::Path>) {
     if let Some(path) = path {
         execute(

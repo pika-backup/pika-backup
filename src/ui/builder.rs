@@ -959,10 +959,6 @@ impl DialogSetup {
         self.get("command_line_args")
     }
 
-    pub fn detail_stack(&self) -> adw::ViewStack {
-        self.get("detail_stack")
-    }
-
     pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
     }
@@ -1029,14 +1025,6 @@ impl DialogSetup {
 
     pub fn page_detail(&self) -> gtk::Box {
         self.get("page_detail")
-    }
-
-    pub fn page_detail_default(&self) -> adw::PreferencesPage {
-        self.get("page_detail_default")
-    }
-
-    pub fn page_detail_settings(&self) -> adw::PreferencesPage {
-        self.get("page_detail_settings")
     }
 
     pub fn page_overview(&self) -> gtk::Box {
