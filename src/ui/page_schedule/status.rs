@@ -49,7 +49,7 @@ impl Status {
                 main: StatusRow {
                     title: gettext("Scheduled Backups Disabled"),
                     subtitle: String::new(),
-                    icon_name: String::from("x-office-calendar-symbolic"),
+                    icon_name: String::from("schedule-symbolic"),
                     level: StatusLevel::Warning,
                 },
                 problems: vec![],
@@ -161,7 +161,7 @@ impl Status {
                 main: StatusRow {
                     title: main_title,
                     subtitle: main_subtitle,
-                    icon_name: String::from("x-office-calendar-symbolic"),
+                    icon_name: String::from("schedule-symbolic"),
                     level: main_level,
                 },
                 problems,
