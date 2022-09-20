@@ -123,6 +123,7 @@ impl std::fmt::Display for Abort {
             Self::OnBattery => write!(
                 f,
                 "{}",
+                // Translators: Running backup was aborted because computer running on battery
                 gettext("Aborted because too long not connected to power.")
             ),
             Self::Shutdown => write!(f, "{}", gettext("Aborted by system.")),
