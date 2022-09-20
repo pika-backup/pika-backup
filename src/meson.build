@@ -21,8 +21,8 @@ cargo_env = {
   'APPLICATION_ID_SUFFIX': get_option('app_id_suffix'),
   'GIT_DESCRIBE': run_command(
       'git',
-      'describe', '-C', meson.project_source_root(),
-      '--tags', '--dirty',
+      'rev-parse', '-C', meson.project_source_root(),
+      '--short', 'HEAD',
       check: false
     ).stdout().strip(),
 }
