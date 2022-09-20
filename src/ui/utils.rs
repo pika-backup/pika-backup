@@ -320,7 +320,8 @@ pub async fn show_error_transient_for<
         &primary_text, &secondary_text
     );
 
-    if crate::ui::app_window::is_displayed() {
+    // Only display as dialog if focus and visible
+    if crate::ui::app_window::is_displayed() && main_ui().window().is_active() {
         let dialog = adw::MessageDialog::builder()
             .modal(true)
             .transient_for(window)
