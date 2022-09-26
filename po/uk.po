@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-20 04:23+0000\n"
-"PO-Revision-Date: 2022-09-20 17:01+0300\n"
+"POT-Creation-Date: 2022-09-26 15:47+0000\n"
+"PO-Revision-Date: 2022-09-26 18:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -159,43 +159,48 @@ msgstr "Перервано за запитом користувача."
 msgid "Aborted because only metered connection was available."
 msgstr "Перервано, оскільки доступним є лише обмежене з'єднання."
 
-#: src/borg/error.rs:126
+#. Translators: Running backup was aborted because computer running on battery
+#: src/borg/error.rs:127
 msgid "Aborted because too long not connected to power."
 msgstr "Перервано, оскільки довго немає доступу до живлення."
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:129
 msgid "Aborted by system."
 msgstr "Перервано системою."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:133
 msgid "The program or system seems to have crashed."
 msgstr "Здається, аварійно завершила роботу програма або система."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:175
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:174 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:177 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:178
 msgid "Invalid encryption password."
 msgstr "Некоректний пароль для шифрування."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:180
 msgid "A repository already exists at this location."
 msgstr "За цією адресою вже є сховище."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:182
 msgid "No repository exists at this location."
 msgstr "За цією адресою немає сховища."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:184
+msgid "Not enough free space in repository."
+msgstr "Недостатньо вільного місця у сховищі."
+
+#: src/borg/error.rs:187
 msgid "Connection closed by remote host: “{}”"
 msgstr "З'єднання розірвано віддаленим вузлом: «{}»"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:190
 msgid "Unspecified error."
 msgstr "Невизначена помилка."
 
@@ -292,7 +297,7 @@ msgstr "Діагностика"
 msgid "Info"
 msgstr "Відомості"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:226
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
 msgid "Warning"
 msgstr "Попередження"
 
@@ -505,7 +510,7 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
 #: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:450 src/ui/page_backup/events.rs:19
+#: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Продовжити"
 
@@ -515,8 +520,7 @@ msgstr "Перервати"
 
 #: src/ui.rs:196
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
-msgstr ""
-"Не вдалося запустити «borg». Чи встановлено належним чином BorgBackup?"
+msgstr "Не вдалося запустити «borg». Чи встановлено належним чином BorgBackup?"
 
 #: src/ui.rs:220
 msgid "BorgBackup version too old"
@@ -612,8 +616,7 @@ msgid "Files to Back Up"
 msgstr "Файли для резервного копіювання"
 
 #: src/ui/app_window.ui:311
-msgid ""
-"Only files in the following folders are saved in the backup repository."
+msgid "Only files in the following folders are saved in the backup repository."
 msgstr ""
 "У сховищі резервних копій буде збережено лише файли у вказаних нижче теках."
 
@@ -901,7 +904,7 @@ msgid "Invalid Archive Prefix"
 msgstr "Некоректний префікс архівів"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:628
+#: src/ui/dialog_setup.ui:632
 msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
@@ -958,11 +961,11 @@ msgid ""
 "“{}”."
 msgstr "Для виконання дії «{}» потрібен пароль шифрування до сховища у «{}»."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:327
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:328
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:503
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Пароль"
 
@@ -987,7 +990,7 @@ msgstr "Пропоновані виключення"
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:331
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
 msgid "Close"
 msgstr "Закрити"
 
@@ -1051,7 +1054,7 @@ msgstr ""
 "Після застосування цих змін наступне автоматичне вилучення застарілих "
 "архівів матиме вказані нижче наслідки."
 
-#: src/ui/dialog_setup.rs:178
+#: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
 msgstr "Не вдалося створити список наявних сховищ."
 
@@ -1064,7 +1067,6 @@ msgid "Create new Repository"
 msgstr "Створити сховище"
 
 #: src/ui/dialog_setup.ui:41
-#| msgid "Location is not a valid backup repository."
 msgid "Select a location for a new backup repository."
 msgstr "Виберіть місце для нового сховища резервних копій."
 
@@ -1081,31 +1083,31 @@ msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
 msgstr ""
-"Виберіть місце, де зберігається наявне сховище резервних копій. Можна"
-" скористатися сховищами, які було створено іншим сумісним із BorgBackup"
-" програмним забезпеченням."
+"Виберіть місце, де зберігається наявне сховище резервних копій. Можна "
+"скористатися сховищами, які було створено іншим сумісним із BorgBackup "
+"програмним забезпеченням."
 
 #: src/ui/dialog_setup.ui:138
 msgid "Back to Overview"
 msgstr "Назад до огляду"
 
-#: src/ui/dialog_setup.ui:144
-msgid "Advanced Options"
-msgstr "Додаткові параметри"
-
-#: src/ui/dialog_setup.ui:154
+#: src/ui/dialog_setup.ui:148
 msgid "Connect"
 msgstr "З'єднатися"
 
-#: src/ui/dialog_setup.ui:167
+#: src/ui/dialog_setup.ui:161
 msgid "_Create"
 msgstr "С_творити"
 
-#: src/ui/dialog_setup.ui:185
+#: src/ui/dialog_setup.ui:177
 msgid "Location"
 msgstr "Місце"
 
-#: src/ui/dialog_setup.ui:238
+#: src/ui/dialog_setup.ui:181
+msgid "Advanced Options"
+msgstr "Додаткові параметри"
+
+#: src/ui/dialog_setup.ui:239
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1119,15 +1121,15 @@ msgstr ""
 "форматування призведе до знищення усіх файлів у місці зберігання резервних "
 "копій!"
 
-#: src/ui/dialog_setup.ui:263
+#: src/ui/dialog_setup.ui:264
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://користувач@сервер.приклад.org/~/backup"
 
-#: src/ui/dialog_setup.ui:279
+#: src/ui/dialog_setup.ui:280
 msgid "Conventional Locations"
 msgstr "Традиційні місця"
 
-#: src/ui/dialog_setup.ui:290
+#: src/ui/dialog_setup.ui:291
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
 "“smb://” or “sftp://” protocol prefix."
@@ -1135,11 +1137,11 @@ msgstr ""
 "Місця віддаленого резервного копіювання за протоколами SMB і SFTP можна "
 "вказати як адреси із префіксом протоколу «smb://» або «sftp://»."
 
-#: src/ui/dialog_setup.ui:297
+#: src/ui/dialog_setup.ui:298
 msgid "Locations with BorgBackup Support"
 msgstr "Місця з підтримкою BorgBackup"
 
-#: src/ui/dialog_setup.ui:309
+#: src/ui/dialog_setup.ui:310
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
@@ -1151,7 +1153,7 @@ msgstr ""
 "встановлено виконуваний файл BorgBackup. Для цих місць можна скористатися "
 "форматом «<адреса сервера>:<тека>» або префіксом «ssh://»."
 
-#: src/ui/dialog_setup.ui:326
+#: src/ui/dialog_setup.ui:327
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1160,23 +1162,23 @@ msgstr ""
 "Якщо використано шифрування, для доступу до резервних копій доведеться "
 "ввести пароль."
 
-#: src/ui/dialog_setup.ui:341
+#: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Шифроване"
 
-#: src/ui/dialog_setup.ui:348
+#: src/ui/dialog_setup.ui:349
 msgid "Encryption Password"
 msgstr "Пароль для шифрування"
 
-#: src/ui/dialog_setup.ui:362
+#: src/ui/dialog_setup.ui:363
 msgid "Repeat Password"
 msgstr "Повторіть пароль"
 
-#: src/ui/dialog_setup.ui:373
+#: src/ui/dialog_setup.ui:374
 msgid "Unencrypted"
 msgstr "Не зашифровано"
 
-#: src/ui/dialog_setup.ui:389
+#: src/ui/dialog_setup.ui:391
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1184,33 +1186,33 @@ msgstr ""
 "Ці аргументи буде додано до виклику виконуваного файла borg. Передбачено "
 "підтримку лише довгих версій параметрів, які починаються з «--»."
 
-#: src/ui/dialog_setup.ui:390
+#: src/ui/dialog_setup.ui:392
 msgid "Additional command line arguments"
 msgstr "Додаткові аргументи командного рядка"
 
-#: src/ui/dialog_setup.ui:430
+#: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Перевірка сховища резервних копій"
 
-#: src/ui/dialog_setup.ui:483
+#: src/ui/dialog_setup.ui:487
 msgid "Encryption Password Required"
 msgstr "Потрібен пароль для шифрування"
 
-#: src/ui/dialog_setup.ui:492
+#: src/ui/dialog_setup.ui:496
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "Для користування цим сховищем резервних копій слід вказати пароль шифрування."
 
-#: src/ui/dialog_setup.ui:538 src/ui/dialog_setup.ui:572
+#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
 msgid "S_kip"
 msgstr "Пр_опустити"
 
-#: src/ui/dialog_setup.ui:550
+#: src/ui/dialog_setup.ui:554
 msgid "Checking for Previous Configurations"
 msgstr "Шукаємо попередні налаштування"
 
-#: src/ui/dialog_setup.ui:551
+#: src/ui/dialog_setup.ui:555
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1218,11 +1220,11 @@ msgstr ""
 "Збираємо відомості для перенесення раніше використаних параметрів. Цей крок "
 "є необов'язковим."
 
-#: src/ui/dialog_setup.ui:586
+#: src/ui/dialog_setup.ui:590
 msgid "Transfer Settings"
 msgstr "Параметри перенесення"
 
-#: src/ui/dialog_setup.ui:587
+#: src/ui/dialog_setup.ui:591
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1231,11 +1233,11 @@ msgstr ""
 "попередніх резервних копій, для перенесення до нових налаштувань. "
 "Налаштування згодом можна буде скоригувати."
 
-#: src/ui/dialog_setup.ui:615
+#: src/ui/dialog_setup.ui:619
 msgid "_Save"
 msgstr "З_берегти"
 
-#: src/ui/dialog_setup.ui:629
+#: src/ui/dialog_setup.ui:633
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1246,7 +1248,7 @@ msgstr ""
 "різних пристроях, якщо копії на новому пристрої не мають заміщувати копії на "
 "старому."
 
-#: src/ui/dialog_setup.ui:670 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Створення сховища резервних копій"
 
@@ -1447,8 +1449,7 @@ msgid "Stop browsing files and start backup?"
 msgstr "Припинити навігацію файлами і почати створення резервної копії?"
 
 #: src/ui/page_backup/execution.rs:36
-msgid ""
-"Browsing through archived files is not possible while running a backup."
+msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Навігація архівованими файлами під час створення резервної копії неможлива."
 
@@ -1684,15 +1685,15 @@ msgstr "Не вдалося почати спостереження"
 msgid "Failed to Create Thread"
 msgstr "Не вдалося створити потік обробки"
 
-#: src/ui/utils.rs:473
+#: src/ui/utils.rs:474
 msgid "Failed to fix Scheduled Backups"
 msgstr "Не вдалося виправити резервне копіювання за розкладом"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:479
 msgid "Scheduled Backups Repaired"
 msgstr "Виправлено резервне копіювання за розкладом"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:479
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
