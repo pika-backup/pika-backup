@@ -147,6 +147,8 @@ pub enum Failure {
     RepositoryAlreadyExists,
     #[serde(rename = "Repository.DoesNotExist")]
     RepositoryDoesNotExist,
+    #[serde(rename = "Repository.InsufficientFreeSpaceError")]
+    RepositoryInsufficientFreeSpaceError,
     // with manually added hint
     ConnectionClosedWithHint_(String),
     // general
@@ -178,7 +180,9 @@ impl std::fmt::Display for Failure {
                 gettext("A repository already exists at this location.")
             }
             Self::RepositoryDoesNotExist => gettext("No repository exists at this location."),
-
+            Self::RepositoryInsufficientFreeSpaceError => {
+                gettext("Not enough free space in repository.")
+            }
             Self::ConnectionClosedWithHint_(hint) => {
                 gettextf("Connection closed by remote host: “{}”", &[hint])
             }
