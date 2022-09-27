@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-20 04:23+0000\n"
-"PO-Revision-Date: 2022-09-20 11:29+0200\n"
+"POT-Creation-Date: 2022-09-26 15:47+0000\n"
+"PO-Revision-Date: 2022-09-27 10:47+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -156,44 +156,49 @@ msgstr "Preklicano zaradi zahteve uporabnika."
 msgid "Aborted because only metered connection was available."
 msgstr "Opravilo je prekinjeno, ker je na voljo le omejena povezava."
 
-#: src/borg/error.rs:126
+#. Translators: Running backup was aborted because computer running on battery
+#: src/borg/error.rs:127
 msgid "Aborted because too long not connected to power."
 msgstr ""
 "Opravilo je prekinjeno, ker naprava predolgo ni priključena na napajanje."
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:129
 msgid "Aborted by system."
 msgstr "Preklicano zaradi zahteve sistema."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:133
 msgid "The program or system seems to have crashed."
 msgstr "Zdi se, da se je program ali sistem sesul."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:175
 msgid "Connection closed by remote host."
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena."
 
-#: src/borg/error.rs:174 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:177 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "Skladišče je že v uporabi"
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:178
 msgid "Invalid encryption password."
 msgstr "Neveljavno šifrirno geslo."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:180
 msgid "A repository already exists at this location."
 msgstr "Skladišče na tem mestu že obstaja."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:182
 msgid "No repository exists at this location."
 msgstr "Na tem mestu še ni ustvarjenega skladišča."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:184
+msgid "Not enough free space in repository."
+msgstr "Ni dovolj prostega prostora v skladišču."
+
+#: src/borg/error.rs:187
 msgid "Connection closed by remote host: “{}”"
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena: »{}«"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:190
 msgid "Unspecified error."
 msgstr "Prišlo je do nedoločene napake."
 
@@ -290,7 +295,7 @@ msgstr "Razhroščevanje"
 msgid "Info"
 msgstr "Podrobnosti"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:226
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
 msgid "Warning"
 msgstr "Opozorilo"
 
@@ -504,7 +509,7 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "Varnostna kopija, če bo opravilo preklicano, ne bo popolna."
 
 #: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:450 src/ui/page_backup/events.rs:19
+#: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Nadaljuj"
 
@@ -900,7 +905,7 @@ msgid "Invalid Archive Prefix"
 msgstr "Neveljavna predpona arhiva"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:628
+#: src/ui/dialog_setup.ui:632
 msgid "Archive Prefix"
 msgstr "Predpona arhiva"
 
@@ -956,11 +961,11 @@ msgid ""
 "“{}”."
 msgstr "Operacija »{}« zahteva šifriranje gesla skladišča na »{}«."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:327
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:328
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:503
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Geslo"
 
@@ -985,7 +990,7 @@ msgstr "Predlagane izključitve"
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Ugotavljanje, koliko arhivov bi bilo izbrisanih, je spodletelo"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:331
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
 msgid "Close"
 msgstr "Zapri"
 
@@ -1049,7 +1054,7 @@ msgstr ""
 "Po uveljavitvi teh sprememb bi imel naslednji samodejni izbris starih "
 "arhivov naslednje posledice."
 
-#: src/ui/dialog_setup.rs:178
+#: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
 msgstr "Izpisovanje seznama obstoječih skladišč je spodletelo."
 
@@ -1086,23 +1091,23 @@ msgstr ""
 msgid "Back to Overview"
 msgstr "Nazaj na pregled"
 
-#: src/ui/dialog_setup.ui:144
-msgid "Advanced Options"
-msgstr "Napredne možnosti"
-
-#: src/ui/dialog_setup.ui:154
+#: src/ui/dialog_setup.ui:148
 msgid "Connect"
 msgstr "Poveži"
 
-#: src/ui/dialog_setup.ui:167
+#: src/ui/dialog_setup.ui:161
 msgid "_Create"
 msgstr "_Ustvari"
 
-#: src/ui/dialog_setup.ui:185
+#: src/ui/dialog_setup.ui:177
 msgid "Location"
 msgstr "Mesto"
 
-#: src/ui/dialog_setup.ui:238
+#: src/ui/dialog_setup.ui:181
+msgid "Advanced Options"
+msgstr "Napredne možnosti"
+
+#: src/ui/dialog_setup.ui:239
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1115,15 +1120,15 @@ msgstr ""
 "sta »NTFS« ali »EXT4«. Upoštevajte, da ta postopek izbriše vse datoteke na "
 "mestu!"
 
-#: src/ui/dialog_setup.ui:263
+#: src/ui/dialog_setup.ui:264
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://uporabnik@strežnik.primer.si/~/varnostn_akopija"
 
-#: src/ui/dialog_setup.ui:279
+#: src/ui/dialog_setup.ui:280
 msgid "Conventional Locations"
 msgstr "Običajna mesta"
 
-#: src/ui/dialog_setup.ui:290
+#: src/ui/dialog_setup.ui:291
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
 "“smb://” or “sftp://” protocol prefix."
@@ -1131,11 +1136,11 @@ msgstr ""
 "Mesta oddaljenega varnostnega kopiranja SMB in SFTP so lahko podani kot URL "
 "s predpono protokola »smb://» ali »sftp://»."
 
-#: src/ui/dialog_setup.ui:297
+#: src/ui/dialog_setup.ui:298
 msgid "Locations with BorgBackup Support"
 msgstr "Mesta s podporo BorgBackup"
 
-#: src/ui/dialog_setup.ui:309
+#: src/ui/dialog_setup.ui:310
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
@@ -1147,7 +1152,7 @@ msgstr ""
 "BorgBackup. Za ta mesta je mogoče uporabiti skladnjo »<naslov streznika>:"
 "<mapa>« ali predpono »ssh://«."
 
-#: src/ui/dialog_setup.ui:326
+#: src/ui/dialog_setup.ui:327
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1156,23 +1161,23 @@ msgstr ""
 "Če je šifriranje omogočeno, je za dostop do varnostnih kopij treba uporabiti "
 "veljavno geslo."
 
-#: src/ui/dialog_setup.ui:341
+#: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Šifrirano"
 
-#: src/ui/dialog_setup.ui:348
+#: src/ui/dialog_setup.ui:349
 msgid "Encryption Password"
 msgstr "Šifrirno geslo"
 
-#: src/ui/dialog_setup.ui:362
+#: src/ui/dialog_setup.ui:363
 msgid "Repeat Password"
 msgstr "Ponovitev gesla"
 
-#: src/ui/dialog_setup.ui:373
+#: src/ui/dialog_setup.ui:374
 msgid "Unencrypted"
 msgstr "Nešifrirano"
 
-#: src/ui/dialog_setup.ui:389
+#: src/ui/dialog_setup.ui:391
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1180,34 +1185,34 @@ msgstr ""
 "Ti argumenti bodo dodani k sklicu ukaza programa borg. Podprte so le "
 "možnosti, vpisane z »--«."
 
-#: src/ui/dialog_setup.ui:390
+#: src/ui/dialog_setup.ui:392
 msgid "Additional command line arguments"
 msgstr "Dodatni argumenti ukazne vrstice"
 
-#: src/ui/dialog_setup.ui:430
+#: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Preverjanje skladišča za varnostne kopije"
 
-#: src/ui/dialog_setup.ui:483
+#: src/ui/dialog_setup.ui:487
 msgid "Encryption Password Required"
 msgstr "Šifrirno geslo je obvezno"
 
-#: src/ui/dialog_setup.ui:492
+#: src/ui/dialog_setup.ui:496
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "Za dostop do tega skladišča za varnostno kopiranje je treba vpisati geslo za "
 "šifriranje."
 
-#: src/ui/dialog_setup.ui:538 src/ui/dialog_setup.ui:572
+#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
 msgid "S_kip"
 msgstr "Pres_koči"
 
-#: src/ui/dialog_setup.ui:550
+#: src/ui/dialog_setup.ui:554
 msgid "Checking for Previous Configurations"
 msgstr "Preverjanje za predhodne prilagoditve"
 
-#: src/ui/dialog_setup.ui:551
+#: src/ui/dialog_setup.ui:555
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1215,11 +1220,11 @@ msgstr ""
 "Zbiranje informacij za prenos predhodno uporabljenih nastavitev. Ta korak je "
 "neobvezen."
 
-#: src/ui/dialog_setup.ui:586
+#: src/ui/dialog_setup.ui:590
 msgid "Transfer Settings"
 msgstr "Nastavitve prenosov"
 
-#: src/ui/dialog_setup.ui:587
+#: src/ui/dialog_setup.ui:591
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1227,11 +1232,11 @@ msgstr ""
 "En nabor prilagoditev, uporabljenih za prejšnje varnostne kopije, lahko "
 "izberete za prenos v novo nastavitev. Prilagoditev lahko spremenite kasneje."
 
-#: src/ui/dialog_setup.ui:615
+#: src/ui/dialog_setup.ui:619
 msgid "_Save"
 msgstr "_Shrani"
 
-#: src/ui/dialog_setup.ui:629
+#: src/ui/dialog_setup.ui:633
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1241,7 +1246,7 @@ msgstr ""
 "kopiranja. Uporabo iste predpone na dveh napravah odsvetujemo, razen če nova "
 "naprava nadomešča staro."
 
-#: src/ui/dialog_setup.ui:670 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Ustvarjanje skladišča za varnostno kopiranje"
 
@@ -1678,15 +1683,15 @@ msgstr "Zagon spremljanja je spodletel"
 msgid "Failed to Create Thread"
 msgstr "Ustvarjanje niti je spodletelo"
 
-#: src/ui/utils.rs:473
+#: src/ui/utils.rs:474
 msgid "Failed to fix Scheduled Backups"
 msgstr "Popravljanje načrtovanih varnostnih kopiranj je spodletelo"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:479
 msgid "Scheduled Backups Repaired"
 msgstr "Načrtovana varnostna kopiranja popravljena"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:479
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
