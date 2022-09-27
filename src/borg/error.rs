@@ -141,7 +141,9 @@ pub enum Failure {
     // borg message ids
     ConnectionClosed,
     ConnectionClosedWithHint,
+    // TODO: both undocumented
     LockTimeout,
+    LockFailed,
     PassphraseWrong,
     #[serde(rename = "Repository.AlreadyExists")]
     RepositoryAlreadyExists,
@@ -175,6 +177,7 @@ impl std::fmt::Display for Failure {
                 gettext("Connection closed by remote host.")
             }
             Self::LockTimeout => gettext("Repository already in use."),
+            Self::LockFailed => gettext("Failed to lock repository."),
             Self::PassphraseWrong => gettext("Invalid encryption password."),
             Self::RepositoryAlreadyExists => {
                 gettext("A repository already exists at this location.")
