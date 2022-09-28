@@ -9,11 +9,12 @@ build-options:
   append-path: /usr/lib/sdk/rust-stable/bin
 
 finish-args:
-  - --device=dri
+  # Read files for to backup
   - --filesystem=host
+  - --filesystem=/var:ro
   # flatpak puts a tmpfs here to hide other apps
   # it contains configs of all flatpak apps
-  - --filesystem=~/.var/app/
+  - --filesystem=~/.var/app
   # flatpak puts a tmpfs here to hide all apps
   # it contains the apps and overrides for app priviledges
   - --filesystem=xdg-data/flatpak:ro
@@ -26,7 +27,6 @@ finish-args:
   # SSH-keys etc
   - --socket=ssh-auth
   # GVfs (gio::Device etc)
-  - --talk-name=org.gtk.vfs
   - --talk-name=org.gtk.vfs.*
   - --filesystem=xdg-run/gvfs
   - --filesystem=xdg-run/gvfsd
@@ -41,11 +41,6 @@ finish-args:
   # see https://github.com/flatpak/flatpak/issues/4280
   - --unset-env=LD_PRELOAD
 modules:
-  - name: paths
-    buildsystem: simple
-    build-commands:
-     - mkdir /app/bin
-
   - name: libfuse
     buildsystem: meson
     config-opts:
@@ -69,6 +64,7 @@ modules:
   - name: host-command-wrapper
     buildsystem: simple
     build-commands:
+      - install fusermount-wrapper.sh /app/bin/fusermount
       - install fusermount-wrapper.sh /app/bin/fusermount3
       - install umount-wrapper.sh /app/bin/umount
     sources:

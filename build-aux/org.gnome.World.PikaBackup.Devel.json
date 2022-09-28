@@ -14,16 +14,15 @@
     ]
   },
   "finish-args": [
-    "--device=dri",
     "--filesystem=host",
-    "--filesystem=~/.var/app/",
+    "--filesystem=/var:ro",
+    "--filesystem=~/.var/app",
     "--filesystem=xdg-data/flatpak:ro",
     "--share=network",
     "--socket=wayland",
     "--share=ipc",
     "--socket=fallback-x11",
     "--socket=ssh-auth",
-    "--talk-name=org.gtk.vfs",
     "--talk-name=org.gtk.vfs.*",
     "--filesystem=xdg-run/gvfs",
     "--filesystem=xdg-run/gvfsd",
@@ -34,13 +33,6 @@
     "--unset-env=LD_PRELOAD"
   ],
   "modules": [
-    {
-      "name": "paths",
-      "buildsystem": "simple",
-      "build-commands": [
-        "mkdir /app/bin"
-      ]
-    },
     {
       "name": "libfuse",
       "buildsystem": "meson",
@@ -71,6 +63,7 @@
       "name": "host-command-wrapper",
       "buildsystem": "simple",
       "build-commands": [
+        "install fusermount-wrapper.sh /app/bin/fusermount",
         "install fusermount-wrapper.sh /app/bin/fusermount3",
         "install umount-wrapper.sh /app/bin/umount"
       ],
