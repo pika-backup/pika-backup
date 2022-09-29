@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-20 04:23+0000\n"
-"PO-Revision-Date: 2022-09-21 00:24+0200\n"
+"POT-Creation-Date: 2022-09-27 22:12+0000\n"
+"PO-Revision-Date: 2022-09-29 18:53+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -155,44 +155,54 @@ msgstr "Felhasználói kérésre megszakítva."
 msgid "Aborted because only metered connection was available."
 msgstr "Megszakítva, mert csak forgalomkorlátos kapcsolat volt elérhető."
 
-#: src/borg/error.rs:126
+#. Translators: Running backup was aborted because computer running on battery
+#: src/borg/error.rs:127
 msgid "Aborted because too long not connected to power."
 msgstr ""
 "Megszakítva, mert túl régóta nincs csatlakoztatva az elektromos hálózathoz."
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:129
 msgid "Aborted by system."
 msgstr "Rendszer által megszakítva."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:133
 msgid "The program or system seems to have crashed."
 msgstr "Úgy tűnik, hogy a program vagy a rendszer összeomlott."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:177
 msgid "Connection closed by remote host."
 msgstr "A távoli gép lezárta a kapcsolatot."
 
-#: src/borg/error.rs:174 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:144
 msgid "Repository already in use."
 msgstr "A tároló már használatban van."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:180
+#| msgid "Failed to unmount repository."
+msgid "Failed to lock repository."
+msgstr "A tároló zárolása sikertelen."
+
+#: src/borg/error.rs:181
 msgid "Invalid encryption password."
 msgstr "Érvénytelen titkosítási jelszó."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:183
 msgid "A repository already exists at this location."
 msgstr "Már létezik egy tároló ezen a helyen."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:185
 msgid "No repository exists at this location."
 msgstr "Nem létezik tároló ezen a helyen."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:187
+msgid "Not enough free space in repository."
+msgstr "Nincs elég szabad terület a tárolóban."
+
+#: src/borg/error.rs:190
 msgid "Connection closed by remote host: “{}”"
 msgstr "A távoli gép lezárta a kapcsolatot: „{}”"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:193
 msgid "Unspecified error."
 msgstr "Meghatározatlan hiba."
 
@@ -289,7 +299,7 @@ msgstr "Hibakeresés"
 msgid "Info"
 msgstr "Információ"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:226
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
@@ -498,7 +508,7 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja."
 
 #: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:450 src/ui/page_backup/events.rs:19
+#: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Folytatás"
 
@@ -894,7 +904,7 @@ msgid "Invalid Archive Prefix"
 msgstr "Érvénytelen archívumelőtag"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:628
+#: src/ui/dialog_setup.ui:632
 msgid "Archive Prefix"
 msgstr "Archívumelőtag"
 
@@ -951,11 +961,11 @@ msgid ""
 "“{}”."
 msgstr "A(z) „{}” művelethez a(z) „{}” tároló titkosítási jelszava szükséges."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:327
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:328
 msgid "Encryption"
 msgstr "Titkosítás"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:503
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Jelszó"
 
@@ -980,7 +990,7 @@ msgstr "Ajánlott kizárások"
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Nem sikerült meghatározni, hogy hány archívum lenne törölve"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:331
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
 msgid "Close"
 msgstr "Bezárás"
 
@@ -1044,7 +1054,7 @@ msgstr ""
 "A változtatások alkalmazása után a régi archívumok következő automatikus "
 "törlése a következőket eredményezné."
 
-#: src/ui/dialog_setup.rs:178
+#: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
 msgstr "A meglévő tárolók felsorolása sikertelen."
 
@@ -1057,7 +1067,6 @@ msgid "Create new Repository"
 msgstr "Új tároló létrehozása"
 
 #: src/ui/dialog_setup.ui:41
-#| msgid "Location is not a valid backup repository."
 msgid "Select a location for a new backup repository."
 msgstr "Hely kiválasztása egy új biztonsági mentési tárolóhoz."
 
@@ -1074,30 +1083,30 @@ msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
 msgstr ""
-"Olyan hely kiválasztása, amely meglévő biztonsági mentési tárolót tartalmaz."
-" Más BorgBackup kompatibilis szoftverrel létrehozott tárolók is használhatók."
+"Olyan hely kiválasztása, amely meglévő biztonsági mentési tárolót tartalmaz. "
+"Más BorgBackup kompatibilis szoftverrel létrehozott tárolók is használhatók."
 
 #: src/ui/dialog_setup.ui:138
 msgid "Back to Overview"
 msgstr "Vissza az áttekintéshez"
 
-#: src/ui/dialog_setup.ui:144
-msgid "Advanced Options"
-msgstr "Speciális beállítások"
-
-#: src/ui/dialog_setup.ui:154
+#: src/ui/dialog_setup.ui:148
 msgid "Connect"
 msgstr "Kapcsolódás"
 
-#: src/ui/dialog_setup.ui:167
+#: src/ui/dialog_setup.ui:161
 msgid "_Create"
 msgstr "_Létrehozás"
 
-#: src/ui/dialog_setup.ui:185
+#: src/ui/dialog_setup.ui:177
 msgid "Location"
 msgstr "Hely"
 
-#: src/ui/dialog_setup.ui:238
+#: src/ui/dialog_setup.ui:181
+msgid "Advanced Options"
+msgstr "Speciális beállítások"
+
+#: src/ui/dialog_setup.ui:239
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1110,15 +1119,15 @@ msgstr ""
 "formátumúra. Vegye figyelembe, hogy az újraformázás törli az összes fájlt az "
 "adott helyről."
 
-#: src/ui/dialog_setup.ui:263
+#: src/ui/dialog_setup.ui:264
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://felhasználó@kiszolgáló.example.org/~/mentés"
 
-#: src/ui/dialog_setup.ui:279
+#: src/ui/dialog_setup.ui:280
 msgid "Conventional Locations"
 msgstr "Szokásos helyek"
 
-#: src/ui/dialog_setup.ui:290
+#: src/ui/dialog_setup.ui:291
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
 "“smb://” or “sftp://” protocol prefix."
@@ -1126,11 +1135,11 @@ msgstr ""
 "Az SMB és SFTP távoli biztonsági mentési helyek URL-ként adhatók meg az "
 "„smb://” vagy „sftp://” protokollelőtaggal."
 
-#: src/ui/dialog_setup.ui:297
+#: src/ui/dialog_setup.ui:298
 msgid "Locations with BorgBackup Support"
 msgstr "BorgBackup támogatással rendelkező helyek"
 
-#: src/ui/dialog_setup.ui:309
+#: src/ui/dialog_setup.ui:310
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
@@ -1142,7 +1151,7 @@ msgstr ""
 "BorgBackup bináris. Ezeknél a helyeknél a „<kiszolgálócím>:<mappa>” "
 "szintaxis, vagy az „ssh://” előtag használható."
 
-#: src/ui/dialog_setup.ui:326
+#: src/ui/dialog_setup.ui:327
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1150,23 +1159,23 @@ msgstr ""
 "A titkosított biztonsági mentésekben tárolt adatok jelszóval védettek. Ha "
 "titkosítást használ, akkor jelszó szükséges a biztonsági mentések eléréséhez."
 
-#: src/ui/dialog_setup.ui:341
+#: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Titkosított"
 
-#: src/ui/dialog_setup.ui:348
+#: src/ui/dialog_setup.ui:349
 msgid "Encryption Password"
 msgstr "Titkosítási jelszó"
 
-#: src/ui/dialog_setup.ui:362
+#: src/ui/dialog_setup.ui:363
 msgid "Repeat Password"
 msgstr "Jelszó ismétlése"
 
-#: src/ui/dialog_setup.ui:373
+#: src/ui/dialog_setup.ui:374
 msgid "Unencrypted"
 msgstr "Titkosítatlan"
 
-#: src/ui/dialog_setup.ui:389
+#: src/ui/dialog_setup.ui:391
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1174,33 +1183,33 @@ msgstr ""
 "Ezek az argumentumok hozzá lesznek adva a borg bináris meghívásához. Csak a "
 "hosszú kapcsolók támogatottak, amelyek „--” karakterekkel kezdődnek."
 
-#: src/ui/dialog_setup.ui:390
+#: src/ui/dialog_setup.ui:392
 msgid "Additional command line arguments"
 msgstr "További parancssori argumentumok"
 
-#: src/ui/dialog_setup.ui:430
+#: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Biztonsági mentési tároló ellenőrzése"
 
-#: src/ui/dialog_setup.ui:483
+#: src/ui/dialog_setup.ui:487
 msgid "Encryption Password Required"
 msgstr "Titkosítási jelszó szükséges"
 
-#: src/ui/dialog_setup.ui:492
+#: src/ui/dialog_setup.ui:496
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "A biztonsági mentési tároló titkosítási jelszava kötelező a hozzáféréséhez."
 
-#: src/ui/dialog_setup.ui:538 src/ui/dialog_setup.ui:572
+#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
 msgid "S_kip"
 msgstr "_Kihagyás"
 
-#: src/ui/dialog_setup.ui:550
+#: src/ui/dialog_setup.ui:554
 msgid "Checking for Previous Configurations"
 msgstr "Korábbi beállítások ellenőrzése"
 
-#: src/ui/dialog_setup.ui:551
+#: src/ui/dialog_setup.ui:555
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1208,11 +1217,11 @@ msgstr ""
 "Információk gyűjtése a korábban használt beállítások átviteléhez. Ez a lépés "
 "kihagyható."
 
-#: src/ui/dialog_setup.ui:586
+#: src/ui/dialog_setup.ui:590
 msgid "Transfer Settings"
 msgstr "Átviteli beállítások"
 
-#: src/ui/dialog_setup.ui:587
+#: src/ui/dialog_setup.ui:591
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1221,11 +1230,11 @@ msgstr ""
 "kiválasztható ahhoz, hogy átvitelre kerüljön az új beállításba. A beállítás "
 "utána módosítható."
 
-#: src/ui/dialog_setup.ui:615
+#: src/ui/dialog_setup.ui:619
 msgid "_Save"
 msgstr "_Mentés"
 
-#: src/ui/dialog_setup.ui:629
+#: src/ui/dialog_setup.ui:633
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1235,7 +1244,7 @@ msgstr ""
 "előtag két különböző eszközön történő használata nem javasolt, kivéve ha az "
 "új eszköz leváltja a régit."
 
-#: src/ui/dialog_setup.ui:670 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Biztonsági mentési tároló létrehozása"
 
@@ -1664,15 +1673,15 @@ msgstr "A figyelő indítása sikertelen"
 msgid "Failed to Create Thread"
 msgstr "Nem sikerült szálat létrehozni"
 
-#: src/ui/utils.rs:473
+#: src/ui/utils.rs:474
 msgid "Failed to fix Scheduled Backups"
 msgstr "Az ütemezett biztonsági mentések javítása sikertelen"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:479
 msgid "Scheduled Backups Repaired"
 msgstr "Az ütemezett biztonsági mentések megjavítva"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:479
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
