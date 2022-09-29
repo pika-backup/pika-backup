@@ -1,7 +1,7 @@
 app-id: org.gnome.World.PikaBackup
 command: pika-backup
 runtime: org.gnome.Platform
-runtime-version: 'master'
+runtime-version: '43'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -10,6 +10,7 @@ build-options:
 
 finish-args:
   # Read files for to backup
+  # Host has to be writable because configs become unwriteable otherwise
   - --filesystem=host
   - --filesystem=/var:ro
   # flatpak puts a tmpfs here to hide other apps
@@ -18,12 +19,13 @@ finish-args:
   # flatpak puts a tmpfs here to hide all apps
   # it contains the apps and overrides for app priviledges
   - --filesystem=xdg-data/flatpak:ro
-  # sftp mounts etc.
-  - --share=network
+  # Wayland
   - --socket=wayland
   # X11
   - --share=ipc
   - --socket=fallback-x11
+  # SSH backups etc.
+  - --share=network
   # SSH-keys etc
   - --socket=ssh-auth
   # GVfs (gio::Device etc)
