@@ -121,21 +121,22 @@ impl BorgCall {
         self
     }
 
-    pub fn add_password<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
+    pub async fn add_password<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
         if let Some(ref password) = borg.password() {
             debug!("Using password enforced by explicitly passed password");
             self.password = password.clone();
         } else if borg.is_encrypted() {
             debug!("Config says the backup is encrypted");
             if let Some(config) = borg.try_config() {
-                let password = config::Password::new(
-                    libsecret::password_lookup_sync(
-                        Some(&config::Password::libsecret_schema()),
-                        HashMap::from([("repo-id", config.repo_id.as_str())]),
-                        gio::Cancellable::NONE,
-                    )?
-                    .ok_or(Error::PasswordMissing)?
-                    .to_string(),
+                let password = config::Password::from(
+                    oo7::Keyring::new()
+                        .await?
+                        .search_items(HashMap::from([("repo-id", config.repo_id.as_str())]))
+                        .await?
+                        .first()
+                        .ok_or(Error::PasswordMissing)?
+                        .secret()
+                        .await?,
                 );
 
                 self.password = password;
@@ -193,8 +194,8 @@ impl BorgCall {
         self
     }
 
-    pub fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
-        self.add_password(borg)?;
+    pub async fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
+        self.add_password(borg).await?;
         self.add_basics_without_password(borg);
         Ok(self)
     }

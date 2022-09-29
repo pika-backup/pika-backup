@@ -25,32 +25,25 @@ pub use writeable::{ArcSwapWriteable, Writeable};
 
 use crate::prelude::*;
 
-use std::collections::HashMap;
 use std::path;
 use zeroize::Zeroizing;
 
 #[derive(Clone, Default)]
-pub struct Password(Zeroizing<String>);
+pub struct Password(Zeroizing<Vec<u8>>);
 
 impl Password {
     pub fn new(password: String) -> Self {
-        Self(Zeroizing::new(password))
-    }
-
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
+        Self(Zeroizing::new(password.into_bytes()))
     }
 
     pub fn as_bytes(&self) -> &[u8] {
-        self.0.as_bytes()
+        self.0.as_ref()
     }
+}
 
-    pub fn libsecret_schema() -> libsecret::Schema {
-        libsecret::Schema::new(
-            crate::APP_ID,
-            libsecret::SchemaFlags::NONE,
-            HashMap::from([("repo-id", libsecret::SchemaAttributeType::String)]),
-        )
+impl From<Zeroizing<Vec<u8>>> for Password {
+    fn from(password: Zeroizing<Vec<u8>>) -> Self {
+        Self(password)
     }
 }
 

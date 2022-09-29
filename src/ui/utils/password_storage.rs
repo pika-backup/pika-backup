@@ -24,12 +24,12 @@ pub async fn remove_password(config: &config::Backup) -> Result<()> {
         .iter()
         .any(|x| x.id != config.id && x.repo_id == config.repo_id)
     {
+        debug!("Not removing password because other configs need it");
+    } else {
         debug!("Removing password from secret service");
         delete_passwords(config).await.err_to_msg(gettext(
             "Failed to remove potentially remaining passwords from key storage.",
         ))?;
-    } else {
-        debug!("Not removing password because other configs need it");
     }
 
     Ok(())
@@ -38,28 +38,33 @@ pub async fn remove_password(config: &config::Backup) -> Result<()> {
 async fn set_password(
     config: &config::Backup,
     password: &Password,
-) -> std::result::Result<(), glib::Error> {
+) -> std::result::Result<(), oo7::Error> {
     debug!("Starting to store password");
-    let result = libsecret::password_store_sync(
-        Some(&config::Password::libsecret_schema()),
-        HashMap::from([("repo-id", config.repo_id.as_str())]),
-        None,
-        // Translators: This is the description for entries in the password database.
-        &gettextf("Pika Backup “{}”", &[&config.repo.location()]),
-        password.as_str(),
-        gio::Cancellable::NONE,
-    );
+    let keyring = oo7::Keyring::new().await?;
+
+    keyring
+        .create_item(
+            // Translators: This is the description for entries in the password database.
+            &gettextf("Pika Backup “{}”", &[&config.repo.location()]),
+            HashMap::from([("repo-id", config.repo_id.as_str())]),
+            password.as_bytes(),
+            true,
+        )
+        .await?;
+
     debug!("Storing password returned");
-    result
+
+    Ok(())
 }
 
-async fn delete_passwords(config: &config::Backup) -> std::result::Result<(), glib::Error> {
+async fn delete_passwords(config: &config::Backup) -> std::result::Result<(), oo7::Error> {
     debug!("Starting to clear passwords");
-    let result = libsecret::password_clear_sync(
-        Some(&config::Password::libsecret_schema()),
-        HashMap::from([("repo-id", config.repo_id.as_str())]),
-        gio::Cancellable::NONE,
-    );
+
+    let keyring = oo7::Keyring::new().await?;
+    keyring
+        .delete(HashMap::from([("repo-id", config.repo_id.as_str())]))
+        .await?;
+
     debug!("Clearing password returned");
-    result
+    Ok(())
 }

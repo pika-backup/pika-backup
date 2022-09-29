@@ -49,7 +49,8 @@ impl CommandRun<task::List> for Command<task::List> {
             "--consider-checkpoints",
             "--format={hostname}{username}{comment}{end}{command_line}",
         ])
-        .add_basics(&self)?;
+        .add_basics(&self)
+        .await?;
 
         match self.task.limit {
             task::NumArchives::First(n) => {
@@ -76,7 +77,8 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
             .create(mount_point(&self.config.repo_id))?;
 
         let borg = BorgCall::new("mount")
-            .add_basics(&self)?
+            .add_basics(&self)
+            .await?
             // Make all data readable for the current user
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
             .add_options(&["-o", &format!("umask=0277,uid={}", nix::unistd::getuid())])
@@ -92,7 +94,7 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
 #[async_trait]
 impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
     async fn run(self) -> Result<PruneInfo> {
-        let mut borg_call = prune_call(&self)?;
+        let mut borg_call = prune_call(&self).await?;
         borg_call.add_options(["--dry-run", "--list"]);
 
         let messages = check_stderr(&borg_call.output()?)?;
@@ -123,7 +125,7 @@ impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
 #[async_trait]
 impl CommandRun<task::Prune> for Command<task::Prune> {
     async fn run(self) -> Result<()> {
-        let mut borg_call = prune_call(&self)?;
+        let mut borg_call = prune_call(&self).await?;
         borg_call.add_options(["--progress"]);
 
         let process = borg_call.spawn_async_managed(self.communication.clone())?;
@@ -145,7 +147,8 @@ impl CommandRun<task::Create> for Command<task::Create> {
             // Good and fast compression
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/51>
             .add_options(&["--compression=zstd"])
-            .add_basics(&self)?
+            .add_basics(&self)
+            .await?
             .add_archive(&self)
             .add_include_exclude(&self);
 
@@ -312,7 +315,7 @@ pub fn mount_dir() -> std::path::PathBuf {
     glib::home_dir().join(crate::REPO_MOUNT_DIR)
 }
 
-fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
+async fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
     if command.config.prune.keep.hourly < 1
         || command.config.prune.keep.daily < 1
         || command.config.prune.keep.weekly < 1
@@ -322,7 +325,7 @@ fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
 
     let mut borg_call = BorgCall::new("prune");
 
-    borg_call.add_basics(command)?.add_options([
+    borg_call.add_basics(command).await?.add_options([
         &format!("--prefix={}", command.config.archive_prefix),
         "--keep-within=1H",
         &format!("--keep-hourly={}", command.config.prune.keep.hourly),
@@ -363,7 +366,8 @@ impl CommandOnlyRepo {
                 ("BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK", "yes"),
                 ("BORG_RELOCATED_REPO_ACCESS_IS_OK", "yes"),
             ])
-            .add_basics(&self)?
+            .add_basics(&self)
+            .await?
             .output()?;
 
         check_stderr(&borg)?;
@@ -376,7 +380,8 @@ impl CommandOnlyRepo {
     pub async fn init(self) -> Result<List> {
         let borg = BorgCall::new("init")
             .add_options([format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
-            .add_basics(&self)?
+            .add_basics(&self)
+            .await?
             .output()?;
 
         check_stderr(&borg)?;

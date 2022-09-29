@@ -23,7 +23,7 @@ quick_error! {
         Unix(err: nix::Error) { from() }
         BorgReturnCode(err: ReturnCodeError) { from() }
         PasswordMissing { }
-        Glib(err: glib::Error) { from() }
+        PasswordStorage(err: oo7::Error) { from() }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
         ImplausiblePrune { display("{}", gettext("This delete operation would delete too many archives.")) }
         EmptyIncldue { display("{}", gettext("No files selected to be included into backup.")) }

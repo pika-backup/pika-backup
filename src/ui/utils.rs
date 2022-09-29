@@ -4,8 +4,8 @@ pub mod df;
 pub mod duration;
 pub mod ext;
 pub mod flatpak_info;
+pub mod password_storage;
 pub mod repo_cache;
-pub mod secret_service;
 
 use crate::ui::prelude::*;
 use adw::prelude::*;

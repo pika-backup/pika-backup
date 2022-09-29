@@ -150,7 +150,7 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
 
     insert_backup_config(config.clone())?;
     if encrypted {
-        ui::utils::secret_service::store_password(&config, &password).await?;
+        ui::utils::password_storage::store_password(&config, &password).await?;
     }
     ui::page_backup::view_backup_conf(&config.id);
 
@@ -206,7 +206,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     let config = config::Backup::new(repo.clone(), info, encrypted);
     insert_backup_config(config.clone())?;
     ui::page_backup::view_backup_conf(&config.id);
-    ui::utils::secret_service::store_password(
+    ui::utils::password_storage::store_password(
         &config,
         &config::Password::new(ui.ask_password().text().to_string()),
     )
