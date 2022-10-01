@@ -95,7 +95,6 @@ fn test() {
         "--compression=zstd",
         "--log-json",
         "--exclude=pp:/home/xuser/.cache",
-        "--exclude=pp:/home/xuser/.mnt/borg",
         "--",
         "ssh://example.org/./repo::prefix-53070a25",
         "/home/xuser/Music",
