@@ -32,8 +32,8 @@ pub static STALL_THRESHOLD: std::time::Duration = std::time::Duration::from_secs
 
 pub const MIN_MAJOR_VERSION: u32 = 1;
 pub const MIN_MINOR_VERSION: u32 = 2;
-/// require borg 1.1.4 because of zstd compression
-pub const MIN_PATCH_VERSION: u32 = 0;
+/// require borg 1.2.2 because of smb bug
+pub const MIN_PATCH_VERSION: u32 = 2;
 
 pub const MAX_MAJOR_VERSION: u32 = 1;
 pub const MAX_MINOR_VERSION: u32 = 2;

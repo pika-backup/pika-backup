@@ -61,9 +61,7 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
     while let Some(option) = options.next() {
         if matches!(option.0, CreateTerm::OptExclude) {
             if let Some((CreateTerm::Value, value)) = options.next() {
-                if !value.ends_with(crate::REPO_MOUNT_DIR)
-                    && !value.ends_with(&format!(".var/app/{}/data/flatpak/", crate::APP_ID))
-                {
+                if !value.ends_with(&format!(".var/app/{}/data/flatpak/", crate::APP_ID)) {
                     if let Some(pattern) = config::Pattern::from_borg(value) {
                         exclude.insert(config::Exclude::from_pattern(pattern));
                     }

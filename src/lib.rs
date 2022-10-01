@@ -14,8 +14,6 @@ mod prelude;
 
 use default_env::default_env;
 
-const REPO_MOUNT_DIR: &str = ".mnt/borg";
-
 const NON_JOURNALING_FILESYSTEMS: &[&str] = &["exfat", "ext2", "vfat"];
 
 const LOCALEDIR: &str = default_env!("LOCALEDIR", "/usr/share/locale");

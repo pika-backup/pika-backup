@@ -76,3 +76,9 @@ pub fn fasted_hash_algorithm() -> &'static str {
         "-blake2"
     }
 }
+
+pub fn mount_base_dir() -> std::path::PathBuf {
+    crate::utils::host::user_runtime_dir()
+        .join(env!("CARGO_PKG_NAME"))
+        .join("mount")
+}

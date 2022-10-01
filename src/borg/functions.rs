@@ -300,19 +300,15 @@ pub fn umount(repo_id: &RepoId) -> Result<()> {
     check_stderr(&borg)?;
 
     std::fs::remove_dir(mount_point)?;
-    let _ = std::fs::remove_dir(mount_dir());
+    let _ = std::fs::remove_dir(mount_base_dir());
 
     Ok(())
 }
 
 pub fn mount_point(repo_id: &RepoId) -> std::path::PathBuf {
-    let mut dir = mount_dir();
+    let mut dir = mount_base_dir();
     dir.push(&format!("{:.8}", repo_id.as_str()));
     dir
-}
-
-pub fn mount_dir() -> std::path::PathBuf {
-    glib::home_dir().join(crate::REPO_MOUNT_DIR)
 }
 
 async fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {

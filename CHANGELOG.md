@@ -12,6 +12,7 @@
 - Change to only mention SMB and SFTP schemas in setup dialog
 - Change to use AdwAboutWindow
 - Change to use AdwMessageDialog
+- Change to use XDG runtime dir on host instead of HOME for mounts
 - Change to symbolic icons in include/exclude list
 - Add ability to add multiple includes/excludes at once from file chooser
 - Add automatic mounting of unmounted drives
