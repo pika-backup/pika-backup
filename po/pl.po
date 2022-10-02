@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-20 04:23+0000\n"
-"PO-Revision-Date: 2022-09-25 16:02+0200\n"
+"POT-Creation-Date: 2022-10-02 01:09+0000\n"
+"PO-Revision-Date: 2022-10-02 14:58+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -155,43 +155,52 @@ msgstr "Przerwano na żądanie użytkownika."
 msgid "Aborted because only metered connection was available."
 msgstr "Przerwano, ponieważ dostępne było tylko mierzone połączenie."
 
-#: src/borg/error.rs:126
+#. Translators: Running backup was aborted because computer running on battery
+#: src/borg/error.rs:127
 msgid "Aborted because too long not connected to power."
 msgstr "Przerwano, ponieważ za długo nie podłączono do zasilania."
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:129
 msgid "Aborted by system."
 msgstr "Przerwano przez system."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:133
 msgid "The program or system seems to have crashed."
 msgstr "Program lub system uległ awarii."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:177
 msgid "Connection closed by remote host."
 msgstr "Zdalny komputer zamknął połączenie."
 
-#: src/borg/error.rs:174 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Repozytorium jest już używane."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:180
+msgid "Failed to lock repository."
+msgstr "Zablokowanie repozytorium się nie powiodło."
+
+#: src/borg/error.rs:181
 msgid "Invalid encryption password."
 msgstr "Nieprawidłowe hasło szyfrowania."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:183
 msgid "A repository already exists at this location."
 msgstr "W tym położeniu już jest repozytorium."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:185
 msgid "No repository exists at this location."
 msgstr "W tym położeniu nie ma żadnego repozytorium."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:187
+msgid "Not enough free space in repository."
+msgstr "Za mało wolnego miejsca w repozytorium."
+
+#: src/borg/error.rs:190
 msgid "Connection closed by remote host: “{}”"
 msgstr "Zdalny komputer zamknął połączenie: „{}”"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:193
 msgid "Unspecified error."
 msgstr "Nieokreślony błąd."
 
@@ -288,7 +297,7 @@ msgstr "Debugowanie"
 msgid "Info"
 msgstr "Informacje"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:226
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
@@ -324,7 +333,7 @@ msgstr "Identyfikowanie starych archiwów"
 msgid "Refreshing Archive List"
 msgstr "Odświeżanie listy archiwów"
 
-#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Katalog domowy"
@@ -385,11 +394,11 @@ msgstr "Dane, które można odtworzyć, jeśli będą potrzebne"
 msgid "Documents and data are still backed up"
 msgstr "Dokumenty i dane pozostają w kopii zapasowej"
 
-#: src/config/pattern.rs:157
+#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Wyrażenie regularne"
 
-#: src/config/pattern.rs:158
+#: src/config/pattern.rs:162
 msgid "Shell Wildcard Pattern"
 msgstr "Wzorzec wieloznacznika powłoki"
 
@@ -487,34 +496,34 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Rozpoczęcie zaplanowanej kopii zapasowej się nie powiodło"
 
-#: src/ui.rs:174 src/ui/page_backup/events.rs:17
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Przerwać tworzenie kopii zapasowej?"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:18
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Przerwanie w tej chwili spowoduje, że kopia zapasowa będzie niepełna."
 
-#: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:450 src/ui/page_backup/events.rs:19
+#: src/ui.rs:177 src/ui/dialog_encryption_password.ui:20
+#: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Kontynuuj"
 
-#: src/ui.rs:177 src/ui/page_backup/events.rs:20
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Przerwij"
 
-#: src/ui.rs:196
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Wykonanie polecenia „borg” się nie powiodło. Czy prawidłowo zainstalowano "
 "program BorgBackup?"
 
-#: src/ui.rs:220
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "Wersja programu BorgBackup jest za stara"
 
-#: src/ui.rs:222
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -522,11 +531,11 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za stara. Część funkcji do "
 "działania wymaga wersji {}.{}.{}."
 
-#: src/ui.rs:233
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "Wersja programu BorgBackup jest za nowa"
 
-#: src/ui.rs:235
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -534,11 +543,11 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za nowa. Zalecana jest "
 "wersja {}.{}. Część funkcji może nie działać poprawnie."
 
-#: src/ui.rs:245
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "Sprawdzenie wersji programu BorgBackup się nie powiodło"
 
-#: src/ui.rs:247
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "Zainstalowana wersja, {}, może nie działać."
 
@@ -611,7 +620,7 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Wybiera katalog do dołączenia…"
 
-#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Wykluczone z kopii zapasowej"
@@ -892,15 +901,15 @@ msgid "Invalid Archive Prefix"
 msgstr "Nieprawidłowy przedrostek archiwum"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:628
+#: src/ui/dialog_setup.ui:632
 msgid "Archive Prefix"
 msgstr "Przedrostek archiwum"
 
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:148
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -949,36 +958,52 @@ msgid ""
 "“{}”."
 msgstr "Działanie „{}” wymaga hasła szyfrowania repozytorium w „{}”."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:327
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:328
 msgid "Encryption"
 msgstr "Szyfrowanie"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:503
+#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Hasło"
 
-#: src/ui/dialog_exclude.rs:127
+#: src/ui/dialog_exclude.rs:133
 msgid "Exclude Directory"
 msgstr "Wykluczenie katalogu"
 
-#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
+#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Wybierz"
 
-#: src/ui/dialog_exclude.rs:156
+#: src/ui/dialog_exclude.rs:162
 msgid "Exclude File"
 msgstr "Wykluczenie pliku"
 
-#: src/ui/dialog_exclude.ui:72
+#: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Proponowane wykluczenia"
+
+#: src/ui/dialog_exclude_pattern.rs:33
+msgid "Invalid Regular Expression"
+msgstr "Nieprawidłowe wyrażenie regularne"
+
+#: src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Wzorzec wykluczania"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Dodaj"
+
+#: src/ui/dialog_exclude_pattern.ui:54
+msgid "Shell-Style Wildcards"
+msgstr "Wieloznaczniki w stylu powłoki"
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Ustalenie, ile archiwów zostałoby usuniętych się nie powiodło"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:331
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
 msgid "Close"
 msgstr "Zamknij"
 
@@ -1041,7 +1066,7 @@ msgstr ""
 "Po zastosowaniu tych zmian następne automatyczne usuwanie starych archiwów "
 "miałoby poniższe konsekwencje."
 
-#: src/ui/dialog_setup.rs:178
+#: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
 msgstr "Wyświetlenie listy istniejących repozytoriów się nie powiodło."
 
@@ -1078,23 +1103,23 @@ msgstr ""
 msgid "Back to Overview"
 msgstr "Wraca do przeglądu"
 
-#: src/ui/dialog_setup.ui:144
-msgid "Advanced Options"
-msgstr "Zaawansowane opcje"
-
-#: src/ui/dialog_setup.ui:154
+#: src/ui/dialog_setup.ui:148
 msgid "Connect"
 msgstr "Połącz"
 
-#: src/ui/dialog_setup.ui:167
+#: src/ui/dialog_setup.ui:161
 msgid "_Create"
 msgstr "_Utwórz"
 
-#: src/ui/dialog_setup.ui:185
+#: src/ui/dialog_setup.ui:177
 msgid "Location"
 msgstr "Położenie"
 
-#: src/ui/dialog_setup.ui:238
+#: src/ui/dialog_setup.ui:181
+msgid "Advanced Options"
+msgstr "Zaawansowane opcje"
+
+#: src/ui/dialog_setup.ui:239
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1107,15 +1132,15 @@ msgstr ""
 "w formacie NTFS lub ext4. Proszę zauważyć, że ponowne formatowanie spowoduje "
 "usunięcie wszystkich plików na urządzeniu."
 
-#: src/ui/dialog_setup.ui:263
+#: src/ui/dialog_setup.ui:264
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://użytkownika@serwer.example.org/~/kopia-zapasowa"
 
-#: src/ui/dialog_setup.ui:279
+#: src/ui/dialog_setup.ui:280
 msgid "Conventional Locations"
 msgstr "Zwyczajowe położenia"
 
-#: src/ui/dialog_setup.ui:290
+#: src/ui/dialog_setup.ui:291
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
 "“smb://” or “sftp://” protocol prefix."
@@ -1123,11 +1148,11 @@ msgstr ""
 "Zdalne położenia kopii zapasowej SMB i SFTP mogą być podawane jako adres URL "
 "z przedrostkiem protokołu „smb://” lub „sftp://”."
 
-#: src/ui/dialog_setup.ui:297
+#: src/ui/dialog_setup.ui:298
 msgid "Locations with BorgBackup Support"
 msgstr "Położenia z obsługą programu BorgBackup"
 
-#: src/ui/dialog_setup.ui:309
+#: src/ui/dialog_setup.ui:310
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
@@ -1138,7 +1163,7 @@ msgstr ""
 "mieć zainstalowany plik binarny BorgBackup. Dla tych położeń można używać "
 "składni „<adres serwera>:<katalog>” lub przedrostka „ssh://”."
 
-#: src/ui/dialog_setup.ui:326
+#: src/ui/dialog_setup.ui:327
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1147,23 +1172,23 @@ msgstr ""
 "Jeśli szyfrowanie jest używane, to hasło jest wymagane do uzyskania dostępu "
 "do kopii."
 
-#: src/ui/dialog_setup.ui:341
+#: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Zaszyfrowane"
 
-#: src/ui/dialog_setup.ui:348
+#: src/ui/dialog_setup.ui:349
 msgid "Encryption Password"
 msgstr "Hasło szyfrowania"
 
-#: src/ui/dialog_setup.ui:362
+#: src/ui/dialog_setup.ui:363
 msgid "Repeat Password"
 msgstr "Powtórzenie hasła"
 
-#: src/ui/dialog_setup.ui:373
+#: src/ui/dialog_setup.ui:374
 msgid "Unencrypted"
 msgstr "Niezaszyfrowane"
 
-#: src/ui/dialog_setup.ui:389
+#: src/ui/dialog_setup.ui:391
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1171,32 +1196,32 @@ msgstr ""
 "Te parametry będą dodawane do wywołania polecenia borg. Obsługiwane są tylko "
 "długie opcje, zaczynające się od „--”."
 
-#: src/ui/dialog_setup.ui:390
+#: src/ui/dialog_setup.ui:392
 msgid "Additional command line arguments"
 msgstr "Dodatkowe parametry wiersza poleceń"
 
-#: src/ui/dialog_setup.ui:430
+#: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Sprawdzanie repozytorium kopii zapasowej"
 
-#: src/ui/dialog_setup.ui:483
+#: src/ui/dialog_setup.ui:487
 msgid "Encryption Password Required"
 msgstr "Wymagane jest hasło szyfrowania"
 
-#: src/ui/dialog_setup.ui:492
+#: src/ui/dialog_setup.ui:496
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr "Dostęp do tego repozytorium kopii zapasowej wymaga hasła szyfrowania."
 
-#: src/ui/dialog_setup.ui:538 src/ui/dialog_setup.ui:572
+#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
 msgid "S_kip"
 msgstr "_Pomiń"
 
-#: src/ui/dialog_setup.ui:550
+#: src/ui/dialog_setup.ui:554
 msgid "Checking for Previous Configurations"
 msgstr "Wyszukiwanie poprzednich konfiguracji"
 
-#: src/ui/dialog_setup.ui:551
+#: src/ui/dialog_setup.ui:555
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1204,11 +1229,11 @@ msgstr ""
 "Zbieranie informacji do przeniesienia poprzednio używanych ustawień. Ten "
 "krok jest opcjonalny."
 
-#: src/ui/dialog_setup.ui:586
+#: src/ui/dialog_setup.ui:590
 msgid "Transfer Settings"
 msgstr "Przeniesienie ustawień"
 
-#: src/ui/dialog_setup.ui:587
+#: src/ui/dialog_setup.ui:591
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1217,11 +1242,11 @@ msgstr ""
 "zapasowych do przeniesienia do nowej konfiguracji. Później można ją "
 "dostosować."
 
-#: src/ui/dialog_setup.ui:615
+#: src/ui/dialog_setup.ui:619
 msgid "_Save"
 msgstr "_Zapisz"
 
-#: src/ui/dialog_setup.ui:629
+#: src/ui/dialog_setup.ui:633
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1231,7 +1256,7 @@ msgstr ""
 "zapasowej. Użycie tego samego przedrostka na dwóch urządzeniach nie jest "
 "zalecane, chyba że nowe urządzenie zastępuje poprzednie."
 
-#: src/ui/dialog_setup.ui:670 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Tworzenie repozytorium kopii zapasowej"
 
@@ -1662,15 +1687,15 @@ msgstr "Uruchomienie monitora się nie powiodło"
 msgid "Failed to Create Thread"
 msgstr "Utworzenie wątku się nie powiodło"
 
-#: src/ui/utils.rs:473
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Naprawienie zaplanowanych kopii zapasowych się nie powiodło"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Naprawiono zaplanowane kopie zapasowe"
 
-#: src/ui/utils.rs:478
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1682,7 +1707,7 @@ msgstr ""
 msgid "Repository already in use"
 msgstr "Repozytorium jest już używane"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1691,7 +1716,7 @@ msgstr ""
 "może być nieaktualna, jeśli na przykład komputer został odłączony z prądu "
 "podczas używania repozytorium."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1701,7 +1726,7 @@ msgstr ""
 "używane przez żaden program. Kontynuowanie, kiedy inny program używa "
 "repozytorium może spowodować uszkodzenie danych w kopii zapasowej."
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Kontynuuj mimo to"
 
@@ -1808,20 +1833,20 @@ msgstr[0] "Rok temu"
 msgstr[1] "{} lata temu"
 msgstr[2] "{} lat temu"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "Zapisanie pamięci podręcznej się nie powiodło"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "Przechowanie hasła się nie powiodło"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Usunięcie potencjalnie pozostawionych haseł z bazy kluczy się nie powiodło."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Kopia zapasowa „{}” programu Pika"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "Zapisanie pamięci podręcznej się nie powiodło"
