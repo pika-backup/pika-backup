@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-27 22:12+0000\n"
-"PO-Revision-Date: 2022-09-28 07:29+0300\n"
+"POT-Creation-Date: 2022-10-02 01:09+0000\n"
+"PO-Revision-Date: 2022-10-02 22:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -176,12 +176,11 @@ msgstr "Здається, аварійно завершила роботу пр�
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:179 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
 #: src/borg/error.rs:180
-#| msgid "Failed to unmount repository."
 msgid "Failed to lock repository."
 msgstr "Не вдалося заблокувати сховище."
 
@@ -338,7 +337,7 @@ msgstr "Визначення застарілих архівів"
 msgid "Refreshing Archive List"
 msgstr "Оновлення списку архівів"
 
-#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Домівка"
@@ -399,11 +398,11 @@ msgstr "Дані, які можна за потреби створити нан�
 msgid "Documents and data are still backed up"
 msgstr "Триває резервне копіювання документів і даних"
 
-#: src/config/pattern.rs:157
+#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: src/config/pattern.rs:158
+#: src/config/pattern.rs:162
 msgid "Shell Wildcard Pattern"
 msgstr "Взірець оболонки"
 
@@ -506,33 +505,33 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не вдалося розпочати резервне копіювання за розкладом"
 
-#: src/ui.rs:174 src/ui/page_backup/events.rs:17
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:18
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:177 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:177 src/ui/page_backup/events.rs:20
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/ui.rs:196
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином BorgBackup?"
 
-#: src/ui.rs:220
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "Надто застаріла версія BorgBackup"
 
-#: src/ui.rs:222
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -540,11 +539,11 @@ msgstr ""
 "Встановлена версія BorgBackup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
-#: src/ui.rs:233
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "Надто нова версія BorgBackup"
 
-#: src/ui.rs:235
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -553,11 +552,11 @@ msgstr ""
 "скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як "
 "ви на те сподівалися."
 
-#: src/ui.rs:245
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не вдалося виконати перевірку версії BorgBackup"
 
-#: src/ui.rs:247
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
 
@@ -631,7 +630,7 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Виберіть каталог для включення…"
 
-#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Виключити з резервної копії"
@@ -916,10 +915,10 @@ msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:148
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -976,28 +975,47 @@ msgstr "Шифрування"
 msgid "Password"
 msgstr "Пароль"
 
-#: src/ui/dialog_exclude.rs:127
+#: src/ui/dialog_exclude.rs:133
 msgid "Exclude Directory"
 msgstr "Виключити каталог"
 
-#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
+#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Вибрати"
 
-#: src/ui/dialog_exclude.rs:156
+#: src/ui/dialog_exclude.rs:162
 msgid "Exclude File"
 msgstr "Виключити файл"
 
-#: src/ui/dialog_exclude.ui:72
+#: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Пропоновані виключення"
+
+#: src/ui/dialog_exclude_pattern.rs:33
+#| msgid "Regular Expression"
+msgid "Invalid Regular Expression"
+msgstr "Некоректний формальний вираз"
+
+#: src/ui/dialog_exclude_pattern.ui:4
+#| msgid "Exclude File"
+msgid "Exclude Pattern"
+msgstr "Взірець виключення"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Додати"
+
+#: src/ui/dialog_exclude_pattern.ui:54
+#| msgid "Shell Wildcard Pattern"
+msgid "Shell-Style Wildcards"
+msgstr "Шаблони у стилі командної оболонки"
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
 msgid "Close"
 msgstr "Закрити"
 
@@ -1693,15 +1711,15 @@ msgstr "Не вдалося почати спостереження"
 msgid "Failed to Create Thread"
 msgstr "Не вдалося створити потік обробки"
 
-#: src/ui/utils.rs:474
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Не вдалося виправити резервне копіювання за розкладом"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Виправлено резервне копіювання за розкладом"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1713,7 +1731,7 @@ msgstr ""
 msgid "Repository already in use"
 msgstr "Сховище вже використано"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1722,7 +1740,7 @@ msgstr ""
 "можуть виявитися застарілими, якщо, наприклад, ваш комп'ютер було "
 "несподівано вимкнено від джерела живлення під час користування сховищем."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1732,7 +1750,7 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
@@ -1852,22 +1870,22 @@ msgstr[1] "{} роки тому"
 msgstr[2] "{} років тому"
 msgstr[3] "Рік тому"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "Не вдалося зберегти кеш"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "Не вдалося зберегти пароль"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Не вдалося вилучити потенційно збережені паролі зі сховища ключів."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Пайка-копіювання «{}»"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "Не вдалося зберегти кеш"
 
 #~ msgid ""
 #~ "The “ssh://” protocol is reserved for locations with explicit borg "
