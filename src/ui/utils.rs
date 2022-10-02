@@ -321,7 +321,13 @@ pub async fn show_error_transient_for<
     );
 
     // Only display as dialog if focus and visible
-    if crate::ui::app_window::is_displayed() && main_ui().window().is_active() {
+    if crate::ui::app_window::is_displayed()
+        && gtk::Window::list_toplevels().into_iter().any(|x| {
+            x.downcast::<gtk::Window>()
+                .map(|w| w.is_active())
+                .unwrap_or_default()
+        })
+    {
         let dialog = adw::MessageDialog::builder()
             .modal(true)
             .transient_for(window)

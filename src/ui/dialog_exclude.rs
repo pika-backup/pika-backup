@@ -25,6 +25,12 @@ pub fn show() {
             Handler::run(exclude_file())
         }));
 
+    ui.exclude_pattern()
+        .connect_activated(glib::clone!(@weak ui => move |_| {
+            ui.dialog().destroy();
+            Handler::run(exclude_pattern())
+        }));
+
     // ensure lifetime until window closes
     let mutex = std::sync::Mutex::new(Some(ui.clone()));
     ui.dialog().connect_close_request(move |_| {
@@ -176,5 +182,10 @@ pub async fn exclude_file() -> Result<()> {
     crate::ui::write_config()?;
     ui::page_backup::refresh()?;
 
+    Ok(())
+}
+
+pub async fn exclude_pattern() -> Result<()> {
+    ui::dialog_exclude_pattern::show();
     Ok(())
 }

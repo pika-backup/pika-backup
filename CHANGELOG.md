@@ -20,6 +20,7 @@
 - Add detection of renamed drives
 - Add missing standard shortcuts
 - Add predefined exclusion rules
+- Add regular expressions and shell pattern exclude support
 - Remove special representation with switch for Home folder
 
 ## 0.4.2 (2022-07-12)

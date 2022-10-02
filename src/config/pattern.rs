@@ -60,6 +60,10 @@ impl std::hash::Hash for Pattern {
 }
 
 impl Pattern {
+    pub fn from_regular_expression(re: impl AsRef<str>) -> Result<Self, regex::Error> {
+        Ok(Self::RegularExpression(regex::Regex::new(re.as_ref())?))
+    }
+
     pub fn from_borg(s: String) -> Option<Self> {
         if let Some((selector, pattern)) = s.split_once(':') {
             match selector {
