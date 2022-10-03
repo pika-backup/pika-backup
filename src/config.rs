@@ -60,10 +60,17 @@ pub fn display_path(path: &path::Path) -> String {
     }
 }
 
-pub fn absolute(path: &path::Path) -> path::PathBuf {
-    if path.starts_with("/") {
-        path.to_path_buf()
+pub fn path_absolute(path: impl AsRef<path::Path>) -> path::PathBuf {
+    if path.as_ref().starts_with("/") {
+        path.as_ref().to_path_buf()
     } else {
         glib::home_dir().join(path)
     }
+}
+
+pub fn path_relative(path: impl AsRef<path::Path>) -> path::PathBuf {
+    path.as_ref()
+        .strip_prefix(glib::home_dir())
+        .map(|x| x.to_path_buf())
+        .unwrap_or_else(|_| path.as_ref().to_path_buf())
 }

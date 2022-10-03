@@ -73,11 +73,7 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
     let include = ast_include
         .into_iter()
         .map(|x| PathBuf::from(x.1))
-        .map(|x| {
-            x.strip_prefix(glib::home_dir())
-                .map(|x| x.to_path_buf())
-                .unwrap_or(x)
-        })
+        .map(config::path_relative)
         .collect();
 
     Parsed { exclude, include }

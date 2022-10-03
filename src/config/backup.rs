@@ -4,7 +4,9 @@ use crate::prelude::*;
 use std::collections::BTreeSet;
 use std::path;
 
-use super::{absolute, error, exclude, ConfigType, Exclude, Pattern, Prune, Repository, Schedule};
+use super::{
+    error, exclude, path_absolute, ConfigType, Exclude, Pattern, Prune, Repository, Schedule,
+};
 
 /// Compatibility config version
 pub const VERSION: u16 = 2;
@@ -144,7 +146,7 @@ impl Backup {
         let mut dirs = BTreeSet::new();
 
         for dir in &self.include {
-            dirs.insert(absolute(dir));
+            dirs.insert(path_absolute(dir));
         }
 
         dirs
@@ -164,7 +166,7 @@ impl Backup {
         */
 
         if ashpd::is_sandboxed() {
-            dirs.insert(Exclude::from_pattern(Pattern::PathPrefix(absolute(
+            dirs.insert(Exclude::from_pattern(Pattern::PathPrefix(path_absolute(
                 path::Path::new(&format!(".var/app/{}/data/flatpak/", crate::APP_ID)),
             ))));
         }

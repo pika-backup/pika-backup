@@ -29,7 +29,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
         .build();
     list.append(&row);
 
-    if let Some(image) = crate::utils::file_symbolic_icon(&config::absolute(file))
+    if let Some(image) = crate::utils::file_symbolic_icon(&config::path_absolute(file))
         .map(|x| gtk::Image::from_gicon(&x))
     {
         image.add_css_class("row-icon");

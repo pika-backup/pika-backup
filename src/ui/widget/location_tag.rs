@@ -31,7 +31,7 @@ impl LocationTag {
 
     pub fn icon(&self) -> Option<gtk::Image> {
         match self {
-            Self::Location(path) => crate::utils::file_symbolic_icon(&config::absolute(path)),
+            Self::Location(path) => crate::utils::file_symbolic_icon(&config::path_absolute(path)),
             Self::Pattern(pattern) => pattern.symbolic_icon(),
         }
         .map(|x| gtk::Image::from_gicon(&x))

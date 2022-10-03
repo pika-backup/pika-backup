@@ -785,6 +785,72 @@ impl DialogExcludePattern {
 }
 
 #[derive(Clone)]
+pub struct DialogInclude {
+    builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogIncludeWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogInclude {
+    type Weak = DialogIncludeWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogIncludeWeak {
+    type Strong = DialogInclude;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogInclude {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_include.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_include.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn dialog(&self) -> adw::Window {
+        self.get("dialog")
+    }
+
+    pub fn exclude_file(&self) -> adw::ActionRow {
+        self.get("exclude_file")
+    }
+
+    pub fn exclude_folder(&self) -> adw::ActionRow {
+        self.get("exclude_folder")
+    }
+
+    pub fn suggestions(&self) -> adw::PreferencesGroup {
+        self.get("suggestions")
+    }
+}
+
+#[derive(Clone)]
 pub struct DialogPrune {
     builder: gtk::Builder,
 }

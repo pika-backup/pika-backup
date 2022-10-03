@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-use super::{absolute, display_path};
+use super::{display_path, path_absolute};
 use serde::Deserialize;
 use std::ffi::CString;
 use std::ffi::OsString;
@@ -107,7 +107,7 @@ impl Pattern {
                     false
                 }
             }
-            Self::PathPrefix(path_prefix) => path.starts_with(absolute(path_prefix)),
+            Self::PathPrefix(path_prefix) => path.starts_with(path_absolute(path_prefix)),
             // TODO: warn if fail
             Self::RegularExpression(regex) => {
                 let mut path_ = path.to_string_lossy().to_string();
@@ -116,7 +116,7 @@ impl Pattern {
                 }
                 regex.is_match(&path_).unwrap_or_default()
             }
-            Self::PathFullMatch(full_path) => path == absolute(full_path),
+            Self::PathFullMatch(full_path) => path == path_absolute(full_path),
         }
     }
 
@@ -133,7 +133,7 @@ impl Pattern {
     pub fn pattern(&self) -> OsString {
         match self {
             Self::Fnmatch(pattern) => pattern.into(),
-            Self::PathPrefix(path) | Self::PathFullMatch(path) => absolute(path).into(),
+            Self::PathPrefix(path) | Self::PathFullMatch(path) => path_absolute(path).into(),
             Self::RegularExpression(regex) => regex.as_str().into(),
         }
     }
@@ -166,7 +166,7 @@ impl Pattern {
     pub fn symbolic_icon(&self) -> Option<gio::Icon> {
         match self {
             Self::PathPrefix(path) | Self::PathFullMatch(path) => {
-                crate::utils::file_symbolic_icon(&absolute(path))
+                crate::utils::file_symbolic_icon(&path_absolute(path))
             }
             Self::Fnmatch(_) | Self::RegularExpression(_) => {
                 gio::Icon::for_string("folder-saved-search-symbolic").ok()

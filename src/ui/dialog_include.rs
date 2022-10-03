@@ -1,33 +1,35 @@
 use adw::prelude::*;
+use std::collections::BTreeSet;
+use std::path::PathBuf;
 
 use crate::ui;
-use ui::builder::DialogExclude;
+use ui::builder::DialogInclude;
 use ui::config;
 use ui::prelude::*;
 
-use std::collections::BTreeSet;
-use std::rc::Rc;
+const SUGGESTED_USER_DIRS: &[glib::UserDirectory] = &[
+    glib::UserDirectory::Documents,
+    glib::UserDirectory::Downloads,
+    glib::UserDirectory::Music,
+    glib::UserDirectory::Pictures,
+    glib::UserDirectory::PublicShare,
+    glib::UserDirectory::Videos,
+];
 
 pub fn show() {
-    let ui = DialogExclude::new();
+    let ui = DialogInclude::new();
     ui.dialog().set_transient_for(Some(&main_ui().window()));
 
     ui.exclude_folder()
         .connect_activated(glib::clone!(@weak ui => move |_| {
             ui.dialog().destroy();
-            Handler::run(exclude_folder())
+            Handler::run(include_folder())
         }));
 
     ui.exclude_file()
         .connect_activated(glib::clone!(@weak ui => move |_| {
             ui.dialog().destroy();
-            Handler::run(exclude_file())
-        }));
-
-    ui.exclude_pattern()
-        .connect_activated(glib::clone!(@weak ui => move |_| {
-            ui.dialog().destroy();
-            Handler::run(exclude_pattern())
+            Handler::run(include_file())
         }));
 
     // ensure lifetime until window closes
@@ -42,47 +44,39 @@ pub fn show() {
     ui.dialog().show();
 }
 
-pub fn fill_suggestions(dialog: &DialogExclude) -> Result<()> {
+pub fn fill_suggestions(dialog: &DialogInclude) -> Result<()> {
+    let mut predefined = vec![(gettext("Home"), PathBuf::new())];
+
+    for dir_type in SUGGESTED_USER_DIRS {
+        if let Some(path) = glib::user_special_dir(*dir_type) {
+            if path != glib::home_dir() {
+                predefined.push((
+                    config::path_relative(&path).to_string_lossy().to_string(),
+                    config::path_relative(path),
+                ));
+            }
+        }
+    }
+
     let mut buttons = Vec::new();
     let configs = &BACKUP_CONFIG.load();
-    let exclude = &configs.active().unwrap().exclude;
+    let include = &configs.active().unwrap().include;
 
-    for predefined in config::exclude::Predefined::VALUES {
+    for (name, path) in predefined {
         let check_button = gtk::CheckButton::new();
-        if exclude.contains(&config::Exclude::from_predefined(predefined.clone())) {
+        if include.contains(&path) {
             check_button.set_active(true);
         }
 
         let row = adw::ActionRow::builder()
-            .title(&predefined.description())
-            .subtitle(&predefined.kind())
+            .title(&name)
             .activatable_widget(&check_button)
             .build();
 
         row.add_prefix(&check_button);
 
-        let popover = gtk::Popover::builder()
-            .child(&gtk::Label::new(Some(
-                &predefined
-                    .borg_patterns()
-                    .iter()
-                    .map(|x| x.to_string_lossy())
-                    .collect::<Vec<_>>()
-                    .join("\n"),
-            )))
-            .build();
-
-        let info_button = gtk::MenuButton::builder()
-            .icon_name("dialog-information-symbolic")
-            .popover(&popover)
-            .valign(gtk::Align::Center)
-            .build();
-        info_button.add_css_class("flat");
-
-        row.add_suffix(&info_button);
-
         dialog.suggestions().add(&row);
-        buttons.push((predefined, check_button));
+        buttons.push((path, check_button));
     }
 
     let buttons = Rc::new(buttons);
@@ -96,28 +90,40 @@ pub fn fill_suggestions(dialog: &DialogExclude) -> Result<()> {
     Ok(())
 }
 
-fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton)]) -> Result<()> {
-    let new_predefined = buttons
+fn on_suggested_toggle(buttons: &[(PathBuf, gtk::CheckButton)]) -> Result<()> {
+    let predefined = buttons
         .iter()
-        .filter(|(_, button)| button.is_active())
-        .map(|(predefined, _)| config::Exclude::from_predefined(predefined.clone()));
+        .map(|(path, button)| (path, button.is_active()));
 
     // TODO: store config id in dialog
-    let new_exclude: BTreeSet<config::Exclude> = BACKUP_CONFIG
+    let new_include: BTreeSet<PathBuf> = BACKUP_CONFIG
         .load()
         .active()?
-        .exclude
+        .include
         .clone()
         .into_iter()
-        .filter(|x| !x.is_predefined())
-        .chain(new_predefined)
+        .filter(|x| !predefined.clone().any(|y| y.0 == x))
+        .chain(
+            predefined
+                .clone()
+                .filter(|(_, active)| *active)
+                .map(|(path, _)| path.to_owned()),
+        )
         .collect();
 
     BACKUP_CONFIG.update_result(move |settings| {
-        settings.active_mut()?.exclude = new_exclude.clone();
+        settings.active_mut()?.include = new_include.clone();
 
         Ok(())
     })?;
+
+    for (path, button) in buttons {
+        if buttons[0].1.is_active() && path.is_relative() && !button.is_active() {
+            button.set_inconsistent(true);
+        } else {
+            button.set_inconsistent(false);
+        }
+    }
 
     crate::ui::write_config()?;
     ui::page_backup::refresh()?;
@@ -125,11 +131,11 @@ fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton
     Ok(())
 }
 
-pub async fn exclude_folder() -> Result<()> {
+pub async fn include_folder() -> Result<()> {
     let chooser = gtk::FileChooserNative::builder()
         .action(gtk::FileChooserAction::SelectFolder)
         .select_multiple(true)
-        .title(&gettext("Exclude Directory"))
+        .title(&gettext("Include Directory"))
         .accept_label(&gettext("Select"))
         .modal(true)
         .transient_for(&main_ui().window())
@@ -141,10 +147,8 @@ pub async fn exclude_folder() -> Result<()> {
         for path in &paths {
             settings
                 .active_mut()?
-                .exclude
-                .insert(config::Exclude::from_pattern(config::Pattern::PathPrefix(
-                    ui::utils::rel_path(path),
-                )));
+                .include
+                .insert(ui::utils::rel_path(path));
         }
         Ok(())
     })?;
@@ -154,11 +158,11 @@ pub async fn exclude_folder() -> Result<()> {
     Ok(())
 }
 
-pub async fn exclude_file() -> Result<()> {
+pub async fn include_file() -> Result<()> {
     let chooser = gtk::FileChooserNative::builder()
         .action(gtk::FileChooserAction::Open)
         .select_multiple(true)
-        .title(&gettext("Exclude File"))
+        .title(&gettext("Include File"))
         .accept_label(&gettext("Select"))
         .modal(true)
         .transient_for(&main_ui().window())
@@ -170,10 +174,8 @@ pub async fn exclude_file() -> Result<()> {
         for path in &paths {
             settings
                 .active_mut()?
-                .exclude
-                .insert(config::Exclude::from_pattern(
-                    config::Pattern::PathFullMatch(ui::utils::rel_path(path)),
-                ));
+                .include
+                .insert(ui::utils::rel_path(path));
         }
         Ok(())
     })?;
@@ -181,10 +183,5 @@ pub async fn exclude_file() -> Result<()> {
     crate::ui::write_config()?;
     ui::page_backup::refresh()?;
 
-    Ok(())
-}
-
-pub async fn exclude_pattern() -> Result<()> {
-    ui::dialog_exclude_pattern::show();
     Ok(())
 }
