@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-26 15:47+0000\n"
-"PO-Revision-Date: 2022-09-27 10:47+0200\n"
+"POT-Creation-Date: 2022-10-02 01:09+0000\n"
+"PO-Revision-Date: 2022-10-03 15:37+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -170,35 +170,39 @@ msgstr "Preklicano zaradi zahteve sistema."
 msgid "The program or system seems to have crashed."
 msgstr "Zdi se, da se je program ali sistem sesul."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:177
 msgid "Connection closed by remote host."
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena."
 
-#: src/borg/error.rs:177 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Skladišče je že v uporabi"
 
-#: src/borg/error.rs:178
+#: src/borg/error.rs:180
+msgid "Failed to lock repository."
+msgstr "Zaklepanje skladišča ni uspelo."
+
+#: src/borg/error.rs:181
 msgid "Invalid encryption password."
 msgstr "Neveljavno šifrirno geslo."
 
-#: src/borg/error.rs:180
+#: src/borg/error.rs:183
 msgid "A repository already exists at this location."
 msgstr "Skladišče na tem mestu že obstaja."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:185
 msgid "No repository exists at this location."
 msgstr "Na tem mestu še ni ustvarjenega skladišča."
 
-#: src/borg/error.rs:184
+#: src/borg/error.rs:187
 msgid "Not enough free space in repository."
 msgstr "Ni dovolj prostega prostora v skladišču."
 
-#: src/borg/error.rs:187
+#: src/borg/error.rs:190
 msgid "Connection closed by remote host: “{}”"
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena: »{}«"
 
-#: src/borg/error.rs:190
+#: src/borg/error.rs:193
 msgid "Unspecified error."
 msgstr "Prišlo je do nedoločene napake."
 
@@ -331,7 +335,7 @@ msgstr "Prepoznavanje starih arhivov"
 msgid "Refreshing Archive List"
 msgstr "Osveževanje seznama arhivov"
 
-#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Začetni zaslon"
@@ -392,11 +396,11 @@ msgstr "Podatki, ki jih je mogoče po potrebi regenerirati"
 msgid "Documents and data are still backed up"
 msgstr "Dokumenti in podatki so še vedno varnostno kopirani"
 
-#: src/config/pattern.rs:157
+#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Logični izraz"
 
-#: src/config/pattern.rs:158
+#: src/config/pattern.rs:162
 msgid "Shell Wildcard Pattern"
 msgstr "Vzorec nadomestnega znaka lupine"
 
@@ -500,34 +504,34 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Zagon načrtovanega varnostnega kopiranja je spodletel"
 
-#: src/ui.rs:174 src/ui/page_backup/events.rs:17
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Ali želite preklicati ustvarjanje varnostne kopije?"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:18
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Varnostna kopija, če bo opravilo preklicano, ne bo popolna."
 
-#: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:177 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: src/ui.rs:177 src/ui/page_backup/events.rs:20
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Prekliči"
 
-#: src/ui.rs:196
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Izvajanje ukazov »borg« je spodletelo. Ali je program BorgBackup pravilno "
 "nameščen?"
 
-#: src/ui.rs:220
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "Različica programa BorgBackup je prestara."
 
-#: src/ui.rs:222
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -535,11 +539,11 @@ msgstr ""
 "Nameščena različica programa BorgBackup je prestara. Nekatere funkcije, ki "
 "zahtevajo borg-backup različice {}.{}, ne bodo delovale."
 
-#: src/ui.rs:233
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "Različica programa BorgBackup je preveč nova"
 
-#: src/ui.rs:235
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -547,11 +551,11 @@ msgstr ""
 "Nameščena različica programa BorgBackup je preveč nova. Nekatere funkcije, "
 "ki zahtevajo borg-backup različice {}.{}, ne bodo delovale."
 
-#: src/ui.rs:245
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "Ni mogoče preveriti različice BorgVackup"
 
-#: src/ui.rs:247
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "Nameščena različica {} morda ne bo delovala."
 
@@ -624,7 +628,7 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Izberite mapo, ki jo želite vključiti ..."
 
-#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Izloči iz varnostnega kopiranja"
@@ -910,10 +914,10 @@ msgid "Archive Prefix"
 msgstr "Predpona arhiva"
 
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:148
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -969,28 +973,44 @@ msgstr "Šifriranje"
 msgid "Password"
 msgstr "Geslo"
 
-#: src/ui/dialog_exclude.rs:127
+#: src/ui/dialog_exclude.rs:133
 msgid "Exclude Directory"
 msgstr "Izloči mapo"
 
-#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
+#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Izbor"
 
-#: src/ui/dialog_exclude.rs:156
+#: src/ui/dialog_exclude.rs:162
 msgid "Exclude File"
 msgstr "Izključi datoteko"
 
-#: src/ui/dialog_exclude.ui:72
+#: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Predlagane izključitve"
+
+#: src/ui/dialog_exclude_pattern.rs:33
+msgid "Invalid Regular Expression"
+msgstr "Neveljaven regularni izraz"
+
+#: src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Izključuj vzorec"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Dodaj"
+
+#: src/ui/dialog_exclude_pattern.ui:54
+msgid "Shell-Style Wildcards"
+msgstr "Nadomestni znaki, kot v lupini"
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Ugotavljanje, koliko arhivov bi bilo izbrisanih, je spodletelo"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
 msgid "Close"
 msgstr "Zapri"
 
@@ -1683,15 +1703,15 @@ msgstr "Zagon spremljanja je spodletel"
 msgid "Failed to Create Thread"
 msgstr "Ustvarjanje niti je spodletelo"
 
-#: src/ui/utils.rs:474
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Popravljanje načrtovanih varnostnih kopiranj je spodletelo"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Načrtovana varnostna kopiranja popravljena"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1703,7 +1723,7 @@ msgstr ""
 msgid "Repository already in use"
 msgstr "Skladišče je že v uporabi"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1712,7 +1732,7 @@ msgstr ""
 "lahko zastareli podatki, če je bilo npr. napajanje računalnika med uporabo "
 "skladišča prekinjeno."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1722,7 +1742,7 @@ msgstr ""
 "Nadaljevanje opravila, če je skladišče že rezervirano za drug program, lahko "
 "okvari varnostno kopirane podatke!"
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Vseeno nadaljuj"
 
@@ -1842,20 +1862,20 @@ msgstr[1] "Pred {} letom"
 msgstr[2] "Pred {} letoma"
 msgstr[3] "Pred {} leti"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "Shranjevanje predpomnilnika je spodletelo"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "Shranjevanje gesla je spodletelo"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Odstranjevanje morebitnih preostalih gesel iz shrambe ključev je spodletelo."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Varnostno kopiranje Pika »{}«"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "Shranjevanje predpomnilnika je spodletelo"
