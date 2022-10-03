@@ -65,8 +65,24 @@ pub struct Stats {
     pub archive: NewArchive,
 }
 
-#[cfg(test)]
 impl Stats {
+    pub fn transfer_history_mock(archive: &ListArchive) -> Self {
+        Stats {
+            archive: NewArchive {
+                duration: (archive.end - archive.start).num_seconds() as f64,
+                id: archive.id.clone(),
+                name: archive.name.clone(),
+                stats: NewArchiveSize {
+                    compressed_size: 0,
+                    deduplicated_size: 0,
+                    nfiles: 0,
+                    original_size: 0,
+                },
+            },
+        }
+    }
+
+    #[cfg(test)]
     pub fn test_new_mock() -> Self {
         Stats {
             archive: NewArchive {

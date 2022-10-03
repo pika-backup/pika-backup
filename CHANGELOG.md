@@ -18,6 +18,7 @@
 - Add automatic mounting of unmounted drives
 - Add debug information to about window
 - Add detection of renamed drives
+- Add guessed history entry when transferring config
 - Add missing standard shortcuts
 - Add predefined exclusion rules
 - Add regular expressions and shell pattern exclude support

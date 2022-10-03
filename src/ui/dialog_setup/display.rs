@@ -9,13 +9,14 @@ use crate::config;
 use crate::ui;
 use ui::builder::DialogSetup;
 
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 struct ArchiveParams {
     prefix: Option<config::ArchivePrefix>,
     parsed: borg::invert_command::Parsed,
     hostname: String,
     username: String,
     end: chrono::NaiveDateTime,
+    stats: borg::json::Stats,
 }
 
 fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
@@ -24,6 +25,7 @@ fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
         .as_str()
         .split_once('-')
         .map(|x| config::ArchivePrefix(x.0.to_string() + "-"));
+    let stats = borg::json::Stats::transfer_history_mock(&archive);
     let parsed = borg::invert_command::parse(archive.command_line);
 
     ArchiveParams {
@@ -32,6 +34,7 @@ fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
         hostname: archive.hostname,
         username: archive.username,
         end: archive.end,
+        stats,
     }
 }
 
@@ -111,6 +114,25 @@ fn insert_transfer(
 
         Ok(())
     }))?;
+
+    let entry = config::history::RunInfo {
+        end: archive_params
+            .end
+            .and_local_timezone(chrono::Local)
+            .unwrap(),
+        outcome: borg::Outcome::Completed {
+            stats: archive_params.stats.clone(),
+        },
+        messages: Default::default(),
+        include: archive_params.parsed.include.clone(),
+        exclude: archive_params.parsed.exclude.clone(),
+    };
+
+    BACKUP_HISTORY.update(
+        enclose!((config_id) move |histories| histories.insert(config_id.clone(), entry.clone())),
+    );
+
+    // Create fake history entry for duration estimate to be good for first run
 
     crate::ui::write_config()?;
     ui::page_backup::refresh()?;
