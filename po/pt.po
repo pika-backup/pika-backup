@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-27 22:12+0000\n"
-"PO-Revision-Date: 2022-09-28 14:24+0100\n"
+"POT-Creation-Date: 2022-10-02 01:09+0000\n"
+"PO-Revision-Date: 2022-10-05 17:09+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -169,7 +169,7 @@ msgstr "O programa ou sistema parece ter falhado."
 msgid "Connection closed by remote host."
 msgstr "Ligação terminada pela máquina remota."
 
-#: src/borg/error.rs:179 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Repositório já em uso."
 
@@ -330,7 +330,7 @@ msgstr "A identificar arquivos antigos"
 msgid "Refreshing Archive List"
 msgstr "A atualizar lista de arquivos"
 
-#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Pasta pessoal"
@@ -391,11 +391,11 @@ msgstr "Dados que podem ser regenerados quando necessário"
 msgid "Documents and data are still backed up"
 msgstr "Os documentos e dados continuam a ter cópias de segurança"
 
-#: src/config/pattern.rs:157
+#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Expressão regular"
 
-#: src/config/pattern.rs:158
+#: src/config/pattern.rs:162
 msgid "Shell Wildcard Pattern"
 msgstr "Shell Wildcard Padrão"
 
@@ -490,32 +490,32 @@ msgstr "“{}” deve estar ligado para que o backup agendado seja iniciado."
 msgid "Failed to start scheduled backup"
 msgstr "Falha ao iniciar o backup agendado"
 
-#: src/ui.rs:174 src/ui/page_backup/events.rs:17
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Abortar a criação do backup em execução?"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:18
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se abortado agora."
 
-#: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
+#: src/ui.rs:177 src/ui/dialog_encryption_password.ui:20
 #: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui.rs:177 src/ui/page_backup/events.rs:20
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Abortar"
 
-#: src/ui.rs:196
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Falha ao executar o “borg”. O BorgBackup está instalado corretamente?"
 
-#: src/ui.rs:220
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "A versão do BorgBackup é muito antiga"
 
-#: src/ui.rs:222
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -523,11 +523,11 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito antiga. Algumas funcionalidades "
 "que requerem a versão borg-backup {}.{}.{} não funcionarão."
 
-#: src/ui.rs:233
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "A versão do BorgBackup é muito nova"
 
-#: src/ui.rs:235
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -535,11 +535,11 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito nova. A versão {}.{} é "
 "recomendada. Algumas funcionalidades podem não funcionar como esperado."
 
-#: src/ui.rs:245
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "Não é possível verificar a versão do BorgBackup"
 
-#: src/ui.rs:247
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "A versão instalada {} pode não funcionar."
 
@@ -613,7 +613,7 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Selecionar diretório a incluir…"
 
-#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Excluir do backup"
@@ -898,10 +898,10 @@ msgid "Archive Prefix"
 msgstr "Prefixo de arquivo"
 
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:148
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -960,28 +960,45 @@ msgstr "Encriptação"
 msgid "Password"
 msgstr "Palavra-passe"
 
-#: src/ui/dialog_exclude.rs:127
+#: src/ui/dialog_exclude.rs:133
 msgid "Exclude Directory"
 msgstr "Excluir diretório"
 
-#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
+#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Selecionar"
 
-#: src/ui/dialog_exclude.rs:156
+#: src/ui/dialog_exclude.rs:162
 msgid "Exclude File"
 msgstr "Excluir ficheiro"
 
-#: src/ui/dialog_exclude.ui:72
+#: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Exclusões sugeridas"
+
+#: src/ui/dialog_exclude_pattern.rs:33
+msgid "Invalid Regular Expression"
+msgstr "Expressão regular inválida"
+
+#: src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Excluir padrão"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Adicionar"
+
+#: src/ui/dialog_exclude_pattern.ui:54
+#| msgid "Shell Wildcard Pattern"
+msgid "Shell-Style Wildcards"
+msgstr "Wildcards ao estilo Shell"
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Falha ao determinar quantos arquivos seriam eliminados"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
 msgid "Close"
 msgstr "Fechar"
 
@@ -1667,15 +1684,15 @@ msgstr "Falha ao iniciar a monitorização"
 msgid "Failed to Create Thread"
 msgstr "Falha ao criar tarefa"
 
-#: src/ui/utils.rs:474
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Falha ao corrigir backups agendados"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Backups agendados reparados"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1687,7 +1704,7 @@ msgstr ""
 msgid "Repository already in use"
 msgstr "Repositório já em uso"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1696,7 +1713,7 @@ msgstr ""
 "pode estar desatualizada se, por exemplo, o computador perdeu energia "
 "enquanto usava o repositório."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1706,7 +1723,7 @@ msgstr ""
 "Continuar enquanto um outro programa usa o repositório pode corromper os "
 "dados de backup!"
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Continuar mesmo assim"
 
@@ -1800,24 +1817,24 @@ msgid_plural "{} years ago"
 msgstr[0] "Um ano atrás"
 msgstr[1] "{} anos atrás"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "Falha ao guardar cache"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "Falha ao armazenar a palavra-passe"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Falha na remoção de palavras-passe potencialmente restantes do armazenamento "
 "de chaves."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "Falha ao guardar cache"
 
 #~ msgid ""
 #~ "The “ssh://” protocol is reserved for locations with explicit borg "
