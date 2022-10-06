@@ -4,7 +4,10 @@ use crate::prelude::*;
 use std::collections::BTreeSet;
 use std::path;
 
-use super::{absolute, error, exclude, ConfigType, Exclude, Pattern, Prune, Repository, Schedule};
+use super::{
+    absolute, error, exclude, ConfigType, Exclude, Pattern, Prune, Repository, Schedule, ABSOLUTE,
+    RELATIVE,
+};
 
 /// Compatibility config version
 pub const VERSION: u16 = 2;
@@ -63,7 +66,7 @@ pub struct Backup {
     #[serde(default)]
     pub encryption_mode: String,
     pub include: BTreeSet<path::PathBuf>,
-    pub exclude: BTreeSet<Exclude>,
+    pub exclude: BTreeSet<Exclude<{ RELATIVE }>>,
     #[serde(default)]
     pub schedule: Schedule,
     #[serde(default)]
@@ -150,18 +153,9 @@ impl Backup {
         dirs
     }
 
-    pub fn exclude_dirs_internal(&self) -> BTreeSet<Exclude> {
-        let mut dirs = self.exclude.clone();
-
-        // TODO: cleanup
-        /*
-        for pattern in &self.exclude {
-            match pattern {
-                Pattern::PathPrefix(dir) => dirs.insert(Pattern::PathPrefix(absolute(dir))),
-                other => dirs.insert(other.clone()),
-            };
-        }
-        */
+    pub fn exclude_dirs_internal(&self) -> BTreeSet<Exclude<{ ABSOLUTE }>> {
+        let mut dirs =
+            BTreeSet::from_iter(self.exclude.clone().into_iter().map(|x| x.into_absolute()));
 
         if ashpd::is_sandboxed() {
             dirs.insert(Exclude::from_pattern(Pattern::PathPrefix(absolute(

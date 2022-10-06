@@ -5,7 +5,7 @@ use std::path::PathBuf;
 
 pub enum LocationTag {
     Location(PathBuf),
-    Pattern(config::Pattern),
+    Exclude(config::Exclude<{ config::RELATIVE }>),
 }
 
 impl LocationTag {
@@ -13,26 +13,21 @@ impl LocationTag {
         Self::Location(path)
     }
 
-    pub fn from_exclude(exclude: config::Exclude) -> Self {
-        match exclude {
-            config::Exclude::Pattern(config::Pattern::PathPrefix(path)) => Self::Location(path),
-            config::Exclude::Pattern(pattern) => Self::Pattern(pattern),
-            // TODO
-            _ => Self::Location("unimplemented".into()),
-        }
+    pub fn from_exclude(exclude: config::Exclude<{ config::RELATIVE }>) -> Self {
+        Self::Exclude(exclude)
     }
 
-    pub fn label(&self) -> String {
+    fn label(&self) -> String {
         match self {
             Self::Location(path) => config::display_path(path),
-            Self::Pattern(pattern) => pattern.description(),
+            Self::Exclude(exclude) => exclude.description(),
         }
     }
 
-    pub fn icon(&self) -> Option<gtk::Image> {
+    fn icon(&self) -> Option<gtk::Image> {
         match self {
             Self::Location(path) => crate::utils::file_symbolic_icon(&config::absolute(path)),
-            Self::Pattern(pattern) => pattern.symbolic_icon(),
+            Self::Exclude(exclude) => exclude.symbolic_icon(),
         }
         .map(|x| gtk::Image::from_gicon(&x))
     }

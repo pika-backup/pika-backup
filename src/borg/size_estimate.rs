@@ -8,7 +8,7 @@ use std::collections::BTreeSet;
 pub static DIRECTORY_SIZE: u64 = 109;
 
 struct Exclude {
-    exclude: BTreeSet<config::Exclude>,
+    exclude: BTreeSet<config::Exclude<{ config::ABSOLUTE }>>,
 }
 
 impl Exclude {
@@ -16,7 +16,7 @@ impl Exclude {
         glib::user_cache_dir().join(std::path::Path::new("borg"))
     }
 
-    pub fn new(mut exclude: BTreeSet<config::Exclude>) -> Self {
+    pub fn new(mut exclude: BTreeSet<config::Exclude<{ config::ABSOLUTE }>>) -> Self {
         exclude.insert(config::Exclude::from_pattern(config::Pattern::PathPrefix(
             Self::borg_cache(),
         )));

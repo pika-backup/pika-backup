@@ -53,7 +53,7 @@ impl<'a> Excluded<'a> {
         touch(self.base_dir, &path.as_ref().join("exclude"));
     }
 
-    pub fn test(&self, exclude_rules: &BTreeSet<config::Exclude>) {
+    pub fn test(&self, exclude_rules: &BTreeSet<config::Exclude<{ config::RELATIVE }>>) {
         for path in &self.paths {
             let full_path = self.base_dir.path().join(path);
             assert!(
@@ -83,7 +83,7 @@ impl<'a> Included<'a> {
         touch(self.base_dir, &path.as_ref().join("include"));
     }
 
-    pub fn test(&self, exclude_rules: &BTreeSet<config::Exclude>) {
+    pub fn test(&self, exclude_rules: &BTreeSet<config::Exclude<{ config::RELATIVE }>>) {
         for path in &self.paths {
             let full_path = self.base_dir.path().join(path);
             assert!(

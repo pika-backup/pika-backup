@@ -4,7 +4,7 @@ use pika_backup::{
     borg::size_estimate::*, borg::status::SizeEstimate, config, config::Exclude, config::Pattern,
 };
 
-fn config(include: &[&str], exclude: &[Exclude]) -> config::Backup {
+fn config(include: &[&str], exclude: &[Exclude<{ config::RELATIVE }>]) -> config::Backup {
     let mut config = common::config(std::path::Path::new("backup_data"));
 
     for path in include {
@@ -58,10 +58,10 @@ fn simple_regex_exclude() {
     assert_eq!(pp_exclude.total, complex_exclude.total);
 }
 
-fn pp(pp: &str) -> Exclude {
+fn pp(pp: &str) -> Exclude<{ config::RELATIVE }> {
     Exclude::from_pattern(Pattern::PathPrefix(total(pp)))
 }
 
-fn re(re: &str) -> Exclude {
+fn re(re: &str) -> Exclude<{ config::RELATIVE }> {
     Exclude::from_pattern(Pattern::RegularExpression(regex::Regex::new(re).unwrap()))
 }

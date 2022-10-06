@@ -6,13 +6,31 @@ use std::path::Path;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(untagged)]
-pub enum Exclude {
-    Pattern(Pattern),
+pub enum Exclude<const T: Relativity> {
+    Pattern(Pattern<T>),
     Predefined(Predefined),
 }
 
-impl Exclude {
-    pub fn from_pattern(pattern: Pattern) -> Self {
+impl Exclude<{ ABSOLUTE }> {
+    pub fn into_relative(self) -> Exclude<{ RELATIVE }> {
+        match self {
+            Self::Pattern(p) => Exclude::Pattern(p.into_relative()),
+            Self::Predefined(x) => Exclude::Predefined(x),
+        }
+    }
+}
+
+impl Exclude<{ RELATIVE }> {
+    pub fn into_absolute(self) -> Exclude<{ ABSOLUTE }> {
+        match self {
+            Self::Pattern(p) => Exclude::Pattern(p.into_absolute()),
+            Self::Predefined(x) => Exclude::Predefined(x),
+        }
+    }
+}
+
+impl<const T: Relativity> Exclude<T> {
+    pub fn from_pattern(pattern: Pattern<T>) -> Self {
         Self::Pattern(pattern)
     }
 
@@ -71,7 +89,7 @@ pub enum Predefined {
 mod patterns {
     use super::*;
 
-    pub static CACHES: Lazy<[Pattern; 2]> = Lazy::new(|| {
+    pub static CACHES: Lazy<[Pattern<ABSOLUTE>; 2]> = Lazy::new(|| {
         [
             // XDG cache
             Pattern::PathPrefix(crate::utils::host::user_cache_dir()),
@@ -86,7 +104,7 @@ mod patterns {
         ]
     });
 
-    pub static VMS_CONTAINERS: Lazy<[Pattern; 8]> = Lazy::new(|| {
+    pub static VMS_CONTAINERS: Lazy<[Pattern<ABSOLUTE>; 8]> = Lazy::new(|| {
         [
             // Boxes (host)
             Pattern::PathPrefix(crate::utils::host::user_data_dir().join("gnome-boxes")),
@@ -106,7 +124,7 @@ mod patterns {
         ]
     });
 
-    pub static FLATPAK_APPS: Lazy<[Pattern; 1]> = Lazy::new(|| {
+    pub static FLATPAK_APPS: Lazy<[Pattern<ABSOLUTE>; 1]> = Lazy::new(|| {
         [Pattern::RegularExpression(
             regex::Regex::new(&format!(
                 r"^{}/flatpak/(?!overrides)",
@@ -116,7 +134,7 @@ mod patterns {
         )]
     });
 
-    pub static TRASH: Lazy<[Pattern; 1]> =
+    pub static TRASH: Lazy<[Pattern<ABSOLUTE>; 1]> =
         Lazy::new(|| [Pattern::PathPrefix(glib::user_data_dir().join("Trash"))]);
 }
 
@@ -155,7 +173,7 @@ impl Predefined {
         }
     }
 
-    pub fn patterns(&self) -> &[Pattern] {
+    pub fn patterns(&self) -> &[Pattern<ABSOLUTE>] {
         match self {
             Self::Caches => patterns::CACHES.as_ref(),
             Self::FlatpakApps => patterns::FLATPAK_APPS.as_ref(),

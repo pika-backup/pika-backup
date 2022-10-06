@@ -93,7 +93,6 @@ impl BorgCall {
                 self.add_options(vec![arg.to_string_lossy()]);
             }
         }
-
         self.positional.extend(
             borg.config
                 .include_dirs()

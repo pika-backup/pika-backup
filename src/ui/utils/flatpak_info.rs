@@ -23,6 +23,5 @@ pub struct Instance {
 pub fn get() -> Result<FlatpakInfo, Box<dyn std::error::Error>> {
     let file = std::fs::File::open("/.flatpak-info")?;
     let info: FlatpakInfo = serde_ini::de::from_read(&file)?;
-    eprintln!("{:#?}", info);
     Ok(info)
 }

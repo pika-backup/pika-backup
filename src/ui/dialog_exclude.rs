@@ -104,7 +104,7 @@ fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton
         .map(|(predefined, _)| config::Exclude::from_predefined(predefined.clone()));
 
     // TODO: store config id in dialog
-    let new_exclude: BTreeSet<config::Exclude> = BACKUP_CONFIG
+    let new_exclude: BTreeSet<config::Exclude<{ config::RELATIVE }>> = BACKUP_CONFIG
         .load()
         .active()?
         .exclude

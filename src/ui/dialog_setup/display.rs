@@ -2,6 +2,7 @@ use crate::ui::prelude::*;
 use adw::prelude::*;
 
 use itertools::Itertools;
+use std::collections::BTreeSet;
 use std::fmt::Write;
 
 use crate::borg;
@@ -83,7 +84,7 @@ pub fn transfer_selection(
             }
 
             for exclude in suggestion.parsed.exclude.iter() {
-                let tag = ui::widget::LocationTag::from_exclude(exclude.clone());
+                let tag = ui::widget::LocationTag::from_exclude(exclude.clone().into_relative());
                 row.exclude().add_child(&tag.build());
             }
 
@@ -110,7 +111,7 @@ fn insert_transfer(
         let mut conf = config.get_result_mut(&config_id)?;
 
         conf.include = archive_params.parsed.include.clone();
-        conf.exclude = archive_params.parsed.exclude.clone();
+        conf.exclude = BTreeSet::from_iter( archive_params.parsed.exclude.clone().into_iter().map(|x| x.into_relative()));
 
         Ok(())
     }))?;

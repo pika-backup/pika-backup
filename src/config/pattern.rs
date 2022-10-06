@@ -7,8 +7,13 @@ use std::ffi::OsString;
 use std::os::unix::ffi::OsStrExt;
 use std::path;
 
+pub const RELATIVE: bool = false;
+pub const ABSOLUTE: bool = true;
+
+pub type Relativity = bool;
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
-pub enum Pattern {
+pub enum Pattern<const T: Relativity> {
     Fnmatch(OsString),
     PathFullMatch(path::PathBuf),
     PathPrefix(path::PathBuf),
@@ -34,34 +39,59 @@ where
     s.serialize_str(regex.as_str())
 }
 
-impl std::cmp::PartialEq for Pattern {
+impl<const T: Relativity> std::cmp::PartialEq for Pattern<T> {
     fn eq(&self, other: &Self) -> bool {
         self.borg_pattern() == other.borg_pattern()
     }
 }
-impl std::cmp::Eq for Pattern {}
+impl<const T: Relativity> std::cmp::Eq for Pattern<T> {}
 
-impl std::cmp::Ord for Pattern {
+impl<const T: Relativity> std::cmp::Ord for Pattern<T> {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.borg_pattern().cmp(&other.borg_pattern())
     }
 }
 
-impl std::cmp::PartialOrd for Pattern {
+impl<const T: Relativity> std::cmp::PartialOrd for Pattern<T> {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         Some(self.cmp(other))
     }
 }
 
-impl std::hash::Hash for Pattern {
+impl<const T: Relativity> std::hash::Hash for Pattern<T> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.borg_pattern().hash(state);
     }
 }
 
-impl Pattern {
-    pub fn from_regular_expression(re: impl AsRef<str>) -> Result<Self, regex::Error> {
-        Ok(Self::RegularExpression(regex::Regex::new(re.as_ref())?))
+/// Returns a relative path for sub directories of home
+pub fn rel_path(path: std::path::PathBuf) -> std::path::PathBuf {
+    if let Ok(rel_path) = path.strip_prefix(glib::home_dir().as_path()) {
+        rel_path.to_path_buf()
+    } else {
+        path
+    }
+}
+
+impl Pattern<{ RELATIVE }> {
+    pub fn into_absolute(self) -> Pattern<{ ABSOLUTE }> {
+        match self {
+            Self::Fnmatch(x) => Pattern::Fnmatch(x),
+            Self::PathPrefix(path) => Pattern::PathPrefix(absolute(&path)),
+            Self::PathFullMatch(path) => Pattern::PathPrefix(absolute(&path)),
+            Self::RegularExpression(x) => Pattern::RegularExpression(x),
+        }
+    }
+}
+
+impl Pattern<{ ABSOLUTE }> {
+    pub fn into_relative(self) -> Pattern<{ RELATIVE }> {
+        match self {
+            Self::Fnmatch(x) => Pattern::Fnmatch(x),
+            Self::PathPrefix(path) => Pattern::PathPrefix(rel_path(path)),
+            Self::PathFullMatch(path) => Pattern::PathPrefix(rel_path(path)),
+            Self::RegularExpression(x) => Pattern::RegularExpression(x),
+        }
     }
 
     pub fn from_borg(s: String) -> Option<Self> {
@@ -93,6 +123,12 @@ impl Pattern {
                     .unwrap_or_else(|_| s.into()),
             ))
         }
+    }
+}
+
+impl<const T: bool> Pattern<T> {
+    pub fn from_regular_expression(re: impl AsRef<str>) -> Result<Self, regex::Error> {
+        Ok(Self::RegularExpression(regex::Regex::new(re.as_ref())?))
     }
 
     pub fn is_match(&self, path: &std::path::Path) -> bool {
@@ -138,7 +174,6 @@ impl Pattern {
         }
     }
 
-    // TODO: shouldn't this be OsString?
     pub fn borg_pattern(&self) -> OsString {
         let mut pattern = OsString::from(self.selector());
         pattern.push(":");
