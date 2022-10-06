@@ -26,10 +26,10 @@ use super::error::*;
 
 #[derive(Default)]
 pub struct BorgCall {
-    command: Option<String>,
-    options: Vec<String>,
+    command: Option<OsString>,
+    options: Vec<OsString>,
     envs: std::collections::BTreeMap<String, String>,
-    pub positional: Vec<String>,
+    pub positional: Vec<OsString>,
     password: config::Password,
 }
 
@@ -38,9 +38,9 @@ pub struct Process<T> {
 }
 
 impl BorgCall {
-    pub fn new(command: &str) -> Self {
+    pub fn new(command: impl Into<OsString>) -> Self {
         Self {
-            command: Some(command.to_string()),
+            command: Some(command.into()),
             options: vec![
                 "--rsh".into(),
                 // Avoid hangs from ssh asking for passwords via stdin
@@ -70,17 +70,17 @@ impl BorgCall {
     pub fn add_options<L>(&mut self, options: L) -> &mut Self
     where
         L: std::iter::IntoIterator,
-        <L as std::iter::IntoIterator>::Item: ToString,
+        <L as std::iter::IntoIterator>::Item: Into<OsString>,
     {
         for option in options {
-            self.options.push(option.to_string());
+            self.options.push(option.into());
         }
 
         self
     }
 
-    pub fn add_positional<A: ToString>(&mut self, pos_arg: &A) -> &mut Self {
-        self.positional.push(pos_arg.to_string());
+    pub fn add_positional(&mut self, pos_arg: impl Into<OsString>) -> &mut Self {
+        self.positional.push(pos_arg.into());
         self
     }
 
@@ -90,14 +90,14 @@ impl BorgCall {
                 let mut arg = OsString::from("--exclude=");
                 arg.push(patterns);
                 // TODO: use OsString everywhere
-                self.add_options(vec![arg.to_string_lossy()]);
+                self.add_options(vec![arg]);
             }
         }
         self.positional.extend(
             borg.config
                 .include_dirs()
                 .iter()
-                .map(|d| d.to_string_lossy().to_string()),
+                .map(|d| d.clone().into_os_string()),
         );
 
         self
@@ -112,7 +112,7 @@ impl BorgCall {
             archive = random_str.get(..8).unwrap_or(&random_str)
         );
         if let Some(first) = self.positional.first_mut() {
-            *first = arg;
+            *first = arg.into();
         } else {
             self.add_positional(&arg);
         }
@@ -199,10 +199,10 @@ impl BorgCall {
         Ok(self)
     }
 
-    pub fn args(&self) -> Vec<String> {
-        let mut args: Vec<String> = self.command.clone().into_iter().collect();
+    pub fn args(&self) -> Vec<OsString> {
+        let mut args: Vec<OsString> = self.command.clone().into_iter().collect();
         args.extend(self.options.clone());
-        args.push("--".to_string());
+        args.push("--".into());
         args.extend(self.positional.clone());
 
         args

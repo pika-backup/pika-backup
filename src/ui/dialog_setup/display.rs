@@ -246,7 +246,7 @@ pub async fn add_mount<F: 'static + Fn()>(
             row.set_widget_name(&gio::File::for_path(repo_path).uri());
             if let Ok(suffix) = repo_path.strip_prefix(mount_path) {
                 if !suffix.to_string_lossy().is_empty() {
-                    let _ = write!(label1, " / {}", suffix.to_string_lossy());
+                    let _ = write!(label1, " / {}", suffix.display());
                 }
             }
         }

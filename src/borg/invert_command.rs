@@ -48,6 +48,7 @@ pub struct Parsed {
     pub include: BTreeSet<PathBuf>,
 }
 
+/// Currently `String` because borg returns string
 pub fn parse(cmd: Vec<String>) -> Parsed {
     let ast = ast(cmd);
 

@@ -82,7 +82,7 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
             // Make all data readable for the current user
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
             .add_options(&["-o", &format!("umask=0277,uid={}", nix::unistd::getuid())])
-            .add_positional(&mount_point(&self.config.repo_id).to_string_lossy())
+            .add_positional(&mount_point(&self.config.repo_id))
             .output()?;
 
         check_stderr(&borg)?;
@@ -294,7 +294,7 @@ pub fn umount(repo_id: &RepoId) -> Result<()> {
 
     let borg = BorgCall::new("umount")
         .add_options(["--log-json"])
-        .add_positional(&mount_point.to_string_lossy())
+        .add_positional(&mount_point)
         .output()?;
 
     check_stderr(&borg)?;
