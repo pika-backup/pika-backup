@@ -2,10 +2,9 @@ use crate::prelude::*;
 
 use super::{absolute, display_path};
 use serde::Deserialize;
-use std::ffi::CString;
-use std::ffi::OsString;
+use std::ffi::{CString, OsString};
 use std::os::unix::ffi::OsStrExt;
-use std::path;
+use std::path::{Path, PathBuf};
 
 pub const RELATIVE: bool = false;
 pub const ABSOLUTE: bool = true;
@@ -15,8 +14,8 @@ pub type Relativity = bool;
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum Pattern<const T: Relativity> {
     Fnmatch(OsString),
-    PathFullMatch(path::PathBuf),
-    PathPrefix(path::PathBuf),
+    PathFullMatch(PathBuf),
+    PathPrefix(PathBuf),
     #[serde(
         deserialize_with = "deserialize_regex",
         serialize_with = "serialize_regex"
@@ -65,7 +64,7 @@ impl<const T: Relativity> std::hash::Hash for Pattern<T> {
 }
 
 /// Returns a relative path for sub directories of home
-pub fn rel_path(path: std::path::PathBuf) -> std::path::PathBuf {
+pub fn rel_path(path: PathBuf) -> PathBuf {
     if let Ok(rel_path) = path.strip_prefix(glib::home_dir().as_path()) {
         rel_path.to_path_buf()
     } else {
@@ -97,16 +96,16 @@ impl Pattern<{ ABSOLUTE }> {
     pub fn from_borg(s: String) -> Option<Self> {
         if let Some((selector, pattern)) = s.split_once(':') {
             match selector {
-                "fm" => Some(Self::Fnmatch(std::ffi::OsString::from(pattern))),
+                "fm" => Some(Self::Fnmatch(OsString::from(pattern))),
                 "pp" => Some(Self::PathPrefix(
-                    path::PathBuf::from(pattern)
+                    PathBuf::from(pattern)
                         .strip_prefix(glib::home_dir())
                         .map(|x| x.to_path_buf())
                         .unwrap_or_else(|_| pattern.into()),
                 )),
                 "re" => regex::Regex::new(pattern).map(Self::RegularExpression).ok(),
                 "pf" => Some(Self::PathFullMatch(
-                    path::PathBuf::from(pattern)
+                    PathBuf::from(pattern)
                         .strip_prefix(glib::home_dir())
                         .map(|x| x.to_path_buf())
                         .unwrap_or_else(|_| pattern.into()),
@@ -114,10 +113,10 @@ impl Pattern<{ ABSOLUTE }> {
                 _ => None,
             }
         } else if s.contains(['*', '?', '[']) {
-            Some(Self::Fnmatch(std::ffi::OsString::from(s)))
+            Some(Self::Fnmatch(OsString::from(s)))
         } else {
             Some(Self::PathPrefix(
-                path::PathBuf::from(&s)
+                PathBuf::from(&s)
                     .strip_prefix(glib::home_dir())
                     .map(|x| x.to_path_buf())
                     .unwrap_or_else(|_| s.into()),
@@ -127,11 +126,33 @@ impl Pattern<{ ABSOLUTE }> {
 }
 
 impl<const T: bool> Pattern<T> {
+    pub fn fnmatch(pattern: impl Into<OsString>) -> Self {
+        Self::Fnmatch(pattern.into())
+    }
+
+    pub fn path_prefix(path: impl Into<PathBuf>) -> Self {
+        let path = match T {
+            ABSOLUTE => absolute(&path.into()),
+            RELATIVE => rel_path(path.into()),
+        };
+
+        Self::PathPrefix(path)
+    }
+
+    pub fn path_full_match(path: impl Into<PathBuf>) -> Self {
+        let path = match T {
+            ABSOLUTE => absolute(&path.into()),
+            RELATIVE => rel_path(path.into()),
+        };
+
+        Self::PathFullMatch(path)
+    }
+
     pub fn from_regular_expression(re: impl AsRef<str>) -> Result<Self, regex::Error> {
         Ok(Self::RegularExpression(regex::Regex::new(re.as_ref())?))
     }
 
-    pub fn is_match(&self, path: &std::path::Path) -> bool {
+    pub fn is_match(&self, path: &Path) -> bool {
         match self {
             Self::Fnmatch(pattern) => {
                 if let (Ok(pattern), Ok(path)) = (

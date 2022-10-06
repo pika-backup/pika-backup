@@ -158,8 +158,9 @@ impl Backup {
             BTreeSet::from_iter(self.exclude.clone().into_iter().map(|x| x.into_absolute()));
 
         if ashpd::is_sandboxed() {
-            dirs.insert(Exclude::from_pattern(Pattern::PathPrefix(absolute(
-                path::Path::new(&format!(".var/app/{}/data/flatpak/", crate::APP_ID)),
+            dirs.insert(Exclude::from_pattern(Pattern::path_prefix(format!(
+                ".var/app/{}/data/flatpak/",
+                crate::APP_ID
             ))));
         }
 

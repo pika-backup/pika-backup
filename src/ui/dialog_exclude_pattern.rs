@@ -28,7 +28,8 @@ async fn clicked(ui: DialogExcludePattern) -> Result<()> {
     let pattern = ui.pattern().text();
 
     let exclude = config::Exclude::from_pattern(match selected {
-        0 => Ok(config::Pattern::Fnmatch(pattern.to_string().into())),
+        // FIXME: Manual construction
+        0 => Ok(config::Pattern::fnmatch(pattern.as_str())),
         1 => config::Pattern::from_regular_expression(pattern)
             .err_to_msg(gettext("Invalid Regular Expression")),
         // Not translated because this should not happen

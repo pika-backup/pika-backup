@@ -143,8 +143,8 @@ pub async fn exclude_folder() -> Result<()> {
             settings
                 .active_mut()?
                 .exclude
-                .insert(config::Exclude::from_pattern(config::Pattern::PathPrefix(
-                    ui::utils::rel_path(path),
+                .insert(config::Exclude::from_pattern(config::Pattern::path_prefix(
+                    path,
                 )));
         }
         Ok(())
@@ -173,7 +173,7 @@ pub async fn exclude_file() -> Result<()> {
                 .active_mut()?
                 .exclude
                 .insert(config::Exclude::from_pattern(
-                    config::Pattern::PathFullMatch(ui::utils::rel_path(path)),
+                    config::Pattern::path_full_match(path),
                 ));
         }
         Ok(())

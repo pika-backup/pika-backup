@@ -17,7 +17,7 @@ impl Exclude {
     }
 
     pub fn new(mut exclude: BTreeSet<config::Exclude<{ config::ABSOLUTE }>>) -> Self {
-        exclude.insert(config::Exclude::from_pattern(config::Pattern::PathPrefix(
+        exclude.insert(config::Exclude::from_pattern(config::Pattern::path_prefix(
             Self::borg_cache(),
         )));
 
