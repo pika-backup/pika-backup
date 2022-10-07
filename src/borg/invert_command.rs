@@ -6,6 +6,7 @@ use std::path::PathBuf;
 #[derive(Clone, Debug)]
 enum CreateTerm {
     OptExclude,
+    OptExcludeCaches,
     UnknownOption,
     Value,
     Target,
@@ -15,6 +16,10 @@ impl CreateTerm {
     pub fn parse(s: String) -> Vec<(Self, String)> {
         if s.contains("::") {
             return vec![(Self::Target, s)];
+        }
+
+        if s == "--exclude-caches" {
+            return vec![(Self::OptExcludeCaches, s)];
         }
 
         if s.starts_with("--exclude") || s.starts_with("-e") {
@@ -61,15 +66,21 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
     let mut options = ast_options.into_iter();
 
     while let Some(option) = options.next() {
-        if matches!(option.0, CreateTerm::OptExclude) {
-            if let Some((CreateTerm::Value, value)) = options.next() {
-                // TODO: why what?
-                if !value.ends_with(&format!(".var/app/{}/data/flatpak/", crate::APP_ID)) {
-                    if let Some(pattern) = config::Pattern::from_borg(value) {
-                        exclude_rules.insert(config::exclude::Rule::Pattern(pattern));
+        match &option.0 {
+            CreateTerm::OptExclude => {
+                if let Some((CreateTerm::Value, value)) = options.next() {
+                    // TODO: why what?
+                    if !value.ends_with(&format!(".var/app/{}/data/flatpak/", crate::APP_ID)) {
+                        if let Some(pattern) = config::Pattern::from_borg(value) {
+                            exclude_rules.insert(config::exclude::Rule::Pattern(pattern));
+                        }
                     }
                 }
             }
+            CreateTerm::OptExcludeCaches => {
+                exclude_rules.insert(config::exclude::Rule::CacheDirTag);
+            }
+            _ => {}
         }
     }
 
@@ -170,6 +181,7 @@ mod test {
         );
 
         cmd.append(&mut vec![
+            "--exclude-caches".into(),
             "ssh://example.org/./repo::prefix-53070a25".into(),
             "/home/xuser/Music".into(),
         ]);
