@@ -86,11 +86,17 @@ impl BorgCall {
 
     pub fn add_include_exclude<T: Task>(&mut self, borg: &Command<T>) -> &mut Self {
         for exclude in &borg.config.exclude_dirs_internal() {
-            for patterns in exclude.borg_patterns() {
-                let mut arg = OsString::from("--exclude=");
-                arg.push(patterns);
-                // TODO: use OsString everywhere
-                self.add_options(vec![arg]);
+            for rule in exclude.borg_rules() {
+                match rule {
+                    config::exclude::BorgRule::Pattern(pattern) => {
+                        let mut arg = OsString::from("--exclude=");
+                        arg.push(pattern);
+                        self.add_options(vec![arg]);
+                    }
+                    config::exclude::BorgRule::CacheDirTag => {
+                        self.add_options(vec!["--exclude-caches"]);
+                    }
+                }
             }
         }
         self.positional.extend(

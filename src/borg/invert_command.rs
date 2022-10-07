@@ -57,7 +57,7 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
     let ast_options = ast_split.next().map(|x| x.to_vec()).unwrap_or_default();
     let ast_include = ast_split.next().map(|x| x.to_vec()).unwrap_or_default();
 
-    let mut exclude_patterns = BTreeSet::new();
+    let mut exclude_rules = BTreeSet::new();
     let mut options = ast_options.into_iter();
 
     while let Some(option) = options.next() {
@@ -66,7 +66,7 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
                 // TODO: why what?
                 if !value.ends_with(&format!(".var/app/{}/data/flatpak/", crate::APP_ID)) {
                     if let Some(pattern) = config::Pattern::from_borg(value) {
-                        exclude_patterns.insert(pattern);
+                        exclude_rules.insert(config::exclude::Rule::Pattern(pattern));
                     }
                 }
             }
@@ -77,11 +77,11 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
 
     // Transform patterns in to presets if it matches
     for predefined in config::exclude::Predefined::VALUES {
-        let predefined_patterns = BTreeSet::from_iter(predefined.patterns().iter().cloned());
+        let predefined_rules = BTreeSet::from_iter(predefined.rules().iter().cloned());
 
-        if predefined_patterns.is_subset(&exclude_patterns) {
-            for pattern in predefined.patterns() {
-                exclude_patterns.remove(pattern);
+        if predefined_rules.is_subset(&exclude_rules) {
+            for rule in predefined.rules() {
+                exclude_rules.remove(rule);
             }
             exclude.insert(config::Exclude::from_predefined(predefined));
         }
@@ -89,8 +89,15 @@ pub fn parse(cmd: Vec<String>) -> Parsed {
 
     // Add remaining patterns to exclude
     exclude.append(&mut BTreeSet::from_iter(
-        exclude_patterns
+        exclude_rules
             .into_iter()
+            .filter_map(|x| {
+                if let config::exclude::Rule::Pattern(p) = x {
+                    Some(p)
+                } else {
+                    None
+                }
+            })
             .map(config::Exclude::from_pattern),
     ));
 
@@ -149,8 +156,15 @@ mod test {
 
         cmd.append(
             &mut config::exclude::Predefined::Caches
-                .patterns()
+                .rules()
                 .iter()
+                .filter_map(|x| {
+                    if let config::exclude::Rule::Pattern(p) = x {
+                        Some(p)
+                    } else {
+                        None
+                    }
+                })
                 .map(|x| format!("--exclude={}", x.borg_pattern().into_string().unwrap()))
                 .collect(),
         );

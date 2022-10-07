@@ -2,6 +2,7 @@ use super::*;
 
 use once_cell::sync::Lazy;
 use std::ffi::OsString;
+use std::io::Read;
 use std::path::Path;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -42,17 +43,20 @@ impl<const T: Relativity> Exclude<T> {
         matches!(self, Self::Predefined(_))
     }
 
-    pub fn borg_patterns(&self) -> Vec<OsString> {
+    pub fn borg_rules(&self) -> Vec<BorgRule> {
         match self {
-            Self::Pattern(pattern) => vec![pattern.borg_pattern()],
-            Self::Predefined(predefined) => predefined.borg_patterns(),
+            Self::Pattern(pattern) => vec![BorgRule::Pattern(pattern.borg_pattern())],
+            Self::Predefined(predefined) => predefined.borg_rules(),
         }
     }
 
     pub fn is_match(&self, path: &std::path::Path) -> bool {
         match self {
             Self::Pattern(pattern) => pattern.is_match(path),
-            Self::Predefined(predefined) => predefined.patterns().iter().any(|x| x.is_match(path)),
+            Self::Predefined(predefined) => predefined.rules().iter().any(|rule| match rule {
+                Rule::Pattern(pattern) => pattern.is_match(path),
+                Rule::CacheDirTag => path_is_cachedir(path),
+            }),
         }
     }
 
@@ -86,56 +90,77 @@ pub enum Predefined {
     VmsContainers,
 }
 
-mod patterns {
+mod rules {
     use super::*;
 
-    pub static CACHES: Lazy<[Pattern<ABSOLUTE>; 2]> = Lazy::new(|| {
+    pub static CACHES: Lazy<[Rule<ABSOLUTE>; 3]> = Lazy::new(|| {
         [
             // XDG cache
-            Pattern::PathPrefix(crate::utils::host::user_cache_dir()),
+            Rule::Pattern(Pattern::PathPrefix(crate::utils::host::user_cache_dir())),
             // Flatpak app caches
-            Pattern::RegularExpression(
+            Rule::Pattern(Pattern::RegularExpression(
                 regex::Regex::new(&format!(
                     r"^{}/\.var/app/[^/]+/cache/",
                     borg_regex_path(&glib::home_dir())
                 ))
                 .unwrap(),
-            ),
+            )),
+            // CACHEDIR.TAG
+            Rule::CacheDirTag,
         ]
     });
 
-    pub static VMS_CONTAINERS: Lazy<[Pattern<ABSOLUTE>; 8]> = Lazy::new(|| {
+    pub static VMS_CONTAINERS: Lazy<[Rule<ABSOLUTE>; 8]> = Lazy::new(|| {
         [
             // Boxes (host)
-            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("gnome-boxes")),
+            Rule::Pattern(Pattern::PathPrefix(
+                crate::utils::host::user_data_dir().join("gnome-boxes"),
+            )),
             // Boxes (flatpak)
-            Pattern::PathPrefix(glib::home_dir().join(".var/app/org.gnome.Boxes")),
-            Pattern::PathPrefix(glib::home_dir().join(".var/app/org.gnome.BoxesDevel")),
+            Rule::Pattern(Pattern::PathPrefix(
+                glib::home_dir().join(".var/app/org.gnome.Boxes"),
+            )),
+            Rule::Pattern(Pattern::PathPrefix(
+                glib::home_dir().join(".var/app/org.gnome.BoxesDevel"),
+            )),
             // Bottles (host)
-            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("bottles")),
+            Rule::Pattern(Pattern::PathPrefix(
+                crate::utils::host::user_data_dir().join("bottles"),
+            )),
             // Bottles (flatpak)
-            Pattern::PathPrefix(glib::home_dir().join(".var/app/com.usebottles.bottles")),
+            Rule::Pattern(Pattern::PathPrefix(
+                glib::home_dir().join(".var/app/com.usebottles.bottles"),
+            )),
             // libvirt
-            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("libvirt")),
+            Rule::Pattern(Pattern::PathPrefix(
+                crate::utils::host::user_data_dir().join("libvirt"),
+            )),
             // stores libvirt snapshots etc
-            Pattern::PathPrefix(crate::utils::host::user_config_dir().join("libvirt")),
+            Rule::Pattern(Pattern::PathPrefix(
+                crate::utils::host::user_config_dir().join("libvirt"),
+            )),
             // podman/toolbox
-            Pattern::PathPrefix(crate::utils::host::user_data_dir().join("containers")),
+            Rule::Pattern(Pattern::PathPrefix(
+                crate::utils::host::user_data_dir().join("containers"),
+            )),
         ]
     });
 
-    pub static FLATPAK_APPS: Lazy<[Pattern<ABSOLUTE>; 1]> = Lazy::new(|| {
-        [Pattern::RegularExpression(
+    pub static FLATPAK_APPS: Lazy<[Rule<ABSOLUTE>; 1]> = Lazy::new(|| {
+        [Rule::Pattern(Pattern::RegularExpression(
             regex::Regex::new(&format!(
                 r"^{}/flatpak/(?!overrides)",
                 borg_regex_path(&crate::utils::host::user_data_dir())
             ))
             .unwrap(),
-        )]
+        ))]
     });
 
-    pub static TRASH: Lazy<[Pattern<ABSOLUTE>; 1]> =
-        Lazy::new(|| [Pattern::PathPrefix(glib::user_data_dir().join("Trash"))]);
+    pub static TRASH: Lazy<[Rule<ABSOLUTE>; 1]> = Lazy::new(|| {
+        [Rule::Pattern(Pattern::PathPrefix(
+            glib::user_data_dir().join("Trash"),
+        ))]
+    });
 }
 
 impl Predefined {
@@ -173,21 +198,67 @@ impl Predefined {
         }
     }
 
-    pub fn patterns(&self) -> &[Pattern<ABSOLUTE>] {
+    pub fn rules(&self) -> &[Rule<ABSOLUTE>] {
         match self {
-            Self::Caches => patterns::CACHES.as_ref(),
-            Self::FlatpakApps => patterns::FLATPAK_APPS.as_ref(),
-            Self::Trash => patterns::TRASH.as_ref(),
-            Self::VmsContainers => patterns::VMS_CONTAINERS.as_ref(),
+            Self::Caches => rules::CACHES.as_ref(),
+            Self::FlatpakApps => rules::FLATPAK_APPS.as_ref(),
+            Self::Trash => rules::TRASH.as_ref(),
+            Self::VmsContainers => rules::VMS_CONTAINERS.as_ref(),
         }
     }
 
-    pub fn borg_patterns(&self) -> Vec<OsString> {
-        self.patterns().iter().map(|x| x.borg_pattern()).collect()
+    pub fn borg_rules(&self) -> Vec<BorgRule> {
+        self.rules().iter().map(BorgRule::from).collect()
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum Rule<const T: Relativity> {
+    Pattern(Pattern<T>),
+    /// Directories that have a CACHEDIR.TAG
+    ///
+    /// <https://bford.info/cachedir/>
+    CacheDirTag,
+}
+
+#[derive(Debug)]
+pub enum BorgRule {
+    Pattern(OsString),
+    CacheDirTag,
+}
+
+impl From<Rule<ABSOLUTE>> for BorgRule {
+    fn from(rule: Rule<ABSOLUTE>) -> Self {
+        match rule {
+            Rule::Pattern(pattern) => BorgRule::Pattern(pattern.borg_pattern()),
+            Rule::CacheDirTag => BorgRule::CacheDirTag,
+        }
+    }
+}
+
+impl From<&Rule<ABSOLUTE>> for BorgRule {
+    fn from(rule: &Rule<ABSOLUTE>) -> Self {
+        match rule {
+            Rule::Pattern(pattern) => BorgRule::Pattern(pattern.borg_pattern()),
+            Rule::CacheDirTag => BorgRule::CacheDirTag,
+        }
     }
 }
 
 fn borg_regex_path(path: &Path) -> String {
     // TODO: many unwraps
     regex::escape(path.strip_prefix("/").unwrap().to_str().unwrap()).to_string()
+}
+
+/// <https://bford.info/cachedir/>
+pub const CACHEDIR_TAG_HEADER: &[u8; 43] = b"Signature: 8a477f597d28d172789f06886806bc55";
+
+fn path_is_cachedir(directory: &std::path::Path) -> bool {
+    if let Ok(mut file) = std::fs::File::open(directory.join("CACHEDIR.TAG")) {
+        let mut buffer = [0; CACHEDIR_TAG_HEADER.len()];
+        let _ignore = file.read(&mut buffer);
+        CACHEDIR_TAG_HEADER == &buffer
+    } else {
+        false
+    }
 }
