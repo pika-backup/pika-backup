@@ -3,7 +3,7 @@ use crate::prelude::*;
 use super::{absolute, display_path};
 use serde::Deserialize;
 use std::ffi::{CString, OsString};
-use std::os::unix::ffi::OsStrExt;
+use std::os::unix::ffi::{OsStrExt, OsStringExt};
 use std::path::{Path, PathBuf};
 
 pub const RELATIVE: bool = false;
@@ -152,11 +152,36 @@ impl<const T: bool> Pattern<T> {
         Ok(Self::RegularExpression(regex::Regex::new(re.as_ref())?))
     }
 
+    ///
+    /// ```
+    /// # use pika_backup::config;
+    /// # type Pattern = config::Pattern<{config::ABSOLUTE}>;
+    /// let path = std::path::Path::new("/tmp/test/file");
+    ///
+    /// assert!(Pattern::fnmatch("*/test/").is_match(path));
+    /// assert!(Pattern::fnmatch("tmp/test/").is_match(path));
+    /// assert!(Pattern::fnmatch("/tmp/test/").is_match(path));
+    /// assert!(Pattern::fnmatch("t*st").is_match(path));
+    ///
+    /// assert!(!Pattern::fnmatch("/test/").is_match(path));
+    /// assert!(!Pattern::fnmatch("xxx").is_match(path));
+    /// ```
     pub fn is_match(&self, path: &Path) -> bool {
         match self {
             Self::Fnmatch(pattern) => {
+                let mut bytes = pattern.clone().into_vec();
+                if let Some(stripped) = bytes.strip_prefix(b"/") {
+                    bytes = stripped.to_vec();
+                }
+                bytes.push(b'*');
+
+                let mut path = path.to_path_buf();
+                if let Ok(stripped) = path.strip_prefix("/") {
+                    path = stripped.to_path_buf();
+                }
+
                 if let (Ok(pattern), Ok(path)) = (
-                    CString::new(pattern.as_bytes()),
+                    CString::new(bytes),
                     CString::new(path.as_os_str().as_bytes()),
                 ) {
                     crate::utils::posix_fnmatch(&pattern, &path)
@@ -215,7 +240,7 @@ impl<const T: bool> Pattern<T> {
         match self {
             Self::PathPrefix(_) | Self::PathFullMatch(_) => String::new(),
             Self::RegularExpression(_) => gettext("Regular Expression"),
-            Self::Fnmatch(_) => gettext("Shell Wildcard Pattern"),
+            Self::Fnmatch(_) => gettext("Unix Filename Pattern"),
         }
     }
 

@@ -5,7 +5,7 @@
     <property name="default-widget">add</property>
     <property name="modal">1</property>
     <property name="default-width">500</property>
-    <property name="default-height">300</property>
+    <property name="default-height">400</property>
     <child>
       <object class="GtkShortcutController">
         <property name="scope">managed</property>
@@ -51,7 +51,7 @@
                     <property name="model">
                       <object class="GtkStringList">
                         <items>
-                          <item translatable="yes">Shell-Style Wildcards</item>
+                          <item translatable="yes">Unix Filename Pattern</item>
                           <item translatable="yes">Regular Expression</item>
                         </items>
                       </object>
@@ -66,6 +66,35 @@
                     <style>
                       <class name="monospace"/>
                     </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="margin-top">18</property>
+                    <style>
+                      <class name="card"/>
+                      <class name="info-card" />
+                    </style>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">BorgBackup Patterns</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="heading"/>
+                          <class name="warning"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">The patterns above have to be written in a particular form. They are matched against the path without leading &lt;tt&gt;/&lt;/tt&gt;. Additionally, shell-style patterns match as if they are carrying a &lt;tt&gt;*&lt;/tt&gt; at the back. For more details, please check the &lt;a href="https://borgbackup.readthedocs.io/en/stable/usage/help.html"&gt;BorgBackup documentation&lt;/a&gt;.</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                        <property name="use-markup">1</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
