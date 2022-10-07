@@ -1013,7 +1013,7 @@ impl DialogSetup {
         self.get("add_task")
     }
 
-    pub fn ask_password(&self) -> gtk::PasswordEntry {
+    pub fn ask_password(&self) -> adw::PasswordEntryRow {
         self.get("ask_password")
     }
 
@@ -1149,7 +1149,7 @@ impl DialogSetup {
         self.get("pending_spinner")
     }
 
-    pub fn prefix(&self) -> gtk::Entry {
+    pub fn prefix(&self) -> adw::EntryRow {
         self.get("prefix")
     }
 

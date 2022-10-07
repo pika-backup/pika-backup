@@ -11,6 +11,7 @@
 - Change to only list mounted SMB and SFTP locations in setup dialog
 - Change to only mention SMB and SFTP schemas in setup dialog
 - Change to use AdwAboutWindow
+- Change to use AdwEntryRow
 - Change to use AdwMessageDialog
 - Change to use XDG runtime dir on host instead of HOME for mounts
 - Change to symbolic icons in include/exclude list
@@ -22,6 +23,7 @@
 - Add missing standard shortcuts
 - Add predefined exclusion rules
 - Add regular expressions and shell pattern exclude support
+- Add support for CACHEDIR.TAG exclusion
 - Remove special representation with switch for Home folder
 
 ## 0.4.2 (2022-07-12)
