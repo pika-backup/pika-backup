@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-02 01:09+0000\n"
-"PO-Revision-Date: 2022-10-02 22:27+0300\n"
+"POT-Creation-Date: 2022-10-07 23:31+0000\n"
+"PO-Revision-Date: 2022-10-08 09:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -374,37 +374,38 @@ msgstr ""
 "Префікс архіву є порожнім і вже існують налаштування для того самого сховища "
 "резервних копій."
 
-#: src/config/exclude.rs:142
+#: src/config/exclude.rs:185
 msgid "Caches"
 msgstr "Кеші"
 
-#: src/config/exclude.rs:143
+#: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
 msgstr "Встановлені програми Flatpak"
 
-#: src/config/exclude.rs:144
+#: src/config/exclude.rs:187
 msgid "Trash"
 msgstr "Смітник"
 
-#: src/config/exclude.rs:145
+#: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
 msgstr "Віртуальні машини і контейнери"
 
-#: src/config/exclude.rs:151
+#: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
 msgstr "Дані, які можна за потреби створити наново"
 
-#: src/config/exclude.rs:152
+#: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Триває резервне копіювання документів і даних"
 
-#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: src/config/pattern.rs:162
-msgid "Shell Wildcard Pattern"
-msgstr "Взірець оболонки"
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+#| msgid "Exclude Pattern"
+msgid "Unix Filename Pattern"
+msgstr "Взірець назв файлів Unix"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
 #: src/ui/dialog_setup.ui:108
@@ -905,7 +906,7 @@ msgstr ""
 "монстром, є безпідставними."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:148
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Некоректний префікс архівів"
 
@@ -975,41 +976,68 @@ msgstr "Шифрування"
 msgid "Password"
 msgstr "Пароль"
 
-#: src/ui/dialog_exclude.rs:133
+#: src/ui/dialog_exclude.rs:129
 msgid "Exclude Directory"
 msgstr "Виключити каталог"
 
-#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Вибрати"
 
-#: src/ui/dialog_exclude.rs:162
+#: src/ui/dialog_exclude.rs:158
 msgid "Exclude File"
 msgstr "Виключити файл"
+
+#: src/ui/dialog_exclude.ui:32
+#| msgid "Include Folder"
+msgid "Exclude Folder"
+msgstr "Виключити теку"
+
+#: src/ui/dialog_exclude.ui:44
+#| msgid "Exclude File"
+msgid "Exclude Single File"
+msgstr "Виключити один файл"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Взірець виключення"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Визначте формальний вираз або взірці назв файлів Unix"
 
 #: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Пропоновані виключення"
 
-#: src/ui/dialog_exclude_pattern.rs:33
-#| msgid "Regular Expression"
+#: src/ui/dialog_exclude_pattern.rs:34
 msgid "Invalid Regular Expression"
 msgstr "Некоректний формальний вираз"
-
-#: src/ui/dialog_exclude_pattern.ui:4
-#| msgid "Exclude File"
-msgid "Exclude Pattern"
-msgstr "Взірець виключення"
 
 #: src/ui/dialog_exclude_pattern.ui:35
 msgid "Add"
 msgstr "Додати"
 
-#: src/ui/dialog_exclude_pattern.ui:54
-#| msgid "Shell Wildcard Pattern"
-msgid "Shell-Style Wildcards"
-msgstr "Шаблони у стилі командної оболонки"
+#: src/ui/dialog_exclude_pattern.ui:81
+#| msgid "Backup Past Due"
+msgid "BorgBackup Patterns"
+msgstr "Взірці BorgBackup"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"Взірці вище має бути написано у певній формі. Їхню відповідність шляху буде"
+" встановлено без початкового <tt>/</tt>. Крім того, відповідність взірців у"
+" стилі командної оболонки буде встановлено так, наче наприкінці у них <tt>*<"
+"/tt>. Щоб дізнатися більше, будь ласка, ознайомтеся із <a"
+" href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">документацією до BorgBackup</a>."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
@@ -1277,11 +1305,11 @@ msgstr ""
 msgid "Creating Backup Repository"
 msgstr "Створення сховища резервних копій"
 
-#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Немає"
 
-#: src/ui/dialog_setup/display.rs:219
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Вільне місце: {}"
 
@@ -1886,6 +1914,13 @@ msgstr "Пайка-копіювання «{}»"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Не вдалося зберегти кеш"
+
+#~ msgid "Shell Wildcard Pattern"
+#~ msgstr "Взірець оболонки"
+
+#~| msgid "Shell Wildcard Pattern"
+#~ msgid "Shell-Style Wildcards"
+#~ msgstr "Шаблони у стилі командної оболонки"
 
 #~ msgid ""
 #~ "The “ssh://” protocol is reserved for locations with explicit borg "
