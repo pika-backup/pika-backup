@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-02 01:09+0000\n"
-"PO-Revision-Date: 2022-10-02 14:58+0200\n"
+"POT-Creation-Date: 2022-10-07 23:31+0000\n"
+"PO-Revision-Date: 2022-10-09 14:01+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -370,37 +370,37 @@ msgstr ""
 "Przedrostek archiwum jest pusty, a konfiguracja dla tego samego repozytorium "
 "kopii zapasowej już istnieje."
 
-#: src/config/exclude.rs:142
+#: src/config/exclude.rs:185
 msgid "Caches"
 msgstr "Pamięci podręczne"
 
-#: src/config/exclude.rs:143
+#: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
 msgstr "Instalacje programów Flatpak"
 
-#: src/config/exclude.rs:144
+#: src/config/exclude.rs:187
 msgid "Trash"
 msgstr "Kosz"
 
-#: src/config/exclude.rs:145
+#: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
 msgstr "Maszyny wirtualne i kontenery"
 
-#: src/config/exclude.rs:151
+#: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
 msgstr "Dane, które można odtworzyć, jeśli będą potrzebne"
 
-#: src/config/exclude.rs:152
+#: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Dokumenty i dane pozostają w kopii zapasowej"
 
-#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Wyrażenie regularne"
 
-#: src/config/pattern.rs:162
-msgid "Shell Wildcard Pattern"
-msgstr "Wzorzec wieloznacznika powłoki"
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+msgid "Unix Filename Pattern"
+msgstr "Uniksowy wzorzec nazwy pliku"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
 #: src/ui/dialog_setup.ui:108
@@ -896,7 +896,7 @@ msgstr ""
 "elektryczności są bezzasadne."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:148
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Nieprawidłowy przedrostek archiwum"
 
@@ -966,38 +966,64 @@ msgstr "Szyfrowanie"
 msgid "Password"
 msgstr "Hasło"
 
-#: src/ui/dialog_exclude.rs:133
+#: src/ui/dialog_exclude.rs:129
 msgid "Exclude Directory"
 msgstr "Wykluczenie katalogu"
 
-#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Wybierz"
 
-#: src/ui/dialog_exclude.rs:162
+#: src/ui/dialog_exclude.rs:158
 msgid "Exclude File"
 msgstr "Wykluczenie pliku"
+
+#: src/ui/dialog_exclude.ui:32
+msgid "Exclude Folder"
+msgstr "Wyklucz katalog"
+
+#: src/ui/dialog_exclude.ui:44
+msgid "Exclude Single File"
+msgstr "Wyklucz jeden plik"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Wzorzec wykluczania"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Można określić wyrażenie regularne lub uniksowe wzorce nazw plików"
 
 #: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Proponowane wykluczenia"
 
-#: src/ui/dialog_exclude_pattern.rs:33
+#: src/ui/dialog_exclude_pattern.rs:34
 msgid "Invalid Regular Expression"
 msgstr "Nieprawidłowe wyrażenie regularne"
-
-#: src/ui/dialog_exclude_pattern.ui:4
-msgid "Exclude Pattern"
-msgstr "Wzorzec wykluczania"
 
 #: src/ui/dialog_exclude_pattern.ui:35
 msgid "Add"
 msgstr "Dodaj"
 
-#: src/ui/dialog_exclude_pattern.ui:54
-msgid "Shell-Style Wildcards"
-msgstr "Wieloznaczniki w stylu powłoki"
+#: src/ui/dialog_exclude_pattern.ui:81
+msgid "BorgBackup Patterns"
+msgstr "Wzorce programu BorgBackup"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"Powyższe wzorce muszą być zapisywane w konkretnym formacie. Są dopasowywane "
+"do ścieżki bez początkowego znaku <tt>/</tt>. Dodatkowo wzorce w stylu "
+"powłoki są dopasowywane tak, jakby miały znak <tt>*</tt> na końcu. <a href="
+"\"https://borgbackup.readthedocs.io/en/stable/usage/help.html\">Dokumentacja "
+"programu BorgBackup</a> zawiera więcej informacji."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
@@ -1260,11 +1286,11 @@ msgstr ""
 msgid "Creating Backup Repository"
 msgstr "Tworzenie repozytorium kopii zapasowej"
 
-#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Brak"
 
-#: src/ui/dialog_setup/display.rs:219
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Wolne miejsce: {}"
 
