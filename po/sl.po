@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-02 01:09+0000\n"
-"PO-Revision-Date: 2022-10-03 15:37+0200\n"
+"POT-Creation-Date: 2022-10-07 23:31+0000\n"
+"PO-Revision-Date: 2022-10-09 10:15+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -372,37 +372,37 @@ msgstr ""
 "Predpona arhiva je prazna in prilagoditev za isto skladišče varnostnih kopij "
 "že obstaja."
 
-#: src/config/exclude.rs:142
+#: src/config/exclude.rs:185
 msgid "Caches"
 msgstr "Predpomnilniki"
 
-#: src/config/exclude.rs:143
+#: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
 msgstr "Namestitve programov Flatpak"
 
-#: src/config/exclude.rs:144
+#: src/config/exclude.rs:187
 msgid "Trash"
 msgstr "Smeti"
 
-#: src/config/exclude.rs:145
+#: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
 msgstr "Virtualni računalniki in vsebniki"
 
-#: src/config/exclude.rs:151
+#: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
 msgstr "Podatki, ki jih je mogoče po potrebi regenerirati"
 
-#: src/config/exclude.rs:152
+#: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Dokumenti in podatki so še vedno varnostno kopirani"
 
-#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Logični izraz"
 
-#: src/config/pattern.rs:162
-msgid "Shell Wildcard Pattern"
-msgstr "Vzorec nadomestnega znaka lupine"
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+msgid "Unix Filename Pattern"
+msgstr "Vzorec imen datotek Unix"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
 #: src/ui/dialog_setup.ui:108
@@ -904,7 +904,7 @@ msgstr ""
 "električnimi sposobnostmi, so neutemeljene."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:148
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Neveljavna predpona arhiva"
 
@@ -973,38 +973,64 @@ msgstr "Šifriranje"
 msgid "Password"
 msgstr "Geslo"
 
-#: src/ui/dialog_exclude.rs:133
+#: src/ui/dialog_exclude.rs:129
 msgid "Exclude Directory"
 msgstr "Izloči mapo"
 
-#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Izbor"
 
-#: src/ui/dialog_exclude.rs:162
+#: src/ui/dialog_exclude.rs:158
 msgid "Exclude File"
 msgstr "Izključi datoteko"
+
+#: src/ui/dialog_exclude.ui:32
+msgid "Exclude Folder"
+msgstr "Izključi mapo"
+
+#: src/ui/dialog_exclude.ui:44
+msgid "Exclude Single File"
+msgstr "Izključi posamezno datoteko"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Izključuj vzorec"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Določite regularni izraz ali vzorec imen datotek Unix"
 
 #: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Predlagane izključitve"
 
-#: src/ui/dialog_exclude_pattern.rs:33
+#: src/ui/dialog_exclude_pattern.rs:34
 msgid "Invalid Regular Expression"
 msgstr "Neveljaven regularni izraz"
-
-#: src/ui/dialog_exclude_pattern.ui:4
-msgid "Exclude Pattern"
-msgstr "Izključuj vzorec"
 
 #: src/ui/dialog_exclude_pattern.ui:35
 msgid "Add"
 msgstr "Dodaj"
 
-#: src/ui/dialog_exclude_pattern.ui:54
-msgid "Shell-Style Wildcards"
-msgstr "Nadomestni znaki, kot v lupini"
+#: src/ui/dialog_exclude_pattern.ui:81
+msgid "BorgBackup Patterns"
+msgstr "Vzorci BorgBackup"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"Zgornji vzorci morajo biti napisani v določeni obliki. Ujemajo se s potjo "
+"brez vodilnega <tt>/</tt>. Poleg tega se vzorci v lupini ujemajo, kot da "
+"imajo na koncu <tt>*</tt>. Za več podrobnosti preverite <a href=\"https://"
+"borgbackup.readthedocs.io/en/stable/usage/help.html\">dokumentacijo "
+"BorgBackup</a>."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
@@ -1270,11 +1296,11 @@ msgstr ""
 msgid "Creating Backup Repository"
 msgstr "Ustvarjanje skladišča za varnostno kopiranje"
 
-#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Brez"
 
-#: src/ui/dialog_setup/display.rs:219
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Neporabljen prostor: {}"
 
