@@ -45,6 +45,16 @@ pub fn check_line(line: &str) -> LogEntry {
                 msg.msgid = MsgId::Other(msgid_helper.msgid);
             }
         }
+
+        if let Some(changed_file) = msg
+            .message
+            .strip_suffix(": file changed while we backed it up")
+        {
+            msg.msgid = MsgId::XFileChangedDuringBackup {
+                path: changed_file.into(),
+            };
+        }
+
         info!("LogMessage {:?}", msg);
 
         LogEntry::ParsedErr(msg)

@@ -136,12 +136,12 @@ impl std::fmt::Display for Abort {
     }
 }
 
+/// borg message ids
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Failure {
-    // borg message ids
     ConnectionClosed,
     ConnectionClosedWithHint,
-    // TODO: both undocumented
+    /// TODO: both undocumented
     LockTimeout,
     LockFailed,
     PassphraseWrong,
@@ -151,8 +151,12 @@ pub enum Failure {
     RepositoryDoesNotExist,
     #[serde(rename = "Repository.InsufficientFreeSpaceError")]
     RepositoryInsufficientFreeSpaceError,
-    // with manually added hint
+    /// with manually added hint
     ConnectionClosedWithHint_(String),
+    // Things
+    XFileChangedDuringBackup {
+        path: std::path::PathBuf,
+    },
     // general
     Other(String),
     #[serde(other)]
@@ -189,6 +193,10 @@ impl std::fmt::Display for Failure {
             Self::ConnectionClosedWithHint_(hint) => {
                 gettextf("Connection closed by remote host: “{}”", &[hint])
             }
+            Self::XFileChangedDuringBackup { path } => gettextf(
+                "File changed while creating backup of it: {}",
+                &[&path.to_string_lossy()],
+            ),
             Self::Other(string) => string.to_string(),
             Self::Undefined => gettext("Unspecified error."),
         };
