@@ -113,16 +113,6 @@ pub fn refresh() -> Result<()> {
         main_ui().backup_exclude().append(&row);
     }
 
-    if backup.exclude.is_empty() {
-        main_ui()
-            .detail_exclude_stack()
-            .set_visible_child(&main_ui().detail_exclude_placeholder());
-    } else {
-        main_ui()
-            .detail_exclude_stack()
-            .set_visible_child(&main_ui().backup_exclude());
-    }
-
     Ok(())
 }
 

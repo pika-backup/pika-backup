@@ -143,14 +143,6 @@ impl AppWindow {
         self.get("detail_deduplicated_size")
     }
 
-    pub fn detail_exclude_placeholder(&self) -> gtk::ListBox {
-        self.get("detail_exclude_placeholder")
-    }
-
-    pub fn detail_exclude_stack(&self) -> gtk::Stack {
-        self.get("detail_exclude_stack")
-    }
-
     pub fn detail_hint_icon(&self) -> gtk::Image {
         self.get("detail_hint_icon")
     }

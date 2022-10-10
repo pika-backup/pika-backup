@@ -322,6 +322,14 @@ This might take a while.</property>
                                         <style>
                                           <class name="boxed-list"/>
                                         </style>
+                                        <child type="placeholder">
+                                          <object class="AdwActionRow">
+                                            <property name="title" translatable="yes">No files included in backup</property>
+                                            <style>
+                                              <class name="error"/>
+                                            </style>
+                                          </object>
+                                        </child>
                                       </object>
                                     </child>
                                   </object>
@@ -338,26 +346,14 @@ This might take a while.</property>
                                       </object>
                                     </property>
                                     <child>
-                                      <object class="GtkStack" id="detail_exclude_stack">
-                                        <child>
-                                          <object class="GtkListBox" id="backup_exclude">
-                                            <property name="selection-mode">none</property>
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkListBox" id="detail_exclude_placeholder">
-                                            <property name="selection-mode">none</property>
-                                            <child>
-                                              <object class="AdwActionRow">
-                                                <property name="title" translatable="yes">Nothing excluded from backup</property>
-                                              </object>
-                                            </child>
-                                            <style>
-                                              <class name="boxed-list"/>
-                                            </style>
+                                      <object class="GtkListBox" id="backup_exclude">
+                                        <property name="selection-mode">none</property>
+                                        <style>
+                                          <class name="boxed-list"/>
+                                        </style>
+                                        <child type="placeholder">
+                                          <object class="AdwActionRow">
+                                            <property name="title" translatable="yes">Nothing excluded from backup</property>
                                           </object>
                                         </child>
                                       </object>
