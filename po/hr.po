@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-02 01:09+0000\n"
-"PO-Revision-Date: 2022-10-02 16:48+0200\n"
+"POT-Creation-Date: 2022-10-07 23:31+0000\n"
+"PO-Revision-Date: 2022-10-10 16:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -370,37 +370,37 @@ msgstr ""
 "Prefiks arhive je prazan a podešavanje za isti repozitorij sigurnosne kopije "
 "već postoji."
 
-#: src/config/exclude.rs:142
+#: src/config/exclude.rs:185
 msgid "Caches"
 msgstr "Predmemorije"
 
-#: src/config/exclude.rs:143
+#: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
 msgstr "Flatpak App instalacija"
 
-#: src/config/exclude.rs:144
+#: src/config/exclude.rs:187
 msgid "Trash"
 msgstr "Smeće"
 
-#: src/config/exclude.rs:145
+#: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
 msgstr "Virtualna računala i spremnici"
 
-#: src/config/exclude.rs:151
+#: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
 msgstr "Podaci koji se mogu po potrebi regenerirati"
 
-#: src/config/exclude.rs:152
+#: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Dokumenti i podaci i dalje su sigurnosno kopirani"
 
-#: src/config/pattern.rs:161 src/ui/dialog_exclude_pattern.ui:55
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Uobičajen izraz"
 
-#: src/config/pattern.rs:162
-msgid "Shell Wildcard Pattern"
-msgstr "Uzorak zamjenskih znakova ljuske"
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+msgid "Unix Filename Pattern"
+msgstr "Unix uzorak naziva datoteke"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
 #: src/ui/dialog_setup.ui:108
@@ -898,7 +898,7 @@ msgstr ""
 "električne sposobnosti su neutemeljene."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:148
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Nevaljani prefiks arhive"
 
@@ -967,38 +967,64 @@ msgstr "Šifriranje"
 msgid "Password"
 msgstr "Lozinka"
 
-#: src/ui/dialog_exclude.rs:133
+#: src/ui/dialog_exclude.rs:129
 msgid "Exclude Directory"
 msgstr "Obuhvati direktorij"
 
-#: src/ui/dialog_exclude.rs:134 src/ui/dialog_exclude.rs:163
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Odaberi"
 
-#: src/ui/dialog_exclude.rs:162
+#: src/ui/dialog_exclude.rs:158
 msgid "Exclude File"
 msgstr "Izostavi datoteku"
+
+#: src/ui/dialog_exclude.ui:32
+msgid "Exclude Folder"
+msgstr "Izuzmi mapu"
+
+#: src/ui/dialog_exclude.ui:44
+msgid "Exclude Single File"
+msgstr "Izostavi jednu datoteku"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Izostavi uzorak"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Odredi uobičajeni izraz za Unix uzorke naziva datoteka"
 
 #: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Predloženi izostavci"
 
-#: src/ui/dialog_exclude_pattern.rs:33
+#: src/ui/dialog_exclude_pattern.rs:34
 msgid "Invalid Regular Expression"
 msgstr "Nevaljani uobičajeni izraz"
-
-#: src/ui/dialog_exclude_pattern.ui:4
-msgid "Exclude Pattern"
-msgstr "Izostavi uzorak"
 
 #: src/ui/dialog_exclude_pattern.ui:35
 msgid "Add"
 msgstr "Dodaj"
 
-#: src/ui/dialog_exclude_pattern.ui:54
-msgid "Shell-Style Wildcards"
-msgstr "Zamjenski znakovi poput izgleda školjke"
+#: src/ui/dialog_exclude_pattern.ui:81
+msgid "BorgBackup Patterns"
+msgstr "BorgBackup uzorci"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"Uzorci iznad moraju biti napisani u određenom obliku. Uspoređuju se putanjom "
+"bez vodeće <tt>/</tt>. Dodatno, shell-style uzorci podudaraju se kao da "
+"sadrže <tt>*</tt> na kraju. Za više pojedinosti, pogledajte <a "
+"href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
+"html\">BorgBackup dokumentaciju</a>."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
@@ -1264,11 +1290,11 @@ msgstr ""
 msgid "Creating Backup Repository"
 msgstr "Stvaranje repozitorija sigurnosnog kopiranja"
 
-#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Nedostupno"
 
-#: src/ui/dialog_setup/display.rs:219
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Slobodni prostor: {}"
 
@@ -1854,6 +1880,12 @@ msgstr "Pika sigurnosno kopiranje “{}”"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Neuspjelo spremanje predmemorije"
+
+#~ msgid "Shell Wildcard Pattern"
+#~ msgstr "Uzorak zamjenskih znakova ljuske"
+
+#~ msgid "Shell-Style Wildcards"
+#~ msgstr "Zamjenski znakovi poput izgleda školjke"
 
 #~ msgid ""
 #~ "The “ssh://” protocol is reserved for locations with explicit borg "
