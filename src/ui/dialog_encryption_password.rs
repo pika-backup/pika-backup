@@ -1,4 +1,4 @@
-use gtk::prelude::*;
+use adw::prelude::*;
 
 use crate::ui;
 
@@ -20,7 +20,7 @@ impl Ask {
 
         ui.dialog().set_transient_for(Some(&main_ui().window()));
 
-        ui.description().set_text(&gettextf(
+        ui.dialog().set_body(&gettextf(
             "The operation “{}” requires the encryption password of the repository on “{}”.",
             &[&self.purpose, &self.repo.location()],
         ));
@@ -31,10 +31,8 @@ impl Ask {
 
         let response = ui.dialog().run_future().await;
         let password = config::Password::new(ui.password().text().to_string());
-        ui.dialog().close();
-        ui.dialog().hide();
 
-        if gtk::ResponseType::Apply == response {
+        if response == "apply" {
             Some(password)
         } else {
             None

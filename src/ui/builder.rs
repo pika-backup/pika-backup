@@ -619,23 +619,11 @@ impl DialogEncryptionPassword {
         })
     }
 
-    pub fn cancel(&self) -> gtk::Button {
-        self.get("cancel")
-    }
-
-    pub fn description(&self) -> gtk::Label {
-        self.get("description")
-    }
-
-    pub fn dialog(&self) -> gtk::Dialog {
+    pub fn dialog(&self) -> adw::MessageDialog {
         self.get("dialog")
     }
 
-    pub fn ok(&self) -> gtk::Button {
-        self.get("ok")
-    }
-
-    pub fn password(&self) -> gtk::Entry {
+    pub fn password(&self) -> gtk::PasswordEntry {
         self.get("password")
     }
 }
