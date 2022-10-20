@@ -8,7 +8,7 @@ glib::wrapper! {
 
 impl WrapBox {
     pub fn new() -> Self {
-        glib::Object::new(&[]).unwrap()
+        glib::Object::new(&[])
     }
 
     pub fn add_child<T: IsA<gtk::Widget>>(&self, child: &T) {
@@ -92,14 +92,14 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
             match pspec.name() {
                 "width-estimate" => self.width_estimate.get().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+        fn set_property(&self, __id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
                 "width-estimate" => {
                     if let Ok(width) = value.get() {
@@ -112,7 +112,8 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
+        fn constructed(&self) {
+            let obj = self.instance();
             obj.set_orientation(gtk::Orientation::Vertical);
             obj.set_hexpand(true);
             self.width_estimate.set(350);

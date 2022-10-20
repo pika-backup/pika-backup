@@ -21,7 +21,7 @@ glib::wrapper! {
 
 impl WeekdayObject {
     pub fn new(weekday: chrono::Weekday) -> Self {
-        let new: Self = glib::Object::new(&[]).unwrap();
+        let new: Self = glib::Object::new(&[]);
         let priv_ = imp::WeekdayObject::from_instance(&new);
         priv_.weekday.replace(weekday);
         new
@@ -72,7 +72,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
             match pspec.name() {
                 "display" => self.name().to_value(),
                 _ => unimplemented!(),

@@ -64,7 +64,7 @@ glib::wrapper! {
 
 impl PrunePresetObject {
     pub fn new(preset: PrunePreset) -> Self {
-        let new: Self = glib::Object::new(&[]).unwrap();
+        let new: Self = glib::Object::new(&[]);
         let priv_ = imp::PrunePresetObject::from_instance(&new);
         priv_.preset.replace(preset);
         new
@@ -101,7 +101,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
             match pspec.name() {
                 "display" => self.preset.borrow().name().to_value(),
                 _ => unimplemented!(),

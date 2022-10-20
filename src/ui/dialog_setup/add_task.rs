@@ -9,7 +9,7 @@ macro_rules! obj {
 
         impl $type {
             pub fn new() -> Self {
-                glib::Object::new(&[]).unwrap()
+                glib::Object::new(&[])
             }
 
             $(

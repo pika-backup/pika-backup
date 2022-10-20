@@ -25,7 +25,7 @@ glib::wrapper! {
 
 impl FrequencyObject {
     pub fn new(frequency: config::Frequency) -> Self {
-        let new: Self = glib::Object::new(&[]).unwrap();
+        let new: Self = glib::Object::new(&[]);
         let priv_ = imp::FrequencyObject::from_instance(&new);
         priv_.frequency.replace(frequency);
         new
@@ -52,7 +52,7 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
+        fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
             match pspec.name() {
                 "display" => self.frequency.borrow().name().to_value(),
                 _ => unimplemented!(),

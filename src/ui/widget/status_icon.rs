@@ -10,7 +10,7 @@ glib::wrapper! {
 
 impl StatusIcon {
     pub fn new(icon_name: &str, level: StatusLevel) -> Self {
-        let obj: Self = glib::Object::new(&[]).unwrap();
+        let obj: Self = glib::Object::new(&[]);
 
         obj.set_icon_name(icon_name);
         obj.set_level(level);
@@ -84,7 +84,9 @@ mod imp {
     }
 
     impl ObjectImpl for StatusIcon {
-        fn constructed(&self, obj: &Self::Type) {
+        fn constructed(&self) {
+            let obj = self.instance();
+
             self.image.add_css_class("status-icon");
             self.image.set_valign(gtk::Align::Center);
 

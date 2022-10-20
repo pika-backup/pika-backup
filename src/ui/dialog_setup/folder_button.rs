@@ -10,7 +10,7 @@ glib::wrapper! {
 
 impl FolderButton {
     pub fn new() -> Self {
-        glib::Object::new(&[]).unwrap()
+        glib::Object::new(&[])
     }
 
     pub fn file(&self) -> Option<gio::File> {
@@ -54,14 +54,14 @@ mod imp {
             PROPERTIES.as_ref()
         }
 
-        fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> glib::Value {
+        fn property(&self, __id: usize, pspec: &ParamSpec) -> glib::Value {
             match pspec.name() {
                 "file" => self.file.borrow().to_value(),
                 _ => unimplemented!(),
             }
         }
 
-        fn set_property(&self, _obj: &Self::Type, _id: usize, value: &Value, pspec: &ParamSpec) {
+        fn set_property(&self, _id: usize, value: &Value, pspec: &ParamSpec) {
             match pspec.name() {
                 "file" => {
                     let file = value.get::<gio::File>().ok();
@@ -97,8 +97,9 @@ mod imp {
             }
         }
 
-        fn constructed(&self, obj: &Self::Type) {
-            self.parent_constructed(obj);
+        fn constructed(&self) {
+            let obj = self.instance();
+            self.parent_constructed();
 
             obj.set_child(Some(&*self.child));
             obj.add_css_class("folder-button");
@@ -108,7 +109,7 @@ mod imp {
 
             self.child.append(&*self.label);
             self.label.set_text_with_mnemonic(&gettext("_Select…"));
-            self.label.set_mnemonic_widget(Some(obj));
+            self.label.set_mnemonic_widget(Some(&*obj));
 
             obj.connect_clicked(|obj| {
                 let dialog = crate::ui::utils::folder_chooser(
