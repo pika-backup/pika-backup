@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-08-29 01:04+0000\n"
-"PO-Revision-Date: 2022-08-30 19:46+0300\n"
+"POT-Creation-Date: 2022-10-13 20:48+0000\n"
+"PO-Revision-Date: 2022-10-27 21:29+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -28,7 +28,7 @@ msgstr "Pika-varmuuskopioinnin monitori"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:188 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Pika-varmuuskopiointi"
 
@@ -110,7 +110,27 @@ msgstr ""
 "Säilytä varmuuskopiot paikallisilla levyillä ja verkkopalveluissa "
 "samanaikaisesti"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:232
+#: data/resources/gtk/help-overlay.ui:9
+msgid "General"
+msgstr "Yleiset"
+
+#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+msgid "Set up new backup"
+msgstr "Aseta uusi varmuuskopio"
+
+#: data/resources/gtk/help-overlay.ui:19
+msgid "Quit"
+msgstr "Lopeta"
+
+#: data/resources/gtk/help-overlay.ui:25
+msgid "Back"
+msgstr "Takaisin"
+
+#: data/resources/gtk/help-overlay.ui:31
+msgid "Open menu"
+msgstr "Avaa valikko"
+
+#: src/borg/error.rs:27 src/ui/utils.rs:235
 msgid "The operation terminated unexpectedly."
 msgstr "Toimenpide päättyi odottamatta."
 
@@ -135,43 +155,52 @@ msgid "Aborted because only metered connection was available."
 msgstr ""
 "Keskeytetty, koska vain käytön mukaan laskutettava yhteys on käytettävissä."
 
-#: src/borg/error.rs:126
+#. Translators: Running backup was aborted because computer running on battery
+#: src/borg/error.rs:127
 msgid "Aborted because too long not connected to power."
 msgstr "Keskeytetty koska virtalähteeseen liittämisestä on liian pitkä aika."
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:129
 msgid "Aborted by system."
 msgstr "Lopetettu järjestelmän toimesta."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:133
 msgid "The program or system seems to have crashed."
 msgstr "Ohjelma tai järjestelmä näyttää kaatuneen."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:177
 msgid "Connection closed by remote host."
 msgstr "Etäpää sulku yhteyden."
 
-#: src/borg/error.rs:174 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Tietovarasto on jo käytössä."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:180
+msgid "Failed to lock repository."
+msgstr "Tietovaraston lukitseminen epäonnistui."
+
+#: src/borg/error.rs:181
 msgid "Invalid encryption password."
 msgstr "Virheellinen salauksen salasana."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:183
 msgid "A repository already exists at this location."
 msgstr "Tietovarasto on jo olemassa tässä sijainnissa."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:185
 msgid "No repository exists at this location."
 msgstr "Tietovarastoa ei ole olemassa tässä sijainnissa."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:187
+msgid "Not enough free space in repository."
+msgstr "Tietovarastossa ei ole riittävästi vapaata tilaa."
+
+#: src/borg/error.rs:190
 msgid "Connection closed by remote host: “{}”"
 msgstr "Etäpää sulki yhteyden: “{}“"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:193
 msgid "Unspecified error."
 msgstr "Määrittelemätön virhe."
 
@@ -268,7 +297,7 @@ msgstr "Virheenjäljitys"
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:224
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -304,7 +333,8 @@ msgstr "Tunnistetaan vanhoja arkistoja"
 msgid "Refreshing Archive List"
 msgstr "Päivitetään arkistoluetteloa"
 
-#: src/config.rs:64
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
+#: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Koti"
 
@@ -340,40 +370,40 @@ msgstr ""
 "Arkiston etuliite on tyhjä ja määritys samaan varmuuskopioinnin "
 "tietovarastoon on jo olemassa."
 
-#: src/config/exclude.rs:142
+#: src/config/exclude.rs:185
 msgid "Caches"
 msgstr "Välimuistit"
 
-#: src/config/exclude.rs:143
+#: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
 msgstr "Flatpak-sovellusasennukset"
 
-#: src/config/exclude.rs:144
+#: src/config/exclude.rs:187
 msgid "Trash"
 msgstr "Roskakori"
 
-#: src/config/exclude.rs:145
+#: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
 msgstr "Virtuaalikoneet ja kontit"
 
-#: src/config/exclude.rs:151
+#: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
 msgstr "Data mikä voidaan luoda uudelleen tarvittaessa"
 
-#: src/config/exclude.rs:152
+#: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Asiakirjat ja data varmuuskopioidaan silti"
 
-#: src/config/pattern.rs:157
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Säännöllinen lauseke"
 
-#: src/config/pattern.rs:158
-msgid "Shell Wildcard Pattern"
-msgstr ""
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+msgid "Unix Filename Pattern"
+msgstr "Unix-tiedostonimen kuvio"
 
-#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
-#: src/ui/dialog_setup.ui:106
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
+#: src/ui/dialog_setup.ui:108
 msgid "Remote Location"
 msgstr "Etäsijainti"
 
@@ -425,11 +455,11 @@ msgstr "“{}” sisältää yhden määritellyn varmuuskopioinnin."
 msgid "Back Up Now"
 msgstr "Varmuuskopioi nyt"
 
-#: src/daemon/init.rs:43
+#: src/daemon/init.rs:48
 msgid "Fatal Error During Back Up"
 msgstr "Kohtalokas virhe varmuuskopion aikana"
 
-#: src/daemon/init.rs:46
+#: src/daemon/init.rs:51
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika-varmuuskopiointi kaatui varmuuskopioinnin aikana."
@@ -464,33 +494,32 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Ajastetun varmuuskopioinnin käynnistäminen epäonnistui"
 
-#: src/ui.rs:163 src/ui/page_backup/events.rs:19
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Lopetetaanko käynnissä oleva varmuuskopion luominen?"
 
-#: src/ui.rs:164 src/ui/page_backup/events.rs:20
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 "Varmuuskopio pysyy epätäydellisenä, jos varmuuskopiointi lopetetaan nyt."
 
-#: src/ui.rs:165 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:21
+#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Jatka"
 
-#: src/ui.rs:166 src/ui/page_backup/events.rs:22
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Lopeta"
 
-#: src/ui.rs:240
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Ei voitu suorittaa “borg”. Onko BorgBackup asennettu?"
 
-#: src/ui.rs:264
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "BorgBackupin versio on liian vanha"
 
-#: src/ui.rs:266
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -498,11 +527,11 @@ msgstr ""
 "Asennettu versio BorgBackupista on liian vanha: {}. Jotkin ominaisuudet, "
 "mitkä vaativat borg-backupin version {}.{}.{}, eivät toimi."
 
-#: src/ui.rs:277
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "BorgBackupin versio on liian uusi"
 
-#: src/ui.rs:279
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -510,21 +539,13 @@ msgstr ""
 "Asennettu versio BorgBackupista on liian uusi: {}. Versio {}.{} on "
 "suositeltu. Jotkin ominaisuudet eivät välttämättä toimi odotusten mukaisesti."
 
-#: src/ui.rs:289
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "BorgBackupin version tarkistaminen epäonnistui"
 
-#: src/ui.rs:291
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "Asennettu versio {} ei välttämättä toimi."
-
-#: src/ui.rs:347
-msgid "Could not load configuration file."
-msgstr "Asetustiedostoa ei voitu ladata."
-
-#: src/ui.rs:363
-msgid "Could not write configuration file."
-msgstr "Asetustiedostoon ei voitu kirjoittaa."
 
 #: src/ui/app_window.ui:13
 msgid "_Keyboard Shortcuts"
@@ -546,27 +567,23 @@ msgstr "Poista varmuuskopioinnin määritys"
 msgid ":"
 msgstr "."
 
-#: src/ui/app_window.ui:106 src/ui/dialog_shortcuts.ui:13
-msgid "Set up new backup"
-msgstr "Aseta uusi varmuuskopio"
-
-#: src/ui/app_window.ui:131
+#: src/ui/app_window.ui:142
 msgid "No Backup Configured"
 msgstr "Varmuuskopioita ei ole määritetty"
 
-#: src/ui/app_window.ui:132
+#: src/ui/app_window.ui:143
 msgid "Add a new configuration to start creating backups"
 msgstr "Lisää uusi määritys aloittaaksesi varmuuskopioinnin"
 
-#: src/ui/app_window.ui:135
+#: src/ui/app_window.ui:146
 msgid "Setup Backup"
 msgstr "Määritä varmuuskopio"
 
-#: src/ui/app_window.ui:181
+#: src/ui/app_window.ui:192
 msgid "Back to overview"
 msgstr "Takaisin päänäkymään"
 
-#: src/ui/app_window.ui:202
+#: src/ui/app_window.ui:213
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -574,50 +591,46 @@ msgstr ""
 "Arkistoja liitetään.\n"
 "Tämä saattaa kestää hetken."
 
-#: src/ui/app_window.ui:230
+#: src/ui/app_window.ui:252
 msgid "_Backup"
 msgstr "_Varmuuskopioi"
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:274
 msgid "_Abort"
 msgstr "_Lopeta"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:296
 msgid "Back Up _Now"
 msgstr "_Varmuuskopioi nyt"
 
-#: src/ui/app_window.ui:288 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Varmuuskopioitavat tiedostot"
 
-#: src/ui/app_window.ui:289
+#: src/ui/app_window.ui:311
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr ""
 "Vain tiedostot seuraavista kansioista tallennetaan varmuuskopion "
 "tietovarastoon."
 
-#: src/ui/app_window.ui:292
+#: src/ui/app_window.ui:314
 msgid "Select directory to include…"
 msgstr "Valitse sisällytettävä kansio…"
 
-#: src/ui/app_window.ui:304
-msgid "_Home"
-msgstr "_Koti"
+#: src/ui/app_window.ui:327
+msgid "No files included in backup"
+msgstr "Varmuuskopioon ei ole sisällytetty tiedostoja"
 
-#: src/ui/app_window.ui:305
-msgid "Usually contains all personal data"
-msgstr "Sisältää yleensä kaiken henkilökohtaisen datan"
-
-#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Ohita varmuuskopiosta"
 
-#: src/ui/app_window.ui:333
+#: src/ui/app_window.ui:340
 msgid "The following folders are excluded from the backup repository."
 msgstr "Seuraavat kansiot ohitetaan varmuuskopion tietovarastosta."
 
-#: src/ui/app_window.ui:336
+#: src/ui/app_window.ui:343
 msgid "Select directory to exclude…"
 msgstr "Valitse kansio ohitettavaksi…"
 
@@ -625,135 +638,135 @@ msgstr "Valitse kansio ohitettavaksi…"
 msgid "Nothing excluded from backup"
 msgstr "Mitään ei ole suljettu pois varmuuskopiosta"
 
-#: src/ui/app_window.ui:375
+#: src/ui/app_window.ui:370
 msgid "_Archives"
 msgstr "_Arkistot"
 
-#: src/ui/app_window.ui:470
+#: src/ui/app_window.ui:465
 msgid "Archive _Prefix"
 msgstr "Arkiston _etuliite"
 
-#: src/ui/app_window.ui:472
+#: src/ui/app_window.ui:467
 msgid "Added in front of all archive names"
 msgstr "Lisätään kaikkien arkistojen nimen eteen"
 
-#: src/ui/app_window.ui:501
+#: src/ui/app_window.ui:496
 msgid "_Cleanup Archives"
 msgstr "_Siivoa arkistot"
 
-#: src/ui/app_window.ui:502
+#: src/ui/app_window.ui:497
 msgid "Delete some older archives"
 msgstr "Poista joitain vanhempia arkistoja"
 
-#: src/ui/app_window.ui:518
+#: src/ui/app_window.ui:513
 msgid "Archives"
 msgstr "Arkistot"
 
-#: src/ui/app_window.ui:527
+#: src/ui/app_window.ui:522
 msgid "Refresh list of archives"
 msgstr "Päivitä arkistoluettelo"
 
-#: src/ui/app_window.ui:548
+#: src/ui/app_window.ui:543
 msgid "Stop browsing archive files"
 msgstr "Lopeta arkistotiedostojen selaaminen"
 
-#: src/ui/app_window.ui:574
+#: src/ui/app_window.ui:569
 msgid "No archives available"
 msgstr "Ei arkistoja saatavilla"
 
-#: src/ui/app_window.ui:593
+#: src/ui/app_window.ui:588
 msgid "_Schedule"
 msgstr "_Aikataulu"
 
-#: src/ui/app_window.ui:618
+#: src/ui/app_window.ui:613
 msgid "Scheduled Backups"
 msgstr "Ajastetut varmuuskopiot"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:617
 msgid "Regularly Create Backups"
 msgstr "Luo varmuuskopiot säännöllisesti"
 
-#: src/ui/app_window.ui:627
+#: src/ui/app_window.ui:622
 msgid "Frequency"
 msgstr "Aikaväli"
 
-#: src/ui/app_window.ui:635
+#: src/ui/app_window.ui:630
 msgid "Preferred Time"
 msgstr "Ensisijainen ajankohta"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:650
 msgid "Preferred Weekday"
 msgstr "Ensisijainen viikonpäivä"
 
-#: src/ui/app_window.ui:660
+#: src/ui/app_window.ui:655
 msgid "Preferred Day"
 msgstr "Ensisijainen päivä"
 
-#: src/ui/app_window.ui:681 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Poista vanhat arkistot"
 
-#: src/ui/app_window.ui:687
+#: src/ui/app_window.ui:682
 msgid "Save Configuration"
 msgstr "Tallenna määritys"
 
-#: src/ui/app_window.ui:699
+#: src/ui/app_window.ui:694
 msgid "Regularly Cleanup Archives"
 msgstr "Siivoa arkistot säännöllisesti"
 
-#: src/ui/app_window.ui:700
+#: src/ui/app_window.ui:695
 msgid "Remove old archives after creating new backups"
 msgstr "Poista vanhat arkistot uusien varmuuskopioiden luomisen jälkeen"
 
-#: src/ui/app_window.ui:710
+#: src/ui/app_window.ui:705
 msgid "Preserved Archives"
 msgstr "Säilytettävät arkistot"
 
-#: src/ui/app_window.ui:711
+#: src/ui/app_window.ui:706
 msgid "Amount and time span of retained archives"
 msgstr "Määrä ja aikaväli säilytettäville arkistoille"
 
-#: src/ui/app_window.ui:720
+#: src/ui/app_window.ui:715
 msgid "Details"
 msgstr "Tiedot"
 
-#: src/ui/app_window.ui:724
+#: src/ui/app_window.ui:719
 msgid "Keep Hourly"
 msgstr "Pidä tunneittain"
 
-#: src/ui/app_window.ui:746
+#: src/ui/app_window.ui:741
 msgid "Keep Daily"
 msgstr "Säilytä päivittäin"
 
-#: src/ui/app_window.ui:768
+#: src/ui/app_window.ui:763
 msgid "Keep Weekly"
 msgstr "Säilytä viikottain"
 
-#: src/ui/app_window.ui:788
+#: src/ui/app_window.ui:783
 msgid "Keep Monthly"
 msgstr "Säilytä kuukausittain"
 
-#: src/ui/app_window.ui:807
+#: src/ui/app_window.ui:802
 msgid "Keep Annual"
 msgstr "Säilytä vuosittain"
 
-#: src/ui/app_window.ui:854
+#: src/ui/app_window.ui:849
 msgid "Backup Info"
 msgstr "Varmuuskopion tiedot"
 
-#: src/ui/app_window.ui:914
+#: src/ui/app_window.ui:909
 msgid "Amount saved"
 msgstr "Säästetty määrä"
 
-#: src/ui/app_window.ui:930
+#: src/ui/app_window.ui:925
 msgid "Number of files saved"
 msgstr "Tallennettujen tiedostojen määrä"
 
-#: src/ui/app_window.ui:946
+#: src/ui/app_window.ui:941
 msgid "Additional backup space used"
 msgstr "Varmuuskopiointiin käytettävä lisätila"
 
-#: src/ui/app_window.ui:962
+#: src/ui/app_window.ui:957
 msgid "Current file"
 msgstr "Nykyinen tiedosto"
 
@@ -812,7 +825,7 @@ msgstr "Pysäytetään varmuuskopiointi"
 
 #: src/ui/dbus.rs:68
 msgid "Failed to spawn interface for scheduled backups."
-msgstr ""
+msgstr "Ajastettujen varmuuskopioiden liittymän muodostaminen epäonnistui."
 
 #: src/ui/dialog_about.rs:26
 msgid "Sophie Herold <sophieherold@gnome.org>"
@@ -845,6 +858,9 @@ msgid ""
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
 "BorgBackup</a>."
 msgstr ""
+"Pika-varmuuskopiointi käyttää BorgBackupia. Tätä sovellusta ei olisi "
+"olemassa ilman Borgia. Harkitse <a href='https://www.borgbackup.org/support/"
+"fund.html'>lahjoitusta BorgBackupille</a>."
 
 #: src/ui/dialog_about.rs:41
 msgid "The Name"
@@ -869,19 +885,19 @@ msgid ""
 msgstr ""
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:148
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Virheellinen arkiston etuliite"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:652
+#: src/ui/dialog_setup.ui:632
 msgid "Archive Prefix"
 msgstr "Arkiston etuliite"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:122 src/ui/page_overview.rs:51
+#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
 #: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Peru"
@@ -915,7 +931,8 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Jos arkiston etuliite on tyhjä, etuliitettä ei lisätä."
 
-#: src/ui/dialog_device_missing.rs:45
+#: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
+#: src/ui/dialog_device_missing.rs:100
 msgid "Failed to Mount"
 msgstr "Liittäminen epäonnistui"
 
@@ -931,31 +948,82 @@ msgstr ""
 "Toimenpide “{}” vaatii sijainnissa “{}” olevan tietovaraston salauksen "
 "salasanan."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:351
-msgid "Encryption"
-msgstr "Salaus"
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:487
+msgid "Encryption Password Required"
+msgstr "Salauksen salasana vaaditaan"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:527
+#: src/ui/dialog_encryption_password.ui:9
+msgid "_Cancel"
+msgstr "_Peru"
+
+#: src/ui/dialog_encryption_password.ui:10
+msgid "Co_ntinue"
+msgstr "_Jatka"
+
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Salasana"
 
-#: src/ui/dialog_exclude.rs:124
+#: src/ui/dialog_exclude.rs:129
 msgid "Exclude Directory"
 msgstr "Jätä pois hakemisto"
 
-#: src/ui/dialog_exclude.rs:142
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
+msgid "Select"
+msgstr "Valitse"
+
+#: src/ui/dialog_exclude.rs:158
 msgid "Exclude File"
 msgstr "Jätä pois tiedosto"
 
-#: src/ui/dialog_exclude.ui:72
+#: src/ui/dialog_exclude.ui:32
+msgid "Exclude Folder"
+msgstr "Jätä pois kansio"
+
+#: src/ui/dialog_exclude.ui:44
+msgid "Exclude Single File"
+msgstr "Jätä pois yksittäinen tiedosto"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Jätä pois kuvio"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Määritä säännöllinen lauseke tai Unix-tiedostonimikuvio"
+
+#: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Ehdotetut poissulkemiset"
+
+#: src/ui/dialog_exclude_pattern.rs:34
+msgid "Invalid Regular Expression"
+msgstr "Virheellinen säännöllinen lauseke"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Lisää"
+
+#: src/ui/dialog_exclude_pattern.ui:81
+#| msgid "Backup Past Due"
+msgid "BorgBackup Patterns"
+msgstr "BorgBackup-kuviot"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Ei voitu määrittää, kuinka monta arkistoa poistettaisiin"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
 msgid "Close"
 msgstr "Sulje"
 
@@ -1018,7 +1086,7 @@ msgstr ""
 "Näiden muutosten toteuttamisen jälkeen vanhojen arkistojen automaattisella "
 "poistamisella olisi seuraavat seuraukset."
 
-#: src/ui/dialog_setup.rs:165
+#: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
 msgstr "Olemassa olevien tietovarastojen luettelointi epäonnistui."
 
@@ -1030,35 +1098,48 @@ msgstr "Määritys"
 msgid "Create new Repository"
 msgstr "Luo uusi tietovarasto"
 
-#: src/ui/dialog_setup.ui:48 src/ui/dialog_setup.ui:91
+#: src/ui/dialog_setup.ui:41
+msgid "Select a location for a new backup repository."
+msgstr "Valitse sijainti uudelle varmuuskopion tietovarastolle."
+
+#: src/ui/dialog_setup.ui:49 src/ui/dialog_setup.ui:93
 msgid "Location on Disk"
 msgstr "Sijainti levyllä"
 
-#: src/ui/dialog_setup.ui:83
+#: src/ui/dialog_setup.ui:84
 msgid "Use Existing Repository"
 msgstr "Käytä olemassa olevaa tietovarastoa"
 
-#: src/ui/dialog_setup.ui:136
+#: src/ui/dialog_setup.ui:85
+msgid ""
+"Select a location that contains an existing backup repository. Repositories "
+"created with other BorgBackup compatible software can be used as well."
+msgstr ""
+"Valitse sijainti, joka sisältää olemassa olevan varmuuskopioinnin "
+"tietovaraston. Myös muilla BorgBackup-yhteensopivilla ohjelmistoilla luotuja "
+"tietovarastoja on mahdollista käyttää."
+
+#: src/ui/dialog_setup.ui:138
 msgid "Back to Overview"
 msgstr "Takaisin yleisnäkymään"
 
-#: src/ui/dialog_setup.ui:142
-msgid "Advanced Options"
-msgstr "Lisäasetukset"
-
-#: src/ui/dialog_setup.ui:152
+#: src/ui/dialog_setup.ui:148
 msgid "Connect"
 msgstr "Yhdistä"
 
-#: src/ui/dialog_setup.ui:165
+#: src/ui/dialog_setup.ui:161
 msgid "_Create"
 msgstr "_Luo"
 
-#: src/ui/dialog_setup.ui:183
+#: src/ui/dialog_setup.ui:177
 msgid "Location"
 msgstr "Sijainti"
 
-#: src/ui/dialog_setup.ui:236
+#: src/ui/dialog_setup.ui:181
+msgid "Advanced Options"
+msgstr "Lisäasetukset"
+
+#: src/ui/dialog_setup.ui:239
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1071,56 +1152,42 @@ msgstr ""
 "“Ext4”. Huomioi, että alustaminen poistaa kaikki olemassa olevat tiedostot "
 "sijainnista!"
 
-#: src/ui/dialog_setup.ui:261
+#: src/ui/dialog_setup.ui:264
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://user@server.example.org/~/backup"
 
-#: src/ui/dialog_setup.ui:277
+#: src/ui/dialog_setup.ui:280
 msgid "Conventional Locations"
 msgstr "Perinteiset sijainnit"
 
-#: src/ui/dialog_setup.ui:288
+#: src/ui/dialog_setup.ui:291
+#| msgid ""
+#| "Conventional remote backup locations can be provided as a URL with "
+#| "protocol prefix, address, and folder."
 msgid ""
-"Conventional remote backup locations can be provided as a URL with protocol "
-"prefix, address, and folder."
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"Perinteiset varmuuskopioiden etäsijainnit voidaan määrittää URL:nä, joka "
-"sisältää protokollan etuliitteeen, osoitteen ja kansion."
+"SMB- ja SFTP-etäsijainnit varmuuskopioille voidaan määrittää URL-osoitteena, "
+"jossa etuliitteenä on protokolla “smb://” tai “sftp://”."
 
 #: src/ui/dialog_setup.ui:298
-msgid ""
-"The “ssh://” protocol is reserved for locations with explicit borg support "
-"(see below). The “sftp://” prefix can be used instead."
-msgstr ""
-"“ssh://”-protokolla on varattu sijainneille, joilla on yksiselitteinen borg-"
-"tuki (katso alta). Jos borg ei ole käytettävissä, käytä ssh:n sijaan "
-"etuliitettä “sftp://”."
+msgid "Locations with BorgBackup Support"
+msgstr "Sijainnit joilla BorgBackup-tuki"
 
-#: src/ui/dialog_setup.ui:308
+#: src/ui/dialog_setup.ui:310
 msgid ""
-"Apart from that, all prefixes supported by the GNOME Virtual file system are "
-"supported."
-msgstr ""
-"Tätä huomioimatta kaikki muut Gnomen virtuaalisen tiedostojärjestelmän "
-"tukemat etuliitteet ovat tuettuja."
-
-#: src/ui/dialog_setup.ui:318
-msgid "Locations with Borg-Backup Support"
-msgstr "Sijainnit joilla Borg-Backupin tuki"
-
-#: src/ui/dialog_setup.ui:330
-msgid ""
-"Locations with explicit borg-backup support can provide better performance. "
-"They are special in that the server has a borg-backup binary installed. For "
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"Sijainnit yksinomaisella borg-backupin tuella voivat tarjota parempaa "
-"suorituskykyä. Tuki tarkoittaa, että palvelimella on borg-backupin "
+"Sijainnit yksinomaisella BorgBackupin tuella voivat tarjota parempaa "
+"suorituskykyä. Tuki tarkoittaa, että palvelimella on BorgBackupin "
 "binääritiedosto asennettu. Näitä sijainteja varten käytä syntaksia "
 "“<palvelimen osoite>:<kansio>” tai etuliitettä “ssh://”."
 
-#: src/ui/dialog_setup.ui:350
+#: src/ui/dialog_setup.ui:327
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1129,23 +1196,27 @@ msgstr ""
 "salausta käytetään, varmuuskopioiden selaaminen ja palauttaminen vaatii "
 "salasanan."
 
-#: src/ui/dialog_setup.ui:365
+#: src/ui/dialog_setup.ui:328
+msgid "Encryption"
+msgstr "Salaus"
+
+#: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Salattu"
 
-#: src/ui/dialog_setup.ui:372
+#: src/ui/dialog_setup.ui:349
 msgid "Encryption Password"
 msgstr "Salauksen salasana"
 
-#: src/ui/dialog_setup.ui:386
+#: src/ui/dialog_setup.ui:363
 msgid "Repeat Password"
 msgstr "Toista salasana"
 
-#: src/ui/dialog_setup.ui:397
+#: src/ui/dialog_setup.ui:374
 msgid "Unencrypted"
 msgstr "Salaamaton"
 
-#: src/ui/dialog_setup.ui:413
+#: src/ui/dialog_setup.ui:391
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1153,45 +1224,41 @@ msgstr ""
 "Nämä argumentit välitetään borg-binääriä kutsuttaessa. Vain pitkät "
 "valitsimet, jotka alkavat “--”, ovat tuettuja."
 
-#: src/ui/dialog_setup.ui:414
+#: src/ui/dialog_setup.ui:392
 msgid "Additional command line arguments"
 msgstr "Valinnaiset komentoriviargumentit"
 
-#: src/ui/dialog_setup.ui:454
+#: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Tarkistetaan varmuuskopion tietovarastoa"
 
-#: src/ui/dialog_setup.ui:507
-msgid "Encryption Password Required"
-msgstr "Salauksen salasana vaaditaan"
-
-#: src/ui/dialog_setup.ui:516
+#: src/ui/dialog_setup.ui:496
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "Tämän varmuuskopioinnin tietovaraston käyttö vaatii kyseisen tietovaraston "
 "salauksen salasanan."
 
-#: src/ui/dialog_setup.ui:562 src/ui/dialog_setup.ui:596
+#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
 msgid "S_kip"
 msgstr "_Ohita"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:554
 msgid "Checking for Previous Configurations"
 msgstr "Tarkistetaan aiempia määrityksiä"
 
-#: src/ui/dialog_setup.ui:575
+#: src/ui/dialog_setup.ui:555
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
 msgstr ""
 "Kerätään tietoja aiempien asetusten siirtämiseksi. Tämä vaihe on valinnainen."
 
-#: src/ui/dialog_setup.ui:610
+#: src/ui/dialog_setup.ui:590
 msgid "Transfer Settings"
 msgstr "Siirtoasetukset"
 
-#: src/ui/dialog_setup.ui:611
+#: src/ui/dialog_setup.ui:591
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1200,11 +1267,11 @@ msgstr ""
 "siirrettäväksi uuteen määritykseen. Määritystä on mahdollista säätää "
 "jälkikäteen."
 
-#: src/ui/dialog_setup.ui:639
+#: src/ui/dialog_setup.ui:619
 msgid "_Save"
 msgstr "_Tallenna"
 
-#: src/ui/dialog_setup.ui:653
+#: src/ui/dialog_setup.ui:633
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1214,23 +1281,23 @@ msgstr ""
 "määrityksessä. Saman etuliitteen käyttäminen kahdella eri laitteella ei ole "
 "suositeltavaa, ellei uuden laitteen ole tarkoitus korvata vanhaa."
 
-#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Luodaan varmuuskopion tietovarasto"
 
-#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Ei mitään"
 
-#: src/ui/dialog_setup/display.rs:219
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Vapaata tilaa: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:111
+#: src/ui/dialog_setup/folder_button.rs:110
 msgid "_Select…"
 msgstr "_Valitse…"
 
-#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Varmuuskopion sijainti"
 
@@ -1308,18 +1375,6 @@ msgstr "Etäsijainnilla tulee olla määritelty polku."
 msgid "Invalid remote location: “{}”"
 msgstr "Virheellinen etäsijainti: “{}“"
 
-#: src/ui/dialog_shortcuts.ui:9
-msgid "General"
-msgstr "Yleiset"
-
-#: src/ui/dialog_shortcuts.ui:19
-msgid "Quit"
-msgstr "Lopeta"
-
-#: src/ui/dialog_shortcuts.ui:25
-msgid "Back"
-msgstr "Takaisin"
-
 #: src/ui/dialog_storage.ui:30
 msgid "Volume"
 msgstr "Taltio"
@@ -1388,7 +1443,7 @@ msgstr "{} käytettävissä"
 msgid "{} Total"
 msgstr "{} yhteensä"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:38
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
 msgid "Failed to unmount repository."
 msgstr "Tietovaraston liitoksen irrottaminen epäonnistui."
 
@@ -1396,48 +1451,52 @@ msgstr "Tietovaraston liitoksen irrottaminen epäonnistui."
 msgid "Failed to make archives available for browsing."
 msgstr "Arkistojen asettaminen selattaviksi epäonnistui."
 
-#: src/ui/page_backup/events.rs:42
-msgid "Include directory in backups"
-msgstr "Sisällytä hakemisto varmuuskopioihin"
+#: src/ui/page_backup/display.rs:19
+msgid "Usually contains all personal data"
+msgstr "Sisältää yleensä kaiken henkilökohtaisen datan"
 
-#: src/ui/page_backup/events.rs:118
+#: src/ui/page_backup/events.rs:42
+msgid "Include Folder"
+msgstr "Sisällytä kansio"
+
+#: src/ui/page_backup/events.rs:93
 msgid "No longer include “{}” in backups?"
 msgstr "Jätetäänkö “{}” jatkossa pois varmuuskopioista?"
 
-#: src/ui/page_backup/events.rs:121
+#: src/ui/page_backup/events.rs:94
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Kaikki tässä kansiossa olevat tiedostot eivät jatkossa ole osa "
 "varmuuskopiota."
 
-#: src/ui/page_backup/events.rs:123
+#: src/ui/page_backup/events.rs:96
 msgid "Confirm"
 msgstr "Vahvista"
 
-#: src/ui/page_backup/execution.rs:29
+#: src/ui/page_backup/execution.rs:35
 msgid "Stop browsing files and start backup?"
 msgstr "Lopetetaanko tiedostojen selaaminen ja käynnistetään varmuuskopiointi?"
 
-#: src/ui/page_backup/execution.rs:30
+#: src/ui/page_backup/execution.rs:36
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Arkistoitujen tiedostojen selaaminen ei ole mahdollista, kun "
 "varmuuskopiointi on käynnissä."
 
-#: src/ui/page_backup/execution.rs:31
+#: src/ui/page_backup/execution.rs:37
 msgid "Keep Browsing"
 msgstr "Jatka selaamista"
 
-#: src/ui/page_backup/execution.rs:32
+#: src/ui/page_backup/execution.rs:38
 msgid "Start Backup"
 msgstr "Käynnistä varmuuskopiointi"
 
-#: src/ui/page_backup/execution.rs:111
+#: src/ui/page_backup/execution.rs:117
 msgid "Backup Failed"
 msgstr "Varmuuskopiointi epäonnistui"
 
-#: src/ui/page_backup/execution.rs:130
+#: src/ui/page_backup/execution.rs:136
 msgid "Backup Completed with Warnings"
 msgstr "Varmuuskopiointi valmistui varoitusten kera"
 
@@ -1481,7 +1540,7 @@ msgstr "Säilytä aikataulu"
 msgid "Disable Schedule"
 msgstr "Poista aikataulu käytöstä"
 
-#: src/ui/page_schedule/event.rs:336
+#: src/ui/page_schedule/event.rs:322
 msgid "No preset selected."
 msgstr "Esiasetusta ei ole valittu."
 
@@ -1609,19 +1668,19 @@ msgstr ""
 "Varmuuskopion sijainti “{}” saattaa olla täyttymässä. Kaikkien tietojen "
 "tallentamiseksi tilaa puuttuu arviolta: {}."
 
-#: src/ui/utils.rs:87
+#: src/ui/utils.rs:93
 msgid "Request to run in background failed"
 msgstr "Pyyntö suorittaa taustalla epäonnistui"
 
-#: src/ui/utils.rs:108
+#: src/ui/utils.rs:111
 msgid "Schedule backups and continue running backups."
 msgstr "Aikatauluta ja jatka varmuuskopioiden suorittamista."
 
-#: src/ui/utils.rs:124
+#: src/ui/utils.rs:127
 msgid "Run in background disabled"
 msgstr "Suorittaminen taustalla on poistettu käytöstä"
 
-#: src/ui/utils.rs:125
+#: src/ui/utils.rs:128
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1631,7 +1690,7 @@ msgstr ""
 "taustalla eivät ole käytettävissä. \"Suorita taustalla\"-valinta on "
 "mahdollista ottaa käyttöön järjestelmän asetuksissa."
 
-#: src/ui/utils.rs:135
+#: src/ui/utils.rs:138
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1641,33 +1700,32 @@ msgstr ""
 "Aikataulutetut varmuuskopioinnit ja varmuuskopioinnin jatkaminen taustalla "
 "eivät ole käytettävissä."
 
-#: src/ui/utils.rs:157
+#: src/ui/utils.rs:160
 msgid "Failed to Start Monitor"
 msgstr "Monitorin käynnistäminen epäonnistui"
 
-#: src/ui/utils.rs:226
+#: src/ui/utils.rs:229
 msgid "Failed to Create Thread"
 msgstr "Säikeen luominen epäonnistui"
 
-#: src/ui/utils.rs:240 src/ui/utils.rs:263
-msgid "Select"
-msgstr "Valitse"
-
-#: src/ui/utils.rs:474
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Ajastettujen varmuuskopioiden korjaaminen epäonnistui"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Ajastetut varmuuskopiot korjattu"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
 msgstr ""
+"Järjestelmä sisälsi virheen, joka mahdollisesti aiheutti sen, etteivät "
+"ajastetut varmuuskopioinnit toimineet kunnolla. Tämä ongelma on nyt "
+"selvitetty."
 
-#: src/ui/utils/borg.rs:32
+#: src/ui/utils/borg.rs:31
 msgid "Repository already in use"
 msgstr "Tietovarasto on jo käytössä"
 
@@ -1693,6 +1751,14 @@ msgstr ""
 #: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Jatka silti"
+
+#: src/ui/utils/config_io.rs:49
+msgid "Could not load configuration file."
+msgstr "Asetustiedostoa ei voitu ladata."
+
+#: src/ui/utils/config_io.rs:65
+msgid "Could not write configuration file."
+msgstr "Asetustiedostoon ei voitu kirjoittaa."
 
 #: src/ui/utils/duration.rs:10
 msgid "One second"
@@ -1776,23 +1842,44 @@ msgid_plural "{} years ago"
 msgstr[0] "Vuosi sitten"
 msgstr[1] "{} vuotta sitten"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "Välimuistin tallentaminen epäonnistui"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "Salasanan tallettaminen epäonnistui"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Mahdollisesti jäljellä olevia salasanoja ei voitu poistaa avainsäilöstä."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika-varmuuskopiointi “{}”"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "Välimuistin tallentaminen epäonnistui"
+
+#~ msgid "_Home"
+#~ msgstr "_Koti"
+
+#~ msgid ""
+#~ "The “ssh://” protocol is reserved for locations with explicit borg "
+#~ "support (see below). The “sftp://” prefix can be used instead."
+#~ msgstr ""
+#~ "“ssh://”-protokolla on varattu sijainneille, joilla on yksiselitteinen "
+#~ "borg-tuki (katso alta). Jos borg ei ole käytettävissä, käytä ssh:n sijaan "
+#~ "etuliitettä “sftp://”."
+
+#~ msgid ""
+#~ "Apart from that, all prefixes supported by the GNOME Virtual file system "
+#~ "are supported."
+#~ msgstr ""
+#~ "Tätä huomioimatta kaikki muut Gnomen virtuaalisen tiedostojärjestelmän "
+#~ "tukemat etuliitteet ovat tuettuja."
+
+#~ msgid "Include directory in backups"
+#~ msgstr "Sisällytä hakemisto varmuuskopioihin"
 
 #~ msgid "Exclude directory from backup"
 #~ msgstr "Jätä pois hakemisto varmuuskopiosta"
