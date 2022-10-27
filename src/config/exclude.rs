@@ -158,7 +158,7 @@ mod rules {
 
     pub static TRASH: Lazy<[Rule<ABSOLUTE>; 1]> = Lazy::new(|| {
         [Rule::Pattern(Pattern::PathPrefix(
-            glib::user_data_dir().join("Trash"),
+            crate::utils::host::user_data_dir().join("Trash"),
         ))]
     });
 }
