@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup v0.3.x\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-06-26 13:51+0000\n"
-"PO-Revision-Date: 2022-06-30 23:28+0200\n"
+"POT-Creation-Date: 2022-10-13 20:48+0000\n"
+"PO-Revision-Date: 2022-11-02 19:26+0100\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -28,7 +28,7 @@ msgstr "Pika Back-upmonitor"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:188 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Pika Back-up"
 
@@ -44,7 +44,7 @@ msgstr "Houd uw gegevens veilig"
 msgid "archive;back-up;borg;"
 msgstr "archive;back-up;borg;archief;archiveren;backup;reserverkopieën;"
 
-#: data/app.metainfo.xml.in:8
+#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:25
 msgid "Sophie Herold"
 msgstr "Sophie Herold"
 
@@ -57,7 +57,7 @@ msgstr ""
 "computer en laat Pika de zaak verder afhandelen."
 
 #: data/app.metainfo.xml.in:24
-msgid "Create backups locally and remote"
+msgid "Create backups locally and remotely"
 msgstr "Maak back-ups lokaal of op afstand aan"
 
 #: data/app.metainfo.xml.in:25
@@ -94,19 +94,39 @@ msgstr ""
 "geen ondersteuning voor volledig systeemherstel. Pika Back-up wordt "
 "aangedreven door de goed geteste BorgBackup-software."
 
-#: data/app.metainfo.xml.in:52
+#: data/app.metainfo.xml.in:58
 msgid "Just activate “Back Up Now” and your data will be saved"
 msgstr "Activeer gewoon ‘Nu een back-up maken’ en uw gegevens worden bewaard"
 
-#: data/app.metainfo.xml.in:56
+#: data/app.metainfo.xml.in:62
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "Plan regelmatige back-ups, van iedere maand tot ieder uur"
 
-#: data/app.metainfo.xml.in:60
+#: data/app.metainfo.xml.in:66
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr "Bewaar back-ups tegelijk op lokale schijven en bij online diensten"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:223
+#: data/resources/gtk/help-overlay.ui:9
+msgid "General"
+msgstr "Algemeen"
+
+#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+msgid "Set up new backup"
+msgstr "Nieuwe back-up instellen"
+
+#: data/resources/gtk/help-overlay.ui:19
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: data/resources/gtk/help-overlay.ui:25
+msgid "Back"
+msgstr "Terug"
+
+#: data/resources/gtk/help-overlay.ui:31
+msgid "Open menu"
+msgstr "Menu openen"
+
+#: src/borg/error.rs:27 src/ui/utils.rs:235
 msgid "The operation terminated unexpectedly."
 msgstr "De bewerking is onverwacht beëindigd."
 
@@ -131,43 +151,52 @@ msgid "Aborted because only metered connection was available."
 msgstr ""
 "Afgebroken omdat er alleen een verbinding met datalimiet beschikbaar was."
 
-#: src/borg/error.rs:126
+#. Translators: Running backup was aborted because computer running on battery
+#: src/borg/error.rs:127
 msgid "Aborted because too long not connected to power."
 msgstr "Afgebroken omdat het apparaat te lang zonder netstroom zat."
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:129
 msgid "Aborted by system."
 msgstr "Afgebroken door systeem."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:133
 msgid "The program or system seems to have crashed."
 msgstr "Het programma of systeem is waarschijnlijk vastgelopen."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:177
 msgid "Connection closed by remote host."
 msgstr "Verbinding verbroken door externe host."
 
-#: src/borg/error.rs:174 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Opslagruimte reeds in gebruik."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:180
+msgid "Failed to lock repository."
+msgstr "Vergrendelen van opslagruimte mislukt."
+
+#: src/borg/error.rs:181
 msgid "Invalid encryption password."
 msgstr "Ongeldig versleutelingswachtwoord."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:183
 msgid "A repository already exists at this location."
 msgstr "Er bestaat al een opslagruimte op deze locatie."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:185
 msgid "No repository exists at this location."
 msgstr "Er bestaat geen opslagruimte op deze locatie."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:187
+msgid "Not enough free space in repository."
+msgstr "Onvoldoende beschikbare ruimte in opslagruimte."
+
+#: src/borg/error.rs:190
 msgid "Connection closed by remote host: “{}”"
 msgstr "Verbinding verbroken door externe host: ‘{}’"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:193
 msgid "Unspecified error."
 msgstr "Ongespecificeerde fout."
 
@@ -264,7 +293,7 @@ msgstr "Foutopsporing"
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:215
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
 msgid "Warning"
 msgstr "Waarschuwing"
 
@@ -300,7 +329,8 @@ msgstr "Oude archieven worden geïdentificeerd"
 msgid "Refreshing Archive List"
 msgstr "Archieflijst wordt vernieuwd"
 
-#: src/config.rs:62
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
+#: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Persoonlijke map"
 
@@ -336,12 +366,40 @@ msgstr ""
 "Het archiefvoorvoegsel is leeg en er bestaat al een configuratie voor "
 "dezelfde back-upopslagruimte."
 
-#: src/config/pattern.rs:142
-msgid "Flatpak App Cache"
-msgstr "Flatpak-appcache"
+#: src/config/exclude.rs:185
+msgid "Caches"
+msgstr "Caches"
 
-#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
-#: src/ui/dialog_setup.ui:106
+#: src/config/exclude.rs:186
+msgid "Flatpak App Installations"
+msgstr "Flatpak-appinstallaties"
+
+#: src/config/exclude.rs:187
+msgid "Trash"
+msgstr "Prullenbak"
+
+#: src/config/exclude.rs:188
+msgid "Virtual Machines and Containers"
+msgstr "Virtuele machines en containers"
+
+#: src/config/exclude.rs:194
+msgid "Data that can be regenerated when needed"
+msgstr "Gegevens die geregenereerd kunnen worden indien nodig"
+
+#: src/config/exclude.rs:195
+msgid "Documents and data are still backed up"
+msgstr "Documenten en gegevens worden nog steeds geback-upt"
+
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
+msgid "Regular Expression"
+msgstr "Reguliere expressie"
+
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+msgid "Unix Filename Pattern"
+msgstr "Unix-bestandsnaampatroon"
+
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
+#: src/ui/dialog_setup.ui:108
 msgid "Remote Location"
 msgstr "Locatie op afstand"
 
@@ -393,11 +451,11 @@ msgstr "‘{}’ bevat één geconfigureerde back-up."
 msgid "Back Up Now"
 msgstr "Nu een back-up maken"
 
-#: src/daemon/init.rs:43
+#: src/daemon/init.rs:48
 msgid "Fatal Error During Back Up"
 msgstr "Fatale fout tijdens back-up"
 
-#: src/daemon/init.rs:46
+#: src/daemon/init.rs:51
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika Back-up is vastgelopen tijdens het maken van een back-up."
@@ -431,32 +489,31 @@ msgstr "‘{}’ moet verbonden zijn opdat de geplande back-up kan beginnen."
 msgid "Failed to start scheduled backup"
 msgstr "Starten van geplande back-up mislukt"
 
-#: src/ui.rs:157 src/ui/page_backup/events.rs:20
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Lopend back-upproces afbreken?"
 
-#: src/ui.rs:158 src/ui/page_backup/events.rs:21
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "De back-up zal onvolledig blijven als u hem nu afbreekt."
 
-#: src/ui.rs:159 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:479 src/ui/page_backup/events.rs:22
+#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: src/ui.rs:160 src/ui/page_backup/events.rs:23
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Afbreken"
 
-#: src/ui.rs:234
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Uitvoeren van ‘borg’ is mislukt. Is BorgBackup correct geïnstalleerd?"
 
-#: src/ui.rs:258
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "BorgBackup-versie te oud"
 
-#: src/ui.rs:260
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -464,11 +521,11 @@ msgstr ""
 "De geïnstalleerde versie {} van BorgBackup is te oud. Sommige functies die "
 "borg-backup versie {}.{}.{} vereisen zullen daarom niet werken."
 
-#: src/ui.rs:271
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "BorgBackup-versie te recent"
 
-#: src/ui.rs:273
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -476,21 +533,13 @@ msgstr ""
 "De geïnstalleerde versie {} van BorgBackup is te recent. Versie {}.{} wordt "
 "aanbevolen. Sommige functies zullen mogelijk niet werken."
 
-#: src/ui.rs:283
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "Kan versie van BorgBackup niet controleren"
 
-#: src/ui.rs:285
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "De geïnstalleerde versie {} werkt mogelijk niet."
-
-#: src/ui.rs:341
-msgid "Could not load configuration file."
-msgstr "Kon configuratiebestand niet laden."
-
-#: src/ui.rs:357
-msgid "Could not write configuration file."
-msgstr "Kon configuratiebestand niet schrijven."
 
 #: src/ui/app_window.ui:13
 msgid "_Keyboard Shortcuts"
@@ -512,27 +561,23 @@ msgstr "Back-upinstellingen verwijderen"
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:106 src/ui/dialog_shortcuts.ui:13
-msgid "Set up new backup"
-msgstr "Nieuwe back-up instellen"
-
-#: src/ui/app_window.ui:131
+#: src/ui/app_window.ui:142
 msgid "No Backup Configured"
 msgstr "Geen back-up geconfigureerd"
 
-#: src/ui/app_window.ui:132
+#: src/ui/app_window.ui:143
 msgid "Add a new configuration to start creating backups"
 msgstr "Voeg een nieuwe configuratie toe om back-ups te beginnen maken"
 
-#: src/ui/app_window.ui:135
+#: src/ui/app_window.ui:146
 msgid "Setup Backup"
 msgstr "Back-up instellen"
 
-#: src/ui/app_window.ui:181
+#: src/ui/app_window.ui:192
 msgid "Back to overview"
 msgstr "Terug naar overzicht"
 
-#: src/ui/app_window.ui:202
+#: src/ui/app_window.ui:213
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -540,238 +585,235 @@ msgstr ""
 "Archieven worden aangekoppeld.\n"
 "Dit kan even duren."
 
-#: src/ui/app_window.ui:230
+#: src/ui/app_window.ui:252
 msgid "_Backup"
 msgstr "_Back-up"
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:274
 msgid "_Abort"
 msgstr "_Afbreken"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:296
 msgid "Back Up _Now"
 msgstr "_Nu een back-up maken"
 
-#: src/ui/app_window.ui:288 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Bestanden voor back-up"
 
-#: src/ui/app_window.ui:289
+#: src/ui/app_window.ui:311
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr ""
 "Enkel bestanden in de volgende mappen worden in de back-upopslagruimte "
 "opgenomen."
 
-#: src/ui/app_window.ui:292
+#: src/ui/app_window.ui:314
 msgid "Select directory to include…"
 msgstr "Selecteer op te nemen mappen…"
 
-#: src/ui/app_window.ui:307
-msgid "_Home"
-msgstr "_Persoonlijke map"
+#: src/ui/app_window.ui:327
+msgid "No files included in backup"
+msgstr "Geen bestanden in back-up opgenomen"
 
-#: src/ui/app_window.ui:308
-msgid "Usually contains all personal data"
-msgstr "Bevat doorgaans alle persoonlijke gegevens"
-
-#: src/ui/app_window.ui:335 src/ui/dialog_setup_transfer_option.ui:111
+#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
+#: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Uitsluiten uit back-up"
 
-#: src/ui/app_window.ui:336
+#: src/ui/app_window.ui:340
 msgid "The following folders are excluded from the backup repository."
 msgstr "De volgende mappen worden uitgesloten uit de back-upopslagruimte."
 
-#: src/ui/app_window.ui:339
+#: src/ui/app_window.ui:343
 msgid "Select directory to exclude…"
 msgstr "Selecteer uit te sluiten mappen…"
 
-#: src/ui/app_window.ui:362
+#: src/ui/app_window.ui:356
 msgid "Nothing excluded from backup"
 msgstr "Niets uitgesloten uit back-up"
 
-#: src/ui/app_window.ui:381
+#: src/ui/app_window.ui:370
 msgid "_Archives"
 msgstr "_Archieven"
 
-#: src/ui/app_window.ui:476
+#: src/ui/app_window.ui:465
 msgid "Archive _Prefix"
 msgstr "Archief_voorvoegsel"
 
-#: src/ui/app_window.ui:478
+#: src/ui/app_window.ui:467
 msgid "Added in front of all archive names"
 msgstr "Wordt toegevoegd aan het begin van alle archiefnamen"
 
-#: src/ui/app_window.ui:507
+#: src/ui/app_window.ui:496
 msgid "_Cleanup Archives"
 msgstr "Ar_chieven opruimen"
 
-#: src/ui/app_window.ui:508
+#: src/ui/app_window.ui:497
 msgid "Delete some older archives"
 msgstr "Sommige oudere archieven verwijderen"
 
-#: src/ui/app_window.ui:524
+#: src/ui/app_window.ui:513
 msgid "Archives"
 msgstr "Archieven"
 
-#: src/ui/app_window.ui:533
+#: src/ui/app_window.ui:522
 msgid "Refresh list of archives"
 msgstr "Archieflijst vernieuwen"
 
-#: src/ui/app_window.ui:554
+#: src/ui/app_window.ui:543
 msgid "Stop browsing archive files"
 msgstr "Stoppen met bladeren door archiefbestanden"
 
-#: src/ui/app_window.ui:580
+#: src/ui/app_window.ui:569
 msgid "No archives available"
 msgstr "Geen archieven beschikbaar"
 
-#: src/ui/app_window.ui:599
+#: src/ui/app_window.ui:588
 msgid "_Schedule"
 msgstr "_Planning"
 
-#: src/ui/app_window.ui:624
+#: src/ui/app_window.ui:613
 msgid "Scheduled Backups"
 msgstr "Geplande back-ups"
 
-#: src/ui/app_window.ui:628
+#: src/ui/app_window.ui:617
 msgid "Regularly Create Backups"
 msgstr "Regelmatig back-ups maken"
 
-#: src/ui/app_window.ui:633
+#: src/ui/app_window.ui:622
 msgid "Frequency"
 msgstr "Frequentie"
 
-#: src/ui/app_window.ui:641
+#: src/ui/app_window.ui:630
 msgid "Preferred Time"
 msgstr "Voorkeurstijd"
 
-#: src/ui/app_window.ui:661
+#: src/ui/app_window.ui:650
 msgid "Preferred Weekday"
 msgstr "Voorkeursweekdag"
 
-#: src/ui/app_window.ui:666
+#: src/ui/app_window.ui:655
 msgid "Preferred Day"
 msgstr "Voorkeursdag"
 
-#: src/ui/app_window.ui:687 src/ui/dialog_prune.rs:78
+#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Oude archieven verwijderen"
 
-#: src/ui/app_window.ui:693
+#: src/ui/app_window.ui:682
 msgid "Save Configuration"
 msgstr "Configuratie opslaan"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:694
 msgid "Regularly Cleanup Archives"
 msgstr "Archieven regelmatig opruimen"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:695
 msgid "Remove old archives after creating new backups"
 msgstr "Verwijder oude archieven wanneer er nieuwe back-ups gemaakt worden"
 
-#: src/ui/app_window.ui:716
+#: src/ui/app_window.ui:705
 msgid "Preserved Archives"
 msgstr "Bewaarde archieven"
 
-#: src/ui/app_window.ui:717
+#: src/ui/app_window.ui:706
 msgid "Amount and time span of retained archives"
 msgstr "Aantal en tijdsspanne van bijgehouden archieven"
 
-#: src/ui/app_window.ui:726
+#: src/ui/app_window.ui:715
 msgid "Details"
 msgstr "Details"
 
-#: src/ui/app_window.ui:730
+#: src/ui/app_window.ui:719
 msgid "Keep Hourly"
 msgstr "Uurlijks bijhouden"
 
-#: src/ui/app_window.ui:752
+#: src/ui/app_window.ui:741
 msgid "Keep Daily"
 msgstr "Dagelijks bijhouden"
 
-#: src/ui/app_window.ui:774
+#: src/ui/app_window.ui:763
 msgid "Keep Weekly"
 msgstr "Wekelijks bijhouden"
 
-#: src/ui/app_window.ui:794
+#: src/ui/app_window.ui:783
 msgid "Keep Monthly"
 msgstr "Maandelijks bijhouden"
 
-#: src/ui/app_window.ui:813
+#: src/ui/app_window.ui:802
 msgid "Keep Annual"
 msgstr "Jaarlijks bijhouden"
 
-#: src/ui/app_window.ui:860
+#: src/ui/app_window.ui:849
 msgid "Backup Info"
 msgstr "Back-upinformatie"
 
-#: src/ui/app_window.ui:920
+#: src/ui/app_window.ui:909
 msgid "Amount saved"
 msgstr "Hoeveelheid opgeslagen"
 
-#: src/ui/app_window.ui:936
+#: src/ui/app_window.ui:925
 msgid "Number of files saved"
 msgstr "Aantal opgeslagen bestanden"
 
-#: src/ui/app_window.ui:952
+#: src/ui/app_window.ui:941
 msgid "Additional backup space used"
 msgstr "Extra back-upruimte gebruikt"
 
-#: src/ui/app_window.ui:968
+#: src/ui/app_window.ui:957
 msgid "Current file"
 msgstr "Huidig bestand"
 
-#: src/ui/backup_status.rs:55
+#: src/ui/backup_status.rs:56
 msgid "Backup Never Ran"
 msgstr "Back-up is nooit uitgevoerd"
 
-#: src/ui/backup_status.rs:56
+#: src/ui/backup_status.rs:57
 msgid "Begin by carrying out your first backup"
 msgstr "Begin met uw eerste back-up uit te voeren"
 
-#: src/ui/backup_status.rs:72
+#: src/ui/backup_status.rs:73
 msgid "Last backup completed with warnings"
 msgstr "Laatste back-up voltooid met waarschuwingen"
 
-#: src/ui/backup_status.rs:80
+#: src/ui/backup_status.rs:81
 msgid "Last Backup Successful"
 msgstr "Laatste back-up voltooid"
 
-#: src/ui/backup_status.rs:87
+#: src/ui/backup_status.rs:88
 msgid "Last Backup Aborted"
 msgstr "Laatste back-up afgebroken"
 
-#: src/ui/backup_status.rs:94
+#: src/ui/backup_status.rs:95
 msgid "Last Backup Failed"
 msgstr "Laatste back-up mislukt"
 
-#: src/ui/backup_status.rs:142
+#: src/ui/backup_status.rs:143
 #, no-c-format
 msgid "{} % finished"
 msgstr "{} % voltooid"
 
-#: src/ui/backup_status.rs:165
+#: src/ui/backup_status.rs:166
 msgid "Preparing backup"
 msgstr "Back-up wordt voorbereid"
 
-#: src/ui/backup_status.rs:166
+#: src/ui/backup_status.rs:167
 msgid "Backup Running"
 msgstr "Back-up wordt uitgevoerd"
 
-#: src/ui/backup_status.rs:167
+#: src/ui/backup_status.rs:168
 msgid "Backup Destination Unresponsive"
 msgstr "Back-upbestemming reageert niet"
 
-#: src/ui/backup_status.rs:170
+#: src/ui/backup_status.rs:171
 msgid "Connection lost, reconnecting in {}"
 msgstr "Verbinding verbroken, nieuwe poging over {}"
 
-#: src/ui/backup_status.rs:175
+#: src/ui/backup_status.rs:176
 msgid "Reconnecting"
 msgstr "Opnieuw verbinden"
 
-#: src/ui/backup_status.rs:177
+#: src/ui/backup_status.rs:178
 msgid "Stopping Backup"
 msgstr "Back-up wordt gestopt"
 
@@ -779,60 +821,90 @@ msgstr "Back-up wordt gestopt"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Openen van interface voor geplande back-ups is mislukt."
 
-#: src/ui/dialog_about.rs:24
+#: src/ui/dialog_about.rs:26
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:25
+#: src/ui/dialog_about.rs:27
 msgid "Copyright © 2018–2022 Sophie Herold et al."
 msgstr "Copyright © 2018–2022 Sophie Herold et al."
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:28
 msgid "translator-credits"
 msgstr ""
 "Nathan Follens <nfollens@gnome.org>\n"
-"\n"
 "Meer info over Gnome-NL https://nl.gnome.org"
 
 #. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:29
+#: src/ui/dialog_about.rs:31
 msgid "Court Witch"
 msgstr "Court Witch"
 
-#: src/ui/dialog_about.rs:30
+#: src/ui/dialog_about.rs:32
 msgid "Fina Wilke"
 msgstr "Fina Wilke"
 
-#: src/ui/dialog_about.rs:34
-msgid "Back end"
+#: src/ui/dialog_about.rs:37
+msgid "Back End"
 msgstr "Back-end"
 
-#: src/ui/dialog_about.rs:36
-msgid "Pika Backup uses BorgBackup."
-msgstr "Pika Backup gebruikt BorgBackup."
+#: src/ui/dialog_about.rs:39
+msgid ""
+"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
+"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
+"BorgBackup</a>."
+msgstr ""
+"Pika Back-up maakt gebruikt van BorgBackup. Zonder Borg zou deze toepassing "
+"niet bestaan. Overweeg <a href='https://www.borgbackup.org/support/fund."
+"html'>BorgBackup te ondersteunen</a>."
 
-#: src/ui/dialog_about.rs:37
-msgid "This app wouldn't exist without Borg."
-msgstr "Deze toepassing zou niet bestaan zonder Borg."
+#: src/ui/dialog_about.rs:41
+msgid "The Name"
+msgstr "De naam"
 
-#: src/ui/dialog_about.rs:38
-msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
-msgstr "Steun BorgBackup https://www.borgbackup.org/support/fund.html"
+#: src/ui/dialog_about.rs:43
+msgid ""
+"The name “Pika Backup” derives from the American pika. Pikas are small "
+"mammals belonging to the lagomorphs. The American pika is known for caching "
+"food in skillfully constructed haypiles. Techniques used by American pikas "
+"for building haypiles include: storing piles below overhanging rocks, using "
+"certain plants which inhibit bacterial growth as preservative and preferring "
+"plants with high nutrition value for haying. Last but not least, pikas do "
+"not only create very sophisticated haypiles but are quick in collecting "
+"vegetation as well."
+msgstr ""
+"De naam ‘Pika Back-up’ is gebaseed op de Amerikaanse pika of fluithaas. "
+"Pika’s zijn kleine zoogdieren die tot de haasachtigen behoren. De "
+"Amerikaanse pika staat erom bekend zijn voedsel te bewaren in vakkundig "
+"samengestelde hooibergen. Enkele technieken waarmee de Amerikaanse pika "
+"hooibergen bouwt: de bergen stapelen onder overhangende rotsen, gebruik "
+"maken van planten met bacteriewerende eigenschappen als bewaarmiddel, en "
+"planten met een hoge voedingswaarde verkiezen als hooi. Ten slotte maakt de "
+"pika niet alleen heel gesofisticeerde hooibergen, maar is hij ook erg snel "
+"in het verzamelen van vegetatie."
+
+#: src/ui/dialog_about.rs:45
+msgid ""
+"Frequent rumors that this software’s name is related to a monster with "
+"electrical abilities are unfounded."
+msgstr ""
+"Hardnekkige geruchten dat de naam van deze software iets te maken zou hebben "
+"met een monster met elektrische vaardigheden zijn ongegrond."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:147
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Ongeldig archiefvoorvoegsel"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:657
+#: src/ui/dialog_setup.ui:632
 msgid "Archive Prefix"
 msgstr "Archiefvoorvoegsel"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:141 src/ui/page_overview.rs:51
+#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
 #: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Annuleren"
@@ -847,7 +919,7 @@ msgstr "Archiefvoorvoegsels"
 
 #: src/ui/dialog_archive_prefix.ui:63
 msgid ""
-"Each backup run creates a new archive. The archive's name is always prefixed "
+"Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
 msgstr ""
 "Telkens er een back-up gemaakt wordt, wordt er een nieuw archief aangemaakt. "
@@ -869,7 +941,8 @@ msgid "If the archive prefix is empty, no prefix is added."
 msgstr ""
 "Als het archiefvoorvoegsel leeg is wordt er geen voorvoegsel toegevoegd."
 
-#: src/ui/dialog_device_missing.rs:45
+#: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
+#: src/ui/dialog_device_missing.rs:100
 msgid "Failed to Mount"
 msgstr "Aankoppelen mislukt"
 
@@ -885,18 +958,89 @@ msgstr ""
 "De bewerking ‘{}’ vereist het versleutelingswachtwoord van de opslagruimte "
 "op ‘{}’."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:342
-msgid "Encryption"
-msgstr "Versleuteling"
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:487
+msgid "Encryption Password Required"
+msgstr "Versleutelingswachtwoord vereist"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:365
-#: src/ui/dialog_setup.ui:532
+#: src/ui/dialog_encryption_password.ui:9
+msgid "_Cancel"
+msgstr "_Annuleren"
+
+#: src/ui/dialog_encryption_password.ui:10
+msgid "Co_ntinue"
+msgstr "Doorgaa_n"
+
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Wachtwoord"
+
+#: src/ui/dialog_exclude.rs:129
+msgid "Exclude Directory"
+msgstr "Map uitsluiten"
+
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
+msgid "Select"
+msgstr "Selecteren"
+
+#: src/ui/dialog_exclude.rs:158
+msgid "Exclude File"
+msgstr "Bestand uitsluiten"
+
+#: src/ui/dialog_exclude.ui:32
+msgid "Exclude Folder"
+msgstr "Map uitsluiten"
+
+#: src/ui/dialog_exclude.ui:44
+msgid "Exclude Single File"
+msgstr "Enkel bestand uitsluiten"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Patroon uitsluiten"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Stel reguliere expressies of Unix-bestandsnaampatronen in"
+
+#: src/ui/dialog_exclude.ui:70
+msgid "Suggested Exclusions"
+msgstr "Voorgestelde uitsluitingen"
+
+#: src/ui/dialog_exclude_pattern.rs:34
+msgid "Invalid Regular Expression"
+msgstr "Ongeldige reguliere expressie"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Toevoegen"
+
+#: src/ui/dialog_exclude_pattern.ui:81
+msgid "BorgBackup Patterns"
+msgstr "BorgBackup-patronen"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"De patronen hierboven moeten op een specifieke manier geschreven worden. Ze "
+"worden vergeleken met het pad, zonder <tt>/</tt> aan het begin. Bovendien "
+"worden shell-achtige patronen gezocht alsof ze achteraan nog een <tt>*</tt> "
+"hadden. Bekijk voor meer informatie de <a href=\"https://borgbackup."
+"readthedocs.io/en/stable/usage/help.html\">BorgBackup-documentatie</a> "
+"(Engelstalig)."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Kon niet bepalen hoeveel archieven zouden verwijderd worden"
+
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
+msgid "Close"
+msgstr "Sluiten"
 
 #. Translators: Header while creating a list of old archives to be approved for deletion.
 #: src/ui/dialog_prune.ui:30
@@ -961,7 +1105,7 @@ msgstr ""
 "Nadat u deze wijzigingen toepast zal de volgende automatische verwijdering "
 "van oude archieven de volgende gevolgen hebben."
 
-#: src/ui/dialog_setup.rs:162
+#: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
 msgstr "Oplijsten van bestaande opslagruimten mislukt."
 
@@ -973,27 +1117,48 @@ msgstr "Configuratie"
 msgid "Create new Repository"
 msgstr "Nieuwe opslagruimte aanmaken"
 
-#: src/ui/dialog_setup.ui:48 src/ui/dialog_setup.ui:91
+#: src/ui/dialog_setup.ui:41
+msgid "Select a location for a new backup repository."
+msgstr "Selecteer een locatie voor een nieuwe back-upopslagruimte."
+
+#: src/ui/dialog_setup.ui:49 src/ui/dialog_setup.ui:93
 msgid "Location on Disk"
 msgstr "Locatie op schijf"
 
-#: src/ui/dialog_setup.ui:83
+#: src/ui/dialog_setup.ui:84
 msgid "Use Existing Repository"
 msgstr "Bestaande opslagruimte gebruiken"
 
-#: src/ui/dialog_setup.ui:145
+#: src/ui/dialog_setup.ui:85
+msgid ""
+"Select a location that contains an existing backup repository. Repositories "
+"created with other BorgBackup compatible software can be used as well."
+msgstr ""
+"Selecteer een locatie met een bestaande back-upopslagruimte. Opslagruimtes "
+"die met andere met BorgBackup compatibele software zijn aangemaakt kunnen "
+"ook gebruikt worden."
+
+#: src/ui/dialog_setup.ui:138
+msgid "Back to Overview"
+msgstr "Terug naar overzicht"
+
+#: src/ui/dialog_setup.ui:148
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/ui/dialog_setup.ui:158
+#: src/ui/dialog_setup.ui:161
 msgid "_Create"
 msgstr "_Aanmaken"
 
-#: src/ui/dialog_setup.ui:174
+#: src/ui/dialog_setup.ui:177
 msgid "Location"
 msgstr "Locatie"
 
-#: src/ui/dialog_setup.ui:227
+#: src/ui/dialog_setup.ui:181
+msgid "Advanced Options"
+msgstr "Geavanceerde opties"
+
+#: src/ui/dialog_setup.ui:239
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1006,57 +1171,40 @@ msgstr ""
 "‘NTFS’ of ‘ext4’. Let op: formatteren verwijdert alle bestanden op de "
 "locatie!"
 
-#: src/ui/dialog_setup.ui:252
+#: src/ui/dialog_setup.ui:264
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://gebruiker@server.voorbeeld.org/~/backup"
 
-#: src/ui/dialog_setup.ui:268
+#: src/ui/dialog_setup.ui:280
 msgid "Conventional Locations"
 msgstr "Standaardlocaties"
 
-#: src/ui/dialog_setup.ui:279
+#: src/ui/dialog_setup.ui:291
 msgid ""
-"Conventional remote backup locations can be provided as a URL with protocol "
-"prefix, address, and folder."
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"Standaardlocaties voor externe back-ups kunnen aangeleverd worden als URL "
-"met een protocolvoorvoegsel, adres en map."
+"SMB- en SFTP-locaties voor externe back-ups kunnen aangeleverd worden als "
+"URL met het protocolvoorvoegsel ‘smb://’ of ‘sftp://’."
 
-#: src/ui/dialog_setup.ui:289
+#: src/ui/dialog_setup.ui:298
+msgid "Locations with BorgBackup Support"
+msgstr "Locaties met BorgBackup-ondersteuning"
+
+#: src/ui/dialog_setup.ui:310
 msgid ""
-"The “ssh://” protocol is reserved for locations with explicit borg support "
-"(see below). The “sftp://” prefix can be used instead."
-msgstr ""
-"Het ‘ssh://’-protocol is voorbehouden voor locaties die uitdrukkelijk door "
-"borg ondersteund worden (zie hieronder). Als dat niet het geval is, kunt u "
-"het voorvoegsel ‘sftp://’ gebruiken."
-
-#: src/ui/dialog_setup.ui:299
-msgid ""
-"Apart from that, all prefixes supported by the GNOME Virtual file system are "
-"supported."
-msgstr ""
-"Daarnaast worden alle voorvoegsels die door het Gnome virtuele "
-"bestandssysteem ondersteund worden ook ondersteund."
-
-#: src/ui/dialog_setup.ui:309
-msgid "Locations with Borg-Backup Support"
-msgstr "Locaties met Borg-Backup-ondersteuning"
-
-#: src/ui/dialog_setup.ui:321
-msgid ""
-"Locations with explicit borg-backup support can provide better Performance. "
-"They are special in that the server has a borg-backup binary installed. For "
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"Locaties die uitdrukkelijk door borg-backup ondersteund worden kunnen betere "
+"Locaties die uitdrukkelijk door BorgBackup ondersteund worden kunnen betere "
 "prestaties leveren. Deze locaties zijn speciaal in de zin dat er op de "
-"server een speciaal borg-backup-bestand geïnstalleerd is. Voor deze locaties "
+"server een speciaal BorgBackup-bestand geïnstalleerd is. Voor deze locaties "
 "kan de ‘<server address>:<folder>’-syntaxis of het ‘ssh://’-voorvoegsel "
 "gebruikt worden."
 
-#: src/ui/dialog_setup.ui:341
+#: src/ui/dialog_setup.ui:327
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1065,19 +1213,27 @@ msgstr ""
 "wachtwoord. Als u versleuteling gebruikt, hebt u het wachtwoord nodig om "
 "toegang te krijgen tot uw back-ups."
 
-#: src/ui/dialog_setup.ui:356
+#: src/ui/dialog_setup.ui:328
+msgid "Encryption"
+msgstr "Versleuteling"
+
+#: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Versleuteld"
 
-#: src/ui/dialog_setup.ui:391 src/ui/page_backup/events.rs:142
-msgid "Confirm"
-msgstr "Bevestigen"
+#: src/ui/dialog_setup.ui:349
+msgid "Encryption Password"
+msgstr "Versleutelingswachtwoord"
 
-#: src/ui/dialog_setup.ui:408
+#: src/ui/dialog_setup.ui:363
+msgid "Repeat Password"
+msgstr "Herhaal wachtwoord"
+
+#: src/ui/dialog_setup.ui:374
 msgid "Unencrypted"
 msgstr "Niet versleuteld"
 
-#: src/ui/dialog_setup.ui:420
+#: src/ui/dialog_setup.ui:391
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1085,34 +1241,30 @@ msgstr ""
 "Deze parameters worden toegevoegd aan de oproep van borg. Enkel lange "
 "opties, beginnend met ‘--’, worden ondersteund."
 
-#: src/ui/dialog_setup.ui:421
+#: src/ui/dialog_setup.ui:392
 msgid "Additional command line arguments"
 msgstr "Extra opdrachtregelparameters"
 
-#: src/ui/dialog_setup.ui:459
+#: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Back-upopslagruimte wordt gecontroleerd"
 
-#: src/ui/dialog_setup.ui:512
-msgid "Encryption Password Required"
-msgstr "Versleutelingswachtwoord vereist"
-
-#: src/ui/dialog_setup.ui:521
+#: src/ui/dialog_setup.ui:496
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "Het versleutelingswachtwoord van de back-upopslagruimte is vereist om ze te "
 "benaderen."
 
-#: src/ui/dialog_setup.ui:567 src/ui/dialog_setup.ui:601
+#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
 msgid "S_kip"
 msgstr "Over_slaan"
 
-#: src/ui/dialog_setup.ui:579
+#: src/ui/dialog_setup.ui:554
 msgid "Checking for Previous Configurations"
 msgstr "Controleren op vorige configuraties"
 
-#: src/ui/dialog_setup.ui:580
+#: src/ui/dialog_setup.ui:555
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1120,11 +1272,11 @@ msgstr ""
 "Verzamel informatie om eerder gebruikte instellingen over te dragen. Deze "
 "stap is niet verplicht."
 
-#: src/ui/dialog_setup.ui:615
+#: src/ui/dialog_setup.ui:590
 msgid "Transfer Settings"
 msgstr "Instellingen overdragen"
 
-#: src/ui/dialog_setup.ui:616
+#: src/ui/dialog_setup.ui:591
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1133,11 +1285,11 @@ msgstr ""
 "worden om over te dragen naar de nieuwe instelling. De configuratie kan "
 "achteraf nog aangepast worden."
 
-#: src/ui/dialog_setup.ui:644
+#: src/ui/dialog_setup.ui:619
 msgid "_Save"
 msgstr "Op_slaan"
 
-#: src/ui/dialog_setup.ui:658
+#: src/ui/dialog_setup.ui:633
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1147,23 +1299,23 @@ msgstr ""
 "Hetzelfde voorvoegsel gebruiken op twee apparaten wordt niet aanbevolen, "
 "tenzij ingeval het ene apparaat het andere volledig komt te vervangen."
 
-#: src/ui/dialog_setup.ui:699 src/ui/dialog_setup/insert.rs:144
+#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Back-upopslagruimte wordt aangemaakt"
 
-#: src/ui/dialog_setup/display.rs:73 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Geen"
 
-#: src/ui/dialog_setup/display.rs:218
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Vrije ruimte: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:117
+#: src/ui/dialog_setup/folder_button.rs:110
 msgid "_Select…"
 msgstr "_Selecteren…"
 
-#: src/ui/dialog_setup/folder_button.rs:122 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Back-uplocatie"
 
@@ -1171,61 +1323,61 @@ msgstr "Back-uplocatie"
 msgid "Setup Existing Repository"
 msgstr "Bestaande opslagruimte instellen"
 
-#: src/ui/dialog_setup/insert.rs:32
+#: src/ui/dialog_setup/insert.rs:31
 msgid "Location is not a valid backup repository."
 msgstr "Locatie is geen geldige back-upopslagruimte."
 
-#: src/ui/dialog_setup/insert.rs:33
+#: src/ui/dialog_setup/insert.rs:32
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "De opslagruimte moet aangemaakt zijn door Pika Back-up of compatibele "
 "software."
 
-#: src/ui/dialog_setup/insert.rs:46 src/ui/dialog_setup/insert.rs:112
+#: src/ui/dialog_setup/insert.rs:45 src/ui/dialog_setup/insert.rs:111
 msgid "Invalid Remote Location"
 msgstr "Ongeldige locatie op afstand"
 
-#: src/ui/dialog_setup/insert.rs:80
+#: src/ui/dialog_setup/insert.rs:79
 msgid "No Password Provided"
 msgstr "Geen wachtwoord opgegeven"
 
-#: src/ui/dialog_setup/insert.rs:81
+#: src/ui/dialog_setup/insert.rs:80
 msgid "To use encryption a password must be provided."
 msgstr "Om versleuteling te gebruiken moet u een wachtwoord instellen."
 
-#: src/ui/dialog_setup/insert.rs:85
+#: src/ui/dialog_setup/insert.rs:84
 msgid "Entered passwords do not match."
 msgstr "Wachtwoorden komen niet overeen."
 
-#: src/ui/dialog_setup/insert.rs:108
+#: src/ui/dialog_setup/insert.rs:107
 msgid "A repository location has to be given."
 msgstr "Er moet een opslagruimtelocatie opgegeven worden."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:254
 msgid "Additional command line arguments invalid."
 msgstr "De extra opdrachtregelparameters zijn ongeldig."
 
-#: src/ui/dialog_setup/insert.rs:130 src/ui/dialog_setup/insert.rs:260
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:255
 msgid "Please check for missing closing quotes."
 msgstr "Controleer of er geen sluitende aanhalingstekens ontbreken."
 
-#: src/ui/dialog_setup/insert.rs:183
+#: src/ui/dialog_setup/insert.rs:182
 msgid "Loading Backup Repository"
 msgstr "Back-upopslagruimte wordt geladen"
 
-#: src/ui/dialog_setup/insert.rs:203
+#: src/ui/dialog_setup/insert.rs:202
 msgid "Failed to Configure Repository"
 msgstr "Configuratie van opslagruimte mislukt"
 
-#: src/ui/dialog_setup/insert.rs:222
+#: src/ui/dialog_setup/insert.rs:221
 msgid "Failed"
 msgstr "Mislukt"
 
-#: src/ui/dialog_setup/insert.rs:296
+#: src/ui/dialog_setup/insert.rs:291
 msgid "Repository location not found."
 msgstr "Opslagruimtelocatie niet gevonden."
 
-#: src/ui/dialog_setup/insert.rs:297
+#: src/ui/dialog_setup/insert.rs:292
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Het aankoppelen is gelukt, maar de locatie is nog steeds niet beschikbaar."
@@ -1241,18 +1393,6 @@ msgstr "De locatie op afstand moet een gespecificeerd pad hebben."
 #: src/ui/dialog_setup/remote_location.rs:36
 msgid "Invalid remote location: “{}”"
 msgstr "Ongeldige locatie op afstand: ‘{}’"
-
-#: src/ui/dialog_shortcuts.ui:9
-msgid "General"
-msgstr "Algemeen"
-
-#: src/ui/dialog_shortcuts.ui:19
-msgid "Quit"
-msgstr "Afsluiten"
-
-#: src/ui/dialog_shortcuts.ui:25
-msgid "Back"
-msgstr "Terug"
 
 #: src/ui/dialog_storage.ui:30
 msgid "Volume"
@@ -1322,7 +1462,7 @@ msgstr "{} beschikbaar"
 msgid "{} Total"
 msgstr "{} totaal"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:40
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
 msgid "Failed to unmount repository."
 msgstr "Loskoppelen van opslagruimte mislukt."
 
@@ -1330,56 +1470,52 @@ msgstr "Loskoppelen van opslagruimte mislukt."
 msgid "Failed to make archives available for browsing."
 msgstr "Archieven doorbladerbaar maken mislukt."
 
-#: src/ui/page_backup/display.rs:88
-msgid "Regular Expression"
-msgstr "Reguliere expressie"
+#: src/ui/page_backup/display.rs:19
+msgid "Usually contains all personal data"
+msgstr "Bevat doorgaans alle persoonlijke gegevens"
 
-#: src/ui/page_backup/display.rs:89
-msgid "Shell Wildcard Pattern"
-msgstr "Shell-jokertekenpatroon"
+#: src/ui/page_backup/events.rs:42
+msgid "Include Folder"
+msgstr "Map opnemen"
 
-#: src/ui/page_backup/events.rs:52
-msgid "Include directory in backups"
-msgstr "Map opnemen in back-ups"
-
-#: src/ui/page_backup/events.rs:67
-msgid "Exclude directory from backup"
-msgstr "Map uitsluiten uit back-up"
-
-#: src/ui/page_backup/events.rs:137
+#: src/ui/page_backup/events.rs:93
 msgid "No longer include “{}” in backups?"
 msgstr "“{}” niet meer toevoegen aan back-ups?"
 
-#: src/ui/page_backup/events.rs:140
+#: src/ui/page_backup/events.rs:94
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Alle bestanden in deze map zullen niet meer toegevoegd worden aan "
 "toekomstige back-ups."
 
-#: src/ui/page_backup/execution.rs:31
+#: src/ui/page_backup/events.rs:96
+msgid "Confirm"
+msgstr "Bevestigen"
+
+#: src/ui/page_backup/execution.rs:35
 msgid "Stop browsing files and start backup?"
 msgstr "Stoppen met bladeren door bestanden en back-up beginnen?"
 
-#: src/ui/page_backup/execution.rs:32
+#: src/ui/page_backup/execution.rs:36
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Bladeren door gearchiveerde bestanden is niet mogelijk terwijl er een back-"
 "up gaande is."
 
-#: src/ui/page_backup/execution.rs:33
+#: src/ui/page_backup/execution.rs:37
 msgid "Keep Browsing"
 msgstr "Blijven bladeren"
 
-#: src/ui/page_backup/execution.rs:34
+#: src/ui/page_backup/execution.rs:38
 msgid "Start Backup"
 msgstr "Back-up beginnen"
 
-#: src/ui/page_backup/execution.rs:113
+#: src/ui/page_backup/execution.rs:117
 msgid "Backup Failed"
 msgstr "Back-up mislukt"
 
-#: src/ui/page_backup/execution.rs:132
+#: src/ui/page_backup/execution.rs:136
 msgid "Backup Completed with Warnings"
 msgstr "Back-up voltooid met waarschuwingen"
 
@@ -1423,7 +1559,7 @@ msgstr "Planning bewaren"
 msgid "Disable Schedule"
 msgstr "Planning uitschakelen"
 
-#: src/ui/page_schedule/event.rs:336
+#: src/ui/page_schedule/event.rs:322
 msgid "No preset selected."
 msgstr "Geen voorinstelling geselecteerd."
 
@@ -1439,104 +1575,104 @@ msgstr "Sommige bijhouden"
 msgid "Custom"
 msgstr "Aangepast"
 
-#: src/ui/page_schedule/status.rs:14
+#: src/ui/page_schedule/status.rs:15
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Volgende back-up binnen één minuut"
 msgstr[1] "Volgende back-up binnen {} minuten"
 
-#: src/ui/page_schedule/status.rs:20
+#: src/ui/page_schedule/status.rs:21
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Volgende back-up binnen één uur"
 msgstr[1] "Volgende back-up binnen {} uur"
 
-#: src/ui/page_schedule/status.rs:26
+#: src/ui/page_schedule/status.rs:27
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Volgende back-up binnen één dag"
 msgstr[1] "Volgende back-up binnen {} dagen"
 
-#: src/ui/page_schedule/status.rs:32
+#: src/ui/page_schedule/status.rs:33
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Volgende back-up binnen één week"
 msgstr[1] "Volgende back-up binnen {} weken"
 
-#: src/ui/page_schedule/status.rs:49
+#: src/ui/page_schedule/status.rs:50
 msgid "Scheduled Backups Disabled"
 msgstr "Geplande back-ups zijn uitgeschakeld"
 
-#: src/ui/page_schedule/status.rs:67
+#: src/ui/page_schedule/status.rs:68
 msgid "Hourly Backups Enabled"
 msgstr "Uurlijkse back-ups ingeschakeld"
 
-#: src/ui/page_schedule/status.rs:68
+#: src/ui/page_schedule/status.rs:69
 msgid "Daily Backups Enabled"
 msgstr "Dagelijkse back-ups ingeschakeld"
 
-#: src/ui/page_schedule/status.rs:69
+#: src/ui/page_schedule/status.rs:70
 msgid "Weekly Backups Enabled"
 msgstr "Wekelijkse back-ups ingeschakeld"
 
-#: src/ui/page_schedule/status.rs:70
+#: src/ui/page_schedule/status.rs:71
 msgid "Monthly Backups Enabled"
 msgstr "Maandelijkse back-ups ingeschakeld"
 
-#: src/ui/page_schedule/status.rs:80
+#: src/ui/page_schedule/status.rs:82
 msgid "Will not start until requirements are met."
 msgstr "Zal niet beginnen totdat aan de vereisten wordt voldaan."
 
-#: src/ui/page_schedule/status.rs:85
+#: src/ui/page_schedule/status.rs:87
 msgid "Inconsistent backup information"
 msgstr "Inconsistente back-upinformatie"
 
-#: src/ui/page_schedule/status.rs:91
+#: src/ui/page_schedule/status.rs:93
 msgid "Backup Past Due"
 msgstr "Verloopdatum van back-up voorbij"
 
-#: src/ui/page_schedule/status.rs:92
+#: src/ui/page_schedule/status.rs:94
 msgid "Waiting until requirements are met"
 msgstr "Wachten totdat aan de vereisten wordt voldaan"
 
-#: src/ui/page_schedule/status.rs:95
+#: src/ui/page_schedule/status.rs:97
 msgid "Scheduled Backups Unavailable"
 msgstr "Geplande back-ups zijn niet beschikbaar"
 
-#: src/ui/page_schedule/status.rs:98
+#: src/ui/page_schedule/status.rs:100
 msgid "Waiting for Backup to Start"
 msgstr "Wachten op start van back-up"
 
-#: src/ui/page_schedule/status.rs:107
+#: src/ui/page_schedule/status.rs:109
 msgid "Network connection must not be metered"
 msgstr "Netwerkverbinding kan geen datalimiet hebben"
 
-#: src/ui/page_schedule/status.rs:113
+#: src/ui/page_schedule/status.rs:115
 msgid "Other backups on repository have to be completed"
 msgstr "Andere back-ups op opslagruimte moeten voltooid worden"
 
-#: src/ui/page_schedule/status.rs:120
+#: src/ui/page_schedule/status.rs:122
 msgid "Device must be connected to power"
 msgstr "Apparaat moet aangesloten zijn op netstroom"
 
-#: src/ui/page_schedule/status.rs:131
+#: src/ui/page_schedule/status.rs:133
 msgid "Backup device has to be connected"
 msgstr "Back-upapparaat moet verbonden zijn"
 
-#: src/ui/page_schedule/status.rs:133
+#: src/ui/page_schedule/status.rs:135
 msgid "Reminder will be sent when device is required"
 msgstr ""
 "Er zal een herinnering gestuurd worden wanneer het apparaat vereist wordt"
 
-#: src/ui/page_schedule/status.rs:141
+#: src/ui/page_schedule/status.rs:143
 msgid "Network connection has to be available"
 msgstr "Er moet een netwerkverbinding beschikbaar zijn"
 
-#: src/ui/page_schedule/status.rs:151
+#: src/ui/page_schedule/status.rs:153
 msgid "Background process inactive"
 msgstr "Achtergrondproces is niet actief"
 
-#: src/ui/page_schedule/status.rs:152
+#: src/ui/page_schedule/status.rs:154
 msgid "This is required for scheduled backups"
 msgstr "Dit is vereist voor geplande back-ups"
 
@@ -1552,20 +1688,20 @@ msgstr ""
 "De back-uplocatie ‘{}’ raakt mogelijk vol. Geschatte ontbrekende ruimte om "
 "alle gegevens op te slaan: {}."
 
-#: src/ui/utils.rs:78
+#: src/ui/utils.rs:93
 msgid "Request to run in background failed"
 msgstr "Verzoek om op de achtergrond uitgevoerd te mogen worden is mislukt"
 
 # Niet echt duidelijk. - Nathan
-#: src/ui/utils.rs:99
+#: src/ui/utils.rs:111
 msgid "Schedule backups and continue running backups."
 msgstr "Back-ups plannen en uitvoeren op achtergrond."
 
-#: src/ui/utils.rs:115
+#: src/ui/utils.rs:127
 msgid "Run in background disabled"
 msgstr "Uitvoeren op de achtergrond uitgeschakeld"
 
-#: src/ui/utils.rs:116
+#: src/ui/utils.rs:128
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1575,7 +1711,7 @@ msgstr ""
 "beschikbaar zijn. De optie ‘uitvoeren op de achtergrond’ kan ingeschakeld "
 "worden via de systeeminstellingen."
 
-#: src/ui/utils.rs:126
+#: src/ui/utils.rs:138
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1585,27 +1721,23 @@ msgstr ""
 "opgetreden. Back-upplanning en uitvoeren van back-ups op de achtergrond zal "
 "niet beschikbaar zijn."
 
-#: src/ui/utils.rs:148
+#: src/ui/utils.rs:160
 msgid "Failed to Start Monitor"
 msgstr "Starten van monitor is mislukt"
 
-#: src/ui/utils.rs:217
+#: src/ui/utils.rs:229
 msgid "Failed to Create Thread"
 msgstr "Aanmaken van thread is mislukt"
 
-#: src/ui/utils.rs:231
-msgid "Select"
-msgstr "Selecteren"
-
-#: src/ui/utils.rs:455
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Oplossen van probleem met geplande back-ups mislukt"
 
-#: src/ui/utils.rs:460
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Geplande back-ups zijn hersteld"
 
-#: src/ui/utils.rs:460
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1613,7 +1745,7 @@ msgstr ""
 "Er zat een fout in het systeem waardoor geplande backups mogelijk niet "
 "correct werkten. Dit probleem is nu opgelost."
 
-#: src/ui/utils/borg.rs:32
+#: src/ui/utils/borg.rs:31
 msgid "Repository already in use"
 msgstr "Opslagruimte reeds in gebruik"
 
@@ -1639,6 +1771,14 @@ msgstr ""
 #: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Toch doorgaan"
+
+#: src/ui/utils/config_io.rs:49
+msgid "Could not load configuration file."
+msgstr "Kon configuratiebestand niet laden."
+
+#: src/ui/utils/config_io.rs:65
+msgid "Could not write configuration file."
+msgstr "Kon configuratiebestand niet schrijven."
 
 #: src/ui/utils/duration.rs:10
 msgid "One second"
@@ -1722,24 +1862,60 @@ msgid_plural "{} years ago"
 msgstr[0] "Eén jaar geleden"
 msgstr[1] "{} jaar geleden"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "Opslaan van cache is mislukt"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "Opslaan van wachtwoord is mislukt"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Verwijderen van mogelijk overblijvende wachtwoorden uit sleutelopslag "
 "mislukt."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Back-up ‘{}’"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "Opslaan van cache is mislukt"
+
+#~ msgid "_Home"
+#~ msgstr "_Persoonlijke map"
+
+#~ msgid "Pika Backup uses BorgBackup."
+#~ msgstr "Pika Backup gebruikt BorgBackup."
+
+#~ msgid "This app wouldn't exist without Borg."
+#~ msgstr "Deze toepassing zou niet bestaan zonder Borg."
+
+#~ msgid "Support BorgBackup https://www.borgbackup.org/support/fund.html"
+#~ msgstr "Steun BorgBackup https://www.borgbackup.org/support/fund.html"
+
+#~ msgid ""
+#~ "The “ssh://” protocol is reserved for locations with explicit borg "
+#~ "support (see below). The “sftp://” prefix can be used instead."
+#~ msgstr ""
+#~ "Het ‘ssh://’-protocol is voorbehouden voor locaties die uitdrukkelijk "
+#~ "door borg ondersteund worden (zie hieronder). Als dat niet het geval is, "
+#~ "kunt u het voorvoegsel ‘sftp://’ gebruiken."
+
+#~ msgid ""
+#~ "Apart from that, all prefixes supported by the GNOME Virtual file system "
+#~ "are supported."
+#~ msgstr ""
+#~ "Daarnaast worden alle voorvoegsels die door het Gnome virtuele "
+#~ "bestandssysteem ondersteund worden ook ondersteund."
+
+#~ msgid "Shell Wildcard Pattern"
+#~ msgstr "Shell-jokertekenpatroon"
+
+#~ msgid "Include directory in backups"
+#~ msgstr "Map opnemen in back-ups"
+
+#~ msgid "Exclude directory from backup"
+#~ msgstr "Map uitsluiten uit back-up"
 
 #~ msgid "Simple backups based on borg"
 #~ msgstr "Eenvoudige back-ups gebaseerd op borg"
@@ -1795,9 +1971,6 @@ msgstr "Pika Back-up ‘{}’"
 
 #~ msgid "Configure Backup"
 #~ msgstr "Back-up configureren"
-
-#~ msgid "Include directory"
-#~ msgstr "Map opnemen"
 
 #~ msgid "Add excluded directory"
 #~ msgstr "Uitgesloten map toevoegen"
