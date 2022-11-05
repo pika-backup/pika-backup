@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-27 22:12+0000\n"
-"PO-Revision-Date: 2022-09-29 18:53+0200\n"
+"POT-Creation-Date: 2022-10-13 20:48+0000\n"
+"PO-Revision-Date: 2022-11-05 23:39+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -173,12 +173,11 @@ msgstr "Úgy tűnik, hogy a program vagy a rendszer összeomlott."
 msgid "Connection closed by remote host."
 msgstr "A távoli gép lezárta a kapcsolatot."
 
-#: src/borg/error.rs:179 src/ui/utils/borg.rs:144
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "A tároló már használatban van."
 
 #: src/borg/error.rs:180
-#| msgid "Failed to unmount repository."
 msgid "Failed to lock repository."
 msgstr "A tároló zárolása sikertelen."
 
@@ -335,7 +334,7 @@ msgstr "Régi archívumok azonosítása"
 msgid "Refreshing Archive List"
 msgstr "Archívumlista frissítése"
 
-#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Saját mappa"
@@ -372,37 +371,37 @@ msgstr ""
 "Az archívumelőtag üres, és már létezik egy beállítás ugyanahhoz a biztonsági "
 "mentési tárolóhoz."
 
-#: src/config/exclude.rs:142
+#: src/config/exclude.rs:185
 msgid "Caches"
 msgstr "Gyorsítótárak"
 
-#: src/config/exclude.rs:143
+#: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
 msgstr "Flatpak alkalmazás telepítések"
 
-#: src/config/exclude.rs:144
+#: src/config/exclude.rs:187
 msgid "Trash"
 msgstr "Kuka"
 
-#: src/config/exclude.rs:145
+#: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
 msgstr "Virtuális gépek és konténerek"
 
-#: src/config/exclude.rs:151
+#: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
 msgstr "Olyan adatok, amelyek újra előállíthatóak, ha szükséges"
 
-#: src/config/exclude.rs:152
+#: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "A dokumentumok és adatok továbbra is biztonsági mentést kapnak"
 
-#: src/config/pattern.rs:157
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Reguláris kifejezés"
 
-#: src/config/pattern.rs:158
-msgid "Shell Wildcard Pattern"
-msgstr "Parancsértelmező helyettesítőkarakter-mintája"
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+msgid "Unix Filename Pattern"
+msgstr "Unix fájlnévminta"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
 #: src/ui/dialog_setup.ui:108
@@ -499,32 +498,31 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Az ütemezett biztonsági mentés indítása sikertelen"
 
-#: src/ui.rs:174 src/ui/page_backup/events.rs:17
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Megszakítja a biztonsági mentés létrehozásának futását?"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:18
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja."
 
-#: src/ui.rs:176 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Folytatás"
 
-#: src/ui.rs:177 src/ui/page_backup/events.rs:20
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Megszakítás"
 
-#: src/ui.rs:196
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Nem sikerült a „borg” futtatása. A BorgBackup helyesen van telepítve?"
 
-#: src/ui.rs:220
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "A BorgBackup verzió túl régi"
 
-#: src/ui.rs:222
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -532,11 +530,11 @@ msgstr ""
 "A BorgBackup telepített verziója ({}) túl régi. A borg-backup {}.{}.{} "
 "verzióját igénylő egyes funkciók nem fognak működni."
 
-#: src/ui.rs:233
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "A BorgBackup verzió túl új"
 
-#: src/ui.rs:235
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -544,11 +542,11 @@ msgstr ""
 "A BorgBackup telepített verziója ({}) túl új. A következő verzió ajánlott: "
 "{}.{}. Egyes funkciók esetleg nem fognak megfelelően működni."
 
-#: src/ui.rs:245
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "Nem sikerült a BorgBackup verziójának ellenőrzése"
 
-#: src/ui.rs:247
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "A telepített verzió ({}) esetleg nem fog működni."
 
@@ -622,153 +620,158 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Válasszon egy tartalmazandó könyvtárat…"
 
-#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:327
+#| msgid "No files selected to be included into backup."
+msgid "No files included in backup"
+msgstr "Nincsenek fájlok felvéve a biztonsági mentésbe"
+
+#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Kihagyás a biztonsági mentésből"
 
-#: src/ui/app_window.ui:332
+#: src/ui/app_window.ui:340
 msgid "The following folders are excluded from the backup repository."
 msgstr "A következő mappák ki lesznek hagyva a biztonsági mentési tárolóból."
 
-#: src/ui/app_window.ui:335
+#: src/ui/app_window.ui:343
 msgid "Select directory to exclude…"
 msgstr "Válasszon egy kihagyandó könyvtárat…"
 
-#: src/ui/app_window.ui:355
+#: src/ui/app_window.ui:356
 msgid "Nothing excluded from backup"
 msgstr "Semmi sem lesz kihagyva a mentésből"
 
-#: src/ui/app_window.ui:374
+#: src/ui/app_window.ui:370
 msgid "_Archives"
 msgstr "_Archívumok"
 
-#: src/ui/app_window.ui:469
+#: src/ui/app_window.ui:465
 msgid "Archive _Prefix"
 msgstr "Archívum_előtag"
 
-#: src/ui/app_window.ui:471
+#: src/ui/app_window.ui:467
 msgid "Added in front of all archive names"
 msgstr "Hozzáadva az összes archívum neve elé"
 
-#: src/ui/app_window.ui:500
+#: src/ui/app_window.ui:496
 msgid "_Cleanup Archives"
 msgstr "Archívumok _tisztítása"
 
-#: src/ui/app_window.ui:501
+#: src/ui/app_window.ui:497
 msgid "Delete some older archives"
 msgstr "Néhány régebbi archívum törlése"
 
-#: src/ui/app_window.ui:517
+#: src/ui/app_window.ui:513
 msgid "Archives"
 msgstr "Archívumok"
 
-#: src/ui/app_window.ui:526
+#: src/ui/app_window.ui:522
 msgid "Refresh list of archives"
 msgstr "Archívumlista frissítése"
 
-#: src/ui/app_window.ui:547
+#: src/ui/app_window.ui:543
 msgid "Stop browsing archive files"
 msgstr "Archívumfájlok tallózásának leállítása"
 
-#: src/ui/app_window.ui:573
+#: src/ui/app_window.ui:569
 msgid "No archives available"
 msgstr "Nincsenek elérhető archívumok"
 
-#: src/ui/app_window.ui:592
+#: src/ui/app_window.ui:588
 msgid "_Schedule"
 msgstr "Ü_temezés"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:613
 msgid "Scheduled Backups"
 msgstr "Ütemezett biztonsági mentések"
 
-#: src/ui/app_window.ui:621
+#: src/ui/app_window.ui:617
 msgid "Regularly Create Backups"
 msgstr "Biztonsági mentések rendszeres létrehozása"
 
-#: src/ui/app_window.ui:626
+#: src/ui/app_window.ui:622
 msgid "Frequency"
 msgstr "Gyakoriság"
 
-#: src/ui/app_window.ui:634
+#: src/ui/app_window.ui:630
 msgid "Preferred Time"
 msgstr "Előnyben részesített időpont"
 
-#: src/ui/app_window.ui:654
+#: src/ui/app_window.ui:650
 msgid "Preferred Weekday"
 msgstr "Előnyben részesített hétköznap"
 
-#: src/ui/app_window.ui:659
+#: src/ui/app_window.ui:655
 msgid "Preferred Day"
 msgstr "Előnyben részesített nap"
 
-#: src/ui/app_window.ui:680 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Régi archívumok törlése"
 
-#: src/ui/app_window.ui:686
+#: src/ui/app_window.ui:682
 msgid "Save Configuration"
 msgstr "Beállítások mentése"
 
-#: src/ui/app_window.ui:698
+#: src/ui/app_window.ui:694
 msgid "Regularly Cleanup Archives"
 msgstr "Archívumok időszakos tisztítása"
 
-#: src/ui/app_window.ui:699
+#: src/ui/app_window.ui:695
 msgid "Remove old archives after creating new backups"
 msgstr ""
 "Régi archívumok eltávolítása az új biztonsági mentések létrehozása után"
 
-#: src/ui/app_window.ui:709
+#: src/ui/app_window.ui:705
 msgid "Preserved Archives"
 msgstr "Megőrzött archívumok"
 
-#: src/ui/app_window.ui:710
+#: src/ui/app_window.ui:706
 msgid "Amount and time span of retained archives"
 msgstr "A megőrzött archívumok mennyisége és időtartama"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:715
 msgid "Details"
 msgstr "Részletek"
 
-#: src/ui/app_window.ui:723
+#: src/ui/app_window.ui:719
 msgid "Keep Hourly"
 msgstr "Megtartás óránként"
 
-#: src/ui/app_window.ui:745
+#: src/ui/app_window.ui:741
 msgid "Keep Daily"
 msgstr "Megtartás naponta"
 
-#: src/ui/app_window.ui:767
+#: src/ui/app_window.ui:763
 msgid "Keep Weekly"
 msgstr "Megtartás hetente"
 
-#: src/ui/app_window.ui:787
+#: src/ui/app_window.ui:783
 msgid "Keep Monthly"
 msgstr "Megtartás havonta"
 
-#: src/ui/app_window.ui:806
+#: src/ui/app_window.ui:802
 msgid "Keep Annual"
 msgstr "Megtartás évente"
 
-#: src/ui/app_window.ui:853
+#: src/ui/app_window.ui:849
 msgid "Backup Info"
 msgstr "Biztonsági mentés adatai"
 
-#: src/ui/app_window.ui:913
+#: src/ui/app_window.ui:909
 msgid "Amount saved"
 msgstr "Mentett mennyiség"
 
-#: src/ui/app_window.ui:929
+#: src/ui/app_window.ui:925
 msgid "Number of files saved"
 msgstr "Mentett fájlok száma"
 
-#: src/ui/app_window.ui:945
+#: src/ui/app_window.ui:941
 msgid "Additional backup space used"
 msgstr "További felhasznált mentési terület"
 
-#: src/ui/app_window.ui:961
+#: src/ui/app_window.ui:957
 msgid "Current file"
 msgstr "Jelenlegi fájl"
 
@@ -899,7 +902,7 @@ msgstr ""
 "képességekkel rendelkező szörnyeteghez kapcsolódik."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:148
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Érvénytelen archívumelőtag"
 
@@ -908,11 +911,11 @@ msgstr "Érvénytelen archívumelőtag"
 msgid "Archive Prefix"
 msgstr "Archívumelőtag"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
 #: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -961,36 +964,94 @@ msgid ""
 "“{}”."
 msgstr "A(z) „{}” művelethez a(z) „{}” tároló titkosítási jelszava szükséges."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:328
-msgid "Encryption"
-msgstr "Titkosítás"
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:487
+msgid "Encryption Password Required"
+msgstr "Titkosítási jelszó szükséges"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:507
+#: src/ui/dialog_encryption_password.ui:9
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "_Mégse"
+
+#: src/ui/dialog_encryption_password.ui:10
+#| msgid "Continue"
+msgid "Co_ntinue"
+msgstr "_Folytatás"
+
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Jelszó"
 
-#: src/ui/dialog_exclude.rs:127
+#: src/ui/dialog_exclude.rs:129
 msgid "Exclude Directory"
 msgstr "Könyvtár kizárása"
 
-#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Kiválasztás"
 
-#: src/ui/dialog_exclude.rs:156
+#: src/ui/dialog_exclude.rs:158
 msgid "Exclude File"
 msgstr "Fájl kizárása"
 
-#: src/ui/dialog_exclude.ui:72
+#: src/ui/dialog_exclude.ui:32
+#| msgid "Include Folder"
+msgid "Exclude Folder"
+msgstr "Mappa kizárása"
+
+#: src/ui/dialog_exclude.ui:44
+#| msgid "Exclude File"
+msgid "Exclude Single File"
+msgstr "Egyetlen fájl kizárása"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+#| msgid "Exclude File"
+msgid "Exclude Pattern"
+msgstr "Minta kizárása"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Reguláris kifejezés vagy Unix fájlnévminták meghatározása"
+
+#: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Ajánlott kizárások"
+
+#: src/ui/dialog_exclude_pattern.rs:34
+#| msgid "Regular Expression"
+msgid "Invalid Regular Expression"
+msgstr "Érvénytelen reguláris kifejezés"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Hozzáadás"
+
+#: src/ui/dialog_exclude_pattern.ui:81
+#| msgid "Backup Past Due"
+msgid "BorgBackup Patterns"
+msgstr "BorgBackup minták"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"A fenti mintákat egy bizonyos formában kell megírni. A kezdő <tt>/</tt>"
+" nélküli útvonalhoz vannak illesztve. Ezenkívül a parancsértelmező stílusú"
+" minták úgy illeszkednek, mintha egy <tt>*</tt> karaktert tartalmaznának a"
+" végükön. További részletekért nézze meg a <a"
+" href=\"https://borgbackup.readthedocs.io/en/stable/usage/help.html\""
+">BorgBackup dokumentációját</a> (angol nyelven)."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Nem sikerült meghatározni, hogy hány archívum lenne törölve"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:332
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
 msgid "Close"
 msgstr "Bezárás"
 
@@ -1159,6 +1220,10 @@ msgstr ""
 "A titkosított biztonsági mentésekben tárolt adatok jelszóval védettek. Ha "
 "titkosítást használ, akkor jelszó szükséges a biztonsági mentések eléréséhez."
 
+#: src/ui/dialog_setup.ui:328
+msgid "Encryption"
+msgstr "Titkosítás"
+
 #: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Titkosított"
@@ -1190,10 +1255,6 @@ msgstr "További parancssori argumentumok"
 #: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Biztonsági mentési tároló ellenőrzése"
-
-#: src/ui/dialog_setup.ui:487
-msgid "Encryption Password Required"
-msgstr "Titkosítási jelszó szükséges"
 
 #: src/ui/dialog_setup.ui:496
 msgid ""
@@ -1248,11 +1309,11 @@ msgstr ""
 msgid "Creating Backup Repository"
 msgstr "Biztonsági mentési tároló létrehozása"
 
-#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Nincs"
 
-#: src/ui/dialog_setup/display.rs:219
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Szabad hely: {}"
 
@@ -1673,15 +1734,15 @@ msgstr "A figyelő indítása sikertelen"
 msgid "Failed to Create Thread"
 msgstr "Nem sikerült szálat létrehozni"
 
-#: src/ui/utils.rs:474
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Az ütemezett biztonsági mentések javítása sikertelen"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Az ütemezett biztonsági mentések megjavítva"
 
-#: src/ui/utils.rs:479
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1693,7 +1754,7 @@ msgstr ""
 msgid "Repository already in use"
 msgstr "A tároló már használatban van"
 
-#: src/ui/utils/borg.rs:145
+#: src/ui/utils/borg.rs:146
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1702,7 +1763,7 @@ msgstr ""
 "információ elavult lehet, ha például a számítógép kikapcsolt a tároló "
 "használata közben."
 
-#: src/ui/utils/borg.rs:147
+#: src/ui/utils/borg.rs:148
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1712,7 +1773,7 @@ msgstr ""
 "semmilyen program! Ha úgy folytatja, hogy egy másik program használja a "
 "tárolót, akkor megsérülhetnek az adatai!"
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Folytatás mindenképp"
 
@@ -1806,20 +1867,20 @@ msgid_plural "{} years ago"
 msgstr[0] "Egy éve"
 msgstr[1] "{} éve"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "A gyorsítótár mentése sikertelen"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "A jelszó tárolása sikertelen"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "A lehetséges hátralévő jelszavak eltávolítása a kulcstárolóból sikertelen."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika biztonsági mentés „{}”"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "A gyorsítótár mentése sikertelen"
