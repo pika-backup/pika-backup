@@ -139,6 +139,7 @@ fn on_startup(_app: &adw::Application) {
     adw_app().set_accels_for_action("app.help", &["F1"]);
     adw_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
     adw_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
+    adw_app().set_accels_for_action("win.show-help-overlay", &["<Ctrl>question"]);
 
     if BACKUP_CONFIG.load().iter().count() > 1 {
         main_ui()
