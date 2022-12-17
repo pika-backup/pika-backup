@@ -509,6 +509,84 @@ impl DialogArchivePrefix {
 }
 
 #[derive(Clone)]
+pub struct DialogDeleteArchive {
+    builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogDeleteArchiveWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogDeleteArchive {
+    type Weak = DialogDeleteArchiveWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogDeleteArchiveWeak {
+    type Strong = DialogDeleteArchive;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogDeleteArchive {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_delete_archive.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!(
+                "Object with id '{}' not found in 'src/ui/dialog_delete_archive.ui'",
+                id
+            )
+        })
+    }
+
+    pub fn cancel(&self) -> gtk::Button {
+        self.get("cancel")
+    }
+
+    pub fn date(&self) -> gtk::Label {
+        self.get("date")
+    }
+
+    pub fn delete(&self) -> gtk::Button {
+        self.get("delete")
+    }
+
+    pub fn dialog(&self) -> adw::Window {
+        self.get("dialog")
+    }
+
+    pub fn leaflet(&self) -> adw::Leaflet {
+        self.get("leaflet")
+    }
+
+    pub fn name(&self) -> gtk::Label {
+        self.get("name")
+    }
+
+    pub fn page_decision(&self) -> gtk::Box {
+        self.get("page_decision")
+    }
+}
+
+#[derive(Clone)]
 pub struct DialogDeviceMissing {
     builder: gtk::Builder,
 }

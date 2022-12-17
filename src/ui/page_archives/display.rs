@@ -177,6 +177,20 @@ pub fn ui_display_archives(repo_id: &borg::RepoId) {
             enclose!((archive_name) move |_| Handler::run(events::browse_archive(archive_name.clone()))),
         );
 
+        let delete_row = adw::ActionRow::builder()
+            .title(&gettext("Delete archive"))
+            .activatable(true)
+            .icon_name("edit-delete-symbolic")
+            .build();
+
+        delete_row.add_suffix(&gtk::Image::from_icon_name("go-next-symbolic"));
+
+        row.add_row(&delete_row);
+
+        delete_row.connect_activated(
+            enclose!((archive_name) move |_| Handler::run(events::delete_archive(archive_name.clone(), archive.clone()))),
+        );
+
         main_ui().archive_list().append(&row);
     }
 

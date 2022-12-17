@@ -15,6 +15,7 @@
 - Change to use XDG runtime dir on host instead of HOME for mounts
 - Change to symbolic icons in include/exclude list
 - Add ability to add multiple includes/excludes at once from file chooser
+- Add ability to delete single archives
 - Add automatic mounting of unmounted drives
 - Add debug information to about window
 - Add detection of renamed drives

@@ -57,6 +57,30 @@ impl Task for PruneInfo {
 }
 
 #[derive(Clone, Default)]
+pub struct Compact {}
+
+impl Task for Compact {
+    type Info = ();
+    type Return = ();
+
+    fn name() -> String {
+        gettext("Compacting Archives")
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct Delete {}
+
+impl Task for Delete {
+    type Info = ();
+    type Return = ();
+
+    fn name() -> String {
+        gettext("Deleting Archive")
+    }
+}
+
+#[derive(Clone, Default)]
 pub struct List {
     pub(super) limit: NumArchives,
 }

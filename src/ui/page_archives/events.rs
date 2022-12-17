@@ -70,3 +70,22 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
 
     display::show_dir(&first_populated_dir)
 }
+
+pub async fn delete_archive(
+    archive_name: borg::ArchiveName,
+    archive: borg::ListArchive,
+) -> Result<()> {
+    let configs = BACKUP_CONFIG.load();
+    let config = configs.active()?;
+
+    debug!("Trying to delete an archive");
+
+    let archive_name = archive_name.as_str();
+    let archive_date = &archive
+        .start
+        .to_locale()
+        .unwrap_or_else(|| archive.start.to_string())
+        .clone();
+
+    ui::dialog_delete_archive::run(config, archive_name, archive_date).await
+}
