@@ -92,7 +92,7 @@ pub async fn add_remote(ui: DialogSetup) -> Result<()> {
 
 pub fn path_change(ui: &DialogSetup) {
     if let Some(path) = ui.init_path().file().and_then(|x| x.path()) {
-        let mount_entry = gio::UnixMountEntry::for_file_path(&path);
+        let mount_entry = gio::UnixMountEntry::for_file_path(path);
         if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
             debug!("Selected filesystem type {}", fs);
             ui.non_journaling_warning()
