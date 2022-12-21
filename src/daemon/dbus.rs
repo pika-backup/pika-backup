@@ -4,7 +4,7 @@ use zbus::Result;
 
 use crate::schedule;
 
-#[zbus::dbus_proxy(interface = "org.gnome.World.PikaBackup1")]
+#[zbus::dbus_proxy(interface = "org.gnome.World.PikaBackup1", assume_defaults = false)]
 trait PikaBackup {
     fn start_scheduled_backup(
         &self,
