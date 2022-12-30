@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-09-03 00:57+0000\n"
-"PO-Revision-Date: 2022-09-08 19:35+0200\n"
+"POT-Creation-Date: 2022-10-13 20:48+0000\n"
+"PO-Revision-Date: 2022-12-26 21:00+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -33,7 +33,7 @@ msgstr "Pika Backup Overvågning"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:188 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -110,7 +110,28 @@ msgstr "Planlæg regelmæssige sikkerhedskopieringer fra timevis til månedligt"
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr "Opbevar sikkerhedskopier på lokale drev og på onlinetjenester samtidig"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:232
+#: data/resources/gtk/help-overlay.ui:9
+msgid "General"
+msgstr "Generelt"
+
+#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+msgid "Set up new backup"
+msgstr "Indstil ny sikkerhedskopi"
+
+#: data/resources/gtk/help-overlay.ui:19
+msgid "Quit"
+msgstr "Afslut"
+
+# scootergrisen: fra gennemlæsning: Kunne også være Sikkerhedskopi eller Sikkerhedskopiér
+#: data/resources/gtk/help-overlay.ui:25
+msgid "Back"
+msgstr "Tilbage"
+
+#: data/resources/gtk/help-overlay.ui:31
+msgid "Open menu"
+msgstr "Åbn menu"
+
+#: src/borg/error.rs:27 src/ui/utils.rs:235
 msgid "The operation terminated unexpectedly."
 msgstr "Handlingen afsluttede uventet."
 
@@ -134,43 +155,52 @@ msgstr "Afbrudt af brugeren."
 msgid "Aborted because only metered connection was available."
 msgstr "Afbrudt fordi kun en forbrugsbaseret forbindelse var tilgængelig."
 
-#: src/borg/error.rs:126
+#. Translators: Running backup was aborted because computer running on battery
+#: src/borg/error.rs:127
 msgid "Aborted because too long not connected to power."
 msgstr "Afbrudt fordi strømforsyningen ikke har været tilsluttet i lang tid."
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:129
 msgid "Aborted by system."
 msgstr "Afbrudt af systemet."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:133
 msgid "The program or system seems to have crashed."
 msgstr "Det lader til, at systemet eller programmet er gået ned."
 
-#: src/borg/error.rs:172
+#: src/borg/error.rs:177
 msgid "Connection closed by remote host."
 msgstr "Forbindelsen blev lukket af fjernværten."
 
-#: src/borg/error.rs:174 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Opbevaringssted allerede i brug."
 
-#: src/borg/error.rs:175
+#: src/borg/error.rs:180
+msgid "Failed to lock repository."
+msgstr "Kunne ikke låse opbevaringssted."
+
+#: src/borg/error.rs:181
 msgid "Invalid encryption password."
 msgstr "Ugyldig adgangskode til kryptering."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:183
 msgid "A repository already exists at this location."
 msgstr "Der findes allerede et opbevaringssted på denne placering."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:185
 msgid "No repository exists at this location."
 msgstr "Der findes ikke et opbevaringssted på denne placering."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:187
+msgid "Not enough free space in repository."
+msgstr "Ikke nok fri plads på opbevaringsstedet."
+
+#: src/borg/error.rs:190
 msgid "Connection closed by remote host: “{}”"
 msgstr "Forbindelsen blev lukket af fjernværten: “{}”"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:193
 msgid "Unspecified error."
 msgstr "Uspecificeret fejl."
 
@@ -267,7 +297,7 @@ msgstr "Fejlfinding"
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:224
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -303,7 +333,7 @@ msgstr "Identifikation af gamle arkiver"
 msgid "Refreshing Archive List"
 msgstr "Opdatering af listen over arkiver"
 
-#: src/config.rs:64 src/ui/page_backup/display.rs:13
+#: src/config.rs:57 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Hjem"
@@ -340,40 +370,40 @@ msgstr ""
 "Arkivpræfikset er tomt, og en konfiguration for det samme "
 "sikkerhedskopiopbevaringssted findes allerede."
 
-#: src/config/exclude.rs:142
+#: src/config/exclude.rs:185
 msgid "Caches"
 msgstr "Mellemlagre"
 
-#: src/config/exclude.rs:143
+#: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
 msgstr "Flatpak App-installationer"
 
-#: src/config/exclude.rs:144
+#: src/config/exclude.rs:187
 msgid "Trash"
 msgstr "Papirkurv"
 
-#: src/config/exclude.rs:145
+#: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
 msgstr "Virtuelle maskiner og beholdere"
 
-#: src/config/exclude.rs:151
+#: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
 msgstr "Data som kan gendannes efter behov"
 
-#: src/config/exclude.rs:152
+#: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Dokumenter og data er stadig sikkerhedskopierede"
 
-#: src/config/pattern.rs:157
+#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Regulært udtryk"
 
-#: src/config/pattern.rs:158
-msgid "Shell Wildcard Pattern"
-msgstr "Skallens jokermønster"
+#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+msgid "Unix Filename Pattern"
+msgstr "Unix-filnavnsmønster"
 
-#: src/config/repository.rs:145 src/ui/dialog_setup.ui:63
-#: src/ui/dialog_setup.ui:106
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
+#: src/ui/dialog_setup.ui:108
 msgid "Remote Location"
 msgstr "Fjernplacering"
 
@@ -464,32 +494,31 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Kunne ikke starte planlagt sikkerhedskopiering"
 
-#: src/ui.rs:162 src/ui/page_backup/events.rs:17
+#: src/ui.rs:175 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Afbryd sikkerhedskopieringen, der er i gang?"
 
-#: src/ui.rs:163 src/ui/page_backup/events.rs:18
+#: src/ui.rs:176 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Sikkerhedskopien forbliver ufuldstændig, hvis den afbrydes nu."
 
-#: src/ui.rs:164 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:474 src/ui/page_backup/events.rs:19
+#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Fortsæt"
 
-#: src/ui.rs:165 src/ui/page_backup/events.rs:20
+#: src/ui.rs:178 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Afbryd"
 
-#: src/ui.rs:239
+#: src/ui.rs:197
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Kunne ikke køre “borg”. Er BorgBackup installeret korrekt?"
 
-#: src/ui.rs:263
+#: src/ui.rs:221
 msgid "BorgBackup version too old"
 msgstr "Versionen af BorgBackup er for gammel"
 
-#: src/ui.rs:265
+#: src/ui.rs:223
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -497,11 +526,11 @@ msgstr ""
 "Den installerede version {} af BorgBackup er for gammel. Nogle funktioner, "
 "som kræver borg-backup version {}.{}.{}, vil ikke virke."
 
-#: src/ui.rs:276
+#: src/ui.rs:234
 msgid "BorgBackup version too new"
 msgstr "Versionen af BorgBackup er for ny"
 
-#: src/ui.rs:278
+#: src/ui.rs:236
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -509,21 +538,13 @@ msgstr ""
 "Den installerede version {} af BorgBackup er for ny. Version {}.{} "
 "anbefales. Nogle funktioner virker måske ikke som forventet."
 
-#: src/ui.rs:288
+#: src/ui.rs:246
 msgid "Failed to Check BorgBackup Version"
 msgstr "Kan ikke tjekke versionen af BorgBackup"
 
-#: src/ui.rs:290
+#: src/ui.rs:248
 msgid "The installed version {} might not work."
 msgstr "Den installerede version {} virker måske ikke."
-
-#: src/ui.rs:346
-msgid "Could not load configuration file."
-msgstr "Kunne ikke indlæse konfigurationsfil."
-
-#: src/ui.rs:362
-msgid "Could not write configuration file."
-msgstr "Kunne ikke skrive konfigurationsfil."
 
 #: src/ui/app_window.ui:13
 msgid "_Keyboard Shortcuts"
@@ -545,27 +566,23 @@ msgstr "Fjern opsætning af sikkerhedskopiering"
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:106 src/ui/dialog_shortcuts.ui:13
-msgid "Set up new backup"
-msgstr "Indstil ny sikkerhedskopi"
-
-#: src/ui/app_window.ui:131
+#: src/ui/app_window.ui:142
 msgid "No Backup Configured"
 msgstr "Ingen sikkerhedskopiering konfigureret"
 
-#: src/ui/app_window.ui:132
+#: src/ui/app_window.ui:143
 msgid "Add a new configuration to start creating backups"
 msgstr "Tilføj en ny konfiguration for at begynde at oprette sikkerhedskopier"
 
-#: src/ui/app_window.ui:135
+#: src/ui/app_window.ui:146
 msgid "Setup Backup"
 msgstr "Indstil sikkerhedskopi"
 
-#: src/ui/app_window.ui:181
+#: src/ui/app_window.ui:192
 msgid "Back to overview"
 msgstr "Tilbage til oversigten"
 
-#: src/ui/app_window.ui:202
+#: src/ui/app_window.ui:213
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -574,177 +591,181 @@ msgstr ""
 "Det kan tage noget tid."
 
 # scootergrisen: fra gennemlæsning: Kunne også være Sikkerhedskopi eller Sikkerhedskopiér
-#: src/ui/app_window.ui:230
+#: src/ui/app_window.ui:252
 msgid "_Backup"
 msgstr "_Sikkerhedskopiering"
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:274
 msgid "_Abort"
 msgstr "A_fbryd"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:296
 msgid "Back Up _Now"
 msgstr "_Sikkerhedskopiér nu"
 
-#: src/ui/app_window.ui:288 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Filer som skal sikkerhedskopieres"
 
-#: src/ui/app_window.ui:289
+#: src/ui/app_window.ui:311
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "Kun filer i følgende mapper gemmes i sikkerhedskopiopbevaringsstedet."
 
-#: src/ui/app_window.ui:292
+#: src/ui/app_window.ui:314
 msgid "Select directory to include…"
 msgstr "Vælg mappe, som skal medtages …"
 
-#: src/ui/app_window.ui:309 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:327
+msgid "No files included in backup"
+msgstr "Ingen filer inkluderet i sikkerhedskopi"
+
+#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Udelad fra sikkerhedskopiering"
 
-#: src/ui/app_window.ui:310
+#: src/ui/app_window.ui:340
 msgid "The following folders are excluded from the backup repository."
 msgstr "Følgende mapper medtages ikke i sikkerhedskopiopbevaringsstedet."
 
-#: src/ui/app_window.ui:313
+#: src/ui/app_window.ui:343
 msgid "Select directory to exclude…"
 msgstr "Vælg mappe, som skal udelades …"
 
-#: src/ui/app_window.ui:333
+#: src/ui/app_window.ui:356
 msgid "Nothing excluded from backup"
 msgstr "Intet er udeladt fra sikkerhedskopiering"
 
-#: src/ui/app_window.ui:352
+#: src/ui/app_window.ui:370
 msgid "_Archives"
 msgstr "A_rkiver"
 
-#: src/ui/app_window.ui:447
+#: src/ui/app_window.ui:465
 msgid "Archive _Prefix"
 msgstr "Arkiv_præfiks"
 
-#: src/ui/app_window.ui:449
+#: src/ui/app_window.ui:467
 msgid "Added in front of all archive names"
 msgstr "Tilføjes foran alle arkivnavne"
 
-#: src/ui/app_window.ui:478
+#: src/ui/app_window.ui:496
 msgid "_Cleanup Archives"
 msgstr "_Ryd op i arkiver"
 
-#: src/ui/app_window.ui:479
+#: src/ui/app_window.ui:497
 msgid "Delete some older archives"
 msgstr "Slet nogle gamle arkiver"
 
-#: src/ui/app_window.ui:495
+#: src/ui/app_window.ui:513
 msgid "Archives"
 msgstr "Arkiver"
 
-#: src/ui/app_window.ui:504
+#: src/ui/app_window.ui:522
 msgid "Refresh list of archives"
 msgstr "Opdatér listen over arkiver"
 
-#: src/ui/app_window.ui:525
+#: src/ui/app_window.ui:543
 msgid "Stop browsing archive files"
 msgstr "Stop gennemgang af arkivfiler"
 
-#: src/ui/app_window.ui:551
+#: src/ui/app_window.ui:569
 msgid "No archives available"
 msgstr "Ingen tilgængelige arkiver"
 
-#: src/ui/app_window.ui:570
+#: src/ui/app_window.ui:588
 msgid "_Schedule"
 msgstr "_Planlæg"
 
-#: src/ui/app_window.ui:595
+#: src/ui/app_window.ui:613
 msgid "Scheduled Backups"
 msgstr "Planlagte sikkerhedskopieringer"
 
-#: src/ui/app_window.ui:599
+#: src/ui/app_window.ui:617
 msgid "Regularly Create Backups"
 msgstr "Opret jævnligt sikkerhedskopier"
 
-#: src/ui/app_window.ui:604
+#: src/ui/app_window.ui:622
 msgid "Frequency"
 msgstr "Hyppighed"
 
-#: src/ui/app_window.ui:612
+#: src/ui/app_window.ui:630
 msgid "Preferred Time"
 msgstr "Foretrukket tidspunkt"
 
-#: src/ui/app_window.ui:632
+#: src/ui/app_window.ui:650
 msgid "Preferred Weekday"
 msgstr "Foretrukket ugedag"
 
-#: src/ui/app_window.ui:637
+#: src/ui/app_window.ui:655
 msgid "Preferred Day"
 msgstr "Foretrukket dag"
 
-#: src/ui/app_window.ui:658 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Slet gamle arkiver"
 
-#: src/ui/app_window.ui:664
+#: src/ui/app_window.ui:682
 msgid "Save Configuration"
 msgstr "Gem konfiguration"
 
-#: src/ui/app_window.ui:676
+#: src/ui/app_window.ui:694
 msgid "Regularly Cleanup Archives"
 msgstr "Ryd jævnligt op i arkiver"
 
-#: src/ui/app_window.ui:677
+#: src/ui/app_window.ui:695
 msgid "Remove old archives after creating new backups"
 msgstr "Fjern gamle arkiver efter oprettelse af nye sikkerhedskopier"
 
-#: src/ui/app_window.ui:687
+#: src/ui/app_window.ui:705
 msgid "Preserved Archives"
 msgstr "Bevarede arkiver"
 
-#: src/ui/app_window.ui:688
+#: src/ui/app_window.ui:706
 msgid "Amount and time span of retained archives"
 msgstr "Mængde og tidsinterval for bevarede arkiver"
 
-#: src/ui/app_window.ui:697
+#: src/ui/app_window.ui:715
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/ui/app_window.ui:701
+#: src/ui/app_window.ui:719
 msgid "Keep Hourly"
 msgstr "Behold hver time"
 
-#: src/ui/app_window.ui:723
+#: src/ui/app_window.ui:741
 msgid "Keep Daily"
 msgstr "Behold daglig"
 
-#: src/ui/app_window.ui:745
+#: src/ui/app_window.ui:763
 msgid "Keep Weekly"
 msgstr "Behold ugentlig"
 
-#: src/ui/app_window.ui:765
+#: src/ui/app_window.ui:783
 msgid "Keep Monthly"
 msgstr "Behold månedlig"
 
-#: src/ui/app_window.ui:784
+#: src/ui/app_window.ui:802
 msgid "Keep Annual"
 msgstr "Behold årlig"
 
-#: src/ui/app_window.ui:831
+#: src/ui/app_window.ui:849
 msgid "Backup Info"
 msgstr "Information om sikkerhedskopi"
 
 # scootergrisen: tjek om det kan oversættes bedre
-#: src/ui/app_window.ui:891
+#: src/ui/app_window.ui:909
 msgid "Amount saved"
 msgstr "Hvor meget der er gemt"
 
-#: src/ui/app_window.ui:907
+#: src/ui/app_window.ui:925
 msgid "Number of files saved"
 msgstr "Antal filer gemt"
 
-#: src/ui/app_window.ui:923
+#: src/ui/app_window.ui:941
 msgid "Additional backup space used"
 msgstr "Yderligere forbrugt plads til sikkerhedskopi"
 
-#: src/ui/app_window.ui:939
+#: src/ui/app_window.ui:957
 msgid "Current file"
 msgstr "Nuværende fil"
 
@@ -879,16 +900,16 @@ msgstr ""
 "elektriske egenskaber, er grundløse."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:148
+#: src/ui/dialog_setup/display.rs:171
 msgid "Invalid Archive Prefix"
 msgstr "Ugyldigt arkivpræfiks"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:652
+#: src/ui/dialog_setup.ui:632
 msgid "Archive Prefix"
 msgstr "Arkivpræfiks"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
 #: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
 #: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
 #: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
@@ -926,7 +947,8 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Er arkivets præfiks tomt, tilføjes intet præfiks."
 
-#: src/ui/dialog_device_missing.rs:45
+#: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
+#: src/ui/dialog_device_missing.rs:100
 msgid "Failed to Mount"
 msgstr "Kunne ikke montere"
 
@@ -941,36 +963,87 @@ msgid ""
 msgstr ""
 "Handlingen “{}” kræver krypteringsadgangskoden til opbevaringsstedet på “{}”."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:351
-msgid "Encryption"
-msgstr "Kryptering"
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:487
+msgid "Encryption Password Required"
+msgstr "Adgangskode til kryptering krævet"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:527
+#: src/ui/dialog_encryption_password.ui:9
+msgid "_Cancel"
+msgstr "_Annullér"
+
+#: src/ui/dialog_encryption_password.ui:10
+msgid "Co_ntinue"
+msgstr "_Fortsæt"
+
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "Adgangskode"
 
-#: src/ui/dialog_exclude.rs:127
+#: src/ui/dialog_exclude.rs:129
 msgid "Exclude Directory"
 msgstr "Udelad mappe"
 
-#: src/ui/dialog_exclude.rs:128 src/ui/dialog_exclude.rs:157
-#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:240
+#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Vælg"
 
-#: src/ui/dialog_exclude.rs:156
+#: src/ui/dialog_exclude.rs:158
 msgid "Exclude File"
 msgstr "Udelad fil"
 
-#: src/ui/dialog_exclude.ui:72
+#: src/ui/dialog_exclude.ui:32
+msgid "Exclude Folder"
+msgstr "Udelad mappe"
+
+#: src/ui/dialog_exclude.ui:44
+msgid "Exclude Single File"
+msgstr "Udelad enkelt fil"
+
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+msgid "Exclude Pattern"
+msgstr "Udelad mønster"
+
+#: src/ui/dialog_exclude.ui:57
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Definér regulært udtryk eller Unix-filnavnsmønstre"
+
+#: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "Foreslåede udeladelser"
+
+#: src/ui/dialog_exclude_pattern.rs:34
+msgid "Invalid Regular Expression"
+msgstr "Ugyldigt regulært udtryk"
+
+#: src/ui/dialog_exclude_pattern.ui:35
+msgid "Add"
+msgstr "Tilføj"
+
+#: src/ui/dialog_exclude_pattern.ui:81
+#| msgid "Backup Past Due"
+msgid "BorgBackup Patterns"
+msgstr "BorgBackup-mønstre"
+
+#: src/ui/dialog_exclude_pattern.ui:92
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"Mønstrene ovenfor skal skrives på en bestemt måde. De matches mod stien uden "
+"foranstillet <tt>/</tt>. Desuden matcher skaltypemønstre, som om de "
+"indeholder en afsluttende <tt>*</tt>. Flere detaljer kan findes i <a "
+"href=\"https://borgbackup.readthedocs.io/en/stable/usage/help.html\">"
+"dokumentationen</a> til BorgBackup."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Kunne ikke bestemme, hvor mange arkiver der ville blive slettet"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:328
+#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
 msgid "Close"
 msgstr "Luk"
 
@@ -1034,7 +1107,7 @@ msgstr ""
 "Når disse ændringer er udført, har den næste automatiske sletning af gamle "
 "arkiver følgende konsekvenser."
 
-#: src/ui/dialog_setup.rs:165
+#: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
 msgstr "Kunne ikke vise eksisterende opbevaringssteder."
 
@@ -1046,35 +1119,48 @@ msgstr "Opsætning"
 msgid "Create new Repository"
 msgstr "Opret nyt opbevaringssted"
 
-#: src/ui/dialog_setup.ui:48 src/ui/dialog_setup.ui:91
+#: src/ui/dialog_setup.ui:41
+msgid "Select a location for a new backup repository."
+msgstr "Vælg en placering til et nyt opbevaringssted til sikkerhedskopier."
+
+#: src/ui/dialog_setup.ui:49 src/ui/dialog_setup.ui:93
 msgid "Location on Disk"
 msgstr "Placering på disk"
 
-#: src/ui/dialog_setup.ui:83
+#: src/ui/dialog_setup.ui:84
 msgid "Use Existing Repository"
 msgstr "Brug eksisterende opbevaringssted"
 
-#: src/ui/dialog_setup.ui:136
+#: src/ui/dialog_setup.ui:85
+msgid ""
+"Select a location that contains an existing backup repository. Repositories "
+"created with other BorgBackup compatible software can be used as well."
+msgstr ""
+"Vælg en placering, der indeholder et eksisterende opbevaringssted til "
+"sikkerhedskopier. Opbevaringssteder oprettet med anden BorgBackup-kompatibel "
+"software kan også bruges."
+
+#: src/ui/dialog_setup.ui:138
 msgid "Back to Overview"
 msgstr "Tilbage til oversigten"
 
-#: src/ui/dialog_setup.ui:142
-msgid "Advanced Options"
-msgstr "Avancerede indstillinger"
-
-#: src/ui/dialog_setup.ui:152
+#: src/ui/dialog_setup.ui:148
 msgid "Connect"
 msgstr "Opret forbindelse"
 
-#: src/ui/dialog_setup.ui:165
+#: src/ui/dialog_setup.ui:161
 msgid "_Create"
 msgstr "O_pret"
 
-#: src/ui/dialog_setup.ui:183
+#: src/ui/dialog_setup.ui:177
 msgid "Location"
 msgstr "Placering"
 
-#: src/ui/dialog_setup.ui:236
+#: src/ui/dialog_setup.ui:181
+msgid "Advanced Options"
+msgstr "Avancerede indstillinger"
+
+#: src/ui/dialog_setup.ui:239
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1087,55 +1173,39 @@ msgstr ""
 "“NTFS” eller “Ext4”. Bemærk, at omformatering sletter alle filer på "
 "placeringen!"
 
-#: src/ui/dialog_setup.ui:261
+#: src/ui/dialog_setup.ui:264
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://bruger@server.eksempel.org/~/sikkerhedskopiering"
 
-#: src/ui/dialog_setup.ui:277
+#: src/ui/dialog_setup.ui:280
 msgid "Conventional Locations"
 msgstr "Sædvanlige placeringer"
 
-#: src/ui/dialog_setup.ui:288
+#: src/ui/dialog_setup.ui:291
 msgid ""
-"Conventional remote backup locations can be provided as a URL with protocol "
-"prefix, address, and folder."
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"Sædvanlige fjernplaceringer af sikkerhedskopier kan angives som en URL-"
-"adresse med protokolpræfiks, adresse og mappe."
+"SMB- eller SFTP-fjernplaceringer af sikkerhedskopier kan angives som en URL-"
+"adresse med protokolpræfiks “smb://” eller “sftp://”."
 
 #: src/ui/dialog_setup.ui:298
-msgid ""
-"The “ssh://” protocol is reserved for locations with explicit borg support "
-"(see below). The “sftp://” prefix can be used instead."
-msgstr ""
-"Protokollen “ssh://” er reserveret til placeringer, der eksplicit "
-"understøtter borg (se nedenfor). Præfikset “sftp://” kan bruges i stedet."
+msgid "Locations with BorgBackup Support"
+msgstr "Placeringer med understøttelse af BorgBackup"
 
-#: src/ui/dialog_setup.ui:308
+#: src/ui/dialog_setup.ui:310
 msgid ""
-"Apart from that, all prefixes supported by the GNOME Virtual file system are "
-"supported."
-msgstr ""
-"Derudover understøttes alle præfiks, som understøttes af GNOMEs virtuelle "
-"filsystem."
-
-#: src/ui/dialog_setup.ui:318
-msgid "Locations with Borg-Backup Support"
-msgstr "Placeringer med understøttelse af Borg-Backup"
-
-#: src/ui/dialog_setup.ui:330
-msgid ""
-"Locations with explicit borg-backup support can provide better performance. "
-"They are special in that the server has a borg-backup binary installed. For "
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"Placeringer med eksplicit understøttelse af borg-backup kan give bedre "
-"ydeevne. De er specielle, fordi serveren har en borg-backup-programfil "
+"Placeringer med eksplicit understøttelse af BorgBackup kan give bedre "
+"ydeevne. De er specielle, fordi serveren har en BorgBackup-programfil "
 "installeret. Til disse steder kan enten syntaksen “<serveradresse>:<mappe>” "
 "eller præfikset “ssh://” anvendes."
 
-#: src/ui/dialog_setup.ui:350
+#: src/ui/dialog_setup.ui:327
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1144,23 +1214,27 @@ msgstr ""
 "der anvendes kryptering, skal adgangskoden bruges for at få adgang til dine "
 "sikkerhedskopier."
 
-#: src/ui/dialog_setup.ui:365
+#: src/ui/dialog_setup.ui:328
+msgid "Encryption"
+msgstr "Kryptering"
+
+#: src/ui/dialog_setup.ui:342
 msgid "Encrypted"
 msgstr "Krypteret"
 
-#: src/ui/dialog_setup.ui:372
+#: src/ui/dialog_setup.ui:349
 msgid "Encryption Password"
 msgstr "Adgangskode til kryptering"
 
-#: src/ui/dialog_setup.ui:386
+#: src/ui/dialog_setup.ui:363
 msgid "Repeat Password"
 msgstr "Gentag adgangskode"
 
-#: src/ui/dialog_setup.ui:397
+#: src/ui/dialog_setup.ui:374
 msgid "Unencrypted"
 msgstr "Ukrypteret"
 
-#: src/ui/dialog_setup.ui:413
+#: src/ui/dialog_setup.ui:391
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1168,34 +1242,30 @@ msgstr ""
 "Argumenterne tilføjes til kaldet af programmet borg. Kun lange tilvalg, der "
 "begynder med “--”, understøttes."
 
-#: src/ui/dialog_setup.ui:414
+#: src/ui/dialog_setup.ui:392
 msgid "Additional command line arguments"
 msgstr "Yderligere kommandolinjeargumenter"
 
-#: src/ui/dialog_setup.ui:454
+#: src/ui/dialog_setup.ui:434
 msgid "Checking Backup Repository"
 msgstr "Tjekker opbevaringssted til sikkerhedskopi"
 
-#: src/ui/dialog_setup.ui:507
-msgid "Encryption Password Required"
-msgstr "Adgangskode til kryptering krævet"
-
-#: src/ui/dialog_setup.ui:516
+#: src/ui/dialog_setup.ui:496
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "Krypteringsadgangskoden til dette opbevaringssted for sikkerhedskopier er "
 "nødvendig for at tilgå det."
 
-#: src/ui/dialog_setup.ui:562 src/ui/dialog_setup.ui:596
+#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
 msgid "S_kip"
 msgstr "S_pring over"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:554
 msgid "Checking for Previous Configurations"
 msgstr "Leder efter tidligere konfigurationer"
 
-#: src/ui/dialog_setup.ui:575
+#: src/ui/dialog_setup.ui:555
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1203,11 +1273,11 @@ msgstr ""
 "Samler information til at overføre tidligere brugte indstillinger. Dette "
 "trin er valgfrit."
 
-#: src/ui/dialog_setup.ui:610
+#: src/ui/dialog_setup.ui:590
 msgid "Transfer Settings"
 msgstr "Overfør indstillinger"
 
-#: src/ui/dialog_setup.ui:611
+#: src/ui/dialog_setup.ui:591
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1216,11 +1286,11 @@ msgstr ""
 "sikkerhedskopier, til overførsel til den nye opsætning. Konfigurationen kan "
 "tilpasses bagefter."
 
-#: src/ui/dialog_setup.ui:639
+#: src/ui/dialog_setup.ui:619
 msgid "_Save"
 msgstr "_Gem"
 
-#: src/ui/dialog_setup.ui:653
+#: src/ui/dialog_setup.ui:633
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1230,23 +1300,23 @@ msgstr ""
 "af det samme præfiks til to enheder frarådes, med mindre en ny enhed "
 "efterfølger den gamle."
 
-#: src/ui/dialog_setup.ui:694 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Opretter opbevaringssted til sikkerhedskopi"
 
-#: src/ui/dialog_setup/display.rs:74 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
 msgid "None"
 msgstr "Ingen"
 
-#: src/ui/dialog_setup/display.rs:219
+#: src/ui/dialog_setup/display.rs:242
 msgid "Free space: {}"
 msgstr "Ledig plads: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:111
+#: src/ui/dialog_setup/folder_button.rs:110
 msgid "_Select…"
 msgstr "_Vælg …"
 
-#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Placering af sikkerhedskopi"
 
@@ -1324,19 +1394,6 @@ msgstr "Fjernplaceringen skal have en angivet sti."
 #: src/ui/dialog_setup/remote_location.rs:36
 msgid "Invalid remote location: “{}”"
 msgstr "Ugyldig fjernplacering: “{}”"
-
-#: src/ui/dialog_shortcuts.ui:9
-msgid "General"
-msgstr "Generelt"
-
-#: src/ui/dialog_shortcuts.ui:19
-msgid "Quit"
-msgstr "Afslut"
-
-# scootergrisen: fra gennemlæsning: Kunne også være Sikkerhedskopi eller Sikkerhedskopiér
-#: src/ui/dialog_shortcuts.ui:25
-msgid "Back"
-msgstr "Tilbage"
 
 # scootergrisen: tjek om det skal være "Diskenhed", "Diskområde" eller måske "Størrelse"
 #: src/ui/dialog_storage.ui:30
@@ -1509,7 +1566,7 @@ msgstr "Behold planlægning"
 msgid "Disable Schedule"
 msgstr "Deaktivér planlægning"
 
-#: src/ui/page_schedule/event.rs:336
+#: src/ui/page_schedule/event.rs:322
 msgid "No preset selected."
 msgstr "Ingen forudindstilling valgt."
 
@@ -1637,20 +1694,20 @@ msgstr ""
 "Placeringen “{}” til sikkerhedskopier er måske ved at blive fyldt op. "
 "Forventet plads som mangler for at kunne gemme alle data: {}."
 
-#: src/ui/utils.rs:87
+#: src/ui/utils.rs:93
 msgid "Request to run in background failed"
 msgstr "Anmodning om at køre i baggrunden mislykkedes"
 
-#: src/ui/utils.rs:108
+#: src/ui/utils.rs:111
 msgid "Schedule backups and continue running backups."
 msgstr ""
 "Planlæg sikkerhedskopieringer og fortsæt med at køre sikkerhedskopieringer."
 
-#: src/ui/utils.rs:124
+#: src/ui/utils.rs:127
 msgid "Run in background disabled"
 msgstr "Kørsel i baggrunden deaktiveret"
 
-#: src/ui/utils.rs:125
+#: src/ui/utils.rs:128
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1660,7 +1717,7 @@ msgstr ""
 "vil ikke være tilgængelige. Indstillingen “Kør i baggrunden” kan aktiveres "
 "via systemindstillingerne."
 
-#: src/ui/utils.rs:135
+#: src/ui/utils.rs:138
 msgid ""
 "Either the system does not support this feature or an error occurred. "
 "Scheduled backup functionality and continuing backups in the background will "
@@ -1670,23 +1727,23 @@ msgstr ""
 "en fejl. Planlagt sikkerhedskopiering og fortsatte sikkerhedskopieringer i "
 "baggrunden vil ikke være tilgængelige."
 
-#: src/ui/utils.rs:157
+#: src/ui/utils.rs:160
 msgid "Failed to Start Monitor"
 msgstr "Kunne ikke starte Overvågning"
 
-#: src/ui/utils.rs:226
+#: src/ui/utils.rs:229
 msgid "Failed to Create Thread"
 msgstr "Kunne ikke oprette tråd"
 
-#: src/ui/utils.rs:470
+#: src/ui/utils.rs:480
 msgid "Failed to fix Scheduled Backups"
 msgstr "Kunne ikke fikse planlagte sikkerhedskopieringer"
 
-#: src/ui/utils.rs:475
+#: src/ui/utils.rs:485
 msgid "Scheduled Backups Repaired"
 msgstr "Planlagte sikkerhedskopieringer repareret"
 
-#: src/ui/utils.rs:475
+#: src/ui/utils.rs:485
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1694,7 +1751,7 @@ msgstr ""
 "Systemet indeholdt en fejl, som potentielt kunne medføre, at planlagte "
 "sikkerhedskopier ikke fungerede korrekt. Dette problem er nu løst."
 
-#: src/ui/utils/borg.rs:32
+#: src/ui/utils/borg.rs:31
 msgid "Repository already in use"
 msgstr "Opbevaringssted allerede i brug"
 
@@ -1720,6 +1777,14 @@ msgstr ""
 #: src/ui/utils/borg.rs:150
 msgid "Continue Anyway"
 msgstr "Fortsæt alligevel"
+
+#: src/ui/utils/config_io.rs:49
+msgid "Could not load configuration file."
+msgstr "Kunne ikke indlæse konfigurationsfil."
+
+#: src/ui/utils/config_io.rs:65
+msgid "Could not write configuration file."
+msgstr "Kunne ikke skrive konfigurationsfil."
 
 #: src/ui/utils/duration.rs:10
 msgid "One second"
@@ -1803,23 +1868,40 @@ msgid_plural "{} years ago"
 msgstr[0] "Et år siden"
 msgstr[1] "{} år siden"
 
-#: src/ui/utils/repo_cache.rs:59
-msgid "Failed to Save Cache"
-msgstr "Kunne ikke gemme mellemlager"
-
-#: src/ui/utils/secret_service.rs:15
+#: src/ui/utils/password_storage.rs:15
 msgid "Failed to Store Password"
 msgstr "Kunne ikke gemme adgangskode"
 
-#: src/ui/utils/secret_service.rs:29
+#: src/ui/utils/password_storage.rs:31
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Kunne ikke fjerne potentielle tilbageværende adgangskoder fra nøglelager."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/secret_service.rs:48
+#: src/ui/utils/password_storage.rs:48
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
+
+#: src/ui/utils/repo_cache.rs:59
+msgid "Failed to Save Cache"
+msgstr "Kunne ikke gemme mellemlager"
+
+#~ msgid "Shell Wildcard Pattern"
+#~ msgstr "Skallens jokermønster"
+
+#~ msgid ""
+#~ "The “ssh://” protocol is reserved for locations with explicit borg "
+#~ "support (see below). The “sftp://” prefix can be used instead."
+#~ msgstr ""
+#~ "Protokollen “ssh://” er reserveret til placeringer, der eksplicit "
+#~ "understøtter borg (se nedenfor). Præfikset “sftp://” kan bruges i stedet."
+
+#~ msgid ""
+#~ "Apart from that, all prefixes supported by the GNOME Virtual file system "
+#~ "are supported."
+#~ msgstr ""
+#~ "Derudover understøttes alle præfiks, som understøttes af GNOMEs virtuelle "
+#~ "filsystem."
 
 #~ msgid "_Home"
 #~ msgstr "_Hjem"
