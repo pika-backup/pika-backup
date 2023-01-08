@@ -54,6 +54,7 @@ pub struct BackupSettings {
 
 pub fn display_path(path: &path::Path) -> String {
     if path.iter().next().is_none() {
+        // Translators: User home directory
         gettext("Home")
     } else {
         path.display().to_string()
