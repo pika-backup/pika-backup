@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-13 20:48+0000\n"
-"PO-Revision-Date: 2022-10-16 22:52+0200\n"
+"POT-Creation-Date: 2023-01-05 15:52+0000\n"
+"PO-Revision-Date: 2023-01-13 11:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -120,14 +120,18 @@ msgid "Set up new backup"
 msgstr "Postavite novo sigurnosno kopiranje"
 
 #: data/resources/gtk/help-overlay.ui:19
+msgid "Show keyboard shortcuts"
+msgstr "Prikaži prečace tipkovnice"
+
+#: data/resources/gtk/help-overlay.ui:25
 msgid "Quit"
 msgstr "Zatvori"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:31
 msgid "Back"
 msgstr "Natrag"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:37
 msgid "Open menu"
 msgstr "Otvori izbornik"
 
@@ -329,7 +333,15 @@ msgstr "Uklanjanje starih arhiva"
 msgid "Identifying old Archives"
 msgstr "Identifikacija starih arhiva"
 
-#: src/borg/task.rs:76
+#: src/borg/task.rs:67
+msgid "Compacting Archives"
+msgstr "Sažimanje arhiva"
+
+#: src/borg/task.rs:79
+msgid "Deleting Archive"
+msgstr "Brisanje arhive"
+
+#: src/borg/task.rs:100
 msgid "Refreshing Archive List"
 msgstr "Osvježavanje popisa arhiva"
 
@@ -497,31 +509,31 @@ msgstr "“{}” mora biti povezan kako bi zakazano sigurnosno kopiranje započe
 msgid "Failed to start scheduled backup"
 msgstr "Neuspjelo pokretanje zakazanog sigurnosnog kopiranja"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:17
+#: src/ui.rs:177 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Prekini pokrenuto stvaranje sigurnosne kopije?"
 
-#: src/ui.rs:176 src/ui/page_backup/events.rs:18
+#: src/ui.rs:178 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Sigurnosna kopija će ostati nepotpuna ako sada prekinete stvaranje."
 
-#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:179 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Nastavi"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:20
+#: src/ui.rs:180 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Prekini"
 
-#: src/ui.rs:197
+#: src/ui.rs:199
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Neuspjelo “borg” pokretanje. Je li BorgBackup instaliran ispravno?"
 
-#: src/ui.rs:221
+#: src/ui.rs:223
 msgid "BorgBackup version too old"
 msgstr "Inačica BorgBackupa kopiranja je prestara"
 
-#: src/ui.rs:223
+#: src/ui.rs:225
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -529,11 +541,11 @@ msgstr ""
 "Instalirana inačica {} BorgBackupa je prestara. Određene značajke potrebne "
 "za BorgBackup inačice {}.{}.{} neće raditi."
 
-#: src/ui.rs:234
+#: src/ui.rs:236
 msgid "BorgBackup version too new"
 msgstr "Inačica BorgBackupa je prenova"
 
-#: src/ui.rs:236
+#: src/ui.rs:238
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -541,11 +553,11 @@ msgstr ""
 "Instalirana inačica {} BorgBackupa je prenova. Inačica {}.{} je preporučena. "
 "Određene značajke neće raditi očekivano."
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "Failed to Check BorgBackup Version"
 msgstr "Nemoguća provjera inačice BorgBackupa"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid "The installed version {} might not work."
 msgstr "Instalirana inačica {} možda neće raditi."
 
@@ -910,11 +922,11 @@ msgstr "Nevaljani prefiks arhive"
 msgid "Archive Prefix"
 msgstr "Prefiks arhive"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Odustani"
 
@@ -946,6 +958,26 @@ msgstr ""
 #: src/ui/dialog_archive_prefix.ui:77
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Ako je prefiks arhive prazan, prefiks nije dodan."
+
+#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
+msgid "Delete Archive"
+msgstr "Obriši arhivu"
+
+#: src/ui/dialog_delete_archive.ui:41
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr ""
+"Nastavljanje ove radnje će nepovratno obrisati ovu arhivu. Spremljeni podaci "
+"za te određene točke u vremenu više neće biti dostupni."
+
+#: src/ui/dialog_delete_archive.ui:51
+msgid "Archive Name"
+msgstr "Naziv arhive"
+
+#: src/ui/dialog_delete_archive.ui:64
+msgid "Archive Date"
+msgstr "Datum arhive"
 
 #: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
 #: src/ui/dialog_device_missing.rs:100
@@ -1309,11 +1341,11 @@ msgstr "Nedostupno"
 msgid "Free space: {}"
 msgstr "Slobodni prostor: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:110
+#: src/ui/dialog_setup/folder_button.rs:111
 msgid "_Select…"
 msgstr "_Odaberi…"
 
-#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Lokacija sigurnosne kopije"
 
@@ -1451,11 +1483,15 @@ msgstr "Komentar"
 msgid "Browse saved files"
 msgstr "Pregledaj spremljene datoteke"
 
-#: src/ui/page_archives/display.rs:201
+#: src/ui/page_archives/display.rs:181
+msgid "Delete archive"
+msgstr "Obriši arhivu"
+
+#: src/ui/page_archives/display.rs:215
 msgid "{} Available"
 msgstr "{} dostupno"
 
-#: src/ui/page_archives/display.rs:204
+#: src/ui/page_archives/display.rs:218
 msgid "{} Total"
 msgstr "{} ukupno"
 
