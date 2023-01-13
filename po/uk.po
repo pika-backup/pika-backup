@@ -2,13 +2,13 @@
 # Copyright (C) 2020 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-13 20:48+0000\n"
-"PO-Revision-Date: 2022-10-14 17:52+0300\n"
+"POT-Creation-Date: 2023-01-05 15:52+0000\n"
+"PO-Revision-Date: 2023-01-13 16:47+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -123,14 +123,19 @@ msgid "Set up new backup"
 msgstr "Налаштувати нову резервну копію"
 
 #: data/resources/gtk/help-overlay.ui:19
+#| msgid "_Keyboard Shortcuts"
+msgid "Show keyboard shortcuts"
+msgstr "Показати клавіатурні скорочення"
+
+#: data/resources/gtk/help-overlay.ui:25
 msgid "Quit"
 msgstr "Вийти"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:31
 msgid "Back"
 msgstr "Назад"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:37
 msgid "Open menu"
 msgstr "Відкрити меню"
 
@@ -333,7 +338,17 @@ msgstr "Вилучення застарілих архівів"
 msgid "Identifying old Archives"
 msgstr "Визначення застарілих архівів"
 
-#: src/borg/task.rs:76
+#: src/borg/task.rs:67
+#| msgid "Compacting repository"
+msgid "Compacting Archives"
+msgstr "Ущільнюємо архіви"
+
+#: src/borg/task.rs:79
+#| msgid "Delete Archives"
+msgid "Deleting Archive"
+msgstr "Вилучаємо архів"
+
+#: src/borg/task.rs:100
 msgid "Refreshing Archive List"
 msgstr "Оновлення списку архівів"
 
@@ -505,32 +520,32 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не вдалося розпочати резервне копіювання за розкладом"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:17
+#: src/ui.rs:177 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:176 src/ui/page_backup/events.rs:18
+#: src/ui.rs:178 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:179 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:20
+#: src/ui.rs:180 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Перервати"
 
-#: src/ui.rs:197
+#: src/ui.rs:199
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином BorgBackup?"
 
-#: src/ui.rs:221
+#: src/ui.rs:223
 msgid "BorgBackup version too old"
 msgstr "Надто застаріла версія BorgBackup"
 
-#: src/ui.rs:223
+#: src/ui.rs:225
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -538,11 +553,11 @@ msgstr ""
 "Встановлена версія BorgBackup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
-#: src/ui.rs:234
+#: src/ui.rs:236
 msgid "BorgBackup version too new"
 msgstr "Надто нова версія BorgBackup"
 
-#: src/ui.rs:236
+#: src/ui.rs:238
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -551,11 +566,11 @@ msgstr ""
 "скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як "
 "ви на те сподівалися."
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не вдалося виконати перевірку версії BorgBackup"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
 
@@ -917,11 +932,11 @@ msgstr "Некоректний префікс архівів"
 msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -955,6 +970,34 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Якщо префікс архівів є порожнім, ніякого префікса додано не буде."
 
+#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
+#| msgid "Delete Archives"
+msgid "Delete Archive"
+msgstr "Вилучити архів"
+
+#: src/ui/dialog_delete_archive.ui:41
+#| msgid ""
+#| "Proceeding with this operation will irretrievably delete some of the "
+#| "archives. The saved data for those specific points in time will no longer "
+#| "be available."
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr ""
+"Подальше виконання цієї дії призведе до остаточного вилучення цього архіву."
+" Ви більше не зможете скористатися збереженими для відповідного моменту часу"
+" даними."
+
+#: src/ui/dialog_delete_archive.ui:51
+#| msgid "Archives"
+msgid "Archive Name"
+msgstr "Назва архіву"
+
+#: src/ui/dialog_delete_archive.ui:64
+#| msgid "Archives"
+msgid "Archive Date"
+msgstr "Дата архівування"
+
 #: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
 #: src/ui/dialog_device_missing.rs:100
 msgid "Failed to Mount"
@@ -975,12 +1018,10 @@ msgid "Encryption Password Required"
 msgstr "Потрібен пароль для шифрування"
 
 #: src/ui/dialog_encryption_password.ui:9
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Скасувати"
 
 #: src/ui/dialog_encryption_password.ui:10
-#| msgid "Continue"
 msgid "Co_ntinue"
 msgstr "П_родовжити"
 
@@ -1322,11 +1363,11 @@ msgstr "Немає"
 msgid "Free space: {}"
 msgstr "Вільне місце: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:110
+#: src/ui/dialog_setup/folder_button.rs:111
 msgid "_Select…"
 msgstr "_Вибрати…"
 
-#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Місце резервного копіювання"
 
@@ -1467,11 +1508,16 @@ msgstr "Коментар"
 msgid "Browse saved files"
 msgstr "Навігація збереженими файлами"
 
-#: src/ui/page_archives/display.rs:201
+#: src/ui/page_archives/display.rs:181
+#| msgid "Delete Archives"
+msgid "Delete archive"
+msgstr "Вилучити архів"
+
+#: src/ui/page_archives/display.rs:215
 msgid "{} Available"
 msgstr "Доступно {}"
 
-#: src/ui/page_archives/display.rs:204
+#: src/ui/page_archives/display.rs:218
 msgid "{} Total"
 msgstr "Загалом {}"
 
