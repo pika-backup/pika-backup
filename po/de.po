@@ -6,14 +6,14 @@
 # Volker Thiel <volker@warp-nine.de>, 2021.
 # Tim Sabsch <tim@sabsch.com>, 2021-2022.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2020-2022.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-30 17:51+0000\n"
-"PO-Revision-Date: 2022-12-26 22:38+0100\n"
+"POT-Creation-Date: 2023-01-05 15:52+0000\n"
+"PO-Revision-Date: 2023-01-05 22:41+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -125,14 +125,18 @@ msgid "Set up new backup"
 msgstr "Neue Sicherung einrichten"
 
 #: data/resources/gtk/help-overlay.ui:19
+msgid "Show keyboard shortcuts"
+msgstr "Tastenkürzel anzeigen"
+
+#: data/resources/gtk/help-overlay.ui:25
 msgid "Quit"
 msgstr "Beenden"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:31
 msgid "Back"
 msgstr "Zurück"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:37
 msgid "Open menu"
 msgstr "Menü öffnen"
 
@@ -339,7 +343,15 @@ msgstr "Alte Archive werden entfernt"
 msgid "Identifying old Archives"
 msgstr "Alte Archive werden identifiziert"
 
-#: src/borg/task.rs:76
+#: src/borg/task.rs:67
+msgid "Compacting Archives"
+msgstr "Archive werden komprimiert"
+
+#: src/borg/task.rs:79
+msgid "Deleting Archive"
+msgstr "Archiv wird gelöscht"
+
+#: src/borg/task.rs:100
 msgid "Refreshing Archive List"
 msgstr "Archivliste wird aufgefrischt"
 
@@ -505,34 +517,34 @@ msgstr "»{}« muss verbunden sein, damit eine geplante Sicherung starten kann."
 msgid "Failed to start scheduled backup"
 msgstr "Starten der geplanten Sicherung fehlgeschlagen"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:17
+#: src/ui.rs:177 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Laufende Datensicherung abbrechen?"
 
-#: src/ui.rs:176 src/ui/page_backup/events.rs:18
+#: src/ui.rs:178 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Das Backup bleibt unvollständig, wenn jetzt abgebrochen wird."
 
-#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:179 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Weiter"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:20
+#: src/ui.rs:180 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Abbrechen"
 
-#: src/ui.rs:197
+#: src/ui.rs:199
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Das Starten von »borg« ist fehlgeschlagen. Ist BorgBackup richtig "
 "installiert?"
 
-#: src/ui.rs:221
+#: src/ui.rs:223
 msgid "BorgBackup version too old"
 msgstr "Die Version von BorgBackup ist zu alt"
 
 # CHECK
-#: src/ui.rs:223
+#: src/ui.rs:225
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -540,11 +552,11 @@ msgstr ""
 "Die installierte Version {} von BorgBackup ist zu alt. Einige Funktionen, "
 "die BorgBackup Version {}.{}.{} erfordern, werden nicht funktionieren."
 
-#: src/ui.rs:234
+#: src/ui.rs:236
 msgid "BorgBackup version too new"
 msgstr "Die Version von BorgBackup ist zu neu"
 
-#: src/ui.rs:236
+#: src/ui.rs:238
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -553,11 +565,11 @@ msgstr ""
 "empfohlen. Einige Funktionen werden möglicherweise nicht wie erwartet "
 "funktionieren."
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "Failed to Check BorgBackup Version"
 msgstr "Überprüfen der BorgBackup-Version fehlgeschlagen"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid "The installed version {} might not work."
 msgstr "Die installierte Version {} funktioniert möglicherweise nicht."
 
@@ -925,11 +937,11 @@ msgstr "Ungültiges Archiv-Präfix"
 msgid "Archive Prefix"
 msgstr "Archiv-Präfix"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -962,6 +974,27 @@ msgstr ""
 #: src/ui/dialog_archive_prefix.ui:77
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Sollte das Archiv-Präfix leer sein, wird kein Präfix hinzugefügt."
+
+#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
+msgid "Delete Archive"
+msgstr "Archiv löschen"
+
+#: src/ui/dialog_delete_archive.ui:41
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr ""
+"Wenn Sie mit diesem Vorgang fortfahren, wird dieses Archiv unwiederbringlich "
+"gelöscht. Die gesicherten Daten von diesem Zeitpunkt werden nicht mehr "
+"verfügbar sein."
+
+#: src/ui/dialog_delete_archive.ui:51
+msgid "Archive Name"
+msgstr "Archivname"
+
+#: src/ui/dialog_delete_archive.ui:64
+msgid "Archive Date"
+msgstr "Archivdatum"
 
 #: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
 #: src/ui/dialog_device_missing.rs:100
@@ -1480,11 +1513,15 @@ msgstr "Kommentar"
 msgid "Browse saved files"
 msgstr "Gesicherte Dateien durchsuchen"
 
-#: src/ui/page_archives/display.rs:201
+#: src/ui/page_archives/display.rs:181
+msgid "Delete archive"
+msgstr "Archiv löschen"
+
+#: src/ui/page_archives/display.rs:215
 msgid "{} Available"
 msgstr "{} verfügbar"
 
-#: src/ui/page_archives/display.rs:204
+#: src/ui/page_archives/display.rs:218
 msgid "{} Total"
 msgstr "{} gesamt"
 
