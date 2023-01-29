@@ -23,14 +23,12 @@ pub fn show() {
     dialog.set_issue_url("https://gitlab.gnome.org/World/pika-backup/-/issues");
 
     dialog.set_developer_name(&gettext("Sophie Herold"));
-    dialog.set_developers(&[&gettext("Sophie Herold <sophieherold@gnome.org>")]);
-    dialog.set_copyright(&gettext("Copyright © 2018–2022 Sophie Herold et al."));
+    dialog.set_developers(&[
+        &gettext("Sophie Herold <sophieherold@gnome.org>"),
+        &gettext("Fina Wilke"),
+    ]);
+    dialog.set_copyright(&gettext("Copyright © 2018–2023 Sophie Herold et al."));
     dialog.set_translator_credits(&gettext("translator-credits"));
-    dialog.add_credit_section(
-        // Translators: This is an inside joke
-        Some(&gettext("Court Witch")),
-        &[&gettext("Fina Wilke")],
-    );
     dialog.set_artists(&["Jakub Steiner", "Tobias Bernard"]);
     dialog.set_comments(&(
         String::from("<span line_height='1.6' weight='bold'>") +
