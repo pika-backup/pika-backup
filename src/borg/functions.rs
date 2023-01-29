@@ -62,7 +62,7 @@ impl CommandRun<task::List> for Command<task::List> {
 
         match self.task.limit {
             task::NumArchives::First(n) => {
-                borg.add_options([format!("--last={}", n)]);
+                borg.add_options([format!("--last={n}")]);
             }
             task::NumArchives::All => (),
         }

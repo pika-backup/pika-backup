@@ -41,9 +41,7 @@ impl<C: ConfigType + serde::de::DeserializeOwned + Default + Clone> TrackChanges
         let file = gio::File::for_path(&path);
         let monitor = file
             .monitor_file(gio::FileMonitorFlags::NONE, gio::Cancellable::NONE)
-            .unwrap_or_else(|err| {
-                panic!("Failed to initiate file monitor for {:?} ({})", path, err)
-            });
+            .unwrap_or_else(|err| panic!("Failed to initiate file monitor for {path:?} ({err})"));
 
         monitor.connect_changed(
             |_monitor: &gio::FileMonitor,

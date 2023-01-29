@@ -28,14 +28,14 @@ pub struct Message {
 impl Message {
     pub fn new<T: std::fmt::Display, S: std::fmt::Display>(text: T, secondary_text: S) -> Self {
         Self {
-            text: format!("{}", text),
-            secondary_text: Some(format!("{}", secondary_text)),
+            text: format!("{text}"),
+            secondary_text: Some(format!("{secondary_text}")),
         }
     }
 
     pub fn short<T: std::fmt::Display>(text: T) -> Self {
         Self {
-            text: format!("{}", text),
+            text: format!("{text}"),
             secondary_text: None,
         }
     }

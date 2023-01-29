@@ -92,8 +92,8 @@ impl std::fmt::Display for Outcome {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::Completed { .. } => write!(f, "{}", gettext("Completed")),
-            Self::Aborted(x) => write!(f, "{}", x),
-            Self::Failed(x) => write!(f, "{}", x),
+            Self::Aborted(x) => write!(f, "{x}"),
+            Self::Failed(x) => write!(f, "{x}"),
         }
     }
 }

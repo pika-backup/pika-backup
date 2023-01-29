@@ -58,8 +58,7 @@ impl<'a> Excluded<'a> {
             let full_path = self.base_dir.path().join(path);
             assert!(
                 exclude_rules.iter().any(|rule| rule.is_match(&full_path)),
-                "Should be excluded: {:?}",
-                path
+                "Should be excluded: {path:?}"
             );
         }
     }
@@ -88,8 +87,7 @@ impl<'a> Included<'a> {
             let full_path = self.base_dir.path().join(path);
             assert!(
                 exclude_rules.iter().all(|rule| !rule.is_match(&full_path)),
-                "Should not be excluded: {:?}",
-                path
+                "Should not be excluded: {path:?}"
             );
         }
     }

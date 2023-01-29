@@ -39,12 +39,8 @@ impl AppWindow {
     }
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/app_window.ui'",
-                id
-            )
-        })
+        gtk::Builder::object(&self.builder, id)
+            .unwrap_or_else(|| panic!("Object with id '{id}' not found in 'src/ui/app_window.ui'"))
     }
 
     pub fn add_backup(&self) -> gtk::Button {
@@ -430,10 +426,7 @@ impl DialogAbout {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_about.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_about.ui'")
         })
     }
 
@@ -484,10 +477,7 @@ impl DialogArchivePrefix {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_archive_prefix.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_archive_prefix.ui'")
         })
     }
 
@@ -550,10 +540,7 @@ impl DialogDeleteArchive {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_delete_archive.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_delete_archive.ui'")
         })
     }
 
@@ -628,10 +615,7 @@ impl DialogDeviceMissing {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_device_missing.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_device_missing.ui'")
         })
     }
 
@@ -690,10 +674,7 @@ impl DialogEncryptionPassword {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_encryption_password.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_encryption_password.ui'")
         })
     }
 
@@ -748,10 +729,7 @@ impl DialogExclude {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_exclude.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_exclude.ui'")
         })
     }
 
@@ -818,10 +796,7 @@ impl DialogExcludePattern {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_exclude_pattern.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_exclude_pattern.ui'")
         })
     }
 
@@ -884,10 +859,7 @@ impl DialogPrune {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_prune.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_prune.ui'")
         })
     }
 
@@ -966,10 +938,7 @@ impl DialogPruneReview {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_prune_review.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_prune_review.ui'")
         })
     }
 
@@ -1044,10 +1013,7 @@ impl DialogSetup {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_setup.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_setup.ui'")
         })
     }
 
@@ -1274,10 +1240,7 @@ impl DialogSetupTransferOption {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_setup_transfer_option.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_setup_transfer_option.ui'")
         })
     }
 
@@ -1352,10 +1315,7 @@ impl DialogStorage {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/dialog_storage.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_storage.ui'")
         })
     }
 
@@ -1446,10 +1406,7 @@ impl OverviewItem {
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
         gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!(
-                "Object with id '{}' not found in 'src/ui/overview_item.ui'",
-                id
-            )
+            panic!("Object with id '{id}' not found in 'src/ui/overview_item.ui'")
         })
     }
 

@@ -15,8 +15,8 @@ pub enum Output {
 impl fmt::Display for Output {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Self::Progress(progress) => write!(f, "{}", progress),
-            Self::LogEntry(log_entry) => write!(f, "{}", log_entry),
+            Self::Progress(progress) => write!(f, "{progress}"),
+            Self::LogEntry(log_entry) => write!(f, "{log_entry}"),
         }
     }
 }
@@ -37,9 +37,9 @@ pub enum Progress {
 impl fmt::Display for Progress {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Self::Archive(archive) => write!(f, "{}", archive),
-            Self::Message(message) => write!(f, "{}", message),
-            Self::Percent(percent) => write!(f, "{}", percent),
+            Self::Archive(archive) => write!(f, "{archive}"),
+            Self::Message(message) => write!(f, "{message}"),
+            Self::Percent(percent) => write!(f, "{percent}"),
         }
     }
 }
@@ -196,7 +196,7 @@ impl fmt::Display for Operation {
             Self::Unknown => gettext("Unknown operation"),
         };
 
-        write!(f, "{}", msg)
+        write!(f, "{msg}")
     }
 }
 
@@ -329,8 +329,8 @@ impl LogExt for LogCollection {
 impl std::fmt::Display for LogEntry {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::ParsedErr(e) => write!(f, "{}", e),
-            Self::UnparsableErr(s) => write!(f, "Unknown Message: {}", s),
+            Self::ParsedErr(e) => write!(f, "{e}"),
+            Self::UnparsableErr(s) => write!(f, "Unknown Message: {s}"),
         }
     }
 }
@@ -356,6 +356,6 @@ impl std::fmt::Display for LogLevel {
             Self::Critical => gettext("Critical"),
             Self::Undefined => gettext("Undefined"),
         };
-        write!(f, "{}", text)
+        write!(f, "{text}")
     }
 }

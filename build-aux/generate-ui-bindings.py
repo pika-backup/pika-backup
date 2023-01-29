@@ -113,7 +113,7 @@ impl {name} {{
 
     fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {{
         gtk::Builder::object(&self.builder, id)
-            .unwrap_or_else(|| panic!("Object with id '{{}}' not found in '{path}'", id))
+            .unwrap_or_else(|| panic!("Object with id '{{id}}' not found in '{path}'"))
     }}
 {fn_code}
 }}"""

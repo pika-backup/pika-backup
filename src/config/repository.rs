@@ -179,6 +179,6 @@ impl std::fmt::Display for Repository {
             Self::Local(local) => local.path().to_string_lossy().to_string(),
             Self::Remote(remote) => remote.uri.to_string(),
         };
-        write!(f, "{}", repo)
+        write!(f, "{repo}")
     }
 }

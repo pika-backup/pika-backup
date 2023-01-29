@@ -11,14 +11,14 @@ impl RemoteLocation {
                 let path_begin = path.chars().next();
 
                 let url_path = if path_begin == Some('~') {
-                    format!("/{}", path)
+                    format!("/{path}")
                 } else if path_begin != Some('/') {
-                    format!("/./{}", path)
+                    format!("/./{path}")
                 } else {
                     path.to_string()
                 };
 
-                format!("ssh://{}{}", target, url_path)
+                format!("ssh://{target}{url_path}")
             } else {
                 return Err(gettext("Incomplete URL or borg syntax"));
             }

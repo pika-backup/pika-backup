@@ -9,9 +9,9 @@ pub enum Note<'a> {
 impl<'a> std::fmt::Display for Note<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::Postponed(id) => write!(f, "postponed-{}", id),
-            Self::DeviceRequired(id) => write!(f, "device-required-{}", id),
-            Self::DeviceAvailable(id) => write!(f, "device-available-{}", id),
+            Self::Postponed(id) => write!(f, "postponed-{id}"),
+            Self::DeviceRequired(id) => write!(f, "device-required-{id}"),
+            Self::DeviceAvailable(id) => write!(f, "device-available-{id}"),
         }
     }
 }
