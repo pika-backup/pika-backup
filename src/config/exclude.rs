@@ -85,8 +85,8 @@ impl<const T: Relativity> Exclude<T> {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Predefined {
     Caches,
-    FlatpakApps,
     Trash,
+    FlatpakApps,
     VmsContainers,
 }
 
@@ -166,8 +166,8 @@ mod rules {
 impl Predefined {
     pub const VALUES: [Self; 4] = [
         Self::Caches,
-        Self::FlatpakApps,
         Self::Trash,
+        Self::FlatpakApps,
         Self::VmsContainers,
     ];
 
@@ -193,8 +193,8 @@ impl Predefined {
         match self {
             Self::Caches => gettext("Data that can be regenerated when needed"),
             Self::FlatpakApps => gettext("Documents and data are still backed up"),
-            Self::Trash => String::new(),
-            Self::VmsContainers => String::new(),
+            Self::Trash => gettext("Files that have not been irretrievably deleted"),
+            Self::VmsContainers => gettext("Might include data stored within"),
         }
     }
 
@@ -241,6 +241,17 @@ impl From<&Rule<ABSOLUTE>> for BorgRule {
         match rule {
             Rule::Pattern(pattern) => BorgRule::Pattern(pattern.borg_pattern()),
             Rule::CacheDirTag => BorgRule::CacheDirTag,
+        }
+    }
+}
+
+impl std::fmt::Display for BorgRule {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Pattern(pattern) => {
+                write!(f, "{}", pattern.clone().into_string().unwrap_or_default())
+            }
+            Self::CacheDirTag => write!(f, "CACHEDIR.TAG"),
         }
     }
 }

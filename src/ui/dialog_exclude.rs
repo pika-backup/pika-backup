@@ -62,11 +62,14 @@ pub fn fill_suggestions(dialog: &DialogExclude) -> Result<()> {
 
         row.add_prefix(&check_button);
 
+        let desc = predefined
+            .borg_rules()
+            .into_iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<_>>()
+            .join("\n");
         let popover = gtk::Popover::builder()
-            .child(&gtk::Label::new(Some(&format!(
-                "{:#?}",
-                predefined.borg_rules()
-            ))))
+            .child(&gtk::Label::new(Some(&format!("{desc}",))))
             .build();
 
         let info_button = gtk::MenuButton::builder()
