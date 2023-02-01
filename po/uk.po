@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-01-05 15:52+0000\n"
-"PO-Revision-Date: 2023-01-13 16:47+0200\n"
+"POT-Creation-Date: 2023-02-01 14:43+0000\n"
+"PO-Revision-Date: 2023-02-01 20:49+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -123,7 +123,6 @@ msgid "Set up new backup"
 msgstr "Налаштувати нову резервну копію"
 
 #: data/resources/gtk/help-overlay.ui:19
-#| msgid "_Keyboard Shortcuts"
 msgid "Show keyboard shortcuts"
 msgstr "Показати клавіатурні скорочення"
 
@@ -339,12 +338,10 @@ msgid "Identifying old Archives"
 msgstr "Визначення застарілих архівів"
 
 #: src/borg/task.rs:67
-#| msgid "Compacting repository"
 msgid "Compacting Archives"
 msgstr "Ущільнюємо архіви"
 
 #: src/borg/task.rs:79
-#| msgid "Delete Archives"
 msgid "Deleting Archive"
 msgstr "Вилучаємо архів"
 
@@ -352,7 +349,8 @@ msgstr "Вилучаємо архів"
 msgid "Refreshing Archive List"
 msgstr "Оновлення списку архівів"
 
-#: src/config.rs:57 src/ui/page_backup/display.rs:13
+#. Translators: User home directory
+#: src/config.rs:58 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Домівка"
@@ -412,6 +410,14 @@ msgstr "Дані, які можна за потреби створити нан�
 #: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Триває резервне копіювання документів і даних"
+
+#: src/config/exclude.rs:196
+msgid "Files that have not been irretrievably deleted"
+msgstr "Файли, які було незворотно вилучено"
+
+#: src/config/exclude.rs:197
+msgid "Might include data stored within"
+msgstr "Може включати дані, що зберігаються у"
 
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
@@ -854,32 +860,28 @@ msgstr "Припиняємо резервне копіювання"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Не вдалося відкрити інтерфейс для резервного копіювання за розкладом"
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:27
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Софі Герольд (Sophie Herold) <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:27
-msgid "Copyright © 2018–2022 Sophie Herold et al."
-msgstr "© Sophie Herold та інші, 2018–2022"
-
 #: src/ui/dialog_about.rs:28
-msgid "translator-credits"
-msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
-
-#. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:31
-msgid "Court Witch"
-msgstr "Відьма Двору"
-
-#: src/ui/dialog_about.rs:32
 msgid "Fina Wilke"
 msgstr "Фіна Вільке (Fina Wilke)"
 
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:30
+#| msgid "Copyright © 2018–2022 Sophie Herold et al."
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "© Sophie Herold та інші, 2018–2023"
+
+#: src/ui/dialog_about.rs:31
+msgid "translator-credits"
+msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
+
+#: src/ui/dialog_about.rs:35
 msgid "Back End"
 msgstr "Модуль обробки"
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:37
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -889,11 +891,11 @@ msgstr ""
 "б не було написано без Borg. Вам варто <a href='https://www.borgbackup.org/"
 "support/fund.html'>підтримати BorgBackup</a>."
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:39
 msgid "The Name"
 msgstr "Назва"
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:41
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -914,7 +916,7 @@ msgstr ""
 "ті рослини, які є найпоживнішими. І нарешті, пайки не лише створюють дуже "
 "продумані сховища, але і швидко збирають до них рослинність."
 
-#: src/ui/dialog_about.rs:45
+#: src/ui/dialog_about.rs:43
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -971,30 +973,23 @@ msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Якщо префікс архівів є порожнім, ніякого префікса додано не буде."
 
 #: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
-#| msgid "Delete Archives"
 msgid "Delete Archive"
 msgstr "Вилучити архів"
 
 #: src/ui/dialog_delete_archive.ui:41
-#| msgid ""
-#| "Proceeding with this operation will irretrievably delete some of the "
-#| "archives. The saved data for those specific points in time will no longer "
-#| "be available."
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
 msgstr ""
-"Подальше виконання цієї дії призведе до остаточного вилучення цього архіву."
-" Ви більше не зможете скористатися збереженими для відповідного моменту часу"
-" даними."
+"Подальше виконання цієї дії призведе до остаточного вилучення цього архіву. "
+"Ви більше не зможете скористатися збереженими для відповідного моменту часу "
+"даними."
 
 #: src/ui/dialog_delete_archive.ui:51
-#| msgid "Archives"
 msgid "Archive Name"
 msgstr "Назва архіву"
 
 #: src/ui/dialog_delete_archive.ui:64
-#| msgid "Archives"
 msgid "Archive Date"
 msgstr "Дата архівування"
 
@@ -1029,16 +1024,20 @@ msgstr "П_родовжити"
 msgid "Password"
 msgstr "Пароль"
 
-#: src/ui/dialog_exclude.rs:129
+#: src/ui/dialog_exclude.rs:74
+msgid "Exclusion Rules"
+msgstr "Правила виключення"
+
+#: src/ui/dialog_exclude.rs:135
 msgid "Exclude Directory"
 msgstr "Виключити каталог"
 
-#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Вибрати"
 
-#: src/ui/dialog_exclude.rs:158
+#: src/ui/dialog_exclude.rs:164
 msgid "Exclude File"
 msgstr "Виключити файл"
 
@@ -1509,7 +1508,6 @@ msgid "Browse saved files"
 msgstr "Навігація збереженими файлами"
 
 #: src/ui/page_archives/display.rs:181
-#| msgid "Delete Archives"
 msgid "Delete archive"
 msgstr "Вилучити архів"
 
@@ -1969,6 +1967,9 @@ msgstr "Пайка-копіювання «{}»"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Не вдалося зберегти кеш"
+
+#~ msgid "Court Witch"
+#~ msgstr "Відьма Двору"
 
 #~ msgid "Shell Wildcard Pattern"
 #~ msgstr "Взірець оболонки"
