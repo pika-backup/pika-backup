@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-01-05 15:52+0000\n"
-"PO-Revision-Date: 2023-01-10 12:47+0300\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"POT-Creation-Date: 2023-02-01 20:14+0000\n"
+"PO-Revision-Date: 2023-02-02 15:25+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -341,7 +341,8 @@ msgstr "Arşiv Siliniyor"
 msgid "Refreshing Archive List"
 msgstr "Yazılım Listesi Yenileniyor"
 
-#: src/config.rs:57 src/ui/page_backup/display.rs:13
+#. Translators: User home directory
+#: src/config.rs:58 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Ev"
@@ -396,6 +397,14 @@ msgstr "Gerektiğinde yeniden oluşturulabilen veriler"
 #: src/config/exclude.rs:195
 msgid "Documents and data are still backed up"
 msgstr "Belgeler ve veriler henüz yedekleniyor"
+
+#: src/config/exclude.rs:196
+msgid "Files that have not been irretrievably deleted"
+msgstr "Geri dönüşsüzce silinmemiş dosyalar"
+
+#: src/config/exclude.rs:197
+msgid "Might include data stored within"
+msgstr "İçinde saklanan verileri içerebilir"
 
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
@@ -826,36 +835,30 @@ msgstr "Yedekleme Durduruluyor"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Zamanlanmış yedeklemeler için arayüz oluşturulamadı."
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:27
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:27
-msgid "Copyright © 2018–2022 Sophie Herold et al."
-msgstr "Telif Hakkı © 2018–2022 Sophie Herold et al."
-
+# Özel isim
 #: src/ui/dialog_about.rs:28
+msgid "Fina Wilke"
+msgstr "Fina Wilke"
+
+#: src/ui/dialog_about.rs:30
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "Telif Hakkı © 2018–2023 Sophie Herold et al."
+
+#: src/ui/dialog_about.rs:31
 msgid "translator-credits"
 msgstr ""
 "Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Sabri Ünal <libreajans@gmail.com>"
 
-# Şaka olduğu ve anlamı bozulacağı için çevirmeden korudum.
-#. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:31
-msgid "Court Witch"
-msgstr "Court Witch"
-
-# Özel isim
-#: src/ui/dialog_about.rs:32
-msgid "Fina Wilke"
-msgstr "Fina Wilke"
-
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:35
 msgid "Back End"
 msgstr "Arka Uç"
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:37
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -865,11 +868,11 @@ msgstr ""
 "href='https://www.borgbackup.org/support/fund.html'>BorgBackup’ı "
 "desteklemeyi</a> düşünün."
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:39
 msgid "The Name"
 msgstr "Ad"
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:41
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -888,7 +891,7 @@ msgstr ""
 "çıkıntılı kayaların altına saklamak. Pikalar yalnızca karmaşık ot sığınları "
 "yaratmakla kalmaz, aynı zamanda bitki toplamada da epey hızlıdır."
 
-#: src/ui/dialog_about.rs:45
+#: src/ui/dialog_about.rs:43
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -995,16 +998,20 @@ msgstr "S_ürdür"
 msgid "Password"
 msgstr "Parola"
 
-#: src/ui/dialog_exclude.rs:129
+#: src/ui/dialog_exclude.rs:74
+msgid "Exclusion Rules"
+msgstr "Dışlama Kuralları"
+
+#: src/ui/dialog_exclude.rs:135
 msgid "Exclude Directory"
 msgstr "Dizini Dışla"
 
-#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Seç"
 
-#: src/ui/dialog_exclude.rs:158
+#: src/ui/dialog_exclude.rs:164
 msgid "Exclude File"
 msgstr "Dosyayı Dışla"
 
@@ -1864,3 +1871,7 @@ msgstr "“{}” Pika Yedeği"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Önbellek Kaydedilemedi"
+
+# Şaka olduğu ve anlamı bozulacağı için çevirmeden korudum.
+#~ msgid "Court Witch"
+#~ msgstr "Court Witch"
