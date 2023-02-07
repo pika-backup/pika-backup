@@ -14,7 +14,6 @@ pub struct Command<T: Task> {
     pub from_schedule: Option<schedule::DueCause>,
     password: Option<config::Password>,
     pub task: T,
-    pub archive_name: Option<String>,
 }
 
 #[async_trait]
@@ -30,18 +29,11 @@ impl<T: Task> Command<T> {
             from_schedule: None,
             password: None,
             task: T::default(),
-            archive_name: None,
         }
     }
 
     pub fn set_from_schedule(mut self, from_schedule: Option<schedule::DueCause>) -> Self {
         self.from_schedule = from_schedule;
-
-        self
-    }
-
-    pub fn set_archive_name(mut self, archive_name: Option<String>) -> Self {
-        self.archive_name = archive_name;
 
         self
     }
@@ -158,7 +150,9 @@ impl CommandRun<task::Compact> for Command<task::Compact> {
 #[async_trait]
 impl CommandRun<task::Delete> for Command<task::Delete> {
     async fn run(self) -> Result<()> {
-        let mut borg_call = delete_call(&self).await?;
+        let archive_name = self.task.archive_name().unwrap_or_default();
+
+        let mut borg_call = delete_call(&self, &archive_name).await?;
         borg_call.add_options(["--progress"]);
 
         let process = borg_call.spawn_async_managed(self.communication.clone())?;
@@ -367,9 +361,7 @@ async fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
     Ok(borg_call)
 }
 
-async fn delete_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
-    let archive_name = command.archive_name.clone().unwrap_or_default();
-
+async fn delete_call<T: Task>(command: &Command<T>, archive_name: &str) -> Result<BorgCall> {
     let mut borg_call = BorgCall::new("delete");
 
     borg_call

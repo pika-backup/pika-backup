@@ -62,8 +62,8 @@ async fn delete(ui: DialogDeleteArchive, config: config::Backup, archive_name: &
 
     let archive_name = Some(archive_name.to_string());
 
-    let command = borg::Command::<borg::task::Delete>::new(config.clone());
-    let command = command.set_archive_name(archive_name);
+    let mut command = borg::Command::<borg::task::Delete>::new(config.clone());
+    command.task.set_archive_name(archive_name);
     let result = ui::utils::borg::exec(command).await;
 
     if !matches!(

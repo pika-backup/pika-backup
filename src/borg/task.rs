@@ -69,7 +69,20 @@ impl Task for Compact {
 }
 
 #[derive(Clone, Default)]
-pub struct Delete {}
+pub struct Delete {
+    archive_name: Option<String>,
+}
+
+impl Delete {
+    pub fn set_archive_name(&mut self, archive_name: Option<String>) -> &mut Self {
+        self.archive_name = archive_name;
+        self
+    }
+
+    pub fn archive_name(&self) -> Option<String> {
+        self.archive_name.clone()
+    }
+}
 
 impl Task for Delete {
     type Info = ();
