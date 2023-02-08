@@ -2,14 +2,14 @@
 # Copyright (C) 2022 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2022.
-# Yosef Or Boczko <yoseforb@gmail.com>, 2022.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-13 20:48+0000\n"
-"PO-Revision-Date: 2022-10-23 20:20+0300\n"
+"POT-Creation-Date: 2023-02-01 14:43+0000\n"
+"PO-Revision-Date: 2023-02-08 23:04+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -116,14 +116,18 @@ msgid "Set up new backup"
 msgstr "הקמת גיבוי חדש"
 
 #: data/resources/gtk/help-overlay.ui:19
+msgid "Show keyboard shortcuts"
+msgstr "הצגת צירופי מקשים"
+
+#: data/resources/gtk/help-overlay.ui:25
 msgid "Quit"
 msgstr "יציאה"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:31
 msgid "Back"
 msgstr "חזרה"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:37
 msgid "Open menu"
 msgstr "פתיחת תפריט"
 
@@ -173,10 +177,8 @@ msgid "Repository already in use."
 msgstr "המאגר כבר בשימוש."
 
 #: src/borg/error.rs:180
-#, fuzzy
-#| msgid "Failed to unmount repository."
 msgid "Failed to lock repository."
-msgstr "ניתוק המאגר נכשל."
+msgstr "נעילת המאגר נכשלה."
 
 #: src/borg/error.rs:181
 msgid "Invalid encryption password."
@@ -192,7 +194,7 @@ msgstr "לא קיים מאגר במיקום הזה."
 
 #: src/borg/error.rs:187
 msgid "Not enough free space in repository."
-msgstr ""
+msgstr "אין מספיק מקום פנוי במאגר."
 
 #: src/borg/error.rs:190
 msgid "Connection closed by remote host: “{}”"
@@ -327,11 +329,20 @@ msgstr "ארכיונים ישנים נמחקים"
 msgid "Identifying old Archives"
 msgstr "ארכיונים ישנים מזוהים"
 
-#: src/borg/task.rs:76
+#: src/borg/task.rs:67
+msgid "Compacting Archives"
+msgstr "הארכיון מצטמק"
+
+#: src/borg/task.rs:79
+msgid "Deleting Archive"
+msgstr "מוחק ארכיון"
+
+#: src/borg/task.rs:100
 msgid "Refreshing Archive List"
 msgstr "רשימת הארכיונים מתרעננת"
 
-#: src/config.rs:57 src/ui/page_backup/display.rs:13
+#. Translators: User home directory
+#: src/config.rs:58 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "בית"
@@ -354,17 +365,17 @@ msgstr "קיימת הגדרה לאותו מאגר הגיבוי עם קידומת
 msgid ""
 "There can only be one configuration for a backup repository if the archive "
 "prefix is empty."
-msgstr ""
+msgstr "יכולה להיות הגדרה יחידה למאגר גיבוי אם התחילית של הארכיון ריקה."
 
 #: src/config/error.rs:42
 msgid ""
 "The archive prefix is empty and a configuration for the same backup "
 "repository already exists."
-msgstr ""
+msgstr "תחילית הארכיון ריקה וההגדרה לאותו מאגר גיבוי כבר קיימת."
 
 #: src/config/exclude.rs:185
 msgid "Caches"
-msgstr ""
+msgstr "מטמון"
 
 #: src/config/exclude.rs:186
 msgid "Flatpak App Installations"
@@ -372,11 +383,11 @@ msgstr "התקנות יישומי Flatpak"
 
 #: src/config/exclude.rs:187
 msgid "Trash"
-msgstr ""
+msgstr "אשפה"
 
 #: src/config/exclude.rs:188
 msgid "Virtual Machines and Containers"
-msgstr ""
+msgstr "מכונות וירטוטליות ומיכלים"
 
 #: src/config/exclude.rs:194
 msgid "Data that can be regenerated when needed"
@@ -386,13 +397,21 @@ msgstr "נתונים שאפשר לייצר מחדש בעת הצורך"
 msgid "Documents and data are still backed up"
 msgstr "מסמכים ונתונים עדיין מגובים"
 
+#: src/config/exclude.rs:196
+msgid "Files that have not been irretrievably deleted"
+msgstr "קבצים שנמחקו עם אפשרות שחזור"
+
+#: src/config/exclude.rs:197
+msgid "Might include data stored within"
+msgstr "יכול לכלול מידע מאוחסן בתוך"
+
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "ביטוי רגולרי"
 
 #: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
 msgid "Unix Filename Pattern"
-msgstr ""
+msgstr "שם קובץ בתבנית יוניקס"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
 #: src/ui/dialog_setup.ui:108
@@ -487,31 +506,31 @@ msgstr "„{}” חייב להיות מחובר כדי שהחיבור המתוז
 msgid "Failed to start scheduled backup"
 msgstr "התחלת הגיבוי המתוזמן נכשלה"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:17
+#: src/ui.rs:177 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "לבטל את יצירת הגיבוי הפעיל?"
 
-#: src/ui.rs:176 src/ui/page_backup/events.rs:18
+#: src/ui.rs:178 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "הגיבוי יישאר חלקי אם יבוטל כעת."
 
-#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:179 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "להמשיך"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:20
+#: src/ui.rs:180 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "לבטל"
 
-#: src/ui.rs:197
+#: src/ui.rs:199
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "הפעלת „borg” נכשלה. האם BorgBackup מותקן כראוי?"
 
-#: src/ui.rs:221
+#: src/ui.rs:223
 msgid "BorgBackup version too old"
 msgstr "הגרסה של BorgBackup ישנה מדי"
 
-#: src/ui.rs:223
+#: src/ui.rs:225
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -519,11 +538,11 @@ msgstr ""
 "הגרסה המותקנת {} של BorgBackup ישנה מדי. חלק מהיכולות שדורשות את גרסה {}.{}."
 "{} של borg-backup לא תעבודנה."
 
-#: src/ui.rs:234
+#: src/ui.rs:236
 msgid "BorgBackup version too new"
 msgstr "הגרסה של BorgBackup חדשה מדי"
 
-#: src/ui.rs:236
+#: src/ui.rs:238
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -531,11 +550,11 @@ msgstr ""
 "הגרסה המותקנת {} של BorgBackup חדשה מדי. מומלץ להתקין את גרסה {}.{}. חלק "
 "מהיכולות לא תעבודנה כמצופה."
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "Failed to Check BorgBackup Version"
 msgstr "בדיקת גרסת ה־BorgBackup נכשלה"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid "The installed version {} might not work."
 msgstr "יכול להיות שהגרסה המותקנת {} לא תעבוד."
 
@@ -608,10 +627,8 @@ msgid "Select directory to include…"
 msgstr "בחירת תיקייה שתיכלל…"
 
 #: src/ui/app_window.ui:327
-#, fuzzy
-#| msgid "No files selected to be included into backup."
 msgid "No files included in backup"
-msgstr "לא נבחרו קבצים שייכללו בגיבוי."
+msgstr "לא נבחרו קבצים שייכללו בגיבוי"
 
 #: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
@@ -819,45 +836,43 @@ msgstr "הגיבוי נעצר"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "יצירת מנשק לגיבויים מתוזמנים נכשלה."
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:27
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "סופי הרולד <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:27
-msgid "Copyright © 2018–2022 Sophie Herold et al."
-msgstr "כל הזכויות שמורות © 2018–2022 לסופי הרולד ואחרים."
-
 #: src/ui/dialog_about.rs:28
-msgid "translator-credits"
-msgstr ""
-"ירון שהרבני <sh.yaron@gmail.com>\n"
-"מיזם תרגום GNOME לעברית https://l10n.gnome.org/teams/he/"
-
-#. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:31
-msgid "Court Witch"
-msgstr "קורט ויץ׳"
-
-#: src/ui/dialog_about.rs:32
 msgid "Fina Wilke"
 msgstr "פינה וילקה"
 
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:30
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "כל הזכויות שמורות © 2018–2023 לסופי הרולד ואחרים."
+
+#: src/ui/dialog_about.rs:31
+msgid "translator-credits"
+msgstr ""
+"ירון שהרבני <sh.yaron@gmail.com>\n"
+"יוסף אור בוצ׳קו <yoseforb@gmail.com>\n"
+"מיזם תרגום GNOME לעברית https://l10n.gnome.org/teams/he/"
+
+#: src/ui/dialog_about.rs:35
 msgid "Back End"
 msgstr "מנגנון"
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:37
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
 "BorgBackup</a>."
 msgstr ""
+"גיבוי פיקה עושה שימוש ב־BorgBackup. יישום זה לא היה קיים ללא Borg. שִקלו <a "
+"href='https://www.borgbackup.org/support/fund.html'>לתמוך ב־BorgBackup</a>."
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:39
 msgid "The Name"
 msgstr "השם"
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:41
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -869,7 +884,7 @@ msgid ""
 "vegetation as well."
 msgstr ""
 
-#: src/ui/dialog_about.rs:45
+#: src/ui/dialog_about.rs:43
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -885,11 +900,11 @@ msgstr "קידומת הארכיון שגויה"
 msgid "Archive Prefix"
 msgstr "קידומת ארכיון"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
+#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -922,6 +937,26 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "אם קידומת הארכיון ריקה, לא נוספת קידומת."
 
+#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
+msgid "Delete Archive"
+msgstr "מחיקת ארכיון"
+
+#: src/ui/dialog_delete_archive.ui:41
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr ""
+"המשך פעולה זו ימחוק ארכיון זה ללא אפשרות שחזור. הנתונים שנשמרו לנקודה "
+"המסוימת הזאת בזמן לא יהיו זמינים עוד."
+
+#: src/ui/dialog_delete_archive.ui:51
+msgid "Archive Name"
+msgstr "שם ארכיון"
+
+#: src/ui/dialog_delete_archive.ui:64
+msgid "Archive Date"
+msgstr "תאריך ארכיון"
+
 #: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
 #: src/ui/dialog_device_missing.rs:100
 msgid "Failed to Mount"
@@ -942,75 +977,65 @@ msgid "Encryption Password Required"
 msgstr "ססמת ההצפנה שגויה"
 
 #: src/ui/dialog_encryption_password.ui:9
-#, fuzzy
-#| msgid "Cancel"
 msgid "_Cancel"
-msgstr "ביטול"
+msgstr "_ביטול"
 
 #: src/ui/dialog_encryption_password.ui:10
-#, fuzzy
-#| msgid "Continue"
 msgid "Co_ntinue"
-msgstr "להמשיך"
+msgstr "_להמשיך"
 
 #: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:507
 msgid "Password"
 msgstr "ססמה"
 
-#: src/ui/dialog_exclude.rs:129
+#: src/ui/dialog_exclude.rs:74
+msgid "Exclusion Rules"
+msgstr "חוקרי החרגה"
+
+#: src/ui/dialog_exclude.rs:135
 msgid "Exclude Directory"
 msgstr "החרגת תיקייה"
 
-#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "בחירה"
 
-#: src/ui/dialog_exclude.rs:158
+#: src/ui/dialog_exclude.rs:164
 msgid "Exclude File"
 msgstr "החרגת קובץ"
 
 #: src/ui/dialog_exclude.ui:32
-#, fuzzy
-#| msgid "Include Folder"
 msgid "Exclude Folder"
-msgstr "לרבות תיקייה"
+msgstr "החרגת תיקייה"
 
 #: src/ui/dialog_exclude.ui:44
-#, fuzzy
-#| msgid "Exclude File"
 msgid "Exclude Single File"
-msgstr "החרגת קובץ"
+msgstr "החרגת קובץ בודד"
 
 #: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
-#, fuzzy
-#| msgid "Exclude File"
 msgid "Exclude Pattern"
-msgstr "החרגת קובץ"
+msgstr "דפוס החרגה"
 
 #: src/ui/dialog_exclude.ui:57
 msgid "Define regular expression or Unix filename patterns"
-msgstr ""
+msgstr "הגדרת ביטוי רגולרי או שם קובץ בתבנית יוניקס"
 
 #: src/ui/dialog_exclude.ui:70
 msgid "Suggested Exclusions"
 msgstr "החרגות מוצעות"
 
 #: src/ui/dialog_exclude_pattern.rs:34
-#, fuzzy
-#| msgid "Regular Expression"
 msgid "Invalid Regular Expression"
-msgstr "ביטוי רגולרי"
+msgstr "ביטוי רגולרי לא תקף"
 
 #: src/ui/dialog_exclude_pattern.ui:35
 msgid "Add"
-msgstr ""
+msgstr "הוספה"
 
 #: src/ui/dialog_exclude_pattern.ui:81
-#, fuzzy
-#| msgid "Backup Past Due"
 msgid "BorgBackup Patterns"
-msgstr "תאריך היעד של הגיבוי חלף"
+msgstr "תבניות BorgBackup"
 
 #: src/ui/dialog_exclude_pattern.ui:92
 msgid ""
@@ -1058,7 +1083,7 @@ msgstr "לשמור על ארכיונים"
 
 #: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
 msgid "Not Considered"
-msgstr ""
+msgstr "לא נלקח בחשבון"
 
 #: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
 msgid "Archives with different prefix"
@@ -1074,7 +1099,7 @@ msgstr "מתבצעת הערכת ההשפעה על ארכיונים ישנים"
 
 #: src/ui/dialog_prune_review.ui:31
 msgid "Collecting information about the effect of the changes on old archives"
-msgstr ""
+msgstr "אוסף מידע על ההשפעה של השינויים על ארכיונים ישנים"
 
 #: src/ui/dialog_prune_review.ui:59
 msgid "Apply"
@@ -1085,6 +1110,8 @@ msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
 msgstr ""
+"לאחר החלת שינויים אלה, למחיקה האוטומטית הבאה של ארכיונים ישנים תהיינה את "
+"ההשלכות הבאות."
 
 #: src/ui/dialog_setup.rs:174
 msgid "Failed to list existing repositories."
@@ -1115,6 +1142,8 @@ msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
 msgstr ""
+"בחירת מיקום המכיל מאגר גיבוי קיים. ניתן להשתמש גם במאגרים שנוצרו עם תכנות "
+"אחרות בעלות תאימות עם BorgBackup."
 
 #: src/ui/dialog_setup.ui:138
 msgid "Back to Overview"
@@ -1168,21 +1197,15 @@ msgid "Locations with BorgBackup Support"
 msgstr "מיקומים עם תמיכה ב־BorgBackup"
 
 #: src/ui/dialog_setup.ui:310
-#, fuzzy
-#| msgid ""
-#| "Locations with explicit borg-backup support can provide better "
-#| "Performance. They are special in that the server has a borg-backup binary "
-#| "installed. For those locations, either the “<server address>:<folder>” "
-#| "syntax or the “ssh://” prefix can be used."
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
 "those locations, either the “<server address>:<folder>” syntax or the "
 "“ssh://” prefix can be used."
 msgstr ""
-"מיקומים עם תמיכה מפורשת ב־borg-backup עשויים לספק ביצועים משופרים. המיוחד "
-"בהם הוא שבשרת מותקן הקובץ הבינרי borg-backup. למיקומים אלו אפשר להשתמש "
-"בתחביר „<server address>:<folder>” (כתובת שרת:תיקייה) או בקידומת „ssh://‎”."
+"מיקומים עם תמיכה מפורשת ב־BorgBackup עשויים לספק ביצועים משופרים. המיוחד בהם "
+"הוא שבשרת מותקן הקובץ הבינרי BorgBackup. למיקומים אלו אפשר להשתמש בתחביר "
+"„<server address>:<folder>” (כתובת שרת:תיקייה) או בקידומת „ssh://‎”."
 
 #: src/ui/dialog_setup.ui:327
 msgid ""
@@ -1257,6 +1280,8 @@ msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
+"ניתן לבחור באוסף של הגדרות המשמשות גיבויים קודמים להעברה להגדרה החדשה. ניתן "
+"לשנות ולהתאים את ההגדרות גם בשלב מאוחר יותר."
 
 #: src/ui/dialog_setup.ui:619
 msgid "_Save"
@@ -1268,6 +1293,8 @@ msgid ""
 "same prefix on two devices is discouraged unless a new device supersedes the "
 "old one."
 msgstr ""
+"תחילית הארכיון צריכה להיות ייחודית לכל הגדרת גיבוי. שימוש באותה תחילית בשני "
+"התקנים אינה מומלצת אלא במקרה של התקן חדש שבא להחליף התקן ישן."
 
 #: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
@@ -1281,11 +1308,11 @@ msgstr "ללא"
 msgid "Free space: {}"
 msgstr "מקום פנוי: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:110
+#: src/ui/dialog_setup/folder_button.rs:111
 msgid "_Select…"
 msgstr "_בחירה…"
 
-#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "מיקום הגיבוי"
 
@@ -1421,11 +1448,15 @@ msgstr "הערה"
 msgid "Browse saved files"
 msgstr "עיון בקבצים השמורים"
 
-#: src/ui/page_archives/display.rs:201
+#: src/ui/page_archives/display.rs:181
+msgid "Delete archive"
+msgstr "מחיקת ארכיון"
+
+#: src/ui/page_archives/display.rs:215
 msgid "{} Available"
 msgstr "{} פנויים"
 
-#: src/ui/page_archives/display.rs:204
+#: src/ui/page_archives/display.rs:218
 msgid "{} Total"
 msgstr "{} בסך הכול"
 
@@ -1707,6 +1738,8 @@ msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
 msgstr ""
+"יש במערכת תקלה שעשויה לגרום לכך שתזמון הגיבויים לא יעבוד כראוי. הבעיה נפתרת "
+"כעת."
 
 #: src/ui/utils/borg.rs:31
 msgid "Repository already in use"
@@ -1865,6 +1898,9 @@ msgstr "גיבוי פיקה „{}”"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "שמירת המטמון נכשלה"
+
+#~ msgid "Court Witch"
+#~ msgstr "קורט ויץ׳"
 
 #~ msgid "Shell Wildcard Pattern"
 #~ msgstr "תבנית תווי כל של המעטפת"
