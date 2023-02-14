@@ -191,9 +191,13 @@ impl Predefined {
 
     pub fn kind(&self) -> String {
         match self {
+            // Translators: Detailed description for caches exclusion rule
             Self::Caches => gettext("Data that can be regenerated when needed"),
+            // Translators: Detailed description for Flatpak app installations exclusion rule
             Self::FlatpakApps => gettext("Documents and data are still backed up"),
+            // Translators: Detailed description for trash exclusion rule
             Self::Trash => gettext("Files that have not been irretrievably deleted"),
+            // Translators: Detailed description for virtual machines and containers exclusion rule
             Self::VmsContainers => gettext("Might include data stored within"),
         }
     }
