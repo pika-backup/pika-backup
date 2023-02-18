@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.0 Unreleased
+## 0.5.0 (2023-02-19)
 
 - Change desktop entry category from "System" to "Utility/Archiving"
 - Change prune section to only ask for confirmation if more archives could be deleted
