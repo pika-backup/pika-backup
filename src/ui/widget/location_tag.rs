@@ -45,7 +45,7 @@ impl LocationTag {
         }
 
         let label = gtk::Label::builder()
-            .label(&self.label())
+            .label(self.label())
             .ellipsize(gtk::pango::EllipsizeMode::Middle)
             .natural_wrap_mode(gtk::NaturalWrapMode::None)
             .build();

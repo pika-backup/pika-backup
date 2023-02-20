@@ -8,7 +8,7 @@ glib::wrapper! {
 
 impl WrapBox {
     pub fn new() -> Self {
-        glib::Object::new(&[])
+        glib::Object::new()
     }
 
     pub fn add_child<T: IsA<gtk::Widget>>(&self, child: &T) {
@@ -113,7 +113,7 @@ mod imp {
         }
 
         fn constructed(&self) {
-            let obj = self.instance();
+            let obj = self.obj();
             obj.set_orientation(gtk::Orientation::Vertical);
             obj.set_hexpand(true);
             self.width_estimate.set(350);

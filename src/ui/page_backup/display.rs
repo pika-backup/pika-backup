@@ -23,8 +23,8 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 
     let row = adw::ActionRow::builder()
         .use_markup(false)
-        .title(&title)
-        .subtitle(&subtitle)
+        .title(title)
+        .subtitle(subtitle)
         .activatable(false)
         .build();
     list.append(&row);
@@ -81,7 +81,7 @@ pub fn refresh() -> Result<()> {
     ui::utils::clear(&main_ui().backup_exclude());
     for pattern in backup.exclude {
         let row = adw::ActionRow::builder()
-            .title(&glib::markup_escape_text(&pattern.description()))
+            .title(glib::markup_escape_text(&pattern.description()))
             .subtitle(&pattern.kind())
             .activatable(false)
             .build();

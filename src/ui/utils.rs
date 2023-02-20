@@ -92,7 +92,7 @@ use std::convert::TryInto;
 pub async fn background_permission() -> Result<()> {
     let generic_msg = gettext("Request to run in background failed");
 
-    if !ashpd::is_sandboxed() {
+    if !*crate::globals::APP_IS_SANDBOXED {
         // start
         let proxy = zbus::fdo::DBusProxy::new(&ZBUS_SESSION)
             .await
@@ -106,16 +106,17 @@ pub async fn background_permission() -> Result<()> {
         // without flatpak we can always run in background
         Ok(())
     } else {
-        let response = background::request(
-            &ashpd::WindowIdentifier::default(),
-            &gettext("Schedule backups and continue running backups."),
-            true,
-            Some(&[crate::DAEMON_BINARY]),
+        let response = background::Background::builder()
+            .identifier(ashpd::WindowIdentifier::default())
+            .reason(&*gettext("Schedule backups and continue running backups."))
+            .auto_start(true)
+            .command(std::iter::once(crate::DAEMON_BINARY))
             // Do not use dbus-activation because that would start the UI
             // See <https://gitlab.gnome.org/Teams/Design/hig-www/-/issues/107>
-            false,
-        )
-        .await;
+            .dbus_activatable(false)
+            .build()
+            .await
+            .and_then(|request| request.response());
 
         let is_rejected = match &response {
             Ok(background) if !background.run_in_background() || !background.auto_start() => true,
@@ -240,7 +241,7 @@ pub fn folder_chooser<T: IsA<gtk::Window>>(title: &str, parent: &T) -> gtk::File
     gtk::FileChooserNative::builder()
         .action(gtk::FileChooserAction::SelectFolder)
         .title(title)
-        .accept_label(&gettext("Select"))
+        .accept_label(gettext("Select"))
         .modal(true)
         .transient_for(parent)
         .build()
@@ -292,11 +293,11 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
     warn!("Displaying notice:\n  {}", message);
 
     let toast = adw::Toast::builder()
-        .title(&message.to_string())
+        .title(message.to_string())
         .timeout(0)
         .build();
 
-    main_ui().toast().add_toast(&toast);
+    main_ui().toast().add_toast(toast);
 
     if !crate::ui::app_window::is_displayed() {
         let notification = gio::Notification::new(&message.to_string());
@@ -336,9 +337,7 @@ pub async fn show_error_transient_for<
             .build();
 
         dialog.add_responses(&[("close", &gettext("Close"))]);
-        dialog.run_future().await;
-
-        dialog.close();
+        dialog.choose_future().await;
     } else {
         let notification = gio::Notification::new(&primary_text);
         notification.set_body(if secondary_text.is_empty() {
@@ -399,10 +398,7 @@ impl ConfirmationDialog {
             dialog.set_response_appearance("replace", adw::ResponseAppearance::Destructive);
         }
 
-        let result = dialog.run_future().await;
-        dialog.destroy();
-
-        if result == "accept" {
+        if dialog.choose_future().await == "accept" {
             Ok(())
         } else {
             Err(UserCanceled::new())
@@ -457,7 +453,7 @@ impl<T, E: Display> Logable for std::result::Result<T, E> {
 /// Workaround for distros that ship(ed) xdg-desktop-portal 1.14.x, x<4
 /// <https://github.com/flatpak/xdg-desktop-portal/releases/tag/1.14.4>
 pub fn fix_flatpak_autostart() -> Result<()> {
-    if ashpd::is_sandboxed() {
+    if *crate::globals::APP_IS_SANDBOXED {
         let mut path = glib::home_dir();
         path.push(".config/autostart");
         path.push(format!("{}.desktop", crate::APP_ID));

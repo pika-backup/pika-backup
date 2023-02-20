@@ -64,15 +64,13 @@ glib::wrapper! {
 
 impl PrunePresetObject {
     pub fn new(preset: PrunePreset) -> Self {
-        let new: Self = glib::Object::new(&[]);
-        let priv_ = imp::PrunePresetObject::from_instance(&new);
-        priv_.preset.replace(preset);
+        let new: Self = glib::Object::new();
+        new.imp().preset.replace(preset);
         new
     }
 
     pub fn preset(&self) -> PrunePreset {
-        let priv_ = imp::PrunePresetObject::from_instance(self);
-        (*priv_.preset.borrow()).clone()
+        self.imp().preset.borrow().clone()
     }
 
     pub fn list_store() -> gio::ListStore {

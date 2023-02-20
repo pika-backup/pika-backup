@@ -24,6 +24,9 @@ pub static ZBUS_SYSTEM: Lazy<zbus::Connection> = Lazy::new(|| {
 
 pub static LIB_USER: OnceCell<LibUser> = OnceCell::new();
 
+pub static APP_IS_SANDBOXED: Lazy<bool> =
+    Lazy::new(|| async_std::task::block_on(ashpd::is_sandboxed()));
+
 pub fn backup_config() -> std::sync::Arc<dyn LookupConfigId<Item = config::Backup>> {
     if matches!(LIB_USER.get(), Some(&LibUser::Daemon)) {
         Lazy::force(&crate::daemon::BACKUP_CONFIG).load().clone()

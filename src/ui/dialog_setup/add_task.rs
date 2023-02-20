@@ -9,19 +9,17 @@ macro_rules! obj {
 
         impl $type {
             pub fn new() -> Self {
-                glib::Object::new(&[])
+                glib::Object::new()
             }
 
             $(
                 pub fn $p_name(&self) -> $p_type {
-                    let priv_ = imp::$type::from_instance(self);
-                    (*priv_.$p_name.borrow()).clone()
+                    self.imp().$p_name.borrow().clone()
                 }
 
                 $(
                     pub fn $p_setter(&self, $p_name: $p_type) {
-                        let priv_ = imp::$type::from_instance(self);
-                        priv_.$p_name.replace($p_name);
+                        self.imp().$p_name.replace($p_name);
                     }
                 )?
             )*

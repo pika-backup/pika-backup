@@ -39,8 +39,8 @@ pub async fn add_include() -> Result<()> {
     let chooser = gtk::FileChooserNative::builder()
         .action(gtk::FileChooserAction::SelectFolder)
         .select_multiple(true)
-        .title(&gettext("Include Folder"))
-        .accept_label(&gettext("Select"))
+        .title(gettext("Include Folder"))
+        .accept_label(gettext("Select"))
         .modal(true)
         .transient_for(&main_ui().window())
         .build();

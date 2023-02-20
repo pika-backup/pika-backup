@@ -29,7 +29,7 @@ impl Ask {
 
         ui.dialog().present();
 
-        let response = ui.dialog().run_future().await;
+        let response = ui.dialog().choose_future().await;
         let password = config::Password::new(ui.password().text().to_string());
 
         if response == "apply" {

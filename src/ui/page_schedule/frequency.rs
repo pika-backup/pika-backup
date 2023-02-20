@@ -25,15 +25,13 @@ glib::wrapper! {
 
 impl FrequencyObject {
     pub fn new(frequency: config::Frequency) -> Self {
-        let new: Self = glib::Object::new(&[]);
-        let priv_ = imp::FrequencyObject::from_instance(&new);
-        priv_.frequency.replace(frequency);
+        let new: Self = glib::Object::new();
+        new.imp().frequency.replace(frequency);
         new
     }
 
     pub fn frequency(&self) -> config::Frequency {
-        let priv_ = imp::FrequencyObject::from_instance(self);
-        (*priv_.frequency.borrow()).clone()
+        self.imp().frequency.borrow().clone()
     }
 }
 

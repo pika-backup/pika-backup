@@ -49,7 +49,7 @@ pub fn show() {
 }
 
 fn etc() -> std::path::PathBuf {
-    if ashpd::is_sandboxed() {
+    if *crate::globals::APP_IS_SANDBOXED {
         std::path::PathBuf::from("/run/host/etc")
     } else {
         std::path::PathBuf::from("/etc")
@@ -82,7 +82,7 @@ fn debug_info() -> String {
         format!("- App ID: {}", crate::APP_ID),
         format!(
             "- Sandboxed: {} {}",
-            ashpd::is_sandboxed(),
+            *crate::globals::APP_IS_SANDBOXED,
             std::env::var("container").unwrap_or_default()
         ),
         format!("\n##### OS Information\n```\n{}\n```", os_release()),

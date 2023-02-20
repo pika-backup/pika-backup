@@ -39,11 +39,11 @@ pub fn show() {
 
     // Page Detail
     ui.password_quality()
-        .add_offset_value(&gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
+        .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
     ui.password_quality()
-        .add_offset_value(&gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
+        .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
     ui.password_quality()
-        .add_offset_value(&gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
+        .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
 
     ui.leaflet()
         .connect_visible_child_notify(clone!(@weak ui => move |_| event::leaflet_change(&ui)));

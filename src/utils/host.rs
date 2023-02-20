@@ -7,7 +7,7 @@ use std::os::unix::io::AsRawFd;
 use std::path::PathBuf;
 
 pub fn user_data_dir() -> PathBuf {
-    if ashpd::is_sandboxed() {
+    if *crate::globals::APP_IS_SANDBOXED {
         match std::env::var_os("HOST_XDG_DATA_HOME") {
             Some(dir) if !dir.is_empty() => dir.into(),
             _ => glib::home_dir().join(".local/share"),
@@ -18,7 +18,7 @@ pub fn user_data_dir() -> PathBuf {
 }
 
 pub fn user_cache_dir() -> PathBuf {
-    if ashpd::is_sandboxed() {
+    if *crate::globals::APP_IS_SANDBOXED {
         match std::env::var_os("HOST_XDG_CACHE_HOME") {
             Some(dir) if !dir.is_empty() => dir.into(),
             _ => glib::home_dir().join(".cache"),
@@ -29,7 +29,7 @@ pub fn user_cache_dir() -> PathBuf {
 }
 
 pub fn user_config_dir() -> PathBuf {
-    if ashpd::is_sandboxed() {
+    if *crate::globals::APP_IS_SANDBOXED {
         match std::env::var_os("HOST_XDG_CONFIG_HOME") {
             Some(dir) if !dir.is_empty() => dir.into(),
             _ => glib::home_dir().join(".config"),
@@ -40,7 +40,7 @@ pub fn user_config_dir() -> PathBuf {
 }
 
 pub fn user_runtime_dir() -> PathBuf {
-    if ashpd::is_sandboxed() {
+    if *crate::globals::APP_IS_SANDBOXED {
         match HOST_XDG_RUNTIME_DIR.as_ref() {
             Ok(dir) if dir.is_absolute() => dir.to_path_buf(),
             _ => glib::user_runtime_dir(),
@@ -56,8 +56,7 @@ static HOST_XDG_RUNTIME_DIR: Lazy<Result<PathBuf, Box<dyn std::error::Error + Se
 async fn host_runtime_dir() -> Result<PathBuf, Box<dyn std::error::Error + Send + Sync>> {
     let (mut pipe_reader, pipe_writer) = std::os::unix::net::UnixStream::pair()?;
 
-    let connection = ashpd::zbus::Connection::session().await?;
-    let proxy = flatpak::FlatpakProxy::new(&connection).await?;
+    let proxy = flatpak::Flatpak::new().await?;
     proxy
         .spawn(
             glib::home_dir(),

@@ -120,9 +120,9 @@ pub async fn local(root: &std::path::Path) -> Result<Space> {
         .await?;
 
     Ok(Space {
-        size: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_SIZE),
-        used: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_USED),
-        avail: fsinfo.attribute_uint64(&gio::FILE_ATTRIBUTE_FILESYSTEM_FREE),
+        size: fsinfo.attribute_uint64(gio::FILE_ATTRIBUTE_FILESYSTEM_SIZE),
+        used: fsinfo.attribute_uint64(gio::FILE_ATTRIBUTE_FILESYSTEM_USED),
+        avail: fsinfo.attribute_uint64(gio::FILE_ATTRIBUTE_FILESYSTEM_FREE),
     })
 }
 

@@ -10,7 +10,7 @@ glib::wrapper! {
 
 impl StatusIcon {
     pub fn new(icon_name: &str, level: StatusLevel) -> Self {
-        let obj: Self = glib::Object::new(&[]);
+        let obj: Self = glib::Object::new();
 
         obj.set_icon_name(icon_name);
         obj.set_level(level);
@@ -19,8 +19,7 @@ impl StatusIcon {
     }
 
     pub fn set_icon_name(&self, icon_name: &str) {
-        let priv_ = imp::StatusIcon::from_instance(self);
-        priv_.image.set_from_icon_name(Some(icon_name));
+        self.imp().image.set_from_icon_name(Some(icon_name));
     }
 
     pub fn set_level(&self, level: StatusLevel) {
@@ -33,35 +32,35 @@ impl StatusIcon {
     }
 
     pub fn set_neutral(&self) {
-        let priv_ = imp::StatusIcon::from_instance(self);
+        let imp = self.imp();
 
-        priv_.image.remove_css_class("ok-icon");
-        priv_.image.remove_css_class("warning-icon");
-        priv_.image.remove_css_class("error-icon");
+        imp.image.remove_css_class("ok-icon");
+        imp.image.remove_css_class("warning-icon");
+        imp.image.remove_css_class("error-icon");
     }
 
     pub fn set_ok(&self) {
-        let priv_ = imp::StatusIcon::from_instance(self);
-        priv_.image.add_css_class("ok-icon");
+        let imp = self.imp();
+        imp.image.add_css_class("ok-icon");
 
-        priv_.image.remove_css_class("warning-icon");
-        priv_.image.remove_css_class("error-icon");
+        imp.image.remove_css_class("warning-icon");
+        imp.image.remove_css_class("error-icon");
     }
 
     pub fn set_warning(&self) {
-        let priv_ = imp::StatusIcon::from_instance(self);
-        priv_.image.add_css_class("warning-icon");
+        let imp = self.imp();
+        imp.image.add_css_class("warning-icon");
 
-        priv_.image.remove_css_class("ok-icon");
-        priv_.image.remove_css_class("error-icon");
+        imp.image.remove_css_class("ok-icon");
+        imp.image.remove_css_class("error-icon");
     }
 
     pub fn set_error(&self) {
-        let priv_ = imp::StatusIcon::from_instance(self);
-        priv_.image.add_css_class("error-icon");
+        let imp = self.imp();
+        imp.image.add_css_class("error-icon");
 
-        priv_.image.remove_css_class("ok-icon");
-        priv_.image.remove_css_class("warning-icon");
+        imp.image.remove_css_class("ok-icon");
+        imp.image.remove_css_class("warning-icon");
     }
 }
 
@@ -85,12 +84,10 @@ mod imp {
 
     impl ObjectImpl for StatusIcon {
         fn constructed(&self) {
-            let obj = self.instance();
-
             self.image.add_css_class("status-icon");
             self.image.set_valign(gtk::Align::Center);
 
-            obj.append(&*self.image);
+            self.obj().append(&*self.image);
         }
     }
 

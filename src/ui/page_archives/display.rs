@@ -150,7 +150,7 @@ pub fn ui_display_archives(repo_id: &borg::RepoId) {
                 .build();
             label.add_css_class("dim-label");
 
-            let row = adw::ActionRow::builder().title(&title).build();
+            let row = adw::ActionRow::builder().title(title).build();
             row.add_suffix(&label);
             row
         };
@@ -167,8 +167,9 @@ pub fn ui_display_archives(repo_id: &borg::RepoId) {
         let browse_row = adw::ActionRow::builder()
             .title(&gettext("Browse saved files"))
             .activatable(true)
-            .icon_name("folder-open-symbolic")
             .build();
+
+        browse_row.add_prefix(&gtk::Image::from_icon_name("folder-open-symbolic"));
         browse_row.add_suffix(&gtk::Image::from_icon_name("go-next-symbolic"));
 
         row.add_row(&browse_row);
@@ -180,9 +181,9 @@ pub fn ui_display_archives(repo_id: &borg::RepoId) {
         let delete_row = adw::ActionRow::builder()
             .title(&gettext("Delete archive"))
             .activatable(true)
-            .icon_name("edit-delete-symbolic")
             .build();
 
+        delete_row.add_prefix(&gtk::Image::from_icon_name("edit-delete-symbolic"));
         delete_row.add_suffix(&gtk::Image::from_icon_name("go-next-symbolic"));
 
         row.add_row(&delete_row);

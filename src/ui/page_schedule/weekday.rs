@@ -21,15 +21,13 @@ glib::wrapper! {
 
 impl WeekdayObject {
     pub fn new(weekday: chrono::Weekday) -> Self {
-        let new: Self = glib::Object::new(&[]);
-        let priv_ = imp::WeekdayObject::from_instance(&new);
-        priv_.weekday.replace(weekday);
+        let new: Self = glib::Object::new();
+        new.imp().weekday.replace(weekday);
         new
     }
 
     pub fn weekday(&self) -> chrono::Weekday {
-        let priv_ = imp::WeekdayObject::from_instance(self);
-        *priv_.weekday.borrow()
+        *self.imp().weekday.borrow()
     }
 }
 

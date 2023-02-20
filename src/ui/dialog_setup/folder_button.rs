@@ -10,12 +10,11 @@ glib::wrapper! {
 
 impl FolderButton {
     pub fn new() -> Self {
-        glib::Object::new(&[])
+        glib::Object::new()
     }
 
     pub fn file(&self) -> Option<gio::File> {
-        let priv_ = imp::FolderButton::from_instance(self);
-        (*priv_.file.borrow()).clone()
+        self.imp().file.borrow().clone()
     }
 
     pub fn connect_folder_change<F: 'static + Fn()>(&self, f: F) -> gtk::glib::SignalHandlerId {
@@ -98,7 +97,7 @@ mod imp {
         }
 
         fn constructed(&self) {
-            let obj = self.instance();
+            let obj = self.obj();
             self.parent_constructed();
 
             obj.set_child(Some(&*self.child));
@@ -119,8 +118,7 @@ mod imp {
                         .unwrap(),
                 );
 
-                let priv_ = Self::from_instance(obj);
-                *priv_.file_chooser.borrow_mut() = Some(dialog.clone());
+                obj.imp().file_chooser.replace(Some(dialog.clone()));
 
                 let obj = obj.clone();
 

@@ -157,7 +157,7 @@ impl Backup {
         let mut dirs =
             BTreeSet::from_iter(self.exclude.clone().into_iter().map(|x| x.into_absolute()));
 
-        if ashpd::is_sandboxed() {
+        if *crate::globals::APP_IS_SANDBOXED {
             dirs.insert(Exclude::from_pattern(Pattern::path_prefix(format!(
                 ".var/app/{}/data/flatpak/",
                 crate::APP_ID
