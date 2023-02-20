@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 (2023-02-21)
+
+- Fix a panic during backup size estimates for files that have invalid time metadata
+
 ## 0.5.0 (2023-02-19)
 
 - Change desktop entry category from "System" to "Utility/Archiving"
