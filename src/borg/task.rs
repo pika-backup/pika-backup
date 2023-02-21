@@ -64,7 +64,7 @@ impl Task for Compact {
     type Return = ();
 
     fn name() -> String {
-        gettext("Compacting Archives")
+        gettext("Reclaiming Free Space")
     }
 }
 

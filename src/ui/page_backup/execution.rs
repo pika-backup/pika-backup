@@ -54,6 +54,36 @@ async fn startup_backup(
     result
 }
 
+async fn run_prune(
+    config: config::Backup,
+    from_schedule: Option<schedule::DueCause>,
+) -> Result<bool> {
+    let prune_command = borg::Command::<borg::task::Prune>::new(config.clone())
+        .set_from_schedule(from_schedule.clone());
+    let prune_result = ui::utils::borg::exec(prune_command)
+        .await
+        .into_borg_error()?;
+
+    match prune_result {
+        Err(borg::Error::Aborted(_)) => return Ok(false),
+        Err(err) => return Err(Message::new(gettext("Delete old Archives Failed"), err).into()),
+        _ => {}
+    };
+
+    let compact_command = borg::Command::<borg::task::Compact>::new(config.clone());
+    let compact_result = ui::utils::borg::exec(compact_command)
+        .await
+        .into_borg_error()?;
+
+    match compact_result {
+        Err(borg::Error::Aborted(_)) => return Ok(false),
+        Err(err) => return Err(Message::new(gettext("Reclaiming Free Space Failed"), err).into()),
+        _ => {}
+    };
+
+    Ok(true)
+}
+
 async fn run_backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
@@ -120,11 +150,14 @@ async fn run_backup(
                 // use current config for pruning archives
                 // assuming it's closer to what users expect
                 if let Ok(current_config) = BACKUP_CONFIG.load().get_result(&config.id) {
-                    let command = borg::Command::<borg::task::Prune>::new(current_config.clone())
-                        .set_from_schedule(from_schedule.clone());
-                    let _ignore = ui::utils::borg::exec(command).await;
+                    match run_prune(current_config.clone(), from_schedule.clone()).await {
+                        Ok(false) => return Ok(()),
+                        Err(err) => return Err(err),
+                        _ => {}
+                    };
                 }
             }
+
             let _ignore =
                 ui::page_archives::cache::refresh_archives(config.clone(), from_schedule).await;
             let _ignore = ui::utils::df::lookup_and_cache(&config).await;

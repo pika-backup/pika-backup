@@ -2,6 +2,7 @@
 
 ## 0.6.0 (unreleased)
 
+- Fix compact is not run after prune
 - Add background portal status API messages about running operations
 
 ## 0.5.1 (2023-02-21)
