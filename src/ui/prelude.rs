@@ -5,7 +5,7 @@ pub use crate::ui::error::{
 };
 pub use crate::ui::globals::*;
 pub use crate::ui::utils::ext::*;
-pub use crate::ui::utils::{Logable, LookupActiveConfigId};
+pub use crate::ui::utils::{Logable, LookupActiveConfigId, SummarizeOperations};
 
 use arc_swap::ArcSwap;
 pub use glib::clone;

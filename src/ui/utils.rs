@@ -212,6 +212,26 @@ impl<C: LookupActiveConfigId> LookupActiveConfigId for config::Writeable<C> {
     }
 }
 
+pub trait SummarizeOperations {
+    fn summarize_operations(&self) -> Option<String>;
+}
+
+impl SummarizeOperations
+    for std::collections::BTreeMap<ConfigId, Rc<dyn super::operation::OperationExt>>
+{
+    fn summarize_operations(&self) -> Option<String> {
+        match self.len() {
+            0 => None,
+            1 => self.first_key_value().map(|(_id, op)| op.name()),
+            n => Some(ngettextf_(
+                "One Backup Operation Running",
+                "{} Backup Operations Running",
+                n as u32,
+            )),
+        }
+    }
+}
+
 fn active_config_id_result() -> Result<ConfigId> {
     ACTIVE_BACKUP_ID
         .get()

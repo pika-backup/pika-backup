@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 (unreleased)
+
+- Add background portal status API messages about running operations
+
 ## 0.5.1 (2023-02-21)
 
 - Fix a panic during backup size estimates for files that have invalid time metadata

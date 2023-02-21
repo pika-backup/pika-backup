@@ -29,6 +29,7 @@ mod page_detail;
 mod page_overview;
 mod page_schedule;
 mod prelude;
+mod shell;
 mod status;
 mod toast_size_estimate;
 mod utils;

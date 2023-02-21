@@ -175,6 +175,7 @@ impl<T: borg::Task> Operation<T> {
         }
 
         ui::page_overview::refresh_status();
+        glib::MainContext::default().spawn(ui::shell::background_activity_update());
     }
 
     fn ui_schedule_update(&self) {
