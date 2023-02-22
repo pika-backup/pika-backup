@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2 (2023-02-23)
+
+- Fix spelling mistake in daemon app id constant
+
 ## 0.5.1 (2023-02-21)
 
 - Fix a panic during backup size estimates for files that have invalid time metadata

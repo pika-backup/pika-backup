@@ -29,7 +29,7 @@ const APP_ID: &str = const_str::concat!(APP_ID_WITHOUT_SUFFIX, APP_ID_SUFFIX);
 const DBUS_API_NAME: &str = const_str::concat!(APP_ID, ".Api");
 const DBUS_API_PATH: &str = const_str::concat!("/", const_str::replace!(APP_ID, ".", "/"));
 
-const DAEMON_APP_ID: &str = const_str::concat!(APP_ID, ".Montior");
+const DAEMON_APP_ID: &str = const_str::concat!(APP_ID, ".Monitor");
 const DAEMON_BINARY: &str = concat!(env!("CARGO_PKG_NAME"), "-monitor");
 
 mod action;
