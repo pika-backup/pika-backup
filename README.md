@@ -8,6 +8,8 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
 
 [<img width='240' alt='Part of GNOME Circle' src='https://gitlab.gnome.org/Teams/Circle/-/raw/91de93edbb3e75eb0882d56bd466e58b525135d5/assets/button/circle-button-fullcolor.svg' />](https://circle.gnome.org/)
 
+[<img width='255' alt='Download on Flathub' src='https://opencollective.com/pika-backup/tiers/mouthful.svg?avatarHeight=120' />](https://opencollective.com/pika-backup)
+
 ### Features
 
 <ul>
