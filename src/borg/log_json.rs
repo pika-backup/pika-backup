@@ -92,7 +92,7 @@ impl fmt::Display for ProgressPercent {
             let percent = current as f64 / total as f64 * 100.0;
             write!(
                 f,
-                "{} {}",
+                "{}: {}",
                 self.msgid,
                 gettextf(
                     // xgettext:no-c-format

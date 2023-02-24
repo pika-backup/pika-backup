@@ -139,7 +139,10 @@ impl CommandRun<task::Prune> for Command<task::Prune> {
 impl CommandRun<task::Compact> for Command<task::Compact> {
     async fn run(self) -> Result<()> {
         let mut borg_call = compact_call(&self).await?;
-        borg_call.add_basics(&self).await?;
+        borg_call
+            .add_options(["--progress"])
+            .add_basics(&self)
+            .await?;
 
         let process = borg_call.spawn_async_managed(self.communication.clone())?;
 
