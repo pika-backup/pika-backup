@@ -3,7 +3,6 @@ use adw::prelude::*;
 use crate::borg;
 use crate::config;
 use crate::ui;
-use crate::ui::error;
 use crate::ui::prelude::*;
 use ui::builder::DialogDeleteArchive;
 
@@ -66,12 +65,7 @@ async fn delete(ui: DialogDeleteArchive, config: config::Backup, archive_name: &
     command.task.set_archive_name(archive_name);
     let result = ui::utils::borg::exec(command).await;
 
-    if !matches!(
-        result,
-        Err(error::Combined::Borg(borg::Error::Aborted(
-            borg::error::Abort::User
-        )))
-    ) {
+    if !result.is_borg_err_user_aborted() {
         result.into_message(gettext("Delete Archive"))?;
     }
 

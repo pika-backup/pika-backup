@@ -3,7 +3,6 @@ use adw::prelude::*;
 use crate::borg;
 use crate::config;
 use crate::ui;
-use crate::ui::error;
 use crate::ui::prelude::*;
 use ui::builder::DialogPrune;
 
@@ -75,14 +74,19 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
     let result =
         ui::utils::borg::exec(borg::Command::<borg::task::Prune>::new(config.clone())).await;
 
-    if !matches!(
-        result,
-        Err(error::Combined::Borg(borg::Error::Aborted(
-            borg::error::Abort::User
-        )))
-    ) {
+    if !result.is_borg_err_user_aborted() {
         result.into_message(gettext("Delete old Archives"))?;
     }
+
+    let result =
+        ui::utils::borg::exec(borg::Command::<borg::task::Compact>::new(config.clone())).await;
+
+    if !result.is_borg_err_user_aborted() {
+        result.into_message(gettext("Reclaim Free Space"))?;
+    }
+
+    let _ignore = ui::page_archives::cache::refresh_archives(config.clone(), None).await;
+    let _ignore = ui::utils::df::lookup_and_cache(&config).await;
 
     Ok(())
 }

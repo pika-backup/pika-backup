@@ -1,7 +1,8 @@
 pub use crate::borg::prelude::*;
 pub use crate::prelude::*;
 pub use crate::ui::error::{
-    CombinedResult, CombinedToError, Error, ErrorToMessage, Handler, Message, Result, UserCanceled,
+    CombinedResult, CombinedResultExt, CombinedToError, Error, ErrorToMessage, Handler, Message,
+    Result, UserCanceled,
 };
 pub use crate::ui::globals::*;
 pub use crate::ui::utils::ext::*;

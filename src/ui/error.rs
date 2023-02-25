@@ -8,6 +8,21 @@ use crate::ui;
 pub type Result<T> = std::result::Result<T, Error>;
 pub type CombinedResult<T> = std::result::Result<T, Combined>;
 
+pub trait CombinedResultExt<T> {
+    fn is_borg_err_user_aborted(&self) -> bool;
+}
+
+impl<T> CombinedResultExt<T> for CombinedResult<T> {
+    fn is_borg_err_user_aborted(&self) -> bool {
+        matches!(
+            self,
+            Err(Combined::Borg(borg::Error::Aborted(
+                borg::error::Abort::User
+            )))
+        )
+    }
+}
+
 quick_error! {
     #[derive(Debug)]
     pub enum Combined {
