@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-01-05 15:52+0000\n"
-"PO-Revision-Date: 2023-01-05 22:41+0100\n"
+"POT-Creation-Date: 2023-02-27 08:01+0000\n"
+"PO-Revision-Date: 2023-02-27 09:59+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -53,7 +53,7 @@ msgstr "archive;back-up;borg;Archiv;Datensicherung;"
 msgid "Sophie Herold"
 msgstr "Sophie Herold"
 
-#: data/app.metainfo.xml.in:20
+#: data/app.metainfo.xml.in:21
 msgid ""
 "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
 "rest for you."
@@ -61,15 +61,15 @@ msgstr ""
 "Datensicherung leicht gemacht. Stecken Sie Ihr USB-Laufwerk an und lassen "
 "Sie Pika den Rest für Sie erledigen."
 
-#: data/app.metainfo.xml.in:24
+#: data/app.metainfo.xml.in:25
 msgid "Create backups locally and remotely"
 msgstr "Lokale und entfernte Sicherungen anlegen"
 
-#: data/app.metainfo.xml.in:25
+#: data/app.metainfo.xml.in:26
 msgid "Set a schedule for regular backups"
 msgstr "Einen Zeitplan für regelmäßige Sicherungen festlegen"
 
-#: data/app.metainfo.xml.in:26
+#: data/app.metainfo.xml.in:27
 msgid ""
 "Save time and disk space because Pika Backup does not need to copy known "
 "data again"
@@ -77,20 +77,20 @@ msgstr ""
 "Zeit und Speicherplatz sparen, denn Pika muss bekannte Daten nicht erneut "
 "kopieren"
 
-#: data/app.metainfo.xml.in:27
+#: data/app.metainfo.xml.in:28
 msgid "Encrypt your backups"
 msgstr "Ihre Datensicherungen verschlüsseln"
 
-#: data/app.metainfo.xml.in:28
+#: data/app.metainfo.xml.in:29
 msgid "List created archives and browse through their contents"
 msgstr "Erstellte Archive auflisten und deren Inhalt durchsuchen"
 
-#: data/app.metainfo.xml.in:29
+#: data/app.metainfo.xml.in:30
 msgid "Recover files or folders via your file browser"
 msgstr "Dateien oder Ordner über die Dateiverwaltung wiederherstellen"
 
 # Etwas freier, aber eindeutiger.
-#: data/app.metainfo.xml.in:31
+#: data/app.metainfo.xml.in:32
 msgid ""
 "Pika Backup is designed to save your personal data and does not support "
 "complete system recovery. Pika Backup is powered by the well-tested "
@@ -100,17 +100,17 @@ msgstr ""
 "Es bietet aber keine vollständige Systemwiederherstellung. Pika "
 "Datensicherung verwendet das gut getestete Programm BorgBackup."
 
-#: data/app.metainfo.xml.in:58
+#: data/app.metainfo.xml.in:59
 msgid "Just activate “Back Up Now” and your data will be saved"
 msgstr "Aktivieren Sie »Jetzt sichern« und Ihre Daten werden gesichert"
 
-#: data/app.metainfo.xml.in:62
+#: data/app.metainfo.xml.in:63
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr ""
 "Richten Sie regelmäßige Datensicherungen ein von monatlich bis hin zu "
 "stündlich"
 
-#: data/app.metainfo.xml.in:66
+#: data/app.metainfo.xml.in:67
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr ""
 "Bewahren Sie Sicherungen gleichzeitig auf lokalen Festplatten und bei Online-"
@@ -311,7 +311,7 @@ msgstr "Fehlersuche"
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:229
 msgid "Warning"
 msgstr "Warnung"
 
@@ -355,7 +355,8 @@ msgstr "Archiv wird gelöscht"
 msgid "Refreshing Archive List"
 msgstr "Archivliste wird aufgefrischt"
 
-#: src/config.rs:57 src/ui/page_backup/display.rs:13
+#. Translators: User home directory
+#: src/config.rs:58 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Persönlicher Ordner"
@@ -408,13 +409,25 @@ msgstr "Papierkorb"
 msgid "Virtual Machines and Containers"
 msgstr "Virtuelle Maschinen und Container"
 
-#: src/config/exclude.rs:194
+#. Translators: Detailed description for caches exclusion rule
+#: src/config/exclude.rs:195
 msgid "Data that can be regenerated when needed"
 msgstr "Daten, die bei Bedarf neu erstellt werden können"
 
-#: src/config/exclude.rs:195
+#. Translators: Detailed description for Flatpak app installations exclusion rule
+#: src/config/exclude.rs:197
 msgid "Documents and data are still backed up"
 msgstr "Dokumente und Daten sind weiterhin gesichert"
+
+#. Translators: Detailed description for trash exclusion rule
+#: src/config/exclude.rs:199
+msgid "Files that have not been irretrievably deleted"
+msgstr "Dateien, die nicht unwiederbringlich gelöscht wurden"
+
+#. Translators: Detailed description for virtual machines and containers exclusion rule
+#: src/config/exclude.rs:201
+msgid "Might include data stored within"
+msgstr "Kann darin gespeicherte Daten beinhalten"
 
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
@@ -424,8 +437,8 @@ msgstr "Regulärer Ausdruck"
 msgid "Unix Filename Pattern"
 msgstr "Unix-Dateiname-Muster"
 
-#: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
-#: src/ui/dialog_setup.ui:108
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:65
+#: src/ui/dialog_setup.ui:109
 msgid "Remote Location"
 msgstr "Entfernter Ort"
 
@@ -525,7 +538,7 @@ msgstr "Laufende Datensicherung abbrechen?"
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Das Backup bleibt unvollständig, wenn jetzt abgebrochen wird."
 
-#: src/ui.rs:179 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:179 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Weiter"
 
@@ -854,15 +867,19 @@ msgstr "Datensicherung wird angehalten"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Aufbau einer Schnittstelle für geplante Sicherungen fehlgeschlagen."
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:27
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:27
-msgid "Copyright © 2018–2022 Sophie Herold et al."
-msgstr "Copyright © 2018-2022 Sophie Herold et al."
-
 #: src/ui/dialog_about.rs:28
+msgid "Fina Wilke"
+msgstr "Fina Wilke"
+
+#: src/ui/dialog_about.rs:30
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "Copyright © 2018-2023 Sophie Herold et al."
+
+#: src/ui/dialog_about.rs:31
 msgid "translator-credits"
 msgstr ""
 "Philipp Kiemle <philipp.kiemle@gmail.com>\n"
@@ -871,20 +888,11 @@ msgstr ""
 "Tim Sabsch <tim@sabsch.com>\n"
 "Jürgen Benvenuti <gastornis@posteo.org>"
 
-#. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:31
-msgid "Court Witch"
-msgstr "Court Witch"
-
-#: src/ui/dialog_about.rs:32
-msgid "Fina Wilke"
-msgstr "Fina Wilke"
-
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:35
 msgid "Back End"
 msgstr "Backend"
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:37
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -894,11 +902,11 @@ msgstr ""
 "existieren ohne Borg. Erwägen Sie, <a href='https://www.borgbackup.org/"
 "support/fund.html'>BorgBackup zu unterstützen</a>."
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:39
 msgid "The Name"
 msgstr "Der Name"
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:41
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -919,7 +927,7 @@ msgstr ""
 "die Heuernte. Zu guter Letzt bauen Pikas nicht nur sehr ausgeklügelte "
 "Heustapel, sondern sie sind auch schnell im Sammeln von Pflanzen."
 
-#: src/ui/dialog_about.rs:45
+#: src/ui/dialog_about.rs:43
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -933,7 +941,7 @@ msgid "Invalid Archive Prefix"
 msgstr "Ungültiges Archiv-Präfix"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:632
+#: src/ui/dialog_setup.ui:634
 msgid "Archive Prefix"
 msgstr "Archiv-Präfix"
 
@@ -1013,7 +1021,7 @@ msgstr ""
 "Der Vorgang »{}« erfordert das Verschlüsselungspasswort des Depots unter "
 "»{}«."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:487
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:489
 msgid "Encryption Password Required"
 msgstr "Verschlüsselungspasswort benötigt"
 
@@ -1025,20 +1033,24 @@ msgstr "A_bbrechen"
 msgid "Co_ntinue"
 msgstr "_Weiter"
 
-#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:507
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:509
 msgid "Password"
 msgstr "Passwort"
 
-#: src/ui/dialog_exclude.rs:129
+#: src/ui/dialog_exclude.rs:74
+msgid "Exclusion Rules"
+msgstr "Ausschlussregeln"
+
+#: src/ui/dialog_exclude.rs:135
 msgid "Exclude Directory"
 msgstr "Verzeichnis ausschließen"
 
-#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Auswählen"
 
-#: src/ui/dialog_exclude.rs:158
+#: src/ui/dialog_exclude.rs:164
 msgid "Exclude File"
 msgstr "Datei ausschließen"
 
@@ -1170,23 +1182,23 @@ msgstr "Auflisten bestehender Sicherungsdepots fehlgeschlagen."
 msgid "Setup"
 msgstr "Einrichtung"
 
-#: src/ui/dialog_setup.ui:40
+#: src/ui/dialog_setup.ui:41
 msgid "Create new Repository"
 msgstr "Ein neues Sicherungsdepot anlegen"
 
-#: src/ui/dialog_setup.ui:41
+#: src/ui/dialog_setup.ui:42
 msgid "Select a location for a new backup repository."
 msgstr "Einen Ort für ein neues Sicherungsdepot auswählen."
 
-#: src/ui/dialog_setup.ui:49 src/ui/dialog_setup.ui:93
+#: src/ui/dialog_setup.ui:50 src/ui/dialog_setup.ui:94
 msgid "Location on Disk"
 msgstr "Ort auf dem Datenträger"
 
-#: src/ui/dialog_setup.ui:84
+#: src/ui/dialog_setup.ui:85
 msgid "Use Existing Repository"
 msgstr "Bestehendes Sicherungsdepot verwenden"
 
-#: src/ui/dialog_setup.ui:85
+#: src/ui/dialog_setup.ui:86
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -1195,27 +1207,27 @@ msgstr ""
 "können auch Depots verwendet werden, die mit anderen BorgBackup-kompatiblen "
 "Programmen erstellt wurden."
 
-#: src/ui/dialog_setup.ui:138
+#: src/ui/dialog_setup.ui:139
 msgid "Back to Overview"
 msgstr "Zurück zur Übersicht"
 
-#: src/ui/dialog_setup.ui:148
+#: src/ui/dialog_setup.ui:149
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/ui/dialog_setup.ui:161
+#: src/ui/dialog_setup.ui:162
 msgid "_Create"
 msgstr "_Anlegen"
 
-#: src/ui/dialog_setup.ui:177
+#: src/ui/dialog_setup.ui:179
 msgid "Location"
 msgstr "Ort"
 
-#: src/ui/dialog_setup.ui:181
+#: src/ui/dialog_setup.ui:183
 msgid "Advanced Options"
 msgstr "Erweiterte Optionen"
 
-#: src/ui/dialog_setup.ui:239
+#: src/ui/dialog_setup.ui:241
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1228,16 +1240,16 @@ msgstr ""
 "»NTFS« oder »Ext4«. Beachten Sie, dass das Formatieren alle Dateien auf dem "
 "betreffenden Gerät löscht!"
 
-#: src/ui/dialog_setup.ui:264
+#: src/ui/dialog_setup.ui:266
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://benutzer@server.beispiel.org/~/Sicherung"
 
-#: src/ui/dialog_setup.ui:280
+#: src/ui/dialog_setup.ui:282
 msgid "Conventional Locations"
 msgstr "Konventionelle Orte"
 
 # »des Typs« kommt im Original nicht vor. Aber wenn der Satz beginnt mit »SMB und SFTP entfernte …« klingt das für mich unverständlich. Bessere Lösungen gerne erwünscht. - jb
-#: src/ui/dialog_setup.ui:291
+#: src/ui/dialog_setup.ui:293
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
 "“smb://” or “sftp://” protocol prefix."
@@ -1245,11 +1257,11 @@ msgstr ""
 "Entfernte Sicherungsorte des Typs SMB und SFTP können als URL mit dem "
 "»smb://«- oder »sftp://«- Protokoll-Präfix angegeben werden."
 
-#: src/ui/dialog_setup.ui:298
+#: src/ui/dialog_setup.ui:300
 msgid "Locations with BorgBackup Support"
 msgstr "Orte mit BorgBackup-Unterstützung"
 
-#: src/ui/dialog_setup.ui:310
+#: src/ui/dialog_setup.ui:312
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
@@ -1261,7 +1273,7 @@ msgstr ""
 "Binärdatei von BorgBackup installiert ist. Für diese Orte kann entweder die "
 "Syntax »<Serveradresse>:<Ordner>« oder das »ssh://«-Präfix verwendet werden."
 
-#: src/ui/dialog_setup.ui:327
+#: src/ui/dialog_setup.ui:329
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1270,27 +1282,27 @@ msgstr ""
 "geschützt. Falls eine Verschlüsselung verwendet wird, ist das Passwort für "
 "den Zugriff auf die Datensicherungen erforderlich."
 
-#: src/ui/dialog_setup.ui:328
+#: src/ui/dialog_setup.ui:330
 msgid "Encryption"
 msgstr "Verschlüsselung"
 
-#: src/ui/dialog_setup.ui:342
+#: src/ui/dialog_setup.ui:344
 msgid "Encrypted"
 msgstr "Verschlüsselt"
 
-#: src/ui/dialog_setup.ui:349
+#: src/ui/dialog_setup.ui:351
 msgid "Encryption Password"
 msgstr "Verschlüsselungspasswort"
 
-#: src/ui/dialog_setup.ui:363
+#: src/ui/dialog_setup.ui:365
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: src/ui/dialog_setup.ui:374
+#: src/ui/dialog_setup.ui:376
 msgid "Unencrypted"
 msgstr "Unverschlüsselt"
 
-#: src/ui/dialog_setup.ui:391
+#: src/ui/dialog_setup.ui:393
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1298,30 +1310,30 @@ msgstr ""
 "Diese Optionen werden dem Aufruf des borg-Programms hinzugefügt. Nur lange "
 "Optionen, beginnend mit »--«, werden unterstützt."
 
-#: src/ui/dialog_setup.ui:392
+#: src/ui/dialog_setup.ui:394
 msgid "Additional command line arguments"
 msgstr "Zusätzliche Befehlszeilenoptionen"
 
-#: src/ui/dialog_setup.ui:434
+#: src/ui/dialog_setup.ui:436
 msgid "Checking Backup Repository"
 msgstr "Sicherungsdepot wird überprüft"
 
-#: src/ui/dialog_setup.ui:496
+#: src/ui/dialog_setup.ui:498
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "Um auf dieses Sicherungsdepot zugreifen zu können, wird dessen "
 "Verschlüsselungspasswort benötigt."
 
-#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
+#: src/ui/dialog_setup.ui:544 src/ui/dialog_setup.ui:578
 msgid "S_kip"
 msgstr "Übers_pringen"
 
-#: src/ui/dialog_setup.ui:554
+#: src/ui/dialog_setup.ui:556
 msgid "Checking for Previous Configurations"
 msgstr "Auf frühere Konfigurationen prüfen"
 
-#: src/ui/dialog_setup.ui:555
+#: src/ui/dialog_setup.ui:557
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1329,11 +1341,11 @@ msgstr ""
 "Informationen zur Übertragung früher genutzter Einstellungen werden "
 "gesammelt. Dieser Schritt ist optional."
 
-#: src/ui/dialog_setup.ui:590
+#: src/ui/dialog_setup.ui:592
 msgid "Transfer Settings"
 msgstr "Einstellungen übertragen"
 
-#: src/ui/dialog_setup.ui:591
+#: src/ui/dialog_setup.ui:593
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1342,11 +1354,11 @@ msgstr ""
 "wurden, kann für eine Übertragung auf eine neue Einrichtung ausgewählt "
 "werden. Die Einstellung kann später geändert werden."
 
-#: src/ui/dialog_setup.ui:619
+#: src/ui/dialog_setup.ui:621
 msgid "_Save"
 msgstr "_Speichern"
 
-#: src/ui/dialog_setup.ui:633
+#: src/ui/dialog_setup.ui:635
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1356,7 +1368,7 @@ msgstr ""
 "Verwenden desselben Präfixes auf zwei Geräten wird abgeraten, außer das neue "
 "Gerät ersetzt das alte."
 
-#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:676 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Neues Sicherungsdepot wird angelegt"
 
@@ -1943,6 +1955,9 @@ msgstr "Pika Datensicherung »{}«"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Sichern des Zwischenspeichers fehlgeschlagen"
+
+#~ msgid "Court Witch"
+#~ msgstr "Court Witch"
 
 #~ msgid "Shell Wildcard Pattern"
 #~ msgstr "Shell-Wildcard-Muster"
