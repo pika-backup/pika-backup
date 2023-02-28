@@ -4,6 +4,7 @@
 
 - Fix compact is not run after prune
 - Add background portal status API messages about running operations
+- Add ability to answer questions from borg process
 
 ## 0.5.2 (2023-02-23)
 

@@ -145,6 +145,8 @@ pub enum Failure {
     LockTimeout,
     LockFailed,
     PassphraseWrong,
+    #[serde(rename = "Cache.RepositoryAccessAborted")]
+    CacheRepositoryAccessAborted,
     #[serde(rename = "Repository.AlreadyExists")]
     RepositoryAlreadyExists,
     #[serde(rename = "Repository.DoesNotExist")]
@@ -179,6 +181,7 @@ impl std::fmt::Display for Failure {
             Self::LockTimeout => gettext("Repository already in use."),
             Self::LockFailed => gettext("Failed to lock repository."),
             Self::PassphraseWrong => gettext("Invalid encryption password."),
+            Self::CacheRepositoryAccessAborted => gettext("Repository access was aborted"),
             Self::RepositoryAlreadyExists => {
                 gettext("A repository already exists at this location.")
             }

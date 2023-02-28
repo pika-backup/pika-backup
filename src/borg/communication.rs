@@ -65,9 +65,25 @@ impl<T: Task> Communication<T> {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
+pub enum Response {
+    Yes,
+    No,
+}
+
+impl std::fmt::Display for Response {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Response::Yes => write!(f, "YES"),
+            Response::No => write!(f, "NO"),
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Instruction {
     Nothing,
     Abort(error::Abort),
+    Response(Response),
 }
 
 impl Default for Instruction {

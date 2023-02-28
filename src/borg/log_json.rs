@@ -32,6 +32,12 @@ pub enum Progress {
     Message(ProgressMessage),
     #[serde(rename = "progress_percent")]
     Percent(ProgressPercent),
+    #[serde(rename = "question_prompt")]
+    Question(QuestionPrompt),
+    #[serde(rename = "question_accepted_false")]
+    QuestionAcceptedFalse,
+    #[serde(rename = "question_accepted_true")]
+    QuestionAcceptedTrue,
 }
 
 impl fmt::Display for Progress {
@@ -40,6 +46,13 @@ impl fmt::Display for Progress {
             Self::Archive(archive) => write!(f, "{archive}"),
             Self::Message(message) => write!(f, "{message}"),
             Self::Percent(percent) => write!(f, "{percent}"),
+            Self::Question(question) => write!(f, "{question}"),
+            Self::QuestionAcceptedFalse => {
+                write!(f, "{}", gettext("Backup will be aborted."))
+            }
+            Self::QuestionAcceptedTrue => {
+                write!(f, "{}", gettext("Backup will continue."))
+            }
         }
     }
 }
@@ -197,6 +210,81 @@ impl fmt::Display for Operation {
         };
 
         write!(f, "{msg}")
+    }
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct QuestionPrompt {
+    #[serde(default)]
+    msgid: QuestionId,
+    #[serde(default)]
+    message: String,
+}
+
+impl fmt::Display for QuestionPrompt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", gettext("Handling a Question"))
+    }
+}
+
+impl QuestionPrompt {
+    pub fn question_prompt(&self) -> String {
+        let msg = match self.msgid {
+            QuestionId::UnknownUnencryptedRepoAccessIsOk => {
+                gettext("Attempting to access a previously unknown unencrypted repository.")
+            }
+            QuestionId::RelocatedRepoAccessIsOk => {
+                let pattern: regex::Regex = regex::Regex::new(
+                    r#".*at location (\S+) .*previously located at (\S+).*"#,
+                )
+                .expect("Regex to be valid");
+
+                let locations = if let Some(captures) = pattern.captures(&self.message).ok().flatten() {
+                    (captures.get(1), captures.get(2))
+                } else {
+                    (None, None)
+                };
+
+                if let (Some(current), Some(previous)) = locations {
+                    gettextf(
+                        "The backup repository at location “{}” was previously located at “{}”.",
+                        &[current.as_str(), previous.as_str()],
+                    )
+                } else {
+                    gettext("The backup repository was previously located at a different location.")
+                }
+            }
+            QuestionId::CheckIKnowWhatIAmDoing => gettext("This is a potentially dangerous function. Repairing a repository might lead to data loss (for kinds of corruption it is not capable of dealing with). BE VERY CAREFUL!"),
+            QuestionId::DeleteIKnowWhatIAmDoing => gettext("You requested to delete the repository completely, including all backup archives it contains."),
+            QuestionId::Unknown => gettextf("Unexpected question from borgbackup: “{}”", &[&self.message]),
+        };
+
+        // Translators: Combines statement from above and this question
+        gettextf("{}\n\nDo you want to continue?", &[&msg])
+    }
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum QuestionId {
+    #[serde(rename = "BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK")]
+    UnknownUnencryptedRepoAccessIsOk,
+
+    #[serde(rename = "BORG_RELOCATED_REPO_ACCESS_IS_OK")]
+    RelocatedRepoAccessIsOk,
+
+    #[serde(rename = "BORG_CHECK_I_KNOW_WHAT_I_AM_DOING")]
+    CheckIKnowWhatIAmDoing,
+
+    #[serde(rename = "BORG_DELETE_I_KNOW_WHAT_I_AM_DOING")]
+    DeleteIKnowWhatIAmDoing,
+
+    Unknown,
+}
+
+impl Default for QuestionId {
+    fn default() -> Self {
+        Self::Unknown
     }
 }
 

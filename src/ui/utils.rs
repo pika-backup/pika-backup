@@ -325,6 +325,29 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
     }
 }
 
+pub async fn show_borg_question(
+    question: &crate::borg::log_json::QuestionPrompt,
+) -> crate::borg::Response {
+    let prompt = question.question_prompt();
+    warn!("Displaying borg question: '{}'", prompt);
+
+    // TODO: handle main window closed
+    let response = ConfirmationDialog::new(
+        &gettext("Warning"),
+        &prompt,
+        &gettext("Abort"),
+        &gettext("Continue"),
+    )
+    .set_destructive(true)
+    .ask()
+    .await;
+
+    match response {
+        Ok(()) => crate::borg::Response::Yes,
+        Err(_) => crate::borg::Response::No,
+    }
+}
+
 pub async fn show_error_transient_for<
     S: std::fmt::Display,
     P: std::fmt::Display,
@@ -415,7 +438,7 @@ impl ConfirmationDialog {
         dialog.add_responses(&[("cancel", &self.cancel), ("accept", &self.accept)]);
 
         if self.destructive {
-            dialog.set_response_appearance("replace", adw::ResponseAppearance::Destructive);
+            dialog.set_response_appearance("accept", adw::ResponseAppearance::Destructive);
         }
 
         if dialog.choose_future().await == "accept" {

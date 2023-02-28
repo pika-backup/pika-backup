@@ -240,6 +240,7 @@ impl BorgCall {
         cmd.args(self.args())
             .stderr(async_process::Stdio::piped())
             .stdout(async_process::Stdio::piped())
+            .stdin(async_process::Stdio::piped())
             .envs(self.envs.clone().into_iter());
 
         Ok(cmd)
@@ -337,20 +338,32 @@ impl BorgCall {
                 .take()
                 .ok_or_else(|| String::from("Failed to get stderr."))?,
         );
+        let mut writer = process
+            .stdin
+            .take()
+            .ok_or_else(|| String::from("Failed to get stdin"))?;
 
         let mut unresponsive = Duration::ZERO;
 
         loop {
-            // react to abort instruction before potentially listening for messages again
-            if let Instruction::Abort(ref reason) = **communication.instruction.load() {
-                communication.set_status(Run::Stopping);
-                debug!("Sending SIGINT to borg process");
-                nix::sys::signal::kill(
-                    nix::unistd::Pid::from_raw(process.id() as i32),
-                    nix::sys::signal::Signal::SIGINT,
-                )?;
-                return_message = Some(Err(Error::Aborted(reason.clone())));
-                communication.set_instruction(Instruction::Nothing);
+            // react to instructions before potentially listening for messages again
+            match &**communication.instruction.load() {
+                Instruction::Abort(ref reason) => {
+                    communication.set_status(Run::Stopping);
+                    debug!("Sending SIGINT to borg process");
+                    nix::sys::signal::kill(
+                        nix::unistd::Pid::from_raw(process.id() as i32),
+                        nix::sys::signal::Signal::SIGINT,
+                    )?;
+                    return_message = Some(Err(Error::Aborted(reason.clone())));
+                    communication.set_instruction(Instruction::Nothing);
+                }
+                Instruction::Response(response) => {
+                    warn!("Sending response “{response}” to borg process");
+                    writer.write_all(format!("{response}\n").as_bytes()).await?;
+                    communication.set_instruction(Instruction::Nothing);
+                }
+                Instruction::Nothing => {}
             }
 
             line.clear();

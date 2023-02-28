@@ -5,6 +5,7 @@ use async_std::prelude::*;
 use ui::prelude::*;
 
 use crate::borg;
+use crate::borg::log_json;
 use crate::config;
 use crate::ui;
 use glib::Continue;
@@ -97,8 +98,16 @@ impl<T: borg::Task> Operation<T> {
     fn check_output(&self, update: borg::Update) {
         match update {
             borg::Update::Msg(output) => {
+                let output = Rc::new(output);
+
                 if !output.to_string().is_empty() {
-                    self.last_log.replace(Some(Rc::new(output)));
+                    self.last_log.replace(Some(output.clone()));
+                }
+
+                if let log_json::Output::Progress(log_json::Progress::Question(question)) = &*output
+                {
+                    // A question was asked
+                    self.handle_borg_question(question);
                 }
             }
             _ => {
@@ -186,6 +195,16 @@ impl<T: borg::Task> Operation<T> {
         }
 
         ui::page_overview::refresh_status();
+    }
+
+    /// Handle a borg question (such as repository was relocated)
+    fn handle_borg_question(&self, question: &log_json::QuestionPrompt) {
+        let communication = self.communication().clone();
+
+        glib::MainContext::default().spawn_local(glib::clone!(@strong question => async move {
+            let response = ui::utils::show_borg_question(&question).await;
+            communication.set_instruction(borg::Instruction::Response(response));
+        }));
     }
 }
 
