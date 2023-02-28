@@ -150,7 +150,10 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
 
     insert_backup_config(config.clone())?;
     if encrypted {
-        ui::utils::password_storage::store_password(&config, &password).await?;
+        if let Err(err) = ui::utils::password_storage::store_password(&config, &password).await {
+            // Error when storing the password. The repository has already been created, therefore we must continue at this point.
+            err.show().await;
+        }
     }
     ui::page_backup::view_backup_conf(&config.id);
 
