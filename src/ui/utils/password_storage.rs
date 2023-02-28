@@ -12,7 +12,7 @@ pub async fn store_password(config: &config::Backup, password: &Password) -> Res
     debug!("Storing new password at secret service");
     set_password(config, password)
         .await
-        .err_to_msg(gettext("Failed to Store Password"))?;
+        .map_err(|err| Message::from_secret_service(gettext("Failed to Store Password"), err))?;
 
     Ok(())
 }
@@ -27,9 +27,12 @@ pub async fn remove_password(config: &config::Backup) -> Result<()> {
         debug!("Not removing password because other configs need it");
     } else {
         debug!("Removing password from secret service");
-        delete_passwords(config).await.err_to_msg(gettext(
-            "Failed to remove potentially remaining passwords from key storage.",
-        ))?;
+        delete_passwords(config).await.map_err(|err| {
+            Message::from_secret_service(
+                gettext("Failed to remove potentially remaining passwords from key storage."),
+                err,
+            )
+        })?;
     }
 
     Ok(())

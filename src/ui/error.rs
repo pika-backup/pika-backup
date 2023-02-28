@@ -66,6 +66,17 @@ impl Message {
             ui::utils::show_error_transient_for(&self.text, "", window).await;
         }
     }
+
+    pub fn from_secret_service<T: std::fmt::Display>(text: T, err: oo7::Error) -> Self {
+        if matches!(
+            err,
+            oo7::Error::Portal(oo7::portal::Error::CancelledPortalRequest)
+        ) {
+            Self::new(text, gettext("The keyring is not available. Pika Backup requires a keyring daemon (“secret service”) to store passwords. For installation instructions see the operating system documentation."))
+        } else {
+            Self::new(text, err)
+        }
+    }
 }
 
 #[derive(Debug)]

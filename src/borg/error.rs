@@ -23,7 +23,10 @@ quick_error! {
         Unix(err: nix::Error) { from() }
         BorgReturnCode(err: ReturnCodeError) { from() }
         PasswordMissing { }
-        PasswordStorage(err: oo7::Error) { from() }
+        PasswordStorage(err: oo7::Error) {
+            from()
+            display("{}", gettext("Retrieving encryption password from the keyring failed. Pika Backup requires a keyring daemon (“secret service”) to store passwords. For installation instructions see the operating system documentation."))
+        }
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
         ImplausiblePrune { display("{}", gettext("This delete operation would delete too many archives.")) }
         EmptyIncldue { display("{}", gettext("No files selected to be included into backup.")) }
