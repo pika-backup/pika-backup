@@ -23,7 +23,7 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
 
 Pika Backup is designed to save your personal data and does not support complete system recovery. Pika Backup is powered by the well-tested [BorgBackup](https://www.borgbackup.org/support/fund.html) software.
 
-![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/1e287bea9923d89213442658e152cc6c/pika-backup-1.png)
+![Pika Backup Screenshot](https://gitlab.gnome.org/World/pika-backup/uploads/9fa4c818e0f8fda6983ca671f363698a/screenshot-1.png)
 
 ### Hosting Providers
 
