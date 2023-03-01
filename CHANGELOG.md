@@ -3,6 +3,7 @@
 ## 0.6.0 (unreleased)
 
 - Fix compact is not run after prune
+- Change to explain checkpoint creation when aborting backups
 - Add background portal status API messages about running operations
 - Add ability to answer questions from borg process
 

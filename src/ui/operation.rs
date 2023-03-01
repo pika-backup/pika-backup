@@ -22,6 +22,7 @@ pub struct Operation<T: borg::Task> {
     command: borg::Command<T>,
     last_log: RefCell<Option<Rc<borg::log_json::Output>>>,
     inhibit_cookie: Cell<Option<u32>>,
+    aborting: Cell<bool>,
     operation_shutdown: Cell<bool>,
 }
 
@@ -32,6 +33,7 @@ impl<T: borg::Task> Operation<T> {
             command,
             last_log: Default::default(),
             inhibit_cookie: Default::default(),
+            aborting: Default::default(),
             operation_shutdown: Default::default(),
         });
 
@@ -233,6 +235,7 @@ pub trait OperationExt {
     fn any(&self) -> &dyn Any;
     fn repo_id(&self) -> &borg::RepoId;
     fn set_instruction(&self, instruction: borg::Instruction);
+    fn aborting(&self) -> bool;
     fn try_as_create(&self) -> Option<&Operation<borg::task::Create>>;
     fn last_log(&self) -> Option<Rc<borg::log_json::Output>>;
 }
@@ -245,7 +248,14 @@ impl<T: borg::Task> OperationExt for Operation<T> {
         self
     }
     fn set_instruction(&self, instruction: borg::Instruction) {
+        if matches!(instruction, borg::Instruction::Abort(_)) {
+            self.aborting.set(true);
+        }
+
         self.communication().set_instruction(instruction);
+    }
+    fn aborting(&self) -> bool {
+        self.aborting.get()
     }
     fn repo_id(&self) -> &borg::RepoId {
         self.repo_id()
