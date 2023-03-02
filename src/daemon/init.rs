@@ -3,7 +3,7 @@ use once_cell::unsync::OnceCell;
 
 use super::action;
 use crate::config;
-use crate::config::TrackChanges;
+use crate::config::{ConfigType, Loadable, TrackChanges};
 use crate::daemon;
 use crate::daemon::prelude::*;
 
@@ -39,6 +39,14 @@ fn on_startup(_app: &gio::Application) {
 
 fn app_running(is_running: bool) {
     if !is_running {
+        // Reload backup history manually to prevent race conditions between the application exit event and file monitor
+        match config::Histories::from_file() {
+            Ok(new) => BACKUP_HISTORY.update(|s| *s = new.clone()),
+            Err(err) => {
+                error!("Failed to reload {:?}: {}", config::Histories::path(), err);
+            }
+        }
+
         let backups_running = BACKUP_HISTORY
             .load()
             .iter()

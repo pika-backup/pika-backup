@@ -4,6 +4,7 @@
 
 - Fix compact is not run after prune
 - Change secret service error messages to include specific instructions how to resolve the issue
+- Fix spurious 'Pika Backup crashed' messages
 - Change to explain checkpoint creation when aborting backups
 - Add background portal status API messages about running operations
 - Add ability to answer questions from borg process
