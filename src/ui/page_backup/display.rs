@@ -23,10 +23,11 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
 
     let row = adw::ActionRow::builder()
         .use_markup(false)
-        .title(title)
-        .subtitle(subtitle)
         .activatable(false)
         .build();
+
+    row.set_title(&title);
+    row.set_subtitle(&subtitle);
     list.append(&row);
 
     if let Some(image) = crate::utils::file_symbolic_icon(&config::absolute(file))
