@@ -257,7 +257,7 @@ impl BorgCall {
 
     pub fn spawn_async_managed<
         T: Task,
-        S: std::fmt::Debug + serde::de::DeserializeOwned + Send + 'static,
+        S: std::fmt::Debug + serde::de::DeserializeOwned + Send + Sync + 'static,
     >(
         self,
         communication: super::Communication<T>,
@@ -308,7 +308,16 @@ impl BorgCall {
                     if retries < super::MAX_RECONNECT {
                         retries += 1;
                         debug!("Reconnect attempt number {}", retries);
-                        std::thread::sleep(super::DELAY_RECONNECT);
+
+                        let now = std::time::Instant::now();
+                        while now.elapsed() < super::DELAY_RECONNECT {
+                            async_std::task::sleep(Duration::from_millis(100)).await;
+                            if let Instruction::Abort(ref reason) =
+                                **communication.instruction.load()
+                            {
+                                return Err(Error::Aborted(reason.clone()));
+                            }
+                        }
                         continue;
                     } else {
                         return result;
