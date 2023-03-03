@@ -299,10 +299,10 @@ impl BorgCall {
                         ]);
                     }
 
-                    if !matches!(communication.status(), Run::Reconnecting) {
+                    if !matches!(communication.status(), Run::Reconnecting(_)) {
                         debug!("Starting reconnect attempts");
                         retries = 0;
-                        communication.set_status(Run::Reconnecting);
+                        communication.set_status(Run::Reconnecting(super::DELAY_RECONNECT));
                     }
 
                     if retries < super::MAX_RECONNECT {
@@ -311,12 +311,16 @@ impl BorgCall {
 
                         let now = std::time::Instant::now();
                         while now.elapsed() < super::DELAY_RECONNECT {
-                            async_std::task::sleep(Duration::from_millis(100)).await;
                             if let Instruction::Abort(ref reason) =
                                 **communication.instruction.load()
                             {
                                 return Err(Error::Aborted(reason.clone()));
                             }
+
+                            async_std::task::sleep(Duration::from_millis(100)).await;
+                            communication.set_status(Run::Reconnecting(
+                                super::DELAY_RECONNECT - now.elapsed(),
+                            ))
                         }
                         continue;
                     } else {
@@ -385,7 +389,7 @@ impl BorgCall {
                 Err(err) if err.kind() == async_std::io::ErrorKind::TimedOut => {
                     unresponsive += super::MESSAGE_POLL_TIMEOUT;
                     if unresponsive > super::STALL_THRESHOLD
-                        && !matches!(communication.status(), Run::Reconnecting)
+                        && !matches!(communication.status(), Run::Reconnecting(_))
                     {
                         communication.set_status(Run::Stalled);
                     }

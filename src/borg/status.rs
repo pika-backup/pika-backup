@@ -280,7 +280,7 @@ pub enum Run {
     Init,
     Running,
     Stalled,
-    Reconnecting,
+    Reconnecting(std::time::Duration),
     Stopping,
 }
 

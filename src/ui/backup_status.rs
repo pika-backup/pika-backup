@@ -166,11 +166,11 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
             Run::Init => gettext("Preparing backup"),
             Run::Running => gettext("Backup Running"),
             Run::Stalled => gettext("Backup Destination Unresponsive"),
-            Run::Reconnecting => {
+            Run::Reconnecting(wait_time) => {
                 subtitle = Some(gettextf(
                     "Connection lost, reconnecting in {}",
                     &[&utils::duration::plain_lowercase(
-                        &utils::duration::from_std(borg::DELAY_RECONNECT),
+                        &utils::duration::from_std(wait_time),
                     )],
                 ));
                 gettext("Reconnecting")
