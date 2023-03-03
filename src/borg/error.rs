@@ -64,6 +64,33 @@ impl std::convert::TryFrom<LogCollection> for Error {
                         Ok(failure.into())
                     }
                 }
+                Failure::Exception => {
+                    let hint = value
+                        .iter()
+                        .filter(|x| match x.level() {
+                            // SSH error: Broken pipe
+                            LogLevel::Error => x.message().contains("[Errno 32] Broken pipe"),
+                            // Will be thrown by borg when the network is disabled manually / the wifi disconnects
+                            LogLevel::Warning => x
+                                .message()
+                                .contains("Remote: Timeout, server borg not responding."),
+                            _ => false,
+                        })
+                        .rev()
+                        .next()
+                        .map(|_| gettext("Timeout"));
+
+                    if let Some(hint) = hint {
+                        Ok(Failure::ConnectionClosedWithHint_(hint).into())
+                    } else {
+                        Ok(format!(
+                            "{}: {}",
+                            failure,
+                            first_with_id.map(|x| x.message()).unwrap_or_default()
+                        )
+                        .into())
+                    }
+                }
                 Failure::Other(msgid) => Ok(format!(
                     "{}: {}",
                     msgid,
@@ -159,6 +186,7 @@ pub enum Failure {
     // with manually added hint
     ConnectionClosedWithHint_(String),
     // general
+    Exception,
     Other(String),
     #[serde(other)]
     Undefined,
@@ -195,6 +223,7 @@ impl std::fmt::Display for Failure {
             Self::ConnectionClosedWithHint_(hint) => {
                 gettextf("Connection closed by remote host: “{}”", &[hint])
             }
+            Self::Exception => gettext("Exception"),
             Self::Other(string) => string.to_string(),
             Self::Undefined => gettext("Unspecified error."),
         };
