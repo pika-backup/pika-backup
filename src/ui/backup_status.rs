@@ -169,9 +169,9 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
             Run::Reconnecting => {
                 subtitle = Some(gettextf(
                     "Connection lost, reconnecting in {}",
-                    &[&utils::duration::plain(&utils::duration::from_std(
-                        borg::DELAY_RECONNECT,
-                    ))],
+                    &[&utils::duration::plain_lowercase(
+                        &utils::duration::from_std(borg::DELAY_RECONNECT),
+                    )],
                 ));
                 gettext("Reconnecting")
             }

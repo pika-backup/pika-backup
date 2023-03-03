@@ -1,10 +1,11 @@
+use crate::ui::prelude::*;
+
 pub fn from_std(duration: std::time::Duration) -> chrono::Duration {
     chrono::Duration::from_std(duration)
         .ok()
         .unwrap_or_else(chrono::Duration::max_value)
 }
 
-use crate::ui::prelude::*;
 pub fn plain(d: &chrono::Duration) -> String {
     if d.num_minutes() < 1 {
         ngettextf_("One second", "{} seconds", d.num_seconds() as u32)
@@ -14,6 +15,18 @@ pub fn plain(d: &chrono::Duration) -> String {
         ngettextf_("One hour", "{} hours", d.num_hours() as u32)
     } else {
         ngettextf_("One day", "{} days", d.num_days() as u32)
+    }
+}
+
+pub fn plain_lowercase(d: &chrono::Duration) -> String {
+    if d.num_minutes() < 1 {
+        ngettextf_("one second", "{} seconds", d.num_seconds() as u32)
+    } else if d.num_hours() < 1 {
+        ngettextf_("one minute", "{} minutes", d.num_minutes() as u32)
+    } else if d.num_days() < 2 {
+        ngettextf_("one hour", "{} hours", d.num_hours() as u32)
+    } else {
+        ngettextf_("one day", "{} days", d.num_days() as u32)
     }
 }
 
