@@ -65,17 +65,13 @@ async fn delete(ui: DialogDeleteArchive, config: config::Backup, archive_name: &
     command.task.set_archive_name(archive_name);
     let result = ui::utils::borg::exec(command).await;
 
-    if !result.is_borg_err_user_aborted() {
-        result.into_message(gettext("Delete Archive"))?;
-    }
+    result.into_message(gettext("Delete Archive Failed"))?;
 
-    ui::page_archives::cache::refresh_archives(config.clone(), None)
+    ui::utils::borg::exec(borg::Command::<borg::task::Compact>::new(config.clone()))
         .await
-        .unwrap();
+        .into_message("Reclaiming Free Space Failed")?;
 
-    ui::utils::borg::exec(borg::Command::<borg::task::Compact>::new(config))
-        .await
-        .unwrap();
+    let _ = ui::page_archives::cache::refresh_archives(config, None).await;
 
     Ok(())
 }

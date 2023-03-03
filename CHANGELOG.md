@@ -3,6 +3,7 @@
 ## 0.6.0 (unreleased)
 
 - Fix compact is not run after prune
+- Fix potential crash after deleting archives
 - Change secret service error messages to include specific instructions how to resolve the issue
 - Fix spurious 'Pika Backup crashed' messages
 - Change to explain checkpoint creation when aborting backups
