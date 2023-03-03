@@ -4,8 +4,8 @@
 
 - Fix compact is not run after prune
 - Fix potential crash after deleting archives
-- Change secret service error messages to include specific instructions how to resolve the issue
 - Fix spurious 'Pika Backup crashed' messages
+- Change secret service error messages to include specific instructions how to resolve the issue
 - Change to explain checkpoint creation when aborting backups
 - Change to restart backup after SSH connection timeout
 - Change reconnection to be abortable and count down seconds remaining

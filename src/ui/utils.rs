@@ -320,7 +320,9 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
     main_ui().toast().add_toast(toast);
 
     if !crate::ui::app_window::is_displayed() {
-        let notification = gio::Notification::new(&message.to_string());
+        let notification = gio::Notification::new(&gettext("Pika Backup"));
+        notification.set_body(Some(&message.to_string()));
+
         adw_app().send_notification(None, &notification);
     }
 }
