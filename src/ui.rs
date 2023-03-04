@@ -159,24 +159,35 @@ fn on_activate(_app: &adw::Application) {
 async fn quit() -> Result<()> {
     debug!("Running quit routine");
     if utils::borg::is_backup_running() {
-        let permission = utils::background_permission().await;
+        if main_ui().window().is_visible() {
+            let permission = utils::background_permission().await;
 
-        match permission {
-            Ok(()) => {
-                main_ui().window().hide();
-            }
-            Err(err) => {
-                err.show().await;
+            match permission {
+                Ok(()) => {
+                    debug!("Hiding main window as backup is currently running");
+                    main_ui().window().hide();
+                }
+                Err(err) => {
+                    err.show().await;
 
-                ui::utils::confirmation_dialog(
-                    &gettext("Abort running backup creation?"),
-                    &gettext("The backup will remain incomplete if aborted now."),
-                    &gettext("Continue"),
-                    &gettext("Abort"),
-                )
-                .await?;
-                adw_app().quit();
+                    ui::utils::confirmation_dialog(
+                        &gettext("Abort running backup creation?"),
+                        &gettext("The backup will remain incomplete if aborted now."),
+                        &gettext("Continue"),
+                        &gettext("Abort"),
+                    )
+                    .await?;
+                    adw_app().quit();
+                }
             }
+        } else {
+            // Someone wants to quit the app from the shell (eg via backgrounds app list)
+            let notification = gio::Notification::new(&gettext("A Backup Operation is Running"));
+            notification.set_body(Some(&gettext(
+                "Pika Backup cannot be quit during a backup operation.",
+            )));
+
+            adw_app().send_notification(None, &notification);
         }
     } else {
         adw_app().quit();
