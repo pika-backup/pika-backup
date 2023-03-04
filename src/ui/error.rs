@@ -135,6 +135,7 @@ impl<R> CombinedToError<R> for std::result::Result<R, Combined> {
     fn into_message<T: std::fmt::Display>(self, text: T) -> Result<R> {
         self.map_err(|err| match err {
             Combined::Ui(err) => err,
+            Combined::Borg(borg::Error::Aborted(borg::Abort::User)) => Error::UserCanceled,
             Combined::Borg(err) => Message::new(text, err).into(),
         })
     }
