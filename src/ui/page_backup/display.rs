@@ -40,6 +40,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
     let button = gtk::Button::builder()
         .icon_name("edit-delete-symbolic")
         .valign(gtk::Align::Center)
+        .tooltip_text(gettext("Remove Directory"))
         .build();
     button.add_css_class("flat");
     row.add_suffix(&button);
@@ -95,6 +96,7 @@ pub fn refresh() -> Result<()> {
         let button = gtk::Button::builder()
             .icon_name("edit-delete-symbolic")
             .valign(gtk::Align::Center)
+            .tooltip_text(gettext("Remove From List"))
             .build();
         button.add_css_class("flat");
         let pattern_ = pattern.clone();
