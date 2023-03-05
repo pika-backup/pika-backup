@@ -236,6 +236,7 @@ pub trait OperationExt {
     fn repo_id(&self) -> &borg::RepoId;
     fn set_instruction(&self, instruction: borg::Instruction);
     fn aborting(&self) -> bool;
+    fn status(&self) -> borg::Run;
     fn try_as_create(&self) -> Option<&Operation<borg::task::Create>>;
     fn last_log(&self) -> Option<Rc<borg::log_json::Output>>;
     fn task_kind(&self) -> borg::task::Kind;
@@ -260,6 +261,10 @@ impl<T: borg::Task> OperationExt for Operation<T> {
 
     fn aborting(&self) -> bool {
         self.aborting.get()
+    }
+
+    fn status(&self) -> borg::Run {
+        self.communication().status()
     }
 
     fn repo_id(&self) -> &borg::RepoId {

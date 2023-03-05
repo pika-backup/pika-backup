@@ -15,24 +15,57 @@ pub fn on_stack_changed() {
 pub async fn on_stop_backup_create() -> Result<()> {
     let operation = BORG_OPERATION.with(|op| Ok::<_, Error>(op.load().active()?.clone()))?;
 
-    if operation.aborting() {
-        ui::utils::confirmation_dialog(
-            &gettext("Abort Saving Backup State?"),
-            &gettext(
-                "The current backup state is in the process of being saved. The backup can be continued later without saving the state. Some data might have to be copied again.",
-            ),
-            &gettext("Continue"),
-            &gettext("Abort"),
-        )
-        .await?;
-    } else {
-        ui::utils::confirmation_dialog(
-            &gettext("Stop Running Backup?"),
-            &gettext("The current backup state will be saved. You can continue your backup later by starting it again."),
-            &gettext("Continue"),
-            &gettext("Stop"),
-        )
-        .await?;
+    // Abort immediately if only reconnecting
+    if !matches!(operation.status(), borg::Run::Reconnecting(_)) {
+        match operation.task_kind() {
+            borg::task::Kind::Create => {
+                if operation.aborting() {
+                    ui::utils::confirmation_dialog(
+                &gettext("Abort Saving Backup State?"),
+                &gettext("The current backup state is in the process of being saved. The backup can be continued later without saving the state. Some data might have to be copied again."),
+                &gettext("Continue"),
+                &gettext("Abort"),
+            )
+            .await?;
+                } else {
+                    ui::utils::confirmation_dialog(
+                &gettext("Stop Running Backup?"),
+                &gettext("The current backup state will be saved. You can continue your backup later by starting it again."),
+                &gettext("Continue"),
+                &gettext("Stop"),
+            )
+            .await?;
+                }
+            }
+            borg::task::Kind::Prune | borg::task::Kind::Delete => {
+                if operation.aborting() {
+                    ui::utils::confirmation_dialog(
+                    &gettext("Abort Delete Operation?"),
+                    &gettext("Archives are currently being deleted. Aborting now will cause some deletion progress to be lost. Free space will not be reclaimed."),
+                    &gettext("Continue"),
+                    &gettext("Abort"),
+                )
+                .await?;
+                } else {
+                    ui::utils::confirmation_dialog(
+                    &gettext("Stop Deleting Archives?"),
+                    &gettext("Deletion progress will be saved. Free space will not be reclaimed. You can continue deletion at a later time by starting the operation again.",),
+                    &gettext("Continue"),
+                    &gettext("Stop"),
+                )
+                .await?;
+                }
+            }
+            _ => {
+                ui::utils::confirmation_dialog(
+                &gettext("Abort Operation?"),
+                &gettext("An operation is currently being performed. Aborting now will cause any progress made by the operation to be lost."),
+                &gettext("Continue"),
+                &gettext("Abort"),
+            )
+            .await?;
+            }
+        }
     }
 
     operation.set_instruction(borg::Instruction::Abort(borg::Abort::User));
