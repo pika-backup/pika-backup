@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-03-01 22:47+0000\n"
-"PO-Revision-Date: 2023-03-03 10:31+0100\n"
+"POT-Creation-Date: 2023-03-04 15:25+0000\n"
+"PO-Revision-Date: 2023-03-05 11:45+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -32,7 +32,7 @@ msgstr "Spremljanje varnostnega kopiranja Pika"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19 src/ui/utils.rs:323
 msgid "Pika Backup"
 msgstr "Varnostno kopiranje Pika"
 
@@ -159,69 +159,77 @@ msgstr "Ta operacija brisanja bi izbrisala preveč arhivov."
 msgid "No files selected to be included into backup."
 msgstr "Ni izbranih datotek za dodajanje v varnostno kopijo."
 
-#: src/borg/error.rs:97
+#: src/borg/error.rs:81
+msgid "Timeout"
+msgstr "Čas je potekel"
+
+#: src/borg/error.rs:124
 msgid "Completed"
 msgstr "Zaključeno"
 
-#: src/borg/error.rs:120
+#: src/borg/error.rs:147
 msgid "Aborted on user request."
 msgstr "Preklicano zaradi zahteve uporabnika."
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:151
 msgid "Aborted because only metered connection was available."
 msgstr "Opravilo je prekinjeno, ker je na voljo le omejena povezava."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:130
+#: src/borg/error.rs:157
 msgid "Aborted because too long not connected to power."
 msgstr ""
 "Opravilo je prekinjeno, ker naprava predolgo ni priključena na napajanje."
 
-#: src/borg/error.rs:132
+#: src/borg/error.rs:159
 msgid "Aborted by system."
 msgstr "Preklicano zaradi zahteve sistema."
 
-#: src/borg/error.rs:136
+#: src/borg/error.rs:163
 msgid "The program or system seems to have crashed."
 msgstr "Zdi se, da se je program ali sistem sesul."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:210
 msgid "Connection closed by remote host."
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena."
 
-#: src/borg/error.rs:184 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Skladišče je že v uporabi"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:213
 msgid "Failed to lock repository."
 msgstr "Zaklepanje skladišča ni uspelo."
 
-#: src/borg/error.rs:186
+#: src/borg/error.rs:214
 msgid "Invalid encryption password."
 msgstr "Neveljavno šifrirno geslo."
 
-#: src/borg/error.rs:187
+#: src/borg/error.rs:215
 msgid "Repository access was aborted"
 msgstr "Dostop do skladišča je bil prekinjen"
 
-#: src/borg/error.rs:189
+#: src/borg/error.rs:217
 msgid "A repository already exists at this location."
 msgstr "Skladišče na tem mestu že obstaja."
 
-#: src/borg/error.rs:191
+#: src/borg/error.rs:219
 msgid "No repository exists at this location."
 msgstr "Na tem mestu še ni ustvarjenega skladišča."
 
-#: src/borg/error.rs:193
+#: src/borg/error.rs:221
 msgid "Not enough free space in repository."
 msgstr "Ni dovolj prostega prostora v skladišču."
 
-#: src/borg/error.rs:196
+#: src/borg/error.rs:224
 msgid "Connection closed by remote host: “{}”"
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena: »{}«"
 
-#: src/borg/error.rs:199
+#: src/borg/error.rs:226
+msgid "Exception"
+msgstr "Izjema"
+
+#: src/borg/error.rs:228
 msgid "Unspecified error."
 msgstr "Prišlo je do nedoločene napake."
 
@@ -375,7 +383,7 @@ msgstr "Razhroščevanje"
 msgid "Info"
 msgstr "Podrobnosti"
 
-#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:336
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:338
 msgid "Warning"
 msgstr "Opozorilo"
 
@@ -554,11 +562,11 @@ msgstr "Mesto »{}« vsebuje eno nastavljeno varnostno kopijo."
 msgid "Back Up Now"
 msgstr "Ustvari varnostno kopijo"
 
-#: src/daemon/init.rs:48
+#: src/daemon/init.rs:56
 msgid "Fatal Error During Back Up"
 msgstr "Usodna napaka med varnostnim kopiranjem"
 
-#: src/daemon/init.rs:51
+#: src/daemon/init.rs:59
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] ""
@@ -610,11 +618,11 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr "Varnostna kopija, če bo opravilo preklicano, ne bo popolna."
 
 #: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:24
-#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:339
+#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:341
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:338
+#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:340
 msgid "Abort"
 msgstr "Prekliči"
 
@@ -1046,7 +1054,11 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Če je predpona arhiva prazna, ni dodana nobena predpona."
 
-#: src/ui/dialog_delete_archive.rs:69 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_delete_archive.rs:68
+msgid "Delete Archive Failed"
+msgstr "Brisanje arhiva je spodletelo"
+
+#: src/ui/dialog_delete_archive.ui:28
 msgid "Delete Archive"
 msgstr "Izbriši arhiv"
 
@@ -1164,7 +1176,7 @@ msgstr ""
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Ugotavljanje, koliko arhivov bi bilo izbrisanih, je spodletelo"
 
-#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:382
+#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:384
 msgid "Close"
 msgstr "Zapri"
 
@@ -1921,15 +1933,15 @@ msgstr[3] "Potekajo {} varnostna kopiranja"
 msgid "Failed to Create Thread"
 msgstr "Ustvarjanje niti je spodletelo"
 
-#: src/ui/utils.rs:519
+#: src/ui/utils.rs:521
 msgid "Failed to fix Scheduled Backups"
 msgstr "Popravljanje načrtovanih varnostnih kopiranj je spodletelo"
 
-#: src/ui/utils.rs:524
+#: src/ui/utils.rs:526
 msgid "Scheduled Backups Repaired"
 msgstr "Načrtovana varnostna kopiranja popravljena"
 
-#: src/ui/utils.rs:524
+#: src/ui/utils.rs:526
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1972,7 +1984,7 @@ msgstr "Ni mogoče naložiti nastavitvene datoteke."
 msgid "Could not write configuration file."
 msgstr "Ni mogoče zapisati nastavitvene datoteke."
 
-#: src/ui/utils/duration.rs:10
+#: src/ui/utils/duration.rs:11
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "{} sekund"
@@ -1980,7 +1992,7 @@ msgstr[1] "{} sekunda"
 msgstr[2] "{} sekundi"
 msgstr[3] "{} sekunde"
 
-#: src/ui/utils/duration.rs:12
+#: src/ui/utils/duration.rs:13
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -1988,7 +2000,7 @@ msgstr[1] "{} minuta"
 msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
 
-#: src/ui/utils/duration.rs:14
+#: src/ui/utils/duration.rs:15
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "{} ur"
@@ -1996,7 +2008,7 @@ msgstr[1] "{} ura"
 msgstr[2] "{} uri"
 msgstr[3] "{} ure"
 
-#: src/ui/utils/duration.rs:16
+#: src/ui/utils/duration.rs:17
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "{} dni"
@@ -2005,6 +2017,38 @@ msgstr[2] "{} dneva"
 msgstr[3] "{} dnevi"
 
 #: src/ui/utils/duration.rs:23
+msgid "one second"
+msgid_plural "{} seconds"
+msgstr[0] "{} sekund"
+msgstr[1] "{} sekunda"
+msgstr[2] "{} sekundi"
+msgstr[3] "{} sekunde"
+
+#: src/ui/utils/duration.rs:25
+msgid "one minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minut"
+msgstr[1] "{} minuta"
+msgstr[2] "{} minuti"
+msgstr[3] "{} minute"
+
+#: src/ui/utils/duration.rs:27
+msgid "one hour"
+msgid_plural "{} hours"
+msgstr[0] "{} ur"
+msgstr[1] "{} ura"
+msgstr[2] "{} uri"
+msgstr[3] "{} ure"
+
+#: src/ui/utils/duration.rs:29
+msgid "one day"
+msgid_plural "{} days"
+msgstr[0] "{} dni"
+msgstr[1] "{} dan"
+msgstr[2] "{} dneva"
+msgstr[3] "{} dnevi"
+
+#: src/ui/utils/duration.rs:36
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "Še {} minut"
@@ -2012,7 +2056,7 @@ msgstr[1] "Še {} minuta"
 msgstr[2] "Še {} minuti"
 msgstr[3] "Še {} minute"
 
-#: src/ui/utils/duration.rs:28
+#: src/ui/utils/duration.rs:41
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "Še {} ur"
@@ -2020,7 +2064,7 @@ msgstr[1] "Še {} ura"
 msgstr[2] "Še {} uri"
 msgstr[3] "Še {} ure"
 
-#: src/ui/utils/duration.rs:30
+#: src/ui/utils/duration.rs:43
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "Še {} dni"
@@ -2028,11 +2072,11 @@ msgstr[1] "Še {} dan"
 msgstr[2] "Še {} dneva"
 msgstr[3] "Še {} dnevi"
 
-#: src/ui/utils/duration.rs:36
+#: src/ui/utils/duration.rs:49
 msgid "Now"
 msgstr "Ravnokar"
 
-#: src/ui/utils/duration.rs:38
+#: src/ui/utils/duration.rs:51
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Pred {} minutami"
@@ -2040,7 +2084,7 @@ msgstr[1] "Pred {} minuto"
 msgstr[2] "Pred {} minutama"
 msgstr[3] "Pred {} minutami"
 
-#: src/ui/utils/duration.rs:40
+#: src/ui/utils/duration.rs:53
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Pred {} urami"
@@ -2048,7 +2092,7 @@ msgstr[1] "Pred {} uro"
 msgstr[2] "Pred {} urama"
 msgstr[3] "Pred {} urami"
 
-#: src/ui/utils/duration.rs:42
+#: src/ui/utils/duration.rs:55
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "Pred {} dnevi"
@@ -2056,7 +2100,7 @@ msgstr[1] "Pred {} dnevom"
 msgstr[2] "Pred {} dnevoma"
 msgstr[3] "Pred {} dnevi"
 
-#: src/ui/utils/duration.rs:44
+#: src/ui/utils/duration.rs:57
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Pred {} tedni"
@@ -2064,7 +2108,7 @@ msgstr[1] "Pred {} tednom"
 msgstr[2] "Pred {} tednoma"
 msgstr[3] "Pred {} tedni"
 
-#: src/ui/utils/duration.rs:46
+#: src/ui/utils/duration.rs:59
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Pred {} meseci"
@@ -2072,7 +2116,7 @@ msgstr[1] "Pred {} mesecem"
 msgstr[2] "Pred {} mesecema"
 msgstr[3] "Pred {} meseci"
 
-#: src/ui/utils/duration.rs:48
+#: src/ui/utils/duration.rs:61
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Pred {} leti"
