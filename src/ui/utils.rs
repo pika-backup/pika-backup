@@ -294,7 +294,7 @@ pub async fn paths(dialog: gtk::FileChooserNative) -> Result<Vec<std::path::Path
     }
 }
 
-fn ellipsize<S: std::fmt::Display>(x: S) -> String {
+fn ellipsize_multiline<S: std::fmt::Display>(x: S) -> String {
     let s = x.to_string();
     let vec = s.chars().collect::<Vec<_>>();
 
@@ -306,6 +306,19 @@ fn ellipsize<S: std::fmt::Display>(x: S) -> String {
         )
     } else {
         s
+    }
+}
+
+/// Ellipsizes a string at the end so that it is `max_len` characters long
+pub fn ellipsize_end<S: std::fmt::Display>(x: S, max_len: usize) -> String {
+    let mut text = x.to_string();
+
+    if text.len() <= max_len {
+        text
+    } else {
+        text.truncate(max_len.max(1) - 1);
+        text.push('…');
+        text
     }
 }
 
@@ -359,8 +372,8 @@ pub async fn show_error_transient_for<
     detail: P,
     window: &W,
 ) {
-    let primary_text = ellipsize(message);
-    let secondary_text = ellipsize(detail);
+    let primary_text = ellipsize_multiline(message);
+    let secondary_text = ellipsize_multiline(detail);
     warn!(
         "Displaying error:\n  {}\n  {}",
         &primary_text, &secondary_text

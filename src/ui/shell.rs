@@ -27,12 +27,13 @@ pub async fn background_activity_update() {
 }
 
 pub async fn set_status_message(message: &str) {
-    let new_message = Arc::new(Some(message.to_string()));
+    let ellipsized_message = crate::ui::utils::ellipsize_end(message, 96);
+    let new_message = Arc::new(Some(ellipsized_message.clone()));
     let last_message = LAST_MESSAGE.swap(new_message.clone());
 
     if *last_message != *new_message {
         if let Some(proxy) = proxy().await {
-            if let Err(err) = proxy.set_status(message).await {
+            if let Err(err) = proxy.set_status(&ellipsized_message).await {
                 error!("Error setting background status: {err:?}");
             }
         }
