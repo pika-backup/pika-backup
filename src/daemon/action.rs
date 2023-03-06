@@ -1,4 +1,5 @@
 use super::prelude::*;
+use gio::prelude::*;
 
 use super::dbus;
 
@@ -7,6 +8,25 @@ pub trait Action {
     fn action() -> gio::SimpleAction;
     fn name() -> String {
         format!("app.{}", Self::NAME)
+    }
+}
+
+pub struct Quit;
+
+impl Action for Quit {
+    const NAME: &'static str = "quit";
+
+    fn action() -> gio::SimpleAction {
+        let action = gio::SimpleAction::new("quit", None);
+        action.connect_activate(|_, _| {
+            debug!("Tried to quit the daemon");
+            let notification = gio::Notification::new(&gettext("Monitoring Backup Schedule"));
+            notification.set_body(Some(&gettext("To quit monitoring the backup schedule, open Pika Backup and disable all scheduled backups.")));
+            if let Some(app) = gio::Application::default() {
+                app.send_notification(None, &notification);
+            }
+        });
+        action
     }
 }
 

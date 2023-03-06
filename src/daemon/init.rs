@@ -26,6 +26,7 @@ fn on_startup(_app: &gio::Application) {
     daemon::connect::init::init();
     daemon::schedule::init::init();
 
+    gio_app().add_action(&action::Quit::action());
     gio_app().add_action(&action::StartBackup::action());
     gio_app().add_action(&action::ShowOverview::action());
     gio_app().add_action(&action::ShowSchedule::action());
