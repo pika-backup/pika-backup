@@ -177,7 +177,7 @@ async fn quit() -> Result<()> {
                         &gettext("Abort"),
                     )
                     .await?;
-                    adw_app().quit();
+                    quit_real().await;
                 }
             }
         } else {
@@ -190,10 +190,16 @@ async fn quit() -> Result<()> {
             adw_app().send_notification(None, &notification);
         }
     } else {
-        adw_app().quit();
+        quit_real().await;
     }
 
     Ok(())
+}
+
+async fn quit_real() {
+    shell::set_custom(&gettext("Quit")).await;
+
+    adw_app().quit();
 }
 
 async fn init_check_borg() -> Result<()> {
