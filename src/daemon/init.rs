@@ -31,6 +31,18 @@ fn on_startup(_app: &gio::Application) {
     gio_app().add_action(&action::ShowSchedule::action());
 
     glib::MainContext::default().spawn(async {
+        match ashpd::desktop::background::BackgroundProxy::new().await {
+            Ok(proxy) => {
+                if let Err(err) = proxy
+                    .set_status(&gettext("Monitoring Backup Schedule"))
+                    .await
+                {
+                    error!("Error setting background status: {err:?}");
+                }
+            }
+            Err(err) => error!("Error aquiring background proxy: {err:?}"),
+        }
+
         crate::utils::listen_remote_app_running(crate::APP_ID, app_running)
             .await
             .handle("Cannot monitor ui status.")
