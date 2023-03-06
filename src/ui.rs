@@ -197,7 +197,7 @@ async fn quit() -> Result<()> {
 }
 
 async fn quit_real() {
-    shell::set_custom(&gettext("Quit")).await;
+    shell::set_status_message(&gettext("Quit")).await;
 
     adw_app().quit();
 }

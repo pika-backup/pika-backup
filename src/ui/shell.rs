@@ -1,8 +1,11 @@
 use super::prelude::*;
+use arc_swap::ArcSwap;
 
 static BACKGROUND_PROXY: once_cell::sync::OnceCell<
     Arc<ashpd::desktop::background::BackgroundProxy<'static>>,
 > = once_cell::sync::OnceCell::new();
+static LAST_MESSAGE: once_cell::sync::Lazy<ArcSwap<Option<String>>> =
+    once_cell::sync::Lazy::new(|| ArcSwap::new(Default::default()));
 
 async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>> {
     match BACKGROUND_PROXY.get() {
@@ -19,18 +22,19 @@ async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'stat
 }
 
 pub async fn background_activity_update() {
-    if let Some(proxy) = proxy().await {
-        let message = BORG_OPERATION.with(|operations| operations.load().summarize_operations());
-        if let Err(err) = proxy.set_status(&message.unwrap_or(gettext("Idle"))).await {
-            error!("Error setting background status: {err:?}");
-        }
-    }
+    let message = BORG_OPERATION.with(|operations| operations.load().summarize_operations());
+    set_status_message(&message.unwrap_or(gettext("Idle"))).await;
 }
 
-pub async fn set_custom(message: &str) {
-    if let Some(proxy) = proxy().await {
-        if let Err(err) = proxy.set_status(message).await {
-            error!("Error setting background status: {err:?}");
+pub async fn set_status_message(message: &str) {
+    let new_message = Arc::new(Some(message.to_string()));
+    let last_message = LAST_MESSAGE.swap(new_message.clone());
+
+    if *last_message != *new_message {
+        if let Some(proxy) = proxy().await {
+            if let Err(err) = proxy.set_status(message).await {
+                error!("Error setting background status: {err:?}");
+            }
         }
     }
 }
