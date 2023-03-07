@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-03-04 03:16+0000\n"
-"PO-Revision-Date: 2023-03-04 05:55+0100\n"
-"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"POT-Creation-Date: 2023-03-07 01:30+0000\n"
+"PO-Revision-Date: 2023-03-07 05:47+0100\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "მარქაფის მონიტორი Pica"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:323
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -103,7 +103,7 @@ msgstr ""
 msgid "General"
 msgstr "საერთო"
 
-#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+#: data/resources/gtk/help-overlay.ui:13
 msgid "Set up new backup"
 msgstr "ახალი მარქაფის მორგება"
 
@@ -115,7 +115,7 @@ msgstr "კლავიატურის მალსახმობები�
 msgid "Quit"
 msgstr "&გასვლა"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:31 src/ui/app_window.ui:184
 msgid "Back"
 msgstr "უკან"
 
@@ -132,7 +132,7 @@ msgstr ""
 
 #: src/borg/error.rs:30 src/ui/utils.rs:256
 msgid "The operation terminated unexpectedly."
-msgstr ""
+msgstr "ოპერაცია მოულოდნელად დასრულდა."
 
 #: src/borg/error.rs:31
 msgid "This delete operation would delete too many archives."
@@ -152,7 +152,7 @@ msgstr "დასრულებულია"
 
 #: src/borg/error.rs:147
 msgid "Aborted on user request."
-msgstr ""
+msgstr "გაუქმდა მომხმარებლის მოთხოვნით."
 
 #: src/borg/error.rs:151
 msgid "Aborted because only metered connection was available."
@@ -189,7 +189,7 @@ msgstr "დაშიფვრის არასწორი პაროლი.
 
 #: src/borg/error.rs:215
 msgid "Repository access was aborted"
-msgstr ""
+msgstr "რეპოზიტორიასთან წვდომა აკრძალულია"
 
 #: src/borg/error.rs:217
 msgid "A repository already exists at this location."
@@ -225,7 +225,7 @@ msgstr "მარქაფის პროცესი გაგრძელდ�
 
 #: src/borg/log_json.rs:82
 msgid "Backed up data: {}"
-msgstr ""
+msgstr "დამარქაფებული მონაცემები: {}"
 
 #: src/borg/log_json.rs:112
 #, no-c-format
@@ -238,7 +238,7 @@ msgstr "ოპერაცია დასრულდა."
 
 #: src/borg/log_json.rs:193
 msgid "Beginning cache transaction"
-msgstr ""
+msgstr "კეშის ტრანზაქციის დაწყება"
 
 #: src/borg/log_json.rs:194
 msgid "Downloading cache data"
@@ -306,7 +306,7 @@ msgstr "უცნობი ოპერაცია"
 
 #: src/borg/log_json.rs:226
 msgid "Handling a Question"
-msgstr ""
+msgstr "კითხვის დამუშავება"
 
 #: src/borg/log_json.rs:234
 msgid "Attempting to access a previously unknown unencrypted repository."
@@ -344,6 +344,9 @@ msgid ""
 "\n"
 "Do you want to continue?"
 msgstr ""
+"{}\n"
+"\n"
+"გნებავთ, გააგრძელოთ?"
 
 #: src/borg/log_json.rs:321
 msgid "Standard error output"
@@ -357,7 +360,7 @@ msgstr "გამართვა"
 msgid "Info"
 msgstr "ინფორმაცია"
 
-#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:336
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:338
 msgid "Warning"
 msgstr "გაფრთხილება"
 
@@ -473,7 +476,7 @@ msgstr "რეგულარული ექსპრესია"
 
 #: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
 msgid "Unix Filename Pattern"
-msgstr ""
+msgstr "Unix-ის ფაილის სახელის ნიმუში"
 
 #: src/config/repository.rs:145 src/ui/dialog_setup.ui:65
 #: src/ui/dialog_setup.ui:109
@@ -498,15 +501,15 @@ msgstr "თვეში ერთხელ"
 
 #: src/daemon/action.rs:25
 msgid "Failed to start backup from daemon"
-msgstr ""
+msgstr "დემონიდან მარქაფის გაშვების შეცდომა"
 
 #: src/daemon/action.rs:46
 msgid "Failed to show overview from daemon"
-msgstr ""
+msgstr "დემონიდან გადახედვის ჩვენების შეცდომა"
 
 #: src/daemon/action.rs:65
 msgid "Failed to show schedule from daemon"
-msgstr ""
+msgstr "დემონიდან გეგმის ჩვენების შეცდომა"
 
 #: src/daemon/connect/event.rs:30 src/daemon/connect/event.rs:52
 msgid "Backup Device Connected"
@@ -574,11 +577,11 @@ msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 
 #: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:24
-#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:339
+#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:341
 msgid "Continue"
 msgstr "გაგრძელება"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:338
+#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:340
 msgid "Abort"
 msgstr "შეწყვეტა"
 
@@ -634,202 +637,210 @@ msgstr "დაშორებული მარქაფის მორგე�
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:142
-msgid "No Backup Configured"
-msgstr "მარქაფი მორგებული არაა"
-
-#: src/ui/app_window.ui:143
-msgid "Add a new configuration to start creating backups"
-msgstr ""
-
-#: src/ui/app_window.ui:146
+#: src/ui/app_window.ui:106
 msgid "Setup Backup"
 msgstr "მარქაფის მორგება"
 
-#: src/ui/app_window.ui:192
-msgid "Back to overview"
-msgstr "გადახედვაზე დაბრუნება"
+#: src/ui/app_window.ui:113
+msgid "Main Menu"
+msgstr "მთავარი მენიუ"
 
-#: src/ui/app_window.ui:213
+#: src/ui/app_window.ui:133
+msgid "No Backup Configured"
+msgstr "მარქაფი მორგებული არაა"
+
+#: src/ui/app_window.ui:134
+msgid "Add a new configuration to start creating backups"
+msgstr ""
+
+#: src/ui/app_window.ui:137
+msgid "_Setup Backup"
+msgstr "_მარქაფის მორგება"
+
+#: src/ui/app_window.ui:205
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
 msgstr ""
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:219
+msgid "Actions"
+msgstr "ქმედებები"
+
+#: src/ui/app_window.ui:245
 msgid "_Backup"
 msgstr "_მარქაფი"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:267
 msgid "_Abort"
 msgstr "_შეწყვეტა"
 
-#: src/ui/app_window.ui:296
+#: src/ui/app_window.ui:289
 msgid "Back Up _Now"
 msgstr "ახლა _დამარქაფება"
 
-#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:303 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "დასამარქაფებელი ფაილები"
 
-#: src/ui/app_window.ui:311
+#: src/ui/app_window.ui:304
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr ""
 
-#: src/ui/app_window.ui:314
-msgid "Select directory to include…"
-msgstr "აირჩიეთ ჩასასმელი საქაღალდე…"
+#: src/ui/app_window.ui:307
+msgid "Select Directory to Include"
+msgstr "აირჩიეთ ჩასასმელი საქაღალდე"
 
-#: src/ui/app_window.ui:327
+#: src/ui/app_window.ui:320
 msgid "No files included in backup"
 msgstr ""
 
-#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
+#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "მარქაფიდან ამოღება"
 
-#: src/ui/app_window.ui:340
+#: src/ui/app_window.ui:333
 msgid "The following folders are excluded from the backup repository."
 msgstr ""
 
-#: src/ui/app_window.ui:343
-msgid "Select directory to exclude…"
-msgstr "აირჩიეთ ამოსაღები საქაღალდე…"
+#: src/ui/app_window.ui:336
+msgid "Select Directory to Exclude"
+msgstr "აირჩიეთ ამოსაღები საქაღალდე"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:349
 msgid "Nothing excluded from backup"
 msgstr ""
 
-#: src/ui/app_window.ui:370
+#: src/ui/app_window.ui:363
 msgid "_Archives"
 msgstr "_არქივები"
 
-#: src/ui/app_window.ui:465
+#: src/ui/app_window.ui:458
 msgid "Archive _Prefix"
 msgstr "არქივის _პრეფიქსი"
 
-#: src/ui/app_window.ui:467
+#: src/ui/app_window.ui:460
 msgid "Added in front of all archive names"
 msgstr ""
 
-#: src/ui/app_window.ui:496
+#: src/ui/app_window.ui:489
 msgid "_Cleanup Archives"
 msgstr "არქივების _მოსუფთავება"
 
-#: src/ui/app_window.ui:497
+#: src/ui/app_window.ui:490
 msgid "Delete some older archives"
 msgstr "ზოგიერთი ძველი არქივის წაშლა"
 
-#: src/ui/app_window.ui:513
+#: src/ui/app_window.ui:506
 msgid "Archives"
 msgstr "არქივები"
 
-#: src/ui/app_window.ui:522
-msgid "Refresh list of archives"
-msgstr "არქივების სიის განახლება"
+#: src/ui/app_window.ui:515
+msgid "Refresh"
+msgstr "განახლება"
 
-#: src/ui/app_window.ui:543
+#: src/ui/app_window.ui:536
 msgid "Stop browsing archive files"
 msgstr "არქივის ფაილების ძებნის შეწყვეტა"
 
-#: src/ui/app_window.ui:569
+#: src/ui/app_window.ui:562
 msgid "No archives available"
 msgstr "არქივები მიუწვდომელია"
 
-#: src/ui/app_window.ui:588
+#: src/ui/app_window.ui:581
 msgid "_Schedule"
 msgstr "_დაგეგმვა"
 
-#: src/ui/app_window.ui:613
+#: src/ui/app_window.ui:606
 msgid "Scheduled Backups"
 msgstr "დაგეგმილი მარქაფები"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:610
 msgid "Regularly Create Backups"
 msgstr "მარქაფების რეგულარული შექმნა"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:615
 msgid "Frequency"
 msgstr "სიხშირე"
 
-#: src/ui/app_window.ui:630
+#: src/ui/app_window.ui:623
 msgid "Preferred Time"
 msgstr "სასურველი დრო"
 
-#: src/ui/app_window.ui:650
+#: src/ui/app_window.ui:643
 msgid "Preferred Weekday"
 msgstr "სასურველ კვირის დღე"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:648
 msgid "Preferred Day"
 msgstr "სასურველი დღე"
 
-#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:78
+#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:78
 msgid "Delete old Archives"
 msgstr "ძველი არქივების წაშლა"
 
-#: src/ui/app_window.ui:682
+#: src/ui/app_window.ui:675
 msgid "Save Configuration"
 msgstr "კონფიგურაციი შენახვა"
 
-#: src/ui/app_window.ui:694
+#: src/ui/app_window.ui:687
 msgid "Regularly Cleanup Archives"
 msgstr "არქივების რეგულარული მოსუფთავება"
 
-#: src/ui/app_window.ui:695
+#: src/ui/app_window.ui:688
 msgid "Remove old archives after creating new backups"
 msgstr ""
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:698
 msgid "Preserved Archives"
 msgstr ""
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:699
 msgid "Amount and time span of retained archives"
 msgstr ""
 
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:708
 msgid "Details"
 msgstr "დეტალები"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:712
 msgid "Keep Hourly"
 msgstr ""
 
-#: src/ui/app_window.ui:741
+#: src/ui/app_window.ui:734
 msgid "Keep Daily"
 msgstr ""
 
-#: src/ui/app_window.ui:763
+#: src/ui/app_window.ui:756
 msgid "Keep Weekly"
 msgstr ""
 
-#: src/ui/app_window.ui:783
+#: src/ui/app_window.ui:776
 msgid "Keep Monthly"
 msgstr ""
 
-#: src/ui/app_window.ui:802
+#: src/ui/app_window.ui:795
 msgid "Keep Annual"
 msgstr ""
 
-#: src/ui/app_window.ui:849
+#: src/ui/app_window.ui:842
 msgid "Backup Info"
 msgstr ""
 
-#: src/ui/app_window.ui:909
+#: src/ui/app_window.ui:902
 msgid "Amount saved"
 msgstr "შენახული რაოდენობა"
 
-#: src/ui/app_window.ui:925
+#: src/ui/app_window.ui:918
 msgid "Number of files saved"
 msgstr "შენახული ფაილების რაოდენობა"
 
-#: src/ui/app_window.ui:941
+#: src/ui/app_window.ui:934
 msgid "Additional backup space used"
 msgstr "გამოყენებული დამატებითი საცავი"
 
-#: src/ui/app_window.ui:957
+#: src/ui/app_window.ui:950
 msgid "Current file"
 msgstr "მიმდინარე ფაილი"
 
@@ -1097,7 +1108,7 @@ msgstr ""
 msgid "Failed to determine how many archives would be deleted"
 msgstr ""
 
-#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:382
+#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:384
 msgid "Close"
 msgstr "დაკეტვა"
 
@@ -1204,7 +1215,7 @@ msgstr "შექმნა"
 
 #: src/ui/dialog_setup.ui:179
 msgid "Location"
-msgstr "დებარეობა"
+msgstr "მდებარეობა"
 
 #: src/ui/dialog_setup.ui:183
 msgid "Advanced Options"
@@ -1505,7 +1516,15 @@ msgstr ""
 
 #: src/ui/page_backup/display.rs:19
 msgid "Usually contains all personal data"
-msgstr ""
+msgstr "როგორც წესი, კონფიდენციალურ მონაცემებს შეიცავს"
+
+#: src/ui/page_backup/display.rs:43
+msgid "Remove Directory"
+msgstr "საქაღალდის წაშლა"
+
+#: src/ui/page_backup/display.rs:99
+msgid "Remove From List"
+msgstr "სიიდან წაშლა"
 
 #: src/ui/page_backup/events.rs:20
 msgid "Abort Saving Backup State?"
@@ -1615,11 +1634,11 @@ msgstr ""
 
 #: src/ui/page_schedule/event.rs:255
 msgid "Keep Schedule"
-msgstr ""
+msgstr "გეგმის შენარჩუნება"
 
 #: src/ui/page_schedule/event.rs:256
 msgid "Disable Schedule"
-msgstr ""
+msgstr "გეგმის გათიშვა"
 
 #: src/ui/page_schedule/event.rs:322
 msgid "No preset selected."
@@ -1640,22 +1659,22 @@ msgstr "ხელით"
 #: src/ui/page_schedule/status.rs:15
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
-msgstr[0] ""
+msgstr[0] "შემდეგი მარქაფი {} წუთში"
 
 #: src/ui/page_schedule/status.rs:21
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
-msgstr[0] ""
+msgstr[0] "შემდეგი მარქაფი {} საათში"
 
 #: src/ui/page_schedule/status.rs:27
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
-msgstr[0] ""
+msgstr[0] "შემდეგი მარქაფი {} დღეში"
 
 #: src/ui/page_schedule/status.rs:33
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
-msgstr[0] ""
+msgstr[0] "შემდეგი მარქაფი {} კვირაში"
 
 #: src/ui/page_schedule/status.rs:50
 msgid "Scheduled Backups Disabled"
@@ -1723,7 +1742,7 @@ msgstr ""
 
 #: src/ui/page_schedule/status.rs:143
 msgid "Network connection has to be available"
-msgstr ""
+msgstr "ქსელური შეერთების ხელმისაწვდომობა აუცილებელია"
 
 #: src/ui/page_schedule/status.rs:153
 msgid "Background process inactive"
@@ -1745,7 +1764,7 @@ msgstr ""
 
 #: src/ui/utils.rs:93
 msgid "Request to run in background failed"
-msgstr ""
+msgstr "ფონში გაშვების მოთხოვნის შეცდომა"
 
 #: src/ui/utils.rs:111
 msgid "Schedule backups and continue running backups."
@@ -1753,7 +1772,7 @@ msgstr ""
 
 #: src/ui/utils.rs:128
 msgid "Run in background disabled"
-msgstr ""
+msgstr "ფონში გაშვება გათიშულია"
 
 #: src/ui/utils.rs:129
 msgid ""
@@ -1782,15 +1801,15 @@ msgstr[0] "გაშვებულია მარქაფის {} ოპე�
 msgid "Failed to Create Thread"
 msgstr "ნაკადის შექმნის შეცდომა"
 
-#: src/ui/utils.rs:519
+#: src/ui/utils.rs:521
 msgid "Failed to fix Scheduled Backups"
 msgstr ""
 
-#: src/ui/utils.rs:524
+#: src/ui/utils.rs:526
 msgid "Scheduled Backups Repaired"
 msgstr ""
 
-#: src/ui/utils.rs:524
+#: src/ui/utils.rs:526
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1930,6 +1949,12 @@ msgstr "Pika Backup “{}”"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "კეშის შენახვის შეცდომა"
+
+#~ msgid "Back to overview"
+#~ msgstr "გადახედვაზე დაბრუნება"
+
+#~ msgid "Refresh list of archives"
+#~ msgstr "არქივების სიის განახლება"
 
 #~ msgid "Compacting Archives"
 #~ msgstr "არქივების დაპატარავება"
