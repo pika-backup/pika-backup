@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the pika-backup package.
 #
 # Sabri Ünal <libreajans@gmail.com>, 2022, 2023.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2021, 2023.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2021-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-03-01 21:29+0000\n"
-"PO-Revision-Date: 2023-03-02 01:00+0300\n"
+"POT-Creation-Date: 2023-03-07 04:55+0000\n"
+"PO-Revision-Date: 2023-03-08 21:06+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
-"Language-Team: Türkçe <gnome-turk@gnome.org>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.1.1\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Gtranslator 42.0\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -30,7 +30,7 @@ msgstr "Pika Yedek Gözlemcisi"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:323
 msgid "Pika Backup"
 msgstr "Pika Yedek"
 
@@ -111,7 +111,7 @@ msgstr "Yedekleri aynı anda yerel sürücüler ve çevrim içi hizmetlerde tut"
 msgid "General"
 msgstr "Genel"
 
-#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+#: data/resources/gtk/help-overlay.ui:13
 msgid "Set up new backup"
 msgstr "Yeni yedek ayarla"
 
@@ -123,7 +123,7 @@ msgstr "Klavye kısayollarını göster"
 msgid "Quit"
 msgstr "Çık"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:31 src/ui/app_window.ui:184
 msgid "Back"
 msgstr "Geri"
 
@@ -131,80 +131,98 @@ msgstr "Geri"
 msgid "Open menu"
 msgstr "Menüyü aç"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:256
+#: src/borg/error.rs:28
+msgid ""
+"Retrieving encryption password from the keyring failed. Pika Backup requires "
+"a keyring daemon (“secret service”) to store passwords. For installation "
+"instructions see the operating system documentation."
+msgstr ""
+"Anahtarlıktan şifreleme parolası alınamadı. Pika Yedek, parolaları depolamak "
+"için anahtarlık hizmeti (“giz hizmeti”) gerektirir. Kurulum yönergeleri için "
+"işletim sistemi belgelerine bakın."
+
+#: src/borg/error.rs:30 src/ui/utils.rs:256
 msgid "The operation terminated unexpectedly."
 msgstr "İşlem beklenmeyen biçimde sonlandı."
 
-#: src/borg/error.rs:28
+#: src/borg/error.rs:31
 msgid "This delete operation would delete too many archives."
 msgstr "Bu silme işlemi birçok arşivi silecek."
 
-#: src/borg/error.rs:29
+#: src/borg/error.rs:32
 msgid "No files selected to be included into backup."
 msgstr "Yedeklemeye eklenecek dosya seçilmedi."
 
-#: src/borg/error.rs:94
+#: src/borg/error.rs:81
+msgid "Timeout"
+msgstr "Zaman aşımı"
+
+#: src/borg/error.rs:124
 msgid "Completed"
 msgstr "Tamamlandı"
 
-#: src/borg/error.rs:117
+#: src/borg/error.rs:147
 msgid "Aborted on user request."
 msgstr "Kullanıcı isteğiyle iptal edildi."
 
-#: src/borg/error.rs:121
+#: src/borg/error.rs:151
 msgid "Aborted because only metered connection was available."
 msgstr "Yalnızca ölçülen bağlantı kullanılabildiğinden iptal edildi."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:127
+#: src/borg/error.rs:157
 msgid "Aborted because too long not connected to power."
 msgstr "Çok uzun süre güce bağlı olmadığından iptal edildi."
 
-#: src/borg/error.rs:129
+#: src/borg/error.rs:159
 msgid "Aborted by system."
 msgstr "Sistemce iptal edildi."
 
-#: src/borg/error.rs:133
+#: src/borg/error.rs:163
 msgid "The program or system seems to have crashed."
 msgstr "Uygulama veya sistem çökmüş gibi görünüyor."
 
-#: src/borg/error.rs:179
+#: src/borg/error.rs:210
 msgid "Connection closed by remote host."
 msgstr "Bağlantı uzak ana makinece kapatıldı."
 
-#: src/borg/error.rs:181 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:145
 msgid "Repository already in use."
 msgstr "Depo zaten kullanımda."
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:213
 msgid "Failed to lock repository."
 msgstr "Depo kilitlenemedi."
 
-#: src/borg/error.rs:183
+#: src/borg/error.rs:214
 msgid "Invalid encryption password."
 msgstr "Geçersiz şifreleme parolası."
 
-#: src/borg/error.rs:184
+#: src/borg/error.rs:215
 msgid "Repository access was aborted"
 msgstr "Depo erişimi iptal edildi"
 
-#: src/borg/error.rs:186
+#: src/borg/error.rs:217
 msgid "A repository already exists at this location."
 msgstr "Bu konumda depo zaten var."
 
-#: src/borg/error.rs:188
+#: src/borg/error.rs:219
 msgid "No repository exists at this location."
 msgstr "Bu konumda depo yok."
 
-#: src/borg/error.rs:190
+#: src/borg/error.rs:221
 msgid "Not enough free space in repository."
 msgstr "Depoda yeterli boş alan yok."
 
-#: src/borg/error.rs:193
+#: src/borg/error.rs:224
 msgid "Connection closed by remote host: “{}”"
 msgstr "Bağlantı uzak ana makinece kapatıldı : “{}”"
 
-#: src/borg/error.rs:196
+#: src/borg/error.rs:226
+msgid "Exception"
+msgstr "İstisna"
+
+#: src/borg/error.rs:228
 msgid "Unspecified error."
 msgstr "Belirtilmemiş hata."
 
@@ -319,8 +337,8 @@ msgid ""
 "to data loss (for kinds of corruption it is not capable of dealing with). BE "
 "VERY CAREFUL!"
 msgstr ""
-"Bu, potansiyel olarak tehlikeli bir işlevdir. Depoyu onarmak (baş edilemeyecek "
-" bozulmalarda) veri yitimine neden olabilir. ÇOK DİKKATLİ OLUN!" 
+"Bu, potansiyel olarak tehlikeli bir işlevdir. Depoyu onarmak (baş "
+"edilemeyecek  bozulmalarda) veri yitimine neden olabilir. ÇOK DİKKATLİ OLUN!"
 
 #: src/borg/log_json.rs:258
 msgid ""
@@ -356,7 +374,7 @@ msgstr "Hata Ayıkla"
 msgid "Info"
 msgstr "Bilgi"
 
-#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:336
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:338
 msgid "Warning"
 msgstr "Uyarı"
 
@@ -402,7 +420,7 @@ msgstr "Yazılım Listesi Yenileniyor"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:87
+#: src/ui/page_backup/events.rs:96
 msgid "Home"
 msgstr "Ev"
 
@@ -530,11 +548,11 @@ msgstr "“{}” yapılandırılmış yedekleme içeriyor."
 msgid "Back Up Now"
 msgstr "Şimdi Yedekle"
 
-#: src/daemon/init.rs:48
+#: src/daemon/init.rs:56
 msgid "Fatal Error During Back Up"
 msgstr "Yedeklemede Ölümcül Hata"
 
-#: src/daemon/init.rs:51
+#: src/daemon/init.rs:59
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika Yedek {} yedekleme çalıştırırken çöktü."
@@ -567,20 +585,20 @@ msgstr "Zamanlanmış yedeklemenin başlaması için “{}” bağlanmalıdır."
 msgid "Failed to start scheduled backup"
 msgstr "Zamanlanmış yedekleme başlatılamadı"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:17
+#: src/ui.rs:178
 msgid "Abort running backup creation?"
 msgstr "Yedek oluşturma işlemi iptal edilsin mi?"
 
-#: src/ui.rs:179 src/ui/page_backup/events.rs:18
+#: src/ui.rs:179
 msgid "The backup will remain incomplete if aborted now."
 msgstr "İptal edilirse yedekleme eksik kalacaktır."
 
-#: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:19
-#: src/ui/utils.rs:339
+#: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:24
+#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:341
 msgid "Continue"
 msgstr "Sürdür"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:20 src/ui/utils.rs:338
+#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:340
 msgid "Abort"
 msgstr "İptal Et"
 
@@ -640,23 +658,27 @@ msgstr "Yedekleme Kurulumunu Kaldır"
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:142
-msgid "No Backup Configured"
-msgstr "Yedek Yapılandırılmadı"
-
-#: src/ui/app_window.ui:143
-msgid "Add a new configuration to start creating backups"
-msgstr "Yedek oluşturmaya başlamak için yeni yapılandırma ekle"
-
-#: src/ui/app_window.ui:146
+#: src/ui/app_window.ui:106
 msgid "Setup Backup"
 msgstr "Yedek Ayarla"
 
-#: src/ui/app_window.ui:192
-msgid "Back to overview"
-msgstr "Genel görünüme dön"
+#: src/ui/app_window.ui:113
+msgid "Main Menu"
+msgstr "Ana Menü"
 
-#: src/ui/app_window.ui:213
+#: src/ui/app_window.ui:133
+msgid "No Backup Configured"
+msgstr "Yedek Yapılandırılmadı"
+
+#: src/ui/app_window.ui:134
+msgid "Add a new configuration to start creating backups"
+msgstr "Yedek oluşturmaya başlamak için yeni yapılandırma ekle"
+
+#: src/ui/app_window.ui:137
+msgid "_Setup Backup"
+msgstr "Yedek _Ayarla"
+
+#: src/ui/app_window.ui:205
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -664,180 +686,184 @@ msgstr ""
 "Arişvler bağlanıyor.\n"
 "Bu biraz sürebilir."
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:219
+msgid "Actions"
+msgstr "Eylemler"
+
+#: src/ui/app_window.ui:245
 msgid "_Backup"
 msgstr "_Yedekle"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:267
 msgid "_Abort"
 msgstr "İptal _Et"
 
-#: src/ui/app_window.ui:296
+#: src/ui/app_window.ui:289
 msgid "Back Up _Now"
 msgstr "Şimdi _Yedekle"
 
-#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:303 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Yedeklenecek Dosyalar"
 
-#: src/ui/app_window.ui:311
+#: src/ui/app_window.ui:304
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "Yedek deposuna yalnızca aşağıdaki klasörlerdeki dosyalar kaydedilecek."
 
-#: src/ui/app_window.ui:314
-msgid "Select directory to include…"
-msgstr "Eklencek dizini seç…"
+#: src/ui/app_window.ui:307
+msgid "Select Directory to Include"
+msgstr "Eklencek Dizini Seç"
 
-#: src/ui/app_window.ui:327
+#: src/ui/app_window.ui:320
 msgid "No files included in backup"
 msgstr "Yedeklemede dosya yok"
 
-#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
+#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Yedekleme Dışı Tut"
 
-#: src/ui/app_window.ui:340
+#: src/ui/app_window.ui:333
 msgid "The following folders are excluded from the backup repository."
 msgstr "Aşağıdaki klasörler yedekleme deposundan dışlanır."
 
-#: src/ui/app_window.ui:343
-msgid "Select directory to exclude…"
-msgstr "Dışlanacak dizini seç…"
+#: src/ui/app_window.ui:336
+msgid "Select Directory to Exclude"
+msgstr "Dışlanacak Dizini Seç"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:349
 msgid "Nothing excluded from backup"
 msgstr "Yedekten dışlanan yok"
 
-#: src/ui/app_window.ui:370
+#: src/ui/app_window.ui:363
 msgid "_Archives"
 msgstr "_Arşivler"
 
-#: src/ui/app_window.ui:465
+#: src/ui/app_window.ui:458
 msgid "Archive _Prefix"
 msgstr "Arşiv _Ön Eki"
 
-#: src/ui/app_window.ui:467
+#: src/ui/app_window.ui:460
 msgid "Added in front of all archive names"
 msgstr "Tüm arşiv adlarının önüne eklenir"
 
-#: src/ui/app_window.ui:496
+#: src/ui/app_window.ui:489
 msgid "_Cleanup Archives"
 msgstr "Arşivleri _Temizle"
 
-#: src/ui/app_window.ui:497
+#: src/ui/app_window.ui:490
 msgid "Delete some older archives"
 msgstr "Kimi eski arşivleri sil"
 
-#: src/ui/app_window.ui:513
+#: src/ui/app_window.ui:506
 msgid "Archives"
 msgstr "Arşivler"
 
-#: src/ui/app_window.ui:522
-msgid "Refresh list of archives"
-msgstr "Arşiv listesini yenile"
+#: src/ui/app_window.ui:515
+msgid "Refresh"
+msgstr "Yenile"
 
-#: src/ui/app_window.ui:543
+#: src/ui/app_window.ui:536
 msgid "Stop browsing archive files"
 msgstr "Arşiv dosyalarını göz atmayı durdur"
 
-#: src/ui/app_window.ui:569
+#: src/ui/app_window.ui:562
 msgid "No archives available"
 msgstr "Kullanılabilir arşiv yok"
 
-#: src/ui/app_window.ui:588
+#: src/ui/app_window.ui:581
 msgid "_Schedule"
 msgstr "_Zamanla"
 
-#: src/ui/app_window.ui:613
+#: src/ui/app_window.ui:606
 msgid "Scheduled Backups"
 msgstr "Zamanlanmış Yedeklemeler"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:610
 msgid "Regularly Create Backups"
 msgstr "Düzenli Olarak Yedek Oluştur"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:615
 msgid "Frequency"
 msgstr "Sıklık"
 
-#: src/ui/app_window.ui:630
+#: src/ui/app_window.ui:623
 msgid "Preferred Time"
 msgstr "Yeğlenen Zaman"
 
-#: src/ui/app_window.ui:650
+#: src/ui/app_window.ui:643
 msgid "Preferred Weekday"
 msgstr "Yeğlenen Haftanın Günü"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:648
 msgid "Preferred Day"
 msgstr "Yeğlenen Gün"
 
-#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:78
+#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:78
 msgid "Delete old Archives"
 msgstr "Eski Arşivleri Sil"
 
-#: src/ui/app_window.ui:682
+#: src/ui/app_window.ui:675
 msgid "Save Configuration"
 msgstr "Yapılandırmayı Kaydet"
 
-#: src/ui/app_window.ui:694
+#: src/ui/app_window.ui:687
 msgid "Regularly Cleanup Archives"
 msgstr "Düzenli Olarak Arşivleri Temizle"
 
-#: src/ui/app_window.ui:695
+#: src/ui/app_window.ui:688
 msgid "Remove old archives after creating new backups"
 msgstr "Yeni yedek oluşturunca eski arşivleri kaldır"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:698
 msgid "Preserved Archives"
 msgstr "Korunan Arşivler"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:699
 msgid "Amount and time span of retained archives"
 msgstr "Tutulacak arşivlerin miktarı ve zaman aralığı"
 
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:708
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:712
 msgid "Keep Hourly"
 msgstr "Saatlik Tut"
 
-#: src/ui/app_window.ui:741
+#: src/ui/app_window.ui:734
 msgid "Keep Daily"
 msgstr "Günlük Tut"
 
-#: src/ui/app_window.ui:763
+#: src/ui/app_window.ui:756
 msgid "Keep Weekly"
 msgstr "Haftalık Tut"
 
-#: src/ui/app_window.ui:783
+#: src/ui/app_window.ui:776
 msgid "Keep Monthly"
 msgstr "Aylık Tut"
 
-#: src/ui/app_window.ui:802
+#: src/ui/app_window.ui:795
 msgid "Keep Annual"
 msgstr "Yıllık Tut"
 
-#: src/ui/app_window.ui:849
+#: src/ui/app_window.ui:842
 msgid "Backup Info"
 msgstr "Yedekleme Bilgisi"
 
-#: src/ui/app_window.ui:909
+#: src/ui/app_window.ui:902
 msgid "Amount saved"
 msgstr "Kayıtlı miktar"
 
-#: src/ui/app_window.ui:925
+#: src/ui/app_window.ui:918
 msgid "Number of files saved"
 msgstr "Kayıtlı dosya sayısı"
 
-#: src/ui/app_window.ui:941
+#: src/ui/app_window.ui:934
 msgid "Additional backup space used"
 msgstr "Kullanılan ek yedekleme alanı"
 
-#: src/ui/app_window.ui:957
+#: src/ui/app_window.ui:950
 msgid "Current file"
 msgstr "Geçerli dosya"
 
@@ -976,7 +1002,7 @@ msgstr "Arşiv Ön Eki"
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
 #: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
-#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
+#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:104
 #: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "İptal Et"
@@ -1011,7 +1037,11 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Arşiv ön eki boşsa ön ek eklenmez."
 
-#: src/ui/dialog_delete_archive.rs:69 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_delete_archive.rs:68
+msgid "Delete Archive Failed"
+msgstr "Arşivler Silinemedi"
+
+#: src/ui/dialog_delete_archive.ui:28
 msgid "Delete Archive"
 msgstr "Arşivi Sil"
 
@@ -1071,7 +1101,7 @@ msgid "Exclude Directory"
 msgstr "Dizini Dışla"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:264
+#: src/ui/page_backup/events.rs:52 src/ui/utils.rs:264
 msgid "Select"
 msgstr "Seç"
 
@@ -1129,7 +1159,7 @@ msgstr ""
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Kaç arşivin silineceği belirlenemedi"
 
-#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:382
+#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:384
 msgid "Close"
 msgstr "Kapat"
 
@@ -1435,31 +1465,31 @@ msgstr "Girilen parolalar eşleşmiyor."
 msgid "A repository location has to be given."
 msgstr "Depo konumu sağlanmalıdır."
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:254
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:257
 msgid "Additional command line arguments invalid."
 msgstr "Ek komut satırı argümanları geçersiz."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:255
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:258
 msgid "Please check for missing closing quotes."
 msgstr "Lütfen eksik tırnak kapamalarını denetleyin."
 
-#: src/ui/dialog_setup/insert.rs:182
+#: src/ui/dialog_setup/insert.rs:185
 msgid "Loading Backup Repository"
 msgstr "Yedekleme Deposu Yükleniyor"
 
-#: src/ui/dialog_setup/insert.rs:202
+#: src/ui/dialog_setup/insert.rs:205
 msgid "Failed to Configure Repository"
 msgstr "Depo Yapılandırılamadı"
 
-#: src/ui/dialog_setup/insert.rs:221
+#: src/ui/dialog_setup/insert.rs:224
 msgid "Failed"
 msgstr "Başarısız"
 
-#: src/ui/dialog_setup/insert.rs:291
+#: src/ui/dialog_setup/insert.rs:294
 msgid "Repository location not found."
 msgstr "Depo konumu bulunamadı."
 
-#: src/ui/dialog_setup/insert.rs:292
+#: src/ui/dialog_setup/insert.rs:295
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "Bağlama işlemi başarılı oldu ancak konum hala kullanılamıyor."
 
@@ -1503,11 +1533,21 @@ msgstr "Toplam"
 msgid "Free"
 msgstr "Boş"
 
-#: src/ui/error.rs:87
+#: src/ui/error.rs:75
+msgid ""
+"The keyring is not available. Pika Backup requires a keyring daemon (“secret "
+"service”) to store passwords. For installation instructions see the "
+"operating system documentation."
+msgstr ""
+"Anahtarlık yok. Pika Yedek, parolaları depolamak için anahtarlık hizmeti "
+"(“giz hizmeti”) gerektirir. Kurulum yönergeleri için işletim sistemi "
+"belgelerine bakın."
+
+#: src/ui/error.rs:98
 msgid "Backup with id “{}” already exists."
 msgstr "“{}” kimlikli yedek zaten var."
 
-#: src/ui/error.rs:92
+#: src/ui/error.rs:103
 msgid "Could not find backup configuration with id “{}”."
 msgstr "“{}” kimlikli yedekleme yapılandırması bulunamadı."
 
@@ -1559,22 +1599,59 @@ msgstr "Arşivler göz atılabilir yapılamadı."
 msgid "Usually contains all personal data"
 msgstr "Genelde tüm kişisel verileri içerir"
 
-#: src/ui/page_backup/events.rs:42
+#: src/ui/page_backup/display.rs:43
+msgid "Remove Directory"
+msgstr "Dizini Kaldır"
+
+#: src/ui/page_backup/display.rs:99
+msgid "Remove From List"
+msgstr "Listeden Kaldır"
+
+#: src/ui/page_backup/events.rs:20
+msgid "Abort Saving Backup State?"
+msgstr "Yedek Durumu Kaydetme İptal Edilsin Mi?"
+
+#: src/ui/page_backup/events.rs:22
+msgid ""
+"The current backup state is in the process of being saved. The backup can be "
+"continued later without saving the state. Some data might have to be copied "
+"again."
+msgstr ""
+"Geçerli yedekleme durumu kaydediliyor. Yedekleme durumu kaydedilmeden daha "
+"sonra sürdürebilir. Kimi veriler yeniden kopyalanmak zorunda kalabilir."
+
+#: src/ui/page_backup/events.rs:30
+msgid "Stop Running Backup?"
+msgstr "Yedekleme Durdurulsun Mu?"
+
+#: src/ui/page_backup/events.rs:31
+msgid ""
+"The current backup state will be saved. You can continue your backup later "
+"by starting it again."
+msgstr ""
+"Geçerli yedekleme durumu kaydedilecek. Daha sonra yeniden başlatarak "
+"yedeklemeyi sürdürebilirsiniz."
+
+#: src/ui/page_backup/events.rs:33
+msgid "Stop"
+msgstr "Durdur"
+
+#: src/ui/page_backup/events.rs:51
 msgid "Include Folder"
 msgstr "Klasörü İçer"
 
-#: src/ui/page_backup/events.rs:93
+#: src/ui/page_backup/events.rs:102
 msgid "No longer include “{}” in backups?"
 msgstr "“{}” yedeklemede artık içerilmesin mi?"
 
-#: src/ui/page_backup/events.rs:94
+#: src/ui/page_backup/events.rs:103
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Bu klasörde bulunan tüm dosyalar artık gelecekteki yedeklemelerin parçası "
 "olmayacak."
 
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:105
 msgid "Confirm"
 msgstr "Doğrula"
 
@@ -1817,15 +1894,15 @@ msgstr[0] "{} Yedekleme İşlemi Çalışıyor"
 msgid "Failed to Create Thread"
 msgstr "İş Parçacığı Oluşturulamadı"
 
-#: src/ui/utils.rs:519
+#: src/ui/utils.rs:521
 msgid "Failed to fix Scheduled Backups"
 msgstr "Zamanlanmış Yedeklemeler düzeltilemedi"
 
-#: src/ui/utils.rs:524
+#: src/ui/utils.rs:526
 msgid "Scheduled Backups Repaired"
 msgstr "Zamanlanmış Yedeklemeler Onarıldı"
 
-#: src/ui/utils.rs:524
+#: src/ui/utils.rs:526
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1867,71 +1944,91 @@ msgstr "Yapılandırma dosyası yüklenemedi."
 msgid "Could not write configuration file."
 msgstr "Yapılandırma dosyası yazılamadı."
 
-#: src/ui/utils/duration.rs:10
+#: src/ui/utils/duration.rs:11
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "{} saniye"
 
-#: src/ui/utils/duration.rs:12
+#: src/ui/utils/duration.rs:13
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} dakika"
 
-#: src/ui/utils/duration.rs:14
+#: src/ui/utils/duration.rs:15
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "{} saat"
 
-#: src/ui/utils/duration.rs:16
+#: src/ui/utils/duration.rs:17
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "{} gün"
 
 #: src/ui/utils/duration.rs:23
+msgid "one second"
+msgid_plural "{} seconds"
+msgstr[0] "{} saniye"
+
+#: src/ui/utils/duration.rs:25
+msgid "one minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} dakika"
+
+#: src/ui/utils/duration.rs:27
+msgid "one hour"
+msgid_plural "{} hours"
+msgstr[0] "{} saat"
+
+#: src/ui/utils/duration.rs:29
+msgid "one day"
+msgid_plural "{} days"
+msgstr[0] "{} gün"
+
+#: src/ui/utils/duration.rs:36
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "{} dakika kaldı"
 
-#: src/ui/utils/duration.rs:28
+#: src/ui/utils/duration.rs:41
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "{} saat kaldı"
 
-#: src/ui/utils/duration.rs:30
+#: src/ui/utils/duration.rs:43
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "{} gün kaldı"
 
-#: src/ui/utils/duration.rs:36
+#: src/ui/utils/duration.rs:49
 msgid "Now"
 msgstr "Şimdi"
 
-#: src/ui/utils/duration.rs:38
+#: src/ui/utils/duration.rs:51
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "{} dakika önce"
 
-#: src/ui/utils/duration.rs:40
+#: src/ui/utils/duration.rs:53
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "{} saat önce"
 
-#: src/ui/utils/duration.rs:42
+#: src/ui/utils/duration.rs:55
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "{} gün önce"
 
-#: src/ui/utils/duration.rs:44
+#: src/ui/utils/duration.rs:57
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "{} hafta önce"
 
-#: src/ui/utils/duration.rs:46
+#: src/ui/utils/duration.rs:59
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "{} ay önce"
 
-#: src/ui/utils/duration.rs:48
+#: src/ui/utils/duration.rs:61
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "{} yıl önce"
@@ -1940,18 +2037,24 @@ msgstr[0] "{} yıl önce"
 msgid "Failed to Store Password"
 msgstr "Parola Depolanamadı"
 
-#: src/ui/utils/password_storage.rs:31
+#: src/ui/utils/password_storage.rs:32
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Anahtar deposunda kalabilecek parolalar kaldırılamadı."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:48
+#: src/ui/utils/password_storage.rs:51
 msgid "Pika Backup “{}”"
 msgstr "“{}” Pika Yedeği"
 
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Önbellek Kaydedilemedi"
+
+#~ msgid "Back to overview"
+#~ msgstr "Genel görünüme dön"
+
+#~ msgid "Refresh list of archives"
+#~ msgstr "Arşiv listesini yenile"
 
 #~ msgid "Compacting Archives"
 #~ msgstr "Arşivler Sıkıştırılıyor"
