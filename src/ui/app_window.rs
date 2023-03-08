@@ -14,6 +14,14 @@ pub fn init() {
         main_ui().window().style_context().add_class("devel");
     }
 
+    main_ui().leaflet().connect_visible_child_notify(|leaflet| {
+        if let Some(visible_child) = leaflet.visible_child() {
+            if visible_child == main_ui().overview() {
+                ui::page_overview::reload_visible_page();
+            }
+        }
+    });
+
     adw_app().add_window(&main_ui().window());
 }
 

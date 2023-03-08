@@ -33,6 +33,7 @@ pub fn init() {
         .connect_clicked(|_| ui::dialog_setup::show());
 
     main_ui().main_backups().connect_map(|_| rebuild_list());
+    reload_visible_page();
 }
 
 fn is_visible() -> bool {
@@ -70,6 +71,13 @@ async fn on_remove_backup() -> Result<()> {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
     ui::write_config()?;
 
+    reload_visible_page();
+    main_ui().leaflet().set_visible_child(&main_ui().overview());
+
+    Ok(())
+}
+
+pub fn reload_visible_page() {
     if BACKUP_CONFIG.load().iter().next().is_none() {
         main_ui()
             .main_stack()
@@ -79,9 +87,6 @@ async fn on_remove_backup() -> Result<()> {
             .main_stack()
             .set_visible_child(&main_ui().page_overview());
     };
-    main_ui().leaflet().set_visible_child(&main_ui().overview());
-
-    Ok(())
 }
 
 fn rebuild_list() {

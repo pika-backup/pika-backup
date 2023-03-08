@@ -142,16 +142,10 @@ fn on_startup(_app: &adw::Application) {
     adw_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
     adw_app().set_accels_for_action("win.show-help-overlay", &["<Ctrl>question"]);
 
-    if BACKUP_CONFIG.load().iter().count() > 1 {
-        main_ui()
-            .main_stack()
-            .set_visible_child(&main_ui().page_overview());
-    } else if let Some(config) = BACKUP_CONFIG.load().iter().next() {
-        ui::page_backup::view_backup_conf(&config.id);
-    } else {
-        main_ui()
-            .main_stack()
-            .set_visible_child(&main_ui().page_overview_empty());
+    if BACKUP_CONFIG.load().iter().count() == 1 {
+        if let Some(config) = BACKUP_CONFIG.load().iter().next() {
+            ui::page_backup::view_backup_conf(&config.id);
+        }
     }
 
     Handler::handle(ui::utils::fix_flatpak_autostart());

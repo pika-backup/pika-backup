@@ -16,9 +16,6 @@ pub fn init() {
 }
 
 fn on_back(_button: &gtk::Button) {
-    main_ui()
-        .main_stack()
-        .set_visible_child(&main_ui().page_overview());
     main_ui().leaflet().set_visible_child(&main_ui().overview());
 }
 
