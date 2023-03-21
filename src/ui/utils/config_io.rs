@@ -48,7 +48,7 @@ fn load_config_e() -> std::io::Result<()> {
 pub fn load_config() {
     let res = load_config_e().err_to_msg(gettext("Could not load configuration file."));
     if let Err(err) = res {
-        glib::MainContext::default().block_on(err.show());
+        glib::MainContext::default().spawn_local(async move { err.show().await });
     }
 }
 
