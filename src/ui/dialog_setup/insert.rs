@@ -171,6 +171,7 @@ pub async fn add_first_try(mut repo: config::Repository, ui: builder::DialogSetu
 }
 
 pub async fn add(ui: builder::DialogSetup) -> Result<()> {
+    let guard = QuitGuard::default();
     display::pending_check(&ui);
 
     let repo = ui.add_task().repo().unwrap();
@@ -219,7 +220,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
     list_command.task.set_limit_first(100);
 
-    let archives = ui::utils::borg::exec(list_command)
+    let archives = ui::utils::borg::exec(list_command, &guard)
         .await
         .into_message(gettext("Failed"))?;
 

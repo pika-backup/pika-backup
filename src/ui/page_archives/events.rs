@@ -31,6 +31,7 @@ pub async fn eject_button_clicked() -> Result<()> {
 }
 
 pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
+    let guard = QuitGuard::default();
     let configs = BACKUP_CONFIG.load();
     let config = configs.active()?;
     let repo_id = &config.repo_id;
@@ -48,8 +49,11 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
         });
 
         main_ui().pending_menu().show();
-        let mount =
-            ui::utils::borg::exec(borg::Command::<borg::task::Mount>::new(config.clone())).await;
+        let mount = ui::utils::borg::exec(
+            borg::Command::<borg::task::Mount>::new(config.clone()),
+            &guard,
+        )
+        .await;
 
         if mount.is_err() {
             ACTIVE_MOUNTS.update(|mounts| {

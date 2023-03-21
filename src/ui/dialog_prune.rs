@@ -20,16 +20,22 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
     ui.dialog().set_transient_for(Some(&main_ui().window()));
     ui.dialog().present();
 
-    let prune_info =
-        ui::utils::borg::exec(borg::Command::<borg::task::PruneInfo>::new(config.clone()))
-            .await
-            .into_message(gettext(
-                "Failed to determine how many archives would be deleted",
-            ))?;
+    let guard = QuitGuard::default();
+    let prune_info = ui::utils::borg::exec(
+        borg::Command::<borg::task::PruneInfo>::new(config.clone()),
+        &guard,
+    )
+    .await
+    .into_message(gettext(
+        "Failed to determine how many archives would be deleted",
+    ))?;
 
-    let list_all = ui::utils::borg::exec(borg::Command::<borg::task::List>::new(config.clone()))
-        .await
-        .into_message("List Archives")?;
+    let list_all = ui::utils::borg::exec(
+        borg::Command::<borg::task::List>::new(config.clone()),
+        &guard,
+    )
+    .await
+    .into_message("List Archives")?;
 
     let num_untouched_archives = list_all.len() - prune_info.prune - prune_info.keep;
 
@@ -71,15 +77,22 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
 async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
     ui.dialog().destroy();
 
-    let result =
-        ui::utils::borg::exec(borg::Command::<borg::task::Prune>::new(config.clone())).await;
+    let guard = QuitGuard::default();
+    let result = ui::utils::borg::exec(
+        borg::Command::<borg::task::Prune>::new(config.clone()),
+        &guard,
+    )
+    .await;
 
     if !result.is_borg_err_user_aborted() {
         result.into_message(gettext("Delete old Archives"))?;
     }
 
-    let result =
-        ui::utils::borg::exec(borg::Command::<borg::task::Compact>::new(config.clone())).await;
+    let result = ui::utils::borg::exec(
+        borg::Command::<borg::task::Compact>::new(config.clone()),
+        &guard,
+    )
+    .await;
 
     if !result.is_borg_err_user_aborted() {
         result.into_message(gettext("Reclaim Free Space"))?;

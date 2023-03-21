@@ -5,6 +5,7 @@ pub use crate::ui::error::{
     Result, UserCanceled,
 };
 pub use crate::ui::globals::*;
+pub use crate::ui::status::QuitGuard;
 pub use crate::ui::utils::ext::*;
 pub use crate::ui::utils::{Logable, LookupActiveConfigId, SummarizeOperations};
 

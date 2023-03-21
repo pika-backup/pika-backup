@@ -59,17 +59,21 @@ async fn show(
 async fn delete(ui: DialogDeleteArchive, config: config::Backup, archive_name: &str) -> Result<()> {
     ui.dialog().destroy();
 
+    let guard = QuitGuard::default();
     let archive_name = Some(archive_name.to_string());
 
     let mut command = borg::Command::<borg::task::Delete>::new(config.clone());
     command.task.set_archive_name(archive_name);
-    let result = ui::utils::borg::exec(command).await;
+    let result = ui::utils::borg::exec(command, &guard).await;
 
     result.into_message(gettext("Delete Archive Failed"))?;
 
-    ui::utils::borg::exec(borg::Command::<borg::task::Compact>::new(config.clone()))
-        .await
-        .into_message("Reclaiming Free Space Failed")?;
+    ui::utils::borg::exec(
+        borg::Command::<borg::task::Compact>::new(config.clone()),
+        &guard,
+    )
+    .await
+    .into_message("Reclaiming Free Space Failed")?;
 
     let _ = ui::page_archives::cache::refresh_archives(config, None).await;
 

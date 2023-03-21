@@ -17,6 +17,7 @@ pub struct StatusTracking {
     pub daemon_running: Cell<bool>,
     metered_signal_handler: Cell<Option<SignalHandlerId>>,
     volume_monitor: Cell<Option<gio::VolumeMonitor>>,
+    quit_inhibit_count: Cell<usize>,
 }
 
 impl StatusTracking {
@@ -29,6 +30,7 @@ impl StatusTracking {
             daemon_running: Default::default(),
             metered_signal_handler: Default::default(),
             volume_monitor: Default::default(),
+            quit_inhibit_count: Default::default(),
         });
 
         // Metered
@@ -110,6 +112,10 @@ impl StatusTracking {
         tracking
     }
 
+    pub fn quit_inhibit_count(&self) -> usize {
+        self.quit_inhibit_count.get()
+    }
+
     fn ui_status_update(&self) {
         debug!("UI status update");
 
@@ -129,5 +135,47 @@ impl StatusTracking {
 impl Drop for StatusTracking {
     fn drop(&mut self) {
         debug!("Dropping global status tracking");
+    }
+}
+
+#[non_exhaustive]
+pub struct QuitGuard;
+
+impl Default for QuitGuard {
+    /// Create a quit guard that will quit the app if no other guards are running at the same time
+    fn default() -> Self {
+        ui::globals::STATUS_TRACKING.with(|status| {
+            let new = status.quit_inhibit_count.get() + 1;
+            debug!("Increasing quit guard count to {new}");
+            status.quit_inhibit_count.set(new);
+        });
+
+        Self {}
+    }
+}
+
+impl Drop for QuitGuard {
+    fn drop(&mut self) {
+        let mut quit = false;
+
+        ui::globals::STATUS_TRACKING.with(|status| {
+            let new = std::cmp::max(status.quit_inhibit_count.get(), 1) - 1;
+            debug!("Decreasing quit guard count to {new}");
+            status.quit_inhibit_count.set(new);
+            quit = new == 0;
+
+            status.clone()
+        });
+
+        // Don't quit the app when testing
+        #[cfg(not(test))]
+        if quit && !**IS_SHUTDOWN.load() {
+            // Checks whether window is open and quits if necessary
+            glib::MainContext::default().spawn_from_within(|| async {
+                if !main_ui().window().is_visible() {
+                    let _ = ui::quit().await;
+                }
+            });
+        }
     }
 }

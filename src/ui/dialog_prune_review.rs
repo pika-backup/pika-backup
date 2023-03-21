@@ -9,6 +9,7 @@ use ui::builder::DialogPruneReview;
 
 pub async fn run(config: &config::Backup) -> Result<()> {
     let ui = DialogPruneReview::new();
+    let guard = QuitGuard::default();
 
     scopeguard::defer! {
         ui.dialog().destroy();
@@ -32,16 +33,21 @@ pub async fn run(config: &config::Backup) -> Result<()> {
     ui.dialog().set_transient_for(Some(&main_ui().window()));
     ui.dialog().present();
 
-    let prune_info =
-        ui::utils::borg::exec(borg::Command::<borg::task::PruneInfo>::new(config.clone()))
-            .await
-            .into_message(gettext(
-                "Failed to determine how many archives would be deleted",
-            ))?;
+    let prune_info = ui::utils::borg::exec(
+        borg::Command::<borg::task::PruneInfo>::new(config.clone()),
+        &guard,
+    )
+    .await
+    .into_message(gettext(
+        "Failed to determine how many archives would be deleted",
+    ))?;
 
-    let list_all = ui::utils::borg::exec(borg::Command::<borg::task::List>::new(config.clone()))
-        .await
-        .into_message("List Archives")?;
+    let list_all = ui::utils::borg::exec(
+        borg::Command::<borg::task::List>::new(config.clone()),
+        &guard,
+    )
+    .await
+    .into_message("List Archives")?;
 
     let num_untouched_archives = list_all.len() - prune_info.prune - prune_info.keep;
 

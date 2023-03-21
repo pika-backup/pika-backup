@@ -1,5 +1,3 @@
-use adw::prelude::*;
-
 use crate::borg;
 use crate::config;
 use crate::config::history;
@@ -14,20 +12,7 @@ pub async fn start_backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
-    scopeguard::defer_on_success! {
-        if BORG_OPERATION.with(|x| x.load().len()) == 0 && !main_ui().window().is_visible() {
-            info!("Shutting down because window is invisible and no borg operations running");
-            adw_app().quit();
-        }
-    }
-
-    startup_backup(config, from_schedule).await
-}
-
-async fn startup_backup(
-    config: config::Backup,
-    from_schedule: Option<schedule::DueCause>,
-) -> Result<()> {
+    let guard = QuitGuard::default();
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
@@ -48,7 +33,7 @@ async fn startup_backup(
         });
     }
 
-    let result = run_backup(config, from_schedule).await;
+    let result = run_backup(config, from_schedule, &guard).await;
     display::refresh_status();
 
     result
@@ -57,10 +42,11 @@ async fn startup_backup(
 async fn run_prune(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
+    guard: &QuitGuard,
 ) -> Result<bool> {
     let prune_command = borg::Command::<borg::task::Prune>::new(config.clone())
         .set_from_schedule(from_schedule.clone());
-    let prune_result = ui::utils::borg::exec(prune_command)
+    let prune_result = ui::utils::borg::exec(prune_command, guard)
         .await
         .into_borg_error()?;
 
@@ -71,7 +57,7 @@ async fn run_prune(
     };
 
     let compact_command = borg::Command::<borg::task::Compact>::new(config.clone());
-    let compact_result = ui::utils::borg::exec(compact_command)
+    let compact_result = ui::utils::borg::exec(compact_command, guard)
         .await
         .into_borg_error()?;
 
@@ -87,6 +73,7 @@ async fn run_prune(
 async fn run_backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
+    guard: &QuitGuard,
 ) -> Result<()> {
     scopeguard::defer_on_success! {
         BACKUP_HISTORY.update(|history| {
@@ -114,7 +101,7 @@ async fn run_backup(
     }
 
     // execute backup
-    let result = ui::utils::borg::exec(command).await;
+    let result = ui::utils::borg::exec(command, guard).await;
 
     let result = result.into_borg_error()?;
 
@@ -150,7 +137,7 @@ async fn run_backup(
                 // use current config for pruning archives
                 // assuming it's closer to what users expect
                 if let Ok(current_config) = BACKUP_CONFIG.load().get_result(&config.id) {
-                    match run_prune(current_config.clone(), from_schedule.clone()).await {
+                    match run_prune(current_config.clone(), from_schedule.clone(), guard).await {
                         Ok(false) => return Ok(()),
                         Err(err) => return Err(err),
                         _ => {}

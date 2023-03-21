@@ -158,7 +158,7 @@ fn on_activate(_app: &adw::Application) {
 
 async fn quit() -> Result<()> {
     debug!("Running quit routine");
-    if utils::borg::is_backup_running() {
+    if utils::borg::is_borg_operation_running() {
         if main_ui().window().is_visible() {
             let permission = utils::background_permission().await;
 

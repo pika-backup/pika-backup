@@ -6,13 +6,18 @@ use borg::task::Task;
 use std::future::Future;
 use ui::error::Combined;
 
-// TODO: this does no really check for backups
-/// checks if there is any running backup
-pub fn is_backup_running() -> bool {
-    !BORG_OPERATION.with(|op| op.load().is_empty())
+/// Is a borg operation registered with a [QuitGuard]]?
+pub fn is_borg_operation_running() -> bool {
+    STATUS_TRACKING.with(|status| status.quit_inhibit_count() > 0)
 }
 
-pub async fn exec<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Return>
+/// Executes a borg command
+///
+/// This takes a [QuitGuard] to prove that one has been set up and is currently active.
+pub async fn exec<T: Task>(
+    mut command: borg::Command<T>,
+    _guard: &QuitGuard,
+) -> CombinedResult<T::Return>
 where
     borg::Command<T>: borg::CommandRun<T>,
 {
@@ -170,7 +175,15 @@ async fn test_exec_operation_register() {
     let command = borg::Command::<borg::task::List>::new(config)
         .set_from_schedule(Some(crate::schedule::DueCause::Regular));
 
-    assert!(!is_backup_running());
-    assert!(exec(command.clone()).await.is_err());
-    assert!(!is_backup_running());
+    assert!(!is_borg_operation_running());
+
+    {
+        let guard = QuitGuard::default();
+        assert!(is_borg_operation_running());
+
+        assert!(exec(command.clone(), &guard).await.is_err());
+        assert!(is_borg_operation_running());
+    }
+
+    assert!(!is_borg_operation_running());
 }

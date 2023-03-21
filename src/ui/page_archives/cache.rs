@@ -12,6 +12,7 @@ pub async fn refresh_archives(
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
     info!("Refreshing archives cache");
+    let guard = QuitGuard::default();
 
     if Some(true) == REPO_CACHE.load().get(&config.repo_id).map(|x| x.reloading) {
         info!("Aborting archives cache reload because already in progress");
@@ -29,7 +30,7 @@ pub async fn refresh_archives(
     let mut command =
         borg::Command::<borg::task::List>::new(config.clone()).set_from_schedule(from_schedule);
     command.task.set_limit_first(100);
-    let result = ui::utils::borg::exec(command)
+    let result = ui::utils::borg::exec(command, &guard)
         .await
         .into_message(gettext("Failed to refresh archives cache."));
 
