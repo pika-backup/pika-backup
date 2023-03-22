@@ -2,7 +2,7 @@ pub use crate::borg::prelude::*;
 pub use crate::prelude::*;
 pub use crate::ui::error::{
     CombinedResult, CombinedResultExt, CombinedToError, Error, ErrorToMessage, Handler, Message,
-    Result, UserCanceled,
+    Result,
 };
 pub use crate::ui::globals::*;
 pub use crate::ui::status::QuitGuard;

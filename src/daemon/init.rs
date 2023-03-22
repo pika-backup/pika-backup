@@ -41,7 +41,7 @@ fn on_startup(_app: &gio::Application) {
                     error!("Error setting background status: {err:?}");
                 }
             }
-            Err(err) => error!("Error aquiring background proxy: {err:?}"),
+            Err(err) => error!("Error acquiring background proxy: {err:?}"),
         }
 
         crate::utils::listen_remote_app_running(crate::APP_ID, app_running)

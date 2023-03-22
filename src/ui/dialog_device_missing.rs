@@ -96,7 +96,7 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
         Err(err) => {
             match err.kind::<gio::IOErrorEnum>() {
                 // TODO
-                Some(gio::IOErrorEnum::FailedHandled) => Err(UserCanceled::new().into()),
+                Some(gio::IOErrorEnum::FailedHandled) => Err(Error::UserCanceled),
                 _ => Err(Message::new(gettext("Failed to Mount"), err).into()),
             }
         }
@@ -142,6 +142,6 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
     if response == gtk::ResponseType::Ok {
         Ok(mount.get().unwrap().clone())
     } else {
-        Err(UserCanceled::new().into())
+        Err(Error::UserCanceled)
     }
 }

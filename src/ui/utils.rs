@@ -288,7 +288,7 @@ pub async fn paths(dialog: gtk::FileChooserNative) -> Result<Vec<std::path::Path
         .collect();
 
     if paths.is_empty() {
-        Err(UserCanceled::new().into())
+        Err(Error::UserCanceled)
     } else {
         Ok(paths)
     }
@@ -412,7 +412,7 @@ pub async fn confirmation_dialog(
     message: &str,
     cancel: &str,
     accept: &str,
-) -> std::result::Result<(), UserCanceled> {
+) -> Result<()> {
     ConfirmationDialog::new(title, message, cancel, accept)
         .ask()
         .await
@@ -442,7 +442,7 @@ impl ConfirmationDialog {
         self
     }
 
-    pub async fn ask(&self) -> std::result::Result<(), UserCanceled> {
+    pub async fn ask(&self) -> Result<()> {
         let dialog = adw::MessageDialog::builder()
             .transient_for(&main_ui().window())
             .modal(true)
@@ -459,7 +459,7 @@ impl ConfirmationDialog {
         if dialog.choose_future().await == "accept" {
             Ok(())
         } else {
-            Err(UserCanceled::new())
+            Err(Error::UserCanceled)
         }
     }
 }

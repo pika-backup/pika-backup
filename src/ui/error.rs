@@ -28,7 +28,6 @@ quick_error! {
     pub enum Combined {
         Ui(err: Error) {
             from()
-            from(_err: UserCanceled) -> (Error::UserCanceled)
         }
         Borg(err: borg::Error) { from () }
     }
@@ -79,15 +78,6 @@ impl Message {
     }
 }
 
-#[derive(Debug)]
-pub struct UserCanceled;
-
-impl UserCanceled {
-    pub const fn new() -> Self {
-        Self
-    }
-}
-
 quick_error! {
     #[derive(Debug, Eq, PartialEq)]
     pub enum Error {
@@ -104,7 +94,7 @@ quick_error! {
                     &[err.id.as_str()],
                 )))
         }
-        UserCanceled { from (UserCanceled) }
+        UserCanceled
     }
 }
 
