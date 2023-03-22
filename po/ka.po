@@ -1,5 +1,5 @@
 # Georgian translation for pika-backup.
-# Copyright (C) 2023 pika-backup's COPYRIGHT HOLDER
+# Copyright (C) 2023 pika-backup's authors.
 # This file is distributed under the same license as the pika-backup package.
 # Ekaterine Papava <papava.e@gtu.ge>, 2023.
 #
@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-03-07 01:30+0000\n"
-"PO-Revision-Date: 2023-03-07 05:47+0100\n"
-"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>n"
-"Language-Team: Georgian <ka@li.org>\n"
+"POT-Creation-Date: 2023-03-21 17:46+0000\n"
+"PO-Revision-Date: 2023-03-22 03:26+0100\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"Language-Team: \n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr "მარქაფის მონიტორი Pica"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:323
+#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:336
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -111,7 +111,7 @@ msgstr "ახალი მარქაფის მორგება"
 msgid "Show keyboard shortcuts"
 msgstr "კლავიატურის მალსახმობების ჩვენება"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:200
 msgid "Quit"
 msgstr "&გასვლა"
 
@@ -360,7 +360,7 @@ msgstr "გამართვა"
 msgid "Info"
 msgstr "ინფორმაცია"
 
-#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:338
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:351
 msgid "Warning"
 msgstr "გაფრთხილება"
 
@@ -376,37 +376,37 @@ msgstr "კრიტიკული"
 msgid "Undefined"
 msgstr "გაურკვეველი"
 
-#: src/borg/task.rs:19
+#: src/borg/task.rs:34
 msgid "Backing up Data"
 msgstr "მონაცემების მარქაფი"
 
-#: src/borg/task.rs:31
+#: src/borg/task.rs:48
 msgid "Mounting Backup Archives"
 msgstr "მარქაფის არქივების მიმაგრება"
 
-#: src/borg/task.rs:43
+#: src/borg/task.rs:62
 msgid "Removing old Archives"
 msgstr "ძველი არქივების წაშლა"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:76
 msgid "Identifying old Archives"
 msgstr "ძველი არქივების ძებნა"
 
-#: src/borg/task.rs:67
+#: src/borg/task.rs:90
 msgid "Reclaiming Free Space"
 msgstr ""
 
-#: src/borg/task.rs:92
+#: src/borg/task.rs:117
 msgid "Deleting Archive"
 msgstr "არქივის წაშლა"
 
-#: src/borg/task.rs:113
+#: src/borg/task.rs:140
 msgid "Refreshing Archive List"
 msgstr "არქივის სიის განახლება"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:129
 msgid "Home"
 msgstr "სახლი"
 
@@ -499,15 +499,25 @@ msgstr "კვირაში ერთხელ"
 msgid "Monthly"
 msgstr "თვეში ერთხელ"
 
-#: src/daemon/action.rs:25
+#: src/daemon/action.rs:23 src/daemon/init.rs:38
+msgid "Monitoring Backup Schedule"
+msgstr "მარქაფის განრიგის მონიტორინგი"
+
+#: src/daemon/action.rs:24
+msgid ""
+"To quit monitoring the backup schedule, open Pika Backup and disable all "
+"scheduled backups."
+msgstr ""
+
+#: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
 msgstr "დემონიდან მარქაფის გაშვების შეცდომა"
 
-#: src/daemon/action.rs:46
+#: src/daemon/action.rs:66
 msgid "Failed to show overview from daemon"
 msgstr "დემონიდან გადახედვის ჩვენების შეცდომა"
 
-#: src/daemon/action.rs:65
+#: src/daemon/action.rs:85
 msgid "Failed to show schedule from daemon"
 msgstr "დემონიდან გეგმის ჩვენების შეცდომა"
 
@@ -531,11 +541,11 @@ msgstr ""
 msgid "Back Up Now"
 msgstr "ახლა დამარქაფება"
 
-#: src/daemon/init.rs:56
+#: src/daemon/init.rs:69
 msgid "Fatal Error During Back Up"
 msgstr "ფატალური შეცდომა მარქაფის მიმდინარეობისას"
 
-#: src/daemon/init.rs:59
+#: src/daemon/init.rs:72
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] ""
@@ -568,52 +578,65 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr ""
 
-#: src/ui.rs:178
+#: src/ui.rs:174
 msgid "Abort running backup creation?"
 msgstr ""
 
-#: src/ui.rs:179
+#: src/ui.rs:175
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 
-#: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:24
-#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:341
+#: src/ui.rs:176 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:26
+#: src/ui/page_backup/events.rs:34 src/ui/page_backup/events.rs:45
+#: src/ui/page_backup/events.rs:53 src/ui/page_backup/events.rs:63
+#: src/ui/utils.rs:354
 msgid "Continue"
 msgstr "გაგრძელება"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:340
+#: src/ui.rs:177 src/ui/page_backup/events.rs:27
+#: src/ui/page_backup/events.rs:46 src/ui/page_backup/events.rs:64
+#: src/ui/utils.rs:353
 msgid "Abort"
 msgstr "შეწყვეტა"
 
-#: src/ui.rs:200
+#. Someone wants to quit the app from the shell (eg via backgrounds app list)
+#: src/ui.rs:185
+msgid "A Backup Operation is Running"
+msgstr "მარქაფის ოპერაცია გაშვებულია"
+
+#: src/ui.rs:187
+msgid "Pika Backup cannot be quit during a backup operation."
+msgstr ""
+
+#: src/ui.rs:211
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 
-#: src/ui.rs:224
+#: src/ui.rs:235
 msgid "BorgBackup version too old"
 msgstr ""
 
-#: src/ui.rs:226
+#: src/ui.rs:237
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
 msgstr ""
 
-#: src/ui.rs:237
+#: src/ui.rs:248
 msgid "BorgBackup version too new"
 msgstr ""
 
-#: src/ui.rs:239
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
 msgstr ""
 
-#: src/ui.rs:249
+#: src/ui.rs:260
 msgid "Failed to Check BorgBackup Version"
 msgstr ""
 
-#: src/ui.rs:251
+#: src/ui.rs:262
 msgid "The installed version {} might not work."
 msgstr ""
 
@@ -960,11 +983,11 @@ msgstr "არქივის არასწორი პრეფიქსი"
 msgid "Archive Prefix"
 msgstr "არქივის პრეფიქსი"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
-#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
-#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:104
-#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:33
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:33
+#: src/ui/dialog_prune.ui:64 src/ui/dialog_prune_review.ui:33
+#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:137
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:149
 msgid "Cancel"
 msgstr "შეწყვეტა"
 
@@ -997,21 +1020,21 @@ msgstr ""
 msgid "Delete Archive Failed"
 msgstr "არქივების წაშლის შეცდომა"
 
-#: src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_delete_archive.ui:39
 msgid "Delete Archive"
 msgstr "არქივის წაშლა"
 
-#: src/ui/dialog_delete_archive.ui:41
+#: src/ui/dialog_delete_archive.ui:52
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
 msgstr ""
 
-#: src/ui/dialog_delete_archive.ui:51
+#: src/ui/dialog_delete_archive.ui:62
 msgid "Archive Name"
 msgstr "არქივის სახელი"
 
-#: src/ui/dialog_delete_archive.ui:64
+#: src/ui/dialog_delete_archive.ui:75
 msgid "Archive Date"
 msgstr "არქივის თარიღი"
 
@@ -1055,7 +1078,7 @@ msgid "Exclude Directory"
 msgstr "საქაღალდის ამოღება"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:52 src/ui/utils.rs:264
+#: src/ui/page_backup/events.rs:85 src/ui/utils.rs:264
 msgid "Select"
 msgstr "აირჩიეთ"
 
@@ -1108,7 +1131,7 @@ msgstr ""
 msgid "Failed to determine how many archives would be deleted"
 msgstr ""
 
-#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:384
+#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:397
 msgid "Close"
 msgstr "დაკეტვა"
 
@@ -1117,35 +1140,35 @@ msgid "Reclaim Free Space"
 msgstr ""
 
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:41
 msgid "Checking for old Archives"
 msgstr ""
 
-#: src/ui/dialog_prune.ui:31
+#: src/ui/dialog_prune.ui:42
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr ""
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
-#: src/ui/dialog_prune_review.ui:82
+#: src/ui/dialog_prune.ui:70 src/ui/dialog_prune.ui:93
+#: src/ui/dialog_prune_review.ui:93
 msgid "Delete Archives"
 msgstr "არქივების წაშლა"
 
-#: src/ui/dialog_prune.ui:72
+#: src/ui/dialog_prune.ui:83
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
 "available."
 msgstr ""
 
-#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
+#: src/ui/dialog_prune.ui:106 src/ui/dialog_prune_review.ui:106
 msgid "Keep Archives"
 msgstr "არქივების შენარჩუნება"
 
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+#: src/ui/dialog_prune.ui:119 src/ui/dialog_prune_review.ui:119
 msgid "Not Considered"
 msgstr ""
 
-#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+#: src/ui/dialog_prune.ui:120 src/ui/dialog_prune_review.ui:120
 msgid "Archives with different prefix"
 msgstr ""
 
@@ -1153,19 +1176,19 @@ msgstr ""
 msgid "Review Changes"
 msgstr "ცვლილებების გადახედვა"
 
-#: src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:41
 msgid "Assessing Impact on old Archives"
 msgstr ""
 
-#: src/ui/dialog_prune_review.ui:31
+#: src/ui/dialog_prune_review.ui:42
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr ""
 
-#: src/ui/dialog_prune_review.ui:59
+#: src/ui/dialog_prune_review.ui:70
 msgid "Apply"
 msgstr "გადატარება"
 
-#: src/ui/dialog_prune_review.ui:72
+#: src/ui/dialog_prune_review.ui:83
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
@@ -1526,45 +1549,75 @@ msgstr "საქაღალდის წაშლა"
 msgid "Remove From List"
 msgstr "სიიდან წაშლა"
 
-#: src/ui/page_backup/events.rs:20
+#: src/ui/page_backup/events.rs:24
 msgid "Abort Saving Backup State?"
 msgstr ""
 
-#: src/ui/page_backup/events.rs:22
+#: src/ui/page_backup/events.rs:25
 msgid ""
 "The current backup state is in the process of being saved. The backup can be "
 "continued later without saving the state. Some data might have to be copied "
 "again."
 msgstr ""
 
-#: src/ui/page_backup/events.rs:30
+#: src/ui/page_backup/events.rs:32
 msgid "Stop Running Backup?"
 msgstr "გავაჩერო მარქაფის პროცესი?"
 
-#: src/ui/page_backup/events.rs:31
+#: src/ui/page_backup/events.rs:33
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
 msgstr ""
 
-#: src/ui/page_backup/events.rs:33
+#: src/ui/page_backup/events.rs:35 src/ui/page_backup/events.rs:54
 msgid "Stop"
 msgstr "გაჩერება"
 
+#: src/ui/page_backup/events.rs:43
+msgid "Abort Delete Operation?"
+msgstr ""
+
+#: src/ui/page_backup/events.rs:44
+msgid ""
+"Archives are currently being deleted. Aborting now will cause some deletion "
+"progress to be lost. Free space will not be reclaimed."
+msgstr ""
+
 #: src/ui/page_backup/events.rs:51
+msgid "Stop Deleting Archives?"
+msgstr "შევწყვიტო არქივების წაშლა?"
+
+#: src/ui/page_backup/events.rs:52
+msgid ""
+"Deletion progress will be saved. Free space will not be reclaimed. You can "
+"continue deletion at a later time by starting the operation again."
+msgstr ""
+
+#: src/ui/page_backup/events.rs:61
+msgid "Abort Operation?"
+msgstr "გავაუქმო ოპერაცია?"
+
+#: src/ui/page_backup/events.rs:62
+msgid ""
+"An operation is currently being performed. Aborting now will cause any "
+"progress made by the operation to be lost."
+msgstr ""
+
+#: src/ui/page_backup/events.rs:84
 msgid "Include Folder"
 msgstr "საქაღალდის ჩასმა"
 
-#: src/ui/page_backup/events.rs:102
+#: src/ui/page_backup/events.rs:135
 msgid "No longer include “{}” in backups?"
 msgstr ""
 
-#: src/ui/page_backup/events.rs:103
+#: src/ui/page_backup/events.rs:136
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 
-#: src/ui/page_backup/events.rs:105
+#: src/ui/page_backup/events.rs:138
 msgid "Confirm"
 msgstr "დადასტურება"
 
@@ -1600,15 +1653,15 @@ msgstr "მარქაფის შეცდომა"
 msgid "Backup Completed with Warnings"
 msgstr ""
 
-#: src/ui/page_overview.rs:49
+#: src/ui/page_overview.rs:50
 msgid "Remove Backup Setup?"
 msgstr ""
 
-#: src/ui/page_overview.rs:50
+#: src/ui/page_overview.rs:51
 msgid "Removing the setup will not delete any archives."
 msgstr ""
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:53
 msgid "Remove Setup"
 msgstr ""
 
@@ -1752,6 +1805,10 @@ msgstr "ფონური პროცესი არააქტურია"
 msgid "This is required for scheduled backups"
 msgstr ""
 
+#: src/ui/shell.rs:26
+msgid "Idle"
+msgstr "უმოქმედო"
+
 #: src/ui/status.rs:84
 msgid "Unable to determine background process status"
 msgstr ""
@@ -1801,15 +1858,15 @@ msgstr[0] "გაშვებულია მარქაფის {} ოპე�
 msgid "Failed to Create Thread"
 msgstr "ნაკადის შექმნის შეცდომა"
 
-#: src/ui/utils.rs:521
+#: src/ui/utils.rs:534
 msgid "Failed to fix Scheduled Backups"
 msgstr ""
 
-#: src/ui/utils.rs:526
+#: src/ui/utils.rs:539
 msgid "Scheduled Backups Repaired"
 msgstr ""
 
-#: src/ui/utils.rs:526
+#: src/ui/utils.rs:539
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
