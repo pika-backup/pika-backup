@@ -11,6 +11,7 @@
 - Change reconnection to be abortable and count down seconds remaining
 - Add background portal status API messages about running operations
 - Add ability to answer questions from borg process
+- Add explanatory message when adding sandboxed paths to a backup configuration
 
 ## 0.5.2 (2023-02-23)
 

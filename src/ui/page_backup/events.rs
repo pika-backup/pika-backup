@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use crate::borg;
 use crate::ui;
 
@@ -89,18 +91,59 @@ pub async fn add_include() -> Result<()> {
 
     let paths = ui::utils::paths(chooser).await?;
 
-    BACKUP_CONFIG.update_result(|settings| {
-        for path in &paths {
-            settings
-                .active_mut()?
-                .include
-                .insert(ui::utils::rel_path(path));
-        }
-        Ok(())
-    })?;
+    let paths = if *APP_IS_SANDBOXED {
+        let runtime_dir = crate::utils::host::user_runtime_dir();
+        let mut filtered_paths = Vec::new();
 
-    crate::ui::write_config()?;
-    display::refresh()?;
+        // Scan for unavailable paths in the sandbox and redirect them if possible
+        let paths = paths
+            .into_iter()
+            .filter(|path| {
+                // Filter all paths that are definitely unavailable and give a note about them
+                if path.starts_with("/app")
+                    || (path.starts_with("/run") && !path.starts_with("/run/host/"))
+                    || (path.starts_with(&runtime_dir)
+                        && !path.starts_with(runtime_dir.join("gvfs/"))
+                        && !path.starts_with(runtime_dir.join("gvfsd/")))
+                {
+                    filtered_paths.push(path.display().to_string());
+                    false
+                } else {
+                    true
+                }
+            })
+            .collect::<Vec<PathBuf>>();
+
+        if !filtered_paths.is_empty() {
+            let path_list = filtered_paths.join("\n");
+
+            ui::utils::show_error_transient_for(
+                gettext("Unable to Include Location"),
+                gettextf("The following paths could not be included because they aren't reliably available in the sandbox:\n{}", &[&path_list]),
+                &main_ui().window(),
+            )
+            .await;
+        }
+
+        paths
+    } else {
+        paths
+    };
+
+    if !paths.is_empty() {
+        BACKUP_CONFIG.update_result(|settings| {
+            for path in &paths {
+                settings
+                    .active_mut()?
+                    .include
+                    .insert(ui::utils::rel_path(path));
+            }
+            Ok(())
+        })?;
+
+        crate::ui::write_config()?;
+        display::refresh()?;
+    }
 
     Ok(())
 }
