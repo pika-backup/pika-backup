@@ -5,6 +5,7 @@ use crate::prelude::*;
 use crate::schedule;
 use async_std::prelude::*;
 use process::*;
+use std::os::unix::fs::DirBuilderExt;
 use utils::*;
 
 #[derive(Clone)]
@@ -75,14 +76,17 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
         let dir = mount_point(&self.config.repo_id);
         debug!("Ensuring mount directory exists: {dir:?}");
 
-        std::fs::DirBuilder::new().recursive(true).create(&dir)?;
+        std::fs::DirBuilder::new()
+            .recursive(true)
+            .mode(0o700)
+            .create(&dir)?;
 
         let borg = BorgCall::new("mount")
             .add_basics(&self)
             .await?
             // Make all data readable for the current user
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
-            .add_options(&["-o", &format!("umask=0277,uid={}", nix::unistd::getuid())])
+            .add_options(&["-o", &format!("umask=0000,uid={}", nix::unistd::getuid())])
             .add_positional(&dir)
             .output()?;
 

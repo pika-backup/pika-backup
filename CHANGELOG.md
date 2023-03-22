@@ -9,6 +9,7 @@
 - Change to explain checkpoint creation when aborting backups
 - Change to restart backup after SSH connection timeout
 - Change reconnection to be abortable and count down seconds remaining
+- Change archive mount permissions to more accurately reflect the permissions saved in the archive
 - Add background portal status API messages about running operations
 - Add ability to answer questions from borg process
 - Add explanatory message when adding sandboxed paths to a backup configuration
