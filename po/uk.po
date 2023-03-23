@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-03-21 17:46+0000\n"
-"PO-Revision-Date: 2023-03-21 21:20+0200\n"
+"POT-Creation-Date: 2023-03-22 17:34+0000\n"
+"PO-Revision-Date: 2023-03-23 15:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -195,7 +195,7 @@ msgstr "Здається, аварійно завершила роботу пр�
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:212 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:150
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
@@ -431,7 +431,7 @@ msgstr "Оновлення списку архівів"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:129
+#: src/ui/page_backup/events.rs:172
 msgid "Home"
 msgstr "Домівка"
 
@@ -533,7 +533,6 @@ msgid "Monthly"
 msgstr "Щомісяця"
 
 #: src/daemon/action.rs:23 src/daemon/init.rs:38
-#| msgid "Mounting Backup Archives"
 msgid "Monitoring Backup Schedule"
 msgstr "Спостереження за розкладом резервного копіювання"
 
@@ -542,9 +541,9 @@ msgid ""
 "To quit monitoring the backup schedule, open Pika Backup and disable all "
 "scheduled backups."
 msgstr ""
-"Щоб припинити спостереження за розкладом резервного копіювання, відкрийте"
-" «Пайка — резервне копіювання» і вимкніть усі резервні копіювання за"
-" розкладом."
+"Щоб припинити спостереження за розкладом резервного копіювання, відкрийте "
+"«Пайка — резервне копіювання» і вимкніть усі резервні копіювання за "
+"розкладом."
 
 #: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
@@ -632,33 +631,29 @@ msgstr "Перервати поточну дію зі створення рез�
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:176 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:26
-#: src/ui/page_backup/events.rs:34 src/ui/page_backup/events.rs:45
-#: src/ui/page_backup/events.rs:53 src/ui/page_backup/events.rs:63
+#: src/ui.rs:176 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:28
+#: src/ui/page_backup/events.rs:36 src/ui/page_backup/events.rs:47
+#: src/ui/page_backup/events.rs:55 src/ui/page_backup/events.rs:65
 #: src/ui/utils.rs:354
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:177 src/ui/page_backup/events.rs:27
-#: src/ui/page_backup/events.rs:46 src/ui/page_backup/events.rs:64
+#: src/ui.rs:177 src/ui/page_backup/events.rs:29
+#: src/ui/page_backup/events.rs:48 src/ui/page_backup/events.rs:66
 #: src/ui/utils.rs:353
 msgid "Abort"
 msgstr "Перервати"
 
 #. Someone wants to quit the app from the shell (eg via backgrounds app list)
 #: src/ui.rs:185
-#| msgid "One Backup Operation Running"
-#| msgid_plural "{} Backup Operations Running"
 msgid "A Backup Operation is Running"
 msgstr "Виконуємо дію з резервного копіювання"
 
 #: src/ui.rs:187
-#| msgid "Pika Backup crashed while running a backup."
-#| msgid_plural "Pika Backup crashed while running {} backups."
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr ""
-"Роботу «Пайк-копіювання» не можна переривати під час дії з резервного"
-" копіювання."
+"Роботу «Пайк-копіювання» не можна переривати під час дії з резервного "
+"копіювання."
 
 #: src/ui.rs:211
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
@@ -861,7 +856,7 @@ msgstr "Бажаний день тижня"
 msgid "Preferred Day"
 msgstr "Бажаний день"
 
-#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:78
+#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:88
 msgid "Delete old Archives"
 msgstr "Вилучити застарілі архіви"
 
@@ -917,15 +912,24 @@ msgstr "Відомості щодо резервного копіювання"
 msgid "Amount saved"
 msgstr "Обсяг збереженого"
 
-#: src/ui/app_window.ui:918
+#: src/ui/app_window.ui:903
+msgid "Size of all files"
+msgstr "Розмір усіх файлів"
+
+#: src/ui/app_window.ui:919
 msgid "Number of files saved"
 msgstr "Кількість збережених файлів"
 
-#: src/ui/app_window.ui:934
-msgid "Additional backup space used"
-msgstr "Використане додаткове місце для резервного копіювання"
+#: src/ui/app_window.ui:935
+#| msgid "Additional backup space used"
+msgid "Backup space used"
+msgstr "Використане для резервного копіювання місце"
 
-#: src/ui/app_window.ui:950
+#: src/ui/app_window.ui:936
+msgid "Newly used space in this backup"
+msgstr "Нове використане місце у цій резервній копії"
+
+#: src/ui/app_window.ui:952
 msgid "Current file"
 msgstr "Поточний файл"
 
@@ -1062,8 +1066,8 @@ msgstr "Префікс архівів"
 #: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:33
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:33
 #: src/ui/dialog_prune.ui:64 src/ui/dialog_prune_review.ui:33
-#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:137
-#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:149
+#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:180
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:154
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -1097,7 +1101,7 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Якщо префікс архівів є порожнім, ніякого префікса додано не буде."
 
-#: src/ui/dialog_delete_archive.rs:68
+#: src/ui/dialog_delete_archive.rs:69
 msgid "Delete Archive Failed"
 msgstr "Не вдалося вилучити архів"
 
@@ -1162,7 +1166,7 @@ msgid "Exclude Directory"
 msgstr "Виключити каталог"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:85 src/ui/utils.rs:264
+#: src/ui/page_backup/events.rs:87 src/ui/utils.rs:264
 msgid "Select"
 msgstr "Вибрати"
 
@@ -1217,15 +1221,15 @@ msgstr ""
 "borgbackup.readthedocs.io/en/stable/usage/help.html\">документацією до "
 "BorgBackup</a>."
 
-#: src/ui/dialog_prune.rs:27 src/ui/dialog_prune_review.rs:39
+#: src/ui/dialog_prune.rs:30 src/ui/dialog_prune_review.rs:42
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
 
-#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:397
+#: src/ui/dialog_prune.rs:49 src/ui/utils.rs:397
 msgid "Close"
 msgstr "Закрити"
 
-#: src/ui/dialog_prune.rs:85
+#: src/ui/dialog_prune.rs:98
 msgid "Reclaim Free Space"
 msgstr "Звільнити місце"
 
@@ -1537,31 +1541,31 @@ msgstr "Введені паролі не збігаються."
 msgid "A repository location has to be given."
 msgstr "Слід вказати адресу сховища."
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:257
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:258
 msgid "Additional command line arguments invalid."
 msgstr "Некоректні додаткові аргументи командного рядка."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:258
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
 msgid "Please check for missing closing quotes."
 msgstr "Будь ласка, перевірте, чи закрито лапки."
 
-#: src/ui/dialog_setup/insert.rs:185
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "Завантажуємо сховище резервних копій"
 
-#: src/ui/dialog_setup/insert.rs:205
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "Не вдалося налаштувати сховище"
 
-#: src/ui/dialog_setup/insert.rs:224
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "Помилка"
 
-#: src/ui/dialog_setup/insert.rs:294
+#: src/ui/dialog_setup/insert.rs:295
 msgid "Repository location not found."
 msgstr "Не знайдено місця зберігання сховища."
 
-#: src/ui/dialog_setup/insert.rs:295
+#: src/ui/dialog_setup/insert.rs:296
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Дію з монтування було успішно виконано, але відповідний каталог усе ще "
@@ -1627,7 +1631,7 @@ msgid "Could not find backup configuration with id “{}”."
 msgstr ""
 "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»."
 
-#: src/ui/page_archives/cache.rs:34
+#: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "Не вдалося освіжити кеш архівів."
 
@@ -1663,11 +1667,11 @@ msgstr "Доступно {}"
 msgid "{} Total"
 msgstr "Загалом {}"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:29
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
-#: src/ui/page_archives/events.rs:61
+#: src/ui/page_archives/events.rs:65
 msgid "Failed to make archives available for browsing."
 msgstr "Не вдалося зробити архіви доступними для навігації."
 
@@ -1683,11 +1687,11 @@ msgstr "Вилучити каталог"
 msgid "Remove From List"
 msgstr "Вилучити зі списку"
 
-#: src/ui/page_backup/events.rs:24
+#: src/ui/page_backup/events.rs:26
 msgid "Abort Saving Backup State?"
 msgstr "Перервати стан збереження резервної копії?"
 
-#: src/ui/page_backup/events.rs:25
+#: src/ui/page_backup/events.rs:27
 msgid ""
 "The current backup state is in the process of being saved. The backup can be "
 "continued later without saving the state. Some data might have to be copied "
@@ -1697,11 +1701,11 @@ msgstr ""
 "може бути продовжено пізніше без збереження стану. Деякі з даних, можливо, "
 "доведеться скопіювати ще раз."
 
-#: src/ui/page_backup/events.rs:32
+#: src/ui/page_backup/events.rs:34
 msgid "Stop Running Backup?"
 msgstr "Припинити виконання резервного копіювання?"
 
-#: src/ui/page_backup/events.rs:33
+#: src/ui/page_backup/events.rs:35
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1709,102 +1713,112 @@ msgstr ""
 "Поточний стан резервного копіювання буде збережено. Вид зможете пізніше "
 "продовжити резервне копіювання, запустивши його знову."
 
-#: src/ui/page_backup/events.rs:35 src/ui/page_backup/events.rs:54
+#: src/ui/page_backup/events.rs:37 src/ui/page_backup/events.rs:56
 msgid "Stop"
 msgstr "Зупинити"
 
-#: src/ui/page_backup/events.rs:43
+#: src/ui/page_backup/events.rs:45
 msgid "Abort Delete Operation?"
 msgstr "Перервати дію з вилучення?"
 
-#: src/ui/page_backup/events.rs:44
+#: src/ui/page_backup/events.rs:46
 msgid ""
 "Archives are currently being deleted. Aborting now will cause some deletion "
 "progress to be lost. Free space will not be reclaimed."
 msgstr ""
-"Зараз виконуємо вилучення архівів. Переривання дії зараз призведе до того,"
-" що деякі з вилучень не буде виконано. Звільнити усе можливе місце не"
-" вдасться."
+"Зараз виконуємо вилучення архівів. Переривання дії зараз призведе до того, "
+"що деякі з вилучень не буде виконано. Звільнити усе можливе місце не "
+"вдасться."
 
-#: src/ui/page_backup/events.rs:51
-#| msgid "Deleting Archive"
+#: src/ui/page_backup/events.rs:53
 msgid "Stop Deleting Archives?"
 msgstr "Припинити вилучення архівів?"
 
-#: src/ui/page_backup/events.rs:52
-#| msgid ""
-#| "The current backup state will be saved. You can continue your backup "
-#| "later by starting it again."
+#: src/ui/page_backup/events.rs:54
 msgid ""
 "Deletion progress will be saved. Free space will not be reclaimed. You can "
 "continue deletion at a later time by starting the operation again."
 msgstr ""
-"Поступ вилучення буде збережено. Вивільнити усе можливе місце не вдасться."
-" Ви зможете продовжити вилучення пізніше, започаткувавши цю дію знову."
+"Поступ вилучення буде збережено. Вивільнити усе можливе місце не вдасться. "
+"Ви зможете продовжити вилучення пізніше, започаткувавши цю дію знову."
 
-#: src/ui/page_backup/events.rs:61
-#| msgid "Abort running backup creation?"
+#: src/ui/page_backup/events.rs:63
 msgid "Abort Operation?"
 msgstr "Перервати дію?"
 
-#: src/ui/page_backup/events.rs:62
+#: src/ui/page_backup/events.rs:64
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
 msgstr ""
-"Зараз виконуємо дію. Її переривання призведе до того, що дію не буде"
-" завершено."
+"Зараз виконуємо дію. Її переривання призведе до того, що дію не буде "
+"завершено."
 
-#: src/ui/page_backup/events.rs:84
+#: src/ui/page_backup/events.rs:86
 msgid "Include Folder"
 msgstr "Включити теку"
 
-#: src/ui/page_backup/events.rs:135
+#: src/ui/page_backup/events.rs:121
+#| msgid "Conventional Locations"
+msgid "Unable to Include Location"
+msgstr "Не вдалося включити місце"
+
+#: src/ui/page_backup/events.rs:122
+msgid ""
+"The following paths could not be included because they aren't reliably "
+"available in the sandbox:\n"
+"{}"
+msgstr ""
+"Вказані нижче шляхи не вдалося включити, оскільки вони не є надійно"
+" доступними у пісочниці:\n"
+"{}"
+
+#: src/ui/page_backup/events.rs:178
 msgid "No longer include “{}” in backups?"
 msgstr "Більше не включати «{}» до резервних копій?"
 
-#: src/ui/page_backup/events.rs:136
+#: src/ui/page_backup/events.rs:179
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Усі файли, що містяться у цій теці не буде включено до наступних резервних "
 "копій."
 
-#: src/ui/page_backup/events.rs:138
+#: src/ui/page_backup/events.rs:181
 msgid "Confirm"
 msgstr "Підтвердити"
 
-#: src/ui/page_backup/execution.rs:35
+#: src/ui/page_backup/execution.rs:20
 msgid "Stop browsing files and start backup?"
 msgstr "Припинити навігацію файлами і почати створення резервної копії?"
 
-#: src/ui/page_backup/execution.rs:36
+#: src/ui/page_backup/execution.rs:21
 msgid ""
 "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Навігація архівованими файлами під час створення резервної копії неможлива."
 
-#: src/ui/page_backup/execution.rs:37
+#: src/ui/page_backup/execution.rs:22
 msgid "Keep Browsing"
 msgstr "Продовжити перегляд"
 
-#: src/ui/page_backup/execution.rs:38
+#: src/ui/page_backup/execution.rs:23
 msgid "Start Backup"
 msgstr "Розпочати копіювання"
 
-#: src/ui/page_backup/execution.rs:69
+#: src/ui/page_backup/execution.rs:55
 msgid "Delete old Archives Failed"
 msgstr "Не вдалося вилучити застарілі архіви"
 
-#: src/ui/page_backup/execution.rs:80
+#: src/ui/page_backup/execution.rs:66
 msgid "Reclaiming Free Space Failed"
 msgstr "Не вдалося звільнити місце"
 
-#: src/ui/page_backup/execution.rs:147
+#: src/ui/page_backup/execution.rs:134
 msgid "Backup Failed"
 msgstr "Не вдалося виконати резервне копіювання"
 
-#: src/ui/page_backup/execution.rs:169
+#: src/ui/page_backup/execution.rs:156
 msgid "Backup Completed with Warnings"
 msgstr "Резервне копіювання було завершено із попередженнями"
 
@@ -1976,7 +1990,7 @@ msgstr "Потрібен для резервного копіювання за �
 msgid "Idle"
 msgstr "Бездіяльність"
 
-#: src/ui/status.rs:84
+#: src/ui/status.rs:86
 msgid "Unable to determine background process status"
 msgstr "Не вдалося визначити стан фонового процесу"
 
@@ -2052,11 +2066,11 @@ msgstr ""
 "У системі є якась помилка, яка потенційно може призвести до неналежної "
 "роботи резервного копіювання за розкладом. Цю проблему вже розв'язано."
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:36
 msgid "Repository already in use"
 msgstr "Сховище вже використано"
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:151
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -2065,7 +2079,7 @@ msgstr ""
 "можуть виявитися застарілими, якщо, наприклад, ваш комп'ютер було "
 "несподівано вимкнено від джерела живлення під час користування сховищем."
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:153
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -2075,7 +2089,7 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: src/ui/utils/borg.rs:150
+#: src/ui/utils/borg.rs:155
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
