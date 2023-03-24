@@ -106,7 +106,7 @@ pub async fn background_permission() -> Result<()> {
         // without flatpak we can always run in background
         Ok(())
     } else {
-        let response = background::Background::builder()
+        let response = background::Background::request()
             .identifier(ashpd::WindowIdentifier::default())
             .reason(&*gettext("Schedule backups and continue running backups."))
             .auto_start(true)
@@ -114,7 +114,7 @@ pub async fn background_permission() -> Result<()> {
             // Do not use dbus-activation because that would start the UI
             // See <https://gitlab.gnome.org/Teams/Design/hig-www/-/issues/107>
             .dbus_activatable(false)
-            .build()
+            .send()
             .await
             .and_then(|request| request.response());
 
