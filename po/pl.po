@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-03-06 23:55+0000\n"
-"PO-Revision-Date: 2023-03-18 14:39+0100\n"
+"POT-Creation-Date: 2023-03-22 17:34+0000\n"
+"PO-Revision-Date: 2023-03-26 15:05+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -29,7 +29,7 @@ msgstr "Monitor kopii zapasowych Pika"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:323
+#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:336
 msgid "Pika Backup"
 msgstr "Kopie zapasowe Pika"
 
@@ -123,7 +123,7 @@ msgstr "Konfiguruje nową kopię zapasową"
 msgid "Show keyboard shortcuts"
 msgstr "Wyświetla skróty klawiszowe"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:200
 msgid "Quit"
 msgstr "Kończy działanie"
 
@@ -190,7 +190,7 @@ msgstr "Program lub system uległ awarii."
 msgid "Connection closed by remote host."
 msgstr "Zdalny komputer zamknął połączenie."
 
-#: src/borg/error.rs:212 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:150
 msgid "Repository already in use."
 msgstr "Repozytorium jest już używane."
 
@@ -325,11 +325,13 @@ msgstr "Obsługiwanie pytania"
 
 #: src/borg/log_json.rs:234
 msgid "Attempting to access a previously unknown unencrypted repository."
-msgstr "Próba dostępu do poprzednio nieznanego, niezaszyfrowanego repozytorium."
+msgstr ""
+"Próba dostępu do poprzednio nieznanego, niezaszyfrowanego repozytorium."
 
 #: src/borg/log_json.rs:250
 msgid "The backup repository at location “{}” was previously located at “{}”."
-msgstr "Repozytorium kopii zapasowej w położeniu „{}” było wcześniej położone w „{}”."
+msgstr ""
+"Repozytorium kopii zapasowej w położeniu „{}” było wcześniej położone w „{}”."
 
 #: src/borg/log_json.rs:254
 msgid "The backup repository was previously located at a different location."
@@ -380,7 +382,7 @@ msgstr "Debugowanie"
 msgid "Info"
 msgstr "Informacje"
 
-#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:338
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:351
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
@@ -396,37 +398,37 @@ msgstr "Krytyczny"
 msgid "Undefined"
 msgstr "Nieokreślony"
 
-#: src/borg/task.rs:19
+#: src/borg/task.rs:34
 msgid "Backing up Data"
 msgstr "Umieszczanie danych w kopii zapasowej"
 
-#: src/borg/task.rs:31
+#: src/borg/task.rs:48
 msgid "Mounting Backup Archives"
 msgstr "Montowanie archiwów kopii zapasowych"
 
-#: src/borg/task.rs:43
+#: src/borg/task.rs:62
 msgid "Removing old Archives"
 msgstr "Usuwanie starych archiwów"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:76
 msgid "Identifying old Archives"
 msgstr "Identyfikowanie starych archiwów"
 
-#: src/borg/task.rs:67
+#: src/borg/task.rs:90
 msgid "Reclaiming Free Space"
 msgstr "Odzyskiwanie wolnego miejsca"
 
-#: src/borg/task.rs:92
+#: src/borg/task.rs:117
 msgid "Deleting Archive"
 msgstr "Usuwanie archiwum"
 
-#: src/borg/task.rs:113
+#: src/borg/task.rs:140
 msgid "Refreshing Archive List"
 msgstr "Odświeżanie listy archiwów"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:172
 msgid "Home"
 msgstr "Katalog domowy"
 
@@ -527,15 +529,27 @@ msgstr "Co tydzień"
 msgid "Monthly"
 msgstr "Co miesiąc"
 
-#: src/daemon/action.rs:25
+#: src/daemon/action.rs:23 src/daemon/init.rs:38
+msgid "Monitoring Backup Schedule"
+msgstr "Monitorowanie harmonogramu kopii zapasowych"
+
+#: src/daemon/action.rs:24
+msgid ""
+"To quit monitoring the backup schedule, open Pika Backup and disable all "
+"scheduled backups."
+msgstr ""
+"Aby zakończyć monitorowanie harmonogramu kopii zapasowych, należy otworzyć "
+"program Pika i wyłączyć wszystkie zaplanowane kopie zapasowe."
+
+#: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
 msgstr "Rozpoczęcie kopii zapasowej z usługi się nie powiodło"
 
-#: src/daemon/action.rs:46
+#: src/daemon/action.rs:66
 msgid "Failed to show overview from daemon"
 msgstr "Wyświetlenie przeglądu z usługi się nie powiodło"
 
-#: src/daemon/action.rs:65
+#: src/daemon/action.rs:85
 msgid "Failed to show schedule from daemon"
 msgstr "Wyświetlenie harmonogramu z usługi się nie powiodło"
 
@@ -559,11 +573,11 @@ msgstr "„{}” zawiera jedną skonfigurowaną kopię zapasową."
 msgid "Back Up Now"
 msgstr "Wykonaj kopię zapasową"
 
-#: src/daemon/init.rs:56
+#: src/daemon/init.rs:69
 msgid "Fatal Error During Back Up"
 msgstr "Krytyczny błąd podczas wykonywania kopii zapasowej"
 
-#: src/daemon/init.rs:59
+#: src/daemon/init.rs:72
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika uległa awarii podczas wykonywania kopii zapasowej."
@@ -600,34 +614,47 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Rozpoczęcie zaplanowanej kopii zapasowej się nie powiodło"
 
-#: src/ui.rs:178
+#: src/ui.rs:174
 msgid "Abort running backup creation?"
 msgstr "Przerwać tworzenie kopii zapasowej?"
 
-#: src/ui.rs:179
+#: src/ui.rs:175
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Przerwanie w tej chwili spowoduje, że kopia zapasowa będzie niepełna."
 
-#: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:24
-#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:341
+#: src/ui.rs:176 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:28
+#: src/ui/page_backup/events.rs:36 src/ui/page_backup/events.rs:47
+#: src/ui/page_backup/events.rs:55 src/ui/page_backup/events.rs:65
+#: src/ui/utils.rs:354
 msgid "Continue"
 msgstr "Kontynuuj"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:340
+#: src/ui.rs:177 src/ui/page_backup/events.rs:29
+#: src/ui/page_backup/events.rs:48 src/ui/page_backup/events.rs:66
+#: src/ui/utils.rs:353
 msgid "Abort"
 msgstr "Przerwij"
 
-#: src/ui.rs:200
+#. Someone wants to quit the app from the shell (eg via backgrounds app list)
+#: src/ui.rs:185
+msgid "A Backup Operation is Running"
+msgstr "Trwa działanie kopii zapasowej"
+
+#: src/ui.rs:187
+msgid "Pika Backup cannot be quit during a backup operation."
+msgstr "Pika nie może być wyłączana w trakcie działania kopii zapasowej."
+
+#: src/ui.rs:211
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Wykonanie polecenia „borg” się nie powiodło. Czy prawidłowo zainstalowano "
 "program BorgBackup?"
 
-#: src/ui.rs:224
+#: src/ui.rs:235
 msgid "BorgBackup version too old"
 msgstr "Wersja programu BorgBackup jest za stara"
 
-#: src/ui.rs:226
+#: src/ui.rs:237
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -635,11 +662,11 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za stara. Część funkcji do "
 "działania wymaga wersji {}.{}.{}."
 
-#: src/ui.rs:237
+#: src/ui.rs:248
 msgid "BorgBackup version too new"
 msgstr "Wersja programu BorgBackup jest za nowa"
 
-#: src/ui.rs:239
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -647,11 +674,11 @@ msgstr ""
 "Zainstalowana wersja {} programu BorgBackup jest za nowa. Zalecana jest "
 "wersja {}.{}. Część funkcji może nie działać poprawnie."
 
-#: src/ui.rs:249
+#: src/ui.rs:260
 msgid "Failed to Check BorgBackup Version"
 msgstr "Sprawdzenie wersji programu BorgBackup się nie powiodło"
 
-#: src/ui.rs:251
+#: src/ui.rs:262
 msgid "The installed version {} might not work."
 msgstr "Zainstalowana wersja, {}, może nie działać."
 
@@ -817,7 +844,7 @@ msgstr "Preferowany dzień tygodnia"
 msgid "Preferred Day"
 msgstr "Preferowany dzień"
 
-#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:78
+#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:88
 msgid "Delete old Archives"
 msgstr "Usuwanie starych archiwów"
 
@@ -873,15 +900,23 @@ msgstr "Informacje o kopii zapasowej"
 msgid "Amount saved"
 msgstr "Zapisana ilość"
 
-#: src/ui/app_window.ui:918
+#: src/ui/app_window.ui:903
+msgid "Size of all files"
+msgstr "Rozmiar wszystkich plików"
+
+#: src/ui/app_window.ui:919
 msgid "Number of files saved"
 msgstr "Liczba zapisanych plików"
 
-#: src/ui/app_window.ui:934
-msgid "Additional backup space used"
-msgstr "Używane dodatkowe miejsce na kopię zapasową"
+#: src/ui/app_window.ui:935
+msgid "Backup space used"
+msgstr "Używane miejsce na kopię zapasową"
 
-#: src/ui/app_window.ui:950
+#: src/ui/app_window.ui:936
+msgid "Newly used space in this backup"
+msgstr "Nowo użyte miejsce w tej kopii zapasowej"
+
+#: src/ui/app_window.ui:952
 msgid "Current file"
 msgstr "Obecny plik"
 
@@ -1016,11 +1051,11 @@ msgstr "Nieprawidłowy przedrostek archiwum"
 msgid "Archive Prefix"
 msgstr "Przedrostek archiwum"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
-#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
-#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:104
-#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:33
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:33
+#: src/ui/dialog_prune.ui:64 src/ui/dialog_prune_review.ui:33
+#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:180
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:154
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -1054,15 +1089,15 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Jeśli pole jest puste, to żaden przedrostek nie jest dodawany."
 
-#: src/ui/dialog_delete_archive.rs:68
+#: src/ui/dialog_delete_archive.rs:69
 msgid "Delete Archive Failed"
 msgstr "Usunięcie archiwum się nie powiodło"
 
-#: src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_delete_archive.ui:39
 msgid "Delete Archive"
 msgstr "Usuń archiwum"
 
-#: src/ui/dialog_delete_archive.ui:41
+#: src/ui/dialog_delete_archive.ui:52
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -1070,11 +1105,11 @@ msgstr ""
 "Kontynuacja tego działania nieodwracalnie usunie to archiwum. Zapisane dane "
 "dla tej konkretnej daty nie będą już dostępne."
 
-#: src/ui/dialog_delete_archive.ui:51
+#: src/ui/dialog_delete_archive.ui:62
 msgid "Archive Name"
 msgstr "Nazwa archiwum"
 
-#: src/ui/dialog_delete_archive.ui:64
+#: src/ui/dialog_delete_archive.ui:75
 msgid "Archive Date"
 msgstr "Data archiwum"
 
@@ -1118,7 +1153,7 @@ msgid "Exclude Directory"
 msgstr "Wykluczenie katalogu"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:52 src/ui/utils.rs:264
+#: src/ui/page_backup/events.rs:87 src/ui/utils.rs:264
 msgid "Select"
 msgstr "Wybierz"
 
@@ -1172,33 +1207,33 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
 "html\">Dokumentacja programu BorgBackup</a> zawiera więcej informacji."
 
-#: src/ui/dialog_prune.rs:27 src/ui/dialog_prune_review.rs:39
+#: src/ui/dialog_prune.rs:30 src/ui/dialog_prune_review.rs:42
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Ustalenie, ile archiwów zostałoby usuniętych się nie powiodło"
 
-#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:384
+#: src/ui/dialog_prune.rs:49 src/ui/utils.rs:397
 msgid "Close"
 msgstr "Zamknij"
 
-#: src/ui/dialog_prune.rs:85
+#: src/ui/dialog_prune.rs:98
 msgid "Reclaim Free Space"
 msgstr "Odzyskiwanie wolnego miejsca"
 
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:41
 msgid "Checking for old Archives"
 msgstr "Wyszukiwanie starych archiwów"
 
-#: src/ui/dialog_prune.ui:31
+#: src/ui/dialog_prune.ui:42
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr "Tworzenie listy starych archiwów do zatwierdzenia do usunięcia."
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
-#: src/ui/dialog_prune_review.ui:82
+#: src/ui/dialog_prune.ui:70 src/ui/dialog_prune.ui:93
+#: src/ui/dialog_prune_review.ui:93
 msgid "Delete Archives"
 msgstr "Usuń archiwa"
 
-#: src/ui/dialog_prune.ui:72
+#: src/ui/dialog_prune.ui:83
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -1207,15 +1242,15 @@ msgstr ""
 "Kontynuacja tego działania nieodwracalnie usunie część archiwów. Zapisane "
 "dane dla tych konkretnych dat nie będą już dostępne."
 
-#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
+#: src/ui/dialog_prune.ui:106 src/ui/dialog_prune_review.ui:106
 msgid "Keep Archives"
 msgstr "Nie usuwaj archiwów"
 
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+#: src/ui/dialog_prune.ui:119 src/ui/dialog_prune_review.ui:119
 msgid "Not Considered"
 msgstr "Nieuwzględniane"
 
-#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+#: src/ui/dialog_prune.ui:120 src/ui/dialog_prune_review.ui:120
 msgid "Archives with different prefix"
 msgstr "Archiwa o innym przedrostku"
 
@@ -1223,19 +1258,19 @@ msgstr "Archiwa o innym przedrostku"
 msgid "Review Changes"
 msgstr "Przegląd zmian"
 
-#: src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:41
 msgid "Assessing Impact on old Archives"
 msgstr "Określanie wpływu na stare archiwa"
 
-#: src/ui/dialog_prune_review.ui:31
+#: src/ui/dialog_prune_review.ui:42
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr "Zbieranie informacji o wpływie tych zmian na stare archiwa"
 
-#: src/ui/dialog_prune_review.ui:59
+#: src/ui/dialog_prune_review.ui:70
 msgid "Apply"
 msgstr "Zastosuj"
 
-#: src/ui/dialog_prune_review.ui:72
+#: src/ui/dialog_prune_review.ui:83
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
@@ -1486,31 +1521,31 @@ msgstr "Podane hasła się nie zgadzają."
 msgid "A repository location has to be given."
 msgstr "Należy podać położenie repozytorium."
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:257
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:258
 msgid "Additional command line arguments invalid."
 msgstr "Dodatkowe parametry wiersza poleceń są nieprawidłowe."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:258
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
 msgid "Please check for missing closing quotes."
 msgstr "Proszę sprawdzić, czy nie brakuje cudzysłowów zamykających."
 
-#: src/ui/dialog_setup/insert.rs:185
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "Wczytywanie repozytorium kopii zapasowej"
 
-#: src/ui/dialog_setup/insert.rs:205
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "Skonfigurowanie repozytorium się nie powiodło"
 
-#: src/ui/dialog_setup/insert.rs:224
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-#: src/ui/dialog_setup/insert.rs:294
+#: src/ui/dialog_setup/insert.rs:295
 msgid "Repository location not found."
 msgstr "Nie odnaleziono położenia repozytorium."
 
-#: src/ui/dialog_setup/insert.rs:295
+#: src/ui/dialog_setup/insert.rs:296
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Działanie montowania się powiodło, ale położenie nadal jest niedostępne."
@@ -1574,7 +1609,7 @@ msgid "Could not find backup configuration with id “{}”."
 msgstr ""
 "Nie można odnaleźć konfiguracji kopii zapasowej o identyfikatorze „{}”."
 
-#: src/ui/page_archives/cache.rs:34
+#: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "Odświeżenie pamięci podręcznej archiwów się nie powiodło."
 
@@ -1610,11 +1645,11 @@ msgstr "Dostępne: {}"
 msgid "{} Total"
 msgstr "Razem: {}"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:29
 msgid "Failed to unmount repository."
 msgstr "Odmontowanie repozytorium się nie powiodło."
 
-#: src/ui/page_archives/events.rs:61
+#: src/ui/page_archives/events.rs:65
 msgid "Failed to make archives available for browsing."
 msgstr "Udostępnienie archiwów do przeglądania się nie powiodło."
 
@@ -1630,11 +1665,11 @@ msgstr "Usuwa katalog"
 msgid "Remove From List"
 msgstr "Usuwa z listy"
 
-#: src/ui/page_backup/events.rs:20
+#: src/ui/page_backup/events.rs:26
 msgid "Abort Saving Backup State?"
 msgstr "Przerwać zapisywanie stanu kopii zapasowej?"
 
-#: src/ui/page_backup/events.rs:22
+#: src/ui/page_backup/events.rs:27
 msgid ""
 "The current backup state is in the process of being saved. The backup can be "
 "continued later without saving the state. Some data might have to be copied "
@@ -1644,11 +1679,11 @@ msgstr ""
 "być kontynuowana później bez zapisania stanu. Może będzie trzeba skopiować "
 "część danych jeszcze raz."
 
-#: src/ui/page_backup/events.rs:30
+#: src/ui/page_backup/events.rs:34
 msgid "Stop Running Backup?"
 msgstr "Zatrzymać wykonywanie kopii zapasowej?"
 
-#: src/ui/page_backup/events.rs:31
+#: src/ui/page_backup/events.rs:35
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1656,72 +1691,122 @@ msgstr ""
 "Obecny stan kopii zapasowej zostanie zapisany. Można później kontynuować "
 "kopię zapasową przez ponowne jej rozpoczęcie."
 
-#: src/ui/page_backup/events.rs:33
+#: src/ui/page_backup/events.rs:37 src/ui/page_backup/events.rs:56
 msgid "Stop"
 msgstr "Zatrzymaj"
 
-#: src/ui/page_backup/events.rs:51
+#: src/ui/page_backup/events.rs:45
+msgid "Abort Delete Operation?"
+msgstr "Przerwać działanie usuwania?"
+
+#: src/ui/page_backup/events.rs:46
+msgid ""
+"Archives are currently being deleted. Aborting now will cause some deletion "
+"progress to be lost. Free space will not be reclaimed."
+msgstr ""
+"Archiwa są właśnie usuwane. Przerwanie w tej chwili spowoduje utratę części "
+"postępu usuwania. Wolne miejsce nie zostanie odzyskane."
+
+#: src/ui/page_backup/events.rs:53
+msgid "Stop Deleting Archives?"
+msgstr "Zatrzymać usuwanie archiwów?"
+
+#: src/ui/page_backup/events.rs:54
+msgid ""
+"Deletion progress will be saved. Free space will not be reclaimed. You can "
+"continue deletion at a later time by starting the operation again."
+msgstr ""
+"Postęp usuwania zostanie zapisany. Wolne miejsce nie zostanie odzyskane. "
+"Można później kontynuować usuwanie przez ponowne rozpoczęcie działania."
+
+#: src/ui/page_backup/events.rs:63
+msgid "Abort Operation?"
+msgstr "Przerwać działanie?"
+
+#: src/ui/page_backup/events.rs:64
+msgid ""
+"An operation is currently being performed. Aborting now will cause any "
+"progress made by the operation to be lost."
+msgstr ""
+"Działanie jest właśnie wykonywane. Przerwanie w tej chwili spowoduje utratę "
+"całego postępu."
+
+#: src/ui/page_backup/events.rs:86
 msgid "Include Folder"
 msgstr "Dołączenie katalogu"
 
-#: src/ui/page_backup/events.rs:102
+#: src/ui/page_backup/events.rs:121
+msgid "Unable to Include Location"
+msgstr "Nie można dołączyć położenia"
+
+#: src/ui/page_backup/events.rs:122
+msgid ""
+"The following paths could not be included because they aren't reliably "
+"available in the sandbox:\n"
+"{}"
+msgstr ""
+"Nie można dołączyć tych ścieżek, ponieważ nie są one dostępne "
+"w piaskownicy:\n"
+"{}"
+
+#: src/ui/page_backup/events.rs:178
 msgid "No longer include “{}” in backups?"
 msgstr "Nie dołączać już „{}” w kopiach zapasowych?"
 
-#: src/ui/page_backup/events.rs:103
+#: src/ui/page_backup/events.rs:179
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Wszystkie pliki w tym katalogu nie będą już częścią przyszłych kopii "
 "zapasowych."
 
-#: src/ui/page_backup/events.rs:105
+#: src/ui/page_backup/events.rs:181
 msgid "Confirm"
 msgstr "Potwierdź"
 
-#: src/ui/page_backup/execution.rs:35
+#: src/ui/page_backup/execution.rs:20
 msgid "Stop browsing files and start backup?"
 msgstr "Zatrzymać przeglądanie plików i rozpocząć wykonywanie kopii zapasowej?"
 
-#: src/ui/page_backup/execution.rs:36
+#: src/ui/page_backup/execution.rs:21
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Przeglądanie zarchiwizowanych plików jest niemożliwe podczas wykonywania "
 "kopii zapasowej."
 
-#: src/ui/page_backup/execution.rs:37
+#: src/ui/page_backup/execution.rs:22
 msgid "Keep Browsing"
 msgstr "Kontynuuj przeglądanie"
 
-#: src/ui/page_backup/execution.rs:38
+#: src/ui/page_backup/execution.rs:23
 msgid "Start Backup"
 msgstr "Rozpocznij wykonywanie kopii zapasowej"
 
-#: src/ui/page_backup/execution.rs:69
+#: src/ui/page_backup/execution.rs:55
 msgid "Delete old Archives Failed"
 msgstr "Usunięcie starych archiwów się nie powiodło"
 
-#: src/ui/page_backup/execution.rs:80
+#: src/ui/page_backup/execution.rs:66
 msgid "Reclaiming Free Space Failed"
 msgstr "Odzyskanie wolnego miejsca się nie powiodło"
 
-#: src/ui/page_backup/execution.rs:147
+#: src/ui/page_backup/execution.rs:134
 msgid "Backup Failed"
 msgstr "Kopia zapasowa się nie powiodła"
 
-#: src/ui/page_backup/execution.rs:169
+#: src/ui/page_backup/execution.rs:156
 msgid "Backup Completed with Warnings"
 msgstr "Ukończono kopię zapasową z ostrzeżeniami"
 
-#: src/ui/page_overview.rs:49
+#: src/ui/page_overview.rs:50
 msgid "Remove Backup Setup?"
 msgstr "Usunąć konfigurację kopii zapasowych?"
 
-#: src/ui/page_overview.rs:50
+#: src/ui/page_overview.rs:51
 msgid "Removing the setup will not delete any archives."
 msgstr "Usunięcie konfiguracji nie spowoduje usunięcia żadnych archiwów."
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:53
 msgid "Remove Setup"
 msgstr "Usuń konfigurację"
 
@@ -1874,7 +1959,11 @@ msgstr "Proces w tle jest nieaktywny"
 msgid "This is required for scheduled backups"
 msgstr "Jest to wymagane do planowania kopii zapasowych"
 
-#: src/ui/status.rs:84
+#: src/ui/shell.rs:26
+msgid "Idle"
+msgstr "Bezczynny"
+
+#: src/ui/status.rs:86
 msgid "Unable to determine background process status"
 msgstr "Nie można ustalić stanu procesu w tle"
 
@@ -1931,15 +2020,15 @@ msgstr[2] "Trwa {} działań kopii zapasowej"
 msgid "Failed to Create Thread"
 msgstr "Utworzenie wątku się nie powiodło"
 
-#: src/ui/utils.rs:521
+#: src/ui/utils.rs:534
 msgid "Failed to fix Scheduled Backups"
 msgstr "Naprawienie zaplanowanych kopii zapasowych się nie powiodło"
 
-#: src/ui/utils.rs:526
+#: src/ui/utils.rs:539
 msgid "Scheduled Backups Repaired"
 msgstr "Naprawiono zaplanowane kopie zapasowe"
 
-#: src/ui/utils.rs:526
+#: src/ui/utils.rs:539
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1947,11 +2036,11 @@ msgstr ""
 "System zawierał błąd, który mógł spowodować niewłaściwe działanie "
 "zaplanowanych kopii zapasowych. Ten problem został rozwiązany."
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:36
 msgid "Repository already in use"
 msgstr "Repozytorium jest już używane"
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:151
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1960,7 +2049,7 @@ msgstr ""
 "może być nieaktualna, jeśli na przykład komputer został odłączony z prądu "
 "podczas używania repozytorium."
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:153
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1970,7 +2059,7 @@ msgstr ""
 "używane przez żaden program. Kontynuowanie, kiedy inny program używa "
 "repozytorium może spowodować uszkodzenie danych w kopii zapasowej."
 
-#: src/ui/utils/borg.rs:150
+#: src/ui/utils/borg.rs:155
 msgid "Continue Anyway"
 msgstr "Kontynuuj mimo to"
 
