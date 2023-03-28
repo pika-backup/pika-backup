@@ -136,7 +136,7 @@ pub async fn background_permission() -> Result<()> {
                 Err(
                     Message::new(
                         gettext(&generic_msg),
-                        gettext("Either the system does not support this feature or an error occurred. Scheduled backup functionality and continuing backups in the background will not be available.")
+                        gettext("The system does not support running Pika Backup in the background. Scheduled backup functionality and continuing backups in the background will not be available. This is either a malfunction, misconfiguration or other issue with the xdg-desktop-portal. Please report this issue in your distribution issue tracker.")
                     + "\n\n" + &err.to_string()
                     ).into()
                 )
