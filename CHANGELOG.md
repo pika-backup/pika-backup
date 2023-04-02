@@ -5,6 +5,7 @@
 - Fix compact is not run after prune
 - Fix potential crash after deleting archives
 - Fix spurious 'Pika Backup crashed' messages
+- Fix size estimation for some remote repositories
 - Change secret service error messages to include specific instructions how to resolve the issue
 - Change to explain checkpoint creation when aborting backups
 - Change to restart backup after SSH connection timeout

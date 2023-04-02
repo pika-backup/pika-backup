@@ -50,6 +50,17 @@ pub async fn lookup_and_cache(config: &config::Backup) -> Result<Space> {
     Ok(space)
 }
 
+fn sftp_path_normalize(path: &str) -> String {
+    if path.starts_with("/~") {
+        path.replace('~', ".")
+            .get(1..)
+            .unwrap_or_default()
+            .to_string()
+    } else {
+        path.to_string()
+    }
+}
+
 pub async fn remote(server: &str) -> Result<Space> {
     let original_uri = glib::Uri::parse(server, glib::UriFlags::NONE)?;
 
@@ -65,12 +76,7 @@ pub async fn remote(server: &str) -> Result<Space> {
     );
 
     // just hope that the home path is the same as the default path
-    let path = &original_uri
-        .path()
-        .replace('~', ".")
-        .get(1..)
-        .map(ToString::to_string)
-        .unwrap_or_default();
+    let path = sftp_path_normalize(&original_uri.path());
 
     debug!("sftp connect to '{}'", connect_url.to_str());
 
@@ -85,7 +91,7 @@ pub async fn remote(server: &str) -> Result<Space> {
     // this might fail but we don't care since output goes to STDERR
     debug!("sftp: try to change to dir {:?}", path);
     stdin
-        .write_all(format!("cd {}\n", shell_words::quote(path)).as_bytes())
+        .write_all(format!("cd {}\n", shell_words::quote(&path)).as_bytes())
         .await?;
 
     stdin.write_all(b"df\nexit\n").await?;
@@ -141,4 +147,15 @@ pub struct Space {
     pub size: u64,
     pub used: u64,
     pub avail: u64,
+}
+
+#[test]
+fn test_uri_normalize() {
+    let uri = glib::Uri::parse("ssh://borg@example.net/~/backup", glib::UriFlags::NONE).unwrap();
+    let path = sftp_path_normalize(&uri.path());
+    assert_eq!(path, "./backup");
+
+    let uri = glib::Uri::parse("ssh://borg@example.net/mnt/backup", glib::UriFlags::NONE).unwrap();
+    let path = sftp_path_normalize(&uri.path());
+    assert_eq!(path, "/mnt/backup");
 }
