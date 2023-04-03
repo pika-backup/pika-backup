@@ -255,16 +255,15 @@ impl Due {
                     let today = chrono::Local::today();
 
                     let scheduled_date = {
-                        let scheduled_date = chrono::Local::today()
-                            .with_day(preferred_day as u32)
-                            .unwrap_or_else(chrono::Local::today);
-
-                        if scheduled_date > today {
-                            chronoutil::delta::shift_months(scheduled_date, -1)
+                        if preferred_day > today.day() as u8 {
+                            chronoutil::delta::shift_months(today, -1)
+                                .with_day(preferred_day as u32)
                         } else {
-                            scheduled_date
+                            // Shifts the 31st back if necessary
+                            chronoutil::delta::with_day(today, preferred_day as u32)
                         }
-                    };
+                    }
+                    .unwrap_or(today);
 
                     if last_run.end.date() < scheduled_date {
                         if activity >= super::USED_THRESHOLD {
