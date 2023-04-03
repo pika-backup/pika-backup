@@ -5,13 +5,21 @@
 - Fix compact is not run after prune
 - Fix potential crash after deleting archives
 - Fix spurious 'Pika Backup crashed' messages
-- Fix size estimation for some remote repositories
+- Fix size / free space estimation for some remote repositories
 - Fix issues with scheduled monthly backups scheduled for the end of the month
+- Fix secret service errors aborting config creation / deletion
+- Fix backup doesn't abort until reconnection timeout has been reached
+- Fix some dialogs are not closable with escape
+- Fix overview does sometimes not show the backup config when only one config is present
+- Fix app does not quit when a non-backup operation is finished with the window closed
 - Change secret service error messages to include specific instructions how to resolve the issue
+- Change running in background error messages to explain what it means when the background portal is not available
 - Change to explain checkpoint creation when aborting backups
 - Change to restart backup after SSH connection timeout
 - Change reconnection to be abortable and count down seconds remaining
 - Change archive mount permissions to more accurately reflect the permissions saved in the archive
+- Change abort messages to more accurately reflect the current operation
+- Change to explain the difference between 'Amount saved' and 'Backup space used'
 - Add background portal status API messages about running operations
 - Add ability to answer questions from borg process
 - Add explanatory message when adding sandboxed paths to a backup configuration
