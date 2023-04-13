@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.6.0 (unreleased)
+## 0.6.0 (2023-04-13)
 
 - Fix compact is not run after prune
 - Fix potential crash after deleting archives
