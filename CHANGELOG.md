@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.0 (unreleased)
+
+- Add docker to containers and VMs exclusion preset
+
 ## 0.6.0 (2023-04-13)
 
 - Fix compact is not run after prune

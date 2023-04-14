@@ -110,7 +110,7 @@ mod rules {
         ]
     });
 
-    pub static VMS_CONTAINERS: Lazy<[Rule<ABSOLUTE>; 8]> = Lazy::new(|| {
+    pub static VMS_CONTAINERS: Lazy<[Rule<ABSOLUTE>; 9]> = Lazy::new(|| {
         [
             // Boxes (host)
             Rule::Pattern(Pattern::PathPrefix(
@@ -142,6 +142,10 @@ mod rules {
             // podman/toolbox
             Rule::Pattern(Pattern::PathPrefix(
                 crate::utils::host::user_data_dir().join("containers"),
+            )),
+            // docker
+            Rule::Pattern(Pattern::PathPrefix(
+                crate::utils::host::user_data_dir().join("docker"),
             )),
         ]
     });
