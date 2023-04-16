@@ -11,6 +11,19 @@ pub fn is_borg_operation_running() -> bool {
     STATUS_TRACKING.with(|status| status.quit_inhibit_count() > 0)
 }
 
+/// Checks whether borg command line arguments are valid
+pub fn parse_borg_command_line_args(text: &str) -> Result<Vec<String>> {
+    if let Ok(args) = shell_words::split(text) {
+        Ok(args)
+    } else {
+        Err(Message::new(
+            gettext("Additional command line arguments invalid."),
+            gettext("Please check for missing closing quotes."),
+        )
+        .into())
+    }
+}
+
 /// Executes a borg command
 ///
 /// This takes a [QuitGuard] to prove that one has been set up and is currently active.

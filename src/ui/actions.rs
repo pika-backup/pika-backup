@@ -48,6 +48,17 @@ pub fn init() {
     });
     adw_app().add_action(&action);
 
+    let action = gio::SimpleAction::new("backup-preferences", None);
+    action.connect_activate(|_, _| {
+        if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
+            if ui::page_detail::is_leaflet_visible() {
+                // Only display when the backup detail page is open
+                ui::dialog_preferences::DialogPreferences::new(id.clone()).show();
+            }
+        }
+    });
+    adw_app().add_action(&action);
+
     let action = gio::SimpleAction::new("remove", None);
     action.connect_activate(|_, _| ui::page_overview::remove_backup());
     adw_app().add_action(&action);

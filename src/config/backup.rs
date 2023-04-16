@@ -13,7 +13,17 @@ use super::{
 pub const VERSION: u16 = 2;
 
 #[derive(
-    Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq, zbus::zvariant::Type,
+    Serialize,
+    Deserialize,
+    Clone,
+    Debug,
+    Hash,
+    Ord,
+    Eq,
+    PartialOrd,
+    PartialEq,
+    zbus::zvariant::Type,
+    glib::ValueDelegate,
 )]
 pub struct ConfigId(String);
 

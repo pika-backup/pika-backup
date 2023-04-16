@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="DialogPreferences" parent="AdwPreferencesWindow">
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="icon-name">network-server-symbolic</property>
+        <property name="title" translatable="yes">General</property>
+        <property name="name">general</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Additional command line arguments</property>
+            <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>
+            <child>
+              <object class="AdwEntryRow" id="command_line_args_entry">
+                <property name="title" translatable="yes">Command line arguments</property>
+                <property name="text" bind-source="DialogPreferences" bind-property="command_line_args" bind-flags="sync-create|bidirectional" />
+                <style>
+                  <class name="monospace"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

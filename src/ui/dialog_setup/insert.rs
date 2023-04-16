@@ -250,16 +250,8 @@ pub fn execute<
 
 fn command_line_args(ui: &builder::DialogSetup) -> Result<Vec<String>> {
     let (start, end) = ui.command_line_args().buffer().bounds();
-    if let Ok(args) = shell_words::split(&ui.command_line_args().buffer().text(&start, &end, false))
-    {
-        Ok(args)
-    } else {
-        Err(Message::new(
-            gettext("Additional command line arguments invalid."),
-            gettext("Please check for missing closing quotes."),
-        )
-        .into())
-    }
+    let text = ui.command_line_args().buffer().text(&start, &end, false);
+    ui::utils::borg::parse_borg_command_line_args(&text)
 }
 
 async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<local::Repository> {
