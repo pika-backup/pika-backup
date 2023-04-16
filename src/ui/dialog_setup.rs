@@ -38,12 +38,6 @@ pub fn show() {
     load_available_mounts_and_repos(&ui);
 
     // Page Detail
-    ui.password_quality()
-        .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
-    ui.password_quality()
-        .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
-    ui.password_quality()
-        .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
 
     ui.leaflet()
         .connect_visible_child_notify(clone!(@weak ui => move |_| event::leaflet_change(&ui)));
@@ -51,7 +45,28 @@ pub fn show() {
     ui.back_to_overview()
         .connect_clicked(clone!(@weak ui => move |_| event::back_to_overview(&ui)));
 
+    ui.page_detail_continue()
+        .connect_clicked(clone!(@weak ui => move |_| event::page_detail_continue(&ui)));
+
+    ui.init_path()
+        .connect_folder_change(clone!(@weak ui => move || event::path_change(&ui)));
+
+    // Page Setup Encryption
+
+    ui.password_quality()
+        .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
+    ui.password_quality()
+        .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
+    ui.password_quality()
+        .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
+
+    ui.back_to_detail()
+        .connect_clicked(clone!(@weak ui => move |_| event::back_to_detail(&ui)));
+
     ui.password()
+        .connect_changed(clone!(@weak ui => move |_| event::password_changed(&ui)));
+
+    ui.password_confirm()
         .connect_changed(clone!(@weak ui => move |_| event::password_changed(&ui)));
 
     ui.add_button().connect_clicked(
@@ -60,9 +75,6 @@ pub fn show() {
 
     ui.init_button()
         .connect_clicked(clone!(@weak ui => move |_| event::init_repo(&ui)));
-
-    ui.init_path()
-        .connect_folder_change(clone!(@weak ui => move || event::path_change(&ui)));
 
     // Page Password
 
@@ -81,6 +93,9 @@ pub fn show() {
 
     ui.transfer_pending_spinner().connect_map(|s| s.start());
     ui.transfer_pending_spinner().connect_unmap(|s| s.stop());
+
+    ui.creating_repository_spinner().connect_map(|s| s.start());
+    ui.creating_repository_spinner().connect_unmap(|s| s.stop());
 
     // refresh ui on mount events
 

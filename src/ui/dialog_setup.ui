@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <requires lib="libhandy" version="1.0"/>
+  <requires lib="gtk" version="4.10"/>
+  <requires lib="adwaita" version="1.3"/>
   <object class="AdwWindow" id="dialog">
     <property name="title" translatable="yes">Setup</property>
     <property name="modal">1</property>
@@ -56,6 +56,11 @@
                                     </style>
                                   </object>
                                 </child>
+                                <child type="suffix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">go-next-symbolic</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <child>
@@ -69,6 +74,11 @@
                                     <style>
                                       <class name="large-row-icon"/>
                                     </style>
+                                  </object>
+                                </child>
+                                <child type="suffix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">go-next-symbolic</property>
                                   </object>
                                 </child>
                               </object>
@@ -100,6 +110,11 @@
                                     </style>
                                   </object>
                                 </child>
+                                <child type="suffix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">go-next-symbolic</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <child>
@@ -113,6 +128,11 @@
                                     <style>
                                       <class name="large-row-icon"/>
                                     </style>
+                                  </object>
+                                </child>
+                                <child type="suffix">
+                                  <object class="GtkImage">
+                                    <property name="icon-name">go-next-symbolic</property>
                                   </object>
                                 </child>
                               </object>
@@ -139,16 +159,201 @@
                         <property name="tooltip-text" translatable="yes">Back to Overview</property>
                       </object>
                     </child>
-                    <child type="end">
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkOverlay">
+                    <child>
+                      <object class="AdwPreferencesPage">
+                        <property name="vexpand">1</property>
+                        <style>
+                          <class name="dialog-page"/>
+                        </style>
+                        <child>
+                          <object class="AdwPreferencesGroup" id="location_group_local">
+                            <property name="title" translatable="yes">Location</property>
+                            <child type="header-suffix">
+                              <object class="GtkToggleButton" id="show_settings">
+                                <property name="icon-name">gear-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Advanced Options</property>
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwActionRow" id="location_local">
+                                <property name="title" translatable="yes">Repository Base Folder</property>
+                                <child type="suffix">
+                                  <object class="PikaFolderButton" id="init_path">
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="init_dir">
+                                <property name="activates-default">1</property>
+                                <property name="title" translatable="yes">Repository Name</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="non_journaling_warning">
+                                <property name="visible">0</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">6</property>
+                                <property name="margin-top">24</property>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Warning</property>
+                                    <property name="xalign">0</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"></attribute>
+                                    </attributes>
+                                    <style>
+                                      <class name="warning"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Backups to the selected location could be corrupted if the device is disconnected or powered down with a backup in progress. If possible, reformat the backup location with a format like “NTFS” or “Ext4.” Note that reformatting deletes all files on the location!</property>
+                                    <property name="wrap">1</property>
+                                    <property name="xalign">0</property>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwPreferencesGroup" id="location_group_remote">
+                            <property name="title" translatable="yes">Location</property>
+                            <property name="visible">0</property>
+                            <child type="header-suffix">
+                              <object class="GtkToggleButton">
+                                <property name="icon-name">gear-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Advanced Options</property>
+                                <property name="active" bind-source="show_settings" bind-property="active" bind-flags="sync-create|bidirectional"/>
+                                <style>
+                                  <class name="flat"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="location_url">
+                                <property name="hexpand">1</property>
+                                <property name="activates-default">1</property>
+                                <property name="title" translatable="yes">Repository URL</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="margin-top">24</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">12</property>
+                                <style>
+                                  <class name="card"/>
+                                  <class name="info-card"/>
+                                </style>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Examples</property>
+                                    <property name="wrap">1</property>
+                                    <property name="xalign">0</property>
+                                    <style>
+                                      <class name="heading"/>
+                                      <class name="accent"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">ssh://user@server.example.org/~/backup
+smb://user@server.example.org/files/backup
+                                    </property>
+                                    <property name="wrap">1</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Conventional Locations</property>
+                                    <property name="margin-top">6</property>
+                                    <property name="wrap">1</property>
+                                    <property name="xalign">0</property>
+                                    <style>
+                                      <class name="heading"/>
+                                      <class name="accent"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">SMB and SFTP remote-backup locations can be provided as a URL with the “smb://” or “sftp://” protocol prefix.</property>
+                                    <property name="wrap">1</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Locations with BorgBackup Support</property>
+                                    <property name="margin-top">6</property>
+                                    <property name="wrap">1</property>
+                                    <property name="xalign">0</property>
+                                    <style>
+                                      <class name="heading"/>
+                                      <class name="accent"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Locations with explicit BorgBackup support can provide better performance. They are special in that the server has a BorgBackup binary installed. For those locations, either the “&lt;server address&gt;:&lt;folder&gt;” syntax or the “ssh://” prefix can be used.</property>
+                                    <property name="wrap">1</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwPreferencesGroup">
+                            <property name="title" translatable="yes">Additional command line arguments</property>
+                            <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>
+                            <property name="visible" bind-source="show_settings" bind-property="active" bind-flags="sync-create"/>
+                            <child>
+                              <object class="AdwEntryRow" id="command_line_args_entry">
+                                <property name="title" translatable="yes">Command line arguments</property>
+                                <property name="text" />
+                                <style>
+                                  <class name="monospace"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="overlay">
                       <object class="GtkStack" id="button_stack">
                         <property name="hhomogeneous">0</property>
+                        <property name="halign">center</property>
+                        <property name="valign">end</property>
                         <child>
                           <object class="GtkStackPage">
                             <property name="child">
                               <object class="GtkButton" id="add_button">
-                                <property name="label" translatable="yes">Connect</property>
+                                <property name="use-underline">1</property>
+                                <property name="label" translatable="yes">_Connect</property>
                                 <style>
+                                  <class name="pill"/>
                                   <class name="suggested-action"/>
+                                  <class name="dialog-pill"/>
                                 </style>
                               </object>
                             </property>
@@ -157,11 +362,13 @@
                         <child>
                           <object class="GtkStackPage">
                             <property name="child">
-                              <object class="GtkButton" id="init_button">
+                              <object class="GtkButton" id="page_detail_continue">
                                 <property name="use-underline">1</property>
-                                <property name="label" translatable="yes">_Create</property>
+                                <property name="label" translatable="yes">_Continue</property>
                                 <style>
+                                  <class name="pill"/>
                                   <class name="suggested-action"/>
+                                  <class name="dialog-pill"/>
                                 </style>
                               </object>
                             </property>
@@ -171,79 +378,52 @@
                     </child>
                   </object>
                 </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox" id="page_setup_encryption">
+                <property name="orientation">vertical</property>
                 <child>
-                  <object class="AdwPreferencesPage">
-                    <property name="vexpand">1</property>
+                  <object class="AdwHeaderBar">
                     <child>
-                      <object class="AdwPreferencesGroup">
-                        <property name="title" translatable="yes">Location</property>
-                        <child type="header-suffix">
-                          <object class="GtkToggleButton" id="show_settings">
-                            <property name="icon-name">gear-symbolic</property>
-                            <property name="tooltip-text" translatable="yes">Advanced Options</property>
-                            <style>
-                              <class name="flat"/>
-                            </style>
-                          </object>
-                        </child>
+                      <object class="GtkButton" id="back_to_detail">
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Back to Location</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkOverlay">
+                    <child>
+                      <object class="AdwPreferencesPage">
+                        <property name="vexpand">1</property>
+                        <style>
+                          <class name="dialog-page"/>
+                        </style>
                         <child>
-                          <object class="GtkStack" id="location_stack">
-                            <property name="vhomogeneous">0</property>
-                            <property name="hhomogeneous">0</property>
+                          <object class="AdwPreferencesGroup" id="encryption_box">
+                            <property name="description" translatable="yes">The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.</property>
+                            <property name="title" translatable="yes">Encryption</property>
                             <child>
-                              <object class="GtkBox" id="location_local">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">12</property>
-                                <child>
+                              <object class="AdwActionRow">
+                                <property name="title" translatable="yes">Use Encryption</property>
+                                <child type="suffix">
                                   <object class="GtkBox">
-                                    <property name="vexpand">0</property>
+                                    <property name="valign">center</property>
                                     <style>
-                                      <class name="location-row"/>
-                                      <class name="linked"/>
+                                      <class name="linked" />
                                     </style>
                                     <child>
-                                      <object class="PikaFolderButton" id="init_path"/>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label">/</property>
+                                      <object class="GtkToggleButton" id="button_encrypted">
+                                        <property name="label" translatable="yes">Encrypted</property>
+                                        <property name="active">1</property>
                                       </object>
                                     </child>
                                     <child>
-                                      <object class="GtkEntry" id="init_dir">
-                                        <property name="hexpand">1</property>
-                                        <property name="vexpand">1</property>
-                                        <property name="activates-default">1</property>
-                                        <property name="width-chars">9</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkBox" id="non_journaling_warning">
-                                    <property name="visible">0</property>
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">6</property>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Warning</property>
-                                        <property name="xalign">0</property>
-                                        <attributes>
-                                          <attribute name="weight" value="bold"></attribute>
-                                        </attributes>
-                                        <style>
-                                          <class name="warning"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Backups to the selected location could be corrupted if the device is disconnected or powered down with a backup in progress. If possible, reformat the backup location with a format like “NTFS” or “Ext4.” Note that reformatting deletes all files on the location!</property>
-                                        <property name="wrap">1</property>
-                                        <property name="xalign">0</property>
-                                        <style>
-                                          <class name="dim-label"/>
-                                        </style>
+                                      <object class="GtkToggleButton" id="button_unencrypted">
+                                        <property name="label" translatable="yes">Unencrypted</property>
+                                        <property name="group">button_encrypted</property>
                                       </object>
                                     </child>
                                   </object>
@@ -251,165 +431,42 @@
                               </object>
                             </child>
                             <child>
-                              <object class="GtkStackPage">
-                                <property name="child">
-                                  <object class="GtkBox" id="location_remote">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">12</property>
-                                    <child>
-                                      <object class="GtkBox">
-                                        <property name="spacing">6</property>
-                                        <child>
-                                          <object class="GtkEntry" id="location_url">
-                                            <property name="hexpand">1</property>
-                                            <property name="activates-default">1</property>
-                                            <property name="placeholder-text" translatable="yes">ssh://user@server.example.org/~/backup</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkBox">
-                                        <property name="margin-top">6</property>
-                                        <property name="orientation">vertical</property>
-                                        <property name="spacing">6</property>
-                                        <style>
-                                          <class name="card"/>
-                                          <class name="info-card"/>
-                                        </style>
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="label" translatable="yes">Conventional Locations</property>
-                                            <property name="wrap">1</property>
-                                            <property name="xalign">0</property>
-                                            <style>
-                                              <class name="heading"/>
-                                              <class name="accent"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="label" translatable="yes">SMB and SFTP remote-backup locations can be provided as a URL with the “smb://” or “sftp://” protocol prefix.</property>
-                                            <property name="wrap">1</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="label" translatable="yes">Locations with BorgBackup Support</property>
-                                            <property name="margin-top">6</property>
-                                            <property name="wrap">1</property>
-                                            <property name="xalign">0</property>
-                                            <style>
-                                              <class name="heading"/>
-                                              <class name="accent"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="label" translatable="yes">Locations with explicit BorgBackup support can provide better performance. They are special in that the server has a BorgBackup binary installed. For those locations, either the “&lt;server address&gt;:&lt;folder&gt;” syntax or the “ssh://” prefix can be used.</property>
-                                            <property name="wrap">1</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </property>
+                              <object class="AdwPasswordEntryRow" id="password">
+                                <property name="title" translatable="yes">Encryption Password</property>
+                                <property name="activates-default">1</property>
+                                <property name="visible" bind-source="button_encrypted" bind-property="active"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwPasswordEntryRow" id="password_confirm">
+                                <property name="title" translatable="yes">Repeat Password</property>
+                                <property name="activates-default">1</property>
+                                <property name="visible" bind-source="button_encrypted" bind-property="active"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLevelBar" id="password_quality">
+                                <property name="margin-top">24</property>
+                                <property name="max-value">7</property>
+                                <property name="mode">discrete</property>
+                                <property name="visible" bind-source="button_encrypted" bind-property="active"/>
                               </object>
                             </child>
                           </object>
                         </child>
                       </object>
                     </child>
-                    <child>
-                      <object class="AdwPreferencesGroup" id="encryption_box">
-                        <property name="description" translatable="yes">The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.</property>
-                        <property name="title" translatable="yes">Encryption</property>
-                        <child>
-                          <object class="GtkStackSwitcher">
-                            <property name="halign">start</property>
-                            <property name="stack">encryption</property>
-                            <property name="margin-bottom">12</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkStack" id="encryption">
-                            <property name="vhomogeneous">0</property>
-                            <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="title" translatable="yes">Encrypted</property>
-                                <property name="child">
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">6</property>
-                                    <child>
-                                      <object class="GtkPasswordEntry" id="password">
-                                        <property name="placeholder-text" translatable="yes">Encryption Password</property>
-                                        <property name="activates-default">1</property>
-                                        <property name="show-peek-icon">1</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLevelBar" id="password_quality">
-                                        <property name="margin-bottom">6</property>
-                                        <property name="max-value">7</property>
-                                        <property name="mode">discrete</property>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkPasswordEntry" id="password_confirm">
-                                        <property name="placeholder-text" translatable="yes">Repeat Password</property>
-                                        <property name="activates-default">1</property>
-                                        <property name="show-peek-icon">1</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkStackPage">
-                                <property name="title" translatable="yes">Unencrypted</property>
-                                <property name="child">
-                                  <object class="GtkBox" id="unencrypted"/>
-                                </property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwPreferencesGroup">
-                        <child>
-                          <object class="GtkRevealer">
-                            <property name="reveal-child" bind-source="show_settings" bind-property="active" bind-flags="sync-create"/>
-                            <property name="child">
-                              <object class="AdwPreferencesGroup">
-                                <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>
-                                <property name="title" translatable="yes">Additional command line arguments</property>
-                                <child>
-                                  <object class="GtkScrolledWindow">
-                                    <property name="height-request">100</property>
-                                    <property name="child">
-                                      <object class="GtkTextView" id="command_line_args">
-                                        <property name="wrap-mode">word-char</property>
-                                        <property name="monospace">1</property>
-                                        <style>
-                                          <class name="frame"/>
-                                        </style>
-                                      </object>
-                                    </property>
-                                  </object>
-                                </child>
-                              </object>
-                            </property>
-                          </object>
-                        </child>
+                    <child type="overlay">
+                      <object class="GtkButton" id="init_button">
+                        <property name="halign">center</property>
+                        <property name="valign">end</property>
+                        <property name="use-underline">1</property>
+                        <property name="label" translatable="yes">_Create</property>
+                        <style>
+                          <class name="pill"/>
+                          <class name="suggested-action"/>
+                          <class name="dialog-pill"/>
+                        </style>
                       </object>
                     </child>
                   </object>
@@ -433,6 +490,7 @@
                         <child>
                           <object class="AdwStatusPage">
                             <property name="vexpand">true</property>
+                            <property name="icon-name">drive-harddisk-symbolic</property>
                             <property name="title" translatable="yes">Checking Backup Repository</property>
                             <child>
                               <object class="GtkSpinner" id="pending_spinner">
@@ -450,74 +508,45 @@
                   <object class="GtkBox" id="page_password_input">
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="AdwHeaderBar">
-                        <child type="end">
-                          <object class="GtkButton" id="page_password_continue">
-                            <property name="label" translatable="yes">Continue</property>
-                            <style>
-                              <class name="suggested-action"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
+                      <object class="AdwHeaderBar"/>
                     </child>
                     <child>
-                      <object class="AdwPreferencesPage">
-                        <property name="vexpand">1</property>
-                        <property name="valign">center</property>
+                      <object class="GtkOverlay">
                         <child>
-                          <object class="AdwPreferencesGroup">
-                            <child>
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">28</property>
-                                <child>
-                                  <object class="GtkImage">
-                                    <property name="icon-name">padlock-open-symbolic</property>
-                                    <property name="pixel-size">128</property>
-                                    <style>
-                                      <class name="dim-label"/>
-                                    </style>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">6</property>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">Encryption Password Required</property>
-                                        <property name="wrap">1</property>
-                                        <style>
-                                          <class name="title-3"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="label" translatable="yes">The encryption password of this backup repository is required to access it.</property>
-                                        <property name="wrap">1</property>
-                                        <style>
-                                          <class name="dim-label"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkPasswordEntry" id="ask_password">
-                                    <property name="placeholder-text" translatable="yes">Password</property>
-                                    <property name="halign">center</property>
-                                    <property name="activates-default">1</property>
-                                    <property name="width-request">270</property>
-                                    <property name="show-peek-icon">1</property>
-                                    <style>
-                                      <class name="card"/>
-                                    </style>
-                                  </object>
-                                </child>
+                          <object class="AdwStatusPage">
+                            <property name="vexpand">1</property>
+                            <property name="icon-name">padlock-open-symbolic</property>
+                            <property name="title" translatable="yes">Encryption Password Required</property>
+                            <property name="description" translatable="yes">The encryption password of this backup repository is required to access it.</property>        
+                            <style>
+                              <class name="dialog-page"/>
+                              <class name="dimmed"/>
+                            </style>
+                            <property name="child">
+                              <object class="GtkPasswordEntry" id="ask_password">
+                                <property name="placeholder-text" translatable="yes">Password</property>
+                                <property name="halign">center</property>
+                                <property name="activates-default">1</property>
+                                <property name="width-request">270</property>
+                                <property name="show-peek-icon">1</property>
+                                <style>
+                                  <class name="card"/>
+                                </style>
                               </object>
-                            </child>
+                            </property>
+                          </object>
+                        </child>
+                        <child type="overlay">
+                          <object class="GtkButton" id="page_password_continue">
+                            <property name="halign">center</property>
+                            <property name="valign">end</property>
+                            <property name="use-underline">1</property>
+                            <property name="label" translatable="yes">Continue</property>
+                            <style>
+                              <class name="pill"/>
+                              <class name="suggested-action"/>
+                              <class name="dialog-pill"/>
+                            </style>
                           </object>
                         </child>
                       </object>
@@ -535,6 +564,8 @@
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="AdwHeaderBar">
+                            <property name="show_start_title_buttons">0</property>
+                            <property name="show_end_title_buttons">0</property>
                             <style>
                               <class name="flat"/>
                             </style>
@@ -543,9 +574,6 @@
                                 <property name="use-underline">1</property>
                                 <property name="label" translatable="yes">S_kip</property>
                                 <property name="action-name">window.close</property>
-                                <style>
-                                  <class name="suggested-action"/>
-                                </style>
                               </object>
                             </child>
                           </object>
@@ -553,6 +581,7 @@
                         <child>
                           <object class="AdwStatusPage">
                             <property name="vexpand">true</property>
+                            <property name="icon-name">drive-harddisk-symbolic</property>
                             <property name="title" translatable="yes">Checking for Previous Configurations</property>
                             <property name="description" translatable="yes">Collecting information to transfer previously used settings. This step is optional.</property>
                             <child>
@@ -571,39 +600,49 @@
                   <object class="GtkBox" id="page_transfer_select">
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="AdwHeaderBar">
-                        <child type="end">
-                          <object class="GtkButton">
-                            <property name="use-underline">1</property>
-                            <property name="label" translatable="yes">S_kip</property>
-                            <property name="action-name">window.close</property>
-                            <style>
-                              <class name="suggested-action"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
+                      <object class="AdwHeaderBar"/>
                     </child>
                     <child>
-                      <object class="AdwPreferencesPage">
-                        <property name="vexpand">1</property>
+                      <object class="GtkOverlay">
                         <child>
-                          <object class="AdwPreferencesGroup">
-                            <property name="title" translatable="yes">Transfer Settings</property>
-                            <property name="description" translatable="yes">One set of configurations used for previous backups can be selected for transfer to the new setup. The configuration can be adjusted afterward.</property>
+                          <object class="AdwPreferencesPage">
+                            <property name="vexpand">1</property>
+                            <style>
+                              <class name="dialog-page"/>
+                            </style>
                             <child>
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
+                              <object class="AdwPreferencesGroup">
+                                <property name="title" translatable="yes">Transfer Settings</property>
+                                <property name="description" translatable="yes">One set of configurations used for previous backups can be selected for transfer to the new setup. The configuration can be adjusted afterward.</property>
                                 <child>
-                                  <object class="GtkListBox" id="transfer_suggestions">
-                                    <property name="selection-mode">none</property>
-                                    <style>
-                                      <class name="overview-list"/>
-                                    </style>
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <object class="GtkListBox" id="transfer_suggestions">
+                                        <property name="selection-mode">none</property>
+                                        <style>
+                                          <class name="overview-list"/>
+                                        </style>
+                                      </object>
+                                    </child>
                                   </object>
                                 </child>
                               </object>
                             </child>
+                          </object>
+                        </child>
+                        <child type="overlay">
+                          <object class="GtkButton">
+                            <property name="halign">center</property>
+                            <property name="valign">end</property>
+                            <property name="use-underline">1</property>
+                            <property name="label" translatable="yes">S_kip</property>
+                            <property name="action-name">window.close</property>
+                            <style>
+                              <class name="pill"/>
+                              <class name="suggested-action"/>
+                              <class name="dialog-pill"/>
+                            </style>
                           </object>
                         </child>
                       </object>
@@ -614,44 +653,54 @@
                   <object class="GtkBox" id="page_transfer_prefix">
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="AdwHeaderBar">
-                        <child type="end">
-                          <object class="GtkButton" id="prefix_submit">
-                            <property name="use-underline">1</property>
-                            <property name="label" translatable="yes">_Save</property>
-                            <style>
-                              <class name="suggested-action"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
+                      <object class="AdwHeaderBar"/>
                     </child>
                     <child>
-                      <object class="AdwPreferencesPage">
-                        <property name="vexpand">1</property>
+                      <object class="GtkOverlay">
                         <child>
-                          <object class="AdwPreferencesGroup">
-                            <property name="title" translatable="yes">Archive Prefix</property>
-                            <property name="description" translatable="yes">Archive prefixes must be unique to every backup configuration. Using the same prefix on two devices is discouraged unless a new device supersedes the old one.</property>
+                          <object class="AdwPreferencesPage">
+                            <property name="vexpand">1</property>
+                            <style>
+                              <class name="dialog-page"/>
+                            </style>
                             <child>
-                              <object class="GtkBox">
-                                <property name="orientation">vertical</property>
+                              <object class="AdwPreferencesGroup">
+                                <property name="title" translatable="yes">Archive Prefix</property>
+                                <property name="description" translatable="yes">Archive prefixes must be unique to every backup configuration. Using the same prefix on two devices is discouraged unless a new device supersedes the old one.</property>
                                 <child>
-                                  <object class="GtkEntry" id="prefix">
-                                    <property name="halign">center</property>
-                                    <property name="margin-top">24</property>
-                                    <property name="activates-default">1</property>
-                                    <property name="width-request">270</property>
-                                    <property name="secondary-icon-name">document-edit-symbolic</property>
-                                    <style>
-                                      <class name="card"/>
-                                    </style>
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <object class="GtkEntry" id="prefix">
+                                        <property name="halign">center</property>
+                                        <property name="margin-top">24</property>
+                                        <property name="activates-default">1</property>
+                                        <property name="width-request">270</property>
+                                        <property name="secondary-icon-name">document-edit-symbolic</property>
+                                        <style>
+                                          <class name="card"/>
+                                        </style>
+                                      </object>
+                                    </child>
                                   </object>
                                 </child>
                               </object>
                             </child>
                           </object>
                         </child>
+                        <child type="overlay">
+                          <object class="GtkButton" id="prefix_submit">
+                            <property name="halign">center</property>
+                            <property name="valign">end</property>
+                            <property name="use-underline">1</property>
+                            <property name="label" translatable="yes">_Save</property>
+                            <style>
+                              <class name="pill"/>
+                              <class name="suggested-action"/>
+                              <class name="dialog-pill"/>
+                            </style>
+                          </object>
+                        </child>    
                       </object>
                     </child>
                   </object>
@@ -673,9 +722,10 @@
                     <child>
                       <object class="AdwStatusPage">
                         <property name="vexpand">true</property>
+                        <property name="icon-name">drive-harddisk-symbolic</property>
                         <property name="title" translatable="yes">Creating Backup Repository</property>
                         <child>
-                          <object class="GtkSpinner">
+                          <object class="GtkSpinner" id="creating_repository_spinner">
                             <property name="spinning">1</property>
                             <property name="width-request">32</property>
                             <property name="height-request">32</property>

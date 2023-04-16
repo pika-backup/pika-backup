@@ -1136,24 +1136,36 @@ impl DialogSetup {
         self.get("ask_password")
     }
 
+    pub fn back_to_detail(&self) -> gtk::Button {
+        self.get("back_to_detail")
+    }
+
     pub fn back_to_overview(&self) -> gtk::Button {
         self.get("back_to_overview")
+    }
+
+    pub fn button_encrypted(&self) -> gtk::ToggleButton {
+        self.get("button_encrypted")
     }
 
     pub fn button_stack(&self) -> gtk::Stack {
         self.get("button_stack")
     }
 
-    pub fn command_line_args(&self) -> gtk::TextView {
-        self.get("command_line_args")
+    pub fn button_unencrypted(&self) -> gtk::ToggleButton {
+        self.get("button_unencrypted")
+    }
+
+    pub fn command_line_args_entry(&self) -> adw::EntryRow {
+        self.get("command_line_args_entry")
+    }
+
+    pub fn creating_repository_spinner(&self) -> gtk::Spinner {
+        self.get("creating_repository_spinner")
     }
 
     pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
-    }
-
-    pub fn encryption(&self) -> gtk::Stack {
-        self.get("encryption")
     }
 
     pub fn encryption_box(&self) -> adw::PreferencesGroup {
@@ -1164,7 +1176,7 @@ impl DialogSetup {
         self.get("init_button")
     }
 
-    pub fn init_dir(&self) -> gtk::Entry {
+    pub fn init_dir(&self) -> adw::EntryRow {
         self.get("init_dir")
     }
 
@@ -1188,19 +1200,19 @@ impl DialogSetup {
         self.get("leaflet")
     }
 
-    pub fn location_local(&self) -> gtk::Box {
+    pub fn location_group_local(&self) -> adw::PreferencesGroup {
+        self.get("location_group_local")
+    }
+
+    pub fn location_group_remote(&self) -> adw::PreferencesGroup {
+        self.get("location_group_remote")
+    }
+
+    pub fn location_local(&self) -> adw::ActionRow {
         self.get("location_local")
     }
 
-    pub fn location_remote(&self) -> gtk::Box {
-        self.get("location_remote")
-    }
-
-    pub fn location_stack(&self) -> gtk::Stack {
-        self.get("location_stack")
-    }
-
-    pub fn location_url(&self) -> gtk::Entry {
+    pub fn location_url(&self) -> adw::EntryRow {
         self.get("location_url")
     }
 
@@ -1214,6 +1226,10 @@ impl DialogSetup {
 
     pub fn page_detail(&self) -> gtk::Box {
         self.get("page_detail")
+    }
+
+    pub fn page_detail_continue(&self) -> gtk::Button {
+        self.get("page_detail_continue")
     }
 
     pub fn page_overview(&self) -> gtk::Box {
@@ -1236,6 +1252,10 @@ impl DialogSetup {
         self.get("page_password_pending")
     }
 
+    pub fn page_setup_encryption(&self) -> gtk::Box {
+        self.get("page_setup_encryption")
+    }
+
     pub fn page_transfer(&self) -> gtk::Stack {
         self.get("page_transfer")
     }
@@ -1252,11 +1272,11 @@ impl DialogSetup {
         self.get("page_transfer_select")
     }
 
-    pub fn password(&self) -> gtk::PasswordEntry {
+    pub fn password(&self) -> adw::PasswordEntryRow {
         self.get("password")
     }
 
-    pub fn password_confirm(&self) -> gtk::PasswordEntry {
+    pub fn password_confirm(&self) -> adw::PasswordEntryRow {
         self.get("password_confirm")
     }
 
@@ -1286,10 +1306,6 @@ impl DialogSetup {
 
     pub fn transfer_suggestions(&self) -> gtk::ListBox {
         self.get("transfer_suggestions")
-    }
-
-    pub fn unencrypted(&self) -> gtk::Box {
-        self.get("unencrypted")
     }
 }
 

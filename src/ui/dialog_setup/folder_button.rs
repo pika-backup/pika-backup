@@ -20,6 +20,10 @@ impl FolderButton {
     pub fn connect_folder_change<F: 'static + Fn()>(&self, f: F) -> gtk::glib::SignalHandlerId {
         self.connect_notify_local(Some("file"), move |_, _| f())
     }
+
+    pub fn reset(&self) {
+        self.set_property("file", None::<gio::File>);
+    }
 }
 
 mod imp {
@@ -65,30 +69,34 @@ mod imp {
                 "file" => {
                     let file = value.get::<gio::File>().ok();
 
-                    let info = file.as_ref().and_then(|x| {
-                        x.query_info(
-                            "standard::*",
-                            gtk::gio::FileQueryInfoFlags::NONE,
-                            gtk::gio::Cancellable::NONE,
-                        )
-                        .ok()
-                    });
+                    if let Some(ref file) = file {
+                        let info = file
+                            .query_info(
+                                "standard::*",
+                                gtk::gio::FileQueryInfoFlags::NONE,
+                                gtk::gio::Cancellable::NONE,
+                            )
+                            .ok();
 
-                    let mount_icon = file
-                        .as_ref()
-                        .and_then(|x| x.find_enclosing_mount(gtk::gio::Cancellable::NONE).ok())
-                        .map(|x| x.icon());
-                    let file_icon = info.as_ref().and_then(|x| x.icon());
+                        let mount_icon = file
+                            .find_enclosing_mount(gtk::gio::Cancellable::NONE)
+                            .ok()
+                            .map(|x| x.icon());
+                        let file_icon = info.as_ref().and_then(|x| x.icon());
 
-                    self.image
-                        .set_gicon([mount_icon, file_icon].iter().flatten().next());
-                    self.image.show();
+                        self.image
+                            .set_gicon([mount_icon, file_icon].iter().flatten().next());
+                        self.image.show();
 
-                    self.label.set_label(
-                        &info
-                            .map(|x| x.display_name().to_string())
-                            .unwrap_or_default(),
-                    );
+                        self.label.set_label(
+                            &info
+                                .map(|x| x.display_name().to_string())
+                                .unwrap_or_default(),
+                        );
+                    } else {
+                        self.image.hide();
+                        self.reset_label();
+                    }
 
                     self.file.replace(file);
                 }
@@ -107,7 +115,7 @@ mod imp {
             self.image.hide();
 
             self.child.append(&*self.label);
-            self.label.set_text_with_mnemonic(&gettext("_Select…"));
+            self.reset_label();
             self.label.set_mnemonic_widget(Some(&*obj));
 
             obj.connect_clicked(|obj| {
@@ -132,6 +140,13 @@ mod imp {
 
                 dialog.show();
             });
+        }
+    }
+
+    impl FolderButton {
+        pub fn reset_label(&self) {
+            self.label
+                .set_text_with_mnemonic(&gettext("_Select Folder…"));
         }
     }
 

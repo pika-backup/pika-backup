@@ -39,9 +39,20 @@ pub fn leaflet_change(ui: &DialogSetup) {
 }
 
 pub fn back_to_overview(ui: &DialogSetup) {
+    ui.init_path().reset();
     ui.location_url().set_text("");
+    ui.password().set_text("");
+    ui.password_confirm().set_text("");
 
     ui.leaflet().set_visible_child(&ui.page_overview());
+}
+
+pub fn back_to_detail(ui: &DialogSetup) {
+    ui.leaflet().set_visible_child(&ui.page_detail());
+}
+
+pub fn page_detail_continue(ui: &DialogSetup) {
+    execute(super::insert::validate_detail_page(ui.clone()), ui.dialog());
 }
 
 pub fn show_init_local(ui: &DialogSetup) {
@@ -68,9 +79,10 @@ pub async fn page_password_continue(ui: DialogSetup) -> Result<()> {
 }
 
 pub fn show_add_remote(ui: &DialogSetup) {
-    ui.location_stack().set_visible_child(&ui.location_remote());
     ui.button_stack().set_visible_child(&ui.add_button());
     ui.encryption_box().hide();
+    ui.location_group_local().set_visible(false);
+    ui.location_group_remote().set_visible(true);
     ui.leaflet().set_visible_child(&ui.page_detail());
 }
 
@@ -127,4 +139,18 @@ pub fn password_changed(ui: &DialogSetup) {
     };
 
     ui.password_quality().set_value(score.into());
+
+    // Show warning highlight if passwords don't match
+    if !ui.password_confirm().text().is_empty() {
+        if ui.password().text() == ui.password_confirm().text() {
+            ui.password_confirm().add_css_class("success");
+            ui.password_confirm().remove_css_class("warning");
+        } else {
+            ui.password_confirm().remove_css_class("success");
+            ui.password_confirm().add_css_class("warning");
+        }
+    } else {
+        ui.password_confirm().remove_css_class("success");
+        ui.password_confirm().remove_css_class("warning");
+    }
 }

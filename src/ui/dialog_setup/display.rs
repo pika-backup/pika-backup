@@ -177,7 +177,8 @@ pub fn set_prefix(ui: &DialogSetup, config_id: ConfigId) -> Result<()> {
 }
 
 pub fn show_init_remote(ui: &ui::builder::DialogSetup) {
-    ui.location_stack().set_visible_child(&ui.location_remote());
+    ui.location_group_local().set_visible(false);
+    ui.location_group_remote().set_visible(true);
     show_init(ui);
 }
 
@@ -187,7 +188,8 @@ pub fn show_init_local(ui: &ui::builder::DialogSetup, path: Option<&std::path::P
             .set_property("file", gio::File::for_path(path));
     }
 
-    ui.location_stack().set_visible_child(&ui.location_local());
+    ui.location_group_local().set_visible(true);
+    ui.location_group_remote().set_visible(false);
     show_init(ui);
 }
 
@@ -209,7 +211,8 @@ fn show_init(ui: &ui::builder::DialogSetup) {
 
     ui.ask_password().set_text("");
 
-    ui.button_stack().set_visible_child(&ui.init_button());
+    ui.button_stack()
+        .set_visible_child(&ui.page_detail_continue());
     ui.dialog().set_default_widget(Some(&ui.init_button()));
 }
 
@@ -224,6 +227,7 @@ pub async fn add_mount<F: 'static + Fn()>(
 
     row.set_widget_name(&mount.root().uri());
     row.connect_activated(move |_| display_fn());
+    row.add_suffix(&gtk::Image::from_icon_name("go-next-symbolic"));
 
     let mut label1 = mount.name().to_string();
 

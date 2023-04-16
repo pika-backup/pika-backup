@@ -58,6 +58,13 @@ pub async fn add_button_clicked(ui: builder::DialogSetup) -> Result<()> {
 }
 
 pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
+    let encryption_result = validate_setup_encryption_page(&ui);
+
+    if let Err(err) = encryption_result {
+        ui.leaflet().set_visible_child(&ui.page_setup_encryption());
+        return Err(err);
+    }
+
     let result = init_repo(ui.clone()).await;
 
     if result.is_ok() {
@@ -69,25 +76,8 @@ pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
     result
 }
 
-async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
-    let encrypted =
-        ui.encryption().visible_child() != Some(ui.unencrypted().upcast::<gtk::Widget>());
-
-    if encrypted {
-        if ui.password().text().is_empty() {
-            return Err(Message::new(
-                gettext("No Password Provided"),
-                gettext("To use encryption a password must be provided."),
-            )
-            .into());
-        } else if ui.password().text() != ui.password_confirm().text() {
-            return Err(Message::short(gettext("Entered passwords do not match.")).into());
-        }
-    }
-
-    let mut repo = if ui.location_stack().visible_child()
-        == Some(ui.location_local().upcast::<gtk::Widget>())
-    {
+async fn get_repo(ui: &builder::DialogSetup) -> Result<Repository> {
+    if ui.location_group_local().is_visible() {
         if let Some(path) = ui
             .init_path()
             .file()
@@ -104,7 +94,11 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
                 Ok(local::Repository::from_path(path).into_config())
             }
         } else {
-            Err(Message::short(gettext("A repository location has to be given.")).into())
+            Err(Message::new(
+                gettext("Location is not a valid backup repository."),
+                gettext("A repository location has to be given."),
+            )
+            .into())
         }
     } else {
         let remote_location = RemoteLocation::from_user_input(ui.location_url().text().to_string())
@@ -117,19 +111,42 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
                 .await
                 .map(|x| x.into_config())
         }
-    }?;
-
-    if let Ok(args) = command_line_args(&ui) {
-        repo.set_settings(Some(BackupSettings {
-            command_line_args: Some(args),
-        }));
-    } else {
-        return Err(Message::new(
-            gettext("Additional command line arguments invalid."),
-            gettext("Please check for missing closing quotes."),
-        )
-        .into());
     }
+}
+
+pub async fn validate_detail_page(ui: builder::DialogSetup) -> Result<()> {
+    get_repo(&ui).await?;
+    ui.leaflet().set_visible_child(&ui.page_setup_encryption());
+    Ok(())
+}
+
+pub fn validate_setup_encryption_page(ui: &builder::DialogSetup) -> Result<()> {
+    let encrypted = ui.button_encrypted().is_active();
+    if encrypted {
+        if ui.password().text().is_empty() {
+            return Err(Message::new(
+                gettext("No Password Provided"),
+                gettext("To use encryption a password must be provided."),
+            )
+            .into());
+        } else if ui.password().text() != ui.password_confirm().text() {
+            return Err(Message::short(gettext("Entered passwords do not match.")).into());
+        }
+    }
+
+    Ok(())
+}
+
+async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
+    let encrypted = ui.button_encrypted().is_active();
+    validate_setup_encryption_page(&ui)?;
+
+    let mut repo = get_repo(&ui).await?;
+
+    let args = command_line_args(&ui)?;
+    repo.set_settings(Some(BackupSettings {
+        command_line_args: Some(args),
+    }));
 
     ui.leaflet().set_visible_child(&ui.page_creating());
 
@@ -249,8 +266,7 @@ pub fn execute<
 }
 
 fn command_line_args(ui: &builder::DialogSetup) -> Result<Vec<String>> {
-    let (start, end) = ui.command_line_args().buffer().bounds();
-    let text = ui.command_line_args().buffer().text(&start, &end, false);
+    let text = ui.command_line_args_entry().text();
     ui::utils::borg::parse_borg_command_line_args(&text)
 }
 
