@@ -28,12 +28,24 @@ mod imp {
         config_title: RefCell<String>,
 
         command_line_args_error: RefCell<Option<crate::ui::error::Error>>,
+        pre_backup_command_error: RefCell<Option<crate::ui::error::Error>>,
+        post_backup_command_error: RefCell<Option<crate::ui::error::Error>>,
 
         #[template_child]
         command_line_args_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pre_backup_command_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        post_backup_command_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        shell_commands_detail: TemplateChild<gtk::Label>,
 
         #[property(get = Self::command_line_args, set = Self::set_command_line_args, type = String)]
         command_line_args: RefCell<Option<Vec<String>>>,
+        #[property(get, set = Self::set_pre_backup_command)]
+        pre_backup_command: RefCell<String>,
+        #[property(get, set = Self::set_post_backup_command)]
+        post_backup_command: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -68,6 +80,8 @@ mod imp {
             self.parent_constructed();
             self.load_config();
             self.obj().set_transient_for(Some(&main_ui().window()));
+            self.shell_commands_detail
+                .set_label(&crate::ui::utils::scripts::ShellVariables::explanation_string_markup())
         }
     }
 
@@ -96,14 +110,34 @@ mod imp {
                 Ok(())
             })());
 
+            let obj = self.obj().clone();
+
             if self.command_line_args_error.borrow().is_some() {
-                let obj = self.obj().clone();
                 glib::MainContext::default().spawn_local(async move {
                     if let Some(err) = obj.imp().command_line_args_error.take() {
                         err.show().await;
                         obj.imp().command_line_args_error.replace(Some(err));
                     }
                 });
+
+                Inhibit(true)
+            } else if self.pre_backup_command_error.borrow().is_some() {
+                glib::MainContext::default().spawn_local(async move {
+                    if let Some(err) = obj.imp().pre_backup_command_error.take() {
+                        err.show().await;
+                        obj.imp().pre_backup_command_error.replace(Some(err));
+                    }
+                });
+
+                Inhibit(true)
+            } else if self.post_backup_command_error.borrow().is_some() {
+                glib::MainContext::default().spawn_local(async move {
+                    if let Some(err) = obj.imp().post_backup_command_error.take() {
+                        err.show().await;
+                        obj.imp().post_backup_command_error.replace(Some(err));
+                    }
+                });
+
                 Inhibit(true)
             } else {
                 Inhibit(false)
@@ -162,6 +196,48 @@ mod imp {
                     self.command_line_args.set(Some(vec![]));
                     self.command_line_args_entry.add_css_class("error");
                     self.command_line_args_error.replace(Some(err));
+                }
+            }
+        }
+
+        fn validate_shell_command(command: &str) -> Result<&str> {
+            if let Ok(_) = shell_words::split(command) {
+                Ok(command)
+            } else {
+                Err(Message::new(
+                    gettext("Shell command invalid"),
+                    gettext("Please check for missing closing quotes."),
+                )
+                .into())
+            }
+        }
+
+        fn set_pre_backup_command(&self, command: String) {
+            match Self::validate_shell_command(&command) {
+                Ok(_) => {
+                    self.pre_backup_command_entry.remove_css_class("error");
+                    self.pre_backup_command.set(command);
+                    self.pre_backup_command_error.replace(None);
+                }
+                Err(err) => {
+                    self.pre_backup_command.set(String::new());
+                    self.pre_backup_command_entry.add_css_class("error");
+                    self.pre_backup_command_error.replace(Some(err));
+                }
+            }
+        }
+
+        fn set_post_backup_command(&self, command: String) {
+            match Self::validate_shell_command(&command) {
+                Ok(_) => {
+                    self.post_backup_command_entry.remove_css_class("error");
+                    self.post_backup_command.set(command);
+                    self.post_backup_command_error.replace(None);
+                }
+                Err(err) => {
+                    self.post_backup_command.set(String::new());
+                    self.post_backup_command_entry.add_css_class("error");
+                    self.post_backup_command_error.replace(Some(err));
                 }
             }
         }

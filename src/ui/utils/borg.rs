@@ -17,7 +17,7 @@ pub fn parse_borg_command_line_args(text: &str) -> Result<Vec<String>> {
         Ok(args)
     } else {
         Err(Message::new(
-            gettext("Additional command line arguments invalid."),
+            gettext("Additional command line arguments invalid"),
             gettext("Please check for missing closing quotes."),
         )
         .into())

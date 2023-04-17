@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <object class="GtkPopover" id="popover_shell_commands">
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="hscrollbar-policy">never</property>
+        <property name="propagate-natural-height">1</property>
+        <property name="child">
+          <object class="GtkLabel" id="shell_commands_detail">
+            <property name="width-request">300</property>
+            <property name="max-width-chars">36</property>
+            <property name="justify">left</property>
+            <property name="wrap">True</property>
+            <property name="wrap-mode">word-char</property>
+            <property name="use-markup">1</property>
+          </object>
+        </property>
+        <style>
+          <class name="popover-label"/>
+        </style>
+      </object>
+    </child>
+  </object>
   <template class="DialogPreferences" parent="AdwPreferencesWindow">
     <child>
       <object class="AdwPreferencesPage">
@@ -25,6 +46,40 @@
               <object class="AdwEntryRow" id="command_line_args_entry">
                 <property name="title" translatable="yes">Command line arguments</property>
                 <property name="text" bind-source="DialogPreferences" bind-property="command_line_args" bind-flags="sync-create|bidirectional" />
+                <style>
+                  <class name="monospace"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Shell Commands</property>
+            <property name="description" translatable="yes">These shell commands will be called on certain backup events.</property>
+            <child type="header-suffix">
+              <object class="GtkMenuButton">
+                <property name="popover">popover_shell_commands</property>
+                <property name="icon-name">dialog-information-symbolic</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="AdwEntryRow" id="pre_backup_command_entry">
+                <property name="title" translatable="yes">Pre-Backup Shell Command</property>
+                <property name="text" bind-source="DialogPreferences" bind-property="pre_backup_command" bind-flags="sync-create|bidirectional" />
+                <style>
+                  <class name="monospace"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="AdwEntryRow" id="post_backup_command_entry">
+                <property name="title" translatable="yes">Post-Backup Shell Command</property>
+                <property name="text" bind-source="DialogPreferences" bind-property="post_backup_command" bind-flags="sync-create|bidirectional" />
                 <style>
                   <class name="monospace"/>
                 </style>
