@@ -47,9 +47,13 @@ impl From<Zeroizing<Vec<u8>>> for Password {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct BackupSettings {
     pub command_line_args: Option<Vec<String>>,
+    #[serde(default)]
+    pub pre_backup_command: Option<String>,
+    #[serde(default)]
+    pub post_backup_command: Option<String>,
 }
 
 pub fn display_path(path: &path::Path) -> String {

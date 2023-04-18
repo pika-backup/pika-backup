@@ -81,7 +81,7 @@ mod imp {
             self.load_config();
             self.obj().set_transient_for(Some(&main_ui().window()));
             self.shell_commands_detail
-                .set_label(&crate::ui::utils::scripts::ShellVariables::explanation_string_markup())
+                .set_label(&crate::ui::utils::scripts::ShellVariables::explanation_string_markup());
         }
     }
 
@@ -94,6 +94,10 @@ mod imp {
                     backup.title = self.config_title.borrow().trim().to_string();
                     backup.repo.set_settings(Some(BackupSettings {
                         command_line_args: self.command_line_args.borrow().clone(),
+                        pre_backup_command: Some(self.pre_backup_command.borrow().clone())
+                            .filter(|s| !s.is_empty()),
+                        post_backup_command: Some(self.post_backup_command.borrow().clone())
+                            .filter(|s| !s.is_empty()),
                     }));
                 }
                 Err(err) => {
@@ -159,18 +163,25 @@ mod imp {
                 Ok(backup) => {
                     self.obj().set_config_title(backup.title());
                     self.title_pref_group.set_description(Some(&gettextf("The title of this backup configuration. Will be displayed as “{}” when left empty.", &[&backup.repo.title_fallback()])));
-                    self.obj().set_command_line_args(
-                        backup
-                            .repo
-                            .settings()
-                            .and_then(|s| s.command_line_args)
-                            .map(|a| a.join(" "))
-                            .unwrap_or("".to_string()),
-                    );
+
+                    if let Some(settings) = backup.repo.settings() {
+                        self.obj().set_command_line_args(
+                            settings
+                                .command_line_args
+                                .map(|a| a.join(" "))
+                                .unwrap_or("".to_string()),
+                        );
+                        self.obj().set_pre_backup_command(
+                            settings.pre_backup_command.unwrap_or("".to_string()),
+                        );
+                        self.obj().set_post_backup_command(
+                            settings.post_backup_command.unwrap_or("".to_string()),
+                        );
+                    }
                 }
                 Err(err) => {
                     glib::MainContext::default().spawn_local(async move {
-                        crate::ui::Error::from(err).show().await;
+                        err.show().await;
                     });
                     self.obj().close();
                 }
@@ -201,7 +212,7 @@ mod imp {
         }
 
         fn validate_shell_command(command: &str) -> Result<&str> {
-            if let Ok(_) = shell_words::split(command) {
+            if shell_words::split(command).is_ok() {
                 Ok(command)
             } else {
                 Err(Message::new(
