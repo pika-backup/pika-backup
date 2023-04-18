@@ -13,11 +13,11 @@
             <property name="wrap">True</property>
             <property name="wrap-mode">word-char</property>
             <property name="use-markup">1</property>
+            <style>
+              <class name="popover-label"/>
+            </style>    
           </object>
         </property>
-        <style>
-          <class name="popover-label"/>
-        </style>
       </object>
     </child>
   </object>
@@ -56,7 +56,7 @@
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Shell Commands</property>
-            <property name="description" translatable="yes">These shell commands will be called on certain backup events.</property>
+            <property name="description" translatable="yes">These bash shell commands will be called on certain backup events.</property>
             <child type="header-suffix">
               <object class="GtkMenuButton">
                 <property name="popover">popover_shell_commands</property>
@@ -71,6 +71,18 @@
               <object class="AdwEntryRow" id="pre_backup_command_entry">
                 <property name="title" translatable="yes">Pre-Backup Shell Command</property>
                 <property name="text" bind-source="DialogPreferences" bind-property="pre_backup_command" bind-flags="sync-create|bidirectional" />
+                <child type="suffix">
+                  <object class="GtkButton">
+                    <property name="icon-name">play-large-symbolic</property>
+                    <property name="valign">center</property>
+                    <property name="focus-on-click">0</property>
+                    <property name="tooltip-text" translatable="yes">Run with test values</property>
+                    <signal name="clicked" handler="test_pre_backup_command" swapped="true"/>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </child>
                 <style>
                   <class name="monospace"/>
                 </style>
@@ -80,6 +92,18 @@
               <object class="AdwEntryRow" id="post_backup_command_entry">
                 <property name="title" translatable="yes">Post-Backup Shell Command</property>
                 <property name="text" bind-source="DialogPreferences" bind-property="post_backup_command" bind-flags="sync-create|bidirectional" />
+                <child type="suffix">
+                  <object class="GtkButton">
+                    <property name="icon-name">play-large-symbolic</property>
+                    <property name="valign">center</property>
+                    <property name="focus-on-click">0</property>
+                    <property name="tooltip-text" translatable="yes">Run with test values</property>
+                    <signal name="clicked" handler="test_post_backup_command" swapped="true"/>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </child>
                 <style>
                   <class name="monospace"/>
                 </style>

@@ -55,7 +55,8 @@ mod imp {
         type ParentType = adw::PreferencesWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -81,7 +82,7 @@ mod imp {
             self.load_config();
             self.obj().set_transient_for(Some(&main_ui().window()));
             self.shell_commands_detail
-                .set_label(&crate::ui::utils::scripts::ShellVariables::explanation_string_markup());
+                .set_label(&crate::ui::utils::scripts::ShellVariable::explanation_string_markup());
         }
     }
 
@@ -153,13 +154,20 @@ mod imp {
 
     impl PreferencesWindowImpl for DialogPreferences {}
 
+    #[gtk::template_callbacks]
     impl DialogPreferences {
+        fn config(&self) -> Result<crate::config::Backup> {
+            match BACKUP_CONFIG
+                .load()
+                .get_result(self.config_id.get().unwrap())
+            {
+                Ok(backup) => Ok(backup.clone()),
+                Err(err) => Err(crate::ui::Error::from(err)),
+            }
+        }
+
         pub fn load_config(&self) {
-            match BACKUP_CONFIG.load().get_result(
-                self.config_id
-                    .get()
-                    .expect("constructor should set config_id"),
-            ) {
+            match self.config() {
                 Ok(backup) => {
                     self.obj().set_config_title(backup.title());
                     self.title_pref_group.set_description(Some(&gettextf("The title of this backup configuration. Will be displayed as “{}” when left empty.", &[&backup.repo.title_fallback()])));
@@ -249,6 +257,65 @@ mod imp {
                     self.post_backup_command.set(String::new());
                     self.post_backup_command_entry.add_css_class("error");
                     self.post_backup_command_error.replace(Some(err));
+                }
+            }
+        }
+
+        #[template_callback]
+        async fn test_pre_backup_command(&self) {
+            let command = self.obj().pre_backup_command();
+
+            if !command.is_empty() {
+                if let Ok(config) = self.config() {
+                    let env = crate::ui::utils::scripts::script_env_pre(&config, true);
+                    if let Err(err) = crate::ui::utils::scripts::run_script(&command, env).await {
+                        err.show().await;
+                    }
+                }
+            }
+        }
+
+        #[template_callback]
+        async fn test_post_backup_command(&self) {
+            let command = self.obj().post_backup_command();
+
+            if !command.is_empty() {
+                if let Ok(config) = self.config() {
+                    // Check if there is already a last RunInfo, if so, use that one
+                    let run_info = if let Some(run_info) = BACKUP_HISTORY
+                        .load()
+                        .get_result(self.config_id.get().unwrap())
+                        .ok()
+                        .and_then(|history| history.last_completed.as_ref())
+                    {
+                        run_info.clone()
+                    } else {
+                        // Create one from scratch with random values
+                        crate::config::history::RunInfo::new(
+                            &config,
+                            crate::borg::Outcome::Completed {
+                                stats: crate::borg::Stats {
+                                    archive: crate::borg::NewArchive {
+                                        duration: 100.,
+                                        id: crate::borg::ArchiveId::new("b8fe5b22bc490b12a5b7fd231c8ec8b8cc68805b1cc4cb8a84d643e1e76a89fa".to_string()),
+                                        name: crate::borg::ArchiveName::new("5adc9f-d6096ee8".to_string()),
+                                        stats: crate::borg::NewArchiveSize {
+                                            compressed_size: 3085251047,
+                                            deduplicated_size: 783,
+                                            nfiles: 783,
+                                            original_size: 3124637266
+                                        }
+                                    },
+                                },
+                            },
+                            Default::default(),
+                        )
+                    };
+
+                    let env = crate::ui::utils::scripts::script_env_post(&config, true, &run_info);
+                    if let Err(err) = crate::ui::utils::scripts::run_script(&command, env).await {
+                        err.show().await;
+                    }
                 }
             }
         }
