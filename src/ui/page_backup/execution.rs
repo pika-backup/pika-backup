@@ -87,6 +87,11 @@ async fn run_backup(
     });
     ui::write_config()?;
 
+    if let Some(pre_backup_command) = config.repo.settings().and_then(|s| s.pre_backup_command) {
+        let pre_env = crate::ui::utils::scripts::script_env_pre(&config, from_schedule.is_some());
+        crate::ui::utils::scripts::run_script(&pre_backup_command, pre_env).await?;
+    }
+
     let command = borg::Command::<borg::task::Create>::new(config.clone())
         .set_from_schedule(from_schedule.clone());
     let communication = command.communication.clone();
@@ -128,6 +133,12 @@ async fn run_backup(
     });
 
     ui::write_config()?;
+
+    if let Some(post_backup_command) = config.repo.settings().and_then(|s| s.post_backup_command) {
+        let post_env =
+            crate::ui::utils::scripts::script_env_post(&config, from_schedule.is_some(), &run_info);
+        crate::ui::utils::scripts::run_script(&post_backup_command, post_env).await?;
+    }
 
     match result {
         Err(borg::Error::Aborted(_)) => Ok(()),
