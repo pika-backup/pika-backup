@@ -57,6 +57,7 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
+            self.load_config();
             self.obj().set_transient_for(Some(&main_ui().window()));
         }
     }
