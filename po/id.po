@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-02-27 07:31+0000\n"
-"PO-Revision-Date: 2023-04-18 10:55+0700\n"
+"POT-Creation-Date: 2023-04-18 03:56+0000\n"
+"PO-Revision-Date: 2023-04-18 11:04+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -28,8 +28,8 @@ msgstr "Pemantau Pika Backup"
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:96
+#: src/ui/app_window.ui:195 src/ui/dialog_about.rs:19 src/ui/utils.rs:336
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -111,7 +111,7 @@ msgstr "Simpan cadangan di drive lokal dan di layanan daring secara bersamaan"
 msgid "General"
 msgstr "Umum"
 
-#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+#: data/resources/gtk/help-overlay.ui:13
 msgid "Set up new backup"
 msgstr "Menyiapkan cadangan baru"
 
@@ -119,11 +119,11 @@ msgstr "Menyiapkan cadangan baru"
 msgid "Show keyboard shortcuts"
 msgstr "Tampilkan pintasan papan tik"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:202
 msgid "Quit"
 msgstr "Keluar"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:31 src/ui/app_window.ui:188
 msgid "Back"
 msgstr "Kembali"
 
@@ -131,219 +131,300 @@ msgstr "Kembali"
 msgid "Open menu"
 msgstr "Buka menu"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:235
+#: src/borg/error.rs:28
+msgid ""
+"Retrieving encryption password from the keyring failed. Pika Backup requires "
+"a keyring daemon (“secret service”) to store passwords. For installation "
+"instructions see the operating system documentation."
+msgstr ""
+"Mengambil kata sandi enkripsi dari ring kunci gagal. Pika Backup membutuhkan "
+"daemon ring kunci (\"secret service\") untuk menyimpan kata sandi. Untuk "
+"petunjuk pemasangan, lihat dokumentasi sistem operasi."
+
+#: src/borg/error.rs:30 src/ui/utils.rs:256
 msgid "The operation terminated unexpectedly."
 msgstr "Operasi dihentikan secara tak terduga."
 
-#: src/borg/error.rs:28
+#: src/borg/error.rs:31
 msgid "This delete operation would delete too many archives."
 msgstr "Operasi penghapusan ini akan menghapus terlalu banyak arsip."
 
-#: src/borg/error.rs:29
+#: src/borg/error.rs:32
 msgid "No files selected to be included into backup."
 msgstr "Tidak ada berkas yang dipilih untuk dimasukkan ke dalam cadangan."
 
-#: src/borg/error.rs:94
+#: src/borg/error.rs:81
+msgid "Timeout"
+msgstr "Habis waktu"
+
+#: src/borg/error.rs:124
 msgid "Completed"
 msgstr "Selesai"
 
-#: src/borg/error.rs:117
+#: src/borg/error.rs:147
 msgid "Aborted on user request."
 msgstr "Digugurkan atas permintaan pengguna."
 
-#: src/borg/error.rs:121
+#: src/borg/error.rs:151
 msgid "Aborted because only metered connection was available."
 msgstr "Digugurkan karena hanya koneksi dengan kuota yang tersedia."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:127
+#: src/borg/error.rs:157
 msgid "Aborted because too long not connected to power."
 msgstr "Digugurkan karena terlalu lama tidak terhubung ke daya."
 
-#: src/borg/error.rs:129
+#: src/borg/error.rs:159
 msgid "Aborted by system."
 msgstr "Digugurkan oleh sistem."
 
-#: src/borg/error.rs:133
+#: src/borg/error.rs:163
 msgid "The program or system seems to have crashed."
 msgstr "Program atau sistem tampaknya telah macet."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:210
 msgid "Connection closed by remote host."
 msgstr "Sambungan ditutup oleh host jarak jauh."
 
-#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:163
 msgid "Repository already in use."
 msgstr "Repositori sudah digunakan."
 
-#: src/borg/error.rs:180
+#: src/borg/error.rs:213
 msgid "Failed to lock repository."
 msgstr "Gagal mengunci repositori."
 
-#: src/borg/error.rs:181
+#: src/borg/error.rs:214
 msgid "Invalid encryption password."
 msgstr "Kata sandi enkripsi tidak valid."
 
-#: src/borg/error.rs:183
+#: src/borg/error.rs:215
+msgid "Repository access was aborted"
+msgstr "Akses repositori dibatalkan"
+
+#: src/borg/error.rs:217
 msgid "A repository already exists at this location."
 msgstr "Repositori sudah ada di lokasi ini."
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:219
 msgid "No repository exists at this location."
 msgstr "Tidak ada repositori yang ada di lokasi ini."
 
-#: src/borg/error.rs:187
+#: src/borg/error.rs:221
 msgid "Not enough free space in repository."
 msgstr "Tidak cukup ruang kosong di repositori."
 
-#: src/borg/error.rs:190
+#: src/borg/error.rs:224
 msgid "Connection closed by remote host: “{}”"
 msgstr "Sambungan ditutup oleh host jarak jauh: \"{}\""
 
-#: src/borg/error.rs:193
+#: src/borg/error.rs:226
+msgid "Exception"
+msgstr "Pengecualian"
+
+#: src/borg/error.rs:228
 msgid "Unspecified error."
 msgstr "Kesalahan yang tidak dinyatakan."
 
-#: src/borg/log_json.rs:69
+#: src/borg/log_json.rs:51
+msgid "Backup will be aborted."
+msgstr "Cadangan akan dibatalkan."
+
+#: src/borg/log_json.rs:54
+msgid "Backup will continue."
+msgstr "Pencadangan akan dilanjutkan."
+
+#: src/borg/log_json.rs:82
 msgid "Backed up data: {}"
 msgstr "Data yang dicadangkan: {}"
 
-#: src/borg/log_json.rs:99
+#: src/borg/log_json.rs:112
 #, no-c-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Operasi {} % komplit ({}/{})"
 
-#: src/borg/log_json.rs:108
+#: src/borg/log_json.rs:121
 msgid "Operation completed."
 msgstr "Operasi selesai."
 
-#: src/borg/log_json.rs:180
+#: src/borg/log_json.rs:193
 msgid "Beginning cache transaction"
 msgstr "Memulai transaksi cache"
 
-#: src/borg/log_json.rs:181
+#: src/borg/log_json.rs:194
 msgid "Downloading cache data"
 msgstr "Mengunduh data singgahan"
 
-#: src/borg/log_json.rs:182
+#: src/borg/log_json.rs:195
 msgid "Writing cache"
 msgstr "Menulis singgahan"
 
-#: src/borg/log_json.rs:183
+#: src/borg/log_json.rs:196
 msgid "Synchronizing cache"
 msgstr "Menyelaraskan singgahan"
 
-#: src/borg/log_json.rs:184
+#: src/borg/log_json.rs:197
 msgid "Compacting repository"
 msgstr "Memadatkan repositori"
 
-#: src/borg/log_json.rs:185
+#: src/borg/log_json.rs:198
 msgid "Updating repository"
 msgstr "Memperbarui repositori"
 
-#: src/borg/log_json.rs:186
+#: src/borg/log_json.rs:199
 msgid "Checking repository"
 msgstr "Memeriksa repositori"
 
-#: src/borg/log_json.rs:187
+#: src/borg/log_json.rs:200
 msgid "Verifying data"
 msgstr "Memverifikasi data"
 
-#: src/borg/log_json.rs:188
+#: src/borg/log_json.rs:201
 msgid "Rebuilding main database"
 msgstr "Membangun kembali basis data utama"
 
-#: src/borg/log_json.rs:189
+#: src/borg/log_json.rs:202
 msgid "Extracting data"
 msgstr "Mengekstrak data"
 
-#: src/borg/log_json.rs:190
+#: src/borg/log_json.rs:203
 msgid "Extracting permissions"
 msgstr "Mengekstrak izin"
 
-#: src/borg/log_json.rs:191
+#: src/borg/log_json.rs:204
 msgid "Marking archives as deleted"
 msgstr "Menandai arsip sebagai dihapus"
 
-#: src/borg/log_json.rs:192
+#: src/borg/log_json.rs:205
 msgid "Calculating archive statistics"
 msgstr "Menghitung statistik arsip"
 
-#: src/borg/log_json.rs:193
+#: src/borg/log_json.rs:206
 msgid "Marking old archives as deleted"
 msgstr "Menandai arsip lama sebagai dihapus"
 
-#: src/borg/log_json.rs:194
+#: src/borg/log_json.rs:207
 msgid "Upgrading repository"
 msgstr "Meningkatkan repositori"
 
-#: src/borg/log_json.rs:195
+#: src/borg/log_json.rs:208
 msgid "Unspecified operation"
 msgstr "Operasi yang tidak dispesifikasikan"
 
-#: src/borg/log_json.rs:196
+#: src/borg/log_json.rs:209
 msgid "Unknown operation"
 msgstr "Operasi tak dikenal"
 
-#: src/borg/log_json.rs:233
+#: src/borg/log_json.rs:226
+msgid "Handling a Question"
+msgstr "Menangani Pertanyaan"
+
+#: src/borg/log_json.rs:234
+msgid "Attempting to access a previously unknown unencrypted repository."
+msgstr ""
+"Mencoba mengakses repositori tidak terenkripsi yang sebelumnya tidak "
+"diketahui."
+
+#: src/borg/log_json.rs:250
+msgid "The backup repository at location “{}” was previously located at “{}”."
+msgstr "Repositori cadangan di lokasi \"{}\" sebelumnya terletak di \"{}\"."
+
+#: src/borg/log_json.rs:254
+msgid "The backup repository was previously located at a different location."
+msgstr "Repositori cadangan sebelumnya terletak di lokasi yang berbeda."
+
+#: src/borg/log_json.rs:257
+msgid ""
+"This is a potentially dangerous function. Repairing a repository might lead "
+"to data loss (for kinds of corruption it is not capable of dealing with). BE "
+"VERY CAREFUL!"
+msgstr ""
+"Ini adalah fungsi yang berpotensi berbahaya. Memperbaiki repositori dapat "
+"menyebabkan hilangnya data (untuk jenis korupsi yang tidak mampu ditangani). "
+"BERHATI-HATILAH!"
+
+#: src/borg/log_json.rs:258
+msgid ""
+"You requested to delete the repository completely, including all backup "
+"archives it contains."
+msgstr ""
+"Anda meminta untuk menghapus repositori sepenuhnya, termasuk semua arsip "
+"cadangan di dalamnya."
+
+#: src/borg/log_json.rs:259
+msgid "Unexpected question from borgbackup: “{}”"
+msgstr "Pertanyaan tak terduga dari borgbackup: \"{}\""
+
+#. Translators: Combines statement from above and this question
+#: src/borg/log_json.rs:263
+msgid ""
+"{}\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"{}\n"
+"\n"
+"Apakah Anda ingin melanjutkan?"
+
+#: src/borg/log_json.rs:321
 msgid "Standard error output"
 msgstr "Keluaran kesalahan standar"
 
-#: src/borg/log_json.rs:352
+#: src/borg/log_json.rs:440
 msgid "Debug"
 msgstr "Debug"
 
-#: src/borg/log_json.rs:353
+#: src/borg/log_json.rs:441
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:229
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:351
 msgid "Warning"
 msgstr "Peringatan"
 
-#: src/borg/log_json.rs:355
+#: src/borg/log_json.rs:443
 msgid "Error"
 msgstr "Kesalahan"
 
-#: src/borg/log_json.rs:356
+#: src/borg/log_json.rs:444
 msgid "Critical"
 msgstr "Kritis"
 
-#: src/borg/log_json.rs:357
+#: src/borg/log_json.rs:445
 msgid "Undefined"
 msgstr "Tak Terdefinisi"
 
-#: src/borg/task.rs:19
+#: src/borg/task.rs:34
 msgid "Backing up Data"
 msgstr "Mencadangkan Data"
 
-#: src/borg/task.rs:31
+#: src/borg/task.rs:48
 msgid "Mounting Backup Archives"
 msgstr "Mengait Arsip Cadangan"
 
-#: src/borg/task.rs:43
+#: src/borg/task.rs:62
 msgid "Removing old Archives"
 msgstr "Menghapus Arsip lama"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:76
 msgid "Identifying old Archives"
 msgstr "Mengidentifikasi Arsip lama"
 
-#: src/borg/task.rs:67
-msgid "Compacting Archives"
-msgstr "Memadatkan Arsip"
+#: src/borg/task.rs:90
+msgid "Reclaiming Free Space"
+msgstr "Mengklaim Kembali Ruang Bebas"
 
-#: src/borg/task.rs:79
+#: src/borg/task.rs:117
 msgid "Deleting Archive"
 msgstr "Menghapus Arsip"
 
-#: src/borg/task.rs:100
+#: src/borg/task.rs:140
 msgid "Refreshing Archive List"
 msgstr "Menyegarkan Daftar Arsip"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:87
+#: src/ui/page_backup/events.rs:172
 msgid "Home"
 msgstr "Beranda"
 
@@ -379,39 +460,39 @@ msgstr ""
 "Awalan arsip kosong dan konfigurasi untuk repositori cadangan yang sama "
 "sudah ada."
 
-#: src/config/exclude.rs:185
+#: src/config/exclude.rs:189
 msgid "Caches"
 msgstr "Singgahan"
 
-#: src/config/exclude.rs:186
+#: src/config/exclude.rs:190
 msgid "Flatpak App Installations"
 msgstr "Pemasangan Aplikasi Flatpak"
 
-#: src/config/exclude.rs:187
+#: src/config/exclude.rs:191
 msgid "Trash"
 msgstr "Tong Sampah"
 
-#: src/config/exclude.rs:188
+#: src/config/exclude.rs:192
 msgid "Virtual Machines and Containers"
 msgstr "Mesin Virtual dan Kontainer"
 
 #. Translators: Detailed description for caches exclusion rule
-#: src/config/exclude.rs:195
+#: src/config/exclude.rs:199
 msgid "Data that can be regenerated when needed"
 msgstr "Data yang dapat diregenerasi saat dibutuhkan"
 
 #. Translators: Detailed description for Flatpak app installations exclusion rule
-#: src/config/exclude.rs:197
+#: src/config/exclude.rs:201
 msgid "Documents and data are still backed up"
 msgstr "Dokumen dan data masih dicadangkan"
 
 #. Translators: Detailed description for trash exclusion rule
-#: src/config/exclude.rs:199
+#: src/config/exclude.rs:203
 msgid "Files that have not been irretrievably deleted"
 msgstr "Berkas yang belum dihapus secara permanen"
 
 #. Translators: Detailed description for virtual machines and containers exclusion rule
-#: src/config/exclude.rs:201
+#: src/config/exclude.rs:205
 msgid "Might include data stored within"
 msgstr "Mungkin termasuk data yang disimpan didalamnya"
 
@@ -444,15 +525,27 @@ msgstr "Mingguan"
 msgid "Monthly"
 msgstr "Bulanan"
 
-#: src/daemon/action.rs:25
+#: src/daemon/action.rs:23 src/daemon/init.rs:38
+msgid "Monitoring Backup Schedule"
+msgstr "Memantau Jadwal Pencadangan"
+
+#: src/daemon/action.rs:24
+msgid ""
+"To quit monitoring the backup schedule, open Pika Backup and disable all "
+"scheduled backups."
+msgstr ""
+"Untuk berhenti memantau jadwal pencadangan, buka Pika Backup dan nonaktifkan "
+"semua pencadangan terjadwal."
+
+#: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
 msgstr "Gagal memulai pencadangan dari daemon"
 
-#: src/daemon/action.rs:46
+#: src/daemon/action.rs:66
 msgid "Failed to show overview from daemon"
 msgstr "Gagal menampilkan ikhtisar dari daemon"
 
-#: src/daemon/action.rs:65
+#: src/daemon/action.rs:85
 msgid "Failed to show schedule from daemon"
 msgstr "Gagal menampilkan jadwal dari daemon"
 
@@ -476,11 +569,11 @@ msgstr "\"{}\" berisi satu cadangan yang dikonfigurasi."
 msgid "Back Up Now"
 msgstr "_Cadangkan Sekarang"
 
-#: src/daemon/init.rs:48
+#: src/daemon/init.rs:69
 msgid "Fatal Error During Back Up"
 msgstr "Kesalahan Fatal Saat Pencadangan"
 
-#: src/daemon/init.rs:51
+#: src/daemon/init.rs:72
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika Backup mogok saat menjalankan pencadangan {}."
@@ -513,31 +606,45 @@ msgstr "\"{}\" harus terhubung agar pencadangan terjadwal dimulai."
 msgid "Failed to start scheduled backup"
 msgstr "Gagal memulai pencadangan terjadwal"
 
-#: src/ui.rs:177 src/ui/page_backup/events.rs:17
+#: src/ui.rs:176
 msgid "Abort running backup creation?"
 msgstr "Gugurkan menjalankan pembuatan cadangan?"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:18
+#: src/ui.rs:177
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Pencadangan akan tetap tidak lengkap jika digugurkan sekarang."
 
-#: src/ui.rs:179 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:19
+#: src/ui.rs:178 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:28
+#: src/ui/page_backup/events.rs:36 src/ui/page_backup/events.rs:47
+#: src/ui/page_backup/events.rs:55 src/ui/page_backup/events.rs:65
+#: src/ui/utils.rs:354
 msgid "Continue"
 msgstr "Lanjutkan"
 
-#: src/ui.rs:180 src/ui/page_backup/events.rs:20
+#: src/ui.rs:179 src/ui/page_backup/events.rs:29
+#: src/ui/page_backup/events.rs:48 src/ui/page_backup/events.rs:66
+#: src/ui/utils.rs:353
 msgid "Abort"
 msgstr "Gugurkan"
 
-#: src/ui.rs:199
+#. Someone wants to quit the app from the shell (eg via backgrounds app list)
+#: src/ui.rs:187
+msgid "A Backup Operation is Running"
+msgstr "Operasi Pencadangan Berjalan"
+
+#: src/ui.rs:189
+msgid "Pika Backup cannot be quit during a backup operation."
+msgstr "Pika cadangan tidak dapat berhenti selama operasi pencadangan."
+
+#: src/ui.rs:213
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Gagal menjalankan \"borg\". Apakah BorgBackup terpasang dengan benar?"
 
-#: src/ui.rs:223
+#: src/ui.rs:237
 msgid "BorgBackup version too old"
 msgstr "Versi BorgBackup terlalu tua"
 
-#: src/ui.rs:225
+#: src/ui.rs:239
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -545,11 +652,11 @@ msgstr ""
 "Versi BorgBackup yang terpasang terlalu tua. Beberapa fitur yang memerlukan "
 "borg-backup versi {}.{} tidak akan berfungsi."
 
-#: src/ui.rs:236
+#: src/ui.rs:250
 msgid "BorgBackup version too new"
 msgstr "Versi BorgBackup terlalu baru"
 
-#: src/ui.rs:238
+#: src/ui.rs:252
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -557,11 +664,11 @@ msgstr ""
 "Versi BorgBackup yang terpasang terlalu tua. Beberapa fitur yang memerlukan "
 "borg-backup versi {}.{} tidak akan berfungsi."
 
-#: src/ui.rs:248
+#: src/ui.rs:262
 msgid "Failed to Check BorgBackup Version"
 msgstr "Gagal memeriksa versi BorgBackup"
 
-#: src/ui.rs:250
+#: src/ui.rs:264
 msgid "The installed version {} might not work."
 msgstr "Versi {} yang terpasang mungkin tidak bekerja."
 
@@ -578,30 +685,38 @@ msgid "_About Pika Backup"
 msgstr "Tent_ang Pika Backup"
 
 #: src/ui/app_window.ui:29
+msgid "Backup Preferences"
+msgstr "Preferensi Cadangan"
+
+#: src/ui/app_window.ui:33
 msgid "Remove Backup Setup"
 msgstr "Hapus Pengaturan Cadangan"
 
-#: src/ui/app_window.ui:69
+#: src/ui/app_window.ui:73
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:142
-msgid "No Backup Configured"
-msgstr "Tak Ada Pencadangan yang Dikonfigurasi"
-
-#: src/ui/app_window.ui:143
-msgid "Add a new configuration to start creating backups"
-msgstr "Tambah konfigurasi baru untuk mulai membuat cadangan"
-
-#: src/ui/app_window.ui:146
+#: src/ui/app_window.ui:110
 msgid "Setup Backup"
 msgstr "Siapkan Pencadangan"
 
-#: src/ui/app_window.ui:192
-msgid "Back to overview"
-msgstr "Kembali ke ikhtisar"
+#: src/ui/app_window.ui:117
+msgid "Main Menu"
+msgstr "Menu Utama"
 
-#: src/ui/app_window.ui:213
+#: src/ui/app_window.ui:137
+msgid "No Backup Configured"
+msgstr "Tak Ada Pencadangan yang Dikonfigurasi"
+
+#: src/ui/app_window.ui:138
+msgid "Add a new configuration to start creating backups"
+msgstr "Tambah konfigurasi baru untuk mulai membuat cadangan"
+
+#: src/ui/app_window.ui:141
+msgid "_Setup Backup"
+msgstr "_Siapkan Pencadangan"
+
+#: src/ui/app_window.ui:209
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -609,180 +724,192 @@ msgstr ""
 "Arsip sedang dipasang.\n"
 "Ini mungkin akan memakan waktu lama."
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:223
+msgid "Actions"
+msgstr "Aksi"
+
+#: src/ui/app_window.ui:249
 msgid "_Backup"
 msgstr "_Cadangkan"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:271
 msgid "_Abort"
 msgstr "Gugurk_an"
 
-#: src/ui/app_window.ui:296
+#: src/ui/app_window.ui:293
 msgid "Back Up _Now"
 msgstr "Cada_ngkan Sekarang"
 
-#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:307 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Berkas untuk Dicadangkan"
 
-#: src/ui/app_window.ui:311
+#: src/ui/app_window.ui:308
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "Hanya berkas di folder berikut yang disimpan di repositori cadangan."
 
-#: src/ui/app_window.ui:314
-msgid "Select directory to include…"
-msgstr "Pilih direktori untuk menyertakan…"
+#: src/ui/app_window.ui:311
+msgid "Select Directory to Include"
+msgstr "Pilih Direktori untuk Menyertakan"
 
-#: src/ui/app_window.ui:327
+#: src/ui/app_window.ui:324
 msgid "No files included in backup"
 msgstr "Tidak ada berkas yang disertakan dalam cadangan"
 
-#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
+#: src/ui/app_window.ui:336 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Kecualikan dari Cadangan"
 
-#: src/ui/app_window.ui:340
+#: src/ui/app_window.ui:337
 msgid "The following folders are excluded from the backup repository."
 msgstr "Folder berikut dikecualikan dari repositori cadangan."
 
-#: src/ui/app_window.ui:343
-msgid "Select directory to exclude…"
-msgstr "Pilih direktori untuk mengecualikan…"
+#: src/ui/app_window.ui:340
+msgid "Select Directory to Exclude"
+msgstr "Pilih Direktori untuk Mengecualikan"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:353
 msgid "Nothing excluded from backup"
 msgstr "Tidak ada yang dikecualikan dari cadangan"
 
-#: src/ui/app_window.ui:370
+#: src/ui/app_window.ui:367
 msgid "_Archives"
 msgstr "_Arsip"
 
-#: src/ui/app_window.ui:465
+#: src/ui/app_window.ui:462
 msgid "Archive _Prefix"
 msgstr "_Prefiks Arsip"
 
-#: src/ui/app_window.ui:467
+#: src/ui/app_window.ui:464
 msgid "Added in front of all archive names"
 msgstr "Ditambahkan di depan semua nama arsip"
 
-#: src/ui/app_window.ui:496
+#: src/ui/app_window.ui:493
 msgid "_Cleanup Archives"
 msgstr "_Pembersihan Arsip"
 
-#: src/ui/app_window.ui:497
+#: src/ui/app_window.ui:494
 msgid "Delete some older archives"
 msgstr "Menghapus beberapa arsip lama"
 
-#: src/ui/app_window.ui:513
+#: src/ui/app_window.ui:510
 msgid "Archives"
 msgstr "Arsip"
 
-#: src/ui/app_window.ui:522
-msgid "Refresh list of archives"
-msgstr "Segarkan daftar arsip"
+#: src/ui/app_window.ui:519
+msgid "Refresh"
+msgstr "Segarkan"
 
-#: src/ui/app_window.ui:543
+#: src/ui/app_window.ui:540
 msgid "Stop browsing archive files"
 msgstr "Hentikan penjelajahan berkas arsip"
 
-#: src/ui/app_window.ui:569
+#: src/ui/app_window.ui:566
 msgid "No archives available"
 msgstr "Tidak ada arsip yang tersedia"
 
-#: src/ui/app_window.ui:588
+#: src/ui/app_window.ui:585
 msgid "_Schedule"
 msgstr "_Jadwal"
 
-#: src/ui/app_window.ui:613
+#: src/ui/app_window.ui:610
 msgid "Scheduled Backups"
 msgstr "Jadwalkan Pencadangan"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:614
 msgid "Regularly Create Backups"
 msgstr "Buat Cadangan Secara Teratur"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:619
 msgid "Frequency"
 msgstr "Frekuensi"
 
-#: src/ui/app_window.ui:630
+#: src/ui/app_window.ui:627
 msgid "Preferred Time"
 msgstr "Waktu Pilihan"
 
-#: src/ui/app_window.ui:650
+#: src/ui/app_window.ui:647
 msgid "Preferred Weekday"
 msgstr "Hari Kerja Pilihan"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:652
 msgid "Preferred Day"
 msgstr "Hari Pilihan"
 
-#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:673 src/ui/dialog_prune.rs:88
 msgid "Delete old Archives"
 msgstr "Hapus Arsip lama"
 
-#: src/ui/app_window.ui:682
+#: src/ui/app_window.ui:679
 msgid "Save Configuration"
 msgstr "Simpan Konfigurasi"
 
-#: src/ui/app_window.ui:694
+#: src/ui/app_window.ui:691
 msgid "Regularly Cleanup Archives"
 msgstr "Bersihkan Arsip Secara Teratur"
 
-#: src/ui/app_window.ui:695
+#: src/ui/app_window.ui:692
 msgid "Remove old archives after creating new backups"
 msgstr "Hapus arsip lama setelah membuat cadangan baru"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:702
 msgid "Preserved Archives"
 msgstr "Arsip yang Diawetkan"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:703
 msgid "Amount and time span of retained archives"
 msgstr "Jumlah dan rentang waktu arsip yang disimpan"
 
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:712
 msgid "Details"
 msgstr "Rincian"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:716
 msgid "Keep Hourly"
 msgstr "Simpan Setiap Jam"
 
-#: src/ui/app_window.ui:741
+#: src/ui/app_window.ui:738
 msgid "Keep Daily"
 msgstr "Simpan Setiap Hari"
 
-#: src/ui/app_window.ui:763
+#: src/ui/app_window.ui:760
 msgid "Keep Weekly"
 msgstr "Simpan Mingguan"
 
-#: src/ui/app_window.ui:783
+#: src/ui/app_window.ui:780
 msgid "Keep Monthly"
 msgstr "Simpan Bulanan"
 
-#: src/ui/app_window.ui:802
+#: src/ui/app_window.ui:799
 msgid "Keep Annual"
 msgstr "Simpan Tahunan"
 
-#: src/ui/app_window.ui:849
+#: src/ui/app_window.ui:846
 msgid "Backup Info"
 msgstr "Info Pencadangan"
 
-#: src/ui/app_window.ui:909
+#: src/ui/app_window.ui:906
 msgid "Amount saved"
 msgstr "Jumlah yang disimpan"
 
-#: src/ui/app_window.ui:925
+#: src/ui/app_window.ui:907
+msgid "Size of all files"
+msgstr "Ukuran semua berkas"
+
+#: src/ui/app_window.ui:923
 msgid "Number of files saved"
 msgstr "Cacah berkas yang disimpan"
 
-#: src/ui/app_window.ui:941
-msgid "Additional backup space used"
-msgstr "Ruang cadangan tambahan yang digunakan"
+#: src/ui/app_window.ui:939
+msgid "Backup space used"
+msgstr "Ruang cadangan yang digunakan"
 
-#: src/ui/app_window.ui:957
+#: src/ui/app_window.ui:940
+msgid "Newly used space in this backup"
+msgstr "Ruang yang baru digunakan dalam cadangan ini"
+
+#: src/ui/app_window.ui:956
 msgid "Current file"
 msgstr "Berkas saat ini"
 
@@ -917,11 +1044,11 @@ msgstr "Prefiks Arsip Tidak Valid"
 msgid "Archive Prefix"
 msgstr "Prefiks Arsip"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
-#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
-#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
-#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:33
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:33
+#: src/ui/dialog_prune.ui:64 src/ui/dialog_prune_review.ui:33
+#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:180
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:167
 msgid "Cancel"
 msgstr "Batal"
 
@@ -955,11 +1082,15 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Jika awalan arsip kosong, tidak ada awalan yang ditambahkan."
 
-#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_delete_archive.rs:69
+msgid "Delete Archive Failed"
+msgstr "Hapus Arsip Gagal"
+
+#: src/ui/dialog_delete_archive.ui:39
 msgid "Delete Archive"
 msgstr "Hapus Arsip"
 
-#: src/ui/dialog_delete_archive.ui:41
+#: src/ui/dialog_delete_archive.ui:52
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -967,11 +1098,11 @@ msgstr ""
 "Melanjutkan operasi ini akan menghapus beberapa arsip secara permanen. Data "
 "yang disimpan untuk titik waktu tertentu tersebut tidak akan lagi tersedia."
 
-#: src/ui/dialog_delete_archive.ui:51
+#: src/ui/dialog_delete_archive.ui:62
 msgid "Archive Name"
 msgstr "Nama Arsip"
 
-#: src/ui/dialog_delete_archive.ui:64
+#: src/ui/dialog_delete_archive.ui:75
 msgid "Archive Date"
 msgstr "Tanggal Arsip"
 
@@ -1015,7 +1146,7 @@ msgid "Exclude Directory"
 msgstr "Kecualikan Direktori"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
+#: src/ui/page_backup/events.rs:87 src/ui/utils.rs:264
 msgid "Select"
 msgstr "Pilih"
 
@@ -1069,29 +1200,33 @@ msgstr ""
 "selengkapnya, silakan periksa <a href=\"https://borgbackup.readthedocs.io/en/"
 "stable/usage/help.html\">dokumentasi BorgBackup</a>."
 
-#: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
+#: src/ui/dialog_prune.rs:30 src/ui/dialog_prune_review.rs:42
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Gagal menentukan berapa banyak arsip yang akan dihapus"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
+#: src/ui/dialog_prune.rs:49 src/ui/utils.rs:397
 msgid "Close"
 msgstr "Tutup"
 
+#: src/ui/dialog_prune.rs:98
+msgid "Reclaim Free Space"
+msgstr "Klaim Kembali Ruang Bebas"
+
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:41
 msgid "Checking for old Archives"
 msgstr "Memeriksa Arsip lama"
 
-#: src/ui/dialog_prune.ui:31
+#: src/ui/dialog_prune.ui:42
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr "Membuat daftar arsip lama yang akan disetujui untuk dihapus."
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
-#: src/ui/dialog_prune_review.ui:82
+#: src/ui/dialog_prune.ui:70 src/ui/dialog_prune.ui:93
+#: src/ui/dialog_prune_review.ui:93
 msgid "Delete Archives"
 msgstr "Hapus Arsip"
 
-#: src/ui/dialog_prune.ui:72
+#: src/ui/dialog_prune.ui:83
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -1100,15 +1235,15 @@ msgstr ""
 "Melanjutkan operasi ini akan menghapus beberapa arsip secara permanen. Data "
 "yang disimpan untuk titik waktu tertentu tersebut tidak akan lagi tersedia."
 
-#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
+#: src/ui/dialog_prune.ui:106 src/ui/dialog_prune_review.ui:106
 msgid "Keep Archives"
 msgstr "Simpan Arsip"
 
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+#: src/ui/dialog_prune.ui:119 src/ui/dialog_prune_review.ui:119
 msgid "Not Considered"
 msgstr "Tidak Dipertimbangkan"
 
-#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+#: src/ui/dialog_prune.ui:120 src/ui/dialog_prune_review.ui:120
 msgid "Archives with different prefix"
 msgstr "Arsip dengan awalan berbeda"
 
@@ -1116,19 +1251,19 @@ msgstr "Arsip dengan awalan berbeda"
 msgid "Review Changes"
 msgstr "Tinjau Perubahan"
 
-#: src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:41
 msgid "Assessing Impact on old Archives"
 msgstr "Menilai Dampak pada Arsip lama"
 
-#: src/ui/dialog_prune_review.ui:31
+#: src/ui/dialog_prune_review.ui:42
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr "Mengumpulkan informasi tentang efek perubahan pada arsip lama"
 
-#: src/ui/dialog_prune_review.ui:59
+#: src/ui/dialog_prune_review.ui:70
 msgid "Apply"
 msgstr "Terapkan"
 
-#: src/ui/dialog_prune_review.ui:72
+#: src/ui/dialog_prune_review.ui:83
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
@@ -1338,11 +1473,11 @@ msgstr "Nihil"
 msgid "Free space: {}"
 msgstr "Ruang bebas: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:111
+#: src/ui/dialog_setup/folder_button.rs:110
 msgid "_Select…"
 msgstr "_Pilih…"
 
-#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Lokasi Pencadangan"
 
@@ -1380,31 +1515,31 @@ msgstr "Kata sandi yang dimasukkan tidak cocok."
 msgid "A repository location has to be given."
 msgstr "Lokasi repositori harus diberikan."
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:254
+#: src/ui/dialog_setup/insert.rs:128 src/ui/utils/borg.rs:20
 msgid "Additional command line arguments invalid."
 msgstr "Argumen baris perintah tambahan tidak valid."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:255
+#: src/ui/dialog_setup/insert.rs:129 src/ui/utils/borg.rs:21
 msgid "Please check for missing closing quotes."
 msgstr "Silakan periksa tanda kutip penutup yang hilang."
 
-#: src/ui/dialog_setup/insert.rs:182
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "Memuat Repositori Cadangan"
 
-#: src/ui/dialog_setup/insert.rs:202
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "Gagal Mengonfigurasi Repositori"
 
-#: src/ui/dialog_setup/insert.rs:221
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "Gagal"
 
-#: src/ui/dialog_setup/insert.rs:291
+#: src/ui/dialog_setup/insert.rs:287
 msgid "Repository location not found."
 msgstr "Lokasi repositori tidak ditemukan."
 
-#: src/ui/dialog_setup/insert.rs:292
+#: src/ui/dialog_setup/insert.rs:288
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "Operasi kait berhasil tetapi lokasi masih tidak tersedia."
 
@@ -1448,15 +1583,25 @@ msgstr "Total"
 msgid "Free"
 msgstr "Bebas"
 
-#: src/ui/error.rs:72
+#: src/ui/error.rs:74
+msgid ""
+"The keyring is not available. Pika Backup requires a keyring daemon (“secret "
+"service”) to store passwords. For installation instructions see the "
+"operating system documentation."
+msgstr ""
+"Ring kunci tidak tersedia. Pika Backup membutuhkan daemon ring kunci "
+"(\"secret service\") untuk menyimpan kata sandi. Untuk petunjuk pemsangan, "
+"lihat dokumentasi sistem operasi."
+
+#: src/ui/error.rs:88
 msgid "Backup with id “{}” already exists."
 msgstr "Cadangan dengan id \"{}\" sudah ada."
 
-#: src/ui/error.rs:77
+#: src/ui/error.rs:93
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Tak bisa menemukan konfigurasi cadangan dengan id \"{}\"."
 
-#: src/ui/page_archives/cache.rs:34
+#: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "Gagal menyegarkan singgahan arsip."
 
@@ -1480,23 +1625,23 @@ msgstr "Komentar"
 msgid "Browse saved files"
 msgstr "Menelusuri berkas yang disimpan"
 
-#: src/ui/page_archives/display.rs:181
+#: src/ui/page_archives/display.rs:182
 msgid "Delete archive"
 msgstr "Hapus arsip"
 
-#: src/ui/page_archives/display.rs:215
+#: src/ui/page_archives/display.rs:216
 msgid "{} Available"
 msgstr "{} Tersedia"
 
-#: src/ui/page_archives/display.rs:218
+#: src/ui/page_archives/display.rs:219
 msgid "{} Total"
 msgstr "{} Total"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:29
 msgid "Failed to unmount repository."
 msgstr "Gagal melepas kait repositori."
 
-#: src/ui/page_archives/events.rs:61
+#: src/ui/page_archives/events.rs:65
 msgid "Failed to make archives available for browsing."
 msgstr "Gagal membuat arsip tersedia untuk penjelajahan."
 
@@ -1504,60 +1649,156 @@ msgstr "Gagal membuat arsip tersedia untuk penjelajahan."
 msgid "Usually contains all personal data"
 msgstr "Biasanya berisi semua data pribadi"
 
-#: src/ui/page_backup/events.rs:42
+#: src/ui/page_backup/display.rs:43
+msgid "Remove Directory"
+msgstr "Hapus Direktori"
+
+#: src/ui/page_backup/display.rs:99
+msgid "Remove From List"
+msgstr "Hapus Dari Daftar"
+
+#: src/ui/page_backup/events.rs:26
+msgid "Abort Saving Backup State?"
+msgstr "Gugurkan Penyimpanan Status Cadangan?"
+
+#: src/ui/page_backup/events.rs:27
+msgid ""
+"The current backup state is in the process of being saved. The backup can be "
+"continued later without saving the state. Some data might have to be copied "
+"again."
+msgstr ""
+"Status cadangan saat ini sedang dalam proses disimpan. Pencadangan dapat "
+"dilanjutkan nanti tanpa menyimpan status. Beberapa data mungkin harus "
+"disalin lagi."
+
+#: src/ui/page_backup/events.rs:34
+msgid "Stop Running Backup?"
+msgstr "Berhenti Menjalankan Pencadangan?"
+
+#: src/ui/page_backup/events.rs:35
+msgid ""
+"The current backup state will be saved. You can continue your backup later "
+"by starting it again."
+msgstr ""
+"Status cadangan saat ini akan disimpan. Anda dapat melanjutkan pencadangan "
+"nanti dengan memulainya lagi."
+
+#: src/ui/page_backup/events.rs:37 src/ui/page_backup/events.rs:56
+msgid "Stop"
+msgstr "Berhenti"
+
+#: src/ui/page_backup/events.rs:45
+msgid "Abort Delete Operation?"
+msgstr "Batalkan Operasi Hapus?"
+
+#: src/ui/page_backup/events.rs:46
+msgid ""
+"Archives are currently being deleted. Aborting now will cause some deletion "
+"progress to be lost. Free space will not be reclaimed."
+msgstr ""
+"Arsip saat ini sedang dihapus. Membatalkan sekarang akan menyebabkan "
+"beberapa kemajuan penghapusan hilang. Ruang kosong tidak akan diklaim."
+
+#: src/ui/page_backup/events.rs:53
+msgid "Stop Deleting Archives?"
+msgstr "Berhenti Menghapus Arsip?"
+
+#: src/ui/page_backup/events.rs:54
+msgid ""
+"Deletion progress will be saved. Free space will not be reclaimed. You can "
+"continue deletion at a later time by starting the operation again."
+msgstr ""
+"Progres penghapusan akan disimpan. Ruang kosong tidak akan diklaim. Anda "
+"dapat melanjutkan penghapusan di lain waktu dengan memulai operasi lagi."
+
+#: src/ui/page_backup/events.rs:63
+msgid "Abort Operation?"
+msgstr "Gugurkan Operasi?"
+
+#: src/ui/page_backup/events.rs:64
+msgid ""
+"An operation is currently being performed. Aborting now will cause any "
+"progress made by the operation to be lost."
+msgstr ""
+"Operasi sedang dilakukan. Membatalkan sekarang akan menyebabkan kemajuan apa "
+"pun yang dibuat oleh operasi hilang."
+
+#: src/ui/page_backup/events.rs:86
 msgid "Include Folder"
 msgstr "Sertakan Folder"
 
-#: src/ui/page_backup/events.rs:93
+#: src/ui/page_backup/events.rs:121
+msgid "Unable to Include Location"
+msgstr "Tidak Dapat Menyertakan Lokasi"
+
+#: src/ui/page_backup/events.rs:122
+msgid ""
+"The following paths could not be included because they aren't reliably "
+"available in the sandbox:\n"
+"{}"
+msgstr ""
+"Path berikut tidak dapat disertakan karena tidak tersedia secara andal di "
+"sandbox:\n"
+"{}"
+
+#: src/ui/page_backup/events.rs:178
 msgid "No longer include “{}” in backups?"
 msgstr "Tidak lagi menyertakan \"{}\" dalam cadangan?"
 
-#: src/ui/page_backup/events.rs:94
+#: src/ui/page_backup/events.rs:179
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Semua berkas yang terkandung dalam folder ini tak lagi menjadi bagian dari "
 "cadangan di masa mendatang."
 
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:181
 msgid "Confirm"
 msgstr "Konfirmasi"
 
-#: src/ui/page_backup/execution.rs:35
+#: src/ui/page_backup/execution.rs:20
 msgid "Stop browsing files and start backup?"
 msgstr "Berhenti menjelajah berkas dan mulai pencadangan?"
 
-#: src/ui/page_backup/execution.rs:36
+#: src/ui/page_backup/execution.rs:21
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Menelusuri berkas yang diarsipkan tidak dimungkinkan ketika menjalankan "
 "pencadangan."
 
-#: src/ui/page_backup/execution.rs:37
+#: src/ui/page_backup/execution.rs:22
 msgid "Keep Browsing"
 msgstr "Terus Menjelajah"
 
-#: src/ui/page_backup/execution.rs:38
+#: src/ui/page_backup/execution.rs:23
 msgid "Start Backup"
 msgstr "Mulai Pencadangan"
 
-#: src/ui/page_backup/execution.rs:117
+#: src/ui/page_backup/execution.rs:55
+msgid "Delete old Archives Failed"
+msgstr "Hapus Arsip lama Gagal"
+
+#: src/ui/page_backup/execution.rs:66
+msgid "Reclaiming Free Space Failed"
+msgstr "Klaim Ruang Kosong Gagal"
+
+#: src/ui/page_backup/execution.rs:134
 msgid "Backup Failed"
 msgstr "Pencadangan Gagal"
 
-#: src/ui/page_backup/execution.rs:136
+#: src/ui/page_backup/execution.rs:156
 msgid "Backup Completed with Warnings"
 msgstr "Pencadangan Selesai dengan Peringatan"
 
-#: src/ui/page_overview.rs:49
+#: src/ui/page_overview.rs:50
 msgid "Remove Backup Setup?"
 msgstr "Hapus Pengaturan Cadangan?"
 
-#: src/ui/page_overview.rs:50
+#: src/ui/page_overview.rs:51
 msgid "Removing the setup will not delete any archives."
 msgstr "Menghapus konfigurasi tidak akan menghapus data yang disimpan."
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:53
 msgid "Remove Setup"
 msgstr "Hapus Pengaturan"
 
@@ -1701,7 +1942,11 @@ msgstr "Proses latar belakang tidak aktif"
 msgid "This is required for scheduled backups"
 msgstr "Ini diperlukan untuk pencadangan terjadwal"
 
-#: src/ui/status.rs:84
+#: src/ui/shell.rs:26
+msgid "Idle"
+msgstr "Menganggur"
+
+#: src/ui/status.rs:86
 msgid "Unable to determine background process status"
 msgstr "Tidak dapat menentukan status proses latar belakang"
 
@@ -1721,11 +1966,11 @@ msgstr "Permintaan untuk menjalankan di latar belakang gagal"
 msgid "Schedule backups and continue running backups."
 msgstr "Jadwalkan dan lanjutkan menjalankan pencadangan."
 
-#: src/ui/utils.rs:127
+#: src/ui/utils.rs:128
 msgid "Run in background disabled"
 msgstr "Menjalankan di latar belakang dinonaktifkan"
 
-#: src/ui/utils.rs:128
+#: src/ui/utils.rs:129
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1735,33 +1980,42 @@ msgstr ""
 "belakang tidak akan tersedia. Opsi \"jalankan di latar belakang\" dapat "
 "diaktifkan melalui pengaturan sistem."
 
-#: src/ui/utils.rs:138
+#: src/ui/utils.rs:139
 msgid ""
-"Either the system does not support this feature or an error occurred. "
-"Scheduled backup functionality and continuing backups in the background will "
-"not be available."
+"The system does not support running Pika Backup in the background. Scheduled "
+"backup functionality and continuing backups in the background will not be "
+"available. This is either a malfunction, misconfiguration or other issue "
+"with the xdg-desktop-portal. Please report this issue in your distribution "
+"issue tracker."
 msgstr ""
-"Entah sistem tidak mendukung fitur ini atau terjadi kesalahan. "
-"Fungsionalitas pencadangan terjadwal dan pencadangan berkelanjutan di latar "
-"belakang tidak akan tersedia."
+"Sistem tidak mendukung menjalankan Pika Backup di latar belakang. Fungsi "
+"pencadangan terjadwal dan pencadangan berkelanjutan di latar belakang tidak "
+"akan tersedia. Ini adalah kerusakan, kesalahan konfigurasi, atau masalah "
+"lain dengan xdg-desktop-portal. Silakan laporkan masalah ini di pelacak "
+"masalah distribusi Anda."
 
-#: src/ui/utils.rs:160
+#: src/ui/utils.rs:161
 msgid "Failed to Start Monitor"
 msgstr "Gagal Memulai Pemantau"
 
-#: src/ui/utils.rs:229
+#: src/ui/utils.rs:227
+msgid "One Backup Operation Running"
+msgid_plural "{} Backup Operations Running"
+msgstr[0] "Satu Operasi Pencadangan Berjalan"
+
+#: src/ui/utils.rs:250
 msgid "Failed to Create Thread"
 msgstr "Gagal Membuat Thread"
 
-#: src/ui/utils.rs:480
+#: src/ui/utils.rs:534
 msgid "Failed to fix Scheduled Backups"
 msgstr "Gagal memperbaiki Pencadangan Terjadwal"
 
-#: src/ui/utils.rs:485
+#: src/ui/utils.rs:539
 msgid "Scheduled Backups Repaired"
 msgstr "Pencadangan Terjadwal Diperbaiki"
 
-#: src/ui/utils.rs:485
+#: src/ui/utils.rs:539
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1769,11 +2023,11 @@ msgstr ""
 "Sistem ini berisi kesalahan yang berpotensi menyebabkan pencadangan "
 "terjadwal tidak berfungsi dengan baik. Masalah ini sekarang teratasi."
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:49
 msgid "Repository already in use"
 msgstr "Repositori sudah digunakan"
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:164
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1782,7 +2036,7 @@ msgstr ""
 "ketinggalan zaman jika, misalnya, komputer Anda kehilangan daya saat "
 "menggunakan repositori."
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:166
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1792,7 +2046,7 @@ msgstr ""
 "apa pun! Melanjutkan sementara program lain sedang menggunakan repositori "
 "mungkin merusak data cadangan!"
 
-#: src/ui/utils/borg.rs:150
+#: src/ui/utils/borg.rs:168
 msgid "Continue Anyway"
 msgstr "Lanjutkan Saja"
 
@@ -1804,71 +2058,91 @@ msgstr "Tak bisa memuat berkas konfigurasi."
 msgid "Could not write configuration file."
 msgstr "Tak bisa menulis berkas konfigurasi."
 
-#: src/ui/utils/duration.rs:10
+#: src/ui/utils/duration.rs:11
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "Satu detik"
 
-#: src/ui/utils/duration.rs:12
+#: src/ui/utils/duration.rs:13
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "Satu menit"
 
-#: src/ui/utils/duration.rs:14
+#: src/ui/utils/duration.rs:15
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "Satu jam"
 
-#: src/ui/utils/duration.rs:16
+#: src/ui/utils/duration.rs:17
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "Satu hari"
 
 #: src/ui/utils/duration.rs:23
+msgid "one second"
+msgid_plural "{} seconds"
+msgstr[0] "satu detik"
+
+#: src/ui/utils/duration.rs:25
+msgid "one minute"
+msgid_plural "{} minutes"
+msgstr[0] "satu menit"
+
+#: src/ui/utils/duration.rs:27
+msgid "one hour"
+msgid_plural "{} hours"
+msgstr[0] "satu jam"
+
+#: src/ui/utils/duration.rs:29
+msgid "one day"
+msgid_plural "{} days"
+msgstr[0] "satu hari"
+
+#: src/ui/utils/duration.rs:36
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "Tersisa satu menit"
 
-#: src/ui/utils/duration.rs:28
+#: src/ui/utils/duration.rs:41
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "Tersisa satu jam"
 
-#: src/ui/utils/duration.rs:30
+#: src/ui/utils/duration.rs:43
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "Tersisa satu hari"
 
-#: src/ui/utils/duration.rs:36
+#: src/ui/utils/duration.rs:49
 msgid "Now"
 msgstr "Sekarang"
 
-#: src/ui/utils/duration.rs:38
+#: src/ui/utils/duration.rs:51
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Satu menit yang lalu"
 
-#: src/ui/utils/duration.rs:40
+#: src/ui/utils/duration.rs:53
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Satu jam yang lalu"
 
-#: src/ui/utils/duration.rs:42
+#: src/ui/utils/duration.rs:55
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "Satu hari yang lalu"
 
-#: src/ui/utils/duration.rs:44
+#: src/ui/utils/duration.rs:57
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Satu minggu yang lalu"
 
-#: src/ui/utils/duration.rs:46
+#: src/ui/utils/duration.rs:59
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Satu bulan yang lalu"
 
-#: src/ui/utils/duration.rs:48
+#: src/ui/utils/duration.rs:61
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Satu tahun yang lalu"
@@ -1877,19 +2151,37 @@ msgstr[0] "Satu tahun yang lalu"
 msgid "Failed to Store Password"
 msgstr "Gagal Menyimpan Kata Sandi"
 
-#: src/ui/utils/password_storage.rs:31
+#: src/ui/utils/password_storage.rs:32
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Gagal menghapus kata sandi yang kemungkinan tersisa dari penyimpanan kunci."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:48
+#: src/ui/utils/password_storage.rs:51
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
 
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Gagal Menyimpan Cache"
+
+#~ msgid "Compacting Archives"
+#~ msgstr "Memadatkan Arsip"
+
+#~ msgid "Back to overview"
+#~ msgstr "Kembali ke ikhtisar"
+
+#~ msgid "Refresh list of archives"
+#~ msgstr "Segarkan daftar arsip"
+
+#~ msgid ""
+#~ "Either the system does not support this feature or an error occurred. "
+#~ "Scheduled backup functionality and continuing backups in the background "
+#~ "will not be available."
+#~ msgstr ""
+#~ "Entah sistem tidak mendukung fitur ini atau terjadi kesalahan. "
+#~ "Fungsionalitas pencadangan terjadwal dan pencadangan berkelanjutan di "
+#~ "latar belakang tidak akan tersedia."
 
 #~ msgid "Court Witch"
 #~ msgstr "Court Witch"
