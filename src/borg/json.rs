@@ -2,6 +2,12 @@
 Borg output to STDOUT with `--json` flag.
 */
 
+time::serde::format_description!(
+    json_date_time_format,
+    PrimitiveDateTime,
+    "[year]-[month]-[day]T[hour]:[minute]:[second].[subsecond digits:6]"
+);
+
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct RepoId(String);
 
@@ -69,7 +75,7 @@ impl Stats {
     pub fn transfer_history_mock(archive: &ListArchive) -> Self {
         Stats {
             archive: NewArchive {
-                duration: (archive.end - archive.start).num_seconds() as f64,
+                duration: (archive.end - archive.start).whole_seconds() as f64,
                 id: archive.id.clone(),
                 name: archive.name.clone(),
                 stats: NewArchiveSize {
@@ -130,8 +136,10 @@ pub struct ListArchive {
     pub comment: String,
     pub username: String,
     pub hostname: String,
-    pub start: chrono::naive::NaiveDateTime,
-    pub end: chrono::naive::NaiveDateTime,
+    #[serde(with = "json_date_time_format")]
+    pub start: time::PrimitiveDateTime,
+    #[serde(with = "json_date_time_format")]
+    pub end: time::PrimitiveDateTime,
     pub command_line: Vec<String>,
 }
 
@@ -149,8 +157,10 @@ pub struct InfoArchive {
     pub comment: String,
     pub username: String,
     pub hostname: String,
-    pub start: chrono::naive::NaiveDateTime,
-    pub end: chrono::naive::NaiveDateTime,
+    #[serde(with = "json_date_time_format")]
+    pub start: time::PrimitiveDateTime,
+    #[serde(with = "json_date_time_format")]
+    pub end: time::PrimitiveDateTime,
     pub command_line: Vec<String>,
 }
 
@@ -163,6 +173,7 @@ pub struct Encryption {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Repository {
     pub id: RepoId,
-    pub last_modified: chrono::naive::NaiveDateTime,
+    #[serde(with = "json_date_time_format")]
+    pub last_modified: time::PrimitiveDateTime,
     pub location: std::path::PathBuf,
 }

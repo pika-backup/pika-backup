@@ -8,6 +8,7 @@ use std::fmt::Write;
 use crate::borg;
 use crate::config;
 use crate::ui;
+use crate::ui::utils::ext::*;
 use ui::builder::DialogSetup;
 
 #[derive(Clone, Debug)]
@@ -34,7 +35,7 @@ fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
         parsed,
         hostname: archive.hostname,
         username: archive.username,
-        end: archive.end,
+        end: archive.end.to_chrono_primitive(),
         stats,
     }
 }

@@ -6,15 +6,15 @@ pub fn from_std(duration: std::time::Duration) -> chrono::Duration {
         .unwrap_or_else(chrono::Duration::max_value)
 }
 
-pub fn plain(d: &chrono::Duration) -> String {
-    if d.num_minutes() < 1 {
-        ngettextf_("One second", "{} seconds", d.num_seconds() as u32)
-    } else if d.num_hours() < 1 {
-        ngettextf_("One minute", "{} minutes", d.num_minutes() as u32)
-    } else if d.num_days() < 2 {
-        ngettextf_("One hour", "{} hours", d.num_hours() as u32)
+pub fn plain(d: &time::Duration) -> String {
+    if d.whole_minutes() < 1 {
+        ngettextf_("One second", "{} seconds", d.whole_seconds() as u32)
+    } else if d.whole_hours() < 1 {
+        ngettextf_("One minute", "{} minutes", d.whole_minutes() as u32)
+    } else if d.whole_days() < 2 {
+        ngettextf_("One hour", "{} hours", d.whole_hours() as u32)
     } else {
-        ngettextf_("One day", "{} days", d.num_days() as u32)
+        ngettextf_("One day", "{} days", d.whole_days() as u32)
     }
 }
 

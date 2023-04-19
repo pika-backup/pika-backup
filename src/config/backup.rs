@@ -115,7 +115,7 @@ impl Backup {
             },
             repository: borg::Repository {
                 id: fake_repo_id(),
-                last_modified: chrono::DateTime::<chrono::Utc>::MIN_UTC.naive_utc(),
+                last_modified: time::PrimitiveDateTime::MIN,
                 location: std::path::PathBuf::new(),
             },
         };
