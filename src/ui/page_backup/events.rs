@@ -101,7 +101,6 @@ pub async fn add_include() -> Result<()> {
             .filter(|path| {
                 // Filter all paths that are definitely unavailable and give a note about them
                 if path.starts_with("/app")
-                    || (path.starts_with("/run") && !path.starts_with("/run/host/"))
                     || (path.starts_with(&runtime_dir)
                         && !path.starts_with(runtime_dir.join("gvfs/"))
                         && !path.starts_with(runtime_dir.join("gvfsd/")))
