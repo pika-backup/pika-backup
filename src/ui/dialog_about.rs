@@ -21,11 +21,19 @@ pub fn show() {
     dialog.set_version(env!("CARGO_PKG_VERSION"));
     dialog.set_website(env!("CARGO_PKG_HOMEPAGE"));
     dialog.set_issue_url("https://gitlab.gnome.org/World/pika-backup/-/issues");
+    dialog.add_link(
+        &gettext("Support us on Open Collective"),
+        "https://opencollective.com/pika-backup",
+    );
+    dialog.add_link(
+        &gettext("Support us on Github Sponsors"),
+        "https://github.com/sponsors/pika-backup/",
+    );
 
-    dialog.set_developer_name(&gettext("Sophie Herold"));
+    dialog.set_developer_name(&gettext("Small Mammal Collective"));
     dialog.set_developers(&[
         &gettext("Sophie Herold <sophieherold@gnome.org>"),
-        &gettext("Fina Wilke"),
+        &gettext("Fina Wilke <code@felinira.net>"),
     ]);
     dialog.set_copyright(&gettext("Copyright © 2018–2023 Sophie Herold et al."));
     dialog.set_translator_credits(&gettext("translator-credits"));
