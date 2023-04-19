@@ -92,7 +92,7 @@ pub async fn add_include() -> Result<()> {
     let paths = ui::utils::paths(chooser).await?;
 
     let paths = if *APP_IS_SANDBOXED {
-        let runtime_dir = crate::utils::host::user_runtime_dir();
+        let runtime_dir = glib::user_runtime_dir();
         let mut filtered_paths = Vec::new();
 
         // Scan for unavailable paths in the sandbox and redirect them if possible
@@ -100,11 +100,7 @@ pub async fn add_include() -> Result<()> {
             .into_iter()
             .filter(|path| {
                 // Filter all paths that are definitely unavailable and give a note about them
-                if path.starts_with("/app")
-                    || (path.starts_with(&runtime_dir)
-                        && !path.starts_with(runtime_dir.join("gvfs/"))
-                        && !path.starts_with(runtime_dir.join("gvfsd/")))
-                {
+                if path.starts_with(runtime_dir.join("doc/")) {
                     filtered_paths.push(path.display().to_string());
                     false
                 } else {
