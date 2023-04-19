@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.1 (2023-04-19)
+
+- Fix archives can not be mounted on some systems
+- Fix removable drives can not be added to a backup
+
 ## 0.6.0 (2023-04-13)
 
 - Fix compact is not run after prune
