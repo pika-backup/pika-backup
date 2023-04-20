@@ -51,17 +51,14 @@ pages:
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --socket=x11 --share=network flatpak_app
-    - >
-      flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} <<END
-        ninja src/doc
-
-      END
+    - echo "../build-aux/build-pages-html.bash" | flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - mkdir public
     - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc public/code-doc
+    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/help-out public/help
+    - cp help/LINGUAS public/help/
     - chmod -R a=rwx public
   artifacts:
     paths:
       - 'public'
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
+#  rules:
+#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
