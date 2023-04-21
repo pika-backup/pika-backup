@@ -26,7 +26,7 @@ pub fn show() {
         "https://opencollective.com/pika-backup",
     );
     dialog.add_link(
-        &gettext("Support us on Github Sponsors"),
+        &gettext("Support us on GitHub Sponsors"),
         "https://github.com/sponsors/pika-backup/",
     );
 

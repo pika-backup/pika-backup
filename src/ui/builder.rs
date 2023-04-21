@@ -818,6 +818,57 @@ impl DialogExcludePattern {
 }
 
 #[derive(Clone)]
+pub struct DialogPreferences {
+    builder: gtk::Builder,
+}
+
+#[derive(Clone)]
+pub struct DialogPreferencesWeak {
+    builder: glib::WeakRef<gtk::Builder>,
+}
+
+impl glib::clone::Downgrade for DialogPreferences {
+    type Weak = DialogPreferencesWeak;
+
+    fn downgrade(&self) -> Self::Weak {
+        Self::Weak {
+            builder: self.builder.downgrade(),
+        }
+    }
+}
+
+impl glib::clone::Upgrade for DialogPreferencesWeak {
+    type Strong = DialogPreferences;
+
+    fn upgrade(&self) -> Option<Self::Strong> {
+        Some(Self::Strong {
+            builder: self.builder.upgrade()?,
+        })
+    }
+}
+
+impl DialogPreferences {
+    pub fn new() -> Self {
+        Self {
+            builder: gtk::Builder::from_string(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/src/ui/dialog_preferences.ui"
+            ))),
+        }
+    }
+
+    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
+        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
+            panic!("Object with id '{id}' not found in 'src/ui/dialog_preferences.ui'")
+        })
+    }
+
+    pub fn command_line_args_entry(&self) -> adw::EntryRow {
+        self.get("command_line_args_entry")
+    }
+}
+
+#[derive(Clone)]
 pub struct DialogPrune {
     builder: gtk::Builder,
 }
