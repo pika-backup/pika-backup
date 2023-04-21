@@ -5,7 +5,7 @@
 - Add docker to containers and VMs exclusion preset
 - Add per-backup preferences window
 
-## 0.6.1 (2023-04-19)
+## 0.6.1 (2023-04-21)
 
 - Fix archives can not be mounted on some systems
 - Fix removable drives can not be added to a backup
