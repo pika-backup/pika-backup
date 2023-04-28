@@ -8,7 +8,6 @@ use std::collections::HashMap;
 use std::ffi::OsString;
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
-use std::process::{self, Stdio};
 
 use std::time::Duration;
 
@@ -217,24 +216,6 @@ impl BorgCall {
         args
     }
 
-    pub fn cmd(&mut self) -> Result<process::Command> {
-        let mut cmd = process::Command::new("borg");
-
-        cmd.envs([self.set_password()?]);
-
-        cmd.args(self.args())
-            .stderr(Stdio::piped())
-            .stdout(Stdio::piped())
-            .envs(self.envs.clone().into_iter());
-
-        Ok(cmd)
-    }
-
-    pub fn output(&mut self) -> Result<std::process::Output> {
-        info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
-        Ok(self.cmd()?.output()?)
-    }
-
     pub fn cmd_async(&mut self) -> Result<async_process::Command> {
         let mut cmd = async_process::Command::new("borg");
 
@@ -247,6 +228,11 @@ impl BorgCall {
             .envs(self.envs.clone().into_iter());
 
         Ok(cmd)
+    }
+
+    pub async fn output_async(&mut self) -> Result<async_process::Output> {
+        info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
+        Ok(self.cmd_async()?.output().await?)
     }
 
     pub fn spawn_async(&mut self) -> Result<async_process::Child> {

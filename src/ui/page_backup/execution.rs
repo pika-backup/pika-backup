@@ -28,6 +28,7 @@ pub async fn start_backup(
 
         trace!("User decided to unmount repo.");
         borg::functions::umount(&config.repo_id)
+            .await
             .err_to_msg(gettext("Failed to unmount repository."))?;
 
         ACTIVE_MOUNTS.update(|mounts| {

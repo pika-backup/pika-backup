@@ -99,13 +99,15 @@ fn on_shutdown(_app: &adw::Application) {
     }
 
     while !ACTIVE_MOUNTS.load().is_empty() {
-        for repo_id in ACTIVE_MOUNTS.load().iter() {
-            if borg::functions::umount(repo_id).is_ok() {
-                ACTIVE_MOUNTS.update(|mounts| {
-                    mounts.remove(repo_id);
-                });
+        async_std::task::block_on(async {
+            for repo_id in ACTIVE_MOUNTS.load().iter() {
+                if borg::functions::umount(repo_id).await.is_ok() {
+                    ACTIVE_MOUNTS.update(|mounts| {
+                        mounts.remove(repo_id);
+                    });
+                }
             }
-        }
+        })
     }
 
     debug!("Good bye!");
@@ -205,7 +207,9 @@ async fn quit_real() {
 }
 
 async fn init_check_borg() -> Result<()> {
-    let version_result = utils::spawn_thread("borg::version", borg::version).await?;
+    let version_result = utils::spawn_thread("borg::version", borg::version)
+        .await?
+        .await;
 
     match version_result {
         Err(err) => {

@@ -23,7 +23,9 @@ pub async fn edit_prefix() -> Result<()> {
 pub async fn eject_button_clicked() -> Result<()> {
     let repo_id = BACKUP_CONFIG.load().active()?.repo_id.clone();
 
-    borg::functions::umount(&repo_id).err_to_msg(gettext("Failed to unmount repository."))?;
+    borg::functions::umount(&repo_id)
+        .await
+        .err_to_msg(gettext("Failed to unmount repository."))?;
     ACTIVE_MOUNTS.update(|mounts| {
         mounts.remove(&repo_id);
     });

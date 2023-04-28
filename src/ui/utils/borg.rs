@@ -170,11 +170,13 @@ async fn handle_lock<B: borg::BorgRunConfig>(borg: B) -> CombinedResult<()> {
     .set_destructive(true)
     .ask()
     .await?;
+
     super::spawn_thread("borg_break_lock", move || {
         borg::CommandOnlyRepo::new(borg.repo()).break_lock()
     })
     .await
     .map_err(|_| borg::Error::ThreadPanicked)?
+    .await
     .map_err(Into::into)
 }
 
