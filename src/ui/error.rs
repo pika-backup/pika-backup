@@ -78,6 +78,16 @@ impl Message {
     }
 }
 
+impl std::fmt::Display for Message {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Some(secondary_text) = &self.secondary_text {
+            write!(f, "{}\n{}", self.text, secondary_text)
+        } else {
+            write!(f, "{}", self.text)
+        }
+    }
+}
+
 quick_error! {
     #[derive(Debug, Eq, PartialEq)]
     pub enum Error {
@@ -93,6 +103,7 @@ quick_error! {
                     "Could not find backup configuration with id “{}”.",
                     &[err.id.as_str()],
                 )))
+            display("{}", err)
         }
         UserCanceled
     }

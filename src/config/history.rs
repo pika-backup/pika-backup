@@ -166,6 +166,16 @@ impl RunInfo {
         }
     }
 
+    pub fn new_shell_script_failure(date: &DateTime<Local>, msg: String) -> Self {
+        Self {
+            end: *date,
+            outcome: borg::Outcome::Aborted(borg::error::Abort::UserShellCommand(msg)),
+            messages: vec![],
+            include: Default::default(),
+            exclude: Default::default(),
+        }
+    }
+
     #[cfg(test)]
     pub fn test_new_mock(ago: chrono::Duration) -> Self {
         Self {

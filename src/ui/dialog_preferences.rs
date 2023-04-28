@@ -261,6 +261,16 @@ mod imp {
             }
         }
 
+        async fn run_script(
+            command: &str,
+            env: std::collections::HashMap<crate::ui::utils::scripts::ShellVariable, String>,
+        ) {
+            match crate::ui::utils::scripts::run_script(&command, env).await {
+                Err(err) => err.show().await,
+                _ => {}
+            }
+        }
+
         #[template_callback]
         async fn test_pre_backup_command(&self) {
             let command = self.obj().pre_backup_command();
@@ -268,9 +278,7 @@ mod imp {
             if !command.is_empty() {
                 if let Ok(config) = self.config() {
                     let env = crate::ui::utils::scripts::script_env_pre(&config, true);
-                    if let Err(err) = crate::ui::utils::scripts::run_script(&command, env).await {
-                        err.show().await;
-                    }
+                    Self::run_script(&command, env).await;
                 }
             }
         }
@@ -313,9 +321,7 @@ mod imp {
                     };
 
                     let env = crate::ui::utils::scripts::script_env_post(&config, true, &run_info);
-                    if let Err(err) = crate::ui::utils::scripts::run_script(&command, env).await {
-                        err.show().await;
-                    }
+                    Self::run_script(&command, env).await;
                 }
             }
         }

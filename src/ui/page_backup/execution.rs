@@ -1,6 +1,7 @@
 use crate::borg;
 use crate::config;
 use crate::config::history;
+use crate::config::history::RunInfo;
 use crate::schedule;
 use crate::ui;
 
@@ -89,7 +90,17 @@ async fn run_backup(
 
     if let Some(pre_backup_command) = config.repo.settings().and_then(|s| s.pre_backup_command) {
         let pre_env = crate::ui::utils::scripts::script_env_pre(&config, from_schedule.is_some());
-        crate::ui::utils::scripts::run_script(&pre_backup_command, pre_env).await?;
+
+        if let Err(err) = crate::ui::utils::scripts::run_script(&pre_backup_command, pre_env).await
+        {
+            BACKUP_HISTORY.update(|history| {
+                history.insert(
+                    config.id.clone(),
+                    RunInfo::new_shell_script_failure(&chrono::Local::now(), err.to_string()),
+                )
+            });
+            return Err(err);
+        }
     }
 
     let command = borg::Command::<borg::task::Create>::new(config.clone())
@@ -137,7 +148,18 @@ async fn run_backup(
     if let Some(post_backup_command) = config.repo.settings().and_then(|s| s.post_backup_command) {
         let post_env =
             crate::ui::utils::scripts::script_env_post(&config, from_schedule.is_some(), &run_info);
-        crate::ui::utils::scripts::run_script(&post_backup_command, post_env).await?;
+
+        if let Err(err) =
+            crate::ui::utils::scripts::run_script(&post_backup_command, post_env).await
+        {
+            BACKUP_HISTORY.update(|history| {
+                history.insert(
+                    config.id.clone(),
+                    RunInfo::new_shell_script_failure(&chrono::Local::now(), err.to_string()),
+                )
+            });
+            return Err(err);
+        }
     }
 
     match result {

@@ -1,8 +1,10 @@
 use std::collections::HashMap;
+use std::io::Read;
+use std::os::fd::AsRawFd;
 
 use crate::{borg::Outcome, ui::prelude::*};
 
-#[derive(serde::Serialize, serde::Deserialize, PartialEq, Eq, Hash)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, PartialEq, Eq, Hash)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum ShellVariable {
     ConfigId,
@@ -201,7 +203,15 @@ pub fn script_env_post(
 pub async fn run_script(command: &str, env: HashMap<ShellVariable, String>) -> Result<u32> {
     let envs = env.iter().map(|(k, v)| (k.name(), v.as_str())).collect();
 
-    if *APP_IS_SANDBOXED {
+    debug!(
+        "Running shell script:\nbash -c \"{}\"\nenv: {:#?}",
+        command, envs
+    );
+
+    let mut stdout = Vec::new();
+    let mut stderr = Vec::new();
+
+    let return_code = if *APP_IS_SANDBOXED {
         let proxy = ashpd::flatpak::Flatpak::new().await.map_err(|e| {
             Message::new(
                 gettext("Error Running Shell Command"),
@@ -211,43 +221,82 @@ pub async fn run_script(command: &str, env: HashMap<ShellVariable, String>) -> R
                 ),
             )
         })?;
-        Ok(proxy
+
+        let (mut stdout_reader, stdout_writer) = std::os::unix::net::UnixStream::pair()
+            .map_err(|err| Message::short(format!("{:?}", err)))?;
+        let (mut stderr_reader, stderr_writer) = std::os::unix::net::UnixStream::pair()
+            .map_err(|err| Message::short(format!("{:?}", err)))?;
+
+        let result = proxy
             .spawn(
                 glib::home_dir(),
                 &["bash", "-c", command],
-                Default::default(),
+                HashMap::from([
+                    (1, stdout_writer.as_raw_fd().into()),
+                    (2, stderr_writer.as_raw_fd().into()),
+                ]),
                 envs,
                 Default::default(),
                 Default::default(),
             )
-            .await
-            .map_err(|e| {
-                Message::new(
-                    gettext("Error Running Shell Command"),
-                    gettextf(
-                        "A shell command configured in preferences failed to run.\n{}",
-                        &[&format!("{:?}", e)],
-                    ),
-                )
-            })?)
+            .await;
+
+        drop(stdout_writer);
+        drop(stderr_writer);
+
+        let _ = stdout_reader.read_to_end(&mut stdout);
+        let _ = stderr_reader.read_to_end(&mut stderr);
+
+        result.map_err(|e| {
+            Message::new(
+                gettext("Error Running Shell Command"),
+                gettextf(
+                    "A shell command configured in preferences failed to run.\n{}",
+                    &[&format!("{:?}", e)],
+                ),
+            )
+        })?
     } else {
         let mut cmd = async_std::process::Command::new("bash");
         cmd.envs(envs).args(["-c", command]);
 
-        Ok(cmd
-            .output()
-            .await
-            .map_err(|e| {
-                Message::new(
-                    gettext("Error Running Shell Command"),
-                    gettextf(
-                        "A shell command configured in preferences failed to run.\n{}",
-                        &[&format!("{:?}", e)],
-                    ),
-                )
-            })?
-            .status
-            .code()
-            .map_or(0, |c| c as u32))
+        let output = cmd.output().await.map_err(|e| {
+            Message::new(
+                gettext("Error Running Shell Command"),
+                gettextf(
+                    "A shell command configured in preferences failed to run.\n{}",
+                    &[&format!("{:?}", e)],
+                ),
+            )
+        })?;
+
+        stdout = output.stdout;
+        stderr = output.stderr;
+        output.status.code().map_or(0, |c| c as u32)
+    };
+
+    debug!("Shell script finished with code: {}", return_code);
+
+    if !stdout.is_empty() {
+        debug!("stdout:\n{}", String::from_utf8_lossy(&stdout).to_string());
     }
+
+    if !stderr.is_empty() {
+        debug!("stderr:\n{}", String::from_utf8_lossy(&stderr).to_string());
+    }
+
+    if return_code > 0 {
+        return Err(Error::from(Message::new(
+            gettext("Error Running Shell Command"),
+            gettextf(
+                "A shell command configured in preferences returned a failure code: {}.\n{}",
+                &[
+                    &return_code.to_string(),
+                    &String::from_utf8_lossy(&stderr).to_string(),
+                ],
+            ),
+        )));
+    }
+
+    Ok(return_code)
 }

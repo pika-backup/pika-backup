@@ -139,6 +139,8 @@ pub enum Abort {
     Shutdown,
     /// program probably crashed while running
     LeftRunning,
+    /// shell script configured by the user failed to run
+    UserShellCommand(String),
 }
 
 impl std::fmt::Display for Abort {
@@ -162,6 +164,9 @@ impl std::fmt::Display for Abort {
                 "{}",
                 gettext("The program or system seems to have crashed.")
             ),
+            Self::UserShellCommand(msg) => {
+                write!(f, "{}", gettextf("{}", &[msg]))
+            }
         }
     }
 }
