@@ -8,7 +8,6 @@ use std::collections::HashMap;
 use std::ffi::OsString;
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
-use std::os::unix::io::IntoRawFd;
 use std::process::{self, Stdio};
 
 use std::time::Duration;
@@ -31,6 +30,7 @@ pub struct BorgCall {
     envs: std::collections::BTreeMap<String, String>,
     pub positional: Vec<OsString>,
     password: config::Password,
+    password_pipe_reader: Option<std::os::unix::net::UnixStream>,
 }
 
 pub struct Process<T> {
@@ -157,7 +157,7 @@ impl BorgCall {
         Ok(self)
     }
 
-    fn set_password(&self) -> Result<(String, String)> {
+    fn set_password(&mut self) -> Result<(String, String)> {
         // Password pipe
         let (pipe_reader, mut pipe_writer) = std::os::unix::net::UnixStream::pair()?;
 
@@ -173,12 +173,15 @@ impl BorgCall {
             nix::fcntl::FcntlArg::F_SETFD(flags),
         )?;
 
+        // We drop the pipe_writer here, so this end will be closed when this function returns
         pipe_writer.write_all(self.password.as_bytes())?;
 
-        Ok((
-            String::from("BORG_PASSPHRASE_FD"),
-            pipe_reader.into_raw_fd().to_string(),
-        ))
+        // We store the pipe_reader until the BorgCall is dropped
+        // This will close the FD after the borg process has already exited
+        let fd = pipe_reader.as_raw_fd();
+        self.password_pipe_reader = Some(pipe_reader);
+
+        Ok((String::from("BORG_PASSPHRASE_FD"), fd.to_string()))
     }
 
     pub fn add_basics_without_password<T: BorgRunConfig>(&mut self, borg: &T) -> &mut Self {
@@ -214,7 +217,7 @@ impl BorgCall {
         args
     }
 
-    pub fn cmd(&self) -> Result<process::Command> {
+    pub fn cmd(&mut self) -> Result<process::Command> {
         let mut cmd = process::Command::new("borg");
 
         cmd.envs([self.set_password()?]);
@@ -227,12 +230,12 @@ impl BorgCall {
         Ok(cmd)
     }
 
-    pub fn output(&self) -> Result<std::process::Output> {
+    pub fn output(&mut self) -> Result<std::process::Output> {
         info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
         Ok(self.cmd()?.output()?)
     }
 
-    pub fn cmd_async(&self) -> Result<async_process::Command> {
+    pub fn cmd_async(&mut self) -> Result<async_process::Command> {
         let mut cmd = async_process::Command::new("borg");
 
         cmd.envs([self.set_password()?]);
@@ -246,7 +249,7 @@ impl BorgCall {
         Ok(cmd)
     }
 
-    pub fn spawn_async(&self) -> Result<async_process::Child> {
+    pub fn spawn_async(&mut self) -> Result<async_process::Child> {
         info!(
             "Async running borg: {:#?}\nenv: {:#?}",
             &self.args(),
@@ -338,7 +341,7 @@ impl BorgCall {
         T: Task,
         S: std::fmt::Debug + serde::de::DeserializeOwned + 'static,
     >(
-        &self,
+        &mut self,
         communication: super::Communication<T>,
         sender: &Sender<T>,
     ) -> Result<S> {
