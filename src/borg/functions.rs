@@ -61,7 +61,7 @@ impl CommandRun<task::List> for Command<task::List> {
             task::NumArchives::All => (),
         }
 
-        let output = borg.output_async().await?;
+        let output = borg.output().await?;
 
         check_stderr(&output)?;
 
@@ -89,7 +89,7 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
             .add_options(&["-o", &format!("umask=0000,uid={}", nix::unistd::getuid())])
             .add_positional(&dir)
-            .output_async()
+            .output()
             .await?;
 
         check_stderr(&borg)?;
@@ -104,7 +104,7 @@ impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
         let mut borg_call = prune_call(&self).await?;
         borg_call.add_options(["--dry-run", "--list"]);
 
-        let messages = check_stderr(&borg_call.output_async().await?)?;
+        let messages = check_stderr(&borg_call.output().await?)?;
 
         let list_messages = messages
             .iter()
@@ -361,7 +361,7 @@ pub async fn umount(repo_id: &RepoId) -> Result<()> {
     let borg = BorgCall::new("umount")
         .add_options(["--log-json"])
         .add_positional(&mount_point)
-        .output_async()
+        .output()
         .await?;
 
     check_stderr(&borg)?;
@@ -431,7 +431,7 @@ impl CommandOnlyRepo {
     pub async fn break_lock(self) -> Result<()> {
         let borg = BorgCall::new("break-lock")
             .add_basics_without_password(&self)
-            .output_async()
+            .output()
             .await?;
         check_stderr(&borg)?;
         Ok(())
@@ -450,7 +450,7 @@ impl CommandOnlyRepo {
             ])
             .add_basics(&self)
             .await?
-            .output_async()
+            .output()
             .await?;
 
         check_stderr(&borg)?;
@@ -465,7 +465,7 @@ impl CommandOnlyRepo {
             .add_options([format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
             .add_basics(&self)
             .await?
-            .output_async()
+            .output()
             .await?;
 
         check_stderr(&borg)?;
@@ -477,7 +477,7 @@ impl CommandOnlyRepo {
 pub async fn version() -> Result<String> {
     let borg = BorgCall::new_raw()
         .add_options(["--log-json", "--version"])
-        .output_async()
+        .output()
         .await?;
 
     check_stderr(&borg)?;

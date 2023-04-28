@@ -216,7 +216,7 @@ impl BorgCall {
         args
     }
 
-    pub fn cmd_async(&mut self) -> Result<async_process::Command> {
+    pub fn cmd(&mut self) -> Result<async_process::Command> {
         let mut cmd = async_process::Command::new("borg");
 
         cmd.envs([self.set_password()?]);
@@ -230,9 +230,9 @@ impl BorgCall {
         Ok(cmd)
     }
 
-    pub async fn output_async(&mut self) -> Result<async_process::Output> {
+    pub async fn output(&mut self) -> Result<async_process::Output> {
         info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
-        Ok(self.cmd_async()?.output().await?)
+        Ok(self.cmd()?.output().await?)
     }
 
     pub fn spawn_async(&mut self) -> Result<async_process::Child> {
@@ -241,7 +241,7 @@ impl BorgCall {
             &self.args(),
             &self.envs
         );
-        Ok(self.cmd_async()?.spawn()?)
+        Ok(self.cmd()?.spawn()?)
     }
 
     pub fn spawn_async_managed<
