@@ -1,6 +1,14 @@
 use std::collections::HashMap;
 
-use crate::{borg::Outcome, ui::prelude::*};
+use super::error::*;
+use super::prelude::*;
+use crate::borg::Outcome;
+
+#[derive(Clone)]
+pub enum UserScriptKind {
+    PreBackup,
+    PostBackup,
+}
 
 #[derive(serde::Serialize, serde::Deserialize, Debug, PartialEq, Eq, Hash)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -198,7 +206,11 @@ pub fn script_env_post(
     env
 }
 
-pub async fn run_script(command: &str, env: HashMap<ShellVariable, String>) -> Result<u32> {
+pub async fn run_script(
+    command: &str,
+    env: HashMap<ShellVariable, String>,
+    kind: UserScriptKind,
+) -> Result<()> {
     let envs: HashMap<&str, &str> = env.iter().map(|(k, v)| (k.name(), v.as_str())).collect();
 
     debug!(
@@ -221,42 +233,50 @@ pub async fn run_script(command: &str, env: HashMap<ShellVariable, String>) -> R
     cmd.env_remove("G_MESSAGES_DEBUG");
     cmd.envs(envs);
 
-    let output = cmd.output().await.map_err(|e| {
-        Message::new(
-            gettext("Error Running Shell Command"),
-            gettextf(
-                "A shell command configured in preferences failed to run.\n{}",
-                &[&format!("{:?}", e)],
-            ),
-        )
+    let output = cmd.output().await.map_err(|e| match kind {
+        UserScriptKind::PreBackup => Error::from(gettextf(
+            "The pre-backup command configured in preferences failed to run.\n{}",
+            &[&format!("{:?}", e)],
+        )),
+        UserScriptKind::PostBackup => Error::from(gettextf(
+            "The post-backup command configured in preferences failed to run.\n{}",
+            &[&format!("{:?}", e)],
+        )),
     })?;
 
-    let stdout = output.stdout;
-    let stderr = output.stderr;
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
     let return_code = output.status.code().map_or(0, |c| c as u32);
 
     debug!("Shell script finished with code: {}", return_code);
 
-    if !stdout.is_empty() {
-        debug!("stdout:\n{}", String::from_utf8_lossy(&stdout));
+    if !stdout.trim().is_empty() {
+        debug!("stdout:\n{}", &stdout.trim());
     }
 
-    if !stderr.is_empty() {
-        debug!("stderr:\n{}", String::from_utf8_lossy(&stderr));
+    if !stderr.trim().is_empty() {
+        debug!("stderr:\n{}", &stderr.trim());
     }
 
-    if return_code > 0 {
-        return Err(Error::from(Message::new(
-            gettext("Error Running Shell Command"),
-            gettextf(
-                "A shell command configured in preferences returned a failure code: {}.\n{}",
-                &[
-                    &return_code.to_string(),
-                    &String::from_utf8_lossy(&stderr).to_string(),
-                ],
+    if return_code == 0 {
+        Ok(())
+    } else {
+        let mut msg = match kind {
+            UserScriptKind::PreBackup => gettextf(
+                "The pre-backup command configured in preferences returned a failure code: {}",
+                &[&return_code.to_string()],
             ),
-        )));
-    }
+            UserScriptKind::PostBackup => gettextf(
+                "The post-backup command configured in preferences returned a failure code: {}",
+                &[&return_code.to_string()],
+            ),
+        };
 
-    Ok(return_code)
+        if !stderr.is_empty() {
+            msg += "\n\n";
+            msg += &stderr.trim();
+        }
+
+        Err(Error::from(msg))
+    }
 }

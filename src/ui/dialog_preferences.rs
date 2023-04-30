@@ -5,6 +5,8 @@ use crate::config::BackupSettings;
 use crate::ui::prelude::*;
 
 mod imp {
+    use crate::borg::scripts::UserScriptKind;
+
     use super::*;
     use glib::signal::Inhibit;
     use glib::Properties;
@@ -82,7 +84,7 @@ mod imp {
             self.load_config();
             self.obj().set_transient_for(Some(&main_ui().window()));
             self.shell_commands_detail
-                .set_label(&crate::ui::utils::scripts::ShellVariable::explanation_string_markup());
+                .set_label(&crate::borg::scripts::ShellVariable::explanation_string_markup());
         }
     }
 
@@ -261,13 +263,20 @@ mod imp {
             }
         }
 
-        async fn run_script(
-            command: &str,
-            env: std::collections::HashMap<crate::ui::utils::scripts::ShellVariable, String>,
+        async fn test_run_script(
+            kind: UserScriptKind,
+            config: crate::config::Backup,
+            run_info: Option<crate::config::history::RunInfo>,
         ) {
-            match crate::ui::utils::scripts::run_script(&command, env).await {
-                Err(err) => err.show().await,
-                _ => {}
+            let mut command =
+                crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
+            command.task.set_kind(kind);
+            command.task.set_run_info(run_info.clone());
+            if let Err(err) = crate::ui::utils::borg::exec(command, &QuitGuard::default())
+                .await
+                .into_message(gettext("Error Running Shell Command"))
+            {
+                err.show().await;
             }
         }
 
@@ -276,9 +285,12 @@ mod imp {
             let command = self.obj().pre_backup_command();
 
             if !command.is_empty() {
-                if let Ok(config) = self.config() {
-                    let env = crate::ui::utils::scripts::script_env_pre(&config, true);
-                    Self::run_script(&command, env).await;
+                if let Ok(mut config) = self.config() {
+                    let mut settings: BackupSettings = config.repo.settings().unwrap_or_default();
+                    settings.pre_backup_command = Some(command);
+                    config.repo.set_settings(Some(settings));
+
+                    Self::test_run_script(UserScriptKind::PreBackup, config, None).await;
                 }
             }
         }
@@ -288,7 +300,7 @@ mod imp {
             let command = self.obj().post_backup_command();
 
             if !command.is_empty() {
-                if let Ok(config) = self.config() {
+                if let Ok(mut config) = self.config() {
                     // Check if there is already a last RunInfo, if so, use that one
                     let run_info = if let Some(run_info) = BACKUP_HISTORY
                         .load()
@@ -320,8 +332,11 @@ mod imp {
                         )
                     };
 
-                    let env = crate::ui::utils::scripts::script_env_post(&config, true, &run_info);
-                    Self::run_script(&command, env).await;
+                    let mut settings: BackupSettings = config.repo.settings().unwrap_or_default();
+                    settings.post_backup_command = Some(command);
+                    config.repo.set_settings(Some(settings));
+
+                    Self::test_run_script(UserScriptKind::PostBackup, config, Some(run_info)).await;
                 }
             }
         }

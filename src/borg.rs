@@ -6,6 +6,7 @@ pub mod json;
 pub mod log_json;
 pub mod prelude;
 mod process;
+pub mod scripts;
 pub mod size_estimate;
 pub mod status;
 pub mod task;

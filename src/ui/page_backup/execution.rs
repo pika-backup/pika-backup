@@ -1,4 +1,5 @@
 use crate::borg;
+use crate::borg::scripts::UserScriptKind;
 use crate::config;
 use crate::config::history;
 use crate::config::history::RunInfo;
@@ -88,20 +89,7 @@ async fn run_backup(
     });
     ui::write_config()?;
 
-    if let Some(pre_backup_command) = config.repo.settings().and_then(|s| s.pre_backup_command) {
-        let pre_env = crate::ui::utils::scripts::script_env_pre(&config, from_schedule.is_some());
-
-        if let Err(err) = crate::ui::utils::scripts::run_script(&pre_backup_command, pre_env).await
-        {
-            BACKUP_HISTORY.update(|history| {
-                history.insert(
-                    config.id.clone(),
-                    RunInfo::new_shell_script_failure(&chrono::Local::now(), err.to_string()),
-                )
-            });
-            return Err(err);
-        }
-    }
+    run_script(UserScriptKind::PreBackup, config.clone(), None, guard).await?;
 
     let command = borg::Command::<borg::task::Create>::new(config.clone())
         .set_from_schedule(from_schedule.clone());
@@ -145,22 +133,13 @@ async fn run_backup(
 
     ui::write_config()?;
 
-    if let Some(post_backup_command) = config.repo.settings().and_then(|s| s.post_backup_command) {
-        let post_env =
-            crate::ui::utils::scripts::script_env_post(&config, from_schedule.is_some(), &run_info);
-
-        if let Err(err) =
-            crate::ui::utils::scripts::run_script(&post_backup_command, post_env).await
-        {
-            BACKUP_HISTORY.update(|history| {
-                history.insert(
-                    config.id.clone(),
-                    RunInfo::new_shell_script_failure(&chrono::Local::now(), err.to_string()),
-                )
-            });
-            return Err(err);
-        }
-    }
+    run_script(
+        UserScriptKind::PostBackup,
+        config.clone(),
+        Some(run_info.clone()),
+        guard,
+    )
+    .await?;
 
     match result {
         Err(borg::Error::Aborted(_)) => Ok(()),
@@ -195,4 +174,42 @@ async fn run_backup(
             }
         }
     }
+}
+
+async fn run_script(
+    kind: UserScriptKind,
+    config: crate::config::Backup,
+    run_info: Option<crate::config::history::RunInfo>,
+    guard: &QuitGuard,
+) -> Result<()> {
+    if config
+        .repo
+        .settings()
+        .and_then(|settings| match kind {
+            UserScriptKind::PreBackup => settings.pre_backup_command,
+            UserScriptKind::PostBackup => settings.post_backup_command,
+        })
+        .is_none()
+    {
+        // Don't even run the task if it's not configured
+        return Ok(());
+    }
+
+    let mut command = crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
+    command.task.set_kind(kind);
+    command.task.set_run_info(run_info.clone());
+    let result = crate::ui::utils::borg::exec(command, &guard)
+        .await
+        .into_message(gettext("Error Running Shell Command"));
+
+    if let Err(err) = &result {
+        BACKUP_HISTORY.update(|history| {
+            let run_info =
+                RunInfo::new_shell_script_failure(&chrono::Local::now(), err.to_string());
+            history.insert(config.id.clone(), run_info.clone());
+            history.remove_running(config.id.clone());
+        });
+    }
+
+    result
 }

@@ -6,7 +6,6 @@ pub mod ext;
 pub mod flatpak_info;
 pub mod password_storage;
 pub mod repo_cache;
-pub mod scripts;
 
 use crate::ui::prelude::*;
 use adw::prelude::*;

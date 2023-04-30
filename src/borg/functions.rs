@@ -1,3 +1,4 @@
+use super::scripts::UserScriptKind;
 use super::task::Task;
 use super::*;
 use crate::config;
@@ -236,6 +237,52 @@ async fn create_non_existent_location() {
         result,
         Err(error::Error::Failed(error::Failure::RepositoryDoesNotExist))
     );
+}
+
+#[async_trait]
+impl CommandRun<task::UserScript> for Command<task::UserScript> {
+    async fn run(self) -> Result<()> {
+        let Some(kind) = self.task.kind() else {
+            return Err(Error::from("The UserScript task kind wasn't set".to_string()));
+        };
+
+        let script = match kind {
+            UserScriptKind::PreBackup => self
+                .config
+                .repo
+                .settings()
+                .and_then(|settings| settings.pre_backup_command),
+            UserScriptKind::PostBackup => self
+                .config
+                .repo
+                .settings()
+                .and_then(|settings| settings.post_backup_command),
+        };
+
+        let Some(script) = script else {
+            // We don't have a script action configured in the config, so we don't do anything
+            return Ok(());
+        };
+
+        let env = match kind {
+            UserScriptKind::PreBackup => {
+                super::scripts::script_env_pre(&self.config, self.from_schedule.is_some())
+            }
+            UserScriptKind::PostBackup => {
+                let Some(run_info) = self.task.run_info() else {
+                    return Err(Error::from("The UserScript task RunInfo wasn't set".to_string()));
+                };
+
+                super::scripts::script_env_post(
+                    &self.config,
+                    self.from_schedule.is_some(),
+                    run_info,
+                )
+            }
+        };
+
+        super::scripts::run_script(&script, env, kind).await
+    }
 }
 
 #[derive(Clone)]
