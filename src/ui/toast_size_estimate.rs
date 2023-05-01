@@ -24,6 +24,18 @@ pub async fn check(
                 status.estimated_size = estimated_size.clone();
             }));
 
+        let history_save_result = BACKUP_HISTORY.update_result(clone!(@strong config.id as config_id, @strong estimate.unreadable_paths as paths => move |history| {
+            if let Ok(history) = history.get_result_mut(&config_id) {
+                history.set_suggested_excludes_from_absolute(config::history::SuggestedExcludeReason::PermissionDenied, paths.clone());
+            }
+
+            Ok(())
+        }));
+
+        if let Err(err) = history_save_result {
+            err.show().await;
+        }
+
         let space_avail = ui::utils::df::cached_or_lookup(config)
             .await
             .map(|x| x.avail);

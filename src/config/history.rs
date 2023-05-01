@@ -9,12 +9,22 @@ use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
 const HISTORY_LENGTH: usize = 100;
 
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum SuggestedExcludeReason {
+    PermissionDenied,
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct History {
     /// Last runs, latest run first
     pub run: VecDeque<RunInfo>,
     pub running: Option<Running>,
     pub last_completed: Option<RunInfo>,
+
+    // The excludes suggested from the last size estimate. Will be overwritten every time a size estimate is performed.
+    #[serde(default)]
+    pub suggested_exclude:
+        BTreeMap<SuggestedExcludeReason, BTreeSet<config::Exclude<{ config::RELATIVE }>>>,
 }
 
 impl History {
@@ -26,6 +36,23 @@ impl History {
         self.running = None;
         self.run.push_front(entry);
         self.run.truncate(HISTORY_LENGTH);
+    }
+
+    pub fn set_suggested_excludes_from_absolute(
+        &mut self,
+        reason: SuggestedExcludeReason,
+        paths: Vec<impl Into<std::path::PathBuf>>,
+    ) {
+        let mut excludes = BTreeSet::new();
+
+        // Limit to 20 elements to not overfill the config with paths
+        for path in paths.into_iter().take(20) {
+            let pattern = config::Pattern::<{ config::RELATIVE }>::path_full_match(path);
+            excludes.insert(config::Exclude::from_pattern(pattern));
+        }
+
+        // Overwrite the previous suggested exclude list
+        self.suggested_exclude.insert(reason, excludes);
     }
 }
 
