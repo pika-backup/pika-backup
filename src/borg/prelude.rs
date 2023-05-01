@@ -3,7 +3,11 @@ pub use super::BorgRunConfig;
 pub use crate::prelude::*;
 
 #[async_trait]
-pub(crate) trait CommandExt {
+pub(crate) trait CommandCommunicationExt {
+    /// Abortable [Command::output](async_std::process::Command::output)
+    ///
+    /// This will listen on the communication channel for abort messages and abort the task
+    /// early when an abort is desired.
     async fn output_with_communication<T: super::Task>(
         &mut self,
         communication: super::Communication<T>,
@@ -11,7 +15,7 @@ pub(crate) trait CommandExt {
 }
 
 #[async_trait]
-impl CommandExt for async_std::process::Command {
+impl CommandCommunicationExt for async_std::process::Command {
     async fn output_with_communication<T: super::Task>(
         &mut self,
         communication: super::Communication<T>,
@@ -28,7 +32,7 @@ impl CommandExt for async_std::process::Command {
                 return Err(super::Error::Aborted(abort));
             }
 
-            if let Some(_) = child.try_status()? {
+            if child.try_status()?.is_some() {
                 return Ok(child.output().await?);
             }
 

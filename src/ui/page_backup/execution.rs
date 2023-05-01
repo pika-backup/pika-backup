@@ -199,7 +199,7 @@ async fn run_script(
     command.task.set_kind(kind);
     command.task.set_run_info(run_info.clone());
 
-    let result = crate::ui::utils::borg::exec(command, &guard).await;
+    let result = crate::ui::utils::borg::exec(command, guard).await;
     let outcome = match &result {
         Err(crate::ui::error::Combined::Borg(borg::Error::Aborted(err))) => {
             Some(borg::Outcome::Aborted(err.clone()))

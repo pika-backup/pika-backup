@@ -4,7 +4,7 @@ use super::error::*;
 use super::prelude::*;
 use crate::borg::Outcome;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum UserScriptKind {
     PreBackup,
     PostBackup,
@@ -21,6 +21,8 @@ pub enum ShellVariable {
     // post backup script only
     Outcome,
     ResultMsg,
+
+    // completed backups only
     ArchiveId,
     ArchiveName,
     BytesTotal,
@@ -54,8 +56,8 @@ impl ShellVariable {
         let mut all = String::new();
         let post_backup_msg = gettext("Only available for the post-backup command:");
         let mut post_backup = String::new();
-        let success_msg = gettext("Only available for completed backups:");
-        let mut success = String::new();
+        let completed_msg = gettext("Only available for completed backups:");
+        let mut completed = String::new();
 
         for var in Self::all() {
             let new = format!(
@@ -64,8 +66,8 @@ impl ShellVariable {
                 var.description()
             );
 
-            if var.is_success_only() {
-                success += &new;
+            if var.is_completed_only() {
+                completed += &new;
             } else if var.is_post_backup_only() {
                 post_backup += &new;
             } else {
@@ -73,7 +75,9 @@ impl ShellVariable {
             }
         }
 
-        format!("{intro}\n{all}\n\n{post_backup_msg}\n{post_backup}\n\n{success_msg}\n{success}")
+        format!(
+            "{intro}\n{all}\n\n{post_backup_msg}\n{post_backup}\n\n{completed_msg}\n{completed}"
+        )
     }
 
     pub fn name(&self) -> &'static str {
@@ -130,15 +134,20 @@ impl ShellVariable {
         )
     }
 
-    pub fn is_success_only(&self) -> bool {
-        matches!(self, |ShellVariable::ArchiveId| ShellVariable::ArchiveName
-            | ShellVariable::BytesTotal
-            | ShellVariable::BytesCompressed
-            | ShellVariable::BytesUnique
-            | ShellVariable::FilesCount)
+    pub fn is_completed_only(&self) -> bool {
+        matches!(
+            self,
+            ShellVariable::ArchiveId
+                | ShellVariable::ArchiveName
+                | ShellVariable::BytesTotal
+                | ShellVariable::BytesCompressed
+                | ShellVariable::BytesUnique
+                | ShellVariable::FilesCount
+        )
     }
 }
 
+/// Create an environment variable dict with variables for the current backup
 pub fn script_env_pre(
     config: &crate::config::Backup,
     is_schedule: bool,
@@ -155,6 +164,7 @@ pub fn script_env_pre(
     env
 }
 
+/// Create an environment variable dict with variables from the previous backup
 pub fn script_env_post(
     config: &crate::config::Backup,
     is_schedule: bool,
@@ -206,6 +216,9 @@ pub fn script_env_post(
     env
 }
 
+/// Run a script on the flatpak host
+///
+/// Will be executed with `flatpak-spawn` and `bash -c`
 pub async fn run_script(
     command: &str,
     env: HashMap<ShellVariable, String>,
@@ -284,7 +297,7 @@ pub async fn run_script(
 
         if !stderr.is_empty() {
             msg += "\n\n";
-            msg += &stderr.trim();
+            msg += stderr.trim();
         }
 
         Err(Error::from(msg))

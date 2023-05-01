@@ -11,7 +11,7 @@ mod imp {
     use glib::signal::Inhibit;
     use glib::Properties;
     use once_cell::unsync::OnceCell;
-    use std::cell::RefCell;
+    use std::cell::{Cell, RefCell};
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::DialogPreferences)]
@@ -33,10 +33,18 @@ mod imp {
         pre_backup_command_error: RefCell<Option<crate::ui::error::Error>>,
         post_backup_command_error: RefCell<Option<crate::ui::error::Error>>,
 
+        script_running: Cell<bool>,
+        script_communication:
+            RefCell<Option<crate::borg::Communication<crate::borg::task::UserScript>>>,
+
         #[template_child]
         command_line_args_entry: TemplateChild<adw::EntryRow>,
         #[template_child]
         pre_backup_command_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pre_backup_command_test_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        post_backup_command_test_button: TemplateChild<gtk::Button>,
         #[template_child]
         post_backup_command_entry: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -264,13 +272,31 @@ mod imp {
         }
 
         async fn test_run_script(
+            &self,
             kind: UserScriptKind,
             config: crate::config::Backup,
             run_info: Option<crate::config::history::RunInfo>,
         ) {
+            self.script_running.set(true);
+
+            match &kind {
+                UserScriptKind::PreBackup => {
+                    self.pre_backup_command_test_button
+                        .set_icon_name("stop-large-symbolic");
+                    self.post_backup_command_test_button.set_sensitive(false);
+                }
+                UserScriptKind::PostBackup => {
+                    self.pre_backup_command_test_button.set_sensitive(false);
+                    self.post_backup_command_test_button
+                        .set_icon_name("stop-large-symbolic");
+                }
+            }
+
             let mut command =
                 crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
-            command.task.set_kind(kind);
+            self.script_communication
+                .replace(Some(command.communication.clone()));
+            command.task.set_kind(kind.clone());
             command.task.set_run_info(run_info.clone());
             if let Err(err) = crate::ui::utils::borg::exec(command, &QuitGuard::default())
                 .await
@@ -278,10 +304,40 @@ mod imp {
             {
                 err.show().await;
             }
+
+            match &kind {
+                UserScriptKind::PreBackup => {
+                    self.pre_backup_command_test_button
+                        .set_icon_name("play-large-symbolic");
+                    self.post_backup_command_test_button.set_sensitive(true);
+                }
+                UserScriptKind::PostBackup => {
+                    self.pre_backup_command_test_button.set_sensitive(true);
+                    self.post_backup_command_test_button
+                        .set_icon_name("play-large-symbolic");
+                }
+            }
+
+            self.script_communication.take();
+            self.script_running.set(false);
+        }
+
+        async fn abort_test_run_script(&self) {
+            if let Some(communication) = self.script_communication.take() {
+                debug!("Aborting script test");
+
+                communication
+                    .set_instruction(crate::borg::Instruction::Abort(crate::borg::Abort::User));
+            }
         }
 
         #[template_callback]
         async fn test_pre_backup_command(&self) {
+            if self.script_running.get() {
+                self.abort_test_run_script().await;
+                return;
+            }
+
             let command = self.obj().pre_backup_command();
 
             if !command.is_empty() {
@@ -290,13 +346,19 @@ mod imp {
                     settings.pre_backup_command = Some(command);
                     config.repo.set_settings(Some(settings));
 
-                    Self::test_run_script(UserScriptKind::PreBackup, config, None).await;
+                    self.test_run_script(UserScriptKind::PreBackup, config, None)
+                        .await;
                 }
             }
         }
 
         #[template_callback]
         async fn test_post_backup_command(&self) {
+            if self.script_running.get() {
+                self.abort_test_run_script().await;
+                return;
+            }
+
             let command = self.obj().post_backup_command();
 
             if !command.is_empty() {
@@ -336,7 +398,8 @@ mod imp {
                     settings.post_backup_command = Some(command);
                     config.repo.set_settings(Some(settings));
 
-                    Self::test_run_script(UserScriptKind::PostBackup, config, Some(run_info)).await;
+                    self.test_run_script(UserScriptKind::PostBackup, config, Some(run_info))
+                        .await;
                 }
             }
         }

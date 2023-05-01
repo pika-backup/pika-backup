@@ -158,7 +158,7 @@ impl Default for NumArchives {
     }
 }
 
-#[derive(Clone, Default)]
+#[derive(Clone, Default, Debug)]
 pub struct UserScript {
     kind: Option<UserScriptKind>,
     run_info: Option<crate::config::history::RunInfo>,
