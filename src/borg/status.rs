@@ -138,6 +138,7 @@ impl Status {
 pub struct SizeEstimate {
     pub total: u64,
     pub changed: u64,
+    pub unreadable_paths: Vec<std::path::PathBuf>,
 }
 
 impl SizeEstimate {
