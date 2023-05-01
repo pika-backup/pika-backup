@@ -281,7 +281,7 @@ impl CommandRun<task::UserScript> for Command<task::UserScript> {
             }
         };
 
-        super::scripts::run_script(&script, env, kind).await
+        super::scripts::run_script(&script, env, kind, self.communication).await
     }
 }
 

@@ -198,18 +198,26 @@ async fn run_script(
     let mut command = crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
     command.task.set_kind(kind);
     command.task.set_run_info(run_info.clone());
-    let result = crate::ui::utils::borg::exec(command, &guard)
-        .await
-        .into_message(gettext("Error Running Shell Command"));
 
-    if let Err(err) = &result {
-        BACKUP_HISTORY.update(|history| {
-            let run_info =
-                RunInfo::new_shell_script_failure(&chrono::Local::now(), err.to_string());
+    let result = crate::ui::utils::borg::exec(command, &guard).await;
+    let outcome = match &result {
+        Err(crate::ui::error::Combined::Borg(borg::Error::Aborted(err))) => {
+            Some(borg::Outcome::Aborted(err.clone()))
+        }
+        Err(crate::ui::error::Combined::Borg(borg_err)) => Some(borg::Outcome::Aborted(
+            borg::Abort::UserShellCommand(borg_err.to_string()),
+        )),
+        _ => None,
+    };
+
+    if let Some(outcome) = outcome {
+        let run_info = RunInfo::new(&config, outcome, vec![]);
+
+        BACKUP_HISTORY.update(move |history| {
             history.insert(config.id.clone(), run_info.clone());
             history.remove_running(config.id.clone());
         });
     }
 
-    result
+    result.into_message(gettext("Error Running Shell Command"))
 }

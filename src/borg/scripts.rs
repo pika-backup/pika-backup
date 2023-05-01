@@ -210,6 +210,7 @@ pub async fn run_script(
     command: &str,
     env: HashMap<ShellVariable, String>,
     kind: UserScriptKind,
+    communication: super::Communication<super::task::UserScript>,
 ) -> Result<()> {
     let envs: HashMap<&str, &str> = env.iter().map(|(k, v)| (k.name(), v.as_str())).collect();
 
@@ -233,16 +234,25 @@ pub async fn run_script(
     cmd.env_remove("G_MESSAGES_DEBUG");
     cmd.envs(envs);
 
-    let output = cmd.output().await.map_err(|e| match kind {
-        UserScriptKind::PreBackup => Error::from(gettextf(
-            "The pre-backup command configured in preferences failed to run.\n{}",
-            &[&format!("{:?}", e)],
-        )),
-        UserScriptKind::PostBackup => Error::from(gettextf(
-            "The post-backup command configured in preferences failed to run.\n{}",
-            &[&format!("{:?}", e)],
-        )),
-    })?;
+    let output = cmd
+        .output_with_communication(communication)
+        .await
+        .map_err(|e| {
+            if let Error::Aborted(_) = e {
+                e
+            } else {
+                match kind {
+                    UserScriptKind::PreBackup => Error::from(gettextf(
+                        "The pre-backup command configured in preferences failed to run.\n{}",
+                        &[&format!("{:?}", e)],
+                    )),
+                    UserScriptKind::PostBackup => Error::from(gettextf(
+                        "The post-backup command configured in preferences failed to run.\n{}",
+                        &[&format!("{:?}", e)],
+                    )),
+                }
+            }
+        })?;
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
