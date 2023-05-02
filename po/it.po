@@ -2,14 +2,14 @@
 # Copyright (C) 2021 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup
 # package.
-# Davide Ferracin <davide.ferracin@protonmail.com>, 2021.
+# Davide Ferracin <davide.ferracin@protonmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-09 13:25+0000\n"
-"PO-Revision-Date: 2022-10-09 23:28+0200\n"
+"POT-Creation-Date: 2023-02-10 01:13+0000\n"
+"PO-Revision-Date: 2023-02-21 11:43+0100\n"
 "Last-Translator: Davide Ferracin <davide.ferracin@protonmail.com>\n"
 "Language-Team: Italian <gnome-it-list@gnome.org>\n"
 "Language: it\n"
@@ -20,10 +20,13 @@ msgstr ""
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
-msgstr "Monitor di Pika Backup"
+msgstr "Monitor per backup Pika"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you
+#. transliterate "Pika," please make sure that the transliteration does not
+#. coincide with a different meaning. If fitting, translations of "Pika" are
+#. welcome too.
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
@@ -119,14 +122,18 @@ msgid "Set up new backup"
 msgstr "Imposta nuovo backup"
 
 #: data/resources/gtk/help-overlay.ui:19
+msgid "Show keyboard shortcuts"
+msgstr "Mostra le scorciatoie da tastiera"
+
+#: data/resources/gtk/help-overlay.ui:25
 msgid "Quit"
 msgstr "Esce"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:31
 msgid "Back"
 msgstr "Indietro"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:37
 msgid "Open menu"
 msgstr "Apre il menù"
 
@@ -296,7 +303,7 @@ msgstr "Debug"
 msgid "Info"
 msgstr "Informazioni"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
+#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:229
 msgid "Warning"
 msgstr "Avvertimento"
 
@@ -328,11 +335,20 @@ msgstr "Rimozione dei vecchi archivi"
 msgid "Identifying old Archives"
 msgstr "Identificazione dei vecchi archivi"
 
-#: src/borg/task.rs:76
+#: src/borg/task.rs:67
+msgid "Compacting Archives"
+msgstr "Compattazione degli archivi"
+
+#: src/borg/task.rs:79
+msgid "Deleting Archive"
+msgstr "Eliminazione dell'archivio"
+
+#: src/borg/task.rs:100
 msgid "Refreshing Archive List"
 msgstr "Aggiornamento della lista degli archivi"
 
-#: src/config.rs:57 src/ui/page_backup/display.rs:13
+#. Translators: User home directory
+#: src/config.rs:58 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:87
 msgid "Home"
 msgstr "Home"
@@ -393,6 +409,14 @@ msgstr "Dati che possono essere rigenerati se necessario"
 msgid "Documents and data are still backed up"
 msgstr "Documenti e dati sono ancora salvati nel backup"
 
+#: src/config/exclude.rs:196
+msgid "Files that have not been irretrievably deleted"
+msgstr "File che non sono stati eliminati irrimediabilmente"
+
+#: src/config/exclude.rs:197
+msgid "Might include data stored within"
+msgstr "Potrebbe includere i dati immagazzinati al loro interno"
+
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Espressione regolare"
@@ -401,8 +425,8 @@ msgstr "Espressione regolare"
 msgid "Unix Filename Pattern"
 msgstr "Pattern per file Unix"
 
-#: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
-#: src/ui/dialog_setup.ui:108
+#: src/config/repository.rs:145 src/ui/dialog_setup.ui:65
+#: src/ui/dialog_setup.ui:109
 msgid "Remote Location"
 msgstr "Posizione remota"
 
@@ -492,34 +516,33 @@ msgstr "«{}» deve essere connesso affinché il backup programmato cominci."
 msgid "Failed to start scheduled backup"
 msgstr "Avvio del backup programmato non riuscito"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:17
+#: src/ui.rs:177 src/ui/page_backup/events.rs:17
 msgid "Abort running backup creation?"
 msgstr "Interrompere la creazione del backup?"
 
-#: src/ui.rs:176 src/ui/page_backup/events.rs:18
+#: src/ui.rs:178 src/ui/page_backup/events.rs:18
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Il backup rimarrà incompleto se viene interrotto adesso."
 
-#: src/ui.rs:177 src/ui/dialog_encryption_password.ui:20
-#: src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:179 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:19
 msgid "Continue"
 msgstr "Continua"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:20
+#: src/ui.rs:180 src/ui/page_backup/events.rs:20
 msgid "Abort"
 msgstr "Interrompi"
 
-#: src/ui.rs:197
+#: src/ui.rs:199
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "L'avvio di «borg» non è andato a buon fine. Il programma BorgBackup è "
 "installato correttamente?"
 
-#: src/ui.rs:221
+#: src/ui.rs:223
 msgid "BorgBackup version too old"
 msgstr "Versione di BorgBackup troppo vecchia"
 
-#: src/ui.rs:223
+#: src/ui.rs:225
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -527,11 +550,11 @@ msgstr ""
 "La versione {} di BorgBackup installata è troppo vecchia. Alcune parti che "
 "richiedono la versione {}.{}.{} di borg-backup non funzioneranno."
 
-#: src/ui.rs:234
+#: src/ui.rs:236
 msgid "BorgBackup version too new"
 msgstr "Versione di BorgBackup troppo recente"
 
-#: src/ui.rs:236
+#: src/ui.rs:238
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -539,11 +562,11 @@ msgstr ""
 "La versione {} di BorgBackup installata è troppo recente. La versione {}.{} "
 "è consigliata. Alcune funzionalità potrebbero non avere gli effetti previsti."
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "Failed to Check BorgBackup Version"
 msgstr "Impossibile controllare la versione di BorgBackup"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid "The installed version {} might not work."
 msgstr "La versione {} installata potrebbe non funzionare."
 
@@ -616,152 +639,156 @@ msgstr ""
 msgid "Select directory to include…"
 msgstr "Selezionare cartella da includere…"
 
-#: src/ui/app_window.ui:331 src/ui/dialog_exclude.ui:4
+#: src/ui/app_window.ui:327
+msgid "No files included in backup"
+msgstr "Nessun file incluso nel backup"
+
+#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Escludi dal backup"
 
-#: src/ui/app_window.ui:332
+#: src/ui/app_window.ui:340
 msgid "The following folders are excluded from the backup repository."
 msgstr "Le seguenti cartelle sono escluse dal deposito del backup."
 
-#: src/ui/app_window.ui:335
+#: src/ui/app_window.ui:343
 msgid "Select directory to exclude…"
 msgstr "Selezionare cartella da escludere…"
 
-#: src/ui/app_window.ui:355
+#: src/ui/app_window.ui:356
 msgid "Nothing excluded from backup"
 msgstr "Non c'è niente di escluso dal backup"
 
-#: src/ui/app_window.ui:374
+#: src/ui/app_window.ui:370
 msgid "_Archives"
 msgstr "_Archivi"
 
-#: src/ui/app_window.ui:469
+#: src/ui/app_window.ui:465
 msgid "Archive _Prefix"
 msgstr "_Prefissi degli archivi"
 
-#: src/ui/app_window.ui:471
+#: src/ui/app_window.ui:467
 msgid "Added in front of all archive names"
 msgstr "Aggiunto davanti a tutti i nomi degli archivi"
 
-#: src/ui/app_window.ui:500
+#: src/ui/app_window.ui:496
 msgid "_Cleanup Archives"
 msgstr "_Ripulisci gli archivi"
 
-#: src/ui/app_window.ui:501
+#: src/ui/app_window.ui:497
 msgid "Delete some older archives"
 msgstr "Elimina alcuni vecchi archivi"
 
-#: src/ui/app_window.ui:517
+#: src/ui/app_window.ui:513
 msgid "Archives"
 msgstr "Archivi"
 
-#: src/ui/app_window.ui:526
+#: src/ui/app_window.ui:522
 msgid "Refresh list of archives"
 msgstr "Aggiorna la lista degli archivi"
 
-#: src/ui/app_window.ui:547
+#: src/ui/app_window.ui:543
 msgid "Stop browsing archive files"
 msgstr "Interrompi l'esplorazione dei file di archivio"
 
-#: src/ui/app_window.ui:573
+#: src/ui/app_window.ui:569
 msgid "No archives available"
 msgstr "Nessun archivio disponibile"
 
-#: src/ui/app_window.ui:592
+#: src/ui/app_window.ui:588
 msgid "_Schedule"
 msgstr "_Programma"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:613
 msgid "Scheduled Backups"
 msgstr "Backup programmati"
 
-#: src/ui/app_window.ui:621
+#: src/ui/app_window.ui:617
 msgid "Regularly Create Backups"
 msgstr "Crea regolarmente i backup"
 
-#: src/ui/app_window.ui:626
+#: src/ui/app_window.ui:622
 msgid "Frequency"
 msgstr "Frequenza"
 
-#: src/ui/app_window.ui:634
+#: src/ui/app_window.ui:630
 msgid "Preferred Time"
 msgstr "Orario preferito"
 
-#: src/ui/app_window.ui:654
+#: src/ui/app_window.ui:650
 msgid "Preferred Weekday"
 msgstr "Giorno della settimana preferito"
 
-#: src/ui/app_window.ui:659
+#: src/ui/app_window.ui:655
 msgid "Preferred Day"
 msgstr "Giorno preferito"
 
-#: src/ui/app_window.ui:680 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
 msgid "Delete old Archives"
 msgstr "Elimina i vecchi archivi"
 
-#: src/ui/app_window.ui:686
+#: src/ui/app_window.ui:682
 msgid "Save Configuration"
 msgstr "Salva la configurazione"
 
-#: src/ui/app_window.ui:698
+#: src/ui/app_window.ui:694
 msgid "Regularly Cleanup Archives"
 msgstr "Ripulisci regolarmente gli archivi"
 
-#: src/ui/app_window.ui:699
+#: src/ui/app_window.ui:695
 msgid "Remove old archives after creating new backups"
 msgstr "Rimuovi i vecchi archivi dopo la creazione di nuovi backup"
 
-#: src/ui/app_window.ui:709
+#: src/ui/app_window.ui:705
 msgid "Preserved Archives"
 msgstr "Archivi preservati"
 
-#: src/ui/app_window.ui:710
+#: src/ui/app_window.ui:706
 msgid "Amount and time span of retained archives"
 msgstr "Quantità e intervallo temporale degli archivi mantenuti"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:715
 msgid "Details"
 msgstr "Dettagli"
 
-#: src/ui/app_window.ui:723
+#: src/ui/app_window.ui:719
 msgid "Keep Hourly"
 msgstr "Conserva orari"
 
-#: src/ui/app_window.ui:745
+#: src/ui/app_window.ui:741
 msgid "Keep Daily"
 msgstr "Conserva giornalieri"
 
-#: src/ui/app_window.ui:767
+#: src/ui/app_window.ui:763
 msgid "Keep Weekly"
 msgstr "Conserva settimanali"
 
-#: src/ui/app_window.ui:787
+#: src/ui/app_window.ui:783
 msgid "Keep Monthly"
 msgstr "Conserva mensili"
 
-#: src/ui/app_window.ui:806
+#: src/ui/app_window.ui:802
 msgid "Keep Annual"
 msgstr "Conserva annuali"
 
-#: src/ui/app_window.ui:853
+#: src/ui/app_window.ui:849
 msgid "Backup Info"
 msgstr "Informazioni sul backup"
 
-#: src/ui/app_window.ui:913
+#: src/ui/app_window.ui:909
 msgid "Amount saved"
 msgstr "Totale salvato"
 
-#: src/ui/app_window.ui:929
+#: src/ui/app_window.ui:925
 msgid "Number of files saved"
 msgstr "Numero di file salvati"
 
-#: src/ui/app_window.ui:945
+#: src/ui/app_window.ui:941
 msgid "Additional backup space used"
 msgstr "Spazio aggiuntivo usato per il backup"
 
-#: src/ui/app_window.ui:961
+#: src/ui/app_window.ui:957
 msgid "Current file"
 msgstr "File attuale"
 
@@ -822,32 +849,27 @@ msgstr "Interruzione del backup"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Creazione dell'interfaccia per i backup programmati non riuscita."
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:27
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:27
-msgid "Copyright © 2018–2022 Sophie Herold et al."
-msgstr "Copyright © 2018–2022 Sophie Herold et al."
-
 #: src/ui/dialog_about.rs:28
-msgid "translator-credits"
-msgstr "Davide Ferracin <davide.ferracin@protonmail.com>, 2022"
-
-#. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:31
-msgid "Court Witch"
-msgstr "Strega di corte"
-
-#: src/ui/dialog_about.rs:32
 msgid "Fina Wilke"
 msgstr "Fina Wilke"
 
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:30
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "Copyright © 2018–2023 Sophie Herold et al."
+
+#: src/ui/dialog_about.rs:31
+msgid "translator-credits"
+msgstr "Davide Ferracin <davide.ferracin@protonmail.com>, 2023"
+
+#: src/ui/dialog_about.rs:35
 msgid "Back End"
 msgstr "Back-end"
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:37
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -857,11 +879,11 @@ msgstr ""
 "<a href='https://www.borgbackup.org/support/fund.html'>sostenere BorgBackup</"
 "a>."
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:39
 msgid "The Name"
 msgstr "Il nome"
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:41
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -882,7 +904,7 @@ msgstr ""
 "non meno importante, i pica non solo creano dei mucchietti di fieno molto "
 "sofisticati, ma sono anche molto rapidi nel raccogliere la vegetazione."
 
-#: src/ui/dialog_about.rs:45
+#: src/ui/dialog_about.rs:43
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -897,11 +919,11 @@ msgid "Invalid Archive Prefix"
 msgstr "Prefisso dell'archivio non valido"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:636 src/ui/dialog_setup.ui:648
+#: src/ui/dialog_setup.ui:634
 msgid "Archive Prefix"
 msgstr "Prefisso dell'archivio"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_encryption_password.ui:15
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
 #: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
 #: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
@@ -940,6 +962,27 @@ msgid "If the archive prefix is empty, no prefix is added."
 msgstr ""
 "Se il prefisso dell'archivio è vuoto, non viene anteposto alcun prefisso."
 
+#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
+msgid "Delete Archive"
+msgstr "Elimina archivio"
+
+#: src/ui/dialog_delete_archive.ui:41
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr ""
+"Procedendo con questa operazione, questo archivio sarà eliminato "
+"irrimediabilmente. I dati salvati in questo specifico punto temporale non "
+"saranno più disponibili."
+
+#: src/ui/dialog_delete_archive.ui:51
+msgid "Archive Name"
+msgstr "Nome dell'archivio"
+
+#: src/ui/dialog_delete_archive.ui:64
+msgid "Archive Date"
+msgstr "Data dell'archivio"
+
 #: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
 #: src/ui/dialog_device_missing.rs:100
 msgid "Failed to Mount"
@@ -956,24 +999,36 @@ msgid ""
 msgstr ""
 "L'operazione «{}» richiede la password di cifratura del deposito su «{}»."
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:328
-msgid "Encryption"
-msgstr "Cifratura"
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:489
+msgid "Encryption Password Required"
+msgstr "Password di cifratura richiesta"
 
-#: src/ui/dialog_encryption_password.ui:54 src/ui/dialog_setup.ui:515
+#: src/ui/dialog_encryption_password.ui:9
+msgid "_Cancel"
+msgstr "A_nnulla"
+
+#: src/ui/dialog_encryption_password.ui:10
+msgid "Co_ntinue"
+msgstr "_Continua"
+
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:509
 msgid "Password"
 msgstr "Password"
 
-#: src/ui/dialog_exclude.rs:129
+#: src/ui/dialog_exclude.rs:74
+msgid "Exclusion Rules"
+msgstr "Regole di esclusione"
+
+#: src/ui/dialog_exclude.rs:135
 msgid "Exclude Directory"
 msgstr "Escludi una cartella"
 
-#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
+#: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
 #: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
 msgid "Select"
 msgstr "Seleziona"
 
-#: src/ui/dialog_exclude.rs:158
+#: src/ui/dialog_exclude.rs:164
 msgid "Exclude File"
 msgstr "Escludi un file"
 
@@ -1018,11 +1073,11 @@ msgid ""
 "stable/usage/help.html\">BorgBackup documentation</a>."
 msgstr ""
 "I pattern qui sopra devono essere scritti in una forma particolare. Vengono "
-"confrontati con i percorsi senza il <tt>/</tt> iniziale. In aggiunta, i pattern "
-"nello stile di una shell vengono confrontati come se avessero in fondo una "
-"<tt>*</tt>. Per maggiori dettagli, confrontare la "
-"<a href=\"https://borgbackup.readthedocs.io/en/"
-"stable/usage/help.html\">guida di BorgBackup</a>."
+"confrontati con i percorsi senza il <tt>/</tt> iniziale. In aggiunta, i "
+"pattern nello stile di una shell vengono confrontati come se avessero in "
+"fondo una <tt>*</tt>. Per maggiori dettagli, confrontare la <a href="
+"\"https://borgbackup.readthedocs.io/en/stable/usage/help.html\">guida di "
+"BorgBackup</a>."
 
 #: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
 msgid "Failed to determine how many archives would be deleted"
@@ -1102,51 +1157,52 @@ msgstr "Elenco dei depositi esistenti non riuscito."
 msgid "Setup"
 msgstr "Impostazioni"
 
-#: src/ui/dialog_setup.ui:40
+#: src/ui/dialog_setup.ui:41
 msgid "Create new Repository"
 msgstr "Crea un nuovo deposito"
 
-#: src/ui/dialog_setup.ui:41
+#: src/ui/dialog_setup.ui:42
 msgid "Select a location for a new backup repository."
 msgstr "Selezionare una posizione per un nuovo deposito di backup."
 
-#: src/ui/dialog_setup.ui:49 src/ui/dialog_setup.ui:93
+#: src/ui/dialog_setup.ui:50 src/ui/dialog_setup.ui:94
 msgid "Location on Disk"
 msgstr "Posizione su disco"
 
-#: src/ui/dialog_setup.ui:84
+#: src/ui/dialog_setup.ui:85
 msgid "Use Existing Repository"
 msgstr "Usa un deposito esistente"
 
-#: src/ui/dialog_setup.ui:85
+#: src/ui/dialog_setup.ui:86
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
 msgstr ""
-"Scegliere una posizione che contenga un deposito esistente di un backup. È possibile "
-"usare anche depositi creati con altri software compatibili con BorgBackup."
+"Scegliere una posizione che contenga un deposito esistente di un backup. È "
+"possibile usare anche depositi creati con altri software compatibili con "
+"BorgBackup."
 
-#: src/ui/dialog_setup.ui:138
+#: src/ui/dialog_setup.ui:139
 msgid "Back to Overview"
 msgstr "Ritorna alla panoramica"
 
-#: src/ui/dialog_setup.ui:148
+#: src/ui/dialog_setup.ui:149
 msgid "Connect"
 msgstr "Connetti"
 
-#: src/ui/dialog_setup.ui:161
+#: src/ui/dialog_setup.ui:162
 msgid "_Create"
 msgstr "_Crea"
 
-#: src/ui/dialog_setup.ui:177
+#: src/ui/dialog_setup.ui:179
 msgid "Location"
 msgstr "Posizione"
 
-#: src/ui/dialog_setup.ui:181
+#: src/ui/dialog_setup.ui:183
 msgid "Advanced Options"
 msgstr "Opzioni avanzate"
 
-#: src/ui/dialog_setup.ui:239
+#: src/ui/dialog_setup.ui:241
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1159,27 +1215,27 @@ msgstr ""
 "formato come «NTFS» o «Ext4». Attenzione, la formattazione cancellerà tutti "
 "i file su quel dispositivo!"
 
-#: src/ui/dialog_setup.ui:264
+#: src/ui/dialog_setup.ui:266
 msgid "ssh://user@server.example.org/~/backup"
 msgstr "ssh://utente@server.esempio.org/~/backup"
 
-#: src/ui/dialog_setup.ui:280
+#: src/ui/dialog_setup.ui:282
 msgid "Conventional Locations"
 msgstr "Posizioni convenzionali"
 
-#: src/ui/dialog_setup.ui:291
+#: src/ui/dialog_setup.ui:293
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
 "“smb://” or “sftp://” protocol prefix."
 msgstr ""
-"È possibile fornire le posizioni SMB e SFTP per backup remoti sotto forma di URL "
-"con il prefisso di protocollo «smb://» oppure «sftp://»."
+"È possibile fornire le posizioni SMB e SFTP per backup remoti sotto forma di "
+"URL con il prefisso di protocollo «smb://» oppure «sftp://»."
 
-#: src/ui/dialog_setup.ui:298
+#: src/ui/dialog_setup.ui:300
 msgid "Locations with BorgBackup Support"
 msgstr "Posizioni con supporto per BorgBackup"
 
-#: src/ui/dialog_setup.ui:310
+#: src/ui/dialog_setup.ui:312
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
@@ -1191,7 +1247,7 @@ msgstr ""
 "«borg-backup» installato. Per queste posizioni, si può usare o la sintassi "
 "«<indirizzo server>:<cartella>» o il prefisso «ssh://»."
 
-#: src/ui/dialog_setup.ui:327
+#: src/ui/dialog_setup.ui:329
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -1199,23 +1255,27 @@ msgstr ""
 "I dati salvati in un backup cifrato sono protetti da password. Se si usa la "
 "cifratura, una password sarà richiesta per accedere ai backup."
 
-#: src/ui/dialog_setup.ui:342
+#: src/ui/dialog_setup.ui:330
+msgid "Encryption"
+msgstr "Cifratura"
+
+#: src/ui/dialog_setup.ui:344
 msgid "Encrypted"
 msgstr "Cifrato"
 
-#: src/ui/dialog_setup.ui:349
+#: src/ui/dialog_setup.ui:351
 msgid "Encryption Password"
 msgstr "Password di cifratura"
 
-#: src/ui/dialog_setup.ui:363
+#: src/ui/dialog_setup.ui:365
 msgid "Repeat Password"
 msgstr "Ripeti password"
 
-#: src/ui/dialog_setup.ui:374
+#: src/ui/dialog_setup.ui:376
 msgid "Unencrypted"
 msgstr "Non cifrato"
 
-#: src/ui/dialog_setup.ui:391
+#: src/ui/dialog_setup.ui:393
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -1223,33 +1283,29 @@ msgstr ""
 "Questi argomenti saranno passati a borg al lancio. Sono supportate solo le "
 "opzioni lunghe, che iniziano con «--»."
 
-#: src/ui/dialog_setup.ui:392
+#: src/ui/dialog_setup.ui:394
 msgid "Additional command line arguments"
 msgstr "Argomenti aggiuntivi per la riga di comando"
 
-#: src/ui/dialog_setup.ui:434
+#: src/ui/dialog_setup.ui:436
 msgid "Checking Backup Repository"
 msgstr "Controllo del deposito per il backup"
 
-#: src/ui/dialog_setup.ui:487
-msgid "Encryption Password Required"
-msgstr "Password di cifratura richiesta"
-
-#: src/ui/dialog_setup.ui:496
+#: src/ui/dialog_setup.ui:498
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "È richiesta la password di cifratura del deposito per potervi accedere."
 
-#: src/ui/dialog_setup.ui:546 src/ui/dialog_setup.ui:580
+#: src/ui/dialog_setup.ui:544 src/ui/dialog_setup.ui:578
 msgid "S_kip"
 msgstr "_Salta"
 
-#: src/ui/dialog_setup.ui:558
+#: src/ui/dialog_setup.ui:556
 msgid "Checking for Previous Configurations"
 msgstr "Ricerca di configurazioni precedenti"
 
-#: src/ui/dialog_setup.ui:559
+#: src/ui/dialog_setup.ui:557
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
@@ -1257,11 +1313,11 @@ msgstr ""
 "Raccolta di informazioni per trasferire le impostazioni usate in precedenza. "
 "Questo passaggio è facoltativo."
 
-#: src/ui/dialog_setup.ui:594
+#: src/ui/dialog_setup.ui:592
 msgid "Transfer Settings"
 msgstr "Trasferisci impostazioni"
 
-#: src/ui/dialog_setup.ui:595
+#: src/ui/dialog_setup.ui:593
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -1270,11 +1326,11 @@ msgstr ""
 "per essere trasferito nelle nuove impostazioni. Si potrà modificare la "
 "configurazione successivamente."
 
-#: src/ui/dialog_setup.ui:623
+#: src/ui/dialog_setup.ui:621
 msgid "_Save"
 msgstr "_Salva"
 
-#: src/ui/dialog_setup.ui:637
+#: src/ui/dialog_setup.ui:635
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1284,7 +1340,7 @@ msgstr ""
 "backup. È sconsigliato usare lo stesso prefisso per due dispositivi "
 "differenti, a meno che uno dei dispositivi debba sostituire l'altro."
 
-#: src/ui/dialog_setup.ui:677 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:676 src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "Creazione del deposito per il backup"
 
@@ -1296,11 +1352,11 @@ msgstr "Nessuno"
 msgid "Free space: {}"
 msgstr "Spazio disponibile: {}"
 
-#: src/ui/dialog_setup/folder_button.rs:110
+#: src/ui/dialog_setup/folder_button.rs:111
 msgid "_Select…"
 msgstr "_Seleziona…"
 
-#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:116 src/ui/dialog_storage.ui:5
 msgid "Backup Location"
 msgstr "Posizione del backup"
 
@@ -1439,11 +1495,15 @@ msgstr "Commento"
 msgid "Browse saved files"
 msgstr "Esplora i file salvati"
 
-#: src/ui/page_archives/display.rs:201
+#: src/ui/page_archives/display.rs:181
+msgid "Delete archive"
+msgstr "Elimina archivio"
+
+#: src/ui/page_archives/display.rs:215
 msgid "{} Available"
 msgstr "{} disponibile"
 
-#: src/ui/page_archives/display.rs:204
+#: src/ui/page_archives/display.rs:218
 msgid "{} Total"
 msgstr "{} in totale"
 
@@ -1863,6 +1923,9 @@ msgstr "Pika Backup «{}»"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Salvataggio della cache non riuscito"
+
+#~ msgid "Court Witch"
+#~ msgstr "Strega di corte"
 
 #~ msgid "Shell Wildcard Pattern"
 #~ msgstr "Carattere jolly della shell"
