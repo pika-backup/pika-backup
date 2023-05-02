@@ -1,7 +1,7 @@
-use super::scripts::UserScriptKind;
 use super::task::Task;
 use super::*;
 use crate::config;
+use crate::config::UserScriptKind;
 use crate::prelude::*;
 use crate::schedule;
 use async_std::prelude::*;
@@ -246,20 +246,7 @@ impl CommandRun<task::UserScript> for Command<task::UserScript> {
             return Err(Error::from("The UserScript task kind wasn't set".to_string()));
         };
 
-        let script = match kind {
-            UserScriptKind::PreBackup => self
-                .config
-                .repo
-                .settings()
-                .and_then(|settings| settings.pre_backup_command),
-            UserScriptKind::PostBackup => self
-                .config
-                .repo
-                .settings()
-                .and_then(|settings| settings.post_backup_command),
-        };
-
-        let Some(script) = script else {
+        let Some(script) = self.config.user_scripts.get(&kind) else {
             // We don't have a script action configured in the config, so we don't do anything
             return Ok(());
         };
@@ -281,7 +268,7 @@ impl CommandRun<task::UserScript> for Command<task::UserScript> {
             }
         };
 
-        super::scripts::run_script(&script, env, kind, self.communication).await
+        super::scripts::run_script(script, env, kind, self.communication).await
     }
 }
 

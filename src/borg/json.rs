@@ -82,6 +82,25 @@ impl Stats {
         }
     }
 
+    /// Create stats for usage in examples (like shell script tests)
+    pub fn new_example() -> Self {
+        Stats {
+            archive: NewArchive {
+                duration: 100.,
+                id: ArchiveId::new(
+                    "b8fe5b22bc490b12a5b7fd231c8ec8b8cc68805b1cc4cb8a84d643e1e76a89fa".to_string(),
+                ),
+                name: ArchiveName::new("5adc9f-d6096ee8".to_string()),
+                stats: NewArchiveSize {
+                    compressed_size: 3085251047,
+                    deduplicated_size: 783,
+                    nfiles: 783,
+                    original_size: 3124637266,
+                },
+            },
+        }
+    }
+
     #[cfg(test)]
     pub fn test_new_mock() -> Self {
         Stats {

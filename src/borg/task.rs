@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-use super::scripts::UserScriptKind;
+use crate::config::UserScriptKind;
 
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub enum Kind {

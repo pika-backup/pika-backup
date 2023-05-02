@@ -5,7 +5,7 @@ use crate::config::BackupSettings;
 use crate::ui::prelude::*;
 
 mod imp {
-    use crate::borg::scripts::UserScriptKind;
+    use crate::config::UserScriptKind;
 
     use super::*;
     use glib::signal::Inhibit;
@@ -103,12 +103,27 @@ mod imp {
             BACKUP_CONFIG.update(|c| match c.get_result_mut(self.config_id.get().unwrap()) {
                 Ok(backup) => {
                     backup.title = self.config_title.borrow().trim().to_string();
+
+                    if !self.pre_backup_command.borrow().is_empty() {
+                        backup.user_scripts.insert(
+                            UserScriptKind::PreBackup,
+                            self.pre_backup_command.borrow().clone(),
+                        );
+                    } else {
+                        backup.user_scripts.remove(&UserScriptKind::PreBackup);
+                    }
+
+                    if !self.post_backup_command.borrow().is_empty() {
+                        backup.user_scripts.insert(
+                            UserScriptKind::PostBackup,
+                            self.post_backup_command.borrow().clone(),
+                        );
+                    } else {
+                        backup.user_scripts.remove(&UserScriptKind::PostBackup);
+                    }
+
                     backup.repo.set_settings(Some(BackupSettings {
                         command_line_args: self.command_line_args.borrow().clone(),
-                        pre_backup_command: Some(self.pre_backup_command.borrow().clone())
-                            .filter(|s| !s.is_empty()),
-                        post_backup_command: Some(self.post_backup_command.borrow().clone())
-                            .filter(|s| !s.is_empty()),
                     }));
                 }
                 Err(err) => {
@@ -182,18 +197,27 @@ mod imp {
                     self.obj().set_config_title(backup.title());
                     self.title_pref_group.set_description(Some(&gettextf("The title of this backup configuration. Will be displayed as “{}” when left empty.", &[&backup.repo.title_fallback()])));
 
+                    self.obj().set_pre_backup_command(
+                        backup
+                            .user_scripts
+                            .get(&UserScriptKind::PreBackup)
+                            .cloned()
+                            .unwrap_or_default(),
+                    );
+                    self.obj().set_post_backup_command(
+                        backup
+                            .user_scripts
+                            .get(&UserScriptKind::PostBackup)
+                            .cloned()
+                            .unwrap_or_default(),
+                    );
+
                     if let Some(settings) = backup.repo.settings() {
                         self.obj().set_command_line_args(
                             settings
                                 .command_line_args
                                 .map(|a| a.join(" "))
                                 .unwrap_or("".to_string()),
-                        );
-                        self.obj().set_pre_backup_command(
-                            settings.pre_backup_command.unwrap_or("".to_string()),
-                        );
-                        self.obj().set_post_backup_command(
-                            settings.post_backup_command.unwrap_or("".to_string()),
                         );
                     }
                 }
@@ -342,9 +366,9 @@ mod imp {
 
             if !command.is_empty() {
                 if let Ok(mut config) = self.config() {
-                    let mut settings: BackupSettings = config.repo.settings().unwrap_or_default();
-                    settings.pre_backup_command = Some(command);
-                    config.repo.set_settings(Some(settings));
+                    config
+                        .user_scripts
+                        .insert(UserScriptKind::PreBackup, command);
 
                     self.test_run_script(UserScriptKind::PreBackup, config, None)
                         .await;
@@ -376,27 +400,15 @@ mod imp {
                         crate::config::history::RunInfo::new(
                             &config,
                             crate::borg::Outcome::Completed {
-                                stats: crate::borg::Stats {
-                                    archive: crate::borg::NewArchive {
-                                        duration: 100.,
-                                        id: crate::borg::ArchiveId::new("b8fe5b22bc490b12a5b7fd231c8ec8b8cc68805b1cc4cb8a84d643e1e76a89fa".to_string()),
-                                        name: crate::borg::ArchiveName::new("5adc9f-d6096ee8".to_string()),
-                                        stats: crate::borg::NewArchiveSize {
-                                            compressed_size: 3085251047,
-                                            deduplicated_size: 783,
-                                            nfiles: 783,
-                                            original_size: 3124637266
-                                        }
-                                    },
-                                },
+                                stats: crate::borg::Stats::new_example(),
                             },
                             Default::default(),
                         )
                     };
 
-                    let mut settings: BackupSettings = config.repo.settings().unwrap_or_default();
-                    settings.post_backup_command = Some(command);
-                    config.repo.set_settings(Some(settings));
+                    config
+                        .user_scripts
+                        .insert(UserScriptKind::PostBackup, command);
 
                     self.test_run_script(UserScriptKind::PostBackup, config, Some(run_info))
                         .await;

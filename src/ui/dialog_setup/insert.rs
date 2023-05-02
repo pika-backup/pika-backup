@@ -122,7 +122,6 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
     if let Ok(args) = command_line_args(&ui) {
         repo.set_settings(Some(BackupSettings {
             command_line_args: Some(args),
-            ..Default::default()
         }));
     } else {
         return Err(Message::new(
@@ -164,7 +163,6 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
 pub async fn add_first_try(mut repo: config::Repository, ui: builder::DialogSetup) -> Result<()> {
     repo.set_settings(Some(BackupSettings {
         command_line_args: Some(command_line_args(&ui)?),
-        ..Default::default()
     }));
 
     ui.add_task().set_repo(Some(repo.clone()));

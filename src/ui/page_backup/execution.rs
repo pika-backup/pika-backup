@@ -1,8 +1,8 @@
 use crate::borg;
-use crate::borg::scripts::UserScriptKind;
 use crate::config;
 use crate::config::history;
 use crate::config::history::RunInfo;
+use crate::config::UserScriptKind;
 use crate::schedule;
 use crate::ui;
 
@@ -182,15 +182,7 @@ async fn run_script(
     run_info: Option<crate::config::history::RunInfo>,
     guard: &QuitGuard,
 ) -> Result<()> {
-    if config
-        .repo
-        .settings()
-        .and_then(|settings| match kind {
-            UserScriptKind::PreBackup => settings.pre_backup_command,
-            UserScriptKind::PostBackup => settings.post_backup_command,
-        })
-        .is_none()
-    {
+    if config.user_scripts.get(&kind).is_none() {
         // Don't even run the task if it's not configured
         return Ok(());
     }

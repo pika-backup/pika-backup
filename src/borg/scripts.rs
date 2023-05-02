@@ -3,12 +3,7 @@ use std::collections::HashMap;
 use super::error::*;
 use super::prelude::*;
 use crate::borg::Outcome;
-
-#[derive(Clone, Debug)]
-pub enum UserScriptKind {
-    PreBackup,
-    PostBackup,
-}
+use crate::config::UserScriptKind;
 
 #[derive(serde::Serialize, serde::Deserialize, Debug, PartialEq, Eq, Hash)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]

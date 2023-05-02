@@ -1,7 +1,7 @@
 use crate::borg;
 use crate::prelude::*;
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path;
 
 use super::{
@@ -62,6 +62,12 @@ impl glib::StaticVariantType for ConfigId {
     }
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum UserScriptKind {
+    PreBackup,
+    PostBackup,
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Backup {
     #[serde(default)]
@@ -83,6 +89,8 @@ pub struct Backup {
     pub prune: Prune,
     #[serde(default)]
     pub title: String,
+    #[serde(default)]
+    pub user_scripts: BTreeMap<UserScriptKind, String>,
 }
 
 impl Backup {
@@ -105,6 +113,7 @@ impl Backup {
             schedule: Default::default(),
             prune: Default::default(),
             title: Default::default(),
+            user_scripts: Default::default(),
         }
     }
 
