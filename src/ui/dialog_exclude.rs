@@ -188,6 +188,6 @@ pub async fn exclude_file() -> Result<()> {
 }
 
 pub async fn exclude_pattern() -> Result<()> {
-    ui::dialog_exclude_pattern::show();
+    ui::dialog_exclude_pattern::show(None);
     Ok(())
 }

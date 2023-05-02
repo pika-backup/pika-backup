@@ -1,17 +1,30 @@
 use adw::prelude::*;
 
 use crate::config;
+use crate::config::RELATIVE;
 use crate::ui;
 use crate::ui::builder::DialogExcludePattern;
 use crate::ui::prelude::*;
 
-pub fn show() {
+pub fn show(edit_exclude: Option<config::Exclude<{ RELATIVE }>>) {
     let ui = DialogExcludePattern::new();
     let dialog = ui.dialog();
 
+    if let Some(config::Exclude::Pattern(ref pattern)) = edit_exclude {
+        ui.add().set_label(&gettext("Save"));
+        ui.pattern().set_text(&pattern.pattern().to_string_lossy());
+
+        match pattern {
+            config::Pattern::Fnmatch(_) => ui.pattern_type().set_selected(0),
+            config::Pattern::RegularExpression(_) => ui.pattern_type().set_selected(1),
+            _ => {}
+        }
+    }
+
     dialog.set_transient_for(Some(&main_ui().window()));
-    ui.add()
-        .connect_clicked(clone!(@weak ui => move |_| Handler::run(clicked(ui))));
+    ui.add().connect_clicked(
+        clone!(@weak ui => move |_| Handler::run(clicked(ui, edit_exclude.clone()))),
+    );
 
     // ensure lifetime until window closes
     let mutex = std::sync::Mutex::new(Some(ui.clone()));
@@ -23,7 +36,10 @@ pub fn show() {
     dialog.show();
 }
 
-async fn clicked(ui: DialogExcludePattern) -> Result<()> {
+async fn clicked(
+    ui: DialogExcludePattern,
+    edit_exclude: Option<config::Exclude<{ RELATIVE }>>,
+) -> Result<()> {
     let selected = ui.pattern_type().selected();
     let pattern = ui.pattern().text();
 
@@ -38,6 +54,10 @@ async fn clicked(ui: DialogExcludePattern) -> Result<()> {
 
     BACKUP_CONFIG.update_result(move |config| {
         let active = config.active_mut()?;
+
+        if let Some(ref edit_exclude) = edit_exclude {
+            active.exclude.remove(edit_exclude);
+        }
 
         active.exclude.insert(exclude.clone());
 

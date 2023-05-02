@@ -5,6 +5,7 @@
 - Add docker to containers and VMs exclusion preset
 - Add per-backup preferences window
 - Add ability to set custom titles for backup configs
+- Add ability to edit regex and shell exclusion patterns
 
 ## 0.6.1 (2023-04-21)
 

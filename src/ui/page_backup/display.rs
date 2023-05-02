@@ -81,27 +81,52 @@ pub fn refresh() -> Result<()> {
 
     // exclude list
     ui::utils::clear(&main_ui().backup_exclude());
-    for pattern in backup.exclude {
+    for exclude in backup.exclude {
         let row = adw::ActionRow::builder()
-            .title(glib::markup_escape_text(&pattern.description()))
-            .subtitle(&pattern.kind())
+            .title(glib::markup_escape_text(&exclude.description()))
+            .subtitle(&exclude.kind())
             .activatable(false)
             .build();
 
-        if let Some(image) = pattern.symbolic_icon().map(|x| gtk::Image::from_gicon(&x)) {
+        if let Some(image) = exclude.symbolic_icon().map(|x| gtk::Image::from_gicon(&x)) {
             image.add_css_class("row-icon");
             row.add_prefix(&image);
         }
 
-        let button = gtk::Button::builder()
+        if let config::Exclude::Pattern(ref pattern) = exclude {
+            match pattern {
+                config::Pattern::Fnmatch(_) | config::Pattern::RegularExpression(_) => {
+                    // Make Regex and Shell patterns editable
+                    let edit_button = gtk::Button::builder()
+                        .icon_name("document-edit-symbolic")
+                        .valign(gtk::Align::Center)
+                        .tooltip_text(gettext("Edit Pattern"))
+                        .build();
+
+                    edit_button.add_css_class("flat");
+
+                    // Edit patterns
+                    edit_button.connect_clicked(clone!(@strong exclude => move |_| {
+                        ui::dialog_exclude_pattern::show(Some(exclude.clone()));
+                    }));
+
+                    row.add_suffix(&edit_button);
+                }
+                _ => {}
+            }
+        }
+
+        let delete_button = gtk::Button::builder()
             .icon_name("edit-delete-symbolic")
             .valign(gtk::Align::Center)
             .tooltip_text(gettext("Remove From List"))
             .build();
-        button.add_css_class("flat");
-        let pattern_ = pattern.clone();
-        button.connect_clicked(move |_| {
-            let pattern = pattern_.clone();
+
+        delete_button.add_css_class("flat");
+
+        let exclude_ = exclude.clone();
+        delete_button.connect_clicked(move |_| {
+            let pattern = exclude_.clone();
             Handler::run(async move {
                 BACKUP_CONFIG.update_result(move |settings| {
                     settings.active_mut()?.exclude.remove(&pattern.clone());
@@ -112,7 +137,8 @@ pub fn refresh() -> Result<()> {
                 Ok(())
             });
         });
-        row.add_suffix(&button);
+        row.add_suffix(&delete_button);
+
         main_ui().backup_exclude().append(&row);
     }
 
