@@ -479,12 +479,10 @@ pub fn new_action_row_with_gicon(icon: Option<&gio::Icon>) -> adw::ActionRow {
     let row = adw::ActionRow::builder().activatable(true).build();
 
     if let Some(gicon) = icon {
-        row.add_prefix(
-            &gtk::Image::builder()
-                .gicon(gicon)
-                .css_classes(vec![String::from("large-row-icon")])
-                .build(),
-        );
+        let image = gtk::Image::builder().gicon(gicon).build();
+
+        image.add_css_class("large-row-icon");
+        row.add_prefix(&image)
     }
 
     row
