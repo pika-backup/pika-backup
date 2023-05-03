@@ -23,6 +23,7 @@ pub fn config(path: &std::path::Path) -> config::Backup {
         exclude: Default::default(),
         schedule: Default::default(),
         prune: Default::default(),
+        title: Default::default(),
     }
 }
 

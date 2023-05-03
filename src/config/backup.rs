@@ -81,6 +81,8 @@ pub struct Backup {
     pub schedule: Schedule,
     #[serde(default)]
     pub prune: Prune,
+    #[serde(default)]
+    pub title: String,
 }
 
 impl Backup {
@@ -102,6 +104,15 @@ impl Backup {
             exclude,
             schedule: Default::default(),
             prune: Default::default(),
+            title: Default::default(),
+        }
+    }
+
+    pub fn title(&self) -> String {
+        if self.title.trim().is_empty() {
+            self.repo.title_fallback()
+        } else {
+            self.title.clone()
         }
     }
 

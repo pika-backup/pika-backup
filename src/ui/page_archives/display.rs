@@ -45,7 +45,7 @@ pub fn update_info(config: &config::Backup) {
 
     main_ui()
         .archives_location_title()
-        .set_label(&config.repo.title());
+        .set_label(&config.title());
     main_ui()
         .archives_location_subtitle()
         .set_label(&config.repo.subtitle());

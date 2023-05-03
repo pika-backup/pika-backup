@@ -7,6 +7,17 @@
         <property name="title" translatable="yes">General</property>
         <property name="name">general</property>
         <child>
+          <object class="AdwPreferencesGroup" id="title_pref_group">
+            <property name="title" translatable="yes">Title</property>
+            <child>
+              <object class="AdwEntryRow" id="title_entry">
+                <property name="title" translatable="yes">Title</property>
+                <property name="text" bind-source="DialogPreferences" bind-property="config_title" bind-flags="sync-create|bidirectional" />
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Additional command line arguments</property>
             <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>

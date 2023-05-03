@@ -18,6 +18,15 @@ mod imp {
         #[property(get, set, construct_only)]
         pub config_id: OnceCell<ConfigId>,
 
+        #[template_child]
+        title_pref_group: TemplateChild<adw::PreferencesGroup>,
+
+        #[template_child]
+        title_entry: TemplateChild<adw::EntryRow>,
+
+        #[property(get, set)]
+        config_title: RefCell<String>,
+
         command_line_args_error: RefCell<Option<crate::ui::error::Error>>,
 
         #[template_child]
@@ -68,6 +77,7 @@ mod imp {
         fn close_request(&self) -> Inhibit {
             BACKUP_CONFIG.update(|c| match c.get_result_mut(self.config_id.get().unwrap()) {
                 Ok(backup) => {
+                    backup.title = self.config_title.borrow().trim().to_string();
                     backup.repo.set_settings(Some(BackupSettings {
                         command_line_args: self.command_line_args.borrow().clone(),
                     }));
@@ -80,7 +90,11 @@ mod imp {
                 }
             });
 
-            let _ = crate::ui::write_config();
+            Handler::handle((|| {
+                crate::ui::write_config()?;
+                crate::ui::page_backup::refresh()?;
+                Ok(())
+            })());
 
             if self.command_line_args_error.borrow().is_some() {
                 let obj = self.obj().clone();
@@ -109,6 +123,8 @@ mod imp {
                     .expect("constructor should set config_id"),
             ) {
                 Ok(backup) => {
+                    self.obj().set_config_title(backup.title());
+                    self.title_pref_group.set_description(Some(&gettextf("The title of this backup configuration. Will be displayed as “{}” when left empty.", &[&backup.repo.title_fallback()])));
                     self.obj().set_command_line_args(
                         backup
                             .repo

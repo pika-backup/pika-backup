@@ -125,7 +125,7 @@ fn rebuild_list() {
 
         // Repo Name
 
-        row.location_title().set_label(&config.repo.title());
+        row.location_title().set_label(&config.title());
         row.location_subtitle().set_label(&config.repo.subtitle());
 
         // Include

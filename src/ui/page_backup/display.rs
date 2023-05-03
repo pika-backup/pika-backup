@@ -61,7 +61,7 @@ pub fn refresh() -> Result<()> {
 
     main_ui()
         .detail_repo_row()
-        .set_title(&glib::markup_escape_text(&backup.repo.title()));
+        .set_title(&glib::markup_escape_text(&backup.title()));
     main_ui()
         .detail_repo_row()
         .set_subtitle(&glib::markup_escape_text(&backup.repo.subtitle()));
