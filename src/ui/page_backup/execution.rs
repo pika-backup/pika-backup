@@ -1,6 +1,8 @@
 use crate::borg;
 use crate::config;
 use crate::config::history;
+use crate::config::history::RunInfo;
+use crate::config::UserScriptKind;
 use crate::schedule;
 use crate::ui;
 
@@ -87,6 +89,8 @@ async fn run_backup(
     });
     ui::write_config()?;
 
+    run_script(UserScriptKind::PreBackup, config.clone(), None, guard).await?;
+
     let command = borg::Command::<borg::task::Create>::new(config.clone())
         .set_from_schedule(from_schedule.clone());
     let communication = command.communication.clone();
@@ -129,6 +133,14 @@ async fn run_backup(
 
     ui::write_config()?;
 
+    run_script(
+        UserScriptKind::PostBackup,
+        config.clone(),
+        Some(run_info.clone()),
+        guard,
+    )
+    .await?;
+
     match result {
         Err(borg::Error::Aborted(_)) => Ok(()),
         Err(err) => Err(Message::new(gettext("Backup Failed"), err).into()),
@@ -162,4 +174,42 @@ async fn run_backup(
             }
         }
     }
+}
+
+async fn run_script(
+    kind: UserScriptKind,
+    config: crate::config::Backup,
+    run_info: Option<crate::config::history::RunInfo>,
+    guard: &QuitGuard,
+) -> Result<()> {
+    if config.user_scripts.get(&kind).is_none() {
+        // Don't even run the task if it's not configured
+        return Ok(());
+    }
+
+    let mut command = crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
+    command.task.set_kind(kind);
+    command.task.set_run_info(run_info.clone());
+
+    let result = crate::ui::utils::borg::exec(command, guard).await;
+    let outcome = match &result {
+        Err(crate::ui::error::Combined::Borg(borg::Error::Aborted(err))) => {
+            Some(borg::Outcome::Aborted(err.clone()))
+        }
+        Err(crate::ui::error::Combined::Borg(borg_err)) => Some(borg::Outcome::Aborted(
+            borg::Abort::UserShellCommand(borg_err.to_string()),
+        )),
+        _ => None,
+    };
+
+    if let Some(outcome) = outcome {
+        let run_info = RunInfo::new(&config, outcome, vec![]);
+
+        BACKUP_HISTORY.update(move |history| {
+            history.insert(config.id.clone(), run_info.clone());
+            history.remove_running(config.id.clone());
+        });
+    }
+
+    result.into_message(gettext("Error Running Shell Command"))
 }

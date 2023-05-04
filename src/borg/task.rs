@@ -1,5 +1,7 @@
 use crate::prelude::*;
 
+use crate::config::UserScriptKind;
+
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub enum Kind {
     Create,
@@ -9,6 +11,9 @@ pub enum Kind {
     Compact,
     Delete,
     List,
+
+    // A custom script from the user
+    UserScript,
 }
 
 pub trait Task: Clone + Default + Send + Sync + 'static {
@@ -150,5 +155,40 @@ pub(super) enum NumArchives {
 impl Default for NumArchives {
     fn default() -> Self {
         Self::All
+    }
+}
+
+#[derive(Clone, Default, Debug)]
+pub struct UserScript {
+    kind: Option<UserScriptKind>,
+    run_info: Option<crate::config::history::RunInfo>,
+}
+
+impl UserScript {
+    pub fn set_kind(&mut self, kind: UserScriptKind) {
+        self.kind = Some(kind);
+    }
+
+    pub fn kind(&self) -> Option<UserScriptKind> {
+        self.kind.clone()
+    }
+
+    pub fn set_run_info(&mut self, run_info: Option<crate::config::history::RunInfo>) {
+        self.run_info = run_info;
+    }
+
+    pub fn run_info(&self) -> Option<&crate::config::history::RunInfo> {
+        self.run_info.as_ref()
+    }
+}
+
+impl Task for UserScript {
+    type Info = ();
+    type Return = ();
+
+    const KIND: Kind = Kind::UserScript;
+
+    fn name() -> String {
+        gettext("Running Custom Shell Command")
     }
 }

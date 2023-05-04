@@ -24,6 +24,7 @@ pub fn config(path: &std::path::Path) -> config::Backup {
         schedule: Default::default(),
         prune: Default::default(),
         title: Default::default(),
+        user_scripts: Default::default(),
     }
 }
 
