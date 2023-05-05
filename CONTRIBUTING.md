@@ -56,7 +56,7 @@ See ["Running GLib Applications"](https://developer.gnome.org/glib/stable/glib-r
 Building via [cargo](https://rustup.rs/) not involving meson is supported.
 
 ```
-$ apt install libgtk-3-dev borg-backup
+$ apt install libgtk-3-dev borgbackup
 $ cargo test
 $ cargo run
 ```
