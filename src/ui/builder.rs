@@ -752,6 +752,10 @@ impl DialogExclude {
     pub fn suggestions(&self) -> adw::PreferencesGroup {
         self.get("suggestions")
     }
+
+    pub fn unreadable_paths(&self) -> adw::PreferencesGroup {
+        self.get("unreadable_paths")
+    }
 }
 
 #[derive(Clone)]

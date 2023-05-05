@@ -8,6 +8,7 @@
 - Add ability to set custom titles for backup configs
 - Add ability to edit regex and shell exclusion patterns
 - Add ability to run shell scripts on certain backup events
+- Add exclusion suggestions for unreadable paths
 
 ## 0.6.2 (unreleased)
 

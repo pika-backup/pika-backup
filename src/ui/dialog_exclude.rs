@@ -39,6 +39,7 @@ pub fn show() {
     });
 
     Handler::handle(fill_suggestions(&ui));
+    Handler::handle(fill_unreadable(&ui));
 
     ui.dialog().show();
 }
@@ -124,6 +125,69 @@ fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton
 
     crate::ui::write_config()?;
     ui::page_backup::refresh()?;
+
+    Ok(())
+}
+
+pub fn fill_unreadable(dialog: &DialogExclude) -> Result<()> {
+    dialog.unreadable_paths().set_visible(false);
+
+    let configs = BACKUP_CONFIG.load();
+    let exclude = &configs.active()?.exclude;
+
+    let histories = BACKUP_HISTORY.load();
+    // If the history is missing we don't have any suggested excludes and shouldn't fail
+    let suggested_excludes = histories.active().ok().and_then(|history| {
+        history
+            .suggested_exclude
+            .get(&config::history::SuggestedExcludeReason::PermissionDenied)
+    });
+
+    let Some(suggested_excludes) = suggested_excludes else {
+        return Ok(())
+    };
+
+    for suggested in suggested_excludes {
+        // We have at least one entry
+        dialog.unreadable_paths().set_visible(true);
+
+        let add_button = gtk::CheckButton::builder()
+            .tooltip_text(&gettext("Add exclusion rule"))
+            .valign(gtk::Align::Center)
+            .active(exclude.contains(suggested))
+            .build();
+
+        let row = adw::ActionRow::builder()
+            .title(suggested.description())
+            .activatable_widget(&add_button)
+            .build();
+
+        row.add_prefix(&add_button);
+
+        dialog.unreadable_paths().add(&row);
+
+        add_button.connect_toggled(
+            glib::clone!(@strong suggested_excludes, @strong suggested, @weak row, @weak dialog => move |button| {
+                Handler::handle((|| {
+                    BACKUP_CONFIG.update_result(glib::clone!(@strong suggested_excludes, @strong suggested, @weak button => @default-return Ok(()), move |settings| {
+                        let active = settings.active_mut()?;
+
+                        if button.is_active() {
+                            active.exclude.insert(suggested.clone());
+                        } else {
+                            active.exclude.remove(&suggested.clone());
+                        }
+
+                        Ok(())
+                    }))?;
+
+                    crate::ui::write_config()?;
+                    ui::page_backup::refresh()?;
+                    Ok(())
+                })());
+            }),
+        );
+    }
 
     Ok(())
 }

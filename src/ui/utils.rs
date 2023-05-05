@@ -200,6 +200,18 @@ impl LookupActiveConfigId for config::Backups {
     }
 }
 
+impl LookupActiveConfigId for config::Histories {
+    type Item = config::history::History;
+
+    fn active(&self) -> Result<&Self::Item> {
+        self.0.active()
+    }
+
+    fn active_mut(&mut self) -> Result<&mut Self::Item> {
+        self.0.active_mut()
+    }
+}
+
 impl<C: LookupActiveConfigId> LookupActiveConfigId for config::Writeable<C> {
     type Item = C::Item;
 
