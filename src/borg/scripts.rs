@@ -9,6 +9,7 @@ use crate::config::UserScriptKind;
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum ShellVariable {
     ConfigId,
+    ConfigName,
     RepoId,
     Url,
     IsSchedule,
@@ -28,8 +29,9 @@ pub enum ShellVariable {
 
 impl ShellVariable {
     pub fn all() -> &'static [ShellVariable] {
-        static ALL: [ShellVariable; 12] = [
+        static ALL: [ShellVariable; 13] = [
             ShellVariable::ConfigId,
+            ShellVariable::ConfigName,
             ShellVariable::RepoId,
             ShellVariable::Url,
             ShellVariable::IsSchedule,
@@ -78,6 +80,7 @@ impl ShellVariable {
     pub fn name(&self) -> &'static str {
         match self {
             ShellVariable::ConfigId => "CONFIG_ID",
+            ShellVariable::ConfigName => "CONFIG_NAME",
             ShellVariable::RepoId => "REPO_ID",
             ShellVariable::Url => "URL",
             ShellVariable::IsSchedule => "IS_SCHEDULE",
@@ -95,6 +98,7 @@ impl ShellVariable {
     pub fn description(&self) -> String {
         match self {
             ShellVariable::ConfigId => gettext("ID of the backup configuration"),
+            ShellVariable::ConfigName => gettext("Title of the backup configuration"),
             ShellVariable::RepoId => gettext("Repository ID of the borg repository"),
             ShellVariable::Url => gettext("The full URL passed to borgbackup"),
             ShellVariable::IsSchedule => gettext("0: manual backup, 1: started from a schedule"),
@@ -149,11 +153,12 @@ pub fn script_env_pre(
 ) -> HashMap<ShellVariable, String> {
     let mut env = HashMap::new();
     env.insert(ShellVariable::ConfigId, config.id.to_string());
+    env.insert(ShellVariable::ConfigName, config.title());
     env.insert(ShellVariable::RepoId, config.repo_id.as_str().to_string());
     env.insert(ShellVariable::Url, config.repo.to_string());
     env.insert(
         ShellVariable::IsSchedule,
-        if is_schedule { "1" } else { "0" }.to_string(),
+        (is_schedule as usize).to_string(),
     );
 
     env
