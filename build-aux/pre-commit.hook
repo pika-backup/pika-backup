@@ -6,7 +6,8 @@ pot="$(xgettext --from-code=utf-8 -o - `cat po/POTFILES.in` 2>/dev/null)"
 spellcheck="$(echo "${pot}" | grep -v \# | aspell --home-dir=. --personal=build-aux/dict.txt list)"
 spellcheck="$spellcheck$(cat help/C/duck/*.duck | aspell --home-dir=. --personal=build-aux/dict.txt list)"
 if [ "${spellcheck}" ]; then
-    echo "Spellcheck failed:\n${spellcheck}"
+    echo "Spellcheck failed:"
+    echo "${spellcheck}"
     exit 1
 fi
 

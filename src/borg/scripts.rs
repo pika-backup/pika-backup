@@ -94,9 +94,9 @@ impl ShellVariable {
 
     pub fn description(&self) -> String {
         match self {
-            ShellVariable::ConfigId => gettext("ID of the backup config"),
+            ShellVariable::ConfigId => gettext("ID of the backup configuration"),
             ShellVariable::RepoId => gettext("Repository ID of the borg repository"),
-            ShellVariable::Url => gettext("The full url passed to borgbackup"),
+            ShellVariable::Url => gettext("The full URL passed to borgbackup"),
             ShellVariable::IsSchedule => gettext("0: manual backup, 1: started from a schedule"),
             ShellVariable::Outcome => gettext("Either COMPLETED, ABORTED or FAILED"),
             ShellVariable::ResultMsg => gettext("An error/warning message"),

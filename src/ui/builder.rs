@@ -866,6 +866,38 @@ impl DialogPreferences {
     pub fn command_line_args_entry(&self) -> adw::EntryRow {
         self.get("command_line_args_entry")
     }
+
+    pub fn popover_shell_commands(&self) -> gtk::Popover {
+        self.get("popover_shell_commands")
+    }
+
+    pub fn post_backup_command_entry(&self) -> adw::EntryRow {
+        self.get("post_backup_command_entry")
+    }
+
+    pub fn post_backup_command_test_button(&self) -> gtk::Button {
+        self.get("post_backup_command_test_button")
+    }
+
+    pub fn pre_backup_command_entry(&self) -> adw::EntryRow {
+        self.get("pre_backup_command_entry")
+    }
+
+    pub fn pre_backup_command_test_button(&self) -> gtk::Button {
+        self.get("pre_backup_command_test_button")
+    }
+
+    pub fn shell_commands_detail(&self) -> gtk::Label {
+        self.get("shell_commands_detail")
+    }
+
+    pub fn title_entry(&self) -> adw::EntryRow {
+        self.get("title_entry")
+    }
+
+    pub fn title_pref_group(&self) -> adw::PreferencesGroup {
+        self.get("title_pref_group")
+    }
 }
 
 #[derive(Clone)]
