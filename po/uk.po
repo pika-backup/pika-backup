@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-05-04 16:44+0000\n"
-"PO-Revision-Date: 2023-05-04 22:55+0300\n"
+"POT-Creation-Date: 2023-05-05 20:59+0000\n"
+"PO-Revision-Date: 2023-05-06 09:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -404,6 +404,93 @@ msgstr "Критична помилка"
 #: src/borg/log_json.rs:445
 msgid "Undefined"
 msgstr "Не визначено"
+
+#: src/borg/scripts.rs:50
+msgid "The following variables are available:"
+msgstr "Можна скористатися такими змінними:"
+
+#: src/borg/scripts.rs:52
+msgid "Only available for the post-backup command:"
+msgstr "Доступні лише для команди після копіювання:"
+
+#: src/borg/scripts.rs:54
+msgid "Only available for completed backups:"
+msgstr "Доступні лише для повних копій:"
+
+#: src/borg/scripts.rs:97
+#| msgid "Delete backup configuration"
+msgid "ID of the backup configuration"
+msgstr "Ідентифікатор налаштувань резервного копіювання"
+
+#: src/borg/scripts.rs:98
+msgid "Repository ID of the borg repository"
+msgstr "Ідентифікатор сховища borg"
+
+#: src/borg/scripts.rs:99
+msgid "The full URL passed to borgbackup"
+msgstr "Повна адреса, яку передано borgbackup"
+
+#: src/borg/scripts.rs:100
+msgid "0: manual backup, 1: started from a schedule"
+msgstr "0: резервне копіювання вручну, 1: запущено за розкладом"
+
+#: src/borg/scripts.rs:101
+msgid "Either COMPLETED, ABORTED or FAILED"
+msgstr "COMPLETED, ABORTED або FAILED"
+
+#: src/borg/scripts.rs:102
+msgid "An error/warning message"
+msgstr "Повідомлення про помилку/попередження"
+
+#: src/borg/scripts.rs:103
+msgid "The ID of the created backup archive"
+msgstr "Ідентифікатор створеного архіву резервної копії"
+
+#: src/borg/scripts.rs:104
+msgid "The name of the created backup archive"
+msgstr "Назва створеного архіву резервної копії"
+
+#: src/borg/scripts.rs:106
+msgid "The total amount of bytes referenced by this archive"
+msgstr "Загальна кількість байтів, яку визначено цим архівом"
+
+#: src/borg/scripts.rs:109
+msgid "The compressed size of all data references by this archive"
+msgstr "Стиснений розмір усіх даних, які визначено цим архівом"
+
+#: src/borg/scripts.rs:112
+msgid "The deduplicated amount of bytes for this archive"
+msgstr "Кількість байтів після усування дублювання для цього архіву"
+
+#: src/borg/scripts.rs:114
+msgid "The amount of files saved in this archive"
+msgstr "Кількість файлів, які збережено у цьому архіві"
+
+#: src/borg/scripts.rs:254
+msgid ""
+"The pre-backup command configured in preferences failed to run.\n"
+"{}"
+msgstr ""
+"Не вдалося виконати налаштовану команду перед копіюванням.\n"
+"{}"
+
+#: src/borg/scripts.rs:258
+msgid ""
+"The post-backup command configured in preferences failed to run.\n"
+"{}"
+msgstr ""
+"Не вдалося виконати налаштовану команду після копіювання.\n"
+"{}"
+
+#: src/borg/scripts.rs:284
+msgid ""
+"The pre-backup command configured in preferences returned a failure code: {}"
+msgstr "Налаштована команда перед копіюванням повернула код помилки: {}"
+
+#: src/borg/scripts.rs:288
+msgid ""
+"The post-backup command configured in preferences returned a failure code: {}"
+msgstr "Налаштована команда після копіювання повернула код помилки: {}"
 
 #: src/borg/task.rs:39
 msgid "Backing up Data"
@@ -1245,8 +1332,8 @@ msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr ""
-"Заголовок цих налаштувань резервного копіювання. Буде показано як «{}», якщо"
-" не заповнювати."
+"Заголовок цих налаштувань резервного копіювання. Буде показано як «{}», якщо "
+"не заповнювати."
 
 #: src/ui/dialog_preferences.rs:261
 msgid "Shell command invalid"
@@ -1288,8 +1375,8 @@ msgstr "Команди оболонки"
 #: src/ui/dialog_preferences.ui:59
 msgid "These bash shell commands will be called on certain backup events."
 msgstr ""
-"Ці команди оболонки bash буде викликано у відповідь на певні події"
-" резервного копіювання."
+"Ці команди оболонки bash буде викликано у відповідь на певні події "
+"резервного копіювання."
 
 #: src/ui/dialog_preferences.ui:72
 msgid "Pre-Backup Shell Command"
@@ -1750,7 +1837,6 @@ msgid "Remove Directory"
 msgstr "Вилучити каталог"
 
 #: src/ui/page_backup/display.rs:103
-#| msgid "Exclude Pattern"
 msgid "Edit Pattern"
 msgstr "Змінити взірець"
 
@@ -2142,7 +2228,6 @@ msgstr ""
 "роботи резервного копіювання за розкладом. Цю проблему вже розв'язано."
 
 #: src/ui/utils/borg.rs:20
-#| msgid "Additional command line arguments invalid."
 msgid "Additional command line arguments invalid"
 msgstr "Некоректні додаткові аргументи командного рядка"
 
@@ -2427,9 +2512,6 @@ msgstr "Не вдалося зберегти кеш"
 
 #~ msgid "Potential internal error."
 #~ msgstr "Потенційна внутрішня помилка."
-
-#~ msgid "Delete backup configuration"
-#~ msgstr "Вилучити налаштування резервного копіювання"
 
 #~ msgid "Delete backup configuration?"
 #~ msgstr "Вилучити налаштування резервного копіювання?"
