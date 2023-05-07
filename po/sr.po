@@ -1,14 +1,14 @@
 # Serbian translation for pika-backup.
 # Copyright © 2021 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2021–20-2023.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2021-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-02-22 01:00+0000\n"
-"PO-Revision-Date: 2023-03-07 07:08+0100\n"
+"POT-Creation-Date: 2023-04-23 13:19+0000\n"
+"PO-Revision-Date: 2023-05-07 20:52+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"X-Generator: Gtranslator 41.0\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -28,7 +29,7 @@ msgstr "Пратилац резерве Пика"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:336
 msgid "Pika Backup"
 msgstr "Пика резерва"
 
@@ -44,9 +45,9 @@ msgstr "Држите ваше поддатке на безбедном мест�
 msgid "archive;back-up;borg;"
 msgstr "архива;резерва;борг;archive;back-up;borg;"
 
-#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:25
-msgid "Sophie Herold"
-msgstr "Софија Херолд"
+#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:33
+msgid "Small Mammal Collective"
+msgstr "Колектив малих сисара"
 
 #: data/app.metainfo.xml.in:21
 msgid ""
@@ -109,20 +110,19 @@ msgstr "Држите резерве на месним уређајима и на
 msgid "General"
 msgstr "Опште"
 
-#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+#: data/resources/gtk/help-overlay.ui:13
 msgid "Set up new backup"
 msgstr "Поставите нову резерву"
 
 #: data/resources/gtk/help-overlay.ui:19
-#| msgid "_Keyboard Shortcuts"
 msgid "Show keyboard shortcuts"
 msgstr "Прикажите пречице тастатуре"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:200
 msgid "Quit"
 msgstr "Изађи"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:31 src/ui/app_window.ui:184
 msgid "Back"
 msgstr "Позадина"
 
@@ -130,220 +130,302 @@ msgstr "Позадина"
 msgid "Open menu"
 msgstr "Отвори изборник"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:256
+#: src/borg/error.rs:28
+msgid ""
+"Retrieving encryption password from the keyring failed. Pika Backup requires "
+"a keyring daemon (“secret service”) to store passwords. For installation "
+"instructions see the operating system documentation."
+msgstr ""
+"Довлачење лозинке шифровања из привеска кључева није успело. Пика резерве "
+"захтева позадинца привеска кључева („тајна услуга“) за чување лозинки. За "
+"упутства инсталације видите документацију оперативног система."
+
+#: src/borg/error.rs:30 src/ui/utils.rs:256
 msgid "The operation terminated unexpectedly."
 msgstr "Радња је неочекивано окончана."
 
-#: src/borg/error.rs:28
+#: src/borg/error.rs:31
 msgid "This delete operation would delete too many archives."
 msgstr "Ова радња брисања ће обрисати превише архива."
 
-#: src/borg/error.rs:29
+#: src/borg/error.rs:32
 msgid "No files selected to be included into backup."
 msgstr "Нису изабране датотеке које ће бити укључене у резерву."
 
-#: src/borg/error.rs:94
+#: src/borg/error.rs:81
+msgid "Timeout"
+msgstr "Време је истекло"
+
+#: src/borg/error.rs:124
 msgid "Completed"
 msgstr "Завршено"
 
-#: src/borg/error.rs:117
+#: src/borg/error.rs:147
 msgid "Aborted on user request."
 msgstr "Прекинуто на захтев корисника."
 
-#: src/borg/error.rs:121
+#: src/borg/error.rs:151
 msgid "Aborted because only metered connection was available."
 msgstr "Прекинуто је јер је доступна само мерена интернет веза."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:127
+#: src/borg/error.rs:157
 msgid "Aborted because too long not connected to power."
 msgstr "Прекинуто је јер предуго није било прикључења на мрежно напајање."
 
-#: src/borg/error.rs:129
+#: src/borg/error.rs:159
 msgid "Aborted by system."
 msgstr "Систем је прекинуо."
 
-#: src/borg/error.rs:133
+#: src/borg/error.rs:163
 msgid "The program or system seems to have crashed."
 msgstr "Изгледа да се урушио програм или систем."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:210
 msgid "Connection closed by remote host."
 msgstr "Везу је затворио удаљени домаћин."
 
-#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:150
 msgid "Repository already in use."
 msgstr "Ризница је већ у употреби."
 
-#: src/borg/error.rs:180
+#: src/borg/error.rs:213
 msgid "Failed to lock repository."
 msgstr "Нисам успео да закључам ризницу."
 
-#: src/borg/error.rs:181
+#: src/borg/error.rs:214
 msgid "Invalid encryption password."
 msgstr "Неисправна лозинка шифровања."
 
-#: src/borg/error.rs:183
+#: src/borg/error.rs:215
+msgid "Repository access was aborted"
+msgstr "Приступ ризници је обустављен"
+
+#: src/borg/error.rs:217
 msgid "A repository already exists at this location."
 msgstr "Ризница већ постоји на том месту."
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:219
 msgid "No repository exists at this location."
 msgstr "Ниједна ризница не постоји на том месту."
 
-#: src/borg/error.rs:187
+#: src/borg/error.rs:221
 msgid "Not enough free space in repository."
 msgstr "Нема довољно слободног простора у ризници."
 
-#: src/borg/error.rs:190
+#: src/borg/error.rs:224
 msgid "Connection closed by remote host: “{}”"
 msgstr "Везу је затворио удаљени домаћин: „{}“"
 
-#: src/borg/error.rs:193
+#: src/borg/error.rs:226
+#| msgid "Encryption"
+msgid "Exception"
+msgstr "Изузетак"
+
+#: src/borg/error.rs:228
 msgid "Unspecified error."
 msgstr "Непозната грешка."
 
-#: src/borg/log_json.rs:69
+#: src/borg/log_json.rs:51
+#| msgid "Last Backup Aborted"
+msgid "Backup will be aborted."
+msgstr "Прављење резерве биће прекинуто."
+
+#: src/borg/log_json.rs:54
+#| msgid "Backup Location"
+msgid "Backup will continue."
+msgstr "Прављење резерве биће настављено."
+
+#: src/borg/log_json.rs:82
 msgid "Backed up data: {}"
 msgstr "Направљена резерва података: {}"
 
-#: src/borg/log_json.rs:99
+#: src/borg/log_json.rs:112
 #, no-c-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Радња је {} % завршена ({}/{})"
 
-#: src/borg/log_json.rs:108
+#: src/borg/log_json.rs:121
 msgid "Operation completed."
 msgstr "Радња је завршена."
 
-#: src/borg/log_json.rs:180
+#: src/borg/log_json.rs:193
 msgid "Beginning cache transaction"
 msgstr "Започињем пренос оставе"
 
-#: src/borg/log_json.rs:181
+#: src/borg/log_json.rs:194
 msgid "Downloading cache data"
 msgstr "Преузимам податке оставе"
 
-#: src/borg/log_json.rs:182
+#: src/borg/log_json.rs:195
 msgid "Writing cache"
 msgstr "Записујем оставу"
 
-#: src/borg/log_json.rs:183
+#: src/borg/log_json.rs:196
 msgid "Synchronizing cache"
 msgstr "Усклађујем оставу"
 
-#: src/borg/log_json.rs:184
+#: src/borg/log_json.rs:197
 msgid "Compacting repository"
 msgstr "Сажимам ризницу"
 
-#: src/borg/log_json.rs:185
+#: src/borg/log_json.rs:198
 msgid "Updating repository"
 msgstr "Освежавам ризницу"
 
-#: src/borg/log_json.rs:186
+#: src/borg/log_json.rs:199
 msgid "Checking repository"
 msgstr "Проверавам ризницу"
 
-#: src/borg/log_json.rs:187
+#: src/borg/log_json.rs:200
 msgid "Verifying data"
 msgstr "Потврђујем податке"
 
-#: src/borg/log_json.rs:188
+#: src/borg/log_json.rs:201
 msgid "Rebuilding main database"
 msgstr "Поново изграђујем главну базу података"
 
-#: src/borg/log_json.rs:189
+#: src/borg/log_json.rs:202
 msgid "Extracting data"
 msgstr "Извлачим податке"
 
-#: src/borg/log_json.rs:190
+#: src/borg/log_json.rs:203
 msgid "Extracting permissions"
 msgstr "Извлачим овлашћења"
 
-#: src/borg/log_json.rs:191
+#: src/borg/log_json.rs:204
 msgid "Marking archives as deleted"
 msgstr "Означавам архиве да су обрисане"
 
-#: src/borg/log_json.rs:192
+#: src/borg/log_json.rs:205
 msgid "Calculating archive statistics"
 msgstr "Израчунавам статистику архиве"
 
-#: src/borg/log_json.rs:193
+#: src/borg/log_json.rs:206
 msgid "Marking old archives as deleted"
 msgstr "Означавам старе архиве да су обрисане"
 
-#: src/borg/log_json.rs:194
+#: src/borg/log_json.rs:207
 msgid "Upgrading repository"
 msgstr "Надограђујем ризницу"
 
-#: src/borg/log_json.rs:195
+#: src/borg/log_json.rs:208
 msgid "Unspecified operation"
 msgstr "Недефинисана радња"
 
-#: src/borg/log_json.rs:196
+#: src/borg/log_json.rs:209
 msgid "Unknown operation"
 msgstr "Непозната радња"
 
-#: src/borg/log_json.rs:233
+#: src/borg/log_json.rs:226
+msgid "Handling a Question"
+msgstr "Рукујрм питањем"
+
+#: src/borg/log_json.rs:234
+msgid "Attempting to access a previously unknown unencrypted repository."
+msgstr "Покушавам да приступим претходно непознатој нешифрованој ризници."
+
+#: src/borg/log_json.rs:250
+msgid "The backup repository at location “{}” was previously located at “{}”."
+msgstr "Ризница резерве на месту „{}“ била је пре тога на месту „{}“."
+
+#: src/borg/log_json.rs:254
+#| msgid "The backup repository is already in use."
+msgid "The backup repository was previously located at a different location."
+msgstr "Ризница резерве је претходно била на другом месту."
+
+#: src/borg/log_json.rs:257
+msgid ""
+"This is a potentially dangerous function. Repairing a repository might lead "
+"to data loss (for kinds of corruption it is not capable of dealing with). BE "
+"VERY CAREFUL!"
+msgstr ""
+"Ово је потенцијално опасна функција. Поправка ризнице може довести до "
+"губитка података (због корупције није могуће одрагити то). БУДИТЕ ВРЛО "
+"ПАЖЉИВИ!"
+
+#: src/borg/log_json.rs:258
+msgid ""
+"You requested to delete the repository completely, including all backup "
+"archives it contains."
+msgstr ""
+"Затражили сте да потпуно обришете ризницу, укључујући све архиве резерве "
+"које садржи."
+
+#: src/borg/log_json.rs:259
+msgid "Unexpected question from borgbackup: “{}”"
+msgstr "Неочекивано питање од „borgbackup“: {}"
+
+#. Translators: Combines statement from above and this question
+#: src/borg/log_json.rs:263
+msgid ""
+"{}\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"{}\n"
+"\n"
+"Да ли желите да наставите?"
+
+#: src/borg/log_json.rs:321
 msgid "Standard error output"
 msgstr "Стандардни излаз грешке"
 
-#: src/borg/log_json.rs:352
+#: src/borg/log_json.rs:440
 msgid "Debug"
 msgstr "Прочисти"
 
-#: src/borg/log_json.rs:353
+#: src/borg/log_json.rs:441
 msgid "Info"
 msgstr "Подаци"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:229
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:351
 msgid "Warning"
 msgstr "Упозорење"
 
-#: src/borg/log_json.rs:355
+#: src/borg/log_json.rs:443
 msgid "Error"
 msgstr "Грешка"
 
-#: src/borg/log_json.rs:356
+#: src/borg/log_json.rs:444
 msgid "Critical"
 msgstr "Критично"
 
-#: src/borg/log_json.rs:357
+#: src/borg/log_json.rs:445
 msgid "Undefined"
 msgstr "Неодређено"
 
-#: src/borg/task.rs:19
+#: src/borg/task.rs:34
 msgid "Backing up Data"
 msgstr "Правим резерву података"
 
-#: src/borg/task.rs:31
+#: src/borg/task.rs:48
 msgid "Mounting Backup Archives"
 msgstr "Прикачињем архиве резерве"
 
-#: src/borg/task.rs:43
+#: src/borg/task.rs:62
 msgid "Removing old Archives"
 msgstr "Уклањам старе архиве"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:76
 msgid "Identifying old Archives"
 msgstr "Идентификујем старе архиве"
 
-#: src/borg/task.rs:67
+#: src/borg/task.rs:90
 msgid "Reclaiming Free Space"
 msgstr "Потражујем слободан простор"
 
-#: src/borg/task.rs:92
-#| msgid "Delete Archives"
+#: src/borg/task.rs:117
 msgid "Deleting Archive"
 msgstr "Бришем архиву"
 
-#: src/borg/task.rs:113
+#: src/borg/task.rs:140
 msgid "Refreshing Archive List"
 msgstr "Освежавам списак архива"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:87
+#: src/ui/page_backup/events.rs:167
 msgid "Home"
 msgstr "Лична"
 
@@ -442,15 +524,28 @@ msgstr "Седмично"
 msgid "Monthly"
 msgstr "Месечно"
 
-#: src/daemon/action.rs:25
+#: src/daemon/action.rs:23 src/daemon/init.rs:38
+#| msgid "Mounting Backup Archives"
+msgid "Monitoring Backup Schedule"
+msgstr "Надгледам заказивање резерве"
+
+#: src/daemon/action.rs:24
+msgid ""
+"To quit monitoring the backup schedule, open Pika Backup and disable all "
+"scheduled backups."
+msgstr ""
+"Да прекинете заказаност резерве, отворите Пику резерве и искључите све "
+"заказане резерве."
+
+#: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
 msgstr "Нисам успео да започнем резерву из позадинца"
 
-#: src/daemon/action.rs:46
+#: src/daemon/action.rs:66
 msgid "Failed to show overview from daemon"
 msgstr "Нисам успео да прикажем претпреглед из позадинца"
 
-#: src/daemon/action.rs:65
+#: src/daemon/action.rs:85
 msgid "Failed to show schedule from daemon"
 msgstr "Нисам успео да прикажем заказивање из позадинца"
 
@@ -474,11 +569,11 @@ msgstr "„{}“ садржи једну подешену резерву."
 msgid "Back Up Now"
 msgstr "Сада направи резерву"
 
-#: src/daemon/init.rs:48
+#: src/daemon/init.rs:69
 msgid "Fatal Error During Back Up"
 msgstr "Кобна грешка у току резерве"
 
-#: src/daemon/init.rs:51
+#: src/daemon/init.rs:72
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Пика резерве се урушио за време прављења {} резерве."
@@ -514,32 +609,49 @@ msgstr "„{}“ треба да се повеже да би започело з
 msgid "Failed to start scheduled backup"
 msgstr "Нисам успео да започнем заказану резерву"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:17
+#: src/ui.rs:174
 msgid "Abort running backup creation?"
 msgstr "Да прекинем покренуто прављење резерве?"
 
-#: src/ui.rs:179 src/ui/page_backup/events.rs:18
+#: src/ui.rs:175
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Резерва ће остати непотпуна ако сада прекинете."
 
-#: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:19
+#: src/ui.rs:176 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:28
+#: src/ui/page_backup/events.rs:36 src/ui/page_backup/events.rs:47
+#: src/ui/page_backup/events.rs:55 src/ui/page_backup/events.rs:65
+#: src/ui/utils.rs:354
 msgid "Continue"
 msgstr "Настави"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:20
+#: src/ui.rs:177 src/ui/page_backup/events.rs:29
+#: src/ui/page_backup/events.rs:48 src/ui/page_backup/events.rs:66
+#: src/ui/utils.rs:353
 msgid "Abort"
 msgstr "Прекини"
 
-#: src/ui.rs:200
+#. Someone wants to quit the app from the shell (eg via backgrounds app list)
+#: src/ui.rs:185
+#| msgid "Backup Running"
+msgid "A Backup Operation is Running"
+msgstr "Прављење резерве је у току"
+
+#: src/ui.rs:187
+#| msgid "Pika Backup crashed while running a backup."
+#| msgid_plural "Pika Backup crashed while running {} backups."
+msgid "Pika Backup cannot be quit during a backup operation."
+msgstr "Пика резерве не може да изађе за време прављења резерве."
+
+#: src/ui.rs:211
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Нисам успео да покренем „borg“-а. Да ли је „BorgBackup“ исправно инсталиран?"
 
-#: src/ui.rs:224
+#: src/ui.rs:235
 msgid "BorgBackup version too old"
 msgstr "Издање „BorgBackup“ је превише старо"
 
-#: src/ui.rs:226
+#: src/ui.rs:237
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -547,11 +659,11 @@ msgstr ""
 "Инсталирано издање {} „BorgBackup“-а је превише старо. Неке функције које "
 "захтевају „borg-backup“ издање {}.{}.{} неће радити."
 
-#: src/ui.rs:237
+#: src/ui.rs:248
 msgid "BorgBackup version too new"
 msgstr "Издање „BorgBackup“ је превише ново"
 
-#: src/ui.rs:239
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -559,11 +671,11 @@ msgstr ""
 "Инсталирано издање {} „BorgBackup“-а је превише ново. Препоручује се издање "
 "{}.{}. Неке функције неће радити као што се очекује."
 
-#: src/ui.rs:249
+#: src/ui.rs:260
 msgid "Failed to Check BorgBackup Version"
 msgstr "Нисам успео да проверим „Borg-Backup“ издање"
 
-#: src/ui.rs:251
+#: src/ui.rs:262
 msgid "The installed version {} might not work."
 msgstr "Инсталирано издање {} неће радити."
 
@@ -587,23 +699,28 @@ msgstr "Уклони поставку резерве"
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:142
-msgid "No Backup Configured"
-msgstr "Нема подешених резерви"
-
-#: src/ui/app_window.ui:143
-msgid "Add a new configuration to start creating backups"
-msgstr "Додајте ново подешавање да започнете стварање резерви"
-
-#: src/ui/app_window.ui:146
+#: src/ui/app_window.ui:106
 msgid "Setup Backup"
 msgstr "Постави резерву"
 
-#: src/ui/app_window.ui:192
-msgid "Back to overview"
-msgstr "Назад на прглед"
+#: src/ui/app_window.ui:113
+msgid "Main Menu"
+msgstr "Главни изборник"
 
-#: src/ui/app_window.ui:213
+#: src/ui/app_window.ui:133
+msgid "No Backup Configured"
+msgstr "Нема подешених резерви"
+
+#: src/ui/app_window.ui:134
+msgid "Add a new configuration to start creating backups"
+msgstr "Додајте ново подешавање да започнете стварање резерви"
+
+#: src/ui/app_window.ui:137
+#| msgid "Setup Backup"
+msgid "_Setup Backup"
+msgstr "_Постави Резерву"
+
+#: src/ui/app_window.ui:205
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -611,181 +728,196 @@ msgstr ""
 "Архиве су прикачене.\n"
 "Ово може потрајати."
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:219
+#| msgid "Location"
+msgid "Actions"
+msgstr "Радње"
+
+#: src/ui/app_window.ui:245
 msgid "_Backup"
 msgstr "Направи _резерву"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:267
 msgid "_Abort"
 msgstr "_Прекини"
 
-#: src/ui/app_window.ui:296
+#: src/ui/app_window.ui:289
 msgid "Back Up _Now"
 msgstr "_Сада направи резерву"
 
-#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:303 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Датотеке за прављење резерве"
 
-#: src/ui/app_window.ui:311
+#: src/ui/app_window.ui:304
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "Само датотеке у следећим фасциклама су сачуване у ризници резерве."
 
-#: src/ui/app_window.ui:314
-msgid "Select directory to include…"
-msgstr "Изаберите директоријум за укључивање…"
+#: src/ui/app_window.ui:307
+#| msgid "Select directory to include…"
+msgid "Select Directory to Include"
+msgstr "Изаберите директоријум за укључивање"
 
-#: src/ui/app_window.ui:327
-#| msgid "No files selected to be included into backup."
+#: src/ui/app_window.ui:320
 msgid "No files included in backup"
 msgstr "Никакве датотеке нису укључене у резерву"
 
-#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
+#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Искључи из резерве"
 
-#: src/ui/app_window.ui:340
+#: src/ui/app_window.ui:333
 msgid "The following folders are excluded from the backup repository."
 msgstr "Следеће фасцикле су искључене из ризнице резерве."
 
-#: src/ui/app_window.ui:343
-msgid "Select directory to exclude…"
-msgstr "Изаберите директоријум за искључивање…"
+#: src/ui/app_window.ui:336
+#| msgid "Select directory to exclude…"
+msgid "Select Directory to Exclude"
+msgstr "Изаберите директоријум за искључивање"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:349
 msgid "Nothing excluded from backup"
 msgstr "Ништа није искључено из резерве"
 
-#: src/ui/app_window.ui:370
+#: src/ui/app_window.ui:363
 msgid "_Archives"
 msgstr "_Архиве"
 
-#: src/ui/app_window.ui:465
+#: src/ui/app_window.ui:458
 msgid "Archive _Prefix"
 msgstr "_Префикс архиве"
 
-#: src/ui/app_window.ui:467
+#: src/ui/app_window.ui:460
 msgid "Added in front of all archive names"
 msgstr "Додат је на чело свих назива архива"
 
-#: src/ui/app_window.ui:496
+#: src/ui/app_window.ui:489
 msgid "_Cleanup Archives"
 msgstr "_Очисти архиве"
 
-#: src/ui/app_window.ui:497
+#: src/ui/app_window.ui:490
 msgid "Delete some older archives"
 msgstr "Обришите неке старије архиве"
 
-#: src/ui/app_window.ui:513
+#: src/ui/app_window.ui:506
 msgid "Archives"
 msgstr "Архиве"
 
-#: src/ui/app_window.ui:522
-msgid "Refresh list of archives"
-msgstr "Освежи списак архива"
+#: src/ui/app_window.ui:515
+msgid "Refresh"
+msgstr "Освежи"
 
-#: src/ui/app_window.ui:543
+#: src/ui/app_window.ui:536
 msgid "Stop browsing archive files"
 msgstr "Заустави разгледање датотека архиве"
 
-#: src/ui/app_window.ui:569
+#: src/ui/app_window.ui:562
 msgid "No archives available"
 msgstr "Нема доступних архива"
 
-#: src/ui/app_window.ui:588
+#: src/ui/app_window.ui:581
 msgid "_Schedule"
 msgstr "_Закажи"
 
-#: src/ui/app_window.ui:613
+#: src/ui/app_window.ui:606
 msgid "Scheduled Backups"
 msgstr "Заказане резерве"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:610
 msgid "Regularly Create Backups"
 msgstr "Редовно прави резерве"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:615
 msgid "Frequency"
 msgstr "Учесталост"
 
-#: src/ui/app_window.ui:630
+#: src/ui/app_window.ui:623
 msgid "Preferred Time"
 msgstr "Жељено време"
 
-#: src/ui/app_window.ui:650
+#: src/ui/app_window.ui:643
 msgid "Preferred Weekday"
 msgstr "Жељени дан у седмици"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:648
 msgid "Preferred Day"
 msgstr "Жељени дан"
 
-#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:88
 msgid "Delete old Archives"
 msgstr "Обриши старе архиве"
 
-#: src/ui/app_window.ui:682
+#: src/ui/app_window.ui:675
 msgid "Save Configuration"
 msgstr "Сачувај подешавање"
 
-#: src/ui/app_window.ui:694
+#: src/ui/app_window.ui:687
 msgid "Regularly Cleanup Archives"
 msgstr "Редовно чисти архиве"
 
-#: src/ui/app_window.ui:695
+#: src/ui/app_window.ui:688
 msgid "Remove old archives after creating new backups"
 msgstr "Уклоните старе архиве након стварања нових резерви"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:698
 msgid "Preserved Archives"
 msgstr "Резервисане архиве"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:699
 msgid "Amount and time span of retained archives"
 msgstr "Количина и временски распон задржаних архива"
 
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:708
 msgid "Details"
 msgstr "Појединости"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:712
 msgid "Keep Hourly"
 msgstr "Задржи сат времена"
 
-#: src/ui/app_window.ui:741
+#: src/ui/app_window.ui:734
 msgid "Keep Daily"
 msgstr "Задржи дневно"
 
-#: src/ui/app_window.ui:763
+#: src/ui/app_window.ui:756
 msgid "Keep Weekly"
 msgstr "Задржи седмично"
 
-#: src/ui/app_window.ui:783
+#: src/ui/app_window.ui:776
 msgid "Keep Monthly"
 msgstr "Задржи месечно"
 
-#: src/ui/app_window.ui:802
+#: src/ui/app_window.ui:795
 msgid "Keep Annual"
 msgstr "Задржи годишње"
 
-#: src/ui/app_window.ui:849
+#: src/ui/app_window.ui:842
 msgid "Backup Info"
 msgstr "Подаци о резерви"
 
-#: src/ui/app_window.ui:909
+#: src/ui/app_window.ui:902
 msgid "Amount saved"
 msgstr "Укупно сачуваних"
 
-#: src/ui/app_window.ui:925
+#: src/ui/app_window.ui:903
+msgid "Size of all files"
+msgstr "Величина свих датотека"
+
+#: src/ui/app_window.ui:919
 msgid "Number of files saved"
 msgstr "Број сачуваних датотека"
 
-#: src/ui/app_window.ui:941
-msgid "Additional backup space used"
-msgstr "Додатни искоришћени простор за резерве"
+#: src/ui/app_window.ui:935
+#| msgid "Additional backup space used"
+msgid "Backup space used"
+msgstr "Простор за резерве је коришћен"
 
-#: src/ui/app_window.ui:957
+#: src/ui/app_window.ui:936
+msgid "Newly used space in this backup"
+msgstr "Новокоришћени простор у овој резерви"
+
+#: src/ui/app_window.ui:952
 msgid "Current file"
 msgstr "Тренутна датотека"
 
@@ -846,31 +978,38 @@ msgstr "Заустављам прављење резерве"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Нисам успео да изродим сучеље за заказане резерве."
 
-#: src/ui/dialog_about.rs:27
+#: src/ui/dialog_about.rs:25
+msgid "Support us on Open Collective"
+msgstr "Подржите нас на „Open Collective“"
+
+#: src/ui/dialog_about.rs:29
+msgid "Support us on Github Sponsors"
+msgstr "Подржите нас на „Github Sponsors“"
+
+#: src/ui/dialog_about.rs:35
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Софија Херолд <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:28
-msgid "Fina Wilke"
-msgstr "Фина Вилки"
+#: src/ui/dialog_about.rs:36
+msgid "Fina Wilke <code@felinira.net>"
+msgstr "Фина Вилке <code@felinira.net>"
 
-#: src/ui/dialog_about.rs:30
-#| msgid "Copyright © 2018–2022 Sophie Herold et al."
+#: src/ui/dialog_about.rs:38
 msgid "Copyright © 2018–2023 Sophie Herold et al."
 msgstr "Ауторска права © 2018–2023 Софија Херолд и др."
 
-#: src/ui/dialog_about.rs:31
+#: src/ui/dialog_about.rs:39
 msgid "translator-credits"
 msgstr ""
 "Мирослав Николић <miroslavnikolic@rocketmail.com>  \n"
 "\n"
 "http://prevod.org — превод на српски језик"
 
-#: src/ui/dialog_about.rs:35
+#: src/ui/dialog_about.rs:43
 msgid "Back End"
 msgstr "Позадинац"
 
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:45
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -880,11 +1019,11 @@ msgstr ""
 "Размотрите <a href='https://www.borgbackup.org/support/fund.html'>подршку "
 "„BorgBackup“-у</a>."
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:47
 msgid "The Name"
 msgstr "Назив"
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:49
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -904,7 +1043,7 @@ msgstr ""
 "пике не само да стварају веома софистициране стогове већ су брзи и у "
 "сакупљању вегетације."
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:51
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -922,11 +1061,11 @@ msgstr "Неисправан префикс архиве"
 msgid "Archive Prefix"
 msgstr "Префикс архиве"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
-#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
-#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
-#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:33
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:33
+#: src/ui/dialog_prune.ui:64 src/ui/dialog_prune_review.ui:33
+#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:175
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:154
 msgid "Cancel"
 msgstr "Откажи"
 
@@ -959,16 +1098,16 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Ако је префикс архиве празан, не додаје се никакав префикс."
 
-#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
-#| msgid "Delete Archives"
+#: src/ui/dialog_delete_archive.rs:69
+#| msgid "Delete old Archives Failed"
+msgid "Delete Archive Failed"
+msgstr "Брисање архиве није успело"
+
+#: src/ui/dialog_delete_archive.ui:39
 msgid "Delete Archive"
 msgstr "Обриши архиву"
 
-#: src/ui/dialog_delete_archive.ui:41
-#| msgid ""
-#| "Proceeding with this operation will irretrievably delete some of the "
-#| "archives. The saved data for those specific points in time will no longer "
-#| "be available."
+#: src/ui/dialog_delete_archive.ui:52
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -976,13 +1115,11 @@ msgstr ""
 "Настављање са овом радњом ће неповратно обрисати ову архиву. Сачувани подаци "
 "за ову специфичну тачку у времену неће више бити доступни."
 
-#: src/ui/dialog_delete_archive.ui:51
-#| msgid "Archives"
+#: src/ui/dialog_delete_archive.ui:62
 msgid "Archive Name"
 msgstr "Назив архиве"
 
-#: src/ui/dialog_delete_archive.ui:64
-#| msgid "Archives"
+#: src/ui/dialog_delete_archive.ui:75
 msgid "Archive Date"
 msgstr "Датум архиве"
 
@@ -1006,12 +1143,10 @@ msgid "Encryption Password Required"
 msgstr "Захтева се лозинка шифровања"
 
 #: src/ui/dialog_encryption_password.ui:9
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Откажи"
 
 #: src/ui/dialog_encryption_password.ui:10
-#| msgid "Continue"
 msgid "Co_ntinue"
 msgstr "_Настави"
 
@@ -1028,7 +1163,7 @@ msgid "Exclude Directory"
 msgstr "Искључи директоријум"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:264
+#: src/ui/page_backup/events.rs:87 src/ui/utils.rs:264
 msgid "Select"
 msgstr "Изабери"
 
@@ -1082,29 +1217,34 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
 "html\">документацију „BorgBackup“-а</a>."
 
-#: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
+#: src/ui/dialog_prune.rs:30 src/ui/dialog_prune_review.rs:42
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Нисам успео да одредим колико ће архива бити обрисано"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:359
+#: src/ui/dialog_prune.rs:49 src/ui/utils.rs:397
 msgid "Close"
 msgstr "Затвори"
 
+#: src/ui/dialog_prune.rs:98
+#| msgid "Reclaiming Free Space"
+msgid "Reclaim Free Space"
+msgstr "Потражујем слободан простор"
+
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:41
 msgid "Checking for old Archives"
 msgstr "Проверавам старе архиве"
 
-#: src/ui/dialog_prune.ui:31
+#: src/ui/dialog_prune.ui:42
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr "Правим списак старих архива које ће бити одобрене за брисање."
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
-#: src/ui/dialog_prune_review.ui:82
+#: src/ui/dialog_prune.ui:70 src/ui/dialog_prune.ui:93
+#: src/ui/dialog_prune_review.ui:93
 msgid "Delete Archives"
 msgstr "Обриши архиве"
 
-#: src/ui/dialog_prune.ui:72
+#: src/ui/dialog_prune.ui:83
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -1113,15 +1253,15 @@ msgstr ""
 "Настављање са овом радњом ће неповратно обрисати неке архиве. Сачувани "
 "подаци за те специфичне тачке у времену неће више бити доступни."
 
-#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
+#: src/ui/dialog_prune.ui:106 src/ui/dialog_prune_review.ui:106
 msgid "Keep Archives"
 msgstr "Задржи архиве"
 
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+#: src/ui/dialog_prune.ui:119 src/ui/dialog_prune_review.ui:119
 msgid "Not Considered"
 msgstr "Није узета у обзир"
 
-#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+#: src/ui/dialog_prune.ui:120 src/ui/dialog_prune_review.ui:120
 msgid "Archives with different prefix"
 msgstr "Архиве са другачијим префиксом"
 
@@ -1129,19 +1269,19 @@ msgstr "Архиве са другачијим префиксом"
 msgid "Review Changes"
 msgstr "Прегледај измене"
 
-#: src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:41
 msgid "Assessing Impact on old Archives"
 msgstr "Процена делује на старе архиве"
 
-#: src/ui/dialog_prune_review.ui:31
+#: src/ui/dialog_prune_review.ui:42
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr "Прикупљам податке о дејству измена на старе архиве"
 
-#: src/ui/dialog_prune_review.ui:59
+#: src/ui/dialog_prune_review.ui:70
 msgid "Apply"
 msgstr "Примени"
 
-#: src/ui/dialog_prune_review.ui:72
+#: src/ui/dialog_prune_review.ui:83
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
@@ -1389,31 +1529,31 @@ msgstr "Унесене лозинке се не поклапају."
 msgid "A repository location has to be given."
 msgstr "Треба да наведете место ризнице."
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:254
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:258
 msgid "Additional command line arguments invalid."
 msgstr "Додатни аргументи линије наредби су неисправни."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:255
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
 msgid "Please check for missing closing quotes."
 msgstr "Проверите да ли недостају наводници затварања."
 
-#: src/ui/dialog_setup/insert.rs:182
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "Учитавам ризницу резерве"
 
-#: src/ui/dialog_setup/insert.rs:202
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "Нисам успео да подесим ризницу"
 
-#: src/ui/dialog_setup/insert.rs:221
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "Нисам успео"
 
-#: src/ui/dialog_setup/insert.rs:291
+#: src/ui/dialog_setup/insert.rs:295
 msgid "Repository location not found."
 msgstr "Нисам нашао место ризнице."
 
-#: src/ui/dialog_setup/insert.rs:292
+#: src/ui/dialog_setup/insert.rs:296
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "Радња качења је успела али је место још увек недоступно."
 
@@ -1457,15 +1597,25 @@ msgstr "Укупно"
 msgid "Free"
 msgstr "Слободно"
 
-#: src/ui/error.rs:72
+#: src/ui/error.rs:74
+msgid ""
+"The keyring is not available. Pika Backup requires a keyring daemon (“secret "
+"service”) to store passwords. For installation instructions see the "
+"operating system documentation."
+msgstr ""
+"Привезак кључева није доступан, Пика резерве захтева позадинца привеска "
+"кључева („тајна услуга“) за чување лозинки. За инструкције инсталације "
+"видите документцију оперативног система."
+
+#: src/ui/error.rs:88
 msgid "Backup with id “{}” already exists."
 msgstr "Резерва са иб-ом „{}“ већ постоји."
 
-#: src/ui/error.rs:77
+#: src/ui/error.rs:93
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Не могу да нађем подешавање резерве са иб-ом „{}“."
 
-#: src/ui/page_archives/cache.rs:34
+#: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "Нисам успео да освежим оставу архива."
 
@@ -1490,7 +1640,6 @@ msgid "Browse saved files"
 msgstr "Разгледај сачуване датотеке"
 
 #: src/ui/page_archives/display.rs:182
-#| msgid "Delete Archives"
 msgid "Delete archive"
 msgstr "Обриши архиву"
 
@@ -1502,11 +1651,11 @@ msgstr "{} је доступно"
 msgid "{} Total"
 msgstr "{} укупно"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:29
 msgid "Failed to unmount repository."
 msgstr "Нисам успео да откачим ризницу."
 
-#: src/ui/page_archives/events.rs:61
+#: src/ui/page_archives/events.rs:65
 msgid "Failed to make archives available for browsing."
 msgstr "Нисам успео да учиним архиву доступном за разгледање."
 
@@ -1514,66 +1663,158 @@ msgstr "Нисам успео да учиним архиву доступном 
 msgid "Usually contains all personal data"
 msgstr "Обично садржи све личне податке"
 
-#: src/ui/page_backup/events.rs:42
+#: src/ui/page_backup/display.rs:43
+#| msgid "Exclude Directory"
+msgid "Remove Directory"
+msgstr "Уклони директоријум"
+
+#: src/ui/page_backup/display.rs:99
+msgid "Remove From List"
+msgstr "Уклони са списка"
+
+#: src/ui/page_backup/events.rs:26
+#| msgid "Abort running backup creation?"
+msgid "Abort Saving Backup State?"
+msgstr "Да прекинем чување стања резерве?"
+
+#: src/ui/page_backup/events.rs:27
+msgid ""
+"The current backup state is in the process of being saved. The backup can be "
+"continued later without saving the state. Some data might have to be copied "
+"again."
+msgstr ""
+"Тренутно стање резерве је у току чувања. Прављење резерве се може наставити "
+"касније без чувања стања. Неки подаци ће морати бити поново умножени."
+
+#: src/ui/page_backup/events.rs:34
+#| msgid "Stopping Backup"
+msgid "Stop Running Backup?"
+msgstr "Да зауставим прављење резерве?"
+
+#: src/ui/page_backup/events.rs:35
+msgid ""
+"The current backup state will be saved. You can continue your backup later "
+"by starting it again."
+msgstr ""
+"Тренутно стање резерве биће сачувано. Можете наставити прављење резерве "
+"касније његовим поновним покретањем."
+
+#: src/ui/page_backup/events.rs:37 src/ui/page_backup/events.rs:56
+msgid "Stop"
+msgstr "Зустави"
+
+#: src/ui/page_backup/events.rs:45
+msgid "Abort Delete Operation?"
+msgstr "Да прекинем радњу брисања?"
+
+#: src/ui/page_backup/events.rs:46
+msgid ""
+"Archives are currently being deleted. Aborting now will cause some deletion "
+"progress to be lost. Free space will not be reclaimed."
+msgstr ""
+"Архиве се тренутно бришу. Ако сада прекинете доћи ће до губитка неког "
+"прогреса брисања. Слободан простор неће бити повраћен."
+
+#: src/ui/page_backup/events.rs:53
+#| msgid "Deleting Archive"
+msgid "Stop Deleting Archives?"
+msgstr "Да зауставим брисање архива?"
+
+#: src/ui/page_backup/events.rs:54
+msgid ""
+"Deletion progress will be saved. Free space will not be reclaimed. You can "
+"continue deletion at a later time by starting the operation again."
+msgstr ""
+"Прогрес брисања биће сачуван. Слободан простор неће бити повраћен. Можете "
+"наставити брисање касније поновним покретањем радње."
+
+#: src/ui/page_backup/events.rs:63
+#| msgid "Abort running backup creation?"
+msgid "Abort Operation?"
+msgstr "Да прекинем радњу?"
+
+#: src/ui/page_backup/events.rs:64
+msgid ""
+"An operation is currently being performed. Aborting now will cause any "
+"progress made by the operation to be lost."
+msgstr ""
+"Тренутно се обавља једна радња. Ако сада прекинете то ће довести до губитка "
+"било ког прогреса учињеног том радњом."
+
+#: src/ui/page_backup/events.rs:86
 msgid "Include Folder"
 msgstr "Укључи фасциклу"
 
-#: src/ui/page_backup/events.rs:93
+#: src/ui/page_backup/events.rs:116
+#| msgid "Conventional Locations"
+msgid "Unable to Include Location"
+msgstr "Не могу да укључим место"
+
+#: src/ui/page_backup/events.rs:117
+msgid ""
+"The following paths could not be included because they aren't reliably "
+"available in the sandbox:\n"
+"{}"
+msgstr ""
+"Следеће путање не могу бити укључене јер нису доступне у заштићеном "
+"окружењу:\n"
+"{}"
+
+#: src/ui/page_backup/events.rs:173
 msgid "No longer include “{}” in backups?"
 msgstr "Да више не укључујем „{}“ у резерве?"
 
-#: src/ui/page_backup/events.rs:94
+#: src/ui/page_backup/events.rs:174
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Све датотеке садржане у овој фасцикли више неће бити део будућих резерви."
 
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:176
 msgid "Confirm"
 msgstr "Потврди"
 
-#: src/ui/page_backup/execution.rs:35
+#: src/ui/page_backup/execution.rs:20
 msgid "Stop browsing files and start backup?"
 msgstr "Да престанем са разгледањем датотека и да започнем прављење резерве?"
 
-#: src/ui/page_backup/execution.rs:36
+#: src/ui/page_backup/execution.rs:21
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr "Разгледање архивираних датотека није могуће док се прави резерва."
 
-#: src/ui/page_backup/execution.rs:37
+#: src/ui/page_backup/execution.rs:22
 msgid "Keep Browsing"
 msgstr "Настави разгледање"
 
-#: src/ui/page_backup/execution.rs:38
+#: src/ui/page_backup/execution.rs:23
 msgid "Start Backup"
 msgstr "Започни прављење резерве"
 
-#: src/ui/page_backup/execution.rs:69
-#| msgid "Delete old Archives"
+#: src/ui/page_backup/execution.rs:55
 msgid "Delete old Archives Failed"
 msgstr "Брисање старе архиве није успело"
 
-#: src/ui/page_backup/execution.rs:80
+#: src/ui/page_backup/execution.rs:66
 msgid "Reclaiming Free Space Failed"
 msgstr "Потраживање слободног простора није успело"
 
-#: src/ui/page_backup/execution.rs:147
+#: src/ui/page_backup/execution.rs:134
 msgid "Backup Failed"
 msgstr "Прављење резерве није успело"
 
-#: src/ui/page_backup/execution.rs:169
+#: src/ui/page_backup/execution.rs:156
 msgid "Backup Completed with Warnings"
 msgstr "Резерва је обављена са упозорењима"
 
-#: src/ui/page_overview.rs:49
+#: src/ui/page_overview.rs:50
 msgid "Remove Backup Setup?"
 msgstr "Да уклоним поставку резерве?"
 
-#: src/ui/page_overview.rs:50
+#: src/ui/page_overview.rs:51
 msgid "Removing the setup will not delete any archives."
 msgstr "Уклањање поставке неће обрисати ниједну архиву."
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:53
 msgid "Remove Setup"
 msgstr "Уклони поставку"
 
@@ -1729,7 +1970,11 @@ msgstr "Позадински процес није активан"
 msgid "This is required for scheduled backups"
 msgstr "Ово је потребно за заказане резерве"
 
-#: src/ui/status.rs:84
+#: src/ui/shell.rs:26
+msgid "Idle"
+msgstr "Мирујем"
+
+#: src/ui/status.rs:86
 msgid "Unable to determine background process status"
 msgstr "Не могу да одредим стање процеса позадине"
 
@@ -1765,41 +2010,43 @@ msgstr ""
 
 #: src/ui/utils.rs:139
 msgid ""
-"Either the system does not support this feature or an error occurred. "
-"Scheduled backup functionality and continuing backups in the background will "
-"not be available."
+"The system does not support running Pika Backup in the background. Scheduled "
+"backup functionality and continuing backups in the background will not be "
+"available. This is either a malfunction, misconfiguration or other issue "
+"with the xdg-desktop-portal. Please report this issue in your distribution "
+"issue tracker."
 msgstr ""
-"Или систем не подржава ову функцију или је дошло до грешке. Функционалност "
-"заказаног прављења резерви и наставак прављења резерви у позадини неће бити "
-"доступни."
+"Систем не подржава рад Пика резерве у позадини. Заказана функционалност "
+"резерве и наставак прављења резерве у позадини неће бити доступно. Ово је "
+"или недостатак, лоша подешеност или неки други проблем са „xdg-desktop-"
+"portal“. Пријавите овај проблем у пратиоцу грешака у вашој дистрибуцији."
 
 #: src/ui/utils.rs:161
 msgid "Failed to Start Monitor"
 msgstr "Нисам успео да започнем праћење"
 
 #: src/ui/utils.rs:227
-#, fuzzy
 #| msgid "Backup Running"
 msgid "One Backup Operation Running"
 msgid_plural "{} Backup Operations Running"
-msgstr[0] "Прављење резерве је у току"
-msgstr[1] "Прављење резерве је у току"
-msgstr[2] "Прављење резерве је у току"
-msgstr[3] "Прављење резерве је у току"
+msgstr[0] "У току је прављење {} резерве"
+msgstr[1] "У току је прављење {} резерве"
+msgstr[2] "У току је прављење {} резерви"
+msgstr[3] "У току је прављење једне резерве"
 
 #: src/ui/utils.rs:250
 msgid "Failed to Create Thread"
 msgstr "Нисам успео да направим нит"
 
-#: src/ui/utils.rs:496
+#: src/ui/utils.rs:534
 msgid "Failed to fix Scheduled Backups"
 msgstr "Нисам успео да поправим заказане резерве"
 
-#: src/ui/utils.rs:501
+#: src/ui/utils.rs:539
 msgid "Scheduled Backups Repaired"
 msgstr "Заказане резерве су поправљене"
 
-#: src/ui/utils.rs:501
+#: src/ui/utils.rs:539
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1807,11 +2054,11 @@ msgstr ""
 "Систем је садржао грешку која је потенцијално довела до тога да заказане "
 "резерве не раде исправно. Тај проблем је сада решен."
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:36
 msgid "Repository already in use"
 msgstr "Ризница је већ у употреби"
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:151
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1820,7 +2067,7 @@ msgstr ""
 "застарела ако је, на пример, рачунар остао без напајања док је користио ту "
 "ризницу."
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:153
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1830,7 +2077,7 @@ msgstr ""
 "наставите док други програм користи ту ризницу подаци резерве се могу "
 "оштетити!"
 
-#: src/ui/utils/borg.rs:150
+#: src/ui/utils/borg.rs:155
 msgid "Continue Anyway"
 msgstr "Ипак настави"
 
@@ -1842,7 +2089,7 @@ msgstr "Не могу да учитам датотеку подешавања."
 msgid "Could not write configuration file."
 msgstr "Не могу да упишем датотеку подешавања."
 
-#: src/ui/utils/duration.rs:10
+#: src/ui/utils/duration.rs:11
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "{} секунда"
@@ -1850,7 +2097,7 @@ msgstr[1] "{} секунде"
 msgstr[2] "{} секунди"
 msgstr[3] "Једна секунда"
 
-#: src/ui/utils/duration.rs:12
+#: src/ui/utils/duration.rs:13
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} минут"
@@ -1858,7 +2105,7 @@ msgstr[1] "{} минута"
 msgstr[2] "{} минута"
 msgstr[3] "Један минут"
 
-#: src/ui/utils/duration.rs:14
+#: src/ui/utils/duration.rs:15
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "{} сат"
@@ -1866,7 +2113,7 @@ msgstr[1] "{} сата"
 msgstr[2] "{} сати"
 msgstr[3] "Један сат"
 
-#: src/ui/utils/duration.rs:16
+#: src/ui/utils/duration.rs:17
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "{} дан"
@@ -1875,6 +2122,46 @@ msgstr[2] "{} дана"
 msgstr[3] "Један дан"
 
 #: src/ui/utils/duration.rs:23
+#| msgid "One second"
+#| msgid_plural "{} seconds"
+msgid "one second"
+msgid_plural "{} seconds"
+msgstr[0] "{} секунда"
+msgstr[1] "{} секунде"
+msgstr[2] "{} секунди"
+msgstr[3] "Једна секунда"
+
+#: src/ui/utils/duration.rs:25
+#| msgid "One minute"
+#| msgid_plural "{} minutes"
+msgid "one minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} минут"
+msgstr[1] "{} минута"
+msgstr[2] "{} минута"
+msgstr[3] "Један минут"
+
+#: src/ui/utils/duration.rs:27
+#| msgid "One hour"
+#| msgid_plural "{} hours"
+msgid "one hour"
+msgid_plural "{} hours"
+msgstr[0] "{} сат"
+msgstr[1] "{} сата"
+msgstr[2] "{} сати"
+msgstr[3] "Један сат"
+
+#: src/ui/utils/duration.rs:29
+#| msgid "One day"
+#| msgid_plural "{} days"
+msgid "one day"
+msgid_plural "{} days"
+msgstr[0] "{} дан"
+msgstr[1] "{} дана"
+msgstr[2] "{} дана"
+msgstr[3] "Један дан"
+
+#: src/ui/utils/duration.rs:36
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "{} минут је преостао"
@@ -1882,7 +2169,7 @@ msgstr[1] "{} минута су преостала"
 msgstr[2] "{} минута је преостало"
 msgstr[3] "Један минут је преостао"
 
-#: src/ui/utils/duration.rs:28
+#: src/ui/utils/duration.rs:41
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "{} сат је преостао"
@@ -1890,7 +2177,7 @@ msgstr[1] "{} сата су преостала"
 msgstr[2] "{} сати је преостало"
 msgstr[3] "Један сат је преостао"
 
-#: src/ui/utils/duration.rs:30
+#: src/ui/utils/duration.rs:43
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "{} дан је преостао"
@@ -1898,11 +2185,11 @@ msgstr[1] "{} дана су преостала"
 msgstr[2] "{} дана је преостало"
 msgstr[3] "Један дан је преостао"
 
-#: src/ui/utils/duration.rs:36
+#: src/ui/utils/duration.rs:49
 msgid "Now"
 msgstr "Сада"
 
-#: src/ui/utils/duration.rs:38
+#: src/ui/utils/duration.rs:51
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Пре {} минут"
@@ -1910,7 +2197,7 @@ msgstr[1] "Пре {} минута"
 msgstr[2] "Пре {} минута"
 msgstr[3] "Пре један минут"
 
-#: src/ui/utils/duration.rs:40
+#: src/ui/utils/duration.rs:53
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Пре {} сат"
@@ -1918,7 +2205,7 @@ msgstr[1] "Пре {} сата"
 msgstr[2] "Пре {} сати"
 msgstr[3] "Пре један сат"
 
-#: src/ui/utils/duration.rs:42
+#: src/ui/utils/duration.rs:55
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "Пре {} дан"
@@ -1926,7 +2213,7 @@ msgstr[1] "Пре {} дана"
 msgstr[2] "Пре {} дана"
 msgstr[3] "Пре један дан"
 
-#: src/ui/utils/duration.rs:44
+#: src/ui/utils/duration.rs:57
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Пре {} седмице"
@@ -1934,7 +2221,7 @@ msgstr[1] "Пре {} седмице"
 msgstr[2] "Пре {} седмица"
 msgstr[3] "Пре недељу дана"
 
-#: src/ui/utils/duration.rs:46
+#: src/ui/utils/duration.rs:59
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Пре {} месец"
@@ -1942,7 +2229,7 @@ msgstr[1] "Пре {} месеца"
 msgstr[2] "Пре {} месеци"
 msgstr[3] "Пре месец дана"
 
-#: src/ui/utils/duration.rs:48
+#: src/ui/utils/duration.rs:61
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Пре {} годину"
@@ -1954,19 +2241,40 @@ msgstr[3] "Пре годину дана"
 msgid "Failed to Store Password"
 msgstr "Нисам успео да сачувам лозинку"
 
-#: src/ui/utils/password_storage.rs:31
+#: src/ui/utils/password_storage.rs:32
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Нисам успео да уклоним вероватно преостале лозинке из смештаја кључева."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:48
+#: src/ui/utils/password_storage.rs:51
 msgid "Pika Backup “{}”"
 msgstr "Пика резерва „{}“"
 
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Нисам успео да сачувам оставу"
+
+#~ msgid "Sophie Herold"
+#~ msgstr "Софија Херолд"
+
+#~ msgid "Back to overview"
+#~ msgstr "Назад на прглед"
+
+#~ msgid "Refresh list of archives"
+#~ msgstr "Освежи списак архива"
+
+#~ msgid "Fina Wilke"
+#~ msgstr "Фина Вилки"
+
+#~ msgid ""
+#~ "Either the system does not support this feature or an error occurred. "
+#~ "Scheduled backup functionality and continuing backups in the background "
+#~ "will not be available."
+#~ msgstr ""
+#~ "Или систем не подржава ову функцију или је дошло до грешке. "
+#~ "Функционалност заказаног прављења резерви и наставак прављења резерви у "
+#~ "позадини неће бити доступни."
 
 #~ msgid "Court Witch"
 #~ msgstr "Тресу се улице"
