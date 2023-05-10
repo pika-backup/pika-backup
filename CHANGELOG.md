@@ -1,6 +1,18 @@
 # Changelog
 
-## 0.6.1 (2023-04-19)
+## 0.7.0 (unreleased)
+
+- Add docker to containers and VMs exclusion preset
+- Add per-backup preferences window
+- Add ability to set custom titles for backup configs
+- Add ability to edit regex and shell exclusion patterns
+- Add ability to run shell scripts on certain backup events
+
+## 0.6.2 (unreleased)
+
+- Fix an error where reconnection would silently fail
+
+## 0.6.1 (2023-04-21)
 
 - Fix archives can not be mounted on some systems
 - Fix removable drives can not be added to a backup
