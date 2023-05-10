@@ -355,16 +355,28 @@ pub struct PruneInfo {
     pub prune: usize,
 }
 
+pub async fn is_mounted(repo_id: &RepoId) -> bool {
+    let mount_point = mount_point(repo_id);
+
+    // Check if the directory is still a mountpoint (otherwise it was unmounted via other means)
+    async_std::task::spawn_blocking(move || {
+        gio::UnixMountEntry::for_mount_path(mount_point).0.is_some()
+    })
+    .await
+}
+
 pub async fn umount(repo_id: &RepoId) -> Result<()> {
     let mount_point = mount_point(repo_id);
 
-    let borg = BorgCall::new("umount")
-        .add_options(["--log-json"])
-        .add_positional(&mount_point)
-        .output()
-        .await?;
+    if is_mounted(repo_id).await {
+        let borg = BorgCall::new("umount")
+            .add_options(["--log-json"])
+            .add_positional(&mount_point)
+            .output()
+            .await?;
 
-    check_stderr(&borg)?;
+        check_stderr(&borg)?;
+    }
 
     std::fs::remove_dir(mount_point)?;
     let _ = std::fs::remove_dir(mount_base_dir());

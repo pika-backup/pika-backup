@@ -2,6 +2,7 @@
 
 ## 0.7.0 (unreleased)
 
+- Fix filesystem was unmounted via other means error when trying to unmount
 - Add docker to containers and VMs exclusion preset
 - Add per-backup preferences window
 - Add ability to set custom titles for backup configs

@@ -7,7 +7,7 @@ use crate::ui::utils::repo_cache::RepoCache;
 use crate::{borg, config, ui};
 
 pub async fn show() -> Result<()> {
-    update_eject_button()?;
+    update_eject_button().await?;
 
     ui::utils::clear(&main_ui().archive_list());
 
@@ -105,12 +105,14 @@ pub fn ui_update_archives_spinner() {
     }
 }
 
-pub fn update_eject_button() -> Result<()> {
-    main_ui().archives_eject_button().set_visible(
-        ACTIVE_MOUNTS
-            .load()
-            .contains(&BACKUP_CONFIG.load().active()?.repo_id),
-    );
+pub async fn update_eject_button() -> Result<()> {
+    ui::utils::borg::cleanup_mounts().await?;
+
+    let is_mounted = ACTIVE_MOUNTS
+        .load()
+        .contains(&BACKUP_CONFIG.load().active()?.repo_id);
+
+    main_ui().archives_eject_button().set_visible(is_mounted);
     Ok(())
 }
 

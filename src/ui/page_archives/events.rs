@@ -20,16 +20,16 @@ pub async fn edit_prefix() -> Result<()> {
     Ok(())
 }
 
-pub async fn eject_button_clicked() -> Result<()> {
+pub async fn eject() -> Result<()> {
     let repo_id = BACKUP_CONFIG.load().active()?.repo_id.clone();
+    ui::utils::borg::unmount(&repo_id).await?;
 
-    borg::functions::umount(&repo_id)
-        .await
-        .err_to_msg(gettext("Failed to unmount repository."))?;
-    ACTIVE_MOUNTS.update(|mounts| {
-        mounts.remove(&repo_id);
-    });
-    display::update_eject_button()
+    Ok(())
+}
+
+pub async fn eject_button_clicked() -> Result<()> {
+    eject().await?;
+    display::update_eject_button().await
 }
 
 pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
@@ -67,7 +67,7 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
         mount.into_message(gettext("Failed to make archives available for browsing."))?;
     }
 
-    display::update_eject_button()?;
+    display::update_eject_button().await?;
 
     let first_populated_dir = ui::utils::spawn_thread("open_archive", move || {
         super::find_first_populated_dir(&path)

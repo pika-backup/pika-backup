@@ -1,3 +1,4 @@
+use crate::borg::RepoId;
 use crate::ui::prelude::*;
 
 use crate::borg;
@@ -178,6 +179,31 @@ async fn handle_lock<B: borg::BorgRunConfig>(borg: B) -> CombinedResult<()> {
     .map_err(|_| borg::Error::ThreadPanicked)?
     .await
     .map_err(Into::into)
+}
+
+pub async fn unmount(repo_id: &RepoId) -> Result<()> {
+    borg::functions::umount(repo_id)
+        .await
+        .err_to_msg(gettext("Failed to unmount repository."))?;
+    ACTIVE_MOUNTS.update(|mounts| {
+        mounts.remove(repo_id);
+    });
+
+    Ok(())
+}
+
+pub async fn cleanup_mounts() -> Result<()> {
+    let mounts = ACTIVE_MOUNTS.load();
+
+    for repo_id in mounts.iter() {
+        if !borg::is_mounted(repo_id).await {
+            // The repository was unmounted somewhere else
+            // Call unmount to fix the state
+            unmount(repo_id).await?;
+        }
+    }
+
+    Ok(())
 }
 
 #[async_std::test]

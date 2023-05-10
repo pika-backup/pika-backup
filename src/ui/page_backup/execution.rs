@@ -15,6 +15,7 @@ pub async fn start_backup(
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
     let guard = QuitGuard::default();
+    crate::ui::utils::borg::cleanup_mounts().await?;
     if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
         debug!("Trying to run borg::create on a backup that is currently mounted.");
 
