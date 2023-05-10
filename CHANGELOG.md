@@ -8,6 +8,10 @@
 - Add ability to edit regex and shell exclusion patterns
 - Add ability to run shell scripts on certain backup events
 
+## 0.6.2 (unreleased)
+
+- Fix an error where reconnection would silently fail
+
 ## 0.6.1 (2023-04-21)
 
 - Fix archives can not be mounted on some systems

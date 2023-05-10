@@ -312,19 +312,24 @@ impl BorgCall {
                         retries += 1;
                         debug!("Reconnect attempt number {}", retries);
 
-                        let now = std::time::Instant::now();
-                        while now.elapsed() < super::DELAY_RECONNECT {
+                        let start_time = std::time::Instant::now();
+                        while start_time.elapsed() < super::DELAY_RECONNECT {
                             if let Instruction::Abort(ref reason) =
                                 **communication.instruction.load()
                             {
                                 return Err(Error::Aborted(reason.clone()));
                             }
 
-                            async_std::task::sleep(Duration::from_millis(100)).await;
                             communication.set_status(Run::Reconnecting(
-                                super::DELAY_RECONNECT - now.elapsed(),
-                            ))
+                                super::DELAY_RECONNECT
+                                    .checked_sub(start_time.elapsed())
+                                    .unwrap_or(Duration::ZERO),
+                            ));
+
+                            async_std::task::sleep(Duration::from_millis(100)).await;
                         }
+
+                        communication.set_status(Run::Init);
                         continue;
                     } else {
                         return result;
