@@ -33,7 +33,7 @@ pub fn show() {
     dialog.set_developer_name(&gettext("Small Mammal Collective"));
     dialog.set_developers(&[
         &gettext("Sophie Herold <sophieherold@gnome.org>"),
-        &gettext("Fina Wilke <code@felinira.net>"),
+        &gettext("Fina Wilke <finaw@gnome.org>"),
     ]);
     dialog.set_copyright(&gettext("Copyright © 2018–2023 Sophie Herold et al."));
     dialog.set_translator_credits(&gettext("translator-credits"));
