@@ -143,6 +143,18 @@ pub fn ui_display_archives(repo_id: &borg::RepoId) {
             ))
             .build();
 
+        if archive.name.as_str().ends_with(".checkpoint") {
+            let checkpoint_box = gtk::Box::new(gtk::Orientation::Horizontal, 12);
+            checkpoint_box.add_css_class("tag-box");
+            checkpoint_box.set_valign(gtk::Align::Center);
+
+            let info_tag = gtk::Label::new(Some(&gettext("Incomplete Archive")));
+            info_tag.add_css_class("tag");
+
+            checkpoint_box.append(&info_tag);
+            row.add_suffix(&checkpoint_box);
+        }
+
         let info = |title: String, info: &str| -> adw::ActionRow {
             let label = gtk::Label::builder()
                 .label(info)
