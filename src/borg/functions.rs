@@ -403,7 +403,7 @@ async fn prune_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
     let mut borg_call = BorgCall::new("prune");
 
     borg_call.add_basics(command).await?.add_options([
-        &format!("--prefix={}", command.config.archive_prefix),
+        &format!("--glob-archives={}*", command.config.archive_prefix),
         "--keep-within=1H",
         &format!("--keep-hourly={}", command.config.prune.keep.hourly),
         &format!("--keep-daily={}", command.config.prune.keep.daily),
