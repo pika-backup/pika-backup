@@ -85,9 +85,11 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
         let borg = BorgCall::new("mount")
             .add_basics(&self)
             .await?
+            // Also mount incomplete archives (checkpoints)
+            .add_options(["--consider-checkpoints"])
             // Make all data readable for the current user
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
-            .add_options(&["-o", &format!("umask=0000,uid={}", nix::unistd::getuid())])
+            .add_options(["-o", &format!("umask=0000,uid={}", nix::unistd::getuid())])
             .add_positional(&dir)
             .output()
             .await?;
