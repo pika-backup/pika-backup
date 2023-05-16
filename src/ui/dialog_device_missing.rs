@@ -93,13 +93,14 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
 
     match mount_result.await {
         Ok(()) => Ok(()),
-        Err(err) => {
-            match err.kind::<gio::IOErrorEnum>() {
-                // TODO
-                Some(gio::IOErrorEnum::FailedHandled) => Err(Error::UserCanceled),
-                _ => Err(Message::new(gettext("Failed to Mount"), err).into()),
+        Err(err) => match err.kind::<gio::IOErrorEnum>() {
+            Some(gio::IOErrorEnum::AlreadyMounted) => {
+                warn!("Tried to mount {file:#?} but it was already mounted");
+                Ok(())
             }
-        }
+            Some(gio::IOErrorEnum::FailedHandled) => Err(Error::UserCanceled),
+            _ => Err(Message::new(gettext("Failed to Mount"), err).into()),
+        },
     }
 }
 
