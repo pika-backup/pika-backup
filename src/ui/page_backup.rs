@@ -3,7 +3,7 @@ mod events;
 mod execution;
 pub mod init;
 
-pub use display::{refresh, refresh_status};
+pub use display::{refresh, refresh_disk_status, refresh_status};
 
 use crate::schedule;
 use crate::ui::prelude::*;

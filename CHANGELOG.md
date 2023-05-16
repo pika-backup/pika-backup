@@ -10,6 +10,7 @@
 - Add ability to edit regex and shell exclusion patterns
 - Add ability to run shell scripts on certain backup events
 - Add exclusion suggestions for unreadable paths
+- Add eject button for backup disk
 
 ## 0.6.2 (unreleased)
 

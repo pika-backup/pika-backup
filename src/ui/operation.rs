@@ -186,6 +186,7 @@ impl<T: borg::Task> Operation<T> {
         }
 
         ui::page_overview::refresh_status();
+        ui::page_backup::refresh_disk_status();
         glib::MainContext::default().spawn(ui::shell::background_activity_update());
     }
 

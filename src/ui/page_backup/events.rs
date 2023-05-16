@@ -1,5 +1,7 @@
 use std::path::PathBuf;
 
+use gtk::traits::WidgetExt;
+
 use crate::borg;
 use crate::ui;
 
@@ -77,6 +79,16 @@ pub async fn on_stop_backup_create() -> Result<()> {
 
 pub async fn on_backup_run() -> Result<()> {
     execution::start_backup(BACKUP_CONFIG.load().active()?.clone(), None).await
+}
+
+pub async fn on_backup_disk_eject() -> Result<()> {
+    // Hide the button immediately to prevent accidental multiple triggers of the action
+    // It will be shown again on error
+    main_ui().backup_disk_eject_button().set_visible(false);
+
+    let res = ui::utils::borg::unmount_backup_disk(BACKUP_CONFIG.load().active()?.clone()).await;
+    super::display::refresh()?;
+    res
 }
 
 pub async fn add_include() -> Result<()> {

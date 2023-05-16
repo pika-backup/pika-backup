@@ -49,4 +49,8 @@ pub fn init() {
 
     main_ui().status_spinner().connect_map(|s| s.start());
     main_ui().status_spinner().connect_unmap(|s| s.stop());
+
+    main_ui()
+        .backup_disk_eject_button()
+        .connect_clicked(|_| Handler::run(events::on_backup_disk_eject()));
 }

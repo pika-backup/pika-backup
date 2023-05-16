@@ -53,6 +53,7 @@ pub fn refresh() -> Result<()> {
     let backup = BACKUP_CONFIG.load().active()?.clone();
 
     refresh_status();
+    refresh_disk_status();
 
     // backup target ui
     if let Ok(icon) = gio::Icon::for_string(&backup.repo.icon()) {
@@ -143,6 +144,21 @@ pub fn refresh() -> Result<()> {
     }
 
     Ok(())
+}
+
+pub fn refresh_disk_status() {
+    if let Ok(backup) = BACKUP_CONFIG.load().active().cloned() {
+        let operation_running =
+            BORG_OPERATION.with(|operations| operations.load().get(&backup.id).is_some());
+
+        main_ui()
+            .backup_disk_eject_button()
+            .set_visible(!operation_running && backup.repo.is_drive_ejectable().unwrap_or(false));
+
+        main_ui()
+            .backup_disk_disconnected()
+            .set_visible(!backup.repo.is_drive_connected().unwrap_or(true));
+    }
 }
 
 pub fn refresh_status() {

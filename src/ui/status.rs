@@ -92,11 +92,21 @@ impl StatusTracking {
 
         volume_monitor.connect_volume_added(enclose!((tracking) move |_, _| {
             tracking.ui_schedule_update();
+            ui::page_backup::refresh_disk_status();
         }));
 
         volume_monitor.connect_volume_removed(enclose!((tracking) move |_, _| {
             tracking.ui_schedule_update();
+            ui::page_backup::refresh_disk_status();
         }));
+
+        volume_monitor.connect_mount_added(move |_, _| {
+            ui::page_backup::refresh_disk_status();
+        });
+
+        volume_monitor.connect_mount_removed(move |_, _| {
+            ui::page_backup::refresh_disk_status();
+        });
 
         // Regular update
         glib::source::timeout_add_local(

@@ -124,17 +124,39 @@ impl Repository {
         matches!(self, Self::Remote(_)) || self.uri_fuse().is_some()
     }
 
+    pub fn is_drive_removable(&self) -> bool {
+        match self {
+            Self::Local(local::Repository { removable, .. }) => *removable,
+            _ => false,
+        }
+    }
+
     pub fn is_drive_connected(&self) -> Option<bool> {
+        if self.is_drive_removable() {
+            Some(self.removable_drive_volume().is_some())
+        } else {
+            None
+        }
+    }
+
+    pub fn is_drive_mounted(&self) -> Option<bool> {
+        self.removable_drive_volume()
+            .map(|volume| volume.get_mount().is_some())
+    }
+
+    pub fn is_drive_ejectable(&self) -> Option<bool> {
+        self.removable_drive_volume()
+            .and_then(|volume| volume.drive())
+            .map(|drive| drive.can_eject())
+    }
+
+    pub fn removable_drive_volume(&self) -> Option<gio::Volume> {
         match self {
             Self::Local(local::Repository {
                 removable,
                 volume_uuid: Some(volume_uuid),
                 ..
-            }) if *removable => Some(
-                gio::VolumeMonitor::get()
-                    .volume_for_uuid(volume_uuid)
-                    .is_some(),
-            ),
+            }) if *removable => gio::VolumeMonitor::get().volume_for_uuid(volume_uuid),
             _ => None,
         }
     }

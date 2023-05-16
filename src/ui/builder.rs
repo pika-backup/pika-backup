@@ -123,6 +123,14 @@ impl AppWindow {
         self.get("back_button")
     }
 
+    pub fn backup_disk_disconnected(&self) -> gtk::Box {
+        self.get("backup_disk_disconnected")
+    }
+
+    pub fn backup_disk_eject_button(&self) -> gtk::Button {
+        self.get("backup_disk_eject_button")
+    }
+
     pub fn backup_exclude(&self) -> gtk::ListBox {
         self.get("backup_exclude")
     }

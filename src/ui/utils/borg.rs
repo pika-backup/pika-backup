@@ -4,6 +4,8 @@ use crate::ui::prelude::*;
 use crate::borg;
 use crate::ui;
 use borg::task::Task;
+use gio::traits::DriveExt;
+use gio::traits::VolumeExt;
 use std::future::Future;
 use ui::error::Combined;
 
@@ -201,6 +203,70 @@ pub async fn cleanup_mounts() -> Result<()> {
             // Call unmount to fix the state
             unmount(repo_id).await?;
         }
+    }
+
+    Ok(())
+}
+
+pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
+    if let Some(volume) = backup.repo.removable_drive_volume() {
+        // We have a removable drive and found a volume
+        let mount_operation = gtk::MountOperation::new(Some(&main_ui().window()));
+
+        if let Some(drive) =
+            volume
+                .drive()
+                .and_then(|drive| if drive.can_eject() { Some(drive) } else { None })
+        {
+            // We don't need to stop the drive, it will only spin down the hard disk. The drive is safe to remove in any case
+            let res = if drive.can_stop() {
+                debug!("Stopping drive {}", drive.name());
+                drive
+                    .stop_future(gio::MountUnmountFlags::empty(), Some(&mount_operation))
+                    .await
+            } else {
+                debug!("Ejecting drive {}", drive.name());
+                drive
+                    .eject_with_operation_future(
+                        gio::MountUnmountFlags::empty(),
+                        Some(&mount_operation),
+                    )
+                    .await
+            };
+
+            if let Err(err) = res {
+                if let Some(gio::IOErrorEnum::FailedHandled) = err.kind() {
+                    debug!("Unmount aborted by user: {}", err);
+                    return Ok(());
+                } else {
+                    debug!("Error ejecting disk: {}", err);
+                    return Err(Message::new(
+                        gettext("Unable to Eject Backup Disk"),
+                        err.to_string(),
+                    )
+                    .into());
+                }
+            }
+
+            // When the drive was ejected we can show a toast
+            let toast = adw::Toast::builder()
+                .title(gettextf("{} can be safely unplugged.", &[&drive.name()]))
+                .timeout(5)
+                .build();
+
+            main_ui().toast().add_toast(toast);
+        } else {
+            debug!(
+                "Unmount disk: Backup disk {} can't be ejected",
+                volume.name()
+            );
+            Err(Message::new(
+                gettext("Unable to Eject Backup Disk"),
+                gettextf("{} can't be ejected.", &[&volume.name()]),
+            ))?;
+        }
+    } else {
+        debug!("Unmount disk: Backup disk not found");
     }
 
     Ok(())
