@@ -1327,7 +1327,7 @@ impl DialogStorage {
         })
     }
 
-    pub fn device(&self) -> gtk::Label {
+    pub fn device(&self) -> adw::ActionRow {
         self.get("device")
     }
 
@@ -1343,11 +1343,11 @@ impl DialogStorage {
         self.get("fs")
     }
 
-    pub fn fs_free(&self) -> gtk::Label {
+    pub fn fs_free(&self) -> adw::ActionRow {
         self.get("fs_free")
     }
 
-    pub fn fs_size(&self) -> gtk::Label {
+    pub fn fs_size(&self) -> adw::ActionRow {
         self.get("fs_size")
     }
 
@@ -1355,7 +1355,7 @@ impl DialogStorage {
         self.get("fs_usage")
     }
 
-    pub fn path(&self) -> gtk::Label {
+    pub fn path(&self) -> adw::ActionRow {
         self.get("path")
     }
 
@@ -1363,11 +1363,11 @@ impl DialogStorage {
         self.get("remote")
     }
 
-    pub fn uri(&self) -> gtk::Label {
+    pub fn uri(&self) -> adw::ActionRow {
         self.get("uri")
     }
 
-    pub fn volume(&self) -> gtk::Label {
+    pub fn volume(&self) -> adw::ActionRow {
         self.get("volume")
     }
 }

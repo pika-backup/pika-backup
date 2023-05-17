@@ -1,3 +1,4 @@
+use adw::traits::ActionRowExt;
 use gtk::prelude::*;
 
 use crate::config;
@@ -16,15 +17,15 @@ pub async fn show() -> Result<()> {
         config::Repository::Local(repo) => {
             storage
                 .volume()
-                .set_text(&repo.mount_name.clone().unwrap_or_default());
+                .set_subtitle(&repo.mount_name.clone().unwrap_or_default());
             storage
                 .device()
-                .set_text(&repo.drive_name.clone().unwrap_or_default());
-            storage.path().set_text(&repo.path().to_string_lossy());
+                .set_subtitle(&repo.drive_name.clone().unwrap_or_default());
+            storage.path().set_subtitle(&repo.path().to_string_lossy());
             storage.disk().show();
         }
         config::Repository::Remote { .. } => {
-            storage.uri().set_text(&backup.repo.to_string());
+            storage.uri().set_subtitle(&backup.repo.to_string());
 
             storage.remote().show();
         }
@@ -40,8 +41,8 @@ pub async fn show() -> Result<()> {
 }
 
 fn show_df(df: &ui::utils::df::Space, ui: &ui::builder::DialogStorage) {
-    ui.fs_size().set_text(&glib::format_size(df.size));
-    ui.fs_free().set_text(&glib::format_size(df.avail));
+    ui.fs_size().set_subtitle(&glib::format_size(df.size));
+    ui.fs_free().set_subtitle(&glib::format_size(df.avail));
     ui.fs_usage()
         .set_value(1.0 - df.avail as f64 / df.size as f64);
     ui.fs().show();
