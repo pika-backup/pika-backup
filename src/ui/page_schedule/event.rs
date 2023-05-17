@@ -106,11 +106,9 @@ pub async fn update_status(config: &config::Backup) {
             &status.main.subtitle().unwrap_or_default(),
         ));
     main_ui()
-        .schedule_status_icon()
+        .schedule_status()
         .set_icon_name(status.main.icon_name());
-    main_ui()
-        .schedule_status_icon()
-        .set_level(status.main.level());
+    main_ui().schedule_status().set_level(status.main.level());
 
     while let Some(row) = main_ui().schedule_status_list().row_at_index(1) {
         main_ui().schedule_status_list().remove(&row);

@@ -11,10 +11,6 @@ pub fn init() {
         .backup_run()
         .connect_clicked(|_| Handler::run(events::on_backup_run()));
 
-    main_ui()
-        .detail_status_row()
-        .add_prefix(&main_ui().status_graphic());
-
     // Backup details
     main_ui()
         .detail_status_row()
@@ -46,9 +42,6 @@ pub fn init() {
     main_ui()
         .stop_backup_create()
         .connect_clicked(|_| Handler::run(events::on_stop_backup_create()));
-
-    main_ui().status_spinner().connect_map(|s| s.start());
-    main_ui().status_spinner().connect_unmap(|s| s.stop());
 
     main_ui()
         .backup_disk_eject_button()

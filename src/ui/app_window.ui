@@ -284,12 +284,9 @@ This might take a while.</property>
                                       </object>
                                     </child>
                                     <child>
-                                      <object class="AdwActionRow" id="detail_status_row">
+                                      <object class="PikaStatusRow" id="detail_status_row">
                                         <property name="activatable">1</property>
-                                        <style>
-                                          <class name="numeric"/>
-                                        </style>
-                                        <child>
+                                        <child type="suffix">
                                           <object class="GtkBox">
                                             <child>
                                               <object class="GtkButton" id="stop_backup_create">
@@ -618,11 +615,7 @@ This might take a while.</property>
                                       <object class="GtkListBox" id="schedule_status_list">
                                         <property name="selection-mode">none</property>
                                         <child>
-                                          <object class="AdwActionRow" id="schedule_status">
-                                            <child type="prefix">
-                                              <object class="PikaStatusIcon" id="schedule_status_icon"/>
-                                            </child>
-                                          </object>
+                                          <object class="PikaStatusRow" id="schedule_status"/>
                                         </child>
                                         <style>
                                           <class name="boxed-list"/>
@@ -1030,35 +1023,6 @@ This might take a while.</property>
     </child>
     <child type="titlebar">
       <object class="GtkHeaderBar"/>
-    </child>
-  </object>
-  <object class="GtkStack" id="status_graphic">
-    <property name="transition-duration">0</property>
-    <child>
-      <object class="GtkStackPage">
-        <property name="child">
-          <object class="GtkImage" id="status_icon">
-            <property name="valign">center</property>
-            <style>
-              <class name="status-icon"/>
-            </style>
-          </object>
-        </property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkStackPage">
-        <property name="name">running</property>
-        <property name="child">
-          <object class="GtkSpinner" id="status_spinner">
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <style>
-              <class name="row-icon"/>
-            </style>
-          </object>
-        </property>
-      </object>
     </child>
   </object>
 </interface>

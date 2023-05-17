@@ -199,7 +199,7 @@ impl AppWindow {
         self.get("detail_stats")
     }
 
-    pub fn detail_status_row(&self) -> adw::ActionRow {
+    pub fn detail_status_row(&self) -> crate::ui::export::StatusRow {
         self.get("detail_status_row")
     }
 
@@ -351,28 +351,12 @@ impl AppWindow {
         self.get("schedule_preferred_time_popover")
     }
 
-    pub fn schedule_status(&self) -> adw::ActionRow {
+    pub fn schedule_status(&self) -> crate::ui::export::StatusRow {
         self.get("schedule_status")
-    }
-
-    pub fn schedule_status_icon(&self) -> crate::ui::export::StatusIcon {
-        self.get("schedule_status_icon")
     }
 
     pub fn schedule_status_list(&self) -> gtk::ListBox {
         self.get("schedule_status_list")
-    }
-
-    pub fn status_graphic(&self) -> gtk::Stack {
-        self.get("status_graphic")
-    }
-
-    pub fn status_icon(&self) -> gtk::Image {
-        self.get("status_icon")
-    }
-
-    pub fn status_spinner(&self) -> gtk::Spinner {
-        self.get("status_spinner")
     }
 
     pub fn stop_backup_create(&self) -> gtk::Button {

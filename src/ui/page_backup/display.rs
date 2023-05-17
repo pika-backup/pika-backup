@@ -168,57 +168,10 @@ pub fn refresh_status() {
 }
 
 fn refresh_status_display(status: &ui::backup_status::Display) {
-    main_ui()
-        .detail_status_row()
-        .set_title(&glib::markup_escape_text(&status.title));
-    main_ui()
-        .detail_status_row()
-        .set_subtitle(&glib::markup_escape_text(
-            &status.subtitle.clone().unwrap_or_default(),
-        ));
+    main_ui().detail_status_row().set_from_backup_status(status);
 
-    let running = match &status.graphic {
-        ui::backup_status::Graphic::ErrorIcon(icon)
-        | ui::backup_status::Graphic::WarningIcon(icon)
-        | ui::backup_status::Graphic::OkIcon(icon) => {
-            main_ui()
-                .status_graphic()
-                .set_visible_child(&main_ui().status_icon());
-            main_ui().status_icon().set_from_icon_name(Some(icon));
-
-            false
-        }
-        ui::backup_status::Graphic::Spinner => {
-            main_ui()
-                .status_graphic()
-                .set_visible_child(&main_ui().status_spinner());
-
-            true
-        }
-    };
-
-    if matches!(status.graphic, ui::backup_status::Graphic::ErrorIcon(_)) {
-        main_ui().status_icon().add_css_class("error-icon");
-        main_ui().status_icon().remove_css_class("ok-icon");
-        main_ui().status_icon().remove_css_class("warning-icon");
-        main_ui().detail_hint_icon().show();
-    } else if matches!(status.graphic, ui::backup_status::Graphic::WarningIcon(_)) {
-        main_ui().status_icon().add_css_class("warning-icon");
-        main_ui().status_icon().remove_css_class("ok-icon");
-        main_ui().status_icon().remove_css_class("error-icon");
-        main_ui().detail_hint_icon().show();
-    } else if matches!(status.graphic, ui::backup_status::Graphic::OkIcon(_)) {
-        main_ui().status_icon().add_css_class("ok-icon");
-        main_ui().status_icon().remove_css_class("warning-icon");
-        main_ui().status_icon().remove_css_class("error-icon");
-        main_ui().detail_hint_icon().show();
-    } else {
-        main_ui().status_icon().remove_css_class("ok-icon");
-        main_ui().status_icon().remove_css_class("error-icon");
-        main_ui().status_icon().remove_css_class("warning-icon");
-        main_ui().detail_hint_icon().hide();
-    }
-
+    let running = matches!(&status.graphic, ui::backup_status::Graphic::Spinner);
     main_ui().stop_backup_create().set_visible(running);
     main_ui().backup_run().set_sensitive(!running);
+    main_ui().detail_hint_icon().set_visible(!running);
 }
