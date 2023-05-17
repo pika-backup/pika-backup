@@ -159,12 +159,8 @@ impl AppWindow {
         self.get("detail_info_progress")
     }
 
-    pub fn detail_info_status(&self) -> gtk::Label {
+    pub fn detail_info_status(&self) -> crate::ui::export::StatusRow {
         self.get("detail_info_status")
-    }
-
-    pub fn detail_info_substatus(&self) -> gtk::Label {
-        self.get("detail_info_substatus")
     }
 
     pub fn detail_nfiles(&self) -> gtk::Label {

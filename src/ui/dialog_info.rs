@@ -1,4 +1,4 @@
-use gtk::prelude::*;
+use adw::prelude::*;
 
 use num_format::ToFormattedString;
 
@@ -25,20 +25,15 @@ pub fn refresh_status() {
 }
 
 fn refresh_status_display(status: &backup_status::Display) {
-    main_ui().detail_info_status().set_text(&status.title);
+    main_ui()
+        .detail_info_status()
+        .set_from_backup_status(status);
 
     if let Some(progress) = status.progress {
         main_ui().detail_info_progress().set_fraction(progress);
         main_ui().detail_info_progress().show();
     } else {
         main_ui().detail_info_progress().hide();
-    }
-
-    if let Some(ref subtitle) = status.subtitle {
-        main_ui().detail_info_substatus().set_text(subtitle);
-        main_ui().detail_info_substatus().show();
-    } else {
-        main_ui().detail_info_substatus().hide();
     }
 
     if let Some(backup_status::Stats::Final(run_info)) = &status.stats {
