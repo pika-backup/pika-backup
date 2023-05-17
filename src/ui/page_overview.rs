@@ -102,9 +102,6 @@ fn rebuild_list() {
         let row = ui::builder::OverviewItem::new();
         list.append(&row.widget());
 
-        row.status_spinner().connect_map(|s| s.start());
-        row.status_spinner().connect_unmap(|s| s.stop());
-
         // connect click
 
         row.location()
@@ -149,55 +146,23 @@ fn rebuild_list() {
 fn force_refresh_status() {
     glib::MainContext::default().spawn_local(async move {
         for config in BACKUP_CONFIG.load().iter() {
-            let scheudle_status = ui::page_schedule::status::Status::new(config).await;
+            let schedule_status = ui::page_schedule::status::Status::new(config).await;
             ROWS.with(move |rows| {
                 if let Ok(rows) = rows.try_read() {
                     if let Some(row) = rows.get(&config.id) {
                         let status = ui::backup_status::Display::new_from_id(&config.id);
 
-                        row.status()
-                            .set_title(&glib::markup_escape_text(&status.title));
-
-                        row.status().set_subtitle(&glib::markup_escape_text(
-                            &status.subtitle.unwrap_or_default(),
-                        ));
-
-                        match &status.graphic {
-                            ui::backup_status::Graphic::OkIcon(icon) => {
-                                row.status_icon().set_ok();
-                                row.status_icon().set_icon_name(icon);
-
-                                row.status_graphic().set_visible_child(&row.status_icon());
-                            }
-
-                            ui::backup_status::Graphic::WarningIcon(icon) => {
-                                row.status_icon().set_warning();
-                                row.status_icon().set_icon_name(icon);
-
-                                row.status_graphic().set_visible_child(&row.status_icon());
-                            }
-                            ui::backup_status::Graphic::ErrorIcon(icon) => {
-                                row.status_icon().set_error();
-                                row.status_icon().set_icon_name(icon);
-
-                                row.status_graphic().set_visible_child(&row.status_icon());
-                            }
-                            ui::backup_status::Graphic::Spinner => {
-                                row.status_graphic()
-                                    .set_visible_child(&row.status_spinner());
-                            }
-                        }
-
+                        row.status().set_from_backup_status(&status);
                         // schedule status
 
                         row.schedule()
-                            .set_title(&glib::markup_escape_text(&scheudle_status.main.title));
+                            .set_title(&glib::markup_escape_text(&schedule_status.main.title()));
                         row.schedule().set_subtitle(&glib::markup_escape_text(
-                            &scheudle_status.main.subtitle,
+                            &schedule_status.main.subtitle().unwrap_or_default(),
                         ));
-                        row.schedule_icon()
-                            .set_icon_name(&scheudle_status.main.icon_name);
-                        row.schedule_icon().set_level(scheudle_status.main.level);
+                        row.schedule()
+                            .set_icon_name(schedule_status.main.icon_name());
+                        row.schedule().set_level(schedule_status.main.level());
                     }
                 }
             })

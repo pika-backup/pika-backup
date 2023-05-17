@@ -17,33 +17,44 @@ use std::fmt::Display;
 use std::io::Read;
 use std::os::unix::process::CommandExt;
 
-pub struct StatusRow {
-    pub title: String,
-    pub subtitle: String,
-    pub icon_name: String,
-    pub level: StatusLevel,
-}
-
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, glib::ValueDelegate)]
+#[value_delegate(from = u8)]
 pub enum StatusLevel {
     Ok,
     Neutral,
     Warning,
     Error,
+    Spinner,
 }
 
-impl StatusRow {
-    pub fn action_row(&self) -> adw::ActionRow {
-        let icon = super::widget::StatusIcon::new(&self.icon_name, self.level);
+impl Default for StatusLevel {
+    fn default() -> Self {
+        Self::Neutral
+    }
+}
 
-        let row = adw::ActionRow::builder()
-            .title(&self.title)
-            .subtitle(&self.subtitle)
-            .build();
+impl From<u8> for StatusLevel {
+    fn from(v: u8) -> Self {
+        match v {
+            0 => Self::Ok,
+            1 => Self::Neutral,
+            2 => Self::Warning,
+            3 => Self::Error,
+            4 => Self::Spinner,
+            _ => Self::Neutral,
+        }
+    }
+}
 
-        row.add_prefix(&icon);
+impl<'a> From<&'a StatusLevel> for u8 {
+    fn from(v: &'a StatusLevel) -> Self {
+        *v as u8
+    }
+}
 
-        row
+impl From<StatusLevel> for u8 {
+    fn from(v: StatusLevel) -> Self {
+        v as u8
     }
 }
 

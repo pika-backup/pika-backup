@@ -1458,28 +1458,12 @@ impl OverviewItem {
         self.get("location_title")
     }
 
-    pub fn schedule(&self) -> adw::ActionRow {
+    pub fn schedule(&self) -> crate::ui::export::StatusRow {
         self.get("schedule")
     }
 
-    pub fn schedule_icon(&self) -> crate::ui::export::StatusIcon {
-        self.get("schedule_icon")
-    }
-
-    pub fn status(&self) -> adw::ActionRow {
+    pub fn status(&self) -> crate::ui::export::StatusRow {
         self.get("status")
-    }
-
-    pub fn status_graphic(&self) -> gtk::Stack {
-        self.get("status_graphic")
-    }
-
-    pub fn status_icon(&self) -> crate::ui::export::StatusIcon {
-        self.get("status_icon")
-    }
-
-    pub fn status_spinner(&self) -> gtk::Spinner {
-        self.get("status_spinner")
     }
 
     pub fn widget(&self) -> gtk::ListBoxRow {

@@ -1,6 +1,4 @@
-use gtk::prelude::*;
-use gtk::subclass::prelude::*;
-
+use crate::ui::backup_status::Graphic;
 use crate::ui::utils::StatusLevel;
 
 glib::wrapper! {
@@ -10,69 +8,78 @@ glib::wrapper! {
 
 impl StatusIcon {
     pub fn new(icon_name: &str, level: StatusLevel) -> Self {
-        let obj: Self = glib::Object::new();
-
-        obj.set_icon_name(icon_name);
-        obj.set_level(level);
-
-        obj
+        glib::Object::builder()
+            .property("icon-name", icon_name)
+            .property("level", level)
+            .build()
     }
 
-    pub fn set_icon_name(&self, icon_name: &str) {
-        self.imp().image.set_from_icon_name(Some(icon_name));
-    }
-
-    pub fn set_level(&self, level: StatusLevel) {
-        match level {
-            StatusLevel::Ok => self.set_ok(),
-            StatusLevel::Neutral => self.set_neutral(),
-            StatusLevel::Warning => self.set_warning(),
-            StatusLevel::Error => self.set_error(),
+    pub fn set_from_graphic(&self, graphic: &Graphic) {
+        match graphic {
+            Graphic::OkIcon(icon) => {
+                self.set_icon_name(icon.to_owned());
+                self.set_ok();
+            }
+            Graphic::WarningIcon(icon) => {
+                self.set_icon_name(icon.to_owned());
+                self.set_warning();
+            }
+            Graphic::ErrorIcon(icon) => {
+                self.set_icon_name(icon.to_owned());
+                self.set_error();
+            }
+            Graphic::Spinner => {
+                self.set_spinner();
+            }
         }
     }
 
     pub fn set_neutral(&self) {
-        let imp = self.imp();
-
-        imp.image.remove_css_class("ok-icon");
-        imp.image.remove_css_class("warning-icon");
-        imp.image.remove_css_class("error-icon");
+        self.set_level(StatusLevel::Neutral);
     }
 
     pub fn set_ok(&self) {
-        let imp = self.imp();
-        imp.image.add_css_class("ok-icon");
-
-        imp.image.remove_css_class("warning-icon");
-        imp.image.remove_css_class("error-icon");
+        self.set_level(StatusLevel::Ok);
     }
 
     pub fn set_warning(&self) {
-        let imp = self.imp();
-        imp.image.add_css_class("warning-icon");
-
-        imp.image.remove_css_class("ok-icon");
-        imp.image.remove_css_class("error-icon");
+        self.set_level(StatusLevel::Warning);
     }
 
     pub fn set_error(&self) {
-        let imp = self.imp();
-        imp.image.add_css_class("error-icon");
+        self.set_level(StatusLevel::Error);
+    }
 
-        imp.image.remove_css_class("ok-icon");
-        imp.image.remove_css_class("warning-icon");
+    pub fn set_spinner(&self) {
+        self.set_level(StatusLevel::Spinner);
+    }
+}
+
+impl Default for StatusIcon {
+    fn default() -> Self {
+        Self::new("", StatusLevel::Neutral)
     }
 }
 
 mod imp {
+    use std::cell::{Cell, RefCell};
+
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
 
-    use once_cell::sync::Lazy;
+    use crate::ui::utils::StatusLevel;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, glib::Properties)]
+    #[properties(wrapper_type = super::StatusIcon)]
     pub struct StatusIcon {
-        pub image: Lazy<gtk::Image>,
+        pub image: gtk::Image,
+        pub spinner: gtk::Spinner,
+        pub stack: gtk::Stack,
+
+        #[property(get, set)]
+        icon_name: RefCell<String>,
+        #[property(get, set = Self::set_level)]
+        level: Cell<StatusLevel>,
     }
 
     #[glib::object_subclass]
@@ -84,13 +91,65 @@ mod imp {
 
     impl ObjectImpl for StatusIcon {
         fn constructed(&self) {
+            self.parent_constructed();
+
             self.image.add_css_class("status-icon");
             self.image.set_valign(gtk::Align::Center);
+            self.obj()
+                .bind_property("icon-name", &self.image, "icon-name")
+                .build();
 
-            self.obj().append(&*self.image);
+            self.spinner.add_css_class("row-icon");
+            self.spinner.set_valign(gtk::Align::Center);
+
+            self.stack.add_child(&self.image);
+            self.stack.add_child(&self.spinner);
+            self.stack.set_visible_child(&self.image);
+
+            self.spinner.connect_map(|s| s.start());
+            self.spinner.connect_unmap(|s| s.stop());
+
+            self.obj().append(&self.stack);
+        }
+
+        fn properties() -> &'static [glib::ParamSpec] {
+            Self::derived_properties()
+        }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec)
+        }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 
     impl WidgetImpl for StatusIcon {}
     impl BoxImpl for StatusIcon {}
+
+    impl StatusIcon {
+        pub(super) fn show_icon(&self) {
+            self.stack.set_visible_child(&self.image);
+        }
+
+        pub(super) fn show_spinner(&self) {
+            self.stack.set_visible_child(&self.spinner);
+        }
+
+        pub fn set_level(&self, level: StatusLevel) {
+            self.image.remove_css_class("ok-icon");
+            self.image.remove_css_class("warning-icon");
+            self.image.remove_css_class("error-icon");
+            self.show_icon();
+
+            match level {
+                StatusLevel::Ok => self.image.add_css_class("ok-icon"),
+                StatusLevel::Warning => self.image.add_css_class("warning-icon"),
+                StatusLevel::Error => self.image.add_css_class("error-icon"),
+                StatusLevel::Neutral => {}
+                StatusLevel::Spinner => self.show_spinner(),
+            }
+
+            self.level.replace(level);
+        }
+    }
 }

@@ -1,7 +1,8 @@
 use crate::config;
 use crate::schedule::requirements;
 use crate::ui::prelude::*;
-use crate::ui::utils::{StatusLevel, StatusRow};
+use crate::ui::utils::StatusLevel;
+use crate::ui::widget::StatusRow;
 use std::fmt::Write;
 
 pub struct Status {
@@ -46,12 +47,12 @@ impl Status {
 
         if !config.schedule.enabled {
             Self {
-                main: StatusRow {
-                    title: gettext("Scheduled Backups Disabled"),
-                    subtitle: String::new(),
-                    icon_name: String::from("schedule-symbolic"),
-                    level: StatusLevel::Warning,
-                },
+                main: StatusRow::new(
+                    gettext("Scheduled Backups Disabled"),
+                    "",
+                    "schedule-symbolic",
+                    StatusLevel::Warning,
+                ),
                 problems: vec![],
             }
         } else {
@@ -105,65 +106,60 @@ impl Status {
 
             for problem in global_requirements {
                 match problem {
-                    requirements::Global::MeteredConnection => problems.push(StatusRow {
-                        title: gettext("Network connection must not be metered"),
-                        subtitle: String::new(),
-                        icon_name: String::from("money-symbolic"),
-                        level: problem_level,
-                    }),
-                    requirements::Global::OtherBackupRunning(_) => problems.push(StatusRow {
-                        title: gettext("Other backups on repository have to be completed"),
-                        subtitle: String::new(),
-                        icon_name: String::from("media-playback-start-symbolic"),
-                        level: problem_level,
-                    }),
+                    requirements::Global::MeteredConnection => problems.push(StatusRow::new(
+                        gettext("Network connection must not be metered"),
+                        "",
+                        "money-symbolic",
+                        problem_level,
+                    )),
+                    requirements::Global::OtherBackupRunning(_) => problems.push(StatusRow::new(
+                        gettext("Other backups on repository have to be completed"),
+                        "",
+                        "media-playback-start-symbolic",
+                        problem_level,
+                    )),
                     requirements::Global::ThisBackupRunning => (),
-                    requirements::Global::OnBattery => problems.push(StatusRow {
-                        title: gettext("Device must be connected to power"),
-                        subtitle: String::new(),
-                        icon_name: String::from("battery-good-symbolic"),
-                        level: problem_level,
-                    }),
+                    requirements::Global::OnBattery => problems.push(StatusRow::new(
+                        gettext("Device must be connected to power"),
+                        "",
+                        "battery-good-symbolic",
+                        problem_level,
+                    )),
                 }
             }
 
             for hint in hints {
                 match hint {
-                    requirements::Hint::DeviceMissing => problems.push(StatusRow {
-                        title: gettext("Backup device has to be connected"),
-                        subtitle: if upcoming_requirements_not_met {
+                    requirements::Hint::DeviceMissing => problems.push(StatusRow::new(
+                        gettext("Backup device has to be connected"),
+                        if upcoming_requirements_not_met {
                             gettext("Reminder will be sent when device is required")
                         } else {
-                            String::new()
+                            "".to_string()
                         },
-                        icon_name: String::from("drive-removable-media-symbolic"),
-                        level: problem_level,
-                    }),
-                    requirements::Hint::NetworkMissing => problems.push(StatusRow {
-                        title: gettext("Network connection has to be available"),
-                        subtitle: String::new(),
-                        icon_name: String::from("network-offline-symbolic"),
-                        level: problem_level,
-                    }),
+                        "drive-removable-media-symbolic",
+                        problem_level,
+                    )),
+                    requirements::Hint::NetworkMissing => problems.push(StatusRow::new(
+                        gettext("Network connection has to be available"),
+                        "",
+                        "network-offline-symbolic",
+                        problem_level,
+                    )),
                 }
             }
 
             if !status_tracking().daemon_running.get() {
-                problems.push(StatusRow {
-                    title: gettext("Background process inactive"),
-                    subtitle: gettext("This is required for scheduled backups"),
-                    icon_name: String::from("action-unavailable-symbolic"),
-                    level: StatusLevel::Error,
-                });
+                problems.push(StatusRow::new(
+                    gettext("Background process inactive"),
+                    gettext("This is required for scheduled backups"),
+                    "action-unavailable-symbolic",
+                    StatusLevel::Error,
+                ));
             }
 
             Self {
-                main: StatusRow {
-                    title: main_title,
-                    subtitle: main_subtitle,
-                    icon_name: String::from("schedule-symbolic"),
-                    level: main_level,
-                },
+                main: StatusRow::new(main_title, main_subtitle, "schedule-symbolic", main_level),
                 problems,
             }
         }

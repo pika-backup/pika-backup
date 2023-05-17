@@ -99,25 +99,25 @@ pub async fn update_status(config: &config::Backup) {
 
     main_ui()
         .schedule_status()
-        .set_title(&glib::markup_escape_text(&status.main.title));
+        .set_title(&glib::markup_escape_text(&status.main.title()));
     main_ui()
         .schedule_status()
-        .set_subtitle(&glib::markup_escape_text(&status.main.subtitle));
+        .set_subtitle(&glib::markup_escape_text(
+            &status.main.subtitle().unwrap_or_default(),
+        ));
     main_ui()
         .schedule_status_icon()
-        .set_icon_name(&status.main.icon_name);
+        .set_icon_name(status.main.icon_name());
     main_ui()
         .schedule_status_icon()
-        .set_level(status.main.level);
+        .set_level(status.main.level());
 
     while let Some(row) = main_ui().schedule_status_list().row_at_index(1) {
         main_ui().schedule_status_list().remove(&row);
     }
 
     for problem in status.problems {
-        main_ui()
-            .schedule_status_list()
-            .append(&problem.action_row());
+        main_ui().schedule_status_list().append(&problem);
     }
 }
 
