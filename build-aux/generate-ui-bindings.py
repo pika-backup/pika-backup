@@ -20,6 +20,10 @@ def main():
     with open(SRC_PATH, "w") as src:
         first = True
         for file in ui_files:
+            with open(file) as f:
+                if '<template class' in f.read():
+                    continue
+
             filename, _ = path.splitext(path.basename(file))
             rs_type = ''.join(x.title() for x in filename.split('_'))
             if first:
