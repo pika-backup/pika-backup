@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <requires lib="gtk" version="4.10"/>
+  <requires lib="libadwaita" version="1.4"/>
   <object class="AdwWindow" id="dialog">
     <property name="title" translatable="yes">Exclude from Backup</property>
     <property name="modal">1</property>
     <property name="default-width">500</property>
-    <property name="default-height">550</property>
     <child>
       <object class="GtkShortcutController">
         <property name="scope">managed</property>
@@ -16,13 +17,12 @@
         </child>
       </object>
     </child>
-    <child>
-      <object class="GtkBox">
-        <property name="orientation">vertical</property>
-        <child>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
           <object class="AdwHeaderBar"/>
         </child>
-        <child>
+        <property name="content">
           <object class="AdwPreferencesPage">
             <child>
               <object class="AdwPreferencesGroup">
@@ -77,8 +77,8 @@
               </object>
             </child>
           </object>
-        </child>
+        </property>
       </object>
-    </child>
+    </property>
   </object>
 </interface>

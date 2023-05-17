@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <object class="GtkDialog" id="dialog">
+  <requires lib="gtk" version="4.10"/>
+  <requires lib="libadwaita" version="1.4"/>
+  <object class="AdwWindow" id="dialog">
     <property name="title" translatable="yes">Backup Location</property>
     <property name="modal">1</property>
     <property name="default-width">370</property>
-    <property name="use-header-bar">1</property>
-    <child internal-child="content_area">
-      <object class="GtkBox">
-        <property name="margin-start">18</property>
-        <property name="margin-end">18</property>
-        <property name="margin-top">18</property>
-        <property name="margin-bottom">18</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">24</property>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
             <child>
-              <object class="GtkListBox" id="disk">
-                <property name="visible">0</property>
-                <property name="selection-mode">none</property>
-                <style>
-                  <class name="boxed-list"/>
-                </style>
+              <object class="AdwPreferencesGroup" id="disk">
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">Volume</property>
@@ -73,12 +63,8 @@
               </object>
             </child>
             <child>
-              <object class="GtkListBox" id="remote">
+              <object class="AdwPreferencesGroup" id="remote">
                 <property name="visible">0</property>
-                <property name="selection-mode">none</property>
-                <style>
-                  <class name="boxed-list"/>
-                </style>
                 <child>
                   <object class="AdwActionRow">
                     <property name="title" translatable="yes">URL</property>
@@ -98,63 +84,45 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox" id="fs">
+              <object class="AdwPreferencesGroup" id="fs">
                 <property name="visible">0</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">12</property>
+                <property name="title" translatable="yes">Disk Space</property>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="halign">start</property>
-                    <property name="label" translatable="yes">Space</property>
-                    <style>
-                      <class name="heading"/>
-                    </style>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Total</property>
+                    <child>
+                      <object class="GtkLabel" id="fs_size">
+                        <property name="label">&lt;placeholder&gt;</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkListBox">
-                    <property name="selection-mode">none</property>
-                    <style>
-                      <class name="boxed-list"/>
-                    </style>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Free</property>
                     <child>
-                      <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Total</property>
-                        <child>
-                          <object class="GtkLabel" id="fs_size">
-                            <property name="label">&lt;placeholder&gt;</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Free</property>
-                        <child>
-                          <object class="GtkLabel" id="fs_free">
-                            <property name="label">&lt;placeholder&gt;</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
+                      <object class="GtkLabel" id="fs_free">
+                        <property name="label">&lt;placeholder&gt;</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLevelBar" id="fs_usage">
-                    <property name="margin-top">6</property>
+                    <property name="margin-top">24</property>
                   </object>
                 </child>
               </object>
             </child>
           </object>
-        </child>
+        </property>
       </object>
-    </child>
+    </property>
   </object>
 </interface>

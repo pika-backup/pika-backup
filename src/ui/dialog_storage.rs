@@ -34,8 +34,7 @@ pub async fn show() -> Result<()> {
         show_df(&df, &storage);
     }
 
-    storage.dialog().run_future().await;
-    storage.dialog().close();
+    storage.dialog().show();
 
     Ok(())
 }

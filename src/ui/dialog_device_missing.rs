@@ -1,3 +1,4 @@
+use async_std::prelude::*;
 use gio::prelude::*;
 use gtk::prelude::*;
 use std::rc::Rc;
@@ -123,26 +124,29 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
     }
 
     let volume_monitor = gio::VolumeMonitor::get();
+    let (mount_sender, mut mount_receiver) = async_std::channel::unbounded();
 
-    let mount = Rc::new(once_cell::sync::OnceCell::new());
-    volume_monitor.connect_mount_added(enclose!((dialog, mount) move |_, new_mount| {
-    if let Some(volume) = new_mount.volume() {
-        if repo.is_likely_on_volume(&volume) {
-        let _result = mount.set(new_mount.clone());
-            dialog.window().response(gtk::ResponseType::Ok);
-        } else {
-        debug!("New volume, but likely not on there.");
+    volume_monitor.connect_mount_added(enclose!((dialog, mount_sender) move |_, new_mount| {
+        if let Some(volume) = new_mount.volume() {
+            if repo.is_likely_on_volume(&volume) {
+                let _ignore = mount_sender.try_send(Some(new_mount.clone()));
+                dialog.window().close();
+            } else {
+                debug!("New volume, but likely not on there.");
+            }
         }
-    }
     }));
 
-    let response = dialog.window().run_future().await;
+    dialog.window().connect_close_request(move |_| {
+        let _ignore = mount_sender.try_send(None);
+        gtk::Inhibit(false)
+    });
 
-    dialog.window().close();
+    dialog.window().show();
 
-    if response == gtk::ResponseType::Ok {
-        Ok(mount.get().unwrap().clone())
-    } else {
-        Err(Error::UserCanceled)
-    }
+    mount_receiver
+        .next()
+        .await
+        .flatten()
+        .ok_or(Error::UserCanceled)
 }

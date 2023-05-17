@@ -183,7 +183,7 @@ impl AppWindow {
         self.get("detail_repo_row")
     }
 
-    pub fn detail_running_backup_info(&self) -> gtk::Dialog {
+    pub fn detail_running_backup_info(&self) -> adw::Window {
         self.get("detail_running_backup_info")
     }
 
@@ -215,7 +215,7 @@ impl AppWindow {
         self.get("main_stack")
     }
 
-    pub fn overview(&self) -> gtk::Box {
+    pub fn overview(&self) -> adw::ToolbarView {
         self.get("overview")
     }
 
@@ -227,7 +227,7 @@ impl AppWindow {
         self.get("page_backup")
     }
 
-    pub fn page_detail(&self) -> gtk::Box {
+    pub fn page_detail(&self) -> adw::ToolbarView {
         self.get("page_detail")
     }
 
@@ -469,7 +469,7 @@ impl DialogArchivePrefix {
         })
     }
 
-    pub fn archive_prefix(&self) -> gtk::Entry {
+    pub fn archive_prefix(&self) -> adw::EntryRow {
         self.get("archive_prefix")
     }
 
@@ -477,7 +477,7 @@ impl DialogArchivePrefix {
         self.get("cancel")
     }
 
-    pub fn dialog(&self) -> gtk::Dialog {
+    pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
     }
 
@@ -556,7 +556,7 @@ impl DialogDeleteArchive {
         self.get("name")
     }
 
-    pub fn page_decision(&self) -> gtk::Box {
+    pub fn page_decision(&self) -> adw::ToolbarView {
         self.get("page_decision")
     }
 }
@@ -615,7 +615,7 @@ impl DialogDeviceMissing {
         self.get("name")
     }
 
-    pub fn window(&self) -> gtk::Dialog {
+    pub fn window(&self) -> adw::Window {
         self.get("window")
     }
 }
@@ -875,7 +875,7 @@ impl DialogPrune {
         self.get("leaflet")
     }
 
-    pub fn page_decision(&self) -> gtk::Box {
+    pub fn page_decision(&self) -> adw::ToolbarView {
         self.get("page_decision")
     }
 
@@ -950,7 +950,7 @@ impl DialogPruneReview {
         self.get("leaflet")
     }
 
-    pub fn page_decision(&self) -> gtk::Box {
+    pub fn page_decision(&self) -> adw::ToolbarView {
         self.get("page_decision")
     }
 
@@ -1121,7 +1121,7 @@ impl DialogSetup {
         self.get("page_creating")
     }
 
-    pub fn page_detail(&self) -> gtk::Box {
+    pub fn page_detail(&self) -> adw::ToolbarView {
         self.get("page_detail")
     }
 
@@ -1129,7 +1129,7 @@ impl DialogSetup {
         self.get("page_detail_continue")
     }
 
-    pub fn page_overview(&self) -> gtk::Box {
+    pub fn page_overview(&self) -> adw::ToolbarView {
         self.get("page_overview")
     }
 
@@ -1141,7 +1141,7 @@ impl DialogSetup {
         self.get("page_password_continue")
     }
 
-    pub fn page_password_input(&self) -> gtk::Box {
+    pub fn page_password_input(&self) -> adw::ToolbarView {
         self.get("page_password_input")
     }
 
@@ -1149,7 +1149,7 @@ impl DialogSetup {
         self.get("page_password_pending")
     }
 
-    pub fn page_setup_encryption(&self) -> gtk::Box {
+    pub fn page_setup_encryption(&self) -> adw::ToolbarView {
         self.get("page_setup_encryption")
     }
 
@@ -1161,11 +1161,11 @@ impl DialogSetup {
         self.get("page_transfer_pending")
     }
 
-    pub fn page_transfer_prefix(&self) -> gtk::Box {
+    pub fn page_transfer_prefix(&self) -> adw::ToolbarView {
         self.get("page_transfer_prefix")
     }
 
-    pub fn page_transfer_select(&self) -> gtk::Box {
+    pub fn page_transfer_select(&self) -> adw::ToolbarView {
         self.get("page_transfer_select")
     }
 
@@ -1331,15 +1331,15 @@ impl DialogStorage {
         self.get("device")
     }
 
-    pub fn dialog(&self) -> gtk::Dialog {
+    pub fn dialog(&self) -> adw::Window {
         self.get("dialog")
     }
 
-    pub fn disk(&self) -> gtk::ListBox {
+    pub fn disk(&self) -> adw::PreferencesGroup {
         self.get("disk")
     }
 
-    pub fn fs(&self) -> gtk::Box {
+    pub fn fs(&self) -> adw::PreferencesGroup {
         self.get("fs")
     }
 
@@ -1359,7 +1359,7 @@ impl DialogStorage {
         self.get("path")
     }
 
-    pub fn remote(&self) -> gtk::ListBox {
+    pub fn remote(&self) -> adw::PreferencesGroup {
         self.get("remote")
     }
 

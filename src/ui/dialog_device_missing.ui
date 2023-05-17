@@ -1,49 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
-  <object class="GtkDialog" id="window">
-    <property name="use-header-bar">1</property>
+  <requires lib="gtk" version="4.10"/>
+  <requires lib="libadwaita" version="1.4"/>
+  <object class="AdwWindow" id="window">
     <property name="modal">1</property>
-    <child internal-child="content_area">
-      <object class="GtkBox">
-        <property name="margin-start">32</property>
-        <property name="margin-end">32</property>
-        <property name="margin-top">24</property>
-        <property name="margin-bottom">24</property>
-        <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
         <child>
-          <object class="GtkBox">
-            <property name="valign">center</property>
-            <property name="vexpand">1</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="margin-bottom">12</property>
-                <property name="label" translatable="yes">The following backup location needs to be connected:</property>
-                <property name="wrap">1</property>
-                <style>
-                  <class name="dim-label"/>
-                </style>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="name">
-                <property name="label">&lt;name&gt;</property>
-                <property name="wrap">1</property>
-                <attributes>
-                  <attribute name="weight" value="bold"></attribute>
-                </attributes>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox" id="icon">
-                <property name="orientation">vertical</property>
-              </object>
-            </child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
           </object>
         </child>
       </object>
     </child>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="margin-start">32</property>
+            <property name="margin-end">32</property>
+            <property name="margin-top">24</property>
+            <property name="margin-bottom">24</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkBox">
+                <property name="valign">center</property>
+                <property name="vexpand">1</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="margin-bottom">12</property>
+                    <property name="label" translatable="yes">The following backup location needs to be connected:</property>
+                    <property name="wrap">1</property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="name">
+                    <property name="label">&lt;name&gt;</property>
+                    <property name="wrap">1</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"></attribute>
+                    </attributes>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox" id="icon">
+                    <property name="orientation">vertical</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
   </object>
 </interface>
