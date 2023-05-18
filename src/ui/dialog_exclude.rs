@@ -69,11 +69,15 @@ pub fn fill_suggestions(dialog: &DialogExclude) -> Result<()> {
             .map(|x| x.to_string())
             .collect::<Vec<_>>()
             .join("\n");
+
         let popover = gtk::Popover::builder()
-            .child(&gtk::Label::new(Some(&format!(
-                "{}\n\n{desc}",
-                gettext("Exclusion Rules")
-            ))))
+            .child(
+                &gtk::Label::builder()
+                    .label(&format!("{}\n\n{desc}", gettext("Exclusion Rules")))
+                    .selectable(true)
+                    .focusable(false)
+                    .build(),
+            )
             .build();
 
         let info_button = gtk::MenuButton::builder()
