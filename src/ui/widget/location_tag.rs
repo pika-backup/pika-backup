@@ -29,7 +29,6 @@ impl LocationTag {
             Self::Location(path) => crate::utils::file_symbolic_icon(&config::absolute(path)),
             Self::Exclude(exclude) => exclude.symbolic_icon(),
         }
-        .map(|x| gtk::Image::from_gicon(&x))
     }
 
     pub fn build(&self) -> gtk::Box {

@@ -60,10 +60,10 @@ impl<const T: Relativity> Exclude<T> {
         }
     }
 
-    pub fn symbolic_icon(&self) -> Option<gio::Icon> {
+    pub fn symbolic_icon(&self) -> Option<gtk::Image> {
         match self {
             Self::Pattern(pattern) => pattern.symbolic_icon(),
-            Self::Predefined(predefined) => predefined.symbolic_icon(),
+            Self::Predefined(predefined) => Some(predefined.symbolic_icon()),
         }
     }
 
@@ -175,12 +175,12 @@ impl Predefined {
         Self::VmsContainers,
     ];
 
-    pub fn symbolic_icon(&self) -> Option<gio::Icon> {
+    pub fn symbolic_icon(&self) -> gtk::Image {
         match self {
-            Self::Trash => gio::Icon::for_string("user-trash-symbolic").ok(),
-            Self::VmsContainers => gio::Icon::for_string("computer-symbolic").ok(),
-            Self::FlatpakApps => gio::Icon::for_string("preferences-desktop-apps-symbolic").ok(),
-            _ => gio::Icon::for_string("folder-saved-search-symbolic").ok(),
+            Self::Trash => gtk::Image::from_icon_name("user-trash-symbolic"),
+            Self::VmsContainers => gtk::Image::from_icon_name("computer-symbolic"),
+            Self::FlatpakApps => gtk::Image::from_icon_name("preferences-desktop-apps-symbolic"),
+            _ => gtk::Image::from_icon_name("folder-saved-search-symbolic"),
         }
     }
 

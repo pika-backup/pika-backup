@@ -30,9 +30,7 @@ pub fn add_list_row(list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button 
     row.set_subtitle(&subtitle);
     list.append(&row);
 
-    if let Some(image) = crate::utils::file_symbolic_icon(&config::absolute(file))
-        .map(|x| gtk::Image::from_gicon(&x))
-    {
+    if let Some(image) = crate::utils::file_symbolic_icon(&config::absolute(file)) {
         image.add_css_class("row-icon");
         row.add_prefix(&image);
     }
@@ -89,7 +87,7 @@ pub fn refresh() -> Result<()> {
             .activatable(false)
             .build();
 
-        if let Some(image) = exclude.symbolic_icon().map(|x| gtk::Image::from_gicon(&x)) {
+        if let Some(image) = exclude.symbolic_icon() {
             image.add_css_class("row-icon");
             row.add_prefix(&image);
         }

@@ -244,13 +244,13 @@ impl<const T: bool> Pattern<T> {
         }
     }
 
-    pub fn symbolic_icon(&self) -> Option<gio::Icon> {
+    pub fn symbolic_icon(&self) -> Option<gtk::Image> {
         match self {
             Self::PathPrefix(path) | Self::PathFullMatch(path) => {
                 crate::utils::file_symbolic_icon(&absolute(path))
             }
             Self::Fnmatch(_) | Self::RegularExpression(_) => {
-                gio::Icon::for_string("folder-saved-search-symbolic").ok()
+                Some(gtk::Image::from_icon_name("folder-saved-search-symbolic"))
             }
         }
     }

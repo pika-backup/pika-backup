@@ -65,12 +65,17 @@ pub async fn listen_remote_app_running<T: Fn(bool)>(
     Ok(())
 }
 
-pub fn file_symbolic_icon(path: &std::path::Path) -> Option<gio::Icon> {
+pub fn file_symbolic_icon(path: &std::path::Path) -> Option<gtk::Image> {
     let file = gio::File::for_path(path);
     let info = file.query_info("*", gio::FileQueryInfoFlags::NONE, gio::Cancellable::NONE);
-    if let Ok(info) = info {
-        info.symbolic_icon()
-    } else {
-        None
+    match info {
+        Ok(info) => info.symbolic_icon().as_ref().map(gtk::Image::from_gicon),
+        Err(err) if matches!(err.kind(), Some(gio::IOErrorEnum::NotFound)) => Some(
+            gtk::Image::builder()
+                .icon_name("warning-symbolic")
+                .tooltip_text(gettext("No such file or directory"))
+                .build(),
+        ),
+        Err(_) => None,
     }
 }
