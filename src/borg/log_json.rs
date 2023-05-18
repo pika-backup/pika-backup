@@ -105,7 +105,7 @@ impl fmt::Display for ProgressPercent {
             let percent = current as f64 / total as f64 * 100.0;
             write!(
                 f,
-                "{}: {}",
+                "{} - {}",
                 self.msgid,
                 gettextf(
                     // xgettext:no-c-format
@@ -118,9 +118,9 @@ impl fmt::Display for ProgressPercent {
                 )
             )
         } else if self.finished {
-            write!(f, "{} {}", self.msgid, gettext("Operation completed."))
+            write!(f, "{} - {}", self.msgid, gettext("Operation completed."))
         } else if !self.message.is_empty() {
-            write!(f, "{} {}", self.msgid, self.message)
+            write!(f, "{} - {}", self.msgid, self.message)
         } else {
             write!(f, "{}", self.msgid)
         }
@@ -140,7 +140,7 @@ impl fmt::Display for ProgressMessage {
         if self.message.is_empty() {
             write!(f, "{}", self.msgid)
         } else {
-            write!(f, "{} {}", self.msgid, self.message)
+            write!(f, "{} - {}", self.msgid, self.message)
         }
     }
 }
