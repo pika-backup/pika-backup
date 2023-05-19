@@ -6,6 +6,9 @@ use std::path::PathBuf;
 #[derive(Clone, Debug)]
 enum CreateTerm {
     OptExclude,
+    OptExcludeFrom,
+    OptExcludeIfPresent,
+    OptExcludeNodump,
     OptExcludeCaches,
     UnknownOption,
     Value,
@@ -22,17 +25,26 @@ impl CreateTerm {
             return vec![(Self::OptExcludeCaches, s)];
         }
 
+        if s == "--exclude-nodump" {
+            return vec![(Self::OptExcludeNodump, s)];
+        }
+
         if s.starts_with("--exclude") || s.starts_with("-e") {
-            let mut result = vec![(Self::OptExclude, s.clone())];
+            let term = if s == "--exclude-from" || s.starts_with("--exclude-from=") {
+                Self::OptExcludeFrom
+            } else if s == "--exclude-if-present" || s.starts_with("--exclude-if-present=") {
+                Self::OptExcludeIfPresent
+            } else if s == "--exclude" || s.starts_with("--exclude=") || s.starts_with("-e") {
+                Self::OptExclude
+            } else {
+                Self::UnknownOption
+            };
 
-            if let Some((option, value)) = s.split_once('=') {
-                result = vec![
-                    (Self::OptExclude, option.to_string()),
-                    (Self::Value, value.to_string()),
-                ];
-            }
-
-            return result;
+            return if let Some((option, value)) = s.split_once('=') {
+                vec![(term, option.to_string()), (Self::Value, value.to_string())]
+            } else {
+                vec![(term, s.clone())]
+            };
         }
 
         if s.starts_with('-') {
