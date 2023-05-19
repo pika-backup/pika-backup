@@ -17,10 +17,6 @@ enum CreateTerm {
 
 impl CreateTerm {
     pub fn parse(s: String) -> Vec<(Self, String)> {
-        if s.contains("::") {
-            return vec![(Self::Target, s)];
-        }
-
         if s == "--exclude-caches" {
             return vec![(Self::OptExcludeCaches, s)];
         }
@@ -49,6 +45,8 @@ impl CreateTerm {
 
         if s.starts_with('-') {
             vec![(Self::UnknownOption, s)]
+        } else if s.contains("::") {
+            vec![(Self::Target, s)]
         } else {
             vec![(Self::Value, s)]
         }
