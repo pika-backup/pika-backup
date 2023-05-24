@@ -128,7 +128,7 @@ impl Task for Check {
     const KIND: Kind = Kind::Check;
 
     fn name() -> String {
-        gettext("Checking Archive Integrity")
+        gettext("Checking Archives Integrity")
     }
 }
 

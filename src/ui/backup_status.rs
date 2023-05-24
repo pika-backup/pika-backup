@@ -51,11 +51,42 @@ impl Display {
         })
     }
 
+    pub fn new_check_status_from_id(config_id: &ConfigId) -> Self {
+        BORG_OPERATION.with(|operations| {
+            if let Some(op) = operations
+                .load()
+                .get(config_id)
+                .filter(|op| op.task_kind() == borg::task::Kind::Check)
+            {
+                Self::from(op.as_ref())
+            } else if let Some(check_run_info) = BACKUP_HISTORY
+                .load()
+                .active()
+                .ok()
+                .and_then(|h| h.last_check.clone())
+            {
+                Self::from(&check_run_info)
+            } else {
+                Self::no_check()
+            }
+        })
+    }
+
     fn never_ran() -> Self {
         Self {
             title: gettext("Backup Never Ran"),
             subtitle: Some(gettext("Begin by carrying out your first backup")),
             graphic: Graphic::WarningIcon("dialog-information-symbolic".to_string()),
+            progress: None,
+            stats: None,
+        }
+    }
+
+    fn no_check() -> Self {
+        Self {
+            title: gettext("No Integrity Check"),
+            subtitle: Some(gettext("Archives integrity check not yet performed")),
+            graphic: Graphic::WarningIcon("diagnostics-symbolic".to_string()),
             progress: None,
             stats: None,
         }
@@ -97,6 +128,57 @@ impl From<&history::RunInfo> for Display {
                 graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
+            },
+        }
+    }
+}
+
+impl From<&history::CheckRunInfo> for Display {
+    fn from(run_info: &history::CheckRunInfo) -> Self {
+        let when = utils::duration::ago(&(Local::now() - run_info.end));
+
+        match run_info.outcome {
+            history::CheckOutcome::Success => {
+                // Last check is 120 days ago or older
+                if Local::now() - run_info.end > chrono::Duration::days(120) {
+                    Self {
+                        // Translators: Argument is 'x months ago'
+                        title: gettextf("Successful Integrity Check {}", &[&when]),
+                        subtitle: Some(gettext("Result might be out of date")),
+                        graphic: Graphic::WarningIcon("emblem-default-symbolic".to_string()),
+                        progress: None,
+                        stats: None,
+                    }
+                } else {
+                    Self {
+                        title: gettext("Last Integrity Check Successful"),
+                        subtitle: Some(when),
+                        graphic: Graphic::OkIcon("emblem-default-symbolic".to_string()),
+                        progress: None,
+                        stats: None,
+                    }
+                }
+            }
+            history::CheckOutcome::Aborted => Self {
+                title: gettext("Integrity Check Aborted"),
+                subtitle: Some(when),
+                graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
+                progress: None,
+                stats: None,
+            },
+            history::CheckOutcome::Repair(_) => Self {
+                title: gettext("Errors Found and Repaired"),
+                subtitle: Some(when),
+                graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
+                progress: None,
+                stats: None,
+            },
+            history::CheckOutcome::Error(_) => Self {
+                title: gettext("Integrity Errors Found"),
+                subtitle: Some(when),
+                graphic: Graphic::ErrorIcon("dialog-error-symbolic".to_string()),
+                progress: None,
+                stats: None,
             },
         }
     }

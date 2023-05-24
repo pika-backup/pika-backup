@@ -1,3 +1,4 @@
+use crate::ui::backup_status;
 use crate::ui::prelude::*;
 use adw::prelude::*;
 
@@ -29,8 +30,30 @@ pub async fn show() -> Result<()> {
     };
 
     ui_display_archives(&config.repo_id);
+    refresh_status();
 
     result
+}
+
+pub fn refresh_status() {
+    if super::is_visible() {
+        if let Some(id) = ACTIVE_BACKUP_ID.load().as_ref().as_ref() {
+            main_ui()
+                .check_status()
+                .set_from_backup_status(&backup_status::Display::new_check_status_from_id(id));
+
+            BORG_OPERATION.with(|ops| {
+                let op = ops.load().get(id).cloned();
+
+                let running =
+                    matches!(op, Some(ref op) if op.task_kind() == borg::task::Kind::Check);
+
+                main_ui().archives_check_now().set_visible(!running);
+                main_ui().archives_check_now().set_sensitive(op.is_none());
+                main_ui().archives_check_abort().set_visible(running);
+            });
+        }
+    }
 }
 
 pub fn update_info(config: &config::Backup) {

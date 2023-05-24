@@ -4,6 +4,7 @@ mod execution;
 pub mod init;
 
 pub use display::{refresh, refresh_disk_status, refresh_status};
+pub use events::on_stop_backup_create;
 
 use crate::schedule;
 use crate::ui::prelude::*;

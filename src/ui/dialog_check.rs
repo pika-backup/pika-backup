@@ -108,6 +108,11 @@ mod imp {
             Handler::run(glib::clone!(@strong obj => async move {
                 let config = obj.imp().config()?;
 
+                scopeguard::defer_on_success!({
+                    let _ = crate::ui::write_config();
+                    crate::ui::page_archives::refresh_status();
+                });
+
                 let mut command =
                     crate::borg::Command::<crate::borg::task::Check>::new(config.clone());
                 command.task.set_verify_data(obj.imp().verify_data.get());
@@ -135,7 +140,6 @@ mod imp {
                             history.set_last_check(config.id.clone(), CheckRunInfo::new_aborted());
                         });
 
-                        crate::ui::write_config()?;
                         return Ok(());
                     }
                 }
@@ -150,8 +154,6 @@ mod imp {
                     BACKUP_HISTORY.update(|history| {
                         history.set_last_check(config.id.clone(), run_info.clone());
                     });
-
-                    crate::ui::write_config()?;
 
                     return Err(Message::new(
                         gettext("Verify Archives Integrity"),
@@ -169,9 +171,9 @@ mod imp {
                         history.set_last_check(config.id.clone(), run_info.clone());
                     });
 
-                    crate::ui::write_config()?;
-                    crate::ui::utils::show_notice(gettext("Verify archives integrity success"));
+                    crate::ui::utils::show_notice(gettext("Verify archives integrity completed successfully"));
                 }
+
 
                 Ok(())
             }));

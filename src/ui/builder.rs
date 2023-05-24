@@ -67,8 +67,12 @@ impl AppWindow {
         self.get("archive_list_placeholder")
     }
 
-    pub fn archives_check(&self) -> adw::ActionRow {
-        self.get("archives_check")
+    pub fn archives_check_abort(&self) -> gtk::Button {
+        self.get("archives_check_abort")
+    }
+
+    pub fn archives_check_now(&self) -> gtk::Button {
+        self.get("archives_check_now")
     }
 
     pub fn archives_cleanup(&self) -> adw::ActionRow {
@@ -141,6 +145,10 @@ impl AppWindow {
 
     pub fn backup_run(&self) -> gtk::Button {
         self.get("backup_run")
+    }
+
+    pub fn check_status(&self) -> crate::ui::export::StatusRow {
+        self.get("check_status")
     }
 
     pub fn detail_current_path(&self) -> gtk::Label {
