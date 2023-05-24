@@ -4,11 +4,14 @@ use adw::subclass::prelude::*;
 use crate::ui::prelude::*;
 
 mod imp {
+    use crate::borg::log_json::LogEntry;
+    use crate::config::history::CheckRunInfo;
+
     use super::*;
     use glib::signal::Inhibit;
     use glib::Properties;
     use once_cell::unsync::OnceCell;
-    use std::cell::{Cell, RefCell};
+    use std::cell::Cell;
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::DialogCheck)]
@@ -60,7 +63,6 @@ mod imp {
             self.parent_constructed();
             self.obj().set_transient_for(Some(&main_ui().window()));
 
-            let obj = self.obj();
             self.obj().connect_repair_notify(|dialog| {
                 let imp = dialog.imp();
                 if imp.repair.get() {
@@ -106,12 +108,71 @@ mod imp {
             Handler::run(glib::clone!(@strong obj => async move {
                 let config = obj.imp().config()?;
 
-                let mut command = crate::borg::Command::<crate::borg::task::Check>::new(config.clone());
+                let mut command =
+                    crate::borg::Command::<crate::borg::task::Check>::new(config.clone());
                 command.task.set_verify_data(obj.imp().verify_data.get());
-                command.task.set_repair(obj.imp().repair.get());
+                let repair = obj.imp().repair.get();
+                command.task.set_repair(repair);
 
                 let quit_guard = QuitGuard::default();
-                crate::ui::utils::borg::exec(command, &quit_guard).await.into_message(gettext("Verify Archives Integrity"))?;
+                let communication = command.communication.clone();
+                let result = crate::ui::utils::borg::exec(command, &quit_guard)
+                    .await
+                    .into_message(gettext("Verify Archives Integrity"));
+                let mut message_history = communication
+                    .general_info
+                    .load()
+                    .all_combined_message_history();
+
+                // The actual error message is not very interesting, we need to dig through history
+                if let Err(err) = result {
+                    if message_history.is_empty() {
+                        message_history = vec![LogEntry::UnparsableErr(err.to_string())];
+                    }
+
+                    if matches!(err, Error::UserCanceled) {
+                        BACKUP_HISTORY.update(|history| {
+                            history.set_last_check(config.id.clone(), CheckRunInfo::new_aborted());
+                        });
+
+                        crate::ui::write_config()?;
+                        return Ok(());
+                    }
+                }
+
+                if !message_history.is_empty() {
+                    let run_info = if repair {
+                        crate::config::history::CheckRunInfo::new_repair(message_history.clone())
+                    } else {
+                        crate::config::history::CheckRunInfo::new_error(message_history.clone())
+                    };
+
+                    BACKUP_HISTORY.update(|history| {
+                        history.set_last_check(config.id.clone(), run_info.clone());
+                    });
+
+                    crate::ui::write_config()?;
+
+                    return Err(Message::new(
+                        gettext("Verify Archives Integrity"),
+                        message_history
+                            .iter()
+                            .map(|h| h.message())
+                            .collect::<Vec<String>>()
+                            .join("\n"),
+                    )
+                    .into());
+                } else {
+                    let run_info = crate::config::history::CheckRunInfo::new_success();
+
+                    BACKUP_HISTORY.update(|history| {
+                        history.set_last_check(config.id.clone(), run_info.clone());
+                    });
+
+                    crate::ui::write_config()?;
+                    crate::ui::utils::show_notice(gettext("Verify archives integrity success"));
+                }
+
                 Ok(())
             }));
         }

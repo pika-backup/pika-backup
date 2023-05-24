@@ -1,4 +1,5 @@
 use crate::borg;
+use crate::borg::log_json::LogCollection;
 use crate::config;
 
 use super::Loadable;
@@ -20,6 +21,10 @@ pub struct History {
     pub run: VecDeque<RunInfo>,
     pub running: Option<Running>,
     pub last_completed: Option<RunInfo>,
+
+    /// Last borg check result
+    #[serde(default)]
+    pub last_check: Option<CheckRunInfo>,
 
     // The excludes suggested from the last size estimate. Will be overwritten every time a size estimate is performed.
     #[serde(default)]
@@ -123,6 +128,12 @@ impl Histories {
         history.insert(entry);
     }
 
+    pub fn set_last_check(&mut self, config_id: ConfigId, check_info: CheckRunInfo) {
+        let history = self.0.entry(config_id).or_default();
+
+        history.last_check = Some(check_info);
+    }
+
     pub fn set_running(&mut self, config_id: ConfigId) {
         debug!("Set {:?} to state running.", config_id);
         let history = self.0.entry(config_id).or_default();
@@ -210,4 +221,48 @@ impl RunInfo {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Running {
     pub start: DateTime<Local>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct CheckRunInfo {
+    pub end: DateTime<Local>,
+    pub outcome: CheckOutcome,
+}
+
+impl CheckRunInfo {
+    pub fn new_success() -> Self {
+        Self {
+            end: Local::now(),
+            outcome: CheckOutcome::Success,
+        }
+    }
+
+    pub fn new_aborted() -> Self {
+        Self {
+            end: Local::now(),
+            outcome: CheckOutcome::Aborted,
+        }
+    }
+
+    pub fn new_repair(log_collection: LogCollection) -> Self {
+        Self {
+            end: Local::now(),
+            outcome: CheckOutcome::Repair(log_collection),
+        }
+    }
+
+    pub fn new_error(log_collection: LogCollection) -> Self {
+        Self {
+            end: Local::now(),
+            outcome: CheckOutcome::Error(log_collection),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub enum CheckOutcome {
+    Success,
+    Aborted,
+    Repair(LogCollection),
+    Error(LogCollection),
 }
