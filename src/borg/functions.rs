@@ -156,6 +156,26 @@ impl CommandRun<task::Compact> for Command<task::Compact> {
 }
 
 #[async_trait]
+impl CommandRun<task::Check> for Command<task::Check> {
+    async fn run(self) -> Result<()> {
+        let mut borg_call = check_call(&self).await?;
+        borg_call.add_options(["--progress"]);
+
+        if self.task.verify_data() {
+            borg_call.add_options(["--verify-data"]);
+        }
+
+        if self.task.repair() {
+            borg_call.add_options(["--repair"]);
+        }
+
+        let process = borg_call.spawn_async_managed(self.communication.clone())?;
+
+        process.result.await
+    }
+}
+
+#[async_trait]
 impl CommandRun<task::Delete> for Command<task::Delete> {
     async fn run(self) -> Result<()> {
         let archive_name = self.task.archive_name().unwrap_or_default();
@@ -430,6 +450,13 @@ async fn compact_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
 
     borg_call.add_basics(command).await?;
 
+    Ok(borg_call)
+}
+
+async fn check_call<T: Task>(command: &Command<T>) -> Result<BorgCall> {
+    let mut borg_call = BorgCall::new("check");
+
+    borg_call.add_basics(command).await?;
     Ok(borg_call)
 }
 

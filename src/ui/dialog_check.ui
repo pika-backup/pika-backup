@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="DialogCheck" parent="AdwWindow">
+    <property name="title" translatable="yes">Archives Integrity Check</property>
+    <property name="modal">1</property>
+    <property name="default-width">430</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <property name="title" translatable="yes">Archives Integrity Check</property>
+            <property name="vexpand">1</property>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="description" translatable="yes">This operation will check all archives for data integrity. This may take a long time.</property>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Verify data</property>
+                    <property name="subtitle" translatable="yes">Perform full data verification.</property>
+                    <property name="activatable-widget">verify_data_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="verify_data_check">
+                        <property name="active" bind-source="DialogCheck" bind-property="verify_data" bind-flags="sync-create|bidirectional" />
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="description" translatable="yes">Perform a full repair. This is a potentially dangerous function and might lead to data loss (for kinds of corruption it is not capable of dealing with).</property>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Repair</property>
+                    <property name="subtitle" translatable="yes">Repair errors. This can lead to data loss.</property>
+                    <property name="activatable-widget">repair_errors_check</property>
+                    <child type="prefix">
+                      <object class="GtkCheckButton" id="repair_errors_check">
+                        <property name="active" bind-source="DialogCheck" bind-property="repair" bind-flags="sync-create|bidirectional" />
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+        <child type="bottom">
+          <object class="GtkButton" id="button_run">
+            <property name="label" translatable="yes">Perform Check</property>
+            <signal name="clicked" handler="run" swapped="true"/>
+            <property name="halign">center</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <style>
+              <class name="pill"/>
+              <class name="suggested-action"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

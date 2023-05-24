@@ -9,6 +9,7 @@ pub enum Kind {
     Prune,
     PruneInfo,
     Compact,
+    Check,
     Delete,
     List,
 
@@ -93,6 +94,41 @@ impl Task for Compact {
 
     fn name() -> String {
         gettext("Reclaiming Free Space")
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct Check {
+    verify_data: bool,
+    repair: bool,
+}
+
+impl Check {
+    pub fn verify_data(&self) -> bool {
+        self.verify_data
+    }
+
+    pub fn set_verify_data(&mut self, verify_data: bool) {
+        self.verify_data = verify_data;
+    }
+
+    pub fn repair(&self) -> bool {
+        self.repair
+    }
+
+    pub fn set_repair(&mut self, repair: bool) {
+        self.repair = repair;
+    }
+}
+
+impl Task for Check {
+    type Info = ();
+    type Return = ();
+
+    const KIND: Kind = Kind::Check;
+
+    fn name() -> String {
+        gettext("Checking Archive Integrity")
     }
 }
 

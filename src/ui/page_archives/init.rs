@@ -17,6 +17,10 @@ pub fn init() {
         .connect_clicked(|_| Handler::run(events::edit_prefix()));
 
     main_ui()
+        .archives_check()
+        .connect_activated(|_| Handler::run(events::check()));
+
+    main_ui()
         .archives_cleanup()
         .connect_activated(|_| Handler::run(events::cleanup()));
 

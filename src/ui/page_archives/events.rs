@@ -1,9 +1,20 @@
+use crate::ui::dialog_check::DialogCheck;
 use crate::ui::prelude::*;
 use adw::prelude::*;
 
 use super::display;
 use crate::borg;
 use crate::ui;
+
+pub async fn check() -> Result<()> {
+    let configs = BACKUP_CONFIG.load();
+    let config = configs.active()?;
+
+    let dialog = DialogCheck::new(config.id.clone());
+    dialog.show();
+
+    Ok(())
+}
 
 pub async fn cleanup() -> Result<()> {
     let configs = BACKUP_CONFIG.load();

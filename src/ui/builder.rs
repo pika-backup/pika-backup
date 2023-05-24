@@ -67,6 +67,10 @@ impl AppWindow {
         self.get("archive_list_placeholder")
     }
 
+    pub fn archives_check(&self) -> adw::ActionRow {
+        self.get("archives_check")
+    }
+
     pub fn archives_cleanup(&self) -> adw::ActionRow {
         self.get("archives_cleanup")
     }

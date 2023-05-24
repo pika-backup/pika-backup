@@ -12,6 +12,7 @@
 - Add ability to run shell scripts on certain backup events
 - Add exclusion suggestions for unreadable paths
 - Add eject button for backup disk
+- Add function to check archives integrity
 
 ## 0.6.2 (unreleased)
 
