@@ -962,16 +962,16 @@ impl DialogPruneReview {
         self.get("keep")
     }
 
-    pub fn leaflet(&self) -> adw::Leaflet {
-        self.get("leaflet")
-    }
-
     pub fn page_decision(&self) -> adw::ToolbarView {
         self.get("page_decision")
     }
 
     pub fn prune(&self) -> gtk::Label {
         self.get("prune")
+    }
+
+    pub fn stack(&self) -> gtk::Stack {
+        self.get("stack")
     }
 
     pub fn untouched(&self) -> gtk::Label {

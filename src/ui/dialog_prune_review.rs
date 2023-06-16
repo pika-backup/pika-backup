@@ -55,7 +55,7 @@ pub async fn run(config: &config::Backup) -> Result<()> {
     ui.keep().set_label(&prune_info.keep.to_string());
     ui.untouched()
         .set_label(&num_untouched_archives.to_string());
-    ui.leaflet().set_visible_child(&ui.page_decision());
+    ui.stack().set_visible_child(&ui.page_decision());
 
     if Some(true) == receiver.next().await {
         Ok(())
