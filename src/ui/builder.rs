@@ -155,6 +155,10 @@ impl AppWindow {
         self.get("detail_deduplicated_size")
     }
 
+    pub fn detail_header_bar(&self) -> adw::HeaderBar {
+        self.get("detail_header_bar")
+    }
+
     pub fn detail_hint_icon(&self) -> gtk::Image {
         self.get("detail_hint_icon")
     }
@@ -205,6 +209,14 @@ impl AppWindow {
 
     pub fn detail_status_row(&self) -> crate::ui::export::StatusRow {
         self.get("detail_status_row")
+    }
+
+    pub fn detail_view_switcher(&self) -> adw::ViewSwitcher {
+        self.get("detail_view_switcher")
+    }
+
+    pub fn detail_view_switcher_bar(&self) -> adw::ViewSwitcherBar {
+        self.get("detail_view_switcher_bar")
     }
 
     pub fn include(&self) -> gtk::ListBox {
@@ -377,10 +389,6 @@ impl AppWindow {
 
     pub fn toast(&self) -> adw::ToastOverlay {
         self.get("toast")
-    }
-
-    pub fn view_switcher_title(&self) -> adw::ViewSwitcherTitle {
-        self.get("view_switcher_title")
     }
 
     pub fn window(&self) -> adw::ApplicationWindow {

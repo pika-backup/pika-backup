@@ -91,9 +91,18 @@
     </property>
   </object>
   <object class="AdwApplicationWindow" id="window">
+    <property name="width-request">360</property>
+    <property name="height-request">294</property>
     <property name="default-width">782</property>
     <property name="default-height">626</property>
     <property name="title" translatable="yes">Pika Backup</property>
+    <child>
+      <object class="AdwBreakpoint">
+        <condition>max-width: 480sp</condition>
+        <setter object="detail_header_bar" property="title-widget"/>
+        <setter object="detail_view_switcher_bar" property="reveal">1</setter>
+      </object>
+    </child>
     <property name="content">
       <object class="AdwToastOverlay" id="toast">
         <property name="child">
@@ -182,17 +191,17 @@
             </child>
             <child>
               <object class="AdwNavigationPage" id="navigation_page_detail">
-                <property name="title" translatable="yes">Backup Detail</property>
+                <property name="title" translatable="yes">Backup</property>
                 <property name="child">
                   <object class="AdwToolbarView" id="page_detail">
                     <child type="top">
-                      <object class="AdwHeaderBar">
-                        <child type="title">
-                          <object class="AdwViewSwitcherTitle" id="view_switcher_title">
+                      <object class="AdwHeaderBar" id="detail_header_bar">
+                        <property name="title-widget">
+                          <object class="AdwViewSwitcher" id="detail_view_switcher">
+                            <property name="policy">wide</property>
                             <property name="stack">detail_stack</property>
-                            <property name="title" translatable="yes">Pika Backup</property>
                           </object>
-                        </child>
+                        </property>
                         <child type="end">
                           <object class="GtkMenuButton" id="pending_menu">
                             <property name="visible">0</property>
@@ -839,9 +848,8 @@ This might take a while.</property>
                           </object>
                         </child>
                         <child>
-                          <object class="AdwViewSwitcherBar">
+                          <object class="AdwViewSwitcherBar" id="detail_view_switcher_bar">
                             <property name="stack">detail_stack</property>
-                            <property name="reveal" bind-source="view_switcher_title" bind-property="title-visible" bind-flags="sync-create"/>
                           </object>
                         </child>
                       </object>
