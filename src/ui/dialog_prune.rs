@@ -49,7 +49,7 @@ async fn show(config: &config::Backup, ui: &DialogPrune) -> Result<()> {
         ui.cancel().set_label(&gettext("Close"));
     }
 
-    ui.leaflet().set_visible_child(&ui.page_decision());
+    ui.stack().set_visible_child(&ui.page_decision());
 
     ui.delete()
         .connect_clicked(clone!(@weak ui, @strong config =>
