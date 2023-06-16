@@ -97,7 +97,7 @@ pub fn transfer_selection(
             ui.transfer_suggestions().append(&row.widget());
         }
 
-        ui.page_transfer()
+        ui.page_transfer_stack()
             .set_visible_child(&ui.page_transfer_select());
     }
 }
@@ -152,8 +152,7 @@ fn insert_transfer(
     ui.prefix_submit().connect_clicked(clone!(@weak ui, @strong config_id => move |_|
         Handler::new().error_transient_for(ui.dialog()).handle_sync(set_prefix(&ui, config_id.clone()))));
 
-    ui.page_transfer()
-        .set_visible_child(&ui.page_transfer_prefix());
+    ui.navigation_view().push(&ui.page_transfer_prefix());
 
     Ok(())
 }
@@ -205,7 +204,7 @@ fn show_init(ui: &ui::builder::DialogSetup) {
     ui.password().set_text("");
     ui.password_confirm().set_text("");
 
-    ui.leaflet().set_visible_child(&ui.page_detail());
+    ui.navigation_view().push(&ui.page_detail());
 
     ui.encryption_box().show();
 
@@ -261,12 +260,14 @@ pub async fn add_mount<F: 'static + Fn()>(
 }
 
 pub fn pending_check(ui: &DialogSetup) {
-    ui.page_password()
+    ui.page_password_stack()
         .set_visible_child(&ui.page_password_pending());
-    ui.leaflet().set_visible_child(&ui.page_password());
+    ui.page_password().set_can_pop(false);
+    ui.navigation_view().push(&ui.page_password());
 }
 
 pub fn ask_password(ui: &DialogSetup) {
-    ui.page_password()
+    ui.page_password().set_can_pop(true);
+    ui.page_password_stack()
         .set_visible_child(&ui.page_password_input());
 }

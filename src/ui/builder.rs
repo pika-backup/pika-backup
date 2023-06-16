@@ -1049,14 +1049,6 @@ impl DialogSetup {
         self.get("ask_password")
     }
 
-    pub fn back_to_detail(&self) -> gtk::Button {
-        self.get("back_to_detail")
-    }
-
-    pub fn back_to_overview(&self) -> gtk::Button {
-        self.get("back_to_overview")
-    }
-
     pub fn button_encrypted(&self) -> gtk::ToggleButton {
         self.get("button_encrypted")
     }
@@ -1109,10 +1101,6 @@ impl DialogSetup {
         self.get("init_repo_list")
     }
 
-    pub fn leaflet(&self) -> adw::Leaflet {
-        self.get("leaflet")
-    }
-
     pub fn location_group_local(&self) -> adw::PreferencesGroup {
         self.get("location_group_local")
     }
@@ -1129,15 +1117,19 @@ impl DialogSetup {
         self.get("location_url")
     }
 
+    pub fn navigation_view(&self) -> adw::NavigationView {
+        self.get("navigation_view")
+    }
+
     pub fn non_journaling_warning(&self) -> gtk::Box {
         self.get("non_journaling_warning")
     }
 
-    pub fn page_creating(&self) -> gtk::WindowHandle {
+    pub fn page_creating(&self) -> adw::NavigationPage {
         self.get("page_creating")
     }
 
-    pub fn page_detail(&self) -> adw::ToolbarView {
+    pub fn page_detail(&self) -> adw::NavigationPage {
         self.get("page_detail")
     }
 
@@ -1145,11 +1137,11 @@ impl DialogSetup {
         self.get("page_detail_continue")
     }
 
-    pub fn page_overview(&self) -> adw::ToolbarView {
+    pub fn page_overview(&self) -> adw::NavigationPage {
         self.get("page_overview")
     }
 
-    pub fn page_password(&self) -> gtk::Stack {
+    pub fn page_password(&self) -> adw::NavigationPage {
         self.get("page_password")
     }
 
@@ -1165,24 +1157,32 @@ impl DialogSetup {
         self.get("page_password_pending")
     }
 
-    pub fn page_setup_encryption(&self) -> adw::ToolbarView {
+    pub fn page_password_stack(&self) -> gtk::Stack {
+        self.get("page_password_stack")
+    }
+
+    pub fn page_setup_encryption(&self) -> adw::NavigationPage {
         self.get("page_setup_encryption")
     }
 
-    pub fn page_transfer(&self) -> gtk::Stack {
+    pub fn page_transfer(&self) -> adw::NavigationPage {
         self.get("page_transfer")
     }
 
-    pub fn page_transfer_pending(&self) -> gtk::WindowHandle {
+    pub fn page_transfer_pending(&self) -> adw::ToolbarView {
         self.get("page_transfer_pending")
     }
 
-    pub fn page_transfer_prefix(&self) -> adw::ToolbarView {
+    pub fn page_transfer_prefix(&self) -> adw::NavigationPage {
         self.get("page_transfer_prefix")
     }
 
     pub fn page_transfer_select(&self) -> adw::ToolbarView {
         self.get("page_transfer_select")
+    }
+
+    pub fn page_transfer_stack(&self) -> gtk::Stack {
+        self.get("page_transfer_stack")
     }
 
     pub fn password(&self) -> adw::PasswordEntryRow {

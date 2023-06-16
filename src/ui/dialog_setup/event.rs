@@ -7,7 +7,20 @@ use super::insert::execute;
 use crate::ui::*;
 use ui::builder::DialogSetup;
 
-pub fn leaflet_change(ui: &DialogSetup) {
+pub fn navigation_view_changed(ui: &DialogSetup) {
+    if let Some(visible_page) = ui.navigation_view().visible_page() {
+        if visible_page == ui.page_overview() {
+            ui.init_path().reset();
+            ui.location_url().set_text("");
+            ui.password().set_text("");
+            ui.password_confirm().set_text("");
+        }
+
+        if visible_page == ui.page_overview() || visible_page == ui.page_detail() {
+            ui.ask_password().set_text("");
+        }
+    }
+
     if ui.add_button().is_mapped() {
         ui.dialog().set_default_widget(Some(&ui.add_button()));
     }
@@ -36,19 +49,6 @@ pub fn leaflet_change(ui: &DialogSetup) {
     if ui.ask_password().is_mapped() {
         ui.ask_password().grab_focus();
     }
-}
-
-pub fn back_to_overview(ui: &DialogSetup) {
-    ui.init_path().reset();
-    ui.location_url().set_text("");
-    ui.password().set_text("");
-    ui.password_confirm().set_text("");
-
-    ui.leaflet().set_visible_child(&ui.page_overview());
-}
-
-pub fn back_to_detail(ui: &DialogSetup) {
-    ui.leaflet().set_visible_child(&ui.page_detail());
 }
 
 pub fn page_detail_continue(ui: &DialogSetup) {
@@ -83,7 +83,7 @@ pub fn show_add_remote(ui: &DialogSetup) {
     ui.encryption_box().hide();
     ui.location_group_local().set_visible(false);
     ui.location_group_remote().set_visible(true);
-    ui.leaflet().set_visible_child(&ui.page_detail());
+    ui.navigation_view().push(&ui.page_detail());
 }
 
 pub fn add_local(ui: &DialogSetup, path: Option<&std::path::Path>) {

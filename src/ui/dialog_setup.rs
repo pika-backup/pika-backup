@@ -39,11 +39,9 @@ pub fn show() {
 
     // Page Detail
 
-    ui.leaflet()
-        .connect_visible_child_notify(clone!(@weak ui => move |_| event::leaflet_change(&ui)));
-
-    ui.back_to_overview()
-        .connect_clicked(clone!(@weak ui => move |_| event::back_to_overview(&ui)));
+    ui.navigation_view().connect_visible_page_notify(
+        clone!(@weak ui => move |_| event::navigation_view_changed(&ui)),
+    );
 
     ui.page_detail_continue()
         .connect_clicked(clone!(@weak ui => move |_| event::page_detail_continue(&ui)));
@@ -59,9 +57,6 @@ pub fn show() {
         .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
     ui.password_quality()
         .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
-
-    ui.back_to_detail()
-        .connect_clicked(clone!(@weak ui => move |_| event::back_to_detail(&ui)));
 
     ui.password()
         .connect_changed(clone!(@weak ui => move |_| event::password_changed(&ui)));
@@ -85,8 +80,9 @@ pub fn show() {
     ui.page_password_continue()
         .connect_clicked(clone!(@weak ui => move |_| run(event::page_password_continue(ui))));
 
-    ui.page_password()
-        .connect_visible_child_notify(clone!(@weak ui => move |_| event::leaflet_change(&ui)));
+    ui.page_password_stack().connect_visible_child_notify(
+        clone!(@weak ui => move |_| event::navigation_view_changed(&ui)),
+    );
 
     ui.pending_spinner().connect_map(|s| s.start());
     ui.pending_spinner().connect_unmap(|s| s.stop());

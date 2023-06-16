@@ -23,7 +23,7 @@ pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Resul
                 add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await;
             // add_first_try moves us to detail, fix here for now
             if !matches!(result, Err(Error::UserCanceled) | Ok(())) {
-                ui.leaflet().set_visible_child(&ui.page_overview());
+                ui.navigation_view().pop_to_page(&ui.page_overview());
             }
             return result;
         } else {
@@ -61,7 +61,8 @@ pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
     let encryption_result = validate_setup_encryption_page(&ui);
 
     if let Err(err) = encryption_result {
-        ui.leaflet().set_visible_child(&ui.page_setup_encryption());
+        ui.navigation_view()
+            .pop_to_page(&ui.page_setup_encryption());
         return Err(err);
     }
 
@@ -70,7 +71,7 @@ pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
     if result.is_ok() {
         ui.dialog().close();
     } else {
-        ui.leaflet().set_visible_child(&ui.page_detail());
+        ui.navigation_view().pop_to_page(&ui.page_detail());
     }
 
     result
@@ -116,7 +117,7 @@ async fn get_repo(ui: &builder::DialogSetup) -> Result<Repository> {
 
 pub async fn validate_detail_page(ui: builder::DialogSetup) -> Result<()> {
     get_repo(&ui).await?;
-    ui.leaflet().set_visible_child(&ui.page_setup_encryption());
+    ui.navigation_view().push(&ui.page_setup_encryption());
     Ok(())
 }
 
@@ -148,7 +149,7 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
         command_line_args: Some(args),
     }));
 
-    ui.leaflet().set_visible_child(&ui.page_creating());
+    ui.navigation_view().push(&ui.page_creating());
 
     let mut borg = borg::CommandOnlyRepo::new(repo.clone());
     let password = config::Password::new(ui.password().text().to_string());
@@ -217,7 +218,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     }
 
     if result.is_err() {
-        ui.leaflet().set_visible_child(&ui.page_detail());
+        ui.navigation_view().pop_to_page(&ui.page_detail());
     }
 
     let info = result.into_message(gettext("Failed to Configure Repository"))?;
@@ -233,7 +234,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
     )
     .await?;
 
-    ui.leaflet().set_visible_child(&ui.page_transfer());
+    ui.navigation_view().push(&ui.page_transfer());
     let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
     list_command.task.set_limit_first(100);
 
