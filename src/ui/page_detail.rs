@@ -23,16 +23,7 @@ pub fn on_transition(stack: &adw::Leaflet) {
             main_ui().page_archives(),
             main_ui().page_schedule(),
         ] {
-            if let Some(scrollable) = page
-                .first_child()
-                .and_then(|x| x.downcast::<gtk::ScrolledWindow>().ok())
-            {
-                scrollable
-                    .vadjustment()
-                    .set_value(scrollable.vadjustment().lower());
-            } else {
-                warn!("Could not hack AdwPreferencesPage");
-            }
+            page.scroll_to_top();
         }
     }
 }
