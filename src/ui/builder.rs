@@ -564,10 +564,6 @@ impl DialogDeleteArchive {
         self.get("dialog")
     }
 
-    pub fn leaflet(&self) -> adw::Leaflet {
-        self.get("leaflet")
-    }
-
     pub fn name(&self) -> gtk::Label {
         self.get("name")
     }

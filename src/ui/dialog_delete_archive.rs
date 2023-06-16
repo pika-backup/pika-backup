@@ -25,8 +25,6 @@ async fn show(
     ui.dialog().set_transient_for(Some(&main_ui().window()));
     ui.dialog().present();
 
-    ui.leaflet().set_visible_child(&ui.page_decision());
-
     let archive_name = archive_name.to_string();
     ui.name().set_label(&archive_name);
 
