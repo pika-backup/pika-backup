@@ -311,23 +311,23 @@ impl AppWindow {
         self.get("schedule_frequency")
     }
 
-    pub fn schedule_keep_daily(&self) -> gtk::SpinButton {
+    pub fn schedule_keep_daily(&self) -> adw::SpinRow {
         self.get("schedule_keep_daily")
     }
 
-    pub fn schedule_keep_hourly(&self) -> gtk::SpinButton {
+    pub fn schedule_keep_hourly(&self) -> adw::SpinRow {
         self.get("schedule_keep_hourly")
     }
 
-    pub fn schedule_keep_monthly(&self) -> gtk::SpinButton {
+    pub fn schedule_keep_monthly(&self) -> adw::SpinRow {
         self.get("schedule_keep_monthly")
     }
 
-    pub fn schedule_keep_weekly(&self) -> gtk::SpinButton {
+    pub fn schedule_keep_weekly(&self) -> adw::SpinRow {
         self.get("schedule_keep_weekly")
     }
 
-    pub fn schedule_keep_yearly(&self) -> gtk::SpinButton {
+    pub fn schedule_keep_yearly(&self) -> adw::SpinRow {
         self.get("schedule_keep_yearly")
     }
 

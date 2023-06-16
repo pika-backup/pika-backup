@@ -88,23 +88,23 @@ pub fn init() {
 
     main_ui()
         .schedule_keep_hourly()
-        .connect_value_changed(|_| Handler::run(event::keep_change()));
+        .connect_value_notify(|_| Handler::run(event::keep_change()));
 
     main_ui()
         .schedule_keep_daily()
-        .connect_value_changed(|_| Handler::run(event::keep_change()));
+        .connect_value_notify(|_| Handler::run(event::keep_change()));
 
     main_ui()
         .schedule_keep_weekly()
-        .connect_value_changed(|_| Handler::run(event::keep_change()));
+        .connect_value_notify(|_| Handler::run(event::keep_change()));
 
     main_ui()
         .schedule_keep_monthly()
-        .connect_value_changed(|_| Handler::run(event::keep_change()));
+        .connect_value_notify(|_| Handler::run(event::keep_change()));
 
     main_ui()
         .schedule_keep_yearly()
-        .connect_value_changed(|_| Handler::run(event::keep_change()));
+        .connect_value_notify(|_| Handler::run(event::keep_change()));
 
     // Network
 
