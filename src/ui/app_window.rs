@@ -14,13 +14,16 @@ pub fn init() {
         main_ui().window().style_context().add_class("devel");
     }
 
-    main_ui().leaflet().connect_visible_child_notify(|leaflet| {
-        if let Some(visible_child) = leaflet.visible_child() {
-            if visible_child == main_ui().overview() {
+    main_ui()
+        .navigation_view()
+        .connect_visible_page_notify(|navigation_view| {
+            if navigation_view
+                .visible_page()
+                .is_some_and(|page| page == main_ui().navigation_page_overview())
+            {
                 ui::page_overview::reload_visible_page();
             }
-        }
-    });
+        });
 
     adw_app().add_window(&main_ui().window());
 }

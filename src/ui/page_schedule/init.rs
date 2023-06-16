@@ -35,8 +35,8 @@ pub fn init() {
     // events
 
     main_ui()
-        .leaflet()
-        .connect_visible_child_notify(|_| Handler::run(event::show_page()));
+        .navigation_view()
+        .connect_visible_page_notify(|_| Handler::run(event::show_page()));
 
     main_ui()
         .detail_stack()

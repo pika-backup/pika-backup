@@ -51,7 +51,7 @@ pub fn init() {
     let action = gio::SimpleAction::new("backup-preferences", None);
     action.connect_activate(|_, _| {
         if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
-            if ui::page_detail::is_leaflet_visible() {
+            if ui::page_detail::is_navigation_page_visible() {
                 // Only display when the backup detail page is open
                 ui::dialog_preferences::DialogPreferences::new(id.clone()).show();
             }

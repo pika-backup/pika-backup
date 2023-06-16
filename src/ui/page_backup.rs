@@ -33,6 +33,6 @@ pub fn view_backup_conf(id: &ConfigId) {
         .set_visible_child(&main_ui().page_backup());
 
     main_ui()
-        .leaflet()
-        .set_visible_child(&main_ui().page_detail());
+        .navigation_view()
+        .push(&main_ui().navigation_page_detail());
 }

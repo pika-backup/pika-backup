@@ -25,8 +25,15 @@ pub fn init() {
         .connect_activated(|_| Handler::run(ui::dialog_storage::show()));
 
     main_ui()
-        .leaflet()
-        .connect_visible_child_notify(|_| events::on_stack_changed());
+        .navigation_view()
+        .connect_visible_page_notify(|navigation_view| {
+            if navigation_view
+                .visible_page()
+                .is_some_and(|page| page == main_ui().navigation_page_detail())
+            {
+                events::on_stack_changed()
+            }
+        });
 
     main_ui()
         .detail_stack()

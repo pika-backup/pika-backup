@@ -72,7 +72,9 @@ async fn on_remove_backup() -> Result<()> {
     ui::write_config()?;
 
     reload_visible_page();
-    main_ui().leaflet().set_visible_child(&main_ui().overview());
+    main_ui()
+        .navigation_view()
+        .pop_to_page(&main_ui().navigation_page_overview());
 
     Ok(())
 }

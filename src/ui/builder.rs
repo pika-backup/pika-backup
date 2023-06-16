@@ -127,10 +127,6 @@ impl AppWindow {
         self.get("archives_stack")
     }
 
-    pub fn back_button(&self) -> gtk::Button {
-        self.get("back_button")
-    }
-
     pub fn backup_disk_disconnected(&self) -> gtk::Box {
         self.get("backup_disk_disconnected")
     }
@@ -215,16 +211,24 @@ impl AppWindow {
         self.get("include")
     }
 
-    pub fn leaflet(&self) -> adw::Leaflet {
-        self.get("leaflet")
-    }
-
     pub fn main_backups(&self) -> gtk::ListBox {
         self.get("main_backups")
     }
 
     pub fn main_stack(&self) -> adw::ViewStack {
         self.get("main_stack")
+    }
+
+    pub fn navigation_page_detail(&self) -> adw::NavigationPage {
+        self.get("navigation_page_detail")
+    }
+
+    pub fn navigation_page_overview(&self) -> adw::NavigationPage {
+        self.get("navigation_page_overview")
+    }
+
+    pub fn navigation_view(&self) -> adw::NavigationView {
+        self.get("navigation_view")
     }
 
     pub fn overview(&self) -> adw::ToolbarView {

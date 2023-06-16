@@ -17,8 +17,8 @@ pub fn view(id: &ConfigId) {
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
 
     main_ui()
-        .leaflet()
-        .set_visible_child(&main_ui().page_detail());
+        .navigation_view()
+        .push(&main_ui().navigation_page_detail());
     main_ui()
         .detail_stack()
         .set_visible_child(&main_ui().page_schedule());
