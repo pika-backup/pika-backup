@@ -5,6 +5,7 @@
 - Fix filesystem was unmounted via other means error when trying to unmount
 - Fix don't consider already mounted an error
 - Change setup dialog to use new design
+- Change SMB mount error to be more descriptive
 - Add docker to containers and VMs exclusion preset
 - Add per-backup preferences window
 - Add ability to set custom titles for backup configs

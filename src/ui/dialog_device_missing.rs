@@ -92,6 +92,11 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
         ),
     );
 
+    let uri_scheme = file
+        .uri_scheme()
+        .map(|scheme| scheme.to_ascii_lowercase())
+        .unwrap_or_default();
+
     match mount_result.await {
         Ok(()) => Ok(()),
         Err(err) => match err.kind::<gio::IOErrorEnum>() {
@@ -100,6 +105,20 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
                 Ok(())
             }
             Some(gio::IOErrorEnum::FailedHandled) => Err(Error::UserCanceled),
+            Some(gio::IOErrorEnum::Failed) | Some(gio::IOErrorEnum::InvalidArgument)
+                if uri_scheme == "smb" =>
+            {
+                // SMB can give "Invalid Argument" or even just "Failed" as an error when
+                // the network is unreachable.
+                // See [gvfs issue #315](https://gitlab.gnome.org/GNOME/gvfs/-/issues/315)
+                // and [DejaDup issue #406](https://gitlab.gnome.org/World/deja-dup/-/issues/406)
+
+                Err(Message::new(
+                    gettext("Failed to Mount"),
+                    gettext("The network server is not available"),
+                )
+                .into())
+            }
             _ => Err(Message::new(gettext("Failed to Mount"), err).into()),
         },
     }
