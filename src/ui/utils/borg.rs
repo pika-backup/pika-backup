@@ -1,3 +1,4 @@
+use crate::borg::task;
 use crate::borg::RepoId;
 use crate::ui::prelude::*;
 
@@ -38,6 +39,11 @@ where
     borg::Command<T>: borg::CommandRun<T>,
 {
     let config_id = command.config.id.clone();
+
+    if T::KIND != borg::task::Kind::Mount {
+        // If a repository is mounted we ask to unmount it before we continue
+        ask_unmount(T::KIND, &command.config.repo_id).await?;
+    }
 
     let mounted_result =
         crate::ui::dialog_device_missing::ensure_repo_available(&command.config, &T::name()).await;
@@ -103,6 +109,46 @@ where
     //B: borg::BorgBasics + 'static,
 {
     spawn_borg_thread(name, borg, task).await
+}
+
+async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
+    crate::ui::utils::borg::cleanup_mounts().await?;
+
+    if ACTIVE_MOUNTS.load().contains(repo_id) {
+        debug!("Trying to run a {kind:?} on a backup that is currently mounted.");
+
+        match kind {
+            task::Kind::Create => {
+                ui::utils::confirmation_dialog(
+                    &gettext("Stop browsing files and start backup?"),
+                    &gettext(
+                        "Browsing through archived files is not possible while running a backup.",
+                    ),
+                    &gettext("Keep Browsing"),
+                    &gettext("Start Backup"),
+                )
+                .await?;
+            }
+            _ => {
+                ui::utils::confirmation_dialog(
+                    &gettext("Stop browsing files and start operation?"),
+                    &gettext(
+                        "Browsing through archived files is not possible while running an operation on the repository.",
+                    ),
+                    &gettext("Keep Browsing"),
+                    &gettext("Start Operation"),
+                )
+                .await?;
+            }
+        }
+
+        trace!("User decided to unmount repo.");
+        unmount(repo_id)
+            .await
+            .err_to_msg(gettext("Failed to unmount repository."))?;
+    }
+
+    Ok(())
 }
 
 fn set_scheduler_priority(priority: i32) {
@@ -229,6 +275,8 @@ pub async fn unmount(repo_id: &RepoId) -> Result<()> {
     ACTIVE_MOUNTS.update(|mounts| {
         mounts.remove(repo_id);
     });
+
+    crate::ui::page_archives::refresh_status();
 
     Ok(())
 }

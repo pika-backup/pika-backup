@@ -15,28 +15,6 @@ pub async fn start_backup(
     from_schedule: Option<schedule::DueCause>,
 ) -> Result<()> {
     let guard = QuitGuard::default();
-    crate::ui::utils::borg::cleanup_mounts().await?;
-    if ACTIVE_MOUNTS.load().contains(&config.repo_id) {
-        debug!("Trying to run borg::create on a backup that is currently mounted.");
-
-        ui::utils::confirmation_dialog(
-            &gettext("Stop browsing files and start backup?"),
-            &gettext("Browsing through archived files is not possible while running a backup."),
-            &gettext("Keep Browsing"),
-            &gettext("Start Backup"),
-        )
-        .await?;
-
-        trace!("User decided to unmount repo.");
-        borg::functions::umount(&config.repo_id)
-            .await
-            .err_to_msg(gettext("Failed to unmount repository."))?;
-
-        ACTIVE_MOUNTS.update(|mounts| {
-            mounts.remove(&config.repo_id);
-        });
-    }
-
     let result = run_backup(config, from_schedule, &guard).await;
     display::refresh_status();
 

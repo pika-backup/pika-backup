@@ -53,6 +53,11 @@ pub fn refresh_status() {
                 main_ui().archives_check_abort().set_visible(running);
             });
         }
+
+        if let Ok(config) = BACKUP_CONFIG.load().active() {
+            let is_mounted = ACTIVE_MOUNTS.load().contains(&config.repo_id);
+            main_ui().archives_eject_button().set_visible(is_mounted);
+        }
     }
 }
 
@@ -130,12 +135,7 @@ pub fn ui_update_archives_spinner() {
 
 pub async fn update_eject_button() -> Result<()> {
     ui::utils::borg::cleanup_mounts().await?;
-
-    let is_mounted = ACTIVE_MOUNTS
-        .load()
-        .contains(&BACKUP_CONFIG.load().active()?.repo_id);
-
-    main_ui().archives_eject_button().set_visible(is_mounted);
+    refresh_status();
     Ok(())
 }
 

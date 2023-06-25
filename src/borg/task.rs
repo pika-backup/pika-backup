@@ -2,7 +2,7 @@ use crate::{config, prelude::*};
 
 use crate::config::UserScriptKind;
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Kind {
     Create,
     Mount,
