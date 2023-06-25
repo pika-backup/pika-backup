@@ -144,6 +144,7 @@ impl Histories {
     }
 
     pub fn remove_running(&mut self, config_id: ConfigId) {
+        debug!("Set {:?} to state not running", config_id);
         let history = self.0.entry(config_id).or_default();
 
         history.running = None;

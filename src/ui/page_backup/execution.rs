@@ -79,18 +79,6 @@ async fn run_backup(
     from_schedule: Option<schedule::DueCause>,
     guard: &QuitGuard,
 ) -> Result<()> {
-    scopeguard::defer_on_success! {
-        BACKUP_HISTORY.update(|history| {
-            history.remove_running(config.id.clone());
-        });
-        Handler::handle(ui::write_config());
-    }
-
-    BACKUP_HISTORY.update(|history| {
-        history.set_running(config.id.clone());
-    });
-    ui::write_config()?;
-
     run_script(UserScriptKind::PreBackup, config.clone(), None, guard).await?;
 
     let command = borg::Command::<borg::task::Create>::new(config.clone())
@@ -130,7 +118,6 @@ async fn run_backup(
 
     BACKUP_HISTORY.update(|history| {
         history.insert(config.id.clone(), run_info.clone());
-        history.remove_running(config.id.clone());
     });
 
     ui::write_config()?;
@@ -209,7 +196,6 @@ async fn run_script(
 
         BACKUP_HISTORY.update(move |history| {
             history.insert(config.id.clone(), run_info.clone());
-            history.remove_running(config.id.clone());
         });
     }
 

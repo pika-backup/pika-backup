@@ -58,13 +58,25 @@ where
         Ok(())
     }))?;
 
+    BACKUP_HISTORY.update(enclose!((config_id) move |history| {
+        history.set_running(config_id.clone());
+    }));
+
+    Handler::handle(ui::write_config());
+
     let result = spawn_borg_thread_ask_password(command).await;
 
-    BORG_OPERATION.with(move |operations| {
+    BORG_OPERATION.with(enclose!((config_id) move |operations| {
         operations.update(|op| {
             op.remove(&config_id);
         });
+    }));
+
+    BACKUP_HISTORY.update(move |history| {
+        history.remove_running(config_id.clone());
     });
+
+    Handler::handle(ui::write_config());
 
     result
 }
