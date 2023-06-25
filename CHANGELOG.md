@@ -5,6 +5,7 @@
 - Fix filesystem was unmounted via other means error when trying to unmount
 - Fix don't consider already mounted an error
 - Fix non-create operations would not postpone the schedule
+- Fix newly inserted volumes would sometimes not be detected to contain backup repositories
 - Change setup dialog to use new design
 - Change SMB mount error to be more descriptive
 - Change history log to include archive mounting errors
