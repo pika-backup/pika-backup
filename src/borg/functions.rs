@@ -193,7 +193,7 @@ impl CommandRun<task::Delete> for Command<task::Delete> {
 impl CommandRun<task::Create> for Command<task::Create> {
     async fn run(self) -> Result<Stats> {
         if self.config.include.is_empty() {
-            return Err(Error::EmptyIncldue);
+            return Err(Error::EmptyInclude);
         }
 
         let mut borg_call = BorgCall::new("create");
