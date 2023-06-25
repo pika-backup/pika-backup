@@ -105,10 +105,14 @@ impl std::convert::TryFrom<LogCollection> for Error {
     }
 }
 
+/// The outcome of the backup operation
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Outcome {
+    /// Backup has completed successfully
     Completed { stats: json::Stats },
+    /// Backup was not started / was aborted due to external factors
     Aborted(Abort),
+    /// The borg process has thrown an error that caused the backup to fail
     Failed(Failure),
 }
 
@@ -128,6 +132,7 @@ impl std::fmt::Display for Outcome {
     }
 }
 
+/// The backup was not started / was aborted due to external factors
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub enum Abort {
     User,
@@ -141,6 +146,9 @@ pub enum Abort {
     LeftRunning,
     /// shell script configured by the user failed to run
     UserShellCommand(String),
+    /// Unable to mount / access the repository during setup.
+    /// Detailed error message in parameter.
+    RepositoryNotAvailable(String),
 }
 
 impl std::fmt::Display for Abort {
@@ -167,17 +175,26 @@ impl std::fmt::Display for Abort {
             Self::UserShellCommand(msg) => {
                 write!(f, "{}", gettextf("{}", &[msg]))
             }
+            Self::RepositoryNotAvailable(msg) => {
+                write!(
+                    f,
+                    "{}",
+                    gettextf("Unable to access backup repository: {}", &[msg])
+                )
+            }
         }
     }
 }
 
+/// The borg process has thrown an error that caused the backup to fail
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Failure {
-    // borg message ids
+    // # Borg message IDs
     ConnectionClosed,
     ConnectionClosedWithHint,
-    // TODO: both undocumented
+    /// TODO: undocumented
     LockTimeout,
+    /// TODO: undocumented
     LockFailed,
     PassphraseWrong,
     #[serde(rename = "Cache.RepositoryAccessAborted")]
@@ -188,11 +205,16 @@ pub enum Failure {
     RepositoryDoesNotExist,
     #[serde(rename = "Repository.InsufficientFreeSpaceError")]
     RepositoryInsufficientFreeSpaceError,
-    // with manually added hint
+    /// Connection closed with mnually added hint
     ConnectionClosedWithHint_(String),
-    // general
+
+    // # General
+    /// Unknown borg exception
     Exception,
+    /// Other (one-off) exception
     Other(String),
+
+    /// Fallback
     #[serde(other)]
     Undefined,
 }

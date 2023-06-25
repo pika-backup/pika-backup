@@ -7,7 +7,7 @@ use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
 
-pub fn set_mount_path(config: &mut config::Backup, mount: &gio::Mount) {
+fn set_mount_path(config: &mut config::Backup, mount: &gio::Mount) {
     if let Some(new_mount_path) = mount.root().path() {
         match config.repo {
             config::Repository::Local(ref mut repo @ config::local::Repository { .. }) => {
@@ -27,7 +27,13 @@ pub fn set_mount_path(config: &mut config::Backup, mount: &gio::Mount) {
     }
 }
 
-pub async fn updated_config(config: &config::Backup, purpose: &str) -> Result<config::Backup> {
+/// Check the current repository availability
+///
+/// If the repository is not available we try to mount it, showing the dialog if required.
+pub async fn ensure_repo_available(
+    config: &config::Backup,
+    purpose: &str,
+) -> Result<config::Backup> {
     let mut new_config = config.clone();
 
     match &config.repo {

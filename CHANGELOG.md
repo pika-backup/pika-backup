@@ -7,6 +7,7 @@
 - Fix non-create operations would not postpone the schedule
 - Change setup dialog to use new design
 - Change SMB mount error to be more descriptive
+- Change history log to include archive mounting errors
 - Add docker to containers and VMs exclusion preset
 - Add per-backup preferences window
 - Add ability to set custom titles for backup configs

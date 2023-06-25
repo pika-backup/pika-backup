@@ -39,8 +39,18 @@ where
 {
     let config_id = command.config.id.clone();
 
-    command.config =
-        crate::ui::dialog_device_missing::updated_config(&command.config, &T::name()).await?;
+    let mounted_result =
+        crate::ui::dialog_device_missing::ensure_repo_available(&command.config, &T::name()).await;
+
+    match mounted_result {
+        Ok(config) => command.config = config,
+        Err(err) => {
+            // The repository is not available after trying to mount it
+            return Err(
+                borg::Error::Aborted(borg::Abort::RepositoryNotAvailable(err.to_string())).into(),
+            );
+        }
+    }
 
     BORG_OPERATION.with(enclose!((command) move |operations| {
         if let Some(operation) = operations
