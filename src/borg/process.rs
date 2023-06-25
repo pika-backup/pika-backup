@@ -207,7 +207,7 @@ impl BorgCall {
         Ok(self)
     }
 
-    pub fn args(&self) -> Vec<OsString> {
+    fn args(&self) -> Vec<OsString> {
         let mut args: Vec<OsString> = self.command.clone().into_iter().collect();
         args.extend(self.options.clone());
         args.push("--".into());
@@ -216,7 +216,7 @@ impl BorgCall {
         args
     }
 
-    pub fn cmd(&mut self) -> Result<async_process::Command> {
+    fn cmd(&mut self) -> Result<async_process::Command> {
         let mut cmd = async_process::Command::new("borg");
 
         cmd.envs([self.set_password()?]);
@@ -230,20 +230,23 @@ impl BorgCall {
         Ok(cmd)
     }
 
+    /// Calls the command and returns the output.
+    ///
+    /// This should only be called for operations that don't require a borg repository,
+    /// because repositories might ask questions for relocated repo access, take a long time
+    /// necessitating the ability to abort, etc.
     pub async fn output(&mut self) -> Result<async_process::Output> {
-        info!("Running borg: {:#?}\nenv: {:#?}", &self.args(), &self.envs);
-        Ok(self.cmd()?.output().await?)
-    }
-
-    pub fn spawn_async(&mut self) -> Result<async_process::Child> {
         info!(
-            "Async running borg: {:#?}\nenv: {:#?}",
+            "Running plain borg command: {:#?}\nenv: {:#?}",
             &self.args(),
             &self.envs
         );
-        Ok(self.cmd()?.spawn()?)
+        Ok(self.cmd()?.output().await?)
     }
 
+    /// Spawn a borg task, parsing the output as S.
+    ///
+    /// Call this whenever repository access is required.
     pub fn spawn_async_managed<
         T: Task,
         S: std::fmt::Debug + serde::de::DeserializeOwned + Send + Sync + 'static,
@@ -336,9 +339,15 @@ impl BorgCall {
         communication: super::Communication<T>,
         sender: &Sender<T>,
     ) -> Result<S> {
+        info!(
+            "Running managed borg command: {:#?}\nenv: {:#?}",
+            &self.args(),
+            &self.envs
+        );
+
         let mut return_message = None;
         let mut line = String::new();
-        let mut process = self.spawn_async()?;
+        let mut process = self.cmd()?.spawn()?;
         let mut reader = async_std::io::BufReader::new(
             process
                 .stderr

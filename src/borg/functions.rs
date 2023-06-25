@@ -61,12 +61,10 @@ impl CommandRun<task::List> for Command<task::List> {
             task::NumArchives::All => (),
         }
 
-        let output = borg.output().await?;
-
-        check_stderr(&output)?;
-
-        let json: List = serde_json::from_slice(&output.stdout)?;
-
+        let json: List = borg
+            .spawn_async_managed(self.communication.clone())?
+            .result
+            .await?;
         Ok(json.archives)
     }
 }
@@ -82,19 +80,18 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
             .mode(0o700)
             .create(&dir)?;
 
-        let borg = BorgCall::new("mount")
-            .add_basics(&self)
+        let mut borg = BorgCall::new("mount");
+        borg.add_basics(&self)
             .await?
             // Also mount incomplete archives (checkpoints)
             .add_options(["--consider-checkpoints"])
             // Make all data readable for the current user
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
             .add_options(["-o", &format!("umask=0000,uid={}", nix::unistd::getuid())])
-            .add_positional(&dir)
-            .output()
+            .add_positional(&dir);
+        borg.spawn_async_managed(self.communication.clone())?
+            .result
             .await?;
-
-        check_stderr(&borg)?;
 
         Ok(())
     }
@@ -106,7 +103,16 @@ impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
         let mut borg_call = prune_call(&self).await?;
         borg_call.add_options(["--dry-run", "--list"]);
 
-        let messages = check_stderr(&borg_call.output().await?)?;
+        borg_call
+            .spawn_async_managed(self.communication.clone())?
+            .result
+            .await?;
+
+        let messages = self
+            .communication
+            .general_info
+            .load()
+            .all_combined_message_history();
 
         let list_messages = messages
             .iter()
