@@ -241,7 +241,7 @@ pub trait OperationExt {
     fn status(&self) -> borg::Run;
     fn try_as_create(&self) -> Option<&Operation<borg::task::Create>>;
     fn last_log(&self) -> Option<Rc<borg::log_json::Output>>;
-    fn task_kind(&self) -> borg::task::Kind;
+    fn is_task_type_id(&self, type_id: std::any::TypeId) -> bool;
 }
 
 impl<T: borg::Task> OperationExt for Operation<T> {
@@ -281,7 +281,7 @@ impl<T: borg::Task> OperationExt for Operation<T> {
         self.last_log()
     }
 
-    fn task_kind(&self) -> borg::task::Kind {
-        T::KIND
+    fn is_task_type_id(&self, type_id: std::any::TypeId) -> bool {
+        self.command.task.type_id() == type_id
     }
 }

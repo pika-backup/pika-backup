@@ -2,29 +2,15 @@ use crate::prelude::*;
 
 use crate::config::UserScriptKind;
 
-#[derive(Copy, Clone, PartialEq, Eq)]
-pub enum Kind {
-    Create,
-    Mount,
-    Prune,
-    PruneInfo,
-    Compact,
-    Check,
-    Delete,
-    List,
-
-    // A custom script from the user
-    UserScript,
-}
-
 pub trait Task: Clone + Default + Send + Sync + 'static {
     //type Status: Clone + Default + Send + Sync;
     type Info: Clone + Default + Send + Sync;
     type Return: Clone + Send;
 
-    const KIND: Kind;
-
     fn name() -> String;
+    fn type_id() -> std::any::TypeId {
+        std::any::TypeId::of::<Self>()
+    }
 }
 
 #[derive(Clone, Default)]
@@ -33,8 +19,6 @@ pub struct Create {}
 impl Task for Create {
     type Info = super::status::Status;
     type Return = super::Stats;
-
-    const KIND: Kind = Kind::Create;
 
     fn name() -> String {
         gettext("Backing up Data")
@@ -48,8 +32,6 @@ impl Task for Mount {
     type Info = ();
     type Return = ();
 
-    const KIND: Kind = Kind::Mount;
-
     fn name() -> String {
         gettext("Mounting Backup Archives")
     }
@@ -61,8 +43,6 @@ pub struct Prune {}
 impl Task for Prune {
     type Info = ();
     type Return = ();
-
-    const KIND: Kind = Kind::Prune;
 
     fn name() -> String {
         gettext("Removing old Archives")
@@ -76,8 +56,6 @@ impl Task for PruneInfo {
     type Info = ();
     type Return = super::PruneInfo;
 
-    const KIND: Kind = Kind::PruneInfo;
-
     fn name() -> String {
         gettext("Identifying old Archives")
     }
@@ -89,8 +67,6 @@ pub struct Compact {}
 impl Task for Compact {
     type Info = ();
     type Return = ();
-
-    const KIND: Kind = Kind::Compact;
 
     fn name() -> String {
         gettext("Reclaiming Free Space")
@@ -125,8 +101,6 @@ impl Task for Check {
     type Info = ();
     type Return = ();
 
-    const KIND: Kind = Kind::Check;
-
     fn name() -> String {
         gettext("Checking Archives Integrity")
     }
@@ -152,8 +126,6 @@ impl Task for Delete {
     type Info = ();
     type Return = ();
 
-    const KIND: Kind = Kind::Delete;
-
     fn name() -> String {
         gettext("Deleting Archive")
     }
@@ -174,8 +146,6 @@ impl List {
 impl Task for List {
     type Info = ();
     type Return = Vec<super::ListArchive>;
-
-    const KIND: Kind = Kind::List;
 
     fn name() -> String {
         gettext("Refreshing Archive List")
@@ -221,8 +191,6 @@ impl UserScript {
 impl Task for UserScript {
     type Info = ();
     type Return = ();
-
-    const KIND: Kind = Kind::UserScript;
 
     fn name() -> String {
         gettext("Running Custom Shell Command")

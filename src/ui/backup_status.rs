@@ -3,6 +3,7 @@ use chrono::prelude::*;
 use crate::borg;
 use crate::borg::log_json;
 use crate::borg::Run;
+use crate::borg::Task;
 use crate::config::history;
 use crate::config::*;
 use crate::ui;
@@ -56,7 +57,7 @@ impl Display {
             if let Some(op) = operations
                 .load()
                 .get(config_id)
-                .filter(|op| op.task_kind() == borg::task::Kind::Check)
+                .filter(|op| op.is_task_type_id(borg::task::Check::type_id()))
             {
                 Self::from(op.as_ref())
             } else if let Some(check_run_info) = BACKUP_HISTORY

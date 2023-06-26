@@ -4,6 +4,7 @@ use adw::prelude::*;
 
 use super::cache;
 use super::events;
+use crate::borg::task::Task;
 use crate::ui::utils::repo_cache::RepoCache;
 use crate::{borg, config, ui};
 
@@ -46,7 +47,7 @@ pub fn refresh_status() {
                 let op = ops.load().get(id).cloned();
 
                 let running =
-                    matches!(op, Some(ref op) if op.task_kind() == borg::task::Kind::Check);
+                    matches!(op, Some(ref op) if op.is_task_type_id(borg::task::Check::type_id()));
 
                 main_ui().archives_check_now().set_visible(!running);
                 main_ui().archives_check_now().set_sensitive(op.is_none());
