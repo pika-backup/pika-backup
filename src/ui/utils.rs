@@ -393,7 +393,7 @@ pub async fn show_error_transient_for<
 >(
     message: S,
     detail: P,
-    window: &W,
+    _window: &W,
 ) {
     let primary_text = ellipsize_multiline(message);
     let secondary_text = ellipsize_multiline(detail);
@@ -410,15 +410,16 @@ pub async fn show_error_transient_for<
                 .unwrap_or_default()
         })
     {
-        let dialog = adw::MessageDialog::builder()
-            .modal(true)
-            .transient_for(window)
-            .heading(&primary_text)
-            .body(&secondary_text)
+        let title = format!("{}: {}", primary_text, secondary_text);
+        let toast = adw::Toast::builder()
+            .title(title)
+            .button_label(gettext("Show Details"))
+            .action_name("app.show-error")
+            .action_target(&(primary_text, secondary_text).to_variant())
+            .priority(adw::ToastPriority::High)
+            .timeout(15)
             .build();
-
-        dialog.add_responses(&[("close", &gettext("Close"))]);
-        dialog.choose_future().await;
+        main_ui().toast().add_toast(toast);
     } else {
         let notification = gio::Notification::new(&primary_text);
         notification.set_body(if secondary_text.is_empty() {
@@ -426,6 +427,10 @@ pub async fn show_error_transient_for<
         } else {
             Some(&secondary_text)
         });
+        notification.set_default_action_and_target_value(
+            "app.show-error",
+            Some(&(primary_text, secondary_text).to_variant()),
+        );
         adw_app().send_notification(None, &notification);
     }
 }

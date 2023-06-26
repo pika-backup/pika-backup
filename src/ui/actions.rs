@@ -59,6 +59,33 @@ pub fn init() {
     });
     adw_app().add_action(&action);
 
+    let action = gio::SimpleAction::new(
+        "show-error",
+        Some(&glib::VariantType::from_string("(ss)").unwrap()),
+    );
+    action.connect_activate(|_, msg_tuple| {
+        if let Some(variant) = msg_tuple {
+            if variant.type_().is_tuple() {
+                if let [primary_text, secondary_text] = &variant
+                    .iter()
+                    .filter_map(|variant| variant.str().map(ToOwned::to_owned))
+                    .collect::<Vec<_>>()[..]
+                {
+                    let dialog = adw::MessageDialog::builder()
+                        .modal(true)
+                        .transient_for(&main_ui().window())
+                        .heading(primary_text)
+                        .body(secondary_text)
+                        .build();
+
+                    dialog.add_responses(&[("close", &gettext("Close"))]);
+                    dialog.show();
+                }
+            }
+        }
+    });
+    adw_app().add_action(&action);
+
     let action = gio::SimpleAction::new("remove", None);
     action.connect_activate(|_, _| ui::page_overview::remove_backup());
     adw_app().add_action(&action);
