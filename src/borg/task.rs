@@ -1,4 +1,4 @@
-use crate::prelude::*;
+use crate::{config, prelude::*};
 
 use crate::config::UserScriptKind;
 
@@ -12,6 +12,7 @@ pub enum Kind {
     Check,
     Delete,
     List,
+    KeyChangePassphrase,
 
     // A custom script from the user
     UserScript,
@@ -191,6 +192,40 @@ pub(super) enum NumArchives {
 impl Default for NumArchives {
     fn default() -> Self {
         Self::All
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct KeyChangePassphrase {
+    new_password: Option<config::Password>,
+}
+
+impl std::fmt::Debug for KeyChangePassphrase {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("KeyChangePassphrase")
+            .field("new_password", &"***")
+            .finish()
+    }
+}
+
+impl KeyChangePassphrase {
+    pub fn set_new_password(&mut self, new_password: Option<config::Password>) {
+        self.new_password = new_password;
+    }
+
+    pub fn new_password(&self) -> Option<&config::Password> {
+        self.new_password.as_ref()
+    }
+}
+
+impl Task for KeyChangePassphrase {
+    type Info = ();
+    type Return = ();
+
+    const KIND: Kind = Kind::KeyChangePassphrase;
+
+    fn name() -> String {
+        gettext("Changing Passphrase")
     }
 }
 

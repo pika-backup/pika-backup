@@ -1,3 +1,4 @@
+use super::prelude::*;
 use super::task::Task;
 use super::*;
 use crate::config;
@@ -254,6 +255,51 @@ impl CommandRun<task::Create> for Command<task::Create> {
         }
 
         process.result.await
+    }
+}
+
+#[async_trait]
+impl CommandRun<task::KeyChangePassphrase> for Command<task::KeyChangePassphrase> {
+    async fn run(self) -> Result<()> {
+        let Some(new_password) = self.task.new_password() else {
+            return Err(Error::from("The new password wasn't set".to_string()));
+        };
+
+        let mut borg_call = BorgCall::new("key");
+        borg_call
+            .add_sub_command("change-passphrase")
+            .add_basics(&self)
+            .await?
+            .add_envs([(
+                "BORG_NEW_PASSPHRASE",
+                std::str::from_utf8(new_password.to_owned().as_bytes())
+                    .map_err(|_| Error::from("The new password is not valid UTF-8".to_string()))?,
+            )]);
+
+        // TODO: Use spawn_managed. The lack of properly tagged output unfortunately means that a
+        // non-zero return code wouldn't be considered an error by that function.
+        info!("Running borg: {:#?}", borg_call);
+        let output = &borg_call
+            .cmd()?
+            .output_with_communication(self.communication)
+            .await?;
+
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        debug!("Return code: {:?}", output.status.code());
+        debug!("stdout: {}", stdout);
+
+        if output.status.success() || stdout.trim().is_empty() {
+            // Will check return code again
+            check_stderr(output)?;
+            Ok(())
+        } else {
+            // TODO: Why is this on stdout?
+            if stdout.contains("repository is not encrypted") {
+                Err(Failure::Other(gettext("This backup repository is not encrypted at all, not even with a key stored in plain text. Passwords can only be added to repositories that use encryption.")).into())
+            } else {
+                Err(Failure::Other(stdout.trim().to_string()).into())
+            }
+        }
     }
 }
 

@@ -14,6 +14,7 @@
 - Add ability to set custom titles for backup configs
 - Add ability to edit regex and shell exclusion patterns
 - Add ability to run shell scripts on certain backup events
+- Add ability to change the backup encryption password
 - Add exclusion suggestions for unreadable paths
 - Add eject button for backup disk
 - Add function to check archives integrity

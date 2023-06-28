@@ -199,14 +199,9 @@ fn show_init(ui: &ui::builder::DialogSetup) {
         glib::user_name().to_string_lossy()
     ));
 
-    ui.password_quality().set_value(0.0);
-
-    ui.password().set_text("");
-    ui.password_confirm().set_text("");
+    ui.encryption_preferences_group().reset(true);
 
     ui.navigation_view().push(&ui.page_detail());
-
-    ui.encryption_box().show();
 
     ui.ask_password().set_text("");
 

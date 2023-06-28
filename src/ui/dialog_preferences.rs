@@ -5,7 +5,7 @@ use crate::config::BackupSettings;
 use crate::ui::prelude::*;
 
 mod imp {
-    use crate::config::UserScriptKind;
+    use crate::{borg, config::UserScriptKind, ui::widget::EncryptionPreferencesGroup};
 
     use super::*;
     use glib::signal::Inhibit;
@@ -56,6 +56,24 @@ mod imp {
         pre_backup_command: RefCell<String>,
         #[property(get, set = Self::set_post_backup_command)]
         post_backup_command: RefCell<String>,
+
+        // Change password page
+        #[template_child]
+        page_change_encryption_password: TemplateChild<adw::NavigationPage>,
+        #[template_child]
+        change_password_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        change_password_page_enter_password: TemplateChild<adw::ToolbarView>,
+        #[template_child]
+        encryption_preferences_group: TemplateChild<EncryptionPreferencesGroup>,
+        #[template_child]
+        change_password_page_spinner: TemplateChild<adw::ToolbarView>,
+        #[template_child]
+        change_password_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        changing_password_spinner: TemplateChild<gtk::Spinner>,
+        change_password_communication:
+            RefCell<Option<crate::borg::Communication<crate::borg::task::KeyChangePassphrase>>>,
     }
 
     #[glib::object_subclass]
@@ -414,6 +432,99 @@ mod imp {
                         .await;
                 }
             }
+        }
+
+        #[template_callback]
+        async fn change_password(&self) {
+            let encrypted = self.config().map(|cfg| cfg.encrypted).unwrap_or_default();
+            self.encryption_preferences_group.reset(encrypted);
+
+            self.obj()
+                .push_subpage(&*self.page_change_encryption_password);
+            self.obj()
+                .set_default_widget(Some(&*self.change_password_button));
+        }
+
+        async fn do_change_password_confirm(&self) -> Result<()> {
+            self.page_change_encryption_password.set_can_pop(false);
+            self.change_password_stack
+                .set_visible_child(&*self.change_password_page_spinner);
+            self.changing_password_spinner.set_spinning(true);
+
+            let encrypted = self.encryption_preferences_group.encrypted();
+            let password = self.encryption_preferences_group.validated_password()?;
+
+            let config = self.config()?;
+
+            let mut command: borg::Command<borg::task::KeyChangePassphrase> =
+                borg::Command::new(config.clone());
+            command.task.set_new_password(Some(password.clone()));
+            self.change_password_communication
+                .replace(Some(command.communication.clone()));
+            crate::ui::utils::borg::exec(command, &QuitGuard::default())
+                .await
+                .into_message(gettext("Change Encryption Password Error"))?;
+            self.change_password_communication.take();
+
+            self.obj().pop_subpage();
+            self.change_password_dismissed();
+            self.obj().add_toast(
+                adw::Toast::builder()
+                    .title(gettext("Password changed successfully"))
+                    .build(),
+            );
+
+            if config.encrypted != encrypted {
+                BACKUP_CONFIG.update(|config| {
+                    let _ = config
+                        .get_result_mut(self.config_id.get().unwrap())
+                        .map(|cfg| cfg.encrypted = encrypted);
+                });
+
+                if !encrypted {
+                    crate::ui::utils::password_storage::remove_password(&config, true).await?;
+                }
+            }
+
+            // Save to keyring
+            if encrypted {
+                crate::ui::utils::password_storage::store_password(&config, &password).await?;
+            }
+
+            Ok(())
+        }
+
+        #[template_callback]
+        async fn change_password_confirm(&self) {
+            if let Err(err) = self.do_change_password_confirm().await {
+                Handler::new()
+                    .error_transient_for(self.obj().clone())
+                    .spawn(async { Err(err) });
+                self.change_password_cancel();
+            }
+        }
+
+        #[template_callback]
+        fn change_password_cancel(&self) {
+            if let Some(communication) = self.change_password_communication.take() {
+                debug!("Aborting change password");
+
+                communication
+                    .set_instruction(crate::borg::Instruction::Abort(crate::borg::Abort::User));
+            }
+
+            self.page_change_encryption_password.set_can_pop(true);
+            self.change_password_stack
+                .set_visible_child(&*self.change_password_page_enter_password);
+            self.changing_password_spinner.set_spinning(false);
+        }
+
+        #[template_callback]
+        fn change_password_dismissed(&self) {
+            self.page_change_encryption_password.set_can_pop(true);
+            self.change_password_stack
+                .set_visible_child(&*self.change_password_page_enter_password);
+            self.obj().set_default_widget(gtk::Widget::NONE);
         }
     }
 }

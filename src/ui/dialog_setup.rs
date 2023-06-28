@@ -50,20 +50,6 @@ pub fn show() {
         .connect_folder_change(clone!(@weak ui => move || event::path_change(&ui)));
 
     // Page Setup Encryption
-
-    ui.password_quality()
-        .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
-    ui.password_quality()
-        .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
-    ui.password_quality()
-        .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
-
-    ui.password()
-        .connect_changed(clone!(@weak ui => move |_| event::password_changed(&ui)));
-
-    ui.password_confirm()
-        .connect_changed(clone!(@weak ui => move |_| event::password_changed(&ui)));
-
     ui.add_button().connect_clicked(
         clone!(@weak ui => move |_| execute(event::add_remote(ui.clone()), ui.dialog())),
     );

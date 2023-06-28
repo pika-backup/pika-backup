@@ -1053,16 +1053,8 @@ impl DialogSetup {
         self.get("ask_password")
     }
 
-    pub fn button_encrypted(&self) -> gtk::ToggleButton {
-        self.get("button_encrypted")
-    }
-
     pub fn button_stack(&self) -> gtk::Stack {
         self.get("button_stack")
-    }
-
-    pub fn button_unencrypted(&self) -> gtk::ToggleButton {
-        self.get("button_unencrypted")
     }
 
     pub fn command_line_args_entry(&self) -> adw::EntryRow {
@@ -1077,8 +1069,8 @@ impl DialogSetup {
         self.get("dialog")
     }
 
-    pub fn encryption_box(&self) -> adw::PreferencesGroup {
-        self.get("encryption_box")
+    pub fn encryption_preferences_group(&self) -> crate::ui::export::EncryptionPreferencesGroup {
+        self.get("encryption_preferences_group")
     }
 
     pub fn init_button(&self) -> gtk::Button {
@@ -1187,18 +1179,6 @@ impl DialogSetup {
 
     pub fn page_transfer_stack(&self) -> gtk::Stack {
         self.get("page_transfer_stack")
-    }
-
-    pub fn password(&self) -> adw::PasswordEntryRow {
-        self.get("password")
-    }
-
-    pub fn password_confirm(&self) -> adw::PasswordEntryRow {
-        self.get("password_confirm")
-    }
-
-    pub fn password_quality(&self) -> gtk::LevelBar {
-        self.get("password_quality")
     }
 
     pub fn pending_spinner(&self) -> gtk::Spinner {

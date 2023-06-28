@@ -12,8 +12,7 @@ pub fn navigation_view_changed(ui: &DialogSetup) {
         if visible_page == ui.page_overview() {
             ui.init_path().reset();
             ui.location_url().set_text("");
-            ui.password().set_text("");
-            ui.password_confirm().set_text("");
+            ui.encryption_preferences_group().reset(true);
         }
 
         if visible_page == ui.page_overview() || visible_page == ui.page_detail() {
@@ -80,7 +79,6 @@ pub async fn page_password_continue(ui: DialogSetup) -> Result<()> {
 
 pub fn show_add_remote(ui: &DialogSetup) {
     ui.button_stack().set_visible_child(&ui.add_button());
-    ui.encryption_box().hide();
     ui.location_group_local().set_visible(false);
     ui.location_group_remote().set_visible(true);
     ui.navigation_view().push(&ui.page_detail());
@@ -114,43 +112,5 @@ pub fn path_change(ui: &DialogSetup) {
         }
     } else {
         ui.non_journaling_warning().hide();
-    }
-}
-
-pub fn password_changed(ui: &DialogSetup) {
-    let password = ui.password().text();
-    let score = if let Ok(pw_check) = zxcvbn::zxcvbn(&password, &[]) {
-        if pw_check.score() > 3 {
-            let n = pw_check.guesses_log10();
-            if (12.0..13.0).contains(&n) {
-                5
-            } else if (13.0..14.0).contains(&n) {
-                6
-            } else if n > 14.0 {
-                7
-            } else {
-                4
-            }
-        } else {
-            pw_check.score()
-        }
-    } else {
-        0
-    };
-
-    ui.password_quality().set_value(score.into());
-
-    // Show warning highlight if passwords don't match
-    if !ui.password_confirm().text().is_empty() {
-        if ui.password().text() == ui.password_confirm().text() {
-            ui.password_confirm().add_css_class("success");
-            ui.password_confirm().remove_css_class("warning");
-        } else {
-            ui.password_confirm().remove_css_class("success");
-            ui.password_confirm().add_css_class("warning");
-        }
-    } else {
-        ui.password_confirm().remove_css_class("success");
-        ui.password_confirm().remove_css_class("warning");
     }
 }

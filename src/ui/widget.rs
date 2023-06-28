@@ -1,8 +1,10 @@
+mod encryption_preferences_group;
 mod location_tag;
 mod status_icon;
 mod status_row;
 mod wrap_box;
 
+pub use encryption_preferences_group::EncryptionPreferencesGroup;
 pub use location_tag::LocationTag;
 pub use status_icon::StatusIcon;
 pub use status_row::StatusRow;
@@ -17,6 +19,7 @@ pub fn init() {
     ui::page_schedule::weekday::WeekdayObject::static_type();
     ui::dialog_setup::folder_button::FolderButton::static_type();
     ui::dialog_setup::add_task::AddConfigTask::static_type();
+    EncryptionPreferencesGroup::static_type();
     StatusIcon::static_type();
     StatusRow::static_type();
     WrapBox::static_type();

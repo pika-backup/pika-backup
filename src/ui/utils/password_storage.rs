@@ -17,12 +17,13 @@ pub async fn store_password(config: &config::Backup, password: &Password) -> Res
     Ok(())
 }
 
-pub async fn remove_password(config: &config::Backup) -> Result<()> {
+pub async fn remove_password(config: &config::Backup, remove_all: bool) -> Result<()> {
     // check if other configs using this repo exist
-    if BACKUP_CONFIG
-        .load()
-        .iter()
-        .any(|x| x.id != config.id && x.repo_id == config.repo_id)
+    if !remove_all
+        && BACKUP_CONFIG
+            .load()
+            .iter()
+            .any(|x| x.id != config.id && x.repo_id == config.repo_id)
     {
         debug!("Not removing password because other configs need it");
     } else {

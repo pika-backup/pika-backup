@@ -25,11 +25,28 @@ use super::error::*;
 #[derive(Default)]
 pub struct BorgCall {
     command: Option<OsString>,
+    sub_commands: Vec<OsString>,
     options: Vec<OsString>,
     envs: std::collections::BTreeMap<String, String>,
     pub positional: Vec<OsString>,
     password: config::Password,
     password_pipe_reader: Option<std::os::unix::net::UnixStream>,
+}
+
+impl std::fmt::Debug for BorgCall {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut filtered_envs = self.envs.clone();
+
+        // TODO: It would be better if this passphrase could be sent via passfifo too
+        filtered_envs
+            .entry("BORG_NEW_PASSPHRASE".to_string())
+            .and_modify(|e| *e = "***".to_string());
+
+        f.debug_struct("BorgCall")
+            .field("args", &self.args())
+            .field("envs", &filtered_envs)
+            .finish()
+    }
 }
 
 pub struct Process<T> {
@@ -52,6 +69,12 @@ impl BorgCall {
 
     pub fn new_raw() -> Self {
         Self::default()
+    }
+
+    pub fn add_sub_command(&mut self, sub_command: impl Into<OsString>) -> &mut Self {
+        self.sub_commands.push(sub_command.into());
+
+        self
     }
 
     pub fn add_envs<L, V>(&mut self, vars: L) -> &mut Self
@@ -209,6 +232,7 @@ impl BorgCall {
 
     fn args(&self) -> Vec<OsString> {
         let mut args: Vec<OsString> = self.command.clone().into_iter().collect();
+        args.extend(self.sub_commands.clone());
         args.extend(self.options.clone());
         args.push("--".into());
         args.extend(self.positional.clone());
@@ -216,7 +240,7 @@ impl BorgCall {
         args
     }
 
-    fn cmd(&mut self) -> Result<async_process::Command> {
+    pub(super) fn cmd(&mut self) -> Result<async_process::Command> {
         let mut cmd = async_process::Command::new("borg");
 
         cmd.envs([self.set_password()?]);
@@ -236,11 +260,7 @@ impl BorgCall {
     /// because repositories might ask questions for relocated repo access, take a long time
     /// necessitating the ability to abort, etc.
     pub async fn output(&mut self) -> Result<async_process::Output> {
-        info!(
-            "Running plain borg command: {:#?}\nenv: {:#?}",
-            &self.args(),
-            &self.envs
-        );
+        info!("Running plain borg command: {:#?}", &self.args(),);
         Ok(self.cmd()?.output().await?)
     }
 

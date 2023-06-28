@@ -23,6 +23,94 @@
       </object>
     </child>
   </object>
+  <object class="AdwNavigationPage" id="page_change_encryption_password">
+    <property name="title" translatable="yes">Change Encryption Password</property>
+    <signal name="hidden" handler="change_password_dismissed" swapped="true"/>
+    <property name="child">
+      <object class="GtkStack" id="change_password_stack">
+        <child>
+          <object class="AdwToolbarView" id="change_password_page_enter_password">
+            <child type="top">
+              <object class="AdwHeaderBar"/>
+            </child>
+            <property name="content">
+              <object class="GtkOverlay">
+                <child>
+                  <object class="AdwPreferencesPage">
+                    <property name="vexpand">1</property>
+                    <style>
+                      <class name="dialog-page"/>
+                    </style>
+                    <child>
+                      <object class="PikaEncryptionPreferencesGroup" id="encryption_preferences_group"/>
+                    </child>
+                  </object>
+                </child>
+                <child type="overlay">
+                  <object class="GtkButton" id="change_password_button">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <property name="use-underline">1</property>
+                    <property name="label" translatable="yes">_Change Password</property>
+                    <signal name="clicked" handler="change_password_confirm" swapped="true"/>
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                      <class name="dialog-pill"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwToolbarView" id="change_password_page_spinner">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="show-start-title-buttons">0</property>
+                <property name="show-end-title-buttons">0</property>
+              </object>
+            </child>
+            <property name="content">
+              <object class="GtkOverlay" id="page_change_encryption_password_enter_password">
+                <child>
+                  <object class="AdwStatusPage">
+                    <style>
+                      <class name="dialog-page"/>
+                    </style>
+                    <property name="vexpand">true</property>
+                    <property name="icon-name">drive-harddisk-symbolic</property>
+                    <property name="title" translatable="yes">Changing Encryption Password</property>
+                    <child>
+                      <object class="GtkSpinner" id="changing_password_spinner">
+                        <property name="width-request">32</property>
+                        <property name="height-request">32</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="overlay">
+                  <object class="GtkButton">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <property name="use-underline">1</property>
+                    <property name="label" translatable="yes">_Cancel</property>
+                    <signal name="clicked" handler="change_password_cancel" swapped="true"/>
+                    <style>
+                      <class name="pill"/>
+                      <class name="opaque"/>
+                      <class name="dialog-pill"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
   <template class="DialogPreferences" parent="AdwPreferencesWindow">
     <child>
       <object class="AdwPreferencesPage">
@@ -36,6 +124,24 @@
               <object class="AdwEntryRow" id="title_entry">
                 <property name="title" translatable="yes">Title</property>
                 <property name="text" bind-source="DialogPreferences" bind-property="config_title" bind-flags="sync-create|bidirectional" />
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Encryption password</property>
+            <property name="description" translatable="yes">The encryption password of the backup repository.</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Change Encryption Password</property>
+                <property name="activatable">1</property>
+                <signal name="activated" handler="change_password" swapped="true"/>
+                <child type="suffix">
+                  <object class="GtkImage">
+                    <property name="icon-name">go-next-symbolic</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

@@ -63,7 +63,7 @@ async fn on_remove_backup() -> Result<()> {
         Ok(())
     })?;
 
-    if let Err(err) = ui::utils::password_storage::remove_password(&config).await {
+    if let Err(err) = ui::utils::password_storage::remove_password(&config, false).await {
         // Display the error and continue to leave the UI in a consistent state
         err.show().await;
     }

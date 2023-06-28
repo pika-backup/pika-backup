@@ -58,7 +58,7 @@ pub async fn add_button_clicked(ui: builder::DialogSetup) -> Result<()> {
 }
 
 pub async fn on_init_button_clicked(ui: builder::DialogSetup) -> Result<()> {
-    let encryption_result = validate_setup_encryption_page(&ui);
+    let encryption_result = ui.encryption_preferences_group().validated_password();
 
     if let Err(err) = encryption_result {
         ui.navigation_view()
@@ -121,26 +121,9 @@ pub async fn validate_detail_page(ui: builder::DialogSetup) -> Result<()> {
     Ok(())
 }
 
-pub fn validate_setup_encryption_page(ui: &builder::DialogSetup) -> Result<()> {
-    let encrypted = ui.button_encrypted().is_active();
-    if encrypted {
-        if ui.password().text().is_empty() {
-            return Err(Message::new(
-                gettext("No Password Provided"),
-                gettext("To use encryption a password must be provided."),
-            )
-            .into());
-        } else if ui.password().text() != ui.password_confirm().text() {
-            return Err(Message::short(gettext("Entered passwords do not match.")).into());
-        }
-    }
-
-    Ok(())
-}
-
 async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
-    let encrypted = ui.button_encrypted().is_active();
-    validate_setup_encryption_page(&ui)?;
+    let encrypted = ui.encryption_preferences_group().encrypted();
+    let password = ui.encryption_preferences_group().validated_password()?;
 
     let mut repo = get_repo(&ui).await?;
 
@@ -152,7 +135,6 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
     ui.navigation_view().push(&ui.page_creating());
 
     let mut borg = borg::CommandOnlyRepo::new(repo.clone());
-    let password = config::Password::new(ui.password().text().to_string());
     if encrypted {
         borg.set_password(password.clone());
     }
