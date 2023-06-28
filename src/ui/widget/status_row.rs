@@ -33,6 +33,8 @@ mod imp {
             let obj = self.obj();
             obj.add_prefix(&self.status_icon);
 
+            obj.set_subtitle_lines(1);
+
             obj.add_css_class("numeric");
 
             obj.bind_property("icon-name", &self.status_icon, "icon-name")
