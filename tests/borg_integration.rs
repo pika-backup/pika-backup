@@ -68,6 +68,8 @@ async fn failed_ssh_connection() {
         result,
         Err(borg::Error::Failed(
             borg::error::Failure::ConnectionClosedWithHint_(_)
+        )) | Err(borg::Error::Failed(
+            borg::error::Failure::ConnectionClosedWithHint
         ))
     );
 }
