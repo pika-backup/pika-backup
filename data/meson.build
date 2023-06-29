@@ -45,7 +45,7 @@ install_data(
 
 # Appdata
 
-i18n.merge_file(
+metainfo_file = i18n.merge_file(
     input: configure_file(
         input: 'app.metainfo.xml.in',
         output: 'tmp.app.metainfo.xml',
@@ -93,6 +93,8 @@ install_data(
     rename: '@0@.svg'.format(application_id),
     install_dir: usrdir / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
+
+subdir('resources')
 
 # Post install
 

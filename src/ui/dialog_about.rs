@@ -4,10 +4,13 @@ use crate::ui;
 use crate::ui::prelude::*;
 
 pub fn show() {
-    let dialog = ui::builder::DialogAbout::new().dialog();
-    dialog.set_transient_for(Some(&main_ui().window()));
+    let dialog = adw::AboutWindow::from_appdata(
+        &format!("{}/metainfo.xml", crate::DBUS_API_PATH),
+        Some(env!("CARGO_PKG_VERSION")),
+    );
 
-    dialog.set_application_icon(crate::APP_ID);
+    dialog.set_modal(true);
+    dialog.set_transient_for(Some(&main_ui().window()));
 
     /*
     Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," \
@@ -18,9 +21,6 @@ pub fn show() {
     */
     dialog.set_application_name(&gettext("Pika Backup"));
 
-    dialog.set_version(env!("CARGO_PKG_VERSION"));
-    dialog.set_website(env!("CARGO_PKG_HOMEPAGE"));
-    dialog.set_issue_url("https://gitlab.gnome.org/World/pika-backup/-/issues");
     dialog.add_link(
         &gettext("Support us on Open Collective"),
         "https://opencollective.com/pika-backup",
@@ -30,7 +30,6 @@ pub fn show() {
         "https://github.com/sponsors/pika-backup/",
     );
 
-    dialog.set_developer_name(&gettext("Small Mammal Collective"));
     dialog.set_developers(&[
         &gettext("Sophie Herold <sophieherold@gnome.org>"),
         &gettext("Fina Wilke <finaw@gnome.org>"),
