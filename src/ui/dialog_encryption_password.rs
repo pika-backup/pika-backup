@@ -8,11 +8,20 @@ use crate::ui::prelude::*;
 pub struct Ask {
     repo: config::Repository,
     purpose: String,
+    keyring_error: Option<String>,
 }
 
 impl Ask {
-    pub const fn new(repo: config::Repository, purpose: String) -> Self {
-        Self { repo, purpose }
+    pub const fn new(
+        repo: config::Repository,
+        purpose: String,
+        keyring_error: Option<String>,
+    ) -> Self {
+        Self {
+            repo,
+            purpose,
+            keyring_error,
+        }
     }
 
     pub async fn run(&self) -> Option<config::Password> {
@@ -20,10 +29,16 @@ impl Ask {
 
         ui.dialog().set_transient_for(Some(&main_ui().window()));
 
-        ui.dialog().set_body(&gettextf(
+        let mut body = gettextf(
             "The operation “{}” requires the encryption password of the repository on “{}”.",
             &[&self.purpose, &self.repo.location()],
-        ));
+        );
+
+        if let Some(keyring_error) = &self.keyring_error {
+            body.push_str(&format!("\n\n{}", keyring_error));
+        }
+
+        ui.dialog().set_body(&body);
 
         ui.password().grab_focus();
 

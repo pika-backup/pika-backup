@@ -27,6 +27,10 @@ pub static LIB_USER: OnceCell<LibUser> = OnceCell::new();
 pub static APP_IS_SANDBOXED: Lazy<bool> =
     Lazy::new(|| async_std::task::block_on(ashpd::is_sandboxed()));
 
+pub static MEMORY_PASSWORD_STORE: Lazy<
+    std::sync::Arc<crate::utils::password::MemoryPasswordStore>,
+> = Lazy::new(Default::default);
+
 pub fn backup_config() -> std::sync::Arc<dyn LookupConfigId<Item = config::Backup>> {
     if matches!(LIB_USER.get(), Some(&LibUser::Daemon)) {
         Lazy::force(&crate::daemon::BACKUP_CONFIG).load().clone()

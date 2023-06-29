@@ -1,4 +1,5 @@
 pub mod host;
+pub mod password;
 pub mod upower;
 
 use crate::config;

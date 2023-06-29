@@ -122,10 +122,23 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
         let result = spawn_borg_thread(T::name(), command.clone(), |x| x.run()).await;
 
         return match result {
-            Err(Combined::Borg(borg::Error::PasswordMissing))
+            Err(Combined::Borg(borg::Error::PasswordMissing { .. }))
             | Err(Combined::Borg(borg::Error::Failed(borg::Failure::PassphraseWrong))) => {
-                if let Some(password) =
-                    crate::ui::utils::password_storage::password(command.repo(), T::name()).await
+                let keyring_error =
+                    if let Err(Combined::Borg(borg::Error::PasswordMissing { keyring_error })) =
+                        result
+                    {
+                        keyring_error
+                    } else {
+                        None
+                    };
+
+                if let Some(password) = crate::ui::utils::password_storage::password_dialog(
+                    command.repo(),
+                    T::name(),
+                    keyring_error,
+                )
+                .await
                 {
                     command.set_password(password);
                     password_changed = true;
@@ -144,7 +157,11 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
                             crate::ui::utils::password_storage::store_password(config, password)
                                 .await
                         {
-                            err.show().await;
+                            warn!("Error using keyring, using in-memory password store. Keyring error: '{err:?}'");
+
+                            // Use the in-memory password store instead
+                            crate::globals::MEMORY_PASSWORD_STORE
+                                .set_password(config, password.clone());
                         }
                     }
                 }

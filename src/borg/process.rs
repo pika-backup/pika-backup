@@ -155,21 +155,34 @@ impl BorgCall {
         } else if borg.is_encrypted() {
             debug!("Config says the backup is encrypted");
             if let Some(config) = borg.try_config() {
-                let password = config::Password::from(
-                    oo7::Keyring::new()
-                        .await?
-                        .search_items(HashMap::from([("repo-id", config.repo_id.as_str())]))
-                        .await?
-                        .first()
-                        .ok_or(Error::PasswordMissing)?
-                        .secret()
-                        .await?,
-                );
+                let password = match self.get_password_keyring(&config.repo_id).await {
+                    // keyring is available and has the password
+                    Ok(password) => password,
+                    // keyring is available but doesn't have the password
+                    Err(
+                        err @ Error::PasswordMissing {
+                            keyring_error: None,
+                        },
+                    ) => Err(err)?,
+                    // keyring unavailable
+                    Err(err) => {
+                        warn!("Error using keyring, using in-memory password store. Keyring error: '{err:?}'");
+
+                        // Use the in-memory password store
+                        crate::globals::MEMORY_PASSWORD_STORE
+                            .load_password(&config)
+                            .ok_or(Error::PasswordMissing {
+                                keyring_error: Some(err.to_string()),
+                            })?
+                    }
+                };
 
                 self.password = password;
             } else {
                 // TODO when is this happening?
-                return Err(Error::PasswordMissing);
+                return Err(Error::PasswordMissing {
+                    keyring_error: None,
+                });
             }
         } else {
             trace!("Config says no encryption. Writing empty password.");
@@ -177,6 +190,21 @@ impl BorgCall {
         }
 
         Ok(self)
+    }
+
+    async fn get_password_keyring(&self, repo_id: &super::RepoId) -> Result<config::Password> {
+        Ok(config::Password::from(
+            oo7::Keyring::new()
+                .await?
+                .search_items(HashMap::from([("repo-id", repo_id.as_str())]))
+                .await?
+                .first()
+                .ok_or(Error::PasswordMissing {
+                    keyring_error: None,
+                })?
+                .secret()
+                .await?,
+        ))
     }
 
     fn set_password(&mut self) -> Result<(String, String)> {

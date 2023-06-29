@@ -22,7 +22,7 @@ quick_error! {
         Json(err: serde_json::error::Error) { from () }
         Unix(err: nix::Error) { from() }
         BorgReturnCode(err: ReturnCodeError) { from() }
-        PasswordMissing { }
+        PasswordMissing { keyring_error: Option<String> }
         PasswordStorage(err: oo7::Error) {
             from()
             display("{}", gettext("Retrieving encryption password from the keyring failed. Pika Backup requires a keyring daemon (“secret service”) to store passwords. For installation instructions see the operating system documentation."))
