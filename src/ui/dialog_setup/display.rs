@@ -263,7 +263,10 @@ pub fn pending_check(ui: &DialogSetup) {
     ui.page_password_stack()
         .set_visible_child(&ui.page_password_pending());
     ui.page_password().set_can_pop(false);
-    ui.navigation_view().push(&ui.page_password());
+
+    if ui.navigation_view().visible_page() != Some(ui.page_password()) {
+        ui.navigation_view().push(&ui.page_password());
+    }
 }
 
 pub fn ask_password(ui: &DialogSetup) {
