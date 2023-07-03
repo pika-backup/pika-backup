@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-02-22 05:33+0000\n"
-"PO-Revision-Date: 2023-02-22 10:32+0100\n"
+"POT-Creation-Date: 2023-04-23 13:54+0000\n"
+"PO-Revision-Date: 2023-07-03 11:51+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -30,7 +30,7 @@ msgstr "Pika Backup-övervakare"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
+#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:336
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -46,9 +46,9 @@ msgstr "Håll dina data säkra"
 msgid "archive;back-up;borg;"
 msgstr "arkiv;säkerhetskopia;säkerhetskopiering;borg;"
 
-#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:25
-msgid "Sophie Herold"
-msgstr "Sophie Herold"
+#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:33
+msgid "Small Mammal Collective"
+msgstr "Small Mammal Collective"
 
 #: data/app.metainfo.xml.in:21
 msgid ""
@@ -112,7 +112,7 @@ msgstr "Bevara säkerhetskopior på lokala diskar och på nättjänster samtidig
 msgid "General"
 msgstr "Allmänt"
 
-#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+#: data/resources/gtk/help-overlay.ui:13
 msgid "Set up new backup"
 msgstr "Konfigurera ny säkerhetskopia"
 
@@ -120,11 +120,11 @@ msgstr "Konfigurera ny säkerhetskopia"
 msgid "Show keyboard shortcuts"
 msgstr "Visa tangentbordsgenvägar"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:200
 msgid "Quit"
 msgstr "Avsluta"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:31 src/ui/app_window.ui:184
 msgid "Back"
 msgstr "Tillbaka"
 
@@ -132,219 +132,298 @@ msgstr "Tillbaka"
 msgid "Open menu"
 msgstr "Öppna meny"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:256
+#: src/borg/error.rs:28
+msgid ""
+"Retrieving encryption password from the keyring failed. Pika Backup requires "
+"a keyring daemon (“secret service”) to store passwords. For installation "
+"instructions see the operating system documentation."
+msgstr ""
+"Erhållande av krypteringslösenord från nyckelringen misslyckades. Pika "
+"Backup kräver en nyckelringsdemon (”secret service”) för att lagra lösenord. "
+"Se operativsystemets dokumentation för installationsinstruktioner."
+
+#: src/borg/error.rs:30 src/ui/utils.rs:256
 msgid "The operation terminated unexpectedly."
 msgstr "Åtgärden avbröts oväntat."
 
-#: src/borg/error.rs:28
+#: src/borg/error.rs:31
 msgid "This delete operation would delete too many archives."
 msgstr "Denna raderingsåtgärd skulle radera för många arkiv."
 
-#: src/borg/error.rs:29
+#: src/borg/error.rs:32
 msgid "No files selected to be included into backup."
 msgstr "Inga filer valda att inkluderas i säkerhetskopia."
 
-#: src/borg/error.rs:94
+#: src/borg/error.rs:81
+msgid "Timeout"
+msgstr "Tiden gick ut"
+
+#: src/borg/error.rs:124
 msgid "Completed"
 msgstr "Färdig"
 
-#: src/borg/error.rs:117
+#: src/borg/error.rs:147
 msgid "Aborted on user request."
 msgstr "Avbröts på användarens begäran."
 
-#: src/borg/error.rs:121
+#: src/borg/error.rs:151
 msgid "Aborted because only metered connection was available."
 msgstr "Avbröts då bara anslutning med datakvot fanns tillgänglig."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:127
+#: src/borg/error.rs:157
 msgid "Aborted because too long not connected to power."
 msgstr "Avbröts på grund av för lång tid utan anslutning till nätspänning."
 
-#: src/borg/error.rs:129
+#: src/borg/error.rs:159
 msgid "Aborted by system."
 msgstr "Avbröts av systemet."
 
-#: src/borg/error.rs:133
+#: src/borg/error.rs:163
 msgid "The program or system seems to have crashed."
 msgstr "Programmet eller systemet verkar ha kraschat."
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:210
 msgid "Connection closed by remote host."
 msgstr "Anslutning stängdes av fjärrvärd."
 
-#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:150
 msgid "Repository already in use."
 msgstr "Lagringsplats används redan."
 
-#: src/borg/error.rs:180
+#: src/borg/error.rs:213
 msgid "Failed to lock repository."
 msgstr "Misslyckades med att låsa lagringsplatsen."
 
-#: src/borg/error.rs:181
+#: src/borg/error.rs:214
 msgid "Invalid encryption password."
 msgstr "Ogiltigt krypteringslösenord."
 
-#: src/borg/error.rs:183
+#: src/borg/error.rs:215
+msgid "Repository access was aborted"
+msgstr "Åtkomst till lagringsplats avbröts"
+
+#: src/borg/error.rs:217
 msgid "A repository already exists at this location."
 msgstr "En lagringsplats finns redan på denna plats."
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:219
 msgid "No repository exists at this location."
 msgstr "Ingen lagringsplats finns på denna plats."
 
-#: src/borg/error.rs:187
+#: src/borg/error.rs:221
 msgid "Not enough free space in repository."
 msgstr "För lite ledigt utrymme på lagringsplatsen."
 
-#: src/borg/error.rs:190
+#: src/borg/error.rs:224
 msgid "Connection closed by remote host: “{}”"
 msgstr "Anslutning stängdes av fjärrvärd: ”{}”"
 
-#: src/borg/error.rs:193
+#: src/borg/error.rs:226
+msgid "Exception"
+msgstr "Undantag"
+
+#: src/borg/error.rs:228
 msgid "Unspecified error."
 msgstr "Ospecificerat fel."
 
-#: src/borg/log_json.rs:69
+#: src/borg/log_json.rs:51
+msgid "Backup will be aborted."
+msgstr "Säkerhetskopiering kommer avbrytas."
+
+#: src/borg/log_json.rs:54
+msgid "Backup will continue."
+msgstr "Säkerhetskopiering kommer fortsätta."
+
+#: src/borg/log_json.rs:82
 msgid "Backed up data: {}"
 msgstr "Säkerhetskopierade data: {}"
 
-#: src/borg/log_json.rs:99
+#: src/borg/log_json.rs:112
 #, no-c-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Åtgärd {} % slutförd ({}/{})"
 
-#: src/borg/log_json.rs:108
+#: src/borg/log_json.rs:121
 msgid "Operation completed."
 msgstr "Åtgärden slutförd."
 
-#: src/borg/log_json.rs:180
+#: src/borg/log_json.rs:193
 msgid "Beginning cache transaction"
 msgstr "Påbörjar cachetransaktion"
 
-#: src/borg/log_json.rs:181
+#: src/borg/log_json.rs:194
 msgid "Downloading cache data"
 msgstr "Hämtar cachedata"
 
-#: src/borg/log_json.rs:182
+#: src/borg/log_json.rs:195
 msgid "Writing cache"
 msgstr "Skriver cache"
 
-#: src/borg/log_json.rs:183
+#: src/borg/log_json.rs:196
 msgid "Synchronizing cache"
 msgstr "Synkroniserar cache"
 
-#: src/borg/log_json.rs:184
+#: src/borg/log_json.rs:197
 msgid "Compacting repository"
 msgstr "Pressar ihop lagringsplats"
 
-#: src/borg/log_json.rs:185
+#: src/borg/log_json.rs:198
 msgid "Updating repository"
 msgstr "Uppdaterar lagringsplats"
 
-#: src/borg/log_json.rs:186
+#: src/borg/log_json.rs:199
 msgid "Checking repository"
 msgstr "Kontrollerar lagringsplats"
 
-#: src/borg/log_json.rs:187
+#: src/borg/log_json.rs:200
 msgid "Verifying data"
 msgstr "Verifierar data"
 
-#: src/borg/log_json.rs:188
+#: src/borg/log_json.rs:201
 msgid "Rebuilding main database"
 msgstr "Bygger om huvuddatabas"
 
-#: src/borg/log_json.rs:189
+#: src/borg/log_json.rs:202
 msgid "Extracting data"
 msgstr "Extraherar data"
 
-#: src/borg/log_json.rs:190
+#: src/borg/log_json.rs:203
 msgid "Extracting permissions"
 msgstr "Extraherar rättigheter"
 
-#: src/borg/log_json.rs:191
+#: src/borg/log_json.rs:204
 msgid "Marking archives as deleted"
 msgstr "Markerar arkiv som borttagna"
 
-#: src/borg/log_json.rs:192
+#: src/borg/log_json.rs:205
 msgid "Calculating archive statistics"
 msgstr "Beräknar arkivstatistik"
 
-#: src/borg/log_json.rs:193
+#: src/borg/log_json.rs:206
 msgid "Marking old archives as deleted"
 msgstr "Markerar gamla arkiv som borttagna"
 
-#: src/borg/log_json.rs:194
+#: src/borg/log_json.rs:207
 msgid "Upgrading repository"
 msgstr "Uppgraderar lagringsplats"
 
-#: src/borg/log_json.rs:195
+#: src/borg/log_json.rs:208
 msgid "Unspecified operation"
 msgstr "Ospecificerad åtgärd"
 
-#: src/borg/log_json.rs:196
+#: src/borg/log_json.rs:209
 msgid "Unknown operation"
 msgstr "Okänd åtgärd"
 
-#: src/borg/log_json.rs:233
+#: src/borg/log_json.rs:226
+msgid "Handling a Question"
+msgstr "Hantera en fråga"
+
+#: src/borg/log_json.rs:234
+msgid "Attempting to access a previously unknown unencrypted repository."
+msgstr "Försöker komma åt en tidigare okänd okrypterad lagringsplats."
+
+#: src/borg/log_json.rs:250
+msgid "The backup repository at location “{}” was previously located at “{}”."
+msgstr "Säkerhetskopieringsförrådet på ”{}” fanns tidigare på ”{}”."
+
+#: src/borg/log_json.rs:254
+msgid "The backup repository was previously located at a different location."
+msgstr "Säkerhetskopieringsförrådet fanns tidigare på en annan plats."
+
+#: src/borg/log_json.rs:257
+msgid ""
+"This is a potentially dangerous function. Repairing a repository might lead "
+"to data loss (for kinds of corruption it is not capable of dealing with). BE "
+"VERY CAREFUL!"
+msgstr ""
+"Detta är en potentiellt farlig åtgärd. Att reparera en lagringsplats kan "
+"leda till dataförlust (för typer av trasighet som den inte kan hantera). VAR "
+"MYCKET FÖRSIKTIG!"
+
+#: src/borg/log_json.rs:258
+msgid ""
+"You requested to delete the repository completely, including all backup "
+"archives it contains."
+msgstr ""
+"Du begärde att ta bort lagringsplatsen helt, inklusive alla arkiv av "
+"säkerhetskopior som den innehåller."
+
+#: src/borg/log_json.rs:259
+msgid "Unexpected question from borgbackup: “{}”"
+msgstr "Oväntad fråga från borgbackup: ”{}”"
+
+#. Translators: Combines statement from above and this question
+#: src/borg/log_json.rs:263
+msgid ""
+"{}\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"{}\n"
+"\n"
+"Vill du fortsätta?"
+
+#: src/borg/log_json.rs:321
 msgid "Standard error output"
 msgstr "Utmatning på standard fel"
 
-#: src/borg/log_json.rs:352
+#: src/borg/log_json.rs:440
 msgid "Debug"
 msgstr "Felsök"
 
-#: src/borg/log_json.rs:353
+#: src/borg/log_json.rs:441
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:229
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:351
 msgid "Warning"
 msgstr "Varning"
 
-#: src/borg/log_json.rs:355
+#: src/borg/log_json.rs:443
 msgid "Error"
 msgstr "Fel"
 
-#: src/borg/log_json.rs:356
+#: src/borg/log_json.rs:444
 msgid "Critical"
 msgstr "Kritisk"
 
-#: src/borg/log_json.rs:357
+#: src/borg/log_json.rs:445
 msgid "Undefined"
 msgstr "Odefinierad"
 
-#: src/borg/task.rs:19
+#: src/borg/task.rs:34
 msgid "Backing up Data"
 msgstr "Säkerhetskopierar data"
 
-#: src/borg/task.rs:31
+#: src/borg/task.rs:48
 msgid "Mounting Backup Archives"
 msgstr "Monterar säkerhetskopieringsarkiv"
 
-#: src/borg/task.rs:43
+#: src/borg/task.rs:62
 msgid "Removing old Archives"
 msgstr "Tar bort gamla arkiv"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:76
 msgid "Identifying old Archives"
 msgstr "Identifierar gamla arkiv"
 
-#: src/borg/task.rs:67
+#: src/borg/task.rs:90
 msgid "Reclaiming Free Space"
-msgstr "Återta ledigt utrymme"
+msgstr "Återtar ledigt utrymme"
 
-#: src/borg/task.rs:92
+#: src/borg/task.rs:117
 msgid "Deleting Archive"
 msgstr "Tar bort arkiv"
 
-#: src/borg/task.rs:113
+#: src/borg/task.rs:140
 msgid "Refreshing Archive List"
 msgstr "Uppdaterar arkivlistan"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:87
+#: src/ui/page_backup/events.rs:167
 msgid "Home"
 msgstr "Hem"
 
@@ -445,15 +524,27 @@ msgstr "Varje vecka"
 msgid "Monthly"
 msgstr "Varje månad"
 
-#: src/daemon/action.rs:25
+#: src/daemon/action.rs:23 src/daemon/init.rs:38
+msgid "Monitoring Backup Schedule"
+msgstr "Övervakar säkerhetskopieringsschema"
+
+#: src/daemon/action.rs:24
+msgid ""
+"To quit monitoring the backup schedule, open Pika Backup and disable all "
+"scheduled backups."
+msgstr ""
+"För att sluta övervaka säkerhetskopieringsschemat öppnar du Pika Backup och "
+"inaktiverar alla schemalagda säkerhetskopior."
+
+#: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
 msgstr "Misslyckades med att starta säkerhetskopia från demon"
 
-#: src/daemon/action.rs:46
+#: src/daemon/action.rs:66
 msgid "Failed to show overview from daemon"
 msgstr "Misslyckades med att visa översikt från demon"
 
-#: src/daemon/action.rs:65
+#: src/daemon/action.rs:85
 msgid "Failed to show schedule from daemon"
 msgstr "Misslyckades med att visa schema från demon"
 
@@ -477,11 +568,11 @@ msgstr "”{}” innehåller en konfigurerad säkerhetskopia."
 msgid "Back Up Now"
 msgstr "Säkerhetskopiera nu"
 
-#: src/daemon/init.rs:48
+#: src/daemon/init.rs:69
 msgid "Fatal Error During Back Up"
 msgstr "Ödesdigert fel under säkerhetskopiering"
 
-#: src/daemon/init.rs:51
+#: src/daemon/init.rs:72
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika Backup kraschade under körning av en säkerhetskopia."
@@ -516,31 +607,45 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Misslyckades med att starta schemalagd säkerhetskopia"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:17
+#: src/ui.rs:174
 msgid "Abort running backup creation?"
 msgstr "Avbryt skapande av säkerhetskopia?"
 
-#: src/ui.rs:179 src/ui/page_backup/events.rs:18
+#: src/ui.rs:175
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Säkerhetskopian förblir ofullständig om den avbryts nu."
 
-#: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:19
+#: src/ui.rs:176 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:28
+#: src/ui/page_backup/events.rs:36 src/ui/page_backup/events.rs:47
+#: src/ui/page_backup/events.rs:55 src/ui/page_backup/events.rs:65
+#: src/ui/utils.rs:354
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:20
+#: src/ui.rs:177 src/ui/page_backup/events.rs:29
+#: src/ui/page_backup/events.rs:48 src/ui/page_backup/events.rs:66
+#: src/ui/utils.rs:353
 msgid "Abort"
 msgstr "Avbryt"
 
-#: src/ui.rs:200
+#. Someone wants to quit the app from the shell (eg via backgrounds app list)
+#: src/ui.rs:185
+msgid "A Backup Operation is Running"
+msgstr "En säkerhetskopieringsåtgärd pågår"
+
+#: src/ui.rs:187
+msgid "Pika Backup cannot be quit during a backup operation."
+msgstr "Pika Backup kan inte avslutas under en säkerhetskopieringsåtgärd."
+
+#: src/ui.rs:211
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Misslyckades med att köra ”borg”. Är BorgBackup installerat korrekt?"
 
-#: src/ui.rs:224
+#: src/ui.rs:235
 msgid "BorgBackup version too old"
 msgstr "BorgBackup-version för gammal"
 
-#: src/ui.rs:226
+#: src/ui.rs:237
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -548,11 +653,11 @@ msgstr ""
 "Den installerade versionen {} av BorgBackup är för gammal. Vissa funktioner "
 "som kräver version {}.{}.{} av borg-backup kommer inte att fungera."
 
-#: src/ui.rs:237
+#: src/ui.rs:248
 msgid "BorgBackup version too new"
 msgstr "BorgBackup-version för ny"
 
-#: src/ui.rs:239
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -560,11 +665,11 @@ msgstr ""
 "Den installerade versionen {} av BorgBackup är för ny. Vissa funktioner som "
 "kräver version {}.{}.{} av borg-backup kommer inte att fungera."
 
-#: src/ui.rs:249
+#: src/ui.rs:260
 msgid "Failed to Check BorgBackup Version"
 msgstr "Misslyckades med att kontrollera BorgBackup-version"
 
-#: src/ui.rs:251
+#: src/ui.rs:262
 msgid "The installed version {} might not work."
 msgstr "Den installerade versionen {} kommer kanske inte att fungera."
 
@@ -588,23 +693,27 @@ msgstr "Ta bort säkerhetskopieringskonfiguration"
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:142
-msgid "No Backup Configured"
-msgstr "Ingen säkerhetskopia konfigurerad"
-
-#: src/ui/app_window.ui:143
-msgid "Add a new configuration to start creating backups"
-msgstr "Lägg till ny konfiguration för att börja skapa säkerhetskopior"
-
-#: src/ui/app_window.ui:146
+#: src/ui/app_window.ui:106
 msgid "Setup Backup"
 msgstr "Konfigurera säkerhetskopia"
 
-#: src/ui/app_window.ui:192
-msgid "Back to overview"
-msgstr "Tillbaka till översikt"
+#: src/ui/app_window.ui:113
+msgid "Main Menu"
+msgstr "Huvudmeny"
 
-#: src/ui/app_window.ui:213
+#: src/ui/app_window.ui:133
+msgid "No Backup Configured"
+msgstr "Ingen säkerhetskopia konfigurerad"
+
+#: src/ui/app_window.ui:134
+msgid "Add a new configuration to start creating backups"
+msgstr "Lägg till ny konfiguration för att börja skapa säkerhetskopior"
+
+#: src/ui/app_window.ui:137
+msgid "_Setup Backup"
+msgstr "_Konfigurera säkerhetskopia"
+
+#: src/ui/app_window.ui:205
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -612,180 +721,192 @@ msgstr ""
 "Arkiv monteras.\n"
 "Detta kan ta en stund."
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:219
+msgid "Actions"
+msgstr "Åtgärder"
+
+#: src/ui/app_window.ui:245
 msgid "_Backup"
 msgstr "Sä_kerhetskopiera"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:267
 msgid "_Abort"
 msgstr "_Avbryt"
 
-#: src/ui/app_window.ui:296
+#: src/ui/app_window.ui:289
 msgid "Back Up _Now"
 msgstr "Säkerhetskopiera _nu"
 
-#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:303 src/ui/dialog_setup_transfer_option.ui:87
 msgid "Files to Back Up"
 msgstr "Filer att säkerhetskopiera"
 
-#: src/ui/app_window.ui:311
+#: src/ui/app_window.ui:304
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "Endast filer i följande mappar sparas i säkerhetskopieringsförrådet."
 
-#: src/ui/app_window.ui:314
-msgid "Select directory to include…"
-msgstr "Välj katalog att inkludera…"
+#: src/ui/app_window.ui:307
+msgid "Select Directory to Include"
+msgstr "Välj katalog att inkludera"
 
-#: src/ui/app_window.ui:327
+#: src/ui/app_window.ui:320
 msgid "No files included in backup"
 msgstr "Inga filer inkluderade i säkerhetskopia"
 
-#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
+#: src/ui/app_window.ui:332 src/ui/dialog_exclude.ui:4
 #: src/ui/dialog_setup_transfer_option.ui:111
 msgid "Exclude from Backup"
 msgstr "Undanta från säkerhetskopiering"
 
-#: src/ui/app_window.ui:340
+#: src/ui/app_window.ui:333
 msgid "The following folders are excluded from the backup repository."
 msgstr "Följande mappar undantas från säkerhetskopieringsförrådet."
 
-#: src/ui/app_window.ui:343
-msgid "Select directory to exclude…"
-msgstr "Välj katalog att undanta…"
+#: src/ui/app_window.ui:336
+msgid "Select Directory to Exclude"
+msgstr "Välj katalog att undanta"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:349
 msgid "Nothing excluded from backup"
 msgstr "Inget undantaget från säkerhetskopiering"
 
-#: src/ui/app_window.ui:370
+#: src/ui/app_window.ui:363
 msgid "_Archives"
 msgstr "_Arkiv"
 
-#: src/ui/app_window.ui:465
+#: src/ui/app_window.ui:458
 msgid "Archive _Prefix"
 msgstr "Arkiv_prefix"
 
-#: src/ui/app_window.ui:467
+#: src/ui/app_window.ui:460
 msgid "Added in front of all archive names"
 msgstr "Läggs till i början av alla arkivnamn"
 
-#: src/ui/app_window.ui:496
+#: src/ui/app_window.ui:489
 msgid "_Cleanup Archives"
 msgstr "_Rensa arkiv"
 
-#: src/ui/app_window.ui:497
+#: src/ui/app_window.ui:490
 msgid "Delete some older archives"
 msgstr "Ta bort några äldre arkiv"
 
-#: src/ui/app_window.ui:513
+#: src/ui/app_window.ui:506
 msgid "Archives"
 msgstr "Arkiv"
 
-#: src/ui/app_window.ui:522
-msgid "Refresh list of archives"
-msgstr "Uppdatera arkivlistan"
+#: src/ui/app_window.ui:515
+msgid "Refresh"
+msgstr "Uppdatera"
 
-#: src/ui/app_window.ui:543
+#: src/ui/app_window.ui:536
 msgid "Stop browsing archive files"
 msgstr "Sluta bläddra i arkivfiler"
 
-#: src/ui/app_window.ui:569
+#: src/ui/app_window.ui:562
 msgid "No archives available"
 msgstr "Inga arkiv tillgängliga"
 
-#: src/ui/app_window.ui:588
+#: src/ui/app_window.ui:581
 msgid "_Schedule"
 msgstr "_Schemalägg"
 
-#: src/ui/app_window.ui:613
+#: src/ui/app_window.ui:606
 msgid "Scheduled Backups"
 msgstr "Schemalagda säkerhetskopior"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:610
 msgid "Regularly Create Backups"
 msgstr "Skapa regelbundet säkerhetskopior"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:615
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/ui/app_window.ui:630
+#: src/ui/app_window.ui:623
 msgid "Preferred Time"
 msgstr "Föredragen tid"
 
-#: src/ui/app_window.ui:650
+#: src/ui/app_window.ui:643
 msgid "Preferred Weekday"
 msgstr "Föredragen veckodag"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:648
 msgid "Preferred Day"
 msgstr "Föredragen dag"
 
-#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:88
 msgid "Delete old Archives"
 msgstr "Ta bort gamla arkiv"
 
-#: src/ui/app_window.ui:682
+#: src/ui/app_window.ui:675
 msgid "Save Configuration"
 msgstr "Spara konfiguration"
 
-#: src/ui/app_window.ui:694
+#: src/ui/app_window.ui:687
 msgid "Regularly Cleanup Archives"
 msgstr "Rensa regelbundet arkiv"
 
-#: src/ui/app_window.ui:695
+#: src/ui/app_window.ui:688
 msgid "Remove old archives after creating new backups"
 msgstr "Ta bort gamla arkiv efter att ha skapat nya säkerhetskopior"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:698
 msgid "Preserved Archives"
 msgstr "Bevarade arkiv"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:699
 msgid "Amount and time span of retained archives"
 msgstr "Mängd och tidsomfattning för bevarade arkiv"
 
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:708
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:712
 msgid "Keep Hourly"
 msgstr "Behåll varje timme"
 
-#: src/ui/app_window.ui:741
+#: src/ui/app_window.ui:734
 msgid "Keep Daily"
 msgstr "Behåll varje dag"
 
-#: src/ui/app_window.ui:763
+#: src/ui/app_window.ui:756
 msgid "Keep Weekly"
 msgstr "Behåll varje vecka"
 
-#: src/ui/app_window.ui:783
+#: src/ui/app_window.ui:776
 msgid "Keep Monthly"
 msgstr "Behåll varje månad"
 
-#: src/ui/app_window.ui:802
+#: src/ui/app_window.ui:795
 msgid "Keep Annual"
 msgstr "Behåll varje år"
 
-#: src/ui/app_window.ui:849
+#: src/ui/app_window.ui:842
 msgid "Backup Info"
 msgstr "Säkerhetskopieringsinfo"
 
-#: src/ui/app_window.ui:909
+#: src/ui/app_window.ui:902
 msgid "Amount saved"
 msgstr "Mängd sparat"
 
-#: src/ui/app_window.ui:925
+#: src/ui/app_window.ui:903
+msgid "Size of all files"
+msgstr "Storlek på alla filer"
+
+#: src/ui/app_window.ui:919
 msgid "Number of files saved"
 msgstr "Antal filer sparade"
 
-#: src/ui/app_window.ui:941
-msgid "Additional backup space used"
-msgstr "Ytterligare säkerhetskopieringsutrymme som används"
+#: src/ui/app_window.ui:935
+msgid "Backup space used"
+msgstr "Använt säkerhetskopieringsutrymme"
 
-#: src/ui/app_window.ui:957
+#: src/ui/app_window.ui:936
+msgid "Newly used space in this backup"
+msgstr "Nytt använt utrymme i denna säkerhetskopia"
+
+#: src/ui/app_window.ui:952
 msgid "Current file"
 msgstr "Aktuell fil"
 
@@ -847,30 +968,38 @@ msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Misslyckades med att starta gränssnitt för schemalagda säkerhetskopior."
 
-#: src/ui/dialog_about.rs:27
+#: src/ui/dialog_about.rs:25
+msgid "Support us on Open Collective"
+msgstr "Stöd oss på Open Collective"
+
+#: src/ui/dialog_about.rs:29
+msgid "Support us on Github Sponsors"
+msgstr "Stöd oss på Github Sponsors"
+
+#: src/ui/dialog_about.rs:35
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:28
-msgid "Fina Wilke"
-msgstr "Fina Wilke"
+#: src/ui/dialog_about.rs:36
+msgid "Fina Wilke <code@felinira.net>"
+msgstr "Fina Wilke <code@felinira.net>"
 
-#: src/ui/dialog_about.rs:30
+#: src/ui/dialog_about.rs:38
 msgid "Copyright © 2018–2023 Sophie Herold et al."
 msgstr "Copyright © 2018–2023 Sophie Herold med flera"
 
-#: src/ui/dialog_about.rs:31
+#: src/ui/dialog_about.rs:39
 msgid "translator-credits"
 msgstr ""
 "Åke Engelbrektson <eson@svenskasprakfiler.se>\n"
 "Luna Jernberg <droidbittin@gmail.com>\n"
 "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 
-#: src/ui/dialog_about.rs:35
+#: src/ui/dialog_about.rs:43
 msgid "Back End"
 msgstr "Bakände"
 
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:45
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -880,11 +1009,11 @@ msgstr ""
 "Överväg att <a href='https://www.borgbackup.org/support/fund.html'>stödja "
 "BorgBackup</a>."
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:47
 msgid "The Name"
 msgstr "Namnet"
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:49
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -904,7 +1033,7 @@ msgstr ""
 "Sist men inte minst så skapar pikan inte bara väldigt sofistikerade höbalar "
 "utan är också snabba på att samla in växtlighet."
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:51
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -922,11 +1051,11 @@ msgstr "Ogiltigt arkivprefix"
 msgid "Archive Prefix"
 msgstr "Arkivprefix"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
-#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
-#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:95
-#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:33
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:33
+#: src/ui/dialog_prune.ui:64 src/ui/dialog_prune_review.ui:33
+#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:175
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:154
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -960,11 +1089,15 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Om arkivprefixet är tomt läggs inget prefix till."
 
-#: src/ui/dialog_delete_archive.rs:75 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_delete_archive.rs:69
+msgid "Delete Archive Failed"
+msgstr "Borttagning av arkiv misslyckades"
+
+#: src/ui/dialog_delete_archive.ui:39
 msgid "Delete Archive"
 msgstr "Ta bort arkiv"
 
-#: src/ui/dialog_delete_archive.ui:41
+#: src/ui/dialog_delete_archive.ui:52
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -973,11 +1106,11 @@ msgstr ""
 "Sparade data för denna specifika tidpunkt kommer inte längre vara "
 "tillgängliga."
 
-#: src/ui/dialog_delete_archive.ui:51
+#: src/ui/dialog_delete_archive.ui:62
 msgid "Archive Name"
 msgstr "Arkivnamn"
 
-#: src/ui/dialog_delete_archive.ui:64
+#: src/ui/dialog_delete_archive.ui:75
 msgid "Archive Date"
 msgstr "Arkivdatum"
 
@@ -1022,7 +1155,7 @@ msgid "Exclude Directory"
 msgstr "Exkludera katalog"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:264
+#: src/ui/page_backup/events.rs:87 src/ui/utils.rs:264
 msgid "Select"
 msgstr "Välj"
 
@@ -1075,29 +1208,33 @@ msgstr ""
 "<tt>*</tt> i slutet. Se <a href=\"https://borgbackup.readthedocs.io/en/"
 "stable/usage/help.html\">BorgBackup-dokumentationen</a> för detaljer."
 
-#: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
+#: src/ui/dialog_prune.rs:30 src/ui/dialog_prune_review.rs:42
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Misslyckades med att avgöra hur många arkiv som skulle raderas"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:359
+#: src/ui/dialog_prune.rs:49 src/ui/utils.rs:397
 msgid "Close"
 msgstr "Stäng"
 
+#: src/ui/dialog_prune.rs:98
+msgid "Reclaim Free Space"
+msgstr "Återta ledigt utrymme"
+
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:41
 msgid "Checking for old Archives"
 msgstr "Letar efter gamla arkiv"
 
-#: src/ui/dialog_prune.ui:31
+#: src/ui/dialog_prune.ui:42
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr "Skapar en lista över gamla arkiv som ska godkännas för borttagning."
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
-#: src/ui/dialog_prune_review.ui:82
+#: src/ui/dialog_prune.ui:70 src/ui/dialog_prune.ui:93
+#: src/ui/dialog_prune_review.ui:93
 msgid "Delete Archives"
 msgstr "Ta bort arkiv"
 
-#: src/ui/dialog_prune.ui:72
+#: src/ui/dialog_prune.ui:83
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -1107,15 +1244,15 @@ msgstr ""
 "arkiven. Sparade data för dessa specifika tidpunkter kommer inte längre vara "
 "tillgängliga."
 
-#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
+#: src/ui/dialog_prune.ui:106 src/ui/dialog_prune_review.ui:106
 msgid "Keep Archives"
 msgstr "Behåll arkiv"
 
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+#: src/ui/dialog_prune.ui:119 src/ui/dialog_prune_review.ui:119
 msgid "Not Considered"
 msgstr "Övervägs inte"
 
-#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+#: src/ui/dialog_prune.ui:120 src/ui/dialog_prune_review.ui:120
 msgid "Archives with different prefix"
 msgstr "Arkiv med annat prefix"
 
@@ -1123,19 +1260,19 @@ msgstr "Arkiv med annat prefix"
 msgid "Review Changes"
 msgstr "Granska ändringar"
 
-#: src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:41
 msgid "Assessing Impact on old Archives"
 msgstr "Beräknar inverkan på gamla arkiv"
 
-#: src/ui/dialog_prune_review.ui:31
+#: src/ui/dialog_prune_review.ui:42
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr "Samlar information om effekten av ändringarna på gamla arkiv"
 
-#: src/ui/dialog_prune_review.ui:59
+#: src/ui/dialog_prune_review.ui:70
 msgid "Apply"
 msgstr "Verkställ"
 
-#: src/ui/dialog_prune_review.ui:72
+#: src/ui/dialog_prune_review.ui:83
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
@@ -1386,31 +1523,31 @@ msgstr "Angivna lösenord stämmer inte överens."
 msgid "A repository location has to be given."
 msgstr "En lagringsplats måste anges."
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:254
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:258
 msgid "Additional command line arguments invalid."
 msgstr "Ytterligare kommandoradsargument är ogiltiga."
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:255
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
 msgid "Please check for missing closing quotes."
 msgstr "Kontrollera eventuellt saknade avslutande citattecken."
 
-#: src/ui/dialog_setup/insert.rs:182
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "Läser in säkerhetskopieringsförråd"
 
-#: src/ui/dialog_setup/insert.rs:202
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "Misslyckades med att konfigurera lagringsplats"
 
-#: src/ui/dialog_setup/insert.rs:221
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "Misslyckades"
 
-#: src/ui/dialog_setup/insert.rs:291
+#: src/ui/dialog_setup/insert.rs:295
 msgid "Repository location not found."
 msgstr "Lagringsplats hittades inte."
 
-#: src/ui/dialog_setup/insert.rs:292
+#: src/ui/dialog_setup/insert.rs:296
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "En monteringsåtgärd lyckades men platsen är fortfarande otillgänglig."
 
@@ -1454,15 +1591,25 @@ msgstr "Totalt"
 msgid "Free"
 msgstr "Ledigt"
 
-#: src/ui/error.rs:72
+#: src/ui/error.rs:74
+msgid ""
+"The keyring is not available. Pika Backup requires a keyring daemon (“secret "
+"service”) to store passwords. For installation instructions see the "
+"operating system documentation."
+msgstr ""
+"Nyckelringen är inte tillgänglig. Pika Backup kräver en nyckelringsdemon "
+"(”secret service”) för att lagra lösenord. Se operativsystemets "
+"dokumentation för installationsinstruktioner."
+
+#: src/ui/error.rs:88
 msgid "Backup with id “{}” already exists."
 msgstr "Säkerhetskopiering med id ”{}” finns redan."
 
-#: src/ui/error.rs:77
+#: src/ui/error.rs:93
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Kunde inte hitta säkerhetskopieringskonfiguration med id ”{}”."
 
-#: src/ui/page_archives/cache.rs:34
+#: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "Misslyckades med att uppdatera arkivcache."
 
@@ -1498,11 +1645,11 @@ msgstr "{} tillgängligt"
 msgid "{} Total"
 msgstr "{} totalt"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:29
 msgid "Failed to unmount repository."
 msgstr "Misslyckades med att avmontera lagringsplatsen."
 
-#: src/ui/page_archives/events.rs:61
+#: src/ui/page_archives/events.rs:65
 msgid "Failed to make archives available for browsing."
 msgstr "Misslyckades med att göra arkiv tillgängligt för bläddring."
 
@@ -1510,67 +1657,155 @@ msgstr "Misslyckades med att göra arkiv tillgängligt för bläddring."
 msgid "Usually contains all personal data"
 msgstr "Innehåller vanligen alla personliga data"
 
-#: src/ui/page_backup/events.rs:42
+#: src/ui/page_backup/display.rs:43
+msgid "Remove Directory"
+msgstr "Ta bort katalog"
+
+#: src/ui/page_backup/display.rs:99
+msgid "Remove From List"
+msgstr "Ta bort från lista"
+
+#: src/ui/page_backup/events.rs:26
+msgid "Abort Saving Backup State?"
+msgstr "Avbryt sparande av säkerhetskopieringstillstånd?"
+
+#: src/ui/page_backup/events.rs:27
+msgid ""
+"The current backup state is in the process of being saved. The backup can be "
+"continued later without saving the state. Some data might have to be copied "
+"again."
+msgstr ""
+"Aktuellt säkerhetskopieringstillstånd håller på att sparas. Säkerhetskopian "
+"kan fortsättas senare utan att spara tillståndet. Vissa data kan behöva "
+"kopieras igen."
+
+#: src/ui/page_backup/events.rs:34
+msgid "Stop Running Backup?"
+msgstr "Stoppa körande säkerhetskopiering?"
+
+#: src/ui/page_backup/events.rs:35
+msgid ""
+"The current backup state will be saved. You can continue your backup later "
+"by starting it again."
+msgstr ""
+"Aktuellt säkerhetskopieringstillstånd kommer att sparas. Du kan fortsätta "
+"din säkerhetskopiering senare genom att starta den igen."
+
+#: src/ui/page_backup/events.rs:37 src/ui/page_backup/events.rs:56
+msgid "Stop"
+msgstr "Stoppa"
+
+#: src/ui/page_backup/events.rs:45
+msgid "Abort Delete Operation?"
+msgstr "Avbryt borttagningsåtgärd?"
+
+#: src/ui/page_backup/events.rs:46
+msgid ""
+"Archives are currently being deleted. Aborting now will cause some deletion "
+"progress to be lost. Free space will not be reclaimed."
+msgstr ""
+"Arkiv håller på att tas bort. Att avbryta nu kommer få vissa framsteg i "
+"borttagningen att gå förlorade. Ledigt utrymme kommer inte återtas."
+
+#: src/ui/page_backup/events.rs:53
+msgid "Stop Deleting Archives?"
+msgstr "Sluta ta bort arkiv?"
+
+#: src/ui/page_backup/events.rs:54
+msgid ""
+"Deletion progress will be saved. Free space will not be reclaimed. You can "
+"continue deletion at a later time by starting the operation again."
+msgstr ""
+"Borttagningsframsteg kommer att sparas. Ledigt utrymme kommer inte återtas. "
+"Du kan fortsätta din borttagning senare genom att starta åtgärden igen."
+
+#: src/ui/page_backup/events.rs:63
+msgid "Abort Operation?"
+msgstr "Avbryt åtgärd?"
+
+#: src/ui/page_backup/events.rs:64
+msgid ""
+"An operation is currently being performed. Aborting now will cause any "
+"progress made by the operation to be lost."
+msgstr ""
+"En åtgärd håller på att utföras. Att avbryta nu kommer få alla framsteg som "
+"gjorts av åtgärden att gå förlorade."
+
+#: src/ui/page_backup/events.rs:86
 msgid "Include Folder"
 msgstr "Inkludera mapp"
 
-#: src/ui/page_backup/events.rs:93
+#: src/ui/page_backup/events.rs:116
+msgid "Unable to Include Location"
+msgstr "Kunde inte inkludera plats"
+
+#: src/ui/page_backup/events.rs:117
+msgid ""
+"The following paths could not be included because they aren't reliably "
+"available in the sandbox:\n"
+"{}"
+msgstr ""
+"Följande sökvägar kunde inte inkluderas då de inte finns tillförlitligt "
+"tillgängliga i sandlådan:\n"
+"{}"
+
+#: src/ui/page_backup/events.rs:173
 msgid "No longer include “{}” in backups?"
 msgstr "Inkludera inte längre ”{}” i säkerhetskopior?"
 
-#: src/ui/page_backup/events.rs:94
+#: src/ui/page_backup/events.rs:174
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Alla filer som ingår i den här mappen kommer inte längre att ingå i framtida "
 "säkerhetskopior."
 
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:176
 msgid "Confirm"
 msgstr "Bekräfta"
 
-#: src/ui/page_backup/execution.rs:35
+#: src/ui/page_backup/execution.rs:20
 msgid "Stop browsing files and start backup?"
 msgstr "Sluta bläddra bland filer och starta säkerhetskopiering?"
 
-#: src/ui/page_backup/execution.rs:36
+#: src/ui/page_backup/execution.rs:21
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Det går inte att bläddra bland arkiverade filer när du kör en säkerhetskopia."
 
-#: src/ui/page_backup/execution.rs:37
+#: src/ui/page_backup/execution.rs:22
 msgid "Keep Browsing"
 msgstr "Fortsätt bläddra"
 
-#: src/ui/page_backup/execution.rs:38
+#: src/ui/page_backup/execution.rs:23
 msgid "Start Backup"
 msgstr "Starta säkerhetskopiering"
 
-#: src/ui/page_backup/execution.rs:69
+#: src/ui/page_backup/execution.rs:55
 msgid "Delete old Archives Failed"
 msgstr "Ta bort gamla arkiv misslyckades"
 
-#: src/ui/page_backup/execution.rs:80
+#: src/ui/page_backup/execution.rs:66
 msgid "Reclaiming Free Space Failed"
 msgstr "Återta ledigt utrymme misslyckades"
 
-#: src/ui/page_backup/execution.rs:147
+#: src/ui/page_backup/execution.rs:134
 msgid "Backup Failed"
 msgstr "Säkerhetskopia misslyckades"
 
-#: src/ui/page_backup/execution.rs:169
+#: src/ui/page_backup/execution.rs:156
 msgid "Backup Completed with Warnings"
 msgstr "Säkerhetskopia slutförd med varningar"
 
-#: src/ui/page_overview.rs:49
+#: src/ui/page_overview.rs:50
 msgid "Remove Backup Setup?"
 msgstr "Ta bort säkerhetskopieringskonfiguration?"
 
-#: src/ui/page_overview.rs:50
+#: src/ui/page_overview.rs:51
 msgid "Removing the setup will not delete any archives."
 msgstr "Att ta bort konfigurationen kommer inte att radera några arkiv."
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:53
 msgid "Remove Setup"
 msgstr "Ta bort konfiguration"
 
@@ -1718,7 +1953,11 @@ msgstr "Bakgrundsprocessen inaktiv"
 msgid "This is required for scheduled backups"
 msgstr "Detta krävs för schemalagda säkerhetskopior"
 
-#: src/ui/status.rs:84
+#: src/ui/shell.rs:26
+msgid "Idle"
+msgstr "Inaktiv"
+
+#: src/ui/status.rs:86
 msgid "Unable to determine background process status"
 msgstr "Kunde inte avgöra status för bakgrundsprocess"
 
@@ -1754,13 +1993,17 @@ msgstr ""
 
 #: src/ui/utils.rs:139
 msgid ""
-"Either the system does not support this feature or an error occurred. "
-"Scheduled backup functionality and continuing backups in the background will "
-"not be available."
+"The system does not support running Pika Backup in the background. Scheduled "
+"backup functionality and continuing backups in the background will not be "
+"available. This is either a malfunction, misconfiguration or other issue "
+"with the xdg-desktop-portal. Please report this issue in your distribution "
+"issue tracker."
 msgstr ""
-"Antingen stöder inte systemet den här funktionen eller så har ett fel "
-"inträffat. Schemalagd säkerhetskopiering och fortsatta säkerhetskopior i "
-"bakgrunden kommer inte att vara tillgängliga."
+"Systemet stöder inte körning av Pika Backup i bakgrunden. Schemalagd "
+"säkerhetskopieringsfunktionalitet och att fortsätta säkerhetskopior i "
+"bakgrunden kommer inte vara tillgängligt. Detta är antingen ett fel, en "
+"felkonfiguration eller något annat problem med xdg-desktop-portal. "
+"Rapportera detta problem i din distributions ärendehanteringssystem."
 
 #: src/ui/utils.rs:161
 msgid "Failed to Start Monitor"
@@ -1769,22 +2012,22 @@ msgstr "Misslyckades med att starta övervakare"
 #: src/ui/utils.rs:227
 msgid "One Backup Operation Running"
 msgid_plural "{} Backup Operations Running"
-msgstr[0] "En säkerhetskopieringsoperation pågår"
-msgstr[1] "{} säkerhetskopieringsoperationer pågår"
+msgstr[0] "En säkerhetskopieringsåtgärd pågår"
+msgstr[1] "{} säkerhetskopieringsåtgärder pågår"
 
 #: src/ui/utils.rs:250
 msgid "Failed to Create Thread"
 msgstr "Misslyckades med att skapa tråd"
 
-#: src/ui/utils.rs:496
+#: src/ui/utils.rs:534
 msgid "Failed to fix Scheduled Backups"
 msgstr "Misslyckades med att fixa schemalagda säkerhetskopior"
 
-#: src/ui/utils.rs:501
+#: src/ui/utils.rs:539
 msgid "Scheduled Backups Repaired"
 msgstr "Schemalagda säkerhetskopior har reparerats"
 
-#: src/ui/utils.rs:501
+#: src/ui/utils.rs:539
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1792,11 +2035,11 @@ msgstr ""
 "Systemet innehöll ett fel som potentiellt fick schemalagda säkerhetskopior "
 "att inte längre fungera. Felet har nu lösts."
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:36
 msgid "Repository already in use"
 msgstr "Lagringsplats används redan"
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:151
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1805,7 +2048,7 @@ msgstr ""
 "kan vara föråldrad om datorn exempelvis förlorade strömmen under tiden den "
 "använde lagringsplatsen."
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:153
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1815,7 +2058,7 @@ msgstr ""
 "program! Om du fortsätter medan ett annat program använder lagringsplatsen "
 "kan säkerhetskopieringsdata skadas!"
 
-#: src/ui/utils/borg.rs:150
+#: src/ui/utils/borg.rs:155
 msgid "Continue Anyway"
 msgstr "Fortsätt ändå"
 
@@ -1827,83 +2070,107 @@ msgstr "Kunde inte läsa in konfigurationsfil."
 msgid "Could not write configuration file."
 msgstr "Kunde inte skriva konfigurationsfil."
 
-#: src/ui/utils/duration.rs:10
+#: src/ui/utils/duration.rs:11
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "En sekund"
 msgstr[1] "{} sekunder"
 
-#: src/ui/utils/duration.rs:12
+#: src/ui/utils/duration.rs:13
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "En minut"
 msgstr[1] "{} minuter"
 
-#: src/ui/utils/duration.rs:14
+#: src/ui/utils/duration.rs:15
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "En timme"
 msgstr[1] "{} timmar"
 
-#: src/ui/utils/duration.rs:16
+#: src/ui/utils/duration.rs:17
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "En dag"
 msgstr[1] "{} dagar"
 
 #: src/ui/utils/duration.rs:23
+msgid "one second"
+msgid_plural "{} seconds"
+msgstr[0] "en sekund"
+msgstr[1] "{} sekunder"
+
+#: src/ui/utils/duration.rs:25
+msgid "one minute"
+msgid_plural "{} minutes"
+msgstr[0] "en minut"
+msgstr[1] "{} minuter"
+
+#: src/ui/utils/duration.rs:27
+msgid "one hour"
+msgid_plural "{} hours"
+msgstr[0] "en timme"
+msgstr[1] "{} timmar"
+
+#: src/ui/utils/duration.rs:29
+msgid "one day"
+msgid_plural "{} days"
+msgstr[0] "en dag"
+msgstr[1] "{} dagar"
+
+#: src/ui/utils/duration.rs:36
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "En minut kvar"
 msgstr[1] "{} minuter kvar"
 
-#: src/ui/utils/duration.rs:28
+#: src/ui/utils/duration.rs:41
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "En timme kvar"
 msgstr[1] "{} timmar kvar"
 
-#: src/ui/utils/duration.rs:30
+#: src/ui/utils/duration.rs:43
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "En dag kvar"
 msgstr[1] "{} dagar kvar"
 
-#: src/ui/utils/duration.rs:36
+#: src/ui/utils/duration.rs:49
 msgid "Now"
 msgstr "Nu"
 
-#: src/ui/utils/duration.rs:38
+#: src/ui/utils/duration.rs:51
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "En minut sedan"
 msgstr[1] "{} minuter sedan"
 
-#: src/ui/utils/duration.rs:40
+#: src/ui/utils/duration.rs:53
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "En timme sedan"
 msgstr[1] "{} timmar sedan"
 
-#: src/ui/utils/duration.rs:42
+#: src/ui/utils/duration.rs:55
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "En dag sedan"
 msgstr[1] "{} dagar sedan"
 
-#: src/ui/utils/duration.rs:44
+#: src/ui/utils/duration.rs:57
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "En vecka sedan"
 msgstr[1] "{} veckor sedan"
 
-#: src/ui/utils/duration.rs:46
+#: src/ui/utils/duration.rs:59
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "En månad sedan"
 msgstr[1] "{} månader sedan"
 
-#: src/ui/utils/duration.rs:48
+#: src/ui/utils/duration.rs:61
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Ett år sedan"
@@ -1913,20 +2180,47 @@ msgstr[1] "{} år sedan"
 msgid "Failed to Store Password"
 msgstr "Misslyckades med att lagra lösenord"
 
-#: src/ui/utils/password_storage.rs:31
+#: src/ui/utils/password_storage.rs:32
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Misslyckades med att ta bort eventuella återstående lösenord från "
 "nyckellagringen."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:48
+#: src/ui/utils/password_storage.rs:51
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup ”{}”"
 
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Misslyckades med att spara cache"
+
+#~ msgid "Backup Preferences"
+#~ msgstr "Inställningar för säkerhetskopiering"
+
+#~ msgid "Command line arguments"
+#~ msgstr "Kommandoradsargument"
+
+#~ msgid "Sophie Herold"
+#~ msgstr "Sophie Herold"
+
+#~ msgid "Fina Wilke"
+#~ msgstr "Fina Wilke"
+
+#~ msgid ""
+#~ "Either the system does not support this feature or an error occurred. "
+#~ "Scheduled backup functionality and continuing backups in the background "
+#~ "will not be available."
+#~ msgstr ""
+#~ "Antingen stöder inte systemet den här funktionen eller så har ett fel "
+#~ "inträffat. Schemalagd säkerhetskopiering och fortsatta säkerhetskopior i "
+#~ "bakgrunden kommer inte att vara tillgängliga."
+
+#~ msgid "Back to overview"
+#~ msgstr "Tillbaka till översikt"
+
+#~ msgid "Refresh list of archives"
+#~ msgstr "Uppdatera arkivlistan"
 
 #~ msgid "Compacting Archives"
 #~ msgstr "Pressar ihop arkiv"
