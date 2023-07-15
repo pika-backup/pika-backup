@@ -55,6 +55,13 @@ cargo-fmt:
 
 cargo-test:
   extends: flatpak
+  artifacts:
+    when: always
+    paths:
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/meson-log.txt"
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/testlog.txt"
+    reports:
+      junit: '.flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/testlog.junit.xml'
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --socket=x11 --share=network flatpak_app
