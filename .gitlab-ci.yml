@@ -18,7 +18,7 @@ cargo-audit:
     - cargo deny check
 
 cargo-clippy:
-  extends: flatpak
+  image: "${RUNTIME_IMAGE}"
   interruptible: true
   tags:
     - flatpak
@@ -26,6 +26,25 @@ cargo-clippy:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --share=network flatpak_app
     - echo "cargo clippy -- -D warnings" | flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+
+cargo-doc:
+  image: "${RUNTIME_IMAGE}"
+  interruptible: true
+  tags:
+    - flatpak
+  artifacts:
+    name: "Code Documentation & Help Pages"
+    paths:
+      - "doc"
+  script:
+    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    - flatpak build-finish --socket=x11 --share=network flatpak_app
+    - echo "../build-aux/build-pages-html.bash" | flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    - mkdir -p doc/code-doc doc/help
+    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc doc/code-doc
+    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/help-out doc/help
+    - cp help/LINGUAS doc/help
+    - chmod -R a=rwx doc
 
 cargo-fmt:
   image: rust
@@ -35,10 +54,7 @@ cargo-fmt:
     - cargo fmt --all -- --color=always --check
 
 cargo-test:
-  image: "${RUNTIME_IMAGE}"
-  tags:
-    - flatpak
-  interruptible: true
+  extends: flatpak
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --socket=x11 --share=network flatpak_app
@@ -62,16 +78,12 @@ flatpak@aarch64:
     RUN_TESTS: "0"
 
 pages:
-  image: "${RUNTIME_IMAGE}"
   stage: deploy
+  dependencies:
+    - cargo-doc
   script:
-    - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
-    - flatpak build-finish --socket=x11 --share=network flatpak_app
-    - echo "../build-aux/build-pages-html.bash" | flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - mkdir public
-    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc public/code-doc
-    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/help-out public/help
-    - cp help/LINGUAS public/help/
+    - mov doc/* public/
     - chmod -R a=rwx public
   artifacts:
     paths:
