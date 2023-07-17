@@ -4,10 +4,20 @@ Contributions of all kind and with all levels of experience are very welcome. Pl
 
 The translation of Pika Backup is managed by the [GNOME Translation Project](https://wiki.gnome.org/TranslationProject) and the respective [language teams](https://l10n.gnome.org/teams/). The translation status is available on the [module page](https://l10n.gnome.org/module/pika-backup/).
 
+## Nightly Builds
+
+Pika Backup is available on the [GNOME Nightly](https://wiki.gnome.org/Apps/Nightly) Flatpak repository as a development build. It uses a different backup configuration from the main installation. This allows for testing nightly without compromising on the stability of production backups.
+
+```sh
+flatpak remote-add --if-not-exists gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
+flatpak install org.gnome.World.PikaBackup.Devel
+```
+
 ## Resources
 
 - [Translation status](https://l10n.gnome.org/module/pika-backup/)
 - [Code documentation](https://world.pages.gitlab.gnome.org/pika-backup/code-doc/pika_backup/)
+- [Help Pages](https://world.pages.gitlab.gnome.org/pika-backup/help/C/index.html)
 
 ## Start using GNOME Builder
 
