@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the pika-backup package.
 # D <damnedlies@163.com>, 2020.
 # Dingzhong Chen <wsxy162@gmail.com>, 2021.
-# lumingzh <lumingzh@qq.com>, 2022.
+# lumingzh <lumingzh@qq.com>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2022-10-13 20:48+0000\n"
-"PO-Revision-Date: 2022-10-16 07:26+0800\n"
+"POT-Creation-Date: 2023-08-02 08:00+0000\n"
+"PO-Revision-Date: 2023-08-07 16:13+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -29,8 +29,8 @@ msgstr "Pika 备份监视器"
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:199 src/ui/dialog_about.rs:19
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:98
+#: src/ui/app_window.ui:112 src/ui/dialog_about.rs:19 src/ui/utils.rs:359
 msgid "Pika Backup"
 msgstr "Pika 备份"
 
@@ -46,43 +46,43 @@ msgstr "保护您的数据安全"
 msgid "archive;back-up;borg;"
 msgstr "archive;back-up;borg;归档;存档;备份;"
 
-#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:25
-msgid "Sophie Herold"
-msgstr "Sophie Herold"
+#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:33
+msgid "Small Mammal Collective"
+msgstr "Small Mammal Collective"
 
-#: data/app.metainfo.xml.in:20
+#: data/app.metainfo.xml.in:21
 msgid ""
 "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
 "rest for you."
 msgstr "以简单的方式进行备份。插入您的 USB 驱动器并让 Pika 为您做其余的事情。"
 
-#: data/app.metainfo.xml.in:24
+#: data/app.metainfo.xml.in:25
 msgid "Create backups locally and remotely"
 msgstr "创建本地和远程备份"
 
-#: data/app.metainfo.xml.in:25
+#: data/app.metainfo.xml.in:26
 msgid "Set a schedule for regular backups"
 msgstr "为常规备份设置计划"
 
-#: data/app.metainfo.xml.in:26
+#: data/app.metainfo.xml.in:27
 msgid ""
 "Save time and disk space because Pika Backup does not need to copy known "
 "data again"
 msgstr "节省时间和磁盘空间，因为 Pika 备份不需要再次复制已知数据"
 
-#: data/app.metainfo.xml.in:27
+#: data/app.metainfo.xml.in:28
 msgid "Encrypt your backups"
 msgstr "加密您的备份"
 
-#: data/app.metainfo.xml.in:28
+#: data/app.metainfo.xml.in:29
 msgid "List created archives and browse through their contents"
 msgstr "列出已创建的归档文件并浏览其内容"
 
-#: data/app.metainfo.xml.in:29
+#: data/app.metainfo.xml.in:30
 msgid "Recover files or folders via your file browser"
 msgstr "通过您的文件浏览器来恢复文件或文件夹"
 
-#: data/app.metainfo.xml.in:31
+#: data/app.metainfo.xml.in:32
 msgid ""
 "Pika Backup is designed to save your personal data and does not support "
 "complete system recovery. Pika Backup is powered by the well-tested "
@@ -91,242 +91,432 @@ msgstr ""
 "Pika 备份被设计用来保存您的私人数据并且不支持完整系统恢复。Pika 备份由经过良"
 "好测试的 BorgBackup 软件强力支持。"
 
-#: data/app.metainfo.xml.in:58
+#: data/app.metainfo.xml.in:59
 msgid "Just activate “Back Up Now” and your data will be saved"
 msgstr "只需要激活“现在备份”您的数据将被保存"
 
-#: data/app.metainfo.xml.in:62
+#: data/app.metainfo.xml.in:63
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "从每月到每小时的计划常规备份"
 
-#: data/app.metainfo.xml.in:66
+#: data/app.metainfo.xml.in:67
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr "同时在本地驱动器和在线服务上保存备份"
 
-#: data/resources/gtk/help-overlay.ui:9
+#: data/resources/gtk/help-overlay.ui:9 src/ui/dialog_preferences.ui:30
 msgid "General"
 msgstr "常规"
 
-#: data/resources/gtk/help-overlay.ui:13 src/ui/app_window.ui:106
+#: data/resources/gtk/help-overlay.ui:13
 msgid "Set up new backup"
 msgstr "创建新备份"
 
 #: data/resources/gtk/help-overlay.ui:19
+msgid "Show keyboard shortcuts"
+msgstr "显示键盘快捷键"
+
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:205
 msgid "Quit"
 msgstr "退出"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:31
 msgid "Back"
 msgstr "后退"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/gtk/help-overlay.ui:37
 msgid "Open menu"
 msgstr "打开菜单"
 
-#: src/borg/error.rs:27 src/ui/utils.rs:235
+#: src/borg/error.rs:28
+msgid ""
+"Retrieving encryption password from the keyring failed. Pika Backup requires "
+"a keyring daemon (“secret service”) to store passwords. For installation "
+"instructions see the operating system documentation."
+msgstr ""
+"从钥匙串取回加密密码失败。Pika 备份需要一个钥匙串守护程序（“secret service”）"
+"来存储密码。关于安装介绍请查阅操作系统文档。"
+
+#: src/borg/error.rs:30 src/ui/utils.rs:279
 msgid "The operation terminated unexpectedly."
 msgstr "操作意外终止。"
 
-#: src/borg/error.rs:28
+#: src/borg/error.rs:31
 msgid "This delete operation would delete too many archives."
 msgstr "此删除操作将删除过多归档。"
 
-#: src/borg/error.rs:29
+#: src/borg/error.rs:32
 msgid "No files selected to be included into backup."
 msgstr "未选择要包含进备份的文件。"
 
-#: src/borg/error.rs:94
+#: src/borg/error.rs:81
+msgid "Timeout"
+msgstr "超时"
+
+#: src/borg/error.rs:124
 msgid "Completed"
 msgstr "已完成"
 
-#: src/borg/error.rs:117
+#: src/borg/error.rs:149
 msgid "Aborted on user request."
 msgstr "已按用户请求中止。"
 
-#: src/borg/error.rs:121
+#: src/borg/error.rs:153
 msgid "Aborted because only metered connection was available."
 msgstr "已因为仅有流量计费网络连接可用而中止。"
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:127
+#: src/borg/error.rs:159
 msgid "Aborted because too long not connected to power."
 msgstr "已因为太长时间未连接电源而中止。"
 
-#: src/borg/error.rs:129
+#: src/borg/error.rs:161
 msgid "Aborted by system."
 msgstr "已被系统中止。"
 
-#: src/borg/error.rs:133
+#: src/borg/error.rs:165
 msgid "The program or system seems to have crashed."
 msgstr "该程序或系统似乎已经崩溃。"
 
-#: src/borg/error.rs:177
+#: src/borg/error.rs:168
+msgid "{}"
+msgstr "{}"
+
+#: src/borg/error.rs:215
 msgid "Connection closed by remote host."
 msgstr "连接被远程主机关闭。"
 
-#: src/borg/error.rs:179 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:217 src/ui/utils/borg.rs:166
 msgid "Repository already in use."
 msgstr "仓库已被使用。"
 
-#: src/borg/error.rs:180
+#: src/borg/error.rs:218
 msgid "Failed to lock repository."
 msgstr "锁定仓库失败。"
 
-#: src/borg/error.rs:181
+#: src/borg/error.rs:219
 msgid "Invalid encryption password."
 msgstr "无效的加密密码。"
 
-#: src/borg/error.rs:183
+#: src/borg/error.rs:220
+msgid "Repository access was aborted"
+msgstr "仓库访问已中止"
+
+#: src/borg/error.rs:222
 msgid "A repository already exists at this location."
 msgstr "此位置已存在一个仓库。"
 
-#: src/borg/error.rs:185
+#: src/borg/error.rs:224
 msgid "No repository exists at this location."
 msgstr "此位置没有仓库存在。"
 
-#: src/borg/error.rs:187
+#: src/borg/error.rs:226
 msgid "Not enough free space in repository."
 msgstr "仓库中剩余空间不足。"
 
-#: src/borg/error.rs:190
+#: src/borg/error.rs:229
 msgid "Connection closed by remote host: “{}”"
 msgstr "连接被远程主机关闭：“{}”"
 
-#: src/borg/error.rs:193
+#: src/borg/error.rs:231
+msgid "Exception"
+msgstr "异常"
+
+#: src/borg/error.rs:233
 msgid "Unspecified error."
 msgstr "未指定的错误。"
 
-#: src/borg/log_json.rs:69
+#: src/borg/log_json.rs:51
+msgid "Backup will be aborted."
+msgstr "备份将被中止。"
+
+#: src/borg/log_json.rs:54
+msgid "Backup will continue."
+msgstr "备份将继续。"
+
+#: src/borg/log_json.rs:82
 msgid "Backed up data: {}"
 msgstr "备份数据：{}"
 
-#: src/borg/log_json.rs:99
+#: src/borg/log_json.rs:112
 #, no-c-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "操作 {} % 已完成 ({}/{})"
 
-#: src/borg/log_json.rs:108
+#: src/borg/log_json.rs:121
 msgid "Operation completed."
 msgstr "操作已完成。"
 
-#: src/borg/log_json.rs:180
+#: src/borg/log_json.rs:193
 msgid "Beginning cache transaction"
 msgstr "正在开始缓存处理"
 
-#: src/borg/log_json.rs:181
+#: src/borg/log_json.rs:194
 msgid "Downloading cache data"
 msgstr "正在下载缓存数据"
 
-#: src/borg/log_json.rs:182
+#: src/borg/log_json.rs:195
 msgid "Writing cache"
 msgstr "正在写入缓存"
 
-#: src/borg/log_json.rs:183
+#: src/borg/log_json.rs:196
 msgid "Synchronizing cache"
 msgstr "正在同步缓存"
 
-#: src/borg/log_json.rs:184
+#: src/borg/log_json.rs:197
 msgid "Compacting repository"
 msgstr "正在压制仓库"
 
-#: src/borg/log_json.rs:185
+#: src/borg/log_json.rs:198
 msgid "Updating repository"
 msgstr "正在更新仓库"
 
-#: src/borg/log_json.rs:186
+#: src/borg/log_json.rs:199
 msgid "Checking repository"
 msgstr "正在检查仓库"
 
-#: src/borg/log_json.rs:187
+#: src/borg/log_json.rs:200
 msgid "Verifying data"
 msgstr "正在校验数据"
 
-#: src/borg/log_json.rs:188
+#: src/borg/log_json.rs:201
 msgid "Rebuilding main database"
 msgstr "正在重建主数据库"
 
-#: src/borg/log_json.rs:189
+#: src/borg/log_json.rs:202
 msgid "Extracting data"
 msgstr "正在提取数据"
 
-#: src/borg/log_json.rs:190
+#: src/borg/log_json.rs:203
 msgid "Extracting permissions"
 msgstr "正在提取权限"
 
-#: src/borg/log_json.rs:191
+#: src/borg/log_json.rs:204
 msgid "Marking archives as deleted"
 msgstr "正在将归档文件标记为已删除"
 
-#: src/borg/log_json.rs:192
+#: src/borg/log_json.rs:205
 msgid "Calculating archive statistics"
 msgstr "正在计算归档文件总数"
 
-#: src/borg/log_json.rs:193
+#: src/borg/log_json.rs:206
 msgid "Marking old archives as deleted"
 msgstr "正在将旧归档文件标记为已删除"
 
-#: src/borg/log_json.rs:194
+#: src/borg/log_json.rs:207
 msgid "Upgrading repository"
 msgstr "正在升级仓库"
 
-#: src/borg/log_json.rs:195
+#: src/borg/log_json.rs:208
 msgid "Unspecified operation"
 msgstr "未指定的操作"
 
-#: src/borg/log_json.rs:196
+#: src/borg/log_json.rs:209
 msgid "Unknown operation"
 msgstr "未知操作"
 
-#: src/borg/log_json.rs:233
+#: src/borg/log_json.rs:226
+msgid "Handling a Question"
+msgstr "正在处理问题"
+
+#: src/borg/log_json.rs:234
+msgid "Attempting to access a previously unknown unencrypted repository."
+msgstr "正在尝试访问之前未知的未加密仓库。"
+
+#: src/borg/log_json.rs:250
+msgid "The backup repository at location “{}” was previously located at “{}”."
+msgstr "位于“{}”的备份仓库曾经位于“{}”。"
+
+#: src/borg/log_json.rs:254
+msgid "The backup repository was previously located at a different location."
+msgstr "该备份仓库曾经位于不同的位置。"
+
+#: src/borg/log_json.rs:257
+msgid ""
+"This is a potentially dangerous function. Repairing a repository might lead "
+"to data loss (for kinds of corruption it is not capable of dealing with). BE "
+"VERY CAREFUL!"
+msgstr ""
+"这可能是一个危险的操作。修复仓库可能会导致数据丢失（比如它无法处理的损坏类"
+"型）。请小心谨慎！"
+
+#: src/borg/log_json.rs:258
+msgid ""
+"You requested to delete the repository completely, including all backup "
+"archives it contains."
+msgstr "您请求完全删除该仓库，包括其中所有的备份归档文件。"
+
+#: src/borg/log_json.rs:259
+msgid "Unexpected question from borgbackup: “{}”"
+msgstr "来自 borgbackup 的意外问题：“{}”"
+
+#. Translators: Combines statement from above and this question
+#: src/borg/log_json.rs:263
+msgid ""
+"{}\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"{}\n"
+"\n"
+"您想要继续吗？"
+
+#: src/borg/log_json.rs:321
 msgid "Standard error output"
 msgstr "标准错误输出"
 
-#: src/borg/log_json.rs:352
+#: src/borg/log_json.rs:440
 msgid "Debug"
 msgstr "调试"
 
-#: src/borg/log_json.rs:353
+#: src/borg/log_json.rs:441
 msgid "Info"
 msgstr "信息"
 
-#: src/borg/log_json.rs:354 src/ui/dialog_setup.ui:227
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:200 src/ui/utils.rs:374
 msgid "Warning"
 msgstr "警告"
 
-#: src/borg/log_json.rs:355
+#: src/borg/log_json.rs:443
 msgid "Error"
 msgstr "错误"
 
-#: src/borg/log_json.rs:356
+#: src/borg/log_json.rs:444
 msgid "Critical"
 msgstr "严重"
 
-#: src/borg/log_json.rs:357
+#: src/borg/log_json.rs:445
 msgid "Undefined"
 msgstr "未定义"
 
-#: src/borg/task.rs:19
+#: src/borg/scripts.rs:52
+msgid "The following variables are available:"
+msgstr "下列变量可用："
+
+#: src/borg/scripts.rs:54
+msgid "Only available for the post-backup command:"
+msgstr "仅适用于备份后命令："
+
+#: src/borg/scripts.rs:56
+msgid "Only available for completed backups:"
+msgstr "仅适用于已完成的备份："
+
+#: src/borg/scripts.rs:100
+msgid "ID of the backup configuration"
+msgstr "备份配置的标识"
+
+#: src/borg/scripts.rs:101
+msgid "Title of the backup configuration"
+msgstr "备份配置的标题"
+
+#: src/borg/scripts.rs:102
+msgid "Repository ID of the borg repository"
+msgstr "Borg 仓库的仓库标识"
+
+#: src/borg/scripts.rs:103
+msgid "The full URL passed to borgbackup"
+msgstr "传递给 borgbackup 的完整 URL"
+
+#: src/borg/scripts.rs:104
+msgid "0: manual backup, 1: started from a schedule"
+msgstr "0：手动备份，1：从备份计划开始"
+
+#: src/borg/scripts.rs:105
+msgid "Either COMPLETED, ABORTED or FAILED"
+msgstr "已完成、已中止或已失败"
+
+#: src/borg/scripts.rs:106
+msgid "An error/warning message"
+msgstr "错误/警告消息"
+
+#: src/borg/scripts.rs:107
+msgid "The ID of the created backup archive"
+msgstr "创建的备份归档文件的标识"
+
+#: src/borg/scripts.rs:108
+msgid "The name of the created backup archive"
+msgstr "创建的备份归档文件的名称"
+
+#: src/borg/scripts.rs:110
+msgid "The total amount of bytes referenced by this archive"
+msgstr "由该归档引用的全部字节数据量"
+
+#: src/borg/scripts.rs:113
+msgid "The compressed size of all data references by this archive"
+msgstr "由该归档引用的全部已压缩数据量"
+
+#: src/borg/scripts.rs:116
+msgid "The deduplicated amount of bytes for this archive"
+msgstr "已为该归档去重的字节数据量"
+
+#: src/borg/scripts.rs:118
+msgid "The amount of files saved in this archive"
+msgstr "该归档中保存的文件数量"
+
+#: src/borg/scripts.rs:259
+msgid ""
+"The pre-backup command configured in preferences failed to run.\n"
+"{}"
+msgstr ""
+"在首选项中配置的预备份命令运行失败。\n"
+"{}"
+
+#: src/borg/scripts.rs:263
+msgid ""
+"The post-backup command configured in preferences failed to run.\n"
+"{}"
+msgstr ""
+"在首选项中配置的备份后命令运行失败。\n"
+"{}"
+
+#: src/borg/scripts.rs:289
+msgid ""
+"The pre-backup command configured in preferences returned a failure code: {}"
+msgstr "在首选项中配置的预备份命令返回了失败代码：{}"
+
+#: src/borg/scripts.rs:293
+msgid ""
+"The post-backup command configured in preferences returned a failure code: {}"
+msgstr "在首选项中配置的备份后命令返回了失败代码：{}"
+
+#: src/borg/task.rs:40
 msgid "Backing up Data"
 msgstr "备份数据"
 
-#: src/borg/task.rs:31
+#: src/borg/task.rs:54
 msgid "Mounting Backup Archives"
 msgstr "正在挂载备份归档文件"
 
-#: src/borg/task.rs:43
+#: src/borg/task.rs:68
 msgid "Removing old Archives"
 msgstr "正在移除旧归档文件"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:82
 msgid "Identifying old Archives"
 msgstr "正在识别旧归档文件"
 
-#: src/borg/task.rs:76
+#: src/borg/task.rs:96
+msgid "Reclaiming Free Space"
+msgstr "正在取回可用空间"
+
+#: src/borg/task.rs:131
+msgid "Checking Archives Integrity"
+msgstr "正在检查归档完整性"
+
+#: src/borg/task.rs:158
+msgid "Deleting Archive"
+msgstr "正在删除归档文件"
+
+#: src/borg/task.rs:181
 msgid "Refreshing Archive List"
 msgstr "正在刷新归档文件列表"
 
-#: src/config.rs:57 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:87
+#: src/borg/task.rs:228
+msgid "Running Custom Shell Command"
+msgstr "正在运行自定义 Shell 命令"
+
+#. Translators: User home directory
+#: src/config.rs:58 src/ui/page_backup/display.rs:13
+#: src/ui/page_backup/events.rs:179
 msgid "Home"
 msgstr "主目录"
 
@@ -354,29 +544,41 @@ msgid ""
 "repository already exists."
 msgstr "归档文件前缀为空且相同备份仓库已有一个配置存在。"
 
-#: src/config/exclude.rs:185
+#: src/config/exclude.rs:189
 msgid "Caches"
 msgstr "缓存"
 
-#: src/config/exclude.rs:186
+#: src/config/exclude.rs:190
 msgid "Flatpak App Installations"
 msgstr "Flatpak 应用安装"
 
-#: src/config/exclude.rs:187
+#: src/config/exclude.rs:191
 msgid "Trash"
 msgstr "回收站"
 
-#: src/config/exclude.rs:188
+#: src/config/exclude.rs:192
 msgid "Virtual Machines and Containers"
 msgstr "虚拟机和容器"
 
-#: src/config/exclude.rs:194
+#. Translators: Detailed description for caches exclusion rule
+#: src/config/exclude.rs:199
 msgid "Data that can be regenerated when needed"
 msgstr "需要时可重新生成的数据"
 
-#: src/config/exclude.rs:195
+#. Translators: Detailed description for Flatpak app installations exclusion rule
+#: src/config/exclude.rs:201
 msgid "Documents and data are still backed up"
 msgstr "文档和数据仍被备份"
+
+#. Translators: Detailed description for trash exclusion rule
+#: src/config/exclude.rs:203
+msgid "Files that have not been irretrievably deleted"
+msgstr "尚未被永久删除的文件"
+
+#. Translators: Detailed description for virtual machines and containers exclusion rule
+#: src/config/exclude.rs:205
+msgid "Might include data stored within"
+msgstr "可能包含存储的数据"
 
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
@@ -386,8 +588,8 @@ msgstr "正则表达式"
 msgid "Unix Filename Pattern"
 msgstr "Unix 文件名模式"
 
-#: src/config/repository.rs:145 src/ui/dialog_setup.ui:64
-#: src/ui/dialog_setup.ui:108
+#: src/config/repository.rs:168 src/ui/dialog_setup.ui:65
+#: src/ui/dialog_setup.ui:119
 msgid "Remote Location"
 msgstr "远程位置"
 
@@ -407,15 +609,25 @@ msgstr "每周"
 msgid "Monthly"
 msgstr "每月"
 
-#: src/daemon/action.rs:25
+#: src/daemon/action.rs:23 src/daemon/init.rs:38
+msgid "Monitoring Backup Schedule"
+msgstr "正在监视备份计划"
+
+#: src/daemon/action.rs:24
+msgid ""
+"To quit monitoring the backup schedule, open Pika Backup and disable all "
+"scheduled backups."
+msgstr "要退出监视备份计划，请打开 Pika 备份并禁用所有计划的备份。"
+
+#: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
 msgstr "启动来自守护进程的备份失败"
 
-#: src/daemon/action.rs:46
+#: src/daemon/action.rs:66
 msgid "Failed to show overview from daemon"
 msgstr "显示来自守护进程的概览失败"
 
-#: src/daemon/action.rs:65
+#: src/daemon/action.rs:85
 msgid "Failed to show schedule from daemon"
 msgstr "显示来自守护进程的计划失败"
 
@@ -439,11 +651,11 @@ msgstr "“{}”包含一个已配置备份。"
 msgid "Back Up Now"
 msgstr "立即备份"
 
-#: src/daemon/init.rs:48
+#: src/daemon/init.rs:69
 msgid "Fatal Error During Back Up"
 msgstr "备份过程中发生严重错误"
 
-#: src/daemon/init.rs:51
+#: src/daemon/init.rs:72
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika 备份在运行 {} 个备份时崩溃。"
@@ -476,31 +688,45 @@ msgstr "必须连接“{}”以使计划备份开始。"
 msgid "Failed to start scheduled backup"
 msgstr "开始计划备份失败"
 
-#: src/ui.rs:175 src/ui/page_backup/events.rs:17
+#: src/ui.rs:179
 msgid "Abort running backup creation?"
 msgstr "中止备份创建的运行？"
 
-#: src/ui.rs:176 src/ui/page_backup/events.rs:18
+#: src/ui.rs:180
 msgid "The backup will remain incomplete if aborted now."
 msgstr "备份会保存不完整如果现在中止。"
 
-#: src/ui.rs:177 src/ui/dialog_setup.ui:454 src/ui/page_backup/events.rs:19
+#: src/ui.rs:181 src/ui/dialog_setup.ui:532 src/ui/page_backup/events.rs:30
+#: src/ui/page_backup/events.rs:38 src/ui/page_backup/events.rs:49
+#: src/ui/page_backup/events.rs:57 src/ui/page_backup/events.rs:67
+#: src/ui/utils.rs:377
 msgid "Continue"
 msgstr "继续"
 
-#: src/ui.rs:178 src/ui/page_backup/events.rs:20
+#: src/ui.rs:182 src/ui/page_backup/events.rs:31
+#: src/ui/page_backup/events.rs:50 src/ui/page_backup/events.rs:68
+#: src/ui/utils.rs:376
 msgid "Abort"
 msgstr "中止"
 
-#: src/ui.rs:197
+#. Someone wants to quit the app from the shell (eg via backgrounds app list)
+#: src/ui.rs:190
+msgid "A Backup Operation is Running"
+msgstr "备份操作正在运行"
+
+#: src/ui.rs:192
+msgid "Pika Backup cannot be quit during a backup operation."
+msgstr "Pika 备份无法在备份执行期间退出。"
+
+#: src/ui.rs:218
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "运行“borg”失败。BorgBackup 是否已正确安装？"
 
-#: src/ui.rs:221
+#: src/ui.rs:242
 msgid "BorgBackup version too old"
 msgstr "BorgBackup 版本太旧"
 
-#: src/ui.rs:223
+#: src/ui.rs:244
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -508,11 +734,11 @@ msgstr ""
 "BorgBackup 的安装版本 {} 太旧。有些需要 borg-backup 版本 {}.{}.{} 的功能将不"
 "可用。"
 
-#: src/ui.rs:234
+#: src/ui.rs:255
 msgid "BorgBackup version too new"
 msgstr "BorgBackup 版本太新"
 
-#: src/ui.rs:236
+#: src/ui.rs:257
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -520,11 +746,11 @@ msgstr ""
 "BorgBackup 的安装版本 {} 太新。推荐使用 {}.{} 版本。有些功能可能不会按预期工"
 "作。"
 
-#: src/ui.rs:246
+#: src/ui.rs:267
 msgid "Failed to Check BorgBackup Version"
 msgstr "检查 BorgBackup 版本失败"
 
-#: src/ui.rs:248
+#: src/ui.rs:269
 msgid "The installed version {} might not work."
 msgstr "已安装的版本 {} 可能无法工作。"
 
@@ -541,30 +767,42 @@ msgid "_About Pika Backup"
 msgstr "关于 Pika 备份(_A)"
 
 #: src/ui/app_window.ui:29
+msgid "Backup Preferences"
+msgstr "备份首选项"
+
+#: src/ui/app_window.ui:33
 msgid "Remove Backup Setup"
 msgstr "移除备份部署"
 
-#: src/ui/app_window.ui:69
+#: src/ui/app_window.ui:73
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:142
-msgid "No Backup Configured"
-msgstr "未配置备份"
-
-#: src/ui/app_window.ui:143
-msgid "Add a new configuration to start creating backups"
-msgstr "添加新配置以开始创建备份"
-
-#: src/ui/app_window.ui:146
+#: src/ui/app_window.ui:119
 msgid "Setup Backup"
 msgstr "部署备份"
 
-#: src/ui/app_window.ui:192
-msgid "Back to overview"
-msgstr "返回概览"
+#: src/ui/app_window.ui:126
+msgid "Main Menu"
+msgstr "主菜单"
 
-#: src/ui/app_window.ui:213
+#: src/ui/app_window.ui:146
+msgid "No Backup Configured"
+msgstr "未配置备份"
+
+#: src/ui/app_window.ui:147
+msgid "Add a new configuration to start creating backups"
+msgstr "添加新配置以开始创建备份"
+
+#: src/ui/app_window.ui:150
+msgid "_Setup Backup"
+msgstr "部署备份(_S)"
+
+#: src/ui/app_window.ui:194
+msgid "Backup"
+msgstr "备份"
+
+#: src/ui/app_window.ui:216
 msgid ""
 "Archives are being mounted.\n"
 "This might take a while."
@@ -572,233 +810,298 @@ msgstr ""
 "正在挂载归档文件。\n"
 "这可能需要一段时间。"
 
-#: src/ui/app_window.ui:252
+#: src/ui/app_window.ui:230
+msgid "Actions"
+msgstr "动作"
+
+#: src/ui/app_window.ui:256
 msgid "_Backup"
 msgstr "备份(_B)"
 
-#: src/ui/app_window.ui:274
+#: src/ui/app_window.ui:267
+msgid "Eject Backup Disk"
+msgstr "弹出备份磁盘"
+
+#: src/ui/app_window.ui:283
+msgid "Disconnected"
+msgstr "已断开连接"
+
+#: src/ui/app_window.ui:301
 msgid "_Abort"
 msgstr "中止(_A)"
 
-#: src/ui/app_window.ui:296
+#: src/ui/app_window.ui:323
 msgid "Back Up _Now"
 msgstr "立即备份(_N)"
 
-#: src/ui/app_window.ui:310 src/ui/dialog_setup_transfer_option.ui:87
+#: src/ui/app_window.ui:338 src/ui/dialog_setup_transfer_option.ui:88
 msgid "Files to Back Up"
 msgstr "要备份的文件"
 
-#: src/ui/app_window.ui:311
+#: src/ui/app_window.ui:339
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "仅在下列文件夹中的文件会被保存在备份仓库中。"
 
-#: src/ui/app_window.ui:314
-msgid "Select directory to include…"
-msgstr "选择要包含的目录…"
+#: src/ui/app_window.ui:342
+msgid "Select Directory to Include"
+msgstr "选择要包含的目录"
 
-#: src/ui/app_window.ui:327
+#: src/ui/app_window.ui:355
 msgid "No files included in backup"
 msgstr "备份中未包含文件"
 
-#: src/ui/app_window.ui:339 src/ui/dialog_exclude.ui:4
-#: src/ui/dialog_setup_transfer_option.ui:111
+#: src/ui/app_window.ui:367 src/ui/dialog_exclude.ui:6
+#: src/ui/dialog_setup_transfer_option.ui:112
 msgid "Exclude from Backup"
 msgstr "从备份中排除"
 
-#: src/ui/app_window.ui:340
+#: src/ui/app_window.ui:368
 msgid "The following folders are excluded from the backup repository."
 msgstr "下列文件夹会从备份仓库中排除。"
 
-#: src/ui/app_window.ui:343
-msgid "Select directory to exclude…"
-msgstr "选择要排除的目录…"
+#: src/ui/app_window.ui:371
+msgid "Select Directory to Exclude"
+msgstr "选择要排除的目录"
 
-#: src/ui/app_window.ui:356
+#: src/ui/app_window.ui:384
 msgid "Nothing excluded from backup"
 msgstr "备份没有要排除的内容"
 
-#: src/ui/app_window.ui:370
+#: src/ui/app_window.ui:398
 msgid "_Archives"
 msgstr "归档文件(_A)"
 
-#: src/ui/app_window.ui:465
+#: src/ui/app_window.ui:493
 msgid "Archive _Prefix"
 msgstr "归档文件前缀(_P)"
 
-#: src/ui/app_window.ui:467
+#: src/ui/app_window.ui:495
 msgid "Added in front of all archive names"
 msgstr "添加至所有归档文件名称的前面"
 
-#: src/ui/app_window.ui:496
+#: src/ui/app_window.ui:524
 msgid "_Cleanup Archives"
 msgstr "清理归档文件(_C)"
 
-#: src/ui/app_window.ui:497
+#: src/ui/app_window.ui:525
 msgid "Delete some older archives"
 msgstr "删除一些旧的归档文件"
 
-#: src/ui/app_window.ui:513
+#: src/ui/app_window.ui:541
+msgid "Data Integrity Check"
+msgstr "数据完整性检查"
+
+#: src/ui/app_window.ui:546
+msgid "_Check Now…"
+msgstr "立即检查(_C)…"
+
+#: src/ui/app_window.ui:554
+msgid "_Abort…"
+msgstr "中止(_A)…"
+
+#: src/ui/app_window.ui:565
 msgid "Archives"
 msgstr "归档文件"
 
-#: src/ui/app_window.ui:522
-msgid "Refresh list of archives"
-msgstr "刷新归档文件列表"
+#: src/ui/app_window.ui:574
+msgid "Refresh"
+msgstr "刷新"
 
-#: src/ui/app_window.ui:543
+#: src/ui/app_window.ui:595
 msgid "Stop browsing archive files"
 msgstr "停止浏览归档文件"
 
-#: src/ui/app_window.ui:569
+#: src/ui/app_window.ui:621
 msgid "No archives available"
 msgstr "没有可用的归档文件"
 
-#: src/ui/app_window.ui:588
+#: src/ui/app_window.ui:640
 msgid "_Schedule"
 msgstr "计划(_S)"
 
-#: src/ui/app_window.ui:613
+#: src/ui/app_window.ui:661
 msgid "Scheduled Backups"
 msgstr "计划备份"
 
-#: src/ui/app_window.ui:617
+#: src/ui/app_window.ui:665
 msgid "Regularly Create Backups"
 msgstr "定期创建备份"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:670
 msgid "Frequency"
 msgstr "频率"
 
-#: src/ui/app_window.ui:630
+#: src/ui/app_window.ui:678
 msgid "Preferred Time"
 msgstr "首选时间"
 
-#: src/ui/app_window.ui:650
+#: src/ui/app_window.ui:698
 msgid "Preferred Weekday"
 msgstr "首选工作日"
 
-#: src/ui/app_window.ui:655
+#: src/ui/app_window.ui:703
 msgid "Preferred Day"
 msgstr "首选白天"
 
-#: src/ui/app_window.ui:676 src/ui/dialog_prune.rs:84
+#: src/ui/app_window.ui:724 src/ui/dialog_prune.rs:88
 msgid "Delete old Archives"
 msgstr "删除旧归档文件"
 
-#: src/ui/app_window.ui:682
+#: src/ui/app_window.ui:730
 msgid "Save Configuration"
 msgstr "保存配置"
 
-#: src/ui/app_window.ui:694
+#: src/ui/app_window.ui:742
 msgid "Regularly Cleanup Archives"
 msgstr "定期清理归档文件"
 
-#: src/ui/app_window.ui:695
+#: src/ui/app_window.ui:743
 msgid "Remove old archives after creating new backups"
 msgstr "创建新备份后移除旧归档文件"
 
-#: src/ui/app_window.ui:705
+#: src/ui/app_window.ui:753
 msgid "Preserved Archives"
 msgstr "保留归档文件"
 
-#: src/ui/app_window.ui:706
+#: src/ui/app_window.ui:754
 msgid "Amount and time span of retained archives"
 msgstr "保留归档文件的总数和时间跨度"
 
-#: src/ui/app_window.ui:715
+#: src/ui/app_window.ui:763
 msgid "Details"
 msgstr "细节"
 
-#: src/ui/app_window.ui:719
+#: src/ui/app_window.ui:767
 msgid "Keep Hourly"
 msgstr "按小时保留"
 
-#: src/ui/app_window.ui:741
+#: src/ui/app_window.ui:783
 msgid "Keep Daily"
 msgstr "按天保留"
 
-#: src/ui/app_window.ui:763
+#: src/ui/app_window.ui:799
 msgid "Keep Weekly"
 msgstr "按周保留"
 
-#: src/ui/app_window.ui:783
+#: src/ui/app_window.ui:814
 msgid "Keep Monthly"
 msgstr "按月保留"
 
-#: src/ui/app_window.ui:802
+#: src/ui/app_window.ui:828
 msgid "Keep Annual"
 msgstr "按年保留"
 
-#: src/ui/app_window.ui:849
+#: src/ui/app_window.ui:871
 msgid "Backup Info"
 msgstr "备份信息"
 
-#: src/ui/app_window.ui:909
+#: src/ui/app_window.ui:934
 msgid "Amount saved"
 msgstr "已保存量"
 
-#: src/ui/app_window.ui:925
+#: src/ui/app_window.ui:935
+msgid "Size of all files"
+msgstr "所有文件大小"
+
+#: src/ui/app_window.ui:951
 msgid "Number of files saved"
 msgstr "已保存文件的数量"
 
-#: src/ui/app_window.ui:941
-msgid "Additional backup space used"
-msgstr "占用了更多备份空间"
+#: src/ui/app_window.ui:967
+msgid "Backup space used"
+msgstr "占用的备份空间"
 
-#: src/ui/app_window.ui:957
+#: src/ui/app_window.ui:968
+msgid "Newly used space in this backup"
+msgstr "该备份中新占用的空间"
+
+#: src/ui/app_window.ui:984
 msgid "Current file"
 msgstr "当前文件"
 
-#: src/ui/backup_status.rs:56
+#: src/ui/backup_status.rs:77
 msgid "Backup Never Ran"
 msgstr "备份从未运行"
 
-#: src/ui/backup_status.rs:57
+#: src/ui/backup_status.rs:78
 msgid "Begin by carrying out your first backup"
 msgstr "从创建您的第一个备份开始"
 
-#: src/ui/backup_status.rs:73
+#: src/ui/backup_status.rs:87
+msgid "No Integrity Check"
+msgstr "无完整性检查"
+
+#: src/ui/backup_status.rs:88
+msgid "Archives integrity check not yet performed"
+msgstr "归档完整性检查尚未执行"
+
+#: src/ui/backup_status.rs:104
 msgid "Last backup completed with warnings"
 msgstr "上次备份完成带有警告"
 
-#: src/ui/backup_status.rs:81
+#: src/ui/backup_status.rs:112
 msgid "Last Backup Successful"
 msgstr "上次备份成功"
 
-#: src/ui/backup_status.rs:88
+#: src/ui/backup_status.rs:119
 msgid "Last Backup Aborted"
 msgstr "上次备份中止"
 
-#: src/ui/backup_status.rs:95
+#: src/ui/backup_status.rs:126
 msgid "Last Backup Failed"
 msgstr "上次备份失败"
 
-#: src/ui/backup_status.rs:143
+#. Translators: Argument is 'x months ago'
+#: src/ui/backup_status.rs:146
+msgid "Successful Integrity Check {}"
+msgstr "完整性检查成功完成 {}"
+
+#: src/ui/backup_status.rs:147
+msgid "Result might be out of date"
+msgstr "结果可能已过期"
+
+#: src/ui/backup_status.rs:154
+msgid "Last Integrity Check Successful"
+msgstr "上次成功的完整性检查"
+
+#: src/ui/backup_status.rs:163
+msgid "Integrity Check Aborted"
+msgstr "完整性检查已中止"
+
+#: src/ui/backup_status.rs:170
+msgid "Errors Found and Repaired"
+msgstr "已找到并修复的错误"
+
+#: src/ui/backup_status.rs:177
+msgid "Integrity Errors Found"
+msgstr "已找到完整性错误"
+
+#: src/ui/backup_status.rs:225
 #, no-c-format
 msgid "{} % finished"
 msgstr "{} % 已完成"
 
-#: src/ui/backup_status.rs:166
+#: src/ui/backup_status.rs:248
 msgid "Preparing backup"
 msgstr "正在准备备份"
 
-#: src/ui/backup_status.rs:167
+#: src/ui/backup_status.rs:249
 msgid "Backup Running"
 msgstr "备份正在运行"
 
-#: src/ui/backup_status.rs:168
+#: src/ui/backup_status.rs:250
 msgid "Backup Destination Unresponsive"
 msgstr "备份位置未响应"
 
-#: src/ui/backup_status.rs:171
+#: src/ui/backup_status.rs:253
 msgid "Connection lost, reconnecting in {}"
 msgstr "连接已丢失，正在重新连接 {}"
 
-#: src/ui/backup_status.rs:176
+#: src/ui/backup_status.rs:258
 msgid "Reconnecting"
 msgstr "正在重新连接"
 
-#: src/ui/backup_status.rs:178
+#: src/ui/backup_status.rs:260
 msgid "Stopping Backup"
 msgstr "正在停止备份"
 
@@ -806,35 +1109,38 @@ msgstr "正在停止备份"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "为计划备份产生接口失败。"
 
-#: src/ui/dialog_about.rs:26
+#: src/ui/dialog_about.rs:25
+msgid "Support us on Open Collective"
+msgstr "在 Open Collective 上支持我们"
+
+#: src/ui/dialog_about.rs:29
+msgid "Support us on GitHub Sponsors"
+msgstr "在 GitHub 赞助者上支持我们"
+
+#: src/ui/dialog_about.rs:35
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:27
-msgid "Copyright © 2018–2022 Sophie Herold et al."
-msgstr "版权所有 © 2018–2022 Sophie Herold et al."
+#: src/ui/dialog_about.rs:36
+msgid "Fina Wilke <finaw@gnome.org>"
+msgstr "Fina Wilke <finaw@gnome.org>"
 
-#: src/ui/dialog_about.rs:28
+#: src/ui/dialog_about.rs:38
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "版权所有 © 2018–2023 Sophie Herold et al."
+
+#: src/ui/dialog_about.rs:39
 msgid "translator-credits"
 msgstr ""
 "D <damnedlies@163.com>, 2020.\n"
 "Dingzhong Chen <wsxy162@gmail.com>, 2021.\n"
-"lumingzh <lumingzh@qq.com>, 2022."
+"lumingzh <lumingzh@qq.com>, 2022-2023."
 
-#. Translators: This is an inside joke
-#: src/ui/dialog_about.rs:31
-msgid "Court Witch"
-msgstr "取悦女巫"
-
-#: src/ui/dialog_about.rs:32
-msgid "Fina Wilke"
-msgstr "Fina Wilke"
-
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:43
 msgid "Back End"
 msgstr "备份后端"
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:45
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -843,11 +1149,11 @@ msgstr ""
 "Pika 备份使用 BorgBackup。没有 Borg 该应用就不会存在。请考虑<a href='https://"
 "www.borgbackup.org/support/fund.html'>支持 BorgBackup</a>。"
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:47
 msgid "The Name"
 msgstr "应用名称"
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:49
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -864,7 +1170,7 @@ msgstr ""
 "养价值的植物。最后但同样重要的是，鼠兔不仅创建非常复杂的草堆而且在收集植物上"
 "同样很快。"
 
-#: src/ui/dialog_about.rs:45
+#: src/ui/dialog_about.rs:51
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -872,32 +1178,32 @@ msgstr ""
 "屡次出现的该软件名称与一种带有用电能力的怪兽有关的谣言是没有事实依据的。"
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:171
+#: src/ui/dialog_setup/display.rs:170
 msgid "Invalid Archive Prefix"
 msgstr "无效的归档文件前缀"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:89
-#: src/ui/dialog_setup.ui:632
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_setup.ui:643 src/ui/dialog_setup.ui:659
 msgid "Archive Prefix"
 msgstr "归档文件前缀"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_exclude_pattern.ui:29
-#: src/ui/dialog_prune.ui:22 src/ui/dialog_prune.ui:53
-#: src/ui/dialog_prune_review.ui:22 src/ui/dialog_prune_review.ui:53
-#: src/ui/page_backup/events.rs:95 src/ui/page_overview.rs:51
-#: src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:187
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:170
 msgid "Cancel"
 msgstr "取消"
 
-#: src/ui/dialog_archive_prefix.ui:21
+#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "保存"
 
-#: src/ui/dialog_archive_prefix.ui:52
+#: src/ui/dialog_archive_prefix.ui:45
 msgid "Archive Prefixes"
 msgstr "归档文件前缀"
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:56
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -905,7 +1211,7 @@ msgstr ""
 "每次备份运行会创建新归档文件。归档文件名称总是用当前归档文件前缀作为文件名前"
 "缀。"
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:63
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -914,16 +1220,89 @@ msgstr ""
 "这与“清理归档文件”功能尤为相关。仅在文件名中带有当前已配置前缀的归档文件会被"
 "记入删除。"
 
-#: src/ui/dialog_archive_prefix.ui:77
+#: src/ui/dialog_archive_prefix.ui:70
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "如果归档文件前缀留空，则不会添加前缀。"
 
-#: src/ui/dialog_device_missing.rs:58 src/ui/dialog_device_missing.rs:63
-#: src/ui/dialog_device_missing.rs:100
+#: src/ui/dialog_check.rs:71
+msgid "Perform Repair"
+msgstr "执行修复"
+
+#: src/ui/dialog_check.rs:75 src/ui/dialog_check.ui:66
+msgid "Perform Check"
+msgstr "执行检查"
+
+#: src/ui/dialog_check.rs:126 src/ui/dialog_check.rs:159
+msgid "Verify Archives Integrity"
+msgstr "验证归档完整性"
+
+#: src/ui/dialog_check.rs:174
+msgid "Verify archives integrity completed successfully"
+msgstr "验证归档完整性已成功完成"
+
+#: src/ui/dialog_check.ui:5 src/ui/dialog_check.ui:26
+msgid "Archives Integrity Check"
+msgstr "归档完整性检查"
+
+#: src/ui/dialog_check.ui:30
+msgid ""
+"This operation will check all archives for data integrity. This may take a "
+"long time."
+msgstr "该操作将检查所有归档文件的数据完整性。这可能会花费较长一段时间。"
+
+#: src/ui/dialog_check.ui:33
+msgid "Verify data"
+msgstr "校验数据"
+
+#: src/ui/dialog_check.ui:34
+msgid "Perform full data verification."
+msgstr "执行完全的数据校验。"
+
+#: src/ui/dialog_check.ui:47
+msgid ""
+"Perform a full repair. This is a potentially dangerous function and might "
+"lead to data loss (for kinds of corruption it is not capable of dealing "
+"with)."
+msgstr ""
+"执行完全修复。这可能是危险操作且可能会导致数据丢失（比如它无法处理的损坏类"
+"型）。"
+
+#: src/ui/dialog_check.ui:50
+msgid "Repair"
+msgstr "修复"
+
+#: src/ui/dialog_check.ui:51
+msgid "Repair errors. This can lead to data loss."
+msgstr "修复错误。这可能会导致数据丢失。"
+
+#: src/ui/dialog_delete_archive.rs:67
+msgid "Delete Archive Failed"
+msgstr "删除归档失败"
+
+#: src/ui/dialog_delete_archive.ui:34
+msgid "Delete Archive"
+msgstr "删除归档"
+
+#: src/ui/dialog_delete_archive.ui:47
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr "该操作的处理将永久删除该归档文件。该特定时间点保存的数据将不再可用。"
+
+#: src/ui/dialog_delete_archive.ui:57
+msgid "Archive Name"
+msgstr "归档名称"
+
+#: src/ui/dialog_delete_archive.ui:70
+msgid "Archive Date"
+msgstr "归档日期"
+
+#: src/ui/dialog_device_missing.rs:59 src/ui/dialog_device_missing.rs:64
+#: src/ui/dialog_device_missing.rs:103
 msgid "Failed to Mount"
 msgstr "挂载失败"
 
-#: src/ui/dialog_device_missing.ui:23
+#: src/ui/dialog_device_missing.ui:39
 msgid "The following backup location needs to be connected:"
 msgstr "需要连接以下备份位置："
 
@@ -933,7 +1312,7 @@ msgid ""
 "“{}”."
 msgstr "“{}”操作需要在“{}”的仓库的加密密码。"
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:487
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:507
 msgid "Encryption Password Required"
 msgstr "需要加密密码"
 
@@ -945,20 +1324,29 @@ msgstr "取消(_C)"
 msgid "Co_ntinue"
 msgstr "继续(_N)"
 
-#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:507
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:469
+#: src/ui/dialog_setup.ui:515
 msgid "Password"
 msgstr "密码"
 
-#: src/ui/dialog_exclude.rs:129
+#: src/ui/dialog_exclude.rs:76
+msgid "Exclusion Rules"
+msgstr "排除规则"
+
+#: src/ui/dialog_exclude.rs:159
+msgid "Add exclusion rule"
+msgstr "添加排除规则"
+
+#: src/ui/dialog_exclude.rs:203
 msgid "Exclude Directory"
 msgstr "排除目录"
 
-#: src/ui/dialog_exclude.rs:130 src/ui/dialog_exclude.rs:159
-#: src/ui/page_backup/events.rs:43 src/ui/utils.rs:243
+#: src/ui/dialog_exclude.rs:204 src/ui/dialog_exclude.rs:233
+#: src/ui/page_backup/events.rs:99 src/ui/utils.rs:287
 msgid "Select"
 msgstr "选择"
 
-#: src/ui/dialog_exclude.rs:158
+#: src/ui/dialog_exclude.rs:232
 msgid "Exclude File"
 msgstr "排除文件"
 
@@ -970,7 +1358,7 @@ msgstr "排除文件夹"
 msgid "Exclude Single File"
 msgstr "排除单文件"
 
-#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:4
+#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:6
 msgid "Exclude Pattern"
 msgstr "排除模式"
 
@@ -982,7 +1370,15 @@ msgstr "定义正则表达式或 Unix 文件名模式"
 msgid "Suggested Exclusions"
 msgstr "建议的排除项"
 
-#: src/ui/dialog_exclude_pattern.rs:34
+#: src/ui/dialog_exclude.ui:75
+msgid "Unreadable Paths"
+msgstr "不可读取的路径"
+
+#: src/ui/dialog_exclude.ui:76
+msgid "These locations were identified as unreadable from a previous backup."
+msgstr "这些来自之前备份的位置被识别为不可读取。"
+
+#: src/ui/dialog_exclude_pattern.rs:50
 msgid "Invalid Regular Expression"
 msgstr "无效的正则表达式"
 
@@ -1007,29 +1403,89 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help.html"
 "\">BorgBackup 文档</a>。"
 
-#: src/ui/dialog_prune.rs:28 src/ui/dialog_prune_review.rs:39
+#: src/ui/dialog_preferences.rs:198
+msgid ""
+"The title of this backup configuration. Will be displayed as “{}” when left "
+"empty."
+msgstr "该备份配置的标题。留空时将会显示为“{}”。"
+
+#: src/ui/dialog_preferences.rs:261
+msgid "Shell command invalid"
+msgstr "Shell 命令无效"
+
+#: src/ui/dialog_preferences.rs:262 src/ui/utils/borg.rs:24
+msgid "Please check for missing closing quotes."
+msgstr "请检查缺失的闭合引号。"
+
+#: src/ui/dialog_preferences.rs:327 src/ui/page_backup/execution.rs:216
+msgid "Error Running Shell Command"
+msgstr "运行 Shell 命令时发生错误"
+
+#: src/ui/dialog_preferences.ui:34 src/ui/dialog_preferences.ui:37
+msgid "Title"
+msgstr "标题"
+
+#: src/ui/dialog_preferences.ui:45 src/ui/dialog_setup.ui:318
+msgid "Additional command line arguments"
+msgstr "附加命令行参数"
+
+#: src/ui/dialog_preferences.ui:46 src/ui/dialog_setup.ui:319
+msgid ""
+"These arguments will be added to the call of the borg binary. Only long "
+"options, starting with “--”, are supported."
+msgstr "这些参数将添加到 Borg 程序的调用中。只支持以“--”开头的长选项。"
+
+#: src/ui/dialog_preferences.ui:49 src/ui/dialog_setup.ui:323
+msgid "Command line arguments"
+msgstr "命令行参数"
+
+#: src/ui/dialog_preferences.ui:60
+msgid "Shell Commands"
+msgstr "Shell 命令"
+
+#: src/ui/dialog_preferences.ui:61
+msgid "These bash shell commands will be called on certain backup events."
+msgstr "这些 bash shell 命令将在特定备份事件上调用。"
+
+#: src/ui/dialog_preferences.ui:74
+msgid "Pre-Backup Shell Command"
+msgstr "预备份 Shell 命令"
+
+#: src/ui/dialog_preferences.ui:81 src/ui/dialog_preferences.ui:102
+msgid "Run with test values"
+msgstr "带测试值运行"
+
+#: src/ui/dialog_preferences.ui:95
+msgid "Post-Backup Shell Command"
+msgstr "备份后 Shell 命令"
+
+#: src/ui/dialog_prune.rs:30 src/ui/dialog_prune_review.rs:42
 msgid "Failed to determine how many archives would be deleted"
 msgstr "测定删除多少归档文件失败"
 
-#: src/ui/dialog_prune.rs:44 src/ui/utils.rs:338
+#: src/ui/dialog_prune.rs:49 src/ui/utils.rs:420
 msgid "Close"
 msgstr "关闭"
 
+#: src/ui/dialog_prune.rs:98
+msgid "Reclaim Free Space"
+msgstr "取回可用空间"
+
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:38
 msgid "Checking for old Archives"
 msgstr "正在检查旧归档文件"
 
-#: src/ui/dialog_prune.ui:31
+#: src/ui/dialog_prune.ui:39
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr "创建将要核准删除的旧归档文件列表。"
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
-#: src/ui/dialog_prune_review.ui:82
+#: src/ui/dialog_prune.ui:66 src/ui/dialog_prune.ui:81
+#: src/ui/dialog_prune_review.ui:81
 msgid "Delete Archives"
 msgstr "删除归档文件"
 
-#: src/ui/dialog_prune.ui:72
+#: src/ui/dialog_prune.ui:78
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -1037,65 +1493,65 @@ msgid ""
 msgstr ""
 "该操作的处理将永久删除一些归档文件。那些特定时间点保存的数据将不再可用。"
 
-#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
+#: src/ui/dialog_prune.ui:94 src/ui/dialog_prune_review.ui:94
 msgid "Keep Archives"
 msgstr "保留归档文件"
 
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+#: src/ui/dialog_prune.ui:107 src/ui/dialog_prune_review.ui:107
 msgid "Not Considered"
 msgstr "不考虑在内"
 
-#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
 msgid "Archives with different prefix"
 msgstr "带有不同前缀的归档文件"
 
-#: src/ui/dialog_prune_review.ui:5
+#: src/ui/dialog_prune_review.ui:6
 msgid "Review Changes"
 msgstr "审阅更改"
 
-#: src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:38
 msgid "Assessing Impact on old Archives"
 msgstr "评估旧归档文件的影响"
 
-#: src/ui/dialog_prune_review.ui:31
+#: src/ui/dialog_prune_review.ui:39
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr "收集关于旧归档文件更改效果的信息"
 
-#: src/ui/dialog_prune_review.ui:59
+#: src/ui/dialog_prune_review.ui:66
 msgid "Apply"
 msgstr "应用"
 
-#: src/ui/dialog_prune_review.ui:72
+#: src/ui/dialog_prune_review.ui:78
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
 msgstr "应用这些更改之后，下次自动删除旧归档文件将有下列结果。"
 
-#: src/ui/dialog_setup.rs:174
+#: src/ui/dialog_setup.rs:185
 msgid "Failed to list existing repositories."
 msgstr "列出现有仓库失败。"
 
-#: src/ui/dialog_setup.ui:6
+#: src/ui/dialog_setup.ui:6 src/ui/dialog_setup.ui:25
 msgid "Setup"
 msgstr "部署"
 
-#: src/ui/dialog_setup.ui:40
+#: src/ui/dialog_setup.ui:36
 msgid "Create new Repository"
 msgstr "创建新仓库"
 
-#: src/ui/dialog_setup.ui:41
+#: src/ui/dialog_setup.ui:37
 msgid "Select a location for a new backup repository."
 msgstr "为新的备份仓库选择位置。"
 
-#: src/ui/dialog_setup.ui:49 src/ui/dialog_setup.ui:93
+#: src/ui/dialog_setup.ui:45 src/ui/dialog_setup.ui:99
 msgid "Location on Disk"
 msgstr "磁盘上的位置"
 
-#: src/ui/dialog_setup.ui:84
+#: src/ui/dialog_setup.ui:90
 msgid "Use Existing Repository"
 msgstr "使用现有仓库"
 
-#: src/ui/dialog_setup.ui:85
+#: src/ui/dialog_setup.ui:91
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -1103,27 +1559,27 @@ msgstr ""
 "选择包含现有备份仓库的位置。通过其它 BorgBackup 兼容软件创建的仓库同样可以使"
 "用。"
 
-#: src/ui/dialog_setup.ui:138
-msgid "Back to Overview"
-msgstr "返回概览"
+#: src/ui/dialog_setup.ui:150
+msgid "Select Location"
+msgstr "选择位置"
 
-#: src/ui/dialog_setup.ui:148
-msgid "Connect"
-msgstr "连接"
-
-#: src/ui/dialog_setup.ui:161
-msgid "_Create"
-msgstr "创建(_C)"
-
-#: src/ui/dialog_setup.ui:177
+#: src/ui/dialog_setup.ui:166 src/ui/dialog_setup.ui:226
 msgid "Location"
 msgstr "位置"
 
-#: src/ui/dialog_setup.ui:181
+#: src/ui/dialog_setup.ui:170 src/ui/dialog_setup.ui:231
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: src/ui/dialog_setup.ui:239
+#: src/ui/dialog_setup.ui:178
+msgid "Repository Base Folder"
+msgstr "仓库基础文件夹"
+
+#: src/ui/dialog_setup.ui:189
+msgid "Repository Name"
+msgstr "仓库名称"
+
+#: src/ui/dialog_setup.ui:212
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -1134,26 +1590,40 @@ msgstr ""
 "以，以“NTFS”或“Ext4”之类的格式重新格式化该备份位置。注意重新格式化会完全删除"
 "位置上的文件！"
 
-#: src/ui/dialog_setup.ui:264
-msgid "ssh://user@server.example.org/~/backup"
-msgstr "ssh://user@server.example.org/~/backup"
+#: src/ui/dialog_setup.ui:242
+msgid "Repository URL"
+msgstr "仓库 URL"
 
-#: src/ui/dialog_setup.ui:280
+#: src/ui/dialog_setup.ui:256
+msgid "Examples"
+msgstr "示例"
+
+#: src/ui/dialog_setup.ui:267
+msgid ""
+"ssh://user@server.example.org/~/backup\n"
+"smb://user@server.example.org/files/backup\n"
+"                                    "
+msgstr ""
+"ssh://user@server.example.org/~/backup\n"
+"smb://user@server.example.org/files/backup\n"
+"                                    "
+
+#: src/ui/dialog_setup.ui:276
 msgid "Conventional Locations"
 msgstr "常规位置"
 
-#: src/ui/dialog_setup.ui:291
+#: src/ui/dialog_setup.ui:288
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
 "“smb://” or “sftp://” protocol prefix."
 msgstr ""
 "SMB 和 SFTP 远程备份位置可由带有“smb://”或“sftp://”协议前缀的网址提供。"
 
-#: src/ui/dialog_setup.ui:298
+#: src/ui/dialog_setup.ui:295
 msgid "Locations with BorgBackup Support"
 msgstr "支持 BorgBackup 的位置"
 
-#: src/ui/dialog_setup.ui:310
+#: src/ui/dialog_setup.ui:307
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
@@ -1164,81 +1634,87 @@ msgstr ""
 "BorgBackup 程序。对于这些位置，可以使用“<server address>:<folder>”语法"
 "或“ssh://”前缀。"
 
-#: src/ui/dialog_setup.ui:327
+#: src/ui/dialog_setup.ui:344
+msgid "_Connect"
+msgstr "连接(_C)"
+
+#: src/ui/dialog_setup.ui:359
+msgid "_Continue"
+msgstr "继续(_C)"
+
+#: src/ui/dialog_setup.ui:379
+msgid "Setup Encryption"
+msgstr "设置加密"
+
+#: src/ui/dialog_setup.ui:395
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
 msgstr "加密备份中储存的数据受密码保护。如果使用了加密，则访问备份需要密码。"
 
-#: src/ui/dialog_setup.ui:328
+#: src/ui/dialog_setup.ui:396
 msgid "Encryption"
 msgstr "加密"
 
-#: src/ui/dialog_setup.ui:342
+#: src/ui/dialog_setup.ui:399
+msgid "Use Encryption"
+msgstr "使用加密"
+
+#: src/ui/dialog_setup.ui:408
 msgid "Encrypted"
 msgstr "已加密"
 
-#: src/ui/dialog_setup.ui:349
-msgid "Encryption Password"
-msgstr "加密密码"
-
-#: src/ui/dialog_setup.ui:363
-msgid "Repeat Password"
-msgstr "重复密码"
-
-#: src/ui/dialog_setup.ui:374
+#: src/ui/dialog_setup.ui:414
 msgid "Unencrypted"
 msgstr "未加密"
 
-#: src/ui/dialog_setup.ui:391
-msgid ""
-"These arguments will be added to the call of the borg binary. Only long "
-"options, starting with “--”, are supported."
-msgstr "这些参数将添加到 Borg 程序的调用中。只支持以“--”开头的长选项。"
+#: src/ui/dialog_setup.ui:424
+msgid "Encryption Password"
+msgstr "加密密码"
 
-#: src/ui/dialog_setup.ui:392
-msgid "Additional command line arguments"
-msgstr "附加命令行参数"
+#: src/ui/dialog_setup.ui:431
+msgid "Repeat Password"
+msgstr "重复密码"
 
-#: src/ui/dialog_setup.ui:434
+#: src/ui/dialog_setup.ui:453
+msgid "_Create"
+msgstr "创建(_C)"
+
+#: src/ui/dialog_setup.ui:483
 msgid "Checking Backup Repository"
 msgstr "检查备份仓库"
 
-#: src/ui/dialog_setup.ui:496
+#: src/ui/dialog_setup.ui:508
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr "需要该备份仓库的加密密码来访问它。"
 
-#: src/ui/dialog_setup.ui:542 src/ui/dialog_setup.ui:576
+#: src/ui/dialog_setup.ui:550 src/ui/dialog_setup.ui:600
+msgid "Transfer Settings"
+msgstr "迁移设置"
+
+#: src/ui/dialog_setup.ui:563 src/ui/dialog_setup.ui:624
 msgid "S_kip"
 msgstr "跳过(_K)"
 
-#: src/ui/dialog_setup.ui:554
+#: src/ui/dialog_setup.ui:573
 msgid "Checking for Previous Configurations"
 msgstr "检查先前配置"
 
-#: src/ui/dialog_setup.ui:555
+#: src/ui/dialog_setup.ui:574
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
 msgstr "收集信息来传输上次使用的设置。该步骤是可选的。"
 
-#: src/ui/dialog_setup.ui:590
-msgid "Transfer Settings"
-msgstr "迁移设置"
-
-#: src/ui/dialog_setup.ui:591
+#: src/ui/dialog_setup.ui:601
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
 "可以选择用于先前备份的配置并将其迁移到新的部署。随后可以对配置进行调整。"
 
-#: src/ui/dialog_setup.ui:619
-msgid "_Save"
-msgstr "保存(_S)"
-
-#: src/ui/dialog_setup.ui:633
+#: src/ui/dialog_setup.ui:660
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1247,31 +1723,36 @@ msgstr ""
 "归档文件前缀必须对每个备份配置是独一无二的。除非是新设备替换旧设备否则不鼓励"
 "在两个设备上使用相同前缀。"
 
-#: src/ui/dialog_setup.ui:674 src/ui/dialog_setup/insert.rs:143
+#: src/ui/dialog_setup.ui:687
+msgid "_Save"
+msgstr "保存(_S)"
+
+#: src/ui/dialog_setup.ui:703 src/ui/dialog_setup.ui:718
+#: src/ui/dialog_setup/insert.rs:161
 msgid "Creating Backup Repository"
 msgstr "正在创建备份仓库"
 
-#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:58
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:81
 msgid "None"
 msgstr "无"
 
-#: src/ui/dialog_setup/display.rs:242
+#: src/ui/dialog_setup/display.rs:245
 msgid "Free space: {}"
 msgstr "空闲空间：{}"
 
-#: src/ui/dialog_setup/folder_button.rs:110
-msgid "_Select…"
-msgstr "选择(_S)…"
-
-#: src/ui/dialog_setup/folder_button.rs:115 src/ui/dialog_storage.ui:5
+#: src/ui/dialog_setup/folder_button.rs:123 src/ui/dialog_storage.ui:6
 msgid "Backup Location"
 msgstr "备份位置"
+
+#: src/ui/dialog_setup/folder_button.rs:149
+msgid "_Select Folder…"
+msgstr "选择文件夹(_S)…"
 
 #: src/ui/dialog_setup/insert.rs:16
 msgid "Setup Existing Repository"
 msgstr "部署现有仓库"
 
-#: src/ui/dialog_setup/insert.rs:31
+#: src/ui/dialog_setup/insert.rs:31 src/ui/dialog_setup/insert.rs:99
 msgid "Location is not a valid backup repository."
 msgstr "该位置不是有效的备份仓库。"
 
@@ -1279,51 +1760,43 @@ msgstr "该位置不是有效的备份仓库。"
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr "仓库必须来自 Pika 备份或者兼容的软件。"
 
-#: src/ui/dialog_setup/insert.rs:45 src/ui/dialog_setup/insert.rs:111
+#: src/ui/dialog_setup/insert.rs:45 src/ui/dialog_setup/insert.rs:106
 msgid "Invalid Remote Location"
 msgstr "无效的远程位置"
 
-#: src/ui/dialog_setup/insert.rs:79
-msgid "No Password Provided"
-msgstr "未提供密码"
-
-#: src/ui/dialog_setup/insert.rs:80
-msgid "To use encryption a password must be provided."
-msgstr "要使用加密必须提供密码。"
-
-#: src/ui/dialog_setup/insert.rs:84
-msgid "Entered passwords do not match."
-msgstr "输入的密码不匹配。"
-
-#: src/ui/dialog_setup/insert.rs:107
+#: src/ui/dialog_setup/insert.rs:100
 msgid "A repository location has to be given."
 msgstr "必须指定仓库位置。"
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:254
-msgid "Additional command line arguments invalid."
-msgstr "附加的命令行参数无效。"
+#: src/ui/dialog_setup/insert.rs:129
+msgid "No Password Provided"
+msgstr "未提供密码"
 
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:255
-msgid "Please check for missing closing quotes."
-msgstr "请检查缺失的闭合引号。"
+#: src/ui/dialog_setup/insert.rs:130
+msgid "To use encryption a password must be provided."
+msgstr "要使用加密必须提供密码。"
 
-#: src/ui/dialog_setup/insert.rs:182
+#: src/ui/dialog_setup/insert.rs:134
+msgid "Entered passwords do not match."
+msgstr "输入的密码不匹配。"
+
+#: src/ui/dialog_setup/insert.rs:204
 msgid "Loading Backup Repository"
 msgstr "正在载入备份仓库"
 
-#: src/ui/dialog_setup/insert.rs:202
+#: src/ui/dialog_setup/insert.rs:224
 msgid "Failed to Configure Repository"
 msgstr "配置仓库失败"
 
-#: src/ui/dialog_setup/insert.rs:221
+#: src/ui/dialog_setup/insert.rs:243
 msgid "Failed"
 msgstr "失败"
 
-#: src/ui/dialog_setup/insert.rs:291
+#: src/ui/dialog_setup/insert.rs:304
 msgid "Repository location not found."
 msgstr "未找到仓库位置。"
 
-#: src/ui/dialog_setup/insert.rs:292
+#: src/ui/dialog_setup/insert.rs:305
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "挂载操作已成功但位置仍不可用。"
 
@@ -1339,79 +1812,100 @@ msgstr "远程位置必须具有特定路径。"
 msgid "Invalid remote location: “{}”"
 msgstr "无效的远程位置：“{}”"
 
-#: src/ui/dialog_storage.ui:30
+#: src/ui/dialog_storage.ui:19
+msgid "Disk"
+msgstr "磁盘"
+
+#: src/ui/dialog_storage.ui:22
 msgid "Volume"
 msgstr "卷"
 
-#: src/ui/dialog_storage.ui:45
+#: src/ui/dialog_storage.ui:31
 msgid "Device"
 msgstr "设备"
 
-#: src/ui/dialog_storage.ui:60
+#: src/ui/dialog_storage.ui:40
 msgid "Path"
 msgstr "路径"
 
-#: src/ui/dialog_storage.ui:84
+#: src/ui/dialog_storage.ui:52
+msgid "Remote"
+msgstr "远程"
+
+#: src/ui/dialog_storage.ui:55
 msgid "URL"
 msgstr "URL"
 
-#: src/ui/dialog_storage.ui:108
+#: src/ui/dialog_storage.ui:67
 msgid "Space"
 msgstr "空间"
 
-#: src/ui/dialog_storage.ui:122
+#: src/ui/dialog_storage.ui:70
 msgid "Total"
 msgstr "总容量"
 
-#: src/ui/dialog_storage.ui:135
+#: src/ui/dialog_storage.ui:79
 msgid "Free"
 msgstr "空闲"
 
-#: src/ui/error.rs:72
+#: src/ui/error.rs:74
+msgid ""
+"The keyring is not available. Pika Backup requires a keyring daemon (“secret "
+"service”) to store passwords. For installation instructions see the "
+"operating system documentation."
+msgstr ""
+"钥匙串不可用。Pika 备份需要钥匙串守护程序（“secret service”）来存储密码。关于"
+"安装介绍请查阅操作系统文档。"
+
+#: src/ui/error.rs:98
 msgid "Backup with id “{}” already exists."
 msgstr "ID 为“{}”的备份已存在。"
 
-#: src/ui/error.rs:77
+#: src/ui/error.rs:103
 msgid "Could not find backup configuration with id “{}”."
 msgstr "无法找到 ID 为“{}”的备份配置。"
 
-#: src/ui/page_archives/cache.rs:34
+#: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "无法刷新归档缓存。"
 
-#: src/ui/page_archives/display.rs:80
+#: src/ui/page_archives/display.rs:103
 msgid "Failed to open archive."
 msgstr "无法打开归档文件。"
 
-#: src/ui/page_archives/display.rs:158
+#: src/ui/page_archives/display.rs:174
+msgid "Incomplete Archive"
+msgstr "未完成的归档"
+
+#: src/ui/page_archives/display.rs:195
 msgid "Name"
 msgstr "名称"
 
-#: src/ui/page_archives/display.rs:160
+#: src/ui/page_archives/display.rs:197
 msgid "Duration"
 msgstr "持续时间"
 
-#: src/ui/page_archives/display.rs:164
+#: src/ui/page_archives/display.rs:201
 msgid "Comment"
 msgstr "注释"
 
-#: src/ui/page_archives/display.rs:168
+#: src/ui/page_archives/display.rs:205
 msgid "Browse saved files"
 msgstr "浏览已保存的文件"
 
-#: src/ui/page_archives/display.rs:201
+#: src/ui/page_archives/display.rs:219
+msgid "Delete archive"
+msgstr "删除归档"
+
+#: src/ui/page_archives/display.rs:253
 msgid "{} Available"
 msgstr "{} 可用"
 
-#: src/ui/page_archives/display.rs:204
+#: src/ui/page_archives/display.rs:256
 msgid "{} Total"
 msgstr "{} 总计"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
-msgid "Failed to unmount repository."
-msgstr "无法卸载仓库。"
-
-#: src/ui/page_archives/events.rs:61
+#: src/ui/page_archives/events.rs:78
 msgid "Failed to make archives available for browsing."
 msgstr "无法使归档文件可供浏览。"
 
@@ -1419,88 +1913,186 @@ msgstr "无法使归档文件可供浏览。"
 msgid "Usually contains all personal data"
 msgstr "通常包含所有个人数据"
 
-#: src/ui/page_backup/events.rs:42
+#: src/ui/page_backup/display.rs:41
+msgid "Remove Directory"
+msgstr "移除目录"
+
+#: src/ui/page_backup/display.rs:102
+msgid "Edit Pattern"
+msgstr "编辑方案"
+
+#: src/ui/page_backup/display.rs:121
+msgid "Remove From List"
+msgstr "从列表移除"
+
+#: src/ui/page_backup/events.rs:28
+msgid "Abort Saving Backup State?"
+msgstr "中止保存备份状态吗？"
+
+#: src/ui/page_backup/events.rs:29
+msgid ""
+"The current backup state is in the process of being saved. The backup can be "
+"continued later without saving the state. Some data might have to be copied "
+"again."
+msgstr ""
+"当前备份状态是在保存的过程中。备份不用保存状态也可以随后继续进行。一些数据可"
+"能会需要再次复制。"
+
+#: src/ui/page_backup/events.rs:36
+msgid "Stop Running Backup?"
+msgstr "停止运行备份吗？"
+
+#: src/ui/page_backup/events.rs:37
+msgid ""
+"The current backup state will be saved. You can continue your backup later "
+"by starting it again."
+msgstr "当前备份状态将会保存。您可以随后通过再次启动来继续备份。"
+
+#: src/ui/page_backup/events.rs:39 src/ui/page_backup/events.rs:58
+msgid "Stop"
+msgstr "停止"
+
+#: src/ui/page_backup/events.rs:47
+msgid "Abort Delete Operation?"
+msgstr "中止删除操作吗？"
+
+#: src/ui/page_backup/events.rs:48
+msgid ""
+"Archives are currently being deleted. Aborting now will cause some deletion "
+"progress to be lost. Free space will not be reclaimed."
+msgstr ""
+"归档文件当前正在被删除。现在中止将会导致一些删除进度丢失。可用空间将不会被取"
+"回。"
+
+#: src/ui/page_backup/events.rs:55
+msgid "Stop Deleting Archives?"
+msgstr "停止删除归档吗？"
+
+#: src/ui/page_backup/events.rs:56
+msgid ""
+"Deletion progress will be saved. Free space will not be reclaimed. You can "
+"continue deletion at a later time by starting the operation again."
+msgstr ""
+"删除进度将会保存。可用空间将不会取回。您可以随后通过再次启动该操作来继续删"
+"除。"
+
+#: src/ui/page_backup/events.rs:65
+msgid "Abort Operation?"
+msgstr "中止操作吗？"
+
+#: src/ui/page_backup/events.rs:66
+msgid ""
+"An operation is currently being performed. Aborting now will cause any "
+"progress made by the operation to be lost."
+msgstr "当前正在执行操作。现在中止将导致该操作的任意进度丢失。"
+
+#: src/ui/page_backup/events.rs:98
 msgid "Include Folder"
 msgstr "包含文件夹"
 
-#: src/ui/page_backup/events.rs:93
+#: src/ui/page_backup/events.rs:128
+msgid "Unable to Include Location"
+msgstr "无法包含位置"
+
+#: src/ui/page_backup/events.rs:129
+msgid ""
+"The following paths could not be included because they aren't reliably "
+"available in the sandbox:\n"
+"{}"
+msgstr ""
+"下列路径无法包含在内因为它们在沙盒中并不确实可用：\n"
+"{}"
+
+#: src/ui/page_backup/events.rs:185
 msgid "No longer include “{}” in backups?"
 msgstr "不再包含“{}”到备份里？"
 
-#: src/ui/page_backup/events.rs:94
+#: src/ui/page_backup/events.rs:186
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr "这个文件夹里包含的所有文件将不再成为以后备份的一部分。"
 
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:188
 msgid "Confirm"
 msgstr "确认"
 
-#: src/ui/page_backup/execution.rs:35
+#: src/ui/page_backup/execution.rs:23
 msgid "Stop browsing files and start backup?"
 msgstr "停止浏览文件并开始备份？"
 
-#: src/ui/page_backup/execution.rs:36
+#: src/ui/page_backup/execution.rs:24
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr "运行备份期间不能浏览归档里的文件。"
 
-#: src/ui/page_backup/execution.rs:37
+#: src/ui/page_backup/execution.rs:25
 msgid "Keep Browsing"
 msgstr "继续浏览"
 
-#: src/ui/page_backup/execution.rs:38
+#: src/ui/page_backup/execution.rs:26
 msgid "Start Backup"
 msgstr "开始备份"
 
-#: src/ui/page_backup/execution.rs:117
+#: src/ui/page_backup/execution.rs:33 src/ui/utils/borg.rs:189
+msgid "Failed to unmount repository."
+msgstr "无法卸载仓库。"
+
+#: src/ui/page_backup/execution.rs:59
+msgid "Delete old Archives Failed"
+msgstr "删除旧归档失败"
+
+#: src/ui/page_backup/execution.rs:70
+msgid "Reclaiming Free Space Failed"
+msgstr "取回可用空间失败"
+
+#: src/ui/page_backup/execution.rs:148
 msgid "Backup Failed"
 msgstr "备份失败"
 
-#: src/ui/page_backup/execution.rs:136
+#: src/ui/page_backup/execution.rs:170
 msgid "Backup Completed with Warnings"
 msgstr "备份完成但有警告"
 
-#: src/ui/page_overview.rs:49
+#: src/ui/page_overview.rs:50
 msgid "Remove Backup Setup?"
 msgstr "移除备份部署吗？"
 
-#: src/ui/page_overview.rs:50
+#: src/ui/page_overview.rs:51
 msgid "Removing the setup will not delete any archives."
 msgstr "移除部署不会删除任何归档文件。"
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:53
 msgid "Remove Setup"
 msgstr "移除部署"
 
-#: src/ui/page_schedule/event.rs:138
+#: src/ui/page_schedule/event.rs:136
 msgid "Invalid time format."
 msgstr "无效的时间格式。"
 
-#: src/ui/page_schedule/event.rs:146
+#: src/ui/page_schedule/event.rs:144
 msgid "Invalid weekday."
 msgstr "无效的工作日。"
 
-#: src/ui/page_schedule/event.rs:153
+#: src/ui/page_schedule/event.rs:151
 msgid "No frequency selected."
 msgstr "未选择频率。"
 
-#: src/ui/page_schedule/event.rs:253
+#: src/ui/page_schedule/event.rs:251
 msgid "Disable backup schedule?"
 msgstr "禁用备份计划吗？"
 
-#: src/ui/page_schedule/event.rs:254
+#: src/ui/page_schedule/event.rs:252
 msgid "No longer remind of backups based on a schedule."
 msgstr "不再根据计划提醒备份。"
 
-#: src/ui/page_schedule/event.rs:255
+#: src/ui/page_schedule/event.rs:253
 msgid "Keep Schedule"
 msgstr "保持计划"
 
-#: src/ui/page_schedule/event.rs:256
+#: src/ui/page_schedule/event.rs:254
 msgid "Disable Schedule"
 msgstr "禁用计划"
 
-#: src/ui/page_schedule/event.rs:322
+#: src/ui/page_schedule/event.rs:320
 msgid "No preset selected."
 msgstr "未选择预设。"
 
@@ -1516,125 +2108,129 @@ msgstr "保留一些"
 msgid "Custom"
 msgstr "自定义"
 
-#: src/ui/page_schedule/status.rs:15
+#: src/ui/page_schedule/status.rs:16
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "下次备份于 {} 分钟"
 
-#: src/ui/page_schedule/status.rs:21
+#: src/ui/page_schedule/status.rs:22
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "下次备份于 {} 小时"
 
-#: src/ui/page_schedule/status.rs:27
+#: src/ui/page_schedule/status.rs:28
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "下次备份于 {} 天"
 
-#: src/ui/page_schedule/status.rs:33
+#: src/ui/page_schedule/status.rs:34
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "下次备份于 {} 周"
 
-#: src/ui/page_schedule/status.rs:50
+#: src/ui/page_schedule/status.rs:51
 msgid "Scheduled Backups Disabled"
 msgstr "计划备份已禁用"
 
-#: src/ui/page_schedule/status.rs:68
+#: src/ui/page_schedule/status.rs:69
 msgid "Hourly Backups Enabled"
 msgstr "按小时备份已启用"
 
-#: src/ui/page_schedule/status.rs:69
+#: src/ui/page_schedule/status.rs:70
 msgid "Daily Backups Enabled"
 msgstr "按天备份已启用"
 
-#: src/ui/page_schedule/status.rs:70
+#: src/ui/page_schedule/status.rs:71
 msgid "Weekly Backups Enabled"
 msgstr "按周备份已启用"
 
-#: src/ui/page_schedule/status.rs:71
+#: src/ui/page_schedule/status.rs:72
 msgid "Monthly Backups Enabled"
 msgstr "按月备份已启用"
 
-#: src/ui/page_schedule/status.rs:82
+#: src/ui/page_schedule/status.rs:83
 msgid "Will not start until requirements are met."
 msgstr "直到满足需求才会开始。"
 
-#: src/ui/page_schedule/status.rs:87
+#: src/ui/page_schedule/status.rs:88
 msgid "Inconsistent backup information"
 msgstr "不一致的备份信息"
 
-#: src/ui/page_schedule/status.rs:93
+#: src/ui/page_schedule/status.rs:94
 msgid "Backup Past Due"
 msgstr "备份已过期"
 
-#: src/ui/page_schedule/status.rs:94
+#: src/ui/page_schedule/status.rs:95
 msgid "Waiting until requirements are met"
 msgstr "正在等待直到满足需求"
 
-#: src/ui/page_schedule/status.rs:97
+#: src/ui/page_schedule/status.rs:98
 msgid "Scheduled Backups Unavailable"
 msgstr "计划备份不可用"
 
-#: src/ui/page_schedule/status.rs:100
+#: src/ui/page_schedule/status.rs:101
 msgid "Waiting for Backup to Start"
 msgstr "正在等待备份开始"
 
-#: src/ui/page_schedule/status.rs:109
+#: src/ui/page_schedule/status.rs:110
 msgid "Network connection must not be metered"
 msgstr "网络连接不能是流量计费网络"
 
-#: src/ui/page_schedule/status.rs:115
+#: src/ui/page_schedule/status.rs:116
 msgid "Other backups on repository have to be completed"
 msgstr "仓库的其它备份必须完成"
 
-#: src/ui/page_schedule/status.rs:122
+#: src/ui/page_schedule/status.rs:123
 msgid "Device must be connected to power"
 msgstr "设备必须连接到电源"
 
-#: src/ui/page_schedule/status.rs:133
+#: src/ui/page_schedule/status.rs:134
 msgid "Backup device has to be connected"
 msgstr "必须连接备份设备"
 
-#: src/ui/page_schedule/status.rs:135
+#: src/ui/page_schedule/status.rs:136
 msgid "Reminder will be sent when device is required"
 msgstr "需要设备时将发送提醒"
 
-#: src/ui/page_schedule/status.rs:143
+#: src/ui/page_schedule/status.rs:144
 msgid "Network connection has to be available"
 msgstr "网络连接必须可用"
 
-#: src/ui/page_schedule/status.rs:153
+#: src/ui/page_schedule/status.rs:154
 msgid "Background process inactive"
 msgstr "后台进程未激活"
 
-#: src/ui/page_schedule/status.rs:154
+#: src/ui/page_schedule/status.rs:155
 msgid "This is required for scheduled backups"
 msgstr "计划备份需要该项"
 
-#: src/ui/status.rs:84
+#: src/ui/shell.rs:26
+msgid "Idle"
+msgstr "空闲"
+
+#: src/ui/status.rs:86
 msgid "Unable to determine background process status"
 msgstr "无法测定后台进程状态"
 
-#: src/ui/toast_size_estimate.rs:34
+#: src/ui/toast_size_estimate.rs:46
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
 msgstr "备份位置“{}”可能填满了。保存全部数据估计还缺少空间：{}。"
 
-#: src/ui/utils.rs:93
+#: src/ui/utils.rs:104
 msgid "Request to run in background failed"
 msgstr "请求后台运行失败"
 
-#: src/ui/utils.rs:111
+#: src/ui/utils.rs:122
 msgid "Schedule backups and continue running backups."
 msgstr "计划备份且继续运行备份。"
 
-#: src/ui/utils.rs:127
+#: src/ui/utils.rs:139
 msgid "Run in background disabled"
 msgstr "已禁用后台运行"
 
-#: src/ui/utils.rs:128
+#: src/ui/utils.rs:140
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1642,47 +2238,61 @@ msgid ""
 msgstr ""
 "计划备份功能和后台继续备份将不可用。可以通过系统设置启用“后台运行”选项。"
 
-#: src/ui/utils.rs:138
+#: src/ui/utils.rs:150
 msgid ""
-"Either the system does not support this feature or an error occurred. "
-"Scheduled backup functionality and continuing backups in the background will "
-"not be available."
-msgstr "系统不支持该功能或发生了错误。计划备份功能和后台继续备份将不可用。"
+"The system does not support running Pika Backup in the background. Scheduled "
+"backup functionality and continuing backups in the background will not be "
+"available. This is either a malfunction, misconfiguration or other issue "
+"with the xdg-desktop-portal. Please report this issue in your distribution "
+"issue tracker."
+msgstr ""
+"该系统不支持在后台运行 Pika 备份。计划备份功能和后台继续备份将不可用。这可能"
+"是程序故障、错误配置或其它与 xdg-desktop-portal 有关的问题。请在您的发行版问"
+"题追踪器上报告该问题。"
 
-#: src/ui/utils.rs:160
+#: src/ui/utils.rs:172
 msgid "Failed to Start Monitor"
 msgstr "开启监视器失败"
 
-#: src/ui/utils.rs:229
+#: src/ui/utils.rs:250
+msgid "One Backup Operation Running"
+msgid_plural "{} Backup Operations Running"
+msgstr[0] "{} 个备份操作正在运行"
+
+#: src/ui/utils.rs:273
 msgid "Failed to Create Thread"
 msgstr "创建线程失败"
 
-#: src/ui/utils.rs:480
+#: src/ui/utils.rs:555
 msgid "Failed to fix Scheduled Backups"
 msgstr "修复计划备份失败"
 
-#: src/ui/utils.rs:485
+#: src/ui/utils.rs:560
 msgid "Scheduled Backups Repaired"
 msgstr "计划备份已修复"
 
-#: src/ui/utils.rs:485
+#: src/ui/utils.rs:560
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
 msgstr "该系统包含潜在引起计划备份无法正常工作的错误。该问题现在已解决。"
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:23
+msgid "Additional command line arguments invalid"
+msgstr "附加的命令行参数无效"
+
+#: src/ui/utils/borg.rs:52
 msgid "Repository already in use"
 msgstr "仓库已被使用"
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:167
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
 msgstr ""
 "备份仓库已标记为使用中。此信息可能过时，比如你的计算机在使用该仓库时断电。"
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:169
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1691,9 +2301,21 @@ msgstr ""
 "只有在你确定该仓库未被任何程序使用时继续！当其他程序使用仓库时继续可能会损坏"
 "备份数据！"
 
-#: src/ui/utils/borg.rs:150
+#: src/ui/utils/borg.rs:171
 msgid "Continue Anyway"
 msgstr "仍然继续"
+
+#: src/ui/utils/borg.rs:244 src/ui/utils/borg.rs:264
+msgid "Unable to Eject Backup Disk"
+msgstr "无法弹出备份磁盘"
+
+#: src/ui/utils/borg.rs:253
+msgid "{} can be safely unplugged."
+msgstr "{} 已可以安全拔出。"
+
+#: src/ui/utils/borg.rs:265
+msgid "{} can't be ejected."
+msgstr "{} 不能被弹出。"
 
 #: src/ui/utils/config_io.rs:49
 msgid "Could not load configuration file."
@@ -1703,71 +2325,91 @@ msgstr "无法载入配置文件。"
 msgid "Could not write configuration file."
 msgstr "无法写入配置文件。"
 
-#: src/ui/utils/duration.rs:10
+#: src/ui/utils/duration.rs:11
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "{} 秒"
 
-#: src/ui/utils/duration.rs:12
+#: src/ui/utils/duration.rs:13
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分钟"
 
-#: src/ui/utils/duration.rs:14
+#: src/ui/utils/duration.rs:15
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "{} 小时"
 
-#: src/ui/utils/duration.rs:16
+#: src/ui/utils/duration.rs:17
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "{} 天"
 
 #: src/ui/utils/duration.rs:23
+msgid "one second"
+msgid_plural "{} seconds"
+msgstr[0] "{} 秒"
+
+#: src/ui/utils/duration.rs:25
+msgid "one minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} 分钟"
+
+#: src/ui/utils/duration.rs:27
+msgid "one hour"
+msgid_plural "{} hours"
+msgstr[0] "{} 小时"
+
+#: src/ui/utils/duration.rs:29
+msgid "one day"
+msgid_plural "{} days"
+msgstr[0] "{} 天"
+
+#: src/ui/utils/duration.rs:36
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "剩余 {} 分钟"
 
-#: src/ui/utils/duration.rs:28
+#: src/ui/utils/duration.rs:41
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "剩余 {} 小时"
 
-#: src/ui/utils/duration.rs:30
+#: src/ui/utils/duration.rs:43
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "剩余 {} 天"
 
-#: src/ui/utils/duration.rs:36
+#: src/ui/utils/duration.rs:49
 msgid "Now"
 msgstr "现在"
 
-#: src/ui/utils/duration.rs:38
+#: src/ui/utils/duration.rs:51
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "{} 分钟前"
 
-#: src/ui/utils/duration.rs:40
+#: src/ui/utils/duration.rs:53
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "{} 小时前"
 
-#: src/ui/utils/duration.rs:42
+#: src/ui/utils/duration.rs:55
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "{} 天前"
 
-#: src/ui/utils/duration.rs:44
+#: src/ui/utils/duration.rs:57
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "{} 周前"
 
-#: src/ui/utils/duration.rs:46
+#: src/ui/utils/duration.rs:59
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "{} 月前"
 
-#: src/ui/utils/duration.rs:48
+#: src/ui/utils/duration.rs:61
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "{} 年前"
@@ -1776,18 +2418,49 @@ msgstr[0] "{} 年前"
 msgid "Failed to Store Password"
 msgstr "存储密码失败"
 
-#: src/ui/utils/password_storage.rs:31
+#: src/ui/utils/password_storage.rs:32
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "无法从密钥存储中移除可能遗留的密码。"
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:48
+#: src/ui/utils/password_storage.rs:51
 msgid "Pika Backup “{}”"
 msgstr "Pika 备份“{}”"
 
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "保存缓存失败"
+
+#: src/utils.rs:76
+msgid "No such file or directory"
+msgstr "无此文件或目录"
+
+#~ msgid "Sophie Herold"
+#~ msgstr "Sophie Herold"
+
+#~ msgid "Back to overview"
+#~ msgstr "返回概览"
+
+#~ msgid "Refresh list of archives"
+#~ msgstr "刷新归档文件列表"
+
+#~ msgid "Court Witch"
+#~ msgstr "取悦女巫"
+
+#~ msgid "Fina Wilke"
+#~ msgstr "Fina Wilke"
+
+#~ msgid "Back to Overview"
+#~ msgstr "返回概览"
+
+#~ msgid "ssh://user@server.example.org/~/backup"
+#~ msgstr "ssh://user@server.example.org/~/backup"
+
+#~ msgid ""
+#~ "Either the system does not support this feature or an error occurred. "
+#~ "Scheduled backup functionality and continuing backups in the background "
+#~ "will not be available."
+#~ msgstr "系统不支持该功能或发生了错误。计划备份功能和后台继续备份将不可用。"
 
 #~ msgid "Shell Wildcard Pattern"
 #~ msgstr "Shell 通配符方案"
@@ -1844,9 +2517,6 @@ msgstr "保存缓存失败"
 #~ "backups with a password"
 #~ msgstr "为了数据安全加密备份：您可以使用密码来保护备份中的数据"
 
-#~ msgid "Delete backup configuration"
-#~ msgstr "删除备份配置"
-
 #~ msgid "Select existing repository"
 #~ msgstr "选择现有仓库"
 
@@ -1888,9 +2558,6 @@ msgstr "保存缓存失败"
 #~ msgid "Configure Backup"
 #~ msgstr "配置备份"
 
-#~ msgid "Add excluded directory"
-#~ msgstr "添加排除目录"
-
 #~ msgid "{} on Disk “{}”"
 #~ msgstr "{} 于磁盘“{}”"
 
@@ -1899,9 +2566,6 @@ msgstr "保存缓存失败"
 
 #~ msgid "Creating a backup failed."
 #~ msgstr "创建备份失败。"
-
-#~ msgid "Get backup info"
-#~ msgstr "获取备份信息"
 
 #~ msgid "Browse Archive"
 #~ msgstr "浏览归档文件"
