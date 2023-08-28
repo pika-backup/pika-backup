@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-08-02 08:00+0000\n"
-"PO-Revision-Date: 2023-08-06 14:57+0200\n"
+"POT-Creation-Date: 2023-08-28 15:35+0000\n"
+"PO-Revision-Date: 2023-08-28 23:55+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -163,77 +163,81 @@ msgstr "Ni izbranih datotek za dodajanje v varnostno kopijo."
 msgid "Timeout"
 msgstr "Čas je potekel"
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:128
 msgid "Completed"
 msgstr "Zaključeno"
 
-#: src/borg/error.rs:149
+#: src/borg/error.rs:157
 msgid "Aborted on user request."
 msgstr "Preklicano zaradi zahteve uporabnika."
 
-#: src/borg/error.rs:153
+#: src/borg/error.rs:161
 msgid "Aborted because only metered connection was available."
 msgstr "Opravilo je prekinjeno, ker je na voljo le omejena povezava."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:159
+#: src/borg/error.rs:167
 msgid "Aborted because too long not connected to power."
 msgstr ""
 "Opravilo je prekinjeno, ker naprava predolgo ni priključena na napajanje."
 
-#: src/borg/error.rs:161
+#: src/borg/error.rs:169
 msgid "Aborted by system."
 msgstr "Preklicano zaradi zahteve sistema."
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:173
 msgid "The program or system seems to have crashed."
 msgstr "Zdi se, da se je program ali sistem sesul."
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:176
 msgid "{}"
 msgstr "{}"
 
-#: src/borg/error.rs:215
+#: src/borg/error.rs:182
+msgid "Unable to access backup repository: {}"
+msgstr "Dostop do skladišča varnostnih kopij ni možen: {}"
+
+#: src/borg/error.rs:237
 msgid "Connection closed by remote host."
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena."
 
-#: src/borg/error.rs:217 src/ui/utils/borg.rs:166
+#: src/borg/error.rs:239 src/ui/utils/borg.rs:188
 msgid "Repository already in use."
 msgstr "Skladišče je že v uporabi"
 
-#: src/borg/error.rs:218
+#: src/borg/error.rs:240
 msgid "Failed to lock repository."
 msgstr "Zaklepanje skladišča ni uspelo."
 
-#: src/borg/error.rs:219
+#: src/borg/error.rs:241
 msgid "Invalid encryption password."
 msgstr "Neveljavno šifrirno geslo."
 
-#: src/borg/error.rs:220
+#: src/borg/error.rs:242
 msgid "Repository access was aborted"
 msgstr "Dostop do skladišča je bil prekinjen"
 
-#: src/borg/error.rs:222
+#: src/borg/error.rs:244
 msgid "A repository already exists at this location."
 msgstr "Skladišče na tem mestu že obstaja."
 
-#: src/borg/error.rs:224
+#: src/borg/error.rs:246
 msgid "No repository exists at this location."
 msgstr "Na tem mestu še ni ustvarjenega skladišča."
 
-#: src/borg/error.rs:226
+#: src/borg/error.rs:248
 msgid "Not enough free space in repository."
 msgstr "Ni dovolj prostega prostora v skladišču."
 
-#: src/borg/error.rs:229
+#: src/borg/error.rs:251
 msgid "Connection closed by remote host: “{}”"
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena: »{}«"
 
-#: src/borg/error.rs:231
+#: src/borg/error.rs:253
 msgid "Exception"
 msgstr "Izjema"
 
-#: src/borg/error.rs:233
+#: src/borg/error.rs:255
 msgid "Unspecified error."
 msgstr "Prišlo je do nedoločene napake."
 
@@ -1241,7 +1245,7 @@ msgstr "Predpona arhiva"
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:187
-#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:170
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:192
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -1351,10 +1355,14 @@ msgstr "Ime arhiva"
 msgid "Archive Date"
 msgstr "Datum arhiviranja"
 
-#: src/ui/dialog_device_missing.rs:59 src/ui/dialog_device_missing.rs:64
-#: src/ui/dialog_device_missing.rs:103
+#: src/ui/dialog_device_missing.rs:65 src/ui/dialog_device_missing.rs:70
+#: src/ui/dialog_device_missing.rs:123 src/ui/dialog_device_missing.rs:128
 msgid "Failed to Mount"
 msgstr "Priklapljanje je spodletelo"
+
+#: src/ui/dialog_device_missing.rs:124
+msgid "The network server is not available"
+msgstr "Omrežni strežnik ni na voljo"
 
 #: src/ui/dialog_device_missing.ui:39
 msgid "The following backup location needs to be connected:"
@@ -1475,7 +1483,7 @@ msgstr "Ukaz lupine ni veljaven"
 msgid "Please check for missing closing quotes."
 msgstr "Preverite, ali  v zapisu manjkajo zaključne navednice."
 
-#: src/ui/dialog_preferences.rs:327 src/ui/page_backup/execution.rs:216
+#: src/ui/dialog_preferences.rs:327 src/ui/page_backup/execution.rs:202
 msgid "Error Running Shell Command"
 msgstr "Napaka pri izvajanju ukaza lupine"
 
@@ -2125,7 +2133,7 @@ msgstr "Nadaljuj z brskanjem"
 msgid "Start Backup"
 msgstr "Začni ustvarjanje varnostne kopije"
 
-#: src/ui/page_backup/execution.rs:33 src/ui/utils/borg.rs:189
+#: src/ui/page_backup/execution.rs:33 src/ui/utils/borg.rs:211
 msgid "Failed to unmount repository."
 msgstr "Odklapljanje skladišča je spodletelo."
 
@@ -2137,11 +2145,11 @@ msgstr "Brisanje starih arhivov je spodletelo"
 msgid "Reclaiming Free Space Failed"
 msgstr "Povrnitev nezasedenega prostora je spodletela"
 
-#: src/ui/page_backup/execution.rs:148
+#: src/ui/page_backup/execution.rs:135
 msgid "Backup Failed"
 msgstr "Ustvarjanje varnostne kopije je spodletelo."
 
-#: src/ui/page_backup/execution.rs:170
+#: src/ui/page_backup/execution.rs:157
 msgid "Backup Completed with Warnings"
 msgstr "Varnostna kopija je ustvarjena z opozorili."
 
@@ -2398,11 +2406,11 @@ msgstr ""
 msgid "Additional command line arguments invalid"
 msgstr "Dodatni argumenti ukazne vrstice niso veljavni"
 
-#: src/ui/utils/borg.rs:52
+#: src/ui/utils/borg.rs:62
 msgid "Repository already in use"
 msgstr "Skladišče je že v uporabi"
 
-#: src/ui/utils/borg.rs:167
+#: src/ui/utils/borg.rs:189
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -2411,7 +2419,7 @@ msgstr ""
 "lahko zastareli podatki, če je bilo npr. napajanje računalnika med uporabo "
 "skladišča prekinjeno."
 
-#: src/ui/utils/borg.rs:169
+#: src/ui/utils/borg.rs:191
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -2421,19 +2429,19 @@ msgstr ""
 "Nadaljevanje opravila, če je skladišče že rezervirano za drug program, lahko "
 "okvari varnostno kopirane podatke!"
 
-#: src/ui/utils/borg.rs:171
+#: src/ui/utils/borg.rs:193
 msgid "Continue Anyway"
 msgstr "Vseeno nadaljuj"
 
-#: src/ui/utils/borg.rs:244 src/ui/utils/borg.rs:264
+#: src/ui/utils/borg.rs:266 src/ui/utils/borg.rs:286
 msgid "Unable to Eject Backup Disk"
 msgstr "Diska za varnostno kopiranje ni mogoče izvreči"
 
-#: src/ui/utils/borg.rs:253
+#: src/ui/utils/borg.rs:275
 msgid "{} can be safely unplugged."
 msgstr "{} lahko varno izklopite."
 
-#: src/ui/utils/borg.rs:265
+#: src/ui/utils/borg.rs:287
 msgid "{} can't be ejected."
 msgstr "{} ni mogoče izvreči."
 
