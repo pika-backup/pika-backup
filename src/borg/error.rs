@@ -54,8 +54,7 @@ impl std::convert::TryFrom<LogCollection> for Error {
                     let hint = value
                         .iter()
                         .filter(|x| x.level() == LogLevel::Warning)
-                        .rev()
-                        .next()
+                        .next_back()
                         .map(|x| x.message());
 
                     if let Some(hint) = hint {
@@ -76,8 +75,7 @@ impl std::convert::TryFrom<LogCollection> for Error {
                                 .contains("Remote: Timeout, server borg not responding."),
                             _ => false,
                         })
-                        .rev()
-                        .next()
+                        .next_back()
                         .map(|_| gettext("Timeout"));
 
                     if let Some(hint) = hint {

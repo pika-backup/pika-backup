@@ -27,7 +27,7 @@ fn load_config_e() -> std::io::Result<()> {
     BACKUP_CONFIG.update(|backups| {
         let mut new = backups.clone();
 
-        for mut config in new.iter_mut() {
+        for config in new.iter_mut() {
             if config.config_version < config::VERSION {
                 config.config_version = config::VERSION;
             }

@@ -46,7 +46,7 @@ pub async fn refresh_archives(
     let archives = result?;
 
     REPO_CACHE.update(enclose!((config) move |repos| {
-        let mut repo_archives = repos
+        let repo_archives = repos
             .entry(config.repo_id.clone())
             .or_insert_with_key(RepoCache::new);
 

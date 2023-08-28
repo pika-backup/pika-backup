@@ -108,7 +108,7 @@ fn insert_transfer(
     config_id: &ConfigId,
 ) -> Result<()> {
     BACKUP_CONFIG.update_result(enclose!((archive_params, config_id) move |config| {
-        let mut conf = config.get_result_mut(&config_id)?;
+        let conf = config.get_result_mut(&config_id)?;
 
         conf.include = archive_params.parsed.include.clone();
         conf.exclude = BTreeSet::from_iter( archive_params.parsed.exclude.clone().into_iter().map(|x| x.into_relative()));
