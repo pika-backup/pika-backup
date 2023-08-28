@@ -148,7 +148,7 @@ pub fn fill_unreadable(dialog: &DialogExclude) -> Result<()> {
     });
 
     let Some(suggested_excludes) = suggested_excludes else {
-        return Ok(())
+        return Ok(());
     };
 
     for suggested in suggested_excludes {

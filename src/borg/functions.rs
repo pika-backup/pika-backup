@@ -266,7 +266,9 @@ async fn create_non_existent_location() {
 impl CommandRun<task::UserScript> for Command<task::UserScript> {
     async fn run(self) -> Result<()> {
         let Some(kind) = self.task.kind() else {
-            return Err(Error::from("The UserScript task kind wasn't set".to_string()));
+            return Err(Error::from(
+                "The UserScript task kind wasn't set".to_string(),
+            ));
         };
 
         let Some(script) = self.config.user_scripts.get(&kind) else {
@@ -280,7 +282,9 @@ impl CommandRun<task::UserScript> for Command<task::UserScript> {
             }
             UserScriptKind::PostBackup => {
                 let Some(run_info) = self.task.run_info() else {
-                    return Err(Error::from("The UserScript task RunInfo wasn't set".to_string()));
+                    return Err(Error::from(
+                        "The UserScript task RunInfo wasn't set".to_string(),
+                    ));
                 };
 
                 super::scripts::script_env_post(
