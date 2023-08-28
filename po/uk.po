@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-06-25 18:29+0000\n"
-"PO-Revision-Date: 2023-06-26 21:59+0300\n"
+"POT-Creation-Date: 2023-08-28 15:35+0000\n"
+"PO-Revision-Date: 2023-08-28 20:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -166,76 +166,81 @@ msgstr "Не вибрано жодного файла для включення 
 msgid "Timeout"
 msgstr "Час очікування"
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:128
 msgid "Completed"
 msgstr "Завершено"
 
-#: src/borg/error.rs:149
+#: src/borg/error.rs:157
 msgid "Aborted on user request."
 msgstr "Перервано за запитом користувача."
 
-#: src/borg/error.rs:153
+#: src/borg/error.rs:161
 msgid "Aborted because only metered connection was available."
 msgstr "Перервано, оскільки доступним є лише обмежене з'єднання."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:159
+#: src/borg/error.rs:167
 msgid "Aborted because too long not connected to power."
 msgstr "Перервано, оскільки довго немає доступу до живлення."
 
-#: src/borg/error.rs:161
+#: src/borg/error.rs:169
 msgid "Aborted by system."
 msgstr "Перервано системою."
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:173
 msgid "The program or system seems to have crashed."
 msgstr "Здається, аварійно завершила роботу програма або система."
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:176
 msgid "{}"
 msgstr "{}"
 
-#: src/borg/error.rs:215
+#: src/borg/error.rs:182
+#| msgid "Failed to lock repository."
+msgid "Unable to access backup repository: {}"
+msgstr "Не вдалося отримати доступ до сховища резервних копій: {}"
+
+#: src/borg/error.rs:237
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:217 src/ui/utils/borg.rs:166
+#: src/borg/error.rs:239 src/ui/utils/borg.rs:188
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
-#: src/borg/error.rs:218
+#: src/borg/error.rs:240
 msgid "Failed to lock repository."
 msgstr "Не вдалося заблокувати сховище."
 
-#: src/borg/error.rs:219
+#: src/borg/error.rs:241
 msgid "Invalid encryption password."
 msgstr "Некоректний пароль для шифрування."
 
-#: src/borg/error.rs:220
+#: src/borg/error.rs:242
 msgid "Repository access was aborted"
 msgstr "Доступ до сховища було перервано"
 
-#: src/borg/error.rs:222
+#: src/borg/error.rs:244
 msgid "A repository already exists at this location."
 msgstr "За цією адресою вже є сховище."
 
-#: src/borg/error.rs:224
+#: src/borg/error.rs:246
 msgid "No repository exists at this location."
 msgstr "За цією адресою немає сховища."
 
-#: src/borg/error.rs:226
+#: src/borg/error.rs:248
 msgid "Not enough free space in repository."
 msgstr "Недостатньо вільного місця у сховищі."
 
-#: src/borg/error.rs:229
+#: src/borg/error.rs:251
 msgid "Connection closed by remote host: “{}”"
 msgstr "З'єднання розірвано віддаленим вузлом: «{}»"
 
-#: src/borg/error.rs:231
+#: src/borg/error.rs:253
 msgid "Exception"
 msgstr "Виключення"
 
-#: src/borg/error.rs:233
+#: src/borg/error.rs:255
 msgid "Unspecified error."
 msgstr "Невизначена помилка."
 
@@ -840,7 +845,6 @@ msgid "_Setup Backup"
 msgstr "_Налаштувати резервне копіювання"
 
 #: src/ui/app_window.ui:194
-#| msgid "Backups"
 msgid "Backup"
 msgstr "Резервна копія"
 
@@ -1238,7 +1242,7 @@ msgstr "Префікс архівів"
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:187
-#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:170
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:192
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -1351,10 +1355,15 @@ msgstr "Назва архіву"
 msgid "Archive Date"
 msgstr "Дата архівування"
 
-#: src/ui/dialog_device_missing.rs:59 src/ui/dialog_device_missing.rs:64
-#: src/ui/dialog_device_missing.rs:103
+#: src/ui/dialog_device_missing.rs:65 src/ui/dialog_device_missing.rs:70
+#: src/ui/dialog_device_missing.rs:123 src/ui/dialog_device_missing.rs:128
 msgid "Failed to Mount"
 msgstr "Не вдалося змонтувати"
+
+#: src/ui/dialog_device_missing.rs:124
+#| msgid "Network connection has to be available"
+msgid "The network server is not available"
+msgstr "Немає доступу до мережевого сервера"
 
 #: src/ui/dialog_device_missing.ui:39
 msgid "The following backup location needs to be connected:"
@@ -1477,7 +1486,7 @@ msgstr "Некоректна команда оболонки"
 msgid "Please check for missing closing quotes."
 msgstr "Будь ласка, перевірте, чи закрито лапки."
 
-#: src/ui/dialog_preferences.rs:327 src/ui/page_backup/execution.rs:216
+#: src/ui/dialog_preferences.rs:327 src/ui/page_backup/execution.rs:202
 msgid "Error Running Shell Command"
 msgstr "Помилка під час виконання команди оболонки"
 
@@ -1629,7 +1638,6 @@ msgstr ""
 "програмним забезпеченням."
 
 #: src/ui/dialog_setup.ui:150
-#| msgid "Remote Location"
 msgid "Select Location"
 msgstr "Виберіть місце"
 
@@ -1672,10 +1680,6 @@ msgid "Examples"
 msgstr "Приклади"
 
 #: src/ui/dialog_setup.ui:267
-#| msgid ""
-#| "ssh://user@server.example.org/~/backup\n"
-#| "smb://user@server.example.org/files/backup\n"
-#| "                                "
 msgid ""
 "ssh://user@server.example.org/~/backup\n"
 "smb://user@server.example.org/files/backup\n"
@@ -1722,7 +1726,6 @@ msgid "_Continue"
 msgstr "П_родовжити"
 
 #: src/ui/dialog_setup.ui:379
-#| msgid "Use Encryption"
 msgid "Setup Encryption"
 msgstr "Налаштовування шифрування"
 
@@ -2140,7 +2143,7 @@ msgstr "Продовжити перегляд"
 msgid "Start Backup"
 msgstr "Розпочати копіювання"
 
-#: src/ui/page_backup/execution.rs:33 src/ui/utils/borg.rs:189
+#: src/ui/page_backup/execution.rs:33 src/ui/utils/borg.rs:211
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
@@ -2152,11 +2155,11 @@ msgstr "Не вдалося вилучити застарілі архіви"
 msgid "Reclaiming Free Space Failed"
 msgstr "Не вдалося звільнити місце"
 
-#: src/ui/page_backup/execution.rs:148
+#: src/ui/page_backup/execution.rs:135
 msgid "Backup Failed"
 msgstr "Не вдалося виконати резервне копіювання"
 
-#: src/ui/page_backup/execution.rs:170
+#: src/ui/page_backup/execution.rs:157
 msgid "Backup Completed with Warnings"
 msgstr "Резервне копіювання було завершено із попередженнями"
 
@@ -2413,11 +2416,11 @@ msgstr ""
 msgid "Additional command line arguments invalid"
 msgstr "Некоректні додаткові аргументи командного рядка"
 
-#: src/ui/utils/borg.rs:52
+#: src/ui/utils/borg.rs:62
 msgid "Repository already in use"
 msgstr "Сховище вже використано"
 
-#: src/ui/utils/borg.rs:167
+#: src/ui/utils/borg.rs:189
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -2426,7 +2429,7 @@ msgstr ""
 "можуть виявитися застарілими, якщо, наприклад, ваш комп'ютер було "
 "несподівано вимкнено від джерела живлення під час користування сховищем."
 
-#: src/ui/utils/borg.rs:169
+#: src/ui/utils/borg.rs:191
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -2436,19 +2439,19 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: src/ui/utils/borg.rs:171
+#: src/ui/utils/borg.rs:193
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
-#: src/ui/utils/borg.rs:244 src/ui/utils/borg.rs:264
+#: src/ui/utils/borg.rs:266 src/ui/utils/borg.rs:286
 msgid "Unable to Eject Backup Disk"
 msgstr "Не вдалося виштовхнути диск резервного копіювання"
 
-#: src/ui/utils/borg.rs:253
+#: src/ui/utils/borg.rs:275
 msgid "{} can be safely unplugged."
 msgstr "{} неможливо від'єднати безпечно."
 
-#: src/ui/utils/borg.rs:265
+#: src/ui/utils/borg.rs:287
 msgid "{} can't be ejected."
 msgstr "{} неможливо виштовхнути."
 
