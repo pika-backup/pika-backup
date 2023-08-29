@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-08-28 15:35+0000\n"
-"PO-Revision-Date: 2023-08-28 21:09+0200\n"
+"POT-Creation-Date: 2023-08-29 00:23+0000\n"
+"PO-Revision-Date: 2023-08-29 05:18+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -104,7 +104,7 @@ msgstr ""
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr "იქონიეთ მარქაფები ერთდროულად ლოკალურ დისკებზე და ონლაინ სერვისებზე"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/dialog_preferences.ui:30
+#: data/resources/gtk/help-overlay.ui:9 src/ui/dialog_preferences.ui:118
 msgid "General"
 msgstr "საერთო"
 
@@ -147,86 +147,93 @@ msgstr "წაშლის ოპერაცია მეტისმეტა�
 msgid "No files selected to be included into backup."
 msgstr "მარქაფში ჩასასმელად ფაილები არჩეული არაა."
 
-#: src/borg/error.rs:81
+#: src/borg/error.rs:79
 msgid "Timeout"
 msgstr "ვადა"
 
-#: src/borg/error.rs:128
+#: src/borg/error.rs:126
 msgid "Completed"
 msgstr "დასრულებულია"
 
-#: src/borg/error.rs:157
+#: src/borg/error.rs:155
 msgid "Aborted on user request."
 msgstr "გაუქმდა მომხმარებლის მოთხოვნით."
 
-#: src/borg/error.rs:161
+#: src/borg/error.rs:159
 msgid "Aborted because only metered connection was available."
 msgstr "გაუქმდა იმიტომ, რომ მხოლოდ გაზომვადი მიერთებაა ხელმისაწვდომი."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:167
+#: src/borg/error.rs:165
 msgid "Aborted because too long not connected to power."
 msgstr "გაუქმდა, რადგან კვება მიერთებული აღარაა."
 
-#: src/borg/error.rs:169
+#: src/borg/error.rs:167
 msgid "Aborted by system."
 msgstr "შეწყვეტილია სისტემის მიერ."
 
-#: src/borg/error.rs:173
+#: src/borg/error.rs:171
 msgid "The program or system seems to have crashed."
 msgstr "როგორც ჩანს, პროგრამა ან სისტემა ავარიულად გაითიშა."
 
-#: src/borg/error.rs:176
+#: src/borg/error.rs:174
 msgid "{}"
 msgstr "{}"
 
-#: src/borg/error.rs:182
+#: src/borg/error.rs:180
 msgid "Unable to access backup repository: {}"
 msgstr "მარქაფის რეპოზიტორიასთან წვდომა შეუძლებელია: {}"
 
-#: src/borg/error.rs:237
+#: src/borg/error.rs:235
 msgid "Connection closed by remote host."
 msgstr "დაშორებილმა ჰოსტმა კავშირი დახურა."
 
-#: src/borg/error.rs:239 src/ui/utils/borg.rs:188
+#: src/borg/error.rs:237 src/ui/utils/borg.rs:251
 msgid "Repository already in use."
 msgstr "რეპოზიტორია უკვე გამოიყენება."
 
-#: src/borg/error.rs:240
+#: src/borg/error.rs:238
 msgid "Failed to lock repository."
 msgstr "რეპოზიტორიის დაბლოკვის შეცდომა."
 
-#: src/borg/error.rs:241
+#: src/borg/error.rs:239
 msgid "Invalid encryption password."
 msgstr "დაშიფვრის არასწორი პაროლი."
 
-#: src/borg/error.rs:242
+#: src/borg/error.rs:240
 msgid "Repository access was aborted"
 msgstr "რეპოზიტორიასთან წვდომა აკრძალულია"
 
-#: src/borg/error.rs:244
+#: src/borg/error.rs:242
 msgid "A repository already exists at this location."
 msgstr "ამ მდებარეობაზე რეპოზიტორია უკვე არსებობს."
 
-#: src/borg/error.rs:246
+#: src/borg/error.rs:244
 msgid "No repository exists at this location."
 msgstr "ამ მდებარეობაზე რეპოზიტორია არ არსებობს."
 
-#: src/borg/error.rs:248
+#: src/borg/error.rs:246
 msgid "Not enough free space in repository."
 msgstr "რეპოზიტორიაში თავისუფალი ადგილი საკმარისი არაა."
 
-#: src/borg/error.rs:251
+#: src/borg/error.rs:249
 msgid "Connection closed by remote host: “{}”"
 msgstr "დაშორებილმა ჰოსტმა კავშირი დახურა: \"{}\""
 
-#: src/borg/error.rs:253
+#: src/borg/error.rs:251
 msgid "Exception"
 msgstr "გამონაკლისი"
 
-#: src/borg/error.rs:255
+#: src/borg/error.rs:253
 msgid "Unspecified error."
 msgstr "მიუთითებელი შეცდომა."
+
+#: src/borg/functions.rs:298
+msgid ""
+"This backup repository is not encrypted at all, not even with a key stored "
+"in plain text. Passwords can only be added to repositories that use "
+"encryption."
+msgstr ""
 
 #: src/borg/log_json.rs:51
 msgid "Backup will be aborted."
@@ -476,39 +483,43 @@ msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
 
-#: src/borg/task.rs:40
+#: src/borg/task.rs:41
 msgid "Backing up Data"
 msgstr "მონაცემების მარქაფი"
 
-#: src/borg/task.rs:54
+#: src/borg/task.rs:55
 msgid "Mounting Backup Archives"
 msgstr "მარქაფის არქივების მიმაგრება"
 
-#: src/borg/task.rs:68
+#: src/borg/task.rs:69
 msgid "Removing old Archives"
 msgstr "ძველი არქივების წაშლა"
 
-#: src/borg/task.rs:82
+#: src/borg/task.rs:83
 msgid "Identifying old Archives"
 msgstr "ძველი არქივების ძებნა"
 
-#: src/borg/task.rs:96
+#: src/borg/task.rs:97
 msgid "Reclaiming Free Space"
 msgstr "თავისუფალი ადგილის გამოთავისუფლება"
 
-#: src/borg/task.rs:131
+#: src/borg/task.rs:132
 msgid "Checking Archives Integrity"
 msgstr "არქივების მთლიანობის შემოწმება"
 
-#: src/borg/task.rs:158
+#: src/borg/task.rs:159
 msgid "Deleting Archive"
 msgstr "არქივის წაშლა"
 
-#: src/borg/task.rs:181
+#: src/borg/task.rs:182
 msgid "Refreshing Archive List"
 msgstr "არქივის სიის განახლება"
 
 #: src/borg/task.rs:228
+msgid "Changing Passphrase"
+msgstr "საკვანძო ფრაზის შეცვლა"
+
+#: src/borg/task.rs:263
 msgid "Running Custom Shell Command"
 msgstr "მითითებული გარსის ბრძანების შესრულება"
 
@@ -630,23 +641,23 @@ msgstr "დემონიდან გადახედვის ჩვენ�
 msgid "Failed to show schedule from daemon"
 msgstr "დემონიდან გეგმის ჩვენების შეცდომა"
 
-#: src/daemon/connect/event.rs:30 src/daemon/connect/event.rs:52
+#: src/daemon/connect/event.rs:22
 msgid "Backup Device Connected"
 msgstr "მარქაფის მოწყობილობა მიერთებულია"
 
-#: src/daemon/connect/event.rs:33
+#: src/daemon/connect/event.rs:28
 msgid "“{}” contains multiple configured backups."
 msgstr "“{}” ბევრ მორგებულ მარქაფს შეიცავს."
 
-#: src/daemon/connect/event.rs:40
+#: src/daemon/connect/event.rs:33
 msgid "Show Backups"
 msgstr "მარქაფების ჩვენება"
 
-#: src/daemon/connect/event.rs:55
+#: src/daemon/connect/event.rs:41
 msgid "“{}” contains one configured backup."
 msgstr "“{}” ერთ მარქაფს შეიცავს."
 
-#: src/daemon/connect/event.rs:62
+#: src/daemon/connect/event.rs:46
 msgid "Back Up Now"
 msgstr "ახლა დამარქაფება"
 
@@ -695,7 +706,7 @@ msgstr "გავაუქმო მარქაფის შექმნის 
 msgid "The backup will remain incomplete if aborted now."
 msgstr "მარქაფი, თუ ახლა გააუქმებთ, დაუსრულებელი დარჩება."
 
-#: src/ui.rs:181 src/ui/dialog_setup.ui:532 src/ui/page_backup/events.rs:30
+#: src/ui.rs:181 src/ui/dialog_setup.ui:482 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:38 src/ui/page_backup/events.rs:49
 #: src/ui/page_backup/events.rs:57 src/ui/page_backup/events.rs:67
 #: src/ui/utils.rs:377
@@ -1168,7 +1179,7 @@ msgid "Invalid Archive Prefix"
 msgstr "არქივის არასწორი პრეფიქსი"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
-#: src/ui/dialog_setup.ui:643 src/ui/dialog_setup.ui:659
+#: src/ui/dialog_setup.ui:593 src/ui/dialog_setup.ui:609
 msgid "Archive Prefix"
 msgstr "არქივის პრეფიქსი"
 
@@ -1176,7 +1187,7 @@ msgstr "არქივის პრეფიქსი"
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:187
-#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:192
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:255
 msgid "Cancel"
 msgstr "შეწყვეტა"
 
@@ -1291,17 +1302,17 @@ msgstr "ქსელური სერვერი ხელმისაწვ�
 msgid "The following backup location needs to be connected:"
 msgstr "აუცილებელია შემდეგი მარქაფის მდებარეობების მოერთება:"
 
-#: src/ui/dialog_encryption_password.rs:24
+#: src/ui/dialog_encryption_password.rs:33
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
 msgstr ""
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:507
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:457
 msgid "Encryption Password Required"
 msgstr "დაშიფვრის პაროლი აუცილებელია"
 
-#: src/ui/dialog_encryption_password.ui:9
+#: src/ui/dialog_encryption_password.ui:9 src/ui/dialog_preferences.ui:98
 msgid "_Cancel"
 msgstr "გაუქმება"
 
@@ -1309,8 +1320,8 @@ msgstr "გაუქმება"
 msgid "Co_ntinue"
 msgstr "_გაგრძელება"
 
-#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:469
-#: src/ui/dialog_setup.ui:515
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:419
+#: src/ui/dialog_setup.ui:465
 msgid "Password"
 msgstr "პაროლი"
 
@@ -1384,59 +1395,87 @@ msgid ""
 "stable/usage/help.html\">BorgBackup documentation</a>."
 msgstr ""
 
-#: src/ui/dialog_preferences.rs:198
+#: src/ui/dialog_preferences.rs:216
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr ""
 
-#: src/ui/dialog_preferences.rs:261
+#: src/ui/dialog_preferences.rs:279
 msgid "Shell command invalid"
 msgstr "გარსის ბრძანება არასწორია"
 
-#: src/ui/dialog_preferences.rs:262 src/ui/utils/borg.rs:24
+#: src/ui/dialog_preferences.rs:280 src/ui/utils/borg.rs:25
 msgid "Please check for missing closing quotes."
 msgstr "შეამოწმეთ, დახურვის ბრჭყალები ხომ არ გამოგრჩათ."
 
-#: src/ui/dialog_preferences.rs:327 src/ui/page_backup/execution.rs:202
+#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:180
 msgid "Error Running Shell Command"
 msgstr "გარსის ბრძანების შესრულების შეცდომა"
 
-#: src/ui/dialog_preferences.ui:34 src/ui/dialog_preferences.ui:37
+#: src/ui/dialog_preferences.rs:466
+msgid "Change Encryption Password Error"
+msgstr "დაშიფვრის პაროლის შეცვლის შეცდომა"
+
+#: src/ui/dialog_preferences.rs:473
+msgid "Password changed successfully"
+msgstr "პაროლი წარმატებით შეიცვალა"
+
+#: src/ui/dialog_preferences.ui:27 src/ui/dialog_preferences.ui:137
+msgid "Change Encryption Password"
+msgstr "დაშიფვრის პაროლის შეცვლა"
+
+#: src/ui/dialog_preferences.ui:54
+msgid "_Change Password"
+msgstr "პაროლის _შეცვლა"
+
+#: src/ui/dialog_preferences.ui:84
+msgid "Changing Encryption Password"
+msgstr "მიმდინარეობს დაშიფვრის პაროლის შეცვლა"
+
+#: src/ui/dialog_preferences.ui:122 src/ui/dialog_preferences.ui:125
 msgid "Title"
 msgstr "სათაური"
 
-#: src/ui/dialog_preferences.ui:45 src/ui/dialog_setup.ui:318
+#: src/ui/dialog_preferences.ui:133
+msgid "Encryption password"
+msgstr "დაშიფვრის პაროლი"
+
+#: src/ui/dialog_preferences.ui:134
+msgid "The encryption password of the backup repository."
+msgstr "მარქაფის რეპოზიტორიის დაშიფვრის პაროლი."
+
+#: src/ui/dialog_preferences.ui:151 src/ui/dialog_setup.ui:318
 msgid "Additional command line arguments"
 msgstr "ბრძანების სტრიქონის დამატებითი არგუმენტები"
 
-#: src/ui/dialog_preferences.ui:46 src/ui/dialog_setup.ui:319
+#: src/ui/dialog_preferences.ui:152 src/ui/dialog_setup.ui:319
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
 msgstr ""
 
-#: src/ui/dialog_preferences.ui:49 src/ui/dialog_setup.ui:323
+#: src/ui/dialog_preferences.ui:155 src/ui/dialog_setup.ui:323
 msgid "Command line arguments"
 msgstr "ბრძანების სტრიქონის არგუმენტები"
 
-#: src/ui/dialog_preferences.ui:60
+#: src/ui/dialog_preferences.ui:166
 msgid "Shell Commands"
 msgstr "გარსის ბრძანებები"
 
-#: src/ui/dialog_preferences.ui:61
+#: src/ui/dialog_preferences.ui:167
 msgid "These bash shell commands will be called on certain backup events."
 msgstr ""
 
-#: src/ui/dialog_preferences.ui:74
+#: src/ui/dialog_preferences.ui:180
 msgid "Pre-Backup Shell Command"
 msgstr "მარქაფამდელი გარსის ბრძანება"
 
-#: src/ui/dialog_preferences.ui:81 src/ui/dialog_preferences.ui:102
+#: src/ui/dialog_preferences.ui:187 src/ui/dialog_preferences.ui:208
 msgid "Run with test values"
 msgstr "სატესტო მნიშვნელობებით გაშვება"
 
-#: src/ui/dialog_preferences.ui:95
+#: src/ui/dialog_preferences.ui:201
 msgid "Post-Backup Shell Command"
 msgstr "მარქაფის-შემდგომი გარსის ბრძანება"
 
@@ -1491,7 +1530,7 @@ msgstr "ცვლილებების გადახედვა"
 
 #: src/ui/dialog_prune_review.ui:38
 msgid "Assessing Impact on old Archives"
-msgstr ""
+msgstr "ძველ არქივებზე გავლენის შეფასება"
 
 #: src/ui/dialog_prune_review.ui:39
 msgid "Collecting information about the effect of the changes on old archives"
@@ -1507,7 +1546,7 @@ msgid ""
 "would have the following consequences."
 msgstr ""
 
-#: src/ui/dialog_setup.rs:185
+#: src/ui/dialog_setup.rs:171
 msgid "Failed to list existing repositories."
 msgstr "არსებული რეპოზიტორიების სიის გამოტანის შეცდომა."
 
@@ -1579,6 +1618,9 @@ msgid ""
 "smb://user@server.example.org/files/backup\n"
 "                                    "
 msgstr ""
+"ssh://user@server.example.org/~/backup\n"
+"smb://user@server.example.org/files/backup\n"
+"                                    "
 
 #: src/ui/dialog_setup.ui:276
 msgid "Conventional Locations"
@@ -1614,96 +1656,66 @@ msgstr "_გაგრძელება"
 msgid "Setup Encryption"
 msgstr "დაშიფვრის მორგება"
 
-#: src/ui/dialog_setup.ui:395
-msgid ""
-"The data stored in encrypted backups is password protected. If encryption is "
-"used, the password is required for accessing your backups."
-msgstr ""
-
-#: src/ui/dialog_setup.ui:396
-msgid "Encryption"
-msgstr "დაშიფვრა"
-
-#: src/ui/dialog_setup.ui:399
-msgid "Use Encryption"
-msgstr "დაშიფვრის გამოყენება"
-
-#: src/ui/dialog_setup.ui:408
-msgid "Encrypted"
-msgstr "დაშიფრული"
-
-#: src/ui/dialog_setup.ui:414
-msgid "Unencrypted"
-msgstr "დაუშიფრავი"
-
-#: src/ui/dialog_setup.ui:424
-msgid "Encryption Password"
-msgstr "დაშიფვრის პაროლი"
-
-#: src/ui/dialog_setup.ui:431
-msgid "Repeat Password"
-msgstr "გაიმეორე პაროლი"
-
-#: src/ui/dialog_setup.ui:453
+#: src/ui/dialog_setup.ui:403
 msgid "_Create"
 msgstr "შექმნა"
 
-#: src/ui/dialog_setup.ui:483
+#: src/ui/dialog_setup.ui:433
 msgid "Checking Backup Repository"
 msgstr "მარქაფის რეპოზიტორიის შემოწმება"
 
-#: src/ui/dialog_setup.ui:508
+#: src/ui/dialog_setup.ui:458
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
 "ამ მარქაფის რეპოზიტორიასთან წვდომისთვის დაშიფვრის პაროლის მითითება "
 "აუცილებელია."
 
-#: src/ui/dialog_setup.ui:550 src/ui/dialog_setup.ui:600
+#: src/ui/dialog_setup.ui:500 src/ui/dialog_setup.ui:550
 msgid "Transfer Settings"
 msgstr "მიმოცვლის მორგება"
 
-#: src/ui/dialog_setup.ui:563 src/ui/dialog_setup.ui:624
+#: src/ui/dialog_setup.ui:513 src/ui/dialog_setup.ui:574
 msgid "S_kip"
 msgstr "_გამოტოვება"
 
-#: src/ui/dialog_setup.ui:573
+#: src/ui/dialog_setup.ui:523
 msgid "Checking for Previous Configurations"
 msgstr "წინა კონფიგურაციების შემოწმება"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:524
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
 msgstr ""
 
-#: src/ui/dialog_setup.ui:601
+#: src/ui/dialog_setup.ui:551
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
 
-#: src/ui/dialog_setup.ui:660
+#: src/ui/dialog_setup.ui:610
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
 "old one."
 msgstr ""
 
-#: src/ui/dialog_setup.ui:687
+#: src/ui/dialog_setup.ui:637
 msgid "_Save"
 msgstr "_შენახვა"
 
-#: src/ui/dialog_setup.ui:703 src/ui/dialog_setup.ui:718
-#: src/ui/dialog_setup/insert.rs:161
+#: src/ui/dialog_setup.ui:653 src/ui/dialog_setup.ui:668
+#: src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "მარქაფის საცავის შექმნა"
 
-#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:81
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:86
 msgid "None"
 msgstr "არაფერი"
 
-#: src/ui/dialog_setup/display.rs:245
+#: src/ui/dialog_setup/display.rs:240
 msgid "Free space: {}"
 msgstr "თავისუფალი ადგილი: {}"
 
@@ -1735,35 +1747,23 @@ msgstr "არასწორი დაშორებული მდება�
 msgid "A repository location has to be given."
 msgstr "მიუთითეთ საცავის მდებარეობა."
 
-#: src/ui/dialog_setup/insert.rs:129
-msgid "No Password Provided"
-msgstr "პაროლი მითითებული არაა"
-
-#: src/ui/dialog_setup/insert.rs:130
-msgid "To use encryption a password must be provided."
-msgstr ""
-
-#: src/ui/dialog_setup/insert.rs:134
-msgid "Entered passwords do not match."
-msgstr "შეყვანილი პაროლები არ ემთხვევა."
-
-#: src/ui/dialog_setup/insert.rs:204
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "აღდგენის საცავის ჩატვირთვა"
 
-#: src/ui/dialog_setup/insert.rs:224
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "რეპოზიტორიის მორგების შეცდომა"
 
-#: src/ui/dialog_setup/insert.rs:243
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "ჩაიშალა"
 
-#: src/ui/dialog_setup/insert.rs:304
+#: src/ui/dialog_setup/insert.rs:286
 msgid "Repository location not found."
 msgstr "საცავის მდებარეობა ვერ ვიპოვე."
 
-#: src/ui/dialog_setup/insert.rs:305
+#: src/ui/dialog_setup/insert.rs:287
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 
@@ -1773,7 +1773,7 @@ msgstr "არასრული URL ან borg-ის სინტაქსი
 
 #: src/ui/dialog_setup/remote_location.rs:32
 msgid "The remote location must have a specified path."
-msgstr ""
+msgstr "დაშორებული მდებარეობისთვის ბილიკის მითითება აუცილებელია."
 
 #: src/ui/dialog_setup/remote_location.rs:36
 msgid "Invalid remote location: “{}”"
@@ -1828,13 +1828,13 @@ msgstr "მარქაფი id-ით “{}” უკვე არსებო
 
 #: src/ui/error.rs:103
 msgid "Could not find backup configuration with id “{}”."
-msgstr ""
+msgstr "მარქაფის კონფიგურაცია ID-ით \"{}\" ვერ ვიპოვე."
 
 #: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "არქივების ქეშის განახლების შეცდომა."
 
-#: src/ui/page_archives/display.rs:103
+#: src/ui/page_archives/display.rs:108
 msgid "Failed to open archive."
 msgstr "არქივის გახსნის შეცდომა."
 
@@ -1973,39 +1973,19 @@ msgstr ""
 msgid "Confirm"
 msgstr "დადასტურება"
 
-#: src/ui/page_backup/execution.rs:23
-msgid "Stop browsing files and start backup?"
-msgstr "შევწყვიტო ფაილების თვალიერება და დავიწყო მარქაფი?"
-
-#: src/ui/page_backup/execution.rs:24
-msgid "Browsing through archived files is not possible while running a backup."
-msgstr ""
-
-#: src/ui/page_backup/execution.rs:25
-msgid "Keep Browsing"
-msgstr "ძებნის გაგრძელება"
-
-#: src/ui/page_backup/execution.rs:26
-msgid "Start Backup"
-msgstr "მარქაფის დაწყება"
-
-#: src/ui/page_backup/execution.rs:33 src/ui/utils/borg.rs:211
-msgid "Failed to unmount repository."
-msgstr "რეპოზიტორიის მოხსნის შეცდომა."
-
-#: src/ui/page_backup/execution.rs:59
+#: src/ui/page_backup/execution.rs:37
 msgid "Delete old Archives Failed"
 msgstr "ძველი არქივების წაშლის შეცდომა"
 
-#: src/ui/page_backup/execution.rs:70
+#: src/ui/page_backup/execution.rs:48
 msgid "Reclaiming Free Space Failed"
 msgstr "თავისუფალი ადგილის გამოთავისუფლების შეცდომა"
 
-#: src/ui/page_backup/execution.rs:135
+#: src/ui/page_backup/execution.rs:113
 msgid "Backup Failed"
 msgstr "მარქაფის შეცდომა"
 
-#: src/ui/page_backup/execution.rs:157
+#: src/ui/page_backup/execution.rs:135
 msgid "Backup Completed with Warnings"
 msgstr "მარქაფი შენიშვნებით დასრულდა"
 
@@ -2230,40 +2210,74 @@ msgid ""
 "to work properly. This problem is now resolved."
 msgstr ""
 
-#: src/ui/utils/borg.rs:23
+#: src/ui/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "ბრძანების სტრიქონის დამატებითი არგუმენტები არასწორია"
 
-#: src/ui/utils/borg.rs:62
+#: src/ui/utils/borg.rs:68
 msgid "Repository already in use"
 msgstr "რეპოზიტორია უკვე გამოიყენება"
 
-#: src/ui/utils/borg.rs:189
+#: src/ui/utils/borg.rs:123
+msgid "Stop browsing files and start backup?"
+msgstr "შევწყვიტო ფაილების თვალიერება და დავიწყო მარქაფი?"
+
+#: src/ui/utils/borg.rs:125
+msgid "Browsing through archived files is not possible while running a backup."
+msgstr ""
+
+#: src/ui/utils/borg.rs:127 src/ui/utils/borg.rs:138
+msgid "Keep Browsing"
+msgstr "ძებნის გაგრძელება"
+
+#: src/ui/utils/borg.rs:128
+msgid "Start Backup"
+msgstr "მარქაფის დაწყება"
+
+#: src/ui/utils/borg.rs:134
+msgid "Stop browsing files and start operation?"
+msgstr "შევწყვიტო ფაილების თვალიერება და დავიწყო ოპერაცია?"
+
+#: src/ui/utils/borg.rs:136
+msgid ""
+"Browsing through archived files is not possible while running an operation "
+"on the repository."
+msgstr ""
+
+#: src/ui/utils/borg.rs:139
+msgid "Start Operation"
+msgstr "ოპერაციის დაწყება"
+
+#: src/ui/utils/borg.rs:148 src/ui/utils/borg.rs:274
+msgid "Failed to unmount repository."
+msgstr "რეპოზიტორიის მოხსნის შეცდომა."
+
+#: src/ui/utils/borg.rs:252
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
 msgstr ""
 
-#: src/ui/utils/borg.rs:191
+#: src/ui/utils/borg.rs:254
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
 "backup data!"
 msgstr ""
 
-#: src/ui/utils/borg.rs:193
+#: src/ui/utils/borg.rs:256
 msgid "Continue Anyway"
 msgstr "მაინც გაგრძელება"
 
-#: src/ui/utils/borg.rs:266 src/ui/utils/borg.rs:286
+#: src/ui/utils/borg.rs:331 src/ui/utils/borg.rs:351
 msgid "Unable to Eject Backup Disk"
 msgstr "მარქაფის დისკის გამოღება შეუძლებელია"
 
-#: src/ui/utils/borg.rs:275
+#: src/ui/utils/borg.rs:340
 msgid "{} can be safely unplugged."
 msgstr "{}-ის გამოერთება უსაფრთხოა."
 
-#: src/ui/utils/borg.rs:287
+#: src/ui/utils/borg.rs:352
 msgid "{} can't be ejected."
 msgstr "{}-ის გამოღება შეუძლებელია."
 
@@ -2364,16 +2378,16 @@ msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "{} წლის წინ"
 
-#: src/ui/utils/password_storage.rs:15
+#: src/ui/utils/password_storage.rs:19
 msgid "Failed to Store Password"
 msgstr "პაროლის შენახვის შეცდომა"
 
-#: src/ui/utils/password_storage.rs:32
+#: src/ui/utils/password_storage.rs:37
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:51
+#: src/ui/utils/password_storage.rs:56
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
 
@@ -2381,7 +2395,49 @@ msgstr "Pika Backup “{}”"
 msgid "Failed to Save Cache"
 msgstr "კეშის შენახვის შეცდომა"
 
-#: src/utils.rs:76
+#: src/ui/widget/encryption_preferences_group.rs:86
+msgid "No Password Provided"
+msgstr "პაროლი მითითებული არაა"
+
+#: src/ui/widget/encryption_preferences_group.rs:87
+msgid "To use encryption a password must be provided."
+msgstr "დაშიფვრის გამოსაყენებლად პაროლის მითითება აუცილებელია."
+
+#: src/ui/widget/encryption_preferences_group.rs:93
+msgid "Entered passwords do not match."
+msgstr "შეყვანილი პაროლები არ ემთხვევა."
+
+#: src/ui/widget/encryption_preferences_group.ui:4
+msgid ""
+"The data stored in encrypted backups is password protected. If encryption is "
+"used, the password is required for accessing your backups."
+msgstr ""
+
+#: src/ui/widget/encryption_preferences_group.ui:5
+msgid "Encryption"
+msgstr "დაშიფვრა"
+
+#: src/ui/widget/encryption_preferences_group.ui:8
+msgid "Use Encryption"
+msgstr "დაშიფვრის გამოყენება"
+
+#: src/ui/widget/encryption_preferences_group.ui:17
+msgid "Encrypted"
+msgstr "დაშიფრული"
+
+#: src/ui/widget/encryption_preferences_group.ui:24
+msgid "Unencrypted"
+msgstr "დაუშიფრავი"
+
+#: src/ui/widget/encryption_preferences_group.ui:35
+msgid "New Encryption Password"
+msgstr "ახალი დაშიფვრის პაროლი"
+
+#: src/ui/widget/encryption_preferences_group.ui:43
+msgid "Repeat Password"
+msgstr "გაიმეორე პაროლი"
+
+#: src/utils.rs:77
 msgid "No such file or directory"
 msgstr "ფაილი ან საქაღალდე არ არსებობს"
 
