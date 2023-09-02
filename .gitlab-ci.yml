@@ -92,6 +92,12 @@ pages:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-publish-nightly:
+nightly:
   extends: ".publish_nightly"
-  needs: ["flatpak"]
+  dependencies:
+    - flatpak
+
+nightly@aarch64:
+  extends: ".publish_nightly"
+  dependencies:
+    - flatpak@aarch64
