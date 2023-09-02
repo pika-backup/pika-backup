@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-08-02 08:00+0000\n"
-"PO-Revision-Date: 2023-08-07 16:13+0800\n"
+"POT-Creation-Date: 2023-08-29 17:10+0000\n"
+"PO-Revision-Date: 2023-09-02 11:24+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -103,7 +103,7 @@ msgstr "从每月到每小时的计划常规备份"
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr "同时在本地驱动器和在线服务上保存备份"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/dialog_preferences.ui:30
+#: data/resources/gtk/help-overlay.ui:9 src/ui/dialog_preferences.ui:118
 msgid "General"
 msgstr "常规"
 
@@ -148,82 +148,95 @@ msgstr "此删除操作将删除过多归档。"
 msgid "No files selected to be included into backup."
 msgstr "未选择要包含进备份的文件。"
 
-#: src/borg/error.rs:81
+#: src/borg/error.rs:79
 msgid "Timeout"
 msgstr "超时"
 
-#: src/borg/error.rs:124
+#: src/borg/error.rs:126
 msgid "Completed"
 msgstr "已完成"
 
-#: src/borg/error.rs:149
+#: src/borg/error.rs:155
 msgid "Aborted on user request."
 msgstr "已按用户请求中止。"
 
-#: src/borg/error.rs:153
+#: src/borg/error.rs:159
 msgid "Aborted because only metered connection was available."
 msgstr "已因为仅有流量计费网络连接可用而中止。"
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:159
+#: src/borg/error.rs:165
 msgid "Aborted because too long not connected to power."
 msgstr "已因为太长时间未连接电源而中止。"
 
-#: src/borg/error.rs:161
+#: src/borg/error.rs:167
 msgid "Aborted by system."
 msgstr "已被系统中止。"
 
-#: src/borg/error.rs:165
+#: src/borg/error.rs:171
 msgid "The program or system seems to have crashed."
 msgstr "该程序或系统似乎已经崩溃。"
 
-#: src/borg/error.rs:168
+#: src/borg/error.rs:174
 msgid "{}"
 msgstr "{}"
 
-#: src/borg/error.rs:215
+#: src/borg/error.rs:180
+msgid "Unable to access backup repository: {}"
+msgstr "无法访问备份仓库：{}"
+
+#: src/borg/error.rs:235
 msgid "Connection closed by remote host."
 msgstr "连接被远程主机关闭。"
 
-#: src/borg/error.rs:217 src/ui/utils/borg.rs:166
+#: src/borg/error.rs:237 src/ui/utils/borg.rs:251
 msgid "Repository already in use."
 msgstr "仓库已被使用。"
 
-#: src/borg/error.rs:218
+#: src/borg/error.rs:238
 msgid "Failed to lock repository."
 msgstr "锁定仓库失败。"
 
-#: src/borg/error.rs:219
+#: src/borg/error.rs:239
 msgid "Invalid encryption password."
 msgstr "无效的加密密码。"
 
-#: src/borg/error.rs:220
+#: src/borg/error.rs:240
 msgid "Repository access was aborted"
 msgstr "仓库访问已中止"
 
-#: src/borg/error.rs:222
+#: src/borg/error.rs:242
 msgid "A repository already exists at this location."
 msgstr "此位置已存在一个仓库。"
 
-#: src/borg/error.rs:224
+#: src/borg/error.rs:244
 msgid "No repository exists at this location."
 msgstr "此位置没有仓库存在。"
 
-#: src/borg/error.rs:226
+#: src/borg/error.rs:246
 msgid "Not enough free space in repository."
 msgstr "仓库中剩余空间不足。"
 
-#: src/borg/error.rs:229
+#: src/borg/error.rs:249
 msgid "Connection closed by remote host: “{}”"
 msgstr "连接被远程主机关闭：“{}”"
 
-#: src/borg/error.rs:231
+#: src/borg/error.rs:251
 msgid "Exception"
 msgstr "异常"
 
-#: src/borg/error.rs:233
+#: src/borg/error.rs:253
 msgid "Unspecified error."
 msgstr "未指定的错误。"
+
+#: src/borg/functions.rs:298
+msgid ""
+"This backup repository is not encrypted at all, not even with a key stored "
+"in plain text. Passwords can only be added to repositories that use "
+"encryption."
+msgstr ""
+"该备份仓库没有任何加密，甚至没有以纯文本存储的密钥。仅可以对使用加密的仓库添"
+"加密码。"
 
 #: src/borg/log_json.rs:51
 msgid "Backup will be aborted."
@@ -478,39 +491,43 @@ msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr "在首选项中配置的备份后命令返回了失败代码：{}"
 
-#: src/borg/task.rs:40
+#: src/borg/task.rs:41
 msgid "Backing up Data"
 msgstr "备份数据"
 
-#: src/borg/task.rs:54
+#: src/borg/task.rs:55
 msgid "Mounting Backup Archives"
 msgstr "正在挂载备份归档文件"
 
-#: src/borg/task.rs:68
+#: src/borg/task.rs:69
 msgid "Removing old Archives"
 msgstr "正在移除旧归档文件"
 
-#: src/borg/task.rs:82
+#: src/borg/task.rs:83
 msgid "Identifying old Archives"
 msgstr "正在识别旧归档文件"
 
-#: src/borg/task.rs:96
+#: src/borg/task.rs:97
 msgid "Reclaiming Free Space"
 msgstr "正在取回可用空间"
 
-#: src/borg/task.rs:131
+#: src/borg/task.rs:132
 msgid "Checking Archives Integrity"
 msgstr "正在检查归档完整性"
 
-#: src/borg/task.rs:158
+#: src/borg/task.rs:159
 msgid "Deleting Archive"
 msgstr "正在删除归档文件"
 
-#: src/borg/task.rs:181
+#: src/borg/task.rs:182
 msgid "Refreshing Archive List"
 msgstr "正在刷新归档文件列表"
 
 #: src/borg/task.rs:228
+msgid "Changing Passphrase"
+msgstr "更改密语"
+
+#: src/borg/task.rs:263
 msgid "Running Custom Shell Command"
 msgstr "正在运行自定义 Shell 命令"
 
@@ -631,23 +648,23 @@ msgstr "显示来自守护进程的概览失败"
 msgid "Failed to show schedule from daemon"
 msgstr "显示来自守护进程的计划失败"
 
-#: src/daemon/connect/event.rs:30 src/daemon/connect/event.rs:52
+#: src/daemon/connect/event.rs:22
 msgid "Backup Device Connected"
 msgstr "备份设备已连接"
 
-#: src/daemon/connect/event.rs:33
+#: src/daemon/connect/event.rs:28
 msgid "“{}” contains multiple configured backups."
 msgstr "“{}”包含多个已配置备份。"
 
-#: src/daemon/connect/event.rs:40
+#: src/daemon/connect/event.rs:33
 msgid "Show Backups"
 msgstr "显示备份"
 
-#: src/daemon/connect/event.rs:55
+#: src/daemon/connect/event.rs:41
 msgid "“{}” contains one configured backup."
 msgstr "“{}”包含一个已配置备份。"
 
-#: src/daemon/connect/event.rs:62
+#: src/daemon/connect/event.rs:46
 msgid "Back Up Now"
 msgstr "立即备份"
 
@@ -696,7 +713,7 @@ msgstr "中止备份创建的运行？"
 msgid "The backup will remain incomplete if aborted now."
 msgstr "备份会保存不完整如果现在中止。"
 
-#: src/ui.rs:181 src/ui/dialog_setup.ui:532 src/ui/page_backup/events.rs:30
+#: src/ui.rs:181 src/ui/dialog_setup.ui:482 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:38 src/ui/page_backup/events.rs:49
 #: src/ui/page_backup/events.rs:57 src/ui/page_backup/events.rs:67
 #: src/ui/utils.rs:377
@@ -1183,7 +1200,7 @@ msgid "Invalid Archive Prefix"
 msgstr "无效的归档文件前缀"
 
 #: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
-#: src/ui/dialog_setup.ui:643 src/ui/dialog_setup.ui:659
+#: src/ui/dialog_setup.ui:593 src/ui/dialog_setup.ui:609
 msgid "Archive Prefix"
 msgstr "归档文件前缀"
 
@@ -1191,7 +1208,7 @@ msgstr "归档文件前缀"
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:187
-#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:170
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:255
 msgid "Cancel"
 msgstr "取消"
 
@@ -1297,26 +1314,30 @@ msgstr "归档名称"
 msgid "Archive Date"
 msgstr "归档日期"
 
-#: src/ui/dialog_device_missing.rs:59 src/ui/dialog_device_missing.rs:64
-#: src/ui/dialog_device_missing.rs:103
+#: src/ui/dialog_device_missing.rs:65 src/ui/dialog_device_missing.rs:70
+#: src/ui/dialog_device_missing.rs:123 src/ui/dialog_device_missing.rs:128
 msgid "Failed to Mount"
 msgstr "挂载失败"
+
+#: src/ui/dialog_device_missing.rs:124
+msgid "The network server is not available"
+msgstr "网络服务器不可用"
 
 #: src/ui/dialog_device_missing.ui:39
 msgid "The following backup location needs to be connected:"
 msgstr "需要连接以下备份位置："
 
-#: src/ui/dialog_encryption_password.rs:24
+#: src/ui/dialog_encryption_password.rs:33
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
 msgstr "“{}”操作需要在“{}”的仓库的加密密码。"
 
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:507
+#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:457
 msgid "Encryption Password Required"
 msgstr "需要加密密码"
 
-#: src/ui/dialog_encryption_password.ui:9
+#: src/ui/dialog_encryption_password.ui:9 src/ui/dialog_preferences.ui:98
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -1324,8 +1345,8 @@ msgstr "取消(_C)"
 msgid "Co_ntinue"
 msgstr "继续(_N)"
 
-#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:469
-#: src/ui/dialog_setup.ui:515
+#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:419
+#: src/ui/dialog_setup.ui:465
 msgid "Password"
 msgstr "密码"
 
@@ -1386,6 +1407,14 @@ msgstr "无效的正则表达式"
 msgid "Add"
 msgstr "添加"
 
+#: src/ui/dialog_exclude_pattern.ui:49
+msgid "Pattern Type"
+msgstr "模式类型"
+
+#: src/ui/dialog_exclude_pattern.ui:63
+msgid "Pattern"
+msgstr "模式"
+
 #: src/ui/dialog_exclude_pattern.ui:81
 msgid "BorgBackup Patterns"
 msgstr "BorgBackup 模式"
@@ -1403,59 +1432,87 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help.html"
 "\">BorgBackup 文档</a>。"
 
-#: src/ui/dialog_preferences.rs:198
+#: src/ui/dialog_preferences.rs:216
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr "该备份配置的标题。留空时将会显示为“{}”。"
 
-#: src/ui/dialog_preferences.rs:261
+#: src/ui/dialog_preferences.rs:279
 msgid "Shell command invalid"
 msgstr "Shell 命令无效"
 
-#: src/ui/dialog_preferences.rs:262 src/ui/utils/borg.rs:24
+#: src/ui/dialog_preferences.rs:280 src/ui/utils/borg.rs:25
 msgid "Please check for missing closing quotes."
 msgstr "请检查缺失的闭合引号。"
 
-#: src/ui/dialog_preferences.rs:327 src/ui/page_backup/execution.rs:216
+#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:180
 msgid "Error Running Shell Command"
 msgstr "运行 Shell 命令时发生错误"
 
-#: src/ui/dialog_preferences.ui:34 src/ui/dialog_preferences.ui:37
+#: src/ui/dialog_preferences.rs:466
+msgid "Change Encryption Password Error"
+msgstr "更改加密密码出错"
+
+#: src/ui/dialog_preferences.rs:473
+msgid "Password changed successfully"
+msgstr "密码已成功修改"
+
+#: src/ui/dialog_preferences.ui:27 src/ui/dialog_preferences.ui:137
+msgid "Change Encryption Password"
+msgstr "更改加密密码"
+
+#: src/ui/dialog_preferences.ui:54
+msgid "_Change Password"
+msgstr "更改密码(_C)"
+
+#: src/ui/dialog_preferences.ui:84
+msgid "Changing Encryption Password"
+msgstr "正在更改加密密码"
+
+#: src/ui/dialog_preferences.ui:122 src/ui/dialog_preferences.ui:125
 msgid "Title"
 msgstr "标题"
 
-#: src/ui/dialog_preferences.ui:45 src/ui/dialog_setup.ui:318
+#: src/ui/dialog_preferences.ui:133
+msgid "Encryption password"
+msgstr "加密密码"
+
+#: src/ui/dialog_preferences.ui:134
+msgid "The encryption password of the backup repository."
+msgstr "该备份仓库的加密密码。"
+
+#: src/ui/dialog_preferences.ui:151 src/ui/dialog_setup.ui:318
 msgid "Additional command line arguments"
 msgstr "附加命令行参数"
 
-#: src/ui/dialog_preferences.ui:46 src/ui/dialog_setup.ui:319
+#: src/ui/dialog_preferences.ui:152 src/ui/dialog_setup.ui:319
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
 msgstr "这些参数将添加到 Borg 程序的调用中。只支持以“--”开头的长选项。"
 
-#: src/ui/dialog_preferences.ui:49 src/ui/dialog_setup.ui:323
+#: src/ui/dialog_preferences.ui:155 src/ui/dialog_setup.ui:323
 msgid "Command line arguments"
 msgstr "命令行参数"
 
-#: src/ui/dialog_preferences.ui:60
+#: src/ui/dialog_preferences.ui:166
 msgid "Shell Commands"
 msgstr "Shell 命令"
 
-#: src/ui/dialog_preferences.ui:61
+#: src/ui/dialog_preferences.ui:167
 msgid "These bash shell commands will be called on certain backup events."
 msgstr "这些 bash shell 命令将在特定备份事件上调用。"
 
-#: src/ui/dialog_preferences.ui:74
+#: src/ui/dialog_preferences.ui:180
 msgid "Pre-Backup Shell Command"
 msgstr "预备份 Shell 命令"
 
-#: src/ui/dialog_preferences.ui:81 src/ui/dialog_preferences.ui:102
+#: src/ui/dialog_preferences.ui:187 src/ui/dialog_preferences.ui:208
 msgid "Run with test values"
 msgstr "带测试值运行"
 
-#: src/ui/dialog_preferences.ui:95
+#: src/ui/dialog_preferences.ui:201
 msgid "Post-Backup Shell Command"
 msgstr "备份后 Shell 命令"
 
@@ -1527,7 +1584,7 @@ msgid ""
 "would have the following consequences."
 msgstr "应用这些更改之后，下次自动删除旧归档文件将有下列结果。"
 
-#: src/ui/dialog_setup.rs:185
+#: src/ui/dialog_setup.rs:171
 msgid "Failed to list existing repositories."
 msgstr "列出现有仓库失败。"
 
@@ -1646,75 +1703,45 @@ msgstr "继续(_C)"
 msgid "Setup Encryption"
 msgstr "设置加密"
 
-#: src/ui/dialog_setup.ui:395
-msgid ""
-"The data stored in encrypted backups is password protected. If encryption is "
-"used, the password is required for accessing your backups."
-msgstr "加密备份中储存的数据受密码保护。如果使用了加密，则访问备份需要密码。"
-
-#: src/ui/dialog_setup.ui:396
-msgid "Encryption"
-msgstr "加密"
-
-#: src/ui/dialog_setup.ui:399
-msgid "Use Encryption"
-msgstr "使用加密"
-
-#: src/ui/dialog_setup.ui:408
-msgid "Encrypted"
-msgstr "已加密"
-
-#: src/ui/dialog_setup.ui:414
-msgid "Unencrypted"
-msgstr "未加密"
-
-#: src/ui/dialog_setup.ui:424
-msgid "Encryption Password"
-msgstr "加密密码"
-
-#: src/ui/dialog_setup.ui:431
-msgid "Repeat Password"
-msgstr "重复密码"
-
-#: src/ui/dialog_setup.ui:453
+#: src/ui/dialog_setup.ui:403
 msgid "_Create"
 msgstr "创建(_C)"
 
-#: src/ui/dialog_setup.ui:483
+#: src/ui/dialog_setup.ui:433
 msgid "Checking Backup Repository"
 msgstr "检查备份仓库"
 
-#: src/ui/dialog_setup.ui:508
+#: src/ui/dialog_setup.ui:458
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr "需要该备份仓库的加密密码来访问它。"
 
-#: src/ui/dialog_setup.ui:550 src/ui/dialog_setup.ui:600
+#: src/ui/dialog_setup.ui:500 src/ui/dialog_setup.ui:550
 msgid "Transfer Settings"
 msgstr "迁移设置"
 
-#: src/ui/dialog_setup.ui:563 src/ui/dialog_setup.ui:624
+#: src/ui/dialog_setup.ui:513 src/ui/dialog_setup.ui:574
 msgid "S_kip"
 msgstr "跳过(_K)"
 
-#: src/ui/dialog_setup.ui:573
+#: src/ui/dialog_setup.ui:523
 msgid "Checking for Previous Configurations"
 msgstr "检查先前配置"
 
-#: src/ui/dialog_setup.ui:574
+#: src/ui/dialog_setup.ui:524
 msgid ""
 "Collecting information to transfer previously used settings. This step is "
 "optional."
 msgstr "收集信息来传输上次使用的设置。该步骤是可选的。"
 
-#: src/ui/dialog_setup.ui:601
+#: src/ui/dialog_setup.ui:551
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
 "可以选择用于先前备份的配置并将其迁移到新的部署。随后可以对配置进行调整。"
 
-#: src/ui/dialog_setup.ui:660
+#: src/ui/dialog_setup.ui:610
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -1723,20 +1750,20 @@ msgstr ""
 "归档文件前缀必须对每个备份配置是独一无二的。除非是新设备替换旧设备否则不鼓励"
 "在两个设备上使用相同前缀。"
 
-#: src/ui/dialog_setup.ui:687
+#: src/ui/dialog_setup.ui:637
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: src/ui/dialog_setup.ui:703 src/ui/dialog_setup.ui:718
-#: src/ui/dialog_setup/insert.rs:161
+#: src/ui/dialog_setup.ui:653 src/ui/dialog_setup.ui:668
+#: src/ui/dialog_setup/insert.rs:143
 msgid "Creating Backup Repository"
 msgstr "正在创建备份仓库"
 
-#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:81
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:86
 msgid "None"
 msgstr "无"
 
-#: src/ui/dialog_setup/display.rs:245
+#: src/ui/dialog_setup/display.rs:240
 msgid "Free space: {}"
 msgstr "空闲空间：{}"
 
@@ -1768,35 +1795,23 @@ msgstr "无效的远程位置"
 msgid "A repository location has to be given."
 msgstr "必须指定仓库位置。"
 
-#: src/ui/dialog_setup/insert.rs:129
-msgid "No Password Provided"
-msgstr "未提供密码"
-
-#: src/ui/dialog_setup/insert.rs:130
-msgid "To use encryption a password must be provided."
-msgstr "要使用加密必须提供密码。"
-
-#: src/ui/dialog_setup/insert.rs:134
-msgid "Entered passwords do not match."
-msgstr "输入的密码不匹配。"
-
-#: src/ui/dialog_setup/insert.rs:204
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "正在载入备份仓库"
 
-#: src/ui/dialog_setup/insert.rs:224
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "配置仓库失败"
 
-#: src/ui/dialog_setup/insert.rs:243
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "失败"
 
-#: src/ui/dialog_setup/insert.rs:304
+#: src/ui/dialog_setup/insert.rs:286
 msgid "Repository location not found."
 msgstr "未找到仓库位置。"
 
-#: src/ui/dialog_setup/insert.rs:305
+#: src/ui/dialog_setup/insert.rs:287
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "挂载操作已成功但位置仍不可用。"
 
@@ -1869,7 +1884,7 @@ msgstr "无法找到 ID 为“{}”的备份配置。"
 msgid "Failed to refresh archives cache."
 msgstr "无法刷新归档缓存。"
 
-#: src/ui/page_archives/display.rs:103
+#: src/ui/page_archives/display.rs:108
 msgid "Failed to open archive."
 msgstr "无法打开归档文件。"
 
@@ -2016,39 +2031,19 @@ msgstr "这个文件夹里包含的所有文件将不再成为以后备份的一
 msgid "Confirm"
 msgstr "确认"
 
-#: src/ui/page_backup/execution.rs:23
-msgid "Stop browsing files and start backup?"
-msgstr "停止浏览文件并开始备份？"
-
-#: src/ui/page_backup/execution.rs:24
-msgid "Browsing through archived files is not possible while running a backup."
-msgstr "运行备份期间不能浏览归档里的文件。"
-
-#: src/ui/page_backup/execution.rs:25
-msgid "Keep Browsing"
-msgstr "继续浏览"
-
-#: src/ui/page_backup/execution.rs:26
-msgid "Start Backup"
-msgstr "开始备份"
-
-#: src/ui/page_backup/execution.rs:33 src/ui/utils/borg.rs:189
-msgid "Failed to unmount repository."
-msgstr "无法卸载仓库。"
-
-#: src/ui/page_backup/execution.rs:59
+#: src/ui/page_backup/execution.rs:37
 msgid "Delete old Archives Failed"
 msgstr "删除旧归档失败"
 
-#: src/ui/page_backup/execution.rs:70
+#: src/ui/page_backup/execution.rs:48
 msgid "Reclaiming Free Space Failed"
 msgstr "取回可用空间失败"
 
-#: src/ui/page_backup/execution.rs:148
+#: src/ui/page_backup/execution.rs:113
 msgid "Backup Failed"
 msgstr "备份失败"
 
-#: src/ui/page_backup/execution.rs:170
+#: src/ui/page_backup/execution.rs:135
 msgid "Backup Completed with Warnings"
 msgstr "备份完成但有警告"
 
@@ -2277,22 +2272,56 @@ msgid ""
 "to work properly. This problem is now resolved."
 msgstr "该系统包含潜在引起计划备份无法正常工作的错误。该问题现在已解决。"
 
-#: src/ui/utils/borg.rs:23
+#: src/ui/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "附加的命令行参数无效"
 
-#: src/ui/utils/borg.rs:52
+#: src/ui/utils/borg.rs:68
 msgid "Repository already in use"
 msgstr "仓库已被使用"
 
-#: src/ui/utils/borg.rs:167
+#: src/ui/utils/borg.rs:123
+msgid "Stop browsing files and start backup?"
+msgstr "停止浏览文件并开始备份？"
+
+#: src/ui/utils/borg.rs:125
+msgid "Browsing through archived files is not possible while running a backup."
+msgstr "运行备份期间不能浏览归档里的文件。"
+
+#: src/ui/utils/borg.rs:127 src/ui/utils/borg.rs:138
+msgid "Keep Browsing"
+msgstr "继续浏览"
+
+#: src/ui/utils/borg.rs:128
+msgid "Start Backup"
+msgstr "开始备份"
+
+#: src/ui/utils/borg.rs:134
+msgid "Stop browsing files and start operation?"
+msgstr "停止浏览文件并开始操作吗？"
+
+#: src/ui/utils/borg.rs:136
+msgid ""
+"Browsing through archived files is not possible while running an operation "
+"on the repository."
+msgstr "在仓库上执行操作时不能浏览归档的文件。"
+
+#: src/ui/utils/borg.rs:139
+msgid "Start Operation"
+msgstr "开始操作"
+
+#: src/ui/utils/borg.rs:148 src/ui/utils/borg.rs:274
+msgid "Failed to unmount repository."
+msgstr "无法卸载仓库。"
+
+#: src/ui/utils/borg.rs:252
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
 msgstr ""
 "备份仓库已标记为使用中。此信息可能过时，比如你的计算机在使用该仓库时断电。"
 
-#: src/ui/utils/borg.rs:169
+#: src/ui/utils/borg.rs:254
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -2301,19 +2330,19 @@ msgstr ""
 "只有在你确定该仓库未被任何程序使用时继续！当其他程序使用仓库时继续可能会损坏"
 "备份数据！"
 
-#: src/ui/utils/borg.rs:171
+#: src/ui/utils/borg.rs:256
 msgid "Continue Anyway"
 msgstr "仍然继续"
 
-#: src/ui/utils/borg.rs:244 src/ui/utils/borg.rs:264
+#: src/ui/utils/borg.rs:331 src/ui/utils/borg.rs:351
 msgid "Unable to Eject Backup Disk"
 msgstr "无法弹出备份磁盘"
 
-#: src/ui/utils/borg.rs:253
+#: src/ui/utils/borg.rs:340
 msgid "{} can be safely unplugged."
 msgstr "{} 已可以安全拔出。"
 
-#: src/ui/utils/borg.rs:265
+#: src/ui/utils/borg.rs:352
 msgid "{} can't be ejected."
 msgstr "{} 不能被弹出。"
 
@@ -2414,16 +2443,16 @@ msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "{} 年前"
 
-#: src/ui/utils/password_storage.rs:15
+#: src/ui/utils/password_storage.rs:19
 msgid "Failed to Store Password"
 msgstr "存储密码失败"
 
-#: src/ui/utils/password_storage.rs:32
+#: src/ui/utils/password_storage.rs:37
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "无法从密钥存储中移除可能遗留的密码。"
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:51
+#: src/ui/utils/password_storage.rs:56
 msgid "Pika Backup “{}”"
 msgstr "Pika 备份“{}”"
 
@@ -2431,7 +2460,49 @@ msgstr "Pika 备份“{}”"
 msgid "Failed to Save Cache"
 msgstr "保存缓存失败"
 
-#: src/utils.rs:76
+#: src/ui/widget/encryption_preferences_group.rs:86
+msgid "No Password Provided"
+msgstr "未提供密码"
+
+#: src/ui/widget/encryption_preferences_group.rs:87
+msgid "To use encryption a password must be provided."
+msgstr "要使用加密必须提供密码。"
+
+#: src/ui/widget/encryption_preferences_group.rs:93
+msgid "Entered passwords do not match."
+msgstr "输入的密码不匹配。"
+
+#: src/ui/widget/encryption_preferences_group.ui:4
+msgid ""
+"The data stored in encrypted backups is password protected. If encryption is "
+"used, the password is required for accessing your backups."
+msgstr "加密备份中储存的数据受密码保护。如果使用了加密，则访问备份需要密码。"
+
+#: src/ui/widget/encryption_preferences_group.ui:5
+msgid "Encryption"
+msgstr "加密"
+
+#: src/ui/widget/encryption_preferences_group.ui:8
+msgid "Use Encryption"
+msgstr "使用加密"
+
+#: src/ui/widget/encryption_preferences_group.ui:17
+msgid "Encrypted"
+msgstr "已加密"
+
+#: src/ui/widget/encryption_preferences_group.ui:24
+msgid "Unencrypted"
+msgstr "未加密"
+
+#: src/ui/widget/encryption_preferences_group.ui:35
+msgid "New Encryption Password"
+msgstr "新加密密码"
+
+#: src/ui/widget/encryption_preferences_group.ui:43
+msgid "Repeat Password"
+msgstr "重复该密码"
+
+#: src/utils.rs:77
 msgid "No such file or directory"
 msgstr "无此文件或目录"
 
@@ -2604,9 +2675,6 @@ msgstr "无此文件或目录"
 #~ "此程序不含任何担保。\n"
 #~ "详情见 <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GNU 通用公共"
 #~ "许可证，第 3 版或更高版本</a>。"
-
-#~ msgid "Save password"
-#~ msgstr "保存密码"
 
 #~ msgid "Location URL"
 #~ msgstr "位置 URL"
