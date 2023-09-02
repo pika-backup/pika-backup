@@ -38,6 +38,7 @@ pub async fn exec<T: Task>(
 where
     borg::Command<T>: borg::CommandRun<T>,
 {
+    trace!("exec '{}'", T::name());
     let config_id = command.config.id.clone();
 
     if T::KIND != borg::task::Kind::Mount {
@@ -226,6 +227,7 @@ where
     B: borg::BorgRunConfig,
 {
     loop {
+        trace!("Spawning borg thread: {}", name);
         let result = super::spawn_thread(
             name.to_string(),
             enclose!((borg, task) move || {

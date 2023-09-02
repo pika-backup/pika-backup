@@ -72,7 +72,9 @@ impl BorgCall {
     }
 
     pub fn add_sub_command(&mut self, sub_command: impl Into<OsString>) -> &mut Self {
-        self.sub_commands.push(sub_command.into());
+        let sub_command = sub_command.into();
+        trace!("add_sub_command {:?}", sub_command);
+        self.sub_commands.push(sub_command);
 
         self
     }
@@ -83,6 +85,11 @@ impl BorgCall {
         V: ToString,
     {
         for (var, value) in vars {
+            let var = var.to_string();
+            let value = value.to_string();
+            if var != "BORG_NEW_PASSPHRASE" {
+                trace!("add_env: {}={}", var, value);
+            }
             self.envs.insert(var.to_string(), value.to_string());
         }
 
@@ -95,18 +102,23 @@ impl BorgCall {
         <L as std::iter::IntoIterator>::Item: Into<OsString>,
     {
         for option in options {
-            self.options.push(option.into());
+            let option = option.into();
+            trace!("add option: {:?}", option);
+            self.options.push(option);
         }
 
         self
     }
 
     pub fn add_positional(&mut self, pos_arg: impl Into<OsString>) -> &mut Self {
-        self.positional.push(pos_arg.into());
+        let arg = pos_arg.into();
+        trace!("add_positional: {:?}", arg);
+        self.positional.push(arg);
         self
     }
 
     pub fn add_include_exclude<T: Task>(&mut self, borg: &Command<T>) -> &mut Self {
+        trace!("add_include_exclude");
         for exclude in &borg.config.exclude_dirs_internal() {
             for rule in exclude.borg_rules() {
                 match rule {
@@ -121,12 +133,14 @@ impl BorgCall {
                 }
             }
         }
-        self.positional.extend(
-            borg.config
-                .include_dirs()
-                .iter()
-                .map(|d| d.clone().into_os_string()),
-        );
+        let positionals = borg
+            .config
+            .include_dirs()
+            .iter()
+            .map(|d| d.clone().into_os_string())
+            .collect::<Vec<_>>();
+        trace!("add_positionals: {:?}", positionals);
+        self.positional.extend(positionals);
 
         self
     }
@@ -139,6 +153,7 @@ impl BorgCall {
             archive_prefix = borg.config.archive_prefix,
             archive = random_str.get(..8).unwrap_or(&random_str)
         );
+        trace!("add_archive: {arg}");
         if let Some(first) = self.positional.first_mut() {
             *first = arg.into();
         } else {
@@ -149,6 +164,7 @@ impl BorgCall {
     }
 
     pub async fn add_password<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
+        trace!("add_password");
         if let Some(ref password) = borg.password() {
             debug!("Using password enforced by explicitly passed password");
             self.password = password.clone();
@@ -180,6 +196,7 @@ impl BorgCall {
                 self.password = password;
             } else {
                 // TODO when is this happening?
+                trace!("config missing");
                 return Err(Error::PasswordMissing {
                     keyring_error: None,
                 });
@@ -193,7 +210,8 @@ impl BorgCall {
     }
 
     async fn get_password_keyring(&self, repo_id: &super::RepoId) -> Result<config::Password> {
-        Ok(config::Password::from(
+        trace!("get_password_keyring");
+        let res = Ok(config::Password::from(
             oo7::Keyring::new()
                 .await?
                 .search_items(HashMap::from([("repo-id", repo_id.as_str())]))
@@ -204,14 +222,20 @@ impl BorgCall {
                 })?
                 .secret()
                 .await?,
-        ))
+        ));
+        trace!("get_password_keyring done");
+        res
     }
 
     fn set_password(&mut self) -> Result<(String, String)> {
+        trace!("set_password");
+
         // Password pipe
+        trace!("create socket");
         let (pipe_reader, mut pipe_writer) = std::os::unix::net::UnixStream::pair()?;
 
         // Allow pipe to be passed to borg
+        trace!("Set password socket flags");
         let mut flags = nix::fcntl::FdFlag::from_bits_truncate(nix::fcntl::fcntl(
             pipe_reader.as_raw_fd(),
             nix::fcntl::FcntlArg::F_GETFD,
@@ -224,17 +248,20 @@ impl BorgCall {
         )?;
 
         // We drop the pipe_writer here, so this end will be closed when this function returns
+        trace!("writing password to socket");
         pipe_writer.write_all(self.password.as_bytes())?;
 
         // We store the pipe_reader until the BorgCall is dropped
         // This will close the FD after the borg process has already exited
         let fd = pipe_reader.as_raw_fd();
+        trace!("passphrase fd: {fd}");
         self.password_pipe_reader = Some(pipe_reader);
 
         Ok((String::from("BORG_PASSPHRASE_FD"), fd.to_string()))
     }
 
     pub fn add_basics_without_password<T: BorgRunConfig>(&mut self, borg: &T) -> &mut Self {
+        trace!("add_basics_without_password");
         self.add_options(&["--log-json"]);
 
         if self.positional.is_empty() {
@@ -253,6 +280,7 @@ impl BorgCall {
     }
 
     pub async fn add_basics<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
+        trace!("add_basics");
         self.add_password(borg).await?;
         self.add_basics_without_password(borg);
         Ok(self)
@@ -269,10 +297,12 @@ impl BorgCall {
     }
 
     pub(super) fn cmd(&mut self) -> Result<async_process::Command> {
+        trace!("cmd");
         let mut cmd = async_process::Command::new("borg");
 
         cmd.envs([self.set_password()?]);
 
+        trace!("configuring command stdio and envs");
         cmd.args(self.args())
             .stderr(async_process::Stdio::piped())
             .stdout(async_process::Stdio::piped())
@@ -302,6 +332,7 @@ impl BorgCall {
         self,
         communication: super::Communication<T>,
     ) -> Result<Process<S>> {
+        trace!("spawn_async_managed: {}", T::name());
         let result = async_std::task::spawn(self.handle_disconnect(communication));
 
         Ok(Process { result })
@@ -314,6 +345,7 @@ impl BorgCall {
         mut self,
         communication: super::Communication<T>,
     ) -> Result<S> {
+        trace!("handle_disconnect: {}", T::name());
         communication.general_info.update(move |status| {
             status.started = Some(chrono::Local::now());
         });

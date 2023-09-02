@@ -199,7 +199,9 @@ impl CommandRun<task::Delete> for Command<task::Delete> {
 #[async_trait]
 impl CommandRun<task::Create> for Command<task::Create> {
     async fn run(self) -> Result<Stats> {
+        trace!("run create");
         if self.config.include.is_empty() {
+            warn!("Empty include");
             return Err(Error::EmptyInclude);
         }
 
@@ -213,6 +215,8 @@ impl CommandRun<task::Create> for Command<task::Create> {
             .await?
             .add_archive(&self)
             .add_include_exclude(&self);
+
+        trace!("prepared borg call: {:?}", borg_call);
 
         let process = borg_call.spawn_async_managed(self.communication.clone())?;
 
