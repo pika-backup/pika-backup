@@ -56,17 +56,25 @@ cargo-fmt:
 
 cargo-test:
   extends: flatpak
+  artifacts:
+    when: always
+    paths:
+        - .flatpak-builder/build/${FLATPAK_MODULE}/target/nextest/ci/junit.xml
+    reports:
+        junit: .flatpak-builder/build/${FLATPAK_MODULE}/target/nextest/ci/junit.xml
   script:
+    - cargo install --locked cargo-nextest
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --socket=x11 --share=network flatpak_app
     - >
       xvfb-run -a -s "-screen 0 1024x768x24"
       flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH} <<END
 
-      LANG=C.UTF-8
-      NO_AT_BRIDGE=1
-      dbus-run-session
-      meson test --no-stdsplit --print-errorlogs
+        LANG=C.UTF-8
+        NO_AT_BRIDGE=1
+        dbus-run-session
+        meson test --no-stdsplit --print-errorlogs
+      END
 
 flatpak:
   extends: ".flatpak@x86_64"

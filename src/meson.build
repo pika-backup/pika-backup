@@ -12,7 +12,6 @@ endif
 
 cargo_options = [
   '--target-dir', target_dir,
-  '--profile', profile,
 ]
 
 cargo_env = {
@@ -36,6 +35,7 @@ cargo_build = custom_target(
   env: cargo_env,
   command: [
     cargo_bin, 'build',
+    '--profile', profile,
     cargo_options,
   ],
 )
@@ -79,19 +79,38 @@ cargo_doc = custom_target(
   env: cargo_env,
   command: [
     cargo_bin, 'doc',
+    '--profile', profile,
     cargo_options + ['--no-deps', '--document-private-items'],
   ],
 )
 
-test(
-  'cargo-test',
-  cargo_bin,
-  args: [
-    'test',
-    cargo_options,
-    '--',
-    '--test-threads=1',
-  ],
-  is_parallel: false,
-  timeout: 1800,
-)
+cargo_nextest = find_program('cargo-nextest', required: false)
+if cargo_nextest.found()
+  test(
+    'cargo-nextest',
+    cargo_bin,
+    args: [
+      'nextest',
+      'run',
+      '--profile', 'ci',
+      '--cargo-profile', profile,
+      cargo_options,
+    ],
+    is_parallel: false,
+    timeout: 1800,
+  )
+else
+  test(
+    'cargo-test',
+    cargo_bin,
+    args: [
+      'test',
+      '--profile', profile,
+      cargo_options,
+      '--',
+      '--test-threads=1',
+    ],
+    is_parallel: false,
+    timeout: 1800,
+  )
+endif
