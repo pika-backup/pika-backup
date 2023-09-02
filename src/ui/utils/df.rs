@@ -64,12 +64,19 @@ fn sftp_path_normalize(path: &str) -> String {
 pub async fn remote(server: &str) -> Result<Space> {
     let original_uri = glib::Uri::parse(server, glib::UriFlags::NONE)?;
 
+    // If the remote uses SSH with the SSH scheme and a port was specified we use that port
+    let port = if original_uri.scheme() == "ssh" {
+        original_uri.port()
+    } else {
+        -1
+    };
+
     let connect_url = glib::Uri::build(
         glib::UriFlags::NONE,
         "sftp",
         original_uri.userinfo().as_ref().map(|x| x.as_str()),
         original_uri.host().as_ref().map(|x| x.as_str()),
-        -1,
+        port,
         "",
         None,
         None,
@@ -81,7 +88,7 @@ pub async fn remote(server: &str) -> Result<Space> {
     debug!("sftp connect to '{}'", connect_url.to_str());
 
     let mut child = process::Command::new("sftp")
-        .arg(connect_url.to_str())
+        .args(["-b", "-", &connect_url.to_str()])
         .stdin(process::Stdio::piped())
         .stderr(process::Stdio::piped())
         .stdout(process::Stdio::piped())
