@@ -321,10 +321,10 @@ fn ellipsize_multiline<S: std::fmt::Display>(x: S) -> String {
     let s = x.to_string();
     let vec = s.chars().collect::<Vec<_>>();
 
-    if vec.len() > 410 {
+    if vec.len() > 510 {
         format!(
             "{}\n…\n{}",
-            vec.iter().take(200).collect::<String>(),
+            vec.iter().take(300).collect::<String>(),
             vec.iter().rev().take(200).rev().collect::<String>()
         )
     } else {
