@@ -209,6 +209,21 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
                             crate::globals::MEMORY_PASSWORD_STORE
                                 .set_password(config, password.clone());
                         }
+
+                        if !config.encrypted {
+                            // We assumed that the repo doesn't have encryption, but this assumption was outdated.
+                            // Set the encrypted flag in the config
+                            if let Some(id) = command.config_id() {
+                                BACKUP_CONFIG.update_result(|config| {
+                                    let cfg = config.get_result_mut(&id)?;
+                                    cfg.encrypted = true;
+
+                                    Ok(())
+                                })?;
+
+                                ui::write_config()?;
+                            }
+                        }
                     }
                 }
                 result
