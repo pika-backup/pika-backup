@@ -45,19 +45,6 @@ where
         ask_unmount(T::KIND, &command.config.repo_id).await?;
     }
 
-    let mounted_result =
-        crate::ui::dialog_device_missing::ensure_repo_available(&command.config, &T::name()).await;
-
-    match mounted_result {
-        Ok(config) => command.config = config,
-        Err(err) => {
-            // The repository is not available after trying to mount it
-            return Err(
-                borg::Error::Aborted(borg::Abort::RepositoryNotAvailable(err.to_string())).into(),
-            );
-        }
-    }
-
     BORG_OPERATION.with(enclose!((command) move |operations| {
         if let Some(operation) = operations
             .load()
@@ -78,23 +65,34 @@ where
         history.set_running(config_id.clone());
     }));
 
-    Handler::handle(ui::write_config());
+    scopeguard::defer_on_success! {
+        BORG_OPERATION.with(enclose!((config_id) move |operations| {
+            operations.update(|op| {
+                op.remove(&config_id);
+            });
+        }));
 
-    let result = spawn_borg_thread_ask_password(command).await;
-
-    BORG_OPERATION.with(enclose!((config_id) move |operations| {
-        operations.update(|op| {
-            op.remove(&config_id);
+        BACKUP_HISTORY.update(move |history| {
+            history.remove_running(config_id.clone());
         });
-    }));
 
-    BACKUP_HISTORY.update(move |history| {
-        history.remove_running(config_id.clone());
-    });
+        Handler::handle(ui::write_config());
+    };
 
-    Handler::handle(ui::write_config());
+    let mounted_result =
+        crate::ui::dialog_device_missing::ensure_repo_available(&command.config, &T::name()).await;
 
-    result
+    match mounted_result {
+        Ok(config) => command.config = config,
+        Err(err) => {
+            // The repository is not available after trying to mount it
+            return Err(
+                borg::Error::Aborted(borg::Abort::RepositoryNotAvailable(err.to_string())).into(),
+            );
+        }
+    }
+
+    spawn_borg_thread_ask_password(command).await
 }
 
 pub async fn exec_repo_only<P: core::fmt::Display, F, R, V>(
