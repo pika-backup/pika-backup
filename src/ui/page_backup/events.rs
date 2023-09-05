@@ -1,3 +1,4 @@
+use std::ffi::OsStr;
 use std::path::PathBuf;
 
 use gtk::traits::WidgetExt;
@@ -105,7 +106,8 @@ pub async fn add_include() -> Result<()> {
 
     let paths = if *APP_IS_SANDBOXED {
         let runtime_dir = glib::user_runtime_dir();
-        let mut filtered_paths = Vec::new();
+        let mut sandbox_filtered_paths = Vec::new();
+        let mut root_paths = Vec::new();
 
         // Scan for unavailable paths in the sandbox and redirect them if possible
         let paths = paths
@@ -113,7 +115,10 @@ pub async fn add_include() -> Result<()> {
             .filter(|path| {
                 // Filter all paths that are definitely unavailable and give a note about them
                 if path.starts_with(runtime_dir.join("doc/")) {
-                    filtered_paths.push(path.display().to_string());
+                    sandbox_filtered_paths.push(path.display().to_string());
+                    false
+                } else if path.starts_with("/dev") || path == OsStr::new("/") {
+                    root_paths.push(path.display().to_string());
                     false
                 } else {
                     true
@@ -121,12 +126,21 @@ pub async fn add_include() -> Result<()> {
             })
             .collect::<Vec<PathBuf>>();
 
-        if !filtered_paths.is_empty() {
-            let path_list = filtered_paths.join("\n");
+        if !sandbox_filtered_paths.is_empty() {
+            let path_list = sandbox_filtered_paths.join("\n");
 
             ui::utils::show_error_transient_for(
                 gettext("Unable to Include Location"),
                 gettextf("The following paths could not be included because they aren't reliably available in the sandbox:\n{}", &[&path_list]),
+                &main_ui().window(),
+            )
+            .await;
+        }
+
+        if !root_paths.is_empty() {
+            ui::utils::show_error_transient_for(
+                gettext("Unable to Include Location"),
+                gettext("Pika Backup cannot be used to backup the entire system or the “/dev” directory."),
                 &main_ui().window(),
             )
             .await;
