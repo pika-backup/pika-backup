@@ -22,7 +22,7 @@
 - Add eject button for backup disk
 - Add function to check archives integrity
 
-## 0.6.2 (unreleased)
+## 0.6.2 (2023-09-06)
 
 - Fix an error where reconnection would silently fail
 
