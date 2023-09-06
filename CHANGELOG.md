@@ -8,7 +8,7 @@
 - Add ability to edit regex and shell exclusion patterns
 - Add ability to run shell scripts on certain backup events
 
-## 0.6.2 (unreleased)
+## 0.6.2 (2023-09-06)
 
 - Fix an error where reconnection would silently fail
 
