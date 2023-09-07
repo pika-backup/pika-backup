@@ -36,6 +36,11 @@ impl<T: Task> Command<T> {
     }
 
     pub fn set_from_schedule(mut self, from_schedule: Option<schedule::DueCause>) -> Self {
+        let is_schedule = from_schedule.is_some();
+        self.communication
+            .general_info
+            .update(move |s| s.is_schedule = is_schedule);
+
         self.from_schedule = from_schedule;
 
         self

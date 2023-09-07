@@ -318,6 +318,7 @@ impl BorgCall {
             status.started = Some(chrono::Local::now());
         });
         let sender = communication.new_sender();
+        let started_instant = std::time::Instant::now();
 
         let mut retries = 0;
         let mut retried = false;
@@ -330,6 +331,14 @@ impl BorgCall {
             let result = self.managed_process(communication.clone(), &sender).await;
             match &result {
                 Err(Error::Failed(ref failure)) if failure.is_connection_error() => {
+                    if !communication.general_info.load().is_schedule
+                        && std::time::Instant::now().duration_since(started_instant)
+                            < std::time::Duration::from_secs(60)
+                    {
+                        // Don't reconnect when manual backups fail right at the beginning. This is most likely a permanent problem.
+                        return result;
+                    }
+
                     if !retried {
                         debug!("First disconnect for this task");
                         retried = true;

@@ -5,6 +5,7 @@ use std::collections::VecDeque;
 #[derive(Default, Debug, Clone)]
 pub struct GeneralStatus {
     pub run: Run,
+    pub is_schedule: bool,
     pub started: Option<chrono::DateTime<chrono::Local>>,
     /// History per borg command execution. There can be multiple command
     /// executions because of disconnects. The first entry stores early, the
