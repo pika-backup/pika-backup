@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="feature-schedule">
+ <info>
+  <link type="guide" xref="index#feature"/>
+  <desc>Run backups automatically on a schedule</desc>
+ </info>
+ <title>Scheduled Backups</title>
+ <p>The schedule tab is used to configure the automatic creation of backups.</p>
+ <p>Once enabled a schedule can be chosen between <em>Hourly</em>, <em>Daily</em>, <em>Weekly</em> and <em>Monthly</em> backups. The status display at the top will always indicate the next time a backup is scheduled to be run.</p>
+ <p>When the appropriate time has elapsed a backup will automatically start in the background. When using an external drive, you will be prompted to insert it if it's not available at the time. The backup will then start as soon as the drive is connected.</p>
+ <note>
+  <p>Scheduled backups use a lightweight background process called the <em>Monitor</em>. The <em>Monitor</em> process runs in the background when <app>Pika Backup</app> is closed and regularly checks if the conditions are met to start a backup.</p>
+ </note>
+ <section>
+  <title>Cleanup old Archives</title>
+  <p>The schedule can also be configured to automatically remove old archives. Once enabled, choose the desired preset / customize the amount of backups that should be kept. Then press <gui type="button">Save Configuration</gui>.</p>
+  <note>
+   <p><gui>Keep Hourly</gui>, <gui>Keep Daily</gui> and <gui>Keep Weekly</gui> can only be configured to a minimum of at least <em>one</em> backup. This is due to a technical limitation of the removal algorithm.</p>
+  </note>
+ </section>
+ <section>
+  <title>Troubleshooting</title>
+  <p><app>Pika Backup</app> uses the <app>xdg-desktop-portal</app> <app>Background Portal</app> to configure the <em>Monitor</em> process to run in the background. Some distributions misconfigure <app>xdg-desktop-portal</app> or don't enable the <em>Background Portal</em>. This will then cause an error when enabling scheduled backups. We have tested the following distributions for correct behavior regarding background portals in their stock configuration:</p>
+  <list>
+   <item>
+    <p>Debian</p>
+   </item>
+   <item>
+    <p>Fedora</p>
+   </item>
+  </list>
+  <p>If you encounter issues with enabling scheduled backups and you are using a different distribution, please report an issue in your distribution issue tracker.</p>
+  <note>
+   <p><app>GNOME Shell</app> will display <app>Pika Backup</app> as a running background app whenever scheduled backups are configured. This doesn't mean the entire app is running in the background but only the <em>Monitor</em> process which only uses very few resources.</p>
+  </note>
+ </section>
+</page>

@@ -1,0 +1,41 @@
+= Terminology
+  [topic]
+@link[guide >index#general]
+@desc Definition of terms
+
+These terms are commonly used in this documentation and within the app.
+
+== BorgBackup
+  [#borg]
+$app(BorgBackup) is the underlying program that is used to create backups. $app(Pika Backup) repositories can also be accessed with the BorgBackup commandline utility. See $link[href=https://borgbackup.readthedocs.io](BorgBackup documentation) for more information about how to use the $cmd(borg) command line utility.
+
+== Repository
+  [#repository]
+  
+Backup repositories are directories on a disk or on a remote location that contain backup data. They store one or more $link[>#archive](archives).
+
+== Archive
+  [#archive]
+Every backup will create one archive. They store a singular snapshot of the files at the time the backup was created. To restore data from a particular archive, see $link[>index#recovery].
+
+== Deduplication
+  [#deduplication]
+$app(Pika Backup) stores backup $link[>#archive](archives) in a way that only new and changed data from the last backup use up more disk space. The term $em(deduplication) is used to refer to this functionality.
+
+[note]
+  The amount of new space used for the last backup can be seen in the $gui(Backup Info) window that can be accessed via the $gui[style=tab](Backup) tab.
+
+== Compression
+  [#compression]
+Backup $link[>#archive](archives) created with $app(Pika Backup) are compressed with the $em(zstd) algorithm on $em(level 3). This was chosen as a compromise between performance and resulting backup size.
+
+== Encryption
+  [#encryption]
+Backup repositories created with $app(Pika Backup) can be encrypted. This will make it impossible for anyone to read the contents of the backup without knowing or guessing the encryption $em(password).
+
+[note]
+  While it is important to choose a strong encryption password for sensitive data, losing the password also means losing access to all data. It is equally important to choose a password that is not easily forgotten or stored in a safe place.
+
+The encryption algorithm used for new $link[repository](repositories) is $em(AES-CTR-256). The authentication algorithm is either $em(HMAC-SHA256) or $em(BLAKE2b-256) depending on whether SHA256 is hardware-accelerated on the system.
+
+The encryption password can be changed via $guiseq($gui(Menu)$gui(Backup Preferences)$gui(Change Encryption Password)).

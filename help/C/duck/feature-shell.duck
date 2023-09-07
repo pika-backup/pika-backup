@@ -1,0 +1,17 @@
+= Shell Commands
+  [topic]
+@link[guide >index#feature]
+@desc Configure commands to run before and after backups
+
+It is possible to run shell commands before and after backups. To configure them, open $guiseq($gui(Menu)$gui(Backup Preferences)). Use the start button to try out the command without running a backup.
+
+The $em(pre-backup) shell command will be executed right before starting the backup. It can be used to perform database dumps, create file system snapshots and much more.
+
+The $em(post-backup) shell command is executed after the $cmd(borg create) invocation, but before old archives are being deleted. This can be used to tear down the actions done by the $em(pre-backup) command, or run actions like sending a notification based on the outcome of the backup.
+
+Both commands are being executed through a $cmd(bash) shell and have context about the backup available as environment variables. The working directory is the user home directory. The $em(post-backup) command also has information about the success or failure of the backup and includes backup statistics. See the tooltip in preferences for available environment variables.
+
+Exiting with a non-zero exit code will abort any further backup operations with an error. The standard error output will be visible in the $gui(Backup Info) window on the $gui(Backup) tab.
+
+[note]
+  You can run multiple commands by separating them with a $code(;) character. It is recommended to store more complex scripts in a separate file, for example in the home directory.

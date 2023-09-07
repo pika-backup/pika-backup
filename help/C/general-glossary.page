@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="general-glossary">
+ <info>
+  <link type="guide" xref="index#general"/>
+  <desc>Definition of terms</desc>
+ </info>
+ <title>Terminology</title>
+ <p>These terms are commonly used in this documentation and within the app.</p>
+ <section id="borg">
+  <title>BorgBackup</title>
+  <p><app>BorgBackup</app> is the underlying program that is used to create backups. <app>Pika Backup</app> repositories can also be accessed with the BorgBackup commandline utility. See <link href="https://borgbackup.readthedocs.io">BorgBackup documentation</link> for more information about how to use the <cmd>borg</cmd> command line utility.</p>
+ </section>
+ <section id="repository">
+  <title>Repository</title>
+  <p>Backup repositories are directories on a disk or on a remote location that contain backup data. They store one or more <link xref="#archive">archives</link>.</p>
+ </section>
+ <section id="archive">
+  <title>Archive</title>
+  <p>Every backup will create one archive. They store a singular snapshot of the files at the time the backup was created. To restore data from a particular archive, see <link xref="index#recovery"/>.</p>
+ </section>
+ <section id="deduplication">
+  <title>Deduplication</title>
+  <p><app>Pika Backup</app> stores backup <link xref="#archive">archives</link> in a way that only new and changed data from the last backup use up more disk space. The term <em>deduplication</em> is used to refer to this functionality.</p>
+  <note>
+   <p>The amount of new space used for the last backup can be seen in the <gui>Backup Info</gui> window that can be accessed via the <gui style="tab">Backup</gui> tab.</p>
+  </note>
+ </section>
+ <section id="compression">
+  <title>Compression</title>
+  <p>Backup <link xref="#archive">archives</link> created with <app>Pika Backup</app> are compressed with the <em>zstd</em> algorithm on <em>level 3</em>. This was chosen as a compromise between performance and resulting backup size.</p>
+ </section>
+ <section id="encryption">
+  <title>Encryption</title>
+  <p>Backup repositories created with <app>Pika Backup</app> can be encrypted. This will make it impossible for anyone to read the contents of the backup without knowing or guessing the encryption <em>password</em>.</p>
+  <note>
+   <p>While it is important to choose a strong encryption password for sensitive data, losing the password also means losing access to all data. It is equally important to choose a password that is not easily forgotten or stored in a safe place.</p>
+  </note>
+  <p>The encryption algorithm used for new <link type="repository">repositories</link> is <em>AES-CTR-256</em>. The authentication algorithm is either <em>HMAC-SHA256</em> or <em>BLAKE2b-256</em> depending on whether SHA256 is hardware-accelerated on the system.</p>
+  <p>The encryption password can be changed via <guiseq><gui>Menu</gui><gui>Backup Preferences</gui><gui>Change Encryption Password</gui></guiseq>.</p>
+ </section>
+</page>

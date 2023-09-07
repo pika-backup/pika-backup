@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="feature-shell">
+ <info>
+  <link type="guide" xref="index#feature"/>
+  <desc>Configure commands to run before and after backups</desc>
+ </info>
+ <title>Shell Commands</title>
+ <p>It is possible to run shell commands before and after backups. To configure them, open <guiseq><gui>Menu</gui><gui>Backup Preferences</gui></guiseq>. Use the start button to try out the command without running a backup.</p>
+ <p>The <em>pre-backup</em> shell command will be executed right before starting the backup. It can be used to perform database dumps, create file system snapshots and much more.</p>
+ <p>The <em>post-backup</em> shell command is executed after the <cmd>borg create</cmd> invocation, but before old archives are being deleted. This can be used to tear down the actions done by the <em>pre-backup</em> command, or run actions like sending a notification based on the outcome of the backup.</p>
+ <p>Both commands are being executed through a <cmd>bash</cmd> shell and have context about the backup available as environment variables. The working directory is the user home directory. The <em>post-backup</em> command also has information about the success or failure of the backup and includes backup statistics. See the tooltip in preferences for available environment variables.</p>
+ <p>Exiting with a non-zero exit code will abort any further backup operations with an error. The standard error output will be visible in the <gui>Backup Info</gui> window on the <gui>Backup</gui> tab.</p>
+ <note>
+  <p>You can run multiple commands by separating them with a <code>;</code> character. It is recommended to store more complex scripts in a separate file, for example in the home directory.</p>
+ </note>
+</page>

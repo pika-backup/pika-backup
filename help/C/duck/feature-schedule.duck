@@ -1,0 +1,32 @@
+= Scheduled Backups
+  [topic]
+@link[guide >index#feature]
+@desc Run backups automatically on a schedule
+
+The schedule tab is used to configure the automatic creation of backups.
+
+Once enabled a schedule can be chosen between $em(Hourly), $em(Daily), $em(Weekly) and $em(Monthly) backups. The status display at the top will always indicate the next time a backup is scheduled to be run.
+
+When the appropriate time has elapsed a backup will automatically start in the background. When using an external drive, you will be prompted to insert it if it's not available at the time. The backup will then start as soon as the drive is connected.
+
+[note]
+  Scheduled backups use a lightweight background process called the $em(Monitor). The $em(Monitor) process runs in the background when $app(Pika Backup) is closed and regularly checks if the conditions are met to start a backup.
+
+== Cleanup old Archives
+
+The schedule can also be configured to automatically remove old archives. Once enabled, choose the desired preset / customize the amount of backups that should be kept. Then press $gui[button](Save Configuration).
+
+[note]
+  $gui(Keep Hourly), $gui(Keep Daily) and $gui(Keep Weekly) can only be configured to a minimum of at least $em(one) backup. This is due to a technical limitation of the removal algorithm.
+
+== Troubleshooting
+
+$app(Pika Backup) uses the $app(xdg-desktop-portal) $app(Background Portal) to configure the $em(Monitor) process to run in the background. Some distributions misconfigure $app(xdg-desktop-portal) or don't enable the $em(Background Portal). This will then cause an error when enabling scheduled backups. We have tested the following distributions for correct behavior regarding background portals in their stock configuration:
+
+* Debian
+* Fedora
+
+If you encounter issues with enabling scheduled backups and you are using a different distribution, please report an issue in your distribution issue tracker.
+
+[note]
+  $app(GNOME Shell) will display $app(Pika Backup) as a running background app whenever scheduled backups are configured. This doesn't mean the entire app is running in the background but only the $em(Monitor) process which only uses very few resources.
