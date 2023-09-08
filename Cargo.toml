@@ -1,8 +1,11 @@
 [package]
 name = "pika-backup"
 description = "Keep your data safe"
-version = "0.6.1"
-authors = ["Sophie Herold <sophieherold@gnome.org>", "Fina Wilke <finaw@gnome.org>"]
+version = "0.6.2"
+authors = [
+    "Sophie Herold <sophieherold@gnome.org>",
+    "Fina Wilke <finaw@gnome.org>",
+]
 homepage = "https://apps.gnome.org/app/org.gnome.World.PikaBackup/"
 repository = "https://gitlab.gnome.org/World/pika-backup"
 edition = "2021"
@@ -16,7 +19,9 @@ codegen-units = 1
 [dependencies]
 async-std = { version = "1.10", features = ["attributes", "unstable"] }
 async-trait = "0.1"
-chrono = { version = "= 0.4.22", default-features = false, features = ["serde"] }
+chrono = { version = "= 0.4.22", default-features = false, features = [
+    "serde",
+] }
 chronoutil = "0.2"
 const-str = "0.5"
 default-env = "0.1"
@@ -47,7 +52,7 @@ serde_json = "1.0"
 # GNOME
 adw = { package = "libadwaita", version = "0.4", features = ["v1_4"] }
 glib = { version = "*" }
-gio = { version = "*"}
+gio = { version = "*" }
 gtk = { package = "gtk4", version = "0.6", features = ["v4_8"] }
 
 ashpd = "0.4.0"
