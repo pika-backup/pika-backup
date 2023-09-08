@@ -38,7 +38,7 @@ pub async fn ensure_repo_available(
 
     match &config.repo {
         config::Repository::Local(repo) => {
-            if !ui::utils::is_backup_repo(&repo.path()) {
+            if !ui::utils::is_backup_repo(&repo.path()).await {
                 if let Some(uri) = config.repo.uri_fuse() {
                     info!("Remote gvfs repo not available");
                     mount_enclosing(&gio::File::for_uri(&uri)).await?;

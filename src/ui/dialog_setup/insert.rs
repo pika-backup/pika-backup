@@ -20,7 +20,7 @@ pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Resul
             .and_then(|x| x.path())
     {
         ui.dialog().set_visible(true);
-        if ui::utils::is_backup_repo(&path) {
+        if ui::utils::is_backup_repo(&path).await {
             let result =
                 add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await;
             // add_first_try moves us to detail, fix here for now

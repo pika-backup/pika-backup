@@ -5,9 +5,8 @@ pub mod folder_button;
 mod insert;
 mod remote_location;
 
-use std::convert::Into;
-
 use adw::prelude::*;
+use async_std::stream::StreamExt;
 
 use crate::ui;
 use crate::ui::prelude::*;
@@ -152,39 +151,27 @@ async fn load_mount(ui: DialogSetup, mount: gio::Mount) -> Result<()> {
             }),
         )
         .await;
-        let paths = ui::utils::spawn_thread("check_mount_for_repos", move || {
-            let mut paths = Vec::new();
-            if let Ok(dirs) = mount_point.read_dir() {
-                for path in dirs.flatten() {
-                    if ui::utils::is_backup_repo(&path.path()) {
-                        paths.push(path.path());
-                    }
-                }
-            }
-            paths
-        })
-        .await;
 
-        match paths {
-            Err(err) => {
-                return Err(
-                    Message::new(gettext("Failed to list existing repositories."), err).into(),
-                );
-            }
-            Ok(paths) => {
-                for path in paths {
-                    trace!("Adding repo to ui '{:?}'", path);
-                    display::add_mount(
-                        &ui.add_repo_list(),
-                        &mount,
-                        Some(&path),
-                        clone!(@weak ui, @strong path => move || {
-                            event::add_local(&ui, Some(&path))
-                        }),
-                    )
-                    .await;
+        let mut paths = Vec::new();
+        if let Ok(mut dirs) = async_std::fs::read_dir(mount_point).await {
+            while let Some(Ok(path)) = dirs.next().await {
+                if ui::utils::is_backup_repo(path.path().as_ref()).await {
+                    paths.push(path.path());
                 }
             }
+        }
+
+        for path in paths {
+            trace!("Adding repo to ui '{:?}'", path);
+            display::add_mount(
+                &ui.add_repo_list(),
+                &mount,
+                Some(path.as_ref()),
+                clone!(@weak ui, @strong path => move || {
+                    event::add_local(&ui, Some(path.as_ref()))
+                }),
+            )
+            .await;
         }
     }
 

@@ -72,7 +72,7 @@ pub fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
 ///
 /// - `data/` exists and is a directory
 /// - `config` exists and contains the string `[repository]`
-pub fn is_backup_repo(path: &std::path::Path) -> bool {
+pub async fn is_backup_repo(path: &std::path::Path) -> bool {
     trace!("Checking path if it is a repo '{}'", &path.display());
     if let Ok(data) = std::fs::File::open(path.join("data")).and_then(|x| x.metadata()) {
         if data.is_dir() {
