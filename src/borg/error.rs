@@ -36,7 +36,10 @@ quick_error! {
             display("{}", err)
         }
         ChannelSend(err: async_std::channel::SendError<super::Update>) { from() }
-        Aborted(err: Abort) { from() }
+        Aborted(err: Abort) {
+            from()
+            display("{}", err)
+        }
     }
 }
 
