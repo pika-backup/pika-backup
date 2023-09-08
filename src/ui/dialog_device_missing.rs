@@ -27,6 +27,27 @@ fn set_mount_path(config: &mut config::Backup, mount: &gio::Mount) {
     }
 }
 
+// Try to find volume that contains the repository
+fn find_volume(repo: &config::local::Repository) -> Option<gio::Volume> {
+    gio::VolumeMonitor::get()
+        .volumes()
+        .into_iter()
+        .find(|v| repo.is_likely_on_volume(v))
+}
+
+// Make sure the device is plugged in and available
+//
+// No-Op for remote archives
+pub async fn ensure_device_plugged_in(config: &config::Backup, purpose: &str) -> Result<()> {
+    if let config::Repository::Local(repo) = &config.repo {
+        if repo.removable && find_volume(repo).is_none() {
+            mount_dialog(repo.clone(), purpose).await?;
+        }
+    }
+
+    Ok(())
+}
+
 /// Check the current repository availability
 ///
 /// If the repository is not available we try to mount it, showing the dialog if required.
@@ -46,10 +67,7 @@ pub async fn ensure_repo_available(
                     info!("Removable drive not available");
 
                     // try to find volume with same uuid
-                    let volume = gio::VolumeMonitor::get()
-                        .volumes()
-                        .into_iter()
-                        .find(|v| repo.is_likely_on_volume(v));
+                    let volume = find_volume(repo);
 
                     if let Some(mount) = volume.as_ref().and_then(|v| v.get_mount()) {
                         info!("Probably found repo somewhere else");

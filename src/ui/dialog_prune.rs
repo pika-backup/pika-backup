@@ -7,6 +7,13 @@ use crate::ui::prelude::*;
 use ui::builder::DialogPrune;
 
 pub async fn run(config: &config::Backup) -> Result<()> {
+    // First ensure the device is available to prevent overlapping dialogs
+    ui::dialog_device_missing::ensure_device_plugged_in(
+        config,
+        &gettext("Identifying old Archives"),
+    )
+    .await?;
+
     let ui = DialogPrune::new();
 
     let result = show(config, &ui).await;

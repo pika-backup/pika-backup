@@ -8,8 +8,16 @@ use crate::ui::prelude::*;
 use ui::builder::DialogPruneReview;
 
 pub async fn run(config: &config::Backup) -> Result<()> {
-    let ui = DialogPruneReview::new();
     let guard = QuitGuard::default();
+
+    // First ensure the device is available to prevent overlapping dialogs
+    ui::dialog_device_missing::ensure_device_plugged_in(
+        config,
+        &gettext("Identifying old Archives"),
+    )
+    .await?;
+
+    let ui = DialogPruneReview::new();
 
     scopeguard::defer! {
         ui.dialog().destroy();
