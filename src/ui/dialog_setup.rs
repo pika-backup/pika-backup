@@ -90,10 +90,10 @@ pub fn show() {
 
     volume_monitor.connect_mount_removed(clone!(@weak ui => move |_, mount| {
         debug!("Mount removed");
-        remove_mount(&ui.add_repo_list(), mount.root().uri());
+        remove_mount(&ui.add_repo_list(), &mount.root().uri());
         remove_mount(
             &ui.init_repo_list(),
-            mount.root().uri(),
+            &mount.root().uri(),
         );
     }));
 
@@ -178,10 +178,10 @@ async fn load_mount(ui: DialogSetup, mount: gio::Mount) -> Result<()> {
     Ok(())
 }
 
-fn remove_mount(list: &gtk::ListBox, root: glib::GString) {
+fn remove_mount(list: &gtk::ListBox, root: &str) {
     let mut i = 0;
     while let Some(list_row) = list.row_at_index(i) {
-        if list_row.widget_name() == root {
+        if list_row.widget_name().starts_with(root) {
             list.remove(&list_row);
             break;
         }
