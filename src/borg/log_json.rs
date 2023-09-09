@@ -235,7 +235,7 @@ impl QuestionPrompt {
             }
             QuestionId::RelocatedRepoAccessIsOk => {
                 let pattern: regex::Regex = regex::Regex::new(
-                    r#".*at location (\S+) .*previously located at (\S+).*"#,
+                    r".*at location (\S+) .*previously located at (\S+).*",
                 )
                 .expect("Regex to be valid");
 

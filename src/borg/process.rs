@@ -277,7 +277,7 @@ impl BorgCall {
             .stderr(async_process::Stdio::piped())
             .stdout(async_process::Stdio::piped())
             .stdin(async_process::Stdio::piped())
-            .envs(self.envs.clone().into_iter());
+            .envs(self.envs.clone());
 
         Ok(cmd)
     }
