@@ -8,7 +8,6 @@ mod imp {
     use crate::{borg, config::UserScriptKind, ui::widget::EncryptionPreferencesGroup};
 
     use super::*;
-    use glib::signal::Inhibit;
     use glib::Properties;
     use once_cell::unsync::OnceCell;
     use std::cell::{Cell, RefCell};
@@ -117,7 +116,7 @@ mod imp {
     impl WidgetImpl for DialogPreferences {}
 
     impl WindowImpl for DialogPreferences {
-        fn close_request(&self) -> Inhibit {
+        fn close_request(&self) -> glib::Propagation {
             BACKUP_CONFIG.update(|c| match c.get_result_mut(self.config_id.get().unwrap()) {
                 Ok(backup) => {
                     backup.title = self.config_title.borrow().trim().to_string();
@@ -168,7 +167,7 @@ mod imp {
                     }
                 });
 
-                Inhibit(true)
+                glib::Propagation::Stop
             } else if self.pre_backup_command_error.borrow().is_some() {
                 glib::MainContext::default().spawn_local(async move {
                     if let Some(err) = obj.imp().pre_backup_command_error.take() {
@@ -177,7 +176,7 @@ mod imp {
                     }
                 });
 
-                Inhibit(true)
+                glib::Propagation::Stop
             } else if self.post_backup_command_error.borrow().is_some() {
                 glib::MainContext::default().spawn_local(async move {
                     if let Some(err) = obj.imp().post_backup_command_error.take() {
@@ -186,9 +185,9 @@ mod imp {
                     }
                 });
 
-                Inhibit(true)
+                glib::Propagation::Stop
             } else {
-                Inhibit(false)
+                glib::Propagation::Proceed
             }
         }
     }

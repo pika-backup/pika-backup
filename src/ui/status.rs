@@ -3,7 +3,7 @@ use async_std::prelude::*;
 use ui::prelude::*;
 
 use crate::ui;
-use glib::{Continue, SignalHandlerId};
+use glib::SignalHandlerId;
 use std::cell::Cell;
 use std::rc::Rc;
 use std::time::{Duration, Instant};
@@ -111,11 +111,11 @@ impl StatusTracking {
         // Regular update
         glib::source::timeout_add_local(
             UI_INTERVAL,
-            glib::clone!(@weak tracking => @default-return Continue(false), move || {
+            glib::clone!(@weak tracking => @default-return glib::ControlFlow::Break, move || {
                 debug!("Regular UI update to keep 'time ago' etc correct.");
                 tracking.ui_status_update();
                 tracking.ui_schedule_update();
-                glib::Continue(true)
+                glib::ControlFlow::Continue
             }),
         );
 

@@ -14,7 +14,7 @@ pub(super) static SCHEDULE_ACTIVE_SIGNAL_HANDLER: Lazy<glib::SignalHandlerId> =
 pub fn init() {
     // frequency model
 
-    let model = gio::ListStore::new(FrequencyObject::static_type());
+    let model = gio::ListStore::with_type(FrequencyObject::static_type());
 
     for frequency in frequency::list() {
         model.append(&FrequencyObject::new(frequency));
@@ -24,7 +24,7 @@ pub fn init() {
 
     // weekday model
 
-    let model = gio::ListStore::new(WeekdayObject::static_type());
+    let model = gio::ListStore::with_type(WeekdayObject::static_type());
 
     for weekday in &weekday::LIST {
         model.append(&WeekdayObject::new(*weekday));

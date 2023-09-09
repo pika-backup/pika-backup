@@ -164,7 +164,7 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
 
     dialog.window().connect_close_request(move |_| {
         let _ignore = mount_sender.try_send(None);
-        gtk::Inhibit(false)
+        glib::Propagation::Proceed
     });
 
     dialog.window().show();

@@ -8,7 +8,6 @@ mod imp {
     use crate::config::history::CheckRunInfo;
 
     use super::*;
-    use glib::signal::Inhibit;
     use glib::Properties;
     use once_cell::unsync::OnceCell;
     use std::cell::Cell;
@@ -81,8 +80,8 @@ mod imp {
     impl WidgetImpl for DialogCheck {}
 
     impl WindowImpl for DialogCheck {
-        fn close_request(&self) -> Inhibit {
-            Inhibit(false)
+        fn close_request(&self) -> glib::Propagation {
+            glib::Propagation::Proceed
         }
     }
 

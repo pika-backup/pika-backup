@@ -74,7 +74,7 @@ impl PrunePresetObject {
     }
 
     pub fn list_store() -> gio::ListStore {
-        let model = gio::ListStore::new(Self::static_type());
+        let model = gio::ListStore::with_type(Self::static_type());
 
         for elem in PrunePreset::list() {
             model.append(&Self::new(elem));

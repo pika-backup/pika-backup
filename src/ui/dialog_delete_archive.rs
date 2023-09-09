@@ -44,7 +44,7 @@ async fn show(
     let mutex = std::sync::Mutex::new(Some(ui.clone()));
     ui.dialog().connect_close_request(move |_| {
         *mutex.lock().unwrap() = None;
-        gtk::Inhibit(false)
+        glib::Propagation::Proceed
     });
 
     ui.dialog().connect_destroy(|_| {

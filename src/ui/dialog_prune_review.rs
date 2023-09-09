@@ -26,7 +26,8 @@ pub async fn run(config: &config::Backup) -> Result<()> {
     ui.dialog().connect_close_request(enclose!(
         (sender) move | _ | {
             let _ignore = sender.try_send(false);
-            gtk::Inhibit(false)
+            glib::Propagation::Proceed
+
         }
     ));
 

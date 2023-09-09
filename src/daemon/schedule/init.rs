@@ -15,7 +15,7 @@ pub fn init() {
     glib::timeout_add_seconds(schedule::PROBE_FREQUENCY.as_secs() as u32, minutely);
 }
 
-fn minutely() -> glib::Continue {
+fn minutely() -> glib::ControlFlow {
     debug!("Probing schedules");
 
     for config in BACKUP_CONFIG.load().iter() {
@@ -25,7 +25,7 @@ fn minutely() -> glib::Continue {
     }
     track_activity();
 
-    glib::Continue(true)
+    glib::ControlFlow::Continue
 }
 
 fn track_activity() {

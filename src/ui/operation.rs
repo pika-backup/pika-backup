@@ -8,7 +8,6 @@ use crate::borg;
 use crate::borg::log_json;
 use crate::config;
 use crate::ui;
-use glib::Continue;
 use std::any::Any;
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
@@ -59,9 +58,9 @@ impl<T: borg::Task> Operation<T> {
 
         glib::source::timeout_add_local(
             POLL_INTERVAL,
-            glib::clone!(@weak process => @default-return Continue(false), move || {
+            glib::clone!(@weak process => @default-return glib::ControlFlow::Break, move || {
                 glib::MainContext::default().spawn_local(Self::check(process));
-                glib::Continue(true)
+                glib::ControlFlow::Continue
             }),
         );
 

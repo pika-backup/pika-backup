@@ -104,7 +104,7 @@ pub fn show() {
     let mutex = std::sync::Mutex::new(Some((ui, volume_monitor)));
     dialog.connect_close_request(move |_| {
         *mutex.lock().unwrap() = None;
-        gtk::Inhibit(false)
+        glib::Propagation::Proceed
     });
 
     dialog.connect_destroy(|_| {

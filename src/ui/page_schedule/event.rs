@@ -202,7 +202,7 @@ pub async fn preferred_time_close() -> Result<()> {
     ui::write_config()
 }
 
-pub fn preferred_time_change(button: &gtk::SpinButton) -> gtk::Inhibit {
+pub fn preferred_time_change(button: &gtk::SpinButton) -> glib::Propagation {
     main_ui()
         .schedule_preferred_time_button()
         .set_label(&format!(
@@ -213,7 +213,7 @@ pub fn preferred_time_change(button: &gtk::SpinButton) -> gtk::Inhibit {
 
     button.set_text(&format!("{:02}", button.value()));
 
-    gtk::Inhibit(true)
+    glib::Propagation::Stop
 }
 
 pub async fn preferred_weekday_change() -> Result<()> {

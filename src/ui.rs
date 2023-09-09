@@ -76,7 +76,7 @@ pub fn main() {
     adw_app().run();
 }
 
-fn on_ctrlc() -> Continue {
+fn on_ctrlc() -> glib::ControlFlow {
     debug!("Quit: SIGINT (Ctrl+C)");
 
     BORG_OPERATION.with(|operations| {
@@ -86,7 +86,7 @@ fn on_ctrlc() -> Continue {
     });
 
     adw_app().quit();
-    Continue(true)
+    glib::ControlFlow::Continue
 }
 
 fn on_shutdown(_app: &adw::Application) {

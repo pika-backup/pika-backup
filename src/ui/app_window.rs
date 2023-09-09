@@ -70,9 +70,9 @@ pub fn show() {
     }
 }
 
-fn on_delete() -> gtk::Inhibit {
+fn on_delete() -> glib::Propagation {
     debug!("Potential quit: ApplicationWindow delete event");
 
     Handler::run(super::quit());
-    gtk::Inhibit(true)
+    glib::Propagation::Stop
 }
