@@ -80,7 +80,7 @@ impl Global {
         }
 
         if gio::NetworkMonitor::default().is_network_metered()
-            && config.repo.is_host_local().await == Some(false)
+            && config.repo.is_host_local().await != Some(true)
         {
             vec.push(Self::MeteredConnection)
         }
