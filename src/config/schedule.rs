@@ -3,7 +3,16 @@ use crate::prelude::*;
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct Schedule {
     pub enabled: bool,
+    #[serde(default)]
+    pub settings: Settings,
     pub frequency: Frequency,
+}
+
+/// User configured settings to the schedule algorithm.
+#[derive(Serialize, Deserialize, Default, Clone, Debug, PartialEq)]
+pub struct Settings {
+    /// Run backups regardless of battery status
+    pub run_on_battery: bool,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]

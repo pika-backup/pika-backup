@@ -62,6 +62,7 @@ impl Global {
     /// Returns all requirements that are violated
     pub async fn check(config: &config::Backup, histories: &config::Histories) -> Vec<Self> {
         let mut vec = Vec::new();
+        let settings = &config.schedule.settings;
 
         let running_backup = histories
             .iter()
@@ -85,7 +86,7 @@ impl Global {
             vec.push(Self::MeteredConnection)
         }
 
-        if UPower::on_battery().await == Some(true) {
+        if !settings.run_on_battery && UPower::on_battery().await == Some(true) {
             vec.push(Self::OnBattery)
         }
 

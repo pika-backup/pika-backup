@@ -147,6 +147,18 @@
           </object>
         </child>
         <child>
+          <object class="AdwPreferencesGroup" id="schedule_pref_group">
+            <property name="title" translatable="yes">Scheduled Backups</property>
+            <child>
+              <object class="AdwSwitchRow" id="run_on_battery_switch">
+                <property name="title" translatable="yes">Run on Battery</property>
+                <property name="subtitle" translatable="yes">Allow scheduled backups when device is battery powered</property>
+                <property name="active" bind-source="DialogPreferences" bind-property="schedule_run_on_battery" bind-flags="bidirectional|sync-create" />
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Additional command line arguments</property>
             <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>

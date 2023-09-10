@@ -56,6 +56,10 @@ mod imp {
         #[property(get, set = Self::set_post_backup_command)]
         post_backup_command: RefCell<String>,
 
+        // Tweaks
+        #[property(get, set)]
+        schedule_run_on_battery: Cell<bool>,
+
         // Change password page
         #[template_child]
         page_change_encryption_password: TemplateChild<adw::NavigationPage>,
@@ -142,6 +146,8 @@ mod imp {
                     backup.repo.set_settings(Some(BackupSettings {
                         command_line_args: self.command_line_args.borrow().clone(),
                     }));
+
+                    backup.schedule.settings.run_on_battery = self.schedule_run_on_battery.get();
                 }
                 Err(err) => {
                     glib::MainContext::default().spawn_local(async move {
@@ -237,6 +243,9 @@ mod imp {
                                 .unwrap_or("".to_string()),
                         );
                     }
+
+                    self.obj()
+                        .set_schedule_run_on_battery(backup.schedule.settings.run_on_battery);
                 }
                 Err(err) => {
                     glib::MainContext::default().spawn_local(async move {

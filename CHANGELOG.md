@@ -19,6 +19,7 @@
 - Add ability to edit regex and shell exclusion patterns
 - Add ability to run shell scripts on certain backup events
 - Add ability to change the backup encryption password
+- Add preference to allow running scheduled backups on battery
 - Add exclusion suggestions for unreadable paths
 - Add eject button for backup disk
 - Add function to check archives integrity
