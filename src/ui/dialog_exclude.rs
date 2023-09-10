@@ -196,6 +196,38 @@ pub fn fill_unreadable(dialog: &DialogExclude) -> Result<()> {
     Ok(())
 }
 
+/// Find the common ancestor of all included folders
+async fn exclude_base_folder() -> Result<gio::File> {
+    let includes = BACKUP_CONFIG.load().active()?.include_dirs();
+
+    // Find the common ancestor
+    let mut base: Option<std::path::PathBuf> = None;
+    for path in includes {
+        if let Some(base_path) = &base {
+            for ancestor in path.ancestors() {
+                if base_path.starts_with(ancestor) {
+                    base = Some(ancestor.to_path_buf());
+                    break;
+                }
+            }
+        } else {
+            base = Some(path);
+        }
+    }
+
+    // Make sure this is a directory, not a file
+    if let Some(base_path) = &base {
+        if async_std::fs::metadata(base_path)
+            .await
+            .is_ok_and(|meta| meta.is_file())
+        {
+            base = base_path.parent().map(|p| p.to_path_buf())
+        }
+    }
+
+    Ok(gio::File::for_path(base.unwrap_or_else(glib::home_dir)))
+}
+
 pub async fn exclude_folder() -> Result<()> {
     let chooser = gtk::FileChooserNative::builder()
         .action(gtk::FileChooserAction::SelectFolder)
@@ -205,6 +237,8 @@ pub async fn exclude_folder() -> Result<()> {
         .modal(true)
         .transient_for(&main_ui().window())
         .build();
+
+    let _ = chooser.set_current_folder(Some(&exclude_base_folder().await?));
 
     let paths = ui::utils::paths(chooser).await?;
 
@@ -234,6 +268,8 @@ pub async fn exclude_file() -> Result<()> {
         .modal(true)
         .transient_for(&main_ui().window())
         .build();
+
+    let _ = chooser.set_current_folder(Some(&exclude_base_folder().await?));
 
     let paths = ui::utils::paths(chooser).await?;
 
