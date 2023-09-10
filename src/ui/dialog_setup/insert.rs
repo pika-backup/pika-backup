@@ -11,13 +11,15 @@ use crate::ui::builder;
 use crate::ui::prelude::*;
 
 pub async fn on_add_repo_list_activated_local(ui: builder::DialogSetup) -> Result<()> {
-    ui.dialog().hide();
+    ui.dialog().set_visible(false);
 
-    if let Some(path) = ui::utils::folder_chooser_dialog(&gettext("Setup Existing Repository"))
-        .await
-        .and_then(|x| x.path())
+    if let Some(path) =
+        ui::utils::folder_chooser_dialog(&gettext("Setup Existing Repository"), None)
+            .await
+            .ok()
+            .and_then(|x| x.path())
     {
-        ui.dialog().show();
+        ui.dialog().set_visible(true);
         if ui::utils::is_backup_repo(&path) {
             let result =
                 add_first_try(local::Repository::from_path(path).into_config(), ui.clone()).await;

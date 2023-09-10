@@ -41,7 +41,7 @@ pub fn show() {
     Handler::handle(fill_suggestions(&ui));
     Handler::handle(fill_unreadable(&ui));
 
-    ui.dialog().show();
+    ui.dialog().present();
 }
 
 pub fn fill_suggestions(dialog: &DialogExclude) -> Result<()> {
@@ -229,18 +229,24 @@ async fn exclude_base_folder() -> Result<gio::File> {
 }
 
 pub async fn exclude_folder() -> Result<()> {
-    let chooser = gtk::FileChooserNative::builder()
-        .action(gtk::FileChooserAction::SelectFolder)
-        .select_multiple(true)
+    let chooser = gtk::FileDialog::builder()
+        .initial_folder(&exclude_base_folder().await?)
         .title(gettext("Exclude Directory"))
         .accept_label(gettext("Select"))
         .modal(true)
-        .transient_for(&main_ui().window())
         .build();
 
-    let _ = chooser.set_current_folder(Some(&exclude_base_folder().await?));
-
-    let paths = ui::utils::paths(chooser).await?;
+    let paths = ui::utils::paths_from_model(
+        chooser
+            .select_multiple_folders_future(Some(&main_ui().window()))
+            .await
+            .map_err(|err| match err.kind::<gtk::DialogError>() {
+                Some(gtk::DialogError::Cancelled | gtk::DialogError::Dismissed) => {
+                    Error::UserCanceled
+                }
+                _ => Message::short(err.to_string()).into(),
+            })?,
+    )?;
 
     BACKUP_CONFIG.update_result(|settings| {
         for path in &paths {
@@ -260,18 +266,24 @@ pub async fn exclude_folder() -> Result<()> {
 }
 
 pub async fn exclude_file() -> Result<()> {
-    let chooser = gtk::FileChooserNative::builder()
-        .action(gtk::FileChooserAction::Open)
-        .select_multiple(true)
+    let chooser = gtk::FileDialog::builder()
+        .initial_folder(&exclude_base_folder().await?)
         .title(gettext("Exclude File"))
         .accept_label(gettext("Select"))
         .modal(true)
-        .transient_for(&main_ui().window())
         .build();
 
-    let _ = chooser.set_current_folder(Some(&exclude_base_folder().await?));
-
-    let paths = ui::utils::paths(chooser).await?;
+    let paths = ui::utils::paths_from_model(Some(
+        chooser
+            .open_multiple_future(Some(&main_ui().window()))
+            .await
+            .map_err(|err| match err.kind::<gtk::DialogError>() {
+                Some(gtk::DialogError::Cancelled | gtk::DialogError::Dismissed) => {
+                    Error::UserCanceled
+                }
+                _ => Message::short(err.to_string()).into(),
+            })?,
+    ))?;
 
     BACKUP_CONFIG.update_result(|settings| {
         for path in &paths {

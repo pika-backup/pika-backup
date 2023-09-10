@@ -32,12 +32,15 @@ pub fn init() {
     adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("help", None);
-    action.connect_activate(|_, _| {
-        gtk::show_uri(
-            Some(&main_ui().window()),
-            "help:pika-backup",
-            gtk::gdk::CURRENT_TIME,
-        );
+    let context = adw_app()
+        .active_window()
+        .map(|w| gtk::prelude::WidgetExt::display(&w).app_launch_context());
+
+    action.connect_activate(move |_, _| {
+        if let Err(err) = gio::AppInfo::launch_default_for_uri("help:pika-backup", context.as_ref())
+        {
+            error!("Launch help error: {err}");
+        }
     });
     adw_app().add_action(&action);
 
@@ -53,7 +56,7 @@ pub fn init() {
         if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
             if ui::page_detail::is_navigation_page_visible() {
                 // Only display when the backup detail page is open
-                ui::dialog_preferences::DialogPreferences::new(id.clone()).show();
+                ui::dialog_preferences::DialogPreferences::new(id.clone()).present();
             }
         }
     });

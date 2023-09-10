@@ -279,35 +279,39 @@ quick_error! {
     }
 }
 
-pub fn folder_chooser<T: IsA<gtk::Window>>(title: &str, parent: &T) -> gtk::FileChooserNative {
-    gtk::FileChooserNative::builder()
-        .action(gtk::FileChooserAction::SelectFolder)
+pub async fn folder_chooser_dialog(
+    title: &str,
+    initial_folder: Option<&gio::File>,
+) -> Result<gio::File> {
+    let dialog = gtk::FileDialog::builder()
         .title(title)
         .accept_label(gettext("Select"))
         .modal(true)
-        .transient_for(parent)
-        .build()
+        .build();
+
+    dialog.set_initial_folder(Some(
+        initial_folder.unwrap_or(&gio::File::for_path(glib::home_dir())),
+    ));
+
+    dialog
+        .select_folder_future(Some(&main_ui().window()))
+        .await
+        .map_err(|err| match err.kind::<gtk::DialogError>() {
+            Some(gtk::DialogError::Cancelled | gtk::DialogError::Dismissed) => Error::UserCanceled,
+            _ => Message::short(err.to_string()).into(),
+        })
 }
 
-pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {
-    let dialog = folder_chooser(title, &main_ui().window());
-
-    if dialog.run_future().await == gtk::ResponseType::Accept {
-        dialog.file()
-    } else {
-        None
-    }
-}
-
-pub async fn paths(dialog: gtk::FileChooserNative) -> Result<Vec<std::path::PathBuf>> {
-    dialog.run_future().await;
-
-    let paths: Vec<_> = dialog
-        .files()
-        .snapshot()
-        .into_iter()
-        .filter_map(|obj| obj.downcast_ref::<gio::File>().and_then(|x| x.path()))
-        .collect();
+pub fn paths_from_model(model: Option<gio::ListModel>) -> Result<Vec<std::path::PathBuf>> {
+    let paths = model
+        .map(|model| {
+            model
+                .snapshot()
+                .into_iter()
+                .filter_map(|obj| obj.downcast_ref::<gio::File>().and_then(|x| x.path()))
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
 
     if paths.is_empty() {
         Err(Error::UserCanceled)

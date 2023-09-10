@@ -22,12 +22,12 @@ pub async fn show() -> Result<()> {
                 .device()
                 .set_subtitle(&repo.drive_name.clone().unwrap_or_default());
             storage.path().set_subtitle(&repo.path().to_string_lossy());
-            storage.disk().show();
+            storage.disk().set_visible(true);
         }
         config::Repository::Remote { .. } => {
             storage.uri().set_subtitle(&backup.repo.to_string());
 
-            storage.remote().show();
+            storage.remote().set_visible(true);
         }
     }
 
@@ -35,7 +35,7 @@ pub async fn show() -> Result<()> {
         show_df(&df, &storage);
     }
 
-    storage.dialog().show();
+    storage.dialog().set_visible(true);
 
     Ok(())
 }
@@ -45,5 +45,5 @@ fn show_df(df: &ui::utils::df::Space, ui: &ui::builder::DialogStorage) {
     ui.fs_free().set_subtitle(&glib::format_size(df.avail));
     ui.fs_usage()
         .set_value(1.0 - df.avail as f64 / df.size as f64);
-    ui.fs().show();
+    ui.fs().set_visible(true);
 }

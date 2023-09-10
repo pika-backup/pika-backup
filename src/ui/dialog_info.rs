@@ -12,7 +12,7 @@ fn is_visible() -> bool {
 }
 
 pub fn show() {
-    main_ui().detail_running_backup_info().show();
+    main_ui().detail_running_backup_info().present();
     refresh_status();
 }
 
@@ -31,9 +31,9 @@ fn refresh_status_display(status: &backup_status::Display) {
 
     if let Some(progress) = status.progress {
         main_ui().detail_info_progress().set_fraction(progress);
-        main_ui().detail_info_progress().show();
+        main_ui().detail_info_progress().set_visible(true);
     } else {
-        main_ui().detail_info_progress().hide();
+        main_ui().detail_info_progress().set_visible(false);
     }
 
     if let Some(backup_status::Stats::Final(run_info)) = &status.stats {
@@ -47,9 +47,9 @@ fn refresh_status_display(status: &backup_status::Display) {
         message.push_str(&run_info.messages.clone().filter_hidden().to_string());
 
         main_ui().detail_info_error().set_text(&message);
-        main_ui().detail_info_error().show();
+        main_ui().detail_info_error().set_visible(true);
     } else {
-        main_ui().detail_info_error().hide();
+        main_ui().detail_info_error().set_visible(false);
     }
 
     match &status.stats {
@@ -57,8 +57,8 @@ fn refresh_status_display(status: &backup_status::Display) {
             outcome: borg::Outcome::Completed { stats },
             ..
         })) => {
-            main_ui().detail_stats().show();
-            main_ui().detail_path_row().hide();
+            main_ui().detail_stats().set_visible(true);
+            main_ui().detail_path_row().set_visible(false);
 
             main_ui()
                 .detail_original_size()
@@ -71,8 +71,8 @@ fn refresh_status_display(status: &backup_status::Display) {
                 .set_text(&stats.archive.stats.nfiles.to_formatted_string(&*LC_LOCALE));
         }
         Some(backup_status::Stats::Progress(progress_archive)) => {
-            main_ui().detail_stats().show();
-            main_ui().detail_path_row().show();
+            main_ui().detail_stats().set_visible(true);
+            main_ui().detail_path_row().set_visible(true);
 
             main_ui()
                 .detail_original_size()
@@ -92,7 +92,7 @@ fn refresh_status_display(status: &backup_status::Display) {
                 .set_tooltip_text(Some(&format!("/{}", progress_archive.path)));
         }
         _ => {
-            main_ui().detail_stats().hide();
+            main_ui().detail_stats().set_visible(false);
         }
     }
 }

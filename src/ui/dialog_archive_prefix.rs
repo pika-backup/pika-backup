@@ -19,7 +19,7 @@ pub fn run(config: &config::Backup) {
         .connect_clicked(clone!(@weak ui, @strong config_id =>
             move |_| Handler::new().error_transient_for(ui.dialog()).spawn(on_ok(ui, config_id.clone()))));
 
-    ui.dialog().show();
+    ui.dialog().present();
 
     // ensure lifetime until window closes
     let mutex = std::sync::Mutex::new(Some(ui.clone()));

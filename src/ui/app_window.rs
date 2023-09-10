@@ -11,7 +11,7 @@ pub fn init() {
         .unwrap_or_default()
         .is_empty()
     {
-        main_ui().window().style_context().add_class("devel");
+        main_ui().window().add_css_class("devel");
     }
 
     main_ui()

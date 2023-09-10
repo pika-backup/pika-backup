@@ -37,7 +37,6 @@ mod imp {
     #[derive(Default)]
     pub struct FolderButton {
         pub file: RefCell<Option<gio::File>>,
-        pub file_chooser: RefCell<Option<gtk::FileChooserNative>>,
         pub child: Lazy<gtk::Box>,
         pub image: Lazy<gtk::Image>,
         pub label: Lazy<gtk::Label>,
@@ -86,7 +85,7 @@ mod imp {
 
                         self.image
                             .set_gicon([mount_icon, file_icon].iter().flatten().next());
-                        self.image.show();
+                        self.image.set_visible(true);
 
                         self.label.set_label(
                             &info
@@ -94,7 +93,7 @@ mod imp {
                                 .unwrap_or_default(),
                         );
                     } else {
-                        self.image.hide();
+                        self.image.set_visible(false);
                         self.reset_label();
                     }
 
@@ -112,41 +111,33 @@ mod imp {
             obj.add_css_class("folder-button");
 
             self.child.append(&*self.image);
-            self.image.hide();
+            self.image.set_visible(false);
 
             self.child.append(&*self.label);
             self.reset_label();
             self.label.set_mnemonic_widget(Some(&*obj));
 
             obj.connect_clicked(|obj| {
-                let dialog = crate::ui::utils::folder_chooser(
-                    &gettext("Backup Location"),
-                    &obj.root()
-                        .and_then(|x| x.downcast::<gtk::Window>().ok())
-                        .unwrap(),
-                );
-
-                let preselect = if let Some(file) = obj.file() {
-                    file
-                } else {
-                    gio::File::for_path(glib::home_dir())
-                };
-
-                let _ = dialog.set_current_folder(Some(&preselect));
-
-                obj.imp().file_chooser.replace(Some(dialog.clone()));
-
                 let obj = obj.clone();
+                Handler::default()
+                    .error_transient_for(main_ui().window())
+                    .spawn(async move {
+                        let preselect = if let Some(file) = obj.file() {
+                            file
+                        } else {
+                            gio::File::for_path(glib::home_dir())
+                        };
 
-                dialog.connect_response(move |file_chooser, s| {
-                    if s == gtk::ResponseType::Accept {
-                        if let Some(file) = file_chooser.file() {
-                            obj.set_property("file", file);
-                        }
-                    }
-                });
+                        let file = crate::ui::utils::folder_chooser_dialog(
+                            &gettext("Backup Location"),
+                            Some(&preselect),
+                        )
+                        .await?;
 
-                dialog.show();
+                        obj.set_property("file", file);
+
+                        Ok(())
+                    });
             });
         }
     }

@@ -11,7 +11,7 @@ pub async fn check() -> Result<()> {
     let config = configs.active()?;
 
     let dialog = DialogCheck::new(config.id.clone());
-    dialog.show();
+    dialog.set_visible(true);
 
     Ok(())
 }
@@ -61,7 +61,7 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
             mounts.insert(repo_id.clone());
         });
 
-        main_ui().pending_menu().show();
+        main_ui().pending_menu().set_visible(true);
         let mount = ui::utils::borg::exec(
             borg::Command::<borg::task::Mount>::new(config.clone()),
             &guard,
@@ -72,7 +72,7 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
             ACTIVE_MOUNTS.update(|mounts| {
                 mounts.remove(repo_id);
             });
-            main_ui().pending_menu().hide();
+            main_ui().pending_menu().set_visible(false);
         }
 
         mount.into_message(gettext("Failed to make archives available for browsing."))?;

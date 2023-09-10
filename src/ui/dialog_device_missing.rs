@@ -167,7 +167,7 @@ async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<
         glib::Propagation::Proceed
     });
 
-    dialog.window().show();
+    dialog.window().present();
 
     mount_receiver
         .next()

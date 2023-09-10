@@ -172,7 +172,7 @@ async fn quit() -> Result<()> {
             match permission {
                 Ok(()) => {
                     debug!("Hiding main window as backup is currently running");
-                    main_ui().window().hide();
+                    main_ui().window().close();
                 }
                 Err(err) => {
                     err.show().await;

@@ -108,9 +108,9 @@ pub fn path_change(ui: &DialogSetup) {
             ui.non_journaling_warning()
                 .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
         } else {
-            ui.non_journaling_warning().hide();
+            ui.non_journaling_warning().set_visible(false);
         }
     } else {
-        ui.non_journaling_warning().hide();
+        ui.non_journaling_warning().set_visible(false);
     }
 }

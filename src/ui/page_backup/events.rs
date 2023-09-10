@@ -93,18 +93,24 @@ pub async fn on_backup_disk_eject() -> Result<()> {
 }
 
 pub async fn add_include() -> Result<()> {
-    let chooser = gtk::FileChooserNative::builder()
-        .action(gtk::FileChooserAction::SelectFolder)
-        .select_multiple(true)
+    let chooser = gtk::FileDialog::builder()
+        .initial_folder(&gio::File::for_path(glib::home_dir()))
         .title(gettext("Include Folder"))
         .accept_label(gettext("Select"))
         .modal(true)
-        .transient_for(&main_ui().window())
         .build();
 
-    let _ = chooser.set_current_folder(Some(&gio::File::for_path(glib::home_dir())));
-
-    let paths = ui::utils::paths(chooser).await?;
+    let paths = ui::utils::paths_from_model(
+        chooser
+            .select_multiple_folders_future(Some(&main_ui().window()))
+            .await
+            .map_err(|err| match err.kind::<gtk::DialogError>() {
+                Some(gtk::DialogError::Cancelled | gtk::DialogError::Dismissed) => {
+                    Error::UserCanceled
+                }
+                _ => Message::short(err.to_string()).into(),
+            })?,
+    )?;
 
     let paths = if *APP_IS_SANDBOXED {
         let runtime_dir = glib::user_runtime_dir();

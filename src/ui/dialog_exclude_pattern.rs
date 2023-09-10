@@ -33,7 +33,7 @@ pub fn show(edit_exclude: Option<config::Exclude<{ RELATIVE }>>) {
         glib::Propagation::Proceed
     });
 
-    dialog.show();
+    dialog.present();
 }
 
 async fn clicked(

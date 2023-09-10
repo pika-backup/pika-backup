@@ -53,7 +53,7 @@ pub fn show() {
 
     dialog.set_debug_info(&debug_info());
 
-    dialog.show();
+    dialog.present();
 }
 
 fn etc() -> std::path::PathBuf {

@@ -157,27 +157,27 @@ pub async fn frequency_change() -> Result<()> {
 
     match frequency {
         config::Frequency::Hourly => {
-            main_ui().preferred_time_row().hide();
-            main_ui().preferred_weekday_row().hide();
-            main_ui().preferred_day_row().hide();
+            main_ui().preferred_time_row().set_visible(false);
+            main_ui().preferred_weekday_row().set_visible(false);
+            main_ui().preferred_day_row().set_visible(false);
         }
         config::Frequency::Daily { .. } => {
-            main_ui().preferred_time_row().show();
+            main_ui().preferred_time_row().set_visible(true);
 
-            main_ui().preferred_weekday_row().hide();
-            main_ui().preferred_day_row().hide();
+            main_ui().preferred_weekday_row().set_visible(false);
+            main_ui().preferred_day_row().set_visible(false);
         }
         config::Frequency::Weekly { .. } => {
-            main_ui().preferred_weekday_row().show();
+            main_ui().preferred_weekday_row().set_visible(true);
 
-            main_ui().preferred_time_row().hide();
-            main_ui().preferred_day_row().hide();
+            main_ui().preferred_time_row().set_visible(false);
+            main_ui().preferred_day_row().set_visible(false);
         }
         config::Frequency::Monthly { .. } => {
-            main_ui().preferred_day_row().show();
+            main_ui().preferred_day_row().set_visible(true);
 
-            main_ui().preferred_time_row().hide();
-            main_ui().preferred_weekday_row().hide();
+            main_ui().preferred_time_row().set_visible(false);
+            main_ui().preferred_weekday_row().set_visible(false);
         }
     }
 
