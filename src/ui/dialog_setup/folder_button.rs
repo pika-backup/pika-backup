@@ -126,6 +126,14 @@ mod imp {
                         .unwrap(),
                 );
 
+                let preselect = if let Some(file) = obj.file() {
+                    file
+                } else {
+                    gio::File::for_path(glib::home_dir())
+                };
+
+                let _ = dialog.set_current_folder(Some(&preselect));
+
                 obj.imp().file_chooser.replace(Some(dialog.clone()));
 
                 let obj = obj.clone();

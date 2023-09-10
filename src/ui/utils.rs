@@ -281,13 +281,15 @@ quick_error! {
 }
 
 pub fn folder_chooser<T: IsA<gtk::Window>>(title: &str, parent: &T) -> gtk::FileChooserNative {
-    gtk::FileChooserNative::builder()
+    let chooser = gtk::FileChooserNative::builder()
         .action(gtk::FileChooserAction::SelectFolder)
         .title(title)
         .accept_label(gettext("Select"))
         .modal(true)
         .transient_for(parent)
-        .build()
+        .build();
+
+    chooser
 }
 
 pub async fn folder_chooser_dialog(title: &str) -> Option<gio::File> {

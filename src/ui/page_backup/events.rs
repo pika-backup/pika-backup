@@ -1,7 +1,7 @@
 use std::ffi::OsStr;
 use std::path::PathBuf;
 
-use gtk::traits::WidgetExt;
+use gtk::prelude::*;
 
 use crate::borg;
 use crate::ui;
@@ -101,6 +101,8 @@ pub async fn add_include() -> Result<()> {
         .modal(true)
         .transient_for(&main_ui().window())
         .build();
+
+    let _ = chooser.set_current_folder(Some(&gio::File::for_path(glib::home_dir())));
 
     let paths = ui::utils::paths(chooser).await?;
 
