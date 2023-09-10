@@ -126,7 +126,9 @@ fn on_startup(_app: &adw::Application) {
     }
 
     ui::actions::init();
-    ui::dbus::init();
+    glib::MainContext::default().spawn_local(async {
+        ui::dbus::init().await;
+    });
 
     ui::app_window::init();
     ui::headerbar::init();

@@ -1,23 +1,21 @@
 use super::prelude::*;
 use arc_swap::ArcSwap;
 
-static BACKGROUND_PROXY: once_cell::sync::OnceCell<
-    Arc<ashpd::desktop::background::BackgroundProxy<'static>>,
-> = once_cell::sync::OnceCell::new();
 static LAST_MESSAGE: once_cell::sync::Lazy<ArcSwap<Option<String>>> =
     once_cell::sync::Lazy::new(|| ArcSwap::new(Default::default()));
 
 async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>> {
-    match BACKGROUND_PROXY.get() {
-        Some(proxy) => Some(proxy.clone()),
-        None => ashpd::desktop::background::BackgroundProxy::new()
+    static PROXY: once_cell::sync::OnceCell<
+        Arc<ashpd::desktop::background::BackgroundProxy<'static>>,
+    > = once_cell::sync::OnceCell::new();
+
+    if let Some(proxy) = PROXY.get() {
+        Some(proxy.clone())
+    } else {
+        ashpd::desktop::background::BackgroundProxy::new()
             .await
             .ok()
-            .map(|proxy| {
-                BACKGROUND_PROXY
-                    .get_or_init(move || Arc::new(proxy))
-                    .clone()
-            }),
+            .map(|proxy| PROXY.get_or_init(move || Arc::new(proxy)).clone())
     }
 }
 

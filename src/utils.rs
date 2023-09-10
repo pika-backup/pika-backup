@@ -1,3 +1,4 @@
+pub mod dbus;
 pub mod host;
 pub mod password;
 pub mod upower;
@@ -45,7 +46,7 @@ pub async fn listen_remote_app_running<T: Fn(bool)>(
     app_id: &str,
     update: T,
 ) -> Result<(), zbus::Error> {
-    let proxy = zbus::fdo::DBusProxy::new(&ZBUS_SESSION).await?;
+    let proxy = crate::utils::dbus::fdo_proxy().await?;
 
     let has_owner = proxy.name_has_owner(app_id.try_into().unwrap()).await?;
     update(has_owner);

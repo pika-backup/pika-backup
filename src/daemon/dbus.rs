@@ -1,8 +1,8 @@
 use crate::daemon::prelude::*;
-
-use zbus::Result;
-
 use crate::schedule;
+
+use once_cell::sync::OnceCell;
+use zbus::Result;
 
 #[zbus::dbus_proxy(interface = "org.gnome.World.PikaBackup1", assume_defaults = false)]
 trait PikaBackup {
@@ -23,11 +23,18 @@ pub struct PikaBackup;
 
 impl PikaBackup {
     pub async fn proxy() -> Result<PikaBackupProxy<'static>> {
-        PikaBackupProxy::builder(&ZBUS_SESSION)
-            .destination(crate::DBUS_API_NAME)?
-            .path(crate::DBUS_API_PATH)?
-            .build()
-            .await
+        static PROXY: once_cell::sync::OnceCell<PikaBackupProxy<'static>> = OnceCell::new();
+
+        if let Some(proxy) = PROXY.get() {
+            Ok(proxy.clone())
+        } else {
+            let proxy = PikaBackupProxy::builder(&crate::utils::dbus::system().await?)
+                .destination(crate::DBUS_API_NAME)?
+                .path(crate::DBUS_API_PATH)?
+                .build()
+                .await?;
+            Ok(PROXY.get_or_init(move || proxy).clone())
+        }
     }
 
     pub async fn start_scheduled_backup(

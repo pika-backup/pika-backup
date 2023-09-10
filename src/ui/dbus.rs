@@ -3,7 +3,6 @@ use async_std::prelude::*;
 
 use crate::{schedule, ui};
 use async_std::channel::Sender;
-use once_cell::sync::Lazy;
 
 struct PikaBackup {
     command: Sender<Command>,
@@ -57,9 +56,7 @@ impl PikaBackup {
     }
 }
 
-pub fn init() {
-    Lazy::force(&ZBUS_SESSION);
-
+pub async fn init() {
     let (sender, mut receiver) = async_std::channel::unbounded();
 
     Handler::run(async move {
@@ -83,10 +80,11 @@ pub fn init() {
 }
 
 async fn spawn_server(command: Sender<Command>) -> zbus::Result<()> {
-    ZBUS_SESSION
+    let zbus_session = crate::utils::dbus::session().await?;
+    zbus_session
         .object_server()
         .at(crate::DBUS_API_PATH, PikaBackup { command })
         .await?;
 
-    ZBUS_SESSION.request_name(crate::DBUS_API_NAME).await
+    zbus_session.request_name(crate::DBUS_API_NAME).await
 }

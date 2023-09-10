@@ -13,6 +13,7 @@ use adw::prelude::*;
 use crate::config;
 
 use ashpd::desktop::background;
+use std::convert::TryInto;
 use std::fmt::Display;
 use std::io::Read;
 use std::os::unix::process::CommandExt;
@@ -99,17 +100,15 @@ pub fn cache_dir() -> std::path::PathBuf {
         .iter()
         .collect()
 }
-use std::convert::TryInto;
+
 pub async fn background_permission() -> Result<()> {
     let generic_msg = gettext("Request to run in background failed");
 
     if !*crate::globals::APP_IS_SANDBOXED {
         // start
-        let proxy = zbus::fdo::DBusProxy::new(&ZBUS_SESSION)
+        crate::utils::dbus::fdo_proxy()
             .await
-            .err_to_msg(&generic_msg)?;
-
-        proxy
+            .err_to_msg(&generic_msg)?
             .start_service_by_name(crate::DAEMON_APP_ID.try_into().unwrap(), Default::default())
             .await
             .err_to_msg(&generic_msg)?;
