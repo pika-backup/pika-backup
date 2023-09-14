@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-03-06 23:55+0000\n"
-"PO-Revision-Date: 2023-03-11 18:08+0100\n"
+"POT-Creation-Date: 2023-04-23 13:19+0000\n"
+"PO-Revision-Date: 2023-09-14 15:17+0200\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -33,7 +33,7 @@ msgstr "Pika Backup Overvågning"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:92
-#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:323
+#: src/ui/app_window.ui:191 src/ui/dialog_about.rs:19 src/ui/utils.rs:336
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -49,9 +49,9 @@ msgstr "Hold dine data sikre"
 msgid "archive;back-up;borg;"
 msgstr "arkivér;arkivering;sikkerhedskopiér;sikkerhedskopiering;borg;"
 
-#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:25
-msgid "Sophie Herold"
-msgstr "Sophie Herold"
+#: data/app.metainfo.xml.in:8 src/ui/dialog_about.rs:33
+msgid "Small Mammal Collective"
+msgstr "Small Mammal Collective"
 
 #: data/app.metainfo.xml.in:21
 msgid ""
@@ -122,7 +122,7 @@ msgstr "Indstil ny sikkerhedskopi"
 msgid "Show keyboard shortcuts"
 msgstr "Vis tastaturgenveje"
 
-#: data/resources/gtk/help-overlay.ui:25
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:200
 msgid "Quit"
 msgstr "Afslut"
 
@@ -141,10 +141,9 @@ msgid ""
 "a keyring daemon (“secret service”) to store passwords. For installation "
 "instructions see the operating system documentation."
 msgstr ""
-"Krypteringsadgangskoden kunne ikke hentes fra nøgleringen. Pika "
-"Backup kræver en nøgleringsdæmon (“hemmelig tjeneste”) for at gemme "
-"adgangskoder. Du kan finde installationsinstruktioner i dokumentationen til "
-"styresystemet."
+"Krypteringsadgangskoden kunne ikke hentes fra nøgleringen. Pika Backup "
+"kræver en nøgleringsdæmon (“hemmelig tjeneste”) for at gemme adgangskoder. "
+"Du kan finde installationsinstruktioner i dokumentationen til styresystemet."
 
 #: src/borg/error.rs:30 src/ui/utils.rs:256
 msgid "The operation terminated unexpectedly."
@@ -191,7 +190,7 @@ msgstr "Det lader til, at systemet eller programmet er gået ned."
 msgid "Connection closed by remote host."
 msgstr "Forbindelsen blev lukket af fjernværten."
 
-#: src/borg/error.rs:212 src/ui/utils/borg.rs:145
+#: src/borg/error.rs:212 src/ui/utils/borg.rs:150
 msgid "Repository already in use."
 msgstr "Opbevaringssted allerede i brug."
 
@@ -347,8 +346,8 @@ msgid ""
 "VERY CAREFUL!"
 msgstr ""
 "Dette er en potentielt farlig funktion. Reparation af et opbevaringssted kan "
-"føre til tab af data (for typer af ødelæggelse, som ikke kan håndteres). "
-"VÆR MEGET FORSIGTIG!"
+"føre til tab af data (for typer af ødelæggelse, som ikke kan håndteres). VÆR "
+"MEGET FORSIGTIG!"
 
 #: src/borg/log_json.rs:258
 msgid ""
@@ -385,7 +384,7 @@ msgstr "Fejlfinding"
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:338
+#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:229 src/ui/utils.rs:351
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -401,37 +400,37 @@ msgstr "Kritisk"
 msgid "Undefined"
 msgstr "Udefineret"
 
-#: src/borg/task.rs:19
+#: src/borg/task.rs:34
 msgid "Backing up Data"
 msgstr "Sikkerhedskopiering af data"
 
-#: src/borg/task.rs:31
+#: src/borg/task.rs:48
 msgid "Mounting Backup Archives"
 msgstr "Montering af sikkerhedskopiarkiver"
 
-#: src/borg/task.rs:43
+#: src/borg/task.rs:62
 msgid "Removing old Archives"
 msgstr "Fjernelse af gamle arkiver"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:76
 msgid "Identifying old Archives"
 msgstr "Identifikation af gamle arkiver"
 
-#: src/borg/task.rs:67
+#: src/borg/task.rs:90
 msgid "Reclaiming Free Space"
 msgstr "Frigør ledig plads"
 
-#: src/borg/task.rs:92
+#: src/borg/task.rs:117
 msgid "Deleting Archive"
 msgstr "Sletter arkiv"
 
-#: src/borg/task.rs:113
+#: src/borg/task.rs:140
 msgid "Refreshing Archive List"
 msgstr "Opdatering af listen over arkiver"
 
 #. Translators: User home directory
 #: src/config.rs:58 src/ui/page_backup/display.rs:13
-#: src/ui/page_backup/events.rs:96
+#: src/ui/page_backup/events.rs:167
 msgid "Home"
 msgstr "Hjem"
 
@@ -532,15 +531,27 @@ msgstr "Ugentligt"
 msgid "Monthly"
 msgstr "Månedligt"
 
-#: src/daemon/action.rs:25
+#: src/daemon/action.rs:23 src/daemon/init.rs:38
+msgid "Monitoring Backup Schedule"
+msgstr "Overvågning af planlagte sikkerhedskopieringer"
+
+#: src/daemon/action.rs:24
+msgid ""
+"To quit monitoring the backup schedule, open Pika Backup and disable all "
+"scheduled backups."
+msgstr ""
+"For at holde op med at overvåge planlagte sikkerhedskopieringer skal du åbne "
+"Pika Backup og deaktivere alle planlagte sikkerhedskopieringer."
+
+#: src/daemon/action.rs:45
 msgid "Failed to start backup from daemon"
 msgstr "Kunne ikke starte sikkerhedskopiering fra dæmon"
 
-#: src/daemon/action.rs:46
+#: src/daemon/action.rs:66
 msgid "Failed to show overview from daemon"
 msgstr "Kunne ikke vise oversigt fra dæmon"
 
-#: src/daemon/action.rs:65
+#: src/daemon/action.rs:85
 msgid "Failed to show schedule from daemon"
 msgstr "Kunne ikke vise tidsplan fra dæmon"
 
@@ -564,11 +575,11 @@ msgstr "“{}” indeholder en konfigureret sikkerhedskopiering."
 msgid "Back Up Now"
 msgstr "Sikkerhedskopiér nu"
 
-#: src/daemon/init.rs:56
+#: src/daemon/init.rs:69
 msgid "Fatal Error During Back Up"
 msgstr "Der opstod en fatal fejl under sikkerhedskopieringen"
 
-#: src/daemon/init.rs:59
+#: src/daemon/init.rs:72
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika Backup brød ned, mens en sikkerhedskopiering var i gang."
@@ -603,32 +614,45 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Kunne ikke starte planlagt sikkerhedskopiering"
 
-#: src/ui.rs:178
+#: src/ui.rs:174
 msgid "Abort running backup creation?"
 msgstr "Afbryd sikkerhedskopieringen, der er i gang?"
 
-#: src/ui.rs:179
+#: src/ui.rs:175
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Sikkerhedskopien forbliver ufuldstændig, hvis den afbrydes nu."
 
-#: src/ui.rs:180 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:24
-#: src/ui/page_backup/events.rs:32 src/ui/utils.rs:341
+#: src/ui.rs:176 src/ui/dialog_setup.ui:456 src/ui/page_backup/events.rs:28
+#: src/ui/page_backup/events.rs:36 src/ui/page_backup/events.rs:47
+#: src/ui/page_backup/events.rs:55 src/ui/page_backup/events.rs:65
+#: src/ui/utils.rs:354
 msgid "Continue"
 msgstr "Fortsæt"
 
-#: src/ui.rs:181 src/ui/page_backup/events.rs:25 src/ui/utils.rs:340
+#: src/ui.rs:177 src/ui/page_backup/events.rs:29
+#: src/ui/page_backup/events.rs:48 src/ui/page_backup/events.rs:66
+#: src/ui/utils.rs:353
 msgid "Abort"
 msgstr "Afbryd"
 
-#: src/ui.rs:200
+#. Someone wants to quit the app from the shell (eg via backgrounds app list)
+#: src/ui.rs:185
+msgid "A Backup Operation is Running"
+msgstr "En sikkerhedskopiering er i gang"
+
+#: src/ui.rs:187
+msgid "Pika Backup cannot be quit during a backup operation."
+msgstr "Pika Backup kan ikke afsluttes, mens en sikkerhedskopiering er i gang."
+
+#: src/ui.rs:211
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Kunne ikke køre “borg”. Er BorgBackup installeret korrekt?"
 
-#: src/ui.rs:224
+#: src/ui.rs:235
 msgid "BorgBackup version too old"
 msgstr "Versionen af BorgBackup er for gammel"
 
-#: src/ui.rs:226
+#: src/ui.rs:237
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -636,11 +660,11 @@ msgstr ""
 "Den installerede version {} af BorgBackup er for gammel. Nogle funktioner, "
 "som kræver borg-backup version {}.{}.{}, vil ikke virke."
 
-#: src/ui.rs:237
+#: src/ui.rs:248
 msgid "BorgBackup version too new"
 msgstr "Versionen af BorgBackup er for ny"
 
-#: src/ui.rs:239
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -648,11 +672,11 @@ msgstr ""
 "Den installerede version {} af BorgBackup er for ny. Version {}.{} "
 "anbefales. Nogle funktioner virker måske ikke som forventet."
 
-#: src/ui.rs:249
+#: src/ui.rs:260
 msgid "Failed to Check BorgBackup Version"
 msgstr "Kan ikke tjekke versionen af BorgBackup"
 
-#: src/ui.rs:251
+#: src/ui.rs:262
 msgid "The installed version {} might not work."
 msgstr "Den installerede version {} virker måske ikke."
 
@@ -818,7 +842,7 @@ msgstr "Foretrukket ugedag"
 msgid "Preferred Day"
 msgstr "Foretrukket dag"
 
-#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:78
+#: src/ui/app_window.ui:669 src/ui/dialog_prune.rs:88
 msgid "Delete old Archives"
 msgstr "Slet gamle arkiver"
 
@@ -875,15 +899,23 @@ msgstr "Information om sikkerhedskopi"
 msgid "Amount saved"
 msgstr "Hvor meget der er gemt"
 
-#: src/ui/app_window.ui:918
+#: src/ui/app_window.ui:903
+msgid "Size of all files"
+msgstr "Størrelsen af alle filer"
+
+#: src/ui/app_window.ui:919
 msgid "Number of files saved"
 msgstr "Antal filer gemt"
 
-#: src/ui/app_window.ui:934
-msgid "Additional backup space used"
-msgstr "Yderligere forbrugt plads til sikkerhedskopi"
+#: src/ui/app_window.ui:935
+msgid "Backup space used"
+msgstr "Forbrugt plads til sikkerhedskopi"
 
-#: src/ui/app_window.ui:950
+#: src/ui/app_window.ui:936
+msgid "Newly used space in this backup"
+msgstr "Nyligt forbrugt plads i denne sikkerhedskopi"
+
+#: src/ui/app_window.ui:952
 msgid "Current file"
 msgstr "Nuværende fil"
 
@@ -944,19 +976,27 @@ msgstr "Stopper sikkerhedskopiering"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Kunne ikke starte grænseflade til planlagte sikkerhedskopieringer."
 
-#: src/ui/dialog_about.rs:27
+#: src/ui/dialog_about.rs:25
+msgid "Support us on Open Collective"
+msgstr "Støt os på Open Collective"
+
+#: src/ui/dialog_about.rs:29
+msgid "Support us on Github Sponsors"
+msgstr "Støt os på GitHub Sponsors"
+
+#: src/ui/dialog_about.rs:35
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/dialog_about.rs:28
-msgid "Fina Wilke"
-msgstr "Fina Wilke"
+#: src/ui/dialog_about.rs:36
+msgid "Fina Wilke <code@felinira.net>"
+msgstr "Fina Wilke <finaw@gnome.org>"
 
-#: src/ui/dialog_about.rs:30
+#: src/ui/dialog_about.rs:38
 msgid "Copyright © 2018–2023 Sophie Herold et al."
 msgstr "Ophavsret © 2018–2023 Sophie Herold og andre."
 
-#: src/ui/dialog_about.rs:31
+#: src/ui/dialog_about.rs:39
 msgid "translator-credits"
 msgstr ""
 "scootergrisen\n"
@@ -966,11 +1006,11 @@ msgstr ""
 "Websted http://dansk-gruppen.dk\n"
 "E-mail <dansk@dansk-gruppen.dk>"
 
-#: src/ui/dialog_about.rs:35
+#: src/ui/dialog_about.rs:43
 msgid "Back End"
 msgstr "Motor"
 
-#: src/ui/dialog_about.rs:37
+#: src/ui/dialog_about.rs:45
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -980,11 +1020,11 @@ msgstr ""
 "Overvej at <a href='https://www.borgbackup.org/support/fund.html'>støtte "
 "BorgBackup</a>."
 
-#: src/ui/dialog_about.rs:39
+#: src/ui/dialog_about.rs:47
 msgid "The Name"
 msgstr "Navnet"
 
-#: src/ui/dialog_about.rs:41
+#: src/ui/dialog_about.rs:49
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -1004,7 +1044,7 @@ msgstr ""
 "høj næringsværdi til høslæt. Sidst, men ikke mindst, skaber pibeharer ikke "
 "kun meget avancerede høstakke, men er også hurtige til at samle vegetation."
 
-#: src/ui/dialog_about.rs:43
+#: src/ui/dialog_about.rs:51
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -1022,11 +1062,11 @@ msgstr "Ugyldigt arkivpræfiks"
 msgid "Archive Prefix"
 msgstr "Arkivpræfiks"
 
-#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:22
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:22
-#: src/ui/dialog_prune.ui:53 src/ui/dialog_prune_review.ui:22
-#: src/ui/dialog_prune_review.ui:53 src/ui/page_backup/events.rs:104
-#: src/ui/page_overview.rs:51 src/ui/utils/borg.rs:149
+#: src/ui/dialog_archive_prefix.ui:15 src/ui/dialog_delete_archive.ui:33
+#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:33
+#: src/ui/dialog_prune.ui:64 src/ui/dialog_prune_review.ui:33
+#: src/ui/dialog_prune_review.ui:64 src/ui/page_backup/events.rs:175
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:154
 msgid "Cancel"
 msgstr "Annullér"
 
@@ -1060,15 +1100,15 @@ msgstr ""
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Er arkivets præfiks tomt, tilføjes intet præfiks."
 
-#: src/ui/dialog_delete_archive.rs:68
+#: src/ui/dialog_delete_archive.rs:69
 msgid "Delete Archive Failed"
 msgstr "Arkivet kunne ikke slettes"
 
-#: src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_delete_archive.ui:39
 msgid "Delete Archive"
 msgstr "Slet arkiv"
 
-#: src/ui/dialog_delete_archive.ui:41
+#: src/ui/dialog_delete_archive.ui:52
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -1077,11 +1117,11 @@ msgstr ""
 "uigenkaldeligt. De gemte data for dette specifikke tidspunkt vil ikke "
 "længere være tilgængelige."
 
-#: src/ui/dialog_delete_archive.ui:51
+#: src/ui/dialog_delete_archive.ui:62
 msgid "Archive Name"
 msgstr "Arkivnavn"
 
-#: src/ui/dialog_delete_archive.ui:64
+#: src/ui/dialog_delete_archive.ui:75
 msgid "Archive Date"
 msgstr "Arkivdato"
 
@@ -1126,7 +1166,7 @@ msgid "Exclude Directory"
 msgstr "Udelad mappe"
 
 #: src/ui/dialog_exclude.rs:136 src/ui/dialog_exclude.rs:165
-#: src/ui/page_backup/events.rs:52 src/ui/utils.rs:264
+#: src/ui/page_backup/events.rs:87 src/ui/utils.rs:264
 msgid "Select"
 msgstr "Vælg"
 
@@ -1180,33 +1220,33 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
 "html\">dokumentationen</a> til BorgBackup."
 
-#: src/ui/dialog_prune.rs:27 src/ui/dialog_prune_review.rs:39
+#: src/ui/dialog_prune.rs:30 src/ui/dialog_prune_review.rs:42
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Kunne ikke bestemme, hvor mange arkiver der ville blive slettet"
 
-#: src/ui/dialog_prune.rs:43 src/ui/utils.rs:384
+#: src/ui/dialog_prune.rs:49 src/ui/utils.rs:397
 msgid "Close"
 msgstr "Luk"
 
-#: src/ui/dialog_prune.rs:85
+#: src/ui/dialog_prune.rs:98
 msgid "Reclaim Free Space"
 msgstr "Frigør ledig plads"
 
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:30
+#: src/ui/dialog_prune.ui:41
 msgid "Checking for old Archives"
 msgstr "Leder efter gamle arkiver"
 
-#: src/ui/dialog_prune.ui:31
+#: src/ui/dialog_prune.ui:42
 msgid "Creating a list of old archives to be approved for deletion."
 msgstr "Opretter en liste over gamle arkiver, der skal godkendes til sletning."
 
-#: src/ui/dialog_prune.ui:59 src/ui/dialog_prune.ui:82
-#: src/ui/dialog_prune_review.ui:82
+#: src/ui/dialog_prune.ui:70 src/ui/dialog_prune.ui:93
+#: src/ui/dialog_prune_review.ui:93
 msgid "Delete Archives"
 msgstr "Slet arkiver"
 
-#: src/ui/dialog_prune.ui:72
+#: src/ui/dialog_prune.ui:83
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -1216,15 +1256,15 @@ msgstr ""
 "uigenkaldeligt. De gemte data for disse specifikke tidspunkter vil ikke "
 "længere være tilgængelige."
 
-#: src/ui/dialog_prune.ui:95 src/ui/dialog_prune_review.ui:95
+#: src/ui/dialog_prune.ui:106 src/ui/dialog_prune_review.ui:106
 msgid "Keep Archives"
 msgstr "Behold arkiver"
 
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
+#: src/ui/dialog_prune.ui:119 src/ui/dialog_prune_review.ui:119
 msgid "Not Considered"
 msgstr "Tages ikke i betragtning"
 
-#: src/ui/dialog_prune.ui:109 src/ui/dialog_prune_review.ui:109
+#: src/ui/dialog_prune.ui:120 src/ui/dialog_prune_review.ui:120
 msgid "Archives with different prefix"
 msgstr "Arkiver med forskelligt præfiks"
 
@@ -1232,19 +1272,19 @@ msgstr "Arkiver med forskelligt præfiks"
 msgid "Review Changes"
 msgstr "Gennemse ændringer"
 
-#: src/ui/dialog_prune_review.ui:30
+#: src/ui/dialog_prune_review.ui:41
 msgid "Assessing Impact on old Archives"
 msgstr "Bedømmer påvirkning af gamle arkiver"
 
-#: src/ui/dialog_prune_review.ui:31
+#: src/ui/dialog_prune_review.ui:42
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr "Indsamler information om effekten af ændringerne på gamle arkiver"
 
-#: src/ui/dialog_prune_review.ui:59
+#: src/ui/dialog_prune_review.ui:70
 msgid "Apply"
 msgstr "Udfør"
 
-#: src/ui/dialog_prune_review.ui:72
+#: src/ui/dialog_prune_review.ui:83
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
@@ -1498,32 +1538,32 @@ msgstr "De indtastede adgangskoder er ikke ens."
 msgid "A repository location has to be given."
 msgstr "Der skal angives en placering af opbevaringsstedet."
 
-#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:257
+#: src/ui/dialog_setup/insert.rs:128 src/ui/dialog_setup/insert.rs:258
 msgid "Additional command line arguments invalid."
 msgstr "Yderligere kommandolinjeargumenter er ugyldige."
 
 # scootergrisen: fra gennemlæsning: evt. slutcitationstegn
-#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:258
+#: src/ui/dialog_setup/insert.rs:129 src/ui/dialog_setup/insert.rs:259
 msgid "Please check for missing closing quotes."
 msgstr "Tjek venligst for manglende afsluttende citationstegn."
 
-#: src/ui/dialog_setup/insert.rs:185
+#: src/ui/dialog_setup/insert.rs:186
 msgid "Loading Backup Repository"
 msgstr "Indlæser opbevaringssted til sikkerhedskopi"
 
-#: src/ui/dialog_setup/insert.rs:205
+#: src/ui/dialog_setup/insert.rs:206
 msgid "Failed to Configure Repository"
 msgstr "Kunne ikke konfigurere opbevaringssted"
 
-#: src/ui/dialog_setup/insert.rs:224
+#: src/ui/dialog_setup/insert.rs:225
 msgid "Failed"
 msgstr "Mislykkedes"
 
-#: src/ui/dialog_setup/insert.rs:294
+#: src/ui/dialog_setup/insert.rs:295
 msgid "Repository location not found."
 msgstr "Placering af opbevaringssted kunne ikke findes."
 
-#: src/ui/dialog_setup/insert.rs:295
+#: src/ui/dialog_setup/insert.rs:296
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "En monteringshandling lykkedes, men placeringen er stadig utilgængelig."
@@ -1569,7 +1609,7 @@ msgstr "Samlet"
 msgid "Free"
 msgstr "Ledig"
 
-#: src/ui/error.rs:75
+#: src/ui/error.rs:74
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -1579,11 +1619,11 @@ msgstr ""
 "(“hemmelig tjeneste”) for at gemme adgangskoder. Du kan finde "
 "installationsinstruktioner i dokumentationen til styresystemet."
 
-#: src/ui/error.rs:98
+#: src/ui/error.rs:88
 msgid "Backup with id “{}” already exists."
 msgstr "Sikkerhedskopi med id'et “{}” findes allerede."
 
-#: src/ui/error.rs:103
+#: src/ui/error.rs:93
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Kunne ikke finde konfiguration af sikkerhedskopi med id'et “{}”."
 
@@ -1591,7 +1631,7 @@ msgstr "Kunne ikke finde konfiguration af sikkerhedskopi med id'et “{}”."
 # scootergrisen: måske "arkivernes mellemlager"
 # scootergrisen: måske "arkivers mellemlager"
 # scootergrisen: måske "arkivets mellemlager"
-#: src/ui/page_archives/cache.rs:34
+#: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "Kunne ikke opdatere arkivernes mellemlager."
 
@@ -1627,12 +1667,12 @@ msgstr "{} tilgængelig"
 msgid "{} Total"
 msgstr "{} samlet"
 
-#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:44
+#: src/ui/page_archives/events.rs:26 src/ui/page_backup/execution.rs:29
 msgid "Failed to unmount repository."
 msgstr "Kunne ikke afmontere opbevaringssted."
 
 # scootergrisen: fra gennemlæsning: evt. gennemsyn
-#: src/ui/page_archives/events.rs:61
+#: src/ui/page_archives/events.rs:65
 msgid "Failed to make archives available for browsing."
 msgstr "Kunne ikke gøre arkiver tilgængelige for gennemgang."
 
@@ -1648,11 +1688,11 @@ msgstr "Fjern mappe"
 msgid "Remove From List"
 msgstr "Fjern fra liste"
 
-#: src/ui/page_backup/events.rs:20
+#: src/ui/page_backup/events.rs:26
 msgid "Abort Saving Backup State?"
 msgstr "Vil du afbryde at gemme sikkerhedskopieringstilstand?"
 
-#: src/ui/page_backup/events.rs:22
+#: src/ui/page_backup/events.rs:27
 msgid ""
 "The current backup state is in the process of being saved. The backup can be "
 "continued later without saving the state. Some data might have to be copied "
@@ -1662,11 +1702,11 @@ msgstr ""
 "Sikkerhedskopieringen kan fortsættes senere uden at gemme tilstanden. Nogle "
 "data skal muligvis kopieres igen."
 
-#: src/ui/page_backup/events.rs:30
+#: src/ui/page_backup/events.rs:34
 msgid "Stop Running Backup?"
 msgstr "Stop igangværende sikkerhedskopiering?"
 
-#: src/ui/page_backup/events.rs:31
+#: src/ui/page_backup/events.rs:35
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1674,72 +1714,122 @@ msgstr ""
 "Den aktuelle sikkerhedskopieringstilstand gemmes. Du kan fortsætte din "
 "sikkerhedskopiering senere ved at starte den igen."
 
-#: src/ui/page_backup/events.rs:33
+#: src/ui/page_backup/events.rs:37 src/ui/page_backup/events.rs:56
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/page_backup/events.rs:51
+#: src/ui/page_backup/events.rs:45
+msgid "Abort Delete Operation?"
+msgstr "Afbryd sletning?"
+
+#: src/ui/page_backup/events.rs:46
+msgid ""
+"Archives are currently being deleted. Aborting now will cause some deletion "
+"progress to be lost. Free space will not be reclaimed."
+msgstr ""
+"Arkiver er i gang med at blive slettet. Hvis du afbryder nu, vil noget af "
+"sletningen gå tabt. Fri plads vil ikke blive genvundet."
+
+#: src/ui/page_backup/events.rs:53
+msgid "Stop Deleting Archives?"
+msgstr "Stop med at slette arkiver?"
+
+#: src/ui/page_backup/events.rs:54
+msgid ""
+"Deletion progress will be saved. Free space will not be reclaimed. You can "
+"continue deletion at a later time by starting the operation again."
+msgstr ""
+"Forløbet med sletning gemmes. Fri plads vil ikke blive genvundet. Du kan "
+"fortsætte sletningen på et senere tidspunkt ved at starte handlingen igen."
+
+#: src/ui/page_backup/events.rs:63
+msgid "Abort Operation?"
+msgstr "Afbryd handling?"
+
+#: src/ui/page_backup/events.rs:64
+msgid ""
+"An operation is currently being performed. Aborting now will cause any "
+"progress made by the operation to be lost."
+msgstr ""
+"En handling er i gang. Hvis du afbryder nu, vil alle fremskridt i handlingen "
+"gå tabt."
+
+#: src/ui/page_backup/events.rs:86
 msgid "Include Folder"
 msgstr "Medtag mappe"
 
-#: src/ui/page_backup/events.rs:102
+#: src/ui/page_backup/events.rs:116
+msgid "Unable to Include Location"
+msgstr "Kunne ikke medtage placeringen"
+
+#: src/ui/page_backup/events.rs:117
+msgid ""
+"The following paths could not be included because they aren't reliably "
+"available in the sandbox:\n"
+"{}"
+msgstr ""
+"Følgende stier kunne ikke medtages, fordi de ikke er pålideligt tilgængelige "
+"i sandkassen:\n"
+"{}"
+
+#: src/ui/page_backup/events.rs:173
 msgid "No longer include “{}” in backups?"
 msgstr "Medtag ikke længere “{}” i sikkerhedskopier?"
 
-#: src/ui/page_backup/events.rs:103
+#: src/ui/page_backup/events.rs:174
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Alle filer i denne mappe vil ikke længere være en del af fremtidige "
 "sikkerhedskopier."
 
-#: src/ui/page_backup/events.rs:105
+#: src/ui/page_backup/events.rs:176
 msgid "Confirm"
 msgstr "Bekræft"
 
-#: src/ui/page_backup/execution.rs:35
+#: src/ui/page_backup/execution.rs:20
 msgid "Stop browsing files and start backup?"
 msgstr "Stop gennemsyn af filer og begynd sikkerhedskopiering?"
 
-#: src/ui/page_backup/execution.rs:36
+#: src/ui/page_backup/execution.rs:21
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Gennemsyn af arkiverede filer er ikke mulig, mens der foretages "
 "sikkerhedskopiering."
 
-#: src/ui/page_backup/execution.rs:37
+#: src/ui/page_backup/execution.rs:22
 msgid "Keep Browsing"
 msgstr "Fortsæt med at gennemse"
 
-#: src/ui/page_backup/execution.rs:38
+#: src/ui/page_backup/execution.rs:23
 msgid "Start Backup"
 msgstr "Start sikkerhedskopiering"
 
-#: src/ui/page_backup/execution.rs:69
+#: src/ui/page_backup/execution.rs:55
 msgid "Delete old Archives Failed"
 msgstr "Det lykkedes ikke at slette gamle arkiver"
 
-#: src/ui/page_backup/execution.rs:80
+#: src/ui/page_backup/execution.rs:66
 msgid "Reclaiming Free Space Failed"
 msgstr "Det lykkedes ikke at gøre krav på ledig plads"
 
-#: src/ui/page_backup/execution.rs:147
+#: src/ui/page_backup/execution.rs:134
 msgid "Backup Failed"
 msgstr "Sikkerhedskopiering mislykkedes"
 
-#: src/ui/page_backup/execution.rs:169
+#: src/ui/page_backup/execution.rs:156
 msgid "Backup Completed with Warnings"
 msgstr "Sikkerhedskopiering fuldført med advarsler"
 
-#: src/ui/page_overview.rs:49
+#: src/ui/page_overview.rs:50
 msgid "Remove Backup Setup?"
 msgstr "Fjern opsætning af sikkerhedskopiering?"
 
-#: src/ui/page_overview.rs:50
+#: src/ui/page_overview.rs:51
 msgid "Removing the setup will not delete any archives."
 msgstr "Fjernelse af opsætningen vil ikke slette nogen arkiver."
 
-#: src/ui/page_overview.rs:52
+#: src/ui/page_overview.rs:53
 msgid "Remove Setup"
 msgstr "Fjern opsætning"
 
@@ -1887,7 +1977,11 @@ msgstr "Baggrundsprocessen er inaktiv"
 msgid "This is required for scheduled backups"
 msgstr "Dette er krævet for planlagte sikkerhedskopieringer"
 
-#: src/ui/status.rs:84
+#: src/ui/shell.rs:26
+msgid "Idle"
+msgstr "Inaktiv"
+
+#: src/ui/status.rs:86
 msgid "Unable to determine background process status"
 msgstr "Kan ikke bestemme status af baggrundsproces"
 
@@ -1924,13 +2018,17 @@ msgstr ""
 
 #: src/ui/utils.rs:139
 msgid ""
-"Either the system does not support this feature or an error occurred. "
-"Scheduled backup functionality and continuing backups in the background will "
-"not be available."
+"The system does not support running Pika Backup in the background. Scheduled "
+"backup functionality and continuing backups in the background will not be "
+"available. This is either a malfunction, misconfiguration or other issue "
+"with the xdg-desktop-portal. Please report this issue in your distribution "
+"issue tracker."
 msgstr ""
-"Enten understøtter systemet ikke denne funktion, eller også er der opstået "
-"en fejl. Planlagt sikkerhedskopiering og fortsatte sikkerhedskopieringer i "
-"baggrunden vil ikke være tilgængelige."
+"Systemet understøtter ikke, at Pika Backup kører i baggrunden. Planlagt "
+"sikkerhedskopieringsfunktionalitet og fortsat sikkerhedskopiering i "
+"baggrunden vil ikke være tilgængelige. Dette er enten en funktionsfejl, "
+"fejlkonfiguration eller et andet problem med xdg-desktop-portalen. Rapportér "
+"venligst dette problem i din distributions “issue tracker”."
 
 #: src/ui/utils.rs:161
 msgid "Failed to Start Monitor"
@@ -1946,15 +2044,15 @@ msgstr[1] "{} sikkerhedskopieringer er i gang"
 msgid "Failed to Create Thread"
 msgstr "Kunne ikke oprette tråd"
 
-#: src/ui/utils.rs:521
+#: src/ui/utils.rs:534
 msgid "Failed to fix Scheduled Backups"
 msgstr "Kunne ikke fikse planlagte sikkerhedskopieringer"
 
-#: src/ui/utils.rs:526
+#: src/ui/utils.rs:539
 msgid "Scheduled Backups Repaired"
 msgstr "Planlagte sikkerhedskopieringer repareret"
 
-#: src/ui/utils.rs:526
+#: src/ui/utils.rs:539
 msgid ""
 "The system contained an error that potentially caused scheduled backups not "
 "to work properly. This problem is now resolved."
@@ -1962,11 +2060,11 @@ msgstr ""
 "Systemet indeholdt en fejl, som potentielt kunne medføre, at planlagte "
 "sikkerhedskopier ikke fungerede korrekt. Dette problem er nu løst."
 
-#: src/ui/utils/borg.rs:31
+#: src/ui/utils/borg.rs:36
 msgid "Repository already in use"
 msgstr "Opbevaringssted allerede i brug"
 
-#: src/ui/utils/borg.rs:146
+#: src/ui/utils/borg.rs:151
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1975,7 +2073,7 @@ msgstr ""
 "brug. Disse oplysninger kan være forældede, hvis computeren f.eks. har "
 "mistet strømmen, mens den brugte opbevaringsstedet."
 
-#: src/ui/utils/borg.rs:148
+#: src/ui/utils/borg.rs:153
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1985,7 +2083,7 @@ msgstr ""
 "program! Hvis du fortsætter, mens et andet program bruger opbevaringsstedet, "
 "kan det ødelægge sikkerhedskopidata!"
 
-#: src/ui/utils/borg.rs:150
+#: src/ui/utils/borg.rs:155
 msgid "Continue Anyway"
 msgstr "Fortsæt alligevel"
 
@@ -2120,6 +2218,21 @@ msgstr "Pika Backup “{}”"
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
 msgstr "Kunne ikke gemme mellemlager"
+
+#~ msgid "Sophie Herold"
+#~ msgstr "Sophie Herold"
+
+#~ msgid "Fina Wilke"
+#~ msgstr "Fina Wilke"
+
+#~ msgid ""
+#~ "Either the system does not support this feature or an error occurred. "
+#~ "Scheduled backup functionality and continuing backups in the background "
+#~ "will not be available."
+#~ msgstr ""
+#~ "Enten understøtter systemet ikke denne funktion, eller også er der "
+#~ "opstået en fejl. Planlagt sikkerhedskopiering og fortsatte "
+#~ "sikkerhedskopieringer i baggrunden vil ikke være tilgængelige."
 
 #~ msgid "Back to overview"
 #~ msgstr "Tilbage til oversigten"
