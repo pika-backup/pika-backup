@@ -85,7 +85,7 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
     })
     .await?;
 
-    display::show_dir(&first_populated_dir)
+    display::show_dir(&first_populated_dir).await
 }
 
 pub async fn delete_archive(

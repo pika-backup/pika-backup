@@ -92,24 +92,16 @@ pub fn update_info(config: &config::Backup) {
     }
 }
 
-pub fn show_dir(path: &std::path::Path) -> Result<()> {
+pub async fn show_dir(path: &std::path::Path) -> Result<()> {
     main_ui().pending_menu().set_visible(false);
-    let uri = gio::File::for_path(path).uri();
+    let file = gio::File::for_path(path);
 
-    // only open if app isn't closing in this moment
+    // Only open if app isn't closing in this moment
     if !**IS_SHUTDOWN.load() {
-        let show_folder = || -> std::result::Result<(), _> {
-            let conn = zbus::blocking::Connection::session()?;
-            let proxy = zbus::blocking::Proxy::new(
-                &conn,
-                "org.freedesktop.FileManager1",
-                "/org/freedesktop/FileManager1",
-                "org.freedesktop.FileManager1",
-            )?;
-            proxy.call("ShowFolders", &(vec![uri.as_str()], ""))
-        };
-
-        show_folder().err_to_msg(gettext("Failed to open archive."))?;
+        gtk::FileLauncher::new(Some(&file))
+            .launch_future(Some(&main_ui().window()))
+            .await
+            .err_to_msg(gettext("Failed to open archive."))?;
     }
 
     Ok(())
