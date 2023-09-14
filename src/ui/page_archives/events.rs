@@ -51,6 +51,9 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
 
     debug!("Trying to browse an archive");
 
+    // Register mounts from a previous run that quit improperly
+    crate::ui::utils::borg::cleanup_mounts().await?;
+
     let backup_mounted = ACTIVE_MOUNTS.load().contains(repo_id);
 
     let mut path = borg::functions::mount_point(repo_id);
@@ -62,6 +65,7 @@ pub async fn browse_archive(archive_name: borg::ArchiveName) -> Result<()> {
         });
 
         main_ui().pending_menu().set_visible(true);
+
         let mount = ui::utils::borg::exec(
             borg::Command::<borg::task::Mount>::new(config.clone()),
             &guard,

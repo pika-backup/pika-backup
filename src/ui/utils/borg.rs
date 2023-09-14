@@ -297,11 +297,27 @@ pub async fn unmount(repo_id: &RepoId) -> Result<()> {
 pub async fn cleanup_mounts() -> Result<()> {
     let mounts = ACTIVE_MOUNTS.load();
 
+    // Find mounts that were already unmounted outside of Pika
     for repo_id in mounts.iter() {
         if !borg::is_mounted(repo_id).await {
             // The repository was unmounted somewhere else
             // Call unmount to fix the state
+            warn!("Marking repo {repo_id:?} as unmounted, as the mountpoint doesn't exist anymore");
             unmount(repo_id).await?;
+        }
+    }
+
+    // Find mounts that should belong to Pika but aren't registered.
+    // This would be leftover mounts from a previous run of Pika when it wasn't quit properly.
+    for config in BACKUP_CONFIG.load().iter() {
+        let repo_id = &config.repo_id;
+        if !mounts.contains(repo_id) && borg::is_mounted(repo_id).await {
+            warn!(
+                "Marking repo {repo_id:?} as mounted, was probably mounted from a force-quit app"
+            );
+            ACTIVE_MOUNTS.update(|mounts| {
+                mounts.insert(repo_id.clone());
+            });
         }
     }
 
