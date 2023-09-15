@@ -1,14 +1,13 @@
 use super::prelude::*;
 use async_std::prelude::*;
 
-use super::{BorgRunConfig, Command, Error, Result};
+use super::{BorgRunConfig, Command, Error, Result, USER_INTERACTION_TIME};
 
 use std::any::TypeId;
 use std::collections::HashMap;
 use std::ffi::OsString;
 use std::io::Write;
 use std::os::unix::io::AsRawFd;
-
 use std::time::Duration;
 
 use super::communication::*;
@@ -333,7 +332,7 @@ impl BorgCall {
                 Err(Error::Failed(ref failure)) if failure.is_connection_error() => {
                     if !communication.general_info.load().is_schedule
                         && std::time::Instant::now().duration_since(started_instant)
-                            < std::time::Duration::from_secs(60)
+                            < USER_INTERACTION_TIME
                     {
                         // Don't reconnect when manual backups fail right at the beginning. This is most likely a permanent problem.
                         return result;

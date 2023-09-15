@@ -23,6 +23,12 @@ pub static DELAY_RECONNECT: std::time::Duration = std::time::Duration::from_secs
 pub static MAX_RECONNECT: u16 = 30;
 pub static LOCK_WAIT_RECONNECT: std::time::Duration = std::time::Duration::from_secs(60 * 7);
 
+/// Time we assume the user to be available after manual actions
+///
+/// Within this time we will throw errors instead of trying to fix them
+/// automatically. Like trying to reconnect SSH.
+pub const USER_INTERACTION_TIME: std::time::Duration = std::time::Duration::from_secs(60);
+
 pub static MESSAGE_POLL_TIMEOUT: std::time::Duration = std::time::Duration::from_millis(100);
 
 /// Duration without new borg log output after which the status is set to
