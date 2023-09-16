@@ -28,7 +28,7 @@ impl PikaBackup {
         if let Some(proxy) = PROXY.get() {
             Ok(proxy.clone())
         } else {
-            let proxy = PikaBackupProxy::builder(&crate::utils::dbus::system().await?)
+            let proxy = PikaBackupProxy::builder(&crate::utils::dbus::session().await?)
                 .destination(crate::DBUS_API_NAME)?
                 .path(crate::DBUS_API_PATH)?
                 .build()

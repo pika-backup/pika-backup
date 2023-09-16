@@ -31,7 +31,7 @@ pub async fn fdo_proxy() -> Result<zbus::fdo::DBusProxy<'static>, zbus::Error> {
     if let Some(proxy) = PROXY.get() {
         Ok(proxy.clone())
     } else {
-        let proxy = zbus::fdo::DBusProxy::new(&crate::utils::dbus::system().await?).await?;
+        let proxy = zbus::fdo::DBusProxy::new(&crate::utils::dbus::session().await?).await?;
         Ok(PROXY.get_or_init(move || proxy).clone())
     }
 }
