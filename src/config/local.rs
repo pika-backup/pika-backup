@@ -114,7 +114,7 @@ impl Repository {
         ]
         .iter()
         .flatten()
-        .any(|&x| dbg!(&new_uuids).contains(&dbg!(x).into()))
+        .any(|&x| new_uuids.contains(&x.into()))
         {
             return true;
         }
