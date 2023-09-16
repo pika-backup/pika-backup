@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "POT-Creation-Date: 2023-09-15 11:54+0000\n"
-"PO-Revision-Date: 2023-09-15 21:30+0300\n"
+"PO-Revision-Date: 2023-09-16 19:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -75,6 +75,11 @@ msgid ""
 "them, open <guiseq><gui>Menu</gui><gui>Backup Preferences</gui></guiseq>. "
 "Use the start button to try out the command without running a backup."
 msgstr ""
+"Передбачено можливість запуску команд оболонки до резервного копіювання та"
+" після нього. Щоб налаштувати команди, скористайтеся пунктом <guiseq><gui"
+">Меню</gui><gui>Налаштування резервного копіювання</gui></guiseq>. Натисніть"
+" кнопку запуску, щоб перевірити роботу команди без виконання резервного"
+" копіювання."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:9
@@ -83,6 +88,9 @@ msgid ""
 "the backup. It can be used to perform database dumps, create file system "
 "snapshots and much more."
 msgstr ""
+"Команду оболонки <em>до резервного копіювання</em> буде виконано одразу"
+" перед запуском резервного копіювання. Нею можна скористатися для створення"
+" дампів баз даних, знімків файлової системи та інших завдань."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:10
@@ -92,6 +100,11 @@ msgid ""
 "be used to tear down the actions done by the <em>pre-backup</em> command, or "
 "run actions like sending a notification based on the outcome of the backup."
 msgstr ""
+"Команду <em>після резервного копіювання</em> буде виконано після виклику <"
+"cmd>borg create</cmd>, але перед вилученням застарілих архівів. Нею можна"
+" скористатися для розділення дій, які виконуються командою <em>до резервного"
+" копіювання</em> або виконання дій, подібних до надсилання сповіщення на"
+" основі результату резервного копіювання."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:11
@@ -103,6 +116,12 @@ msgid ""
 "backup statistics. See the tooltip in preferences for available environment "
 "variables."
 msgstr ""
+"Усі команди виконуються з використанням оболонки <cmd>bash</cmd> і мають"
+" контекст щодо резервного копіювання у форматі змінних середовища. Робочим"
+" каталогом є домашній каталог користувача. Крім того, команда <em>після"
+" резервного копіювання</em> має доступ до даних щодо успіху або помилки"
+" резервного копіювання і статистичних даних резервного копіювання. Список"
+" доступних змінних середовища можна переглянути у підказці до налаштувань."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:12
@@ -111,6 +130,10 @@ msgid ""
 "with an error. The standard error output will be visible in the <gui>Backup "
 "Info</gui> window on the <gui>Backup</gui> tab."
 msgstr ""
+"Вихід із ненульовим кодом призведе до переривання усіх подальших дій з"
+" резервного копіювання з повідомленням про помилку. Стандартні виведені дані"
+" щодо помилки можна буде переглянути у вікні <gui>Відомості щодо резервного"
+" копіювання</gui> на вкладці <gui>Резервна копія</gui>."
 
 #. (itstool) path: note/p
 #: C/feature-shell.page:14
@@ -119,11 +142,14 @@ msgid ""
 "character. It is recommended to store more complex scripts in a separate "
 "file, for example in the home directory."
 msgstr ""
+"Можна виконати декілька команд, відокремивши їх символом <code>;</code>."
+" Рекомендуємо зберігати складніші скрипт в окремому файлі, наприклад, у"
+" домашньому каталозі користувача."
 
 #. (itstool) path: info/desc
 #: C/feature-schedule.page:5
 msgid "Run backups automatically on a schedule"
-msgstr ""
+msgstr "Автоматичне резервне копіювання за розкладом"
 
 #. (itstool) path: page/title
 #: C/feature-schedule.page:7
@@ -135,6 +161,8 @@ msgstr "Резервне копіювання за розкладом"
 msgid ""
 "The schedule tab is used to configure the automatic creation of backups."
 msgstr ""
+"Для налаштовування автоматичного створення резервних копій використовують"
+" вкладку розкладу."
 
 #. (itstool) path: page/p
 #: C/feature-schedule.page:9
@@ -143,6 +171,10 @@ msgid ""
 "em>, <em>Weekly</em> and <em>Monthly</em> backups. The status display at the "
 "top will always indicate the next time a backup is scheduled to be run."
 msgstr ""
+"Після вмикання розкладу можна вибрати між резервним копіюванням <em"
+">Щогодини</em>, <em>Щодня</em>, <em>Щотижня</em> і <em>Щомісяця</em>. На"
+" панелі стану у верхній частині вікна буде завжди показано наступний момент,"
+" на який заплановано резервне копіювання."
 
 #. (itstool) path: page/p
 #: C/feature-schedule.page:10
@@ -152,6 +184,11 @@ msgid ""
 "it if it's not available at the time. The backup will then start as soon as "
 "the drive is connected."
 msgstr ""
+"Коли настане відповідний момент, резервне копіювання буде автоматично"
+" запущено у фоновому режимі. Якщо для копіювання використано зовнішній диск,"
+" програма попросить вас з'єднати його з комп'ютером, якщо у відповідний"
+" момент він виявиться недоступним. Резервне копіювання розпочнеться, щойно"
+" диск буде з'єднано з комп'ютером."
 
 #. (itstool) path: note/p
 #: C/feature-schedule.page:12
@@ -161,6 +198,11 @@ msgid ""
 "<app>Pika Backup</app> is closed and regularly checks if the conditions are "
 "met to start a backup."
 msgstr ""
+"Для резервного копіювання за розкладом використовують невибагливий до"
+" ресурсів фоновий процес із назвою <em>Монітор</em>. Процес <em>Монітора</em"
+"> працює у фоновому режимі, коли вікно "
+"<app>Пискухи-копіювання</app> закрито, і регулярно перевіряє, чи виконано"
+" умови запуску резервного копіювання."
 
 #. (itstool) path: section/title
 #: C/feature-schedule.page:15
@@ -175,6 +217,10 @@ msgid ""
 "that should be kept. Then press <gui type=\"button\">Save Configuration</"
 "gui>."
 msgstr ""
+"Крім того, розклад можна налаштувати для автоматичного вилучення застарілих"
+" архівів. Після вмикання виберіть бажаний набір налаштувань та налаштувати"
+" кількість резервних копій, які слід зберігати. Потім натисніть кнопку <gui"
+" type=\"button\">Зберегти налаштування</gui>."
 
 #. (itstool) path: note/p
 #: C/feature-schedule.page:18
@@ -183,6 +229,9 @@ msgid ""
 "only be configured to a minimum of at least <em>one</em> backup. This is due "
 "to a technical limitation of the removal algorithm."
 msgstr ""
+"<gui>Продовжувати щогодини</gui>, <gui>Продовжувати щодня</gui> і <gui"
+">Продовжувати щотижня</gui> можна налаштувати лише на мінімум <em>одну</em>"
+" резервну копію. Причиною є технічне обмеження алгоритму вилучення."
 
 #. (itstool) path: section/title
 #: C/feature-schedule.page:22
@@ -200,6 +249,13 @@ msgid ""
 "distributions for correct behavior regarding background portals in their "
 "stock configuration:"
 msgstr ""
+"<app>Пискуха-копіювання</app> використовує <app>Фоновий портал</app> <app"
+">xdg-desktop-portal</app> для налаштовування запуску у фоновому режимі"
+" процесу <em>Монітор</em>. У деяких дистрибутивах <app>xdg-desktop-portal<"
+"/app> налаштовано неправильно або не увімкнено <em>Фоновий портал</em>. Це"
+" призводить до помилки під час спроби увімкнути резервне копіювання за"
+" розкладом. Нами було перевірено належну поведінку щодо фонових порталів у"
+" таких дистрибутивах з типовими налаштуваннями:"
 
 #. (itstool) path: item/p
 #: C/feature-schedule.page:26
@@ -218,6 +274,9 @@ msgid ""
 "different distribution, please report an issue in your distribution issue "
 "tracker."
 msgstr ""
+"Якщо у вас виникають проблеми з вмиканням резервного копіювання за"
+" розкладом, і ви використовуєте інший дистрибутив, будь ласка, повідомте про"
+" проблему з вашим дистрибутивом у системі стеження за вадами дистрибутива."
 
 #. (itstool) path: note/p
 #: C/feature-schedule.page:34
@@ -227,6 +286,11 @@ msgid ""
 "the entire app is running in the background but only the <em>Monitor</em> "
 "process which only uses very few resources."
 msgstr ""
+"<app>GNOME Shell</app> показуватиме <app>Пискуху-копіювання</app> як"
+" програму, що працює у фоновому режимі, якщо буде налаштовано резервне"
+" копіювання за розкладом. Це не означатиме, що у фоновому режимі запущено"
+" усю програму: запущено лише процес <em>Монітор</em>, який використовує дуже"
+" мало ресурсів."
 
 #. (itstool) path: info/desc
 #: C/general-glossary.page:5
@@ -240,8 +304,9 @@ msgstr "Термінологія"
 
 #. (itstool) path: page/p
 #: C/general-glossary.page:8
-msgid "These terms are commonly used in this documentation and within the app."
-msgstr ""
+msgid ""
+"These terms are commonly used in this documentation and within the app."
+msgstr "Ці терміни широко використано у цій документації та у самій програмі."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:10
@@ -257,6 +322,12 @@ msgid ""
 "readthedocs.io\">BorgBackup documentation</link> for more information about "
 "how to use the <cmd>borg</cmd> command line utility."
 msgstr ""
+"<app>BorgBackup</app> — базова програма, яку використовують для створення"
+" резервних копій. Доступ до сховищ даних <app>Пискухи-копіювання</app> також"
+" можна здійснювати за допомогою засобів командного рядка BorgBackup. Див. <"
+"link href=\"https://borgbackup.readthedocs.io\">документацію з BorgBackup<"
+"/link>, щоб дізнатися більше про те, як користуватися засобом командного"
+" рядка <cmd>borg</cmd>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:14
@@ -270,6 +341,10 @@ msgid ""
 "contain backup data. They store one or more <link "
 "xref=\"#archive\">archives</link>."
 msgstr ""
+"Сховища резервних копій є каталогами на диску або віддаленому ресурсі, де"
+" зберігаються дані резервних копій. У сховищі зберігається один або декілька"
+" <link "
+"xref=\"#archive\">архівів</link>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:18
@@ -283,6 +358,9 @@ msgid ""
 "files at the time the backup was created. To restore data from a particular "
 "archive, see <link xref=\"index#recovery\"/>."
 msgstr ""
+"Кожне резервне копіювання призводить до створення одного архіву. В архіві"
+" зберігається один знімок файлів на момент створення резервної копії. Щодо"
+" відновлення даних з архіву див. <link xref=\"index#recovery\"/>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:22
@@ -297,6 +375,11 @@ msgid ""
 "disk space. The term <em>deduplication</em> is used to refer to this "
 "functionality."
 msgstr ""
+"<app>Пискуха-копіювання</app> зберігає <link xref=\"#archive\">архіви</link>"
+" резервних копій у такий спосіб, щоб додаткового місця на диску потребували"
+" лише нові або змінені з моменту останнього резервного копіювання дані. Для"
+" позначення цієї можливості використовують термін <em>скасування дублювання<"
+"/em>."
 
 #. (itstool) path: note/p
 #: C/general-glossary.page:25
@@ -305,6 +388,10 @@ msgid ""
 "<gui>Backup Info</gui> window that can be accessed via the <gui "
 "style=\"tab\">Backup</gui> tab."
 msgstr ""
+"Обсяг використаного наново місця для останньої резервної копії можна"
+" переглянути у вікні <gui>Відомості щодо резервного копіювання</gui>, доступ"
+" до якого можна отримати за допомогою вкладки <gui style=\"tab\">Резервне"
+" копіювання</gui>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:29
@@ -319,6 +406,10 @@ msgid ""
 "em>. This was chosen as a compromise between performance and resulting "
 "backup size."
 msgstr ""
+"<link xref=\"#archive\">Архіви</link> резервних копій, які створено <app"
+">Пискухою-копіюванням</app> стиснуто за допомогою алгоритму <em>zstd</em> на"
+" <em>рівні 3</em>. Такий спосіб вибрано як компромісний між швидкодією та"
+" розміром отриманої резервної копії."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:33
@@ -332,6 +423,9 @@ msgid ""
 "This will make it impossible for anyone to read the contents of the backup "
 "without knowing or guessing the encryption <em>password</em>."
 msgstr ""
+"Сховища резервних копій, які створено <app>Пискухою-копіюванням</app> можна"
+" зашифрувати. Це зробить неможливим для будь-кого, хто не знає або не може"
+" вгадати <em>пароль</em> шифрування, доступ до вмісту резервної копії."
 
 #. (itstool) path: note/p
 #: C/general-glossary.page:36
@@ -341,6 +435,9 @@ msgid ""
 "equally important to choose a password that is not easily forgotten or "
 "stored in a safe place."
 msgstr ""
+"Важливо вибрати складний пароль шифрування для конфіденційних даних, але"
+" втрата такого пароля означатиме втрату доступу до усіх даних. Також важливо"
+" вибрати пароль, який непросто забути, та зберігати його у безпечному місці."
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:38
@@ -350,6 +447,10 @@ msgid ""
 "authentication algorithm is either <em>HMAC-SHA256</em> or <em>BLAKE2b-256</"
 "em> depending on whether SHA256 is hardware-accelerated on the system."
 msgstr ""
+"Алгоритмом шифрування, який використовують для нових <link"
+" type=\"repository\">сховищ</link>, є <em>AES-CTR-256</em>. Алгоритмом"
+" розпізнавання є або <em>HMAC-SHA256</em>, або <em>BLAKE2b-256</em>, залежно"
+" від того, чи є апаратне прискорення роботи з SHA256 у системі."
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:39
@@ -358,6 +459,10 @@ msgid ""
 "gui><gui>Backup Preferences</gui><gui>Change Encryption Password</gui></"
 "guiseq>."
 msgstr ""
+"Пароль шифрування можна змінити за допомогою пункту <guiseq><gui>Меню</gui><"
+"gui>Налаштування резервного копіювання</gui><gui>Змінити пароль шифрування<"
+"/gui></"
+"guiseq>."
 
 #. (itstool) path: info/desc
 #: C/general-intro.page:5
@@ -389,6 +494,9 @@ msgid ""
 "xref=\"setup-gvfs\">network shares</link> and <link xref=\"setup-"
 "remote\">remotely</link>"
 msgstr ""
+"Створення резервних копій <link xref=\"setup-drive\">локально</link>, на <"
+"link xref=\"setup-gvfs\">спільних ресурсах мережі</link> і <link"
+" xref=\"setup-remote\">віддалено</link>"
 
 #. (itstool) path: item/p
 #: C/general-intro.page:14
@@ -438,6 +546,9 @@ msgid ""
 "<app>Pika Backup</app> does not support complete system recovery. It is "
 "powered by the well-tested <app>BorgBackup</app> software."
 msgstr ""
+"У <app>Пискусі-копіюванні</app> не передбачено підтримки повного відновлення"
+" системи. Програму побудовано на основі перевірених програм з комплексу <app"
+">BorgBackup</app>."
 
 #. (itstool) path: info/desc
 #: C/setup-drive.page:5
@@ -493,6 +604,8 @@ msgid ""
 "In the <gui>Create new Repository</gui> section, choose the drive or "
 "<gui>Location on Disk</gui>"
 msgstr ""
+"У розділі <gui>Створити сховище</gui> виберіть диск або <gui>Місце на диску<"
+"/gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:24
@@ -500,6 +613,9 @@ msgid ""
 "Ensure the <gui>Repository Base Folder</gui> has your removable drive "
 "selected. If not, press the <gui style=\"button\">Select Folder…</gui> button"
 msgstr ""
+"Переконайтеся, що у полі <gui>Базова тека сховища</gui> вибрано ваш"
+" портативний диск. Якщо це не так, натисніть кнопку <gui style=\"button\""
+">Вибрати теку…</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:27 C/setup-gvfs.page:24
@@ -507,6 +623,8 @@ msgid ""
 "The new backup <link xref=\"general-glossary#repository\">repository</link> "
 "will be created in a folder with the specified <gui>Repository Name</gui>."
 msgstr ""
+"Нове <link xref=\"general-glossary#repository\">сховище</link> резервних"
+" копій буде створено у теці із вказаною <gui>Назвою сховища</gui>."
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:30 C/setup-gvfs.page:27 C/setup-remote.page:21
@@ -533,6 +651,8 @@ msgid ""
 "Configure the <gui>Files to Back Up</gui> and <gui>Exclude from Backup</gui> "
 "sections"
 msgstr ""
+"Налаштуйте розділи <gui>Файли для резервного копіювання</gui> і <gui"
+">Виключити з резервного копіювання</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:42 C/setup-gvfs.page:39 C/setup-remote.page:33
@@ -547,13 +667,18 @@ msgid ""
 "to create files and folders. Make sure the drive is configured in a way that "
 "<app>Pika Backup</app> can write to it."
 msgstr ""
+"Типовою проблемою із портативними дисками є відсутність прав доступу до"
+" файлової системи для створення файлів і тек. Переконайтеся, що диск"
+" налаштовано так, щоб <app>Пискуха-копіювання</app> могла записувати на"
+" нього дані."
 
 #. (itstool) path: info/desc
 #: C/setup-gvfs.page:5
 #| msgid "Setup local backup on removable drive"
 msgid "Setup remote backup on a network share"
 msgstr ""
-"Налаштовування віддаленого резервного копіювання на спільному ресурсі у мережі"
+"Налаштовування віддаленого резервного копіювання на спільному ресурсі у"
+" мережі"
 
 #. (itstool) path: page/title
 #: C/setup-gvfs.page:7
@@ -574,6 +699,9 @@ msgid ""
 "href=\"help:gnome-help/nautilus-connect\">GNOME Files</link> help pages for "
 "reference."
 msgstr ""
+"З'єднайтеся зі спільним ресурсом мережі за допомогою <app>Файлів GNOME</app"
+">. Довідкові дані можна знайти на сторінках довідки з <link "
+"href=\"help:gnome-help/nautilus-connect\">Файлів GNOME</link>."
 
 #. (itstool) path: item/p
 #: C/setup-gvfs.page:14
@@ -586,6 +714,7 @@ msgstr "Натисніть кнопку <gui>Налаштувати копіюв
 msgid ""
 "In the <gui>Create new Repository</gui> section, choose the network share."
 msgstr ""
+"У розділі <gui>Створити сховище</gui> виберіть спільний ресурс мережі."
 
 #. (itstool) path: item/p
 #: C/setup-gvfs.page:21
@@ -594,6 +723,9 @@ msgid ""
 "The <gui style=\"button\">Select Folder…</gui> button can be used to select "
 "a sub-folder on the network share."
 msgstr ""
+"Переконайтеся, що у полі <gui>Базова тека сховища</gui> вибрано спільний"
+" ресурс мережі. Для вибору підтеки на спільному ресурсі мережі можна"
+" скористатися кнопкою <gui style=\"button\">Вибрати теку…</gui>."
 
 #. (itstool) path: info/desc
 #: C/setup-remote.page:5
@@ -615,6 +747,10 @@ msgid ""
 "support. Services with <app>BorgBackup</app> support are recommended for "
 "performance reasons."
 msgstr ""
+"У <app>Пискусі-копіюванні</app> передбачено підтримку резервного копіювання"
+" на віддалені сервери та інтернет-служби за допомогою <app>BorgBackup</app>,"
+" з підтримкою <cmd>ssh</cmd> або <cmd>sftp</cmd>. З міркувань швидкодії"
+" рекомендуємо користуватися службами з підтримкою <app>BorgBackup</app>."
 
 #. (itstool) path: item/p
 #: C/setup-remote.page:15
@@ -622,6 +758,7 @@ msgid ""
 "In the <gui>Create new Repository</gui> section, choose <gui>Remote "
 "Location</gui>"
 msgstr ""
+"У розділі <gui>Створити сховище</gui> виберіть <gui>Віддалене місце</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-remote.page:18
@@ -630,6 +767,10 @@ msgid ""
 "service if it has explicit <app>BorgBackup</app> support. The <gui>Examples</"
 "gui> section in the dialog has an overview of the syntax."
 msgstr ""
+"Введіть адресу сховища. Таку адресу надає сама служба резервного копіювання"
+" в інтернеті, якщо на ній явним чином реалізовано підтримку <app>BorgBackup<"
+"/app>. У розділі <gui>Приклади</"
+"gui> діалогового вікна наведено огляд синтаксису."
 
 #. (itstool) path: info/desc
 #: C/recovery-pika.page:5
