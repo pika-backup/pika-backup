@@ -4,6 +4,7 @@ pub mod df;
 pub mod duration;
 pub mod ext;
 pub mod flatpak_info;
+pub mod notification;
 pub mod password_storage;
 pub mod repo_cache;
 
@@ -389,14 +390,11 @@ pub async fn show_borg_question(
     }
 }
 
-pub async fn show_error_transient_for<
-    S: std::fmt::Display,
-    P: std::fmt::Display,
-    W: IsA<gtk::Window>,
->(
-    message: S,
-    detail: P,
-    window: &W,
+pub async fn show_error_transient_for(
+    message: impl std::fmt::Display,
+    detail: impl std::fmt::Display,
+    notification_id: Option<&str>,
+    window: &impl IsA<gtk::Window>,
 ) {
     let primary_text = ellipsize_multiline(message);
     let secondary_text = ellipsize_multiline(detail);
@@ -432,7 +430,7 @@ pub async fn show_error_transient_for<
         let notification = gio::Notification::new(&title);
         notification.set_body(Some(&body));
 
-        adw_app().send_notification(None, &notification);
+        adw_app().send_notification(notification_id, &notification);
     }
 }
 

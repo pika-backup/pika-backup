@@ -14,6 +14,7 @@
 - Change behavior on missing keyring daemon: Save passwords in memory until close
 - Change to offer to stop browsing archive for every borg task
 - Change file and folder choosers to preselect a folder
+- Change backup notifications to be dismissed when a new backup starts
 - Add docker to containers and VMs exclusion preset
 - Add per-backup preferences window
 - Add ability to set custom titles for backup configs

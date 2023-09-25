@@ -140,6 +140,7 @@ pub async fn add_include() -> Result<()> {
             ui::utils::show_error_transient_for(
                 gettext("Unable to Include Location"),
                 gettextf("The following paths could not be included because they aren't reliably available in the sandbox:\n{}", &[&path_list]),
+                None,
                 &main_ui().window(),
             )
             .await;
@@ -149,6 +150,7 @@ pub async fn add_include() -> Result<()> {
             ui::utils::show_error_transient_for(
                 gettext("Unable to Include Location"),
                 gettext("Pika Backup cannot be used to backup the entire system or the “/dev” directory."),
+                None,
                 &main_ui().window(),
             )
             .await;

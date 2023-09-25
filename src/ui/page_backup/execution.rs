@@ -7,6 +7,9 @@ use crate::schedule;
 use crate::ui;
 
 use crate::ui::prelude::*;
+use crate::ui::utils::notification::BackupNote;
+
+use adw::prelude::*;
 
 use super::display;
 
@@ -72,6 +75,10 @@ async fn run_backup(
         });
     }
 
+    // Dismiss notifications from a previous run
+    adw_app().withdraw_notification(&BackupNote::Warnings(&config.id).to_string());
+    adw_app().withdraw_notification(&BackupNote::Failed(&config.id).to_string());
+
     // execute backup
     let result = ui::utils::borg::exec(command, guard).await;
 
@@ -110,7 +117,12 @@ async fn run_backup(
 
     match result {
         Err(borg::Error::Aborted(_)) => Ok(()),
-        Err(err) => Err(Message::new(gettext("Backup Failed"), err).into()),
+        Err(err) => Err(Message::with_notification_id(
+            gettext("Backup Failed"),
+            err,
+            BackupNote::Failed(&config.id),
+        )
+        .into()),
         Ok(_) => {
             if config.prune.enabled {
                 // use current config for pruning archives
@@ -131,9 +143,10 @@ async fn run_backup(
             if run_info.messages.clone().filter_handled().max_log_level()
                 >= Some(borg::log_json::LogLevel::Warning)
             {
-                Err(Message::new(
+                Err(Message::with_notification_id(
                     gettext("Backup Completed with Warnings"),
                     run_info.messages.filter_hidden().to_string(),
+                    BackupNote::Warnings(&config.id),
                 )
                 .into())
             } else {

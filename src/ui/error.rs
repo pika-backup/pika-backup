@@ -37,20 +37,35 @@ quick_error! {
 pub struct Message {
     text: String,
     secondary_text: Option<String>,
+    notification_id: Option<String>,
 }
 
 impl Message {
-    pub fn new<T: std::fmt::Display, S: std::fmt::Display>(text: T, secondary_text: S) -> Self {
+    pub fn new(text: impl std::fmt::Display, secondary_text: impl std::fmt::Display) -> Self {
         Self {
-            text: format!("{text}"),
-            secondary_text: Some(format!("{secondary_text}")),
+            text: text.to_string(),
+            secondary_text: Some(secondary_text.to_string()),
+            notification_id: None,
         }
     }
 
-    pub fn short<T: std::fmt::Display>(text: T) -> Self {
+    pub fn with_notification_id(
+        text: impl std::fmt::Display,
+        secondary_text: impl std::fmt::Display,
+        notification_id: impl std::fmt::Display,
+    ) -> Self {
         Self {
             text: format!("{text}"),
+            secondary_text: Some(format!("{secondary_text}")),
+            notification_id: Some(notification_id.to_string()),
+        }
+    }
+
+    pub fn short(text: impl std::fmt::Display) -> Self {
+        Self {
+            text: text.to_string(),
             secondary_text: None,
+            notification_id: None,
         }
     }
 
@@ -60,9 +75,21 @@ impl Message {
 
     pub async fn show_transient_for<W: IsA<gtk::Window> + IsA<gtk::Widget>>(&self, window: &W) {
         if let Some(secondary) = &self.secondary_text {
-            ui::utils::show_error_transient_for(&self.text, secondary, window).await;
+            ui::utils::show_error_transient_for(
+                &self.text,
+                secondary,
+                self.notification_id.as_deref(),
+                window,
+            )
+            .await;
         } else {
-            ui::utils::show_error_transient_for(&self.text, "", window).await;
+            ui::utils::show_error_transient_for(
+                &self.text,
+                "",
+                self.notification_id.as_deref(),
+                window,
+            )
+            .await;
         }
     }
 
