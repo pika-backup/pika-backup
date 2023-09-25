@@ -423,12 +423,15 @@ pub async fn show_error_transient_for<
         dialog.add_responses(&[("close", &gettext("Close"))]);
         dialog.choose_future().await;
     } else {
-        let notification = gio::Notification::new(&primary_text);
-        notification.set_body(if secondary_text.is_empty() {
-            None
+        let (title, body) = if secondary_text.is_empty() {
+            (gettext("Pika Backup"), primary_text)
         } else {
-            Some(&secondary_text)
-        });
+            (primary_text, secondary_text)
+        };
+
+        let notification = gio::Notification::new(&title);
+        notification.set_body(Some(&body));
+
         adw_app().send_notification(None, &notification);
     }
 }
