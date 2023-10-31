@@ -327,6 +327,7 @@ impl BorgCall {
             communication.general_info.update(|x| {
                 x.message_history.push(Default::default());
             });
+
             let result = self.managed_process(communication.clone(), &sender).await;
             match &result {
                 Err(Error::Failed(ref failure)) if failure.is_connection_error() => {
@@ -402,23 +403,35 @@ impl BorgCall {
         );
 
         let mut return_message = None;
-        let mut line = String::new();
         let mut process = self.cmd()?.spawn()?;
-        let mut reader = async_std::io::BufReader::new(
+
+        let mut stderr = async_std::io::BufReader::new(
             process
                 .stderr
                 .take()
                 .ok_or_else(|| String::from("Failed to get stderr."))?,
         );
-        let mut writer = process
+
+        let mut stdout = async_std::io::BufReader::new(
+            process
+                .stdout
+                .take()
+                .ok_or_else(|| String::from("Failed to get stdout."))?,
+        );
+
+        let mut stdin = process
             .stdin
             .take()
             .ok_or_else(|| String::from("Failed to get stdin"))?;
 
-        let mut unresponsive = Duration::ZERO;
+        let mut stderr_line = String::new();
+        let mut stdout_buf = [0; 1024];
+        let mut stdout_content = Vec::new();
 
+        let mut unresponsive = Duration::ZERO;
         loop {
             // react to instructions before potentially listening for messages again
+
             match &**communication.instruction.load() {
                 Instruction::Abort(ref reason) => {
                     communication.set_status(Run::Stopping);
@@ -432,18 +445,29 @@ impl BorgCall {
                 }
                 Instruction::Response(response) => {
                     warn!("Sending response “{response}” to borg process");
-                    writer.write_all(format!("{response}\n").as_bytes()).await?;
+                    stdin.write_all(format!("{response}\n").as_bytes()).await?;
                     communication.set_instruction(Instruction::Nothing);
                 }
                 Instruction::Nothing => {}
             }
 
-            line.clear();
-            let read =
-                async_std::io::timeout(super::MESSAGE_POLL_TIMEOUT, reader.read_line(&mut line))
-                    .await;
+            // Read stdout to avoid pipe stall
+            loop {
+                let nbytes = stdout.read(&mut stdout_buf).await?;
+                if nbytes == 0 {
+                    break;
+                }
+                stdout_content.extend_from_slice(&stdout_buf[..nbytes]);
+            }
 
-            match read {
+            stderr_line.clear();
+            let read_stderr_timeout = async_std::io::timeout(
+                super::MESSAGE_POLL_TIMEOUT,
+                stderr.read_line(&mut stderr_line),
+            )
+            .await;
+
+            match read_stderr_timeout {
                 // nothing new to read
                 Err(err) if err.kind() == async_std::io::ErrorKind::TimedOut => {
                     unresponsive += super::MESSAGE_POLL_TIMEOUT;
@@ -463,15 +487,15 @@ impl BorgCall {
 
             unresponsive = Duration::ZERO;
 
-            trace!("borg output: {}", line);
+            trace!("borg output: {}", stderr_line);
 
-            let msg = if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&line) {
+            let msg = if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&stderr_line) {
                 if !matches!(communication.status(), Run::Running) {
                     communication.set_status(Run::Running);
                 }
                 log_json::Output::Progress(msg)
             } else {
-                let msg = utils::check_line(&line);
+                let msg = utils::check_line(&stderr_line);
 
                 communication.general_info.update(|status| {
                     status.add_message(&msg);
@@ -483,13 +507,15 @@ impl BorgCall {
         }
 
         let output = process.output().await?;
-
         debug!("Process terminated");
+
+        // Attach remaining part of stdout
+        stdout_content.extend_from_slice(&output.stdout);
 
         let result = if TypeId::of::<S>() == TypeId::of::<()>() {
             serde_json::from_slice(b"null")
         } else {
-            serde_json::from_slice(&output.stdout)
+            serde_json::from_slice(&stdout_content)
         };
 
         let max_log_level = communication
