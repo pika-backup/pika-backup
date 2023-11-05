@@ -14,6 +14,8 @@ pub enum Kind {
     List,
     KeyChangePassphrase,
 
+    Generic,
+
     // A custom script from the user
     UserScript,
 }
@@ -26,6 +28,20 @@ pub trait Task: Clone + Default + Send + Sync + 'static {
     const KIND: Kind;
 
     fn name() -> String;
+}
+
+#[derive(Clone, Default)]
+pub struct Generic {}
+
+impl Task for Generic {
+    type Info = ();
+    type Return = ();
+
+    const KIND: Kind = Kind::Generic;
+
+    fn name() -> String {
+        gettext("Generic Operation")
+    }
 }
 
 #[derive(Clone, Default)]

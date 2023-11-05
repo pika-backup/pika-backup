@@ -92,6 +92,7 @@ impl Default for Instruction {
     }
 }
 
+#[derive(Clone)]
 pub(super) struct Sender<T: Task>(Communication<T>);
 
 impl<T: Task> Sender<T> {

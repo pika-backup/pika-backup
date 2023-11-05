@@ -370,6 +370,21 @@ impl LogEntry {
 
         false
     }
+
+    pub fn is_ignored(&self) -> bool {
+        self.message()
+            .contains("By default repositories initialized with this version will produce security")
+            || self
+                .message()
+                .contains("IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!")
+    }
+
+    pub fn log(&self) {
+        let msg = self.message();
+        let id = self.id().map(|x| x.to_string()).unwrap_or_default();
+
+        self.level().log(&format!("{id}: {msg}"));
+    }
 }
 
 pub type LogCollection = Vec<LogEntry>;
@@ -432,6 +447,17 @@ pub enum LogLevel {
     Error,
     Critical,
     Undefined,
+}
+
+impl LogLevel {
+    pub fn log(&self, msg: &str) {
+        match self {
+            Self::Debug => debug!("{msg}"),
+            Self::Info => info!("{msg}"),
+            Self::Warning | Self::Undefined => warn!("{msg}"),
+            Self::Critical | Self::Error => error!("{msg}"),
+        }
+    }
 }
 
 impl std::fmt::Display for LogLevel {
