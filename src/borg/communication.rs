@@ -37,7 +37,7 @@ impl<T: Task> Communication<T> {
         Sender(self.clone())
     }
 
-    pub fn drop_sender(&self) {
+    pub fn drop_senders(&self) {
         self.sender.store(Default::default());
     }
 
@@ -92,6 +92,7 @@ impl Default for Instruction {
     }
 }
 
+/// Wrapper to close all channels when dropped
 #[derive(Clone)]
 pub(super) struct Sender<T: Task>(Communication<T>);
 
@@ -106,6 +107,6 @@ impl<T: Task> Sender<T> {
 
 impl<T: Task> Drop for Sender<T> {
     fn drop(&mut self) {
-        self.0.sender.store(Default::default());
+        self.0.drop_senders()
     }
 }

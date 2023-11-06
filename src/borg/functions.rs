@@ -66,10 +66,7 @@ impl CommandRun<task::List> for Command<task::List> {
             task::NumArchives::All => (),
         }
 
-        let json: List = borg
-            .spawn_async_managed(&self.communication)?
-            .result
-            .await?;
+        let json: List = borg.output(&self.communication).await?;
         Ok(json.archives)
     }
 }
@@ -94,9 +91,7 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
             .add_options(["-o", &format!("umask=0000,uid={}", nix::unistd::getuid())])
             .add_positional(&dir);
-        borg.spawn_async_managed(&self.communication)?
-            .result
-            .await?;
+        borg.output(&self.communication).await?;
 
         Ok(())
     }
@@ -108,10 +103,7 @@ impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
         let mut borg_call = prune_call(&self).await?;
         borg_call.add_options(["--dry-run", "--list"]);
 
-        borg_call
-            .spawn_async_managed(&self.communication)?
-            .result
-            .await?;
+        borg_call.output(&self.communication).await?;
 
         let messages = self
             .communication
@@ -148,9 +140,7 @@ impl CommandRun<task::Prune> for Command<task::Prune> {
         let mut borg_call = prune_call(&self).await?;
         borg_call.add_options(["--progress"]);
 
-        let process = borg_call.spawn_async_managed(&self.communication)?;
-
-        process.result.await
+        borg_call.output(&self.communication).await
     }
 }
 
@@ -160,9 +150,7 @@ impl CommandRun<task::Compact> for Command<task::Compact> {
         let mut borg_call = compact_call(&self).await?;
         borg_call.add_options(["--progress"]);
 
-        let process = borg_call.spawn_async_managed(&self.communication)?;
-
-        process.result.await
+        borg_call.output(&self.communication).await
     }
 }
 
@@ -180,9 +168,7 @@ impl CommandRun<task::Check> for Command<task::Check> {
             borg_call.add_options(["--repair"]);
         }
 
-        let process = borg_call.spawn_async_managed(&self.communication)?;
-
-        process.result.await
+        borg_call.output(&self.communication).await
     }
 }
 
@@ -194,9 +180,7 @@ impl CommandRun<task::Delete> for Command<task::Delete> {
         let mut borg_call = delete_call(&self, &archive_name).await?;
         borg_call.add_options(["--progress"]);
 
-        let process = borg_call.spawn_async_managed(&self.communication)?;
-
-        process.result.await
+        borg_call.output(&self.communication).await
     }
 }
 
@@ -218,7 +202,7 @@ impl CommandRun<task::Create> for Command<task::Create> {
             .add_archive(&self)
             .add_include_exclude(&self);
 
-        let process = borg_call.spawn_async_managed(&self.communication)?;
+        let process = borg_call.spawn_background(&self.communication)?;
 
         let mut last_skipped = 0.;
         let mut last_copied = 0.;
@@ -283,7 +267,7 @@ impl CommandRun<task::KeyChangePassphrase> for Command<task::KeyChangePassphrase
         // TODO: Use spawn_managed. The lack of properly tagged output unfortunately means that a
         // non-zero return code wouldn't be considered an error by that function.
         info!("Running borg: {:#?}", borg_call);
-        let output: RawOutput = borg_call.output().await?;
+        let output: RawOutput = borg_call.output_generic().await?;
 
         let stdout = String::from_utf8_lossy(&output.output);
         debug!("stdout: {}", stdout);
@@ -444,7 +428,7 @@ pub async fn umount(repo_id: &RepoId) -> Result<()> {
         BorgCall::new("umount")
             .add_options(["--log-json"])
             .add_positional(&mount_point)
-            .output::<()>()
+            .output_generic::<()>()
             .await?;
     }
 
@@ -532,7 +516,7 @@ impl CommandOnlyRepo {
     pub async fn break_lock(self) -> Result<()> {
         BorgCall::new("break-lock")
             .add_basics_without_password(&self)
-            .output()
+            .output_generic()
             .await
     }
 
@@ -549,7 +533,7 @@ impl CommandOnlyRepo {
             ])
             .add_basics(&self)
             .await?
-            .output()
+            .output_generic()
             .await
     }
 
@@ -558,7 +542,7 @@ impl CommandOnlyRepo {
             .add_options([format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
             .add_basics(&self)
             .await?
-            .output::<()>()
+            .output_generic::<()>()
             .await?;
 
         self.peek().await
@@ -568,7 +552,7 @@ impl CommandOnlyRepo {
 pub async fn version() -> Result<String> {
     let borg: RawOutput = BorgCall::new_raw()
         .add_options(["--log-json", "--version"])
-        .output()
+        .output_generic()
         .await?;
 
     Ok(String::from_utf8_lossy(&borg.output).trim().to_string())

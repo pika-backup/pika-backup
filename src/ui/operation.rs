@@ -216,7 +216,7 @@ impl<T: borg::Task> Drop for Operation<T> {
         debug!("Dropping operation tracking '{}'.", T::name());
 
         self.operation_shutdown.replace(true);
-        self.communication().drop_sender();
+        self.communication().drop_senders();
 
         if BORG_OPERATION.try_with(|_| {}).is_err() {
             debug!("Not doing any external operations.");

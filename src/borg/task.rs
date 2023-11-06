@@ -30,6 +30,10 @@ pub trait Task: Clone + Default + Send + Sync + 'static {
     fn name() -> String;
 }
 
+/// Generic task used for cases where not specific task is available
+///
+/// TODO: We can probably introduce tasks for every operation and support
+/// passing them to `output()`
 #[derive(Clone, Default)]
 pub struct Generic {}
 

@@ -22,11 +22,16 @@ use super::Task;
 use super::{BorgRunConfig, Command, Error, Result, USER_INTERACTION_TIME};
 use crate::config;
 
+/// Return raw stdout from `BorgCall` instead JSON decoding it
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RawOutput {
     pub output: Vec<u8>,
 }
 
+/// Manages calling borg
+///
+/// Spawning one `BorgCall`` can involve multiple successive `BorgProcess`es to
+/// be spawned to handle reconnects.
 #[derive(Default)]
 pub struct BorgCall {
     command: Option<OsString>,
@@ -230,12 +235,11 @@ impl BorgCall {
         // We drop the pipe_writer here, so this end will be closed when this function returns
         pipe_writer.write_all(self.password.as_bytes())?;
 
-        // We store the pipe_reader until the BorgCall is dropped
-        // This will close the FD after the borg process has already exited
         let fd = pipe_reader.as_raw_fd();
 
         command.env("BORG_PASSPHRASE_FD", fd.to_string());
 
+        // Keep the fd around to only close it after the process is finished
         Ok(pipe_reader)
     }
 
@@ -287,8 +291,10 @@ impl BorgCall {
         Ok((cmd, unix_stream))
     }
 
-    /// Calls the command and returns the output.
-    pub async fn output<
+    /// Calls the borg command and returns the output
+    ///
+    /// The output is JSON decoded already if not using `RawOutput`.
+    pub async fn output_generic<
         S: std::fmt::Debug + serde::de::DeserializeOwned + Send + Sync + 'static,
     >(
         &self,
@@ -300,10 +306,23 @@ impl BorgCall {
         managed_process.spawn::<S>().await
     }
 
-    /// Spawn a borg task, parsing the output as S.
+    /// Calls the borg command with `Communication`
     ///
-    /// Call this whenever repository access is required.
-    pub fn spawn_async_managed<
+    /// Handles disconnects.
+    pub async fn output<
+        T: Task,
+        S: std::fmt::Debug + serde::de::DeserializeOwned + Send + Sync + 'static,
+    >(
+        self,
+        communication: &super::Communication<T>,
+    ) -> Result<S> {
+        self.handle_disconnect(communication.clone()).await
+    }
+
+    /// Spawn a borg task, parsing the output as `S`
+    ///
+    /// Returns immedialetly running the task in the background. Handles disconnects.
+    pub fn spawn_background<
         T: Task,
         S: std::fmt::Debug + serde::de::DeserializeOwned + Send + Sync + 'static,
     >(
@@ -315,6 +334,7 @@ impl BorgCall {
         Ok(Process { result })
     }
 
+    /// Spawns the command with disconnect handling
     async fn handle_disconnect<
         T: Task,
         S: std::fmt::Debug + serde::de::DeserializeOwned + 'static,
@@ -401,15 +421,18 @@ impl BorgCall {
     }
 }
 
+/// Represents an actual process
 struct BorgProcess<'a, T: Task> {
     call: &'a BorgCall,
     communication: super::Communication<T>,
     sender: Sender<T>,
     command: async_process::Command,
+    // Keep the stream around until process is finished
     _password_stream: UnixStream,
 }
 
 impl<'a, T: Task> BorgProcess<'a, T> {
+    /// Prepare a new porg process
     async fn new(
         call: &'a BorgCall,
         communication: super::Communication<T>,
@@ -426,6 +449,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         })
     }
 
+    /// Run the borg process
     async fn spawn<S: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
         mut self,
     ) -> Result<S> {
@@ -458,23 +482,31 @@ impl<'a, T: Task> BorgProcess<'a, T> {
 
         let mut stdout_content = Vec::new();
 
+        // Handle stderr and collect stdout to avoid pipe stall
         let (return_message, _) = futures::join!(
             self.handle_stderr(stderr, stdin, process.id()),
             stdout.read_to_end(&mut stdout_content)
         );
 
-        let status = process.status().await?;
+        let status: async_process::ExitStatus = process.status().await?;
         debug!("Process terminated");
 
+        // Return with potential errors from stderr handling
+        return_message?;
+
+        // Don't JSON decode some return types
         let result: Result<Box<S>> = if TypeId::of::<S>() == TypeId::of::<()>() {
+            // Intrepret `()` return type as ignoring stdout completely
             Ok((Box::new(()) as Box<dyn Any>).downcast().unwrap())
         } else if TypeId::of::<S>() == TypeId::of::<RawOutput>() {
+            // Interpret `RawOutput` as just returning the bytes instead of JSON decoding
             Ok((Box::new(RawOutput {
                 output: stdout_content,
             }) as Box<dyn Any>)
                 .downcast()
                 .unwrap())
         } else {
+            // JSON decode for all other return types
             serde_json::from_slice(&stdout_content).map_err(Into::into)
         };
 
@@ -487,8 +519,6 @@ impl<'a, T: Task> BorgProcess<'a, T> {
 
         debug!("Return code: {:?}", status.code());
         debug!("Maximum log level entry: {:?}", max_log_level);
-
-        return_message?;
 
         // borg also returns >0 for warnings, therefore check messages
         if status.success() || max_log_level < Some(log_json::LogLevel::Error) {
@@ -505,6 +535,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         }
     }
 
+    /// Handle the stderr output and `Communication` signals while the process is running
     async fn handle_stderr(
         &self,
         mut stderr: BufReader<ChildStderr>,
@@ -526,6 +557,8 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                         nix::unistd::Pid::from_raw(pid.try_into().unwrap()),
                         nix::sys::signal::Signal::SIGINT,
                     )?;
+                    // Do not return immediately to get further progress information
+                    // and be able to send signal again.
                     return_message = Err(Error::Aborted(reason.clone()));
                     self.communication.set_instruction(Instruction::Nothing);
                 }
@@ -538,6 +571,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
             }
 
             stderr_line.clear();
+            // Listen to stderr with timeout to also handle instructions in-between
             let stderr_result = async_std::io::timeout(
                 super::MESSAGE_POLL_TIMEOUT,
                 stderr.read_line(&mut stderr_line),
