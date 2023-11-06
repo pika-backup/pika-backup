@@ -162,3 +162,11 @@ macro_rules! generic {
         glib::g_log!(domain.as_str(), $level, "{}:{}:0: {}", file!(), line!(), format!($($arg)+))
     })
 }
+
+#[macro_export]
+macro_rules! log_generic {
+    ($level:expr, $($arg:tt)*) => ({
+        let domain = env!("CARGO_PKG_NAME");
+        glib::g_log!(domain, $level, "{}", format!($($arg)+))
+    })
+}

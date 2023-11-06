@@ -610,7 +610,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                                 continue;
                             }
 
-                            msg.log();
+                            msg.log(&T::name());
 
                             self.communication.general_info.update(|status| {
                                 status.add_message(&msg);

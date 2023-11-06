@@ -379,11 +379,12 @@ impl LogEntry {
                 .contains("IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!")
     }
 
-    pub fn log(&self) {
+    // Log this message to stderr
+    pub fn log(&self, prefix: &str) {
         let msg = self.message();
         let id = self.id().map(|x| x.to_string()).unwrap_or_default();
 
-        self.level().log(&format!("{id}: {msg}"));
+        self.level().log(&format!("{prefix}: {id} - {msg}"));
     }
 }
 
@@ -452,10 +453,10 @@ pub enum LogLevel {
 impl LogLevel {
     pub fn log(&self, msg: &str) {
         match self {
-            Self::Debug => debug!("{msg}"),
-            Self::Info => info!("{msg}"),
-            Self::Warning | Self::Undefined => warn!("{msg}"),
-            Self::Critical | Self::Error => error!("{msg}"),
+            Self::Debug => log_generic!(glib::LogLevel::Debug, "{msg}"),
+            Self::Info => log_generic!(glib::LogLevel::Info, "{msg}"),
+            Self::Warning | Self::Undefined => log_generic!(glib::LogLevel::Warning, "{msg}"),
+            Self::Critical | Self::Error => log_generic!(glib::LogLevel::Warning, "{msg}"),
         }
     }
 }
