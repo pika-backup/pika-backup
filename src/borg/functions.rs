@@ -91,9 +91,8 @@ impl CommandRun<task::Mount> for Command<task::Mount> {
             // <https://gitlab.gnome.org/World/pika-backup/-/issues/132>
             .add_options(["-o", &format!("umask=0000,uid={}", nix::unistd::getuid())])
             .add_positional(&dir);
-        borg.output(&self.communication).await?;
 
-        Ok(())
+        borg.output(&self.communication).await
     }
 }
 
@@ -537,15 +536,13 @@ impl CommandOnlyRepo {
             .await
     }
 
-    pub async fn init(self) -> Result<List> {
+    pub async fn init(self) -> Result<()> {
         BorgCall::new("init")
             .add_options([format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
             .add_basics(&self)
             .await?
             .output_generic::<()>()
-            .await?;
-
-        self.peek().await
+            .await
     }
 }
 

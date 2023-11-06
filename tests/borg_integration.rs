@@ -16,7 +16,8 @@ async fn simple_backup() {
     let config = config();
 
     let init = borg::CommandOnlyRepo::new(config.repo.clone());
-    assert_matches!(init.init().await, Ok(borg::List { .. }));
+    assert_matches!(init.clone().init().await, Ok(()));
+    assert_matches!(init.peek().await, Ok(borg::List { .. }));
 
     let create = borg::Command::<borg::task::Create>::new(config);
     assert_matches!(create.run().await, Ok(_));
@@ -48,7 +49,8 @@ async fn encrypted_backup() {
     let mut init = borg::CommandOnlyRepo::new(config.repo.clone());
     init.set_password(config::Password::new("x".into()));
 
-    assert_matches!(init.init().await, Ok(borg::List { .. }));
+    assert_matches!(init.clone().init().await, Ok(()));
+    assert_matches!(init.peek().await, Ok(borg::List { .. }));
 
     let create = borg::Command::<borg::task::Create>::new(config);
 

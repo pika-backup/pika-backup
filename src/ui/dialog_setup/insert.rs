@@ -141,12 +141,21 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
         borg.set_password(password.clone());
     }
 
+    ui::utils::borg::exec_repo_only(
+        &gettext("Creating Backup Repository"),
+        borg.clone(),
+        |borg| borg.init(),
+    )
+    .await
+    .into_message("Failed to Initialize Repository")?;
+
+    // Get repo id
     let info =
-        ui::utils::borg::exec_repo_only(&gettext("Creating Backup Repository"), borg, |borg| {
-            borg.init()
+        ui::utils::borg::exec_repo_only(&gettext("Getting Repository Information"), borg, |borg| {
+            borg.peek()
         })
         .await
-        .into_message("Failed to Initialize Repository")?;
+        .into_message("Failed to Obtain Repository Information")?;
 
     let config = config::Backup::new(repo.clone(), info, encrypted);
 
