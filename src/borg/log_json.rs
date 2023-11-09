@@ -166,6 +166,8 @@ pub enum Operation {
     CheckVerifyData,
     #[serde(rename = "check.rebuild_manifest")]
     CheckRebuildManifest,
+    #[serde(rename = "check.rebuild_refcounts")]
+    CheckRebuildRefcounts,
     Extract,
     #[serde(rename = "extract.permissions")]
     ExtractPermissions,
@@ -198,7 +200,8 @@ impl fmt::Display for Operation {
             Self::RepositoryReplaySegments => gettext("Updating repository"),
             Self::RepositoryCheck => gettext("Checking repository"),
             Self::CheckVerifyData => gettext("Verifying data"),
-            Self::CheckRebuildManifest => gettext("Rebuilding main database"),
+            Self::CheckRebuildManifest => gettext("Verifying main database"),
+            Self::CheckRebuildRefcounts => gettext("Verifying references"),
             Self::Extract => gettext("Extracting data"),
             Self::ExtractPermissions => gettext("Extracting permissions"),
             Self::ArchiveDelete => gettext("Marking archives as deleted"),
