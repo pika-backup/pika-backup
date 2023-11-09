@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-10-31 20:57+0000\n"
-"PO-Revision-Date: 2023-11-01 22:52+0200\n"
+"POT-Creation-Date: 2023-11-07 22:29+0000\n"
+"PO-Revision-Date: 2023-11-09 08:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -244,7 +244,7 @@ msgstr "Виключення"
 msgid "Unspecified error."
 msgstr "Невизначена помилка."
 
-#: src/borg/functions.rs:303
+#: src/borg/functions.rs:276
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
@@ -396,27 +396,27 @@ msgstr ""
 msgid "Standard error output"
 msgstr "Стандартне виведення помилок"
 
-#: src/borg/log_json.rs:440
+#: src/borg/log_json.rs:467
 msgid "Debug"
 msgstr "Діагностика"
 
-#: src/borg/log_json.rs:441
+#: src/borg/log_json.rs:468
 msgid "Info"
 msgstr "Відомості"
 
-#: src/borg/log_json.rs:442 src/ui/dialog_setup.ui:201 src/ui/utils.rs:378
+#: src/borg/log_json.rs:469 src/ui/dialog_setup.ui:201 src/ui/utils.rs:378
 msgid "Warning"
 msgstr "Попередження"
 
-#: src/borg/log_json.rs:443
+#: src/borg/log_json.rs:470
 msgid "Error"
 msgstr "Помилка"
 
-#: src/borg/log_json.rs:444
+#: src/borg/log_json.rs:471
 msgid "Critical"
 msgstr "Критична помилка"
 
-#: src/borg/log_json.rs:445
+#: src/borg/log_json.rs:472
 msgid "Undefined"
 msgstr "Не визначено"
 
@@ -510,44 +510,49 @@ msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr "Налаштована команда після копіювання повернула код помилки: {}"
 
-#: src/borg/task.rs:41
+#: src/borg/task.rs:47
+#| msgid "Start Operation"
+msgid "Generic Operation"
+msgstr "Загальна дія"
+
+#: src/borg/task.rs:61
 msgid "Backing up Data"
 msgstr "Створення резервної копії даних"
 
-#: src/borg/task.rs:55
+#: src/borg/task.rs:75
 msgid "Mounting Backup Archives"
 msgstr "Монтування архівів резервних копій"
 
-#: src/borg/task.rs:69
+#: src/borg/task.rs:89
 msgid "Removing old Archives"
 msgstr "Вилучення застарілих архівів"
 
-#: src/borg/task.rs:83 src/ui/dialog_prune.rs:13
+#: src/borg/task.rs:103 src/ui/dialog_prune.rs:13
 #: src/ui/dialog_prune_review.rs:14
 msgid "Identifying old Archives"
 msgstr "Визначення застарілих архівів"
 
-#: src/borg/task.rs:97
+#: src/borg/task.rs:117
 msgid "Reclaiming Free Space"
 msgstr "Звільняємо місце"
 
-#: src/borg/task.rs:132
+#: src/borg/task.rs:152
 msgid "Checking Archives Integrity"
 msgstr "Перевіряємо цілісність архівів"
 
-#: src/borg/task.rs:159
+#: src/borg/task.rs:179
 msgid "Deleting Archive"
 msgstr "Вилучаємо архів"
 
-#: src/borg/task.rs:182
+#: src/borg/task.rs:202
 msgid "Refreshing Archive List"
 msgstr "Оновлення списку архівів"
 
-#: src/borg/task.rs:228
+#: src/borg/task.rs:248
 msgid "Changing Passphrase"
 msgstr "Зміна паролю"
 
-#: src/borg/task.rs:263
+#: src/borg/task.rs:283
 msgid "Running Custom Shell Command"
 msgstr "Виконуємо нетипову команду оболонки"
 
@@ -1734,17 +1739,13 @@ msgid "Examples"
 msgstr "Приклади"
 
 #: src/ui/dialog_setup.ui:268
-#| msgid ""
-#| "ssh://user@server.example.org/~/backup\n"
-#| "smb://user@server.example.org/files/backup\n"
-#| "                                    "
 msgid ""
 "ssh://user@server.example.org/~/backup\n"
 "smb://user@server.example.org/files/backup"
 msgstr ""
 "ssh://користувач@сервер.приклад.org/~/backup\n"
-"smb://користувач@сервер.приклад.org/files/backup"
-"                                    "
+"smb://користувач@сервер.приклад.org/files/"
+"backup                                    "
 
 #: src/ui/dialog_setup.ui:275
 msgid "Conventional Locations"
@@ -1887,23 +1888,28 @@ msgstr "Некоректне місце на віддаленому комп'ю�
 msgid "A repository location has to be given."
 msgstr "Слід вказати адресу сховища."
 
-#: src/ui/dialog_setup/insert.rs:188
+#: src/ui/dialog_setup/insert.rs:154
+#| msgid "Setup Existing Repository"
+msgid "Getting Repository Information"
+msgstr "Отримання даних щодо сховища"
+
+#: src/ui/dialog_setup/insert.rs:197
 msgid "Loading Backup Repository"
 msgstr "Завантажуємо сховище резервних копій"
 
-#: src/ui/dialog_setup/insert.rs:208
+#: src/ui/dialog_setup/insert.rs:217
 msgid "Failed to Configure Repository"
 msgstr "Не вдалося налаштувати сховище"
 
-#: src/ui/dialog_setup/insert.rs:227
+#: src/ui/dialog_setup/insert.rs:236
 msgid "Failed"
 msgstr "Помилка"
 
-#: src/ui/dialog_setup/insert.rs:288
+#: src/ui/dialog_setup/insert.rs:297
 msgid "Repository location not found."
 msgstr "Не знайдено місця зберігання сховища."
 
-#: src/ui/dialog_setup/insert.rs:289
+#: src/ui/dialog_setup/insert.rs:298
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Дію з монтування було успішно виконано, але відповідний каталог усе ще "
