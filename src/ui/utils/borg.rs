@@ -65,6 +65,8 @@ where
         history.set_running(config_id.clone());
     }));
 
+    Handler::handle(ui::write_config());
+
     scopeguard::defer_on_success! {
         BORG_OPERATION.with(enclose!((config_id) move |operations| {
             operations.update(|op| {
