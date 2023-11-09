@@ -534,49 +534,41 @@
                 <child>
                   <object class="AdwToolbarView" id="page_transfer_select">
                     <child type="top">
-                      <object class="AdwHeaderBar" />
-                    </child>
-                    <property name="content">
-                      <object class="GtkOverlay">
-                        <child>
-                          <object class="AdwPreferencesPage">
-                            <property name="vexpand">1</property>
-                            <style>
-                              <class name="dialog-page" />
-                            </style>
-                            <child>
-                              <object class="AdwPreferencesGroup">
-                                <property name="title" translatable="yes">Transfer Settings</property>
-                                <property name="description" translatable="yes">One set of configurations used for previous backups can be selected for transfer to the new setup. The configuration can be adjusted afterward.</property>
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="orientation">vertical</property>
-                                    <child>
-                                      <object class="GtkListBox" id="transfer_suggestions">
-                                        <property name="selection-mode">none</property>
-                                        <style>
-                                          <class name="overview-list" />
-                                        </style>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child type="overlay">
+                      <object class="AdwHeaderBar">
+                        <property name="show-end-title-buttons">false</property>
+                        <property name="show-start-title-buttons">false</property>
+                        <child type="end">
                           <object class="GtkButton">
-                            <property name="halign">center</property>
-                            <property name="valign">end</property>
                             <property name="use-underline">1</property>
                             <property name="label" translatable="yes">S_kip</property>
                             <property name="action-name">window.close</property>
                             <style>
-                              <class name="pill" />
                               <class name="suggested-action" />
-                              <class name="dialog-pill" />
                             </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <property name="content">
+                      <object class="AdwPreferencesPage">
+                        <property name="vexpand">1</property>
+                        <child>
+                          <object class="AdwPreferencesGroup">
+                            <property name="title" translatable="yes">Transfer Settings</property>
+                            <property name="description" translatable="yes">One set of configurations used for previous backups can be selected for transfer to the new setup. The configuration can be adjusted afterward.</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkListBox" id="transfer_suggestions">
+                                    <property name="selection-mode">none</property>
+                                    <style>
+                                      <class name="overview-list" />
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
