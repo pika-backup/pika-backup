@@ -50,7 +50,6 @@ impl<T> LookupConfigId for std::collections::BTreeMap<ConfigId, T> {
 
 pub trait ArcSwapExt<T> {
     fn update<F: Fn(&mut T)>(&self, updater: F);
-    fn update_return<R, F: Fn(&mut T) -> R>(&self, updater: F) -> R;
     fn get(&self) -> T;
 }
 
@@ -64,18 +63,6 @@ where
             updater(&mut new);
             new
         });
-    }
-
-    fn update_return<R, F: Fn(&mut T) -> R>(&self, updater: F) -> R {
-        let mut cell = once_cell::sync::OnceCell::new();
-
-        self.rcu(|current| {
-            let mut new = T::clone(current);
-            let _set = cell.set(updater(&mut new));
-            new
-        });
-
-        cell.take().unwrap()
     }
 
     fn get(&self) -> T {
@@ -97,22 +84,6 @@ where
                 written_config: current.written_config.clone(),
             }
         });
-    }
-
-    fn update_return<R, F: Fn(&mut T) -> R>(&self, updater: F) -> R {
-        let mut cell = once_cell::sync::OnceCell::new();
-
-        self.rcu(|current| {
-            let mut new = T::clone(&current.current_config);
-            let _set = cell.set(updater(&mut new));
-
-            config::Writeable {
-                current_config: new,
-                written_config: current.written_config.clone(),
-            }
-        });
-
-        cell.take().unwrap()
     }
 
     fn get(&self) -> T {

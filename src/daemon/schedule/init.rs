@@ -33,7 +33,7 @@ fn track_activity() {
         if config.schedule.enabled
             && !matches!(config.schedule.frequency, config::Frequency::Hourly)
         {
-            SCHEDULE_STATUS.update_return(|s| {
+            SCHEDULE_STATUS.update(|s| {
                 let activity = s.activity.entry(config.id.clone()).or_default();
                 match BACKUP_HISTORY
                     .load()
