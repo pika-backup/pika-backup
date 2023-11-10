@@ -105,7 +105,6 @@ mod imp {
                 let config = obj.imp().config()?;
 
                 scopeguard::defer_on_success!({
-                    let _ = crate::ui::write_config();
                     crate::ui::page_archives::refresh_status();
                 });
 
@@ -132,9 +131,10 @@ mod imp {
                     }
 
                     if matches!(err, Error::UserCanceled) {
-                        BACKUP_HISTORY.update(|history| {
+                        BACKUP_HISTORY.try_update(|history| {
                             history.set_last_check(config.id.clone(), CheckRunInfo::new_aborted());
-                        });
+                            Ok(())
+                        })?;
 
                         return Ok(());
                     }
@@ -147,9 +147,10 @@ mod imp {
                         crate::config::history::CheckRunInfo::new_error(message_history.clone())
                     };
 
-                    BACKUP_HISTORY.update(|history| {
+                    BACKUP_HISTORY.try_update(|history| {
                         history.set_last_check(config.id.clone(), run_info.clone());
-                    });
+                        Ok(())
+                    })?;
 
                     return Err(Message::new(
                         gettext("Verify Archives Integrity"),
@@ -163,9 +164,10 @@ mod imp {
                 } else {
                     let run_info = crate::config::history::CheckRunInfo::new_success();
 
-                    BACKUP_HISTORY.update(|history| {
+                    BACKUP_HISTORY.try_update(|history| {
                         history.set_last_check(config.id.clone(), run_info.clone());
-                    });
+                        Ok(())
+                    })?;
 
                     crate::ui::utils::show_notice(gettext("Verify archives integrity completed successfully"));
                 }

@@ -69,7 +69,6 @@ async fn on_remove_backup() -> Result<()> {
     }
 
     ACTIVE_BACKUP_ID.update(|active_id| *active_id = None);
-    ui::write_config()?;
 
     reload_visible_page();
     main_ui()

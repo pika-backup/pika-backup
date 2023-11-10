@@ -131,7 +131,6 @@ pub fn refresh() -> Result<()> {
                     settings.active_mut()?.exclude.remove(&pattern.clone());
                     Ok(())
                 })?;
-                crate::ui::write_config()?;
                 refresh()?;
                 Ok(())
             });

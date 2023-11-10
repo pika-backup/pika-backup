@@ -54,7 +54,9 @@ fn app_running(is_running: bool) {
     if !is_running {
         // Reload backup history manually to prevent race conditions between the application exit event and file monitor
         match config::Histories::from_file() {
-            Ok(new) => BACKUP_HISTORY.update(|s| *s = new.clone()),
+            Ok(new) => {
+                BACKUP_HISTORY.swap(Arc::new(new));
+            }
             Err(err) => {
                 error!("Failed to reload {:?}: {}", config::Histories::path(), err);
             }

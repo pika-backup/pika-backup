@@ -189,7 +189,7 @@ pub async fn frequency_change() -> Result<()> {
     ))?;
 
     update_status(BACKUP_CONFIG.load().active()?).await;
-    ui::write_config()
+    Ok(())
 }
 
 pub async fn preferred_time_close() -> Result<()> {
@@ -199,7 +199,7 @@ pub async fn preferred_time_close() -> Result<()> {
     })?;
 
     update_status(BACKUP_CONFIG.load().active()?).await;
-    ui::write_config()
+    Ok(())
 }
 
 pub fn preferred_time_change(button: &gtk::SpinButton) -> glib::Propagation {
@@ -223,7 +223,7 @@ pub async fn preferred_weekday_change() -> Result<()> {
     })?;
 
     update_status(BACKUP_CONFIG.load().active()?).await;
-    ui::write_config()
+    Ok(())
 }
 
 pub async fn preferred_day_change() -> Result<()> {
@@ -239,7 +239,7 @@ pub async fn preferred_day_change() -> Result<()> {
     })?;
 
     update_status(BACKUP_CONFIG.load().active()?).await;
-    ui::write_config()
+    Ok(())
 }
 
 /// Scheduled backups activated/deactivated
@@ -265,7 +265,6 @@ pub async fn active_change() -> Result<()> {
     })?;
 
     update_status(BACKUP_CONFIG.load().active()?).await;
-    ui::write_config()?;
 
     if active {
         ui::utils::background_permission().await?;
@@ -360,9 +359,7 @@ async fn prune_write_changes() -> Result<()> {
         config.prune.keep = keep();
 
         Ok(())
-    })?;
-
-    ui::write_config()
+    })
 }
 
 fn keep() -> config::Keep {

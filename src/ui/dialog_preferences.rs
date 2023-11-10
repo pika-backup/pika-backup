@@ -121,44 +121,39 @@ mod imp {
 
     impl WindowImpl for DialogPreferences {
         fn close_request(&self) -> glib::Propagation {
-            BACKUP_CONFIG.update(|c| match c.try_get_mut(self.config_id.get().unwrap()) {
-                Ok(backup) => {
-                    backup.title = self.config_title.borrow().trim().to_string();
+            let write_result = BACKUP_CONFIG.try_update(|c| {
+                let backup = c.try_get_mut(self.config_id.get().unwrap())?;
+                backup.title = self.config_title.borrow().trim().to_string();
 
-                    if !self.pre_backup_command.borrow().is_empty() {
-                        backup.user_scripts.insert(
-                            UserScriptKind::PreBackup,
-                            self.pre_backup_command.borrow().clone(),
-                        );
-                    } else {
-                        backup.user_scripts.remove(&UserScriptKind::PreBackup);
-                    }
-
-                    if !self.post_backup_command.borrow().is_empty() {
-                        backup.user_scripts.insert(
-                            UserScriptKind::PostBackup,
-                            self.post_backup_command.borrow().clone(),
-                        );
-                    } else {
-                        backup.user_scripts.remove(&UserScriptKind::PostBackup);
-                    }
-
-                    backup.repo.set_settings(Some(BackupSettings {
-                        command_line_args: self.command_line_args.borrow().clone(),
-                    }));
-
-                    backup.schedule.settings.run_on_battery = self.schedule_run_on_battery.get();
+                if !self.pre_backup_command.borrow().is_empty() {
+                    backup.user_scripts.insert(
+                        UserScriptKind::PreBackup,
+                        self.pre_backup_command.borrow().clone(),
+                    );
+                } else {
+                    backup.user_scripts.remove(&UserScriptKind::PreBackup);
                 }
-                Err(err) => {
-                    glib::MainContext::default().spawn_local(async move {
-                        crate::ui::Error::from(err).show().await;
-                    });
-                    self.obj().close();
+
+                if !self.post_backup_command.borrow().is_empty() {
+                    backup.user_scripts.insert(
+                        UserScriptKind::PostBackup,
+                        self.post_backup_command.borrow().clone(),
+                    );
+                } else {
+                    backup.user_scripts.remove(&UserScriptKind::PostBackup);
                 }
+
+                backup.repo.set_settings(Some(BackupSettings {
+                    command_line_args: self.command_line_args.borrow().clone(),
+                }));
+
+                backup.schedule.settings.run_on_battery = self.schedule_run_on_battery.get();
+
+                Ok(())
             });
 
             Handler::handle((|| {
-                crate::ui::write_config()?;
+                write_result?;
                 crate::ui::page_backup::refresh()?;
                 Ok(())
             })());
@@ -480,11 +475,12 @@ mod imp {
             );
 
             if config.encrypted != encrypted {
-                BACKUP_CONFIG.update(|config| {
-                    let _ = config
+                BACKUP_CONFIG.try_update(|config| {
+                    config
                         .try_get_mut(self.config_id.get().unwrap())
-                        .map(|cfg| cfg.encrypted = encrypted);
-                });
+                        .map(|cfg| cfg.encrypted = encrypted)?;
+                    Ok(())
+                })?;
 
                 if !encrypted {
                     crate::ui::utils::password_storage::remove_password(&config, true).await?;

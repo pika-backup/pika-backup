@@ -244,9 +244,7 @@ fn insert_backup_config(config: config::Backup) -> Result<()> {
     BACKUP_CONFIG.try_update(move |s| {
         s.insert(config.clone())?;
         Ok(())
-    })?;
-
-    ui::write_config()
+    })
 }
 
 pub fn execute<

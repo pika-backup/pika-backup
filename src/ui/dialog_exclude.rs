@@ -123,11 +123,9 @@ fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton
 
     BACKUP_CONFIG.try_update(move |settings| {
         settings.active_mut()?.exclude = new_exclude.clone();
-
         Ok(())
     })?;
 
-    crate::ui::write_config()?;
     ui::page_backup::refresh()?;
 
     Ok(())
@@ -185,7 +183,6 @@ pub fn fill_unreadable(dialog: &DialogExclude) -> Result<()> {
                         Ok(())
                     }))?;
 
-                    crate::ui::write_config()?;
                     ui::page_backup::refresh()?;
                     Ok(())
                 })());
@@ -259,9 +256,8 @@ pub async fn exclude_folder() -> Result<()> {
         }
         Ok(())
     })?;
-    crate::ui::write_config()?;
-    ui::page_backup::refresh()?;
 
+    ui::page_backup::refresh()?;
     Ok(())
 }
 
@@ -297,9 +293,7 @@ pub async fn exclude_file() -> Result<()> {
         Ok(())
     })?;
 
-    crate::ui::write_config()?;
     ui::page_backup::refresh()?;
-
     Ok(())
 }
 

@@ -152,7 +152,6 @@ pub async fn add_include() -> Result<()> {
             Ok(())
         })?;
 
-        crate::ui::write_config()?;
         display::refresh()?;
     }
 
@@ -171,7 +170,6 @@ pub async fn on_remove_include(path: std::path::PathBuf) -> Result<()> {
             settings.active_mut()?.include.remove(&path);
             Ok(())
         })?;
-        crate::ui::write_config()?;
         display::refresh()?;
     }
 

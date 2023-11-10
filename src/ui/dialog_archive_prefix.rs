@@ -58,7 +58,6 @@ async fn on_ok(ui: DialogArchivePrefix, config_id: ConfigId) -> Result<()> {
         }
     ))?;
 
-    ui::write_config()?;
     ui::page_archives::update_info(BACKUP_CONFIG.load().active()?);
     ui.dialog().destroy();
 

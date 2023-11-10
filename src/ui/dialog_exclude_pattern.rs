@@ -64,7 +64,6 @@ async fn clicked(
         Ok(())
     })?;
 
-    ui::write_config()?;
     ui.dialog().destroy();
     ui::page_backup::refresh()?;
 

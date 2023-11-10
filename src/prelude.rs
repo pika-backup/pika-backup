@@ -48,12 +48,12 @@ impl<T> LookupConfigId for std::collections::BTreeMap<ConfigId, T> {
     }
 }
 
-pub trait ArcSwapExt<T> {
+pub trait ArcSwapUpdate<T> {
+    /// Clone and update the inner value with the provided closure
     fn update<F: Fn(&mut T)>(&self, updater: F);
-    fn get(&self) -> T;
 }
 
-impl<T> ArcSwapExt<T> for ArcSwap<T>
+impl<T> ArcSwapUpdate<T> for ArcSwap<T>
 where
     T: Clone,
 {
@@ -64,28 +64,47 @@ where
             new
         });
     }
-
-    fn get(&self) -> T {
-        T::clone(&self.load_full())
-    }
 }
 
-impl<T> ArcSwapExt<T> for ArcSwap<config::Writeable<T>>
+pub trait ArcSwapUpdateWriteable<T> {
+    fn update_no_commit<F: Fn(&mut T)>(&self, updater: F);
+}
+
+impl<T> ArcSwapUpdateWriteable<T> for ArcSwap<config::Writeable<T>>
 where
     T: Clone,
 {
-    fn update<F: Fn(&mut T)>(&self, updater: F) {
+    /// Update the inner value with the provided closure. Doesn't save the writeable.
+    fn update_no_commit<F: Fn(&mut T)>(&self, updater: F) {
         self.rcu(|current| {
             let mut new = T::clone(&current.current_config);
             updater(&mut new);
 
-            config::Writeable {
+            crate::config::Writeable {
                 current_config: new,
                 written_config: current.written_config.clone(),
             }
         });
     }
+}
 
+pub trait ArcSwapGet<T> {
+    fn get(&self) -> T;
+}
+
+impl<T> ArcSwapGet<T> for ArcSwap<T>
+where
+    T: Clone,
+{
+    fn get(&self) -> T {
+        T::clone(&self.load_full())
+    }
+}
+
+impl<T> ArcSwapGet<T> for ArcSwap<config::Writeable<T>>
+where
+    T: Clone,
+{
     fn get(&self) -> T {
         T::clone(&self.load().current_config)
     }

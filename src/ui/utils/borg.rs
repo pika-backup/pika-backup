@@ -61,11 +61,10 @@ where
         Ok(())
     }))?;
 
-    BACKUP_HISTORY.update(enclose!((config_id) move |history| {
+    BACKUP_HISTORY.try_update(enclose!((config_id) move |history| {
         history.set_running(config_id.clone());
-    }));
-
-    Handler::handle(ui::write_config());
+        Ok(())
+    }))?;
 
     scopeguard::defer_on_success! {
         BORG_OPERATION.with(enclose!((config_id) move |operations| {
@@ -74,11 +73,10 @@ where
             });
         }));
 
-        BACKUP_HISTORY.update(move |history| {
+        Handler::handle(BACKUP_HISTORY.try_update(move |history| {
             history.remove_running(config_id.clone());
-        });
-
-        Handler::handle(ui::write_config());
+            Ok(())
+        }));
     };
 
     let mounted_result =
@@ -220,8 +218,6 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
 
                                     Ok(())
                                 })?;
-
-                                ui::write_config()?;
                             }
                         }
                     }

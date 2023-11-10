@@ -47,7 +47,6 @@ use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
 use config::TrackChanges;
-use utils::config_io::write_config;
 
 static GRESOURCE_BYTES: &[u8] =
     if const_str::equal!("/org/gnome/World/PikaBackup", crate::DBUS_API_PATH) {
@@ -92,10 +91,12 @@ fn on_ctrlc() -> glib::ControlFlow {
 fn on_shutdown(_app: &adw::Application) {
     IS_SHUTDOWN.swap(std::sync::Arc::new(true));
 
-    BACKUP_HISTORY.update(|histories| {
+    let result = BACKUP_HISTORY.try_update(|histories| {
         config::Histories::handle_shutdown(histories);
+        Ok(())
     });
-    if let Err(err) = write_config() {
+
+    if let Err(err) = result {
         error!("Failed to write config during shutdown: {}", err);
     }
 

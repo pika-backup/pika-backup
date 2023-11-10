@@ -15,8 +15,7 @@ pub fn write() {
 }
 
 fn try_load() -> crate::daemon::error::Result<()> {
-    let schedule_status = config::ScheduleStatus::from_file()?;
-    SCHEDULE_STATUS.update(|s| *s = schedule_status.clone());
+    SCHEDULE_STATUS.swap(Arc::new(config::Writeable::from_file()?));
 
     Ok(())
 }

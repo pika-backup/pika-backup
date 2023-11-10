@@ -101,11 +101,10 @@ async fn run_backup(
 
     let run_info = history::RunInfo::new(&config, outcome, message_history);
 
-    BACKUP_HISTORY.update(|history| {
+    BACKUP_HISTORY.try_update(|history| {
         history.insert(config.id.clone(), run_info.clone());
-    });
-
-    ui::write_config()?;
+        Ok(())
+    })?;
 
     run_script(
         UserScriptKind::PostBackup,
@@ -185,9 +184,10 @@ async fn run_script(
     if let Some(outcome) = outcome {
         let run_info = RunInfo::new(&config, outcome, vec![]);
 
-        BACKUP_HISTORY.update(move |history| {
+        BACKUP_HISTORY.try_update(move |history| {
             history.insert(config.id.clone(), run_info.clone());
-        });
+            Ok(())
+        })?;
     }
 
     result.into_message(gettext("Error Running Shell Command"))

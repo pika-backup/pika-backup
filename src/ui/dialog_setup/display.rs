@@ -129,13 +129,13 @@ fn insert_transfer(
         exclude: archive_params.parsed.exclude.clone(),
     };
 
-    BACKUP_HISTORY.update(
-        enclose!((config_id) move |histories| histories.insert(config_id.clone(), entry.clone())),
-    );
+    BACKUP_HISTORY.try_update(enclose!((config_id) move |histories| {
+        histories.insert(config_id.clone(), entry.clone());
+        Ok(())
+    }))?;
 
     // Create fake history entry for duration estimate to be good for first run
 
-    crate::ui::write_config()?;
     ui::page_backup::refresh()?;
 
     let configs = BACKUP_CONFIG.load();
