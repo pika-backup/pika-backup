@@ -17,6 +17,14 @@ pub fn init() {
         .archives_prefix_edit()
         .connect_clicked(|_| Handler::run(events::edit_prefix()));
 
+    // Backup details
+    main_ui().check_status().connect_activated(|_| {
+        if let Some(id) = &**ACTIVE_BACKUP_ID.load() {
+            let dialog = main_ui().dialog_check_result();
+            dialog.set_config_id(Some(id.clone()));
+            dialog.present();
+        }
+    });
     main_ui()
         .archives_check_now()
         .connect_clicked(|_| Handler::run(events::check()));

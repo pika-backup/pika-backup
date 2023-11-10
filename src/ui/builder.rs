@@ -219,6 +219,10 @@ impl AppWindow {
         self.get("detail_view_switcher_bar")
     }
 
+    pub fn dialog_check_result(&self) -> crate::ui::export::DialogCheckResult {
+        self.get("dialog_check_result")
+    }
+
     pub fn include(&self) -> gtk::ListBox {
         self.get("include")
     }

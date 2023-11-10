@@ -19,6 +19,7 @@ pub fn init() {
     ui::page_schedule::weekday::WeekdayObject::static_type();
     ui::dialog_setup::folder_button::FolderButton::static_type();
     ui::dialog_setup::add_task::AddConfigTask::static_type();
+    ui::dialog_check_result::DialogCheckResult::static_type();
     EncryptionPreferencesGroup::static_type();
     StatusIcon::static_type();
     StatusRow::static_type();

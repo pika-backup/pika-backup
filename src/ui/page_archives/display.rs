@@ -41,6 +41,7 @@ pub fn refresh_status() {
             main_ui()
                 .check_status()
                 .set_from_backup_status(&backup_status::Display::new_check_status_from_id(id));
+            main_ui().dialog_check_result().reload();
 
             BORG_OPERATION.with(|ops| {
                 let op = ops.load().get(id).cloned();

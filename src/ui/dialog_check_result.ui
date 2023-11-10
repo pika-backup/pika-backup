@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.10"/>
+  <requires lib="libadwaita" version="1.4"/>
+  <template class="PikaDialogCheckResult" parent="AdwWindow">
+    <property name="modal">1</property>
+    <property name="default-width">500</property>
+    <property name="default-height">400</property>
+    <property name="title" translatable="yes">Integrity Check Result</property>
+    <property name="hide-on-close">1</property>
+    <child>
+      <object class="GtkShortcutController">
+        <property name="scope">managed</property>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="vexpand">1</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="child">
+                  <object class="GtkViewport">
+                    <child>
+                      <object class="AdwClamp">
+                        <property name="margin-start">6</property>
+                        <property name="margin-end">6</property>
+                        <property name="margin-top">18</property>
+                        <property name="margin-bottom">18</property>
+                        <property name="maximum-size">500</property>
+                        <property name="tightening-threshold">1</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">18</property>
+                            <style>
+                              <class name="numeric"/>
+                            </style>
+                            <child>
+                              <object class="GtkListBox">
+                                <property name="selection-mode">none</property>
+                                <style>
+                                  <class name="boxed-list"/>
+                                </style>
+                                <child>
+                                  <object class="PikaStatusRow" id="status_row"/>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="detail_label">
+                                <property name="label"></property>
+                                <property name="wrap">1</property>
+                                <property name="selectable">1</property>
+                                <property name="xalign">0</property>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>
