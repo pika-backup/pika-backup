@@ -120,6 +120,10 @@ impl Repository {
         }
     }
 
+    pub fn is_filesystem(&self) -> bool {
+        matches!(self, Self::Local(_))
+    }
+
     pub fn is_network(&self) -> bool {
         matches!(self, Self::Remote(_)) || self.uri_fuse().is_some()
     }

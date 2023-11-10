@@ -536,13 +536,30 @@ impl CommandOnlyRepo {
             .await
     }
 
+    pub async fn configure(self) -> Result<()> {
+        if self.repo.is_filesystem() {
+            BorgCall::new("config")
+                .add_basics(&self)
+                .await?
+                .add_positional("additional_free_space")
+                .add_positional("2G")
+                .output_generic::<()>()
+                .await?;
+        }
+
+        Ok(())
+    }
+
     pub async fn init(self) -> Result<()> {
         BorgCall::new("init")
             .add_options([format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
             .add_basics(&self)
             .await?
             .output_generic::<()>()
-            .await
+            .await?;
+
+        self.configure().await?;
+        Ok(())
     }
 }
 

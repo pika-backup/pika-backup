@@ -16,6 +16,7 @@
 - Change file and folder choosers to preselect a folder
 - Change backup notifications to be dismissed when a new backup starts
 - Change fnmatches to be stored as strings instead of bytes in config
+- Change local borg repository config to set additional_free_space to 2G
 - Add docker to containers and VMs exclusion preset
 - Add per-backup preferences window
 - Add ability to set custom titles for backup configs
