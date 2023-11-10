@@ -52,7 +52,7 @@ async fn clicked(
         _ => Err(Message::short("No valid pattern type selected").into()),
     }?);
 
-    BACKUP_CONFIG.update_result(move |config| {
+    BACKUP_CONFIG.try_update(move |config| {
         let active = config.active_mut()?;
 
         if let Some(ref edit_exclude) = edit_exclude {

@@ -45,7 +45,7 @@ pub fn calculate(
 
     // datetime of last completed backup
     let last_run = history
-        .get_result(&config.id)
+        .try_get(&config.id)
         .ok()
         .and_then(|x| x.last_completed.as_ref());
 

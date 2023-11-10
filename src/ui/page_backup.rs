@@ -11,13 +11,13 @@ use crate::ui::prelude::*;
 
 pub fn activate_action_backup(id: ConfigId) {
     Handler::run(async move {
-        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone(), None).await
+        execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), None).await
     });
 }
 
 pub fn dbus_start_backup(id: ConfigId, due_cause: Option<schedule::DueCause>) {
     Handler::run(async move {
-        execution::start_backup(BACKUP_CONFIG.load().get_result(&id)?.clone(), due_cause).await
+        execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), due_cause).await
     });
 }
 

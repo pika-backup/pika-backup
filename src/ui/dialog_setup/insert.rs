@@ -241,7 +241,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
 }
 
 fn insert_backup_config(config: config::Backup) -> Result<()> {
-    BACKUP_CONFIG.update_result(move |s| {
+    BACKUP_CONFIG.try_update(move |s| {
         s.insert(config.clone())?;
         Ok(())
     })?;

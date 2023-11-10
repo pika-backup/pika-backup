@@ -53,8 +53,7 @@ pub fn show() {
                         .is_none()
                     {
                         debug!("A running backup is lacking size estimate");
-                        if let Some(config) =
-                            BACKUP_CONFIG.load().get_result(config_id).ok().cloned()
+                        if let Some(config) = BACKUP_CONFIG.load().try_get(config_id).ok().cloned()
                         {
                             let communication = create_op.communication().clone();
                             glib::MainContext::default().spawn_local(async move {

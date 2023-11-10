@@ -181,7 +181,7 @@ pub async fn frequency_change() -> Result<()> {
         }
     }
 
-    BACKUP_CONFIG.update_result(enclose!(
+    BACKUP_CONFIG.try_update(enclose!(
         (frequency) | config | {
             config.active_mut()?.schedule.frequency = frequency;
             Ok(())
@@ -193,7 +193,7 @@ pub async fn frequency_change() -> Result<()> {
 }
 
 pub async fn preferred_time_close() -> Result<()> {
-    BACKUP_CONFIG.update_result(|config| {
+    BACKUP_CONFIG.try_update(|config| {
         config.active_mut()?.schedule.frequency = frequency()?;
         Ok(())
     })?;
@@ -217,7 +217,7 @@ pub fn preferred_time_change(button: &gtk::SpinButton) -> glib::Propagation {
 }
 
 pub async fn preferred_weekday_change() -> Result<()> {
-    BACKUP_CONFIG.update_result(|config| {
+    BACKUP_CONFIG.try_update(|config| {
         config.active_mut()?.schedule.frequency = frequency()?;
         Ok(())
     })?;
@@ -233,7 +233,7 @@ pub async fn preferred_day_change() -> Result<()> {
         main_ui().schedule_preferred_day_calendar().day(),
     ));
 
-    BACKUP_CONFIG.update_result(|config| {
+    BACKUP_CONFIG.try_update(|config| {
         config.active_mut()?.schedule.frequency = frequency()?;
         Ok(())
     })?;
@@ -259,7 +259,7 @@ pub async fn active_change() -> Result<()> {
         main_ui().schedule_active().set_enable_expansion(true);
     }
 
-    BACKUP_CONFIG.update_result(|config| {
+    BACKUP_CONFIG.try_update(|config| {
         config.active_mut()?.schedule.enabled = main_ui().schedule_active().enables_expansion();
         Ok(())
     })?;
@@ -353,7 +353,7 @@ fn prune_pending_unsafe_changes() -> Result<bool> {
 }
 
 async fn prune_write_changes() -> Result<()> {
-    BACKUP_CONFIG.update_result(|configs| {
+    BACKUP_CONFIG.try_update(|configs| {
         let config = configs.active_mut()?;
 
         config.prune.enabled = main_ui().prune_enabled().is_active();

@@ -31,7 +31,7 @@ pub fn run(config: &config::Backup) {
 
 async fn on_ok(ui: DialogArchivePrefix, config_id: ConfigId) -> Result<()> {
     let new_prefix = ui.archive_prefix().text();
-    let mut config = BACKUP_CONFIG.load().get_result(&config_id)?.clone();
+    let mut config = BACKUP_CONFIG.load().try_get(&config_id)?.clone();
 
     if config.prune.enabled {
         config
@@ -45,10 +45,10 @@ async fn on_ok(ui: DialogArchivePrefix, config_id: ConfigId) -> Result<()> {
         ui::dialog_prune_review::run(&config).await?;
     }
 
-    BACKUP_CONFIG.update_result(enclose!(
+    BACKUP_CONFIG.try_update(enclose!(
         (config_id, new_prefix) | config | {
             config
-                .get_result_mut(&config_id)?
+                .try_get_mut(&config_id)?
                 .set_archive_prefix(
                     config::ArchivePrefix::new(&new_prefix),
                     BACKUP_CONFIG.load().iter(),

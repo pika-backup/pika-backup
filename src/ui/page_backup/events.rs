@@ -142,7 +142,7 @@ pub async fn add_include() -> Result<()> {
     };
 
     if !paths.is_empty() {
-        BACKUP_CONFIG.update_result(|settings| {
+        BACKUP_CONFIG.try_update(|settings| {
             for path in &paths {
                 settings
                     .active_mut()?
@@ -167,7 +167,7 @@ pub async fn add_exclude() -> Result<()> {
 
 pub async fn on_remove_include(path: std::path::PathBuf) -> Result<()> {
     if confirm_remove_include(&path).await {
-        BACKUP_CONFIG.update_result(|settings| {
+        BACKUP_CONFIG.try_update(|settings| {
             settings.active_mut()?.include.remove(&path);
             Ok(())
         })?;

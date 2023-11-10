@@ -287,13 +287,13 @@ impl Backups {
 
 impl LookupConfigId for Backups {
     type Item = Backup;
-    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
+    fn try_get_mut(&mut self, key: &ConfigId) -> Result<&mut Backup, error::BackupNotFound> {
         self.iter_mut()
             .find(|x| x.id == *key)
             .ok_or_else(|| error::BackupNotFound::new(key.clone()))
     }
 
-    fn get_result(&self, key: &ConfigId) -> Result<&Backup, error::BackupNotFound> {
+    fn try_get(&self, key: &ConfigId) -> Result<&Backup, error::BackupNotFound> {
         self.iter()
             .find(|x| x.id == *key)
             .ok_or_else(|| error::BackupNotFound::new(key.clone()))

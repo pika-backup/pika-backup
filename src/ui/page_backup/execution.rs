@@ -127,7 +127,7 @@ async fn run_backup(
             if config.prune.enabled {
                 // use current config for pruning archives
                 // assuming it's closer to what users expect
-                if let Ok(current_config) = BACKUP_CONFIG.load().get_result(&config.id) {
+                if let Ok(current_config) = BACKUP_CONFIG.load().try_get(&config.id) {
                     match run_prune(current_config.clone(), from_schedule.clone(), guard).await {
                         Ok(false) => return Ok(()),
                         Err(err) => return Err(err),

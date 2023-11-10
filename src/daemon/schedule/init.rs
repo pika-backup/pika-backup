@@ -37,7 +37,7 @@ fn track_activity() {
                 let activity = s.activity.entry(config.id.clone()).or_default();
                 match BACKUP_HISTORY
                     .load()
-                    .get_result(&config.id)
+                    .try_get(&config.id)
                     .ok()
                     .and_then(|x| x.last_completed.as_ref())
                 {

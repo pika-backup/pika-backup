@@ -19,18 +19,15 @@ impl super::ConfigType for ScheduleStatus {
 impl crate::utils::LookupConfigId for ScheduleStatus {
     type Item = Activity;
 
-    fn get_result_mut(
+    fn try_get_mut(
         &mut self,
         key: &config::ConfigId,
     ) -> Result<&mut Activity, config::error::BackupNotFound> {
-        self.activity.get_result_mut(key)
+        self.activity.try_get_mut(key)
     }
 
-    fn get_result(
-        &self,
-        key: &config::ConfigId,
-    ) -> Result<&Activity, config::error::BackupNotFound> {
-        self.activity.get_result(key)
+    fn try_get(&self, key: &config::ConfigId) -> Result<&Activity, config::error::BackupNotFound> {
+        self.activity.try_get(key)
     }
 }
 

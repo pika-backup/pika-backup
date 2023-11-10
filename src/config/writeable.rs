@@ -36,15 +36,15 @@ impl<C: Loadable + Clone> Loadable for Writeable<C> {
 impl<T, C: crate::utils::LookupConfigId<Item = T>> crate::utils::LookupConfigId for Writeable<C> {
     type Item = T;
 
-    fn get_result_mut(
+    fn try_get_mut(
         &mut self,
         key: &config::ConfigId,
     ) -> Result<&mut T, config::error::BackupNotFound> {
-        self.current_config.get_result_mut(key)
+        self.current_config.try_get_mut(key)
     }
 
-    fn get_result(&self, key: &config::ConfigId) -> Result<&T, config::error::BackupNotFound> {
-        self.current_config.get_result(key)
+    fn try_get(&self, key: &config::ConfigId) -> Result<&T, config::error::BackupNotFound> {
+        self.current_config.try_get(key)
     }
 }
 

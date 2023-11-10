@@ -90,10 +90,7 @@ mod imp {
     #[gtk::template_callbacks]
     impl DialogCheck {
         fn config(&self) -> Result<crate::config::Backup> {
-            match BACKUP_CONFIG
-                .load()
-                .get_result(self.config_id.get().unwrap())
-            {
+            match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
                 Ok(backup) => Ok(backup.clone()),
                 Err(err) => Err(crate::ui::Error::from(err)),
             }

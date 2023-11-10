@@ -127,7 +127,7 @@ pub fn refresh() -> Result<()> {
         delete_button.connect_clicked(move |_| {
             let pattern = exclude_.clone();
             Handler::run(async move {
-                BACKUP_CONFIG.update_result(move |settings| {
+                BACKUP_CONFIG.try_update(move |settings| {
                     settings.active_mut()?.exclude.remove(&pattern.clone());
                     Ok(())
                 })?;

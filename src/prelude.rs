@@ -37,12 +37,12 @@ pub fn ngettextf_(msgid: &str, msgid_plural: &str, n: u32) -> String {
 #[allow(clippy::implicit_hasher)]
 impl<T> LookupConfigId for std::collections::BTreeMap<ConfigId, T> {
     type Item = T;
-    fn get_result_mut(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound> {
+    fn try_get_mut(&mut self, key: &ConfigId) -> Result<&mut T, config::error::BackupNotFound> {
         self.get_mut(key)
             .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
     }
 
-    fn get_result(&self, key: &ConfigId) -> Result<&T, config::error::BackupNotFound> {
+    fn try_get(&self, key: &ConfigId) -> Result<&T, config::error::BackupNotFound> {
         self.get(key)
             .ok_or_else(|| config::error::BackupNotFound::new(key.clone()))
     }

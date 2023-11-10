@@ -77,7 +77,7 @@ impl super::ConfigType for Histories {
 impl LookupConfigId for crate::config::Histories {
     type Item = History;
 
-    fn get_result_mut(
+    fn try_get_mut(
         &mut self,
         key: &ConfigId,
     ) -> Result<&mut History, super::error::BackupNotFound> {
@@ -86,7 +86,7 @@ impl LookupConfigId for crate::config::Histories {
             .ok_or_else(|| super::error::BackupNotFound::new(key.clone()))
     }
 
-    fn get_result(&self, key: &ConfigId) -> Result<&History, super::error::BackupNotFound> {
+    fn try_get(&self, key: &ConfigId) -> Result<&History, super::error::BackupNotFound> {
         self.0
             .get(key)
             .ok_or_else(|| super::error::BackupNotFound::new(key.clone()))

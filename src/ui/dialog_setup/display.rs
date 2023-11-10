@@ -107,8 +107,8 @@ fn insert_transfer(
     archive_params: &ArchiveParams,
     config_id: &ConfigId,
 ) -> Result<()> {
-    BACKUP_CONFIG.update_result(enclose!((archive_params, config_id) move |config| {
-        let conf = config.get_result_mut(&config_id)?;
+    BACKUP_CONFIG.try_update(enclose!((archive_params, config_id) move |config| {
+        let conf = config.try_get_mut(&config_id)?;
 
         conf.include = archive_params.parsed.include.clone();
         conf.exclude = BTreeSet::from_iter( archive_params.parsed.exclude.clone().into_iter().map(|x| x.into_relative()));
@@ -139,7 +139,7 @@ fn insert_transfer(
     ui::page_backup::refresh()?;
 
     let configs = BACKUP_CONFIG.load();
-    let config = configs.get_result(config_id)?;
+    let config = configs.try_get(config_id)?;
 
     if let Some(prefix) = &archive_params.prefix {
         ui.prefix().set_text(&prefix.to_string());
@@ -160,9 +160,9 @@ fn insert_transfer(
 pub fn set_prefix(ui: &DialogSetup, config_id: ConfigId) -> Result<()> {
     let prefix = ui.prefix().text();
 
-    BACKUP_CONFIG.update_result(enclose!((prefix, config_id) move |config| {
+    BACKUP_CONFIG.try_update(enclose!((prefix, config_id) move |config| {
         config
-            .get_result_mut(&config_id)?
+            .try_get_mut(&config_id)?
             .set_archive_prefix(
                 config::ArchivePrefix::new(&prefix),
                 BACKUP_CONFIG.load().iter(),

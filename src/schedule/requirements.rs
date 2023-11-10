@@ -68,7 +68,7 @@ impl Global {
             .iter()
             .filter(|(_, history)| history.running.is_some())
             .find(|(config_id, _)| {
-                backup_config().get_result(config_id).map(|x| &x.repo_id) == Ok(&config.repo_id)
+                backup_config().try_get(config_id).map(|x| &x.repo_id) == Ok(&config.repo_id)
             });
 
         if let Some((running_config_id, _)) = running_backup {
@@ -139,8 +139,8 @@ impl Due {
     pub fn check(config: &config::Backup) -> Result<DueCause, Self> {
         Self::check_full(
             config,
-            backup_history().get_result(&config.id).ok(),
-            schedule_status().get_result(&config.id).ok(),
+            backup_history().try_get(&config.id).ok(),
+            schedule_status().try_get(&config.id).ok(),
         )
     }
 

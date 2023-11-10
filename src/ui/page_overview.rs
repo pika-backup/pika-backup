@@ -58,7 +58,7 @@ async fn on_remove_backup() -> Result<()> {
 
     let config_id = config.id.clone();
 
-    BACKUP_CONFIG.update_result(|s| {
+    BACKUP_CONFIG.try_update(|s| {
         s.remove(&config_id)?;
         Ok(())
     })?;

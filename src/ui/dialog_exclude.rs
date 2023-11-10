@@ -121,7 +121,7 @@ fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton
         .chain(new_predefined)
         .collect();
 
-    BACKUP_CONFIG.update_result(move |settings| {
+    BACKUP_CONFIG.try_update(move |settings| {
         settings.active_mut()?.exclude = new_exclude.clone();
 
         Ok(())
@@ -173,7 +173,7 @@ pub fn fill_unreadable(dialog: &DialogExclude) -> Result<()> {
         add_button.connect_toggled(
             glib::clone!(@strong suggested_excludes, @strong suggested, @weak row, @weak dialog => move |button| {
                 Handler::handle((|| {
-                    BACKUP_CONFIG.update_result(glib::clone!(@strong suggested_excludes, @strong suggested, @weak button => @default-return Ok(()), move |settings| {
+                    BACKUP_CONFIG.try_update(glib::clone!(@strong suggested_excludes, @strong suggested, @weak button => @default-return Ok(()), move |settings| {
                         let active = settings.active_mut()?;
 
                         if button.is_active() {
@@ -248,7 +248,7 @@ pub async fn exclude_folder() -> Result<()> {
             })?,
     )?;
 
-    BACKUP_CONFIG.update_result(|settings| {
+    BACKUP_CONFIG.try_update(|settings| {
         for path in &paths {
             settings
                 .active_mut()?
@@ -285,7 +285,7 @@ pub async fn exclude_file() -> Result<()> {
             })?,
     ))?;
 
-    BACKUP_CONFIG.update_result(|settings| {
+    BACKUP_CONFIG.try_update(|settings| {
         for path in &paths {
             settings
                 .active_mut()?

@@ -191,11 +191,11 @@ impl<T> LookupActiveConfigId for std::collections::BTreeMap<ConfigId, T> {
     type Item = T;
 
     fn active(&self) -> Result<&T> {
-        Ok(self.get_result(&active_config_id_result()?)?)
+        Ok(self.try_get(&try_active_config_id()?)?)
     }
 
     fn active_mut(&mut self) -> Result<&mut T> {
-        Ok(self.get_result_mut(&active_config_id_result()?)?)
+        Ok(self.try_get_mut(&try_active_config_id()?)?)
     }
 }
 
@@ -203,11 +203,11 @@ impl LookupActiveConfigId for config::Backups {
     type Item = config::Backup;
 
     fn active(&self) -> Result<&config::Backup> {
-        Ok(self.get_result(&active_config_id_result()?)?)
+        Ok(self.try_get(&try_active_config_id()?)?)
     }
 
     fn active_mut(&mut self) -> Result<&mut config::Backup> {
-        Ok(self.get_result_mut(&active_config_id_result()?)?)
+        Ok(self.try_get_mut(&try_active_config_id()?)?)
     }
 }
 
@@ -255,7 +255,7 @@ impl SummarizeOperations
     }
 }
 
-fn active_config_id_result() -> Result<ConfigId> {
+fn try_active_config_id() -> Result<ConfigId> {
     ACTIVE_BACKUP_ID
         .get()
         .ok_or_else(|| Message::short("There is no active backup in the interface.").into())

@@ -15,11 +15,11 @@ use std::os::raw::{c_char, c_int};
 pub trait LookupConfigId {
     type Item;
 
-    fn get_result_mut(
+    fn try_get_mut(
         &mut self,
         key: &ConfigId,
     ) -> Result<&mut Self::Item, config::error::BackupNotFound>;
-    fn get_result(&self, key: &ConfigId) -> Result<&Self::Item, config::error::BackupNotFound>;
+    fn try_get(&self, key: &ConfigId) -> Result<&Self::Item, config::error::BackupNotFound>;
 }
 
 extern "C" {

@@ -121,7 +121,7 @@ mod imp {
 
     impl WindowImpl for DialogPreferences {
         fn close_request(&self) -> glib::Propagation {
-            BACKUP_CONFIG.update(|c| match c.get_result_mut(self.config_id.get().unwrap()) {
+            BACKUP_CONFIG.update(|c| match c.try_get_mut(self.config_id.get().unwrap()) {
                 Ok(backup) => {
                     backup.title = self.config_title.borrow().trim().to_string();
 
@@ -205,10 +205,7 @@ mod imp {
     #[gtk::template_callbacks]
     impl DialogPreferences {
         fn config(&self) -> Result<crate::config::Backup> {
-            match BACKUP_CONFIG
-                .load()
-                .get_result(self.config_id.get().unwrap())
-            {
+            match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
                 Ok(backup) => Ok(backup.clone()),
                 Err(err) => Err(crate::ui::Error::from(err)),
             }
@@ -416,7 +413,7 @@ mod imp {
                     // Check if there is already a last RunInfo, if so, use that one
                     let run_info = if let Some(run_info) = BACKUP_HISTORY
                         .load()
-                        .get_result(self.config_id.get().unwrap())
+                        .try_get(self.config_id.get().unwrap())
                         .ok()
                         .and_then(|history| history.last_completed.as_ref())
                     {
@@ -485,7 +482,7 @@ mod imp {
             if config.encrypted != encrypted {
                 BACKUP_CONFIG.update(|config| {
                     let _ = config
-                        .get_result_mut(self.config_id.get().unwrap())
+                        .try_get_mut(self.config_id.get().unwrap())
                         .map(|cfg| cfg.encrypted = encrypted);
                 });
 

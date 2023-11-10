@@ -40,7 +40,7 @@ impl Display {
                 Self::from(op.as_ref())
             } else if let Some(last_run) = BACKUP_HISTORY
                 .load()
-                .get_result(config_id)
+                .try_get(config_id)
                 .ok()
                 .and_then(|x| x.run.get(0))
             {
