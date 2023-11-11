@@ -1,6 +1,7 @@
 use crate::ui::prelude::*;
 use async_std::prelude::*;
 
+use crate::schedule::requirements;
 use crate::{schedule, ui};
 use async_std::channel::Sender;
 
@@ -21,12 +22,40 @@ impl PikaBackup {
             "Request to start scheduled backup {:?} {:?}",
             config_id, due_cause
         );
-        if let Err(err) = self
-            .command
-            .send(Command::StartBackup(config_id, Some(due_cause)))
-            .await
+
+        // As this is a scheduled backup we will verify the schedule ourselves.
+        // This mitigates an issue where an outdated daemon binary with schedule bugs could cause backups every minute.
+        match BACKUP_CONFIG
+            .load()
+            .try_get(&config_id)
+            .map(requirements::Due::check)
         {
-            error!("{}", err);
+            Ok(Ok(cause)) => {
+                if cause != due_cause {
+                    warn!("The monitor process asked us to start a scheduled backup '{config_id}' but we disagree on the reason. Starting anyway: {cause:?} != {due_cause:?}");
+                }
+
+                if let Err(err) = self
+                    .command
+                    .send(Command::StartBackup(config_id, Some(due_cause)))
+                    .await
+                {
+                    error!("{}", err);
+                }
+            }
+            Ok(Err(due)) => {
+                match due {
+                    requirements::Due::NotDue { next } => warn!(
+                        "The monitor process asked us to start a scheduled backup '{config_id}' but it's not due yet. Next backup: {next:?}"
+                    ),
+                    requirements::Due::Running => warn!(
+                        "The monitor process asked us to start a scheduled backup '{config_id}' but it's already running"
+                    ),
+                }
+            }
+            Err(err) => {
+                error!("The monitor process asked us to start a scheduled backup with unknown config id: {err:?}");
+            }
         }
     }
 

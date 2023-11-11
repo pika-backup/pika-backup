@@ -122,7 +122,7 @@ pub enum Due {
     Running,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, zbus::zvariant::Type)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, zbus::zvariant::Type)]
 pub enum DueCause {
     Regular,
     Retry,
