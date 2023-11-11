@@ -380,6 +380,9 @@ impl LogEntry {
             || self
                 .message()
                 .contains("IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!")
+            || self.message().contains(
+                "Failed to securely erase old repository config file (hardlinks not supported)",
+            )
     }
 
     // Log this message to stderr
