@@ -1,5 +1,6 @@
 use gio::prelude::*;
 use once_cell::unsync::OnceCell;
+use std::cell::Cell;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
@@ -14,7 +15,9 @@ pub fn init() {
 }
 
 thread_local! {
-static HOLD: OnceCell<ApplicationHoldGuard> = OnceCell::default();
+    static HOLD: OnceCell<ApplicationHoldGuard> = OnceCell::default();
+    static FILE_MONITOR_FLATPAK_UPDATED: OnceCell<gio::FileMonitor> = OnceCell::default();
+    static APP_RUNNING: Cell<bool> = Cell::default();
 }
 
 fn on_startup(_app: &gio::Application) {
@@ -51,9 +54,35 @@ fn on_startup(_app: &gio::Application) {
             .await
             .handle("Cannot monitor ui status.")
     });
+
+    if *APP_IS_SANDBOXED {
+        // Register a file monitor to check for the /app/.updated file
+        // Creation of this file signifies that the app had been updated
+        let file = gio::File::for_path("/app/.updated");
+
+        if let Ok(monitor) = file.monitor_file(gio::FileMonitorFlags::NONE, gio::Cancellable::NONE)
+        {
+            monitor.connect_changed(|_monitor, _file, _other, event| {
+                if event == gio::FileMonitorEvent::Created {
+                    if APP_RUNNING.get() {
+                        info!("Detected flatpak update. Not restarting monitor process, main app is still running.");
+                    } else {
+                        info!("Detected flatpak update. Restarting monitor process.");
+                        glib::MainContext::default().block_on(restart_daemon());
+                    }
+                }
+            });
+
+            FILE_MONITOR_FLATPAK_UPDATED
+                .with(|m| m.set(monitor))
+                .unwrap();
+        }
+    }
 }
 
 fn app_running(is_running: bool) {
+    APP_RUNNING.set(is_running);
+
     if !is_running {
         // Reload backup history manually to prevent race conditions between the application exit event and file monitor
         match config::Histories::from_file() {
@@ -70,6 +99,7 @@ fn app_running(is_running: bool) {
             .iter()
             .filter(|(_, x)| x.running.is_some())
             .count();
+
         if backups_running > 0 {
             let notification = gio::Notification::new(&gettext("Fatal Error During Back Up"));
 
@@ -82,6 +112,12 @@ fn app_running(is_running: bool) {
             notification.set_default_action(&action::ShowOverview::name());
 
             gio_app().send_notification(None, &notification);
+        }
+
+        // Detect app update
+        if *APP_IS_SANDBOXED && PathBuf::from("/app/.updated").exists() {
+            info!("Detected flatpak update. Restarting monitor process.");
+            glib::MainContext::default().spawn(restart_daemon());
         }
     }
 }
