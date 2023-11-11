@@ -19,11 +19,9 @@ impl Action for Quit {
     fn action() -> gio::SimpleAction {
         let action = gio::SimpleAction::new("quit", None);
         action.connect_activate(|_, _| {
-            debug!("Tried to quit the daemon");
-            let notification = gio::Notification::new(&gettext("Monitoring Backup Schedule"));
-            notification.set_body(Some(&gettext("To quit monitoring the backup schedule, open Pika Backup and disable all scheduled backups.")));
+            debug!("Quitting the daemon via dbus quit action");
             if let Some(app) = gio::Application::default() {
-                app.send_notification(None, &notification);
+                app.quit();
             }
         });
         action
