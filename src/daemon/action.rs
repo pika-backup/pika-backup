@@ -11,6 +11,21 @@ pub trait Action {
     }
 }
 
+pub struct Restart;
+
+impl Action for Restart {
+    const NAME: &'static str = "restart";
+
+    fn action() -> gio::SimpleAction {
+        let action = gio::SimpleAction::new("restart", None);
+        action.connect_activate(|_, _| {
+            debug!("Restarting the daemon via dbus restart action");
+            glib::MainContext::default().block_on(crate::daemon::init::restart_daemon());
+        });
+        action
+    }
+}
+
 pub struct Quit;
 
 impl Action for Quit {

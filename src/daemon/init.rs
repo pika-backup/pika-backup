@@ -1,11 +1,13 @@
 use gio::prelude::*;
 use once_cell::unsync::OnceCell;
+use std::collections::HashMap;
+use std::path::PathBuf;
 
 use super::action;
-use crate::config;
 use crate::config::{ConfigType, Loadable, TrackChanges};
 use crate::daemon;
 use crate::daemon::prelude::*;
+use crate::{config, DAEMON_BINARY};
 
 pub fn init() {
     gio_app().connect_startup(on_startup);
@@ -26,6 +28,7 @@ fn on_startup(_app: &gio::Application) {
     daemon::connect::init::init();
     daemon::schedule::init::init();
 
+    gio_app().add_action(&action::Restart::action());
     gio_app().add_action(&action::Quit::action());
     gio_app().add_action(&action::StartBackup::action());
     gio_app().add_action(&action::ShowOverview::action());
@@ -80,5 +83,34 @@ fn app_running(is_running: bool) {
 
             gio_app().send_notification(None, &notification);
         }
+    }
+}
+
+pub async fn restart_daemon() {
+    if *APP_IS_SANDBOXED {
+        let flatpak_result = ashpd::flatpak::Flatpak::new().await;
+        if let Ok(flatpak) = flatpak_result {
+            let binary = PathBuf::from("/app/bin/").join(DAEMON_BINARY);
+
+            flatpak
+                .spawn(
+                    glib::current_dir(),
+                    &[binary.as_os_str(), "--gapplication-replace".as_ref()],
+                    HashMap::new(),
+                    HashMap::new(),
+                    ashpd::flatpak::SpawnFlags::LatestVersion.into(),
+                    ashpd::flatpak::SpawnOptions::default(),
+                )
+                .await
+                .handle(gettext("Error restarting monitor daemon"));
+        } else {
+            flatpak_result.handle(gettext("Error restarting monitor daemon"));
+        }
+    } else {
+        let mut command = async_std::process::Command::new(DAEMON_BINARY);
+        command.arg("--gapplication-replace");
+        command
+            .spawn()
+            .handle(gettext("Error restarting monitor daemon"));
     }
 }

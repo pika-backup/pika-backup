@@ -20,7 +20,7 @@ thread_local!(
         debug!("Creating gio::Application {:?}", crate::DAEMON_APP_ID);
         gio::Application::new(
             Some(crate::DAEMON_APP_ID),
-            gio::ApplicationFlags::IS_SERVICE,
+            gio::ApplicationFlags::IS_SERVICE | gio::ApplicationFlags::ALLOW_REPLACEMENT,
         )
     });
 );
