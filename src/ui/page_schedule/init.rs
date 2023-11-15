@@ -65,8 +65,8 @@ pub fn init() {
         .connect_selected_item_notify(|_| Handler::run(event::preferred_weekday_change()));
 
     main_ui()
-        .schedule_preferred_day_calendar()
-        .connect_day_selected(|_| Handler::run(event::preferred_day_change()));
+        .schedule_preferred_day()
+        .connect_value_notify(|_| Handler::run(event::preferred_day_change()));
 
     // prune
 

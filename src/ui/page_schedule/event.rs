@@ -46,8 +46,8 @@ pub async fn show_page() -> Result<()> {
             config::Frequency::Monthly { preferred_day } => {
                 main_ui().schedule_frequency().set_selected(3);
                 main_ui()
-                    .schedule_preferred_day_calendar()
-                    .set_day(preferred_day as i32);
+                    .schedule_preferred_day()
+                    .set_value(preferred_day as f64);
             }
         }
 
@@ -144,7 +144,7 @@ fn frequency() -> Result<config::Frequency> {
                     .ok_or_else(|| Message::short(gettext("Invalid weekday.")))?,
             },
             config::Frequency::Monthly { .. } => config::Frequency::Monthly {
-                preferred_day: main_ui().schedule_preferred_day_calendar().day() as u8,
+                preferred_day: main_ui().schedule_preferred_day().value() as u8,
             },
         })
     } else {
@@ -154,30 +154,33 @@ fn frequency() -> Result<config::Frequency> {
 
 pub async fn frequency_change() -> Result<()> {
     let frequency = frequency()?;
+    main_ui().preferred_time_row().set_visible(false);
+    main_ui().preferred_weekday_row().set_visible(false);
+    main_ui().schedule_preferred_day().set_visible(false);
+
+    main_ui()
+        .schedule_preferred_hour()
+        .set_value(glib::random_int_range(1, 24) as f64);
+    main_ui().schedule_preferred_minute().set_value(0.);
+
+    main_ui()
+        .preferred_weekday_row()
+        .set_selected(glib::random_int_range(0, 7) as u32);
+
+    main_ui()
+        .schedule_preferred_day()
+        .set_value(glib::random_int_range(1, 32) as f64);
 
     match frequency {
-        config::Frequency::Hourly => {
-            main_ui().preferred_time_row().set_visible(false);
-            main_ui().preferred_weekday_row().set_visible(false);
-            main_ui().preferred_day_row().set_visible(false);
-        }
+        config::Frequency::Hourly => {}
         config::Frequency::Daily { .. } => {
             main_ui().preferred_time_row().set_visible(true);
-
-            main_ui().preferred_weekday_row().set_visible(false);
-            main_ui().preferred_day_row().set_visible(false);
         }
         config::Frequency::Weekly { .. } => {
             main_ui().preferred_weekday_row().set_visible(true);
-
-            main_ui().preferred_time_row().set_visible(false);
-            main_ui().preferred_day_row().set_visible(false);
         }
         config::Frequency::Monthly { .. } => {
-            main_ui().preferred_day_row().set_visible(true);
-
-            main_ui().preferred_time_row().set_visible(false);
-            main_ui().preferred_weekday_row().set_visible(false);
+            main_ui().schedule_preferred_day().set_visible(true);
         }
     }
 
@@ -227,12 +230,6 @@ pub async fn preferred_weekday_change() -> Result<()> {
 }
 
 pub async fn preferred_day_change() -> Result<()> {
-    main_ui().schedule_preferred_day_popover().popdown();
-    main_ui().schedule_preferred_day().set_label(&format!(
-        "{}st",
-        main_ui().schedule_preferred_day_calendar().day(),
-    ));
-
     BACKUP_CONFIG.try_update(|config| {
         config.active_mut()?.schedule.frequency = frequency()?;
         Ok(())

@@ -283,10 +283,6 @@ impl AppWindow {
         self.get("pending_menu_spinner")
     }
 
-    pub fn preferred_day_row(&self) -> adw::ActionRow {
-        self.get("preferred_day_row")
-    }
-
     pub fn preferred_time_row(&self) -> adw::ActionRow {
         self.get("preferred_time_row")
     }
@@ -351,16 +347,8 @@ impl AppWindow {
         self.get("schedule_keep_yearly")
     }
 
-    pub fn schedule_preferred_day(&self) -> gtk::MenuButton {
+    pub fn schedule_preferred_day(&self) -> adw::SpinRow {
         self.get("schedule_preferred_day")
-    }
-
-    pub fn schedule_preferred_day_calendar(&self) -> gtk::Calendar {
-        self.get("schedule_preferred_day_calendar")
-    }
-
-    pub fn schedule_preferred_day_popover(&self) -> gtk::Popover {
-        self.get("schedule_preferred_day_popover")
     }
 
     pub fn schedule_preferred_hour(&self) -> gtk::SpinButton {

@@ -8,6 +8,7 @@
 - Fix newly inserted volumes would sometimes not be detected to contain backup repositories
 - Fix free space lookup doesn't use the SSH port from the backup configuration
 - Fix missing device dialog would appear on top of other dialogs
+- Fix no time/day preselected when changing schedule frequency mode
 - Change setup dialog to use new design
 - Change SMB mount error to be more descriptive
 - Change history log to include archive mounting errors
