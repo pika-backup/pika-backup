@@ -13,10 +13,6 @@ pub type Relativity = bool;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum Pattern<const T: Relativity> {
-    #[serde(
-        deserialize_with = "deserialize_osstring",
-        serialize_with = "serialize_osstring"
-    )]
     Fnmatch(OsString),
     PathFullMatch(PathBuf),
     PathPrefix(PathBuf),
@@ -25,36 +21,6 @@ pub enum Pattern<const T: Relativity> {
         serialize_with = "serialize_regex"
     )]
     RegularExpression(regex::Regex),
-}
-
-fn deserialize_osstring<'de, D>(deserializer: D) -> Result<OsString, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    #[derive(Deserialize)]
-    #[serde(untagged)]
-    enum AllowedType {
-        String(String),
-        // Support legacy osstring config format for backward compatibility
-        OsString(OsString),
-    }
-
-    Ok(match AllowedType::deserialize(deserializer)? {
-        AllowedType::String(string) => string.into(),
-        AllowedType::OsString(osstring) => osstring,
-    })
-}
-
-fn serialize_osstring<S>(osstring: &OsString, s: S) -> Result<S::Ok, S::Error>
-where
-    S: serde::Serializer,
-{
-    match osstring.to_str() {
-        Some(st) => s.serialize_str(st),
-        None => Err(serde::ser::Error::custom(
-            "pattern contains invalid UTF-8 characters",
-        )),
-    }
 }
 
 fn deserialize_regex<'de, D>(deserializer: D) -> Result<regex::Regex, D::Error>
