@@ -3,6 +3,7 @@
 ## 0.8.0 (unreleased)
 
 - Fix timestamps not respecting 12h/24h clock format setting
+- Change fnmatches to be stored as strings instead of bytes in config
 
 ## 0.7.2 (unreleased)
 
