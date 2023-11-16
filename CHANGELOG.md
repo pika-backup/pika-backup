@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0 (unreleased)
+
+- Change fnmatches to be stored as strings instead of bytes in config
+
 ## 0.7.2 (unreleased)
 
 - Fix shell scripts not inheriting environment variables which broke eg. `notify-send`
