@@ -16,6 +16,15 @@ impl super::ConfigType for ScheduleStatus {
     }
 }
 
+impl super::ConfigVersion for ScheduleStatus {
+    fn extract_version(json: &serde_json::Value) -> u64 {
+        json.as_object()
+            .and_then(|d| d.get("config_version"))
+            .and_then(|v| v.as_u64())
+            .unwrap_or(2)
+    }
+}
+
 impl crate::utils::LookupConfigId for ScheduleStatus {
     type Item = Activity;
 

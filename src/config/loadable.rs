@@ -9,21 +9,33 @@ pub trait Loadable: Sized {
     fn from_file() -> Result<Self, std::io::Error>;
 }
 
-impl<C: ConfigType + serde::de::DeserializeOwned + Default> Loadable for C {
+impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default> Loadable for C {
     fn from_file() -> Result<Self, std::io::Error> {
         let path = Self::path();
-        let file = std::fs::File::open(&path);
-
         info!("Loading file {:?}", path);
 
-        if let Err(err) = &file {
+        let file_result = std::fs::File::open(&path);
+        if let Err(err) = &file_result {
             if matches!(err.kind(), std::io::ErrorKind::NotFound) {
                 info!("File not found. Using default value.");
                 return Ok(Default::default());
             }
         }
 
-        Ok(serde_json::de::from_reader(file?)?)
+        let file = file_result?;
+
+        // Deserialize the file as an untyped json value
+        let json: serde_json::Value = serde_json::from_reader(file)?;
+
+        // Check the config version to figure out if we are compatible
+        let version = Self::extract_version(&json);
+        if Self::version_compatible(version) {
+            // Deserialize value as Self
+            Ok(serde_json::from_value(json)?)
+        } else {
+            // The config is incompatible with this app version
+            Err(std::io::Error::new(std::io::ErrorKind::InvalidData, gettextf("The loaded configuration file version {} is incompatible with this version of Pika Backup", &[&version.to_string()])))
+        }
     }
 }
 
@@ -35,7 +47,9 @@ thread_local! {
 static FILE_MONITORS: Cell<Vec<gio::FileMonitor>> = Default::default();
 }
 
-impl<C: ConfigType + serde::de::DeserializeOwned + Default + Clone> TrackChanges for C {
+impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default + Clone> TrackChanges
+    for C
+{
     fn update_on_change(store: &'static Lazy<ArcSwap<Self>>) -> std::io::Result<()> {
         let path = Self::path();
         let file = gio::File::for_path(&path);
@@ -79,4 +93,19 @@ impl<C: ConfigType + serde::de::DeserializeOwned + Default + Clone> TrackChanges
 
 pub trait ConfigType {
     fn path() -> std::path::PathBuf;
+}
+
+/// This trait needs to be implemented for all config files
+///
+/// The default implementation considers all versions valid <= current config version
+pub trait ConfigVersion {
+    /// Whether the version on disk is read-compatible with this version of the app
+    ///
+    /// Unless the on-disk version is newer than our latest version this is assumed to be true
+    fn version_compatible(version: u64) -> bool {
+        version <= super::VERSION
+    }
+
+    /// Extract the config version from the json value
+    fn extract_version(json: &serde_json::Value) -> u64;
 }

@@ -74,6 +74,16 @@ impl super::ConfigType for Histories {
     }
 }
 
+impl super::ConfigVersion for Histories {
+    fn extract_version(json: &serde_json::Value) -> u64 {
+        json.as_object()
+            .and_then(|d| d.values().into_iter().next())
+            .and_then(|v| v.get("config_version"))
+            .and_then(|v| v.as_u64())
+            .unwrap_or(2)
+    }
+}
+
 impl LookupConfigId for crate::config::Histories {
     type Item = History;
 

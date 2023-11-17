@@ -4,13 +4,11 @@ use crate::prelude::*;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path;
 
+use super::loadable::ConfigVersion;
 use super::{
     absolute, error, exclude, ConfigType, Exclude, Pattern, Prune, Repository, Schedule, ABSOLUTE,
     RELATIVE,
 };
-
-/// Compatibility config version
-pub const VERSION: u16 = 2;
 
 #[derive(
     Serialize,
@@ -71,7 +69,7 @@ pub enum UserScriptKind {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Backup {
     #[serde(default)]
-    pub config_version: u16,
+    pub config_version: u64,
     pub id: ConfigId,
     #[serde(default)]
     pub archive_prefix: ArchivePrefix,
@@ -101,7 +99,7 @@ impl Backup {
         exclude.insert(Exclude::Predefined(exclude::Predefined::Caches));
 
         Self {
-            config_version: VERSION,
+            config_version: super::VERSION,
             id: ConfigId::new(glib::uuid_string_random().to_string()),
             archive_prefix: ArchivePrefix::generate(),
             repo,
@@ -307,5 +305,20 @@ impl ConfigType for Backups {
         path.push("backup.json");
 
         path
+    }
+}
+
+impl ConfigVersion for Backups {
+    /// Backup configurations < 2 are not supported anymore
+    fn version_compatible(version: u64) -> bool {
+        (2..=super::VERSION).contains(&version)
+    }
+
+    fn extract_version(json: &serde_json::Value) -> u64 {
+        json.as_array()
+            .and_then(|a| a.first())
+            .and_then(|v| v.get("config_version"))
+            .and_then(|v| v.as_u64())
+            .unwrap_or(2)
     }
 }

@@ -15,7 +15,7 @@ mod writeable;
 pub use backup::*;
 pub use exclude::Exclude;
 pub use history::Histories;
-pub use loadable::{ConfigType, Loadable, TrackChanges};
+pub use loadable::{ConfigType, ConfigVersion, Loadable, TrackChanges};
 pub use pattern::*;
 pub use prune::*;
 pub use repository::*;
@@ -27,6 +27,9 @@ use crate::prelude::*;
 
 use std::path;
 use zeroize::Zeroizing;
+
+/// Compatibility config version
+pub const VERSION: u64 = 2;
 
 #[derive(Clone, Default)]
 pub struct Password(Zeroizing<Vec<u8>>);
