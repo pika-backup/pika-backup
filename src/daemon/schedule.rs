@@ -5,7 +5,7 @@
 pub mod init;
 pub mod status;
 
-pub use super::error::Logable;
+pub use super::error::Loggable;
 
 use std::time::Duration;
 
