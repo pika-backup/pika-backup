@@ -28,6 +28,16 @@ use crate::prelude::*;
 use std::path;
 use zeroize::Zeroizing;
 
+#[derive(Debug, Clone, serde::Deserialize, serde::Serialize, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(transparent)]
+pub struct Version(pub u64);
+
+impl std::default::Default for Version {
+    fn default() -> Self {
+        Self(VERSION)
+    }
+}
+
 /// Compatibility config version
 pub const VERSION: u64 = 2;
 

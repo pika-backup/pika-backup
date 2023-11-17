@@ -12,7 +12,7 @@ pub use tempfile::tempdir;
 pub fn config(path: &std::path::Path) -> config::Backup {
     let uuid = glib::uuid_string_random().to_string();
     config::Backup {
-        config_version: 1,
+        config_version: config::Version(2),
         id: ConfigId::new(uuid),
         repo_id: borg::RepoId::new("repo id".into()),
         archive_prefix: config::ArchivePrefix::generate(),

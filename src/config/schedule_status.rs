@@ -3,6 +3,8 @@ use std::collections::BTreeMap;
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 pub struct ScheduleStatus {
+    #[serde(default)]
+    pub config_version: super::Version,
     pub activity: BTreeMap<config::ConfigId, Activity>,
 }
 

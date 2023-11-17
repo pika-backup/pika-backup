@@ -69,7 +69,7 @@ pub enum UserScriptKind {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Backup {
     #[serde(default)]
-    pub config_version: u64,
+    pub config_version: super::Version,
     pub id: ConfigId,
     #[serde(default)]
     pub archive_prefix: ArchivePrefix,
@@ -99,7 +99,7 @@ impl Backup {
         exclude.insert(Exclude::Predefined(exclude::Predefined::Caches));
 
         Self {
-            config_version: super::VERSION,
+            config_version: Default::default(),
             id: ConfigId::new(glib::uuid_string_random().to_string()),
             archive_prefix: ArchivePrefix::generate(),
             repo,

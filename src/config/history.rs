@@ -17,6 +17,10 @@ pub enum SuggestedExcludeReason {
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct History {
+    /// Configuration version
+    #[serde(default)]
+    pub config_version: super::Version,
+
     /// Last runs, latest run first
     pub run: VecDeque<RunInfo>,
     pub running: Option<Running>,
@@ -77,7 +81,7 @@ impl super::ConfigType for Histories {
 impl super::ConfigVersion for Histories {
     fn extract_version(json: &serde_json::Value) -> u64 {
         json.as_object()
-            .and_then(|d| d.values().into_iter().next())
+            .and_then(|d| d.values().next())
             .and_then(|v| v.get("config_version"))
             .and_then(|v| v.as_u64())
             .unwrap_or(2)

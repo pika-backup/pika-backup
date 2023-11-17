@@ -26,8 +26,8 @@ fn load_config_e() -> std::io::Result<()> {
     BACKUP_CONFIG.swap(Arc::new(config::Writeable::from_file()?));
     BACKUP_CONFIG.update_no_commit(|backups| {
         for config in backups.iter_mut() {
-            if config.config_version < config::VERSION {
-                config.config_version = config::VERSION;
+            if config.config_version.0 < config::VERSION {
+                config.config_version = Default::default();
             }
         }
     });
