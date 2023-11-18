@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-11 12:04+0000\n"
-"PO-Revision-Date: 2023-11-12 20:40+0800\n"
+"POT-Creation-Date: 2023-11-16 00:26+0000\n"
+"PO-Revision-Date: 2023-11-16 22:42+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -29,8 +29,8 @@ msgstr "Pika 备份监视器"
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:98
-#: src/ui/app_window.ui:112 src/ui/dialog_about.rs:19 src/ui/utils.rs:363
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:87
+#: src/ui/app_window.ui:101 src/ui/dialog_about.rs:19 src/ui/utils.rs:363
 #: src/ui/utils.rs:425
 msgid "Pika Backup"
 msgstr "Pika 备份"
@@ -636,25 +636,15 @@ msgstr "每周"
 msgid "Monthly"
 msgstr "每月"
 
-#: src/daemon/action.rs:23 src/daemon/init.rs:38
-msgid "Monitoring Backup Schedule"
-msgstr "正在监视备份计划"
-
-#: src/daemon/action.rs:24
-msgid ""
-"To quit monitoring the backup schedule, open Pika Backup and disable all "
-"scheduled backups."
-msgstr "要退出监视备份计划，请打开 Pika 备份并禁用所有计划的备份。"
-
-#: src/daemon/action.rs:45
+#: src/daemon/action.rs:58
 msgid "Failed to start backup from daemon"
 msgstr "启动来自守护进程的备份失败"
 
-#: src/daemon/action.rs:66
+#: src/daemon/action.rs:79
 msgid "Failed to show overview from daemon"
 msgstr "显示来自守护进程的概览失败"
 
-#: src/daemon/action.rs:85
+#: src/daemon/action.rs:98
 msgid "Failed to show schedule from daemon"
 msgstr "显示来自守护进程的计划失败"
 
@@ -678,14 +668,22 @@ msgstr "“{}”包含一个已配置备份。"
 msgid "Back Up Now"
 msgstr "立即备份"
 
-#: src/daemon/init.rs:71
+#: src/daemon/init.rs:44
+msgid "Monitoring Backup Schedule"
+msgstr "正在监视备份计划"
+
+#: src/daemon/init.rs:104
 msgid "Fatal Error During Back Up"
 msgstr "备份过程中发生严重错误"
 
-#: src/daemon/init.rs:74
+#: src/daemon/init.rs:107
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika 备份在运行 {} 个备份时崩溃。"
+
+#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+msgid "Error restarting monitor daemon"
+msgstr "重启监视守护程序出错"
 
 #: src/daemon/schedule/init.rs:93
 msgid "The backup repository is already in use."
@@ -799,248 +797,244 @@ msgstr "备份首选项"
 msgid "Remove Backup Setup"
 msgstr "移除备份部署"
 
-#: src/ui/app_window.ui:73
+#: src/ui/app_window.ui:62
 msgid ":"
 msgstr ":"
 
-#: src/ui/app_window.ui:119
+#: src/ui/app_window.ui:108
 msgid "Setup Backup"
 msgstr "部署备份"
 
-#: src/ui/app_window.ui:126
+#: src/ui/app_window.ui:115
 msgid "Main Menu"
 msgstr "主菜单"
 
-#: src/ui/app_window.ui:146
+#: src/ui/app_window.ui:135
 msgid "No Backup Configured"
 msgstr "未配置备份"
 
-#: src/ui/app_window.ui:147
+#: src/ui/app_window.ui:136
 msgid "Add a new configuration to start creating backups"
 msgstr "添加新配置以开始创建备份"
 
-#: src/ui/app_window.ui:150
+#: src/ui/app_window.ui:139
 msgid "_Setup Backup"
 msgstr "部署备份(_S)"
 
-#: src/ui/app_window.ui:194
+#: src/ui/app_window.ui:183
 msgid "Backup"
 msgstr "备份"
 
-#: src/ui/app_window.ui:216
-msgid ""
-"Archives are being mounted.\n"
-"This might take a while."
-msgstr ""
-"正在挂载归档文件。\n"
-"这可能需要一段时间。"
+#: src/ui/app_window.ui:205
+msgid "Archives are being mounted. This might take a while."
+msgstr "正在挂载归档文件。这可能需要一段时间。"
 
-#: src/ui/app_window.ui:230
+#: src/ui/app_window.ui:218
 msgid "Actions"
 msgstr "动作"
 
-#: src/ui/app_window.ui:256
+#: src/ui/app_window.ui:244
 msgid "_Backup"
 msgstr "备份(_B)"
 
-#: src/ui/app_window.ui:267
+#: src/ui/app_window.ui:255
 msgid "Eject Backup Disk"
 msgstr "弹出备份磁盘"
 
-#: src/ui/app_window.ui:283
+#: src/ui/app_window.ui:271
 msgid "Disconnected"
 msgstr "已断开连接"
 
-#: src/ui/app_window.ui:301
+#: src/ui/app_window.ui:289
 msgid "_Abort"
 msgstr "中止(_A)"
 
-#: src/ui/app_window.ui:323
+#: src/ui/app_window.ui:311
 msgid "Back Up _Now"
 msgstr "立即备份(_N)"
 
-#: src/ui/app_window.ui:338 src/ui/dialog_setup_transfer_option.ui:88
+#: src/ui/app_window.ui:326 src/ui/dialog_setup_transfer_option.ui:88
 msgid "Files to Back Up"
 msgstr "要备份的文件"
 
-#: src/ui/app_window.ui:339
+#: src/ui/app_window.ui:327
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "仅在下列文件夹中的文件会被保存在备份仓库中。"
 
-#: src/ui/app_window.ui:342
+#: src/ui/app_window.ui:330
 msgid "Select Directory to Include"
 msgstr "选择要包含的目录"
 
-#: src/ui/app_window.ui:355
+#: src/ui/app_window.ui:343
 msgid "No files included in backup"
 msgstr "备份中未包含文件"
 
-#: src/ui/app_window.ui:367 src/ui/dialog_exclude.ui:6
+#: src/ui/app_window.ui:355 src/ui/dialog_exclude.ui:6
 #: src/ui/dialog_setup_transfer_option.ui:112
 msgid "Exclude from Backup"
 msgstr "从备份中排除"
 
-#: src/ui/app_window.ui:368
+#: src/ui/app_window.ui:356
 msgid "The following folders are excluded from the backup repository."
 msgstr "下列文件夹会从备份仓库中排除。"
 
-#: src/ui/app_window.ui:371
+#: src/ui/app_window.ui:359
 msgid "Select Directory to Exclude"
 msgstr "选择要排除的目录"
 
-#: src/ui/app_window.ui:384
+#: src/ui/app_window.ui:372
 msgid "Nothing excluded from backup"
 msgstr "备份没有要排除的内容"
 
-#: src/ui/app_window.ui:398
+#: src/ui/app_window.ui:386
 msgid "_Archives"
 msgstr "归档文件(_A)"
 
-#: src/ui/app_window.ui:493
+#: src/ui/app_window.ui:481
 msgid "Archive _Prefix"
 msgstr "归档文件前缀(_P)"
 
-#: src/ui/app_window.ui:495
+#: src/ui/app_window.ui:483
 msgid "Added in front of all archive names"
 msgstr "添加至所有归档文件名称的前面"
 
-#: src/ui/app_window.ui:524
+#: src/ui/app_window.ui:512
 msgid "_Cleanup Archives"
 msgstr "清理归档文件(_C)"
 
-#: src/ui/app_window.ui:525
+#: src/ui/app_window.ui:513
 msgid "Delete some older archives"
 msgstr "删除一些旧的归档文件"
 
-#: src/ui/app_window.ui:541
+#: src/ui/app_window.ui:529
 msgid "Data Integrity Check"
 msgstr "数据完整性检查"
 
-#: src/ui/app_window.ui:547
+#: src/ui/app_window.ui:535
 msgid "_Check Now…"
 msgstr "立即检查(_C)…"
 
-#: src/ui/app_window.ui:555
+#: src/ui/app_window.ui:543
 msgid "_Abort…"
 msgstr "中止(_A)…"
 
-#: src/ui/app_window.ui:566
+#: src/ui/app_window.ui:554
 msgid "Archives"
 msgstr "归档文件"
 
-#: src/ui/app_window.ui:575
+#: src/ui/app_window.ui:563
 msgid "Refresh"
 msgstr "刷新"
 
-#: src/ui/app_window.ui:596
+#: src/ui/app_window.ui:584
 msgid "Stop browsing archive files"
 msgstr "停止浏览归档文件"
 
-#: src/ui/app_window.ui:622
+#: src/ui/app_window.ui:610
 msgid "No archives available"
 msgstr "没有可用的归档文件"
 
-#: src/ui/app_window.ui:641
+#: src/ui/app_window.ui:629
 msgid "_Schedule"
 msgstr "计划(_S)"
 
-#: src/ui/app_window.ui:662 src/ui/dialog_preferences.ui:151
+#: src/ui/app_window.ui:650 src/ui/dialog_preferences.ui:151
 msgid "Scheduled Backups"
 msgstr "计划备份"
 
-#: src/ui/app_window.ui:666
+#: src/ui/app_window.ui:654
 msgid "Regularly Create Backups"
 msgstr "定期创建备份"
 
-#: src/ui/app_window.ui:671
+#: src/ui/app_window.ui:659
 msgid "Frequency"
 msgstr "频率"
 
-#: src/ui/app_window.ui:679
+#: src/ui/app_window.ui:667
 msgid "Preferred Time"
 msgstr "首选时间"
 
-#: src/ui/app_window.ui:699
+#: src/ui/app_window.ui:687
 msgid "Preferred Weekday"
 msgstr "首选工作日"
 
-#: src/ui/app_window.ui:704
-msgid "Preferred Day"
-msgstr "首选白天"
+#: src/ui/app_window.ui:692
+msgid "Preferred Day of Month"
+msgstr "首选月份中某一天"
 
-#: src/ui/app_window.ui:725 src/ui/dialog_prune.rs:95
+#: src/ui/app_window.ui:710 src/ui/dialog_prune.rs:95
 msgid "Delete old Archives"
 msgstr "删除旧归档文件"
 
-#: src/ui/app_window.ui:731
+#: src/ui/app_window.ui:716
 msgid "Save Configuration"
 msgstr "保存配置"
 
-#: src/ui/app_window.ui:743
+#: src/ui/app_window.ui:728
 msgid "Regularly Cleanup Archives"
 msgstr "定期清理归档文件"
 
-#: src/ui/app_window.ui:744
+#: src/ui/app_window.ui:729
 msgid "Remove old archives after creating new backups"
 msgstr "创建新备份后移除旧归档文件"
 
-#: src/ui/app_window.ui:754
+#: src/ui/app_window.ui:739
 msgid "Preserved Archives"
 msgstr "保留归档文件"
 
-#: src/ui/app_window.ui:755
+#: src/ui/app_window.ui:740
 msgid "Amount and time span of retained archives"
 msgstr "保留归档文件的总数和时间跨度"
 
-#: src/ui/app_window.ui:764
+#: src/ui/app_window.ui:749
 msgid "Details"
 msgstr "细节"
 
-#: src/ui/app_window.ui:768
+#: src/ui/app_window.ui:753
 msgid "Keep Hourly"
 msgstr "按小时保留"
 
-#: src/ui/app_window.ui:784
+#: src/ui/app_window.ui:769
 msgid "Keep Daily"
 msgstr "按天保留"
 
-#: src/ui/app_window.ui:800
+#: src/ui/app_window.ui:785
 msgid "Keep Weekly"
 msgstr "按周保留"
 
-#: src/ui/app_window.ui:815
+#: src/ui/app_window.ui:800
 msgid "Keep Monthly"
 msgstr "按月保留"
 
-#: src/ui/app_window.ui:829
+#: src/ui/app_window.ui:814
 msgid "Keep Annual"
 msgstr "按年保留"
 
-#: src/ui/app_window.ui:872
+#: src/ui/app_window.ui:857
 msgid "Backup Info"
 msgstr "备份信息"
 
-#: src/ui/app_window.ui:935
+#: src/ui/app_window.ui:920
 msgid "Amount saved"
 msgstr "已保存量"
 
-#: src/ui/app_window.ui:936
+#: src/ui/app_window.ui:921
 msgid "Size of all files"
 msgstr "所有文件大小"
 
-#: src/ui/app_window.ui:952
+#: src/ui/app_window.ui:937
 msgid "Number of files saved"
 msgstr "已保存文件的数量"
 
-#: src/ui/app_window.ui:968
+#: src/ui/app_window.ui:953
 msgid "Backup space used"
 msgstr "占用的备份空间"
 
-#: src/ui/app_window.ui:969
+#: src/ui/app_window.ui:954
 msgid "Newly used space in this backup"
 msgstr "该备份中新占用的空间"
 
-#: src/ui/app_window.ui:985
+#: src/ui/app_window.ui:970
 msgid "Current file"
 msgstr "当前文件"
 
@@ -2068,23 +2062,23 @@ msgstr "无效的工作日。"
 msgid "No frequency selected."
 msgstr "未选择频率。"
 
-#: src/ui/page_schedule/event.rs:251
+#: src/ui/page_schedule/event.rs:248
 msgid "Disable backup schedule?"
 msgstr "禁用备份计划吗？"
 
-#: src/ui/page_schedule/event.rs:252
+#: src/ui/page_schedule/event.rs:249
 msgid "No longer remind of backups based on a schedule."
 msgstr "不再根据计划提醒备份。"
 
-#: src/ui/page_schedule/event.rs:253
+#: src/ui/page_schedule/event.rs:250
 msgid "Keep Schedule"
 msgstr "保持计划"
 
-#: src/ui/page_schedule/event.rs:254
+#: src/ui/page_schedule/event.rs:251
 msgid "Disable Schedule"
 msgstr "禁用计划"
 
-#: src/ui/page_schedule/event.rs:319
+#: src/ui/page_schedule/event.rs:316
 msgid "No preset selected."
 msgstr "未选择预设。"
 
@@ -2502,6 +2496,11 @@ msgstr "重复该密码"
 #: src/utils.rs:78
 msgid "No such file or directory"
 msgstr "无此文件或目录"
+
+#~ msgid ""
+#~ "To quit monitoring the backup schedule, open Pika Backup and disable all "
+#~ "scheduled backups."
+#~ msgstr "要退出监视备份计划，请打开 Pika 备份并禁用所有计划的备份。"
 
 #~ msgid "Failed to list existing repositories."
 #~ msgstr "列出现有仓库失败。"
