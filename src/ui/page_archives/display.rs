@@ -8,8 +8,6 @@ use crate::ui::utils::repo_cache::RepoCache;
 use crate::{borg, config, ui};
 
 pub async fn show() -> Result<()> {
-    update_eject_button().await?;
-
     ui::utils::clear(&main_ui().archive_list());
 
     let config = BACKUP_CONFIG.load().active()?.clone();
@@ -17,6 +15,10 @@ pub async fn show() -> Result<()> {
     // location info
 
     update_info(&config);
+
+    // Eject button
+
+    update_eject_button().await?;
 
     // archives list
 
