@@ -40,17 +40,29 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default> Load
 }
 
 pub trait TrackChanges: Sized {
-    fn update_on_change(store: &'static Lazy<ArcSwap<Self>>) -> std::io::Result<()>;
+    fn update_on_change<H>(
+        store: &'static Lazy<ArcSwap<Self>>,
+        error_handler: H,
+    ) -> std::io::Result<()>
+    where
+        H: Fn(std::io::Error) + 'static;
 }
 
 thread_local! {
 static FILE_MONITORS: Cell<Vec<gio::FileMonitor>> = Default::default();
 }
 
-impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default + Clone> TrackChanges
-    for C
+impl<C> TrackChanges for C
+where
+    C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default + Clone,
 {
-    fn update_on_change(store: &'static Lazy<ArcSwap<Self>>) -> std::io::Result<()> {
+    fn update_on_change<H>(
+        store: &'static Lazy<ArcSwap<Self>>,
+        error_handler: H,
+    ) -> std::io::Result<()>
+    where
+        H: Fn(std::io::Error) + 'static,
+    {
         let path = Self::path();
         let file = gio::File::for_path(&path);
         let monitor = file
@@ -58,10 +70,10 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default + Clo
             .unwrap_or_else(|err| panic!("Failed to initiate file monitor for {path:?} ({err})"));
 
         monitor.connect_changed(
-            |_monitor: &gio::FileMonitor,
-             file: &gio::File,
-             _other_file: Option<&gio::File>,
-             event: gio::FileMonitorEvent| {
+            move |_monitor: &gio::FileMonitor,
+                  file: &gio::File,
+                  _other_file: Option<&gio::File>,
+                  event: gio::FileMonitorEvent| {
                 if event == gio::FileMonitorEvent::ChangesDoneHint {
                     info!("Reloading file after change {:?}", file.path());
                     // TODO send notification?
@@ -69,6 +81,7 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default + Clo
                         Ok(new) => store.update(|s| *s = new.clone()),
                         Err(err) => {
                             error!("Failed to reload {:?}: {}", file.path(), err);
+                            error_handler(err);
                         }
                     }
                 }

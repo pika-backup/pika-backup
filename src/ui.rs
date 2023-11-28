@@ -119,8 +119,10 @@ fn on_shutdown(_app: &adw::Application) {
 fn on_startup(_app: &adw::Application) {
     debug!("Signal 'startup'");
     ui::utils::config_io::load_config();
-    config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS)
-        .handle("Failed to Load Schedule Status");
+    config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS, |err| {
+        Err::<(), std::io::Error>(err).handle("Failed to load Schedule Status")
+    })
+    .handle("Failed to Load Schedule Status");
 
     // Force adwaita icon theme
     if let Some(settings) = gtk::Settings::default() {

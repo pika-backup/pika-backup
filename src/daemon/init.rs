@@ -25,8 +25,24 @@ fn on_startup(_app: &gio::Application) {
 
     crate::utils::init_gettext();
 
-    config::Histories::update_on_change(&BACKUP_HISTORY).handle("Initial config load failed");
-    config::Backups::update_on_change(&BACKUP_CONFIG).handle("Initial config load failed");
+    let config_load_result =
+        config::Histories::update_on_change(&BACKUP_HISTORY, config_reload_error_handler).and_then(
+            |_| config::Backups::update_on_change(&BACKUP_CONFIG, config_reload_error_handler),
+        );
+
+    if let Err(err) = &config_load_result {
+        let msg = gettext("Error loading configuration");
+        let detail = format!("{}\n{}", gettext("Not monitoring backup schedule."), err);
+        error!("Error loading configuration: {}: {}", msg, detail);
+
+        let notification = gio::Notification::new(&msg.to_string());
+        notification.set_body(Some(&detail));
+        gio_app().send_notification(None, &notification);
+
+        // If we can't read the config, quit the monitor process
+        gio_app().quit();
+        return;
+    }
 
     daemon::connect::init::init();
     daemon::schedule::init::init();
@@ -120,6 +136,11 @@ fn app_running(is_running: bool) {
             glib::MainContext::default().spawn(restart_daemon());
         }
     }
+}
+
+pub fn config_reload_error_handler(err: std::io::Error) {
+    warn!("Error reloading config: {}. Restarting daemon.", err);
+    glib::MainContext::default().spawn(restart_daemon());
 }
 
 pub async fn restart_daemon() {

@@ -27,6 +27,7 @@
 - Add exclusion suggestions for unreadable paths
 - Add eject button for backup disk
 - Add function to check archives integrity
+- Add restart functionality to monitor process after app updates
 
 ## 0.6.2 (2023-09-06)
 
