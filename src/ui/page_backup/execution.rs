@@ -62,6 +62,15 @@ async fn run_backup(
 ) -> Result<()> {
     run_script(UserScriptKind::PreBackup, config.clone(), None, guard).await?;
 
+    // Configure additional free space if not already configured
+    let configure_repo = borg::CommandOnlyRepo::new(config.repo.clone());
+    if let Err(err) = configure_repo.configure_free_space_if_required().await {
+        error!(
+            "Error when configuring additional_free_space for repo {}, ignoring: {}",
+            config.id, err
+        );
+    }
+
     let command = borg::Command::<borg::task::Create>::new(config.clone())
         .set_from_schedule(from_schedule.clone());
     let communication = command.communication.clone();

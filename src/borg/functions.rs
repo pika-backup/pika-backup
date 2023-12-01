@@ -536,7 +536,7 @@ impl CommandOnlyRepo {
             .await
     }
 
-    pub async fn configure(self) -> Result<()> {
+    pub async fn configure_free_space(self) -> Result<()> {
         if self.repo.is_filesystem() {
             BorgCall::new("config")
                 .add_basics(&self)
@@ -550,6 +550,24 @@ impl CommandOnlyRepo {
         Ok(())
     }
 
+    pub async fn configure_free_space_if_required(self) -> Result<()> {
+        if self.repo.is_filesystem() {
+            let output = BorgCall::new("config")
+                .add_basics(&self)
+                .await?
+                .add_positional("additional_free_space")
+                .output_generic::<RawOutput>()
+                .await?;
+
+            let value = String::from_utf8_lossy(&output.output);
+            if value.trim() == "0" {
+                self.configure_free_space().await?;
+            }
+        }
+
+        Ok(())
+    }
+
     pub async fn init(self) -> Result<()> {
         BorgCall::new("init")
             .add_options([format!("--encryption=repokey{}", fasted_hash_algorithm()).as_str()])
@@ -558,7 +576,7 @@ impl CommandOnlyRepo {
             .output_generic::<()>()
             .await?;
 
-        self.configure().await?;
+        self.configure_free_space().await?;
         Ok(())
     }
 }
