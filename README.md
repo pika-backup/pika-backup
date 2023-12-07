@@ -4,11 +4,11 @@ Doing backups the easy way. Plugin your USB drive and let the Pika do the rest f
 
 [<img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png' />](https://flathub.org/apps/details/org.gnome.World.PikaBackup)
 
-[<img width='240' alt='More on Apps for GNOME' src='https://gitlab.gnome.org/World/pika-backup/uploads/2406312cda45cf979df75f1e15263c54/button.png' />](https://apps.gnome.org/app/org.gnome.World.PikaBackup/)
+[<img width='240' alt='More on Apps for GNOME' src='https://gitlab.gnome.org/World/pika-backup/uploads/2406312cda45cf979df75f1e15263c54/button.png' />](https://apps.gnome.org/app/PikaBackup/)
 
 [<img width='240' alt='Part of GNOME Circle' src='https://gitlab.gnome.org/Teams/Circle/-/raw/91de93edbb3e75eb0882d56bd466e58b525135d5/assets/button/circle-button-fullcolor.svg' />](https://circle.gnome.org/)
 
-[<img alt='Donate on Open Collective' src='https://opencollective.com/webpack/donate/button.png?color=blue' />](https://opencollective.com/pika-backup)
+[<img alt='Donate on Open Collective' src='https://opencollective.com/pika-backup/donate/button.png?color=blue' />](https://opencollective.com/pika-backup)
 
 ### Features
 
