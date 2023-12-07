@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-30 17:41+0000\n"
-"PO-Revision-Date: 2023-11-30 20:12+0200\n"
+"POT-Creation-Date: 2023-12-07 14:37+0000\n"
+"PO-Revision-Date: 2023-12-07 19:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -127,7 +127,7 @@ msgstr "Налаштувати нову резервну копію"
 msgid "Show keyboard shortcuts"
 msgstr "Показати клавіатурні скорочення"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:209
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:211
 msgid "Quit"
 msgstr "Вийти"
 
@@ -639,8 +639,8 @@ msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
 msgstr ""
-"Версія завантаженого файла налаштувань {} є несумісною з цією версією"
-" «Пискухи-копіювання»"
+"Версія завантаженого файла налаштувань {} є несумісною з цією версією "
+"«Пискухи-копіювання»"
 
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
@@ -703,15 +703,25 @@ msgstr "«{}» містить одну налаштовану резервну �
 msgid "Back Up Now"
 msgstr "Створити резервну копію зараз"
 
-#: src/daemon/init.rs:44
+#: src/daemon/init.rs:34
+#| msgid "Could not load configuration file."
+msgid "Error loading configuration"
+msgstr "Помилка під час спроби завантажити налаштування"
+
+#: src/daemon/init.rs:35
+#| msgid "Monitoring Backup Schedule"
+msgid "Not monitoring backup schedule."
+msgstr "Немає спостереження за розкладом резервного копіювання."
+
+#: src/daemon/init.rs:60
 msgid "Monitoring Backup Schedule"
 msgstr "Спостереження за розкладом резервного копіювання"
 
-#: src/daemon/init.rs:104
+#: src/daemon/init.rs:120
 msgid "Fatal Error During Back Up"
 msgstr "Критична помилка під час резервного копіювання"
 
-#: src/daemon/init.rs:107
+#: src/daemon/init.rs:123
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] ""
@@ -723,7 +733,7 @@ msgstr[2] ""
 msgstr[3] ""
 "У «Пайці-копіюванні» сталася аварія під час створення резервної копії."
 
-#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+#: src/daemon/init.rs:162 src/daemon/init.rs:164 src/daemon/init.rs:171
 msgid "Error restarting monitor daemon"
 msgstr "Помилка під час спроби перезапустити фонову службу спостереження"
 
@@ -757,46 +767,46 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не вдалося розпочати резервне копіювання за розкладом"
 
-#: src/ui.rs:183
+#: src/ui.rs:185
 msgid "Abort running backup creation?"
 msgstr "Перервати поточну дію зі створення резервної копії?"
 
-#: src/ui.rs:184
+#: src/ui.rs:186
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui.rs:185 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
+#: src/ui.rs:187 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:39 src/ui/page_backup/events.rs:48
 #: src/ui/utils.rs:381
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui.rs:186 src/ui/page_backup/events.rs:40
+#: src/ui.rs:188 src/ui/page_backup/events.rs:40
 #: src/ui/page_backup/events.rs:49 src/ui/utils.rs:380
 msgid "Abort"
 msgstr "Перервати"
 
 #. Someone wants to quit the app from the shell (eg via backgrounds app list)
-#: src/ui.rs:194
+#: src/ui.rs:196
 msgid "A Backup Operation is Running"
 msgstr "Виконуємо дію з резервного копіювання"
 
-#: src/ui.rs:196
+#: src/ui.rs:198
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr ""
 "Роботу «Пискухи-копіювання» не можна переривати під час дії з резервного "
 "копіювання."
 
-#: src/ui.rs:222
+#: src/ui.rs:224
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином BorgBackup?"
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "BorgBackup version too old"
 msgstr "Надто застаріла версія BorgBackup"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -804,11 +814,11 @@ msgstr ""
 "Встановлена версія BorgBackup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
-#: src/ui.rs:259
+#: src/ui.rs:261
 msgid "BorgBackup version too new"
 msgstr "Надто нова версія BorgBackup"
 
-#: src/ui.rs:261
+#: src/ui.rs:263
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -817,11 +827,11 @@ msgstr ""
 "скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як "
 "ви на те сподівалися."
 
-#: src/ui.rs:271
+#: src/ui.rs:273
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не вдалося виконати перевірку версії BorgBackup"
 
-#: src/ui.rs:273
+#: src/ui.rs:275
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
 
@@ -1254,12 +1264,12 @@ msgstr ""
 msgid "Invalid Archive Prefix"
 msgstr "Некоректний префікс архівів"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
 #: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
 msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
-#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
@@ -1267,15 +1277,15 @@ msgstr "Префікс архівів"
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
+#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "Зберегти"
 
-#: src/ui/dialog_archive_prefix.ui:45
+#: src/ui/dialog_archive_prefix.ui:56
 msgid "Archive Prefixes"
 msgstr "Префікси архівів"
 
-#: src/ui/dialog_archive_prefix.ui:56
+#: src/ui/dialog_archive_prefix.ui:67
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1283,7 +1293,7 @@ msgstr ""
 "Кожен сеанс резервного копіювання призводить до створення архіву. Префіксом "
 "назви архіву завжди буде поточний префікс архівів."
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:74
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1293,7 +1303,7 @@ msgstr ""
 "розглядатиме вилучення лише архівів з поточним налаштованим префіксом у "
 "назві."
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Якщо префікс архівів є порожнім, ніякого префікса додано не буде."
 
@@ -1933,39 +1943,39 @@ msgstr "Віддалена адреса має бути вказаним шля�
 msgid "Invalid remote location: “{}”"
 msgstr "Некоректна віддалена адреса: «{}»"
 
-#: src/ui/dialog_storage.ui:19
+#: src/ui/dialog_storage.ui:30
 msgid "Disk"
 msgstr "Диск"
 
-#: src/ui/dialog_storage.ui:22
+#: src/ui/dialog_storage.ui:33
 msgid "Volume"
 msgstr "Том"
 
-#: src/ui/dialog_storage.ui:31
+#: src/ui/dialog_storage.ui:42
 msgid "Device"
 msgstr "Пристрій"
 
-#: src/ui/dialog_storage.ui:40
+#: src/ui/dialog_storage.ui:51
 msgid "Path"
 msgstr "Шлях"
 
-#: src/ui/dialog_storage.ui:52
+#: src/ui/dialog_storage.ui:63
 msgid "Remote"
 msgstr "Віддалене"
 
-#: src/ui/dialog_storage.ui:55
+#: src/ui/dialog_storage.ui:66
 msgid "URL"
 msgstr "Адреса"
 
-#: src/ui/dialog_storage.ui:67
+#: src/ui/dialog_storage.ui:78
 msgid "Space"
 msgstr "Місце"
 
-#: src/ui/dialog_storage.ui:70
+#: src/ui/dialog_storage.ui:81
 msgid "Total"
 msgstr "Загалом"
 
-#: src/ui/dialog_storage.ui:79
+#: src/ui/dialog_storage.ui:90
 msgid "Free"
 msgstr "Вільно"
 
