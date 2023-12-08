@@ -7,8 +7,8 @@ variables:
   APP_ID: "org.gnome.World.PikaBackup.Devel"
   FLATPAK_MODULE: "pika-backup"
   MANIFEST_PATH: "build-aux/org.gnome.World.PikaBackup.Devel.json"
-  RUNTIME_IMAGE: "quay.io/gnome_infrastructure/gnome-runtime-images:gnome-master"
-  RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
+  RUNTIME_IMAGE: "quay.io/gnome_infrastructure/gnome-runtime-images:gnome-45"
+  RUNTIME_REPO: "https://flathub.org/repo/flathub.flatpakrepo"
 
 cargo-audit:
   image: rust
@@ -55,7 +55,10 @@ cargo-fmt:
     - cargo fmt --all -- --color=always --check
 
 cargo-test:
-  extends: flatpak
+  image: "${RUNTIME_IMAGE}"
+  interruptible: true
+  tags:
+    - flatpak
   script:
     - flatpak-builder --user --disable-rofiles-fuse --keep-build-dirs --stop-at=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - flatpak build-finish --socket=x11 --share=network flatpak_app
@@ -72,11 +75,15 @@ flatpak:
   extends: ".flatpak@x86_64"
   variables:
     RUN_TESTS: "0"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 flatpak@aarch64:
   extends: ".flatpak@aarch64"
   variables:
     RUN_TESTS: "0"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 pages:
   stage: deploy
