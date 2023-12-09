@@ -5,6 +5,7 @@ use crate::config::ConfigId;
 
 use std::collections::{BTreeMap, HashSet};
 use std::rc::Rc;
+use std::sync::OnceLock;
 
 use arc_swap::ArcSwap;
 use once_cell::sync::Lazy;
@@ -25,6 +26,8 @@ pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<borg::RepoId>>> = Lazy::new(Defau
 
 /// Is the app currently shutting down
 pub static IS_SHUTDOWN: Lazy<ArcSwap<bool>> = Lazy::new(Default::default);
+
+pub static BORG_VERSION: OnceLock<String> = OnceLock::new();
 
 pub static REPO_CACHE: Lazy<ArcSwap<BTreeMap<borg::RepoId, ui::utils::repo_cache::RepoCache>>> =
     Lazy::new(Default::default);

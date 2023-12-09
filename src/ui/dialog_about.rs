@@ -89,9 +89,15 @@ fn debug_info() -> String {
         ),
         format!("- App ID: {}", crate::APP_ID),
         format!(
-            "- Sandboxed: {} {}",
+            "- Sandboxed: {} ({})",
             *crate::globals::APP_IS_SANDBOXED,
             std::env::var("container").unwrap_or_default()
+        ),
+        format!(
+            "- BorgBackup Version: {}",
+            crate::ui::BORG_VERSION
+                .get()
+                .map_or("Unknown", String::as_str)
         ),
         format!("\n##### OS Information\n```\n{}\n```", os_release()),
         format!(

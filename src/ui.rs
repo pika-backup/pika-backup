@@ -224,6 +224,8 @@ async fn init_check_borg() -> Result<()> {
 
     match version_result {
         Err(err) => {
+            let _ = globals::BORG_VERSION.set(format!("Error: {}", err));
+
             return Err(Message::new(
                 gettext("Failed to run “borg”. Is BorgBackup installed correctly?"),
                 err,
@@ -231,6 +233,8 @@ async fn init_check_borg() -> Result<()> {
             .into());
         }
         Ok(version_output) => {
+            let _ = globals::BORG_VERSION.set(version_output.clone());
+
             if let Some(version_string) = version_output
                 .lines()
                 .next()
