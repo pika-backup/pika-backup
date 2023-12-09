@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-30 17:41+0000\n"
-"PO-Revision-Date: 2023-12-02 08:00+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2023-12-07 14:37+0000\n"
+"PO-Revision-Date: 2023-12-07 20:05+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -120,7 +120,7 @@ msgstr "Yeni yedek ayarla"
 msgid "Show keyboard shortcuts"
 msgstr "Klavye kısayollarını göster"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:209
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:211
 msgid "Quit"
 msgstr "Çık"
 
@@ -685,20 +685,28 @@ msgstr "“{}” yapılandırılmış yedekleme içeriyor."
 msgid "Back Up Now"
 msgstr "Şimdi Yedekle"
 
-#: src/daemon/init.rs:44
+#: src/daemon/init.rs:34
+msgid "Error loading configuration"
+msgstr "Yapılandırma yüklenirken hata oluştu"
+
+#: src/daemon/init.rs:35
+msgid "Not monitoring backup schedule."
+msgstr "Yedek zamanlama izlenmiyor."
+
+#: src/daemon/init.rs:60
 msgid "Monitoring Backup Schedule"
 msgstr "Yedek Zamanlama Gözlemleyiş"
 
-#: src/daemon/init.rs:104
+#: src/daemon/init.rs:120
 msgid "Fatal Error During Back Up"
 msgstr "Yedeklemede Ölümcül Hata"
 
-#: src/daemon/init.rs:107
+#: src/daemon/init.rs:123
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika Yedek {} yedekleme çalıştırırken çöktü."
 
-#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+#: src/daemon/init.rs:162 src/daemon/init.rs:164 src/daemon/init.rs:171
 msgid "Error restarting monitor daemon"
 msgstr "Gözlemleme art alan hizmeti yeniden başlatılamadı"
 
@@ -730,43 +738,43 @@ msgstr "Zamanlanmış yedeklemenin başlaması için “{}” bağlanmalıdır."
 msgid "Failed to start scheduled backup"
 msgstr "Zamanlanmış yedekleme başlatılamadı"
 
-#: src/ui.rs:183
+#: src/ui.rs:185
 msgid "Abort running backup creation?"
 msgstr "Çalışan yedekleme oluşturma işleminden vazgeçilsin mi?"
 
-#: src/ui.rs:184
+#: src/ui.rs:186
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Vazgeçilirse yedekleme eksik kalacaktır."
 
-#: src/ui.rs:185 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
+#: src/ui.rs:187 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:39 src/ui/page_backup/events.rs:48
 #: src/ui/utils.rs:381
 msgid "Continue"
 msgstr "Sürdür"
 
-#: src/ui.rs:186 src/ui/page_backup/events.rs:40
+#: src/ui.rs:188 src/ui/page_backup/events.rs:40
 #: src/ui/page_backup/events.rs:49 src/ui/utils.rs:380
 msgid "Abort"
 msgstr "Vazgeç"
 
 #. Someone wants to quit the app from the shell (eg via backgrounds app list)
-#: src/ui.rs:194
+#: src/ui.rs:196
 msgid "A Backup Operation is Running"
 msgstr "Yedekleme İşlemi Çalışıyor"
 
-#: src/ui.rs:196
+#: src/ui.rs:198
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "Pika Yedek, yedekleme sırasında çıkış yapamaz."
 
-#: src/ui.rs:222
+#: src/ui.rs:224
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "“borg” çalıştırılamadı. BorgBackup doğru kuruldu mu?"
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "BorgBackup version too old"
 msgstr "BorgBackup sürümü çok eski"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -774,11 +782,11 @@ msgstr ""
 "Kurulu BorgBackup {} sürümü çok eski. Kimi borg-backup {}.{}.{} gerektiren "
 "özellikler çalışmayacaktır."
 
-#: src/ui.rs:259
+#: src/ui.rs:261
 msgid "BorgBackup version too new"
 msgstr "BorgBackup sürümü çok yeni"
 
-#: src/ui.rs:261
+#: src/ui.rs:263
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -786,11 +794,11 @@ msgstr ""
 "Kurulu BorgBackup {} sürümü çok yeni. {}.{} sürümü önerilir. Kimi özellikler "
 "beklendiği gibi çalışmayabilir."
 
-#: src/ui.rs:271
+#: src/ui.rs:273
 msgid "Failed to Check BorgBackup Version"
 msgstr "BorgBackup Sürümü Denetlenemedi"
 
-#: src/ui.rs:273
+#: src/ui.rs:275
 msgid "The installed version {} might not work."
 msgstr "Kurulu {} sürümü çalışmayabilir."
 
@@ -1222,12 +1230,12 @@ msgstr ""
 msgid "Invalid Archive Prefix"
 msgstr "Geçersiz Arşiv Ön Eki"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
 #: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
 msgid "Archive Prefix"
 msgstr "Arşiv Ön Eki"
 
-#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
@@ -1235,15 +1243,15 @@ msgstr "Arşiv Ön Eki"
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
+#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "Kaydet"
 
-#: src/ui/dialog_archive_prefix.ui:45
+#: src/ui/dialog_archive_prefix.ui:56
 msgid "Archive Prefixes"
 msgstr "Arşiv Ön Ekleri"
 
-#: src/ui/dialog_archive_prefix.ui:56
+#: src/ui/dialog_archive_prefix.ui:67
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1251,7 +1259,7 @@ msgstr ""
 "Her yedekleme işlemi yeni arşiv oluşturur. Arşiv adının önüne her zaman "
 "geçerli arşiv ön eki eklenir."
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:74
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1261,7 +1269,7 @@ msgstr ""
 "şu anda yapılandırılmış ön ek bulunan arşivler silinmek üzere "
 "değerlendirilir."
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Arşiv ön eki boşsa ön ek eklenmez."
 
@@ -1880,39 +1888,39 @@ msgstr "Uzak konumun belirli yolu olmalıdır."
 msgid "Invalid remote location: “{}”"
 msgstr "Geçersiz uzak konum: “{}”"
 
-#: src/ui/dialog_storage.ui:19
+#: src/ui/dialog_storage.ui:30
 msgid "Disk"
 msgstr "Disk"
 
-#: src/ui/dialog_storage.ui:22
+#: src/ui/dialog_storage.ui:33
 msgid "Volume"
 msgstr "Birim"
 
-#: src/ui/dialog_storage.ui:31
+#: src/ui/dialog_storage.ui:42
 msgid "Device"
 msgstr "Aygıt"
 
-#: src/ui/dialog_storage.ui:40
+#: src/ui/dialog_storage.ui:51
 msgid "Path"
 msgstr "Yol"
 
-#: src/ui/dialog_storage.ui:52
+#: src/ui/dialog_storage.ui:63
 msgid "Remote"
 msgstr "Uzak"
 
-#: src/ui/dialog_storage.ui:55
+#: src/ui/dialog_storage.ui:66
 msgid "URL"
 msgstr "URL"
 
-#: src/ui/dialog_storage.ui:67
+#: src/ui/dialog_storage.ui:78
 msgid "Space"
 msgstr "Boşluk"
 
-#: src/ui/dialog_storage.ui:70
+#: src/ui/dialog_storage.ui:81
 msgid "Total"
 msgstr "Toplam"
 
-#: src/ui/dialog_storage.ui:79
+#: src/ui/dialog_storage.ui:90
 msgid "Free"
 msgstr "Boş"
 
