@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-30 17:41+0000\n"
-"PO-Revision-Date: 2023-12-06 11:15+0200\n"
+"POT-Creation-Date: 2023-12-07 14:37+0000\n"
+"PO-Revision-Date: 2023-12-09 22:48+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -120,7 +120,7 @@ msgstr "הקמת גיבוי חדש"
 msgid "Show keyboard shortcuts"
 msgstr "הצגת צירופי מקשים"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:209
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:211
 msgid "Quit"
 msgstr "יציאה"
 
@@ -682,15 +682,23 @@ msgstr "„{}” מכיל גיבוי מוגדר אחד."
 msgid "Back Up Now"
 msgstr "לגבות כעת"
 
-#: src/daemon/init.rs:44
+#: src/daemon/init.rs:34
+msgid "Error loading configuration"
+msgstr "שגיאה בטעינת ההגדרות"
+
+#: src/daemon/init.rs:35
+msgid "Not monitoring backup schedule."
+msgstr "אין מעקב אחר תזמון גיבוי."
+
+#: src/daemon/init.rs:60
 msgid "Monitoring Backup Schedule"
 msgstr "מעקב אחר תזמון גיבוי"
 
-#: src/daemon/init.rs:104
+#: src/daemon/init.rs:120
 msgid "Fatal Error During Back Up"
 msgstr "שגיאה מכרעת במהלך הגיבוי"
 
-#: src/daemon/init.rs:107
+#: src/daemon/init.rs:123
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "גיבוי פיקה קרס במהלך ביצוע גיבוי."
@@ -698,7 +706,7 @@ msgstr[1] "גיבוי פיקה קרס במהלך ביצוע {} גיבויים."
 msgstr[2] "גיבוי פיקה קרס במהלך ביצוע {} גיבויים."
 msgstr[3] "גיבוי פיקה קרס במהלך ביצוע {} גיבויים."
 
-#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+#: src/daemon/init.rs:162 src/daemon/init.rs:164 src/daemon/init.rs:171
 msgid "Error restarting monitor daemon"
 msgstr "הפעלת סוכן המעקב מחדש נתקלה בשגיאה"
 
@@ -730,43 +738,43 @@ msgstr "„{}” חייב להיות מחובר כדי שהחיבור המתוז
 msgid "Failed to start scheduled backup"
 msgstr "התחלת הגיבוי המתוזמן נכשלה"
 
-#: src/ui.rs:183
+#: src/ui.rs:185
 msgid "Abort running backup creation?"
 msgstr "לבטל את יצירת הגיבוי הפעיל?"
 
-#: src/ui.rs:184
+#: src/ui.rs:186
 msgid "The backup will remain incomplete if aborted now."
 msgstr "הגיבוי יישאר חלקי אם יבוטל כעת."
 
-#: src/ui.rs:185 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
+#: src/ui.rs:187 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:39 src/ui/page_backup/events.rs:48
 #: src/ui/utils.rs:381
 msgid "Continue"
 msgstr "להמשיך"
 
-#: src/ui.rs:186 src/ui/page_backup/events.rs:40
+#: src/ui.rs:188 src/ui/page_backup/events.rs:40
 #: src/ui/page_backup/events.rs:49 src/ui/utils.rs:380
 msgid "Abort"
 msgstr "לבטל"
 
 #. Someone wants to quit the app from the shell (eg via backgrounds app list)
-#: src/ui.rs:194
+#: src/ui.rs:196
 msgid "A Backup Operation is Running"
 msgstr "פעולת גיבוי רצה"
 
-#: src/ui.rs:196
+#: src/ui.rs:198
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "גיבוי פיקה לא יכול לצאת במהלך פעולת גיבוי."
 
-#: src/ui.rs:222
+#: src/ui.rs:224
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "הפעלת „borg” נכשלה. האם BorgBackup מותקן כראוי?"
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "BorgBackup version too old"
 msgstr "הגרסה של BorgBackup ישנה מדי"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -774,11 +782,11 @@ msgstr ""
 "הגרסה המותקנת {} של BorgBackup ישנה מדי. חלק מהיכולות שדורשות את גרסה {}.{}."
 "{} של borg-backup לא תעבודנה."
 
-#: src/ui.rs:259
+#: src/ui.rs:261
 msgid "BorgBackup version too new"
 msgstr "הגרסה של BorgBackup חדשה מדי"
 
-#: src/ui.rs:261
+#: src/ui.rs:263
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -786,11 +794,11 @@ msgstr ""
 "הגרסה המותקנת {} של BorgBackup חדשה מדי. מומלץ להתקין את גרסה {}.{}. חלק "
 "מהיכולות לא תעבודנה כמצופה."
 
-#: src/ui.rs:271
+#: src/ui.rs:273
 msgid "Failed to Check BorgBackup Version"
 msgstr "בדיקת גרסת ה־BorgBackup נכשלה"
 
-#: src/ui.rs:273
+#: src/ui.rs:275
 msgid "The installed version {} might not work."
 msgstr "יכול להיות שהגרסה המותקנת {} לא תעבוד."
 
@@ -1220,12 +1228,12 @@ msgstr ""
 msgid "Invalid Archive Prefix"
 msgstr "קידומת הארכיון שגויה"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
 #: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
 msgid "Archive Prefix"
 msgstr "קידומת ארכיון"
 
-#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
@@ -1233,15 +1241,15 @@ msgstr "קידומת ארכיון"
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
+#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "שמירה"
 
-#: src/ui/dialog_archive_prefix.ui:45
+#: src/ui/dialog_archive_prefix.ui:56
 msgid "Archive Prefixes"
 msgstr "קידומות ארכיון"
 
-#: src/ui/dialog_archive_prefix.ui:56
+#: src/ui/dialog_archive_prefix.ui:67
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1249,7 +1257,7 @@ msgstr ""
 "כל ריצה של גיבוי יוצרת ארכיון חדש. את שם הארכיון תמיד תקדים קידומת הארכיון "
 "הנוכחית."
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:74
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1258,7 +1266,7 @@ msgstr ""
 "זה הכרחי במיוחד לטובת היכולת „ניקוי ארכיונים”. רק ארכיונים עם הקידומת "
 "שמוגדרת כרגע בשמם מועמדים למחיקה."
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "אם קידומת הארכיון ריקה, לא נוספת קידומת."
 
@@ -1692,7 +1700,6 @@ msgid "Examples"
 msgstr "דוגמאות"
 
 #: src/ui/dialog_setup.ui:268
-#| msgid "ssh://user@server.example.org/~/backup"
 msgid ""
 "ssh://user@server.example.org/~/backup\n"
 "smb://user@server.example.org/files/backup"
@@ -1869,39 +1876,39 @@ msgstr "במיקום המרוחק חייב להיות נתיב מסוים."
 msgid "Invalid remote location: “{}”"
 msgstr "מיקום מרוחק שגוי: „{}”"
 
-#: src/ui/dialog_storage.ui:19
+#: src/ui/dialog_storage.ui:30
 msgid "Disk"
 msgstr "כונן"
 
-#: src/ui/dialog_storage.ui:22
+#: src/ui/dialog_storage.ui:33
 msgid "Volume"
 msgstr "כרך"
 
-#: src/ui/dialog_storage.ui:31
+#: src/ui/dialog_storage.ui:42
 msgid "Device"
 msgstr "התקן"
 
-#: src/ui/dialog_storage.ui:40
+#: src/ui/dialog_storage.ui:51
 msgid "Path"
 msgstr "נתיב"
 
-#: src/ui/dialog_storage.ui:52
+#: src/ui/dialog_storage.ui:63
 msgid "Remote"
 msgstr "מרוחק"
 
-#: src/ui/dialog_storage.ui:55
+#: src/ui/dialog_storage.ui:66
 msgid "URL"
 msgstr "כתובת"
 
-#: src/ui/dialog_storage.ui:67
+#: src/ui/dialog_storage.ui:78
 msgid "Space"
 msgstr "מקום"
 
-#: src/ui/dialog_storage.ui:70
+#: src/ui/dialog_storage.ui:81
 msgid "Total"
 msgstr "סך הכול"
 
-#: src/ui/dialog_storage.ui:79
+#: src/ui/dialog_storage.ui:90
 msgid "Free"
 msgstr "פנוי"
 
