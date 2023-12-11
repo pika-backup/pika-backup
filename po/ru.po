@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-16 00:49+0000\n"
-"PO-Revision-Date: 2023-11-16 15:10+0300\n"
+"POT-Creation-Date: 2023-12-07 17:36+0000\n"
+"PO-Revision-Date: 2023-12-08 12:30+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -124,7 +124,7 @@ msgstr "Настройка новой резервной копии"
 msgid "Show keyboard shortcuts"
 msgstr "Показать комбинации клавиш"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:209
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:211
 msgid "Quit"
 msgstr "Закрыть"
 
@@ -560,7 +560,7 @@ msgid "Running Custom Shell Command"
 msgstr "Выполняется пользовательская команда оболочки"
 
 #. Translators: User home directory
-#: src/config.rs:58 src/ui/page_backup/display.rs:13
+#: src/config.rs:71 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:181
 msgid "Home"
 msgstr "Домашняя папка"
@@ -632,6 +632,15 @@ msgstr "Файлы, которые не были безвозвратно уда
 msgid "Might include data stored within"
 msgstr "Может включать данные, хранящиеся в"
 
+#. The config is incompatible with this app version
+#: src/config/loadable.rs:37
+msgid ""
+"The loaded configuration file version {} is incompatible with this version "
+"of Pika Backup"
+msgstr ""
+"Загруженный файл конфигурации версии {} несовместим с данной версией Pika "
+"Backup"
+
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Регулярное выражение"
@@ -693,15 +702,23 @@ msgstr "«{}» содержит одну настроенную резервну
 msgid "Back Up Now"
 msgstr "Сделать резервную копию сейчас"
 
-#: src/daemon/init.rs:44
+#: src/daemon/init.rs:34
+msgid "Error loading configuration"
+msgstr "Ошибка загрузки конфигурации"
+
+#: src/daemon/init.rs:35
+msgid "Not monitoring backup schedule."
+msgstr "Не контролируется расписание резервного копирования."
+
+#: src/daemon/init.rs:60
 msgid "Monitoring Backup Schedule"
 msgstr "Мониторинг расписания резервного копирования"
 
-#: src/daemon/init.rs:104
+#: src/daemon/init.rs:120
 msgid "Fatal Error During Back Up"
 msgstr "Фатальная ошибка во время резервного копирования"
 
-#: src/daemon/init.rs:107
+#: src/daemon/init.rs:123
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] ""
@@ -709,7 +726,7 @@ msgstr[0] ""
 msgstr[1] "При выполнении {} резервных копирований произошел сбой Pika Backup."
 msgstr[2] "При выполнении {} резервных копирований произошел сбой Pika Backup."
 
-#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+#: src/daemon/init.rs:162 src/daemon/init.rs:164 src/daemon/init.rs:171
 msgid "Error restarting monitor daemon"
 msgstr "Ошибка перезапуска демона монитора"
 
@@ -743,44 +760,44 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не удалось запустить запланированное резервное копирование"
 
-#: src/ui.rs:183
+#: src/ui.rs:185
 msgid "Abort running backup creation?"
 msgstr "Прервать выполнение создания резервной копии?"
 
-#: src/ui.rs:184
+#: src/ui.rs:186
 msgid "The backup will remain incomplete if aborted now."
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас."
 
-#: src/ui.rs:185 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
+#: src/ui.rs:187 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:39 src/ui/page_backup/events.rs:48
 #: src/ui/utils.rs:381
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui.rs:186 src/ui/page_backup/events.rs:40
+#: src/ui.rs:188 src/ui/page_backup/events.rs:40
 #: src/ui/page_backup/events.rs:49 src/ui/utils.rs:380
 msgid "Abort"
 msgstr "Прервать"
 
 #. Someone wants to quit the app from the shell (eg via backgrounds app list)
-#: src/ui.rs:194
+#: src/ui.rs:196
 msgid "A Backup Operation is Running"
 msgstr "Выполняется операция резервного копирования"
 
-#: src/ui.rs:196
+#: src/ui.rs:198
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "Pika Backup нельзя закрыть во время операции резервного копирования."
 
-#: src/ui.rs:222
+#: src/ui.rs:224
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Не удалось запустить «borg». Правильно ли установлен BorgBackup?"
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "BorgBackup version too old"
 msgstr "Версия BorgBackup слишком старая"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -788,11 +805,11 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком старая. Некоторые функции, "
 "требующие borg-backup версии {}.{}.{}, не будут работать."
 
-#: src/ui.rs:259
+#: src/ui.rs:261
 msgid "BorgBackup version too new"
 msgstr "Версия BorgBackup слишком новая"
 
-#: src/ui.rs:261
+#: src/ui.rs:263
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -800,11 +817,11 @@ msgstr ""
 "Установленная версия {} BorgBackup слишком новая. Рекомендуется версия {}."
 "{}. Некоторые функции могут работать не так, как ожидается."
 
-#: src/ui.rs:271
+#: src/ui.rs:273
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не удалось проверить версию BorgBackup"
 
-#: src/ui.rs:273
+#: src/ui.rs:275
 msgid "The installed version {} might not work."
 msgstr "Установленная версия {} может не работать."
 
@@ -1241,12 +1258,12 @@ msgstr ""
 msgid "Invalid Archive Prefix"
 msgstr "Неверный префикс архива"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
 #: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
 msgid "Archive Prefix"
 msgstr "Префикс архива"
 
-#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
@@ -1254,15 +1271,15 @@ msgstr "Префикс архива"
 msgid "Cancel"
 msgstr "Отменить"
 
-#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
+#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/ui/dialog_archive_prefix.ui:45
+#: src/ui/dialog_archive_prefix.ui:56
 msgid "Archive Prefixes"
 msgstr "Префиксы архива"
 
-#: src/ui/dialog_archive_prefix.ui:56
+#: src/ui/dialog_archive_prefix.ui:67
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1270,7 +1287,7 @@ msgstr ""
 "При каждом запуске резервного копирования создается новый архив. Имя архива "
 "всегда имеет префикс текущего архива."
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:74
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1279,7 +1296,7 @@ msgstr ""
 "Это особенно актуально для функции «Очистка архивов». Только архивы с "
 "настроенным префиксом в имени рассматриваются для удаления."
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Если префикс архива пуст, префикс не добавляется."
 
@@ -1504,7 +1521,7 @@ msgstr "Недопустимая команда оболочки"
 msgid "Please check for missing closing quotes."
 msgstr "Проверьте, нет ли закрывающих кавычек."
 
-#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:193
+#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:202
 msgid "Error Running Shell Command"
 msgstr "Ошибка при выполнении команды оболочки"
 
@@ -1842,7 +1859,7 @@ msgstr "_Сохранить"
 msgid "Creating Backup Repository"
 msgstr "Создание хранилища резервных копий"
 
-#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:91
+#: src/ui/dialog_setup/display.rs:78 src/ui/page_archives/display.rs:93
 msgid "None"
 msgstr "Нет"
 
@@ -1917,39 +1934,39 @@ msgstr "Необходимо указать путь для удаленного
 msgid "Invalid remote location: “{}”"
 msgstr "Недействительное удаленное расположение: «{}»"
 
-#: src/ui/dialog_storage.ui:19
+#: src/ui/dialog_storage.ui:30
 msgid "Disk"
 msgstr "Диск"
 
-#: src/ui/dialog_storage.ui:22
+#: src/ui/dialog_storage.ui:33
 msgid "Volume"
 msgstr "Том"
 
-#: src/ui/dialog_storage.ui:31
+#: src/ui/dialog_storage.ui:42
 msgid "Device"
 msgstr "Устройство"
 
-#: src/ui/dialog_storage.ui:40
+#: src/ui/dialog_storage.ui:51
 msgid "Path"
 msgstr "Путь"
 
-#: src/ui/dialog_storage.ui:52
+#: src/ui/dialog_storage.ui:63
 msgid "Remote"
 msgstr "Удалённый"
 
-#: src/ui/dialog_storage.ui:55
+#: src/ui/dialog_storage.ui:66
 msgid "URL"
 msgstr "URL"
 
-#: src/ui/dialog_storage.ui:67
+#: src/ui/dialog_storage.ui:78
 msgid "Space"
 msgstr "Место"
 
-#: src/ui/dialog_storage.ui:70
+#: src/ui/dialog_storage.ui:81
 msgid "Total"
 msgstr "Всего"
 
-#: src/ui/dialog_storage.ui:79
+#: src/ui/dialog_storage.ui:90
 msgid "Free"
 msgstr "Свободно"
 
@@ -1976,39 +1993,39 @@ msgstr ""
 msgid "Failed to refresh archives cache."
 msgstr "Не удалось обновить кэш архивов."
 
-#: src/ui/page_archives/display.rs:105
+#: src/ui/page_archives/display.rs:107
 msgid "Failed to open archive."
 msgstr "Не удалось открыть архив."
 
-#: src/ui/page_archives/display.rs:171
+#: src/ui/page_archives/display.rs:173
 msgid "Incomplete Archive"
 msgstr "Неполный архив"
 
-#: src/ui/page_archives/display.rs:192
+#: src/ui/page_archives/display.rs:194
 msgid "Name"
 msgstr "Имя"
 
-#: src/ui/page_archives/display.rs:194
+#: src/ui/page_archives/display.rs:196
 msgid "Duration"
 msgstr "Длительность"
 
-#: src/ui/page_archives/display.rs:198
+#: src/ui/page_archives/display.rs:200
 msgid "Comment"
 msgstr "Комментарий"
 
-#: src/ui/page_archives/display.rs:202
+#: src/ui/page_archives/display.rs:204
 msgid "Browse saved files"
 msgstr "Просмотр сохраненных файлов"
 
-#: src/ui/page_archives/display.rs:216
+#: src/ui/page_archives/display.rs:218
 msgid "Delete archive"
 msgstr "Удалить архив"
 
-#: src/ui/page_archives/display.rs:250
+#: src/ui/page_archives/display.rs:252
 msgid "{} Available"
 msgstr "{} Доступно"
 
-#: src/ui/page_archives/display.rs:253
+#: src/ui/page_archives/display.rs:255
 msgid "{} Total"
 msgstr "{} Всего"
 
@@ -2121,11 +2138,11 @@ msgstr "Удалить старые архивы не удалось"
 msgid "Reclaiming Free Space Failed"
 msgstr "Высвобождение свободного места не удалось"
 
-#: src/ui/page_backup/execution.rs:120
+#: src/ui/page_backup/execution.rs:129
 msgid "Backup Failed"
 msgstr "Сбой резервного копирования"
 
-#: src/ui/page_backup/execution.rs:146
+#: src/ui/page_backup/execution.rs:155
 msgid "Backup Completed with Warnings"
 msgstr "Резервное копирование завершено с предупреждениями"
 
