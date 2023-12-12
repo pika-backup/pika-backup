@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-30 17:41+0000\n"
-"PO-Revision-Date: 2023-12-01 11:11+0700\n"
+"POT-Creation-Date: 2023-12-07 14:37+0000\n"
+"PO-Revision-Date: 2023-12-12 15:14+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -120,7 +120,7 @@ msgstr "Menyiapkan cadangan baru"
 msgid "Show keyboard shortcuts"
 msgstr "Tampilkan pintasan papan tik"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:209
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:211
 msgid "Quit"
 msgstr "Keluar"
 
@@ -702,20 +702,28 @@ msgstr "\"{}\" berisi satu cadangan yang dikonfigurasi."
 msgid "Back Up Now"
 msgstr "_Cadangkan Sekarang"
 
-#: src/daemon/init.rs:44
+#: src/daemon/init.rs:34
+msgid "Error loading configuration"
+msgstr "Terjadi galat saat memuat konfigurasi"
+
+#: src/daemon/init.rs:35
+msgid "Not monitoring backup schedule."
+msgstr "Tidak memantau jadwal pencadangan."
+
+#: src/daemon/init.rs:60
 msgid "Monitoring Backup Schedule"
 msgstr "Memantau Jadwal Pencadangan"
 
-#: src/daemon/init.rs:104
+#: src/daemon/init.rs:120
 msgid "Fatal Error During Back Up"
 msgstr "Galat Fatal Saat Pencadangan"
 
-#: src/daemon/init.rs:107
+#: src/daemon/init.rs:123
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika Backup mogok saat menjalankan pencadangan {}."
 
-#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+#: src/daemon/init.rs:162 src/daemon/init.rs:164 src/daemon/init.rs:171
 msgid "Error restarting monitor daemon"
 msgstr "Galat memulai ulang daemon monitor"
 
@@ -747,43 +755,43 @@ msgstr "\"{}\" harus terhubung agar pencadangan terjadwal dimulai."
 msgid "Failed to start scheduled backup"
 msgstr "Gagal memulai pencadangan terjadwal"
 
-#: src/ui.rs:183
+#: src/ui.rs:185
 msgid "Abort running backup creation?"
 msgstr "Gugurkan menjalankan pembuatan cadangan?"
 
-#: src/ui.rs:184
+#: src/ui.rs:186
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Pencadangan akan tetap tidak lengkap jika digugurkan sekarang."
 
-#: src/ui.rs:185 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
+#: src/ui.rs:187 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:39 src/ui/page_backup/events.rs:48
 #: src/ui/utils.rs:381
 msgid "Continue"
 msgstr "Lanjutkan"
 
-#: src/ui.rs:186 src/ui/page_backup/events.rs:40
+#: src/ui.rs:188 src/ui/page_backup/events.rs:40
 #: src/ui/page_backup/events.rs:49 src/ui/utils.rs:380
 msgid "Abort"
 msgstr "Gugurkan"
 
 #. Someone wants to quit the app from the shell (eg via backgrounds app list)
-#: src/ui.rs:194
+#: src/ui.rs:196
 msgid "A Backup Operation is Running"
 msgstr "Operasi Pencadangan Berjalan"
 
-#: src/ui.rs:196
+#: src/ui.rs:198
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "Pika cadangan tidak dapat berhenti selama operasi pencadangan."
 
-#: src/ui.rs:222
+#: src/ui.rs:224
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Gagal menjalankan \"borg\". Apakah BorgBackup terpasang dengan benar?"
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "BorgBackup version too old"
 msgstr "Versi BorgBackup terlalu tua"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -791,11 +799,11 @@ msgstr ""
 "Versi BorgBackup yang terpasang terlalu tua. Beberapa fitur yang memerlukan "
 "borg-backup versi {}.{} tidak akan berfungsi."
 
-#: src/ui.rs:259
+#: src/ui.rs:261
 msgid "BorgBackup version too new"
 msgstr "Versi BorgBackup terlalu baru"
 
-#: src/ui.rs:261
+#: src/ui.rs:263
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -803,11 +811,11 @@ msgstr ""
 "Versi BorgBackup yang terpasang terlalu tua. Beberapa fitur yang memerlukan "
 "borg-backup versi {}.{} tidak akan berfungsi."
 
-#: src/ui.rs:271
+#: src/ui.rs:273
 msgid "Failed to Check BorgBackup Version"
 msgstr "Gagal memeriksa versi BorgBackup"
 
-#: src/ui.rs:273
+#: src/ui.rs:275
 msgid "The installed version {} might not work."
 msgstr "Versi {} yang terpasang mungkin tidak bekerja."
 
@@ -1239,12 +1247,12 @@ msgstr ""
 msgid "Invalid Archive Prefix"
 msgstr "Prefiks Arsip Tidak Valid"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
 #: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
 msgid "Archive Prefix"
 msgstr "Prefiks Arsip"
 
-#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
@@ -1252,15 +1260,15 @@ msgstr "Prefiks Arsip"
 msgid "Cancel"
 msgstr "Batal"
 
-#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
+#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "Simpan"
 
-#: src/ui/dialog_archive_prefix.ui:45
+#: src/ui/dialog_archive_prefix.ui:56
 msgid "Archive Prefixes"
 msgstr "Prefiks Arsip"
 
-#: src/ui/dialog_archive_prefix.ui:56
+#: src/ui/dialog_archive_prefix.ui:67
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1268,7 +1276,7 @@ msgstr ""
 "Setiap eksekusi cadangan membuat arsip baru. Nama arsip selalu diawali "
 "dengan awalan arsip saat ini."
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:74
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1278,7 +1286,7 @@ msgstr ""
 "awalan yang saat ini dikonfigurasi dalam namanya yang dipertimbangkan untuk "
 "dihapus."
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Jika awalan arsip kosong, tidak ada awalan yang ditambahkan."
 
@@ -1507,7 +1515,7 @@ msgstr "Galat Menjalankan Perintah Shell"
 
 #: src/ui/dialog_preferences.rs:466
 msgid "Change Encryption Password Error"
-msgstr "Kesalahan Ubah Kata Sandi Enkripsi"
+msgstr "Galat Ubah Kata Sandi Enkripsi"
 
 #: src/ui/dialog_preferences.rs:473
 msgid "Password changed successfully"
@@ -1906,39 +1914,39 @@ msgstr "Lokasi terpencil harus memiliki jalur yang ditentukan."
 msgid "Invalid remote location: “{}”"
 msgstr "Lokasi terpencil yang tidak valid: \"{}\""
 
-#: src/ui/dialog_storage.ui:19
+#: src/ui/dialog_storage.ui:30
 msgid "Disk"
 msgstr "Diska"
 
-#: src/ui/dialog_storage.ui:22
+#: src/ui/dialog_storage.ui:33
 msgid "Volume"
 msgstr "Volume"
 
-#: src/ui/dialog_storage.ui:31
+#: src/ui/dialog_storage.ui:42
 msgid "Device"
 msgstr "Perangkat"
 
-#: src/ui/dialog_storage.ui:40
+#: src/ui/dialog_storage.ui:51
 msgid "Path"
 msgstr "Path"
 
-#: src/ui/dialog_storage.ui:52
+#: src/ui/dialog_storage.ui:63
 msgid "Remote"
 msgstr "Remote"
 
-#: src/ui/dialog_storage.ui:55
+#: src/ui/dialog_storage.ui:66
 msgid "URL"
 msgstr "URL"
 
-#: src/ui/dialog_storage.ui:67
+#: src/ui/dialog_storage.ui:78
 msgid "Space"
 msgstr "Ruang"
 
-#: src/ui/dialog_storage.ui:70
+#: src/ui/dialog_storage.ui:81
 msgid "Total"
 msgstr "Total"
 
-#: src/ui/dialog_storage.ui:79
+#: src/ui/dialog_storage.ui:90
 msgid "Free"
 msgstr "Bebas"
 
