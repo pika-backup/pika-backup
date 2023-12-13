@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-30 17:41+0000\n"
-"PO-Revision-Date: 2023-12-02 13:42+0800\n"
+"POT-Creation-Date: 2023-12-07 14:37+0000\n"
+"PO-Revision-Date: 2023-12-09 08:45+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -116,7 +116,7 @@ msgstr "创建新备份"
 msgid "Show keyboard shortcuts"
 msgstr "显示键盘快捷键"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:209
+#: data/resources/gtk/help-overlay.ui:25 src/ui.rs:211
 msgid "Quit"
 msgstr "退出"
 
@@ -675,20 +675,28 @@ msgstr "“{}”包含一个已配置备份。"
 msgid "Back Up Now"
 msgstr "立即备份"
 
-#: src/daemon/init.rs:44
+#: src/daemon/init.rs:34
+msgid "Error loading configuration"
+msgstr "加载配置时出错"
+
+#: src/daemon/init.rs:35
+msgid "Not monitoring backup schedule."
+msgstr "没有监视备份计划。"
+
+#: src/daemon/init.rs:60
 msgid "Monitoring Backup Schedule"
 msgstr "正在监视备份计划"
 
-#: src/daemon/init.rs:104
+#: src/daemon/init.rs:120
 msgid "Fatal Error During Back Up"
 msgstr "备份过程中发生严重错误"
 
-#: src/daemon/init.rs:107
+#: src/daemon/init.rs:123
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] "Pika 备份在运行 {} 个备份时崩溃。"
 
-#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+#: src/daemon/init.rs:162 src/daemon/init.rs:164 src/daemon/init.rs:171
 msgid "Error restarting monitor daemon"
 msgstr "重启监视守护程序出错"
 
@@ -720,43 +728,43 @@ msgstr "必须连接“{}”以使计划备份开始。"
 msgid "Failed to start scheduled backup"
 msgstr "开始计划备份失败"
 
-#: src/ui.rs:183
+#: src/ui.rs:185
 msgid "Abort running backup creation?"
 msgstr "中止备份创建的运行？"
 
-#: src/ui.rs:184
+#: src/ui.rs:186
 msgid "The backup will remain incomplete if aborted now."
 msgstr "备份会保存不完整如果现在中止。"
 
-#: src/ui.rs:185 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
+#: src/ui.rs:187 src/ui/dialog_setup.ui:481 src/ui/page_backup/events.rs:30
 #: src/ui/page_backup/events.rs:39 src/ui/page_backup/events.rs:48
 #: src/ui/utils.rs:381
 msgid "Continue"
 msgstr "继续"
 
-#: src/ui.rs:186 src/ui/page_backup/events.rs:40
+#: src/ui.rs:188 src/ui/page_backup/events.rs:40
 #: src/ui/page_backup/events.rs:49 src/ui/utils.rs:380
 msgid "Abort"
 msgstr "中止"
 
 #. Someone wants to quit the app from the shell (eg via backgrounds app list)
-#: src/ui.rs:194
+#: src/ui.rs:196
 msgid "A Backup Operation is Running"
 msgstr "备份操作正在运行"
 
-#: src/ui.rs:196
+#: src/ui.rs:198
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "Pika 备份无法在备份执行期间退出。"
 
-#: src/ui.rs:222
+#: src/ui.rs:224
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "运行“borg”失败。BorgBackup 是否已正确安装？"
 
-#: src/ui.rs:246
+#: src/ui.rs:248
 msgid "BorgBackup version too old"
 msgstr "BorgBackup 版本太旧"
 
-#: src/ui.rs:248
+#: src/ui.rs:250
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -764,11 +772,11 @@ msgstr ""
 "BorgBackup 的安装版本 {} 太旧。有些需要 borg-backup 版本 {}.{}.{} 的功能将不"
 "可用。"
 
-#: src/ui.rs:259
+#: src/ui.rs:261
 msgid "BorgBackup version too new"
 msgstr "BorgBackup 版本太新"
 
-#: src/ui.rs:261
+#: src/ui.rs:263
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -776,11 +784,11 @@ msgstr ""
 "BorgBackup 的安装版本 {} 太新。推荐使用 {}.{} 版本。有些功能可能不会按预期工"
 "作。"
 
-#: src/ui.rs:271
+#: src/ui.rs:273
 msgid "Failed to Check BorgBackup Version"
 msgstr "检查 BorgBackup 版本失败"
 
-#: src/ui.rs:273
+#: src/ui.rs:275
 msgid "The installed version {} might not work."
 msgstr "已安装的版本 {} 可能无法工作。"
 
@@ -1208,12 +1216,12 @@ msgstr ""
 msgid "Invalid Archive Prefix"
 msgstr "无效的归档文件前缀"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
 #: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
 msgid "Archive Prefix"
 msgstr "归档文件前缀"
 
-#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
@@ -1221,15 +1229,15 @@ msgstr "归档文件前缀"
 msgid "Cancel"
 msgstr "取消"
 
-#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
+#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "保存"
 
-#: src/ui/dialog_archive_prefix.ui:45
+#: src/ui/dialog_archive_prefix.ui:56
 msgid "Archive Prefixes"
 msgstr "归档文件前缀"
 
-#: src/ui/dialog_archive_prefix.ui:56
+#: src/ui/dialog_archive_prefix.ui:67
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1237,7 +1245,7 @@ msgstr ""
 "每次备份运行会创建新归档文件。归档文件名称总是用当前归档文件前缀作为文件名前"
 "缀。"
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:74
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1246,7 +1254,7 @@ msgstr ""
 "这与“清理归档文件”功能尤为相关。仅在文件名中带有当前已配置前缀的归档文件会被"
 "记入删除。"
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "如果归档文件前缀留空，则不会添加前缀。"
 
@@ -1846,39 +1854,39 @@ msgstr "远程位置必须具有特定路径。"
 msgid "Invalid remote location: “{}”"
 msgstr "无效的远程位置：“{}”"
 
-#: src/ui/dialog_storage.ui:19
+#: src/ui/dialog_storage.ui:30
 msgid "Disk"
 msgstr "磁盘"
 
-#: src/ui/dialog_storage.ui:22
+#: src/ui/dialog_storage.ui:33
 msgid "Volume"
 msgstr "卷"
 
-#: src/ui/dialog_storage.ui:31
+#: src/ui/dialog_storage.ui:42
 msgid "Device"
 msgstr "设备"
 
-#: src/ui/dialog_storage.ui:40
+#: src/ui/dialog_storage.ui:51
 msgid "Path"
 msgstr "路径"
 
-#: src/ui/dialog_storage.ui:52
+#: src/ui/dialog_storage.ui:63
 msgid "Remote"
 msgstr "远程"
 
-#: src/ui/dialog_storage.ui:55
+#: src/ui/dialog_storage.ui:66
 msgid "URL"
 msgstr "URL"
 
-#: src/ui/dialog_storage.ui:67
+#: src/ui/dialog_storage.ui:78
 msgid "Space"
 msgstr "空间"
 
-#: src/ui/dialog_storage.ui:70
+#: src/ui/dialog_storage.ui:81
 msgid "Total"
 msgstr "总容量"
 
-#: src/ui/dialog_storage.ui:79
+#: src/ui/dialog_storage.ui:90
 msgid "Free"
 msgstr "空闲"
 
