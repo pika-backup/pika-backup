@@ -96,38 +96,43 @@ fn on_startup(_app: &gio::Application) {
     }
 }
 
+fn backups_running() -> usize {
+    BACKUP_HISTORY
+        .load()
+        .iter()
+        .filter(|(_, x)| x.running.is_some())
+        .count()
+}
+
 fn app_running(is_running: bool) {
     APP_RUNNING.set(is_running);
 
     if !is_running {
-        // Reload backup history manually to prevent race conditions between the application exit event and file monitor
-        match config::Histories::from_file() {
-            Ok(new) => {
-                BACKUP_HISTORY.swap(Arc::new(new));
+        if backups_running() > 0 {
+            // Reload backup history manually to prevent race conditions between the application exit event and file monitor
+            match config::Histories::from_file() {
+                Ok(new) => {
+                    BACKUP_HISTORY.swap(Arc::new(new));
+                }
+                Err(err) => {
+                    error!("Failed to reload {:?}: {}", config::Histories::path(), err);
+                }
             }
-            Err(err) => {
-                error!("Failed to reload {:?}: {}", config::Histories::path(), err);
+
+            // If it still indicates backups are running, *then* we have a problem
+            if backups_running() > 0 {
+                let notification = gio::Notification::new(&gettext("Fatal Error During Back Up"));
+
+                notification.set_body(Some(&ngettextf_(
+                    "Pika Backup crashed while running a backup.",
+                    "Pika Backup crashed while running {} backups.",
+                    backups_running() as u32,
+                )));
+
+                notification.set_default_action(&action::ShowOverview::name());
+
+                gio_app().send_notification(None, &notification);
             }
-        }
-
-        let backups_running = BACKUP_HISTORY
-            .load()
-            .iter()
-            .filter(|(_, x)| x.running.is_some())
-            .count();
-
-        if backups_running > 0 {
-            let notification = gio::Notification::new(&gettext("Fatal Error During Back Up"));
-
-            notification.set_body(Some(&ngettextf_(
-                "Pika Backup crashed while running a backup.",
-                "Pika Backup crashed while running {} backups.",
-                backups_running as u32,
-            )));
-
-            notification.set_default_action(&action::ShowOverview::name());
-
-            gio_app().send_notification(None, &notification);
         }
 
         // Detect app update
