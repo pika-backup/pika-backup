@@ -172,7 +172,7 @@ pub async fn background_permission() -> Result<()> {
                     .err_to_msg(gettext("Failed to Start Monitor"))
                     .map(|_| ())?;
 
-                fix_flatpak_autostart()
+                Ok(())
             }
         }
     }
@@ -531,43 +531,4 @@ impl<T, E: Display> Logable for std::result::Result<T, E> {
             adw_app().send_notification(None, &notification);
         }
     }
-}
-
-/// Workaround for distros that ship(ed) xdg-desktop-portal 1.14.x, x<4
-/// <https://github.com/flatpak/xdg-desktop-portal/releases/tag/1.14.4>
-pub fn fix_flatpak_autostart() -> Result<()> {
-    if *crate::globals::APP_IS_SANDBOXED {
-        let mut path = glib::home_dir();
-        path.push(".config/autostart");
-        path.push(format!("{}.desktop", crate::APP_ID));
-
-        debug!("Checking flatpak autostart file {path:?}");
-
-        if let Ok(content) = std::fs::read_to_string(&path) {
-            let new_content = content
-                .replace(r"''\''", "")
-                .replace(r"'\'''", "")
-                .replace(r"''\\''", "")
-                .replace(r"'\\'''", "");
-
-            if new_content != content {
-                warn!("Trying to fix autostart file");
-                let result = std::fs::write(&path, new_content);
-                match result {
-                    Err(err) => {
-                        return Err(
-                            Message::new(gettext("Failed to fix Scheduled Backups"), err).into(),
-                        );
-                    }
-                    Ok(()) => {
-                        return Err(
-                            Message::new(gettext("Scheduled Backups Repaired"), gettext("The system contained an error that potentially caused scheduled backups not to work properly. This problem is now resolved.")).into()
-                        );
-                    }
-                }
-            }
-        }
-    }
-
-    Ok(())
 }

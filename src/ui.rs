@@ -158,8 +158,6 @@ fn on_startup(_app: &adw::Application) {
             ui::page_backup::view_backup_conf(&config.id);
         }
     }
-
-    Handler::handle(ui::utils::fix_flatpak_autostart());
 }
 
 fn on_activate(_app: &adw::Application) {
