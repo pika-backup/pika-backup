@@ -1,4 +1,3 @@
-pub use crate::globals::*;
 pub use glib::prelude::*;
 
 use crate::config;

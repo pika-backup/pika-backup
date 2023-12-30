@@ -1,5 +1,6 @@
-#![allow(clippy::new_without_default)]
 #![allow(clippy::derive_partial_eq_without_eq)]
+#![allow(clippy::get_first)]
+#![allow(clippy::new_without_default)]
 
 #[macro_use]
 extern crate serde_derive;
