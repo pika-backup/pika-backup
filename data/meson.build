@@ -44,8 +44,7 @@ install_data(
 )
 
 # Appdata
-
-i18n.merge_file(
+appdata_file = i18n.merge_file(
     input: configure_file(
         input: 'app.metainfo.xml.in',
         output: 'tmp.app.metainfo.xml',
@@ -56,6 +55,17 @@ i18n.merge_file(
     install: true,
     install_dir: usrdir / 'metainfo'
 )
+
+# Validate Appdata
+appstreamcli = find_program('appstreamcli', required: false)
+if appstreamcli.found()
+  test(
+    'Validate appdata file',
+    appstreamcli,
+    args: ['validate', '--no-net', '--explain', appdata_file],
+    workdir: meson.current_build_dir()
+  )
+endif
 
 # D-Bus activation
 
