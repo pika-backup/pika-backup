@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2023-11-24 23:40+0000\n"
-"PO-Revision-Date: 2023-11-26 20:19+0100\n"
+"POT-Creation-Date: 2023-12-31 00:48+0000\n"
+"PO-Revision-Date: 2024-01-01 22:25+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -148,9 +148,10 @@ msgid ""
 "instructions see the operating system documentation."
 msgstr ""
 "Das Abrufen des Verschlüsselungspassworts aus dem Schlüsselbund ist "
-"fehlgeschlagen. Pika Backup benötigt einen Schlüsselbund-Hintergrunddienst "
-"(»Secret Service«), um Passwörter zu speichern. Für Installationsanweisungen "
-"schauen Sie bitte in der Dokumentation des Betriebssystems nach."
+"fehlgeschlagen. Pika Datensicherung benötigt einen Schlüsselbund-"
+"Hintergrunddienst (»Secret Service«), um Passwörter zu speichern. Für "
+"Installationsanweisungen schauen Sie bitte in der Dokumentation des "
+"Betriebssystems nach."
 
 #: src/borg/error.rs:30 src/ui/utils.rs:279
 msgid "The operation terminated unexpectedly."
@@ -575,7 +576,7 @@ msgid "Running Custom Shell Command"
 msgstr "Benutzerdefinierter Shell-Befehl wird ausgeführt"
 
 #. Translators: User home directory
-#: src/config.rs:58 src/ui/page_backup/display.rs:13
+#: src/config.rs:71 src/ui/page_backup/display.rs:13
 #: src/ui/page_backup/events.rs:181
 msgid "Home"
 msgstr "Persönlicher Ordner"
@@ -649,6 +650,15 @@ msgstr "Dateien, die nicht unwiederbringlich gelöscht wurden"
 msgid "Might include data stored within"
 msgstr "Kann darin gespeicherte Daten beinhalten"
 
+#. The config is incompatible with this app version
+#: src/config/loadable.rs:37
+msgid ""
+"The loaded configuration file version {} is incompatible with this version "
+"of Pika Backup"
+msgstr ""
+"Die geladene Konfigurationsdatei Version {} ist nicht kompatibel mit dieser "
+"Version von Pika Datensicherung"
+
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
 msgstr "Regulärer Ausdruck"
@@ -710,15 +720,23 @@ msgstr "»{}« eine konfigurierte Sicherung."
 msgid "Back Up Now"
 msgstr "Jetzt sichern"
 
-#: src/daemon/init.rs:44
+#: src/daemon/init.rs:34
+msgid "Error loading configuration"
+msgstr "Fehler beim Laden der Konfiguration"
+
+#: src/daemon/init.rs:35
+msgid "Not monitoring backup schedule."
+msgstr "Sicherungszeitplan nicht überwachen."
+
+#: src/daemon/init.rs:60
 msgid "Monitoring Backup Schedule"
 msgstr "Sicherungszeitplan überwachen"
 
-#: src/daemon/init.rs:104
+#: src/daemon/init.rs:120
 msgid "Fatal Error During Back Up"
 msgstr "Kritischer Fehler während der Datensicherung"
 
-#: src/daemon/init.rs:107
+#: src/daemon/init.rs:123
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] ""
@@ -726,7 +744,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Pika Datensicherung ist während {} laufenden Sicherungen abgestürzt."
 
-#: src/daemon/init.rs:141 src/daemon/init.rs:143 src/daemon/init.rs:150
+#: src/daemon/init.rs:162 src/daemon/init.rs:164 src/daemon/init.rs:171
 msgid "Error restarting monitor daemon"
 msgstr "Fehler beim Neustarten des Überwachungs-Daemons"
 
@@ -1263,12 +1281,12 @@ msgstr ""
 msgid "Invalid Archive Prefix"
 msgstr "Ungültiges Archiv-Präfix"
 
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:83
+#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
 #: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
 msgid "Archive Prefix"
 msgstr "Archiv-Präfix"
 
-#: src/ui/dialog_archive_prefix.ui:17 src/ui/dialog_delete_archive.ui:28
+#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
@@ -1276,15 +1294,15 @@ msgstr "Archiv-Präfix"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/ui/dialog_archive_prefix.ui:23 src/ui/dialog_exclude_pattern.rs:14
+#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:14
 msgid "Save"
 msgstr "Speichern"
 
-#: src/ui/dialog_archive_prefix.ui:45
+#: src/ui/dialog_archive_prefix.ui:56
 msgid "Archive Prefixes"
 msgstr "Archiv-Präfixe"
 
-#: src/ui/dialog_archive_prefix.ui:56
+#: src/ui/dialog_archive_prefix.ui:67
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1292,7 +1310,7 @@ msgstr ""
 "Jeder Durchlauf der Datensicherung erzeugt ein neues Archiv. Dem Namen des "
 "Archivs wird immer das aktuelle Archiv-Präfix vorangestellt."
 
-#: src/ui/dialog_archive_prefix.ui:63
+#: src/ui/dialog_archive_prefix.ui:74
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1302,7 +1320,7 @@ msgstr ""
 "mit dem derzeit eingestellten Präfix in ihrem Namen sind zur Löschung "
 "vorgesehen."
 
-#: src/ui/dialog_archive_prefix.ui:70
+#: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Sollte das Archiv-Präfix leer sein, wird kein Präfix hinzugefügt."
 
@@ -1530,7 +1548,7 @@ msgstr "Shell-Befehl ungültig"
 msgid "Please check for missing closing quotes."
 msgstr "Bitte überprüfen Sie, ob schließende Anführungszeichen fehlen."
 
-#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:193
+#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:202
 msgid "Error Running Shell Command"
 msgstr "Fehler beim Ausführen des Shell-Befehls"
 
@@ -1946,41 +1964,41 @@ msgstr "Für den entfernten Ort muss ein Pfad angegeben sein."
 msgid "Invalid remote location: “{}”"
 msgstr "Ungültiger entfernter Ort: »{}«"
 
-#: src/ui/dialog_storage.ui:19
+#: src/ui/dialog_storage.ui:30
 msgid "Disk"
 msgstr "Festplatte"
 
 # https://de.wikipedia.org/wiki/Volume_%28Datenspeicher%29
 # Andere Vorschläge gern willkommen! - pk
-#: src/ui/dialog_storage.ui:22
+#: src/ui/dialog_storage.ui:33
 msgid "Volume"
 msgstr "Laufwerk"
 
-#: src/ui/dialog_storage.ui:31
+#: src/ui/dialog_storage.ui:42
 msgid "Device"
 msgstr "Gerät"
 
-#: src/ui/dialog_storage.ui:40
+#: src/ui/dialog_storage.ui:51
 msgid "Path"
 msgstr "Pfad"
 
-#: src/ui/dialog_storage.ui:52
+#: src/ui/dialog_storage.ui:63
 msgid "Remote"
 msgstr "Entfernt"
 
-#: src/ui/dialog_storage.ui:55
+#: src/ui/dialog_storage.ui:66
 msgid "URL"
 msgstr "Adresse"
 
-#: src/ui/dialog_storage.ui:67
+#: src/ui/dialog_storage.ui:78
 msgid "Space"
 msgstr "Speicherplatz"
 
-#: src/ui/dialog_storage.ui:70
+#: src/ui/dialog_storage.ui:81
 msgid "Total"
 msgstr "Gesamt"
 
-#: src/ui/dialog_storage.ui:79
+#: src/ui/dialog_storage.ui:90
 msgid "Free"
 msgstr "Frei"
 
@@ -2152,11 +2170,11 @@ msgstr "Löschen alter Archive fehlgeschlagen"
 msgid "Reclaiming Free Space Failed"
 msgstr "Zurückgewinnen von freiem Speicherplatz fehlgeschlagen"
 
-#: src/ui/page_backup/execution.rs:120
+#: src/ui/page_backup/execution.rs:129
 msgid "Backup Failed"
 msgstr "Datensicherung fehlgeschlagen"
 
-#: src/ui/page_backup/execution.rs:146
+#: src/ui/page_backup/execution.rs:155
 msgid "Backup Completed with Warnings"
 msgstr "Datensicherung mit Warnungen abgeschlossen"
 
@@ -2316,7 +2334,7 @@ msgstr "Hintergrundprozess inaktiv"
 msgid "This is required for scheduled backups"
 msgstr "Das ist für geplante Sicherungen erforderlich"
 
-#: src/ui/prelude.rs:61
+#: src/ui/prelude.rs:60
 msgid "Could not write configuration file."
 msgstr "Konfigurationsdatei konnte nicht geschrieben werden."
 
@@ -2385,23 +2403,6 @@ msgstr[1] "{} Sicherungsvorgänge laufen"
 #: src/ui/utils.rs:273
 msgid "Failed to Create Thread"
 msgstr "Erstellen eines Threads fehlgeschlagen"
-
-#: src/ui/utils.rs:559
-msgid "Failed to fix Scheduled Backups"
-msgstr "Reparieren der geplanten Sicherungen fehlgeschlagen"
-
-#: src/ui/utils.rs:564
-msgid "Scheduled Backups Repaired"
-msgstr "Geplante Sicherungen repariert"
-
-#: src/ui/utils.rs:564
-msgid ""
-"The system contained an error that potentially caused scheduled backups not "
-"to work properly. This problem is now resolved."
-msgstr ""
-"Das System enthielt einen Fehler, der möglicherweise dazu führte, dass "
-"geplante Datensicherungen nicht richtig funktionieren. Dieses Problem ist "
-"nun behoben."
 
 #: src/ui/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
@@ -2663,6 +2664,20 @@ msgstr "Passwort wiederholen"
 #: src/utils.rs:78
 msgid "No such file or directory"
 msgstr "Keine solche Datei oder kein solches Verzeichnis"
+
+#~ msgid "Failed to fix Scheduled Backups"
+#~ msgstr "Reparieren der geplanten Sicherungen fehlgeschlagen"
+
+#~ msgid "Scheduled Backups Repaired"
+#~ msgstr "Geplante Sicherungen repariert"
+
+#~ msgid ""
+#~ "The system contained an error that potentially caused scheduled backups "
+#~ "not to work properly. This problem is now resolved."
+#~ msgstr ""
+#~ "Das System enthielt einen Fehler, der möglicherweise dazu führte, dass "
+#~ "geplante Datensicherungen nicht richtig funktionieren. Dieses Problem ist "
+#~ "nun behoben."
 
 #~ msgid ""
 #~ "To quit monitoring the backup schedule, open Pika Backup and disable all "
