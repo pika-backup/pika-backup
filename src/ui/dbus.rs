@@ -27,6 +27,8 @@ impl PikaBackup {
             .await
         {
             error!("{}", err);
+        } else {
+            debug!("Command to start scheduled backup sent.")
         }
     }
 
