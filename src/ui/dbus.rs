@@ -8,6 +8,7 @@ struct PikaBackup {
     command: Sender<Command>,
 }
 
+#[derive(Debug)]
 enum Command {
     StartBackup(ConfigId, Option<schedule::DueCause>),
     ShowOverview,
@@ -62,13 +63,9 @@ pub async fn init() {
     let (sender, mut receiver) = async_std::channel::unbounded();
 
     Handler::run(async move {
-        spawn_server(sender)
-            .await
-            .err_to_msg(gettext("Failed to spawn interface for scheduled backups."))
-    });
-
-    Handler::run(async move {
+        debug!("Internally awaiting D-Bus API commands");
         while let Some(command) = receiver.next().await {
+            debug!("Received D-Bus API command {command:?}");
             match command {
                 Command::StartBackup(config_id, due_cause) => {
                     ui::page_backup::dbus_start_backup(config_id, due_cause)
@@ -78,7 +75,13 @@ pub async fn init() {
             }
         }
         Ok(())
-    })
+    });
+
+    Handler::run(async move {
+        spawn_server(sender)
+            .await
+            .err_to_msg(gettext("Failed to spawn interface for scheduled backups."))
+    });
 }
 
 async fn spawn_server(command: Sender<Command>) -> zbus::Result<()> {
@@ -88,5 +91,9 @@ async fn spawn_server(command: Sender<Command>) -> zbus::Result<()> {
         .at(crate::DBUS_API_PATH, PikaBackup { command })
         .await?;
 
-    zbus_session.request_name(crate::DBUS_API_NAME).await
+    zbus_session.request_name(crate::DBUS_API_NAME).await?;
+
+    debug!("D-Bus listening on {}", crate::DBUS_API_NAME);
+
+    Ok(())
 }
