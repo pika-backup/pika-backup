@@ -235,6 +235,12 @@ pub async fn run_script(
     let mut cmd = if *APP_IS_SANDBOXED {
         let mut cmd = async_std::process::Command::new("flatpak-spawn");
 
+        // Don't remove the entire env, flatpak-spawn needs some of it
+        // Prevents debug logging to influence flatpak-spawn output
+        cmd.env_remove("GTK_DEBUG");
+        cmd.env_remove("G_LOG_DOMAIN");
+        cmd.env_remove("G_MESSAGES_DEBUG");
+
         for (name, value) in &envs {
             cmd.arg(format!("--env={name}={value}"));
         }
