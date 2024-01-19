@@ -234,18 +234,22 @@ pub async fn run_script(
 
     let mut cmd = if *APP_IS_SANDBOXED {
         let mut cmd = async_std::process::Command::new("flatpak-spawn");
-        cmd.args(["--host", "bash", "-c", command]);
+
+        for (name, value) in &envs {
+            cmd.arg(format!("--env={name}={value}"));
+        }
+
+        cmd.args(["--clear-env", "--host", "bash", "-c", command]);
         cmd
     } else {
         let mut cmd = async_std::process::Command::new("bash");
+
+        cmd.env_clear();
+        cmd.envs(envs);
+
         cmd.args(["-c", command]);
         cmd
     };
-
-    cmd.env_remove("GTK_DEBUG");
-    cmd.env_remove("G_LOG_DOMAIN");
-    cmd.env_remove("G_MESSAGES_DEBUG");
-    cmd.envs(envs);
 
     let output = cmd
         .output_with_communication(communication)
