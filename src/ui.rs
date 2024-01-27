@@ -60,6 +60,12 @@ static GRESOURCE_BYTES: &[u8] =
 
 // Run application
 pub fn main() {
+    if std::env::var_os("ZBUS_TRACING").map_or(false, |x| !x.is_empty()) {
+        tracing_subscriber::FmtSubscriber::builder()
+            .with_max_level(tracing_subscriber::filter::LevelFilter::TRACE)
+            .init();
+    }
+
     crate::utils::init_gettext();
 
     adw_app().connect_startup(on_startup);
