@@ -18,6 +18,7 @@ pub struct StatusTracking {
     metered_signal_handler: Cell<Option<SignalHandlerId>>,
     volume_monitor: Cell<Option<gio::VolumeMonitor>>,
     quit_inhibit_count: Cell<usize>,
+    idle_since: Cell<Option<Instant>>,
 }
 
 impl StatusTracking {
@@ -31,6 +32,7 @@ impl StatusTracking {
             metered_signal_handler: Default::default(),
             volume_monitor: Default::default(),
             quit_inhibit_count: Default::default(),
+            idle_since: Cell::new(Some(Instant::now())),
         });
 
         // Metered
@@ -112,6 +114,19 @@ impl StatusTracking {
         glib::source::timeout_add_local(
             UI_INTERVAL,
             glib::clone!(@weak tracking => @default-return glib::ControlFlow::Break, move || {
+                // Check if UI is idle without task. This should usually not happen.
+                if tracking.quit_inhibit_count() == 0 {
+                    if let Some(idle_since) = tracking.idle_since.get() {
+                        if idle_since.elapsed() > Duration::from_secs(120) && !main_ui().window().is_visible() {
+                            error!("UI has been indle without task for 120 secs. Quitting.");
+                            quit_background_app();
+                        }
+                    } else {
+                        // Usually this should be set already
+                        tracking.idle_since.set(Some(Instant::now()));
+                    }
+                }
+
                 debug!("Regular UI update to keep 'time ago' etc correct.");
                 tracking.ui_status_update();
                 tracking.ui_schedule_update();
@@ -159,6 +174,7 @@ impl Default for QuitGuard {
             let new = status.quit_inhibit_count.get() + 1;
             debug!("Increasing quit guard count to {new}");
             status.quit_inhibit_count.set(new);
+            status.idle_since.set(None);
         });
 
         Self {}
@@ -175,18 +191,26 @@ impl Drop for QuitGuard {
             status.quit_inhibit_count.set(new);
             quit = new == 0;
 
+            if quit {
+                status.idle_since.set(Some(Instant::now()));
+            }
+
             status.clone()
         });
 
-        // Don't quit the app when testing
-        #[cfg(not(test))]
-        if quit && !**IS_SHUTDOWN.load() {
-            // Checks whether window is open and quits if necessary
-            glib::MainContext::default().spawn_from_within(|| async {
-                if !main_ui().window().is_visible() {
-                    let _ = ui::quit().await;
-                }
-            });
+        if quit && !main_ui().window().is_visible() {
+            quit_background_app();
         }
+    }
+}
+
+fn quit_background_app() {
+    // Don't quit the app when testing
+    #[cfg(not(test))]
+    if !**IS_SHUTDOWN.load() {
+        // Checks whether window is open and quits if necessary
+        glib::MainContext::default().spawn_from_within(|| async {
+            let _ = ui::quit().await;
+        });
     }
 }
