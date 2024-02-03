@@ -71,7 +71,7 @@ pub async fn init() {
                     // Prevent app from closing
                     let guard = QuitGuard::default();
                     // Start backup
-                    ui::page_backup::dbus_start_backup(config_id, due_cause, &guard)
+                    ui::page_backup::start_backup(config_id, due_cause, &guard)
                         .await
                         .handle("Failed to run backup");
                 }

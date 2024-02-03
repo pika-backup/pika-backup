@@ -9,11 +9,7 @@ pub use events::on_stop_backup_create;
 use crate::schedule;
 use crate::ui::prelude::*;
 
-pub async fn activate_action_backup(id: ConfigId, guard: &QuitGuard) -> Result<()> {
-    execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), None, guard).await
-}
-
-pub async fn dbus_start_backup(
+pub async fn start_backup(
     id: ConfigId,
     due_cause: Option<schedule::DueCause>,
     guard: &QuitGuard,
