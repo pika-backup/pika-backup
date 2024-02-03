@@ -15,10 +15,8 @@ pub fn activate_action_backup(id: ConfigId) {
     });
 }
 
-pub fn dbus_start_backup(id: ConfigId, due_cause: Option<schedule::DueCause>) {
-    Handler::run(async move {
-        execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), due_cause).await
-    });
+pub async fn dbus_start_backup(id: ConfigId, due_cause: Option<schedule::DueCause>) -> Result<()> {
+    execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), due_cause).await
 }
 
 fn is_visible() -> bool {
