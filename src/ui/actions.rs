@@ -21,7 +21,7 @@ pub fn init() {
                 ui::page_backup::start_backup(ConfigId::new(config_id), None, &guard).await
             });
         } else {
-            error!("action backup.start: Did not receivce valid config id");
+            error!("action backup.start: Did not receive valid config id");
         }
     });
     adw_app().add_action(&action);
