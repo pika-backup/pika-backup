@@ -7,9 +7,10 @@ use crate::ui::prelude::*;
 use super::events;
 
 pub fn init() {
-    main_ui()
-        .backup_run()
-        .connect_clicked(|_| Handler::run(events::on_backup_run()));
+    main_ui().backup_run().connect_clicked(|_| {
+        let guard = QuitGuard::default();
+        Handler::run(async move { events::on_backup_run(&guard).await });
+    });
 
     // Backup details
     main_ui()

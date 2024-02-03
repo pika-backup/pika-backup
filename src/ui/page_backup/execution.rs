@@ -16,9 +16,9 @@ use super::display;
 pub async fn start_backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
+    guard: &QuitGuard,
 ) -> Result<()> {
-    let guard = QuitGuard::default();
-    let result = run_backup(config, from_schedule, &guard).await;
+    let result = run_backup(config, from_schedule, guard).await;
     display::refresh_status();
 
     result

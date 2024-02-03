@@ -9,14 +9,16 @@ pub use events::on_stop_backup_create;
 use crate::schedule;
 use crate::ui::prelude::*;
 
-pub fn activate_action_backup(id: ConfigId) {
-    Handler::run(async move {
-        execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), None).await
-    });
+pub async fn activate_action_backup(id: ConfigId, guard: &QuitGuard) -> Result<()> {
+    execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), None, guard).await
 }
 
-pub async fn dbus_start_backup(id: ConfigId, due_cause: Option<schedule::DueCause>) -> Result<()> {
-    execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), due_cause).await
+pub async fn dbus_start_backup(
+    id: ConfigId,
+    due_cause: Option<schedule::DueCause>,
+    guard: &QuitGuard,
+) -> Result<()> {
+    execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), due_cause, guard).await
 }
 
 fn is_visible() -> bool {

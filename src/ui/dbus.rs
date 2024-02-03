@@ -68,7 +68,12 @@ pub async fn init() {
             debug!("Received D-Bus API command {command:?}");
             match command {
                 Command::StartBackup(config_id, due_cause) => {
-                    ui::page_backup::dbus_start_backup(config_id, due_cause).await?
+                    // Prevent app from closing
+                    let guard = QuitGuard::default();
+                    // Start backup
+                    ui::page_backup::dbus_start_backup(config_id, due_cause, &guard)
+                        .await
+                        .handle("Failed to run backup");
                 }
                 Command::ShowOverview => ui::page_overview::dbus_show(),
                 Command::ShowSchedule(backup_id) => ui::page_schedule::dbus_show(backup_id),

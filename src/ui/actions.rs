@@ -15,8 +15,11 @@ pub fn init() {
     let action = crate::action::backup_start();
     action.connect_activate(|_, config_id| {
         info!("action backup.start: called");
-        if let Some(config_id) = config_id.and_then(|v| v.str()) {
-            ui::page_backup::activate_action_backup(ConfigId::new(config_id.to_string()));
+        if let Some(config_id) = config_id.and_then(|v| v.str()).map(ToString::to_string) {
+            let guard = QuitGuard::default();
+            Handler::run(async move {
+                ui::page_backup::activate_action_backup(ConfigId::new(config_id), &guard).await
+            });
         } else {
             error!("action backup.start: Did not receivce valid config id");
         }
