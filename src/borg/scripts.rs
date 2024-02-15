@@ -102,7 +102,10 @@ impl ShellVariable {
             ShellVariable::RepoId => gettext("Repository ID of the borg repository"),
             ShellVariable::Url => gettext("The full URL passed to borgbackup"),
             ShellVariable::IsSchedule => gettext("0: manual backup, 1: started from a schedule"),
-            ShellVariable::Outcome => gettext("Either COMPLETED, ABORTED or FAILED"),
+            // Translator: String uses pango markup. Do not translate capslocked variable names.
+            ShellVariable::Outcome => {
+                gettext("Either <tt>COMPLETED</tt>, <tt>ABORTED</tt> or <tt>FAILED</tt>")
+            }
             ShellVariable::ResultMsg => gettext("An error/warning message"),
             ShellVariable::ArchiveId => gettext("The ID of the created backup archive"),
             ShellVariable::ArchiveName => gettext("The name of the created backup archive"),
