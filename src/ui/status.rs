@@ -80,10 +80,16 @@ impl StatusTracking {
 
         // Daemon
         Handler::run(enclose!((tracking) async {
-            crate::utils::listen_remote_app_running(crate::DAEMON_APP_ID, move |running| {
-                tracking.daemon_running.set(running);
-                tracking.ui_schedule_update();
-            })
+            crate::utils::listen_remote_app_running(
+                crate::DAEMON_APP_ID,
+                &crate::ui::dbus::session_connection()
+                    .await
+                    .err_to_msg(gettext("Unable to determine background process status"))?,
+                move |running| {
+                    tracking.daemon_running.set(running);
+                    tracking.ui_schedule_update();
+                },
+            )
             .await
             .err_to_msg(gettext("Unable to determine background process status"))
         }));

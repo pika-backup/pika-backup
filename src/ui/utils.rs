@@ -107,12 +107,16 @@ pub async fn background_permission() -> Result<()> {
 
     if !*crate::globals::APP_IS_SANDBOXED {
         // start
-        crate::utils::dbus::fdo_proxy()
-            .await
-            .err_to_msg(&generic_msg)?
-            .start_service_by_name(crate::DAEMON_APP_ID.try_into().unwrap(), Default::default())
-            .await
-            .err_to_msg(&generic_msg)?;
+        crate::utils::dbus::fdo_proxy(
+            &crate::ui::dbus::session_connection()
+                .await
+                .err_to_msg(&generic_msg)?,
+        )
+        .await
+        .err_to_msg(&generic_msg)?
+        .start_service_by_name(crate::DAEMON_APP_ID.try_into().unwrap(), Default::default())
+        .await
+        .err_to_msg(&generic_msg)?;
 
         // without flatpak we can always run in background
         Ok(())

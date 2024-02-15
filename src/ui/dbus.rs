@@ -60,6 +60,15 @@ impl PikaBackup {
 }
 
 pub async fn init() {
+    Handler::handle(
+        session_connection()
+            .await
+            .map(|_| ())
+            .err_to_msg(gettext("Failed to spawn interface for scheduled backups.")),
+    );
+}
+
+async fn spawn_command_listener() -> Sender<Command> {
     let (sender, mut receiver) = async_std::channel::unbounded();
 
     Handler::run(async move {
@@ -83,23 +92,27 @@ pub async fn init() {
         Ok(())
     });
 
-    Handler::run(async move {
-        spawn_server(sender)
-            .await
-            .err_to_msg(gettext("Failed to spawn interface for scheduled backups."))
-    });
+    sender
 }
 
-async fn spawn_server(command: Sender<Command>) -> zbus::Result<()> {
-    let zbus_session = crate::utils::dbus::session().await?;
-    zbus_session
-        .object_server()
-        .at(crate::DBUS_API_PATH, PikaBackup { command })
-        .await?;
+/// Session Bus
+pub async fn session_connection() -> zbus::Result<zbus::Connection> {
+    static CONNECTION: async_lock::Mutex<Option<zbus::Connection>> = async_lock::Mutex::new(None);
 
-    zbus_session.request_name(crate::DBUS_API_NAME).await?;
+    let mut connection = CONNECTION.lock().await;
 
-    debug!("D-Bus listening on {}", crate::DBUS_API_NAME);
+    if let Some(connection) = &*connection {
+        Ok(connection.clone())
+    } else {
+        let command = spawn_command_listener().await;
+        let new_connection = zbus::ConnectionBuilder::session()?
+            .name(crate::DBUS_API_NAME)?
+            .serve_at(crate::DBUS_API_PATH, PikaBackup { command })?
+            .build()
+            .await?;
+        debug!("D-Bus listening on {}", crate::DBUS_API_NAME);
 
-    Ok(())
+        *connection = Some(new_connection.clone());
+        Ok(new_connection)
+    }
 }

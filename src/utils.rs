@@ -44,9 +44,10 @@ pub fn init_gettext() {
 
 pub async fn listen_remote_app_running<T: Fn(bool)>(
     app_id: &str,
+    session_connection: &zbus::Connection,
     update: T,
 ) -> Result<(), zbus::Error> {
-    let proxy = crate::utils::dbus::fdo_proxy().await?;
+    let proxy = crate::utils::dbus::fdo_proxy(session_connection).await?;
 
     let has_owner = proxy.name_has_owner(app_id.try_into().unwrap()).await?;
     update(has_owner);

@@ -66,9 +66,15 @@ fn on_startup(_app: &gio::Application) {
             Err(err) => error!("Error acquiring background proxy: {err:?}"),
         }
 
-        crate::utils::listen_remote_app_running(crate::APP_ID, app_running)
-            .await
-            .handle("Cannot monitor ui status.")
+        crate::utils::listen_remote_app_running(
+            crate::APP_ID,
+            &crate::daemon::dbus::session_connection()
+                .await
+                .handle("Cannot monitor ui status.")?,
+            app_running,
+        )
+        .await
+        .handle("Cannot monitor ui status.")
     });
 
     if *APP_IS_SANDBOXED {

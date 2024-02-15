@@ -23,7 +23,8 @@ impl UPower {
         if let Some(proxy) = &*proxy {
             Ok(proxy.clone())
         } else {
-            let new_proxy = UPowerProxy::new(&crate::utils::dbus::system().await?).await?;
+            let new_proxy =
+                UPowerProxy::new(&crate::utils::dbus::system_connection().await?).await?;
             *proxy = Some(new_proxy.clone());
             Ok(new_proxy.clone())
         }
