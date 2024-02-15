@@ -1,4 +1,3 @@
-use once_cell::sync::OnceCell;
 use zbus::Result;
 
 #[zbus::dbus_proxy(
@@ -16,14 +15,17 @@ pub struct UPower;
 
 impl UPower {
     async fn proxy() -> Result<UPowerProxy<'static>> {
-        static PROXY: once_cell::sync::OnceCell<crate::utils::upower::UPowerProxy<'static>> =
-            OnceCell::new();
+        static PROXY: async_lock::Mutex<Option<crate::utils::upower::UPowerProxy<'static>>> =
+            async_lock::Mutex::new(None);
 
-        if let Some(proxy) = PROXY.get() {
+        let mut proxy = PROXY.lock().await;
+
+        if let Some(proxy) = &*proxy {
             Ok(proxy.clone())
         } else {
-            let proxy = UPowerProxy::new(&crate::utils::dbus::system().await?).await?;
-            Ok(PROXY.get_or_init(move || proxy).clone())
+            let new_proxy = UPowerProxy::new(&crate::utils::dbus::system().await?).await?;
+            *proxy = Some(new_proxy.clone());
+            Ok(new_proxy.clone())
         }
     }
 

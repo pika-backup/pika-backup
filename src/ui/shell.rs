@@ -5,17 +5,22 @@ static LAST_MESSAGE: once_cell::sync::Lazy<ArcSwap<Option<String>>> =
     once_cell::sync::Lazy::new(|| ArcSwap::new(Default::default()));
 
 async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>> {
-    static PROXY: once_cell::sync::OnceCell<
-        Arc<ashpd::desktop::background::BackgroundProxy<'static>>,
-    > = once_cell::sync::OnceCell::new();
+    static PROXY: async_lock::Mutex<
+        Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>>,
+    > = async_lock::Mutex::new(None);
 
-    if let Some(proxy) = PROXY.get() {
+    let mut proxy = PROXY.lock().await;
+
+    if let Some(proxy) = &*proxy {
         Some(proxy.clone())
     } else {
-        ashpd::desktop::background::BackgroundProxy::new()
-            .await
-            .ok()
-            .map(|proxy| PROXY.get_or_init(move || Arc::new(proxy)).clone())
+        let new_proxy = Arc::new(
+            ashpd::desktop::background::BackgroundProxy::new()
+                .await
+                .ok()?,
+        );
+        *proxy = Some(new_proxy.clone());
+        Some(new_proxy.clone())
     }
 }
 

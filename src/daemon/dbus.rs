@@ -1,7 +1,6 @@
 use crate::daemon::prelude::*;
 use crate::schedule;
 
-use once_cell::sync::OnceCell;
 use zbus::Result;
 
 #[zbus::dbus_proxy(interface = "org.gnome.World.PikaBackup1", assume_defaults = false)]
@@ -23,17 +22,21 @@ pub struct PikaBackup;
 
 impl PikaBackup {
     pub async fn proxy() -> Result<PikaBackupProxy<'static>> {
-        static PROXY: once_cell::sync::OnceCell<PikaBackupProxy<'static>> = OnceCell::new();
+        static PROXY: async_lock::Mutex<Option<PikaBackupProxy<'static>>> =
+            async_lock::Mutex::new(None);
 
-        if let Some(proxy) = PROXY.get() {
+        let mut proxy = PROXY.lock().await;
+
+        if let Some(proxy) = &*proxy {
             Ok(proxy.clone())
         } else {
-            let proxy = PikaBackupProxy::builder(&crate::utils::dbus::session().await?)
+            let new_proxy = PikaBackupProxy::builder(&crate::utils::dbus::session().await?)
                 .destination(crate::DBUS_API_NAME)?
                 .path(crate::DBUS_API_PATH)?
                 .build()
                 .await?;
-            Ok(PROXY.get_or_init(move || proxy).clone())
+            *proxy = Some(new_proxy.clone());
+            Ok(new_proxy)
         }
     }
 
