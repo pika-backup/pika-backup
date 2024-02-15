@@ -30,6 +30,7 @@ pub fn show() {
         "https://github.com/sponsors/pika-backup/",
     );
 
+    // Translators: Do not translate, only transliterate if necessary
     dialog.set_developer_name(&gettext("Small Mammal Collective"));
     dialog.set_developers(&[
         &gettext("Sophie Herold <sophieherold@gnome.org>"),
