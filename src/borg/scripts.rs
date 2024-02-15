@@ -53,12 +53,13 @@ impl ShellVariable {
         let mut all = String::new();
         let post_backup_msg = gettext("Only available for the post-backup command:");
         let mut post_backup = String::new();
-        let completed_msg = gettext("Only available for completed backups:");
+        let completed_msg =
+            gettext("<span line_height='1.6'>Only available for completed backups:</span>");
         let mut completed = String::new();
 
         for var in Self::all() {
             let new = format!(
-                "\n<tt><span fgcolor=\"#1a5fb4\">${}</span></tt>: {}",
+                "\n<span line_height='0.3'> </span>\n<tt><b>${}</b></tt>: {}",
                 var.name(),
                 var.description()
             );
@@ -72,9 +73,7 @@ impl ShellVariable {
             }
         }
 
-        format!(
-            "{intro}\n{all}\n\n{post_backup_msg}\n{post_backup}\n\n{completed_msg}\n{completed}"
-        )
+        format!("{intro}{all}\n\n{post_backup_msg}{post_backup}\n\n{completed_msg}{completed}")
     }
 
     pub fn name(&self) -> &'static str {
@@ -102,7 +101,7 @@ impl ShellVariable {
             ShellVariable::RepoId => gettext("Repository ID of the borg repository"),
             ShellVariable::Url => gettext("The full URL passed to borgbackup"),
             ShellVariable::IsSchedule => gettext("0: manual backup, 1: started from a schedule"),
-            // Translator: String uses pango markup. Do not translate capslocked variable names.
+            // Translators: String uses pango markup. Do not translate capslocked words.
             ShellVariable::Outcome => {
                 gettext("Either <tt>COMPLETED</tt>, <tt>ABORTED</tt> or <tt>FAILED</tt>")
             }
