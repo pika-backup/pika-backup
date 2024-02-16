@@ -189,22 +189,24 @@ impl Default for QuitGuard {
 
 impl Drop for QuitGuard {
     fn drop(&mut self) {
-        let mut quit = false;
+        let new_count = ui::globals::STATUS_TRACKING.with(|status| {
+            let count = status.quit_inhibit_count.get();
 
-        ui::globals::STATUS_TRACKING.with(|status| {
-            let new = std::cmp::max(status.quit_inhibit_count.get(), 1) - 1;
-            debug!("Decreasing quit guard count to {new}");
-            status.quit_inhibit_count.set(new);
-            quit = new == 0;
+            if let Some(new) = count.checked_sub(1) {
+                debug!("Decreasing quit guard count to {new}");
+                status.quit_inhibit_count.set(new);
 
-            if quit {
-                status.idle_since.set(Some(Instant::now()));
+                if new == 0 {
+                    status.idle_since.set(Some(Instant::now()));
+                }
+            } else {
+                error!("BUG: Would reduce quit guard to < 0. Something has gone terribly wrong with status tracking.");
             }
 
-            status.clone()
+            status.quit_inhibit_count.get()
         });
 
-        if quit && !main_ui().window().is_visible() {
+        if new_count == 0 && !main_ui().window().is_visible() {
             quit_background_app();
         }
     }
