@@ -5,6 +5,7 @@ use ui::prelude::*;
 use crate::ui;
 use glib::SignalHandlerId;
 use std::cell::Cell;
+use std::marker::PhantomData;
 use std::rc::Rc;
 use std::time::{Duration, Instant};
 
@@ -23,6 +24,10 @@ pub struct StatusTracking {
 
 impl StatusTracking {
     pub fn new_rc() -> Rc<Self> {
+        if !gtk::is_initialized_main_thread() {
+            error!("StatusTracking must not be initialized outside of the main thread");
+        }
+
         debug!("Setting up global status tracking");
 
         let tracking = Rc::new(Self {
@@ -170,45 +175,49 @@ impl Drop for StatusTracking {
     }
 }
 
-#[non_exhaustive]
-pub struct QuitGuard;
+pub struct QuitGuard(PhantomData<()>);
 
 impl Default for QuitGuard {
     /// Create a quit guard that will quit the app if no other guards are running at the same time
     fn default() -> Self {
-        ui::globals::STATUS_TRACKING.with(|status| {
-            let new = status.quit_inhibit_count.get() + 1;
-            debug!("Increasing quit guard count to {new}");
-            status.quit_inhibit_count.set(new);
-            status.idle_since.set(None);
+        // Invoke with higher priority than the Drop handler to make sure this runs first
+        glib::MainContext::default().invoke_with_priority(glib::Priority::HIGH, || {
+            ui::globals::STATUS_TRACKING.with(|status| {
+                let new = status.quit_inhibit_count.get() + 1;
+                debug!("Increasing quit guard count to {new}");
+                status.quit_inhibit_count.set(new);
+                status.idle_since.set(None);
+            });
         });
 
-        Self {}
+        Self(PhantomData)
     }
 }
 
 impl Drop for QuitGuard {
     fn drop(&mut self) {
-        let new_count = ui::globals::STATUS_TRACKING.with(|status| {
-            let count = status.quit_inhibit_count.get();
+        glib::MainContext::default().invoke(|| {
+            let new_count = ui::globals::STATUS_TRACKING.with(|status| {
+                let count = status.quit_inhibit_count.get();
 
-            if let Some(new) = count.checked_sub(1) {
-                debug!("Decreasing quit guard count to {new}");
-                status.quit_inhibit_count.set(new);
+                if let Some(new) = count.checked_sub(1) {
+                    debug!("Decreasing quit guard count to {new}");
+                    status.quit_inhibit_count.set(new);
 
-                if new == 0 {
-                    status.idle_since.set(Some(Instant::now()));
+                    if new == 0 {
+                        status.idle_since.set(Some(Instant::now()));
+                    }
+                } else {
+                    error!("BUG: Would reduce quit guard to < 0. Something has gone terribly wrong with status tracking.");
                 }
-            } else {
-                error!("BUG: Would reduce quit guard to < 0. Something has gone terribly wrong with status tracking.");
+
+                status.quit_inhibit_count.get()
+            });
+
+            if new_count == 0 && !main_ui().window().is_visible() {
+                quit_background_app();
             }
-
-            status.quit_inhibit_count.get()
         });
-
-        if new_count == 0 && !main_ui().window().is_visible() {
-            quit_background_app();
-        }
     }
 }
 
