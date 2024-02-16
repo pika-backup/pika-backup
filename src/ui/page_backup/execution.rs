@@ -13,7 +13,7 @@ use adw::prelude::*;
 
 use super::display;
 
-pub async fn start_backup(
+pub async fn backup(
     config: config::Backup,
     from_schedule: Option<schedule::DueCause>,
     guard: &QuitGuard,

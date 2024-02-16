@@ -9,12 +9,19 @@ pub use events::on_stop_backup_create;
 use crate::schedule;
 use crate::ui::prelude::*;
 
-pub async fn start_backup(
-    id: ConfigId,
-    due_cause: Option<schedule::DueCause>,
-    guard: &QuitGuard,
-) -> Result<()> {
-    execution::start_backup(BACKUP_CONFIG.load().try_get(&id)?.clone(), due_cause, guard).await
+pub fn start_backup(id: ConfigId, due_cause: Option<schedule::DueCause>, guard: QuitGuard) {
+    // We spawn a new task instead of waiting for backup completion here.
+    //
+    // This is necessary because we can start backups from many different sources, including dbus.
+    // If we waited here we wouldn't be receiving any more dbus messages until this backup is finished.
+    Handler::run(async move {
+        execution::backup(
+            BACKUP_CONFIG.load().try_get(&id)?.clone(),
+            due_cause,
+            &guard,
+        )
+        .await
+    });
 }
 
 fn is_visible() -> bool {

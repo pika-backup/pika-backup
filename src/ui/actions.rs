@@ -17,9 +17,7 @@ pub fn init() {
         info!("action backup.start: called");
         if let Some(config_id) = config_id.and_then(|v| v.str()).map(ToString::to_string) {
             let guard = QuitGuard::default();
-            Handler::run(async move {
-                ui::page_backup::start_backup(ConfigId::new(config_id), None, &guard).await
-            });
+            ui::page_backup::start_backup(ConfigId::new(config_id), None, guard);
         } else {
             error!("action backup.start: Did not receive valid config id");
         }

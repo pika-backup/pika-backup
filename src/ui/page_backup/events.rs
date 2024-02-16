@@ -59,7 +59,7 @@ pub async fn on_stop_backup_create() -> Result<()> {
 }
 
 pub async fn on_backup_run(guard: &QuitGuard) -> Result<()> {
-    execution::start_backup(BACKUP_CONFIG.load().active()?.clone(), None, guard).await
+    execution::backup(BACKUP_CONFIG.load().active()?.clone(), None, guard).await
 }
 
 pub async fn on_backup_disk_eject() -> Result<()> {
