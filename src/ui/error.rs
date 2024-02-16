@@ -142,6 +142,12 @@ impl Error {
             err.show().await;
         }
     }
+
+    pub async fn show_transient_for<W: IsA<gtk::Window> + IsA<gtk::Widget>>(&self, window: &W) {
+        if let Self::Message(err) = self {
+            err.show_transient_for(window).await;
+        }
+    }
 }
 
 pub trait ErrorToMessage<R> {

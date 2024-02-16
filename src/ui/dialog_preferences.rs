@@ -344,7 +344,7 @@ mod imp {
                 .await
                 .into_message(gettext("Error Running Shell Command"))
             {
-                err.show().await;
+                err.show_transient_for(&*self.obj()).await;
             }
 
             match &kind {
