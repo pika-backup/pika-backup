@@ -147,7 +147,6 @@ fn insert_transfer(
         ui.prefix().set_text(&config.archive_prefix.to_string());
     }
     ui.prefix().grab_focus();
-    ui.dialog().set_default_widget(Some(&ui.prefix_submit()));
 
     ui.prefix_submit().connect_clicked(clone!(@weak ui, @strong config_id => move |_|
         Handler::new().error_transient_for(ui.dialog()).handle_sync(set_prefix(&ui, config_id.clone()))));
@@ -207,7 +206,6 @@ fn show_init(ui: &ui::builder::DialogSetup) {
 
     ui.button_stack()
         .set_visible_child(&ui.page_detail_continue());
-    ui.dialog().set_default_widget(Some(&ui.init_button()));
 }
 
 pub async fn add_mount<F: 'static + Fn()>(

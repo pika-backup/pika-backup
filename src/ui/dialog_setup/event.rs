@@ -20,19 +20,6 @@ pub fn navigation_view_changed(ui: &DialogSetup) {
         }
     }
 
-    if ui.add_button().is_mapped() {
-        ui.dialog().set_default_widget(Some(&ui.add_button()));
-    }
-
-    if ui.init_button().is_mapped() {
-        ui.dialog().set_default_widget(Some(&ui.init_button()));
-    }
-
-    if ui.page_password_continue().is_mapped() {
-        ui.dialog()
-            .set_default_widget(Some(&ui.page_password_continue()));
-    }
-
     if ui.location_url().is_mapped() {
         ui.location_url().grab_focus();
     }

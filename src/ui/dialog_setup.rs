@@ -20,6 +20,19 @@ pub fn show() {
 
     ui.dialog().set_transient_for(Some(&main_ui().window()));
 
+    // Default buttons
+
+    ui.page_detail_continue()
+        .connect_map(clone!(@weak ui => move |x| ui.dialog().set_default_widget(Some(x))));
+    ui.init_button()
+        .connect_map(clone!(@weak ui => move |x| ui.dialog().set_default_widget(Some(x))));
+    ui.add_button()
+        .connect_map(clone!(@weak ui => move |x| ui.dialog().set_default_widget(Some(x))));
+    ui.prefix_submit()
+        .connect_map(clone!(@weak ui => move |x| ui.dialog().set_default_widget(Some(x))));
+    ui.page_password_continue()
+        .connect_map(clone!(@weak ui => move |x| ui.dialog().set_default_widget(Some(x))));
+
     // Page Overview
 
     ui.init_local_row()
