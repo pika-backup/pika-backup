@@ -197,6 +197,8 @@ async fn quit() -> Result<()> {
             }
         } else {
             // Someone wants to quit the app from the shell (eg via backgrounds app list)
+            // Or we do something wrong and called this erroneously
+            debug!("Received quit request while a backup operation is running. Ignoring");
             let notification = gio::Notification::new(&gettext("A Backup Operation is Running"));
             notification.set_body(Some(&gettext(
                 "Pika Backup cannot be quit during a backup operation.",
