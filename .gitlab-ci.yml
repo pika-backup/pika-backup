@@ -97,8 +97,12 @@ nightly:
   extends: ".publish_nightly"
   dependencies:
     - flatpak
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 nightly@aarch64:
   extends: ".publish_nightly"
   dependencies:
     - flatpak@aarch64
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
