@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.0 (unreleased)
+## 0.7.0 (2024-03-02)
 
 - Fix filesystem was unmounted via other means error when trying to unmount
 - Fix don't consider already mounted an error
