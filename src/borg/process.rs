@@ -449,6 +449,15 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         })
     }
 
+    /// Set the CPU scheduler priority of a process
+    fn set_scheduler_priority(pid: u32, priority: i32) {
+        debug!("Setting scheduler priority to {}", priority);
+        let result = unsafe { nix::libc::setpriority(nix::libc::PRIO_PROCESS, pid, priority) };
+        if result != 0 {
+            warn!("Failed to set scheduler priority: {}", result);
+        }
+    }
+
     /// Run the borg process
     async fn spawn<S: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
         mut self,
@@ -460,6 +469,10 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         );
 
         let mut process = self.command.spawn()?;
+
+        // Set CPU scheduler priority to 10 (medium-low)
+        // This prevents backup operations from straining the system resources
+        Self::set_scheduler_priority(process.id(), 10);
 
         let stderr = async_std::io::BufReader::new(
             process
