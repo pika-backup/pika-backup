@@ -158,19 +158,6 @@ pub async fn frequency_change() -> Result<()> {
     main_ui().preferred_weekday_row().set_visible(false);
     main_ui().schedule_preferred_day().set_visible(false);
 
-    main_ui()
-        .schedule_preferred_hour()
-        .set_value(glib::random_int_range(1, 24) as f64);
-    main_ui().schedule_preferred_minute().set_value(0.);
-
-    main_ui()
-        .preferred_weekday_row()
-        .set_selected(glib::random_int_range(0, 7) as u32);
-
-    main_ui()
-        .schedule_preferred_day()
-        .set_value(glib::random_int_range(1, 32) as f64);
-
     match frequency {
         config::Frequency::Hourly => {}
         config::Frequency::Daily { .. } => {
@@ -184,14 +171,34 @@ pub async fn frequency_change() -> Result<()> {
         }
     }
 
-    BACKUP_CONFIG.try_update(enclose!(
-        (frequency) | config | {
-            config.active_mut()?.schedule.frequency = frequency;
-            Ok(())
-        }
-    ))?;
+    // Reset the frequency values if the config actually changed
+    // TODO: This would be much nicer if we refactored this as a GObject
+    let backups = BACKUP_CONFIG.load();
+    let config = backups.active()?;
+    if config.schedule.frequency != frequency {
+        main_ui()
+            .schedule_preferred_hour()
+            .set_value(glib::random_int_range(1, 24) as f64);
+        main_ui().schedule_preferred_minute().set_value(0.);
 
-    update_status(BACKUP_CONFIG.load().active()?).await;
+        main_ui()
+            .preferred_weekday_row()
+            .set_selected(glib::random_int_range(0, 7) as u32);
+
+        main_ui()
+            .schedule_preferred_day()
+            .set_value(glib::random_int_range(1, 32) as f64);
+
+        BACKUP_CONFIG.try_update(enclose!(
+            (frequency) | config | {
+                config.active_mut()?.schedule.frequency = frequency;
+                Ok(())
+            }
+        ))?;
+
+        update_status(BACKUP_CONFIG.load().active()?).await;
+    }
+
     Ok(())
 }
 

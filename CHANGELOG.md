@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1 (unreleased)
+
+- Fix schedule times / days resetting to random values when the schedule page is opened
+
 ## 0.7.0 (2024-03-02)
 
 - Fix filesystem was unmounted via other means error when trying to unmount
