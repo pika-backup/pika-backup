@@ -149,14 +149,6 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
     Ok(())
 }
 
-fn set_scheduler_priority(priority: i32) {
-    debug!("Setting scheduler priority to {}", priority);
-    let result = unsafe { nix::libc::setpriority(nix::libc::PRIO_PROCESS, 0, priority) };
-    if result != 0 {
-        warn!("Failed to set scheduler priority: {}", result);
-    }
-}
-
 async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Task>(
     mut command: C,
 ) -> CombinedResult<T::Return> {
@@ -240,7 +232,6 @@ where
         let result = super::spawn_thread(
             name.to_string(),
             enclose!((borg, task) move || {
-                set_scheduler_priority(10);
                 async_std::task::block_on(task(borg))
             }),
         )
