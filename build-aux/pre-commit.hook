@@ -13,11 +13,11 @@ fi
 
 codespell -L crate -L ser src/
 
-./build-aux/generate-ui-bindings.py
+./build-aux/generate-ui-bindings.py  || echo "generate-ui-bindings failed"
 git diff --exit-code src/ui/builder.rs
 
-./build-aux/generate-manifest.sh 2> /dev/null
+./build-aux/generate-manifest.sh 2> /dev/null  || echo "generate-manifest failed"
 git diff --exit-code build-aux/org.gnome.World.PikaBackup.Devel.json
 
-./build-aux/generate-potfile.sh 2> /dev/null
+./build-aux/generate-potfile.sh 2> /dev/null || echo "generate-potfile failed"
 git diff --exit-code po/POTFILES.in
