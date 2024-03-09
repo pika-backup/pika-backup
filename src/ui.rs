@@ -145,7 +145,6 @@ fn on_startup(_app: &adw::Application) {
     ui::page_overview::init();
 
     ui::page_detail::init();
-    ui::page_backup::init::init();
     ui::page_archives::init();
     ui::page_schedule::init::init();
 
@@ -160,7 +159,7 @@ fn on_startup(_app: &adw::Application) {
 
     if BACKUP_CONFIG.load().iter().count() == 1 {
         if let Some(config) = BACKUP_CONFIG.load().iter().next() {
-            ui::page_backup::view_backup_conf(&config.id);
+            main_ui().page_backup().view_backup_conf(&config.id);
         }
     }
 }

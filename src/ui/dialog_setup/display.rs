@@ -136,7 +136,7 @@ fn insert_transfer(
 
     // Create fake history entry for duration estimate to be good for first run
 
-    ui::page_backup::refresh()?;
+    main_ui().page_backup().refresh()?;
 
     let configs = BACKUP_CONFIG.load();
     let config = configs.try_get(config_id)?;

@@ -107,7 +107,7 @@ fn rebuild_list() {
 
         row.location()
             .connect_activated(enclose!((config) move |_| {
-                ui::page_backup::view_backup_conf(&config.id);
+                main_ui().page_backup().view_backup_conf(&config.id);
             }));
 
         row.schedule()

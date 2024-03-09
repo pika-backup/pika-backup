@@ -6,7 +6,9 @@ pub fn init() {
     let action = crate::action::backup_show();
     action.connect_activate(|_, config_id| {
         if let Some(config_id) = config_id.and_then(|v| v.str()) {
-            ui::page_backup::view_backup_conf(&ConfigId::new(config_id.to_string()));
+            main_ui()
+                .page_backup()
+                .view_backup_conf(&ConfigId::new(config_id.to_string()));
             adw_app().activate();
         }
     });
@@ -17,7 +19,9 @@ pub fn init() {
         info!("action backup.start: called");
         if let Some(config_id) = config_id.and_then(|v| v.str()).map(ToString::to_string) {
             let guard = QuitGuard::default();
-            ui::page_backup::start_backup(ConfigId::new(config_id), None, guard);
+            main_ui()
+                .page_backup()
+                .start_backup(ConfigId::new(config_id), None, guard);
         } else {
             error!("action backup.start: Did not receive valid config id");
         }

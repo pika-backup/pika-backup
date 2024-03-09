@@ -1,4 +1,3 @@
-use crate::ui::page_backup;
 use crate::ui::prelude::*;
 use adw::prelude::*;
 
@@ -28,9 +27,9 @@ pub fn init() {
     main_ui()
         .archives_check_now()
         .connect_clicked(|_| Handler::run(events::check()));
-    main_ui()
-        .archives_check_abort()
-        .connect_clicked(|_| Handler::run(page_backup::on_stop_backup_create()));
+    main_ui().archives_check_abort().connect_clicked(|_| {
+        Handler::run(async move { main_ui().page_backup().show_abort_dialog().await })
+    });
 
     main_ui()
         .archives_cleanup()

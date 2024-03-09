@@ -2,7 +2,6 @@ use adw::prelude::*;
 
 use crate::config;
 use crate::config::RELATIVE;
-use crate::ui;
 use crate::ui::builder::DialogExcludePattern;
 use crate::ui::prelude::*;
 
@@ -65,7 +64,7 @@ async fn clicked(
     })?;
 
     ui.dialog().destroy();
-    ui::page_backup::refresh()?;
+    main_ui().page_backup().refresh()?;
 
     Ok(())
 }

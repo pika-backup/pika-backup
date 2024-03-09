@@ -166,7 +166,7 @@ async fn init_repo(ui: builder::DialogSetup) -> Result<()> {
             err.show().await;
         }
     }
-    ui::page_backup::view_backup_conf(&config.id);
+    main_ui().page_backup().view_backup_conf(&config.id);
 
     Ok(())
 }
@@ -220,7 +220,7 @@ pub async fn add(ui: builder::DialogSetup) -> Result<()> {
 
     let config = config::Backup::new(repo.clone(), info, encrypted);
     insert_backup_config(config.clone())?;
-    ui::page_backup::view_backup_conf(&config.id);
+    main_ui().page_backup().view_backup_conf(&config.id);
     ui::utils::password_storage::store_password(
         &config,
         &config::Password::new(ui.ask_password().text().to_string()),

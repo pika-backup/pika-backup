@@ -51,14 +51,6 @@ impl AppWindow {
         self.get("add_backup_empty")
     }
 
-    pub fn add_exclude(&self) -> gtk::Button {
-        self.get("add_exclude")
-    }
-
-    pub fn add_include(&self) -> gtk::Button {
-        self.get("add_include")
-    }
-
     pub fn archive_list(&self) -> gtk::ListBox {
         self.get("archive_list")
     }
@@ -127,22 +119,6 @@ impl AppWindow {
         self.get("archives_stack")
     }
 
-    pub fn backup_disk_disconnected(&self) -> gtk::Box {
-        self.get("backup_disk_disconnected")
-    }
-
-    pub fn backup_disk_eject_button(&self) -> gtk::Button {
-        self.get("backup_disk_eject_button")
-    }
-
-    pub fn backup_exclude(&self) -> gtk::ListBox {
-        self.get("backup_exclude")
-    }
-
-    pub fn backup_run(&self) -> gtk::Button {
-        self.get("backup_run")
-    }
-
     pub fn check_status(&self) -> crate::ui::export::StatusRow {
         self.get("check_status")
     }
@@ -157,10 +133,6 @@ impl AppWindow {
 
     pub fn detail_header_bar(&self) -> adw::HeaderBar {
         self.get("detail_header_bar")
-    }
-
-    pub fn detail_hint_icon(&self) -> gtk::Image {
-        self.get("detail_hint_icon")
     }
 
     pub fn detail_info_error(&self) -> gtk::Label {
@@ -187,14 +159,6 @@ impl AppWindow {
         self.get("detail_path_row")
     }
 
-    pub fn detail_repo_icon(&self) -> gtk::Image {
-        self.get("detail_repo_icon")
-    }
-
-    pub fn detail_repo_row(&self) -> adw::ActionRow {
-        self.get("detail_repo_row")
-    }
-
     pub fn detail_running_backup_info(&self) -> adw::Window {
         self.get("detail_running_backup_info")
     }
@@ -207,10 +171,6 @@ impl AppWindow {
         self.get("detail_stats")
     }
 
-    pub fn detail_status_row(&self) -> crate::ui::export::StatusRow {
-        self.get("detail_status_row")
-    }
-
     pub fn detail_view_switcher(&self) -> adw::ViewSwitcher {
         self.get("detail_view_switcher")
     }
@@ -221,10 +181,6 @@ impl AppWindow {
 
     pub fn dialog_check_result(&self) -> crate::ui::export::DialogCheckResult {
         self.get("dialog_check_result")
-    }
-
-    pub fn include(&self) -> gtk::ListBox {
-        self.get("include")
     }
 
     pub fn main_backups(&self) -> gtk::ListBox {
@@ -255,7 +211,7 @@ impl AppWindow {
         self.get("page_archives")
     }
 
-    pub fn page_backup(&self) -> adw::PreferencesPage {
+    pub fn page_backup(&self) -> crate::ui::export::BackupPage {
         self.get("page_backup")
     }
 
@@ -375,8 +331,8 @@ impl AppWindow {
         self.get("schedule_status_list")
     }
 
-    pub fn stop_backup_create(&self) -> gtk::Button {
-        self.get("stop_backup_create")
+    pub fn stack_page_backup(&self) -> adw::ViewStackPage {
+        self.get("stack_page_backup")
     }
 
     pub fn toast(&self) -> adw::ToastOverlay {

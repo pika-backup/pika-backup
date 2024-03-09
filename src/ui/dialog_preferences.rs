@@ -154,7 +154,7 @@ mod imp {
 
             Handler::handle((|| {
                 write_result?;
-                crate::ui::page_backup::refresh()?;
+                main_ui().page_backup().refresh()?;
                 Ok(())
             })());
 

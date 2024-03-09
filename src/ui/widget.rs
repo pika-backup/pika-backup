@@ -5,6 +5,7 @@ mod status_icon;
 mod status_row;
 mod wrap_box;
 
+pub use backup_page::BackupPage;
 pub use encryption_preferences_group::EncryptionPreferencesGroup;
 pub use location_tag::LocationTag;
 pub use status_icon::StatusIcon;
@@ -21,6 +22,7 @@ pub fn init() {
     ui::dialog_setup::folder_button::FolderButton::static_type();
     ui::dialog_setup::add_task::AddConfigTask::static_type();
     ui::dialog_check_result::DialogCheckResult::static_type();
+    BackupPage::static_type();
     EncryptionPreferencesGroup::static_type();
     StatusIcon::static_type();
     StatusRow::static_type();

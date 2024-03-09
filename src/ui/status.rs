@@ -105,20 +105,20 @@ impl StatusTracking {
 
         volume_monitor.connect_volume_added(enclose!((tracking) move |_, _| {
             tracking.ui_schedule_update();
-            ui::page_backup::refresh_disk_status();
+            main_ui().page_backup().refresh_disk_status();
         }));
 
         volume_monitor.connect_volume_removed(enclose!((tracking) move |_, _| {
             tracking.ui_schedule_update();
-            ui::page_backup::refresh_disk_status();
+            main_ui().page_backup().refresh_disk_status();
         }));
 
         volume_monitor.connect_mount_added(move |_, _| {
-            ui::page_backup::refresh_disk_status();
+            main_ui().page_backup().refresh_disk_status();
         });
 
         volume_monitor.connect_mount_removed(move |_, _| {
-            ui::page_backup::refresh_disk_status();
+            main_ui().page_backup().refresh_disk_status();
         });
 
         // Regular update
@@ -155,7 +155,7 @@ impl StatusTracking {
     fn ui_status_update(&self) {
         debug!("UI status update");
 
-        ui::page_backup::refresh_status();
+        main_ui().page_backup().refresh_status();
         ui::page_archives::refresh_status();
         ui::page_overview::refresh_status();
         ui::dialog_info::refresh_status();

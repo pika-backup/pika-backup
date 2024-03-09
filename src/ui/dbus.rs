@@ -80,7 +80,9 @@ async fn spawn_command_listener() -> Sender<Command> {
                     // Prevent app from closing
                     let guard = QuitGuard::default();
                     // Start backup
-                    ui::page_backup::start_backup(config_id, due_cause, guard);
+                    main_ui()
+                        .page_backup()
+                        .start_backup(config_id, due_cause, guard);
                 }
                 Command::ShowOverview => ui::page_overview::dbus_show(),
                 Command::ShowSchedule(backup_id) => ui::page_schedule::dbus_show(backup_id),

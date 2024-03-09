@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.14" />
+  <requires lib="libadwaita" version="1.5" />
+  <template class="PkBackupPage" parent="AdwPreferencesPage">
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwActionRow" id="detail_repo_row">
+            <property name="activatable">True</property>
+            <child type="prefix">
+              <object class="GtkImage" id="detail_repo_icon">
+                <style>
+                  <class name="large-row-icon" />
+                </style>
+              </object>
+            </child>
+            <child type="suffix">
+              <object class="GtkButton" id="backup_disk_eject_button">
+                <property name="tooltip-text" translatable="yes">Eject Backup Disk</property>
+                <property name="icon-name">media-eject-symbolic</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="flat" />
+                </style>
+              </object>
+            </child>
+            <child type="suffix">
+              <object class="GtkBox" id="backup_disk_disconnected">
+                <property name="valign">center</property>
+                <style>
+                  <class name="tag-box" />
+                </style>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Disconnected</property>
+                    <style>
+                      <class name="tag" />
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="PikaStatusRow" id="detail_status_row">
+            <property name="activatable">1</property>
+              <child type="suffix">
+                <object class="GtkBox">
+                  <child>
+                    <object class="GtkButton" id="abort_button">
+                    <property name="visible">0</property>
+                    <property name="label" translatable="yes">_Abort</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="use-underline">1</property>
+                    </object>
+                  </child>
+                  <child>
+                    <object class="GtkImage" id="detail_hint_icon">
+                      <property name="visible">0</property>
+                      <property name="icon-name">go-next-symbolic</property>
+                      <style>
+                        <class name="dim-label" />
+                      </style>
+                    </object>
+                  </child>
+                </object>
+              </child>
+            </object>
+          </child>
+          <child>
+            <object class="GtkButton" id="backup_button">
+              <property name="use-underline">1</property>
+              <property name="label" translatable="yes">Back Up _Now</property>
+              <property name="halign">center</property>
+              <property name="valign">start</property>
+              <property name="margin-top">20</property>
+              <property name="width-request">200</property>
+              <style>
+                <class name="suggested-action" />
+                <class name="pill" />
+              </style>
+            </object>
+          </child>
+        </object>
+      </child>
+      <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Files to Back Up</property>
+        <property name="description" translatable="yes">Only files in the following folders are saved in the backup repository.</property>
+        <property name="header-suffix">
+          <object class="GtkButton" id="add_include_button">
+            <property name="tooltip-text" translatable="yes">Select Directory to Include</property>
+            <property name="icon-name">list-add-symbolic</property>
+            <property name="valign">start</property>
+          </object>
+        </property>
+        <child>
+          <object class="GtkListBox" id="include_list">
+            <property name="selection-mode">none</property>
+            <style>
+              <class name="boxed-list" />
+            </style>
+            <child type="placeholder">
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">No files included in backup</property>
+                <style>
+                  <class name="error" />
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Exclude from Backup</property>
+        <property name="description" translatable="yes">The following folders are excluded from the backup repository.</property>
+        <property name="header-suffix">
+          <object class="GtkButton" id="add_exclude_button">
+            <property name="tooltip-text" translatable="yes">Select Directory to Exclude</property>
+            <property name="icon-name">list-add-symbolic</property>
+            <property name="valign">start</property>
+          </object>
+        </property>
+        <child>
+          <object class="GtkListBox" id="exclude_list">
+            <property name="selection-mode">none</property>
+            <style>
+              <class name="boxed-list" />
+            </style>
+            <child type="placeholder">
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Nothing excluded from backup</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
