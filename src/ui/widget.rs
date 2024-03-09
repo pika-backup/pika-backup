@@ -1,3 +1,4 @@
+mod backup_page;
 mod encryption_preferences_group;
 mod location_tag;
 mod status_icon;
