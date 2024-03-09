@@ -50,10 +50,15 @@ def objects(path):
     for item in ET.parse(path).iter():
         if item.tag == "object" and item.get("id"):
             if item.get("class")[:4] == "Pika":
-                objects.append(Item(item.get("id"), "crate::ui::export", item.get("class")[4:]))
+                objects.append(
+                    Item(item.get("id"), "crate::ui::export", item.get("class")[4:]))
+            elif item.get("class")[:2] == "Pk":
+                objects.append(
+                    Item(item.get("id"), "crate::ui::export", item.get("class")[2:]))
             else:
                 crate = item.get("class")[:3].lower()
-                objects.append(Item(item.get("id"), crate, item.get("class")[3:]))
+                objects.append(
+                    Item(item.get("id"), crate, item.get("class")[3:]))
     objects.sort(key=lambda item: item.id)
 
     return objects
@@ -128,4 +133,3 @@ impl {name} {{
 
 if __name__ == "__main__":
     main()
-
