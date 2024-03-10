@@ -59,15 +59,6 @@ mod imp {
             let imp = self.ref_counted();
             self.main_backups.connect_map(move |_| imp.rebuild_list());
             self.reload_visible_page();
-
-            let imp = self.ref_counted();
-            glib::timeout_add_local_once(std::time::Duration::ZERO, move || {
-                // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
-                imp.main_stack.connect_visible_child_notify(
-                    glib::clone!(@weak imp => move |_| imp.main_stack_changed()),
-                );
-                imp.main_stack_changed();
-            });
         }
     }
 
@@ -152,15 +143,6 @@ mod imp {
                     }
                 }
             });
-        }
-
-        fn main_stack_changed(&self) {
-            let is_detail_view = self.main_stack.visible_child()
-                == Some(main_ui().page_detail().upcast::<gtk::Widget>());
-
-            // shown in overview
-            self.add_backup.set_visible(!is_detail_view);
-            self.primary_menu_button.set_visible(!is_detail_view);
         }
     }
 }
