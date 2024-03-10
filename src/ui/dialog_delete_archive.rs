@@ -73,7 +73,10 @@ async fn delete(ui: DialogDeleteArchive, config: config::Backup, archive_name: &
     .await
     .into_message("Reclaiming Free Space Failed")?;
 
-    let _ = ui::page_archives::cache::refresh_archives(config, None).await;
+    let _ = main_ui()
+        .page_archives()
+        .refresh_archives(config, None)
+        .await;
 
     Ok(())
 }

@@ -18,7 +18,7 @@ pub fn on_pushed(_navigation_view: &adw::NavigationView) {
     if is_navigation_page_visible() {
         for page in &[
             main_ui().page_backup().upcast_ref::<adw::PreferencesPage>(),
-            &main_ui().page_archives(),
+            &main_ui().page_archives().upcast_ref(),
             &main_ui().page_schedule(),
         ] {
             page.scroll_to_top();

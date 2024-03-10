@@ -105,7 +105,10 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
         result.into_message(gettext("Reclaim Free Space"))?;
     }
 
-    let _ignore = ui::page_archives::cache::refresh_archives(config.clone(), None).await;
+    let _ignore = main_ui()
+        .page_archives()
+        .refresh_archives(config.clone(), None)
+        .await;
     let _ignore = ui::utils::df::lookup_and_cache(&config).await;
 
     Ok(())

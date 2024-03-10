@@ -154,8 +154,10 @@ impl imp::BackupPage {
                     }
                 }
 
-                let _ignore =
-                    ui::page_archives::cache::refresh_archives(config.clone(), from_schedule).await;
+                let _ignore = main_ui()
+                    .page_archives()
+                    .refresh_archives(config.clone(), from_schedule)
+                    .await;
                 let _ignore = ui::utils::df::lookup_and_cache(&config).await;
 
                 if run_info.messages.clone().filter_handled().max_log_level()

@@ -51,78 +51,6 @@ impl AppWindow {
         self.get("add_backup_empty")
     }
 
-    pub fn archive_list(&self) -> gtk::ListBox {
-        self.get("archive_list")
-    }
-
-    pub fn archive_list_placeholder(&self) -> gtk::ListBox {
-        self.get("archive_list_placeholder")
-    }
-
-    pub fn archives_check_abort(&self) -> gtk::Button {
-        self.get("archives_check_abort")
-    }
-
-    pub fn archives_check_now(&self) -> gtk::Button {
-        self.get("archives_check_now")
-    }
-
-    pub fn archives_cleanup(&self) -> adw::ActionRow {
-        self.get("archives_cleanup")
-    }
-
-    pub fn archives_eject_button(&self) -> gtk::Button {
-        self.get("archives_eject_button")
-    }
-
-    pub fn archives_fs_usage(&self) -> gtk::LevelBar {
-        self.get("archives_fs_usage")
-    }
-
-    pub fn archives_location_icon(&self) -> gtk::Image {
-        self.get("archives_location_icon")
-    }
-
-    pub fn archives_location_subtitle(&self) -> gtk::Label {
-        self.get("archives_location_subtitle")
-    }
-
-    pub fn archives_location_suffix_subtitle(&self) -> gtk::Label {
-        self.get("archives_location_suffix_subtitle")
-    }
-
-    pub fn archives_location_suffix_title(&self) -> gtk::Label {
-        self.get("archives_location_suffix_title")
-    }
-
-    pub fn archives_location_title(&self) -> gtk::Label {
-        self.get("archives_location_title")
-    }
-
-    pub fn archives_prefix(&self) -> gtk::Label {
-        self.get("archives_prefix")
-    }
-
-    pub fn archives_prefix_edit(&self) -> gtk::Button {
-        self.get("archives_prefix_edit")
-    }
-
-    pub fn archives_reloading_spinner(&self) -> gtk::Spinner {
-        self.get("archives_reloading_spinner")
-    }
-
-    pub fn archives_reloading_stack(&self) -> gtk::Stack {
-        self.get("archives_reloading_stack")
-    }
-
-    pub fn archives_stack(&self) -> gtk::Stack {
-        self.get("archives_stack")
-    }
-
-    pub fn check_status(&self) -> crate::ui::export::StatusRow {
-        self.get("check_status")
-    }
-
     pub fn detail_current_path(&self) -> gtk::Label {
         self.get("detail_current_path")
     }
@@ -207,7 +135,7 @@ impl AppWindow {
         self.get("overview")
     }
 
-    pub fn page_archives(&self) -> adw::PreferencesPage {
+    pub fn page_archives(&self) -> crate::ui::export::ArchivesPage {
         self.get("page_archives")
     }
 
@@ -271,10 +199,6 @@ impl AppWindow {
         self.get("prune_save_revealer")
     }
 
-    pub fn refresh_archives(&self) -> gtk::Button {
-        self.get("refresh_archives")
-    }
-
     pub fn schedule_active(&self) -> adw::ExpanderRow {
         self.get("schedule_active")
     }
@@ -329,6 +253,10 @@ impl AppWindow {
 
     pub fn schedule_status_list(&self) -> gtk::ListBox {
         self.get("schedule_status_list")
+    }
+
+    pub fn stack_page_archives(&self) -> adw::ViewStackPage {
+        self.get("stack_page_archives")
     }
 
     pub fn stack_page_backup(&self) -> adw::ViewStackPage {

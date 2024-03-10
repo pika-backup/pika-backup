@@ -144,7 +144,6 @@ fn on_startup(_app: &adw::Application) {
     ui::page_overview::init();
 
     ui::page_detail::init();
-    ui::page_archives::init();
     ui::page_schedule::init::init();
 
     // init status tracking

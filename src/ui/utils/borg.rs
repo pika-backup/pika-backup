@@ -278,7 +278,7 @@ pub async fn unmount(repo_id: &RepoId) -> Result<()> {
         mounts.remove(repo_id);
     });
 
-    crate::ui::page_archives::refresh_status();
+    main_ui().page_archives().refresh_status();
 
     Ok(())
 }

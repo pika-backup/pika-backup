@@ -105,7 +105,9 @@ mod imp {
                 let config = obj.imp().config()?;
 
                 scopeguard::defer_on_success!({
-                    crate::ui::page_archives::refresh_status();
+                    main_ui()
+                        .page_archives()
+                        .refresh_status();
                 });
 
                 let mut command =
