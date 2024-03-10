@@ -106,7 +106,8 @@ async fn delete(ui: DialogPrune, config: config::Backup) -> Result<()> {
     }
 
     let _ignore = main_ui()
-        .page_archives()
+        .page_detail()
+        .archives_page()
         .refresh_archives(config.clone(), None)
         .await;
     let _ignore = ui::utils::df::lookup_and_cache(&config).await;

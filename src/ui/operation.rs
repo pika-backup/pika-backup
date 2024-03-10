@@ -180,13 +180,13 @@ impl<T: borg::Task> Operation<T> {
         debug!("UI status update");
 
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
-            main_ui().page_backup().refresh_status();
-            main_ui().page_archives().refresh_status();
+            main_ui().page_detail().backup_page().refresh_status();
+            main_ui().page_detail().archives_page().refresh_status();
             ui::dialog_info::refresh_status();
         }
 
         main_ui().page_overview().refresh_status();
-        main_ui().page_backup().refresh_disk_status();
+        main_ui().page_detail().backup_page().refresh_disk_status();
         glib::MainContext::default().spawn(ui::shell::background_activity_update());
     }
 
@@ -194,7 +194,7 @@ impl<T: borg::Task> Operation<T> {
         debug!("UI schedule update");
 
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
-            main_ui().page_schedule().refresh_status();
+            main_ui().page_detail().schedule_page().refresh_status();
         }
 
         main_ui().page_overview().refresh_status();

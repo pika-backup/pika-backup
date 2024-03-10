@@ -51,10 +51,6 @@ impl AppWindow {
         self.get("detail_deduplicated_size")
     }
 
-    pub fn detail_header_bar(&self) -> adw::HeaderBar {
-        self.get("detail_header_bar")
-    }
-
     pub fn detail_info_error(&self) -> gtk::Label {
         self.get("detail_info_error")
     }
@@ -83,68 +79,24 @@ impl AppWindow {
         self.get("detail_running_backup_info")
     }
 
-    pub fn detail_stack(&self) -> adw::ViewStack {
-        self.get("detail_stack")
-    }
-
     pub fn detail_stats(&self) -> gtk::ListBox {
         self.get("detail_stats")
-    }
-
-    pub fn detail_view_switcher(&self) -> adw::ViewSwitcher {
-        self.get("detail_view_switcher")
-    }
-
-    pub fn detail_view_switcher_bar(&self) -> adw::ViewSwitcherBar {
-        self.get("detail_view_switcher_bar")
     }
 
     pub fn dialog_check_result(&self) -> crate::ui::export::DialogCheckResult {
         self.get("dialog_check_result")
     }
 
-    pub fn navigation_page_detail(&self) -> adw::NavigationPage {
-        self.get("navigation_page_detail")
-    }
-
     pub fn navigation_view(&self) -> adw::NavigationView {
         self.get("navigation_view")
     }
 
-    pub fn page_archives(&self) -> crate::ui::export::ArchivesPage {
-        self.get("page_archives")
-    }
-
-    pub fn page_backup(&self) -> crate::ui::export::BackupPage {
-        self.get("page_backup")
-    }
-
-    pub fn page_detail(&self) -> adw::ToolbarView {
+    pub fn page_detail(&self) -> crate::ui::export::DetailPage {
         self.get("page_detail")
     }
 
     pub fn page_overview(&self) -> crate::ui::export::OverviewPage {
         self.get("page_overview")
-    }
-
-    pub fn page_schedule(&self) -> crate::ui::export::SchedulePage {
-        self.get("page_schedule")
-    }
-
-    pub fn pending_menu(&self) -> gtk::MenuButton {
-        self.get("pending_menu")
-    }
-
-    pub fn pending_menu_spinner(&self) -> gtk::Spinner {
-        self.get("pending_menu_spinner")
-    }
-
-    pub fn stack_page_archives(&self) -> adw::ViewStackPage {
-        self.get("stack_page_archives")
-    }
-
-    pub fn stack_page_backup(&self) -> adw::ViewStackPage {
-        self.get("stack_page_backup")
     }
 
     pub fn toast(&self) -> adw::ToastOverlay {

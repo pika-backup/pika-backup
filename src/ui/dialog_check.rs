@@ -106,7 +106,8 @@ mod imp {
 
                 scopeguard::defer_on_success!({
                     main_ui()
-                        .page_archives()
+                        .page_detail()
+                        .archives_page()
                         .refresh_status();
                 });
 

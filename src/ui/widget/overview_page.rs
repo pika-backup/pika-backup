@@ -87,12 +87,12 @@ mod imp {
                 // connect click
                 row.location()
                     .connect_activated(enclose!((config) move |_| {
-                        main_ui().page_backup().view_backup_conf(&config.id);
+                        main_ui().page_detail().backup_page().view_backup_conf(&config.id);
                     }));
 
                 row.schedule()
                     .connect_activated(enclose!((config) move |_| {
-                        main_ui().page_schedule().view(&config.id);
+                        main_ui().page_detail().schedule_page().view(&config.id);
                     }));
 
                 // Repo Icon

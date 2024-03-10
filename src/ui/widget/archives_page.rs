@@ -8,6 +8,8 @@ use adw::subclass::prelude::*;
 use crate::{config, schedule, ui};
 use ui::prelude::*;
 
+use super::detail_page::DetailPageKind;
+
 fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
     if let Ok(mut dir_iter) = dir.read_dir() {
         if let Some(Ok(new_dir)) = dir_iter.next() {
@@ -114,7 +116,13 @@ mod imp {
             self.check_button
                 .connect_clicked(glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().check().await })));
             self.check_abort_button.connect_clicked(|_| {
-                Handler::run(async move { main_ui().page_backup().show_abort_dialog().await })
+                Handler::run(async move {
+                    main_ui()
+                        .page_detail()
+                        .backup_page()
+                        .show_abort_dialog()
+                        .await
+                })
             });
 
             self.cleanup_row
@@ -137,19 +145,6 @@ mod imp {
 
             self.reloading_spinner.connect_map(|s| s.start());
             self.reloading_spinner.connect_unmap(|s| s.stop());
-
-            glib::timeout_add_local(std::time::Duration::ZERO, move || {
-                // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
-                main_ui().detail_stack().connect_visible_child_notify(
-                    glib::clone!(@weak obj => move |_| {
-                        if obj.is_visible() {
-                            Handler::run(async move { obj.imp().show().await });
-                        }
-                    }),
-                );
-
-                glib::ControlFlow::Break
-            });
         }
     }
 
@@ -168,8 +163,12 @@ glib::wrapper! {
 
 impl ArchivesPage {
     fn is_visible(&self) -> bool {
-        main_ui().detail_stack().visible_child()
-            == Some(main_ui().page_archives().upcast::<gtk::Widget>())
+        main_ui().page_detail().visible_stack_page() == DetailPageKind::Archives
+    }
+
+    pub fn refresh(&self) {
+        let obj = self.clone();
+        Handler::run(async move { obj.imp().show().await });
     }
 
     pub async fn refresh_archives(

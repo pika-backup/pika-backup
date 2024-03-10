@@ -278,7 +278,7 @@ pub async fn unmount(repo_id: &RepoId) -> Result<()> {
         mounts.remove(repo_id);
     });
 
-    main_ui().page_archives().refresh_status();
+    main_ui().page_detail().archives_page().refresh_status();
 
     Ok(())
 }

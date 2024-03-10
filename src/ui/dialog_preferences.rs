@@ -154,7 +154,7 @@ mod imp {
 
             Handler::handle((|| {
                 write_result?;
-                main_ui().page_backup().refresh()?;
+                main_ui().page_detail().backup_page().refresh()?;
                 Ok(())
             })());
 

@@ -7,7 +7,8 @@ pub fn init() {
     action.connect_activate(|_, config_id| {
         if let Some(config_id) = config_id.and_then(|v| v.str()) {
             main_ui()
-                .page_backup()
+                .page_detail()
+                .backup_page()
                 .view_backup_conf(&ConfigId::new(config_id.to_string()));
             adw_app().activate();
         }
@@ -19,9 +20,11 @@ pub fn init() {
         info!("action backup.start: called");
         if let Some(config_id) = config_id.and_then(|v| v.str()).map(ToString::to_string) {
             let guard = QuitGuard::default();
-            main_ui()
-                .page_backup()
-                .start_backup(ConfigId::new(config_id), None, guard);
+            main_ui().page_detail().backup_page().start_backup(
+                ConfigId::new(config_id),
+                None,
+                guard,
+            );
         } else {
             error!("action backup.start: Did not receive valid config id");
         }
@@ -59,7 +62,7 @@ pub fn init() {
     let action = gio::SimpleAction::new("backup-preferences", None);
     action.connect_activate(|_, _| {
         if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
-            if ui::page_detail::is_navigation_page_visible() {
+            if main_ui().page_detail().is_visible() {
                 // Only display when the backup detail page is open
                 ui::dialog_preferences::DialogPreferences::new(id.clone()).present();
             }

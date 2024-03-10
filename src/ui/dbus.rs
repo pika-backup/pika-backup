@@ -81,11 +81,14 @@ async fn spawn_command_listener() -> Sender<Command> {
                     let guard = QuitGuard::default();
                     // Start backup
                     main_ui()
-                        .page_backup()
+                        .page_detail()
+                        .backup_page()
                         .start_backup(config_id, due_cause, guard);
                 }
                 Command::ShowOverview => main_ui().page_overview().dbus_show(),
-                Command::ShowSchedule(backup_id) => main_ui().page_schedule().dbus_show(backup_id),
+                Command::ShowSchedule(backup_id) => {
+                    main_ui().page_detail().schedule_page().dbus_show(backup_id)
+                }
             }
         }
 

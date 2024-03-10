@@ -65,7 +65,7 @@ impl imp::ArchivesPage {
                 mounts.insert(repo_id.clone());
             });
 
-            main_ui().pending_menu().set_visible(true);
+            main_ui().page_detail().show_pending_menu(true);
 
             let mount = ui::utils::borg::exec(
                 borg::Command::<borg::task::Mount>::new(config.clone()),
@@ -77,7 +77,7 @@ impl imp::ArchivesPage {
                 ACTIVE_MOUNTS.update(|mounts| {
                     mounts.remove(repo_id);
                 });
-                main_ui().pending_menu().set_visible(false);
+                main_ui().page_detail().show_pending_menu(false);
             }
 
             mount.into_message(gettext("Failed to make archives available for browsing."))?;

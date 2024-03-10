@@ -90,7 +90,7 @@ impl imp::ArchivesPage {
     }
 
     pub async fn show_dir(&self, path: &std::path::Path) -> Result<()> {
-        main_ui().pending_menu().set_visible(false);
+        main_ui().page_detail().show_pending_menu(false);
         let file = gio::File::for_path(path);
 
         // Only open if app isn't closing in this moment

@@ -25,7 +25,6 @@ mod error;
 mod export;
 mod globals;
 mod operation;
-mod page_detail;
 mod prelude;
 mod shell;
 mod status;
@@ -137,8 +136,6 @@ fn on_startup(_app: &adw::Application) {
 
     ui::app_window::init();
 
-    ui::page_detail::init();
-
     // init status tracking
     status_tracking();
 
@@ -150,7 +147,10 @@ fn on_startup(_app: &adw::Application) {
 
     if BACKUP_CONFIG.load().iter().count() == 1 {
         if let Some(config) = BACKUP_CONFIG.load().iter().next() {
-            main_ui().page_backup().view_backup_conf(&config.id);
+            main_ui()
+                .page_detail()
+                .backup_page()
+                .view_backup_conf(&config.id);
         }
     }
 }

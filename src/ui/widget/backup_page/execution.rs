@@ -155,7 +155,8 @@ impl imp::BackupPage {
                 }
 
                 let _ignore = main_ui()
-                    .page_archives()
+                    .page_detail()
+                    .archives_page()
                     .refresh_archives(config.clone(), from_schedule)
                     .await;
                 let _ignore = ui::utils::df::lookup_and_cache(&config).await;

@@ -12,6 +12,8 @@ use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use super::detail_page::DetailPageKind;
+
 mod imp {
     use std::cell::OnceCell;
 
@@ -194,10 +196,6 @@ mod imp {
                 main_ui().navigation_view().connect_visible_page_notify(
                     glib::clone!(@weak imp => move |_| Handler::run(async move { imp.show_page().await })),
                 );
-
-                main_ui().detail_stack().connect_visible_child_notify(
-                    glib::clone!(@weak imp => move |_| Handler::run(async move { imp.show_page().await })),
-                );
             });
         }
     }
@@ -221,19 +219,22 @@ impl SchedulePage {
         adw_app().activate();
     }
 
+    pub fn refresh(&self) {
+        let obj = self.clone();
+        Handler::run(async move { obj.imp().show_page().await });
+    }
+
     pub fn view(&self, id: &ConfigId) {
         ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
 
+        main_ui().navigation_view().push(&main_ui().page_detail());
         main_ui()
-            .navigation_view()
-            .push(&main_ui().navigation_page_detail());
-        main_ui()
-            .detail_stack()
-            .set_visible_child(&main_ui().page_schedule());
+            .page_detail()
+            .show_stack_page(DetailPageKind::Schedule);
     }
 
     pub fn is_visible(&self) -> bool {
-        crate::ui::page_detail::is_visible(&main_ui().page_schedule())
+        main_ui().page_detail().visible_stack_page() == DetailPageKind::Schedule
     }
 
     pub fn refresh_status(&self) {

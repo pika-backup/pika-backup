@@ -8,6 +8,8 @@ use adw::subclass::prelude::*;
 use crate::schedule;
 use crate::ui::prelude::*;
 
+use super::detail_page::DetailPageKind;
+
 mod imp {
     use crate::ui;
 
@@ -102,15 +104,11 @@ mod imp {
                     glib::clone!(@weak obj => move |navigation_view| {
                         if navigation_view
                             .visible_page()
-                            .is_some_and(|page| page == main_ui().navigation_page_detail())
+                            .is_some_and(|page| page == main_ui().page_detail())
                         {
                             Handler::handle(obj.imp().refresh());
                         }
                     }),
-                );
-
-                main_ui().detail_stack().connect_visible_child_notify(
-                    glib::clone!(@weak obj => move |_| Handler::handle(obj.imp().refresh())),
                 );
 
                 glib::ControlFlow::Break
@@ -155,19 +153,17 @@ impl BackupPage {
     }
 
     fn is_visible(&self) -> bool {
-        crate::ui::page_detail::is_visible(&main_ui().page_backup())
+        main_ui().page_detail().visible_stack_page() == DetailPageKind::Backup
     }
 
     pub fn view_backup_conf(&self, id: &ConfigId) {
         ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
 
         main_ui()
-            .detail_stack()
-            .set_visible_child(&main_ui().page_backup());
+            .page_detail()
+            .show_stack_page(DetailPageKind::Backup);
 
-        main_ui()
-            .navigation_view()
-            .push(&main_ui().navigation_page_detail());
+        main_ui().navigation_view().push(&main_ui().page_detail());
     }
 
     /// Shows the dialog to abort a running backup operation.
@@ -183,7 +179,6 @@ impl BackupPage {
     }
 
     pub fn refresh(&self) -> Result<()> {
-        // TODO: This doesn't need to be public, replace with signals
         self.imp().refresh()
     }
 

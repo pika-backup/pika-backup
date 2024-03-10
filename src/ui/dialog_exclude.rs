@@ -126,7 +126,7 @@ fn on_suggested_toggle(buttons: &[(config::exclude::Predefined, gtk::CheckButton
         Ok(())
     })?;
 
-    main_ui().page_backup().refresh()?;
+    main_ui().page_detail().backup_page().refresh()?;
 
     Ok(())
 }
@@ -183,7 +183,7 @@ pub fn fill_unreadable(dialog: &DialogExclude) -> Result<()> {
                         Ok(())
                     }))?;
 
-                    main_ui().page_backup().refresh()?;
+                    main_ui().page_detail().backup_page().refresh()?;
                     Ok(())
                 })());
             }),
@@ -257,7 +257,7 @@ pub async fn exclude_folder() -> Result<()> {
         Ok(())
     })?;
 
-    main_ui().page_backup().refresh()?;
+    main_ui().page_detail().backup_page().refresh()?;
     Ok(())
 }
 
@@ -293,7 +293,7 @@ pub async fn exclude_file() -> Result<()> {
         Ok(())
     })?;
 
-    main_ui().page_backup().refresh()?;
+    main_ui().page_detail().backup_page().refresh()?;
     Ok(())
 }
 

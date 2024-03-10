@@ -1,5 +1,6 @@
 mod archives_page;
 mod backup_page;
+mod detail_page;
 mod encryption_preferences_group;
 mod location_tag;
 mod overview_page;
@@ -10,6 +11,7 @@ mod wrap_box;
 
 pub use archives_page::ArchivesPage;
 pub use backup_page::BackupPage;
+pub use detail_page::DetailPage;
 pub use encryption_preferences_group::EncryptionPreferencesGroup;
 pub use location_tag::LocationTag;
 pub use overview_page::OverviewPage;
@@ -30,6 +32,7 @@ pub fn init() {
     ui::dialog_check_result::DialogCheckResult::static_type();
     ArchivesPage::static_type();
     BackupPage::static_type();
+    DetailPage::static_type();
     EncryptionPreferencesGroup::static_type();
     OverviewPage::static_type();
     SchedulePage::static_type();
