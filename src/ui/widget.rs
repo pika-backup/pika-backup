@@ -11,6 +11,7 @@ pub use archives_page::ArchivesPage;
 pub use backup_page::BackupPage;
 pub use encryption_preferences_group::EncryptionPreferencesGroup;
 pub use location_tag::LocationTag;
+pub use schedule_page::{status::Status, SchedulePage};
 pub use status_icon::StatusIcon;
 pub use status_row::StatusRow;
 pub use wrap_box::WrapBox;
@@ -19,15 +20,16 @@ use crate::ui;
 use glib::prelude::*;
 
 pub fn init() {
-    ui::page_schedule::frequency::FrequencyObject::static_type();
-    ui::page_schedule::prune_preset::PrunePresetObject::static_type();
-    ui::page_schedule::weekday::WeekdayObject::static_type();
+    schedule_page::frequency::FrequencyObject::static_type();
+    schedule_page::prune_preset::PrunePresetObject::static_type();
+    schedule_page::weekday::WeekdayObject::static_type();
     ui::dialog_setup::folder_button::FolderButton::static_type();
     ui::dialog_setup::add_task::AddConfigTask::static_type();
     ui::dialog_check_result::DialogCheckResult::static_type();
     ArchivesPage::static_type();
     BackupPage::static_type();
     EncryptionPreferencesGroup::static_type();
+    SchedulePage::static_type();
     StatusIcon::static_type();
     StatusRow::static_type();
     WrapBox::static_type();

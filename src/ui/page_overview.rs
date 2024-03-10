@@ -112,7 +112,7 @@ fn rebuild_list() {
 
         row.schedule()
             .connect_activated(enclose!((config) move |_| {
-                ui::page_schedule::view(&config.id);
+                main_ui().page_schedule().view(&config.id);
             }));
 
         // Repo Icon
@@ -147,7 +147,7 @@ fn rebuild_list() {
 fn force_refresh_status() {
     glib::MainContext::default().spawn_local(async move {
         for config in BACKUP_CONFIG.load().iter() {
-            let schedule_status = ui::page_schedule::status::Status::new(config).await;
+            let schedule_status = ui::widget::Status::new(config).await;
             ROWS.with(move |rows| {
                 if let Ok(rows) = rows.try_read() {
                     if let Some(row) = rows.get(&config.id) {

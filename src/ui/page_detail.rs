@@ -19,7 +19,7 @@ pub fn on_pushed(_navigation_view: &adw::NavigationView) {
         for page in &[
             main_ui().page_backup().upcast_ref::<adw::PreferencesPage>(),
             &main_ui().page_archives().upcast_ref(),
-            &main_ui().page_schedule(),
+            &main_ui().page_schedule().upcast_ref(),
         ] {
             page.scroll_to_top();
         }

@@ -194,7 +194,7 @@ impl<T: borg::Task> Operation<T> {
         debug!("UI schedule update");
 
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
-            ui::page_schedule::refresh_status();
+            main_ui().page_schedule().refresh_status();
         }
 
         ui::page_overview::refresh_status();

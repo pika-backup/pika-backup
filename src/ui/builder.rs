@@ -155,7 +155,7 @@ impl AppWindow {
         self.get("page_overview_empty")
     }
 
-    pub fn page_schedule(&self) -> adw::PreferencesPage {
+    pub fn page_schedule(&self) -> crate::ui::export::SchedulePage {
         self.get("page_schedule")
     }
 
@@ -167,92 +167,8 @@ impl AppWindow {
         self.get("pending_menu_spinner")
     }
 
-    pub fn preferred_time_row(&self) -> adw::ActionRow {
-        self.get("preferred_time_row")
-    }
-
-    pub fn preferred_weekday_row(&self) -> adw::ComboRow {
-        self.get("preferred_weekday_row")
-    }
-
     pub fn primary_menu_button(&self) -> gtk::MenuButton {
         self.get("primary_menu_button")
-    }
-
-    pub fn prune_detail(&self) -> adw::ExpanderRow {
-        self.get("prune_detail")
-    }
-
-    pub fn prune_enabled(&self) -> gtk::Switch {
-        self.get("prune_enabled")
-    }
-
-    pub fn prune_preset(&self) -> adw::ComboRow {
-        self.get("prune_preset")
-    }
-
-    pub fn prune_save(&self) -> gtk::Button {
-        self.get("prune_save")
-    }
-
-    pub fn prune_save_revealer(&self) -> gtk::Revealer {
-        self.get("prune_save_revealer")
-    }
-
-    pub fn schedule_active(&self) -> adw::ExpanderRow {
-        self.get("schedule_active")
-    }
-
-    pub fn schedule_frequency(&self) -> adw::ComboRow {
-        self.get("schedule_frequency")
-    }
-
-    pub fn schedule_keep_daily(&self) -> adw::SpinRow {
-        self.get("schedule_keep_daily")
-    }
-
-    pub fn schedule_keep_hourly(&self) -> adw::SpinRow {
-        self.get("schedule_keep_hourly")
-    }
-
-    pub fn schedule_keep_monthly(&self) -> adw::SpinRow {
-        self.get("schedule_keep_monthly")
-    }
-
-    pub fn schedule_keep_weekly(&self) -> adw::SpinRow {
-        self.get("schedule_keep_weekly")
-    }
-
-    pub fn schedule_keep_yearly(&self) -> adw::SpinRow {
-        self.get("schedule_keep_yearly")
-    }
-
-    pub fn schedule_preferred_day(&self) -> adw::SpinRow {
-        self.get("schedule_preferred_day")
-    }
-
-    pub fn schedule_preferred_hour(&self) -> gtk::SpinButton {
-        self.get("schedule_preferred_hour")
-    }
-
-    pub fn schedule_preferred_minute(&self) -> gtk::SpinButton {
-        self.get("schedule_preferred_minute")
-    }
-
-    pub fn schedule_preferred_time_button(&self) -> gtk::MenuButton {
-        self.get("schedule_preferred_time_button")
-    }
-
-    pub fn schedule_preferred_time_popover(&self) -> gtk::Popover {
-        self.get("schedule_preferred_time_popover")
-    }
-
-    pub fn schedule_status(&self) -> crate::ui::export::StatusRow {
-        self.get("schedule_status")
-    }
-
-    pub fn schedule_status_list(&self) -> gtk::ListBox {
-        self.get("schedule_status_list")
     }
 
     pub fn stack_page_archives(&self) -> adw::ViewStackPage {

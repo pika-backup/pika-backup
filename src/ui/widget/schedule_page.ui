@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.14" />
+  <requires lib="libadwaita" version="1.5" />
+  <object class="GtkPopover" id="schedule_preferred_time_popover">
+    <property name="child">
+      <object class="GtkBox">
+        <property name="margin-start">18</property>
+        <property name="margin-end">18</property>
+        <property name="margin-top">18</property>
+        <property name="margin-bottom">18</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkSpinButton" id="schedule_preferred_hour">
+            <property name="max-width-chars">2</property>
+            <property name="orientation">vertical</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment">
+                <property name="upper">23</property>
+                <property name="step-increment">1</property>
+                <property name="page-increment">10</property>
+              </object>
+            </property>
+            <property name="numeric">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="label" translatable="yes">:</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="schedule_preferred_minute">
+            <property name="max-width-chars">2</property>
+            <property name="orientation">vertical</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment">
+                <property name="upper">59</property>
+                <property name="step-increment">1</property>
+                <property name="page-increment">10</property>
+              </object>
+            </property>
+            <property name="numeric">1</property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
+  <template class="PkSchedulePage" parent="AdwPreferencesPage">
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="GtkListBox" id="schedule_status_list">
+            <property name="selection-mode">none</property>
+            <child>
+              <object class="PikaStatusRow" id="schedule_status" />
+            </child>
+            <style>
+              <class name="boxed-list" />
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Scheduled Backups</property>
+        <child>
+          <object class="AdwExpanderRow" id="schedule_active">
+            <property name="activatable">False</property>
+            <property name="title" translatable="yes">Regularly Create Backups</property>
+            <property name="expanded">True</property>
+            <property name="show-enable-switch">True</property>
+            <child>
+              <object class="AdwComboRow" id="schedule_frequency">
+                <property name="title" translatable="yes">Frequency</property>
+                <property name="expression">
+                  <lookup type="PikaBackupScheduleFrequency" name="display"></lookup>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow" id="preferred_time_row">
+                <property name="title" translatable="yes">Preferred Time</property>
+                <property name="activatable-widget">schedule_preferred_time_button</property>
+                <child>
+                  <object class="GtkMenuButton" id="schedule_preferred_time_button">
+                    <property name="focus-on-click">0</property>
+                    <property name="halign">end</property>
+                    <property name="valign">center</property>
+                    <property name="popover">schedule_preferred_time_popover</property>
+                    <style>
+                      <class name="flat" />
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="preferred_weekday_row">
+                <property name="expression">
+                  <lookup type="PikaBackupWeekday" name="display"></lookup>
+                </property>
+                <property name="title" translatable="yes">Preferred Weekday</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="schedule_preferred_day">
+                <property name="title" translatable="yes">Preferred Day of Month</property>
+                <property name="activatable-widget">schedule_preferred_day</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">31</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">5</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Delete old Archives</property>
+        <property name="header-suffix">
+          <object class="GtkRevealer" id="prune_save_revealer">
+            <property name="transition-type">slide-up</property>
+            <property name="child">
+              <object class="GtkButton" id="prune_save">
+                <property name="label" translatable="yes">Save Configuration</property>
+                <property name="valign">center</property>
+                <style>
+                  <class name="suggested-action" />
+                </style>
+              </object>
+            </property>
+          </object>
+        </property>
+        <child>
+          <object class="AdwActionRow">
+            <property name="activatable">False</property>
+            <property name="title" translatable="yes">Regularly Cleanup Archives</property>
+            <property name="subtitle" translatable="yes">Remove old archives after creating new backups</property>
+            <child>
+              <object class="GtkSwitch" id="prune_enabled">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwComboRow" id="prune_preset">
+            <property name="title" translatable="yes">Preserved Archives</property>
+            <property name="subtitle" translatable="yes">Amount and time span of retained archives</property>
+            <property name="expression">
+              <lookup type="PikaBackupPrunePreset" name="display"></lookup>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwExpanderRow" id="prune_detail">
+            <property name="activatable">False</property>
+            <property name="title" translatable="yes">Details</property>
+            <property name="expanded">0</property>
+            <child>
+              <object class="AdwSpinRow" id="schedule_keep_hourly">
+                <property name="title" translatable="yes">Keep Hourly</property>
+                <property name="activatable-widget">schedule_keep_hourly</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">9999</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">10</property>
+                  </object>
+                </property>
+                <property name="climb-rate">1</property>
+                <property name="numeric">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="schedule_keep_daily">
+                <property name="title" translatable="yes">Keep Daily</property>
+                <property name="activatable-widget">schedule_keep_daily</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">9999</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">10</property>
+                  </object>
+                </property>
+                <property name="climb-rate">1</property>
+                <property name="numeric">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="schedule_keep_weekly">
+                <property name="title" translatable="yes">Keep Weekly</property>
+                <property name="activatable-widget">schedule_keep_weekly</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">1000</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">10</property>
+                  </object>
+                </property>
+                <property name="numeric">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="schedule_keep_monthly">
+                <property name="title" translatable="yes">Keep Monthly</property>
+                <property name="activatable-widget">schedule_keep_monthly</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="upper">1000</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">10</property>
+                  </object>
+                </property>
+                <property name="numeric">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="schedule_keep_yearly">
+                <property name="title" translatable="yes">Keep Annual</property>
+                <property name="activatable-widget">schedule_keep_yearly</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="upper">1000</property>
+                    <property name="step-increment">1</property>
+                    <property name="page-increment">10</property>
+                  </object>
+                </property>
+                <property name="numeric">1</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

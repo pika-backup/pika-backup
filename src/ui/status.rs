@@ -164,7 +164,7 @@ impl StatusTracking {
     fn ui_schedule_update(&self) {
         debug!("UI schedule update");
 
-        ui::page_schedule::refresh_status();
+        main_ui().page_schedule().refresh_status();
         ui::page_overview::refresh_status();
     }
 }
