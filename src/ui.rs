@@ -28,7 +28,6 @@ mod headerbar;
 mod operation;
 mod page_detail;
 mod page_overview;
-mod page_schedule;
 mod prelude;
 mod shell;
 mod status;

@@ -2,6 +2,7 @@ mod archives_page;
 mod backup_page;
 mod encryption_preferences_group;
 mod location_tag;
+mod schedule_page;
 mod status_icon;
 mod status_row;
 mod wrap_box;
