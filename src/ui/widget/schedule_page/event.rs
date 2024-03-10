@@ -26,22 +26,21 @@ impl imp::SchedulePage {
             self.update_status(config).await;
 
             match config.schedule.frequency {
-                config::Frequency::Hourly => self.schedule_frequency.set_selected(0),
+                config::Frequency::Hourly => self.frequency.set_selected(0),
                 config::Frequency::Daily { preferred_time } => {
-                    self.schedule_frequency.set_selected(1);
-                    self.schedule_preferred_hour
-                        .set_value(preferred_time.hour() as f64);
-                    self.schedule_preferred_minute
+                    self.frequency.set_selected(1);
+                    self.preferred_hour.set_value(preferred_time.hour() as f64);
+                    self.preferred_minute
                         .set_value(preferred_time.minute() as f64);
                 }
                 config::Frequency::Weekly { preferred_weekday } => {
-                    self.schedule_frequency.set_selected(2);
+                    self.frequency.set_selected(2);
                     self.preferred_weekday_row
                         .set_selected(preferred_weekday.num_days_from_monday());
                 }
                 config::Frequency::Monthly { preferred_day } => {
-                    self.schedule_frequency.set_selected(3);
-                    self.schedule_preferred_day.set_value(preferred_day as f64);
+                    self.frequency.set_selected(3);
+                    self.preferred_day.set_value(preferred_day as f64);
                 }
             }
 
@@ -70,41 +69,37 @@ impl imp::SchedulePage {
     }
 
     fn update_prune_details(&self, config: &config::Backup) {
-        self.schedule_keep_hourly
-            .set_value(config.prune.keep.hourly as f64);
-        self.schedule_keep_daily
-            .set_value(config.prune.keep.daily as f64);
-        self.schedule_keep_weekly
-            .set_value(config.prune.keep.weekly as f64);
-        self.schedule_keep_monthly
+        self.keep_hourly.set_value(config.prune.keep.hourly as f64);
+        self.keep_daily.set_value(config.prune.keep.daily as f64);
+        self.keep_weekly.set_value(config.prune.keep.weekly as f64);
+        self.keep_monthly
             .set_value(config.prune.keep.monthly as f64);
-        self.schedule_keep_yearly
-            .set_value(config.prune.keep.yearly as f64);
+        self.keep_yearly.set_value(config.prune.keep.yearly as f64);
     }
 
     pub async fn update_status(&self, config: &config::Backup) {
         let status = super::status::Status::new(config).await;
 
-        self.schedule_status
+        self.status_row
             .set_title(&glib::markup_escape_text(&status.main.title()));
-        self.schedule_status.set_subtitle(&glib::markup_escape_text(
+        self.status_row.set_subtitle(&glib::markup_escape_text(
             &status.main.subtitle().unwrap_or_default(),
         ));
-        self.schedule_status.set_icon_name(status.main.icon_name());
-        self.schedule_status.set_level(status.main.level());
+        self.status_row.set_icon_name(status.main.icon_name());
+        self.status_row.set_level(status.main.level());
 
-        while let Some(row) = self.schedule_status_list.row_at_index(1) {
-            self.schedule_status_list.remove(&row);
+        while let Some(row) = self.status_list.row_at_index(1) {
+            self.status_list.remove(&row);
         }
 
         for problem in status.problems {
-            self.schedule_status_list.append(&problem);
+            self.status_list.append(&problem);
         }
     }
 
     fn frequency(&self) -> Result<config::Frequency> {
         if let Some(frequency) = self
-            .schedule_frequency
+            .frequency
             .selected_item()
             .and_then(|x| x.downcast::<frequency::FrequencyObject>().ok())
         {
@@ -112,8 +107,8 @@ impl imp::SchedulePage {
                 config::Frequency::Hourly => config::Frequency::Hourly,
                 config::Frequency::Daily { .. } => config::Frequency::Daily {
                     preferred_time: chrono::NaiveTime::from_hms_opt(
-                        self.schedule_preferred_hour.value() as u32,
-                        self.schedule_preferred_minute.value() as u32,
+                        self.preferred_hour.value() as u32,
+                        self.preferred_minute.value() as u32,
                         0,
                     )
                     .ok_or_else(|| Message::short(gettext("Invalid time format.")))?,
@@ -127,7 +122,7 @@ impl imp::SchedulePage {
                         .ok_or_else(|| Message::short(gettext("Invalid weekday.")))?,
                 },
                 config::Frequency::Monthly { .. } => config::Frequency::Monthly {
-                    preferred_day: self.schedule_preferred_day.value() as u8,
+                    preferred_day: self.preferred_day.value() as u8,
                 },
             })
         } else {
@@ -139,7 +134,7 @@ impl imp::SchedulePage {
         let frequency = self.frequency()?;
         self.preferred_time_row.set_visible(false);
         self.preferred_weekday_row.set_visible(false);
-        self.schedule_preferred_day.set_visible(false);
+        self.preferred_day.set_visible(false);
 
         match frequency {
             config::Frequency::Hourly => {}
@@ -150,7 +145,7 @@ impl imp::SchedulePage {
                 self.preferred_weekday_row.set_visible(true);
             }
             config::Frequency::Monthly { .. } => {
-                self.schedule_preferred_day.set_visible(true);
+                self.preferred_day.set_visible(true);
             }
         }
 
@@ -159,14 +154,14 @@ impl imp::SchedulePage {
         let backups = BACKUP_CONFIG.load();
         let config = backups.active()?;
         if config.schedule.frequency != frequency {
-            self.schedule_preferred_hour
+            self.preferred_hour
                 .set_value(glib::random_int_range(1, 24) as f64);
-            self.schedule_preferred_minute.set_value(0.);
+            self.preferred_minute.set_value(0.);
 
             self.preferred_weekday_row
                 .set_selected(glib::random_int_range(0, 7) as u32);
 
-            self.schedule_preferred_day
+            self.preferred_day
                 .set_value(glib::random_int_range(1, 32) as f64);
 
             BACKUP_CONFIG.try_update(enclose!(
@@ -193,10 +188,10 @@ impl imp::SchedulePage {
     }
 
     pub fn preferred_time_change(&self, button: &gtk::SpinButton) -> glib::Propagation {
-        self.schedule_preferred_time_button.set_label(&format!(
+        self.preferred_time_button.set_label(&format!(
             "{:02}\u{2009}:\u{2009}{:02}",
-            self.schedule_preferred_hour.value(),
-            self.schedule_preferred_minute.value()
+            self.preferred_hour.value(),
+            self.preferred_minute.value()
         ));
 
         button.set_text(&format!("{:02}", button.value()));
@@ -341,11 +336,11 @@ impl imp::SchedulePage {
 
     fn keep(&self) -> config::Keep {
         config::Keep {
-            hourly: self.schedule_keep_hourly.value() as u32,
-            daily: self.schedule_keep_daily.value() as u32,
-            weekly: self.schedule_keep_weekly.value() as u32,
-            monthly: self.schedule_keep_monthly.value() as u32,
-            yearly: self.schedule_keep_yearly.value() as u32,
+            hourly: self.keep_hourly.value() as u32,
+            daily: self.keep_daily.value() as u32,
+            weekly: self.keep_weekly.value() as u32,
+            monthly: self.keep_monthly.value() as u32,
+            yearly: self.keep_yearly.value() as u32,
         }
     }
 }

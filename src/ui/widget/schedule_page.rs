@@ -24,31 +24,31 @@ mod imp {
     pub struct SchedulePage {
         // Status
         #[template_child]
-        pub(super) schedule_status_list: TemplateChild<gtk::ListBox>,
+        pub(super) status_list: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) schedule_status: TemplateChild<StatusRow>,
+        pub(super) status_row: TemplateChild<StatusRow>,
 
         // Configure Schedule
         #[template_child]
         pub(super) schedule_active: TemplateChild<adw::ExpanderRow>,
         #[template_child]
-        pub(super) schedule_frequency: TemplateChild<adw::ComboRow>,
+        pub(super) frequency: TemplateChild<adw::ComboRow>,
         #[template_child]
         pub(super) preferred_time_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) schedule_preferred_time_button: TemplateChild<gtk::MenuButton>,
+        pub(super) preferred_time_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) preferred_weekday_row: TemplateChild<adw::ComboRow>,
         #[template_child]
-        pub(super) schedule_preferred_day: TemplateChild<adw::SpinRow>,
+        pub(super) preferred_day: TemplateChild<adw::SpinRow>,
 
         // Preferred time popover
         #[template_child]
-        pub(super) schedule_preferred_time_popover: TemplateChild<gtk::Popover>,
+        pub(super) preferred_time_popover: TemplateChild<gtk::Popover>,
         #[template_child]
-        pub(super) schedule_preferred_hour: TemplateChild<gtk::SpinButton>,
+        pub(super) preferred_hour: TemplateChild<gtk::SpinButton>,
         #[template_child]
-        pub(super) schedule_preferred_minute: TemplateChild<gtk::SpinButton>,
+        pub(super) preferred_minute: TemplateChild<gtk::SpinButton>,
 
         // Prune
         #[template_child]
@@ -64,15 +64,15 @@ mod imp {
         #[template_child]
         pub(super) prune_detail: TemplateChild<adw::ExpanderRow>,
         #[template_child]
-        pub(super) schedule_keep_hourly: TemplateChild<adw::SpinRow>,
+        pub(super) keep_hourly: TemplateChild<adw::SpinRow>,
         #[template_child]
-        pub(super) schedule_keep_daily: TemplateChild<adw::SpinRow>,
+        pub(super) keep_daily: TemplateChild<adw::SpinRow>,
         #[template_child]
-        pub(super) schedule_keep_weekly: TemplateChild<adw::SpinRow>,
+        pub(super) keep_weekly: TemplateChild<adw::SpinRow>,
         #[template_child]
-        pub(super) schedule_keep_monthly: TemplateChild<adw::SpinRow>,
+        pub(super) keep_monthly: TemplateChild<adw::SpinRow>,
         #[template_child]
-        pub(super) schedule_keep_yearly: TemplateChild<adw::SpinRow>,
+        pub(super) keep_yearly: TemplateChild<adw::SpinRow>,
 
         // Misc
         pub(super) schedule_active_signal_handler: OnceCell<glib::SignalHandlerId>,
@@ -105,7 +105,7 @@ mod imp {
                 model.append(&FrequencyObject::new(frequency));
             }
 
-            self.schedule_frequency.set_model(Some(&model));
+            self.frequency.set_model(Some(&model));
 
             // weekday model
 
@@ -125,23 +125,23 @@ mod imp {
                 )
             });
 
-            self.schedule_frequency.connect_selected_item_notify(
+            self.frequency.connect_selected_item_notify(
                 glib::clone!(@weak imp => move |_| Handler::run(async move { imp.frequency_change().await })),
             );
 
-            self.schedule_preferred_hour.connect_output(
+            self.preferred_hour.connect_output(
                 glib::clone!(@weak imp => @default-return glib::Propagation::Stop, move |button| {
                     imp.preferred_time_change(button)
                 }),
             );
 
-            self.schedule_preferred_minute.connect_output(
+            self.preferred_minute.connect_output(
                 glib::clone!(@weak imp => @default-return glib::Propagation::Stop, move |button| {
                     imp.preferred_time_change(button)
                 }),
             );
 
-            self.schedule_preferred_time_popover.connect_closed(
+            self.preferred_time_popover.connect_closed(
                 glib::clone!(@weak imp => move |_| Handler::run(async move { imp.preferred_time_close().await })),
             );
 
@@ -149,7 +149,7 @@ mod imp {
                 glib::clone!(@weak imp => move |_| Handler::run(async move { imp.preferred_weekday_change().await })),
             );
 
-            self.schedule_preferred_day
+            self.preferred_day
                 .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.preferred_day_change().await })));
 
             // prune
@@ -166,19 +166,19 @@ mod imp {
             self.prune_preset
                 .connect_selected_item_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.prune_preset_change().await } )));
 
-            self.schedule_keep_hourly
+            self.keep_hourly
                 .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
 
-            self.schedule_keep_daily
+            self.keep_daily
                 .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
 
-            self.schedule_keep_weekly
+            self.keep_weekly
                 .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
 
-            self.schedule_keep_monthly
+            self.keep_monthly
                 .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
 
-            self.schedule_keep_yearly
+            self.keep_yearly
                 .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
 
             // Network

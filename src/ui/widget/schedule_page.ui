@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.14" />
   <requires lib="libadwaita" version="1.5" />
-  <object class="GtkPopover" id="schedule_preferred_time_popover">
+  <object class="GtkPopover" id="preferred_time_popover">
     <property name="child">
       <object class="GtkBox">
         <property name="margin-start">18</property>
@@ -11,7 +11,7 @@
         <property name="margin-bottom">18</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkSpinButton" id="schedule_preferred_hour">
+          <object class="GtkSpinButton" id="preferred_hour">
             <property name="max-width-chars">2</property>
             <property name="orientation">vertical</property>
             <property name="adjustment">
@@ -30,7 +30,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkSpinButton" id="schedule_preferred_minute">
+          <object class="GtkSpinButton" id="preferred_minute">
             <property name="max-width-chars">2</property>
             <property name="orientation">vertical</property>
             <property name="adjustment">
@@ -50,10 +50,10 @@
     <child>
       <object class="AdwPreferencesGroup">
         <child>
-          <object class="GtkListBox" id="schedule_status_list">
+          <object class="GtkListBox" id="status_list">
             <property name="selection-mode">none</property>
             <child>
-              <object class="PikaStatusRow" id="schedule_status" />
+              <object class="PikaStatusRow" id="status_row" />
             </child>
             <style>
               <class name="boxed-list" />
@@ -72,7 +72,7 @@
             <property name="expanded">True</property>
             <property name="show-enable-switch">True</property>
             <child>
-              <object class="AdwComboRow" id="schedule_frequency">
+              <object class="AdwComboRow" id="frequency">
                 <property name="title" translatable="yes">Frequency</property>
                 <property name="expression">
                   <lookup type="PikaBackupScheduleFrequency" name="display"></lookup>
@@ -82,13 +82,13 @@
             <child>
               <object class="AdwActionRow" id="preferred_time_row">
                 <property name="title" translatable="yes">Preferred Time</property>
-                <property name="activatable-widget">schedule_preferred_time_button</property>
+                <property name="activatable-widget">preferred_time_button</property>
                 <child>
-                  <object class="GtkMenuButton" id="schedule_preferred_time_button">
+                  <object class="GtkMenuButton" id="preferred_time_button">
                     <property name="focus-on-click">0</property>
                     <property name="halign">end</property>
                     <property name="valign">center</property>
-                    <property name="popover">schedule_preferred_time_popover</property>
+                    <property name="popover">preferred_time_popover</property>
                     <style>
                       <class name="flat" />
                     </style>
@@ -105,9 +105,9 @@
               </object>
             </child>
             <child>
-              <object class="AdwSpinRow" id="schedule_preferred_day">
+              <object class="AdwSpinRow" id="preferred_day">
                 <property name="title" translatable="yes">Preferred Day of Month</property>
-                <property name="activatable-widget">schedule_preferred_day</property>
+                <property name="activatable-widget">preferred_day</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -166,9 +166,9 @@
             <property name="title" translatable="yes">Details</property>
             <property name="expanded">0</property>
             <child>
-              <object class="AdwSpinRow" id="schedule_keep_hourly">
+              <object class="AdwSpinRow" id="keep_hourly">
                 <property name="title" translatable="yes">Keep Hourly</property>
-                <property name="activatable-widget">schedule_keep_hourly</property>
+                <property name="activatable-widget">keep_hourly</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -182,9 +182,9 @@
               </object>
             </child>
             <child>
-              <object class="AdwSpinRow" id="schedule_keep_daily">
+              <object class="AdwSpinRow" id="keep_daily">
                 <property name="title" translatable="yes">Keep Daily</property>
-                <property name="activatable-widget">schedule_keep_daily</property>
+                <property name="activatable-widget">keep_daily</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -198,9 +198,9 @@
               </object>
             </child>
             <child>
-              <object class="AdwSpinRow" id="schedule_keep_weekly">
+              <object class="AdwSpinRow" id="keep_weekly">
                 <property name="title" translatable="yes">Keep Weekly</property>
-                <property name="activatable-widget">schedule_keep_weekly</property>
+                <property name="activatable-widget">keep_weekly</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -213,9 +213,9 @@
               </object>
             </child>
             <child>
-              <object class="AdwSpinRow" id="schedule_keep_monthly">
+              <object class="AdwSpinRow" id="keep_monthly">
                 <property name="title" translatable="yes">Keep Monthly</property>
-                <property name="activatable-widget">schedule_keep_monthly</property>
+                <property name="activatable-widget">keep_monthly</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="upper">1000</property>
@@ -227,9 +227,9 @@
               </object>
             </child>
             <child>
-              <object class="AdwSpinRow" id="schedule_keep_yearly">
+              <object class="AdwSpinRow" id="keep_yearly">
                 <property name="title" translatable="yes">Keep Annual</property>
-                <property name="activatable-widget">schedule_keep_yearly</property>
+                <property name="activatable-widget">keep_yearly</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="upper">1000</property>
