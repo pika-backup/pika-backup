@@ -16,7 +16,7 @@
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
                 <child>
-                  <object class="GtkImage" id="archives_location_icon">
+                  <object class="GtkImage" id="location_icon">
                     <property name="icon-name">folder-symbolic</property>
                     <property name="valign">start</property>
                     <property name="pixel-size">64</property>
@@ -36,7 +36,7 @@
                           <object class="GtkBox">
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel" id="archives_location_title">
+                              <object class="GtkLabel" id="location_title">
                                 <property name="xalign">0</property>
                                 <property name="wrap">1</property>
                                 <style>
@@ -45,7 +45,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="archives_location_subtitle">
+                              <object class="GtkLabel" id="location_subtitle">
                                 <property name="xalign">0</property>
                                 <property name="wrap">1</property>
                                 <style>
@@ -59,7 +59,7 @@
                           <object class="GtkBox">
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel" id="archives_location_suffix_title">
+                              <object class="GtkLabel" id="location_suffix_title">
                                 <property name="xalign">1</property>
                                 <property name="hexpand">1</property>
                                 <property name="wrap">1</property>
@@ -67,7 +67,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="archives_location_suffix_subtitle">
+                              <object class="GtkLabel" id="location_suffix_subtitle">
                                 <property name="xalign">1</property>
                                 <property name="wrap">1</property>
                                 <property name="label">1 GB</property>
@@ -81,7 +81,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLevelBar" id="archives_fs_usage">
+                      <object class="GtkLevelBar" id="fs_usage">
                         <property name="margin-top">9</property>
                       </object>
                     </child>
@@ -93,7 +93,7 @@
         </child>
         <child>
           <object class="AdwActionRow">
-            <property name="activatable-widget">archives_prefix_edit</property>
+            <property name="activatable-widget">prefix_edit_button</property>
             <property name="title" translatable="yes">Archive _Prefix</property>
             <property name="use-underline">1</property>
             <property name="subtitle" translatable="yes">Added in front of all archive names</property>
@@ -102,14 +102,14 @@
               <object class="GtkBox">
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="archives_prefix">
+                  <object class="GtkLabel" id="prefix_label">
                     <style>
                       <class name="dim-label" />
                     </style>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton" id="archives_prefix_edit">
+                  <object class="GtkButton" id="prefix_edit_button">
                     <property name="icon-name">document-edit-symbolic</property>
                     <property name="valign">center</property>
                     <style>
@@ -122,7 +122,7 @@
           </object>
         </child>
         <child>
-          <object class="AdwActionRow" id="archives_cleanup">
+          <object class="AdwActionRow" id="cleanup_row">
             <property name="activatable">1</property>
             <property name="use-underline">1</property>
             <property name="title" translatable="yes">_Cleanup Archives</property>
@@ -144,17 +144,17 @@
       <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">Data Integrity Check</property>
         <child>
-          <object class="PikaStatusRow" id="check_status">
+          <object class="PikaStatusRow" id="check_status_row">
             <property name="activatable">1</property>
             <child type="suffix">
-              <object class="GtkButton" id="archives_check_now">
+              <object class="GtkButton" id="check_button">
                 <property name="label" translatable="yes">_Check Now…</property>
                 <property name="use-underline">1</property>
                 <property name="valign">center</property>
               </object>
             </child>
             <child type="suffix">
-              <object class="GtkButton" id="archives_check_abort">
+              <object class="GtkButton" id="check_abort_button">
                 <property name="visible">0</property>
                 <property name="label" translatable="yes">_Abort…</property>
                 <property name="use-underline">1</property>
@@ -172,10 +172,10 @@
           <object class="GtkBox">
             <property name="spacing">6</property>
             <child>
-              <object class="GtkStack" id="archives_reloading_stack">
+              <object class="GtkStack" id="reloading_stack">
                 <property name="transition-duration">0</property>
                 <child>
-                  <object class="GtkButton" id="refresh_archives">
+                  <object class="GtkButton" id="refresh_archives_button">
                     <property name="tooltip-text" translatable="yes">Refresh</property>
                     <property name="icon-name">view-refresh-symbolic</property>
                     <style>
@@ -186,7 +186,7 @@
                 <child>
                   <object class="GtkStackPage">
                     <property name="child">
-                      <object class="GtkSpinner" id="archives_reloading_spinner">
+                      <object class="GtkSpinner" id="reloading_spinner">
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                       </object>
@@ -196,7 +196,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="archives_eject_button">
+              <object class="GtkButton" id="eject_button">
                 <property name="tooltip-text" translatable="yes">Stop browsing archive files</property>
                 <property name="icon-name">media-eject-symbolic</property>
                 <style>
@@ -207,11 +207,11 @@
           </object>
         </property>
         <child>
-          <object class="GtkStack" id="archives_stack">
+          <object class="GtkStack" id="list_stack">
             <property name="hhomogeneous">0</property>
             <property name="vhomogeneous">0</property>
             <child>
-              <object class="GtkListBox" id="archive_list">
+              <object class="GtkListBox" id="list">
                 <property name="selection-mode">none</property>
                 <style>
                   <class name="boxed-list" />
@@ -219,7 +219,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkListBox" id="archive_list_placeholder">
+              <object class="GtkListBox" id="list_placeholder">
                 <property name="selection-mode">none</property>
                 <child>
                   <object class="AdwActionRow">

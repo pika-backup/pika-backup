@@ -10,7 +10,7 @@ use crate::{borg, config, ui};
 
 impl imp::ArchivesPage {
     pub async fn show(&self) -> Result<()> {
-        ui::utils::clear(&self.archive_list);
+        ui::utils::clear(&self.list);
 
         let config = BACKUP_CONFIG.load().active()?.clone();
 
@@ -42,7 +42,7 @@ impl imp::ArchivesPage {
     pub fn refresh_status(&self) {
         if self.obj().is_visible() {
             if let Some(id) = ACTIVE_BACKUP_ID.load().as_ref().as_ref() {
-                self.check_status
+                self.check_status_row
                     .set_from_backup_status(&backup_status::Display::new_check_status_from_id(id));
                 main_ui().dialog_check_result().reload();
 
@@ -52,40 +52,39 @@ impl imp::ArchivesPage {
                     let running =
                         matches!(op, Some(ref op) if op.task_kind() == borg::task::Kind::Check);
 
-                    self.archives_check_now.set_visible(!running);
-                    self.archives_check_now.set_sensitive(op.is_none());
-                    self.archives_check_abort.set_visible(running);
+                    self.check_button.set_visible(!running);
+                    self.check_button.set_sensitive(op.is_none());
+                    self.check_abort_button.set_visible(running);
                 });
             }
 
             if let Ok(config) = BACKUP_CONFIG.load().active() {
                 let is_mounted = ACTIVE_MOUNTS.load().contains(&config.repo_id);
-                self.archives_eject_button.set_visible(is_mounted);
+                self.eject_button.set_visible(is_mounted);
             }
         }
     }
 
     pub fn update_info(&self, config: &config::Backup) {
         if let Ok(icon) = gio::Icon::for_string(&config.repo.icon()) {
-            self.archives_location_icon.set_from_gicon(&icon);
+            self.location_icon.set_from_gicon(&icon);
         }
 
-        self.archives_location_suffix_title.set_visible(false);
-        self.archives_location_suffix_subtitle.set_visible(false);
-        self.archives_fs_usage.set_visible(false);
+        self.location_suffix_title.set_visible(false);
+        self.location_suffix_subtitle.set_visible(false);
+        self.fs_usage.set_visible(false);
         let obj = self.obj().clone();
         Handler::run(async move { obj.imp().update_df().await });
 
-        self.archives_location_title.set_label(&config.title());
-        self.archives_location_subtitle
-            .set_label(&config.repo.subtitle());
+        self.location_title.set_label(&config.title());
+        self.location_subtitle.set_label(&config.repo.subtitle());
 
         match config.archive_prefix.to_string() {
             prefix if !prefix.is_empty() => {
-                self.archives_prefix.set_label(&prefix);
+                self.prefix_label.set_label(&prefix);
             }
             _ => {
-                self.archives_prefix.set_label(&gettext("None"));
+                self.prefix_label.set_label(&gettext("None"));
             }
         }
     }
@@ -115,11 +114,11 @@ impl imp::ArchivesPage {
                     .unwrap_or_default();
 
                 if reloading {
-                    self.archives_reloading_stack
-                        .set_visible_child(&*self.archives_reloading_spinner);
+                    self.reloading_stack
+                        .set_visible_child(&*self.reloading_spinner);
                 } else {
-                    self.archives_reloading_stack
-                        .set_visible_child(&*self.refresh_archives);
+                    self.reloading_stack
+                        .set_visible_child(&*self.refresh_archives_button);
                 }
             }
         }
@@ -142,7 +141,7 @@ impl imp::ArchivesPage {
         debug!("Displaying archive list from cache");
         let repo_cache = RepoCache::get(repo_id);
 
-        ui::utils::clear(&self.archive_list);
+        ui::utils::clear(&self.list);
         self.ui_update_archives_spinner();
 
         for (archive_name, archive) in repo_cache.archives_sorted_by_date() {
@@ -229,14 +228,13 @@ impl imp::ArchivesPage {
                 Handler::run(async move { obj.imp().delete_archive(name, archive).await });
             }));
 
-            self.archive_list.append(&row);
+            self.list.append(&row);
         }
 
         if !repo_cache.archives_sorted_by_date().is_empty() {
-            self.archives_stack.set_visible_child(&*self.archive_list);
+            self.list_stack.set_visible_child(&*self.list);
         } else {
-            self.archives_stack
-                .set_visible_child(&*self.archive_list_placeholder);
+            self.list_stack.set_visible_child(&*self.list_placeholder);
         }
     }
 
@@ -245,17 +243,17 @@ impl imp::ArchivesPage {
         let config = backups.active()?;
 
         if let Some(df) = ui::utils::df::cached_or_lookup(config).await {
-            self.archives_location_suffix_title
+            self.location_suffix_title
                 .set_label(&gettextf("{} Available", &[&glib::format_size(df.avail)]));
-            self.archives_location_suffix_subtitle
+            self.location_suffix_subtitle
                 .set_label(&gettextf("{} Total", &[&glib::format_size(df.size)]));
 
-            self.archives_fs_usage
+            self.fs_usage
                 .set_value(1.0 - df.avail as f64 / df.size as f64);
 
-            self.archives_location_suffix_title.set_visible(true);
-            self.archives_location_suffix_subtitle.set_visible(true);
-            self.archives_fs_usage.set_visible(true);
+            self.location_suffix_title.set_visible(true);
+            self.location_suffix_subtitle.set_visible(true);
+            self.fs_usage.set_visible(true);
         }
 
         Ok(())

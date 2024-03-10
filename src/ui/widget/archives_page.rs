@@ -30,53 +30,53 @@ mod imp {
     pub struct ArchivesPage {
         // Location
         #[template_child]
-        pub(super) archives_location_icon: TemplateChild<gtk::Image>,
+        pub(super) location_icon: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) archives_location_title: TemplateChild<gtk::Label>,
+        pub(super) location_title: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) archives_location_subtitle: TemplateChild<gtk::Label>,
+        pub(super) location_subtitle: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) archives_location_suffix_title: TemplateChild<gtk::Label>,
+        pub(super) location_suffix_title: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) archives_location_suffix_subtitle: TemplateChild<gtk::Label>,
+        pub(super) location_suffix_subtitle: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) archives_fs_usage: TemplateChild<gtk::LevelBar>,
+        pub(super) fs_usage: TemplateChild<gtk::LevelBar>,
 
         // Prefix
         #[template_child]
-        pub(super) archives_prefix: TemplateChild<gtk::Label>,
+        pub(super) prefix_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) archives_prefix_edit: TemplateChild<gtk::Button>,
+        pub(super) prefix_edit_button: TemplateChild<gtk::Button>,
 
         // Cleanup
         #[template_child]
-        pub(super) archives_cleanup: TemplateChild<adw::ActionRow>,
+        pub(super) cleanup_row: TemplateChild<adw::ActionRow>,
 
         // Integrity check
         #[template_child]
-        pub(super) check_status: TemplateChild<StatusRow>,
+        pub(super) check_status_row: TemplateChild<StatusRow>,
         #[template_child]
-        pub(super) archives_check_now: TemplateChild<gtk::Button>,
+        pub(super) check_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) archives_check_abort: TemplateChild<gtk::Button>,
+        pub(super) check_abort_button: TemplateChild<gtk::Button>,
 
         // Archives list header suffix
         #[template_child]
-        pub(super) archives_reloading_stack: TemplateChild<gtk::Stack>,
+        pub(super) reloading_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) refresh_archives: TemplateChild<gtk::Button>,
+        pub(super) refresh_archives_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) archives_reloading_spinner: TemplateChild<gtk::Spinner>,
+        pub(super) reloading_spinner: TemplateChild<gtk::Spinner>,
         #[template_child]
-        pub(super) archives_eject_button: TemplateChild<gtk::Button>,
+        pub(super) eject_button: TemplateChild<gtk::Button>,
 
         // Archives list
         #[template_child]
-        pub(super) archives_stack: TemplateChild<gtk::Stack>,
+        pub(super) list_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) archive_list: TemplateChild<gtk::ListBox>,
+        pub(super) list: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) archive_list_placeholder: TemplateChild<gtk::ListBox>,
+        pub(super) list_placeholder: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -99,28 +99,28 @@ mod imp {
         fn constructed(&self) {
             let obj = self.obj().clone();
 
-            self.archives_prefix_edit.connect_clicked(
+            self.prefix_edit_button.connect_clicked(
                 glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().edit_prefix().await })),
             );
 
             // Backup details
-            self.check_status.connect_activated(|_| {
+            self.check_status_row.connect_activated(|_| {
                 if let Some(id) = &**ACTIVE_BACKUP_ID.load() {
                     let dialog = main_ui().dialog_check_result();
                     dialog.set_config_id(Some(id.clone()));
                     dialog.present();
                 }
             });
-            self.archives_check_now
-                .connect_clicked(glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().edit_prefix().await })));
-            self.archives_check_abort.connect_clicked(|_| {
+            self.check_button
+                .connect_clicked(glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().check().await })));
+            self.check_abort_button.connect_clicked(|_| {
                 Handler::run(async move { main_ui().page_backup().show_abort_dialog().await })
             });
 
-            self.archives_cleanup
+            self.cleanup_row
                 .connect_activated(glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().cleanup().await })));
 
-            self.refresh_archives
+            self.refresh_archives_button
                 .connect_clicked(glib::clone!(@weak obj => move |_| {
                     Handler::run(async move {
                         let config = BACKUP_CONFIG.load().active()?.clone();
@@ -128,15 +128,15 @@ mod imp {
                     });
                 }));
 
-            self.archives_eject_button
+            self.eject_button
                 .connect_clicked(glib::clone!(@weak obj => move |_| {
                     Handler::run(async move { obj.imp().eject_button_clicked().await });
                 }));
 
             // spinner performance
 
-            self.archives_reloading_spinner.connect_map(|s| s.start());
-            self.archives_reloading_spinner.connect_unmap(|s| s.stop());
+            self.reloading_spinner.connect_map(|s| s.start());
+            self.reloading_spinner.connect_unmap(|s| s.stop());
 
             glib::timeout_add_local(std::time::Duration::ZERO, move || {
                 // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
