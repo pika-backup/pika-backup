@@ -157,7 +157,7 @@ impl StatusTracking {
 
         main_ui().page_backup().refresh_status();
         main_ui().page_archives().refresh_status();
-        ui::page_overview::refresh_status();
+        main_ui().page_overview().refresh_status();
         ui::dialog_info::refresh_status();
     }
 
@@ -165,7 +165,7 @@ impl StatusTracking {
         debug!("UI schedule update");
 
         main_ui().page_schedule().refresh_status();
-        ui::page_overview::refresh_status();
+        main_ui().page_overview().refresh_status();
     }
 }
 

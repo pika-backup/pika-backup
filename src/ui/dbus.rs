@@ -1,7 +1,7 @@
 use crate::ui::prelude::*;
 use async_std::prelude::*;
 
-use crate::{schedule, ui};
+use crate::schedule;
 use async_std::channel::Sender;
 
 struct PikaBackup {
@@ -84,7 +84,7 @@ async fn spawn_command_listener() -> Sender<Command> {
                         .page_backup()
                         .start_backup(config_id, due_cause, guard);
                 }
-                Command::ShowOverview => ui::page_overview::dbus_show(),
+                Command::ShowOverview => main_ui().page_overview().dbus_show(),
                 Command::ShowSchedule(backup_id) => main_ui().page_schedule().dbus_show(backup_id),
             }
         }

@@ -19,9 +19,9 @@ pub fn init() {
         .connect_visible_page_notify(|navigation_view| {
             if navigation_view
                 .visible_page()
-                .is_some_and(|page| page == main_ui().navigation_page_overview())
+                .is_some_and(|page| page == main_ui().page_overview())
             {
-                ui::page_overview::reload_visible_page();
+                main_ui().page_overview().reload_visible_page();
             }
         });
 

@@ -185,7 +185,7 @@ impl<T: borg::Task> Operation<T> {
             ui::dialog_info::refresh_status();
         }
 
-        ui::page_overview::refresh_status();
+        main_ui().page_overview().refresh_status();
         main_ui().page_backup().refresh_disk_status();
         glib::MainContext::default().spawn(ui::shell::background_activity_update());
     }
@@ -197,7 +197,7 @@ impl<T: borg::Task> Operation<T> {
             main_ui().page_schedule().refresh_status();
         }
 
-        ui::page_overview::refresh_status();
+        main_ui().page_overview().refresh_status();
     }
 
     /// Handle a borg question (such as repository was relocated)

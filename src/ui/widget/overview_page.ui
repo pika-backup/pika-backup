@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.14" />
+  <requires lib="libadwaita" version="1.5" />
+  <menu id="app_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Help</attribute>
+        <attribute name="action">app.help</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_About Pika Backup</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
+  <template class="PkOverviewPage" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Pika Backup</property>
+    <property name="child">
+      <object class="AdwToolbarView" id="overview">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <child type="start">
+              <object class="GtkButton" id="add_backup">
+                <property name="tooltip-text" translatable="yes">Setup Backup</property>
+                <property name="icon-name">list-add-symbolic</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkMenuButton" id="primary_menu_button">
+                <property name="menu-model">app_menu</property>
+                <property name="tooltip-text" translatable="yes">Main Menu</property>
+                <property name="icon-name">open-menu-symbolic</property>
+                <property name="primary">true</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="hexpand">1</property>
+            <property name="vexpand">1</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="AdwViewStack" id="main_stack">
+                <property name="vexpand">1</property>
+                <child>
+                  <object class="AdwViewStackPage">
+                    <property name="child">
+                      <object class="AdwStatusPage" id="page_overview_empty">
+                        <property name="icon-name">overview-symbolic</property>
+                        <property name="title" translatable="yes">No Backup Configured</property>
+                        <property name="description" translatable="yes">Add a new configuration to start creating backups</property>
+                        <property name="child">
+                          <object class="GtkButton" id="add_backup_empty">
+                            <property name="label" translatable="yes">_Setup Backup</property>
+                            <property name="use-underline">true</property>
+                            <property name="halign">center</property>
+                            <style>
+                              <class name="pill" />
+                              <class name="suggested-action" />
+                            </style>
+                          </object>
+                        </property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwViewStackPage">
+                    <property name="child">
+                      <object class="AdwPreferencesPage" id="page_overview">
+                        <child>
+                          <object class="AdwPreferencesGroup">
+                            <child>
+                              <object class="GtkListBox" id="main_backups">
+                                <property name="valign">start</property>
+                                <property name="selection-mode">none</property>
+                                <style>
+                                  <class name="overview-list" />
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

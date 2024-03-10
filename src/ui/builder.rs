@@ -43,14 +43,6 @@ impl AppWindow {
             .unwrap_or_else(|| panic!("Object with id '{id}' not found in 'src/ui/app_window.ui'"))
     }
 
-    pub fn add_backup(&self) -> gtk::Button {
-        self.get("add_backup")
-    }
-
-    pub fn add_backup_empty(&self) -> gtk::Button {
-        self.get("add_backup_empty")
-    }
-
     pub fn detail_current_path(&self) -> gtk::Label {
         self.get("detail_current_path")
     }
@@ -111,28 +103,12 @@ impl AppWindow {
         self.get("dialog_check_result")
     }
 
-    pub fn main_backups(&self) -> gtk::ListBox {
-        self.get("main_backups")
-    }
-
-    pub fn main_stack(&self) -> adw::ViewStack {
-        self.get("main_stack")
-    }
-
     pub fn navigation_page_detail(&self) -> adw::NavigationPage {
         self.get("navigation_page_detail")
     }
 
-    pub fn navigation_page_overview(&self) -> adw::NavigationPage {
-        self.get("navigation_page_overview")
-    }
-
     pub fn navigation_view(&self) -> adw::NavigationView {
         self.get("navigation_view")
-    }
-
-    pub fn overview(&self) -> adw::ToolbarView {
-        self.get("overview")
     }
 
     pub fn page_archives(&self) -> crate::ui::export::ArchivesPage {
@@ -147,12 +123,8 @@ impl AppWindow {
         self.get("page_detail")
     }
 
-    pub fn page_overview(&self) -> adw::PreferencesPage {
+    pub fn page_overview(&self) -> crate::ui::export::OverviewPage {
         self.get("page_overview")
-    }
-
-    pub fn page_overview_empty(&self) -> adw::StatusPage {
-        self.get("page_overview_empty")
     }
 
     pub fn page_schedule(&self) -> crate::ui::export::SchedulePage {
@@ -165,10 +137,6 @@ impl AppWindow {
 
     pub fn pending_menu_spinner(&self) -> gtk::Spinner {
         self.get("pending_menu_spinner")
-    }
-
-    pub fn primary_menu_button(&self) -> gtk::MenuButton {
-        self.get("primary_menu_button")
     }
 
     pub fn stack_page_archives(&self) -> adw::ViewStackPage {

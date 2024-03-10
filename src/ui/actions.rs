@@ -68,6 +68,6 @@ pub fn init() {
     adw_app().add_action(&action);
 
     let action = gio::SimpleAction::new("remove", None);
-    action.connect_activate(|_, _| ui::page_overview::remove_backup());
+    action.connect_activate(|_, _| main_ui().page_overview().remove_backup());
     adw_app().add_action(&action);
 }

@@ -3,6 +3,8 @@ use adw::prelude::*;
 
 pub fn init() {
     main_ui().navigation_view().connect_pushed(on_pushed);
+    main_ui().pending_menu_spinner().connect_map(|s| s.start());
+    main_ui().pending_menu_spinner().connect_unmap(|s| s.stop());
 }
 
 pub fn is_visible(page: &impl IsA<gtk::Widget>) -> bool {

@@ -24,10 +24,8 @@ mod dialog_storage;
 mod error;
 mod export;
 mod globals;
-mod headerbar;
 mod operation;
 mod page_detail;
-mod page_overview;
 mod prelude;
 mod shell;
 mod status;
@@ -138,9 +136,6 @@ fn on_startup(_app: &adw::Application) {
     });
 
     ui::app_window::init();
-    ui::headerbar::init();
-
-    ui::page_overview::init();
 
     ui::page_detail::init();
 
