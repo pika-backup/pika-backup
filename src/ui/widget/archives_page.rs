@@ -23,13 +23,16 @@ fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
 }
 
 mod imp {
-    use self::ui::widget::StatusRow;
+    use self::ui::widget::{CheckResultDialog, StatusRow};
 
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "archives_page.ui")]
     pub struct ArchivesPage {
+        #[template_child]
+        pub(super) check_result_dialog: TemplateChild<CheckResultDialog>,
+
         // Location
         #[template_child]
         pub(super) location_icon: TemplateChild<gtk::Image>,
@@ -106,13 +109,15 @@ mod imp {
             );
 
             // Backup details
-            self.check_status_row.connect_activated(|_| {
-                if let Some(id) = &**ACTIVE_BACKUP_ID.load() {
-                    let dialog = main_ui().dialog_check_result();
-                    dialog.set_config_id(Some(id.clone()));
-                    dialog.present();
-                }
-            });
+            self.check_status_row
+                .connect_activated(glib::clone!(@weak obj => move |_| {
+                    if let Some(id) = &**ACTIVE_BACKUP_ID.load() {
+                        let dialog = &obj.imp().check_result_dialog;
+                        dialog.set_transient_for(obj.root().and_downcast_ref::<gtk::Window>());
+                        dialog.set_config_id(Some(id.clone()));
+                        dialog.present();
+                    }
+                }));
             self.check_button
                 .connect_clicked(glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().check().await })));
             self.check_abort_button.connect_clicked(|_| {

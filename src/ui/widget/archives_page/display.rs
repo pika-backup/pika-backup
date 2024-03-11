@@ -44,7 +44,7 @@ impl imp::ArchivesPage {
             if let Some(id) = ACTIVE_BACKUP_ID.load().as_ref().as_ref() {
                 self.check_status_row
                     .set_from_backup_status(&backup_status::Display::new_check_status_from_id(id));
-                main_ui().dialog_check_result().reload();
+                self.check_result_dialog.reload();
 
                 BORG_OPERATION.with(|ops| {
                     let op = ops.load().get(id).cloned();

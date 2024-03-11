@@ -9,7 +9,6 @@ mod dbus;
 mod dialog_about;
 mod dialog_archive_prefix;
 mod dialog_check;
-mod dialog_check_result;
 mod dialog_delete_archive;
 mod dialog_device_missing;
 mod dialog_encryption_password;

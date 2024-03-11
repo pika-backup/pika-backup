@@ -43,10 +43,6 @@ impl AppWindow {
             .unwrap_or_else(|| panic!("Object with id '{id}' not found in 'src/ui/app_window.ui'"))
     }
 
-    pub fn dialog_check_result(&self) -> crate::ui::export::DialogCheckResult {
-        self.get("dialog_check_result")
-    }
-
     pub fn navigation_view(&self) -> adw::NavigationView {
         self.get("navigation_view")
     }

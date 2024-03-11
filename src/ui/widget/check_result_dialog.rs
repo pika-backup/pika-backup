@@ -12,8 +12,8 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, gtk::CompositeTemplate)]
-    #[template(file = "dialog_check_result.ui")]
-    pub struct DialogCheckResult {
+    #[template(file = "check_result_dialog.ui")]
+    pub struct CheckResultDialog {
         pub config_id: RefCell<Option<ConfigId>>,
 
         #[template_child]
@@ -23,9 +23,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for DialogCheckResult {
-        const NAME: &'static str = "PikaDialogCheckResult";
-        type Type = super::DialogCheckResult;
+    impl ObjectSubclass for CheckResultDialog {
+        const NAME: &'static str = "PkCheckResultDialog";
+        type Type = super::CheckResultDialog;
         type ParentType = adw::Window;
 
         fn class_init(klass: &mut Self::Class) {
@@ -38,13 +38,13 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for DialogCheckResult {}
-    impl WidgetImpl for DialogCheckResult {}
-    impl WindowImpl for DialogCheckResult {}
-    impl AdwWindowImpl for DialogCheckResult {}
+    impl ObjectImpl for CheckResultDialog {}
+    impl WidgetImpl for CheckResultDialog {}
+    impl WindowImpl for CheckResultDialog {}
+    impl AdwWindowImpl for CheckResultDialog {}
 
     #[gtk::template_callbacks]
-    impl DialogCheckResult {
+    impl CheckResultDialog {
         pub fn reload(&self) {
             if let Some(id) = &*self.config_id.borrow() {
                 self.status_row
@@ -73,11 +73,11 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct DialogCheckResult(ObjectSubclass<imp::DialogCheckResult>)
+    pub struct CheckResultDialog(ObjectSubclass<imp::CheckResultDialog>)
         @extends gtk::Widget, gtk::Window, adw::Window;
 }
 
-impl DialogCheckResult {
+impl CheckResultDialog {
     pub fn set_config_id(&self, config_id: Option<ConfigId>) {
         self.imp().config_id.replace(config_id);
         self.reload();
