@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.1 (unreleased)
+## 0.7.1 (2024-03-11)
 
 - Fix schedule times / days resetting to random values when the schedule page is opened
 - Fix set CPU scheduling priority of backup process
