@@ -161,7 +161,14 @@ impl imp::BackupPage {
     pub fn refresh_status(&self) {
         if self.obj().is_visible() {
             if let Some(id) = ACTIVE_BACKUP_ID.load().as_ref().as_ref() {
-                self.refresh_status_display(&backup_status::Display::new_from_id(id));
+                let display = backup_status::Display::new_from_id(id);
+                self.refresh_status_display(&display);
+
+                if self.detail_dialog.is_mapped() {
+                    self.detail_dialog.refresh_status_display(&display);
+                }
+
+                self.backup_status.replace(Some(display));
             }
         }
     }

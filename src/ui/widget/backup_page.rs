@@ -11,13 +11,21 @@ use crate::ui::prelude::*;
 use super::detail_page::DetailPageKind;
 
 mod imp {
-    use crate::ui;
+    use std::cell::RefCell;
+
+    use crate::ui::{self, backup_status, widget::detail_dialog::DetailDialog};
 
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "backup_page.ui")]
     pub struct BackupPage {
+        /// The last known backup status
+        pub(super) backup_status: RefCell<Option<backup_status::Display>>,
+
+        #[template_child]
+        pub(super) detail_dialog: TemplateChild<DetailDialog>,
+
         // status section
         #[template_child]
         pub(super) detail_repo_row: TemplateChild<adw::ActionRow>,
@@ -77,7 +85,15 @@ mod imp {
 
             // Backup details
             self.detail_status_row
-                .connect_activated(|_| ui::dialog_info::show());
+                .connect_activated(glib::clone!(@weak obj => move |_| {
+                    let imp = obj.imp();
+                    imp.detail_dialog.set_transient_for(obj.root().and_downcast_ref::<gtk::Window>());
+                    imp.detail_dialog.present();
+
+                    if let Some(status) = &*imp.backup_status.borrow() {
+                        imp.detail_dialog.refresh_status_display(status);
+                    };
+                }));
 
             self.detail_repo_row
                 .connect_activated(|_| Handler::run(ui::dialog_storage::show()));

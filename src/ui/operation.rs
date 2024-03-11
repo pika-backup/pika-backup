@@ -182,7 +182,6 @@ impl<T: borg::Task> Operation<T> {
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
             main_ui().page_detail().backup_page().refresh_status();
             main_ui().page_detail().archives_page().refresh_status();
-            ui::dialog_info::refresh_status();
         }
 
         main_ui().page_overview().refresh_status();

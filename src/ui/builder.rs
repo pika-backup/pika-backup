@@ -43,46 +43,6 @@ impl AppWindow {
             .unwrap_or_else(|| panic!("Object with id '{id}' not found in 'src/ui/app_window.ui'"))
     }
 
-    pub fn detail_current_path(&self) -> gtk::Label {
-        self.get("detail_current_path")
-    }
-
-    pub fn detail_deduplicated_size(&self) -> gtk::Label {
-        self.get("detail_deduplicated_size")
-    }
-
-    pub fn detail_info_error(&self) -> gtk::Label {
-        self.get("detail_info_error")
-    }
-
-    pub fn detail_info_progress(&self) -> gtk::ProgressBar {
-        self.get("detail_info_progress")
-    }
-
-    pub fn detail_info_status(&self) -> crate::ui::export::StatusRow {
-        self.get("detail_info_status")
-    }
-
-    pub fn detail_nfiles(&self) -> gtk::Label {
-        self.get("detail_nfiles")
-    }
-
-    pub fn detail_original_size(&self) -> gtk::Label {
-        self.get("detail_original_size")
-    }
-
-    pub fn detail_path_row(&self) -> adw::ActionRow {
-        self.get("detail_path_row")
-    }
-
-    pub fn detail_running_backup_info(&self) -> adw::Window {
-        self.get("detail_running_backup_info")
-    }
-
-    pub fn detail_stats(&self) -> gtk::ListBox {
-        self.get("detail_stats")
-    }
-
     pub fn dialog_check_result(&self) -> crate::ui::export::DialogCheckResult {
         self.get("dialog_check_result")
     }

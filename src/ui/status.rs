@@ -158,7 +158,6 @@ impl StatusTracking {
         main_ui().page_detail().backup_page().refresh_status();
         main_ui().page_detail().archives_page().refresh_status();
         main_ui().page_overview().refresh_status();
-        ui::dialog_info::refresh_status();
     }
 
     fn ui_schedule_update(&self) {
