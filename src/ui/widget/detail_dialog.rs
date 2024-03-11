@@ -17,25 +17,25 @@ mod imp {
     #[template(file = "detail_dialog.ui")]
     pub struct DetailDialog {
         #[template_child]
-        detail_info_status: TemplateChild<StatusRow>,
+        info_status: TemplateChild<StatusRow>,
         #[template_child]
-        detail_info_progress: TemplateChild<gtk::ProgressBar>,
+        info_progress: TemplateChild<gtk::ProgressBar>,
 
         #[template_child]
-        detail_stats: TemplateChild<gtk::ListBox>,
+        stats: TemplateChild<gtk::ListBox>,
         #[template_child]
-        detail_original_size: TemplateChild<gtk::Label>,
+        original_size: TemplateChild<gtk::Label>,
         #[template_child]
-        detail_nfiles: TemplateChild<gtk::Label>,
+        nfiles: TemplateChild<gtk::Label>,
         #[template_child]
-        detail_deduplicated_size: TemplateChild<gtk::Label>,
+        deduplicated_size: TemplateChild<gtk::Label>,
         #[template_child]
-        detail_path_row: TemplateChild<adw::ActionRow>,
+        path_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        detail_current_path: TemplateChild<gtk::Label>,
+        current_path: TemplateChild<gtk::Label>,
 
         #[template_child]
-        detail_info_error: TemplateChild<gtk::Label>,
+        info_error: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -62,13 +62,13 @@ mod imp {
     #[gtk::template_callbacks]
     impl DetailDialog {
         pub(super) fn refresh_status_display(&self, status: &backup_status::Display) {
-            self.detail_info_status.set_from_backup_status(status);
+            self.info_status.set_from_backup_status(status);
 
             if let Some(progress) = status.progress {
-                self.detail_info_progress.set_fraction(progress);
-                self.detail_info_progress.set_visible(true);
+                self.info_progress.set_fraction(progress);
+                self.info_progress.set_visible(true);
             } else {
-                self.detail_info_progress.set_visible(false);
+                self.info_progress.set_visible(false);
             }
 
             if let Some(backup_status::Stats::Final(run_info)) = &status.stats {
@@ -81,10 +81,10 @@ mod imp {
 
                 message.push_str(&run_info.messages.clone().filter_hidden().to_string());
 
-                self.detail_info_error.set_text(&message);
-                self.detail_info_error.set_visible(true);
+                self.info_error.set_text(&message);
+                self.info_error.set_visible(true);
             } else {
-                self.detail_info_error.set_visible(false);
+                self.info_error.set_visible(false);
             }
 
             match &status.stats {
@@ -92,34 +92,34 @@ mod imp {
                     outcome: borg::Outcome::Completed { stats },
                     ..
                 })) => {
-                    self.detail_stats.set_visible(true);
-                    self.detail_path_row.set_visible(false);
+                    self.stats.set_visible(true);
+                    self.path_row.set_visible(false);
 
-                    self.detail_original_size
+                    self.original_size
                         .set_text(&glib::format_size(stats.archive.stats.original_size));
-                    self.detail_deduplicated_size
+                    self.deduplicated_size
                         .set_text(&glib::format_size(stats.archive.stats.deduplicated_size));
-                    self.detail_nfiles
+                    self.nfiles
                         .set_text(&stats.archive.stats.nfiles.to_formatted_string(&*LC_LOCALE));
                 }
                 Some(backup_status::Stats::Progress(progress_archive)) => {
-                    self.detail_stats.set_visible(true);
-                    self.detail_path_row.set_visible(true);
+                    self.stats.set_visible(true);
+                    self.path_row.set_visible(true);
 
-                    self.detail_original_size
+                    self.original_size
                         .set_text(&glib::format_size(progress_archive.original_size));
-                    self.detail_deduplicated_size
+                    self.deduplicated_size
                         .set_text(&glib::format_size(progress_archive.deduplicated_size));
-                    self.detail_nfiles
+                    self.nfiles
                         .set_text(&progress_archive.nfiles.to_formatted_string(&*LC_LOCALE));
 
-                    self.detail_current_path
+                    self.current_path
                         .set_text(&format!("/{}", progress_archive.path));
-                    self.detail_current_path
+                    self.current_path
                         .set_tooltip_text(Some(&format!("/{}", progress_archive.path)));
                 }
                 _ => {
-                    self.detail_stats.set_visible(false);
+                    self.stats.set_visible(false);
                 }
             }
         }
