@@ -129,8 +129,6 @@ mod imp {
             action.connect_activate(glib::clone!(@weak app => move |_, config_id| {
                 if let Some(config_id) = config_id.and_then(|v| v.str()) {
                     app.main_window()
-                        .page_detail()
-                        .backup_page()
                         .view_backup_conf(&ConfigId::new(config_id.to_string()));
                     app.activate();
                 }
