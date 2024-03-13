@@ -1,3 +1,4 @@
+pub mod app_window;
 mod archives_page;
 mod backup_page;
 mod check_result_dialog;

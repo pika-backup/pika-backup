@@ -363,7 +363,7 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
 
     main_ui().toast().add_toast(toast);
 
-    if !crate::ui::app_window::is_displayed() {
+    if !crate::ui::widget::app_window::is_displayed() {
         let notification = gio::Notification::new(&gettext("Pika Backup"));
         notification.set_body(Some(&message.to_string()));
 
@@ -408,7 +408,7 @@ pub async fn show_error_transient_for(
     );
 
     // Only display as dialog if focus and visible
-    if crate::ui::app_window::is_displayed()
+    if crate::ui::widget::app_window::is_displayed()
         && gtk::Window::list_toplevels().into_iter().any(|x| {
             x.downcast::<gtk::Window>()
                 .map(|w| w.is_active())

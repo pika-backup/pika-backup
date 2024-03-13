@@ -1,7 +1,6 @@
 //! User interface
 
 mod actions;
-mod app_window;
 mod backup_status;
 #[allow(dead_code)]
 mod builder;
@@ -132,7 +131,7 @@ fn on_startup(_app: &adw::Application) {
         ui::dbus::init().await;
     });
 
-    ui::app_window::init();
+    ui::widget::app_window::init();
 
     // init status tracking
     status_tracking();
@@ -155,7 +154,7 @@ fn on_startup(_app: &adw::Application) {
 
 fn on_activate(_app: &adw::Application) {
     debug!("Signal 'activate'");
-    app_window::show();
+    crate::ui::widget::app_window::show();
 }
 
 async fn quit() -> Result<()> {

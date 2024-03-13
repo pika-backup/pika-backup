@@ -72,6 +72,6 @@ pub fn show() {
 fn on_delete() -> glib::Propagation {
     debug!("Potential quit: ApplicationWindow delete event");
 
-    Handler::run(super::quit());
+    Handler::run(crate::ui::quit());
     glib::Propagation::Stop
 }
