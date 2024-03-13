@@ -75,6 +75,7 @@ mod imp {
 
     impl ObjectImpl for BackupPage {
         fn constructed(&self) {
+            self.parent_constructed();
             let obj = self.obj().clone();
 
             self.backup_button

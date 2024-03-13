@@ -51,6 +51,8 @@ mod imp {
 
     impl ObjectImpl for OverviewPage {
         fn constructed(&self) {
+            self.parent_constructed();
+
             self.add_backup
                 .connect_clicked(|_| ui::dialog_setup::show());
             self.add_backup_empty

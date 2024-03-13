@@ -52,6 +52,7 @@ mod imp {
 
     impl ObjectImpl for DetailPage {
         fn constructed(&self) {
+            self.parent_constructed();
             let imp = self.ref_counted();
 
             self.pending_menu_spinner.connect_map(|s| s.start());

@@ -98,6 +98,8 @@ mod imp {
 
     impl ObjectImpl for SchedulePage {
         fn constructed(&self) {
+            self.parent_constructed();
+
             let imp = self.ref_counted();
 
             // frequency model
