@@ -70,6 +70,18 @@ mod imp {
             debug!("AppWindow::map");
             self.parent_map();
 
+            // When launching the app and we only have one backup config, display it
+            // instead of the overview
+            if self.navigation_view.visible_page().as_ref() == Some(self.page_overview.upcast_ref())
+                && BACKUP_CONFIG.load().iter().count() == 1
+            {
+                if let Some(config) = BACKUP_CONFIG.load().iter().next() {
+                    self.navigation_view
+                        .replace(&[self.page_detail.clone().upcast()]);
+                    self.page_detail.backup_page().view_backup_conf(&config.id);
+                }
+            }
+
             Handler::run(ui::init_check_borg());
 
             // redo size estimates for backups running in background before
@@ -102,8 +114,9 @@ mod imp {
     impl WindowImpl for AppWindow {
         fn close_request(&self) -> glib::Propagation {
             debug!("AppWindow::close_request");
+            let app = self.app();
 
-            Handler::run(crate::ui::quit());
+            Handler::run(async move { app.try_quit().await });
             glib::Propagation::Stop
         }
     }
@@ -111,7 +124,11 @@ mod imp {
     impl AdwApplicationWindowImpl for AppWindow {}
 
     #[gtk::template_callbacks]
-    impl AppWindow {}
+    impl AppWindow {
+        fn app(&self) -> App {
+            self.obj().app()
+        }
+    }
 }
 
 glib::wrapper! {
@@ -125,6 +142,12 @@ impl AppWindow {
     pub fn new(app: &App) -> Self {
         debug!("Creating new PkAppWindow");
         glib::Object::builder().property("application", app).build()
+    }
+
+    pub fn app(&self) -> App {
+        self.application()
+            .and_downcast()
+            .expect("Application must be PkApp subclass")
     }
 
     pub fn window(&self) -> Self {

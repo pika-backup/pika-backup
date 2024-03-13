@@ -226,7 +226,7 @@ fn quit_background_app() {
     if !ui::App::default().in_shutdown() {
         // Checks whether window is open and quits if necessary
         glib::MainContext::default().spawn_from_within(|| async {
-            let _ = ui::quit().await;
+            let _ = ui::App::default().try_quit().await;
         });
     }
 }

@@ -1,6 +1,5 @@
 //! User interface
 
-mod actions;
 mod app;
 mod backup_status;
 #[allow(dead_code)]
@@ -80,56 +79,8 @@ fn on_ctrlc() -> glib::ControlFlow {
         }
     });
 
-    adw_app().quit();
+    Handler::run(async move { adw_app().try_quit().await });
     glib::ControlFlow::Continue
-}
-
-async fn quit() -> Result<()> {
-    debug!("Running quit routine");
-    if utils::borg::is_borg_operation_running() {
-        if main_ui().window().is_visible() {
-            let permission = utils::background_permission().await;
-
-            match permission {
-                Ok(()) => {
-                    debug!("Hiding main window as backup is currently running");
-                    main_ui().window().set_visible(false);
-                }
-                Err(err) => {
-                    err.show().await;
-
-                    ui::utils::confirmation_dialog(
-                        &gettext("Abort running backup creation?"),
-                        &gettext("The backup will remain incomplete if aborted now."),
-                        &gettext("Continue"),
-                        &gettext("Abort"),
-                    )
-                    .await?;
-                    quit_real().await;
-                }
-            }
-        } else {
-            // Someone wants to quit the app from the shell (eg via backgrounds app list)
-            // Or we do something wrong and called this erroneously
-            debug!("Received quit request while a backup operation is running. Ignoring");
-            let notification = gio::Notification::new(&gettext("A Backup Operation is Running"));
-            notification.set_body(Some(&gettext(
-                "Pika Backup cannot be quit during a backup operation.",
-            )));
-
-            adw_app().send_notification(None, &notification);
-        }
-    } else {
-        quit_real().await;
-    }
-
-    Ok(())
-}
-
-async fn quit_real() {
-    shell::set_status_message(&gettext("Quit")).await;
-
-    adw_app().quit();
 }
 
 async fn init_check_borg() -> Result<()> {
