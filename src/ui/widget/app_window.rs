@@ -1,5 +1,5 @@
-use crate::ui;
 use crate::ui::prelude::*;
+use crate::ui::{self, App};
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -122,8 +122,9 @@ glib::wrapper! {
 }
 
 impl AppWindow {
-    pub fn new() -> Self {
-        glib::Object::new()
+    pub fn new(app: &App) -> Self {
+        debug!("Creating new PkAppWindow");
+        glib::Object::builder().property("application", app).build()
     }
 
     pub fn window(&self) -> Self {

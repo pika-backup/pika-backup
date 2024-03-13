@@ -223,7 +223,7 @@ impl Drop for QuitGuard {
 fn quit_background_app() {
     // Don't quit the app when testing
     #[cfg(not(test))]
-    if !**IS_SHUTDOWN.load() {
+    if !ui::App::default().in_shutdown() {
         // Checks whether window is open and quits if necessary
         glib::MainContext::default().spawn_from_within(|| async {
             let _ = ui::quit().await;

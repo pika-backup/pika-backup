@@ -1,5 +1,6 @@
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
+use crate::ui::App;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -92,9 +93,10 @@ impl imp::ArchivesPage {
     pub async fn show_dir(&self, path: &std::path::Path) -> Result<()> {
         main_ui().page_detail().show_pending_menu(false);
         let file = gio::File::for_path(path);
+        let app = App::default();
 
         // Only open if app isn't closing in this moment
-        if !**IS_SHUTDOWN.load() {
+        if !app.in_shutdown() {
             gtk::FileLauncher::new(Some(&file))
                 .launch_future(Some(&main_ui().window()))
                 .await

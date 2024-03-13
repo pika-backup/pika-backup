@@ -1,6 +1,7 @@
 //! User interface
 
 mod actions;
+mod app;
 mod backup_status;
 #[allow(dead_code)]
 mod builder;
@@ -29,6 +30,7 @@ mod toast_size_estimate;
 mod utils;
 mod widget;
 
+pub use app::App;
 pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
 
 use gtk::prelude::*;
@@ -38,7 +40,6 @@ use crate::borg;
 use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
-use config::TrackChanges;
 
 static GRESOURCE_BYTES: &[u8] =
     if const_str::equal!("/org/gnome/World/PikaBackup", crate::DBUS_API_PATH) {
@@ -59,10 +60,6 @@ pub fn main() {
 
     crate::utils::init_gettext();
 
-    adw_app().connect_startup(on_startup);
-    adw_app().connect_activate(on_activate);
-    adw_app().connect_shutdown(on_shutdown);
-
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
@@ -70,7 +67,8 @@ pub fn main() {
         &gio::Resource::from_data(&glib::Bytes::from_static(GRESOURCE_BYTES)).unwrap(),
     );
 
-    adw_app().run();
+    let app = App::new();
+    app.run();
 }
 
 fn on_ctrlc() -> glib::ControlFlow {
@@ -84,77 +82,6 @@ fn on_ctrlc() -> glib::ControlFlow {
 
     adw_app().quit();
     glib::ControlFlow::Continue
-}
-
-fn on_shutdown(_app: &adw::Application) {
-    IS_SHUTDOWN.swap(std::sync::Arc::new(true));
-
-    let result = BACKUP_HISTORY.try_update(|histories| {
-        config::Histories::handle_shutdown(histories);
-        Ok(())
-    });
-
-    if let Err(err) = result {
-        error!("Failed to write config during shutdown: {}", err);
-    }
-
-    while !ACTIVE_MOUNTS.load().is_empty() {
-        async_std::task::block_on(async {
-            for repo_id in ACTIVE_MOUNTS.load().iter() {
-                if borg::functions::umount(repo_id).await.is_ok() {
-                    ACTIVE_MOUNTS.update(|mounts| {
-                        mounts.remove(repo_id);
-                    });
-                }
-            }
-        })
-    }
-
-    debug!("Good bye!");
-}
-
-fn on_startup(_app: &adw::Application) {
-    debug!("Signal 'startup'");
-    ui::utils::config_io::load_config();
-    config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS, |err| {
-        Err::<(), std::io::Error>(err).handle("Failed to load Schedule Status")
-    })
-    .handle("Failed to Load Schedule Status");
-
-    // Force adwaita icon theme
-    if let Some(settings) = gtk::Settings::default() {
-        settings.set_property("gtk-icon-theme-name", "Adwaita");
-    }
-
-    ui::actions::init();
-    glib::MainContext::default().spawn_local(async {
-        ui::dbus::init().await;
-    });
-
-    main_ui();
-
-    // init status tracking
-    status_tracking();
-
-    adw_app().set_accels_for_action("app.help", &["F1"]);
-    adw_app().set_accels_for_action("app.quit", &["<Ctrl>Q"]);
-    adw_app().set_accels_for_action("app.setup", &["<Ctrl>N"]);
-    adw_app().set_accels_for_action("app.backup-preferences", &["<Ctrl>comma"]);
-    adw_app().set_accels_for_action("win.show-help-overlay", &["<Ctrl>question"]);
-
-    if BACKUP_CONFIG.load().iter().count() == 1 {
-        if let Some(config) = BACKUP_CONFIG.load().iter().next() {
-            main_ui()
-                .page_detail()
-                .backup_page()
-                .view_backup_conf(&config.id);
-        }
-    }
-}
-
-fn on_activate(_app: &adw::Application) {
-    debug!("Signal 'activate'");
-    main_ui().present();
 }
 
 async fn quit() -> Result<()> {
