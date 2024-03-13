@@ -4,6 +4,7 @@ use crate::ui::{self, App};
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use super::detail_page::DetailPageKind;
 use super::{DetailPage, OverviewPage};
 
 mod imp {
@@ -78,7 +79,7 @@ mod imp {
                 if let Some(config) = BACKUP_CONFIG.load().iter().next() {
                     self.navigation_view
                         .replace(&[self.page_detail.clone().upcast()]);
-                    self.page_detail.backup_page().view_backup_conf(&config.id);
+                    self.obj().view_backup_conf(&config.id);
                 }
             }
 
@@ -168,5 +169,16 @@ impl AppWindow {
 
     pub fn page_detail(&self) -> DetailPage {
         self.imp().page_detail.clone()
+    }
+
+    pub fn view_backup_conf(&self, id: &ConfigId) {
+        let imp = self.imp();
+        ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
+
+        imp.page_detail.show_stack_page(DetailPageKind::Backup);
+
+        if imp.navigation_view.visible_page().as_ref() != Some(imp.page_detail.upcast_ref()) {
+            imp.navigation_view.push(&main_ui().page_detail());
+        }
     }
 }

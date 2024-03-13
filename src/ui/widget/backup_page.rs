@@ -173,16 +173,6 @@ impl BackupPage {
         main_ui().page_detail().visible_stack_page() == DetailPageKind::Backup
     }
 
-    pub fn view_backup_conf(&self, id: &ConfigId) {
-        ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
-
-        main_ui()
-            .page_detail()
-            .show_stack_page(DetailPageKind::Backup);
-
-        main_ui().navigation_view().push(&main_ui().page_detail());
-    }
-
     /// Shows the dialog to abort a running backup operation.
     ///
     /// Aborts the operation if successful.

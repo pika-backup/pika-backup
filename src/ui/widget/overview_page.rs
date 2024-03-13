@@ -89,7 +89,7 @@ mod imp {
                 // connect click
                 row.location()
                     .connect_activated(enclose!((config) move |_| {
-                        main_ui().page_detail().backup_page().view_backup_conf(&config.id);
+                        main_ui().view_backup_conf(&config.id);
                     }));
 
                 row.schedule()
