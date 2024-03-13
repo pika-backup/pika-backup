@@ -1,5 +1,3 @@
-pub use glib::prelude::*;
-
 use crate::config;
 use crate::config::ConfigId;
 
@@ -8,6 +6,7 @@ use std::rc::Rc;
 use std::sync::OnceLock;
 
 use arc_swap::ArcSwap;
+use gtk::prelude::GtkApplicationExt;
 use once_cell::sync::Lazy;
 
 use crate::borg;
@@ -43,10 +42,12 @@ pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
 });
 
 thread_local!(
-    static MAIN_UI_STORE: Rc<ui::builder::AppWindow> = Rc::new({
+    static MAIN_UI_STORE: ui::widget::AppWindow = {
         ui::widget::init();
-        ui::builder::AppWindow::new()
-    });
+        let window = ui::widget::AppWindow::new();
+        adw_app().add_window(&window);
+        window
+    };
 
     static ADW_APPLICATION: Rc<adw::Application> = Rc::new({
         debug!("Setting up application with id '{}'", crate::APP_ID);
@@ -62,7 +63,7 @@ thread_local!(
         ui::status::StatusTracking::new_rc();
 );
 
-pub fn main_ui() -> Rc<ui::builder::AppWindow> {
+pub fn main_ui() -> ui::widget::AppWindow {
     MAIN_UI_STORE.with(|x| x.clone())
 }
 

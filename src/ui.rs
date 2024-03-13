@@ -131,7 +131,7 @@ fn on_startup(_app: &adw::Application) {
         ui::dbus::init().await;
     });
 
-    ui::widget::app_window::init();
+    main_ui();
 
     // init status tracking
     status_tracking();
@@ -154,7 +154,7 @@ fn on_startup(_app: &adw::Application) {
 
 fn on_activate(_app: &adw::Application) {
     debug!("Signal 'activate'");
-    crate::ui::widget::app_window::show();
+    main_ui().present();
 }
 
 async fn quit() -> Result<()> {

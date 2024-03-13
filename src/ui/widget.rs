@@ -1,4 +1,4 @@
-pub mod app_window;
+mod app_window;
 mod archives_page;
 mod backup_page;
 mod check_result_dialog;
@@ -12,6 +12,7 @@ mod status_icon;
 mod status_row;
 mod wrap_box;
 
+pub use app_window::AppWindow;
 pub use archives_page::ArchivesPage;
 pub use backup_page::BackupPage;
 pub use check_result_dialog::CheckResultDialog;
@@ -45,4 +46,5 @@ pub fn init() {
     StatusIcon::static_type();
     StatusRow::static_type();
     WrapBox::static_type();
+    AppWindow::static_type();
 }

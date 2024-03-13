@@ -83,7 +83,7 @@ impl imp::BackupPage {
         let communication = command.communication.clone();
 
         // estimate backup size if not running in background
-        if crate::ui::widget::app_window::is_displayed() {
+        if main_ui().is_mapped() {
             let config = config.clone();
             let communication = communication.clone();
             glib::MainContext::default().spawn_local(async move {

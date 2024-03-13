@@ -1,6 +1,7 @@
 use gtk::prelude::*;
 
 use super::prelude::*;
+use super::widget::AppWindow;
 use crate::borg;
 use crate::config;
 use crate::ui;
@@ -182,12 +183,11 @@ impl<R> CombinedToError<R> for std::result::Result<R, Combined> {
     }
 }
 
-#[derive(Default)]
 pub struct Handler<W: IsA<gtk::Window> + IsA<gtk::Widget>> {
     transient_for: Option<W>,
 }
 
-impl Handler<adw::ApplicationWindow> {
+impl Handler<AppWindow> {
     pub fn run<F: std::future::Future<Output = Result<()>> + 'static>(f: F) {
         Self::new().error_transient_for(main_ui().window()).spawn(f);
     }

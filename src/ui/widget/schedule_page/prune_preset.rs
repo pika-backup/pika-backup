@@ -1,6 +1,7 @@
 use crate::config;
 use crate::ui::prelude::*;
 
+use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::{ParamSpec, ParamSpecString};
 use once_cell::sync::Lazy;

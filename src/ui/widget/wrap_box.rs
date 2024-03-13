@@ -58,11 +58,9 @@ impl WrapBox {
 }
 
 mod imp {
-    use crate::ui::prelude::*;
+    use super::*;
 
     use glib::{ParamSpec, ParamSpecInt, Value};
-    use gtk::prelude::*;
-    use gtk::subclass::prelude::*;
 
     use once_cell::sync::Lazy;
     use std::cell::{Cell, RefCell};

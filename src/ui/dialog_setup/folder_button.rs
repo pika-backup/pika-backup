@@ -119,25 +119,23 @@ mod imp {
 
             obj.connect_clicked(|obj| {
                 let obj = obj.clone();
-                Handler::default()
-                    .error_transient_for(main_ui().window())
-                    .spawn(async move {
-                        let preselect = if let Some(file) = obj.file() {
-                            file
-                        } else {
-                            gio::File::for_path(glib::home_dir())
-                        };
+                Handler::run(async move {
+                    let preselect = if let Some(file) = obj.file() {
+                        file
+                    } else {
+                        gio::File::for_path(glib::home_dir())
+                    };
 
-                        let file = crate::ui::utils::folder_chooser_dialog(
-                            &gettext("Backup Location"),
-                            Some(&preselect),
-                        )
-                        .await?;
+                    let file = crate::ui::utils::folder_chooser_dialog(
+                        &gettext("Backup Location"),
+                        Some(&preselect),
+                    )
+                    .await?;
 
-                        obj.set_property("file", file);
+                    obj.set_property("file", file);
 
-                        Ok(())
-                    });
+                    Ok(())
+                });
             });
         }
     }

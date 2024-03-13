@@ -1,14 +1,12 @@
 use crate::config;
 use crate::ui::prelude::*;
+use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use std::marker::PhantomData;
-
+    use super::*;
     use crate::config;
-    use crate::ui::prelude::*;
-    use adw::prelude::*;
-    use adw::subclass::prelude::*;
+    use std::marker::PhantomData;
 
     #[derive(Debug, Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "encryption_preferences_group.ui")]
