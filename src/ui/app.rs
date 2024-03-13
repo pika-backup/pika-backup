@@ -34,7 +34,14 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for App {}
+    impl ObjectImpl for App {
+        fn constructed(&self) {
+            debug!("App::constructed");
+            self.parent_constructed();
+
+            ui::widget::init();
+        }
+    }
     impl ApplicationImpl for App {
         fn startup(&self) {
             debug!("App::startup");
@@ -51,7 +58,6 @@ mod imp {
                 settings.set_property("gtk-icon-theme-name", "Adwaita");
             }
 
-            ui::widget::init();
             self.setup_actions();
             self.setup_accels();
 

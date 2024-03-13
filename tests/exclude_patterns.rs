@@ -2,6 +2,7 @@ use cmd_lib::run_fun;
 
 mod common;
 use common::*;
+use pika_backup::borg::CommandRun;
 
 #[async_std::test]
 async fn patterns() -> Result<(), Box<dyn std::error::Error>> {

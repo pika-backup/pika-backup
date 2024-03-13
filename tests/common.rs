@@ -1,10 +1,8 @@
 #![allow(dead_code)]
 
-pub use pika_backup::borg::CommandRun;
 pub use pika_backup::{borg, config, config::ConfigId};
 
 pub use std::collections::BTreeSet;
-pub use std::ffi::OsStr;
 pub use std::path::{Path, PathBuf};
 
 pub use tempfile::tempdir;

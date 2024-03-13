@@ -377,9 +377,9 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
     Ok(())
 }
 
-#[async_std::test]
+#[gtk::test]
 async fn test_exec_operation_register() {
-    gtk::init().unwrap();
+    let _app = crate::ui::App::new();
 
     let mut config = crate::config::Backup::test_new_mock();
     config.schedule.frequency = crate::config::Frequency::Hourly;
