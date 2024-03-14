@@ -73,11 +73,10 @@ pub fn main() {
 fn on_ctrlc() -> glib::ControlFlow {
     debug!("Quit: SIGINT (Ctrl+C)");
 
-    BORG_OPERATION.with(|operations| {
-        for op in operations.load().values() {
-            op.set_instruction(borg::Instruction::Abort(borg::Abort::User));
-        }
-    });
+    let app = App::default();
+    for operation in app.borg_operations().values() {
+        operation.set_instruction(borg::Instruction::Abort(borg::Abort::User));
+    }
 
     Handler::run(async move { adw_app().try_quit().await });
     glib::ControlFlow::Continue

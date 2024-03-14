@@ -2,7 +2,6 @@ use crate::config;
 use crate::config::ConfigId;
 
 use std::collections::{BTreeMap, HashSet};
-use std::rc::Rc;
 use std::sync::OnceLock;
 
 use arc_swap::ArcSwap;
@@ -38,11 +37,6 @@ pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
         .and_then(|name| num_format::Locale::from_name(name).ok())
         .unwrap_or(num_format::Locale::fr)
 });
-
-thread_local!(
-    pub static BORG_OPERATION: ArcSwap<BTreeMap<ConfigId, Rc<dyn ui::operation::OperationExt>>> =
-        Default::default();
-);
 
 pub fn main_ui() -> ui::widget::AppWindow {
     App::default().main_window()

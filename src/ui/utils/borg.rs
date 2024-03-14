@@ -34,33 +34,26 @@ pub fn parse_borg_command_line_args(text: &str) -> Result<Vec<String>> {
 /// This takes a [QuitGuard] to prove that one has been set up and is currently active.
 pub async fn exec<T: Task>(
     mut command: borg::Command<T>,
-    guard: &QuitGuard,
+    _guard: &QuitGuard,
 ) -> CombinedResult<T::Return>
 where
     borg::Command<T>: borg::CommandRun<T>,
 {
     let config_id = command.config.id.clone();
+    let app = App::default();
 
     if T::KIND != borg::task::Kind::Mount {
         // If a repository is mounted we ask to unmount it before we continue
         ask_unmount(T::KIND, &command.config.repo_id).await?;
     }
 
-    BORG_OPERATION.with(enclose!((command) move |operations| {
-        if let Some(operation) = operations
-            .load()
-            .values()
-            .find(|x| x.repo_id() == &command.config.repo_id)
-        {
-            return Err(Combined::Ui(
-                Message::new(gettext("Repository already in use"), operation.name()).into(),
-            ));
-        }
+    if let Some(operation) = app.borg_operation_find_by_repo(&command.config.repo_id) {
+        return Err(Combined::Ui(
+            Message::new(gettext("Repository already in use"), operation.name()).into(),
+        ));
+    }
 
-        ui::operation::Operation::register(command, guard.status_tracking());
-
-        Ok(())
-    }))?;
+    ui::operation::Operation::register(command.clone(), &app);
 
     BACKUP_HISTORY.try_update(enclose!((config_id) move |history| {
         history.set_running(config_id.clone());
@@ -68,11 +61,7 @@ where
     }))?;
 
     scopeguard::defer_on_success! {
-        BORG_OPERATION.with(enclose!((config_id) move |operations| {
-            operations.update(|op| {
-                op.remove(&config_id);
-            });
-        }));
+        app.remove_borg_operation(&config_id);
 
         Handler::handle(BACKUP_HISTORY.try_update(move |history| {
             history.remove_running(config_id.clone());

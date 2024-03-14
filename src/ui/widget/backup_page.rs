@@ -194,3 +194,11 @@ impl BackupPage {
         self.imp().refresh_status();
     }
 }
+
+impl HasAppWindow for BackupPage {
+    fn app_window(&self) -> super::AppWindow {
+        self.root()
+            .and_downcast()
+            .expect("PkBackupPage must be inside PkAppWindow")
+    }
+}

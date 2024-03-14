@@ -2,6 +2,7 @@ use std::ffi::OsStr;
 use std::path::PathBuf;
 
 use adw::prelude::*;
+use adw::subclass::prelude::*;
 
 use crate::borg;
 use crate::ui;
@@ -12,7 +13,8 @@ use super::imp;
 #[gtk::template_callbacks]
 impl imp::BackupPage {
     pub async fn on_stop_backup_create(&self) -> Result<()> {
-        let operation = BORG_OPERATION.with(|op| Ok::<_, Error>(op.load().active()?.clone()))?;
+        let app = self.obj().app();
+        let operation = app.borg_operations().active()?.clone();
 
         // Abort immediately if only reconnecting
         if !operation.aborting() && !matches!(operation.status(), borg::Run::Reconnecting(_)) {

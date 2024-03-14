@@ -145,9 +145,9 @@ impl imp::BackupPage {
     }
 
     pub fn refresh_disk_status(&self) {
+        let app = self.obj().app();
         if let Ok(backup) = BACKUP_CONFIG.load().active().cloned() {
-            let operation_running =
-                BORG_OPERATION.with(|operations| operations.load().get(&backup.id).is_some());
+            let operation_running = app.borg_operation(&backup.id).is_some();
 
             self.backup_disk_eject_button.set_visible(
                 !operation_running && backup.repo.is_drive_ejectable().unwrap_or(false),

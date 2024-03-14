@@ -1,4 +1,7 @@
+use std::collections::BTreeMap;
+
 use crate::borg;
+use crate::borg::RepoId;
 use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
@@ -7,13 +10,18 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use config::TrackChanges;
 
+use super::operation::OperationExt;
 use super::shell;
 use super::status::StatusTracking;
 use super::widget::AppWindow;
 
 mod imp {
-    use std::cell::{Cell, OnceCell};
+    use std::{
+        cell::{Cell, OnceCell},
+        collections::BTreeMap,
+    };
 
+    use arc_swap::ArcSwap;
     use glib::WeakRef;
 
     use crate::ui::status::StatusTracking;
@@ -28,6 +36,8 @@ mod imp {
         #[property(get)]
         in_shutdown: Cell<bool>,
         status_tracking: OnceCell<Rc<ui::status::StatusTracking>>,
+        pub(super) borg_operations:
+            ArcSwap<BTreeMap<ConfigId, Rc<dyn ui::operation::OperationExt>>>,
     }
 
     #[glib::object_subclass]
@@ -239,6 +249,39 @@ impl App {
 
     pub fn status_tracking(&self) -> Rc<StatusTracking> {
         self.imp().status_tracking()
+    }
+
+    pub fn is_borg_operation_running(&self) -> bool {
+        !self.imp().borg_operations.load().is_empty()
+    }
+
+    pub fn borg_operations(&self) -> Arc<BTreeMap<ConfigId, Rc<dyn OperationExt>>> {
+        self.imp().borg_operations.load_full().clone()
+    }
+
+    pub fn borg_operation(&self, config_id: &ConfigId) -> Option<Rc<dyn OperationExt>> {
+        self.imp().borg_operations.load().get(config_id).cloned()
+    }
+
+    pub fn borg_operation_find_by_repo(&self, repo_id: &RepoId) -> Option<Rc<dyn OperationExt>> {
+        self.imp()
+            .borg_operations
+            .load()
+            .values()
+            .find(|x| x.repo_id() == repo_id)
+            .cloned()
+    }
+
+    pub fn insert_borg_operation(&self, config_id: ConfigId, operation: Rc<dyn OperationExt>) {
+        self.imp().borg_operations.update(|op| {
+            op.insert(config_id.clone(), operation.clone());
+        });
+    }
+
+    pub fn remove_borg_operation(&self, config_id: &ConfigId) {
+        self.imp().borg_operations.update(|op| {
+            op.remove(config_id);
+        });
     }
 
     pub async fn try_quit(&self) -> Result<()> {

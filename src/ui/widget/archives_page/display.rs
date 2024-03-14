@@ -47,16 +47,15 @@ impl imp::ArchivesPage {
                     .set_from_backup_status(&backup_status::Display::new_check_status_from_id(id));
                 self.check_result_dialog.reload();
 
-                BORG_OPERATION.with(|ops| {
-                    let op = ops.load().get(id).cloned();
+                let app = self.obj().app();
+                let op = app.borg_operation(id);
 
-                    let running =
-                        matches!(op, Some(ref op) if op.task_kind() == borg::task::Kind::Check);
+                let running =
+                    matches!(op, Some(ref op) if op.task_kind() == borg::task::Kind::Check);
 
-                    self.check_button.set_visible(!running);
-                    self.check_button.set_sensitive(op.is_none());
-                    self.check_abort_button.set_visible(running);
-                });
+                self.check_button.set_visible(!running);
+                self.check_button.set_sensitive(op.is_none());
+                self.check_abort_button.set_visible(running);
             }
 
             if let Ok(config) = BACKUP_CONFIG.load().active() {

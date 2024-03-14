@@ -2,6 +2,7 @@
 
 use adw::prelude::*;
 use async_std::prelude::*;
+use glib::WeakRef;
 use ui::prelude::*;
 
 use crate::borg;
@@ -13,7 +14,7 @@ use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 use std::time::Duration;
 
-use super::status::StatusTracking;
+use super::App;
 
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
 const TIME_ON_BATTERY_ABORT: Duration = Duration::from_secs(20 * 60);
@@ -25,22 +26,19 @@ pub struct Operation<T: borg::Task> {
     inhibit_cookie: Cell<Option<u32>>,
     aborting: Cell<bool>,
     operation_shutdown: Cell<bool>,
-    status_tracking: Rc<StatusTracking>,
+    app: WeakRef<App>,
 }
 
 impl<T: borg::Task> Operation<T> {
     /// Globally register a running borg command
-    pub fn register(
-        command: borg::Command<T>,
-        status_tracking: Rc<StatusTracking>,
-    ) -> Rc<dyn OperationExt> {
+    pub fn register(command: borg::Command<T>, app: &App) -> Rc<dyn OperationExt> {
         let process = Rc::new(Self {
             command,
             last_log: Default::default(),
             inhibit_cookie: Default::default(),
             aborting: Default::default(),
             operation_shutdown: Default::default(),
-            status_tracking,
+            app: glib::ObjectExt::downgrade(app),
         });
 
         let weak_process = Rc::downgrade(&process);
@@ -76,14 +74,7 @@ impl<T: borg::Task> Operation<T> {
             process.application_inhibit();
         }
 
-        BORG_OPERATION.with(enclose!((process) move |operations| {
-            operations.update(|op| {
-                op.insert(
-                    process.command.config.id.clone(),
-                    process.clone(),
-                );
-            });
-        }));
+        app.insert_borg_operation(process.command.config.id.clone(), process.clone());
 
         process.ui_status_update();
         process.ui_schedule_update();
@@ -144,7 +135,11 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_metered_exceeded(&self) -> bool {
-        if let Some(instant) = self.status_tracking.metered_since.get() {
+        if let Some(instant) = self
+            .app
+            .upgrade()
+            .and_then(|app| app.status_tracking().metered_since.get())
+        {
             instant.elapsed() > TIME_METERED_ABORT
         } else {
             false
@@ -152,7 +147,11 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_on_battery_exceeded(&self) -> bool {
-        if let Some(instant) = self.status_tracking.on_battery_since.get() {
+        if let Some(instant) = self
+            .app
+            .upgrade()
+            .and_then(|app| app.status_tracking().on_battery_since.get())
+        {
             instant.elapsed() > TIME_ON_BATTERY_ABORT
         } else {
             false
@@ -193,7 +192,7 @@ impl<T: borg::Task> Operation<T> {
 
         main_ui().page_overview().refresh_status();
         main_ui().page_detail().backup_page().refresh_disk_status();
-        glib::MainContext::default().spawn(ui::shell::background_activity_update());
+        glib::MainContext::default().spawn_local(ui::shell::background_activity_update());
     }
 
     fn ui_schedule_update(&self) {
@@ -224,15 +223,19 @@ impl<T: borg::Task> Drop for Operation<T> {
         self.operation_shutdown.replace(true);
         self.communication().drop_senders();
 
-        if BORG_OPERATION.try_with(|_| {}).is_err() {
-            debug!("Not doing any external operations.");
-        } else {
+        if self
+            .app
+            .upgrade()
+            .is_some_and(|app| app.is_borg_operation_running())
+        {
             self.ui_status_update();
             self.ui_schedule_update();
 
             if let Some(cookie) = self.inhibit_cookie.take() {
                 adw_app().uninhibit(cookie);
             }
+        } else {
+            debug!("Not doing any external operations.");
         }
     }
 }

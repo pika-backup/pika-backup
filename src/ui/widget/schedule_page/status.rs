@@ -85,7 +85,7 @@ impl Status {
                         );
                         upcoming_requirements_not_met = true;
                     }
-                } else if BORG_OPERATION.with(|op| op.load().get(&config.id).is_none()) {
+                } else if app.borg_operation(&config.id).is_none() {
                     main_subtitle = gettext("Inconsistent backup information");
                     main_level = StatusLevel::Error;
                 }

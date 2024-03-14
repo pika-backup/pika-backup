@@ -1,4 +1,4 @@
-use super::prelude::*;
+use super::{prelude::*, App};
 use arc_swap::ArcSwap;
 
 static LAST_MESSAGE: once_cell::sync::Lazy<ArcSwap<Option<String>>> =
@@ -25,7 +25,8 @@ async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'stat
 }
 
 pub async fn background_activity_update() {
-    let message = BORG_OPERATION.with(|operations| operations.load().summarize_operations());
+    let app = App::default();
+    let message = app.borg_operations().summarize_operations();
     set_status_message(&message.unwrap_or(gettext("Idle"))).await;
 }
 

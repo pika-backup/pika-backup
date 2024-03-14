@@ -10,6 +10,8 @@ use crate::ui::prelude::*;
 use crate::ui::utils;
 use std::fmt::Write;
 
+use super::App;
+
 #[derive(Debug)]
 pub struct Display {
     pub title: String,
@@ -35,41 +37,38 @@ pub enum Graphic {
 
 impl Display {
     pub fn new_from_id(config_id: &ConfigId) -> Self {
-        BORG_OPERATION.with(|operations| {
-            if let Some(op) = operations.load().get(config_id) {
-                Self::from(op.as_ref())
-            } else if let Some(last_run) = BACKUP_HISTORY
-                .load()
-                .try_get(config_id)
-                .ok()
-                .and_then(|x| x.run.get(0))
-            {
-                Self::from(last_run)
-            } else {
-                Self::never_ran()
-            }
-        })
+        let app = App::default();
+        if let Some(op) = app.borg_operation(config_id) {
+            Self::from(op.as_ref())
+        } else if let Some(last_run) = BACKUP_HISTORY
+            .load()
+            .try_get(config_id)
+            .ok()
+            .and_then(|x| x.run.get(0))
+        {
+            Self::from(last_run)
+        } else {
+            Self::never_ran()
+        }
     }
 
     pub fn new_check_status_from_id(config_id: &ConfigId) -> Self {
-        BORG_OPERATION.with(|operations| {
-            if let Some(op) = operations
-                .load()
-                .get(config_id)
-                .filter(|op| op.task_kind() == borg::task::Kind::Check)
-            {
-                Self::from(op.as_ref())
-            } else if let Some(check_run_info) = BACKUP_HISTORY
-                .load()
-                .active()
-                .ok()
-                .and_then(|h| h.last_check.clone())
-            {
-                Self::from(&check_run_info)
-            } else {
-                Self::no_check()
-            }
-        })
+        let app = App::default();
+        if let Some(op) = app
+            .borg_operation(config_id)
+            .filter(|op| op.task_kind() == borg::task::Kind::Check)
+        {
+            Self::from(op.as_ref())
+        } else if let Some(check_run_info) = BACKUP_HISTORY
+            .load()
+            .active()
+            .ok()
+            .and_then(|h| h.last_check.clone())
+        {
+            Self::from(&check_run_info)
+        } else {
+            Self::no_check()
+        }
     }
 
     fn never_ran() -> Self {

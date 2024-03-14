@@ -86,29 +86,27 @@ mod imp {
             Handler::run(ui::init_check_borg());
 
             // redo size estimates for backups running in background before
-            BORG_OPERATION.with(|operations| {
-                for (config_id, operation) in operations.load().iter() {
-                    if let Some(create_op) = operation.try_as_create() {
-                        if create_op
-                            .communication()
-                            .specific_info
-                            .load()
-                            .estimated_size
-                            .is_none()
+            let app = self.obj().app();
+            for (config_id, operation) in app.borg_operations().iter() {
+                if let Some(create_op) = operation.try_as_create() {
+                    if create_op
+                        .communication()
+                        .specific_info
+                        .load()
+                        .estimated_size
+                        .is_none()
+                    {
+                        debug!("A running backup is lacking size estimate");
+                        if let Some(config) = BACKUP_CONFIG.load().try_get(config_id).ok().cloned()
                         {
-                            debug!("A running backup is lacking size estimate");
-                            if let Some(config) =
-                                BACKUP_CONFIG.load().try_get(config_id).ok().cloned()
-                            {
-                                let communication = create_op.communication().clone();
-                                glib::MainContext::default().spawn_local(async move {
-                                    ui::toast_size_estimate::check(&config, communication).await
-                                });
-                            }
+                            let communication = create_op.communication().clone();
+                            glib::MainContext::default().spawn_local(async move {
+                                ui::toast_size_estimate::check(&config, communication).await
+                            });
                         }
                     }
                 }
-            });
+            }
         }
     }
 
