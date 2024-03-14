@@ -12,6 +12,9 @@ pub use crate::ui::utils::{Logable, LookupActiveConfigId, SummarizeOperations};
 use arc_swap::ArcSwap;
 pub use glib::clone;
 
+use super::widget::AppWindow;
+use super::App;
+
 pub trait ArcSwapResultExt<T> {
     // Update the inner value with the provided closure
     fn try_update<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()>;
@@ -60,5 +63,13 @@ where
             .err_to_msg(gettext("Could not write configuration file."))?;
 
         result
+    }
+}
+
+pub trait HasAppWindow {
+    fn app_window(&self) -> AppWindow;
+
+    fn app(&self) -> App {
+        self.app_window().app()
     }
 }

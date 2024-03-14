@@ -78,7 +78,8 @@ impl imp::SchedulePage {
     }
 
     pub async fn update_status(&self, config: &config::Backup) {
-        let status = super::status::Status::new(config).await;
+        let app = self.obj().app();
+        let status = super::status::Status::new(&app, config).await;
 
         self.status_row
             .set_title(&glib::markup_escape_text(&status.main.title()));

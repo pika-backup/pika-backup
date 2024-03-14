@@ -8,12 +8,15 @@ use adw::subclass::prelude::*;
 use config::TrackChanges;
 
 use super::shell;
+use super::status::StatusTracking;
 use super::widget::AppWindow;
 
 mod imp {
-    use std::cell::Cell;
+    use std::cell::{Cell, OnceCell};
 
     use glib::WeakRef;
+
+    use crate::ui::status::StatusTracking;
 
     use super::*;
 
@@ -24,6 +27,7 @@ mod imp {
         /// Is the app currently shutting down
         #[property(get)]
         in_shutdown: Cell<bool>,
+        status_tracking: OnceCell<Rc<ui::status::StatusTracking>>,
     }
 
     #[glib::object_subclass]
@@ -66,7 +70,7 @@ mod imp {
             });
 
             // init status tracking
-            status_tracking();
+            self.status_tracking();
         }
 
         fn activate(&self) {
@@ -120,6 +124,12 @@ mod imp {
                 self.main_window.set(Some(&window));
                 window
             }
+        }
+
+        pub(super) fn status_tracking(&self) -> Rc<StatusTracking> {
+            self.status_tracking
+                .get_or_init(|| StatusTracking::new_rc())
+                .clone()
         }
 
         fn setup_actions(&self) {
@@ -225,6 +235,10 @@ impl App {
 
     pub fn main_window(&self) -> AppWindow {
         self.imp().main_window()
+    }
+
+    pub fn status_tracking(&self) -> Rc<StatusTracking> {
+        self.imp().status_tracking()
     }
 
     pub async fn try_quit(&self) -> Result<()> {

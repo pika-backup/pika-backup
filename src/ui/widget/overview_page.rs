@@ -124,9 +124,11 @@ mod imp {
 
         pub(super) fn force_refresh_status(&self) {
             let imp = self.ref_counted();
+            let app = self.obj().app();
+
             glib::MainContext::default().spawn_local(async move {
                 for config in BACKUP_CONFIG.load().iter() {
-                    let schedule_status = ui::widget::Status::new(config).await;
+                    let schedule_status = ui::widget::Status::new(&app, config).await;
                     let rows = imp.rows.borrow();
                     if let Some(row) = rows.get(&config.id) {
                         let status = ui::backup_status::Display::new_from_id(&config.id);
@@ -212,5 +214,13 @@ impl OverviewPage {
         main_ui().navigation_view().pop_to_page(self);
 
         Ok(())
+    }
+}
+
+impl HasAppWindow for OverviewPage {
+    fn app_window(&self) -> super::AppWindow {
+        self.root()
+            .and_downcast()
+            .expect("PkOverviewPage must be inside PkAppWindow")
     }
 }

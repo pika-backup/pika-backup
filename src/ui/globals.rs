@@ -42,9 +42,6 @@ pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
 thread_local!(
     pub static BORG_OPERATION: ArcSwap<BTreeMap<ConfigId, Rc<dyn ui::operation::OperationExt>>> =
         Default::default();
-
-    pub static STATUS_TRACKING: Rc<ui::status::StatusTracking> =
-        ui::status::StatusTracking::new_rc();
 );
 
 pub fn main_ui() -> ui::widget::AppWindow {
@@ -53,8 +50,4 @@ pub fn main_ui() -> ui::widget::AppWindow {
 
 pub fn adw_app() -> ui::App {
     App::default()
-}
-
-pub fn status_tracking() -> Rc<ui::status::StatusTracking> {
-    STATUS_TRACKING.with(|x| x.clone())
 }

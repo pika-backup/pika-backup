@@ -4,6 +4,7 @@ use crate::ui::prelude::*;
 
 use crate::borg;
 use crate::ui;
+use crate::ui::App;
 use borg::task::Task;
 use gio::traits::DriveExt;
 use gio::traits::VolumeExt;
@@ -12,7 +13,7 @@ use ui::error::Combined;
 
 /// Is a borg operation registered with a [QuitGuard]]?
 pub fn is_borg_operation_running() -> bool {
-    STATUS_TRACKING.with(|status| status.quit_inhibit_count() > 0)
+    App::default().status_tracking().quit_inhibit_count() > 0
 }
 
 /// Checks whether borg command line arguments are valid
@@ -33,7 +34,7 @@ pub fn parse_borg_command_line_args(text: &str) -> Result<Vec<String>> {
 /// This takes a [QuitGuard] to prove that one has been set up and is currently active.
 pub async fn exec<T: Task>(
     mut command: borg::Command<T>,
-    _guard: &QuitGuard,
+    guard: &QuitGuard,
 ) -> CombinedResult<T::Return>
 where
     borg::Command<T>: borg::CommandRun<T>,
@@ -56,7 +57,7 @@ where
             ));
         }
 
-        ui::operation::Operation::register(command);
+        ui::operation::Operation::register(command, guard.status_tracking());
 
         Ok(())
     }))?;

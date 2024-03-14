@@ -1,8 +1,8 @@
 use crate::config;
 use crate::schedule::requirements;
-use crate::ui::prelude::*;
 use crate::ui::utils::StatusLevel;
 use crate::ui::widget::StatusRow;
+use crate::ui::{prelude::*, App};
 use std::fmt::Write;
 
 pub struct Status {
@@ -39,10 +39,11 @@ pub fn next_backup_in(d: &chrono::Duration) -> String {
 }
 
 impl Status {
-    pub async fn new(config: &config::Backup) -> Self {
+    pub async fn new(app: &App, config: &config::Backup) -> Self {
         let due_requirements = requirements::Due::check(config);
         let global_requirements =
             requirements::Global::check(config, BACKUP_HISTORY.load().as_ref()).await;
+        let status_tracking = app.status_tracking();
         let hints = requirements::Hint::check(config);
 
         if !config.schedule.enabled {
@@ -94,7 +95,7 @@ impl Status {
                 main_title = gettext("Backup Past Due");
                 main_subtitle = gettext("Waiting until requirements are met");
                 main_level = StatusLevel::Warning;
-            } else if !status_tracking().daemon_running.get() {
+            } else if !status_tracking.daemon_running.get() {
                 main_title = gettext("Scheduled Backups Unavailable");
                 main_level = StatusLevel::Error;
             } else {
@@ -149,7 +150,7 @@ impl Status {
                 }
             }
 
-            if !status_tracking().daemon_running.get() {
+            if !status_tracking.daemon_running.get() {
                 problems.push(StatusRow::new(
                     gettext("Background process inactive"),
                     gettext("This is required for scheduled backups"),

@@ -13,6 +13,8 @@ use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 use std::time::Duration;
 
+use super::status::StatusTracking;
+
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
 const TIME_ON_BATTERY_ABORT: Duration = Duration::from_secs(20 * 60);
 const POLL_INTERVAL: Duration = Duration::from_secs(60);
@@ -23,17 +25,22 @@ pub struct Operation<T: borg::Task> {
     inhibit_cookie: Cell<Option<u32>>,
     aborting: Cell<bool>,
     operation_shutdown: Cell<bool>,
+    status_tracking: Rc<StatusTracking>,
 }
 
 impl<T: borg::Task> Operation<T> {
     /// Globally register a running borg command
-    pub fn register(command: borg::Command<T>) -> Rc<dyn OperationExt> {
+    pub fn register(
+        command: borg::Command<T>,
+        status_tracking: Rc<StatusTracking>,
+    ) -> Rc<dyn OperationExt> {
         let process = Rc::new(Self {
             command,
             last_log: Default::default(),
             inhibit_cookie: Default::default(),
             aborting: Default::default(),
             operation_shutdown: Default::default(),
+            status_tracking,
         });
 
         let weak_process = Rc::downgrade(&process);
@@ -137,7 +144,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_metered_exceeded(&self) -> bool {
-        if let Some(instant) = status_tracking().metered_since.get() {
+        if let Some(instant) = self.status_tracking.metered_since.get() {
             instant.elapsed() > TIME_METERED_ABORT
         } else {
             false
@@ -145,7 +152,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_on_battery_exceeded(&self) -> bool {
-        if let Some(instant) = status_tracking().on_battery_since.get() {
+        if let Some(instant) = self.status_tracking.on_battery_since.get() {
             instant.elapsed() > TIME_ON_BATTERY_ABORT
         } else {
             false
