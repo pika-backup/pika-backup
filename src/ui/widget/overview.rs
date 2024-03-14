@@ -104,10 +104,11 @@ mod imp {
 
         pub(super) fn force_refresh_status(&self) {
             let imp = self.ref_counted();
+            let app = self.obj().app();
+
             glib::MainContext::default().spawn_local(async move {
                 for config in BACKUP_CONFIG.load().iter() {
-                    // TODO: This should be a pure data object like backup_status::Display
-                    let schedule_status = ui::widget::ScheduleStatus::new(config).await;
+                    let schedule_status = ui::widget::ScheduleStatus::new(&app, config).await;
                     let rows = imp.rows.borrow();
                     if let Some(row) = rows.get(&config.id) {
                         let status = ui::backup_status::Display::new_from_id(&config.id);
