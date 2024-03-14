@@ -77,8 +77,10 @@ mod imp {
                 && BACKUP_CONFIG.load().iter().count() == 1
             {
                 if let Some(config) = BACKUP_CONFIG.load().iter().next() {
-                    self.navigation_view
-                        .replace(&[self.page_detail.clone().upcast()]);
+                    self.navigation_view.replace(&[
+                        self.page_overview.clone().upcast(),
+                        self.page_detail.clone().upcast(),
+                    ]);
                     self.obj().view_backup_conf(&config.id);
                 }
             }
