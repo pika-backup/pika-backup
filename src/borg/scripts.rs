@@ -247,12 +247,12 @@ pub async fn run_script(
             cmd.arg(format!("--env={name}={value}"));
         }
 
-        cmd.args(["--clear-env", "--host", "bash", "-c", command]);
+        // `bash -c` will reset most environment variables to default
+        cmd.args(["--host", "bash", "-c", command]);
         cmd
     } else {
         let mut cmd = async_std::process::Command::new("bash");
 
-        cmd.env_clear();
         cmd.envs(envs);
 
         cmd.args(["-c", command]);

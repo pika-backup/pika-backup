@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.2 (unreleased)
+
+- Fix shell scripts not inheriting environment variables which broke eg. `notify-send`
+
 ## 0.7.1 (2024-03-11)
 
 - Fix schedule times / days resetting to random values when the schedule page is opened
