@@ -108,8 +108,10 @@ async fn get_repo(ui: &builder::DialogSetup) -> Result<Repository> {
             .err_to_msg(gettext("Invalid Remote Location"))?;
 
         if remote_location.is_borg_host() {
+            // Do not mount since borg will create a direct SSH connection
             Ok(config::remote::Repository::from_uri(remote_location.url()).into_config())
         } else {
+            // Mount if necessary
             mount_fuse_and_config(&remote_location.as_gio_file(), true)
                 .await
                 .map(|x| x.into_config())
@@ -268,35 +270,36 @@ fn command_line_args(ui: &builder::DialogSetup) -> Result<Vec<String>> {
     ui::utils::borg::parse_borg_command_line_args(&text)
 }
 
-async fn mount_fuse_and_config(file: &gio::File, mount_parent: bool) -> Result<local::Repository> {
-    if let (Ok(mount), Some(path)) = (
-        file.find_enclosing_mount(Some(&gio::Cancellable::new())),
-        file.path(),
-    ) {
+async fn mount_fuse_and_config(uri: &gio::File, mount_parent: bool) -> Result<local::Repository> {
+    let enclosing_mount = uri.find_enclosing_mount(Some(&gio::Cancellable::new()));
+    debug!("Tried to find enclosing mount: {enclosing_mount:?}");
+
+    if let (Ok(mount), Some(path)) = (enclosing_mount, uri.path()) {
         Ok(local::Repository::from_mount(
             mount,
             path,
-            file.uri().to_string(),
+            uri.uri().to_string(),
         ))
     } else {
         let mount_uri = if mount_parent {
-            file.parent().as_ref().unwrap_or(file).uri()
+            uri.parent().as_ref().unwrap_or(uri).uri()
         } else {
-            file.uri()
+            uri.uri()
         };
 
         ui::dialog_device_missing::mount_enclosing(&gio::File::for_uri(&mount_uri)).await?;
 
-        if let (Ok(mount), Some(path)) = (
-            file.find_enclosing_mount(Some(&gio::Cancellable::new())),
-            file.path(),
-        ) {
+        let enclosing_mount = uri.find_enclosing_mount(Some(&gio::Cancellable::new()));
+        let path = uri.path();
+
+        if let (Ok(mount), Some(path)) = (enclosing_mount.clone(), path.clone()) {
             Ok(local::Repository::from_mount(
                 mount,
-                path,
-                file.uri().to_string(),
+                path.clone(),
+                uri.uri().to_string(),
             ))
         } else {
+            warn!("Finding enclosing mount failed. Path: '{path:?}'. Mount: {enclosing_mount:?}");
             Err(Error::Message(Message::new(
                 gettext("Repository location not found."),
                 gettext("A mount operation succeeded but the location is still unavailable."),
