@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0 (unreleased)
+
+- Fix timestamps not respecting 12h/24h clock format setting
+
 ## 0.7.2 (unreleased)
 
 - Fix shell scripts not inheriting environment variables which broke eg. `notify-send`

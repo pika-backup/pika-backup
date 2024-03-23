@@ -151,7 +151,7 @@ impl imp::ArchivesPage {
                 .title(
                     &archive
                         .start
-                        .to_locale()
+                        .to_gnome_format()
                         .unwrap_or_else(|| archive.start.to_string()),
                 )
                 .subtitle(&format!(
@@ -160,6 +160,7 @@ impl imp::ArchivesPage {
                     username = archive.username
                 ))
                 .build();
+                row.add_css_class("numeric");
 
             if archive.name.as_str().ends_with(".checkpoint") {
                 let checkpoint_box = gtk::Box::new(gtk::Orientation::Horizontal, 12);
