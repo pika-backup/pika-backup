@@ -43,7 +43,7 @@ pub async fn set_status_message(message: &str) {
 
         if let Some(proxy) = proxy().await {
             if let Err(err) = proxy.set_status(&ellipsized_message).await {
-                error!("Error setting background status: {err:?}");
+                debug!("Error setting background status: {err:?}");
             }
         }
     }

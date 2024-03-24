@@ -60,7 +60,7 @@ fn on_startup(_app: &gio::Application) {
                     .set_status(&gettext("Monitoring Backup Schedule"))
                     .await
                 {
-                    error!("Error setting background status: {err:?}");
+                    debug!("Error setting background status: {err:?}");
                 }
             }
             Err(err) => error!("Error acquiring background proxy: {err:?}"),
