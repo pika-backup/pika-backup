@@ -240,7 +240,7 @@ mod imp {
         pub async fn exclude_folder(&self) -> Result<()> {
             let chooser = gtk::FileDialog::builder()
                 .initial_folder(&self.exclude_base_folder().await?)
-                .title(gettext("Exclude Directory"))
+                .title(gettext("Exclude Folders"))
                 .accept_label(gettext("Select"))
                 .modal(true)
                 .build();
@@ -285,7 +285,7 @@ mod imp {
         pub async fn exclude_file(&self) -> Result<()> {
             let chooser = gtk::FileDialog::builder()
                 .initial_folder(&self.exclude_base_folder().await?)
-                .title(gettext("Exclude File"))
+                .title(gettext("Exclude Files"))
                 .accept_label(gettext("Select"))
                 .modal(true)
                 .build();
