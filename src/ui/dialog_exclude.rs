@@ -228,7 +228,7 @@ async fn exclude_base_folder() -> Result<gio::File> {
 pub async fn exclude_folder() -> Result<()> {
     let chooser = gtk::FileDialog::builder()
         .initial_folder(&exclude_base_folder().await?)
-        .title(gettext("Exclude Directory"))
+        .title(gettext("Exclude Folders"))
         .accept_label(gettext("Select"))
         .modal(true)
         .build();
@@ -264,7 +264,7 @@ pub async fn exclude_folder() -> Result<()> {
 pub async fn exclude_file() -> Result<()> {
     let chooser = gtk::FileDialog::builder()
         .initial_folder(&exclude_base_folder().await?)
-        .title(gettext("Exclude File"))
+        .title(gettext("Exclude Files"))
         .accept_label(gettext("Select"))
         .modal(true)
         .build();
