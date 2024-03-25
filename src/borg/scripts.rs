@@ -53,8 +53,7 @@ impl ShellVariable {
         let mut all = String::new();
         let post_backup_msg = gettext("Only available for the post-backup command:");
         let mut post_backup = String::new();
-        let completed_msg =
-            gettext("<span line_height='1.6'>Only available for completed backups:</span>");
+        let completed_msg = gettext("Only available for completed backups:");
         let mut completed = String::new();
 
         for var in Self::all() {
