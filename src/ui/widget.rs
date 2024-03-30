@@ -34,7 +34,6 @@ pub fn init() {
     schedule_page::weekday::WeekdayObject::static_type();
     ui::dialog_setup::folder_button::FolderButton::static_type();
     ui::dialog_setup::add_task::AddConfigTask::static_type();
-    dialog::CheckResultDialog::static_type();
     ArchivesPage::static_type();
     BackupPage::static_type();
     DetailDialog::static_type();
@@ -46,4 +45,6 @@ pub fn init() {
     StatusRow::static_type();
     WrapBox::static_type();
     AppWindow::static_type();
+
+    dialog::init();
 }

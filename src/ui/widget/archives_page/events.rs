@@ -28,7 +28,7 @@ impl imp::ArchivesPage {
         let configs = BACKUP_CONFIG.load();
         let config = configs.active()?;
 
-        ui::dialog_archive_prefix::run(config);
+        ui::widget::dialog::archive_prefix_dialog::run(config);
         Ok(())
     }
 
