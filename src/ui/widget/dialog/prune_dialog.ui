@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="AdwWindow" id="dialog">
+  <template class="PkPruneDialog" parent="AdwWindow">
     <property name="title" translatable="yes"></property>
     <property name="modal">1</property>
     <property name="default-width">430</property>
@@ -64,6 +64,7 @@
                 <child type="end">
                   <object class="GtkButton" id="delete">
                     <property name="label" translatable="yes">Delete Archives</property>
+                    <signal name="clicked" handler="on_delete" swapped="true"/>
                     <style>
                       <class name="destructive-action"/>
                     </style>
@@ -124,5 +125,5 @@
         </child>
       </object>
     </property>
-  </object>
+  </template>
 </interface>
