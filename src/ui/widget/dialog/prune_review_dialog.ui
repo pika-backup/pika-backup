@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="AdwWindow" id="dialog">
+  <template class="PkPruneReviewDialog" parent="AdwWindow">
     <property name="title" translatable="yes">Review Changes</property>
     <property name="modal">1</property>
     <property name="default-width">500</property>
@@ -62,8 +62,9 @@
                   </object>
                 </child>
                 <child type="end">
-                  <object class="GtkButton" id="apply">
+                  <object class="GtkButton">
                     <property name="label" translatable="yes">Apply</property>
+                    <signal name="clicked" handler="on_apply" swapped="true"/>
                     <style>
                       <class name="suggested-action"/>
                     </style>
@@ -124,5 +125,5 @@
         </child>
       </object>
     </property>
-  </object>
+  </template>
 </interface>
