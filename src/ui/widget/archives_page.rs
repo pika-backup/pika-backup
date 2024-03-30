@@ -23,7 +23,7 @@ fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
 }
 
 mod imp {
-    use self::ui::widget::{CheckResultDialog, StatusRow};
+    use self::ui::widget::{dialog::CheckResultDialog, StatusRow};
 
     use super::*;
 
