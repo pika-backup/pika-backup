@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="AdwWindow" id="dialog">
+  <template class="PkExcludeDialog" parent="AdwWindow">
     <property name="title" translatable="yes">Exclude from Backup</property>
     <property name="modal">1</property>
     <property name="default-width">500</property>
@@ -31,6 +31,7 @@
                     <property name="icon-name">folder-symbolic</property>
                     <property name="title" translatable="yes">Exclude Folder</property>
                     <property name="activatable">1</property>
+                    <signal name="activated" handler="on_exclude_folder" swapped="true"/>
                     <child type="suffix">
                       <object class="GtkImage">
                         <property name="icon-name">go-next-symbolic</property>
@@ -43,6 +44,7 @@
                     <property name="icon-name">text-x-generic-symbolic</property>
                     <property name="title" translatable="yes">Exclude Single File</property>
                     <property name="activatable">1</property>
+                    <signal name="activated" handler="on_exclude_file" swapped="true"/>
                     <child type="suffix">
                       <object class="GtkImage">
                         <property name="icon-name">go-next-symbolic</property>
@@ -56,6 +58,7 @@
                     <property name="title" translatable="yes">Exclude Pattern</property>
                     <property name="subtitle" translatable="yes">Define regular expression or Unix filename patterns</property>
                     <property name="activatable">1</property>
+                    <signal name="activated" handler="on_exclude_pattern" swapped="true"/>
                     <child type="suffix">
                       <object class="GtkImage">
                         <property name="icon-name">go-next-symbolic</property>
@@ -80,5 +83,5 @@
         </property>
       </object>
     </property>
-  </object>
+  </template>
 </interface>

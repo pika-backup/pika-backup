@@ -66,7 +66,8 @@ pub enum UserScriptKind {
     PostBackup,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, glib::Boxed)]
+#[boxed_type(name = "PkBackupConfig")]
 pub struct Backup {
     #[serde(default)]
     pub config_version: super::Version,

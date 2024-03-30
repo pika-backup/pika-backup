@@ -2,6 +2,7 @@ use std::ffi::OsStr;
 use std::path::PathBuf;
 
 use adw::prelude::*;
+use adw::subclass::prelude::*;
 
 use crate::borg;
 use crate::ui;
@@ -155,7 +156,10 @@ impl imp::BackupPage {
     }
 
     pub async fn add_exclude(&self) -> Result<()> {
-        ui::widget::dialog::exclude_dialog::show();
+        let config = BACKUP_CONFIG.load_full();
+        let active = config.active()?;
+        let window = self.obj().app_window();
+        ui::widget::dialog::ExcludeDialog::new(active).present_transient_for(&window);
 
         Ok(())
     }
