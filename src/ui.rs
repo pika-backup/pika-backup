@@ -10,7 +10,6 @@ mod dialog_check;
 mod dialog_delete_archive;
 mod dialog_device_missing;
 mod dialog_encryption_password;
-mod dialog_exclude;
 mod dialog_exclude_pattern;
 mod dialog_preferences;
 mod dialog_setup;

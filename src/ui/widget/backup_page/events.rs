@@ -155,7 +155,7 @@ impl imp::BackupPage {
     }
 
     pub async fn add_exclude(&self) -> Result<()> {
-        ui::dialog_exclude::show();
+        ui::widget::dialog::exclude_dialog::show();
 
         Ok(())
     }
