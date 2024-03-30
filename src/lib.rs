@@ -33,7 +33,6 @@ const DBUS_API_PATH: &str = const_str::concat!("/", const_str::replace!(APP_ID, 
 const DAEMON_APP_ID: &str = const_str::concat!(APP_ID, ".Monitor");
 const DAEMON_BINARY: &str = concat!(env!("CARGO_PKG_NAME"), "-monitor");
 
-mod action;
 pub mod borg;
 pub mod config;
 pub mod daemon;

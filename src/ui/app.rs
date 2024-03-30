@@ -58,8 +58,7 @@ mod imp {
                 settings.set_property("gtk-icon-theme-name", "Adwaita");
             }
 
-            self.setup_actions();
-            self.setup_accels();
+            self.obj().setup_actions();
 
             glib::MainContext::default().spawn_local(async {
                 ui::dbus::init().await;
@@ -121,95 +120,6 @@ mod imp {
                 window
             }
         }
-
-        fn setup_actions(&self) {
-            let app = self.obj();
-
-            let action = crate::action::backup_show();
-            action.connect_activate(glib::clone!(@weak app => move |_, config_id| {
-                if let Some(config_id) = config_id.and_then(|v| v.str()) {
-                    app.main_window()
-                        .view_backup_conf(&ConfigId::new(config_id.to_string()));
-                    app.activate();
-                }
-            }));
-            app.add_action(&action);
-
-            let action = crate::action::backup_start();
-            action.connect_activate(glib::clone!(@weak app => move |_, config_id| {
-                info!("action backup.start: called");
-                if let Some(config_id) = config_id.and_then(|v| v.str()).map(ToString::to_string) {
-                    let guard = QuitGuard::default();
-                    app.main_window().page_detail().backup_page().start_backup(
-                        ConfigId::new(config_id),
-                        None,
-                        guard,
-                    );
-                } else {
-                    error!("action backup.start: Did not receive valid config id");
-                }
-            }));
-            app.add_action(&action);
-
-            let action = gio::SimpleAction::new("about", None);
-            action.connect_activate(glib::clone!(@weak app => move |_, _| {
-                let dialog = ui::about::window();
-                dialog.set_transient_for(Some(&app.main_window()));
-                dialog.present()
-            }));
-            app.add_action(&action);
-
-            let action = gio::SimpleAction::new("setup", None);
-            action.connect_activate(|_, _| ui::dialog_setup::show());
-            app.add_action(&action);
-
-            let action = gio::SimpleAction::new("help", None);
-            let context = app
-                .active_window()
-                .map(|w| gtk::prelude::WidgetExt::display(&w).app_launch_context());
-
-            action.connect_activate(move |_, _| {
-                if let Err(err) =
-                    gio::AppInfo::launch_default_for_uri("help:pika-backup", context.as_ref())
-                {
-                    error!("Launch help error: {err}");
-                }
-            });
-            app.add_action(&action);
-
-            let action = gio::SimpleAction::new("quit", None);
-            action.connect_activate(glib::clone!(@weak app => move |_, _| {
-                debug!("Potential quit: Action app.quit (Ctrl+Q)");
-                Handler::run(async move { app.try_quit().await });
-            }));
-            app.add_action(&action);
-
-            let action = gio::SimpleAction::new("backup-preferences", None);
-            action.connect_activate(glib::clone!(@weak app => move |_, _| {
-                if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
-                    if app.main_window().page_detail().is_visible() {
-                        // Only display when the backup detail page is open
-                        ui::dialog_preferences::DialogPreferences::new(id.clone()).present();
-                    }
-                }
-            }));
-            app.add_action(&action);
-
-            let action = gio::SimpleAction::new("remove", None);
-            action.connect_activate(glib::clone!(@weak app => move |_, _| {
-                app.main_window().page_overview().remove_backup()}
-            ));
-            app.add_action(&action);
-        }
-
-        fn setup_accels(&self) {
-            let app = self.obj();
-            app.set_accels_for_action("app.help", &["F1"]);
-            app.set_accels_for_action("app.quit", &["<Ctrl>Q"]);
-            app.set_accels_for_action("app.setup", &["<Ctrl>N"]);
-            app.set_accels_for_action("app.backup-preferences", &["<Ctrl>comma"]);
-            app.set_accels_for_action("win.show-help-overlay", &["<Ctrl>question"]);
-        }
     }
 }
 
@@ -229,6 +139,90 @@ impl App {
 
     pub fn main_window(&self) -> AppWindow {
         self.imp().main_window()
+    }
+
+    fn setup_actions(&self) {
+        let actions = [
+            gio::ActionEntryBuilder::new("about")
+                .activate(|app: &Self, _, _| {
+                    let dialog = ui::about::window();
+                    dialog.set_transient_for(Some(&app.main_window()));
+                    dialog.present()
+                })
+                .build(),
+            gio::ActionEntryBuilder::new("setup")
+                .activate(|_app: &Self, _, _| ui::dialog_setup::show())
+                .build(),
+            gio::ActionEntryBuilder::new("help")
+                .activate(|app: &Self, _, _| {
+                    let context = app
+                        .active_window()
+                        .map(|w| gtk::prelude::WidgetExt::display(&w).app_launch_context());
+
+                    if let Err(err) =
+                        gio::AppInfo::launch_default_for_uri("help:pika-backup", context.as_ref())
+                    {
+                        error!("Launch help error: {err}");
+                    }
+                })
+                .build(),
+            gio::ActionEntryBuilder::new("quit")
+                .activate(|app: &Self, _, _| {
+                    debug!("Potential quit: Action app.quit (Ctrl+Q)");
+                    let app = app.clone();
+                    Handler::run(async move { app.try_quit().await });
+                })
+                .build(),
+            gio::ActionEntryBuilder::new("backup-preferences")
+                .activate(|app: &Self, _, _| {
+                    if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
+                        if app.main_window().page_detail().is_visible() {
+                            // Only display when the backup detail page is open
+                            ui::dialog_preferences::DialogPreferences::new(id.clone()).present();
+                        }
+                    }
+                })
+                .build(),
+            gio::ActionEntryBuilder::new("remove")
+                .activate(|app: &Self, _, _| app.main_window().page_overview().remove_backup())
+                .build(),
+            gio::ActionEntryBuilder::new("backup.start")
+                .parameter_type(Some(&String::static_variant_type()))
+                .activate(|app: &Self, _, config_id| {
+                    info!("action backup.start: called");
+                    if let Some(config_id) =
+                        config_id.and_then(|v| v.str()).map(ToString::to_string)
+                    {
+                        let guard = QuitGuard::default();
+                        app.main_window().page_detail().backup_page().start_backup(
+                            ConfigId::new(config_id),
+                            None,
+                            guard,
+                        );
+                    } else {
+                        error!("action backup.start: Did not receive valid config id");
+                    }
+                })
+                .build(),
+            gio::ActionEntryBuilder::new("backup.show")
+                .parameter_type(Some(&String::static_variant_type()))
+                .activate(|app: &Self, _, config_id| {
+                    if let Some(config_id) = config_id.and_then(|v| v.str()) {
+                        app.main_window()
+                            .view_backup_conf(&ConfigId::new(config_id.to_string()));
+                        app.activate();
+                    }
+                })
+                .build(),
+        ];
+
+        self.add_action_entries(actions);
+
+        self.set_accels_for_action("app.help", &["F1"]);
+        self.set_accels_for_action("app.quit", &["<Ctrl>Q"]);
+        self.set_accels_for_action("app.setup", &["<Ctrl>N"]);
+        self.set_accels_for_action("app.backup-preferences", &["<Ctrl>comma"]);
+        self.set_accels_for_action("win.show-help-overlay", &["<Ctrl>question"]);
     }
 
     pub async fn try_quit(&self) -> Result<()> {
