@@ -1,6 +1,6 @@
 use crate::ui::dialog_check::DialogCheck;
 use crate::ui::prelude::*;
-use crate::ui::widget::dialog::archive_prefix_dialog::ArchivePrefixDialog;
+use crate::ui::widget::ArchivePrefixDialog;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 

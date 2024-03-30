@@ -254,7 +254,7 @@ impl imp::SchedulePage {
         let mut config = BACKUP_CONFIG.load().active()?.clone();
         config.prune.keep = self.keep();
 
-        ui::dialog_prune_review::run(&config).await?;
+        ui::widget::dialog::prune_review_dialog::run(&config).await?;
 
         self.prune_write_changes().await?;
 

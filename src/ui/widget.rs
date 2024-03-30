@@ -25,6 +25,8 @@ pub use status_icon::StatusIcon;
 pub use status_row::StatusRow;
 pub use wrap_box::WrapBox;
 
+pub use dialog::*;
+
 use crate::ui;
 use glib::prelude::*;
 

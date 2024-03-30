@@ -14,7 +14,6 @@ mod dialog_exclude;
 mod dialog_exclude_pattern;
 mod dialog_preferences;
 mod dialog_prune;
-mod dialog_prune_review;
 mod dialog_setup;
 mod dialog_storage;
 mod error;

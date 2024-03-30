@@ -78,7 +78,7 @@ mod imp {
                     .err_to_msg(gettext("Invalid Archive Prefix"))?;
 
                 self.obj().close();
-                ui::dialog_prune_review::run(&config).await?;
+                ui::widget::dialog::prune_review_dialog::run(&config).await?;
             }
 
             let imp = self.ref_counted();
