@@ -4,7 +4,6 @@ use crate::borg;
 use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
-use ui::builder::DialogPrune;
 
 pub async fn run(config: &config::Backup) -> Result<()> {
     // First ensure the device is available to prevent overlapping dialogs

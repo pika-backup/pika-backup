@@ -23,7 +23,7 @@ impl imp::ArchivesPage {
         let configs = BACKUP_CONFIG.load();
         let config = configs.active()?;
 
-        ui::dialog_prune::run(config).await
+        ui::widget::dialog::prune_dialog::run(config).await
     }
 
     pub async fn edit_prefix(&self) -> Result<()> {
