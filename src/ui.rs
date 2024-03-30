@@ -1,11 +1,11 @@
 //! User interface
 
+mod about;
 mod app;
 mod backup_status;
 #[allow(dead_code)]
 mod builder;
 mod dbus;
-mod dialog_about;
 mod dialog_archive_prefix;
 mod dialog_check;
 mod dialog_delete_archive;

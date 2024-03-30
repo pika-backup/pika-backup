@@ -152,7 +152,11 @@ mod imp {
             app.add_action(&action);
 
             let action = gio::SimpleAction::new("about", None);
-            action.connect_activate(|_, _| ui::dialog_about::show());
+            action.connect_activate(glib::clone!(@weak app => move |_, _| {
+                let dialog = ui::about::window();
+                dialog.set_transient_for(Some(&app.main_window()));
+                dialog.present()
+            }));
             app.add_action(&action);
 
             let action = gio::SimpleAction::new("setup", None);
