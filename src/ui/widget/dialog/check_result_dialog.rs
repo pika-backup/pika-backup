@@ -74,7 +74,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct CheckResultDialog(ObjectSubclass<imp::CheckResultDialog>)
-        @extends gtk::Widget, gtk::Window, adw::Window;
+        @extends gtk::Widget, gtk::Window, adw::Window,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl CheckResultDialog {

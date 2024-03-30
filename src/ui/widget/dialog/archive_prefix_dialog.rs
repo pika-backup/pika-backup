@@ -3,66 +3,128 @@ use ui::prelude::*;
 
 use crate::config;
 use crate::ui;
-use ui::builder::DialogArchivePrefix;
 
-pub fn run(config: &config::Backup) {
-    let ui = DialogArchivePrefix::new();
+use adw::subclass::prelude::*;
 
-    ui.archive_prefix()
-        .set_text(&config.archive_prefix.to_string());
-    ui.archive_prefix().grab_focus();
+mod imp {
+    use super::*;
+    use std::cell::OnceCell;
 
-    ui.dialog().set_transient_for(Some(&main_ui().window()));
+    #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
+    #[properties(wrapper_type = super::ArchivePrefixDialog)]
+    #[template(file = "archive_prefix_dialog.ui")]
+    pub struct ArchivePrefixDialog {
+        #[property(get, set, construct_only)]
+        pub config_id: OnceCell<ConfigId>,
 
-    let config_id = config.id.clone();
-    ui.ok()
-        .connect_clicked(clone!(@weak ui, @strong config_id =>
-            move |_| Handler::new().error_transient_for(ui.dialog()).spawn(on_ok(ui, config_id.clone()))));
-
-    ui.dialog().present();
-
-    // ensure lifetime until window closes
-    let mutex = std::sync::Mutex::new(Some(ui.clone()));
-    ui.dialog().connect_close_request(move |_| {
-        *mutex.lock().unwrap() = None;
-        glib::Propagation::Proceed
-    });
-}
-
-async fn on_ok(ui: DialogArchivePrefix, config_id: ConfigId) -> Result<()> {
-    let new_prefix = ui.archive_prefix().text();
-    let mut config = BACKUP_CONFIG.load().try_get(&config_id)?.clone();
-
-    if config.prune.enabled {
-        config
-            .set_archive_prefix(
-                config::ArchivePrefix::new(&new_prefix),
-                BACKUP_CONFIG.load().iter(),
-            )
-            .err_to_msg(gettext("Invalid Archive Prefix"))?;
-
-        ui.dialog().close();
-        ui::dialog_prune_review::run(&config).await?;
+        #[template_child]
+        archive_prefix: TemplateChild<adw::EntryRow>,
     }
 
-    BACKUP_CONFIG.try_update(enclose!(
-        (config_id, new_prefix) | config | {
-            config
-                .try_get_mut(&config_id)?
-                .set_archive_prefix(
-                    config::ArchivePrefix::new(&new_prefix),
-                    BACKUP_CONFIG.load().iter(),
-                )
-                .err_to_msg(gettext("Invalid Archive Prefix"))?;
+    #[glib::object_subclass]
+    impl ObjectSubclass for ArchivePrefixDialog {
+        const NAME: &'static str = "PkArchivePrefixDialog";
+        type Type = super::ArchivePrefixDialog;
+        type ParentType = adw::Window;
+
+        fn class_init(klass: &mut Self::Class) {
+            klass.bind_template();
+            klass.bind_template_callbacks();
+        }
+
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
+            obj.init_template();
+        }
+    }
+
+    #[glib::derived_properties]
+    impl ObjectImpl for ArchivePrefixDialog {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let Ok(config) = self.config() else {
+                return;
+            };
+
+            self.archive_prefix
+                .set_text(&config.archive_prefix.to_string());
+            self.archive_prefix.grab_focus();
+        }
+    }
+
+    impl WidgetImpl for ArchivePrefixDialog {}
+    impl WindowImpl for ArchivePrefixDialog {}
+    impl AdwWindowImpl for ArchivePrefixDialog {}
+
+    #[gtk::template_callbacks]
+    impl ArchivePrefixDialog {
+        fn config(&self) -> Result<crate::config::Backup> {
+            match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
+                Ok(backup) => Ok(backup.clone()),
+                Err(err) => Err(crate::ui::Error::from(err)),
+            }
+        }
+
+        async fn save(&self) -> Result<()> {
+            let new_prefix = self.archive_prefix.text();
+
+            let mut config = self.config()?;
+            if config.prune.enabled {
+                config
+                    .set_archive_prefix(
+                        config::ArchivePrefix::new(&new_prefix),
+                        BACKUP_CONFIG.load().iter(),
+                    )
+                    .err_to_msg(gettext("Invalid Archive Prefix"))?;
+
+                self.obj().close();
+                ui::dialog_prune_review::run(&config).await?;
+            }
+
+            let imp = self.ref_counted();
+            BACKUP_CONFIG.try_update(enclose!(
+                (imp) | config | {
+                    config
+                        .try_get_mut(imp.config_id.get().unwrap())?
+                        .set_archive_prefix(
+                            config::ArchivePrefix::new(&new_prefix),
+                            BACKUP_CONFIG.load().iter(),
+                        )
+                        .err_to_msg(gettext("Invalid Archive Prefix"))?;
+                    Ok(())
+                }
+            ))?;
+
+            main_ui()
+                .page_detail()
+                .archives_page()
+                .update_info(BACKUP_CONFIG.load().active()?);
+
+            self.obj().close();
+
             Ok(())
         }
-    ))?;
 
-    main_ui()
-        .page_detail()
-        .archives_page()
-        .update_info(BACKUP_CONFIG.load().active()?);
-    ui.dialog().destroy();
+        #[template_callback]
+        async fn on_save(&self) {
+            let obj = self.obj().clone();
+            Handler::new()
+                .error_transient_for(obj.clone())
+                .spawn(async move { obj.imp().save().await });
+        }
+    }
+}
 
-    Ok(())
+glib::wrapper! {
+    pub struct ArchivePrefixDialog(ObjectSubclass<imp::ArchivePrefixDialog>)
+    @extends gtk::Widget, gtk::Window, adw::Window,
+    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl ArchivePrefixDialog {
+    pub fn new(config_id: ConfigId) -> Self {
+        glib::Object::builder()
+            .property("config-id", config_id)
+            .build()
+    }
 }

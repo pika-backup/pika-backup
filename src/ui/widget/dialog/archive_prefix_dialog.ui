@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="AdwWindow" id="dialog">
+  <template class="PkArchivePrefixDialog" parent="AdwWindow">
     <property name="title" translatable="yes">Archive Prefix</property>
     <property name="default-width">500</property>
     <property name="modal">1</property>
@@ -24,14 +24,15 @@
             <property name="show-start-title-buttons">0</property>
             <property name="show-end-title-buttons">0</property>
             <child type="start">
-              <object class="GtkButton" id="cancel">
+              <object class="GtkButton">
                 <property name="label" translatable="yes">Cancel</property>
                 <property name="action-name">window.close</property>
               </object>
             </child>
             <child type="end">
-              <object class="GtkButton" id="ok">
+              <object class="GtkButton">
                 <property name="label" translatable="yes">Save</property>
+                <signal name="clicked" handler="on_save" swapped="true"/>
                 <style>
                   <class name="suggested-action"/>
                 </style>
@@ -100,5 +101,5 @@
         </property>
       </object>
     </property>
-  </object>
+  </template>
 </interface>
