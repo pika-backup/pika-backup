@@ -214,3 +214,11 @@ impl OverviewPage {
         Ok(())
     }
 }
+
+impl HasAppWindow for OverviewPage {
+    fn app_window(&self) -> super::AppWindow {
+        self.root()
+            .and_downcast()
+            .expect("PkOverviewPage must be inside PkAppWindow")
+    }
+}

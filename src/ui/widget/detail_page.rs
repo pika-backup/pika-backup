@@ -142,3 +142,11 @@ impl DetailPage {
         &self.imp().page_schedule
     }
 }
+
+impl HasAppWindow for DetailPage {
+    fn app_window(&self) -> super::AppWindow {
+        self.root()
+            .and_downcast()
+            .expect("PkDetailPage must be inside PkAppWindow")
+    }
+}

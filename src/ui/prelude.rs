@@ -62,3 +62,11 @@ where
         result
     }
 }
+
+pub trait HasAppWindow {
+    fn app_window(&self) -> super::widget::AppWindow;
+
+    fn app(&self) -> super::App {
+        self.app_window().app()
+    }
+}

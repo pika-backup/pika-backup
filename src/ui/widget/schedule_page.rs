@@ -249,3 +249,11 @@ impl SchedulePage {
         }
     }
 }
+
+impl HasAppWindow for SchedulePage {
+    fn app_window(&self) -> super::AppWindow {
+        self.root()
+            .and_downcast()
+            .expect("PkSchedulePage must be inside PkAppWindow")
+    }
+}

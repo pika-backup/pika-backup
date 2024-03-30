@@ -195,3 +195,11 @@ impl ArchivesPage {
         self.imp().update_info(config)
     }
 }
+
+impl HasAppWindow for ArchivesPage {
+    fn app_window(&self) -> super::AppWindow {
+        self.root()
+            .and_downcast()
+            .expect("PkArchivesPage must be inside PkAppWindow")
+    }
+}
