@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-03-18 11:52+0000\n"
-"PO-Revision-Date: 2024-03-18 10:20-0300\n"
+"POT-Creation-Date: 2024-03-30 14:07+0000\n"
+"PO-Revision-Date: 2024-03-30 11:17-0300\n"
 "Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-DL-Team: pt_BR\n"
 "X-DL-Module: pika-backup\n"
 "X-DL-Branch: main\n"
@@ -35,11 +35,10 @@ msgstr "Monitor do Pika Backup"
 
 # De acordo com a Wikipedia em [1]: "Ochotona é um gênero de mamíferos da família Ochotonidae. Na nomenclatura vernácula são chamados de pikas, lebres-assobiadoras, lágomis e coneys". Segundo o portal EnfoqueMS em [2] "os Ochotona iliensis, os pikas-de-ili estão em extinção". [1]<https://pt.wikipedia.org/wiki/Ochotona>[2]<https://www.enfoquems.com.br/ele-existe-pikachu-e-um-coelho-magico-e-foi-fotografado-na-china/>.
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
-#.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/dialog_about.rs:19
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/about.rs:12
 #: src/ui/utils.rs:367 src/ui/utils.rs:429 src/ui/widget/app_window.ui:10
 #: src/ui/widget/overview_page.ui:22
 msgid "Pika Backup"
@@ -61,7 +60,7 @@ msgstr ""
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 src/ui/dialog_about.rs:34
+#: data/app.metainfo.xml.in:9 src/ui/about.rs:18
 msgid "Small Mammal Collective"
 msgstr "Small Mammal Collective"
 
@@ -138,7 +137,7 @@ msgstr "Define novo backup"
 msgid "Show keyboard shortcuts"
 msgstr "Mostra atalhos de teclado"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:276
+#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:272
 msgid "Quit"
 msgstr "Sai"
 
@@ -468,43 +467,47 @@ msgstr "ID do repositório do repositório borg"
 msgid "The full URL passed to borgbackup"
 msgstr "O URL completo passado para borgbackup"
 
-#: src/borg/scripts.rs:103
+#. Translators: Do not translate '0' and '1' here, this is documentation
+#. for possible variable values
+#: src/borg/scripts.rs:106
 msgid "0: manual backup, 1: started from a schedule"
 msgstr "0: backup manual, 1: iniciado a partir de um agendamento"
 
-#: src/borg/scripts.rs:106
-msgid "Either <tt>COMPLETED</tt>, <tt>ABORTED</tt> or <tt>FAILED</tt>"
-msgstr "Pode ser <tt>COMPLETADO</tt>, <tt>ABORTADO</tt> ou <tt>FALHADO</tt>"
+#. Translators: String uses pango markup. Do not translate capslocked words
+#. they are values for a variable.
+#: src/borg/scripts.rs:111
+msgid "Either “<tt>COMPLETED</tt>”, “<tt>ABORTED</tt>” or “<tt>FAILED</tt>”"
+msgstr "Pode ser <tt>COMPLETED</tt>, <tt>ABORTED</tt> ou <tt>FAILED</tt>"
 
-#: src/borg/scripts.rs:108
+#: src/borg/scripts.rs:113
 msgid "An error/warning message"
 msgstr "Uma mensagem de erro/aviso"
 
-#: src/borg/scripts.rs:109
+#: src/borg/scripts.rs:114
 msgid "The ID of the created backup archive"
 msgstr "O ID do arquivo de backup criado"
 
-#: src/borg/scripts.rs:110
+#: src/borg/scripts.rs:115
 msgid "The name of the created backup archive"
 msgstr "O nome do arquivo de backup criado"
 
-#: src/borg/scripts.rs:112
+#: src/borg/scripts.rs:117
 msgid "The total amount of bytes referenced by this archive"
 msgstr "A quantidade total de bytes referenciados por este arquivo"
 
-#: src/borg/scripts.rs:115
+#: src/borg/scripts.rs:120
 msgid "The compressed size of all data references by this archive"
 msgstr "O tamanho compactado de todas as referências de dados deste arquivo"
 
-#: src/borg/scripts.rs:118
+#: src/borg/scripts.rs:123
 msgid "The deduplicated amount of bytes for this archive"
 msgstr "A quantidade deduplicada de bytes deste arquivo"
 
-#: src/borg/scripts.rs:120
+#: src/borg/scripts.rs:125
 msgid "The amount of files saved in this archive"
 msgstr "A quantidade de arquivos salvos neste arquivo"
 
-#: src/borg/scripts.rs:271
+#: src/borg/scripts.rs:276
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -512,7 +515,7 @@ msgstr ""
 "O comando pré-backup configurado nas preferências falhou ao ser executado.\n"
 "{}"
 
-#: src/borg/scripts.rs:275
+#: src/borg/scripts.rs:280
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -520,14 +523,14 @@ msgstr ""
 "O comando pós-backup configurado nas preferências falhou ao ser executado.\n"
 "{}"
 
-#: src/borg/scripts.rs:301
+#: src/borg/scripts.rs:306
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
 "O comando pré-backup configurado nas preferências retornou um código de "
 "falha: {}"
 
-#: src/borg/scripts.rs:305
+#: src/borg/scripts.rs:310
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -814,31 +817,115 @@ msgstr "Falha ao verificar a versão do BorgBackup"
 msgid "The installed version {} might not work."
 msgstr "A versão instalada {} pode não funcionar."
 
-#: src/ui/app.rs:247
+#: src/ui/about.rs:20
+msgid "Sophie Herold <sophieherold@gnome.org>"
+msgstr "Sophie Herold <sophieherold@gnome.org>"
+
+#: src/ui/about.rs:21
+msgid "Fina Wilke <finaw@gnome.org>"
+msgstr "Fina Wilke <finaw@gnome.org>"
+
+#: src/ui/about.rs:23
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "Copyright © 2018–2023 Sophie Herold et al."
+
+#: src/ui/about.rs:24
+msgid "translator-credits"
+msgstr ""
+"Enrico Nicoletto <liverig@gmail.com>\n"
+"Rafael Fontenelle <rafaelff@gnome.org>\n"
+"Matheus Barbosa <mdpb.matheus@gmail.com>\n"
+"Leônidas Araújo <leorusvellt@hotmail.com>"
+
+#: src/ui/about.rs:26
+msgid "Jakub Steiner"
+msgstr "Jakub Steiner"
+
+#: src/ui/about.rs:27
+msgid "Tobias Bernard"
+msgstr "Tobias Bernard"
+
+# Leônidas -- Verficar se será mantido a expressão original
+#: src/ui/about.rs:30
+msgid "Back End"
+msgstr "Processos"
+
+#: src/ui/about.rs:31
+msgid ""
+"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
+"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
+"BorgBackup</a>."
+msgstr ""
+"Pika Backup usa BorgBackup. Este aplicativo não existiria sem Borg. "
+"Considere <a href='https://www.borgbackup.org/support/fund.html'>apoiar o "
+"BorgBackup</a>."
+
+#: src/ui/about.rs:32
+msgid "The Name"
+msgstr "O Nome"
+
+#: src/ui/about.rs:33
+msgid ""
+"The name “Pika Backup” derives from the American pika. Pikas are small "
+"mammals belonging to the lagomorphs. The American pika is known for caching "
+"food in skillfully constructed haypiles. Techniques used by American pikas "
+"for building haypiles include: storing piles below overhanging rocks, using "
+"certain plants which inhibit bacterial growth as preservative and preferring "
+"plants with high nutrition value for haying. Last but not least, pikas do "
+"not only create very sophisticated haypiles but are quick in collecting "
+"vegetation as well."
+msgstr ""
+"O nome “Pika Backup” deriva do pika americano. Pikas são pequenos mamíferos "
+"pertencentes aos lagomorfos. O pika americano é conhecido por armazenar "
+"alimentos em pilhas de feno habilmente construídas. As técnicas usadas pelos "
+"pikas americanos para construir pilhas de feno incluem: armazenar pilhas "
+"abaixo de rochas salientes, usar certas plantas que inibem o crescimento "
+"bacteriano como conservantes e preferir plantas com alto valor nutricional "
+"para feno. Por último, mas não menos importante, os pikas não apenas criam "
+"pilhas de feno muito sofisticadas, mas também são rápidos em coletar "
+"vegetação."
+
+#: src/ui/about.rs:34
+msgid ""
+"Frequent rumors that this software’s name is related to a monster with "
+"electrical abilities are unfounded."
+msgstr ""
+"Rumores frequentes de que o nome deste software está relacionado a um "
+"monstro com habilidades elétricas são infundados."
+
+#: src/ui/about.rs:40
+msgid "Support us on Open Collective"
+msgstr "Apoie-nos no Open Collective"
+
+#: src/ui/about.rs:44
+msgid "Support us on GitHub Sponsors"
+msgstr "Apoie-nos nos patrocinadores do GitHub"
+
+#: src/ui/app.rs:243
 msgid "Abort running backup creation?"
 msgstr "Anular a criação do backup em execução?"
 
-#: src/ui/app.rs:248
+#: src/ui/app.rs:244
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se anulado agora."
 
-#: src/ui/app.rs:249 src/ui/dialog_setup.ui:481 src/ui/utils.rs:385
+#: src/ui/app.rs:245 src/ui/dialog_setup.ui:481 src/ui/utils.rs:385
 #: src/ui/widget/backup_page/events.rs:24
 #: src/ui/widget/backup_page/events.rs:33
 #: src/ui/widget/backup_page/events.rs:42
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui/app.rs:250 src/ui/utils.rs:384 src/ui/widget/backup_page/events.rs:34
+#: src/ui/app.rs:246 src/ui/utils.rs:384 src/ui/widget/backup_page/events.rs:34
 #: src/ui/widget/backup_page/events.rs:43
 msgid "Abort"
 msgstr "Anular"
 
-#: src/ui/app.rs:261
+#: src/ui/app.rs:257
 msgid "A Backup Operation is Running"
 msgstr "Operação de backup em execução"
 
-#: src/ui/app.rs:263
+#: src/ui/app.rs:259
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "O Pika Backup não pode ser fechado enquanto executa um backup."
 
@@ -931,82 +1018,6 @@ msgstr "Parando o backup"
 #: src/ui/dbus.rs:67
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Falha ao gerar interface para backups agendados."
-
-#: src/ui/dialog_about.rs:25
-msgid "Support us on Open Collective"
-msgstr "Apoie-nos no Open Collective"
-
-#: src/ui/dialog_about.rs:29
-msgid "Support us on GitHub Sponsors"
-msgstr "Apoie-nos nos patrocinadores do GitHub"
-
-#: src/ui/dialog_about.rs:36
-msgid "Sophie Herold <sophieherold@gnome.org>"
-msgstr "Sophie Herold <sophieherold@gnome.org>"
-
-#: src/ui/dialog_about.rs:37
-msgid "Fina Wilke <finaw@gnome.org>"
-msgstr "Fina Wilke <finaw@gnome.org>"
-
-#: src/ui/dialog_about.rs:39
-msgid "Copyright © 2018–2023 Sophie Herold et al."
-msgstr "Copyright © 2018–2023 Sophie Herold et al."
-
-#: src/ui/dialog_about.rs:40
-msgid "translator-credits"
-msgstr ""
-"Enrico Nicoletto <liverig@gmail.com>\n"
-"Rafael Fontenelle <rafaelff@gnome.org>\n"
-"Matheus Barbosa <mdpb.matheus@gmail.com>\n"
-"Leônidas Araújo <leorusvellt@hotmail.com>"
-
-# Leônidas -- Verficar se será mantido a expressão original
-#: src/ui/dialog_about.rs:44
-msgid "Back End"
-msgstr "Processos"
-
-#: src/ui/dialog_about.rs:46
-msgid ""
-"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
-"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
-"BorgBackup</a>."
-msgstr ""
-"Pika Backup usa BorgBackup. Este aplicativo não existiria sem Borg. "
-"Considere <a href='https://www.borgbackup.org/support/fund.html'>apoiar o "
-"BorgBackup</a>."
-
-#: src/ui/dialog_about.rs:48
-msgid "The Name"
-msgstr "O Nome"
-
-#: src/ui/dialog_about.rs:50
-msgid ""
-"The name “Pika Backup” derives from the American pika. Pikas are small "
-"mammals belonging to the lagomorphs. The American pika is known for caching "
-"food in skillfully constructed haypiles. Techniques used by American pikas "
-"for building haypiles include: storing piles below overhanging rocks, using "
-"certain plants which inhibit bacterial growth as preservative and preferring "
-"plants with high nutrition value for haying. Last but not least, pikas do "
-"not only create very sophisticated haypiles but are quick in collecting "
-"vegetation as well."
-msgstr ""
-"O nome “Pika Backup” deriva do pika americano. Pikas são pequenos mamíferos "
-"pertencentes aos lagomorfos. O pika americano é conhecido por armazenar "
-"alimentos em pilhas de feno habilmente construídas. As técnicas usadas pelos "
-"pikas americanos para construir pilhas de feno incluem: armazenar pilhas "
-"abaixo de rochas salientes, usar certas plantas que inibem o crescimento "
-"bacteriano como conservantes e preferir plantas com alto valor nutricional "
-"para feno. Por último, mas não menos importante, os pikas não apenas criam "
-"pilhas de feno muito sofisticadas, mas também são rápidos em coletar "
-"vegetação."
-
-#: src/ui/dialog_about.rs:52
-msgid ""
-"Frequent rumors that this software’s name is related to a monster with "
-"electrical abilities are unfounded."
-msgstr ""
-"Rumores frequentes de que o nome deste software está relacionado a um "
-"monstro com habilidades elétricas são infundados."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
 #: src/ui/dialog_setup/display.rs:169
@@ -1613,7 +1624,7 @@ msgid "_Save"
 msgstr "_Salvar"
 
 #: src/ui/dialog_setup.ui:644 src/ui/dialog_setup.ui:659
-#: src/ui/dialog_setup/insert.rs:145
+#: src/ui/dialog_setup/insert.rs:147
 msgid "Creating Backup Repository"
 msgstr "Criando repositório de backup"
 
@@ -1654,27 +1665,27 @@ msgstr "Local remoto inválido"
 msgid "A repository location has to be given."
 msgstr "Um local de repositório deve ser fornecido."
 
-#: src/ui/dialog_setup/insert.rs:154
+#: src/ui/dialog_setup/insert.rs:156
 msgid "Getting Repository Information"
 msgstr "Carregando informação do repositório"
 
-#: src/ui/dialog_setup/insert.rs:200
+#: src/ui/dialog_setup/insert.rs:199
 msgid "Loading Backup Repository"
 msgstr "Carregando repositório de backup"
 
-#: src/ui/dialog_setup/insert.rs:220
+#: src/ui/dialog_setup/insert.rs:219
 msgid "Failed to Configure Repository"
 msgstr "Falha ao configurar o repositório"
 
-#: src/ui/dialog_setup/insert.rs:242
+#: src/ui/dialog_setup/insert.rs:238
 msgid "Failed"
 msgstr "Falhou"
 
-#: src/ui/dialog_setup/insert.rs:301
+#: src/ui/dialog_setup/insert.rs:298
 msgid "Repository location not found."
 msgstr "Local do repositório não encontrado."
 
-#: src/ui/dialog_setup/insert.rs:302
+#: src/ui/dialog_setup/insert.rs:299
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Uma operação de montagem foi bem-sucedida, mas o local ainda não está "
