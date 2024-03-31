@@ -111,7 +111,7 @@
       </object>
     </property>
   </object>
-  <template class="DialogPreferences" parent="AdwPreferencesWindow">
+  <template class="PkPreferencesDialog" parent="AdwPreferencesWindow">
     <child>
       <object class="AdwPreferencesPage">
         <property name="icon-name">network-server-symbolic</property>
@@ -123,7 +123,7 @@
             <child>
               <object class="AdwEntryRow" id="title_entry">
                 <property name="title" translatable="yes">Title</property>
-                <property name="text" bind-source="DialogPreferences" bind-property="config_title" bind-flags="sync-create|bidirectional" />
+                <property name="text" bind-source="PkPreferencesDialog" bind-property="config_title" bind-flags="sync-create|bidirectional" />
               </object>
             </child>
           </object>
@@ -153,7 +153,7 @@
               <object class="AdwSwitchRow" id="run_on_battery_switch">
                 <property name="title" translatable="yes">Run on Battery</property>
                 <property name="subtitle" translatable="yes">Allow scheduled backups when device is battery powered</property>
-                <property name="active" bind-source="DialogPreferences" bind-property="schedule_run_on_battery" bind-flags="bidirectional|sync-create" />
+                <property name="active" bind-source="PkPreferencesDialog" bind-property="schedule_run_on_battery" bind-flags="bidirectional|sync-create" />
               </object>
             </child>
           </object>
@@ -165,7 +165,7 @@
             <child>
               <object class="AdwEntryRow" id="command_line_args_entry">
                 <property name="title" translatable="yes">Command line arguments</property>
-                <property name="text" bind-source="DialogPreferences" bind-property="command_line_args" bind-flags="sync-create|bidirectional" />
+                <property name="text" bind-source="PkPreferencesDialog" bind-property="command_line_args" bind-flags="sync-create|bidirectional" />
                 <style>
                   <class name="monospace"/>
                 </style>
@@ -190,7 +190,7 @@
             <child>
               <object class="AdwEntryRow" id="pre_backup_command_entry">
                 <property name="title" translatable="yes">Pre-Backup Shell Command</property>
-                <property name="text" bind-source="DialogPreferences" bind-property="pre_backup_command" bind-flags="sync-create|bidirectional" />
+                <property name="text" bind-source="PkPreferencesDialog" bind-property="pre_backup_command" bind-flags="sync-create|bidirectional" />
                 <child type="suffix">
                   <object class="GtkButton" id="pre_backup_command_test_button">
                     <property name="icon-name">play-large-symbolic</property>
@@ -211,7 +211,7 @@
             <child>
               <object class="AdwEntryRow" id="post_backup_command_entry">
                 <property name="title" translatable="yes">Post-Backup Shell Command</property>
-                <property name="text" bind-source="DialogPreferences" bind-property="post_backup_command" bind-flags="sync-create|bidirectional" />
+                <property name="text" bind-source="PkPreferencesDialog" bind-property="post_backup_command" bind-flags="sync-create|bidirectional" />
                 <child type="suffix">
                   <object class="GtkButton" id="post_backup_command_test_button">
                     <property name="icon-name">play-large-symbolic</property>

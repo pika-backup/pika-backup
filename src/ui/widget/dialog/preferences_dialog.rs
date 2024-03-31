@@ -13,9 +13,9 @@ mod imp {
     use std::cell::{Cell, RefCell};
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
-    #[properties(wrapper_type = super::DialogPreferences)]
-    #[template(file = "dialog_preferences.ui")]
-    pub struct DialogPreferences {
+    #[properties(wrapper_type = super::PreferencesDialog)]
+    #[template(file = "preferences_dialog.ui")]
+    pub struct PreferencesDialog {
         #[property(get, set, construct_only)]
         pub config_id: OnceCell<ConfigId>,
 
@@ -80,9 +80,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for DialogPreferences {
-        const NAME: &'static str = "DialogPreferences";
-        type Type = super::DialogPreferences;
+    impl ObjectSubclass for PreferencesDialog {
+        const NAME: &'static str = "PkPreferencesDialog";
+        type Type = super::PreferencesDialog;
         type ParentType = adw::PreferencesWindow;
 
         fn class_init(klass: &mut Self::Class) {
@@ -95,7 +95,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for DialogPreferences {
+    impl ObjectImpl for PreferencesDialog {
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -117,9 +117,9 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for DialogPreferences {}
+    impl WidgetImpl for PreferencesDialog {}
 
-    impl WindowImpl for DialogPreferences {
+    impl WindowImpl for PreferencesDialog {
         fn close_request(&self) -> glib::Propagation {
             let write_result = BACKUP_CONFIG.try_update(|c| {
                 let backup = c.try_get_mut(self.config_id.get().unwrap())?;
@@ -193,12 +193,12 @@ mod imp {
         }
     }
 
-    impl AdwWindowImpl for DialogPreferences {}
+    impl AdwWindowImpl for PreferencesDialog {}
 
-    impl PreferencesWindowImpl for DialogPreferences {}
+    impl PreferencesWindowImpl for PreferencesDialog {}
 
     #[gtk::template_callbacks]
-    impl DialogPreferences {
+    impl PreferencesDialog {
         fn config(&self) -> Result<crate::config::Backup> {
             match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
                 Ok(backup) => Ok(backup.clone()),
@@ -531,11 +531,11 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct DialogPreferences(ObjectSubclass<imp::DialogPreferences>)
+    pub struct PreferencesDialog(ObjectSubclass<imp::PreferencesDialog>)
         @extends gtk::Widget, gtk::Window, adw::Window, adw::PreferencesWindow;
 }
 
-impl DialogPreferences {
+impl PreferencesDialog {
     pub fn new(config_id: ConfigId) -> Self {
         glib::Object::builder()
             .property("config-id", config_id)

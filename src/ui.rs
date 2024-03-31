@@ -8,7 +8,6 @@ mod builder;
 mod dbus;
 mod dialog_device_missing;
 mod dialog_encryption_password;
-mod dialog_preferences;
 mod dialog_setup;
 mod dialog_storage;
 mod error;

@@ -9,6 +9,7 @@ use config::TrackChanges;
 
 use super::shell;
 use super::widget::AppWindow;
+use super::widget::PreferencesDialog;
 
 mod imp {
     use std::cell::Cell;
@@ -178,7 +179,7 @@ impl App {
                     if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
                         if app.main_window().page_detail().is_visible() {
                             // Only display when the backup detail page is open
-                            ui::dialog_preferences::DialogPreferences::new(id.clone()).present();
+                            PreferencesDialog::new(id.clone()).present();
                         }
                     }
                 })
