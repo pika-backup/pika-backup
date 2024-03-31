@@ -394,11 +394,11 @@ pub async fn show_borg_question(
     }
 }
 
-pub async fn show_error_transient_for(
+pub async fn show_error_transient_for<W: IsA<gtk::Window>>(
     message: impl std::fmt::Display,
     detail: impl std::fmt::Display,
     notification_id: Option<&str>,
-    window: &impl IsA<gtk::Window>,
+    window: impl Into<Option<&W>>,
 ) {
     let primary_text = ellipsize_multiline(message);
     let secondary_text = ellipsize_multiline(detail);
@@ -417,11 +417,11 @@ pub async fn show_error_transient_for(
     {
         let dialog = adw::MessageDialog::builder()
             .modal(true)
-            .transient_for(window)
             .heading(&primary_text)
             .body(&secondary_text)
             .build();
 
+        dialog.set_transient_for(window.into());
         dialog.add_responses(&[("close", &gettext("Close"))]);
         dialog.choose_future().await;
     } else {

@@ -68,8 +68,6 @@ mod imp {
     #[gtk::template_callbacks]
     impl PruneDialog {
         pub(super) async fn delete(&self, config: &crate::config::Backup) -> Result<()> {
-            self.obj().close();
-
             let guard = QuitGuard::default();
             let result = ui::utils::borg::exec(
                 borg::Command::<borg::task::Prune>::new(config.clone()),

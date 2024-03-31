@@ -74,7 +74,7 @@ impl Message {
         self.show_transient_for(&main_ui().window()).await;
     }
 
-    pub async fn show_transient_for<W: IsA<gtk::Window>>(&self, window: &W) {
+    pub async fn show_transient_for<W: IsA<gtk::Window>>(&self, window: impl Into<Option<&W>>) {
         if let Some(secondary) = &self.secondary_text {
             ui::utils::show_error_transient_for(
                 &self.text,
@@ -234,15 +234,21 @@ impl<W: IsA<gtk::Window>> Handler<W> {
 }
 
 pub trait HandleError<T> {
-    async fn handle_transient_for(self, window: &impl IsA<gtk::Window>) -> Option<T>;
+    async fn handle_transient_for<W: IsA<gtk::Window>>(
+        self,
+        window: impl Into<Option<&W>>,
+    ) -> Option<T>;
 }
 
 impl<T> HandleError<T> for Result<T> {
-    async fn handle_transient_for(self, window: &impl IsA<gtk::Window>) -> Option<T> {
+    async fn handle_transient_for<W: IsA<gtk::Window>>(
+        self,
+        window: impl Into<Option<&W>>,
+    ) -> Option<T> {
         match self {
             Ok(res) => Some(res),
             Err(Error::Message(err)) => {
-                err.show_transient_for(window).await;
+                err.show_transient_for(window.into()).await;
                 None
             }
             Err(Error::UserCanceled) => None,

@@ -58,8 +58,6 @@ mod imp {
         }
 
         async fn delete(&self) -> Result<()> {
-            self.obj().close();
-
             let config = self
                 .config
                 .get()
@@ -93,8 +91,11 @@ mod imp {
 
         #[template_callback]
         async fn on_delete(&self) {
-            self.delete().await.handle_transient_for(&*self.obj()).await;
             self.obj().close();
+            self.delete()
+                .await
+                .handle_transient_for(self.obj().transient_for().as_ref())
+                .await;
         }
     }
 }
