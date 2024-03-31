@@ -115,6 +115,6 @@ impl imp::ArchivesPage {
             .unwrap_or_else(|| archive.start.to_string())
             .clone();
 
-        ui::dialog_delete_archive::run(config, archive_name, archive_date).await
+        ui::widget::dialog::delete_archive_dialog::run(config, archive_name, archive_date).await
     }
 }

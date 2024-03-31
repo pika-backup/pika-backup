@@ -1,6 +1,7 @@
 mod archive_prefix_dialog;
 mod check_dialog;
 mod check_result_dialog;
+pub mod delete_archive_dialog;
 mod exclude_dialog;
 mod prune_dialog;
 mod prune_review_dialog;
