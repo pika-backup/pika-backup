@@ -115,7 +115,7 @@ impl imp::BackupPage {
                                     return;
                                 };
 
-                                let dialog = ExcludeDialog::new(&active);
+                                let dialog = ExcludeDialog::new(active);
                                 dialog.present_edit_exclude(&window, exclude.clone());
                             }),
                         );

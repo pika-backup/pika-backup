@@ -2,8 +2,8 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="AdwWindow" id="dialog">
-    <property name="title" translatable="yes"/>
+  <template class="PkDeleteArchiveDialog" parent="AdwWindow">
+    <property name="title" translatable="yes">Delete Archive</property>
     <property name="modal">1</property>
     <property name="default-width">430</property>
     <child>
@@ -20,24 +20,7 @@
     <property name="content">
       <object class="AdwToolbarView" id="page_decision">
         <child type="top">
-          <object class="AdwHeaderBar">
-            <property name="show-end-title-buttons">0</property>
-            <property name="show-start-title-buttons">0</property>
-            <child>
-              <object class="GtkButton" id="cancel">
-                <property name="label" translatable="yes">Cancel</property>
-                <property name="action-name">window.close</property>
-              </object>
-            </child>
-            <child type="end">
-              <object class="GtkButton" id="delete">
-                <property name="label" translatable="yes">Delete Archive</property>
-                <style>
-                  <class name="destructive-action"/>
-                </style>
-              </object>
-            </child>
-          </object>
+          <object class="AdwHeaderBar"/>
         </child>
         <property name="content">
           <object class="AdwPreferencesPage">
@@ -53,29 +36,19 @@
                       <class name="boxed-list"/>
                     </style>
                     <child>
-                      <object class="AdwActionRow">
+                      <object class="AdwActionRow" id="name">
                         <property name="title" translatable="yes">Archive Name</property>
-                        <child>
-                          <object class="GtkLabel" id="name">
-                            <property name="label">&lt;placeholder&gt;</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
+                        <style>
+                          <class name="property"/>
+                        </style>
                       </object>
                     </child>
                     <child>
-                      <object class="AdwActionRow">
+                      <object class="AdwActionRow" id="date">
                         <property name="title" translatable="yes">Archive Date</property>
-                        <child>
-                          <object class="GtkLabel" id="date">
-                            <property name="label">&lt;placeholder&gt;</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                        </child>
+                        <style>
+                          <class name="property"/>
+                        </style>
                       </object>
                     </child>
                   </object>
@@ -84,7 +57,20 @@
             </child>
           </object>
         </property>
+        <child type="bottom">
+          <object class="GtkButton">
+            <property name="label" translatable="yes">Delete Archive</property>
+            <signal name="clicked" handler="on_delete" swapped="true"/>
+            <property name="halign">center</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <style>
+              <class name="pill"/>
+              <class name="destructive-action"/>
+            </style>
+          </object>
+        </child>
       </object>
     </property>
-  </object>
+  </template>
 </interface>

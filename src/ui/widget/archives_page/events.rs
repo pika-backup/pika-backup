@@ -98,7 +98,7 @@ impl imp::ArchivesPage {
         self.show_dir(&first_populated_dir).await
     }
 
-    pub async fn delete_archive(
+    pub fn delete_archive(
         &self,
         archive_name: borg::ArchiveName,
         archive: borg::ListArchive,
@@ -114,7 +114,14 @@ impl imp::ArchivesPage {
             .to_locale()
             .unwrap_or_else(|| archive.start.to_string())
             .clone();
+        let window = self.obj().app_window();
 
-        ui::widget::dialog::delete_archive_dialog::run(config, archive_name, archive_date).await
+        ui::widget::dialog::DeleteArchiveDialog::new(config).present_with_archive(
+            &window,
+            archive_name,
+            archive_date,
+        );
+
+        Ok(())
     }
 }

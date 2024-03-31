@@ -227,7 +227,7 @@ impl imp::ArchivesPage {
             delete_row.connect_activated(glib::clone!(@weak obj => move |_| {
                 let name = archive_name.clone();
                 let archive = archive.clone();
-                Handler::run(async move { obj.imp().delete_archive(name, archive).await });
+                Handler::run(async move { obj.imp().delete_archive(name, archive) });
             }));
 
             self.list.append(&row);
