@@ -1,5 +1,6 @@
 use crate::borg;
 use crate::prelude::*;
+use gio::prelude::*;
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::path;
@@ -194,6 +195,26 @@ impl Backup {
         }
 
         dirs
+    }
+
+    pub fn set_mount_path(&mut self, mount: &gio::Mount) {
+        if let Some(new_mount_path) = mount.root().path() {
+            match self.repo {
+                super::Repository::Local(ref mut repo @ super::local::Repository { .. }) => {
+                    if repo.mount_path != new_mount_path {
+                        warn!(
+                            "Repository mount path seems to have changed. Trying with this: {:?}",
+                            new_mount_path
+                        );
+
+                        repo.mount_path = new_mount_path;
+                    } else {
+                        debug!("Mount path still the same");
+                    }
+                }
+                _ => unreachable!(),
+            }
+        }
     }
 }
 

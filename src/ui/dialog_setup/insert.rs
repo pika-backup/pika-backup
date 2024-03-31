@@ -281,7 +281,7 @@ async fn mount_fuse_and_config(uri: &gio::File, mount_parent: bool) -> Result<lo
             uri.uri()
         };
 
-        ui::dialog_device_missing::mount_enclosing(&gio::File::for_uri(&mount_uri)).await?;
+        ui::repo::mount_enclosing(&gio::File::for_uri(&mount_uri)).await?;
 
         let enclosing_mount = uri.find_enclosing_mount(Some(&gio::Cancellable::new()));
         let path = uri.path();

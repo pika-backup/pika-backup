@@ -6,7 +6,6 @@ mod backup_status;
 #[allow(dead_code)]
 mod builder;
 mod dbus;
-mod dialog_device_missing;
 mod dialog_encryption_password;
 mod dialog_setup;
 mod dialog_storage;
@@ -15,6 +14,7 @@ mod export;
 mod globals;
 mod operation;
 mod prelude;
+mod repo;
 mod shell;
 mod status;
 mod toast_size_estimate;

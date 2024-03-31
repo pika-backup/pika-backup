@@ -132,11 +132,7 @@ impl PruneReviewDialog {
         config: &config::Backup,
     ) -> Result<()> {
         // First ensure the device is available to prevent overlapping dialogs
-        ui::dialog_device_missing::ensure_device_plugged_in(
-            config,
-            &gettext("Identifying old Archives"),
-        )
-        .await?;
+        ui::repo::ensure_device_plugged_in(config, &gettext("Identifying old Archives")).await?;
 
         let dialog = PruneReviewDialog::new();
         dialog.set_transient_for(Some(transient_for));

@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="AdwWindow" id="window">
+  <template class="PkDeviceMissingDialog" parent="AdwWindow">
     <property name="modal">1</property>
     <child>
       <object class="GtkShortcutController">
@@ -26,6 +26,7 @@
             <property name="margin-end">32</property>
             <property name="margin-top">24</property>
             <property name="margin-bottom">24</property>
+            <property name="valign">start</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox">
@@ -44,7 +45,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="name">
+                  <object class="GtkLabel" id="name_label">
                     <property name="label">&lt;name&gt;</property>
                     <property name="wrap">1</property>
                     <attributes>
@@ -53,7 +54,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox" id="icon">
+                  <object class="GtkBox" id="icon_box">
                     <property name="orientation">vertical</property>
                   </object>
                 </child>
@@ -63,5 +64,5 @@
         </property>
       </object>
     </property>
-  </object>
+  </template>
 </interface>

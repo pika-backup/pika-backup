@@ -1,31 +1,9 @@
-use async_std::prelude::*;
 use gio::prelude::*;
-use gtk::prelude::*;
-use std::rc::Rc;
 
 use crate::config;
 use crate::ui;
 use crate::ui::prelude::*;
-
-fn set_mount_path(config: &mut config::Backup, mount: &gio::Mount) {
-    if let Some(new_mount_path) = mount.root().path() {
-        match config.repo {
-            config::Repository::Local(ref mut repo @ config::local::Repository { .. }) => {
-                if repo.mount_path != new_mount_path {
-                    warn!(
-                        "Repository mount path seems to have changed. Trying with this: {:?}",
-                        new_mount_path
-                    );
-
-                    repo.mount_path = new_mount_path;
-                } else {
-                    debug!("Mount path still the same");
-                }
-            }
-            _ => unreachable!(),
-        }
-    }
-}
+use crate::ui::widget::DeviceMissingDialog;
 
 // Try to find volume that contains the repository
 fn find_volume(repo: &config::local::Repository) -> Option<gio::Volume> {
@@ -35,13 +13,14 @@ fn find_volume(repo: &config::local::Repository) -> Option<gio::Volume> {
         .find(|v| repo.is_likely_on_volume(v))
 }
 
-// Make sure the device is plugged in and available
-//
-// No-Op for remote archives
+/// Make sure the device is plugged in and available
+///
+/// No-Op for remote archives
 pub async fn ensure_device_plugged_in(config: &config::Backup, purpose: &str) -> Result<()> {
     if let config::Repository::Local(repo) = &config.repo {
         if repo.removable && find_volume(repo).is_none() {
-            mount_dialog(repo.clone(), purpose).await?;
+            let dialog = DeviceMissingDialog::new(config);
+            dialog.present_with_repo(repo, purpose).await?;
         }
     }
 
@@ -71,7 +50,7 @@ pub async fn ensure_repo_available(
 
                     if let Some(mount) = volume.as_ref().and_then(|v| v.get_mount()) {
                         info!("Probably found repo somewhere else");
-                        set_mount_path(&mut new_config, &mount);
+                        new_config.set_mount_path(&mount);
                     } else if let Some(new_volume) = volume {
                         error!("Not mounted yet. Mounting");
                         new_volume
@@ -83,14 +62,15 @@ pub async fn ensure_repo_available(
                             .err_to_msg(gettext("Failed to Mount"))?;
                         if let Some(mount) = new_volume.get_mount() {
                             info!("Successfully mounted");
-                            set_mount_path(&mut new_config, &mount);
+                            new_config.set_mount_path(&mount);
                         } else {
                             return Err(Message::short(gettext("Failed to Mount")).into());
                         }
                     } else {
                         info!("Waiting for mount to appear");
-                        let mount = mount_dialog(repo.clone(), purpose).await?;
-                        set_mount_path(&mut new_config, &mount);
+                        let dialog = DeviceMissingDialog::new(config);
+                        let mount = dialog.present_with_repo(repo, purpose).await?;
+                        new_config.set_mount_path(&mount);
                     }
                 } else {
                     info!("Local drive not available");
@@ -105,6 +85,7 @@ pub async fn ensure_repo_available(
     Ok(new_config)
 }
 
+/// Mount the volume that contains `file`
 pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
     info!("Trying to mount '{}'", file.uri());
     let mount_result = file.mount_enclosing_volume_future(
@@ -146,50 +127,4 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
             _ => Err(Message::new(gettext("Failed to Mount"), err).into()),
         },
     }
-}
-
-async fn mount_dialog(repo: config::local::Repository, purpose: &str) -> Result<gio::Mount> {
-    let dialog = Rc::new(ui::builder::DialogDeviceMissing::new());
-    dialog.window().set_transient_for(Some(&main_ui().window()));
-    dialog.window().set_title(Some(purpose));
-    dialog
-        .name()
-        .set_label(&repo.clone().into_config().location());
-
-    if let Some(g_icon) = repo
-        .icon
-        .as_ref()
-        .and_then(|x| gio::Icon::for_string(x).ok())
-    {
-        let img = gtk::Image::from_gicon(&g_icon);
-        img.set_pixel_size(128);
-        dialog.icon().append(&img);
-    }
-
-    let volume_monitor = gio::VolumeMonitor::get();
-    let (mount_sender, mut mount_receiver) = async_std::channel::unbounded();
-
-    volume_monitor.connect_mount_added(enclose!((dialog, mount_sender) move |_, new_mount| {
-        if let Some(volume) = new_mount.volume() {
-            if repo.is_likely_on_volume(&volume) {
-                let _ignore = mount_sender.try_send(Some(new_mount.clone()));
-                dialog.window().close();
-            } else {
-                debug!("New volume, but likely not on there.");
-            }
-        }
-    }));
-
-    dialog.window().connect_close_request(move |_| {
-        let _ignore = mount_sender.try_send(None);
-        glib::Propagation::Proceed
-    });
-
-    dialog.window().present();
-
-    mount_receiver
-        .next()
-        .await
-        .flatten()
-        .ok_or(Error::UserCanceled)
 }

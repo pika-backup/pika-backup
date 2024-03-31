@@ -79,8 +79,7 @@ where
         }));
     };
 
-    let mounted_result =
-        crate::ui::dialog_device_missing::ensure_repo_available(&command.config, &T::name()).await;
+    let mounted_result = crate::ui::repo::ensure_repo_available(&command.config, &T::name()).await;
 
     match mounted_result {
         Ok(config) => command.config = config,
