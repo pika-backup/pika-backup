@@ -13,9 +13,9 @@ mod imp {
     use std::cell::Cell;
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
-    #[properties(wrapper_type = super::DialogCheck)]
-    #[template(file = "dialog_check.ui")]
-    pub struct DialogCheck {
+    #[properties(wrapper_type = super::CheckDialog)]
+    #[template(file = "check_dialog.ui")]
+    pub struct CheckDialog {
         #[property(get, set, construct_only)]
         pub config_id: OnceCell<ConfigId>,
 
@@ -30,9 +30,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for DialogCheck {
-        const NAME: &'static str = "DialogCheck";
-        type Type = super::DialogCheck;
+    impl ObjectSubclass for CheckDialog {
+        const NAME: &'static str = "PkDialogCheck";
+        type Type = super::CheckDialog;
         type ParentType = adw::Window;
 
         fn class_init(klass: &mut Self::Class) {
@@ -45,7 +45,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for DialogCheck {
+    impl ObjectImpl for CheckDialog {
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -77,18 +77,18 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for DialogCheck {}
+    impl WidgetImpl for CheckDialog {}
 
-    impl WindowImpl for DialogCheck {
+    impl WindowImpl for CheckDialog {
         fn close_request(&self) -> glib::Propagation {
             glib::Propagation::Proceed
         }
     }
 
-    impl AdwWindowImpl for DialogCheck {}
+    impl AdwWindowImpl for CheckDialog {}
 
     #[gtk::template_callbacks]
-    impl DialogCheck {
+    impl CheckDialog {
         fn config(&self) -> Result<crate::config::Backup> {
             match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
                 Ok(backup) => Ok(backup.clone()),
@@ -183,11 +183,11 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct DialogCheck(ObjectSubclass<imp::DialogCheck>)
+    pub struct CheckDialog(ObjectSubclass<imp::CheckDialog>)
         @extends gtk::Widget, gtk::Window, adw::Window;
 }
 
-impl DialogCheck {
+impl CheckDialog {
     pub fn new(config_id: ConfigId) -> Self {
         glib::Object::builder()
             .property("config-id", config_id)

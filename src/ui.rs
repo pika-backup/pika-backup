@@ -6,7 +6,6 @@ mod backup_status;
 #[allow(dead_code)]
 mod builder;
 mod dbus;
-mod dialog_check;
 mod dialog_delete_archive;
 mod dialog_device_missing;
 mod dialog_encryption_password;

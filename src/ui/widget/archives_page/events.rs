@@ -1,6 +1,6 @@
-use crate::ui::dialog_check::DialogCheck;
 use crate::ui::prelude::*;
 use crate::ui::widget::ArchivePrefixDialog;
+use crate::ui::widget::CheckDialog;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
@@ -13,7 +13,7 @@ impl imp::ArchivesPage {
         let configs = BACKUP_CONFIG.load();
         let config = configs.active()?;
 
-        let dialog = DialogCheck::new(config.id.clone());
+        let dialog = CheckDialog::new(config.id.clone());
         dialog.set_visible(true);
 
         Ok(())
