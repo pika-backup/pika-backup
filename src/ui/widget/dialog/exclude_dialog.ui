@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
   <template class="PkExcludeDialog" parent="AdwWindow">
-    <property name="title" translatable="yes">Exclude from Backup</property>
+    <property name="title" translatable="yes"></property>
     <property name="modal">1</property>
     <property name="default-width">500</property>
     <child>
@@ -18,69 +18,164 @@
       </object>
     </child>
     <property name="content">
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar"/>
-        </child>
-        <property name="content">
-          <object class="AdwPreferencesPage">
-            <child>
-              <object class="AdwPreferencesGroup">
-                <child>
-                  <object class="AdwActionRow" id="exclude_folder">
-                    <property name="icon-name">folder-symbolic</property>
-                    <property name="title" translatable="yes">Exclude Folder</property>
-                    <property name="activatable">1</property>
-                    <signal name="activated" handler="on_exclude_folder" swapped="true"/>
-                    <child type="suffix">
-                      <object class="GtkImage">
-                        <property name="icon-name">go-next-symbolic</property>
+      <object class="AdwNavigationView" id="navigation_view">
+        <child>
+          <object class="AdwNavigationPage" id="root_page">
+            <property name="title" translatable="yes">Exclude from Backup</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar"/>
+                </child>
+                <property name="content">
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <child>
+                          <object class="AdwActionRow" id="exclude_folder">
+                            <property name="icon-name">folder-symbolic</property>
+                            <property name="title" translatable="yes">Exclude Folder</property>
+                            <property name="activatable">1</property>
+                            <signal name="activated" handler="on_exclude_folder" swapped="true"/>
+                            <child type="suffix">
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="exclude_file">
+                            <property name="icon-name">text-x-generic-symbolic</property>
+                            <property name="title" translatable="yes">Exclude Single File</property>
+                            <property name="activatable">1</property>
+                            <signal name="activated" handler="on_exclude_file" swapped="true"/>
+                            <child type="suffix">
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="exclude_pattern">
+                            <property name="icon-name">folder-saved-search-symbolic</property>
+                            <property name="title" translatable="yes">Exclude Pattern</property>
+                            <property name="subtitle" translatable="yes">Define regular expression or Unix filename patterns</property>
+                            <property name="activatable">1</property>
+                            <signal name="activated" handler="on_exclude_pattern" swapped="true"/>
+                            <child type="suffix">
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="suggestions">
+                        <property name="title" translatable="yes">Suggested Exclusions</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="unreadable_paths">
+                        <property name="title" translatable="yes">Unreadable Paths</property>
+                        <property name="description" translatable="yes">These locations were identified as unreadable from a previous backup.</property>
                       </object>
                     </child>
                   </object>
-                </child>
-                <child>
-                  <object class="AdwActionRow" id="exclude_file">
-                    <property name="icon-name">text-x-generic-symbolic</property>
-                    <property name="title" translatable="yes">Exclude Single File</property>
-                    <property name="activatable">1</property>
-                    <signal name="activated" handler="on_exclude_file" swapped="true"/>
-                    <child type="suffix">
-                      <object class="GtkImage">
-                        <property name="icon-name">go-next-symbolic</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwActionRow" id="exclude_pattern">
-                    <property name="icon-name">folder-saved-search-symbolic</property>
-                    <property name="title" translatable="yes">Exclude Pattern</property>
-                    <property name="subtitle" translatable="yes">Define regular expression or Unix filename patterns</property>
-                    <property name="activatable">1</property>
-                    <signal name="activated" handler="on_exclude_pattern" swapped="true"/>
-                    <child type="suffix">
-                      <object class="GtkImage">
-                        <property name="icon-name">go-next-symbolic</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="AdwPreferencesGroup" id="suggestions">
-                <property name="title" translatable="yes">Suggested Exclusions</property>
-              </object>
-            </child>
-            <child>
-              <object class="AdwPreferencesGroup" id="unreadable_paths">
-                <property name="title" translatable="yes">Unreadable Paths</property>
-                <property name="description" translatable="yes">These locations were identified as unreadable from a previous backup.</property>
-              </object>
-            </child>
+                </property>
+              </object>        
+            </property>
           </object>
-        </property>
+        </child>
+        <child>
+          <object class="AdwNavigationPage" id="pattern_page">
+            <property name="title" translatable="yes">Exclude Pattern</property>
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar"/>
+                </child>
+                <property name="content">
+                  <object class="AdwPreferencesPage">
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <child>
+                          <object class="AdwComboRow" id="pattern_type">
+                            <property name="title" translatable="yes">Pattern Type</property>
+                            <property name="use-markup">0</property>
+                            <property name="model">
+                              <object class="GtkStringList">
+                                <items>
+                                  <item translatable="yes">Unix Filename Pattern</item>
+                                  <item translatable="yes">Regular Expression</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="pattern">
+                            <property name="title" translatable="yes">Pattern</property>
+                            <property name="use-markup">0</property>
+                            <property name="activates-default">1</property>
+                            <style>
+                              <class name="monospace"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="margin-top">18</property>
+                            <style>
+                              <class name="card"/>
+                              <class name="info-card"/>
+                            </style>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="label" translatable="yes">BorgBackup Patterns</property>
+                                <property name="wrap">1</property>
+                                <property name="xalign">0</property>
+                                <style>
+                                  <class name="heading"/>
+                                  <class name="warning"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="label" translatable="yes">The patterns above have to be written in a particular form. They are matched against the path without leading &lt;tt&gt;/&lt;/tt&gt;. Additionally, shell-style patterns match as if they are carrying a &lt;tt&gt;*&lt;/tt&gt; at the back. For more details, please check the &lt;a href=&quot;https://borgbackup.readthedocs.io/en/stable/usage/help.html&quot;&gt;BorgBackup documentation&lt;/a&gt;.</property>
+                                <property name="wrap">1</property>
+                                <property name="xalign">0</property>
+                                <property name="use-markup">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <child type="bottom">
+                  <object class="GtkButton" id="pattern_add_button">
+                    <property name="label" translatable="yes">Add</property>
+                    <signal name="clicked" handler="on_add_pattern_button_clicked" swapped="true"/>
+                    <property name="halign">center</property>
+                    <property name="margin-top">12</property>
+                    <property name="margin-bottom">12</property>
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>
+                </child>        
+              </object>
+            </property>
+          </object>
+        </child>
       </object>
     </property>
   </template>

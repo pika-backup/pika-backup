@@ -5,6 +5,7 @@ use crate::config;
 use crate::ui;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
+use crate::ui::widget::ExcludeDialog;
 
 use super::imp;
 
@@ -80,6 +81,8 @@ impl imp::BackupPage {
 
         // exclude list
         ui::utils::clear(&self.exclude_list);
+        let window = self.obj().app_window();
+
         for exclude in backup.exclude {
             let row = adw::ActionRow::builder()
                 .title(glib::markup_escape_text(&exclude.description()))
@@ -105,9 +108,17 @@ impl imp::BackupPage {
                         edit_button.add_css_class("flat");
 
                         // Edit patterns
-                        edit_button.connect_clicked(clone!(@strong exclude => move |_| {
-                            ui::dialog_exclude_pattern::show(Some(exclude.clone()));
-                        }));
+                        edit_button.connect_clicked(
+                            clone!(@strong exclude, @weak window => move |_| {
+                                let config = BACKUP_CONFIG.load_full();
+                                let Ok(active) = config.active() else {
+                                    return;
+                                };
+
+                                let dialog = ExcludeDialog::new(&active);
+                                dialog.present_edit_exclude(&window, exclude.clone());
+                            }),
+                        );
 
                         row.add_suffix(&edit_button);
                     }

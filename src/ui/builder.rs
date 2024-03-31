@@ -184,69 +184,6 @@ impl DialogEncryptionPassword {
 }
 
 #[derive(Clone)]
-pub struct DialogExcludePattern {
-    builder: gtk::Builder,
-}
-
-#[derive(Clone)]
-pub struct DialogExcludePatternWeak {
-    builder: glib::WeakRef<gtk::Builder>,
-}
-
-impl glib::clone::Downgrade for DialogExcludePattern {
-    type Weak = DialogExcludePatternWeak;
-
-    fn downgrade(&self) -> Self::Weak {
-        Self::Weak {
-            builder: self.builder.downgrade(),
-        }
-    }
-}
-
-impl glib::clone::Upgrade for DialogExcludePatternWeak {
-    type Strong = DialogExcludePattern;
-
-    fn upgrade(&self) -> Option<Self::Strong> {
-        Some(Self::Strong {
-            builder: self.builder.upgrade()?,
-        })
-    }
-}
-
-impl DialogExcludePattern {
-    pub fn new() -> Self {
-        Self {
-            builder: gtk::Builder::from_string(include_str!(concat!(
-                env!("CARGO_MANIFEST_DIR"),
-                "/src/ui/dialog_exclude_pattern.ui"
-            ))),
-        }
-    }
-
-    fn get<T: glib::IsA<glib::object::Object>>(&self, id: &str) -> T {
-        gtk::Builder::object(&self.builder, id).unwrap_or_else(|| {
-            panic!("Object with id '{id}' not found in 'src/ui/dialog_exclude_pattern.ui'")
-        })
-    }
-
-    pub fn add(&self) -> gtk::Button {
-        self.get("add")
-    }
-
-    pub fn dialog(&self) -> adw::Window {
-        self.get("dialog")
-    }
-
-    pub fn pattern(&self) -> adw::EntryRow {
-        self.get("pattern")
-    }
-
-    pub fn pattern_type(&self) -> adw::ComboRow {
-        self.get("pattern_type")
-    }
-}
-
-#[derive(Clone)]
 pub struct DialogSetup {
     builder: gtk::Builder,
 }

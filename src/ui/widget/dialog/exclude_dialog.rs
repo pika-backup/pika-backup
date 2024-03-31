@@ -9,9 +9,9 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use std::cell::OnceCell;
+    use std::cell::{OnceCell, RefCell};
 
-    use self::ui::error::HandleError;
+    use self::ui::{error::HandleError, App};
 
     use super::*;
 
@@ -21,11 +21,29 @@ mod imp {
     pub struct ExcludeDialog {
         #[property(get, set, construct_only)]
         config: OnceCell<crate::config::Backup>,
+        edit_exclude: RefCell<Option<config::Exclude<{ config::RELATIVE }>>>,
 
+        // Navigation
+        #[template_child]
+        navigation_view: TemplateChild<adw::NavigationView>,
+
+        // Main page
+        #[template_child]
+        root_page: TemplateChild<adw::NavigationPage>,
         #[template_child]
         suggestions: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         unreadable_paths: TemplateChild<adw::PreferencesGroup>,
+
+        // Pattern page
+        #[template_child]
+        pattern_page: TemplateChild<adw::NavigationPage>,
+        #[template_child]
+        pattern_add_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pattern_type: TemplateChild<adw::ComboRow>,
+        #[template_child]
+        pattern: TemplateChild<adw::EntryRow>,
     }
 
     #[glib::object_subclass]
@@ -309,10 +327,75 @@ mod imp {
                 .await;
         }
 
+        pub(super) fn exclude_pattern(
+            &self,
+            old_exclude: Option<config::Exclude<{ config::RELATIVE }>>,
+        ) {
+            self.pattern_page.set_can_pop(old_exclude.is_none());
+            self.navigation_view.push(&*self.pattern_page);
+
+            if let Some(config::Exclude::Pattern(ref pattern)) = old_exclude {
+                self.pattern_add_button.set_label(&gettext("Save"));
+                self.pattern.set_text(&pattern.pattern().to_string_lossy());
+
+                match pattern {
+                    config::Pattern::Fnmatch(_) => self.pattern_type.set_selected(0),
+                    config::Pattern::RegularExpression(_) => self.pattern_type.set_selected(1),
+                    _ => {}
+                }
+            } else {
+                self.pattern_add_button.set_label(&gettext("Add"));
+            }
+
+            self.edit_exclude.replace(old_exclude);
+        }
+
         #[template_callback]
-        pub async fn on_exclude_pattern(&self) {
+        fn on_exclude_pattern(&self) {
+            self.exclude_pattern(None);
+        }
+
+        async fn add_pattern(&self) -> Result<()> {
+            let selected = self.pattern_type.selected();
+            let pattern = self.pattern.text();
+
+            let exclude = config::Exclude::from_pattern(match selected {
+                // FIXME: Manual construction
+                0 => Ok(config::Pattern::fnmatch(pattern.as_str())),
+                1 => config::Pattern::from_regular_expression(pattern)
+                    .err_to_msg(gettext("Invalid Regular Expression")),
+                // Not translated because this should not happen
+                _ => Err(Message::short("No valid pattern type selected").into()),
+            }?);
+
+            BACKUP_CONFIG.try_update(move |config| {
+                let active = config.active_mut()?;
+
+                if let Some(edit_exclude) = &*self.edit_exclude.borrow() {
+                    active.exclude.remove(edit_exclude);
+                }
+
+                active.exclude.insert(exclude.clone());
+
+                Ok(())
+            })?;
+
             self.obj().close();
-            ui::dialog_exclude_pattern::show(None);
+            App::default()
+                .main_window()
+                .page_detail()
+                .backup_page()
+                .refresh()?;
+
+            Ok(())
+        }
+
+        #[template_callback]
+        pub async fn on_add_pattern_button_clicked(&self) {
+            self.add_pattern()
+                .await
+                .handle_transient_for(&*self.obj())
+                .await;
         }
 
         fn on_suggested_toggle(
@@ -360,6 +443,16 @@ impl ExcludeDialog {
 
     pub fn present_transient_for(&self, window: &impl IsA<gtk::Window>) {
         self.set_transient_for(Some(window));
+        self.present();
+    }
+
+    pub fn present_edit_exclude(
+        &self,
+        window: &impl IsA<gtk::Window>,
+        pattern: config::Exclude<{ config::RELATIVE }>,
+    ) {
+        self.set_transient_for(Some(window));
+        self.imp().exclude_pattern(Some(pattern));
         self.present();
     }
 }
