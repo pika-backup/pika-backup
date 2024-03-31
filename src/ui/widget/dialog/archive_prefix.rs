@@ -12,7 +12,7 @@ mod imp {
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::ArchivePrefixDialog)]
-    #[template(file = "archive_prefix_dialog.ui")]
+    #[template(file = "archive_prefix.ui")]
     pub struct ArchivePrefixDialog {
         #[property(get, set, construct_only)]
         pub config_id: OnceCell<ConfigId>,

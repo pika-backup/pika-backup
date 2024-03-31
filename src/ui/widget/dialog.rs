@@ -1,20 +1,20 @@
-mod archive_prefix_dialog;
-mod check_dialog;
-mod check_result_dialog;
-mod delete_archive_dialog;
-mod exclude_dialog;
-mod preferences_dialog;
-mod prune_dialog;
-mod prune_review_dialog;
+mod archive_prefix;
+mod check;
+mod check_result;
+mod delete_archive;
+mod exclude;
+mod preferences;
+mod prune;
+mod prune_review;
 
-pub use archive_prefix_dialog::ArchivePrefixDialog;
-pub use check_dialog::CheckDialog;
-pub use check_result_dialog::CheckResultDialog;
-pub use delete_archive_dialog::DeleteArchiveDialog;
-pub use exclude_dialog::ExcludeDialog;
-pub use preferences_dialog::PreferencesDialog;
-pub use prune_dialog::PruneDialog;
-pub use prune_review_dialog::PruneReviewDialog;
+pub use archive_prefix::ArchivePrefixDialog;
+pub use check::CheckDialog;
+pub use check_result::CheckResultDialog;
+pub use delete_archive::DeleteArchiveDialog;
+pub use exclude::ExcludeDialog;
+pub use preferences::PreferencesDialog;
+pub use prune::PruneDialog;
+pub use prune_review::PruneReviewDialog;
 
 use glib::prelude::*;
 

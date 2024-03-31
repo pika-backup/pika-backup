@@ -8,23 +8,19 @@ use crate::ui::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
+    use std::cell::RefCell;
+
     use self::borg::{ListArchive, PruneInfo};
 
     use super::*;
-    use std::cell::RefCell;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "prune_dialog.ui")]
-    pub struct PruneDialog {
+    #[template(file = "prune_review.ui")]
+    pub struct PruneReviewDialog {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
         page_decision: TemplateChild<adw::ToolbarView>,
-
-        #[template_child]
-        delete: TemplateChild<gtk::Button>,
-        #[template_child]
-        cancel: TemplateChild<gtk::Button>,
 
         #[template_child]
         prune: TemplateChild<gtk::Label>,
@@ -37,9 +33,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for PruneDialog {
-        const NAME: &'static str = "PkPruneDialog";
-        type Type = super::PruneDialog;
+    impl ObjectSubclass for PruneReviewDialog {
+        const NAME: &'static str = "PkPruneReviewDialog";
+        type Type = super::PruneReviewDialog;
         type ParentType = adw::Window;
 
         fn class_init(klass: &mut Self::Class) {
@@ -52,9 +48,9 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for PruneDialog {}
-    impl WidgetImpl for PruneDialog {}
-    impl WindowImpl for PruneDialog {
+    impl ObjectImpl for PruneReviewDialog {}
+    impl WidgetImpl for PruneReviewDialog {}
+    impl WindowImpl for PruneReviewDialog {
         fn close_request(&self) -> glib::Propagation {
             if let Some(sender) = self.result_sender.take() {
                 let _ignore = sender.send(false);
@@ -63,44 +59,12 @@ mod imp {
             self.parent_close_request()
         }
     }
-    impl AdwWindowImpl for PruneDialog {}
+    impl AdwWindowImpl for PruneReviewDialog {}
 
     #[gtk::template_callbacks]
-    impl PruneDialog {
-        pub(super) async fn delete(&self, config: &crate::config::Backup) -> Result<()> {
-            let guard = QuitGuard::default();
-            let result = ui::utils::borg::exec(
-                borg::Command::<borg::task::Prune>::new(config.clone()),
-                &guard,
-            )
-            .await;
-
-            if !result.is_borg_err_user_aborted() {
-                result.into_message(gettext("Delete old Archives"))?;
-            }
-
-            let result = ui::utils::borg::exec(
-                borg::Command::<borg::task::Compact>::new(config.clone()),
-                &guard,
-            )
-            .await;
-
-            if !result.is_borg_err_user_aborted() {
-                result.into_message(gettext("Reclaim Free Space"))?;
-            }
-
-            let _ignore = main_ui()
-                .page_detail()
-                .archives_page()
-                .refresh_archives(config.clone(), None)
-                .await;
-            let _ignore = ui::utils::df::lookup_and_cache(config).await;
-
-            Ok(())
-        }
-
+    impl PruneReviewDialog {
         #[template_callback]
-        fn on_delete(&self) {
+        fn on_apply(&self) {
             if let Some(sender) = self.result_sender.take() {
                 let _ignore = sender.send(true);
             }
@@ -108,7 +72,7 @@ mod imp {
             self.obj().close();
         }
 
-        pub(super) async fn choose_future(&self, config: &config::Backup) -> Result<()> {
+        pub(super) async fn choose_future(&self, config: &crate::config::Backup) -> Result<()> {
             let guard = QuitGuard::default();
 
             let (sender, receiver) = futures::channel::oneshot::channel();
@@ -147,28 +111,23 @@ mod imp {
             self.untouched
                 .set_label(&num_untouched_archives.to_string());
 
-            if prune_info.prune == 0 {
-                self.delete.set_visible(false);
-                self.cancel.set_label(&gettext("Close"));
-            }
-
             self.stack.set_visible_child(&*self.page_decision);
         }
     }
 }
 
 glib::wrapper! {
-    pub struct PruneDialog(ObjectSubclass<imp::PruneDialog>)
+    pub struct PruneReviewDialog(ObjectSubclass<imp::PruneReviewDialog>)
     @extends gtk::Widget, gtk::Window, adw::Window,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl PruneDialog {
+impl PruneReviewDialog {
     fn new() -> Self {
         glib::Object::new()
     }
 
-    pub async fn ask_prune(
+    pub async fn review(
         transient_for: &impl IsA<gtk::Window>,
         config: &config::Backup,
     ) -> Result<()> {
@@ -179,16 +138,9 @@ impl PruneDialog {
         )
         .await?;
 
-        let dialog = Self::new();
+        let dialog = PruneReviewDialog::new();
         dialog.set_transient_for(Some(transient_for));
         dialog.present();
-
-        // Returns Error::UserCanceled if canceled
-        dialog.imp().choose_future(config).await?;
-
-        // Run prune operation
-        dialog.imp().delete(config).await?;
-
-        Ok(())
+        dialog.imp().choose_future(config).await
     }
 }

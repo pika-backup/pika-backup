@@ -13,7 +13,7 @@ mod imp {
     use std::cell::{OnceCell, RefCell};
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
-    #[template(file = "delete_archive_dialog.ui")]
+    #[template(file = "delete_archive.ui")]
     #[properties(wrapper_type = super::DeleteArchiveDialog)]
     pub struct DeleteArchiveDialog {
         #[property(get, set, construct_only)]

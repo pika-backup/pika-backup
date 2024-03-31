@@ -16,7 +16,7 @@ mod imp {
     use super::*;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
-    #[template(file = "exclude_dialog.ui")]
+    #[template(file = "exclude.ui")]
     #[properties(wrapper_type = super::ExcludeDialog)]
     pub struct ExcludeDialog {
         #[property(get, set, construct_only)]

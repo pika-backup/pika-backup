@@ -14,7 +14,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::CheckDialog)]
-    #[template(file = "check_dialog.ui")]
+    #[template(file = "check.ui")]
     pub struct CheckDialog {
         #[property(get, set, construct_only)]
         pub config_id: OnceCell<ConfigId>,

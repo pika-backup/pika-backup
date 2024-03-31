@@ -14,7 +14,7 @@ mod imp {
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::PreferencesDialog)]
-    #[template(file = "preferences_dialog.ui")]
+    #[template(file = "preferences.ui")]
     pub struct PreferencesDialog {
         #[property(get, set, construct_only)]
         pub config_id: OnceCell<ConfigId>,

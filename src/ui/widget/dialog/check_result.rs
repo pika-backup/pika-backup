@@ -12,7 +12,7 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, gtk::CompositeTemplate)]
-    #[template(file = "check_result_dialog.ui")]
+    #[template(file = "check_result.ui")]
     pub struct CheckResultDialog {
         pub config_id: RefCell<Option<ConfigId>>,
 
