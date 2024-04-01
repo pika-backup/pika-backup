@@ -4,7 +4,7 @@ use crate::ui::{self, App};
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
-use super::detail_page::DetailPageKind;
+use super::detail::DetailPageKind;
 use super::{DetailPage, OverviewPage};
 
 mod imp {

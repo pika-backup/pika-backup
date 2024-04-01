@@ -1,8 +1,16 @@
+mod archives;
+mod backup;
+mod schedule;
+
+pub use archives::ArchivesPage;
+pub use backup::BackupPage;
+pub use schedule::{
+    frequency, prune_preset, status::Status as ScheduleStatus, weekday, SchedulePage,
+};
+
 use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-
-use super::{ArchivesPage, BackupPage, SchedulePage};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum DetailPageKind {
@@ -19,7 +27,7 @@ mod imp {
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "detail_page.ui")]
+    #[template(file = "detail.ui")]
     pub struct DetailPage {
         #[template_child]
         pending_menu_spinner: TemplateChild<gtk::Spinner>,

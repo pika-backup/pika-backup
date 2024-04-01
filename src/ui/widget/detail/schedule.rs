@@ -4,15 +4,15 @@ pub mod prune_preset;
 pub mod status;
 pub mod weekday;
 
-use frequency::FrequencyObject;
-use prune_preset::PrunePresetObject;
-use weekday::WeekdayObject;
+pub use frequency::FrequencyObject;
+pub use prune_preset::PrunePresetObject;
+pub use weekday::WeekdayObject;
 
 use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
-use super::detail_page::DetailPageKind;
+use super::DetailPageKind;
 
 mod imp {
     use std::cell::OnceCell;
@@ -22,7 +22,7 @@ mod imp {
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "schedule_page.ui")]
+    #[template(file = "schedule.ui")]
     pub struct SchedulePage {
         // Status
         #[template_child]
@@ -251,7 +251,7 @@ impl SchedulePage {
 }
 
 impl HasAppWindow for SchedulePage {
-    fn app_window(&self) -> super::AppWindow {
+    fn app_window(&self) -> crate::ui::widget::AppWindow {
         self.root()
             .and_downcast()
             .expect("PkSchedulePage must be inside PkAppWindow")

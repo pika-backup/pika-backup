@@ -1,24 +1,21 @@
 mod app_window;
-mod archives_page;
-mod backup_page;
-mod detail_page;
+mod detail;
 pub mod dialog;
 mod encryption_preferences_group;
 mod location_tag;
 mod overview;
-mod schedule_page;
 mod status_icon;
 mod status_row;
 mod wrap_box;
 
 pub use app_window::AppWindow;
-pub use archives_page::ArchivesPage;
-pub use backup_page::BackupPage;
-pub use detail_page::DetailPage;
+pub use detail::{
+    frequency, prune_preset, weekday, ArchivesPage, BackupPage, DetailPage, SchedulePage,
+    ScheduleStatus,
+};
 pub use encryption_preferences_group::EncryptionPreferencesGroup;
 pub use location_tag::LocationTag;
 pub use overview::OverviewPage;
-pub use schedule_page::{status::Status as ScheduleStatus, SchedulePage};
 pub use status_icon::StatusIcon;
 pub use status_row::StatusRow;
 pub use wrap_box::WrapBox;
@@ -29,9 +26,9 @@ use crate::ui;
 use glib::prelude::*;
 
 pub fn init() {
-    schedule_page::frequency::FrequencyObject::static_type();
-    schedule_page::prune_preset::PrunePresetObject::static_type();
-    schedule_page::weekday::WeekdayObject::static_type();
+    frequency::FrequencyObject::static_type();
+    prune_preset::PrunePresetObject::static_type();
+    weekday::WeekdayObject::static_type();
     ui::dialog_setup::folder_button::FolderButton::static_type();
     ui::dialog_setup::add_task::AddConfigTask::static_type();
     ArchivesPage::static_type();

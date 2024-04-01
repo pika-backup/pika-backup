@@ -8,7 +8,7 @@ use adw::subclass::prelude::*;
 use crate::{config, schedule, ui};
 use ui::prelude::*;
 
-use super::detail_page::DetailPageKind;
+use super::DetailPageKind;
 
 fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
     if let Ok(mut dir_iter) = dir.read_dir() {
@@ -28,7 +28,7 @@ mod imp {
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "archives_page.ui")]
+    #[template(file = "archives.ui")]
     pub struct ArchivesPage {
         #[template_child]
         pub(super) check_result_dialog: TemplateChild<CheckResultDialog>,
@@ -197,7 +197,7 @@ impl ArchivesPage {
 }
 
 impl HasAppWindow for ArchivesPage {
-    fn app_window(&self) -> super::AppWindow {
+    fn app_window(&self) -> crate::ui::widget::AppWindow {
         self.root()
             .and_downcast()
             .expect("PkArchivesPage must be inside PkAppWindow")

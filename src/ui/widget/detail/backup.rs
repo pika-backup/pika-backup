@@ -8,7 +8,7 @@ use adw::subclass::prelude::*;
 use crate::schedule;
 use crate::ui::prelude::*;
 
-use super::detail_page::DetailPageKind;
+use super::DetailPageKind;
 
 mod imp {
     use std::cell::RefCell;
@@ -21,7 +21,7 @@ mod imp {
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "backup_page.ui")]
+    #[template(file = "backup.ui")]
     pub struct BackupPage {
         /// The last known backup status
         pub(super) backup_status: RefCell<Option<backup_status::Display>>,
@@ -206,7 +206,7 @@ impl BackupPage {
 }
 
 impl HasAppWindow for BackupPage {
-    fn app_window(&self) -> super::AppWindow {
+    fn app_window(&self) -> crate::ui::widget::AppWindow {
         self.root()
             .and_downcast()
             .expect("PkBackupPage must be inside PkAppWindow")
