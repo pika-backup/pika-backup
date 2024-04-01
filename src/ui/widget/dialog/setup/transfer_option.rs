@@ -1,7 +1,7 @@
 use crate::ui::prelude::*;
 use adw::subclass::prelude::*;
 
-use crate::ui::dialog_setup::display::ArchiveParams;
+use crate::ui::widget::dialog::setup::display::ArchiveParams;
 
 mod imp {
 

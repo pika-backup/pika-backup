@@ -26,7 +26,6 @@ use gvdb_macros::include_gresource_from_dir;
 
 use crate::borg;
 use crate::config;
-use crate::ui;
 use crate::ui::prelude::*;
 
 static GRESOURCE_BYTES: &[u8] =

@@ -8,6 +8,7 @@ use adw::subclass::prelude::*;
 use config::TrackChanges;
 
 use super::shell;
+use super::widget::setup::SetupDialog;
 use super::widget::AppWindow;
 use super::widget::PreferencesDialog;
 
@@ -152,7 +153,10 @@ impl App {
                 })
                 .build(),
             gio::ActionEntryBuilder::new("setup")
-                .activate(|_app: &Self, _, _| ui::widget::setup::show())
+                .activate(|app: &Self, _, _| {
+                    let window = app.main_window();
+                    SetupDialog::new().present_with(&window);
+                })
                 .build(),
             gio::ActionEntryBuilder::new("help")
                 .activate(|app: &Self, _, _| {

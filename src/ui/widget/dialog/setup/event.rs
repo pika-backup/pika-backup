@@ -1,103 +1,115 @@
 use crate::config::*;
 use adw::prelude::*;
+use adw::subclass::prelude::*;
 
-use super::display;
-use super::insert;
-use super::insert::execute;
+use super::imp;
 use crate::ui::*;
-use ui::builder::DialogSetup;
 
-pub fn navigation_view_changed(ui: &DialogSetup) {
-    if let Some(visible_page) = ui.navigation_view().visible_page() {
-        if visible_page == ui.page_overview() {
-            ui.init_path().reset();
-            ui.location_url().set_text("");
-            ui.encryption_preferences_group().reset(true);
+impl imp::SetupDialog {
+    pub fn event_navigation_view_changed(&self) {
+        if let Some(visible_page) = self.navigation_view.visible_page() {
+            if visible_page == *self.page_overview {
+                self.init_path.reset();
+                self.location_url.set_text("");
+                self.encryption_preferences_group.reset(true);
+            }
+
+            if visible_page == *self.page_overview || visible_page == *self.page_detail {
+                self.ask_password.set_text("");
+            }
         }
 
-        if visible_page == ui.page_overview() || visible_page == ui.page_detail() {
-            ui.ask_password().set_text("");
+        if self.location_url.is_mapped() {
+            self.location_url.grab_focus();
+        }
+
+        if self.init_dir.is_mapped() {
+            if self.init_path.file().is_none() {
+                self.init_path.grab_focus();
+            } else {
+                self.init_dir.grab_focus();
+            }
+        }
+
+        if self.ask_password.is_mapped() {
+            self.ask_password.grab_focus();
         }
     }
 
-    if ui.location_url().is_mapped() {
-        ui.location_url().grab_focus();
-    }
-
-    if ui.init_dir().is_mapped() {
-        if ui.init_path().file().is_none() {
-            ui.init_path().grab_focus();
-        } else {
-            ui.init_dir().grab_focus();
-        }
-    }
-
-    if ui.ask_password().is_mapped() {
-        ui.ask_password().grab_focus();
-    }
-}
-
-pub fn page_detail_continue(ui: &DialogSetup) {
-    execute(super::insert::validate_detail_page(ui.clone()), ui.dialog());
-}
-
-pub fn show_init_local(ui: &DialogSetup) {
-    display::show_init_local(ui, None);
-}
-
-pub fn show_init_remote(ui: &DialogSetup) {
-    display::show_init_remote(ui);
-}
-
-pub fn init_repo(ui: &DialogSetup) {
-    execute(insert::on_init_button_clicked(ui.clone()), ui.dialog());
-}
-
-pub fn show_add_local(ui: &DialogSetup) {
-    execute(
-        insert::on_add_repo_list_activated_local(ui.clone()),
-        ui.dialog(),
-    );
-}
-
-pub async fn page_password_continue(ui: DialogSetup) -> Result<()> {
-    insert::add(ui).await
-}
-
-pub fn show_add_remote(ui: &DialogSetup) {
-    ui.button_stack().set_visible_child(&ui.add_button());
-    ui.location_group_local().set_visible(false);
-    ui.location_group_remote().set_visible(true);
-    ui.navigation_view().push(&ui.page_detail());
-}
-
-pub fn add_local(ui: &DialogSetup, path: Option<&std::path::Path>) {
-    if let Some(path) = path {
-        execute(
-            insert::add_first_try(
-                local::Repository::from_path(path.to_path_buf()).into_config(),
-                ui.clone(),
-            ),
-            ui.dialog(),
+    pub fn event_page_detail_continue(&self) {
+        let obj = self.obj().clone();
+        Self::execute(
+            async move { obj.imp().validate_detail_page().await },
+            self.obj().clone(),
         );
     }
-}
 
-pub async fn add_remote(ui: DialogSetup) -> Result<()> {
-    insert::add_button_clicked(ui).await
-}
+    pub fn event_show_init_local(&self) {
+        self.show_init_local(None);
+    }
 
-pub fn path_change(ui: &DialogSetup) {
-    if let Some(path) = ui.init_path().file().and_then(|x| x.path()) {
-        let mount_entry = gio::UnixMountEntry::for_file_path(path);
-        if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
-            debug!("Selected filesystem type {}", fs);
-            ui.non_journaling_warning()
-                .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
-        } else {
-            ui.non_journaling_warning().set_visible(false);
+    pub fn event_show_init_remote(&self) {
+        self.show_init_remote();
+    }
+
+    pub fn event_init_repo(&self) {
+        let obj = self.obj().clone();
+        Self::execute(
+            async move { obj.imp().on_init_button_clicked().await },
+            self.obj().clone(),
+        );
+    }
+
+    pub fn event_show_add_local(&self) {
+        let obj = self.obj().clone();
+        Self::execute(
+            async move { obj.imp().on_add_repo_list_activated_local().await },
+            self.obj().clone(),
+        );
+    }
+
+    pub async fn event_page_password_continue(&self) -> Result<()> {
+        self.add().await
+    }
+
+    pub fn event_show_add_remote(&self) {
+        self.button_stack.set_visible_child(&*self.add_button);
+        self.location_group_local.set_visible(false);
+        self.location_group_remote.set_visible(true);
+        self.navigation_view.push(&*self.page_detail);
+    }
+
+    pub fn event_add_local(&self, path: Option<&std::path::Path>) {
+        if let Some(path) = path {
+            let obj = self.obj().clone();
+            let path = path.to_path_buf();
+            Self::execute(
+                async move {
+                    obj.imp()
+                        .add_first_try(local::Repository::from_path(path).into_config())
+                        .await
+                },
+                self.obj().clone(),
+            );
         }
-    } else {
-        ui.non_journaling_warning().set_visible(false);
+    }
+
+    pub async fn event_add_remote(&self) -> Result<()> {
+        self.add_button_clicked().await
+    }
+
+    pub fn event_path_change(&self) {
+        if let Some(path) = self.init_path.file().and_then(|x| x.path()) {
+            let mount_entry = gio::UnixMountEntry::for_file_path(path);
+            if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
+                debug!("Selected filesystem type {}", fs);
+                self.non_journaling_warning
+                    .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
+            } else {
+                self.non_journaling_warning.set_visible(false);
+            }
+        } else {
+            self.non_journaling_warning.set_visible(false);
+        }
     }
 }

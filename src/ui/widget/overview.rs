@@ -11,7 +11,7 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
-    use self::row::OverviewRow;
+    use self::{row::OverviewRow, ui::widget::setup::SetupDialog};
 
     use super::*;
 
@@ -56,11 +56,18 @@ mod imp {
     impl ObjectImpl for OverviewPage {
         fn constructed(&self) {
             self.parent_constructed();
+            let obj = self.obj();
 
             self.add_backup
-                .connect_clicked(|_| ui::widget::setup::show());
+                .connect_clicked(glib::clone!(@weak obj => move |_| {
+                    let window = obj.app_window();
+                    SetupDialog::new().present_with(&window);
+                }));
             self.add_backup_empty
-                .connect_clicked(|_| ui::widget::setup::show());
+                .connect_clicked(glib::clone!(@weak obj => move |_| {
+                    let window = obj.app_window();
+                    SetupDialog::new().present_with(&window);
+                }));
 
             let imp = self.ref_counted();
             self.main_backups.connect_map(move |_| imp.rebuild_list());
