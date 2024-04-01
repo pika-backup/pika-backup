@@ -12,6 +12,8 @@ pub enum DetailPageKind {
 }
 
 mod imp {
+    use std::cell::Cell;
+
     use crate::ui::widget::{ArchivesPage, BackupPage, SchedulePage};
 
     use super::*;
@@ -32,6 +34,7 @@ mod imp {
         pub(super) page_archives: TemplateChild<ArchivesPage>,
         #[template_child]
         pub(super) page_schedule: TemplateChild<SchedulePage>,
+        showing: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -69,7 +72,15 @@ mod imp {
     }
 
     impl WidgetImpl for DetailPage {}
-    impl NavigationPageImpl for DetailPage {}
+    impl NavigationPageImpl for DetailPage {
+        fn hidden(&self) {
+            self.showing.set(false);
+        }
+
+        fn showing(&self) {
+            self.showing.set(true);
+        }
+    }
 
     #[gtk::template_callbacks]
     impl DetailPage {
@@ -87,13 +98,15 @@ mod imp {
 
         #[template_callback]
         fn on_visible_child_notify(&self) {
-            let visible_page = self.detail_stack.visible_child();
-            if let Some(backup) = visible_page.and_downcast_ref::<BackupPage>() {
-                Handler::handle(backup.refresh());
-            } else if let Some(archives) = visible_page.and_downcast_ref::<ArchivesPage>() {
-                archives.refresh()
-            } else if let Some(schedule) = visible_page.and_downcast_ref::<SchedulePage>() {
-                schedule.refresh();
+            if self.showing.get() {
+                let visible_page = self.detail_stack.visible_child();
+                if let Some(backup) = visible_page.and_downcast_ref::<BackupPage>() {
+                    Handler::handle(backup.refresh());
+                } else if let Some(archives) = visible_page.and_downcast_ref::<ArchivesPage>() {
+                    archives.refresh()
+                } else if let Some(schedule) = visible_page.and_downcast_ref::<SchedulePage>() {
+                    schedule.refresh();
+                }
             }
         }
     }
