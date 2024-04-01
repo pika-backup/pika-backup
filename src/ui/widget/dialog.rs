@@ -1,9 +1,10 @@
 mod archive_prefix;
+mod backup_info;
 mod check;
 mod check_result;
 mod delete_archive;
 mod device_missing;
-pub mod encryption_password;
+mod encryption_password;
 mod exclude;
 mod preferences;
 mod prune;
@@ -11,6 +12,7 @@ mod prune_review;
 mod storage;
 
 pub use archive_prefix::ArchivePrefixDialog;
+pub use backup_info::BackupInfoDialog;
 pub use check::CheckDialog;
 pub use check_result::CheckResultDialog;
 pub use delete_archive::DeleteArchiveDialog;

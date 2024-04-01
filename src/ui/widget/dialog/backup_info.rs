@@ -14,8 +14,8 @@ mod imp {
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "detail_dialog.ui")]
-    pub struct DetailDialog {
+    #[template(file = "backup_info.ui")]
+    pub struct BackupInfoDialog {
         #[template_child]
         info_status: TemplateChild<StatusRow>,
         #[template_child]
@@ -39,9 +39,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for DetailDialog {
-        const NAME: &'static str = "PkDetailDialog";
-        type Type = super::DetailDialog;
+    impl ObjectSubclass for BackupInfoDialog {
+        const NAME: &'static str = "PkBackupInfoDialog";
+        type Type = super::BackupInfoDialog;
         type ParentType = adw::Window;
 
         fn class_init(klass: &mut Self::Class) {
@@ -54,13 +54,13 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for DetailDialog {}
-    impl WidgetImpl for DetailDialog {}
-    impl WindowImpl for DetailDialog {}
-    impl AdwWindowImpl for DetailDialog {}
+    impl ObjectImpl for BackupInfoDialog {}
+    impl WidgetImpl for BackupInfoDialog {}
+    impl WindowImpl for BackupInfoDialog {}
+    impl AdwWindowImpl for BackupInfoDialog {}
 
     #[gtk::template_callbacks]
-    impl DetailDialog {
+    impl BackupInfoDialog {
         pub(super) fn refresh_status_display(&self, status: &backup_status::Display) {
             self.info_status.set_from_backup_status(status);
 
@@ -127,12 +127,12 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct DetailDialog(ObjectSubclass<imp::DetailDialog>)
+    pub struct BackupInfoDialog(ObjectSubclass<imp::BackupInfoDialog>)
     @extends adw::Window, gtk::Window, gtk::Widget,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl DetailDialog {
+impl BackupInfoDialog {
     pub fn refresh_status_display(&self, status: &backup_status::Display) {
         self.imp().refresh_status_display(status);
     }

@@ -15,7 +15,7 @@ mod imp {
 
     use crate::ui::{
         self, backup_status,
-        widget::{detail_dialog::DetailDialog, dialog::StorageDialog},
+        widget::dialog::{BackupInfoDialog, StorageDialog},
     };
 
     use super::*;
@@ -27,7 +27,7 @@ mod imp {
         pub(super) backup_status: RefCell<Option<backup_status::Display>>,
 
         #[template_child]
-        pub(super) detail_dialog: TemplateChild<DetailDialog>,
+        pub(super) detail_dialog: TemplateChild<BackupInfoDialog>,
 
         // status section
         #[template_child]
