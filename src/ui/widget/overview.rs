@@ -1,3 +1,5 @@
+mod row;
+
 use crate::ui;
 use crate::ui::prelude::*;
 
@@ -9,10 +11,12 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
+    use self::row::OverviewRow;
+
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "overview_page.ui")]
+    #[template(file = "overview.ui")]
     pub struct OverviewPage {
         #[template_child]
         pub(super) add_backup: TemplateChild<gtk::Button>,
@@ -30,7 +34,7 @@ mod imp {
         #[template_child]
         pub(super) main_backups: TemplateChild<gtk::ListBox>,
 
-        rows: RefCell<BTreeMap<ConfigId, ui::builder::OverviewItem>>,
+        rows: RefCell<BTreeMap<ConfigId, OverviewRow>>,
     }
 
     #[glib::object_subclass]
@@ -83,39 +87,8 @@ mod imp {
             self.rows.borrow_mut().clear();
 
             for config in BACKUP_CONFIG.load().iter() {
-                let row = ui::builder::OverviewItem::new();
-                self.main_backups.append(&row.widget());
-
-                // connect click
-                row.location()
-                    .connect_activated(enclose!((config) move |_| {
-                        main_ui().view_backup_conf(&config.id);
-                    }));
-
-                row.schedule()
-                    .connect_activated(enclose!((config) move |_| {
-                        main_ui().page_detail().schedule_page().view(&config.id);
-                    }));
-
-                // Repo Icon
-
-                if let Ok(icon) = gio::Icon::for_string(&config.repo.icon()) {
-                    row.location_icon().set_from_gicon(&icon);
-                }
-
-                // Repo Name
-
-                row.location_title().set_label(&config.title());
-                row.location_subtitle().set_label(&config.repo.subtitle());
-
-                // Include
-
-                for path in &config.include {
-                    let incl = ui::widget::LocationTag::from_path(path.clone());
-
-                    row.include().add_child(&incl.build());
-                }
-
+                let row = OverviewRow::new(config);
+                self.main_backups.append(&row);
                 self.rows.borrow_mut().insert(config.id.clone(), row);
             }
 
@@ -126,7 +99,8 @@ mod imp {
             let imp = self.ref_counted();
             glib::MainContext::default().spawn_local(async move {
                 for config in BACKUP_CONFIG.load().iter() {
-                    let schedule_status = ui::widget::Status::new(config).await;
+                    // TODO: This should be a pure data object like backup_status::Display
+                    let schedule_status = ui::widget::ScheduleStatus::new(config).await;
                     let rows = imp.rows.borrow();
                     if let Some(row) = rows.get(&config.id) {
                         let status = ui::backup_status::Display::new_from_id(&config.id);
@@ -134,14 +108,16 @@ mod imp {
                         row.status().set_from_backup_status(&status);
                         // schedule status
 
-                        row.schedule()
+                        row.schedule_status()
                             .set_title(&glib::markup_escape_text(&schedule_status.main.title()));
-                        row.schedule().set_subtitle(&glib::markup_escape_text(
-                            &schedule_status.main.subtitle().unwrap_or_default(),
-                        ));
-                        row.schedule()
+                        row.schedule_status()
+                            .set_subtitle(&glib::markup_escape_text(
+                                &schedule_status.main.subtitle().unwrap_or_default(),
+                            ));
+                        row.schedule_status()
                             .set_icon_name(schedule_status.main.icon_name());
-                        row.schedule().set_level(schedule_status.main.level());
+                        row.schedule_status()
+                            .set_level(schedule_status.main.level());
                     }
                 }
             });

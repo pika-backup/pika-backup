@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkListBoxRow" id="widget">
+  <template class="PkOverviewRow" parent="GtkListBoxRow">
     <property name="activatable">0</property>
     <style>
       <class name="overview-row"/>
@@ -13,7 +13,7 @@
           <class name="boxed-list"/>
         </style>
         <child>
-          <object class="AdwActionRow" id="location">
+          <object class="AdwActionRow" id="location_row">
             <property name="activatable">1</property>
             <child type="prefix">
               <object class="GtkBox">
@@ -54,7 +54,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="PikaWrapBox" id="include">
+                      <object class="PikaWrapBox" id="include_box">
                         <property name="spacing">5</property>
                         <style>
                           <class name="tag-box"/>
@@ -79,7 +79,7 @@
           <object class="PikaStatusRow" id="status"/>
         </child>
         <child>
-          <object class="PikaStatusRow" id="schedule">
+          <object class="PikaStatusRow" id="schedule_status">
             <property name="activatable">1</property>
             <child type="suffix">
               <object class="GtkImage">
@@ -93,5 +93,5 @@
         </child>
       </object>
     </property>
-  </object>
+  </template>
 </interface>
