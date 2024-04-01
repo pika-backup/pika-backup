@@ -8,7 +8,6 @@ mod builder;
 mod dbus;
 mod dialog_encryption_password;
 mod dialog_setup;
-mod dialog_storage;
 mod error;
 mod export;
 mod globals;

@@ -97,7 +97,7 @@ mod imp {
                 }));
 
             self.detail_repo_row
-                .connect_activated(|_| Handler::run(ui::dialog_storage::show()));
+                .connect_activated(|_| Handler::run(ui::widget::dialog::storage::show()));
 
             self.add_include_button.connect_clicked(
                 glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().add_include().await })),

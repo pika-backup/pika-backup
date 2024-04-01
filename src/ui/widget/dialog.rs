@@ -7,6 +7,7 @@ mod exclude;
 mod preferences;
 mod prune;
 mod prune_review;
+pub mod storage;
 
 pub use archive_prefix::ArchivePrefixDialog;
 pub use check::CheckDialog;
