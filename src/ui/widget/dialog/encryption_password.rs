@@ -1,51 +1,77 @@
-use adw::prelude::*;
-
-use crate::ui;
-
 use crate::config;
 use crate::ui::prelude::*;
 
-pub struct Ask {
-    repo: config::Repository,
-    purpose: String,
-    keyring_error: Option<String>,
-}
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 
-impl Ask {
-    pub const fn new(
-        repo: config::Repository,
-        purpose: String,
-        keyring_error: Option<String>,
-    ) -> Self {
-        Self {
-            repo,
-            purpose,
-            keyring_error,
+mod imp {
+    use super::*;
+
+    #[derive(Default, gtk::CompositeTemplate)]
+    #[template(file = "encryption_password.ui")]
+    pub struct EncryptionPasswordDialog {
+        #[template_child]
+        pub(super) password: TemplateChild<gtk::PasswordEntry>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for EncryptionPasswordDialog {
+        const NAME: &'static str = "PkEncryptionPasswordDialog";
+        type Type = super::EncryptionPasswordDialog;
+        type ParentType = adw::MessageDialog;
+
+        fn class_init(klass: &mut Self::Class) {
+            klass.bind_template();
+            klass.bind_template_callbacks();
+        }
+
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
+            obj.init_template();
         }
     }
 
-    pub async fn run(&self) -> Option<config::Password> {
-        let ui = ui::widget::dialog::DialogEncryptionPassword::new();
+    impl ObjectImpl for EncryptionPasswordDialog {}
+    impl WidgetImpl for EncryptionPasswordDialog {}
+    impl WindowImpl for EncryptionPasswordDialog {}
+    impl MessageDialogImpl for EncryptionPasswordDialog {}
 
-        ui.dialog().set_transient_for(Some(&main_ui().window()));
+    #[gtk::template_callbacks]
+    impl EncryptionPasswordDialog {}
+}
+
+glib::wrapper! {
+    pub struct EncryptionPasswordDialog(ObjectSubclass<imp::EncryptionPasswordDialog>)
+    @extends adw::MessageDialog, gtk::Window, gtk::Widget,
+    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl EncryptionPasswordDialog {
+    pub fn new() -> Self {
+        glib::Object::new()
+    }
+
+    pub async fn present_with(
+        self,
+        transient_for: &impl IsA<gtk::Window>,
+        repo: &config::Repository,
+        purpose: &str,
+        keyring_error: Option<&str>,
+    ) -> Option<config::Password> {
+        self.set_transient_for(Some(transient_for));
 
         let mut body = gettextf(
             "The operation “{}” requires the encryption password of the repository on “{}”.",
-            &[&self.purpose, &self.repo.location()],
+            &[&purpose, &repo.location()],
         );
 
-        if let Some(keyring_error) = &self.keyring_error {
+        if let Some(keyring_error) = &keyring_error {
             body.push_str(&format!("\n\n{}", keyring_error));
         }
 
-        ui.dialog().set_body(&body);
-
-        ui.password().grab_focus();
-
-        ui.dialog().present();
-
-        let response = ui.dialog().choose_future().await;
-        let password = config::Password::new(ui.password().text().to_string());
+        self.set_body(&body);
+        self.imp().password.grab_focus();
+        let response = self.clone().choose_future().await;
+        let password = config::Password::new(self.imp().password.text().to_string());
 
         if response == "apply" {
             Some(password)

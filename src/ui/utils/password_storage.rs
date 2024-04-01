@@ -1,14 +1,18 @@
 use crate::config::{self, Password};
-use crate::ui::prelude::*;
+use crate::ui::widget::EncryptionPasswordDialog;
+use crate::ui::{prelude::*, App};
 use std::collections::HashMap;
 
 pub async fn password_dialog(
-    repo: config::Repository,
-    purpose: String,
-    keyring_error: Option<String>,
+    repo: &config::Repository,
+    purpose: &str,
+    keyring_error: Option<&str>,
 ) -> Option<config::Password> {
-    crate::ui::widget::dialog::encryption_password::Ask::new(repo, purpose, keyring_error)
-        .run()
+    // TODO: accept transient_for argument
+    let window = App::default().main_window();
+
+    EncryptionPasswordDialog::new()
+        .present_with(&window, repo, purpose, keyring_error)
         .await
 }
 

@@ -169,9 +169,9 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
                     };
 
                 if let Some(password) = crate::ui::utils::password_storage::password_dialog(
-                    command.repo(),
-                    T::name(),
-                    keyring_error,
+                    &command.repo(),
+                    &T::name(),
+                    keyring_error.as_deref(),
                 )
                 .await
                 {
