@@ -25,7 +25,7 @@ impl Ask {
     }
 
     pub async fn run(&self) -> Option<config::Password> {
-        let ui = ui::builder::DialogEncryptionPassword::new();
+        let ui = ui::widget::dialog::DialogEncryptionPassword::new();
 
         ui.dialog().set_transient_for(Some(&main_ui().window()));
 

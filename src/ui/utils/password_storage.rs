@@ -7,7 +7,7 @@ pub async fn password_dialog(
     purpose: String,
     keyring_error: Option<String>,
 ) -> Option<config::Password> {
-    crate::ui::dialog_encryption_password::Ask::new(repo, purpose, keyring_error)
+    crate::ui::widget::dialog::encryption_password::Ask::new(repo, purpose, keyring_error)
         .run()
         .await
 }

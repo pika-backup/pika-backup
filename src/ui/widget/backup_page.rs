@@ -15,7 +15,7 @@ mod imp {
 
     use crate::ui::{
         self, backup_status,
-        widget::{detail_dialog::DetailDialog, StorageDialog},
+        widget::{detail_dialog::DetailDialog, dialog::StorageDialog},
     };
 
     use super::*;

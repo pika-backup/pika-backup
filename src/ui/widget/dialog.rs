@@ -3,6 +3,7 @@ mod check;
 mod check_result;
 mod delete_archive;
 mod device_missing;
+pub mod encryption_password;
 mod exclude;
 mod preferences;
 mod prune;
