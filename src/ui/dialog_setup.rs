@@ -4,6 +4,7 @@ mod event;
 pub mod folder_button;
 mod insert;
 mod remote_location;
+mod transfer_option;
 
 use adw::prelude::*;
 use async_std::stream::StreamExt;

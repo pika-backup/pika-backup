@@ -10,14 +10,16 @@ use crate::config;
 use crate::ui;
 use ui::builder::DialogSetup;
 
+use super::transfer_option::SetupTransferOption;
+
 #[derive(Clone, Debug)]
-struct ArchiveParams {
-    prefix: Option<config::ArchivePrefix>,
-    parsed: borg::invert_command::Parsed,
-    hostname: String,
-    username: String,
-    end: chrono::NaiveDateTime,
-    stats: borg::json::Stats,
+pub struct ArchiveParams {
+    pub prefix: Option<config::ArchivePrefix>,
+    pub parsed: borg::invert_command::Parsed,
+    pub hostname: String,
+    pub username: String,
+    pub end: chrono::NaiveDateTime,
+    pub stats: borg::json::Stats,
 }
 
 fn extract_archive_params(archive: borg::ListArchive) -> ArchiveParams {
@@ -66,35 +68,15 @@ pub fn transfer_selection(
         ui.dialog().close();
     } else {
         for suggestion in options.take(10) {
-            let row = ui::builder::DialogSetupTransferOption::new();
+            let row = SetupTransferOption::new(suggestion);
 
-            row.hostname().set_label(&suggestion.hostname);
-            row.username().set_label(&suggestion.username);
-            row.prefix().set_label(
-                &suggestion
-                    .prefix
-                    .as_ref()
-                    .map(|x| x.to_string())
-                    .unwrap_or_else(|| gettext("None")),
-            );
-
-            for include in suggestion.parsed.include.iter() {
-                let tag = ui::widget::LocationTag::from_path(include.clone());
-                row.include().add_child(&tag.build());
-            }
-
-            for exclude in suggestion.parsed.exclude.iter() {
-                let tag = ui::widget::LocationTag::from_exclude(exclude.clone().into_relative());
-                row.exclude().add_child(&tag.build());
-            }
-
-            row.transfer().connect_activated(
+            row.transfer_row().connect_activated(
                 clone!(@weak ui, @strong suggestion, @strong config_id => move |_|
                 Handler::handle(insert_transfer(ui, &suggestion, &config_id))
                 ),
             );
 
-            ui.transfer_suggestions().append(&row.widget());
+            ui.transfer_suggestions().append(&row);
         }
 
         ui.page_transfer_stack()

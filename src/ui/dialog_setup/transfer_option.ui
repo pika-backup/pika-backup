@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="GtkListBoxRow" id="widget">
+  <template class="PkSetupTransferOption" parent="GtkListBoxRow">
     <property name="activatable">0</property>
     <style>
       <class name="overview-row"/>
@@ -14,7 +14,7 @@
           <class name="boxed-list"/>
         </style>
         <child>
-          <object class="AdwActionRow" id="transfer">
+          <object class="AdwActionRow" id="transfer_row">
             <property name="activatable">1</property>
             <child type="prefix">
               <object class="GtkBox">
@@ -93,7 +93,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="PikaWrapBox" id="include">
+                      <object class="PikaWrapBox" id="include_box">
                         <property name="spacing">5</property>
                         <property name="width-estimate">370</property>
                         <style>
@@ -117,7 +117,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="PikaWrapBox" id="exclude">
+                      <object class="PikaWrapBox" id="exclude_box">
                         <property name="spacing">5</property>
                         <property name="width-estimate">370</property>
                         <style>
@@ -141,5 +141,5 @@
         </child>
       </object>
     </property>
-  </object>
+  </template>
 </interface>
