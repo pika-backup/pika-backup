@@ -9,6 +9,7 @@ mod exclude;
 mod preferences;
 mod prune;
 mod prune_review;
+pub mod setup;
 mod storage;
 
 pub use archive_prefix::ArchivePrefixDialog;
@@ -37,5 +38,7 @@ pub fn init() {
     PreferencesDialog::static_type();
     PruneDialog::static_type();
     PruneReviewDialog::static_type();
+    setup::folder_button::FolderButton::static_type();
+    setup::add_task::AddConfigTask::static_type();
     StorageDialog::static_type();
 }

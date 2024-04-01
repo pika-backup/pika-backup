@@ -22,15 +22,12 @@ pub use wrap_box::WrapBox;
 
 pub use dialog::*;
 
-use crate::ui;
 use glib::prelude::*;
 
 pub fn init() {
     frequency::FrequencyObject::static_type();
     prune_preset::PrunePresetObject::static_type();
     weekday::WeekdayObject::static_type();
-    ui::dialog_setup::folder_button::FolderButton::static_type();
-    ui::dialog_setup::add_task::AddConfigTask::static_type();
     ArchivesPage::static_type();
     BackupPage::static_type();
     BackupInfoDialog::static_type();

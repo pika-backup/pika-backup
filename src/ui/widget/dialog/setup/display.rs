@@ -8,7 +8,6 @@ use std::fmt::Write;
 use crate::borg;
 use crate::config;
 use crate::ui;
-use ui::builder::DialogSetup;
 
 use super::transfer_option::SetupTransferOption;
 

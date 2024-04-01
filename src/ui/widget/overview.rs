@@ -58,9 +58,9 @@ mod imp {
             self.parent_constructed();
 
             self.add_backup
-                .connect_clicked(|_| ui::dialog_setup::show());
+                .connect_clicked(|_| ui::widget::setup::show());
             self.add_backup_empty
-                .connect_clicked(|_| ui::dialog_setup::show());
+                .connect_clicked(|_| ui::widget::setup::show());
 
             let imp = self.ref_counted();
             self.main_backups.connect_map(move |_| imp.rebuild_list());

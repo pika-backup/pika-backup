@@ -152,7 +152,7 @@ impl App {
                 })
                 .build(),
             gio::ActionEntryBuilder::new("setup")
-                .activate(|_app: &Self, _, _| ui::dialog_setup::show())
+                .activate(|_app: &Self, _, _| ui::widget::setup::show())
                 .build(),
             gio::ActionEntryBuilder::new("help")
                 .activate(|app: &Self, _, _| {

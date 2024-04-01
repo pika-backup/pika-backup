@@ -6,7 +6,6 @@ mod backup_status;
 #[allow(dead_code)]
 mod builder;
 mod dbus;
-mod dialog_setup;
 mod error;
 mod export;
 mod globals;
