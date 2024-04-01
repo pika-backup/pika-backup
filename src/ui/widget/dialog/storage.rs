@@ -1,49 +1,122 @@
-use adw::traits::ActionRowExt;
 use gtk::prelude::*;
 
 use crate::config;
 use crate::ui;
-use crate::ui::prelude::*;
 
-pub async fn show() -> Result<()> {
-    let storage = ui::builder::DialogStorage::new();
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 
-    storage
-        .dialog()
-        .set_transient_for(Some(&main_ui().window()));
+mod imp {
+    use super::*;
+    use std::cell::OnceCell;
 
-    let backup = BACKUP_CONFIG.load().active()?.clone();
-    match &backup.repo {
-        config::Repository::Local(repo) => {
-            storage
-                .volume()
-                .set_subtitle(&repo.mount_name.clone().unwrap_or_default());
-            storage
-                .device()
-                .set_subtitle(&repo.drive_name.clone().unwrap_or_default());
-            storage.path().set_subtitle(&repo.path().to_string_lossy());
-            storage.disk().set_visible(true);
+    #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
+    #[template(file = "storage.ui")]
+    #[properties(wrapper_type = super::StorageDialog)]
+    pub struct StorageDialog {
+        #[property(get, set, construct_only)]
+        config: OnceCell<crate::config::Backup>,
+
+        #[template_child]
+        disk_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        volume_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        device_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        path_row: TemplateChild<adw::ActionRow>,
+
+        #[template_child]
+        remote_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        uri_row: TemplateChild<adw::ActionRow>,
+
+        #[template_child]
+        fs_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        fs_size_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        fs_free_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        fs_usage_bar: TemplateChild<gtk::LevelBar>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for StorageDialog {
+        const NAME: &'static str = "PkStorageDialog";
+        type Type = super::StorageDialog;
+        type ParentType = adw::Window;
+
+        fn class_init(klass: &mut Self::Class) {
+            klass.bind_template();
+            klass.bind_template_callbacks();
         }
-        config::Repository::Remote { .. } => {
-            storage.uri().set_subtitle(&backup.repo.to_string());
 
-            storage.remote().set_visible(true);
+        fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
+            obj.init_template();
         }
     }
 
-    if let Some(df) = ui::utils::df::cached_or_lookup(&backup).await {
-        show_df(&df, &storage);
+    #[glib::derived_properties]
+    impl ObjectImpl for StorageDialog {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let config = self
+                .config
+                .get()
+                .expect("construct_only property must be set");
+
+            match &config.repo {
+                config::Repository::Local(repo) => {
+                    self.volume_row
+                        .set_subtitle(&repo.mount_name.clone().unwrap_or_default());
+                    self.device_row
+                        .set_subtitle(&repo.drive_name.clone().unwrap_or_default());
+                    self.path_row.set_subtitle(&repo.path().to_string_lossy());
+                    self.disk_group.set_visible(true);
+                }
+                config::Repository::Remote { .. } => {
+                    self.uri_row.set_subtitle(&config.repo.to_string());
+
+                    self.remote_group.set_visible(true);
+                }
+            }
+        }
     }
+    impl WidgetImpl for StorageDialog {}
+    impl WindowImpl for StorageDialog {}
+    impl AdwWindowImpl for StorageDialog {}
 
-    storage.dialog().set_visible(true);
-
-    Ok(())
+    #[gtk::template_callbacks]
+    impl StorageDialog {
+        pub(super) fn set_df(&self, df: &ui::utils::df::Space) {
+            self.fs_size_row.set_subtitle(&glib::format_size(df.size));
+            self.fs_free_row.set_subtitle(&glib::format_size(df.avail));
+            self.fs_usage_bar
+                .set_value(1.0 - df.avail as f64 / df.size as f64);
+            self.fs_group.set_visible(true);
+        }
+    }
 }
 
-fn show_df(df: &ui::utils::df::Space, ui: &ui::builder::DialogStorage) {
-    ui.fs_size().set_subtitle(&glib::format_size(df.size));
-    ui.fs_free().set_subtitle(&glib::format_size(df.avail));
-    ui.fs_usage()
-        .set_value(1.0 - df.avail as f64 / df.size as f64);
-    ui.fs().set_visible(true);
+glib::wrapper! {
+    pub struct StorageDialog(ObjectSubclass<imp::StorageDialog>)
+    @extends gtk::Widget, gtk::Window, adw::Window,
+    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+}
+
+impl StorageDialog {
+    pub fn new(config: &config::Backup) -> Self {
+        glib::Object::builder().property("config", config).build()
+    }
+
+    pub async fn present(&self, transient_for: &impl IsA<gtk::Window>) {
+        self.set_transient_for(Some(transient_for));
+        gtk::Window::present(self.upcast_ref());
+
+        if let Some(df) = ui::utils::df::cached_or_lookup(&self.config()).await {
+            self.imp().set_df(&df);
+        }
+    }
 }

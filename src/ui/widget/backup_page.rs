@@ -13,7 +13,10 @@ use super::detail_page::DetailPageKind;
 mod imp {
     use std::cell::RefCell;
 
-    use crate::ui::{self, backup_status, widget::detail_dialog::DetailDialog};
+    use crate::ui::{
+        self, backup_status,
+        widget::{detail_dialog::DetailDialog, StorageDialog},
+    };
 
     use super::*;
 
@@ -97,7 +100,14 @@ mod imp {
                 }));
 
             self.detail_repo_row
-                .connect_activated(|_| Handler::run(ui::widget::dialog::storage::show()));
+                .connect_activated(glib::clone!(@weak obj => move |_| {
+                    let window = obj.app_window();
+                    Handler::run(async move {
+                        let dialog = StorageDialog::new(BACKUP_CONFIG.load().active()?);
+                        dialog.present(&window).await;
+                        Ok(())
+                    });
+                }));
 
             self.add_include_button.connect_clicked(
                 glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().add_include().await })),

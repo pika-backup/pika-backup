@@ -7,7 +7,7 @@ mod exclude;
 mod preferences;
 mod prune;
 mod prune_review;
-pub mod storage;
+mod storage;
 
 pub use archive_prefix::ArchivePrefixDialog;
 pub use check::CheckDialog;
@@ -18,6 +18,7 @@ pub use exclude::ExcludeDialog;
 pub use preferences::PreferencesDialog;
 pub use prune::PruneDialog;
 pub use prune_review::PruneReviewDialog;
+pub use storage::StorageDialog;
 
 use glib::prelude::*;
 
@@ -31,4 +32,5 @@ pub fn init() {
     PreferencesDialog::static_type();
     PruneDialog::static_type();
     PruneReviewDialog::static_type();
+    StorageDialog::static_type();
 }

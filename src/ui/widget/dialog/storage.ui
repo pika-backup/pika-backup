@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <object class="AdwWindow" id="dialog">
+  <template class="PkStorageDialog" parent="AdwWindow">
     <property name="title" translatable="yes">Backup Location</property>
     <property name="modal">1</property>
     <property name="default-width">370</property>
@@ -25,11 +25,11 @@
         <property name="content">
           <object class="AdwPreferencesPage">
             <child>
-              <object class="AdwPreferencesGroup" id="disk">
+              <object class="AdwPreferencesGroup" id="disk_group">
                 <property name="visible">0</property>
                 <property name="title" translatable="yes">Disk</property>
                 <child>
-                  <object class="AdwActionRow" id="volume">
+                  <object class="AdwActionRow" id="volume_row">
                     <property name="title" translatable="yes">Volume</property>
                     <property name="subtitle-selectable">1</property>
                     <style>
@@ -38,7 +38,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow" id="device">
+                  <object class="AdwActionRow" id="device_row">
                     <property name="title" translatable="yes">Device</property>
                     <property name="subtitle-selectable">1</property>
                     <style>
@@ -47,7 +47,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow" id="path">
+                  <object class="AdwActionRow" id="path_row">
                     <property name="title" translatable="yes">Path</property>
                     <property name="subtitle-selectable">1</property>
                     <style>
@@ -58,11 +58,11 @@
               </object>
             </child>
             <child>
-              <object class="AdwPreferencesGroup" id="remote">
+              <object class="AdwPreferencesGroup" id="remote_group">
                 <property name="visible">0</property>
                 <property name="title" translatable="yes">Remote</property>
                 <child>
-                  <object class="AdwActionRow" id="uri">
+                  <object class="AdwActionRow" id="uri_row">
                     <property name="title" translatable="yes">URL</property>
                     <property name="subtitle-selectable">1</property>
                     <style>
@@ -73,11 +73,11 @@
               </object>
             </child>
             <child>
-              <object class="AdwPreferencesGroup" id="fs">
+              <object class="AdwPreferencesGroup" id="fs_group">
                 <property name="visible">0</property>
                 <property name="title" translatable="yes">Space</property>
                 <child>
-                  <object class="AdwActionRow" id="fs_size">
+                  <object class="AdwActionRow" id="fs_size_row">
                     <property name="title" translatable="yes">Total</property>
                     <property name="subtitle-selectable">1</property>
                     <style>
@@ -86,7 +86,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow" id="fs_free">
+                  <object class="AdwActionRow" id="fs_free_row">
                     <property name="title" translatable="yes">Free</property>
                     <property name="subtitle-selectable">1</property>
                     <style>
@@ -95,7 +95,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkLevelBar" id="fs_usage">
+                  <object class="GtkLevelBar" id="fs_usage_bar">
                     <property name="margin-top">24</property>
                   </object>
                 </child>
@@ -105,5 +105,5 @@
         </property>
       </object>
     </property>
-  </object>
+  </template>
 </interface>
