@@ -4,11 +4,9 @@ use adw::subclass::prelude::*;
 
 use itertools::Itertools;
 use std::collections::BTreeSet;
-use std::fmt::Write;
 
 use crate::borg;
 use crate::config;
-use crate::ui;
 
 use super::imp;
 use super::transfer_option::SetupTransferOption;
@@ -201,49 +199,5 @@ impl imp::SetupDialog {
         self.page_password.set_can_pop(true);
         self.page_password_stack
             .set_visible_child(&*self.page_password_input);
-    }
-
-    pub async fn add_mount<F: 'static + Fn()>(
-        list: &gtk::ListBox,
-        mount: &gio::Mount,
-        repo: Option<&std::path::Path>,
-        display_fn: F,
-    ) {
-        let row = ui::utils::new_action_row_with_gicon(Some(mount.icon().as_ref()));
-        list.append(&row);
-
-        row.set_widget_name(&mount.root().uri());
-        row.connect_activated(move |_| display_fn());
-        row.add_suffix(&gtk::Image::from_icon_name("go-next-symbolic"));
-
-        let mut label1 = mount.name().to_string();
-
-        let mut label2: String = mount
-            .drive()
-            .as_ref()
-            .map(gio::Drive::name)
-            .map(Into::into)
-            .unwrap_or_else(|| mount.root().uri().to_string());
-
-        if let Some(mount_path) = mount.root().path() {
-            if let Ok(df) = ui::utils::df::local(&mount_path).await {
-                let _ = write!(label1, " – {}", &glib::format_size(df.size));
-
-                label2.push_str(" – ");
-                label2.push_str(&gettextf("Free space: {}", &[&glib::format_size(df.avail)]));
-            }
-
-            if let Some(repo_path) = repo {
-                row.set_widget_name(&gio::File::for_path(repo_path).uri());
-                if let Ok(suffix) = repo_path.strip_prefix(mount_path) {
-                    if !suffix.to_string_lossy().is_empty() {
-                        let _ = write!(label1, " / {}", suffix.display());
-                    }
-                }
-            }
-        }
-
-        row.set_title(&glib::markup_escape_text(&label1));
-        row.set_subtitle(&glib::markup_escape_text(&label2));
     }
 }

@@ -8,13 +8,13 @@ use crate::ui::*;
 impl imp::SetupDialog {
     pub fn event_navigation_view_changed(&self) {
         if let Some(visible_page) = self.navigation_view.visible_page() {
-            if visible_page == *self.page_overview {
+            if visible_page == *self.start_page {
                 self.init_path.reset();
                 self.location_url.set_text("");
                 self.encryption_preferences_group.reset(true);
             }
 
-            if visible_page == *self.page_overview || visible_page == *self.page_detail {
+            if visible_page == *self.start_page || visible_page == *self.page_detail {
                 self.ask_password.set_text("");
             }
         }
@@ -56,14 +56,6 @@ impl imp::SetupDialog {
         let obj = self.obj().clone();
         Self::execute(
             async move { obj.imp().on_init_button_clicked().await },
-            self.obj().clone(),
-        );
-    }
-
-    pub fn event_show_add_local(&self) {
-        let obj = self.obj().clone();
-        Self::execute(
-            async move { obj.imp().on_add_repo_list_activated_local().await },
             self.obj().clone(),
         );
     }

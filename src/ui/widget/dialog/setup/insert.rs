@@ -11,41 +11,6 @@ use crate::ui;
 use crate::ui::prelude::*;
 
 impl imp::SetupDialog {
-    pub async fn on_add_repo_list_activated_local(&self) -> Result<()> {
-        self.obj().set_visible(false);
-
-        if let Some(path) =
-            ui::utils::folder_chooser_dialog(&gettext("Setup Existing Repository"), None)
-                .await
-                .ok()
-                .and_then(|x| x.path())
-        {
-            self.obj().set_visible(true);
-            if ui::utils::is_backup_repo(&path).await {
-                let result = self
-                    .add_first_try(local::Repository::from_path(path).into_config())
-                    .await;
-                // add_first_try moves us to detail, fix here for now
-                if !matches!(result, Err(Error::UserCanceled) | Ok(())) {
-                    self.navigation_view.pop_to_page(&*self.page_overview);
-                }
-                return result;
-            } else {
-                return Err(Message::new(
-                    gettext("Location is not a valid backup repository."),
-                    gettext(
-                        "The repository must originate from Pika Backup or compatible software.",
-                    ),
-                )
-                .into());
-            }
-        } else {
-            self.obj().present();
-        }
-
-        Ok(())
-    }
-
     pub async fn add_button_clicked(&self) -> Result<()> {
         let remote_location = RemoteLocation::from_user_input(self.location_url.text().to_string())
             .err_to_msg(gettext("Invalid Remote Location"))?;
@@ -192,6 +157,8 @@ impl imp::SetupDialog {
 
     pub async fn add(&self) -> Result<()> {
         let guard = QuitGuard::default();
+
+        // Show password page
         self.pending_check();
 
         let repo = self.add_task.repo().unwrap();

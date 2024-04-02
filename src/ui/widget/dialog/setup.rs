@@ -4,21 +4,42 @@ mod event;
 pub mod folder_button;
 mod insert;
 mod remote_location;
+mod start;
 mod transfer_option;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use async_std::stream::StreamExt;
 
-use crate::ui;
+use start::SetupStartPage;
+
 use crate::ui::prelude::*;
 use crate::ui::widget::EncryptionPreferencesGroup;
 use add_task::AddConfigTask;
 use folder_button::FolderButton;
 
-const LISTED_URI_SCHEMES: &[&str] = &["file", "smb", "sftp", "ssh"];
+#[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum, Default)]
+#[enum_type(name = "PkSetupKind")]
+pub enum SetupKind {
+    #[default]
+    Init,
+    AddExisting,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum, Default)]
+#[enum_type(name = "PkSetupRepoKind")]
+pub enum SetupRepoKind {
+    #[default]
+    Local,
+    Remote,
+}
 
 mod imp {
+
+    use crate::{
+        config,
+        ui::{self, error::HandleError},
+    };
+
     use super::*;
     use std::cell::Cell;
 
@@ -34,19 +55,7 @@ mod imp {
 
         // Initial screen
         #[template_child]
-        pub(super) page_overview: TemplateChild<adw::NavigationPage>,
-        #[template_child]
-        pub(super) init_repo_list: TemplateChild<gtk::ListBox>,
-        #[template_child]
-        pub(super) init_local_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) init_remote_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) add_repo_list: TemplateChild<gtk::ListBox>,
-        #[template_child]
-        pub(super) add_local_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) add_remote_row: TemplateChild<adw::ActionRow>,
+        pub(super) start_page: TemplateChild<SetupStartPage>,
 
         // First page
         #[template_child]
@@ -170,19 +179,6 @@ mod imp {
             // Page Overview
 
             let imp = self.ref_counted();
-            self.init_local_row
-                .connect_activated(clone!(@weak imp => move |_| imp.event_show_init_local()));
-
-            self.init_remote_row
-                .connect_activated(clone!(@weak imp => move |_| imp.event_show_init_remote()));
-
-            self.add_local_row
-                .connect_activated(clone!(@weak imp =>  move |_| imp.event_show_add_local()));
-
-            self.add_remote_row
-                .connect_activated(clone!(@weak imp => move |_| imp.event_show_add_remote()));
-
-            self.load_available_mounts_and_repos();
 
             // Page Detail
 
@@ -230,25 +226,10 @@ mod imp {
             self.creating_repository_spinner.connect_map(|s| s.start());
             self.creating_repository_spinner.connect_unmap(|s| s.stop());
 
-            // refresh ui on mount events
-
-            let volume_monitor = gio::VolumeMonitor::get();
-
-            volume_monitor.connect_mount_added(clone!(@weak dialog => move |_, mount| {
-                debug!("Mount added");
-                let mount = mount.clone();
-                Handler::new().error_transient_for(dialog.clone())
-                .spawn(async move { dialog.imp().load_mount(mount.clone()).await });
-            }));
-
-            volume_monitor.connect_mount_removed(clone!(@weak dialog => move |_, mount| {
-                debug!("Mount removed");
-                Self::remove_mount(&dialog.imp().add_repo_list, &mount.root().uri());
-                Self::remove_mount(
-                    &dialog.imp().init_repo_list,
-                    &mount.root().uri(),
-                );
-            }));
+            let start_page = self.start_page.clone();
+            glib::MainContext::default().spawn_local(async move {
+                Handler::handle(start_page.refresh().await);
+            });
         }
     }
     impl WidgetImpl for SetupDialog {}
@@ -257,82 +238,70 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl SetupDialog {
-        fn load_available_mounts_and_repos(&self) {
-            debug!("Refreshing list of existing repos");
-            let monitor = gio::VolumeMonitor::get();
-
-            ui::utils::clear(&self.add_repo_list);
-            ui::utils::clear(&self.init_repo_list);
-
-            for mount in monitor.mounts() {
-                let obj = self.obj().clone();
-                Handler::new()
-                    .error_transient_for(self.obj().clone())
-                    .spawn(async move { obj.imp().load_mount(mount).await });
+        async fn show_add_existing_file_chooser(&self) -> Result<Option<gio::File>> {
+            if let Some(path) =
+                ui::utils::folder_chooser_dialog(&gettext("Setup Existing Repository"), None)
+                    .await
+                    .ok()
+                    .and_then(|x| x.path())
+            {
+                self.obj().set_visible(true);
+                if ui::utils::is_backup_repo(&path).await {
+                    return Ok(Some(gio::File::for_path(path)));
+                } else {
+                    return Err(Message::new(
+                        gettext("Location is not a valid backup repository."),
+                        gettext(
+                            "The repository must originate from Pika Backup or compatible software.",
+                        ),
+                    )
+                    .into());
+                }
             }
 
-            debug!("List of existing repos refreshed");
+            Ok(None)
         }
 
-        async fn load_mount(&self, mount: gio::Mount) -> Result<()> {
-            let uri_scheme = mount
-                .root()
-                .uri_scheme()
-                .unwrap_or_else(|| glib::GString::from(""))
-                .to_lowercase();
+        #[template_callback]
+        async fn on_start_page_continue(
+            &self,
+            kind: SetupKind,
+            repo: SetupRepoKind,
+            file: Option<gio::File>,
+        ) {
+            match (kind, repo, file) {
+                (SetupKind::Init, SetupRepoKind::Local, file) => {
+                    self.show_init_local(file.and_then(|f| f.path()).as_deref());
+                }
+                (SetupKind::Init, SetupRepoKind::Remote, _) => self.show_init_remote(),
+                (SetupKind::AddExisting, SetupRepoKind::Local, file) => {
+                    let path = if let Some(file) = file {
+                        file.path()
+                    } else {
+                        self.show_add_existing_file_chooser()
+                            .await
+                            .handle_transient_for(&*self.obj())
+                            .await
+                            .flatten()
+                            .and_then(|f| f.path())
+                    };
 
-            if !LISTED_URI_SCHEMES.contains(&uri_scheme.as_str()) {
-                info!("Ignoring volume because of URI scheme '{}'", uri_scheme);
-                return Ok(());
-            }
+                    let Some(path) = path else {
+                        return;
+                    };
 
-            let imp = self.ref_counted();
-
-            if let Some(mount_point) = mount.root().path() {
-                Self::add_mount(
-                    &self.init_repo_list,
-                    &mount,
-                    None,
-                    clone!(@weak imp, @strong mount_point => move || {
-                        imp.show_init_local(Some(&mount_point))
-                    }),
-                )
-                .await;
-
-                let mut paths = Vec::new();
-                if let Ok(mut dirs) = async_std::fs::read_dir(mount_point).await {
-                    while let Some(Ok(path)) = dirs.next().await {
-                        if ui::utils::is_backup_repo(path.path().as_ref()).await {
-                            paths.push(path.path());
-                        }
+                    let result = self
+                        .add_first_try(config::local::Repository::from_path(path).into_config())
+                        .await;
+                    // add_first_try moves us to detail, fix here for now
+                    if !matches!(result, Err(Error::UserCanceled) | Ok(())) {
+                        result.handle_transient_for(&*self.obj()).await;
+                        self.navigation_view.pop_to_page(&*self.start_page);
                     }
                 }
-
-                for path in paths {
-                    trace!("Adding repo to ui '{:?}'", path);
-                    Self::add_mount(
-                        &self.add_repo_list,
-                        &mount,
-                        Some(path.as_ref()),
-                        clone!(@weak imp, @strong path => move || {
-                            imp.event_add_local(Some(path.as_ref()))
-                        }),
-                    )
-                    .await;
+                (SetupKind::AddExisting, SetupRepoKind::Remote, _) => {
+                    self.event_show_add_remote();
                 }
-            }
-
-            Ok(())
-        }
-
-        fn remove_mount(list: &gtk::ListBox, root: &str) {
-            let mut i = 0;
-            while let Some(list_row) = list.row_at_index(i) {
-                if list_row.widget_name().starts_with(root) {
-                    list.remove(&list_row);
-                    break;
-                }
-                i += 1
             }
         }
     }
