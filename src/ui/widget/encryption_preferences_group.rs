@@ -76,7 +76,7 @@ mod imp {
             self.password_confirm_entry.set_text("");
         }
 
-        pub fn validated_password(&self) -> Result<config::Password> {
+        pub fn validated_password(&self) -> Result<Option<config::Password>> {
             if self.encrypted() {
                 let password = self.password_entry.text().to_string();
                 if password.is_empty() {
@@ -91,9 +91,9 @@ mod imp {
                     return Err(Message::short(gettext("Entered passwords do not match.")).into());
                 }
 
-                Ok(crate::config::Password::new(password))
+                Ok(Some(crate::config::Password::new(password)))
             } else {
-                Ok(crate::config::Password::new("".to_string()))
+                Ok(None)
             }
         }
 
@@ -170,7 +170,7 @@ impl EncryptionPreferencesGroup {
         self.imp().reset();
     }
 
-    pub fn validated_password(&self) -> Result<config::Password> {
+    pub fn validated_password(&self) -> Result<Option<config::Password>> {
         self.imp().validated_password()
     }
 }

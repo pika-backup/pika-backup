@@ -32,44 +32,8 @@
           </object>
         </child>
         <child>
-          <object class="AdwNavigationPage" id="page_setup_encryption">
-            <property name="title" translatable="yes">Setup Encryption</property>
-            <property name="child">
-              <object class="AdwToolbarView">
-                <child type="top">
-                  <object class="AdwHeaderBar" />
-                </child>
-                <property name="content">
-                  <object class="GtkOverlay">
-                    <child>
-                      <object class="AdwPreferencesPage">
-                        <property name="vexpand">1</property>
-                        <style>
-                          <class name="dialog-page" />
-                        </style>
-                        <child>
-                          <object class="PikaEncryptionPreferencesGroup" id="encryption_preferences_group" />
-                        </child>
-                      </object>
-                    </child>
-                    <child type="overlay">
-                      <object class="GtkButton" id="init_button">
-                        <property name="halign">center</property>
-                        <property name="valign">end</property>
-                        <property name="use-underline">1</property>
-                        <property name="label" translatable="yes">_Create</property>
-                        <signal name="clicked" handler="on_init_clicked" swapped="true"/>
-                        <style>
-                          <class name="pill" />
-                          <class name="suggested-action" />
-                          <class name="dialog-pill" />
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                </property>
-              </object>
-            </property>
+          <object class="PkSetupEncryptionPage" id="encryption_page">
+            <signal name="continue" handler="on_encryption_page_continue" swapped="true"/>
           </object>
         </child>
         <child>

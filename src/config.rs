@@ -41,7 +41,8 @@ impl std::default::Default for Version {
 /// Compatibility config version
 pub const VERSION: u64 = 2;
 
-#[derive(Clone, Default)]
+#[derive(Clone, Default, glib::Boxed)]
+#[boxed_type(name = "PkPasswordConfig", nullable)]
 pub struct Password(Zeroizing<Vec<u8>>);
 
 impl Password {

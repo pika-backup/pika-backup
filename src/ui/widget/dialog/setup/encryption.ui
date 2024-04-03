@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.10" />
+  <requires lib="libadwaita" version="1.4" />
+  <template class="PkSetupEncryptionPage" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Setup Encryption</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" />
+        </child>
+        <property name="content">
+          <object class="GtkOverlay">
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">1</property>
+                <style>
+                  <class name="dialog-page" />
+                </style>
+                <child>
+                  <object class="PikaEncryptionPreferencesGroup" id="encryption_preferences_group" />
+                </child>
+              </object>
+            </child>
+            <child type="overlay">
+              <object class="GtkButton">
+                <property name="halign">center</property>
+                <property name="valign">end</property>
+                <property name="use-underline">1</property>
+                <property name="label" translatable="yes">_Create</property>
+                <signal name="clicked" handler="on_create_clicked" swapped="true"/>
+                <style>
+                  <class name="pill" />
+                  <class name="suggested-action" />
+                  <class name="dialog-pill" />
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

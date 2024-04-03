@@ -457,7 +457,7 @@ mod imp {
 
             let mut command: borg::Command<borg::task::KeyChangePassphrase> =
                 borg::Command::new(config.clone());
-            command.task.set_new_password(Some(password.clone()));
+            command.task.set_new_password(password.clone());
             self.change_password_communication
                 .replace(Some(command.communication.clone()));
             crate::ui::utils::borg::exec(command, &QuitGuard::default())
@@ -487,7 +487,7 @@ mod imp {
             }
 
             // Save to keyring
-            if encrypted {
+            if let Some(password) = password {
                 crate::ui::utils::password_storage::store_password(&config, &password).await?;
             }
 

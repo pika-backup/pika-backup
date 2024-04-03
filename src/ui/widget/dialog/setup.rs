@@ -1,5 +1,6 @@
 pub mod add_task;
 mod display;
+mod encryption;
 pub mod folder_button;
 mod insert;
 mod location;
@@ -10,20 +11,19 @@ mod util;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
 use start::SetupStartPage;
 
 use crate::ui;
 use crate::ui::error::HandleError;
 use crate::ui::prelude::*;
-use crate::ui::widget::EncryptionPreferencesGroup;
+use crate::ui::App;
 use add_task::AddConfigTask;
 use util::*;
 
 mod imp {
     use crate::config;
-
-    use self::ui::App;
 
     use super::*;
     use std::cell::{Cell, RefCell};
@@ -54,11 +54,7 @@ mod imp {
 
         // Encryption page
         #[template_child]
-        pub(super) page_setup_encryption: TemplateChild<adw::NavigationPage>,
-        #[template_child]
-        pub(super) encryption_preferences_group: TemplateChild<EncryptionPreferencesGroup>,
-        #[template_child]
-        pub(super) init_button: TemplateChild<gtk::Button>,
+        pub(super) encryption_page: TemplateChild<SetupEncryptionPage>,
 
         // Ask for password page
         #[template_child]
@@ -205,7 +201,7 @@ mod imp {
         }
 
         fn show_location_page(&self) {
-            self.encryption_preferences_group.reset(true);
+            self.encryption_page.reset();
             self.ask_password.set_text("");
             self.navigation_view.push(&*self.location_page);
         }
@@ -290,7 +286,7 @@ mod imp {
                 match action {
                     SetupAction::Init => {
                         // Show encryption page before doing anything with the repo config
-                        self.navigation_view.push(&*self.page_setup_encryption);
+                        self.navigation_view.push(&*self.encryption_page);
                     }
                     SetupAction::AddExisting => {
                         // Try to access the repository
@@ -306,13 +302,7 @@ mod imp {
         }
 
         #[template_callback]
-        async fn on_init_clicked(&self) {
-            // TODO temp
-            self.on_encryption_page_continue().await;
-        }
-
-        #[template_callback]
-        async fn on_encryption_page_continue(&self) {
+        async fn on_encryption_page_continue(&self, password: Option<config::Password>) {
             let Some(repo) = self.repo_config.borrow().clone() else {
                 error!("Encryption page create button clicked but no repo config set");
                 self.navigation_view.pop_to_page(&*self.start_page);
@@ -320,17 +310,21 @@ mod imp {
                 return;
             };
 
-            self.action_init_repo(repo)
+            self.action_init_repo(repo, password)
                 .await
                 .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
                 .await;
         }
 
-        async fn action_init_repo(&self, repo: config::Repository) -> Result<()> {
+        async fn action_init_repo(
+            &self,
+            repo: config::Repository,
+            password: Option<config::Password>,
+        ) -> Result<()> {
             self.repo_config.take();
 
             self.navigation_view.push(&*self.page_creating);
-            let config = self.init_repo(repo).await?;
+            let config = self.init_repo(repo, password).await?;
 
             // Everything is done, we have a new repo
             App::default().main_window().view_backup_conf(&config);
@@ -445,7 +439,7 @@ mod imp {
 
             if &visible_page == self.start_page.upcast_ref::<adw::NavigationPage>() {
                 self.ask_password.set_text("");
-                self.encryption_preferences_group.reset(true);
+                self.encryption_page.reset();
 
                 self.action.take();
                 self.location.take();

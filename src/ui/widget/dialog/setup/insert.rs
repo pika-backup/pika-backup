@@ -11,12 +11,12 @@ impl imp::SetupDialog {
     pub(super) async fn init_repo(
         &self,
         repo: crate::config::Repository,
+        password: Option<crate::config::Password>,
     ) -> Result<crate::config::ConfigId> {
-        let encrypted = self.encryption_preferences_group.encrypted();
-        let password = self.encryption_preferences_group.validated_password()?;
+        let encrypted = password.is_some();
 
         let mut borg = borg::CommandOnlyRepo::new(repo.clone());
-        if encrypted {
+        if let Some(password) = &password {
             borg.set_password(password.clone());
         }
 
@@ -40,9 +40,8 @@ impl imp::SetupDialog {
         let config = config::Backup::new(repo.clone(), info, encrypted);
 
         Self::insert_backup_config(config.clone())?;
-        if encrypted {
-            if let Err(err) = ui::utils::password_storage::store_password(&config, &password).await
-            {
+        if let Some(password) = &password {
+            if let Err(err) = ui::utils::password_storage::store_password(&config, password).await {
                 // Error when storing the password. The repository has already been created, therefore we must continue at this point.
                 err.show().await;
             }
@@ -117,12 +116,5 @@ impl imp::SetupDialog {
             s.insert(config.clone())?;
             Ok(())
         })
-    }
-
-    pub fn execute<F: std::future::Future<Output = Result<()>> + 'static, W: IsA<gtk::Window>>(
-        f: F,
-        window: W,
-    ) {
-        Handler::new().error_transient_for(window).spawn(f);
     }
 }
