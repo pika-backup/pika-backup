@@ -4,13 +4,14 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use async_std::stream::StreamExt;
 
-use super::{SetupKind, SetupRepoKind};
+use super::{SetupAction, SetupLocationKind};
 use crate::ui;
 use crate::ui::prelude::*;
 
 const LISTED_URI_SCHEMES: &[&str] = &["file", "smb", "sftp", "ssh"];
 
 mod imp {
+    use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
     use super::*;
@@ -56,8 +57,8 @@ mod imp {
             SIGNALS.get_or_init(|| {
                 vec![Signal::builder("continue")
                     .param_types([
-                        SetupKind::static_type(),
-                        SetupRepoKind::static_type(),
+                        SetupAction::static_type(),
+                        SetupLocationKind::static_type(),
                         Option::<gio::File>::static_type(),
                     ])
                     .build()]
@@ -91,14 +92,19 @@ mod imp {
         }
     }
     impl WidgetImpl for SetupStartPage {}
-    impl NavigationPageImpl for SetupStartPage {}
+    impl NavigationPageImpl for SetupStartPage {
+        fn shown(&self) {
+            self.parent_shown();
+            self.init_local_row.grab_focus();
+        }
+    }
 
     #[gtk::template_callbacks]
     impl SetupStartPage {
         fn emit_continue(
             &self,
-            kind: SetupKind,
-            repo_kind: SetupRepoKind,
+            kind: SetupAction,
+            repo_kind: SetupLocationKind,
             file: Option<&gio::File>,
         ) {
             self.obj()
@@ -108,13 +114,13 @@ mod imp {
         #[template_callback]
         fn on_row_activated(&self, row: &adw::ActionRow) {
             let (kind, repo) = if row == &*self.init_local_row {
-                (SetupKind::Init, SetupRepoKind::Local)
+                (SetupAction::Init, SetupLocationKind::Local)
             } else if row == &*self.init_remote_row {
-                (SetupKind::Init, SetupRepoKind::Remote)
+                (SetupAction::Init, SetupLocationKind::Remote)
             } else if row == &*self.add_local_row {
-                (SetupKind::AddExisting, SetupRepoKind::Local)
+                (SetupAction::AddExisting, SetupLocationKind::Local)
             } else if row == &*self.add_remote_row {
-                (SetupKind::AddExisting, SetupRepoKind::Remote)
+                (SetupAction::AddExisting, SetupLocationKind::Remote)
             } else {
                 // Unreachable
                 return;
@@ -148,7 +154,7 @@ mod imp {
                     &mount,
                     None,
                     clone!(@weak imp, @strong mount_point => move || {
-                        imp.emit_continue(SetupKind::Init, SetupRepoKind::Local, Some(&gio::File::for_path(&mount_point)));
+                        imp.emit_continue(SetupAction::Init, SetupLocationKind::Local, Some(&gio::File::for_path(&mount_point)));
                     }),
                 )
                 .await;
@@ -169,7 +175,7 @@ mod imp {
                         &mount,
                         Some(path.as_ref()),
                         glib::clone!(@weak imp, @strong path => move || {
-                            imp.emit_continue(SetupKind::AddExisting, SetupRepoKind::Local, Some(&gio::File::for_path(&path)));
+                            imp.emit_continue(SetupAction::AddExisting, SetupLocationKind::Local, Some(&gio::File::for_path(&path)));
                         }),
                     )
                     .await;
@@ -257,15 +263,15 @@ glib::wrapper! {
 }
 
 impl SetupStartPage {
-    pub fn connect_continue<F: Fn(SetupKind, SetupRepoKind, Option<gio::File>) + 'static>(
+    pub fn connect_continue<F: Fn(SetupAction, SetupLocationKind, Option<gio::File>) + 'static>(
         &self,
         callback: F,
     ) -> glib::SignalHandlerId {
         self.connect_closure(
             "continue",
             false,
-            glib::closure_local!(|kind: SetupKind,
-                                  repo: SetupRepoKind,
+            glib::closure_local!(|kind: SetupAction,
+                                  repo: SetupLocationKind,
                                   file: Option<gio::File>| {
                 callback(kind, repo, file);
             }),

@@ -64,9 +64,7 @@ impl imp::SetupDialog {
             .unique_by(|x| (&x.prefix, &x.parsed, &x.hostname, &x.username))
             .peekable();
 
-        if options.peek().is_none() {
-            self.obj().close();
-        } else {
+        if options.peek().is_some() {
             for suggestion in options.take(10) {
                 let row = SetupTransferOption::new(suggestion);
 
@@ -152,37 +150,6 @@ impl imp::SetupDialog {
         self.obj().close();
 
         Ok(())
-    }
-
-    pub fn show_init_remote(&self) {
-        self.location_group_local.set_visible(false);
-        self.location_group_remote.set_visible(true);
-        self.show_init();
-    }
-
-    pub fn show_init_local(&self, path: Option<&std::path::Path>) {
-        if let Some(path) = path {
-            self.init_path
-                .set_property("file", gio::File::for_path(path));
-        }
-
-        self.location_group_local.set_visible(true);
-        self.location_group_remote.set_visible(false);
-        self.show_init();
-    }
-
-    fn show_init(&self) {
-        self.init_dir.set_text(&format!(
-            "backup-{}-{}",
-            glib::host_name(),
-            glib::user_name().to_string_lossy()
-        ));
-
-        self.encryption_preferences_group.reset(true);
-        self.navigation_view.push(&*self.page_detail);
-        self.ask_password.set_text("");
-        self.button_stack
-            .set_visible_child(&*self.page_detail_continue);
     }
 
     pub fn pending_check(&self) {

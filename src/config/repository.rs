@@ -4,7 +4,8 @@ use gio::prelude::*;
 use super::BackupSettings;
 use super::{local, remote};
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, glib::Boxed)]
+#[boxed_type(name = "PkRepositoryConfig", nullable)]
 #[serde(tag = "type")]
 pub enum Repository {
     Local(local::Repository),
