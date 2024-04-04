@@ -14,6 +14,8 @@ mod imp {
     use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
+    use self::ui::widget::dialog_page::PkDialogPageImpl;
+
     use super::*;
     use std::sync::OnceLock;
 
@@ -39,7 +41,7 @@ mod imp {
     impl ObjectSubclass for SetupStartPage {
         const NAME: &'static str = "PkSetupStartPage";
         type Type = super::SetupStartPage;
-        type ParentType = adw::NavigationPage;
+        type ParentType = DialogPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -98,6 +100,7 @@ mod imp {
             self.init_local_row.grab_focus();
         }
     }
+    impl PkDialogPageImpl for SetupStartPage {}
 
     #[gtk::template_callbacks]
     impl SetupStartPage {
@@ -258,7 +261,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct SetupStartPage(ObjectSubclass<imp::SetupStartPage>)
-    @extends adw::NavigationPage, gtk::Widget,
+    @extends DialogPage, adw::NavigationPage, gtk::Widget,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

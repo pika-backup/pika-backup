@@ -2,8 +2,9 @@
 <interface>
   <requires lib="gtk" version="4.10" />
   <requires lib="libadwaita" version="1.4" />
-  <template class="PkSetupEncryptionPage" parent="AdwNavigationPage">
+  <template class="PkSetupEncryptionPage" parent="PkDialogPage">
     <property name="title" translatable="yes">Setup Encryption</property>
+    <property name="default-widget">create_button</property>
     <property name="child">
       <object class="AdwToolbarView">
         <child type="top">
@@ -23,7 +24,7 @@
               </object>
             </child>
             <child type="overlay">
-              <object class="GtkButton">
+              <object class="GtkButton" id="create_button">
                 <property name="halign">center</property>
                 <property name="valign">end</property>
                 <property name="use-underline">1</property>

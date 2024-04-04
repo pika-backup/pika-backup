@@ -128,32 +128,10 @@ mod imp {
             // Default buttons
 
             /*
-            self.page_detail_continue
-                .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));
-            self.init_button
-                .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));
-            self.add_button
-                .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));
             self.prefix_submit
                 .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));
             self.page_password_continue
                 .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));*/
-
-            // Page Overview
-
-            // Page Detail
-
-            // Page Password
-
-            /*
-            self.page_password_continue.connect_clicked(
-                clone!(@weak imp => move |_| run(async move { imp.event_page_password_continue().await })),
-            );
-
-            self.page_password_stack.connect_visible_child_notify(
-                clone!(@weak imp => move |_| imp.event_navigation_view_changed()),
-            );
-            */
 
             self.pending_spinner.connect_map(|s| s.start());
             self.pending_spinner.connect_unmap(|s| s.stop());
@@ -433,11 +411,15 @@ mod imp {
 
         #[template_callback]
         fn on_visible_page_notify(&self) {
-            let Some(visible_page) = self.navigation_view.visible_page().clone() else {
+            let Some(visible_page) = self
+                .navigation_view
+                .visible_page()
+                .and_downcast::<DialogPage>()
+            else {
                 return;
             };
 
-            if &visible_page == self.start_page.upcast_ref::<adw::NavigationPage>() {
+            if &visible_page == self.start_page.upcast_ref::<DialogPage>() {
                 self.ask_password.set_text("");
                 self.encryption_page.reset();
 
@@ -446,7 +428,7 @@ mod imp {
                 self.command_line_args.take();
             }
 
-            if &visible_page == self.location_page.upcast_ref::<adw::NavigationPage>() {
+            if &visible_page == self.location_page.upcast_ref::<DialogPage>() {
                 self.ask_password.set_text("");
             }
 

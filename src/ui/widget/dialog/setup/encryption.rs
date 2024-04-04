@@ -1,3 +1,4 @@
+use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
@@ -9,7 +10,7 @@ mod imp {
     use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
-    use crate::ui::error::HandleError;
+    use crate::ui::{error::HandleError, widget::dialog_page::PkDialogPageImpl};
 
     use super::*;
 
@@ -24,7 +25,7 @@ mod imp {
     impl ObjectSubclass for SetupEncryptionPage {
         const NAME: &'static str = "PkSetupEncryptionPage";
         type Type = super::SetupEncryptionPage;
-        type ParentType = adw::NavigationPage;
+        type ParentType = DialogPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -54,6 +55,7 @@ mod imp {
             self.encryption_preferences_group.grab_focus();
         }
     }
+    impl PkDialogPageImpl for SetupEncryptionPage {}
 
     #[gtk::template_callbacks]
     impl SetupEncryptionPage {
@@ -77,7 +79,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct SetupEncryptionPage(ObjectSubclass<imp::SetupEncryptionPage>)
-    @extends adw::NavigationPage, gtk::Widget,
+    @extends DialogPage, adw::NavigationPage, gtk::Widget,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

@@ -1,6 +1,7 @@
 mod app_window;
 mod detail;
 pub mod dialog;
+mod dialog_page;
 mod encryption_preferences_group;
 mod location_tag;
 mod overview;
@@ -13,6 +14,7 @@ pub use detail::{
     frequency, prune_preset, weekday, ArchivesPage, BackupPage, DetailPage, SchedulePage,
     ScheduleStatus,
 };
+pub use dialog_page::{DialogPage, DialogPageExt};
 pub use encryption_preferences_group::EncryptionPreferencesGroup;
 pub use location_tag::LocationTag;
 pub use overview::OverviewPage;
@@ -33,6 +35,7 @@ pub fn init() {
     BackupInfoDialog::static_type();
     DetailPage::static_type();
     EncryptionPreferencesGroup::static_type();
+    DialogPage::static_type();
     OverviewPage::static_type();
     SchedulePage::static_type();
     StatusIcon::static_type();

@@ -1,18 +1,19 @@
 use crate::ui::prelude::*;
 use adw::prelude::*;
+use adw::subclass::navigation_page::NavigationPageImplExt;
 use adw::subclass::prelude::*;
 
 use super::folder_button::FolderButton;
 use super::util::*;
+use crate::ui::widget::{setup::SetupRepoLocation, DialogPage};
 
 mod imp {
     use std::{cell::Cell, sync::OnceLock};
 
-    use adw::subclass::navigation_page::NavigationPageImplExt;
     use gettextrs::gettext;
     use glib::subclass::Signal;
 
-    use crate::ui::{error::HandleError, widget::setup::SetupRepoLocation};
+    use crate::ui::{error::HandleError, widget::dialog_page::PkDialogPageImpl};
 
     use super::*;
 
@@ -55,7 +56,7 @@ mod imp {
     impl ObjectSubclass for SetupLocationPage {
         const NAME: &'static str = "PkSetupLocationPage";
         type Type = super::SetupLocationPage;
-        type ParentType = adw::NavigationPage;
+        type ParentType = DialogPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -100,6 +101,7 @@ mod imp {
             }
         }
     }
+    impl PkDialogPageImpl for SetupLocationPage {}
 
     #[gtk::template_callbacks]
     impl SetupLocationPage {
@@ -115,6 +117,9 @@ mod imp {
         fn set_action(&self, action: SetupAction) {
             match action {
                 SetupAction::Init => {
+                    self.obj()
+                        .set_default_widget(Some(self.continue_button.clone()));
+
                     self.button_stack
                         .set_visible_child(&*(self.continue_button));
                     self.init_dir.set_text(&format!(
@@ -124,6 +129,7 @@ mod imp {
                     ));
                 }
                 SetupAction::AddExisting => {
+                    self.obj().set_default_widget(Some(self.add_button.clone()));
                     self.button_stack.set_visible_child(&*(self.add_button));
                     self.init_dir.set_text("");
                 }
@@ -223,7 +229,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct SetupLocationPage(ObjectSubclass<imp::SetupLocationPage>)
-    @extends adw::NavigationPage, gtk::Widget,
+    @extends DialogPage, adw::NavigationPage, gtk::Widget,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
