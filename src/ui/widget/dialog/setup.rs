@@ -28,8 +28,6 @@ use types::*;
 mod imp {
     use crate::config;
 
-    use crate::borg;
-
     use super::*;
     use std::cell::{Cell, RefCell};
 
@@ -302,15 +300,12 @@ mod imp {
 
         /// Shows a page that allows to select includes / excludes from the last archives
         async fn show_transfer_settings(&self, config: config::Backup) {
-            let guard = QuitGuard::default();
-            let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
-            list_command.task.set_limit_first(100);
-
             let Some(archives) = self.handle_result(
-                ui::utils::borg::exec(list_command, &guard)
+                actions::fetch_archive_list(&config)
                     .await
                     .into_message(gettext("Failed")),
             ) else {
+                self.finish();
                 return;
             };
 

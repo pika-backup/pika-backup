@@ -103,7 +103,7 @@ mod imp {
                 ))
             };
 
-            let result = actions::try_fetch_archive_list(repo.clone(), password.clone()).await;
+            let result = actions::try_peek(repo.clone(), password.clone()).await;
 
             match result {
                 Ok(info) => {

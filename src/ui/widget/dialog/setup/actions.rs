@@ -101,7 +101,7 @@ pub enum ConnectRepoError {
 }
 
 /// Validate the password of the repository and try to fetch an archive list.
-pub async fn try_fetch_archive_list(
+pub async fn try_peek(
     repo: config::Repository,
     password: Option<config::Password>,
 ) -> std::result::Result<borg::List, ConnectRepoError> {
@@ -126,6 +126,14 @@ pub async fn try_fetch_archive_list(
             Err(ConnectRepoError::Error(err))
         }
     }
+}
+
+pub async fn fetch_archive_list(config: &config::Backup) -> CombinedResult<Vec<borg::ListArchive>> {
+    let guard = QuitGuard::default();
+    let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
+    list_command.task.set_limit_first(100);
+
+    ui::utils::borg::exec(list_command, &guard).await
 }
 
 pub fn transfer_settings(
