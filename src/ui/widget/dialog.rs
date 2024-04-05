@@ -39,6 +39,5 @@ pub fn init() {
     PruneDialog::static_type();
     PruneReviewDialog::static_type();
     setup::folder_button::FolderButton::static_type();
-    setup::add_task::AddConfigTask::static_type();
     StorageDialog::static_type();
 }

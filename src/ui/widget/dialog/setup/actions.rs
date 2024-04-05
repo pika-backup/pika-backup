@@ -129,17 +129,18 @@ pub async fn try_fetch_archive_list(
 }
 
 pub fn transfer_settings(
-    config_id: &config::ConfigId,
+    config: &mut config::Backup,
     archive_params: &ArchiveParams,
 ) -> Result<config::ArchivePrefix> {
-    BACKUP_CONFIG.try_update(enclose!((archive_params, config_id) move |config| {
-        let conf = config.try_get_mut(&config_id)?;
-
-        conf.include = archive_params.parsed.include.clone();
-        conf.exclude = BTreeSet::from_iter( archive_params.parsed.exclude.clone().into_iter().map(|x| x.into_relative()));
-
-        Ok(())
-    }))?;
+    config.include = archive_params.parsed.include.clone();
+    config.exclude = BTreeSet::from_iter(
+        archive_params
+            .parsed
+            .exclude
+            .clone()
+            .into_iter()
+            .map(|x| x.into_relative()),
+    );
 
     let entry = config::history::RunInfo {
         end: archive_params
@@ -155,13 +156,11 @@ pub fn transfer_settings(
     };
 
     // Create fake history entry for duration estimate to be good for first run
+    let config_id = &config.id;
     BACKUP_HISTORY.try_update(enclose!((config_id) move |histories| {
         histories.insert(config_id.clone(), entry.clone());
         Ok(())
     }))?;
-
-    let configs = BACKUP_CONFIG.load();
-    let config = configs.try_get(&config_id)?;
 
     let prefix = if let Some(prefix) = &archive_params.prefix {
         prefix.clone()
@@ -174,10 +173,8 @@ pub fn transfer_settings(
 
 pub async fn init_new_backup_repo(
     repo: crate::config::Repository,
-    password: Option<crate::config::Password>,
-) -> Result<crate::config::ConfigId> {
-    let encrypted = password.is_some();
-
+    password: &Option<crate::config::Password>,
+) -> Result<crate::config::Backup> {
     let mut borg = borg::CommandOnlyRepo::new(repo.clone());
     if let Some(password) = &password {
         borg.set_password(password.clone());
@@ -199,19 +196,5 @@ pub async fn init_new_backup_repo(
         .await
         .into_message("Failed to Obtain Repository Information")?;
 
-    let config = config::Backup::new(repo.clone(), info, encrypted);
-
-    BACKUP_CONFIG.try_update(glib::clone!(@strong config => move |s| {
-        s.insert(config.clone())?;
-        Ok(())
-    }))?;
-
-    if let Some(password) = &password {
-        if let Err(err) = ui::utils::password_storage::store_password(&config, password).await {
-            // Error when storing the password. The repository has already been created, therefore we must continue at this point.
-            err.show().await;
-        }
-    }
-
-    Ok(config.id)
+    Ok(config::Backup::new(repo.clone(), info, password.is_some()))
 }

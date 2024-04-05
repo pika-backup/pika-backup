@@ -1,6 +1,4 @@
-use crate::borg;
 use crate::config;
-use crate::ui;
 use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -56,7 +54,10 @@ mod imp {
             SIGNALS.get_or_init(|| {
                 vec![
                     Signal::builder("continue")
-                        .param_types([config::Backup::static_type()])
+                        .param_types([
+                            config::Backup::static_type(),
+                            Option::<config::Password>::static_type(),
+                        ])
                         .build(),
                     Signal::builder("error")
                         .param_types([String::static_type()])
@@ -81,8 +82,9 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl SetupAddExistingPage {
-        fn emit_continue(&self, config: config::Backup) {
-            self.obj().emit_by_name::<()>("continue", &[&config]);
+        fn emit_continue(&self, config: config::Backup, password: Option<config::Password>) {
+            self.obj()
+                .emit_by_name::<()>("continue", &[&config, &password]);
         }
 
         fn emit_error(&self, msg: &str) {
@@ -105,15 +107,8 @@ mod imp {
 
             match result {
                 Ok(info) => {
-                    let config = match self.add_backup_config(repo, info, password).await {
-                        Ok(config) => config,
-                        Err(err) => {
-                            self.emit_error(&err.to_string());
-                            return;
-                        }
-                    };
-
-                    self.emit_continue(config);
+                    let config = config::Backup::new(repo, info, password.is_some());
+                    self.emit_continue(config, password);
                 }
                 Err(actions::ConnectRepoError::PasswordWrong) => {
                     self.stack.set_visible_child(&*self.password_page);
@@ -132,37 +127,6 @@ mod imp {
             if let Some(repo) = repo {
                 self.check_and_add_repo(repo).await;
             }
-        }
-
-        /// Add the backup config
-        async fn add_backup_config(
-            &self,
-            repo: crate::config::Repository,
-            info: borg::List,
-            password: Option<config::Password>,
-        ) -> Result<config::Backup> {
-            let config = config::Backup::new(repo, info, password.is_some());
-
-            // We shouldn't fail this method after this point, otherwise we
-            // leave a half-configured backup config
-            BACKUP_CONFIG.try_update(glib::clone!(@strong config => move |s| {
-                s.insert(config.clone())?;
-                Ok(())
-            }))?;
-
-            if let Some(password) = password {
-                if let Err(err) =
-                    ui::utils::password_storage::store_password(&config, &password).await
-                {
-                    // Error when storing the password.
-                    // We don't fail the process here. Sometimes the keyring is just broken and people
-                    // still want to be able to access their backup archives.
-                    err.show_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                        .await;
-                }
-            }
-
-            Ok(config)
         }
     }
 }

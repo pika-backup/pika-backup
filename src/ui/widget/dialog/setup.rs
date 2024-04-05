@@ -1,6 +1,6 @@
 mod actions;
 mod add_existing;
-pub mod add_task;
+mod create_new;
 mod encryption;
 pub mod folder_button;
 mod location;
@@ -14,6 +14,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use add_existing::SetupAddExistingPage;
+use create_new::SetupCreateNewPage;
 use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
 use start::SetupStartPage;
@@ -23,7 +24,6 @@ use transfer_settings::SetupTransferSettingsPage;
 use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::App;
-use add_task::AddConfigTask;
 use types::*;
 
 mod imp {
@@ -46,8 +46,6 @@ mod imp {
         repo_config: RefCell<Option<config::Repository>>,
         #[property(get)]
         command_line_args: RefCell<SetupCommandLineArgs>,
-        #[property(get)]
-        add_password: RefCell<Option<config::Password>>,
         new_config: RefCell<Option<config::Backup>>,
 
         #[template_child]
@@ -79,12 +77,7 @@ mod imp {
 
         // Creating spinner page
         #[template_child]
-        pub(super) page_creating: TemplateChild<adw::NavigationPage>,
-        #[template_child]
-        pub(super) creating_repository_spinner: TemplateChild<gtk::Spinner>,
-
-        #[template_child]
-        pub(super) add_task: TemplateChild<AddConfigTask>,
+        pub(super) create_new_page: TemplateChild<SetupCreateNewPage>,
     }
 
     #[glib::object_subclass]
@@ -108,17 +101,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            // Default buttons
-
-            /*
-            self.prefix_submit
-                .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));
-            self.page_password_continue
-                .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));*/
-
-            self.creating_repository_spinner.connect_map(|s| s.start());
-            self.creating_repository_spinner.connect_unmap(|s| s.stop());
-
             let start_page = self.start_page.clone();
             glib::MainContext::default().spawn_local(async move {
                 Handler::handle(start_page.refresh().await);
@@ -129,7 +111,12 @@ mod imp {
     impl WindowImpl for SetupDialog {
         fn close_request(&self) -> glib::Propagation {
             // Display a newly added backup in the main window if successful
-            if let Some(config) = &*self.new_config.borrow() {
+            if let Some(config) = self.new_config.take() {
+                // Save the new config
+                self.handle_result(self.save_backup_config(&config));
+                self.obj().close();
+
+                // Display it in the UI
                 App::default().main_window().view_backup_conf(&config.id);
             }
 
@@ -200,7 +187,7 @@ mod imp {
                         return;
                     };
 
-                    self.show_add_existing_repo(repo);
+                    self.show_add_existing_repo_page(repo);
                     return;
                 }
                 (SetupAction::AddExisting, SetupLocationKind::Remote, _) => {}
@@ -235,7 +222,7 @@ mod imp {
                     }
                     SetupAction::AddExisting => {
                         // Try to access the repository
-                        self.show_add_existing_repo(repo);
+                        self.show_add_existing_repo_page(repo);
                     }
                 }
             }
@@ -256,19 +243,28 @@ mod imp {
                 return;
             };
 
-            self.handle_result(self.action_init_repo(repo, password).await);
+            self.handle_result(self.show_create_new_page(repo, password).await);
         }
 
         // Add existing page
 
-        fn show_add_existing_repo(&self, repo: config::Repository) {
+        fn show_add_existing_repo_page(&self, repo: config::Repository) {
             self.navigation_view.push(&*self.add_existing_page);
             self.add_existing_page.check_and_add_repo(repo);
         }
 
         #[template_callback]
-        async fn on_add_existing_page_continue(&self, config: config::Backup) {
+        async fn on_add_existing_page_continue(
+            &self,
+            config: config::Backup,
+            password: Option<config::Password>,
+        ) {
             self.new_config.replace(Some(config.clone()));
+
+            if let Some(password) = password {
+                self.handle_result(self.save_password(&config, password).await);
+            }
+
             self.show_transfer_settings(config).await;
         }
 
@@ -305,6 +301,7 @@ mod imp {
 
         // Transfer settings
 
+        /// Shows a page that allows to select includes / excludes from the last archives
         async fn show_transfer_settings(&self, config: config::Backup) {
             let guard = QuitGuard::default();
             let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
@@ -328,16 +325,18 @@ mod imp {
 
         #[template_callback]
         async fn on_transfer_settings_continue(&self, archive_params: &ArchiveParams) {
-            let config_id = self.new_config.borrow().as_ref().map(|c| c.id.clone());
-            if let Some(config_id) = config_id {
-                if let Some(prefix) =
-                    self.handle_result(actions::transfer_settings(&config_id, archive_params))
-                {
+            let config = self.new_config.borrow().clone();
+            if let Some(mut config) = config {
+                let res = actions::transfer_settings(&mut config, archive_params);
+                self.new_config.replace(Some(config));
+
+                if let Some(prefix) = self.handle_result(res) {
                     self.show_transfer_prefix_page(&prefix);
-                } else {
-                    self.finish();
+                    return;
                 }
             }
+
+            self.finish();
         }
 
         // Transfer prefix
@@ -348,30 +347,24 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_transfer_prefix_continue(&self, prefix: &config::ArchivePrefix) {
+        async fn on_transfer_prefix_continue(&self, prefix: &config::ArchivePrefix) {
             let config = self.new_config.borrow().clone();
 
-            if let Some(config) = &config {
-                let config_id = config.id.clone();
-                self.handle_result(BACKUP_CONFIG.try_update(
-                    enclose!((prefix, config_id) move |config| {
-                        config
-                            .try_get_mut(&config_id)?
-                            .set_archive_prefix(
-                                prefix.clone(),
-                                BACKUP_CONFIG.load().iter(),
-                            )
-                            .err_to_msg(gettext("Invalid Archive Prefix"))
-                    }),
-                ));
+            if let Some(mut config) = config {
+                let res = config
+                    .set_archive_prefix(prefix.clone(), BACKUP_CONFIG.load().iter())
+                    .err_to_msg(gettext("Invalid Archive Prefix"));
+                self.new_config.replace(Some(config));
+                self.handle_result(res);
             }
 
             // Setup finished
             self.finish();
         }
 
-        /// Close the dialog and show the new backup config
+        /// Save the config and password, then close the dialog and show the new backup config
         fn finish(&self) {
+            // The config is saved in the close handler
             self.obj().close();
         }
 
@@ -388,18 +381,22 @@ mod imp {
             }
         }
 
-        async fn action_init_repo(
+        async fn show_create_new_page(
             &self,
             repo: config::Repository,
             password: Option<config::Password>,
         ) -> Result<()> {
             self.repo_config.take();
 
-            self.navigation_view.push(&*self.page_creating);
-            let config = actions::init_new_backup_repo(repo, password).await?;
+            self.navigation_view.push(&*self.create_new_page);
+            let config = actions::init_new_backup_repo(repo, &password).await?;
+            self.new_config.replace(Some(config.clone()));
+
+            if let Some(password) = password {
+                self.handle_result(self.save_password(&config, password).await);
+            }
 
             // Everything is done, we have a new repo
-            App::default().main_window().view_backup_conf(&config);
             self.finish();
             Ok(())
         }
@@ -416,6 +413,34 @@ mod imp {
             Ok(repo)
         }
 
+        /// Add the backup config
+        fn save_backup_config(&self, config: &crate::config::Backup) -> Result<()> {
+            // We shouldn't fail this method after this point, otherwise we
+            // leave a half-configured backup config
+            BACKUP_CONFIG.try_update(glib::clone!(@strong config => move |s| {
+                s.insert(config.clone())?;
+                Ok(())
+            }))?;
+
+            Ok(())
+        }
+
+        async fn save_password(
+            &self,
+            config: &crate::config::Backup,
+            password: config::Password,
+        ) -> Result<()> {
+            if let Err(err) = ui::utils::password_storage::store_password(config, &password).await {
+                // Error when storing the password.
+                // We don't fail the process here. Sometimes the keyring is just broken and people
+                // still want to access their backup archives.
+                err.show_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
+                    .await;
+            }
+
+            Ok(())
+        }
+
         #[template_callback]
         fn on_visible_page_notify(&self) {
             let Some(visible_page) = self
@@ -428,7 +453,6 @@ mod imp {
 
             if &visible_page == self.start_page.upcast_ref::<DialogPage>() {
                 self.encryption_page.reset();
-
                 self.action.take();
                 self.location.take();
                 self.command_line_args.take();
