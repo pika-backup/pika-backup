@@ -3,11 +3,8 @@
 mod about;
 mod app;
 mod backup_status;
-#[allow(dead_code)]
-mod builder;
 mod dbus;
 mod error;
-mod export;
 mod globals;
 mod operation;
 mod prelude;
