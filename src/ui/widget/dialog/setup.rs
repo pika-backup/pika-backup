@@ -349,11 +349,11 @@ mod imp {
                     .set_archive_prefix(prefix.clone(), BACKUP_CONFIG.load().iter())
                     .err_to_msg(gettext("Invalid Archive Prefix"));
                 self.new_config.replace(Some(config));
-                self.handle_result(res);
+                if self.handle_result(res).is_some() {
+                    // Setup finished
+                    self.finish();
+                }
             }
-
-            // Setup finished
-            self.finish();
         }
 
         /// Save the config and password, then close the dialog and show the new backup config
