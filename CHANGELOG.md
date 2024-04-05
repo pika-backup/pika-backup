@@ -4,6 +4,8 @@
 
 - Fix timestamps not respecting 12h/24h clock format setting
 - Change fnmatches to be stored as strings instead of bytes in config
+- Change setup dialog start page is split into two pages
+- Change setup dialog design to look more modern
 
 ## 0.7.2 (2024-04-10)
 

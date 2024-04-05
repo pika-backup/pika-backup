@@ -4,6 +4,7 @@
   <requires lib="libadwaita" version="1.4" />
   <template class="PkSetupTransferPrefixPage" parent="PkDialogPage">
     <property name="title" translatable="yes">Archive Prefix</property>
+    <property name="default-widget">prefix_submit</property>
     <property name="child">
       <object class="AdwToolbarView">
         <child type="top">
@@ -14,13 +15,13 @@
             <child>
               <object class="AdwPreferencesPage">
                 <property name="vexpand">1</property>
+                <property name="description" translatable="yes">Archive prefixes must be unique to every backup configuration. Using the same prefix on two devices is discouraged unless a new device supersedes the old one.</property>
+                <property name="description-centered">True</property>
                 <style>
                   <class name="dialog-page" />
                 </style>
                 <child>
                   <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Archive Prefix</property>
-                    <property name="description" translatable="yes">Archive prefixes must be unique to every backup configuration. Using the same prefix on two devices is discouraged unless a new device supersedes the old one.</property>
                     <child>
                       <object class="GtkBox">
                         <property name="orientation">vertical</property>

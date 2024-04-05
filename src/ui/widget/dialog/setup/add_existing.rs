@@ -112,6 +112,8 @@ mod imp {
                 }
                 Err(actions::ConnectRepoError::PasswordWrong) => {
                     self.stack.set_visible_child(&*self.password_page);
+                    self.obj()
+                        .set_default_widget(Some(self.continue_button.clone()));
                     self.obj().set_can_pop(true);
                     self.password_entry.grab_focus();
                 }

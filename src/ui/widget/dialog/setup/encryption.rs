@@ -18,6 +18,8 @@ mod imp {
     #[template(file = "encryption.ui")]
     pub struct SetupEncryptionPage {
         #[template_child]
+        page: TemplateChild<adw::PreferencesPage>,
+        #[template_child]
         pub(super) encryption_preferences_group: TemplateChild<EncryptionPreferencesGroup>,
     }
 
@@ -45,6 +47,18 @@ mod imp {
                     .param_types([Option::<crate::config::Password>::static_type()])
                     .build()]
             })
+        }
+
+        fn constructed(&self) {
+            // TODO
+            self.encryption_preferences_group.set_title("");
+            self.page.set_description(
+                &self
+                    .encryption_preferences_group
+                    .description()
+                    .unwrap_or_default(),
+            );
+            self.encryption_preferences_group.set_description(None);
         }
     }
     impl WidgetImpl for SetupEncryptionPage {}

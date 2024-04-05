@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.10" />
   <requires lib="libadwaita" version="1.4" />
-  <template class="PkSetupStartPage" parent="PkDialogPage">
+  <template class="PkSetupLocationKindPage" parent="PkDialogPage">
     <property name="title" translatable="yes">Setup</property>
     <property name="child">
       <object class="AdwToolbarView">
@@ -10,12 +10,11 @@
           <object class="AdwHeaderBar" />
         </child>
         <property name="content">
-          <object class="AdwPreferencesPage">
+          <object class="AdwPreferencesPage" id="page">
             <property name="vexpand">1</property>
+            <property name="description-centered">True</property>
             <child>
-              <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">Create new Repository</property>
-                <property name="description" translatable="yes">Select a location for a new backup repository.</property>
+              <object class="AdwPreferencesGroup" id="create_new_group">
                 <child>
                   <object class="GtkListBox" id="init_repo_list">
                     <property name="selection-mode">none</property>
@@ -69,9 +68,7 @@
               </object>
             </child>
             <child>
-              <object class="AdwPreferencesGroup">
-                <property name="title" translatable="yes">Use Existing Repository</property>
-                <property name="description" translatable="yes">Select a location that contains an existing backup repository. Repositories created with other BorgBackup compatible software can be used as well.</property>
+              <object class="AdwPreferencesGroup" id="add_existing_group">
                 <child>
                   <object class="GtkListBox" id="add_repo_list">
                     <property name="selection-mode">none</property>

@@ -3,7 +3,8 @@ mod add_existing;
 mod create_new;
 mod encryption;
 mod location;
-mod start;
+mod location_kind;
+mod repo_kind;
 mod transfer_option;
 mod transfer_prefix;
 mod transfer_settings;
@@ -16,7 +17,7 @@ use add_existing::SetupAddExistingPage;
 use create_new::SetupCreateNewPage;
 use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
-use start::SetupStartPage;
+use location_kind::SetupLocationKindPage;
 use transfer_prefix::SetupTransferPrefixPage;
 use transfer_settings::SetupTransferSettingsPage;
 
@@ -27,6 +28,8 @@ use types::*;
 
 mod imp {
     use crate::config;
+
+    use self::repo_kind::SetupRepoKindPage;
 
     use super::*;
     use std::cell::{Cell, RefCell};
@@ -53,7 +56,11 @@ mod imp {
 
         // Initial screen
         #[template_child]
-        pub(super) start_page: TemplateChild<SetupStartPage>,
+        pub(super) start_page: TemplateChild<SetupRepoKindPage>,
+
+        // Setup the repository location kind (local, remote, specific device)
+        #[template_child]
+        pub(super) location_kind_page: TemplateChild<SetupLocationKindPage>,
 
         // First page
         #[template_child]
@@ -101,7 +108,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let start_page = self.start_page.clone();
+            let start_page = self.location_kind_page.clone();
             glib::MainContext::default().spawn_local(async move {
                 Handler::handle(start_page.refresh().await);
             });
@@ -152,7 +159,14 @@ mod imp {
         }
 
         #[template_callback]
-        async fn on_start_page_continue(
+        fn on_repo_kind_page_continue(&self, action: SetupAction) {
+            self.action.set(action);
+            self.location_kind_page.set_repo_action(action);
+            self.navigation_view.push(&*self.location_kind_page);
+        }
+
+        #[template_callback]
+        async fn on_location_kind_page_continue(
             &self,
             action: SetupAction,
             repo: SetupLocationKind,
@@ -255,7 +269,7 @@ mod imp {
 
             let Some(repo) = self.repo_config.borrow().clone() else {
                 error!("Encryption page create button clicked but no repo config set");
-                self.navigation_view.pop_to_page(&*self.start_page);
+                self.navigation_view.pop_to_page(&*self.location_kind_page);
 
                 self.busy.set(false);
                 return;
@@ -312,7 +326,7 @@ mod imp {
             {
                 self.navigation_view.pop_to_page(&*self.location_page);
             } else {
-                self.navigation_view.pop_to_page(&*self.start_page);
+                self.navigation_view.pop_to_page(&*self.location_kind_page);
             }
 
             let error =
@@ -477,7 +491,7 @@ mod imp {
                 return;
             };
 
-            if &visible_page == self.start_page.upcast_ref::<DialogPage>() {
+            if &visible_page == self.location_kind_page.upcast_ref::<DialogPage>() {
                 self.encryption_page.reset();
                 self.action.take();
                 self.location.take();

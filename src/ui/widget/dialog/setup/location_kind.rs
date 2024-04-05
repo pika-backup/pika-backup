@@ -17,18 +17,28 @@ mod imp {
     use self::ui::widget::dialog_page::PkDialogPageImpl;
 
     use super::*;
-    use std::sync::OnceLock;
+    use std::{cell::Cell, sync::OnceLock};
 
-    #[derive(Default, gtk::CompositeTemplate)]
-    #[template(file = "start.ui")]
-    pub struct SetupStartPage {
-        // Initial screen
+    #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
+    #[template(file = "location_kind.ui")]
+    #[properties(wrapper_type = super::SetupLocationKindPage)]
+    pub struct SetupLocationKindPage {
+        #[property(get, set = Self::set_repo_action, builder(SetupAction::Init))]
+        repo_action: Cell<SetupAction>,
+
+        #[template_child]
+        page: TemplateChild<adw::PreferencesPage>,
+        #[template_child]
+        create_new_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         init_repo_list: TemplateChild<gtk::ListBox>,
         #[template_child]
         init_local_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         init_remote_row: TemplateChild<adw::ActionRow>,
+
+        #[template_child]
+        add_existing_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         add_repo_list: TemplateChild<gtk::ListBox>,
         #[template_child]
@@ -38,9 +48,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for SetupStartPage {
-        const NAME: &'static str = "PkSetupStartPage";
-        type Type = super::SetupStartPage;
+    impl ObjectSubclass for SetupLocationKindPage {
+        const NAME: &'static str = "PkSetupLocationKindPage";
+        type Type = super::SetupLocationKindPage;
         type ParentType = DialogPage;
 
         fn class_init(klass: &mut Self::Class) {
@@ -53,7 +63,8 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for SetupStartPage {
+    #[glib::derived_properties]
+    impl ObjectImpl for SetupLocationKindPage {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
@@ -93,17 +104,17 @@ mod imp {
             }));
         }
     }
-    impl WidgetImpl for SetupStartPage {}
-    impl NavigationPageImpl for SetupStartPage {
+    impl WidgetImpl for SetupLocationKindPage {}
+    impl NavigationPageImpl for SetupLocationKindPage {
         fn shown(&self) {
             self.parent_shown();
             self.init_local_row.grab_focus();
         }
     }
-    impl PkDialogPageImpl for SetupStartPage {}
+    impl PkDialogPageImpl for SetupLocationKindPage {}
 
     #[gtk::template_callbacks]
-    impl SetupStartPage {
+    impl SetupLocationKindPage {
         fn emit_continue(
             &self,
             kind: SetupAction,
@@ -112,6 +123,30 @@ mod imp {
         ) {
             self.obj()
                 .emit_by_name::<()>("continue", &[&kind, &repo_kind, &file]);
+        }
+
+        fn set_repo_action(&self, action: SetupAction) {
+            self.create_new_group
+                .set_visible(action == SetupAction::Init);
+            self.add_existing_group
+                .set_visible(action == SetupAction::AddExisting);
+
+            match action {
+                SetupAction::Init => {
+                    self.obj().set_title(&gettext("Create new Repository"));
+                    self.page.set_description(&gettext(
+                        "Select a location for the new backup repository",
+                    ));
+                }
+                SetupAction::AddExisting => {
+                    self.obj().set_title(&gettext("Use Existing Repository"));
+                    self.page.set_description(&gettext(
+                        "Select a location that contains an existing backup repository. Repositories created with other BorgBackup compatible software can be used as well."
+                    ));
+                }
+            }
+
+            self.repo_action.set(action);
         }
 
         #[template_callback]
@@ -260,27 +295,12 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct SetupStartPage(ObjectSubclass<imp::SetupStartPage>)
+    pub struct SetupLocationKindPage(ObjectSubclass<imp::SetupLocationKindPage>)
     @extends DialogPage, adw::NavigationPage, gtk::Widget,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
-impl SetupStartPage {
-    pub fn connect_continue<F: Fn(SetupAction, SetupLocationKind, Option<gio::File>) + 'static>(
-        &self,
-        callback: F,
-    ) -> glib::SignalHandlerId {
-        self.connect_closure(
-            "continue",
-            false,
-            glib::closure_local!(|kind: SetupAction,
-                                  repo: SetupLocationKind,
-                                  file: Option<gio::File>| {
-                callback(kind, repo, file);
-            }),
-        )
-    }
-
+impl SetupLocationKindPage {
     pub async fn refresh(&self) -> Result<()> {
         self.imp().refresh().await
     }
