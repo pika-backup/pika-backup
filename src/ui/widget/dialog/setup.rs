@@ -2,7 +2,6 @@ mod actions;
 mod add_existing;
 mod create_new;
 mod encryption;
-pub mod folder_button;
 mod location;
 mod start;
 mod transfer_option;

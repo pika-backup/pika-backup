@@ -3,6 +3,7 @@ mod detail;
 pub mod dialog;
 mod dialog_page;
 mod encryption_preferences_group;
+mod folder_button;
 mod location_tag;
 mod overview;
 mod status_icon;
@@ -16,6 +17,7 @@ pub use detail::{
 };
 pub use dialog_page::{DialogPage, DialogPageExt};
 pub use encryption_preferences_group::EncryptionPreferencesGroup;
+pub use folder_button::FolderButton;
 pub use location_tag::LocationTag;
 pub use overview::OverviewPage;
 pub use status_icon::StatusIcon;
@@ -35,6 +37,7 @@ pub fn init() {
     BackupInfoDialog::static_type();
     DetailPage::static_type();
     EncryptionPreferencesGroup::static_type();
+    FolderButton::static_type();
     DialogPage::static_type();
     OverviewPage::static_type();
     SchedulePage::static_type();

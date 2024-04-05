@@ -3,9 +3,9 @@ use adw::prelude::*;
 use adw::subclass::navigation_page::NavigationPageImplExt;
 use adw::subclass::prelude::*;
 
-use super::folder_button::FolderButton;
 use super::types::*;
-use crate::ui::widget::{setup::SetupRepoLocation, DialogPage};
+use super::SetupRepoLocation;
+use crate::ui::widget::{DialogPage, FolderButton};
 
 mod imp {
     use std::{cell::Cell, sync::OnceLock};
