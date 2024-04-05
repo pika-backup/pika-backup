@@ -1,12 +1,13 @@
 mod add_existing;
 pub mod add_task;
-mod display;
 mod encryption;
 pub mod folder_button;
 mod insert;
 mod location;
 mod start;
 mod transfer_option;
+mod transfer_prefix;
+mod transfer_settings;
 mod util;
 
 use adw::prelude::*;
@@ -16,9 +17,9 @@ use add_existing::SetupAddExistingPage;
 use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
 use start::SetupStartPage;
+use transfer_settings::SetupTransferSettingsPage;
 
 use crate::ui;
-use crate::ui::error::HandleError;
 use crate::ui::prelude::*;
 use crate::ui::App;
 use add_task::AddConfigTask;
@@ -29,8 +30,12 @@ mod imp {
 
     use crate::borg;
 
+    use self::transfer_option::ArchiveParams;
+    use self::transfer_prefix::SetupTransferPrefixPage;
+
     use super::*;
     use std::cell::{Cell, RefCell};
+    use std::collections::BTreeSet;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "setup.ui")]
@@ -69,25 +74,11 @@ mod imp {
 
         // Transfer settings page
         #[template_child]
-        pub(super) page_transfer: TemplateChild<adw::NavigationPage>,
-        #[template_child]
-        pub(super) page_transfer_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) page_transfer_pending: TemplateChild<adw::ToolbarView>,
-        #[template_child]
-        pub(super) transfer_pending_spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
-        pub(super) page_transfer_select: TemplateChild<adw::ToolbarView>,
-        #[template_child]
-        pub(super) transfer_suggestions: TemplateChild<gtk::ListBox>,
+        pub(super) transfer_settings_page: TemplateChild<SetupTransferSettingsPage>,
 
         // Transfer prefix page
         #[template_child]
-        pub(super) page_transfer_prefix: TemplateChild<adw::NavigationPage>,
-        #[template_child]
-        pub(super) prefix: TemplateChild<gtk::Entry>,
-        #[template_child]
-        pub(super) prefix_submit: TemplateChild<gtk::Button>,
+        pub(super) transfer_prefix_page: TemplateChild<SetupTransferPrefixPage>,
 
         // Creating spinner page
         #[template_child]
@@ -127,9 +118,6 @@ mod imp {
                 .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));
             self.page_password_continue
                 .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));*/
-
-            self.transfer_pending_spinner.connect_map(|s| s.start());
-            self.transfer_pending_spinner.connect_unmap(|s| s.stop());
 
             self.creating_repository_spinner.connect_map(|s| s.start());
             self.creating_repository_spinner.connect_unmap(|s| s.stop());
@@ -196,10 +184,7 @@ mod imp {
                     let file = if let Some(file) = file {
                         file
                     } else if let Some(file) = self
-                        .show_add_existing_file_chooser()
-                        .await
-                        .handle_transient_for(&*self.obj())
-                        .await
+                        .handle_result(self.show_add_existing_file_chooser().await)
                         .flatten()
                     {
                         file
@@ -211,12 +196,10 @@ mod imp {
                     self.location.replace(Some(location.clone()));
                     self.command_line_args.take();
 
-                    let Some(repo) = self
-                        .create_repo_config(location, SetupCommandLineArgs::NONE)
-                        .await
-                        .handle_transient_for(&*self.obj())
-                        .await
-                    else {
+                    let Some(repo) = self.handle_result(
+                        self.create_repo_config(location, SetupCommandLineArgs::NONE)
+                            .await,
+                    ) else {
                         return;
                     };
 
@@ -245,12 +228,7 @@ mod imp {
         ) {
             let action = self.action.get();
 
-            if let Some(repo) = self
-                .create_repo_config(location, args)
-                .await
-                .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                .await
-            {
+            if let Some(repo) = self.handle_result(self.create_repo_config(location, args).await) {
                 self.repo_config.replace(Some(repo.clone()));
 
                 match action {
@@ -281,10 +259,7 @@ mod imp {
                 return;
             };
 
-            self.action_init_repo(repo, password)
-                .await
-                .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                .await;
+            self.handle_result(self.action_init_repo(repo, password).await);
         }
 
         // Add existing page
@@ -297,21 +272,7 @@ mod imp {
         #[template_callback]
         async fn on_add_existing_page_continue(&self, config: config::Backup) {
             self.new_config.replace(Some(config.clone()));
-
-            let guard = QuitGuard::default();
-            let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
-            list_command.task.set_limit_first(100);
-
-            let Some(archives) = ui::utils::borg::exec(list_command, &guard)
-                .await
-                .into_message(gettext("Failed"))
-                .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                .await
-            else {
-                return;
-            };
-
-            self.transfer_selection(config.id.clone(), archives);
+            self.show_transfer_settings(config).await;
         }
 
         /// Something went wrong when trying to access the repository.
@@ -345,6 +306,135 @@ mod imp {
                 .await;
         }
 
+        // Transfer settings
+
+        async fn show_transfer_settings(&self, config: config::Backup) {
+            let guard = QuitGuard::default();
+            let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
+            list_command.task.set_limit_first(100);
+
+            let Some(archives) = self.handle_result(
+                ui::utils::borg::exec(list_command, &guard)
+                    .await
+                    .into_message(gettext("Failed")),
+            ) else {
+                return;
+            };
+
+            self.transfer_settings_page.set_archives(archives);
+            if self.transfer_settings_page.has_suggestions() {
+                self.navigation_view.push(&*self.transfer_settings_page);
+            } else {
+                self.finish();
+            }
+        }
+
+        #[template_callback]
+        async fn on_transfer_settings_continue(&self, archive_params: &ArchiveParams) {
+            if let Some(prefix) = self.handle_result(self.transfer_settings(archive_params).await) {
+                self.show_transfer_prefix_page(&prefix);
+            } else {
+                self.finish();
+            }
+        }
+
+        async fn transfer_settings(
+            &self,
+            archive_params: &ArchiveParams,
+        ) -> Result<config::ArchivePrefix> {
+            let Some(config) = self.new_config.borrow().clone() else {
+                return Err(Error::UserCanceled);
+            };
+
+            let config_id = config.id;
+            BACKUP_CONFIG.try_update(enclose!((archive_params, config_id) move |config| {
+                let conf = config.try_get_mut(&config_id)?;
+
+                conf.include = archive_params.parsed.include.clone();
+                conf.exclude = BTreeSet::from_iter( archive_params.parsed.exclude.clone().into_iter().map(|x| x.into_relative()));
+
+                Ok(())
+            }))?;
+
+            let entry = config::history::RunInfo {
+                end: archive_params
+                    .end
+                    .and_local_timezone(chrono::Local)
+                    .unwrap(),
+                outcome: borg::Outcome::Completed {
+                    stats: archive_params.stats.clone(),
+                },
+                messages: Default::default(),
+                include: archive_params.parsed.include.clone(),
+                exclude: archive_params.parsed.exclude.clone(),
+            };
+
+            // Create fake history entry for duration estimate to be good for first run
+            BACKUP_HISTORY.try_update(enclose!((config_id) move |histories| {
+                histories.insert(config_id.clone(), entry.clone());
+                Ok(())
+            }))?;
+
+            let configs = BACKUP_CONFIG.load();
+            let config = configs.try_get(&config_id)?;
+
+            let prefix = if let Some(prefix) = &archive_params.prefix {
+                prefix.clone()
+            } else {
+                config.archive_prefix.clone()
+            };
+
+            Ok(prefix)
+        }
+
+        // Transfer prefix
+
+        fn show_transfer_prefix_page(&self, prefix: &config::ArchivePrefix) {
+            self.transfer_prefix_page.set_prefix(prefix);
+            self.navigation_view.push(&*self.transfer_prefix_page);
+        }
+
+        #[template_callback]
+        fn on_transfer_prefix_continue(&self, prefix: &config::ArchivePrefix) {
+            let config = self.new_config.borrow().clone();
+
+            if let Some(config) = &config {
+                let config_id = config.id.clone();
+                self.handle_result(BACKUP_CONFIG.try_update(
+                    enclose!((prefix, config_id) move |config| {
+                        config
+                            .try_get_mut(&config_id)?
+                            .set_archive_prefix(
+                                prefix.clone(),
+                                BACKUP_CONFIG.load().iter(),
+                            )
+                            .err_to_msg(gettext("Invalid Archive Prefix"))
+                    }),
+                ));
+            }
+
+            // Setup finished
+            self.finish();
+        }
+
+        /// Close the dialog and show the new backup config
+        fn finish(&self) {
+            self.obj().close();
+        }
+
+        fn handle_result<T>(&self, result: Result<T>) -> Option<T> {
+            match result {
+                Ok(res) => Some(res),
+                Err(err) => {
+                    let window = self.obj().root().and_downcast::<gtk::Window>();
+                    glib::spawn_future_local(async move {
+                        err.show_transient_for(window.as_ref()).await
+                    });
+                    None
+                }
+            }
+        }
+
         async fn action_init_repo(
             &self,
             repo: config::Repository,
@@ -357,7 +447,7 @@ mod imp {
 
             // Everything is done, we have a new repo
             App::default().main_window().view_backup_conf(&config);
-            self.obj().close();
+            self.finish();
             Ok(())
         }
 
@@ -462,6 +552,7 @@ mod imp {
                 self.action.take();
                 self.location.take();
                 self.command_line_args.take();
+                self.new_config.take();
             }
         }
     }

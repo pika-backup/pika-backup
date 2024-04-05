@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.10" />
+  <requires lib="libadwaita" version="1.4" />
+  <template class="PkSetupTransferPrefixPage" parent="PkDialogPage">
+    <property name="title" translatable="yes">Archive Prefix</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" />
+        </child>
+        <property name="content">
+          <object class="GtkOverlay">
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">1</property>
+                <style>
+                  <class name="dialog-page" />
+                </style>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Archive Prefix</property>
+                    <property name="description" translatable="yes">Archive prefixes must be unique to every backup configuration. Using the same prefix on two devices is discouraged unless a new device supersedes the old one.</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkEntry" id="prefix">
+                            <property name="halign">center</property>
+                            <property name="margin-top">24</property>
+                            <property name="activates-default">1</property>
+                            <property name="width-request">270</property>
+                            <property name="secondary-icon-name">document-edit-symbolic</property>
+                            <style>
+                              <class name="card" />
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="overlay">
+              <object class="GtkButton" id="prefix_submit">
+                <property name="halign">center</property>
+                <property name="valign">end</property>
+                <property name="use-underline">1</property>
+                <property name="label" translatable="yes">_Save</property>
+                <signal name="clicked" handler="on_submit_button" swapped="true"/>
+                <style>
+                  <class name="pill" />
+                  <class name="suggested-action" />
+                  <class name="dialog-pill" />
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

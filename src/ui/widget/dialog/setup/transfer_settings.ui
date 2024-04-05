@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.10" />
+  <requires lib="libadwaita" version="1.4" />
+  <template class="PkSetupTransferSettingsPage" parent="PkDialogPage">
+    <property name="title" translatable="yes">Transfer Settings</property>
+    <property name="can-pop">0</property>
+    <property name="child">
+      <object class="GtkStack" id="page_transfer_stack">
+        <child>
+          <object class="AdwToolbarView" id="page_transfer_pending">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="show-start-title-buttons">0</property>
+                <property name="show-end-title-buttons">0</property>
+                <child type="end">
+                  <object class="GtkButton">
+                    <property name="use-underline">1</property>
+                    <property name="label" translatable="yes">S_kip</property>
+                    <signal name="clicked" handler="on_skip_button" swapped="true"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <property name="content">
+              <object class="AdwStatusPage">
+                <property name="vexpand">true</property>
+                <property name="icon-name">drive-harddisk-symbolic</property>
+                <property name="title" translatable="yes">Checking for Previous Configurations</property>
+                <property name="description" translatable="yes">Collecting information to transfer previously used settings. This step is optional.</property>
+                <child>
+                  <object class="GtkSpinner" id="transfer_pending_spinner">
+                    <property name="width-request">32</property>
+                    <property name="height-request">32</property>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwToolbarView" id="page_transfer_select">
+            <child type="top">
+              <object class="AdwHeaderBar">
+                <property name="show-end-title-buttons">false</property>
+                <property name="show-start-title-buttons">false</property>
+                <child type="end">
+                  <object class="GtkButton">
+                    <property name="use-underline">1</property>
+                    <property name="label" translatable="yes">S_kip</property>
+                    <property name="action-name">window.close</property>
+                    <style>
+                      <class name="suggested-action" />
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <property name="content">
+              <object class="AdwPreferencesPage">
+                <property name="vexpand">1</property>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Transfer Settings</property>
+                    <property name="description" translatable="yes">One set of configurations used for previous backups can be selected for transfer to the new setup. The configuration can be adjusted afterward.</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkListBox" id="transfer_suggestions">
+                            <property name="selection-mode">none</property>
+                            <style>
+                              <class name="overview-list" />
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>

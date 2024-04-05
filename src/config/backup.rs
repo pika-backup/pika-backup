@@ -218,7 +218,8 @@ impl Backup {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash, glib::Boxed)]
+#[boxed_type(name = "PkArchivePrefixConfig", nullable)]
 pub struct ArchivePrefix(pub String);
 
 /**

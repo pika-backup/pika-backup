@@ -1,7 +1,37 @@
-use crate::ui::prelude::*;
+use crate::{borg, config, ui::prelude::*};
 use adw::subclass::prelude::*;
 
-use crate::ui::widget::dialog::setup::display::ArchiveParams;
+#[derive(Clone, Debug, glib::Boxed)]
+#[boxed_type(name = "PkSetupArchiveParams", nullable)]
+pub struct ArchiveParams {
+    pub prefix: Option<config::ArchivePrefix>,
+    pub parsed: borg::invert_command::Parsed,
+    pub hostname: String,
+    pub username: String,
+    pub end: chrono::NaiveDateTime,
+    pub stats: borg::json::Stats,
+}
+
+impl From<borg::ListArchive> for ArchiveParams {
+    fn from(archive: borg::ListArchive) -> Self {
+        let prefix = archive
+            .name
+            .as_str()
+            .split_once('-')
+            .map(|x| config::ArchivePrefix(x.0.to_string() + "-"));
+        let stats = borg::json::Stats::transfer_history_mock(&archive);
+        let parsed = borg::invert_command::parse(archive.command_line);
+
+        ArchiveParams {
+            prefix,
+            parsed,
+            hostname: archive.hostname,
+            username: archive.username,
+            end: archive.end,
+            stats,
+        }
+    }
+}
 
 mod imp {
 

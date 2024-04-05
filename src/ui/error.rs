@@ -227,10 +227,6 @@ impl<W: IsA<gtk::Window>> Handler<W> {
             }
         });
     }
-
-    pub fn handle_sync(&self, result: Result<()>) {
-        self.spawn(async { result });
-    }
 }
 
 pub trait HandleError<T> {
