@@ -1,14 +1,14 @@
+mod actions;
 mod add_existing;
 pub mod add_task;
 mod encryption;
 pub mod folder_button;
-mod insert;
 mod location;
 mod start;
 mod transfer_option;
 mod transfer_prefix;
 mod transfer_settings;
-mod util;
+mod types;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -17,25 +17,22 @@ use add_existing::SetupAddExistingPage;
 use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
 use start::SetupStartPage;
+use transfer_prefix::SetupTransferPrefixPage;
 use transfer_settings::SetupTransferSettingsPage;
 
 use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::App;
 use add_task::AddConfigTask;
-use util::*;
+use types::*;
 
 mod imp {
     use crate::config;
 
     use crate::borg;
 
-    use self::transfer_option::ArchiveParams;
-    use self::transfer_prefix::SetupTransferPrefixPage;
-
     use super::*;
     use std::cell::{Cell, RefCell};
-    use std::collections::BTreeSet;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "setup.ui")]
@@ -331,60 +328,16 @@ mod imp {
 
         #[template_callback]
         async fn on_transfer_settings_continue(&self, archive_params: &ArchiveParams) {
-            if let Some(prefix) = self.handle_result(self.transfer_settings(archive_params).await) {
-                self.show_transfer_prefix_page(&prefix);
-            } else {
-                self.finish();
+            let config_id = self.new_config.borrow().as_ref().map(|c| c.id.clone());
+            if let Some(config_id) = config_id {
+                if let Some(prefix) =
+                    self.handle_result(actions::transfer_settings(&config_id, archive_params))
+                {
+                    self.show_transfer_prefix_page(&prefix);
+                } else {
+                    self.finish();
+                }
             }
-        }
-
-        async fn transfer_settings(
-            &self,
-            archive_params: &ArchiveParams,
-        ) -> Result<config::ArchivePrefix> {
-            let Some(config) = self.new_config.borrow().clone() else {
-                return Err(Error::UserCanceled);
-            };
-
-            let config_id = config.id;
-            BACKUP_CONFIG.try_update(enclose!((archive_params, config_id) move |config| {
-                let conf = config.try_get_mut(&config_id)?;
-
-                conf.include = archive_params.parsed.include.clone();
-                conf.exclude = BTreeSet::from_iter( archive_params.parsed.exclude.clone().into_iter().map(|x| x.into_relative()));
-
-                Ok(())
-            }))?;
-
-            let entry = config::history::RunInfo {
-                end: archive_params
-                    .end
-                    .and_local_timezone(chrono::Local)
-                    .unwrap(),
-                outcome: borg::Outcome::Completed {
-                    stats: archive_params.stats.clone(),
-                },
-                messages: Default::default(),
-                include: archive_params.parsed.include.clone(),
-                exclude: archive_params.parsed.exclude.clone(),
-            };
-
-            // Create fake history entry for duration estimate to be good for first run
-            BACKUP_HISTORY.try_update(enclose!((config_id) move |histories| {
-                histories.insert(config_id.clone(), entry.clone());
-                Ok(())
-            }))?;
-
-            let configs = BACKUP_CONFIG.load();
-            let config = configs.try_get(&config_id)?;
-
-            let prefix = if let Some(prefix) = &archive_params.prefix {
-                prefix.clone()
-            } else {
-                config.archive_prefix.clone()
-            };
-
-            Ok(prefix)
         }
 
         // Transfer prefix
@@ -443,7 +396,7 @@ mod imp {
             self.repo_config.take();
 
             self.navigation_view.push(&*self.page_creating);
-            let config = self.init_repo(repo, password).await?;
+            let config = actions::init_new_backup_repo(repo, password).await?;
 
             // Everything is done, we have a new repo
             App::default().main_window().view_backup_conf(&config);
@@ -451,87 +404,14 @@ mod imp {
             Ok(())
         }
 
+        /// Create a repo config from an entered location
         async fn create_repo_config(
             &self,
             location: SetupRepoLocation,
             args: SetupCommandLineArgs,
         ) -> Result<config::Repository> {
-            // Create a repo config from an entered location
             self.repo_config.take();
-
-            // A location can either be a borg remote ssh URI or a gio::File
-            let mut repo = match location {
-                SetupRepoLocation::Remote(url) => {
-                    // A remote config can only be verified by running borg and checking if it works
-                    debug!("Creating remote repository config with uri: {}", url);
-                    config::remote::Repository::from_uri(url).into_config()
-                }
-                SetupRepoLocation::Local(file) => {
-                    // A local repo can be either:
-                    //  * Regular file that is not mounted via gvfs
-                    //  * GVFS URI
-                    let uri = file.uri().to_string();
-
-                    // If we are creating a new repository we need to use the parent directory for
-                    // the mount check, because the repo dir does not exist yet
-                    let mount_file = if self.action.get() == SetupAction::Init {
-                        file.parent().unwrap_or_else(|| file.clone())
-                    } else {
-                        file.clone()
-                    };
-
-                    // Check if the file is contained in a [`gio::Mount`]
-                    let mount = mount_file.find_enclosing_mount(Some(&gio::Cancellable::new()));
-                    debug!("Find mount for '{}': {:?}", mount_file.uri(), mount);
-
-                    // Check if we have an actual path already
-                    let path = if let Some(path) = file.path() {
-                        path
-                    } else {
-                        // We don't. Let's try to mount the URI
-                        ui::repo::mount_enclosing(&mount_file).await?;
-
-                        file.path().ok_or_else(|| {
-                            warn!(
-                                "Finding enclosing mount failed. URI: '{}', mount result: {:?}", uri, mount
-                            );
-                            Error::Message(Message::new(
-                                gettext("Repository location not found."),
-                                gettext(
-                                    "A mount operation succeeded but the location is still unavailable.",
-                                ),
-                            ))
-                        })?
-                    };
-
-                    if let Ok(mount) = mount {
-                        // We found a mount
-                        debug!(
-                            "Creating local repository config with mount: '{}', path: {:?}, uri: {:?}",
-                            mount.name(), path, uri
-                        );
-                        config::local::Repository::from_mount(mount, path, uri).into_config()
-                    } else {
-                        // We have a path, but we couldn't find a [`gio::Mount`] to go with it.
-                        // We resort to just store the path.
-                        //
-                        // Note: Not storing a mount disables GVFS features, such as detecting drives
-                        // that have been renamed, or being able to mount the repository location ourselves.
-                        // This is not the best configuration.
-                        debug!("Creating local repository config with path: {:?}", path);
-                        config::local::Repository::from_path(path).into_config()
-                    }
-                }
-            };
-
-            // Add command line arguments to repository config if given
-            let args_vec = args.into_inner();
-            if !args_vec.is_empty() {
-                repo.set_settings(Some(config::BackupSettings {
-                    command_line_args: Some(args_vec),
-                }));
-            }
-
+            let repo = actions::create_repo_config(self.action.get(), location, args).await?;
             self.repo_config.replace(Some(repo.clone()));
             Ok(repo)
         }

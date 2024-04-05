@@ -5,10 +5,7 @@ use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
-enum AddRepoError {
-    PasswordWrong,
-    Error(crate::ui::error::Combined),
-}
+use super::actions;
 
 mod imp {
     use glib::subclass::Signal;
@@ -21,7 +18,6 @@ mod imp {
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "add_existing.ui")]
     pub struct SetupAddExistingPage {
-        password: RefCell<Option<config::Password>>,
         pub(super) repo: RefCell<Option<config::Repository>>,
 
         #[template_child]
@@ -97,11 +93,19 @@ mod imp {
             self.stack.set_visible_child(&*self.pending_page);
             self.obj().set_can_pop(false);
 
-            let result = self.try_fetch_archive_list(repo.clone()).await;
+            let password = if self.password_entry.text().is_empty() {
+                None
+            } else {
+                Some(config::Password::new(
+                    self.password_entry.text().to_string(),
+                ))
+            };
+
+            let result = actions::try_fetch_archive_list(repo.clone(), password.clone()).await;
 
             match result {
                 Ok(info) => {
-                    let config = match self.add_backup_config(repo, info).await {
+                    let config = match self.add_backup_config(repo, info, password).await {
                         Ok(config) => config,
                         Err(err) => {
                             self.emit_error(&err.to_string());
@@ -111,12 +115,12 @@ mod imp {
 
                     self.emit_continue(config);
                 }
-                Err(AddRepoError::PasswordWrong) => {
+                Err(actions::ConnectRepoError::PasswordWrong) => {
                     self.stack.set_visible_child(&*self.password_page);
                     self.obj().set_can_pop(true);
                     self.password_entry.grab_focus();
                 }
-                Err(AddRepoError::Error(err)) => {
+                Err(actions::ConnectRepoError::Error(err)) => {
                     self.emit_error(&err.to_string());
                 }
             };
@@ -130,52 +134,13 @@ mod imp {
             }
         }
 
-        /// Validate the password of the repository and try to fetch an archive list.
-        pub(super) async fn try_fetch_archive_list(
-            &self,
-            repo: config::Repository,
-        ) -> std::result::Result<borg::List, AddRepoError> {
-            // We connect to the repository to validate the password and retrieve its parameters
-            let mut borg = borg::CommandOnlyRepo::new(repo.clone());
-            borg.password = if self.password_entry.text().is_empty() {
-                None
-            } else {
-                Some(config::Password::new(
-                    self.password_entry.text().to_string(),
-                ))
-            };
-
-            self.password.replace(borg.password.clone());
-
-            let result = ui::utils::borg::exec_repo_only(
-                &gettext("Loading Backup Repository"),
-                borg,
-                |borg| borg.peek(),
-            )
-            .await;
-
-            match result {
-                Ok(info) => Ok(info),
-                Err(ui::error::Combined::Borg(borg::Error::Failed(
-                    borg::Failure::PassphraseWrong,
-                ))) => {
-                    // The password was wrong. Let's ask for the password again.
-                    Err(AddRepoError::PasswordWrong)
-                }
-                Err(err) => {
-                    // Some other error occurred -> we abort the entire process
-                    Err(AddRepoError::Error(err))
-                }
-            }
-        }
-
         /// Add the backup config
         async fn add_backup_config(
             &self,
             repo: crate::config::Repository,
             info: borg::List,
+            password: Option<config::Password>,
         ) -> Result<config::Backup> {
-            let password = self.password.borrow().clone();
             let config = config::Backup::new(repo, info, password.is_some());
 
             // We shouldn't fail this method after this point, otherwise we

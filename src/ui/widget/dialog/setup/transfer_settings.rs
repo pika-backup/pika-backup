@@ -1,4 +1,5 @@
-use super::transfer_option::{ArchiveParams, SetupTransferOption};
+use super::transfer_option::SetupTransferOption;
+use super::ArchiveParams;
 use crate::borg;
 use crate::ui::prelude::*;
 use adw::prelude::*;

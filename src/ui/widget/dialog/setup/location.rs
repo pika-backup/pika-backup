@@ -4,7 +4,7 @@ use adw::subclass::navigation_page::NavigationPageImplExt;
 use adw::subclass::prelude::*;
 
 use super::folder_button::FolderButton;
-use super::util::*;
+use super::types::*;
 use crate::ui::widget::{setup::SetupRepoLocation, DialogPage};
 
 mod imp {
