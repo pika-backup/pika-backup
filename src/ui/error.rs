@@ -144,7 +144,7 @@ impl Error {
         }
     }
 
-    pub async fn show_transient_for<W: IsA<gtk::Window> + IsA<gtk::Widget>>(&self, window: &W) {
+    pub async fn show_transient_for<W: IsA<gtk::Window>>(&self, window: impl Into<Option<&W>>) {
         if let Self::Message(err) = self {
             err.show_transient_for(window).await;
         }

@@ -151,20 +151,4 @@ impl imp::SetupDialog {
 
         Ok(())
     }
-
-    pub fn pending_check(&self) {
-        self.page_password_stack
-            .set_visible_child(&*self.page_password_pending);
-        self.page_password.set_can_pop(false);
-
-        if self.navigation_view.visible_page().as_ref() != Some(&*self.page_password) {
-            self.navigation_view.push(&*self.page_password);
-        }
-    }
-
-    pub fn ask_password(&self) {
-        self.page_password.set_can_pop(true);
-        self.page_password_stack
-            .set_visible_child(&*self.page_password_input);
-    }
 }

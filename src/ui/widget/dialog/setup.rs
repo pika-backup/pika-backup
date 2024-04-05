@@ -1,3 +1,4 @@
+mod add_existing;
 pub mod add_task;
 mod display;
 mod encryption;
@@ -11,6 +12,7 @@ mod util;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use add_existing::SetupAddExistingPage;
 use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
 use start::SetupStartPage;
@@ -24,6 +26,8 @@ use util::*;
 
 mod imp {
     use crate::config;
+
+    use crate::borg;
 
     use super::*;
     use std::cell::{Cell, RefCell};
@@ -40,6 +44,9 @@ mod imp {
         repo_config: RefCell<Option<config::Repository>>,
         #[property(get)]
         command_line_args: RefCell<SetupCommandLineArgs>,
+        #[property(get)]
+        add_password: RefCell<Option<config::Password>>,
+        new_config: RefCell<Option<config::Backup>>,
 
         #[template_child]
         pub(super) navigation_view: TemplateChild<adw::NavigationView>,
@@ -56,21 +63,9 @@ mod imp {
         #[template_child]
         pub(super) encryption_page: TemplateChild<SetupEncryptionPage>,
 
-        // Ask for password page
+        // Add existing repo page
         #[template_child]
-        pub(super) page_password: TemplateChild<adw::NavigationPage>,
-        #[template_child]
-        pub(super) page_password_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) page_password_pending: TemplateChild<gtk::WindowHandle>,
-        #[template_child]
-        pub(super) pending_spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
-        pub(super) page_password_input: TemplateChild<adw::ToolbarView>,
-        #[template_child]
-        pub(super) ask_password: TemplateChild<gtk::PasswordEntry>,
-        #[template_child]
-        pub(super) page_password_continue: TemplateChild<gtk::Button>,
+        pub(super) add_existing_page: TemplateChild<SetupAddExistingPage>,
 
         // Transfer settings page
         #[template_child]
@@ -133,9 +128,6 @@ mod imp {
             self.page_password_continue
                 .connect_map(clone!(@weak dialog => move |x| dialog.set_default_widget(Some(x))));*/
 
-            self.pending_spinner.connect_map(|s| s.start());
-            self.pending_spinner.connect_unmap(|s| s.stop());
-
             self.transfer_pending_spinner.connect_map(|s| s.start());
             self.transfer_pending_spinner.connect_unmap(|s| s.stop());
 
@@ -149,7 +141,16 @@ mod imp {
         }
     }
     impl WidgetImpl for SetupDialog {}
-    impl WindowImpl for SetupDialog {}
+    impl WindowImpl for SetupDialog {
+        fn close_request(&self) -> glib::Propagation {
+            // Display a newly added backup in the main window if successful
+            if let Some(config) = &*self.new_config.borrow() {
+                App::default().main_window().view_backup_conf(&config.id);
+            }
+
+            self.parent_close_request()
+        }
+    }
     impl AdwWindowImpl for SetupDialog {}
 
     #[gtk::template_callbacks]
@@ -176,12 +177,6 @@ mod imp {
             }
 
             Ok(None)
-        }
-
-        fn show_location_page(&self) {
-            self.encryption_page.reset();
-            self.ask_password.set_text("");
-            self.navigation_view.push(&*self.location_page);
         }
 
         #[template_callback]
@@ -225,17 +220,7 @@ mod imp {
                         return;
                     };
 
-                    let result = self.action_add_existing_repo(repo).await;
-
-                    if !matches!(result, Err(Error::UserCanceled) | Ok(())) {
-                        result.handle_transient_for(&*self.obj()).await;
-
-                        // Go back to start
-                        // TODO: The spinner shouldn't be an actual page but just a stack in the entire dialog,
-                        // with a cancel button
-                        self.navigation_view.pop_to_page(&*self.start_page);
-                    }
-
+                    self.show_add_existing_repo(repo);
                     return;
                 }
                 (SetupAction::AddExisting, SetupLocationKind::Remote, _) => {}
@@ -243,6 +228,13 @@ mod imp {
 
             // Next page is location page
             self.show_location_page();
+        }
+
+        // Location page
+
+        fn show_location_page(&self) {
+            self.encryption_page.reset();
+            self.navigation_view.push(&*self.location_page);
         }
 
         #[template_callback]
@@ -264,19 +256,20 @@ mod imp {
                 match action {
                     SetupAction::Init => {
                         // Show encryption page before doing anything with the repo config
-                        self.navigation_view.push(&*self.encryption_page);
+                        self.show_encryption_page();
                     }
                     SetupAction::AddExisting => {
                         // Try to access the repository
-                        self.action_add_existing_repo(repo)
-                            .await
-                            .handle_transient_for(
-                                self.obj().root().and_downcast_ref::<gtk::Window>(),
-                            )
-                            .await;
+                        self.show_add_existing_repo(repo);
                     }
                 }
             }
+        }
+
+        // Encryption page
+
+        fn show_encryption_page(&self) {
+            self.navigation_view.push(&*self.encryption_page);
         }
 
         #[template_callback]
@@ -294,6 +287,64 @@ mod imp {
                 .await;
         }
 
+        // Add existing page
+
+        fn show_add_existing_repo(&self, repo: config::Repository) {
+            self.navigation_view.push(&*self.add_existing_page);
+            self.add_existing_page.check_and_add_repo(repo);
+        }
+
+        #[template_callback]
+        async fn on_add_existing_page_continue(&self, config: config::Backup) {
+            self.new_config.replace(Some(config.clone()));
+
+            let guard = QuitGuard::default();
+            let mut list_command = borg::Command::<borg::task::List>::new(config.clone());
+            list_command.task.set_limit_first(100);
+
+            let Some(archives) = ui::utils::borg::exec(list_command, &guard)
+                .await
+                .into_message(gettext("Failed"))
+                .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
+                .await
+            else {
+                return;
+            };
+
+            self.transfer_selection(config.id.clone(), archives);
+        }
+
+        /// Something went wrong when trying to access the repository.
+        ///
+        /// Returns us back to the location / start page to allow the user to reconfigure the repository
+        #[template_callback]
+        async fn on_add_existing_page_error(&self, error: &str) {
+            // We have two options here: Either we have location page in the stack or we don't,
+            // depending on whether we are adding a remote repo from a custom URL or a local one /
+            // a remote repo from a preset.
+            //
+            // So we check whether it's in the stack and return to the appropriate page.
+            if self
+                .navigation_view
+                .navigation_stack()
+                .into_iter()
+                .any(|res| match res {
+                    Ok(page) => &page == self.location_page.upcast_ref::<glib::Object>(),
+                    Err(_) => false,
+                })
+            {
+                self.navigation_view.pop_to_page(&*self.location_page);
+            } else {
+                self.navigation_view.pop_to_page(&*self.start_page);
+            }
+
+            let error =
+                crate::ui::error::Message::new(gettext("Failed to Configure Repository"), error);
+            error
+                .show_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
+                .await;
+        }
+
         async fn action_init_repo(
             &self,
             repo: config::Repository,
@@ -305,20 +356,6 @@ mod imp {
             let config = self.init_repo(repo, password).await?;
 
             // Everything is done, we have a new repo
-            App::default().main_window().view_backup_conf(&config);
-            self.obj().close();
-            Ok(())
-        }
-
-        async fn action_add_existing_repo(&self, repo: config::Repository) -> Result<()> {
-            self.ask_password.set_text("");
-
-            self.navigation_view.push(&*self.page_password);
-            self.add_task.set_repo(Some(repo.clone()));
-
-            let config = self.add().await?;
-
-            // Everything is done, we added the repo
             App::default().main_window().view_backup_conf(&config);
             self.obj().close();
             Ok(())
@@ -420,19 +457,12 @@ mod imp {
             };
 
             if &visible_page == self.start_page.upcast_ref::<DialogPage>() {
-                self.ask_password.set_text("");
                 self.encryption_page.reset();
 
                 self.action.take();
                 self.location.take();
                 self.command_line_args.take();
             }
-
-            if &visible_page == self.location_page.upcast_ref::<DialogPage>() {
-                self.ask_password.set_text("");
-            }
-
-            self.ask_password.grab_focus();
         }
     }
 }

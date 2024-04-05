@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.10" />
+  <requires lib="libadwaita" version="1.4" />
+  <template class="PkSetupAddExistingPage" parent="PkDialogPage">
+    <property name="title" translatable="yes">Password</property>
+    <property name="default-widget">continue_button</property>
+    <property name="child">
+      <object class="GtkStack" id="stack">
+        <child>
+          <object class="GtkWindowHandle" id="pending_page">
+            <property name="child">
+              <object class="AdwToolbarView">
+                <child type="top">
+                  <object class="AdwHeaderBar" />
+                </child>
+                <property name="content">
+                  <object class="AdwStatusPage">
+                    <property name="vexpand">true</property>
+                    <property name="icon-name">drive-harddisk-symbolic</property>
+                    <property name="title" translatable="yes">Checking Backup Repository</property>
+                    <child>
+                      <object class="GtkSpinner" id="pending_spinner">
+                        <property name="width-request">32</property>
+                        <property name="height-request">32</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwToolbarView" id="password_page">
+            <child type="top">
+              <object class="AdwHeaderBar" />
+            </child>
+            <property name="content">
+              <object class="GtkOverlay">
+                <child>
+                  <object class="AdwStatusPage">
+                    <property name="vexpand">1</property>
+                    <property name="icon-name">padlock-open-symbolic</property>
+                    <property name="title" translatable="yes">Encryption Password Required</property>
+                    <property name="description" translatable="yes">The encryption password of this backup repository is required to access it.</property>
+                    <style>
+                      <class name="dialog-page" />
+                      <class name="dimmed" />
+                    </style>
+                    <property name="child">
+                      <object class="GtkPasswordEntry" id="password_entry">
+                        <property name="placeholder-text" translatable="yes">Password</property>
+                        <property name="halign">center</property>
+                        <property name="activates-default">1</property>
+                        <property name="width-request">270</property>
+                        <property name="show-peek-icon">1</property>
+                        <style>
+                          <class name="card" />
+                        </style>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child type="overlay">
+                  <object class="GtkButton" id="continue_button">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <property name="use-underline">1</property>
+                    <property name="label" translatable="yes">Continue</property>
+                    <signal name="clicked" handler="on_continue_button" swapped="true"/>
+                    <style>
+                      <class name="pill" />
+                      <class name="suggested-action" />
+                      <class name="dialog-pill" />
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>
