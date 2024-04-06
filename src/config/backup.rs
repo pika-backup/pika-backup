@@ -42,20 +42,20 @@ impl std::fmt::Display for ConfigId {
     }
 }
 
-impl glib::ToVariant for ConfigId {
+impl ToVariant for ConfigId {
     fn to_variant(&self) -> glib::Variant {
         self.as_str().to_variant()
     }
 }
 
-impl glib::FromVariant for ConfigId {
+impl FromVariant for ConfigId {
     fn from_variant(variant: &glib::Variant) -> Option<Self> {
-        let id = glib::FromVariant::from_variant(variant)?;
+        let id = FromVariant::from_variant(variant)?;
         Some(Self::new(id))
     }
 }
 
-impl glib::StaticVariantType for ConfigId {
+impl StaticVariantType for ConfigId {
     fn static_variant_type() -> std::borrow::Cow<'static, glib::VariantTy> {
         String::static_variant_type()
     }

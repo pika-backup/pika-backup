@@ -28,11 +28,11 @@ impl CronoExt for NaiveDateTime {
 }
 
 pub trait ComboRowExtExt {
-    fn selected_cast<T: glib::IsA<glib::Object>>(&self) -> Option<T>;
+    fn selected_cast<T: IsA<glib::Object>>(&self) -> Option<T>;
 }
 
 impl<C: ComboRowExt> ComboRowExtExt for C {
-    fn selected_cast<T: glib::IsA<glib::Object>>(&self) -> Option<T> {
+    fn selected_cast<T: IsA<glib::Object>>(&self) -> Option<T> {
         self.selected_item().and_then(|x| x.downcast::<T>().ok())
     }
 }

@@ -205,7 +205,7 @@ impl BorgCall {
         Ok(config::Password::from(
             oo7::Keyring::new()
                 .await?
-                .search_items(HashMap::from([("repo-id", repo_id.as_str())]))
+                .search_items(&HashMap::from([("repo-id", repo_id.as_str())]))
                 .await?
                 .first()
                 .ok_or(Error::PasswordMissing {

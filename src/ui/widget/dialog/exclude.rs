@@ -245,7 +245,7 @@ mod imp {
                 .modal(true)
                 .build();
 
-            let paths = ui::utils::paths_from_model(
+            let paths = ui::utils::paths_from_model(Some(
                 chooser
                     .select_multiple_folders_future(Some(&main_ui().window()))
                     .await
@@ -255,7 +255,7 @@ mod imp {
                         }
                         _ => Message::short(err.to_string()).into(),
                     })?,
-            )?;
+            ))?;
 
             BACKUP_CONFIG.try_update(|settings| {
                 for path in &paths {

@@ -1,12 +1,11 @@
-use crate::borg::task;
-use crate::borg::RepoId;
 use crate::ui::prelude::*;
+use gio::prelude::*;
 
 use crate::borg;
+use crate::borg::task;
+use crate::borg::RepoId;
 use crate::ui;
 use borg::task::Task;
-use gio::traits::DriveExt;
-use gio::traits::VolumeExt;
 use std::future::Future;
 use ui::error::Combined;
 

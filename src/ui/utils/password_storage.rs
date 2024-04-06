@@ -58,7 +58,7 @@ async fn set_password(
         .create_item(
             // Translators: This is the description for entries in the password database.
             &gettextf("Pika Backup “{}”", &[&config.repo.location()]),
-            HashMap::from([("repo-id", config.repo_id.as_str())]),
+            &HashMap::from([("repo-id", config.repo_id.as_str())]),
             password.as_bytes(),
             true,
         )
@@ -74,7 +74,7 @@ async fn delete_passwords(config: &config::Backup) -> std::result::Result<(), oo
 
     let keyring = oo7::Keyring::new().await?;
     keyring
-        .delete(HashMap::from([("repo-id", config.repo_id.as_str())]))
+        .delete(&HashMap::from([("repo-id", config.repo_id.as_str())]))
         .await?;
 
     debug!("Clearing password returned");

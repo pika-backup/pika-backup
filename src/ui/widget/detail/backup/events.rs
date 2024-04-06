@@ -77,7 +77,7 @@ impl imp::BackupPage {
             .modal(true)
             .build();
 
-        let paths = ui::utils::paths_from_model(
+        let paths = ui::utils::paths_from_model(Some(
             chooser
                 .select_multiple_folders_future(Some(&main_ui().window()))
                 .await
@@ -87,7 +87,7 @@ impl imp::BackupPage {
                     }
                     _ => Message::short(err.to_string()).into(),
                 })?,
-        )?;
+        ))?;
 
         let paths = if *APP_IS_SANDBOXED {
             let runtime_dir = glib::user_runtime_dir();

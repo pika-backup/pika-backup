@@ -2,6 +2,8 @@
 Borg output to STDOUT with `--json` flag.
 */
 
+use glib::prelude::*;
+
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Ord, Eq, PartialOrd, PartialEq)]
 pub struct RepoId(String);
 
@@ -15,20 +17,20 @@ impl RepoId {
     }
 }
 
-impl glib::ToVariant for RepoId {
+impl ToVariant for RepoId {
     fn to_variant(&self) -> glib::Variant {
         self.as_str().to_variant()
     }
 }
 
-impl glib::FromVariant for RepoId {
+impl FromVariant for RepoId {
     fn from_variant(variant: &glib::Variant) -> Option<Self> {
-        let id = glib::FromVariant::from_variant(variant)?;
+        let id = FromVariant::from_variant(variant)?;
         Some(Self::new(id))
     }
 }
 
-impl glib::StaticVariantType for RepoId {
+impl StaticVariantType for RepoId {
     fn static_variant_type() -> std::borrow::Cow<'static, glib::VariantTy> {
         String::static_variant_type()
     }

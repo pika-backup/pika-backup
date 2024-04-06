@@ -9,8 +9,7 @@ mod imp {
 
     use super::*;
     use glib::Properties;
-    use once_cell::unsync::OnceCell;
-    use std::cell::{Cell, RefCell};
+    use std::cell::{Cell, OnceCell, RefCell};
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::PreferencesDialog)]

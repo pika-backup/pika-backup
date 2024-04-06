@@ -51,7 +51,7 @@ impl Action for StartBackup {
     fn action() -> gio::SimpleAction {
         let action = gio::SimpleAction::new(Self::NAME, Some(glib::VariantTy::STRING));
         action.connect_activate(|_, config_id| {
-            if let Some(config_id) = config_id.and_then(glib::FromVariant::from_variant) {
+            if let Some(config_id) = config_id.and_then(FromVariant::from_variant) {
                 glib::MainContext::default().spawn(async move {
                     dbus::PikaBackup::start_backup(&ConfigId::new(config_id))
                         .await
@@ -91,7 +91,7 @@ impl Action for ShowSchedule {
     fn action() -> gio::SimpleAction {
         let action = gio::SimpleAction::new(Self::NAME, Some(glib::VariantTy::STRING));
         action.connect_activate(|_, config_id| {
-            if let Some(config_id) = config_id.and_then(glib::FromVariant::from_variant) {
+            if let Some(config_id) = config_id.and_then(FromVariant::from_variant) {
                 glib::MainContext::default().spawn(async move {
                     dbus::PikaBackup::show_schedule(&ConfigId::new(config_id))
                         .await
