@@ -147,157 +147,155 @@ impl Due {
         history: Option<&config::history::History>,
         activity: Option<&config::Activity>,
     ) -> Result<DueCause, Self> {
+        if history.is_some_and(|h| h.is_running()) {
+            // Already running
+            return Err(Self::Running);
+        };
+
+        let Some(last_run) = history.and_then(|h| h.last_run()) else {
+            // Never ran before
+            return Ok(DueCause::Regular);
+        };
+
         let schedule = &config.schedule;
         let activity = activity.map(|x| x.used).unwrap_or_default();
         let last_completed = history.and_then(|x| x.last_completed());
 
-        if history.is_some_and(|x| x.is_running()) {
-            Err(Self::Running)
-        } else if let Some(last_run) = history.and_then(|x| x.last_run()) {
-            match schedule.frequency {
-                config::Frequency::Hourly => {
-                    let last_run_ago = chrono::Local::now() - last_run.end;
-                    if last_run_ago >= chrono::Duration::hours(1) {
+        match schedule.frequency {
+            config::Frequency::Hourly => {
+                let last_run_ago = chrono::Local::now() - last_run.end;
+                if last_run_ago >= chrono::Duration::hours(1) {
+                    Ok(DueCause::Regular)
+                } else {
+                    Err(Self::NotDue {
+                        next: last_run.end + chrono::Duration::hours(1),
+                    })
+                }
+            }
+            config::Frequency::Daily { preferred_time } => {
+                let now = chrono::Local::now();
+
+                let scheduled_datetime = {
+                    let datetime = now
+                        .date()
+                        .and_time(preferred_time)
+                        .unwrap_or_else(|| now.date().pred().and_hms(0, 0, 0));
+
+                    if datetime > now {
+                        datetime - chrono::Duration::days(1)
+                    } else {
+                        datetime
+                    }
+                };
+
+                if last_run.end < scheduled_datetime {
+                    if activity >= super::USED_THRESHOLD {
                         Ok(DueCause::Regular)
                     } else {
                         Err(Self::NotDue {
-                            next: last_run.end + chrono::Duration::hours(1),
+                            next: chrono::Local::now()
+                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                    .unwrap_or_else(|_| chrono::Duration::zero()),
                         })
                     }
-                }
-                config::Frequency::Daily { preferred_time } => {
-                    let now = chrono::Local::now();
-
-                    let scheduled_datetime = {
-                        let datetime = now
+                } else {
+                    Err(Self::NotDue {
+                        next: scheduled_datetime
                             .date()
+                            .succ()
                             .and_time(preferred_time)
-                            .unwrap_or_else(|| now.date().pred().and_hms(0, 0, 0));
-
-                        if datetime > now {
-                            datetime - chrono::Duration::days(1)
-                        } else {
-                            datetime
-                        }
-                    };
-
-                    if last_run.end < scheduled_datetime {
-                        if activity >= super::USED_THRESHOLD {
-                            Ok(DueCause::Regular)
-                        } else {
-                            Err(Self::NotDue {
-                                next: chrono::Local::now()
-                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                        .unwrap_or_else(|_| chrono::Duration::zero()),
-                            })
-                        }
-                    } else {
-                        Err(Self::NotDue {
-                            next: scheduled_datetime
-                                .date()
-                                .succ()
-                                .and_time(preferred_time)
-                                .unwrap_or_else(|| scheduled_datetime + chrono::Duration::days(1)),
-                        })
-                    }
-                }
-                config::Frequency::Weekly { preferred_weekday } => {
-                    let today = chrono::Local::today();
-
-                    let scheduled_date = {
-                        let iso_week = today.iso_week();
-                        let schedule_date = chrono::Local.isoywd(
-                            iso_week.year(),
-                            iso_week.week(),
-                            preferred_weekday,
-                        );
-
-                        if schedule_date > today {
-                            schedule_date - chrono::Duration::weeks(1)
-                        } else {
-                            schedule_date
-                        }
-                    };
-
-                    if last_run.end.date() < scheduled_date {
-                        if activity >= super::USED_THRESHOLD {
-                            Ok(DueCause::Regular)
-                        } else {
-                            Err(Self::NotDue {
-                                next: chrono::Local::now()
-                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                        .unwrap_or_else(|_| chrono::Duration::zero()),
-                            })
-                        }
-                    } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
-                        if last_run.end.date() == today {
-                            let next = last_run.end.date().succ().and_hms(0, 0, 0);
-                            Err(Self::NotDue { next })
-                        } else if activity < super::USED_THRESHOLD {
-                            Err(Self::NotDue {
-                                next: chrono::Local::now()
-                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                        .unwrap_or_else(|_| chrono::Duration::zero()),
-                            })
-                        } else {
-                            Ok(DueCause::Retry)
-                        }
-                    } else {
-                        Err(Self::NotDue {
-                            next: (scheduled_date + chrono::Duration::weeks(1)).and_hms(0, 0, 0),
-                        })
-                    }
-                }
-
-                // TODO: repeat after error missing
-                config::Frequency::Monthly { preferred_day } => {
-                    let today = chrono::Local::today();
-
-                    let scheduled_date = {
-                        if preferred_day > today.day() as u8 {
-                            chronoutil::delta::shift_months(today, -1)
-                                .with_day(preferred_day as u32)
-                        } else {
-                            // Shifts the 31st back if necessary
-                            chronoutil::delta::with_day(today, preferred_day as u32)
-                        }
-                    }
-                    .unwrap_or(today);
-
-                    if last_run.end.date() < scheduled_date {
-                        if activity >= super::USED_THRESHOLD {
-                            Ok(DueCause::Regular)
-                        } else {
-                            Err(Self::NotDue {
-                                next: chrono::Local::now()
-                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                        .unwrap_or_else(|_| chrono::Duration::zero()),
-                            })
-                        }
-                    } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
-                        if last_run.end.date() == today {
-                            let next = last_run.end.date().succ().and_hms(0, 0, 0);
-                            Err(Self::NotDue { next })
-                        } else if activity < super::USED_THRESHOLD {
-                            Err(Self::NotDue {
-                                next: chrono::Local::now()
-                                    + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                        .unwrap_or_else(|_| chrono::Duration::zero()),
-                            })
-                        } else {
-                            Ok(DueCause::Retry)
-                        }
-                    } else {
-                        Err(Self::NotDue {
-                            next: (chronoutil::delta::shift_months(scheduled_date, 1))
-                                .and_hms(0, 0, 0),
-                        })
-                    }
+                            .unwrap_or_else(|| scheduled_datetime + chrono::Duration::days(1)),
+                    })
                 }
             }
-        } else {
-            // never ran before
-            Ok(DueCause::Regular)
+            config::Frequency::Weekly { preferred_weekday } => {
+                let today = chrono::Local::today();
+
+                let scheduled_date = {
+                    let iso_week = today.iso_week();
+                    let schedule_date =
+                        chrono::Local.isoywd(iso_week.year(), iso_week.week(), preferred_weekday);
+
+                    if schedule_date > today {
+                        schedule_date - chrono::Duration::weeks(1)
+                    } else {
+                        schedule_date
+                    }
+                };
+
+                if last_run.end.date() < scheduled_date {
+                    if activity >= super::USED_THRESHOLD {
+                        Ok(DueCause::Regular)
+                    } else {
+                        Err(Self::NotDue {
+                            next: chrono::Local::now()
+                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                    .unwrap_or_else(|_| chrono::Duration::zero()),
+                        })
+                    }
+                } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
+                    if last_run.end.date() == today {
+                        let next = last_run.end.date().succ().and_hms(0, 0, 0);
+                        Err(Self::NotDue { next })
+                    } else if activity < super::USED_THRESHOLD {
+                        Err(Self::NotDue {
+                            next: chrono::Local::now()
+                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                    .unwrap_or_else(|_| chrono::Duration::zero()),
+                        })
+                    } else {
+                        Ok(DueCause::Retry)
+                    }
+                } else {
+                    Err(Self::NotDue {
+                        next: (scheduled_date + chrono::Duration::weeks(1)).and_hms(0, 0, 0),
+                    })
+                }
+            }
+
+            // TODO: repeat after error missing
+            config::Frequency::Monthly { preferred_day } => {
+                let today = chrono::Local::today();
+
+                let scheduled_date = {
+                    if preferred_day > today.day() as u8 {
+                        chronoutil::delta::shift_months(today, -1).with_day(preferred_day as u32)
+                    } else {
+                        // Shifts the 31st back if necessary
+                        chronoutil::delta::with_day(today, preferred_day as u32)
+                    }
+                }
+                .unwrap_or(today);
+
+                if last_run.end.date() < scheduled_date {
+                    if activity >= super::USED_THRESHOLD {
+                        Ok(DueCause::Regular)
+                    } else {
+                        Err(Self::NotDue {
+                            next: chrono::Local::now()
+                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                    .unwrap_or_else(|_| chrono::Duration::zero()),
+                        })
+                    }
+                } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
+                    if last_run.end.date() == today {
+                        let next = last_run.end.date().succ().and_hms(0, 0, 0);
+                        Err(Self::NotDue { next })
+                    } else if activity < super::USED_THRESHOLD {
+                        Err(Self::NotDue {
+                            next: chrono::Local::now()
+                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
+                                    .unwrap_or_else(|_| chrono::Duration::zero()),
+                        })
+                    } else {
+                        Ok(DueCause::Retry)
+                    }
+                } else {
+                    Err(Self::NotDue {
+                        next: (chronoutil::delta::shift_months(scheduled_date, 1)).and_hms(0, 0, 0),
+                    })
+                }
+            }
         }
     }
 }
