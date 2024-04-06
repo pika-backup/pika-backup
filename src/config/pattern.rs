@@ -182,7 +182,7 @@ impl<const T: bool> Pattern<T> {
         Self::PathFullMatch(path)
     }
 
-    pub fn from_regular_expression(re: impl AsRef<str>) -> Result<Self, regex::Error> {
+    pub fn from_regular_expression(re: impl AsRef<str>) -> Result<Self, Box<regex::Error>> {
         Ok(Self::RegularExpression(regex::Regex::new(re.as_ref())?))
     }
 
