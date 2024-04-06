@@ -15,7 +15,7 @@ enum Command {
     ShowSchedule(ConfigId),
 }
 
-#[zbus::dbus_interface(name = "org.gnome.World.PikaBackup1")]
+#[zbus::interface(name = "org.gnome.World.PikaBackup1")]
 impl PikaBackup {
     async fn start_scheduled_backup(&self, config_id: ConfigId, due_cause: schedule::DueCause) {
         info!(

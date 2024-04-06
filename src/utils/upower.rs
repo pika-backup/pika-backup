@@ -1,13 +1,13 @@
 use zbus::Result;
 
-#[zbus::dbus_proxy(
+#[zbus::proxy(
     default_service = "org.freedesktop.UPower",
     interface = "org.freedesktop.UPower",
     default_path = "/org/freedesktop/UPower",
     assume_defaults = false
 )]
 trait UPower {
-    #[dbus_proxy(property)]
+    #[zbus(property)]
     fn on_battery(&self) -> Result<bool>;
 }
 

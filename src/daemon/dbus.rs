@@ -18,7 +18,7 @@ pub async fn session_connection() -> Result<zbus::Connection> {
     }
 }
 
-#[zbus::dbus_proxy(interface = "org.gnome.World.PikaBackup1", assume_defaults = false)]
+#[zbus::proxy(interface = "org.gnome.World.PikaBackup1", assume_defaults = false)]
 trait PikaBackup {
     fn start_scheduled_backup(
         &self,
