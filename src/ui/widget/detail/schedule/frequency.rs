@@ -10,7 +10,7 @@ pub fn list() -> Vec<config::Frequency> {
     vec![
         config::Frequency::Hourly,
         config::Frequency::Daily {
-            preferred_time: chrono::NaiveTime::from_hms(0, 0, 0),
+            preferred_time: chrono::NaiveTime::MIN,
         },
         config::Frequency::Weekly {
             preferred_weekday: chrono::Weekday::Mon,

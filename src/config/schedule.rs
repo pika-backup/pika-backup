@@ -26,7 +26,8 @@ pub enum Frequency {
 impl Default for Frequency {
     fn default() -> Self {
         Self::Daily {
-            preferred_time: chrono::NaiveTime::from_hms(17, 00, 00),
+            preferred_time: chrono::NaiveTime::from_hms_opt(17, 00, 00)
+                .expect("17:00 as a naive time must always exist"),
         }
     }
 }
