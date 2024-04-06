@@ -111,7 +111,7 @@ impl imp::ArchivesPage {
         let archive_name = archive_name.as_str();
         let archive_date = &archive
             .start
-            .to_gnome_format()
+            .to_locale()
             .unwrap_or_else(|| archive.start.to_string())
             .clone();
         let window = self.obj().app_window();

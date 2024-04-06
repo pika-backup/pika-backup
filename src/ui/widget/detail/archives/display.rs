@@ -151,7 +151,7 @@ impl imp::ArchivesPage {
                 .title(
                     &archive
                         .start
-                        .to_gnome_format()
+                        .to_locale()
                         .unwrap_or_else(|| archive.start.to_string()),
                 )
                 .subtitle(&format!(
