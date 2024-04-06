@@ -8,6 +8,7 @@
 ## 0.7.2 (unreleased)
 
 - Fix shell scripts not inheriting environment variables which broke eg. `notify-send`
+- Fix crash when clicking on deactivated buttons on schedule page
 
 ## 0.7.1 (2024-03-11)
 
