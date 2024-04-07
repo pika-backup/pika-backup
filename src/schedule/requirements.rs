@@ -388,9 +388,10 @@ fn test_check_daily() {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
-                chrono::Local::today()
-                    .succ()
-                    .and_time(preferred_time_close)
+                chrono::Local::now()
+                    .checked_add_days(chrono::Days::new(1))
+                    .unwrap()
+                    .with_time(preferred_time_close)
                     .unwrap()
             );
             true
@@ -410,9 +411,10 @@ fn test_check_daily() {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
-                chrono::Local::today()
-                    .succ()
-                    .and_time(preferred_time_close)
+                chrono::Local::now()
+                    .checked_add_days(chrono::Days::new(1))
+                    .unwrap()
+                    .with_time(preferred_time_close)
                     .unwrap()
             );
             true
@@ -431,7 +433,7 @@ fn test_check_weekly() {
     };
 
     config.schedule.frequency = config::Frequency::Weekly {
-        preferred_weekday: (chrono::Local::today() - chrono::Duration::days(1)).weekday(),
+        preferred_weekday: (chrono::Local::now() - chrono::Duration::days(1)).weekday(),
     };
 
     // Never ran
@@ -476,7 +478,9 @@ fn test_check_weekly() {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
-                (chrono::Local::today() + chrono::Duration::days(6)).and_hms(0, 0, 0)
+                (chrono::Local::now() + chrono::Duration::days(6))
+                    .with_time(chrono::NaiveTime::MIN)
+                    .unwrap()
             );
             true
         }
@@ -486,7 +490,7 @@ fn test_check_weekly() {
     // due today and only completed yesterday
 
     config.schedule.frequency = config::Frequency::Weekly {
-        preferred_weekday: chrono::Local::today().weekday(),
+        preferred_weekday: chrono::Local::now().weekday(),
     };
 
     let due = Due::check_full(&config, Some(&history), Some(&activity));
@@ -504,7 +508,10 @@ fn test_check_weekly() {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
-                chrono::Local::today().and_hms(0, 0, 0) + chrono::Duration::weeks(1)
+                chrono::Local::now()
+                    .with_time(chrono::NaiveTime::MIN)
+                    .unwrap()
+                    + chrono::Duration::weeks(1)
             );
             true
         }
@@ -521,7 +528,7 @@ fn test_check_monthly() {
         last_update: chrono::Local::now(),
     };
 
-    let preferred_day = chrono::Local::today() - chrono::Duration::days(1);
+    let preferred_day = chrono::Local::now() - chrono::Duration::days(1);
     config.schedule.frequency = config::Frequency::Monthly {
         preferred_day: preferred_day.day() as u8,
     };
@@ -529,7 +536,7 @@ fn test_check_monthly() {
     // due yesterday and failed now
 
     history.insert(config::history::RunInfo::new_left_running(
-        &(preferred_day.and_hms(0, 0, 0) + chrono::Duration::seconds(1)),
+        &(preferred_day.with_time(chrono::NaiveTime::MIN).unwrap() + chrono::Duration::seconds(1)),
     ));
 
     let due = Due::check_full(&config, Some(&history), Some(&activity));
@@ -546,7 +553,9 @@ fn test_check_monthly() {
         Err(Due::NotDue { next }) => {
             assert_eq!(
                 next,
-                chronoutil::delta::shift_months(preferred_day, 1).and_hms(0, 0, 0)
+                chronoutil::delta::shift_months(preferred_day, 1)
+                    .with_time(chrono::NaiveTime::MIN)
+                    .unwrap()
             );
             true
         }
