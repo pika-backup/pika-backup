@@ -15,7 +15,7 @@ pub struct Settings {
     pub run_on_battery: bool,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq)]
 pub enum Frequency {
     Hourly,
     Daily { preferred_time: chrono::NaiveTime },
