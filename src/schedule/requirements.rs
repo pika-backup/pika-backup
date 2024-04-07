@@ -347,265 +347,273 @@ impl Due {
     }
 }
 
-#[test]
-fn test_check_running() {
-    let config = config::Backup::test_new_mock();
-    let mut history = config::history::History::default();
-    let activity = config::Activity {
-        used: super::USED_THRESHOLD,
-        last_update: chrono::Local::now(),
-    };
+#[cfg(test)]
+mod test {
+    use crate::schedule::USED_THRESHOLD;
 
-    history.start_running_now();
+    use super::*;
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
-    matches::assert_matches!(due, Err(Due::Running));
-}
+    #[test]
+    fn test_check_running() {
+        let config = config::Backup::test_new_mock();
+        let mut history = config::history::History::default();
+        let activity = config::Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
 
-#[test]
-fn test_check_daily() {
-    let mut config = config::Backup::test_new_mock();
-    let mut history = config::history::History::default();
-    let activity = config::Activity {
-        used: super::USED_THRESHOLD,
-        last_update: chrono::Local::now(),
-    };
-    let preferred_time = chrono::Local::now().time() - chrono::Duration::hours(1);
+        history.start_running_now();
 
-    config.schedule.frequency = config::Frequency::Daily { preferred_time };
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+        matches::assert_matches!(due, Err(Due::Running));
+    }
 
-    // no activity
+    #[test]
+    fn test_check_daily() {
+        let mut config = config::Backup::test_new_mock();
+        let mut history = config::history::History::default();
+        let activity = config::Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
+        let preferred_time = chrono::Local::now().time() - chrono::Duration::hours(1);
 
-    history.insert(config::history::RunInfo::test_new_mock(
-        chrono::Duration::hours(2),
-    ));
+        config.schedule.frequency = config::Frequency::Daily { preferred_time };
 
-    let due = Due::check_full(&config, Some(&history), None);
-    assert!(match due {
-        Err(Due::NotDue { next }) => {
-            // due after device used enough
-            assert!(
-                (chrono::Local::now() + chrono::Duration::from_std(super::USED_THRESHOLD).unwrap())
-                    - next
-                    < chrono::Duration::seconds(1)
-            );
-            true
-        }
-        _ => false,
-    });
+        // no activity
 
-    // is due
+        history.insert(config::history::RunInfo::test_new_mock(
+            chrono::Duration::hours(2),
+        ));
 
-    history.insert(config::history::RunInfo::test_new_mock(
-        chrono::Duration::hours(2),
-    ));
+        let due = Due::check_full(&config, Some(&history), None);
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                // due after device used enough
+                assert!(
+                    (chrono::Local::now() + chrono::Duration::from_std(USED_THRESHOLD).unwrap())
+                        - next
+                        < chrono::Duration::seconds(1)
+                );
+                true
+            }
+            _ => false,
+        });
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
-    matches::assert_matches!(due, Ok(DueCause::Regular));
+        // is due
 
-    // failed today before preferred time
+        history.insert(config::history::RunInfo::test_new_mock(
+            chrono::Duration::hours(2),
+        ));
 
-    history.insert(config::history::RunInfo::new_left_running(
-        &(chrono::Local::now() - chrono::Duration::hours(2)),
-    ));
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+        matches::assert_matches!(due, Ok(DueCause::Regular));
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
-    matches::assert_matches!(due, Ok(DueCause::Regular));
+        // failed today before preferred time
 
-    // failed now, try again tomorrow
+        history.insert(config::history::RunInfo::new_left_running(
+            &(chrono::Local::now() - chrono::Duration::hours(2)),
+        ));
 
-    let mut config_close = config;
-    let preferred_time_close = chrono::Local::now().time() - chrono::Duration::seconds(1);
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+        matches::assert_matches!(due, Ok(DueCause::Regular));
 
-    let mut history_close = history.clone();
-    history_close.insert(config::history::RunInfo::test_new_mock(
-        chrono::Duration::seconds(1),
-    ));
+        // failed now, try again tomorrow
 
-    config_close.schedule.frequency = config::Frequency::Daily {
-        preferred_time: preferred_time_close,
-    };
+        let mut config_close = config;
+        let preferred_time_close = chrono::Local::now().time() - chrono::Duration::seconds(1);
 
-    history.insert(config::history::RunInfo::new_left_running(
-        &chrono::Local::now(),
-    ));
+        let mut history_close = history.clone();
+        history_close.insert(config::history::RunInfo::test_new_mock(
+            chrono::Duration::seconds(1),
+        ));
 
-    let due = Due::check_full(&config_close, Some(&history_close), Some(&activity));
-    assert!(match due {
-        Err(Due::NotDue { next }) => {
-            assert_eq!(
-                next,
-                chrono::Local::now()
-                    .checked_add_days(chrono::Days::new(1))
-                    .unwrap()
-                    .with_time(preferred_time_close)
-                    .unwrap()
-            );
-            true
-        }
-        _ => false,
-    });
+        config_close.schedule.frequency = config::Frequency::Daily {
+            preferred_time: preferred_time_close,
+        };
 
-    // completed today
+        history.insert(config::history::RunInfo::new_left_running(
+            &chrono::Local::now(),
+        ));
 
-    history.clear();
-    history.insert(config::history::RunInfo::test_new_mock(
-        chrono::Duration::zero(),
-    ));
+        let due = Due::check_full(&config_close, Some(&history_close), Some(&activity));
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    chrono::Local::now()
+                        .checked_add_days(chrono::Days::new(1))
+                        .unwrap()
+                        .with_time(preferred_time_close)
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
 
-    let due = Due::check_full(&config_close, Some(&history), Some(&activity));
-    assert!(match due {
-        Err(Due::NotDue { next }) => {
-            assert_eq!(
-                next,
-                chrono::Local::now()
-                    .checked_add_days(chrono::Days::new(1))
-                    .unwrap()
-                    .with_time(preferred_time_close)
-                    .unwrap()
-            );
-            true
-        }
-        _ => false,
-    });
-}
+        // completed today
 
-#[test]
-fn test_check_weekly() {
-    let mut config = config::Backup::test_new_mock();
-    let mut history = Default::default();
-    let activity = config::Activity {
-        used: super::USED_THRESHOLD,
-        last_update: chrono::Local::now(),
-    };
+        history.clear();
+        history.insert(config::history::RunInfo::test_new_mock(
+            chrono::Duration::zero(),
+        ));
 
-    config.schedule.frequency = config::Frequency::Weekly {
-        preferred_weekday: (chrono::Local::now() - chrono::Duration::days(1)).weekday(),
-    };
+        let due = Due::check_full(&config_close, Some(&history), Some(&activity));
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    chrono::Local::now()
+                        .checked_add_days(chrono::Days::new(1))
+                        .unwrap()
+                        .with_time(preferred_time_close)
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
+    }
 
-    // Never ran
+    #[test]
+    fn test_check_weekly() {
+        let mut config = config::Backup::test_new_mock();
+        let mut history = Default::default();
+        let activity = config::Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
-    matches::assert_matches!(due, Ok(DueCause::Regular));
+        config.schedule.frequency = config::Frequency::Weekly {
+            preferred_weekday: (chrono::Local::now() - chrono::Duration::days(1)).weekday(),
+        };
 
-    // no activity
+        // Never ran
 
-    history.insert(config::history::RunInfo::new_left_running(
-        &(chrono::Local::now() - chrono::Duration::days(1)),
-    ));
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+        matches::assert_matches!(due, Ok(DueCause::Regular));
 
-    let due = Due::check_full(&config, Some(&history), None);
-    assert!(match due {
-        Err(Due::NotDue { next }) => {
-            // due after device used enough
-            assert!(
-                (chrono::Local::now() + chrono::Duration::from_std(super::USED_THRESHOLD).unwrap())
-                    - next
-                    < chrono::Duration::seconds(1)
-            );
-            true
-        }
-        _ => false,
-    });
+        // no activity
 
-    // due yesterday and failed yesterday
+        history.insert(config::history::RunInfo::new_left_running(
+            &(chrono::Local::now() - chrono::Duration::days(1)),
+        ));
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
-    matches::assert_matches!(due, Ok(DueCause::Retry));
+        let due = Due::check_full(&config, Some(&history), None);
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                // due after device used enough
+                assert!(
+                    (chrono::Local::now() + chrono::Duration::from_std(USED_THRESHOLD).unwrap())
+                        - next
+                        < chrono::Duration::seconds(1)
+                );
+                true
+            }
+            _ => false,
+        });
 
-    // due yesterday and completed yesterday
+        // due yesterday and failed yesterday
 
-    history.insert(config::history::RunInfo::test_new_mock(
-        chrono::Duration::days(1),
-    ));
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+        matches::assert_matches!(due, Ok(DueCause::Retry));
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
+        // due yesterday and completed yesterday
 
-    assert!(match due {
-        Err(Due::NotDue { next }) => {
-            assert_eq!(
-                next,
-                (chrono::Local::now() + chrono::Duration::days(6))
-                    .with_time(chrono::NaiveTime::MIN)
-                    .unwrap()
-            );
-            true
-        }
-        _ => false,
-    });
+        history.insert(config::history::RunInfo::test_new_mock(
+            chrono::Duration::days(1),
+        ));
 
-    // due today and only completed yesterday
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
 
-    config.schedule.frequency = config::Frequency::Weekly {
-        preferred_weekday: chrono::Local::now().weekday(),
-    };
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    (chrono::Local::now() + chrono::Duration::days(6))
+                        .with_time(chrono::NaiveTime::MIN)
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
-    matches::assert_matches!(due, Ok(DueCause::Regular));
+        // due today and only completed yesterday
 
-    // due today and completed today
+        config.schedule.frequency = config::Frequency::Weekly {
+            preferred_weekday: chrono::Local::now().weekday(),
+        };
 
-    history.insert(config::history::RunInfo::test_new_mock(
-        chrono::Duration::zero(),
-    ));
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+        matches::assert_matches!(due, Ok(DueCause::Regular));
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
+        // due today and completed today
 
-    assert!(match due {
-        Err(Due::NotDue { next }) => {
-            assert_eq!(
-                next,
-                chrono::Local::now()
-                    .with_time(chrono::NaiveTime::MIN)
-                    .unwrap()
-                    + chrono::Duration::weeks(1)
-            );
-            true
-        }
-        _ => false,
-    });
-}
+        history.insert(config::history::RunInfo::test_new_mock(
+            chrono::Duration::zero(),
+        ));
 
-#[test]
-fn test_check_monthly() {
-    let mut config = config::Backup::test_new_mock();
-    let mut history = config::history::History::default();
-    let activity = config::Activity {
-        used: super::USED_THRESHOLD,
-        last_update: chrono::Local::now(),
-    };
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
 
-    let preferred_day = chrono::Local::now() - chrono::Duration::days(1);
-    config.schedule.frequency = config::Frequency::Monthly {
-        preferred_day: preferred_day.day() as u8,
-    };
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    chrono::Local::now()
+                        .with_time(chrono::NaiveTime::MIN)
+                        .unwrap()
+                        + chrono::Duration::weeks(1)
+                );
+                true
+            }
+            _ => false,
+        });
+    }
 
-    // due yesterday and failed now
+    #[test]
+    fn test_check_monthly() {
+        let mut config = config::Backup::test_new_mock();
+        let mut history = config::history::History::default();
+        let activity = config::Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
 
-    history.insert(config::history::RunInfo::new_left_running(
-        &(preferred_day.with_time(chrono::NaiveTime::MIN).unwrap() + chrono::Duration::seconds(1)),
-    ));
+        let preferred_day = chrono::Local::now() - chrono::Duration::days(1);
+        config.schedule.frequency = config::Frequency::Monthly {
+            preferred_day: preferred_day.day() as u8,
+        };
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
-    matches::assert_matches!(due, Ok(DueCause::Retry));
+        // due yesterday and failed now
 
-    // Completed yesterday
-    history.insert(config::history::RunInfo::test_new_mock(
-        chrono::Duration::days(1),
-    ));
+        history.insert(config::history::RunInfo::new_left_running(
+            &(preferred_day.with_time(chrono::NaiveTime::MIN).unwrap()
+                + chrono::Duration::seconds(1)),
+        ));
 
-    let due = Due::check_full(&config, Some(&history), Some(&activity));
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+        matches::assert_matches!(due, Ok(DueCause::Retry));
 
-    assert!(match due {
-        Err(Due::NotDue { next }) => {
-            assert_eq!(
-                next,
-                chronoutil::delta::shift_months(preferred_day, 1)
-                    .with_time(chrono::NaiveTime::MIN)
-                    .unwrap()
-            );
-            true
-        }
-        _ => false,
-    });
+        // Completed yesterday
+        history.insert(config::history::RunInfo::test_new_mock(
+            chrono::Duration::days(1),
+        ));
+
+        let due = Due::check_full(&config, Some(&history), Some(&activity));
+
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    chronoutil::delta::shift_months(preferred_day, 1)
+                        .with_time(chrono::NaiveTime::MIN)
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
+    }
 }
