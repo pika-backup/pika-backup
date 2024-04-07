@@ -134,6 +134,7 @@ impl Due {
         }
     }
 
+    /// Checks whether the schedule is due
     pub fn check(config: &config::Backup) -> Result<DueCause, Self> {
         Self::check_full(
             config,
@@ -142,159 +143,205 @@ impl Due {
         )
     }
 
-    pub fn check_full(
+    fn check_full(
         config: &config::Backup,
         history: Option<&config::history::History>,
         activity: Option<&config::Activity>,
     ) -> Result<DueCause, Self> {
+        Self::check_with_frequency(
+            config.schedule.frequency,
+            history,
+            &activity.cloned().unwrap_or_default(),
+            chrono::Local::now(),
+        )
+    }
+
+    /// Same as check_full but does not rely on the current system time.
+    ///
+    /// Checks all the prerequisites in the history file and then delegates the actual
+    /// implementation to [`check_real`] to allow for more comprehensive testing.
+    fn check_with_frequency(
+        schedule: config::Frequency,
+        history: Option<&config::history::History>,
+        activity: &config::Activity,
+        now: chrono::DateTime<Local>,
+    ) -> Result<DueCause, Self> {
         if history.is_some_and(|h| h.is_running()) {
-            // Already running
+            // Already running, skip
             return Err(Self::Running);
         };
 
-        let Some(last_run) = history.and_then(|h| h.last_run()) else {
-            // Never ran before
+        let Some(last_run) = history.and_then(|h| h.last_run()).map(|run| run.end) else {
+            // Never ran before, always due
             return Ok(DueCause::Regular);
         };
 
-        let schedule = &config.schedule;
-        let activity = activity.map(|x| x.used).unwrap_or_default();
-        let last_completed = history.and_then(|x| x.last_completed());
+        // The last successful backup
+        let last_completed = history.and_then(|h| h.last_completed()).map(|run| run.end);
 
-        match schedule.frequency {
-            config::Frequency::Hourly => {
-                let last_run_ago = chrono::Local::now() - last_run.end;
-                if last_run_ago >= chrono::Duration::hours(1) {
-                    Ok(DueCause::Regular)
+        Self::check_real(schedule, activity, now, last_run, last_completed)
+    }
+
+    /// The actual schedule calculation takes place here
+    fn check_real(
+        frequency: config::Frequency,
+        activity: &config::Activity,
+        now: chrono::DateTime<Local>,
+        last_run: chrono::DateTime<Local>,
+        last_completed: Option<chrono::DateTime<Local>>,
+    ) -> Result<DueCause, Self> {
+        // The next backup according to the regular schedule
+        let next_run = Self::next_run(frequency, last_run);
+
+        // Check if we are due for a regular backup
+        if next_run <= now {
+            // Check if the device has been in use for at least USED_THRESHOLD minutes. We ignore this for hourly.
+            if matches!(frequency, config::Frequency::Hourly) || activity.is_threshold_reached() {
+                return Ok(DueCause::Regular);
+            } else {
+                // We will be due soon, just wait a little longer until the device has been in use for a few more minutes
+                return Err(Self::NotDue {
+                    next: now + activity.time_until_threshold(),
+                });
+            }
+        }
+
+        // We are not technically due. We might however be eligible for a retry.
+        //
+        // Retries work on weekly and monthly backups. The idea is that if the last scheduled backup failed
+        // we try again the day after to ensure a valid backup every week / month.
+        match frequency {
+            config::Frequency::Weekly { .. } | config::Frequency::Monthly { .. } => {
+                // The next day after the last run, 00:00 (start of day)
+                //
+                // Panics: This is safe because we use a fixed offset and fixed offset don't have gaps
+                let next_day_midnight = last_run
+                    .fixed_offset()
+                    .checked_add_days(chrono::Days::new(1))
+                    .unwrap()
+                    .with_time(chrono::NaiveTime::MIN)
+                    .unwrap()
+                    .with_timezone(&last_run.timezone());
+
+                // We only allow one retry a day
+                let next_retry = if let Some(completed) = last_completed {
+                    // We use the time for the last completed backup to figure out the next retry
+                    // the same way as we would with a regular scheduled backup.
+                    Self::next_run(frequency, completed).max(next_day_midnight)
                 } else {
-                    Err(Self::NotDue {
-                        next: last_run.end + chrono::Duration::hours(1),
-                    })
+                    // If we never completed a backup we try every day until we get one.
+                    next_day_midnight
+                };
+
+                if next_retry <= now {
+                    if activity.is_threshold_reached() {
+                        Ok(DueCause::Retry)
+                    } else {
+                        Err(Self::NotDue {
+                            next: now + activity.time_until_threshold(),
+                        })
+                    }
+                } else {
+                    // If the next retry is earlier than the next run we want the retry
+                    Err(Self::NotDue { next: next_retry })
                 }
             }
+            _ => {
+                // Retries are only allowed for weekly and monthly backups
+                Err(Self::NotDue { next: next_run })
+            }
+        }
+    }
+
+    /// Determine the next scheduled backup time
+    fn next_run(
+        frequency: config::Frequency,
+        last_run: chrono::DateTime<Local>,
+    ) -> chrono::DateTime<Local> {
+        let local_tz = last_run.timezone();
+
+        match frequency {
+            // Hourly backups just run every hour (measured after the last run end time)
+            config::Frequency::Hourly => last_run + chrono::Duration::hours(1),
+            // Daily backups run every day at the preferred time or later
             config::Frequency::Daily { preferred_time } => {
-                let now = chrono::Local::now();
-
-                let scheduled_datetime = {
-                    let datetime = now
-                        .date()
-                        .and_time(preferred_time)
-                        .unwrap_or_else(|| now.date().pred().and_hms(0, 0, 0));
-
-                    if datetime > now {
-                        datetime - chrono::Duration::days(1)
-                    } else {
-                        datetime
-                    }
+                // First we change the date if needed
+                let next_date = if last_run.time() < preferred_time {
+                    // Schedule for the same day because we ran before the preferred time
+                    last_run
+                } else {
+                    // We already ran today on or after the scheduled time. Schedule for the next day.
+                    last_run + chrono::Duration::days(1)
                 };
 
-                if last_run.end < scheduled_datetime {
-                    if activity >= super::USED_THRESHOLD {
-                        Ok(DueCause::Regular)
-                    } else {
-                        Err(Self::NotDue {
-                            next: chrono::Local::now()
-                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                    .unwrap_or_else(|_| chrono::Duration::zero()),
-                        })
-                    }
-                } else {
-                    Err(Self::NotDue {
-                        next: scheduled_datetime
-                            .date()
-                            .succ()
-                            .and_time(preferred_time)
-                            .unwrap_or_else(|| scheduled_datetime + chrono::Duration::days(1)),
-                    })
-                }
+                // Now we adjust the time to our preferred time.
+                //
+                // Panics: We use fixed_offset for the calculation because this lets
+                // us ignore gaps in time (aka daylight savings time). According to
+                // chrono docs this can only fail at the end of time and space.
+                next_date
+                    .fixed_offset()
+                    .with_time(preferred_time)
+                    .unwrap()
+                    .with_timezone(&local_tz)
             }
+            // Weekly backups run every week on or after the preferred day.
+            // We schedule a backup for the preferred day regardless of whether
+            // we already ran that week or not. This also allows us to completely
+            // ignore the start of the week.
             config::Frequency::Weekly { preferred_weekday } => {
-                let today = chrono::Local::today();
+                let last_weekday = last_run.weekday();
 
-                let scheduled_date = {
-                    let iso_week = today.iso_week();
-                    let schedule_date =
-                        chrono::Local.isoywd(iso_week.year(), iso_week.week(), preferred_weekday);
+                let last_weekday0 = last_weekday.num_days_from_monday();
+                let pref_weekday0 = preferred_weekday.num_days_from_monday();
 
-                    if schedule_date > today {
-                        schedule_date - chrono::Duration::weeks(1)
-                    } else {
-                        schedule_date
-                    }
+                // How many days do we need to add until we reach our preferred day?
+                let offset_days = if pref_weekday0 <= last_weekday0 {
+                    // Wait until next week
+                    pref_weekday0 + 7 - last_weekday0
+                } else {
+                    // This week
+                    pref_weekday0 - last_weekday0
                 };
 
-                if last_run.end.date() < scheduled_date {
-                    if activity >= super::USED_THRESHOLD {
-                        Ok(DueCause::Regular)
-                    } else {
-                        Err(Self::NotDue {
-                            next: chrono::Local::now()
-                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                    .unwrap_or_else(|_| chrono::Duration::zero()),
-                        })
-                    }
-                } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
-                    if last_run.end.date() == today {
-                        let next = last_run.end.date().succ().and_hms(0, 0, 0);
-                        Err(Self::NotDue { next })
-                    } else if activity < super::USED_THRESHOLD {
-                        Err(Self::NotDue {
-                            next: chrono::Local::now()
-                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                    .unwrap_or_else(|_| chrono::Duration::zero()),
-                        })
-                    } else {
-                        Ok(DueCause::Retry)
-                    }
-                } else {
-                    Err(Self::NotDue {
-                        next: (scheduled_date + chrono::Duration::weeks(1)).and_hms(0, 0, 0),
-                    })
-                }
+                // Add the offset to our last schedule
+                let next_run = last_run + chrono::Duration::days(offset_days.into());
+
+                // Panics: This only fails at the end of time because we use fixed_offset
+                next_run
+                    .fixed_offset()
+                    .with_time(chrono::NaiveTime::MIN)
+                    .unwrap()
+                    .with_timezone(&local_tz)
             }
-
-            // TODO: repeat after error missing
+            // Monthly runs every month on or after the preferred day.
+            // If the preferred day is not yet reached we schedule a backup for this month.
             config::Frequency::Monthly { preferred_day } => {
-                let today = chrono::Local::today();
+                let preferred_day = u32::from(preferred_day.min(31));
 
-                let scheduled_date = {
-                    if preferred_day > today.day() as u8 {
-                        chronoutil::delta::shift_months(today, -1).with_day(preferred_day as u32)
-                    } else {
-                        // Shifts the 31st back if necessary
-                        chronoutil::delta::with_day(today, preferred_day as u32)
-                    }
-                }
-                .unwrap_or(today);
-
-                if last_run.end.date() < scheduled_date {
-                    if activity >= super::USED_THRESHOLD {
-                        Ok(DueCause::Regular)
-                    } else {
-                        Err(Self::NotDue {
-                            next: chrono::Local::now()
-                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                    .unwrap_or_else(|_| chrono::Duration::zero()),
-                        })
-                    }
-                } else if last_completed.map(|x| x.end.date()) < Some(scheduled_date) {
-                    if last_run.end.date() == today {
-                        let next = last_run.end.date().succ().and_hms(0, 0, 0);
-                        Err(Self::NotDue { next })
-                    } else if activity < super::USED_THRESHOLD {
-                        Err(Self::NotDue {
-                            next: chrono::Local::now()
-                                + chrono::Duration::from_std(super::USED_THRESHOLD - activity)
-                                    .unwrap_or_else(|_| chrono::Duration::zero()),
-                        })
-                    } else {
-                        Ok(DueCause::Retry)
-                    }
+                // First we get the month right, with no regard for the correct day
+                let next_month = if preferred_day <= last_run.day() {
+                    // We need to run next month. checked_add_months will use the last day
+                    // of the month if the day does not exist in the resulting month.
+                    //
+                    // Panics: This only fails at the end of time.
+                    last_run.checked_add_months(chrono::Months::new(1)).unwrap()
                 } else {
-                    Err(Self::NotDue {
-                        next: (chronoutil::delta::shift_months(scheduled_date, 1)).and_hms(0, 0, 0),
-                    })
-                }
+                    // We run this month
+                    last_run
+                };
+
+                // Set the day. This will clamp to the last day of the month if the month is shorter.
+                //
+                // Panics: This only fails at the end of time
+                let new_date = chronoutil::delta::with_day(next_month, preferred_day).unwrap();
+
+                // Panics: This only fails at the end of time because we use fixed_offset
+                new_date
+                    .fixed_offset()
+                    .with_time(chrono::NaiveTime::MIN)
+                    .unwrap()
+                    .with_timezone(&local_tz)
             }
         }
     }
