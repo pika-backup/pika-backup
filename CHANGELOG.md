@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.7.2 (unreleased)
+## 0.8.0 (unreleased)
+
+- Fix timestamps not respecting 12h/24h clock format setting
+- Change fnmatches to be stored as strings instead of bytes in config
+
+## 0.7.2 (2024-04-10)
 
 - Fix shell scripts not inheriting environment variables which broke eg. `notify-send`
 - Fix crash when clicking on deactivated buttons on schedule page
