@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-03-30 09:15+0000\n"
-"PO-Revision-Date: 2024-04-01 18:03+0530\n"
+"POT-Creation-Date: 2024-04-06 19:16+0000\n"
+"PO-Revision-Date: 2024-04-07 20:02+0530\n"
 "Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
 "Language-Team: Hindi\n"
 "Language: hi\n"
@@ -28,7 +28,7 @@ msgstr "Pika बैकअप मॉनिटर"
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/about.rs:12
 #: src/ui/utils.rs:367 src/ui/utils.rs:429 src/ui/widget/app_window.ui:10
-#: src/ui/widget/overview_page.ui:22
+#: src/ui/widget/overview.ui:22
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -108,7 +108,7 @@ msgstr "एक ही समय में स्थानीय ड्राइ�
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "मासिक से लेकर प्रति घंटे तक नियमित बैकअप अनुसूचित करें"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/dialog_preferences.ui:118
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:118
 msgid "General"
 msgstr "जनरल"
 
@@ -120,7 +120,7 @@ msgstr "नया बैकअप स्थापित करें"
 msgid "Show keyboard shortcuts"
 msgstr "कीबोर्ड शॉर्टकट दिखाएं"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:272
+#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:277
 msgid "Quit"
 msgstr "छोड़ें"
 
@@ -195,7 +195,7 @@ msgstr "बैकअप रिपॉजिटरी तक पहुँचने
 msgid "Connection closed by remote host."
 msgstr "रिमोट होस्ट द्वारा कनेक्शन बंद कर दिया गया।"
 
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:253
+#: src/borg/error.rs:240 src/ui/utils/borg.rs:252
 msgid "Repository already in use."
 msgstr "रिपॉजिटरी पहले से ही उपयोग में है।"
 
@@ -367,7 +367,7 @@ msgid ""
 "You requested to delete the repository completely, including all backup "
 "archives it contains."
 msgstr ""
-"आपने रिपॉजिटरी को इसमें शामिल सभी बैकअप पुरालेखों सहित पूरी तरह से हटाने का अनुरोध किया "
+"आपने रिपॉजिटरी को इसमें शामिल सभी बैकअप पुरालेखों सहित पूरी तरह से मिटने का अनुरोध किया "
 "है।"
 
 #: src/borg/log_json.rs:262
@@ -397,7 +397,8 @@ msgstr "डिबग"
 msgid "Info"
 msgstr "जानकारी"
 
-#: src/borg/log_json.rs:475 src/ui/dialog_setup.ui:201 src/ui/utils.rs:382
+#: src/borg/log_json.rs:475 src/ui/utils.rs:382
+#: src/ui/widget/dialog/setup.ui:201
 msgid "Warning"
 msgstr "चेतावनी"
 
@@ -441,43 +442,47 @@ msgstr "borg रिपॉजिटरी की रिपोजिटरी ID"
 msgid "The full URL passed to borgbackup"
 msgstr "संपूर्ण URL borgbackup को भेज दिया गया"
 
-#: src/borg/scripts.rs:103
+#. Translators: Do not translate '0' and '1' here, this is documentation
+#. for possible variable values
+#: src/borg/scripts.rs:106
 msgid "0: manual backup, 1: started from a schedule"
 msgstr "0: मैन्युअल बैकअप, 1: अनुसूची से प्रारंभ"
 
-#: src/borg/scripts.rs:106
-msgid "Either <tt>COMPLETED</tt>, <tt>ABORTED</tt> or <tt>FAILED</tt>"
-msgstr "या तो <tt>पूर्ण</tt>, <tt>निरस्त</tt> या <tt>असफल</tt>"
+#. Translators: String uses pango markup. Do not translate capslocked words
+#. they are values for a variable.
+#: src/borg/scripts.rs:111
+msgid "Either “<tt>COMPLETED</tt>”, “<tt>ABORTED</tt>” or “<tt>FAILED</tt>”"
+msgstr "या तो “<tt>पूर्ण</tt>”, “<tt>निरस्त</tt>” या “<tt>असफल</tt>”"
 
-#: src/borg/scripts.rs:108
+#: src/borg/scripts.rs:113
 msgid "An error/warning message"
 msgstr "एक त्रुटि/चेतावनी संदेश"
 
-#: src/borg/scripts.rs:109
+#: src/borg/scripts.rs:114
 msgid "The ID of the created backup archive"
 msgstr "निर्मित बैकअप पुरालेख की ID"
 
-#: src/borg/scripts.rs:110
+#: src/borg/scripts.rs:115
 msgid "The name of the created backup archive"
 msgstr "निर्मित बैकअप पुरालेख का नाम"
 
-#: src/borg/scripts.rs:112
+#: src/borg/scripts.rs:117
 msgid "The total amount of bytes referenced by this archive"
 msgstr "इस पुरालेख द्वारा संदर्भित बाइट्स की कुल मात्रा"
 
-#: src/borg/scripts.rs:115
+#: src/borg/scripts.rs:120
 msgid "The compressed size of all data references by this archive"
 msgstr "इस पुरालेख द्वारा सभी डेटा संदर्भों का संपीड़ित आकार"
 
-#: src/borg/scripts.rs:118
+#: src/borg/scripts.rs:123
 msgid "The deduplicated amount of bytes for this archive"
 msgstr "इस पुरालेख के लिए बाइट्स की डुप्लिकेट की गई मात्रा"
 
-#: src/borg/scripts.rs:120
+#: src/borg/scripts.rs:125
 msgid "The amount of files saved in this archive"
 msgstr "इस पुरालेख में सहेजी गई फाइलों की मात्रा"
 
-#: src/borg/scripts.rs:271
+#: src/borg/scripts.rs:276
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -485,7 +490,7 @@ msgstr ""
 "प्राथमिकताओं में विन्यस्त पूर्व-बैकअप कमांड चलने में विफल रहा।\n"
 "{}"
 
-#: src/borg/scripts.rs:275
+#: src/borg/scripts.rs:280
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -493,12 +498,12 @@ msgstr ""
 "प्राथमिकताओं में विन्यस्त बैकअप-के-बाद कमांड चलने में विफल रहा।\n"
 "{}"
 
-#: src/borg/scripts.rs:301
+#: src/borg/scripts.rs:306
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr "प्राथमिकताओं में विन्यस्त पूर्व-बैकअप कमांड ने विफलता कोड लौटाया: {}"
 
-#: src/borg/scripts.rs:305
+#: src/borg/scripts.rs:310
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr "प्राथमिकताओं में विन्यस्त बैकअप-के-बाद कमांड ने एक विफलता कोड लौटाया: {}"
@@ -519,8 +524,9 @@ msgstr "बैकअप पुरालेख माउंट किया ज�
 msgid "Removing old Archives"
 msgstr "पुराने पुरालेखों को हटाया जा रहा है"
 
-#: src/borg/task.rs:103 src/ui/dialog_prune.rs:13
-#: src/ui/dialog_prune_review.rs:14
+#. First ensure the device is available to prevent overlapping dialogs
+#: src/borg/task.rs:103 src/ui/widget/dialog/prune.rs:176
+#: src/ui/widget/dialog/prune_review.rs:135
 msgid "Identifying old Archives"
 msgstr "पुराने पुरालेखों की पहचान की जा रही है"
 
@@ -549,8 +555,8 @@ msgid "Running Custom Shell Command"
 msgstr "कस्टम शैल कमांड चला रहें है"
 
 #. Translators: User home directory
-#: src/config.rs:71 src/ui/widget/backup_page/display.rs:14
-#: src/ui/widget/backup_page/events.rs:177
+#: src/config.rs:71 src/ui/widget/detail/backup/display.rs:15
+#: src/ui/widget/detail/backup/events.rs:181
 msgid "Home"
 msgstr "होम"
 
@@ -610,7 +616,7 @@ msgstr "दस्तावेज़ और डेटा का बैकअप �
 #. Translators: Detailed description for trash exclusion rule
 #: src/config/exclude.rs:203
 msgid "Files that have not been irretrievably deleted"
-msgstr "फाइलें जो अपरिवर्तनीय रूप से हटाई नहीं गई हैं"
+msgstr "फाइलें जो अपरिवर्तनीय रूप से मिटाई नहीं गई हैं"
 
 #. Translators: Detailed description for virtual machines and containers exclusion rule
 #: src/config/exclude.rs:205
@@ -624,16 +630,16 @@ msgid ""
 "of Pika Backup"
 msgstr "लोड की गई विन्यास फाइल संस्करण {} Pika बैकअप के इस संस्करण के साथ असंगत है"
 
-#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
+#: src/config/pattern.rs:276 src/ui/widget/dialog/exclude.ui:113
 msgid "Regular Expression"
 msgstr "नियमित अभिव्यक्ति"
 
-#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+#: src/config/pattern.rs:277 src/ui/widget/dialog/exclude.ui:112
 msgid "Unix Filename Pattern"
 msgstr "Unix फाइलनाम प्रतिमान"
 
-#: src/config/repository.rs:172 src/ui/dialog_setup.ui:65
-#: src/ui/dialog_setup.ui:119
+#: src/config/repository.rs:172 src/ui/widget/dialog/setup.ui:65
+#: src/ui/widget/dialog/setup.ui:119
 msgid "Remote Location"
 msgstr "रिमोट स्थान"
 
@@ -739,15 +745,15 @@ msgstr "अनुसूचित बैकअप शुरू करने क�
 msgid "Failed to start scheduled backup"
 msgstr "अनुसूचित बैकअप प्रारंभ करने में विफल"
 
-#: src/ui.rs:96
+#: src/ui.rs:84
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "\"borg\" चलाने में विफल। क्या BorgBackup सही ढंग से स्थापित है?"
 
-#: src/ui.rs:122
+#: src/ui.rs:110
 msgid "BorgBackup version too old"
 msgstr "BorgBackup संस्करण बहुत पुराना है"
 
-#: src/ui.rs:124
+#: src/ui.rs:112
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -755,11 +761,11 @@ msgstr ""
 "BorgBackup का स्थापित संस्करण {} बहुत पुराना है। borg-backup संस्करण {}.{}.{} की "
 "आवश्यकता वाली कुछ सुविधाएँ काम नहीं करेंगी।"
 
-#: src/ui.rs:135
+#: src/ui.rs:123
 msgid "BorgBackup version too new"
 msgstr "BorgBackup संस्करण बहुत नया है"
 
-#: src/ui.rs:137
+#: src/ui.rs:125
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -767,11 +773,11 @@ msgstr ""
 "BorgBackup का स्थापित संस्करण {} बहुत नया है। संस्करण {}.{} अनुशंसित है। हो सकता है कि "
 "कुछ सुविधाएँ अपेक्षा के अनुरूप काम न करें।"
 
-#: src/ui.rs:147
+#: src/ui.rs:135
 msgid "Failed to Check BorgBackup Version"
 msgstr "BorgBackup संस्करण की जाँच करने में विफल"
 
-#: src/ui.rs:149
+#: src/ui.rs:137
 msgid "The installed version {} might not work."
 msgstr "स्थापित संस्करण {} शायद काम न करे।"
 
@@ -852,31 +858,32 @@ msgstr "Open Collective पर हमें समर्थन दें"
 msgid "Support us on GitHub Sponsors"
 msgstr "GitHub Sponsors पर हमें समर्थन दें"
 
-#: src/ui/app.rs:243
+#: src/ui/app.rs:248
 msgid "Abort running backup creation?"
 msgstr "क्या चल रहे बैकअप निर्माण को निरस्त करें?"
 
-#: src/ui/app.rs:244
+#: src/ui/app.rs:249
 msgid "The backup will remain incomplete if aborted now."
 msgstr "यदि अब निरस्त किया गया तो बैकअप अधूरा रहेगा।"
 
-#: src/ui/app.rs:245 src/ui/dialog_setup.ui:481 src/ui/utils.rs:385
-#: src/ui/widget/backup_page/events.rs:24
-#: src/ui/widget/backup_page/events.rs:33
-#: src/ui/widget/backup_page/events.rs:42
+#: src/ui/app.rs:250 src/ui/utils.rs:385
+#: src/ui/widget/detail/backup/events.rs:25
+#: src/ui/widget/detail/backup/events.rs:34
+#: src/ui/widget/detail/backup/events.rs:43 src/ui/widget/dialog/setup.ui:481
 msgid "Continue"
 msgstr "जारी रखें"
 
-#: src/ui/app.rs:246 src/ui/utils.rs:384 src/ui/widget/backup_page/events.rs:34
-#: src/ui/widget/backup_page/events.rs:43
+#: src/ui/app.rs:251 src/ui/utils.rs:384
+#: src/ui/widget/detail/backup/events.rs:35
+#: src/ui/widget/detail/backup/events.rs:44
 msgid "Abort"
 msgstr "निरस्त"
 
-#: src/ui/app.rs:257
+#: src/ui/app.rs:262
 msgid "A Backup Operation is Running"
 msgstr "एक बैकअप अभियान चल रहा है"
 
-#: src/ui/app.rs:259
+#: src/ui/app.rs:264
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "बैकअप अभियान के दौरान Pika बैकअप को बंद नहीं किया जा सकता।"
 
@@ -970,713 +977,6 @@ msgstr "बैकअप रोका जा रहा है"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "अनुसूचित बैकअप के लिए इंटरफ़ेस उत्पन्न करने में विफल।"
 
-#: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:169
-msgid "Invalid Archive Prefix"
-msgstr "अमान्य पुरालेख उपसर्ग"
-
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
-#: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
-msgid "Archive Prefix"
-msgstr "पुरालेख उपसर्ग"
-
-#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
-#: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
-#: src/ui/dialog_prune_review.ui:60 src/ui/utils/borg.rs:257
-#: src/ui/widget/backup_page/events.rs:187 src/ui/widget/overview_page.rs:190
-msgid "Cancel"
-msgstr "रद्द"
-
-#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:13
-msgid "Save"
-msgstr "सहेजें"
-
-#: src/ui/dialog_archive_prefix.ui:56
-msgid "Archive Prefixes"
-msgstr "पुरालेख उपसर्ग"
-
-#: src/ui/dialog_archive_prefix.ui:67
-msgid ""
-"Each backup run creates a new archive. The archive’s name is always prefixed "
-"with the current archive prefix."
-msgstr ""
-"प्रत्येक बैकअप रन एक नया पुरालेख बनाता है। पुरालेख का नाम हमेशा वर्तमान पुरालेख उपसर्ग के "
-"साथ लगाया जाता है।"
-
-#: src/ui/dialog_archive_prefix.ui:74
-msgid ""
-"This is especially relevant for the “Cleanup Archives” function. Only "
-"archives with the currently configured prefix in their name are considered "
-"for deletion."
-msgstr ""
-"यह विशेष रूप से \"पुरालेख की सफाई\" प्रकार्य के लिए प्रासंगिक है। केवल उन पुरालेखों को हटाने "
-"के लिए विचार किया जाता है जिनके नाम में वर्तमान में विन्यस्त उपसर्ग है।"
-
-#: src/ui/dialog_archive_prefix.ui:81
-msgid "If the archive prefix is empty, no prefix is added."
-msgstr "यदि पुरालेख उपसर्ग खाली है, तो कोई उपसर्ग नहीं जोड़ा जाता है।"
-
-#: src/ui/dialog_check.rs:70
-msgid "Perform Repair"
-msgstr "मरम्मत करें"
-
-#: src/ui/dialog_check.rs:74 src/ui/dialog_check.ui:66
-msgid "Perform Check"
-msgstr "जाँच करें"
-
-#: src/ui/dialog_check.rs:124 src/ui/dialog_check.rs:159
-msgid "Verify Archives Integrity"
-msgstr "पुरालेख अखंडता सत्यापित करें"
-
-#: src/ui/dialog_check.rs:175
-msgid "Verify archives integrity completed successfully"
-msgstr "पुरालेख अखंडता सत्यापन सफलतापूर्वक पूर्ण हो गई है"
-
-#: src/ui/dialog_check.ui:5 src/ui/dialog_check.ui:26
-msgid "Archives Integrity Check"
-msgstr "पुरालेख अखंडता जांच"
-
-#: src/ui/dialog_check.ui:30
-msgid ""
-"This operation will check all archives for data integrity. This may take a "
-"long time."
-msgstr ""
-"यह अभियान डेटा अखंडता के लिए सभी पुरालेखों की जांच करेगा। इसमें काफी समय लग सकता है।"
-
-#: src/ui/dialog_check.ui:33
-msgid "Verify data"
-msgstr "डेटा सत्यापित करें"
-
-#: src/ui/dialog_check.ui:34
-msgid "Perform full data verification."
-msgstr "पूर्ण डेटा सत्यापन करें।"
-
-#: src/ui/dialog_check.ui:47
-msgid ""
-"Perform a full repair. This is a potentially dangerous function and might "
-"lead to data loss (for kinds of corruption it is not capable of dealing "
-"with)."
-msgstr ""
-"पूर्ण मरम्मत करें। यह एक संभावित खतरनाक प्रकार्य है और इससे डेटा हानि हो सकती है "
-"(भ्रष्टाचार के प्रकार के लिए यह निपटने में सक्षम नहीं है)।"
-
-#: src/ui/dialog_check.ui:50
-msgid "Repair"
-msgstr "मरम्मत"
-
-#: src/ui/dialog_check.ui:51
-msgid "Repair errors. This can lead to data loss."
-msgstr "त्रुटियाँ सुधारें। इससे डेटा हानि हो सकती है।"
-
-#: src/ui/dialog_delete_archive.rs:67
-msgid "Delete Archive Failed"
-msgstr "पुरालेख हटाने में विफल"
-
-#: src/ui/dialog_delete_archive.ui:34
-msgid "Delete Archive"
-msgstr "पुरालेख हटाएँ"
-
-#: src/ui/dialog_delete_archive.ui:47
-msgid ""
-"Proceeding with this operation will irretrievably delete this archive. The "
-"saved data for this specific point in time will no longer be available."
-msgstr ""
-"इस अभियान के साथ आगे बढ़ने से यह पुरालेख अपरिवर्तनीय रूप से हटा दिया जाएगा। इस विशिष्ट "
-"समय के लिए सहेजा गया डेटा अब उपलब्ध नहीं होगा।"
-
-#: src/ui/dialog_delete_archive.ui:57
-msgid "Archive Name"
-msgstr "पुरालेख का नाम"
-
-#: src/ui/dialog_delete_archive.ui:70
-msgid "Archive Date"
-msgstr "पुरालेख दिनांक"
-
-#: src/ui/dialog_device_missing.rs:83 src/ui/dialog_device_missing.rs:88
-#: src/ui/dialog_device_missing.rs:141 src/ui/dialog_device_missing.rs:146
-msgid "Failed to Mount"
-msgstr "माउंट करने में विफल"
-
-#: src/ui/dialog_device_missing.rs:142
-msgid "The network server is not available"
-msgstr "नेटवर्क सर्वर उपलब्ध नहीं है"
-
-#: src/ui/dialog_device_missing.ui:39
-msgid "The following backup location needs to be connected:"
-msgstr "निम्नलिखित बैकअप स्थान को जोड़ने की आवश्यकता है:"
-
-#: src/ui/dialog_encryption_password.rs:33
-msgid ""
-"The operation “{}” requires the encryption password of the repository on "
-"“{}”."
-msgstr ""
-"अभियान \"{}\" के लिए \"{}\" पर रिपॉजिटरी के एन्क्रिप्शन पासवर्ड की आवश्यकता होती है।"
-
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:456
-msgid "Encryption Password Required"
-msgstr "एन्क्रिप्शन पासवर्ड आवश्यक"
-
-#: src/ui/dialog_encryption_password.ui:9 src/ui/dialog_preferences.ui:98
-msgid "_Cancel"
-msgstr "रद्द (_C)"
-
-#: src/ui/dialog_encryption_password.ui:10
-msgid "Co_ntinue"
-msgstr "जारी रखें (_n)"
-
-#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:418
-#: src/ui/dialog_setup.ui:464
-msgid "Password"
-msgstr "पासवर्ड"
-
-#: src/ui/dialog_exclude.rs:76
-msgid "Exclusion Rules"
-msgstr "बहिष्करण नियम"
-
-#: src/ui/dialog_exclude.rs:157
-msgid "Add exclusion rule"
-msgstr "बहिष्करण नियम जोड़ें"
-
-#: src/ui/dialog_exclude.rs:231
-msgid "Exclude Directory"
-msgstr "निर्देशिका बहिष्कृत करें"
-
-#: src/ui/dialog_exclude.rs:232 src/ui/dialog_exclude.rs:268
-#: src/ui/utils.rs:293 src/ui/widget/backup_page/events.rs:75
-msgid "Select"
-msgstr "चुनें"
-
-#: src/ui/dialog_exclude.rs:267
-msgid "Exclude File"
-msgstr "फाइल बहिष्कृत करें"
-
-#: src/ui/dialog_exclude.ui:6 src/ui/dialog_setup_transfer_option.ui:112
-#: src/ui/widget/backup_page.ui:121
-msgid "Exclude from Backup"
-msgstr "बैकअप से बहिष्कृत करें"
-
-#: src/ui/dialog_exclude.ui:32
-msgid "Exclude Folder"
-msgstr "फोल्डर बहिष्कृत करें"
-
-#: src/ui/dialog_exclude.ui:44
-msgid "Exclude Single File"
-msgstr "एकल फाइल बहिष्कृत करें"
-
-#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:6
-msgid "Exclude Pattern"
-msgstr "प्रतिमान बहिष्कृत करें"
-
-#: src/ui/dialog_exclude.ui:57
-msgid "Define regular expression or Unix filename patterns"
-msgstr "नियमित अभिव्यक्ति या यूनिक्स फाइल नाम प्रतिमान परिभाषित करें"
-
-#: src/ui/dialog_exclude.ui:70
-msgid "Suggested Exclusions"
-msgstr "सुझाए गए बहिष्करण"
-
-#: src/ui/dialog_exclude.ui:75
-msgid "Unreadable Paths"
-msgstr "अपठनीय पथ"
-
-#: src/ui/dialog_exclude.ui:76
-msgid "These locations were identified as unreadable from a previous backup."
-msgstr "इन स्थानों की पहचान पिछले बैकअप से अपठनीय के रूप में की गई थी।"
-
-#: src/ui/dialog_exclude_pattern.rs:49
-msgid "Invalid Regular Expression"
-msgstr "अमान्य नियमित अभिव्यक्ति"
-
-#: src/ui/dialog_exclude_pattern.ui:35
-msgid "Add"
-msgstr "जोड़ें"
-
-#: src/ui/dialog_exclude_pattern.ui:49
-msgid "Pattern Type"
-msgstr "प्रतिमान प्रकार"
-
-#: src/ui/dialog_exclude_pattern.ui:63
-msgid "Pattern"
-msgstr "प्रतिमान"
-
-#: src/ui/dialog_exclude_pattern.ui:81
-msgid "BorgBackup Patterns"
-msgstr "BorgBackup प्रतिमान"
-
-#: src/ui/dialog_exclude_pattern.ui:92
-msgid ""
-"The patterns above have to be written in a particular form. They are matched "
-"against the path without leading <tt>/</tt>. Additionally, shell-style "
-"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
-"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
-"stable/usage/help.html\">BorgBackup documentation</a>."
-msgstr ""
-"उपरोक्त प्रतिमान को एक विशेष रूप में लिखना होगा। उनका मिलान <tt>/</tt> के बिना पथ के "
-"साथ किया जाता है। इसके अतिरिक्त, शैल-शैली के प्रतिमान ऐसे मेल खाते हैं जैसे कि वे पीछे "
-"<tt>*</tt> लिए हुए हों। अधिक जानकारी के लिए, कृपया <a href='https://borgbackup."
-"readthedocs.io/en/stable/usage/help.html'>BorgBackup दस्तावेज़</a> देखें।"
-
-#: src/ui/dialog_preferences.rs:213
-msgid ""
-"The title of this backup configuration. Will be displayed as “{}” when left "
-"empty."
-msgstr ""
-"इस बैकअप विन्यास का शीर्षक। खाली छोड़े जाने पर \"{}\" के रूप में प्रदर्शित किया जाएगा।"
-
-#: src/ui/dialog_preferences.rs:279
-msgid "Shell command invalid"
-msgstr "शैल कमांड अमान्य"
-
-#: src/ui/dialog_preferences.rs:280 src/ui/utils/borg.rs:25
-msgid "Please check for missing closing quotes."
-msgstr "कृपया गुम समापन उद्धरणों की जाँच करें।"
-
-#: src/ui/dialog_preferences.rs:345 src/ui/widget/backup_page/execution.rs:217
-msgid "Error Running Shell Command"
-msgstr "शैल कमांड चलाने में त्रुटि"
-
-#: src/ui/dialog_preferences.rs:466
-msgid "Change Encryption Password Error"
-msgstr "एन्क्रिप्शन पासवर्ड बदलने में त्रुटि"
-
-#: src/ui/dialog_preferences.rs:473
-msgid "Password changed successfully"
-msgstr "पासवर्ड सफलतापूर्वक बदला गया"
-
-#: src/ui/dialog_preferences.ui:27 src/ui/dialog_preferences.ui:137
-msgid "Change Encryption Password"
-msgstr "एन्क्रिप्शन पासवर्ड बदलें"
-
-#: src/ui/dialog_preferences.ui:54
-msgid "_Change Password"
-msgstr "पासवर्ड बदलें (_C)"
-
-#: src/ui/dialog_preferences.ui:84
-msgid "Changing Encryption Password"
-msgstr "एन्क्रिप्शन पासवर्ड बदल रहें हैं"
-
-#: src/ui/dialog_preferences.ui:122 src/ui/dialog_preferences.ui:125
-msgid "Title"
-msgstr "शीर्षक"
-
-#: src/ui/dialog_preferences.ui:133
-msgid "Encryption password"
-msgstr "एन्क्रिप्शन पासवर्ड"
-
-#: src/ui/dialog_preferences.ui:134
-msgid "The encryption password of the backup repository."
-msgstr "बैकअप रिपॉजिटरी का एन्क्रिप्शन पासवर्ड।"
-
-#: src/ui/dialog_preferences.ui:151 src/ui/widget/schedule_page.ui:67
-msgid "Scheduled Backups"
-msgstr "अनुसूचित बैकअप"
-
-#: src/ui/dialog_preferences.ui:154
-msgid "Run on Battery"
-msgstr "बैटरी पर चलाएँ"
-
-#: src/ui/dialog_preferences.ui:155
-msgid "Allow scheduled backups when device is battery powered"
-msgstr "जब उपकरण बैटरी द्वारा संचालित हो तो अनुसूचित बैकअप की अनुमति दें"
-
-#: src/ui/dialog_preferences.ui:163 src/ui/dialog_setup.ui:317
-msgid "Additional command line arguments"
-msgstr "अतिरिक्त कमांड लाइन तर्क"
-
-#: src/ui/dialog_preferences.ui:164 src/ui/dialog_setup.ui:318
-msgid ""
-"These arguments will be added to the call of the borg binary. Only long "
-"options, starting with “--”, are supported."
-msgstr ""
-"ये तर्क borg बाइनरी की कॉल में जोड़े जाएंगे। केवल \"--\" से शुरू होने वाले लंबे विकल्प समर्थित "
-"हैं।"
-
-#: src/ui/dialog_preferences.ui:167 src/ui/dialog_setup.ui:322
-msgid "Command line arguments"
-msgstr "कमांड लाइन तर्क"
-
-#: src/ui/dialog_preferences.ui:178
-msgid "Shell Commands"
-msgstr "शैल कमांड"
-
-#: src/ui/dialog_preferences.ui:179
-msgid "These bash shell commands will be called on certain backup events."
-msgstr "इन bash शैल कमांड को कुछ बैकअप इवेंट पर बुलाया जाएगा।"
-
-#: src/ui/dialog_preferences.ui:192
-msgid "Pre-Backup Shell Command"
-msgstr "पूर्व-बैकअप शैल कमांड"
-
-#: src/ui/dialog_preferences.ui:199 src/ui/dialog_preferences.ui:220
-msgid "Run with test values"
-msgstr "परीक्षण मानों के साथ चलाएँ"
-
-#: src/ui/dialog_preferences.ui:213
-msgid "Post-Backup Shell Command"
-msgstr "बैकअप-के-बाद शैल कमांड"
-
-#: src/ui/dialog_prune.rs:37 src/ui/dialog_prune_review.rs:50
-msgid "Failed to determine how many archives would be deleted"
-msgstr "यह निर्धारित करने में विफल रहा कि कितने पुरालेख हटाये जायेंगे"
-
-#: src/ui/dialog_prune.rs:56 src/ui/utils.rs:425
-msgid "Close"
-msgstr "बंद"
-
-#: src/ui/dialog_prune.rs:95 src/ui/widget/schedule_page.ui:127
-msgid "Delete old Archives"
-msgstr "पुराने पुरालेख हटाएँ"
-
-#: src/ui/dialog_prune.rs:105
-msgid "Reclaim Free Space"
-msgstr "खाली जगह पुनः प्राप्त करें"
-
-#. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:38
-msgid "Checking for old Archives"
-msgstr "पुराने पुरालेखों की जाँच की जा रही है"
-
-#: src/ui/dialog_prune.ui:39
-msgid "Creating a list of old archives to be approved for deletion."
-msgstr "हटाने के लिए अनुमोदित किए जाने वाले पुराने पुरालेखों की एक सूची बनाई जा रही है।"
-
-#: src/ui/dialog_prune.ui:66 src/ui/dialog_prune.ui:81
-#: src/ui/dialog_prune_review.ui:81
-msgid "Delete Archives"
-msgstr "पुरालेख हटाएँ"
-
-#: src/ui/dialog_prune.ui:78
-msgid ""
-"Proceeding with this operation will irretrievably delete some of the "
-"archives. The saved data for those specific points in time will no longer be "
-"available."
-msgstr ""
-"इस अभियान के साथ आगे बढ़ने से कुछ पुरालेख अपरिवर्तनीय रूप से हटा दिए जाएंगे। समय में उन "
-"विशिष्ट बिंदुओं के लिए सहेजा गया डेटा अब उपलब्ध नहीं होगा।"
-
-#: src/ui/dialog_prune.ui:94 src/ui/dialog_prune_review.ui:94
-msgid "Keep Archives"
-msgstr "पुरालेख रखें"
-
-#: src/ui/dialog_prune.ui:107 src/ui/dialog_prune_review.ui:107
-msgid "Not Considered"
-msgstr "विचार नहीं किया गया"
-
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
-msgid "Archives with different prefix"
-msgstr "विभिन्न उपसर्गों के साथ पुरालेख"
-
-#: src/ui/dialog_prune_review.ui:6
-msgid "Review Changes"
-msgstr "परिवर्तनों की समीक्षा करें"
-
-#: src/ui/dialog_prune_review.ui:38
-msgid "Assessing Impact on old Archives"
-msgstr "पुराने पुरालेखों पर प्रभाव का आकलन किया जा रहा है"
-
-#: src/ui/dialog_prune_review.ui:39
-msgid "Collecting information about the effect of the changes on old archives"
-msgstr "पुराने पुरालेखों पर परिवर्तनों के प्रभाव के बारे में जानकारी एकत्र कर रहे हैं"
-
-#: src/ui/dialog_prune_review.ui:66
-msgid "Apply"
-msgstr "लागू"
-
-#: src/ui/dialog_prune_review.ui:78
-msgid ""
-"After applying these changes, the next automatic deletion of old archives "
-"would have the following consequences."
-msgstr ""
-"इन परिवर्तनों को लागू करने के बाद, पुराने पुरालेखों के अगले स्वचालित विलोपन के निम्नलिखित "
-"परिणाम होंगे।"
-
-#: src/ui/dialog_setup.ui:6 src/ui/dialog_setup.ui:25
-msgid "Setup"
-msgstr "सेटअप"
-
-#: src/ui/dialog_setup.ui:36
-msgid "Create new Repository"
-msgstr "नई रिपॉजिटरी बनाएं"
-
-#: src/ui/dialog_setup.ui:37
-msgid "Select a location for a new backup repository."
-msgstr "नए बैकअप रिपॉजिटरी के लिए एक स्थान चुनें।"
-
-#: src/ui/dialog_setup.ui:45 src/ui/dialog_setup.ui:99
-msgid "Location on Disk"
-msgstr "डिस्क पर स्थान"
-
-#: src/ui/dialog_setup.ui:90
-msgid "Use Existing Repository"
-msgstr "मौजूदा रिपॉजिटरी का उपयोग करें"
-
-#: src/ui/dialog_setup.ui:91
-msgid ""
-"Select a location that contains an existing backup repository. Repositories "
-"created with other BorgBackup compatible software can be used as well."
-msgstr ""
-"ऐसे स्थान का चयन करें जिसमें मौजूदा बैकअप रिपॉजिटरी हो। अन्य BorgBackup संगत सॉफ़्टवेयर के "
-"साथ बनाई गई रिपॉजिटरी का भी उपयोग किया जा सकता है।"
-
-#: src/ui/dialog_setup.ui:150
-msgid "Select Location"
-msgstr "स्थान चुनें"
-
-#: src/ui/dialog_setup.ui:166 src/ui/dialog_setup.ui:227
-msgid "Location"
-msgstr "स्थान"
-
-#: src/ui/dialog_setup.ui:170 src/ui/dialog_setup.ui:232
-msgid "Advanced Options"
-msgstr "उन्नत विकल्प"
-
-#: src/ui/dialog_setup.ui:178
-msgid "Repository Base Folder"
-msgstr "रिपॉजिटरी आधार फोल्डर"
-
-#: src/ui/dialog_setup.ui:190
-msgid "Repository Name"
-msgstr "रिपोजिटरी का नाम"
-
-#: src/ui/dialog_setup.ui:213
-msgid ""
-"Backups to the selected location could be corrupted if the device is "
-"disconnected or powered down with a backup in progress. If possible, "
-"reformat the backup location with a format like “NTFS” or “Ext4.” Note that "
-"reformatting deletes all files on the location!"
-msgstr ""
-"बैकअप चालू होने पर यदि उपकरण वियोजीत या बंद हो जाता है, तो चयनित स्थान पर बैकअप "
-"दूषित हो सकता है। यदि संभव हो, तो बैकअप स्थान को \"NTFS\" या \"Ext4\" जैसे प्रारूप में "
-"पुन: स्वरूपित करें। ध्यान दें कि पुन: स्वरूपण करने से स्थान की सभी फाइलें हट जाती हैं!"
-
-#: src/ui/dialog_setup.ui:243
-msgid "Repository URL"
-msgstr "रिपोजिटरी URL"
-
-#: src/ui/dialog_setup.ui:257
-msgid "Examples"
-msgstr "उदाहरण"
-
-#: src/ui/dialog_setup.ui:268
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-
-#: src/ui/dialog_setup.ui:275
-msgid "Conventional Locations"
-msgstr "परम्परागत स्थान"
-
-#: src/ui/dialog_setup.ui:287
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"SMB और SFTP रिमोट-बैकअप स्थानों को \"smb://\" या \"sftp://\" प्रोटोकॉल उपसर्ग के "
-"साथ URL के रूप में प्रदान किया जा सकता है।"
-
-#: src/ui/dialog_setup.ui:294
-msgid "Locations with BorgBackup Support"
-msgstr "BorgBackup समर्थन वाले स्थान"
-
-#: src/ui/dialog_setup.ui:306
-msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
-msgstr ""
-"स्पष्ट BorgBackup समर्थन वाले स्थान बेहतर प्रदर्शन प्रदान कर सकते हैं। वे इस मायने में विशेष "
-"हैं कि सर्वर में BorgBackup बाइनरी स्थापित है। उन स्थानों के लिए, या तो \"<server "
-"address>:<folder>\" वाक्यविन्यास या \"ssh://\" उपसर्ग का उपयोग किया जा सकता है।"
-
-#: src/ui/dialog_setup.ui:343
-msgid "_Connect"
-msgstr "जुड़ें (_C)"
-
-#: src/ui/dialog_setup.ui:358
-msgid "_Continue"
-msgstr "जारी रखें (_C)"
-
-#: src/ui/dialog_setup.ui:378
-msgid "Setup Encryption"
-msgstr "एन्क्रिप्शन स्थापित करें"
-
-#: src/ui/dialog_setup.ui:402
-msgid "_Create"
-msgstr "बनाएं (_C)"
-
-#: src/ui/dialog_setup.ui:432
-msgid "Checking Backup Repository"
-msgstr "बैकअप रिपोजिटरी की जाँच हो रही है"
-
-#: src/ui/dialog_setup.ui:457
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr "इस बैकअप रिपॉजिटरी तक पहुंचने के लिए इसका एन्क्रिप्शन पासवर्ड आवश्यक है।"
-
-#: src/ui/dialog_setup.ui:499 src/ui/dialog_setup.ui:557
-msgid "Transfer Settings"
-msgstr "स्थानांतरण सेटिंग्स"
-
-#: src/ui/dialog_setup.ui:512 src/ui/dialog_setup.ui:543
-msgid "S_kip"
-msgstr "छोड़ें (_k)"
-
-#: src/ui/dialog_setup.ui:522
-msgid "Checking for Previous Configurations"
-msgstr "पिछले विन्यास की जाँच की जा रही है"
-
-#: src/ui/dialog_setup.ui:523
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"पहले उपयोग की गई सेटिंग्स को स्थानांतरित करने के लिए जानकारी एकत्रित की जा रही है। यह "
-"कदम वैकल्पिक है।"
-
-#: src/ui/dialog_setup.ui:558
-msgid ""
-"One set of configurations used for previous backups can be selected for "
-"transfer to the new setup. The configuration can be adjusted afterward."
-msgstr ""
-"पिछले बैकअप के लिए उपयोग किए गए विन्यास का एक सेट नए सेटअप में स्थानांतरण के लिए चुना जा "
-"सकता है। विन्यास को बाद में समायोजित किया जा सकता है।"
-
-#: src/ui/dialog_setup.ui:601
-msgid ""
-"Archive prefixes must be unique to every backup configuration. Using the "
-"same prefix on two devices is discouraged unless a new device supersedes the "
-"old one."
-msgstr ""
-"पुरालेख उपसर्ग प्रत्येक बैकअप विन्यास के लिए अद्वितीय होने चाहिए। दो उपकरणों पर एक ही "
-"उपसर्ग का उपयोग तब तक हतोत्साहित किया जाता है जब तक कि कोई नया उपकरण पुराने उपकरण "
-"का स्थान न ले ले।"
-
-#: src/ui/dialog_setup.ui:628
-msgid "_Save"
-msgstr "सहेजें (_S)"
-
-#: src/ui/dialog_setup.ui:644 src/ui/dialog_setup.ui:659
-#: src/ui/dialog_setup/insert.rs:147
-msgid "Creating Backup Repository"
-msgstr "बैकअप रिपोजिटरी बना रहे हैं"
-
-#: src/ui/dialog_setup/display.rs:78 src/ui/widget/archives_page/display.rs:88
-msgid "None"
-msgstr "कोई नहीं"
-
-#: src/ui/dialog_setup/display.rs:238
-msgid "Free space: {}"
-msgstr "खाली जगह: {}"
-
-#: src/ui/dialog_setup/folder_button.rs:130 src/ui/dialog_storage.ui:6
-msgid "Backup Location"
-msgstr "बैकअप स्थान"
-
-#: src/ui/dialog_setup/folder_button.rs:146
-msgid "_Select Folder…"
-msgstr "फोल्डर चुनें… (_S)"
-
-#: src/ui/dialog_setup/insert.rs:17
-msgid "Setup Existing Repository"
-msgstr "मौजूदा रिपॉजिटरी सेटअप करें"
-
-#: src/ui/dialog_setup/insert.rs:33 src/ui/dialog_setup/insert.rs:101
-msgid "Location is not a valid backup repository."
-msgstr "स्थान एक वैध बैकअप रिपॉजिटरी नहीं है।"
-
-#: src/ui/dialog_setup/insert.rs:34
-msgid "The repository must originate from Pika Backup or compatible software."
-msgstr "रिपॉजिटरी की उत्पत्ति Pika बैकअप या संगत सॉफ़्टवेयर से होनी चाहिए।"
-
-#: src/ui/dialog_setup/insert.rs:47 src/ui/dialog_setup/insert.rs:108
-msgid "Invalid Remote Location"
-msgstr "अमान्य रिमोट स्थान"
-
-#: src/ui/dialog_setup/insert.rs:102
-msgid "A repository location has to be given."
-msgstr "एक रिपॉजिटरी स्थान देना होगा."
-
-#: src/ui/dialog_setup/insert.rs:156
-msgid "Getting Repository Information"
-msgstr "रिपॉजिटरी सूचना प्राप्त कर रहे हैं"
-
-#: src/ui/dialog_setup/insert.rs:199
-msgid "Loading Backup Repository"
-msgstr "बैकअप रिपोजिटरी लोड हो रही है"
-
-#: src/ui/dialog_setup/insert.rs:219
-msgid "Failed to Configure Repository"
-msgstr "रिपोजिटरी विन्यस्त करने में विफल"
-
-#: src/ui/dialog_setup/insert.rs:238
-msgid "Failed"
-msgstr "असफल"
-
-#: src/ui/dialog_setup/insert.rs:298
-msgid "Repository location not found."
-msgstr "रिपॉजिटरी का स्थान नहीं मिला।"
-
-#: src/ui/dialog_setup/insert.rs:299
-msgid "A mount operation succeeded but the location is still unavailable."
-msgstr "माउंट अभियान सफल हुआ लेकिन स्थान अभी भी अनुपलब्ध है।"
-
-#: src/ui/dialog_setup/remote_location.rs:23
-msgid "Incomplete URL or borg syntax"
-msgstr "अपूर्ण URL या borg वाक्यविन्यास"
-
-#: src/ui/dialog_setup/remote_location.rs:32
-msgid "The remote location must have a specified path."
-msgstr "दूरस्थ स्थान में एक निर्दिष्ट पथ होना चाहिए।"
-
-#: src/ui/dialog_setup/remote_location.rs:36
-msgid "Invalid remote location: “{}”"
-msgstr "अमान्य दूरस्थ स्थान: \"{}\""
-
-#: src/ui/dialog_setup_transfer_option.ui:88 src/ui/widget/backup_page.ui:92
-msgid "Files to Back Up"
-msgstr "बैकअप के लिए फाइलें"
-
-#: src/ui/dialog_storage.ui:30
-msgid "Disk"
-msgstr "डिस्क"
-
-#: src/ui/dialog_storage.ui:33
-msgid "Volume"
-msgstr "आवाज़"
-
-#: src/ui/dialog_storage.ui:42
-msgid "Device"
-msgstr "उपकरण"
-
-#: src/ui/dialog_storage.ui:51
-msgid "Path"
-msgstr "पथ"
-
-#: src/ui/dialog_storage.ui:63
-msgid "Remote"
-msgstr "रिमोट"
-
-#: src/ui/dialog_storage.ui:66
-msgid "URL"
-msgstr "URL"
-
-#: src/ui/dialog_storage.ui:78
-msgid "Space"
-msgstr "जगह"
-
-#: src/ui/dialog_storage.ui:81
-msgid "Total"
-msgstr "कुल"
-
-#: src/ui/dialog_storage.ui:90
-msgid "Free"
-msgstr "खाली"
-
 #: src/ui/error.rs:102
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
@@ -1697,6 +997,14 @@ msgstr "ID \"{}\" के साथ बैकअप विन्यास नह�
 #: src/ui/prelude.rs:60
 msgid "Could not write configuration file."
 msgstr "विन्यास फाइल नहीं लिख सका।"
+
+#: src/ui/repo.rs:62 src/ui/repo.rs:67 src/ui/repo.rs:122 src/ui/repo.rs:127
+msgid "Failed to Mount"
+msgstr "माउंट करने में विफल"
+
+#: src/ui/repo.rs:123
+msgid "The network server is not available"
+msgstr "नेटवर्क सर्वर उपलब्ध नहीं है"
 
 #: src/ui/shell.rs:29
 msgid "Idle"
@@ -1761,49 +1069,62 @@ msgstr[1] "{} बैकअप अभियान चल रहे हैं"
 msgid "Failed to Create Thread"
 msgstr "थ्रेड बनाने में विफल"
 
+#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:76
+#: src/ui/widget/dialog/exclude.rs:244 src/ui/widget/dialog/exclude.rs:289
+msgid "Select"
+msgstr "चुनें"
+
+#: src/ui/utils.rs:425 src/ui/widget/dialog/prune.rs:152
+msgid "Close"
+msgstr "बंद"
+
 #: src/ui/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "अतिरिक्त कमांड लाइन तर्क अमान्य"
+
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:280
+msgid "Please check for missing closing quotes."
+msgstr "कृपया गुम समापन उद्धरणों की जाँच करें।"
 
 #: src/ui/utils/borg.rs:55
 msgid "Repository already in use"
 msgstr "रिपॉजिटरी पहले से ही उपयोग में है"
 
-#: src/ui/utils/borg.rs:121
+#: src/ui/utils/borg.rs:120
 msgid "Stop browsing files and start backup?"
 msgstr "फाइलें ब्राउज़ करना बंद करें और बैकअप प्रारंभ करें?"
 
-#: src/ui/utils/borg.rs:123
+#: src/ui/utils/borg.rs:122
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr "बैकअप चलाते समय संग्रहीत फाइलों को ब्राउज़ करना संभव नहीं है।"
 
-#: src/ui/utils/borg.rs:125 src/ui/utils/borg.rs:136
+#: src/ui/utils/borg.rs:124 src/ui/utils/borg.rs:135
 msgid "Keep Browsing"
 msgstr "ब्राउज़ करते रहें"
 
-#: src/ui/utils/borg.rs:126
+#: src/ui/utils/borg.rs:125
 msgid "Start Backup"
 msgstr "बैकअप प्रारंभ करें"
 
-#: src/ui/utils/borg.rs:132
+#: src/ui/utils/borg.rs:131
 msgid "Stop browsing files and start operation?"
 msgstr "फाइलें ब्राउज़ करना बंद करें और अभियान प्रारंभ करें?"
 
-#: src/ui/utils/borg.rs:134
+#: src/ui/utils/borg.rs:133
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository."
 msgstr "रिपॉजिटरी पर कोई अभियान चलाते समय संग्रहीत फाइलों को ब्राउज़ करना संभव नहीं है।"
 
-#: src/ui/utils/borg.rs:137
+#: src/ui/utils/borg.rs:136
 msgid "Start Operation"
 msgstr "अभियान प्रारंभ करें"
 
-#: src/ui/utils/borg.rs:146 src/ui/utils/borg.rs:276
+#: src/ui/utils/borg.rs:145 src/ui/utils/borg.rs:275
 msgid "Failed to unmount repository."
 msgstr "रिपॉजिटरी को अनमाउंट करने में विफल।"
 
-#: src/ui/utils/borg.rs:254
+#: src/ui/utils/borg.rs:253
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1812,7 +1133,7 @@ msgstr ""
 "पुरानी हो सकती है यदि, उदाहरण के लिए, रिपॉजिटरी का उपयोग करते समय कंप्यूटर ने बिजली "
 "खो दी हो।"
 
-#: src/ui/utils/borg.rs:256
+#: src/ui/utils/borg.rs:255
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1822,19 +1143,26 @@ msgstr ""
 "नहीं किया जाता है! जब कोई अन्य प्रोग्राम रिपॉजिटरी का उपयोग करता है तब जारी रखने से "
 "बैकअप डेटा दूषित हो सकता है!"
 
-#: src/ui/utils/borg.rs:258
+#: src/ui/utils/borg.rs:256 src/ui/widget/detail/backup/events.rs:191
+#: src/ui/widget/dialog/archive_prefix.ui:28 src/ui/widget/dialog/prune.ui:30
+#: src/ui/widget/dialog/prune.ui:60 src/ui/widget/dialog/prune_review.ui:30
+#: src/ui/widget/dialog/prune_review.ui:60 src/ui/widget/overview.rs:173
+msgid "Cancel"
+msgstr "रद्द"
+
+#: src/ui/utils/borg.rs:257
 msgid "Continue Anyway"
 msgstr "फिर भी जारी रखें"
 
-#: src/ui/utils/borg.rs:349 src/ui/utils/borg.rs:369
+#: src/ui/utils/borg.rs:348 src/ui/utils/borg.rs:368
 msgid "Unable to Eject Backup Disk"
 msgstr "बैकअप डिस्क को बाहर निकालने में असमर्थ"
 
-#: src/ui/utils/borg.rs:358
+#: src/ui/utils/borg.rs:357
 msgid "{} can be safely unplugged."
 msgstr "{} को सुरक्षित रूप से अनप्लग किया जा सकता है।"
 
-#: src/ui/utils/borg.rs:370
+#: src/ui/utils/borg.rs:369
 msgid "{} can't be ejected."
 msgstr "{} को बाहर नहीं निकाला जा सकता।"
 
@@ -1948,16 +1276,31 @@ msgid_plural "{} years ago"
 msgstr[0] "एक वर्ष पहले"
 msgstr[1] "{} वर्षों पहले"
 
-#: src/ui/utils/password_storage.rs:19
+#. Translators: This is the time format used for lists of full
+#. dates with times in 24-hour mode. It should use a numeric
+#. date if possible to align longer lists of dates and times.
+#: src/ui/utils/ext.rs:18
+msgid "%x %T"
+msgstr "%x %T"
+
+#. Translators: This is the time format used for lists of full
+#. dates with times in 12-hour mode (including AM/PM if
+#. appropriate). It should use a numeric date if possible to
+#. align longer lists of dates and times.
+#: src/ui/utils/ext.rs:24
+msgid "%x %r"
+msgstr "%x %r"
+
+#: src/ui/utils/password_storage.rs:23
 msgid "Failed to Store Password"
 msgstr "पासवर्ड संग्रहीत करने में विफल"
 
-#: src/ui/utils/password_storage.rs:37
+#: src/ui/utils/password_storage.rs:41
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "कुंजी संग्रहण से संभावित रूप से शेष पासवर्ड निकालने में विफल।"
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:56
+#: src/ui/utils/password_storage.rs:60
 msgid "Pika Backup “{}”"
 msgstr "Pika बैकअप \"{}\""
 
@@ -1965,182 +1308,229 @@ msgstr "Pika बैकअप \"{}\""
 msgid "Failed to Save Cache"
 msgstr "कैशे सहेजने में विफल"
 
-#: src/ui/widget/archives_page.ui:98
+#: src/ui/widget/detail.ui:8
+msgid "Backup Preferences"
+msgstr "बैकअप प्राथमिकताएँ"
+
+#: src/ui/widget/detail.ui:12
+msgid "Remove Backup Setup"
+msgstr "बैकअप सेटअप हटाएँ"
+
+#: src/ui/widget/detail.ui:18
+msgid "Backup"
+msgstr "बैकअप"
+
+#: src/ui/widget/detail.ui:51
+msgid "Archives are being mounted. This might take a while."
+msgstr "पुरालेख स्थापित किए जा रहे हैं। इसमें कुछ समय लग सकता है।"
+
+#: src/ui/widget/detail.ui:64
+msgid "Actions"
+msgstr "कार्रवाई"
+
+#: src/ui/widget/detail.ui:91
+msgid "_Backup"
+msgstr "बैकअप (_B)"
+
+#: src/ui/widget/detail.ui:101
+msgid "_Archives"
+msgstr "पुरालेख (_A)"
+
+#: src/ui/widget/detail.ui:111
+msgid "_Schedule"
+msgstr "अनुसूची (_S)"
+
+#: src/ui/widget/detail/archives.ui:98
 msgid "Archive _Prefix"
 msgstr "पुरालेख उपसर्ग (_P)"
 
-#: src/ui/widget/archives_page.ui:100
+#: src/ui/widget/detail/archives.ui:100
 msgid "Added in front of all archive names"
 msgstr "सभी पुरालेख नामों के आगे जोड़ा गया"
 
-#: src/ui/widget/archives_page.ui:129
+#: src/ui/widget/detail/archives.ui:129
 msgid "_Cleanup Archives"
 msgstr "पुरालेख की सफाई (_C)"
 
-#: src/ui/widget/archives_page.ui:130
+#: src/ui/widget/detail/archives.ui:130
 msgid "Delete some older archives"
-msgstr "कुछ पुराने अभिलेख हटाएँ"
+msgstr "कुछ पुराने अभिलेख मिटायें"
 
-#: src/ui/widget/archives_page.ui:146
+#: src/ui/widget/detail/archives.ui:146
 msgid "Data Integrity Check"
 msgstr "डेटा अखंडता जांच"
 
-#: src/ui/widget/archives_page.ui:152
+#: src/ui/widget/detail/archives.ui:152
 msgid "_Check Now…"
 msgstr "अभी जांचें… (_C)"
 
-#: src/ui/widget/archives_page.ui:160
+#: src/ui/widget/detail/archives.ui:160
 msgid "_Abort…"
 msgstr "निरस्त… (_A)"
 
-#: src/ui/widget/archives_page.ui:171
+#: src/ui/widget/detail/archives.ui:171
 msgid "Archives"
 msgstr "पुरालेख"
 
-#: src/ui/widget/archives_page.ui:180
+#: src/ui/widget/detail/archives.ui:180
 msgid "Refresh"
 msgstr "ताज़ा करें"
 
-#: src/ui/widget/archives_page.ui:201
+#: src/ui/widget/detail/archives.ui:201
 msgid "Stop browsing archive files"
 msgstr "पुरालेख फाइलें ब्राउज़ करना बंद करें"
 
-#: src/ui/widget/archives_page.ui:227
+#: src/ui/widget/detail/archives.ui:227
 msgid "No archives available"
 msgstr "कोई पुरालेख उपलब्ध नहीं है"
 
-#: src/ui/widget/archives_page/cache.rs:37
+#: src/ui/widget/detail/archives/cache.rs:37
 msgid "Failed to refresh archives cache."
 msgstr "पुरालेख कैशे ताज़ा करने में विफल।"
 
-#: src/ui/widget/archives_page/display.rs:103
+#: src/ui/widget/detail/archives/display.rs:88
+#: src/ui/widget/dialog/setup/transfer_option.rs:59
+msgid "None"
+msgstr "कोई नहीं"
+
+#: src/ui/widget/detail/archives/display.rs:103
 msgid "Failed to open archive."
 msgstr "पुरालेख खोलने में विफल।"
 
-#: src/ui/widget/archives_page/display.rs:169
+#: src/ui/widget/detail/archives/display.rs:170
 msgid "Incomplete Archive"
 msgstr "अधूरा पुरालेख"
 
-#: src/ui/widget/archives_page/display.rs:190
+#: src/ui/widget/detail/archives/display.rs:191
 msgid "Name"
 msgstr "नाम"
 
-#: src/ui/widget/archives_page/display.rs:192
+#: src/ui/widget/detail/archives/display.rs:193
 msgid "Duration"
 msgstr "अवधि"
 
-#: src/ui/widget/archives_page/display.rs:196
+#: src/ui/widget/detail/archives/display.rs:197
 msgid "Comment"
 msgstr "टिप्पणी"
 
-#: src/ui/widget/archives_page/display.rs:200
+#: src/ui/widget/detail/archives/display.rs:201
 msgid "Browse saved files"
 msgstr "सहेजी गई फाइलें ब्राउज़ करें"
 
-#: src/ui/widget/archives_page/display.rs:218
+#: src/ui/widget/detail/archives/display.rs:219
 msgid "Delete archive"
-msgstr "पुरालेख हटाएँ"
+msgstr "पुरालेख मिटायें"
 
-#: src/ui/widget/archives_page/display.rs:249
+#: src/ui/widget/detail/archives/display.rs:250
 msgid "{} Available"
 msgstr "{} उपलब्ध"
 
-#: src/ui/widget/archives_page/display.rs:251
+#: src/ui/widget/detail/archives/display.rs:252
 msgid "{} Total"
 msgstr "{} कुल"
 
-#: src/ui/widget/archives_page/events.rs:83
+#: src/ui/widget/detail/archives/events.rs:88
 msgid "Failed to make archives available for browsing."
 msgstr "ब्राउज़िंग के लिए पुरालेख उपलब्ध कराने में विफल।"
 
-#: src/ui/widget/backup_page.ui:21
+#: src/ui/widget/detail/backup.ui:21
 msgid "Eject Backup Disk"
 msgstr "बैकअप डिस्क निकालें"
 
-#: src/ui/widget/backup_page.ui:37
+#: src/ui/widget/detail/backup.ui:37
 msgid "Disconnected"
 msgstr "वियोजीत"
 
-#: src/ui/widget/backup_page.ui:55
+#: src/ui/widget/detail/backup.ui:55
 msgid "_Abort"
 msgstr "निरस्त (_A)"
 
-#: src/ui/widget/backup_page.ui:77
+#: src/ui/widget/detail/backup.ui:77
 msgid "Back Up _Now"
 msgstr "अभी बैकअप लें (_N)"
 
-#: src/ui/widget/backup_page.ui:93
+#: src/ui/widget/detail/backup.ui:92
+#: src/ui/widget/dialog/setup/transfer_option.ui:88
+msgid "Files to Back Up"
+msgstr "बैकअप के लिए फाइलें"
+
+#: src/ui/widget/detail/backup.ui:93
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr "केवल निम्नलिखित फोल्डरों की फाइलें बैकअप रिपॉजिटरी में सहेजी जाती हैं।"
 
-#: src/ui/widget/backup_page.ui:96
+#: src/ui/widget/detail/backup.ui:96
 msgid "Select Directory to Include"
 msgstr "शामिल करने के लिए निर्देशिका का चयन करें"
 
-#: src/ui/widget/backup_page.ui:109
+#: src/ui/widget/detail/backup.ui:109
 msgid "No files included in backup"
 msgstr "बैकअप में कोई फाइल शामिल नहीं है"
 
-#: src/ui/widget/backup_page.ui:122
+#: src/ui/widget/detail/backup.ui:121 src/ui/widget/dialog/exclude.ui:24
+#: src/ui/widget/dialog/setup/transfer_option.ui:112
+msgid "Exclude from Backup"
+msgstr "बैकअप से बहिष्कृत करें"
+
+#: src/ui/widget/detail/backup.ui:122
 msgid "The following folders are excluded from the backup repository."
 msgstr "निम्नलिखित फोल्डरों को बैकअप रिपॉजिटरी से बहिष्कृत किया गया।"
 
-#: src/ui/widget/backup_page.ui:125
+#: src/ui/widget/detail/backup.ui:125
 msgid "Select Directory to Exclude"
 msgstr "बहिष्कृत करने के लिए निर्देशिका का चयन करें"
 
-#: src/ui/widget/backup_page.ui:138
+#: src/ui/widget/detail/backup.ui:138
 msgid "Nothing excluded from backup"
 msgstr "बैकअप से कुछ भी बहिष्कृत नहीं किया गया"
 
-#: src/ui/widget/backup_page/display.rs:20
+#: src/ui/widget/detail/backup/display.rs:21
 msgid "Usually contains all personal data"
 msgstr "इसमें आमतौर पर सभी व्यक्तिगत डेटा शामिल होते हैं"
 
-#: src/ui/widget/backup_page/display.rs:42
+#: src/ui/widget/detail/backup/display.rs:43
 msgid "Remove Directory"
 msgstr "निर्देशिका हटाएँ"
 
-#: src/ui/widget/backup_page/display.rs:102
+#: src/ui/widget/detail/backup/display.rs:105
 msgid "Edit Pattern"
 msgstr "प्रतिमान संपादित करें"
 
-#: src/ui/widget/backup_page/display.rs:121
+#: src/ui/widget/detail/backup/display.rs:132
 msgid "Remove From List"
 msgstr "सूची से हटाएँ"
 
-#: src/ui/widget/backup_page/events.rs:22
+#: src/ui/widget/detail/backup/events.rs:23
 msgid "Stop Running Backup?"
 msgstr "बैकअप चलाना बंद करें?"
 
-#: src/ui/widget/backup_page/events.rs:23
+#: src/ui/widget/detail/backup/events.rs:24
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
 msgstr ""
 "वर्तमान बैकअप स्थिति सहेजी जाएगी। आप अपना बैकअप बाद में फिर से शुरू करके जारी रख सकते हैं।"
 
-#: src/ui/widget/backup_page/events.rs:25
+#: src/ui/widget/detail/backup/events.rs:26
 msgid "Stop"
 msgstr "रोकें"
 
-#: src/ui/widget/backup_page/events.rs:31
+#: src/ui/widget/detail/backup/events.rs:32
 msgid "Abort Delete Operation?"
 msgstr "विलोपन अभियान निरस्त करें?"
 
-#: src/ui/widget/backup_page/events.rs:32
+#: src/ui/widget/detail/backup/events.rs:33
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
 msgstr ""
-"वर्तमान में पुरालेख हटाए जा रहे हैं। निरस्त करते समय खाली स्थान पुनः प्राप्त नहीं किया "
+"वर्तमान में पुरालेख मिटाए जा रहे हैं। निरस्त करते समय खाली स्थान पुनः प्राप्त नहीं किया "
 "जाएगा।"
 
-#: src/ui/widget/backup_page/events.rs:40
+#: src/ui/widget/detail/backup/events.rs:41
 msgid "Abort Operation?"
 msgstr "अभियान निरस्त करें?"
 
-#: src/ui/widget/backup_page/events.rs:41
+#: src/ui/widget/detail/backup/events.rs:42
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
@@ -2148,16 +1538,16 @@ msgstr ""
 "अभी एक अभियान की जा रही है। अब निरस्त करने से अभियान में हुई कोई भी प्रगति नष्ट हो "
 "जाएगी।"
 
-#: src/ui/widget/backup_page/events.rs:74
+#: src/ui/widget/detail/backup/events.rs:75
 msgid "Include Folder"
 msgstr "फोल्डर शामिल करें"
 
-#: src/ui/widget/backup_page/events.rs:117
-#: src/ui/widget/backup_page/events.rs:127
+#: src/ui/widget/detail/backup/events.rs:118
+#: src/ui/widget/detail/backup/events.rs:128
 msgid "Unable to Include Location"
 msgstr "स्थान शामिल करने में असमर्थ"
 
-#: src/ui/widget/backup_page/events.rs:118
+#: src/ui/widget/detail/backup/events.rs:119
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -2167,7 +1557,7 @@ msgstr ""
 "हैं:\n"
 "{}"
 
-#: src/ui/widget/backup_page/events.rs:128
+#: src/ui/widget/detail/backup/events.rs:129
 msgid ""
 "Pika Backup cannot be used to backup the entire system or the “/dev” "
 "directory."
@@ -2175,98 +1565,955 @@ msgstr ""
 "Pika बैकअप का उपयोग संपूर्ण सिस्टम या \"/dev\" निर्देशिका का बैकअप लेने के लिए नहीं किया "
 "जा सकता है।"
 
-#: src/ui/widget/backup_page/events.rs:183
+#: src/ui/widget/detail/backup/events.rs:187
 msgid "No longer include “{}” in backups?"
 msgstr "अब बैकअप में \"{}\" शामिल नहीं है?"
 
-#: src/ui/widget/backup_page/events.rs:185
+#: src/ui/widget/detail/backup/events.rs:189
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr "इस फोल्डर में मौजूद सभी फाइलें अब भविष्य के बैकअप का हिस्सा नहीं होंगी।"
 
-#: src/ui/widget/backup_page/events.rs:188
+#: src/ui/widget/detail/backup/events.rs:192
 msgid "Confirm"
 msgstr "पुष्टि करें"
 
-#: src/ui/widget/backup_page/execution.rs:43
+#: src/ui/widget/detail/backup/execution.rs:43
 msgid "Delete old Archives Failed"
-msgstr "पुराने पुरालेख हटाने में विफल"
+msgstr "पुराने पुरालेख मिटने में विफल"
 
-#: src/ui/widget/backup_page/execution.rs:55
+#: src/ui/widget/detail/backup/execution.rs:55
 msgid "Reclaiming Free Space Failed"
 msgstr "खाली स्थान पुनः प्राप्त करना विफल"
 
-#: src/ui/widget/backup_page/execution.rs:136
+#: src/ui/widget/detail/backup/execution.rs:136
 msgid "Backup Failed"
 msgstr "बैकअप विफल"
 
-#: src/ui/widget/backup_page/execution.rs:168
+#: src/ui/widget/detail/backup/execution.rs:168
 msgid "Backup Completed with Warnings"
 msgstr "चेतावनियों के साथ बैकअप पूरा हुआ"
 
-#: src/ui/widget/check_result_dialog.ui:9
-msgid "Integrity Check Result"
-msgstr "अखंडता जाँच परिणाम"
+#: src/ui/widget/detail/backup/execution.rs:217
+#: src/ui/widget/dialog/preferences.rs:345
+msgid "Error Running Shell Command"
+msgstr "शैल कमांड चलाने में त्रुटि"
 
-#: src/ui/widget/detail_dialog.ui:9
+#: src/ui/widget/detail/schedule.ui:29
+msgid ":"
+msgstr ":"
+
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:151
+msgid "Scheduled Backups"
+msgstr "अनुसूचित बैकअप"
+
+#: src/ui/widget/detail/schedule.ui:71
+msgid "Regularly Create Backups"
+msgstr "नियमित रूप से बैकअप बनाएं"
+
+#: src/ui/widget/detail/schedule.ui:76
+msgid "Frequency"
+msgstr "आवृत्ति"
+
+#: src/ui/widget/detail/schedule.ui:84
+msgid "Preferred Time"
+msgstr "पसंदीदा समय"
+
+#: src/ui/widget/detail/schedule.ui:103
+msgid "Preferred Weekday"
+msgstr "पसंदीदा कार्यदिवस"
+
+#: src/ui/widget/detail/schedule.ui:108
+msgid "Preferred Day of Month"
+msgstr "महीने का पसंदीदा दिन"
+
+#: src/ui/widget/detail/schedule.ui:125 src/ui/widget/dialog/prune.rs:79
+msgid "Delete old Archives"
+msgstr "पुराने पुरालेख मिटायें"
+
+#: src/ui/widget/detail/schedule.ui:131
+msgid "Save Configuration"
+msgstr "विन्यास सहेजें"
+
+#: src/ui/widget/detail/schedule.ui:143
+msgid "Regularly Cleanup Archives"
+msgstr "नियमित रूप से पुरालेखागार की सफाई करें"
+
+#: src/ui/widget/detail/schedule.ui:144
+msgid "Remove old archives after creating new backups"
+msgstr "नए बैकअप बनाने के बाद पुराने पुरालेख हटा दें"
+
+#: src/ui/widget/detail/schedule.ui:154
+msgid "Preserved Archives"
+msgstr "संरक्षित पुरालेख"
+
+#: src/ui/widget/detail/schedule.ui:155
+msgid "Amount and time span of retained archives"
+msgstr "संग्रहित पुरालेखों की मात्रा और समयावधि"
+
+#: src/ui/widget/detail/schedule.ui:164
+msgid "Details"
+msgstr "विवरण"
+
+#: src/ui/widget/detail/schedule.ui:168
+msgid "Keep Hourly"
+msgstr "प्रति घंटा रखें"
+
+#: src/ui/widget/detail/schedule.ui:183
+msgid "Keep Daily"
+msgstr "दैनिक रखें"
+
+#: src/ui/widget/detail/schedule.ui:198
+msgid "Keep Weekly"
+msgstr "साप्ताहिक रखें"
+
+#: src/ui/widget/detail/schedule.ui:212
+msgid "Keep Monthly"
+msgstr "मासिक रखें"
+
+#: src/ui/widget/detail/schedule.ui:225
+msgid "Keep Annual"
+msgstr "वार्षिक रखें"
+
+#: src/ui/widget/detail/schedule/event.rs:114
+msgid "Invalid time format."
+msgstr "अमान्य समय प्रारूप।"
+
+#: src/ui/widget/detail/schedule/event.rs:122
+msgid "Invalid weekday."
+msgstr "अमान्य कार्यदिवस।"
+
+#: src/ui/widget/detail/schedule/event.rs:129
+msgid "No frequency selected."
+msgstr "कोई आवृत्ति चयनित नहीं।"
+
+#: src/ui/widget/detail/schedule/event.rs:228
+msgid "Disable backup schedule?"
+msgstr "बैकअप अनुसूची अक्षम करें?"
+
+#: src/ui/widget/detail/schedule/event.rs:229
+msgid "No longer remind of backups based on a schedule."
+msgstr "अब अनुसूची पर आधारित बैकअप याद नहीं दिलाया जाएगा।"
+
+#: src/ui/widget/detail/schedule/event.rs:230
+msgid "Keep Schedule"
+msgstr "अनुसूची रखें"
+
+#: src/ui/widget/detail/schedule/event.rs:231
+msgid "Disable Schedule"
+msgstr "अनुसूची अक्षम करें"
+
+#: src/ui/widget/detail/schedule/event.rs:294
+msgid "No preset selected."
+msgstr "कोई प्रीसेट चयनित नहीं।"
+
+#: src/ui/widget/detail/schedule/prune_preset.rs:20
+msgid "Keep Many"
+msgstr "अनेक रखें"
+
+#: src/ui/widget/detail/schedule/prune_preset.rs:21
+msgid "Keep Some"
+msgstr "कुछ रखें"
+
+#: src/ui/widget/detail/schedule/prune_preset.rs:22
+msgid "Custom"
+msgstr "कस्टम"
+
+#: src/ui/widget/detail/schedule/status.rs:16
+msgid "Next backup in one minute"
+msgid_plural "Next backup in {} minutes"
+msgstr[0] "अगला बैकअप एक मिनट में"
+msgstr[1] "अगला बैकअप {} मिनटों में"
+
+#: src/ui/widget/detail/schedule/status.rs:22
+msgid "Next backup in one hour"
+msgid_plural "Next backup in {} hours"
+msgstr[0] "अगला बैकअप एक घंटे में"
+msgstr[1] "अगला बैकअप {} घंटों में"
+
+#: src/ui/widget/detail/schedule/status.rs:28
+msgid "Next backup in one day"
+msgid_plural "Next backup in {} days"
+msgstr[0] "अगला बैकअप एक दिन में"
+msgstr[1] "अगला बैकअप {} दिनों में"
+
+#: src/ui/widget/detail/schedule/status.rs:34
+msgid "Next backup in one week"
+msgid_plural "Next backup in {} weeks"
+msgstr[0] "अगला बैकअप एक सप्ताह में"
+msgstr[1] "अगला बैकअप {} सप्ताहों में"
+
+#: src/ui/widget/detail/schedule/status.rs:51
+msgid "Scheduled Backups Disabled"
+msgstr "अनुसूचित बैकअप अक्षम"
+
+#: src/ui/widget/detail/schedule/status.rs:69
+msgid "Hourly Backups Enabled"
+msgstr "प्रति घंटा बैकअप सक्षम"
+
+#: src/ui/widget/detail/schedule/status.rs:70
+msgid "Daily Backups Enabled"
+msgstr "दैनिक बैकअप सक्षम"
+
+#: src/ui/widget/detail/schedule/status.rs:71
+msgid "Weekly Backups Enabled"
+msgstr "साप्ताहिक बैकअप सक्षम"
+
+#: src/ui/widget/detail/schedule/status.rs:72
+msgid "Monthly Backups Enabled"
+msgstr "मासिक बैकअप सक्षम"
+
+#: src/ui/widget/detail/schedule/status.rs:83
+msgid "Will not start until requirements are met."
+msgstr "जब तक आवश्यकताएं पूरी नहीं होंगी तब तक शुरू नहीं किया जाएगा।"
+
+#: src/ui/widget/detail/schedule/status.rs:88
+msgid "Inconsistent backup information"
+msgstr "असंगत बैकअप जानकारी"
+
+#: src/ui/widget/detail/schedule/status.rs:94
+msgid "Backup Past Due"
+msgstr "बैकअप विगत बकाया"
+
+#: src/ui/widget/detail/schedule/status.rs:95
+msgid "Waiting until requirements are met"
+msgstr "आवश्यकताएँ पूरी होने तक प्रतीक्षा की जा रही है"
+
+#: src/ui/widget/detail/schedule/status.rs:98
+msgid "Scheduled Backups Unavailable"
+msgstr "अनुसूचित बैकअप अनुपलब्ध"
+
+#: src/ui/widget/detail/schedule/status.rs:101
+msgid "Waiting for Backup to Start"
+msgstr "बैकअप प्रारंभ होने की प्रतीक्षा की जा रही है"
+
+#: src/ui/widget/detail/schedule/status.rs:110
+msgid "Network connection must not be metered"
+msgstr "नेटवर्क कनेक्शन मीटरयुक्त नहीं होना चाहिए"
+
+#: src/ui/widget/detail/schedule/status.rs:116
+msgid "Other backups on repository have to be completed"
+msgstr "रिपॉजिटरी पर अन्य बैकअप को पूरा करना होगा"
+
+#: src/ui/widget/detail/schedule/status.rs:123
+msgid "Device must be connected to power"
+msgstr "उपकरण बिजली से जुड़ा होना चाहिए"
+
+#: src/ui/widget/detail/schedule/status.rs:134
+msgid "Backup device has to be connected"
+msgstr "बैकअप उपकरण कनेक्ट करना होगा"
+
+#: src/ui/widget/detail/schedule/status.rs:136
+msgid "Reminder will be sent when device is required"
+msgstr "उपकरण की आवश्यकता होने पर अनुस्मारक भेजा जाएगा"
+
+#: src/ui/widget/detail/schedule/status.rs:144
+msgid "Network connection has to be available"
+msgstr "नेटवर्क कनेक्शन उपलब्ध होना चाहिए"
+
+#: src/ui/widget/detail/schedule/status.rs:154
+msgid "Background process inactive"
+msgstr "पृष्ठभूमि प्रक्रिया निष्क्रिय"
+
+#: src/ui/widget/detail/schedule/status.rs:155
+msgid "This is required for scheduled backups"
+msgstr "यह अनुसूचित बैकअप के लिए आवश्यक है"
+
+#: src/ui/widget/dialog/archive_prefix.rs:78
+#: src/ui/widget/dialog/archive_prefix.rs:97
+#: src/ui/widget/dialog/setup/display.rs:151
+msgid "Invalid Archive Prefix"
+msgstr "अमान्य पुरालेख उपसर्ग"
+
+#: src/ui/widget/dialog/archive_prefix.ui:6
+#: src/ui/widget/dialog/archive_prefix.ui:95 src/ui/widget/dialog/setup.ui:584
+#: src/ui/widget/dialog/setup.ui:600
+msgid "Archive Prefix"
+msgstr "पुरालेख उपसर्ग"
+
+#: src/ui/widget/dialog/archive_prefix.ui:34
+#: src/ui/widget/dialog/exclude.rs:338
+msgid "Save"
+msgstr "सहेजें"
+
+#: src/ui/widget/dialog/archive_prefix.ui:57
+msgid "Archive Prefixes"
+msgstr "पुरालेख उपसर्ग"
+
+#: src/ui/widget/dialog/archive_prefix.ui:68
+msgid ""
+"Each backup run creates a new archive. The archive’s name is always prefixed "
+"with the current archive prefix."
+msgstr ""
+"प्रत्येक बैकअप रन एक नया पुरालेख बनाता है। पुरालेख का नाम हमेशा वर्तमान पुरालेख उपसर्ग के "
+"साथ लगाया जाता है।"
+
+#: src/ui/widget/dialog/archive_prefix.ui:75
+msgid ""
+"This is especially relevant for the “Cleanup Archives” function. Only "
+"archives with the currently configured prefix in their name are considered "
+"for deletion."
+msgstr ""
+"यह विशेष रूप से \"पुरालेख की सफाई\" प्रकार्य के लिए प्रासंगिक है। केवल उन पुरालेखों को हटाने "
+"के लिए विचार किया जाता है जिनके नाम में वर्तमान में विन्यस्त उपसर्ग है।"
+
+#: src/ui/widget/dialog/archive_prefix.ui:82
+msgid "If the archive prefix is empty, no prefix is added."
+msgstr "यदि पुरालेख उपसर्ग खाली है, तो कोई उपसर्ग नहीं जोड़ा जाता है।"
+
+#: src/ui/widget/dialog/backup_info.ui:9
 msgid "Backup Info"
 msgstr "बैकअप जानकारी"
 
-#: src/ui/widget/detail_dialog.ui:72
+#: src/ui/widget/dialog/backup_info.ui:72
 msgid "Amount saved"
 msgstr "मात्रा बचा ली गई"
 
-#: src/ui/widget/detail_dialog.ui:73
+#: src/ui/widget/dialog/backup_info.ui:73
 msgid "Size of all files"
 msgstr "सभी फाइलों का आकार"
 
-#: src/ui/widget/detail_dialog.ui:89
+#: src/ui/widget/dialog/backup_info.ui:89
 msgid "Number of files saved"
 msgstr "सहेजी गई फाइलों की संख्या"
 
-#: src/ui/widget/detail_dialog.ui:105
+#: src/ui/widget/dialog/backup_info.ui:105
 msgid "Backup space used"
 msgstr "बैकअप में स्थान का उपयोग"
 
-#: src/ui/widget/detail_dialog.ui:106
+#: src/ui/widget/dialog/backup_info.ui:106
 msgid "Newly used space in this backup"
 msgstr "इस बैकअप में नया उपयोग किया गया स्थान"
 
-#: src/ui/widget/detail_dialog.ui:122
+#: src/ui/widget/dialog/backup_info.ui:122
 msgid "Current file"
 msgstr "वर्तमान फाइल"
 
-#: src/ui/widget/detail_page.ui:8
-msgid "Backup Preferences"
-msgstr "बैकअप प्राथमिकताएँ"
+#: src/ui/widget/dialog/check.rs:70
+msgid "Perform Repair"
+msgstr "मरम्मत करें"
 
-#: src/ui/widget/detail_page.ui:12
-msgid "Remove Backup Setup"
-msgstr "बैकअप सेटअप हटाएँ"
+#: src/ui/widget/dialog/check.rs:74 src/ui/widget/dialog/check.ui:66
+msgid "Perform Check"
+msgstr "जाँच करें"
 
-#: src/ui/widget/detail_page.ui:18
-msgid "Backup"
-msgstr "बैकअप"
+#: src/ui/widget/dialog/check.rs:124 src/ui/widget/dialog/check.rs:159
+msgid "Verify Archives Integrity"
+msgstr "पुरालेख अखंडता सत्यापित करें"
 
-#: src/ui/widget/detail_page.ui:51
-msgid "Archives are being mounted. This might take a while."
-msgstr "पुरालेख स्थापित किए जा रहे हैं। इसमें कुछ समय लग सकता है।"
+#: src/ui/widget/dialog/check.rs:175
+msgid "Verify archives integrity completed successfully"
+msgstr "पुरालेख अखंडता सत्यापन सफलतापूर्वक पूर्ण हो गई है"
 
-#: src/ui/widget/detail_page.ui:64
-msgid "Actions"
-msgstr "कार्रवाई"
+#: src/ui/widget/dialog/check.ui:5 src/ui/widget/dialog/check.ui:26
+msgid "Archives Integrity Check"
+msgstr "पुरालेख अखंडता जांच"
 
-#: src/ui/widget/detail_page.ui:91
-msgid "_Backup"
-msgstr "बैकअप (_B)"
+#: src/ui/widget/dialog/check.ui:30
+msgid ""
+"This operation will check all archives for data integrity. This may take a "
+"long time."
+msgstr ""
+"यह अभियान डेटा अखंडता के लिए सभी पुरालेखों की जांच करेगा। इसमें काफी समय लग सकता है।"
 
-#: src/ui/widget/detail_page.ui:101
-msgid "_Archives"
-msgstr "पुरालेख (_A)"
+#: src/ui/widget/dialog/check.ui:33
+msgid "Verify data"
+msgstr "डेटा सत्यापित करें"
 
-#: src/ui/widget/detail_page.ui:111
-msgid "_Schedule"
-msgstr "अनुसूची (_S)"
+#: src/ui/widget/dialog/check.ui:34
+msgid "Perform full data verification."
+msgstr "पूर्ण डेटा सत्यापन करें।"
+
+#: src/ui/widget/dialog/check.ui:47
+msgid ""
+"Perform a full repair. This is a potentially dangerous function and might "
+"lead to data loss (for kinds of corruption it is not capable of dealing "
+"with)."
+msgstr ""
+"पूर्ण मरम्मत करें। यह एक संभावित खतरनाक प्रकार्य है और इससे डेटा हानि हो सकती है "
+"(भ्रष्टाचार के प्रकार के लिए यह निपटने में सक्षम नहीं है)।"
+
+#: src/ui/widget/dialog/check.ui:50
+msgid "Repair"
+msgstr "मरम्मत"
+
+#: src/ui/widget/dialog/check.ui:51
+msgid "Repair errors. This can lead to data loss."
+msgstr "त्रुटियाँ सुधारें। इससे डेटा हानि हो सकती है।"
+
+#: src/ui/widget/dialog/check_result.ui:9
+msgid "Integrity Check Result"
+msgstr "अखंडता जाँच परिणाम"
+
+#: src/ui/widget/dialog/delete_archive.rs:73
+msgid "Delete Archive Failed"
+msgstr "पुरालेख मिटने में विफल"
+
+#: src/ui/widget/dialog/delete_archive.ui:6
+#: src/ui/widget/dialog/delete_archive.ui:62
+msgid "Delete Archive"
+msgstr "पुरालेख मिटायें"
+
+#: src/ui/widget/dialog/delete_archive.ui:30
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr ""
+"इस अभियान के साथ आगे बढ़ने से यह पुरालेख अपरिवर्तनीय रूप से मिटा दिया जाएगा। इस विशिष्ट "
+"समय के लिए सहेजा गया डेटा अब उपलब्ध नहीं होगा।"
+
+#: src/ui/widget/dialog/delete_archive.ui:40
+msgid "Archive Name"
+msgstr "पुरालेख का नाम"
+
+#: src/ui/widget/dialog/delete_archive.ui:48
+msgid "Archive Date"
+msgstr "पुरालेख दिनांक"
+
+#: src/ui/widget/dialog/device_missing.ui:40
+msgid "The following backup location needs to be connected:"
+msgstr "निम्नलिखित बैकअप स्थान को जोड़ने की आवश्यकता है:"
+
+#: src/ui/widget/dialog/encryption_password.rs:63
+msgid ""
+"The operation “{}” requires the encryption password of the repository on "
+"“{}”."
+msgstr ""
+"अभियान \"{}\" के लिए \"{}\" पर रिपॉजिटरी के एन्क्रिप्शन पासवर्ड की आवश्यकता होती है।"
+
+#: src/ui/widget/dialog/encryption_password.ui:6
+#: src/ui/widget/dialog/setup.ui:456
+msgid "Encryption Password Required"
+msgstr "एन्क्रिप्शन पासवर्ड आवश्यक"
+
+#: src/ui/widget/dialog/encryption_password.ui:9
+#: src/ui/widget/dialog/preferences.ui:98
+msgid "_Cancel"
+msgstr "रद्द (_C)"
+
+#: src/ui/widget/dialog/encryption_password.ui:10
+msgid "Co_ntinue"
+msgstr "जारी रखें (_n)"
+
+#: src/ui/widget/dialog/encryption_password.ui:14
+#: src/ui/widget/dialog/setup.ui:418 src/ui/widget/dialog/setup.ui:464
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: src/ui/widget/dialog/exclude.rs:112
+msgid "Exclusion Rules"
+msgstr "बहिष्करण नियम"
+
+#: src/ui/widget/dialog/exclude.rs:166
+msgid "Add exclusion rule"
+msgstr "बहिष्करण नियम जोड़ें"
+
+#: src/ui/widget/dialog/exclude.rs:243
+msgid "Exclude Directory"
+msgstr "निर्देशिका बहिष्कृत करें"
+
+#: src/ui/widget/dialog/exclude.rs:288
+msgid "Exclude File"
+msgstr "फाइल बहिष्कृत करें"
+
+#: src/ui/widget/dialog/exclude.rs:347 src/ui/widget/dialog/exclude.ui:164
+msgid "Add"
+msgstr "जोड़ें"
+
+#: src/ui/widget/dialog/exclude.rs:366
+msgid "Invalid Regular Expression"
+msgstr "अमान्य नियमित अभिव्यक्ति"
+
+#: src/ui/widget/dialog/exclude.ui:37
+msgid "Exclude Folder"
+msgstr "फोल्डर बहिष्कृत करें"
+
+#: src/ui/widget/dialog/exclude.ui:50
+msgid "Exclude Single File"
+msgstr "एकल फाइल बहिष्कृत करें"
+
+#: src/ui/widget/dialog/exclude.ui:63 src/ui/widget/dialog/exclude.ui:95
+msgid "Exclude Pattern"
+msgstr "प्रतिमान बहिष्कृत करें"
+
+#: src/ui/widget/dialog/exclude.ui:64
+msgid "Define regular expression or Unix filename patterns"
+msgstr "नियमित अभिव्यक्ति या यूनिक्स फाइल नाम प्रतिमान परिभाषित करें"
+
+#: src/ui/widget/dialog/exclude.ui:78
+msgid "Suggested Exclusions"
+msgstr "सुझाए गए बहिष्करण"
+
+#: src/ui/widget/dialog/exclude.ui:83
+msgid "Unreadable Paths"
+msgstr "अपठनीय पथ"
+
+#: src/ui/widget/dialog/exclude.ui:84
+msgid "These locations were identified as unreadable from a previous backup."
+msgstr "इन स्थानों की पहचान पिछले बैकअप से अपठनीय के रूप में की गई थी।"
+
+#: src/ui/widget/dialog/exclude.ui:107
+msgid "Pattern Type"
+msgstr "प्रतिमान प्रकार"
+
+#: src/ui/widget/dialog/exclude.ui:121
+msgid "Pattern"
+msgstr "प्रतिमान"
+
+#: src/ui/widget/dialog/exclude.ui:139
+msgid "BorgBackup Patterns"
+msgstr "BorgBackup प्रतिमान"
+
+#: src/ui/widget/dialog/exclude.ui:150
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"उपरोक्त प्रतिमान को एक विशेष रूप में लिखना होगा। उनका मिलान <tt>/</tt> के बिना पथ के "
+"साथ किया जाता है। इसके अतिरिक्त, शैल-शैली के प्रतिमान ऐसे मेल खाते हैं जैसे कि वे पीछे "
+"<tt>*</tt> लिए हुए हों। अधिक जानकारी के लिए, कृपया <a href='https://borgbackup."
+"readthedocs.io/en/stable/usage/help.html'>BorgBackup दस्तावेज़</a> देखें।"
+
+#: src/ui/widget/dialog/preferences.rs:213
+msgid ""
+"The title of this backup configuration. Will be displayed as “{}” when left "
+"empty."
+msgstr ""
+"इस बैकअप विन्यास का शीर्षक। खाली छोड़े जाने पर \"{}\" के रूप में प्रदर्शित किया जाएगा।"
+
+#: src/ui/widget/dialog/preferences.rs:279
+msgid "Shell command invalid"
+msgstr "शैल कमांड अमान्य"
+
+#: src/ui/widget/dialog/preferences.rs:466
+msgid "Change Encryption Password Error"
+msgstr "एन्क्रिप्शन पासवर्ड बदलने में त्रुटि"
+
+#: src/ui/widget/dialog/preferences.rs:473
+msgid "Password changed successfully"
+msgstr "पासवर्ड सफलतापूर्वक बदला गया"
+
+#: src/ui/widget/dialog/preferences.ui:27
+#: src/ui/widget/dialog/preferences.ui:137
+msgid "Change Encryption Password"
+msgstr "एन्क्रिप्शन पासवर्ड बदलें"
+
+#: src/ui/widget/dialog/preferences.ui:54
+msgid "_Change Password"
+msgstr "पासवर्ड बदलें (_C)"
+
+#: src/ui/widget/dialog/preferences.ui:84
+msgid "Changing Encryption Password"
+msgstr "एन्क्रिप्शन पासवर्ड बदल रहें हैं"
+
+#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:125
+msgid "Title"
+msgstr "शीर्षक"
+
+#: src/ui/widget/dialog/preferences.ui:133
+msgid "Encryption password"
+msgstr "एन्क्रिप्शन पासवर्ड"
+
+#: src/ui/widget/dialog/preferences.ui:134
+msgid "The encryption password of the backup repository."
+msgstr "बैकअप रिपॉजिटरी का एन्क्रिप्शन पासवर्ड।"
+
+#: src/ui/widget/dialog/preferences.ui:154
+msgid "Run on Battery"
+msgstr "बैटरी पर चलाएँ"
+
+#: src/ui/widget/dialog/preferences.ui:155
+msgid "Allow scheduled backups when device is battery powered"
+msgstr "जब उपकरण बैटरी द्वारा संचालित हो तो अनुसूचित बैकअप की अनुमति दें"
+
+#: src/ui/widget/dialog/preferences.ui:163 src/ui/widget/dialog/setup.ui:317
+msgid "Additional command line arguments"
+msgstr "अतिरिक्त कमांड लाइन तर्क"
+
+#: src/ui/widget/dialog/preferences.ui:164 src/ui/widget/dialog/setup.ui:318
+msgid ""
+"These arguments will be added to the call of the borg binary. Only long "
+"options, starting with “--”, are supported."
+msgstr ""
+"ये तर्क borg बाइनरी की कॉल में जोड़े जाएंगे। केवल \"--\" से शुरू होने वाले लंबे विकल्प समर्थित "
+"हैं।"
+
+#: src/ui/widget/dialog/preferences.ui:167 src/ui/widget/dialog/setup.ui:322
+msgid "Command line arguments"
+msgstr "कमांड लाइन तर्क"
+
+#: src/ui/widget/dialog/preferences.ui:178
+msgid "Shell Commands"
+msgstr "शैल कमांड"
+
+#: src/ui/widget/dialog/preferences.ui:179
+msgid "These bash shell commands will be called on certain backup events."
+msgstr "इन bash शैल कमांड को कुछ बैकअप इवेंट पर बुलाया जाएगा।"
+
+#: src/ui/widget/dialog/preferences.ui:192
+msgid "Pre-Backup Shell Command"
+msgstr "पूर्व-बैकअप शैल कमांड"
+
+#: src/ui/widget/dialog/preferences.ui:199
+#: src/ui/widget/dialog/preferences.ui:220
+msgid "Run with test values"
+msgstr "परीक्षण मानों के साथ चलाएँ"
+
+#: src/ui/widget/dialog/preferences.ui:213
+msgid "Post-Backup Shell Command"
+msgstr "बैकअप-के-बाद शैल कमांड"
+
+#: src/ui/widget/dialog/prune.rs:89
+msgid "Reclaim Free Space"
+msgstr "खाली जगह पुनः प्राप्त करें"
+
+#: src/ui/widget/dialog/prune.rs:123 src/ui/widget/dialog/prune_review.rs:87
+msgid "Failed to determine how many archives would be deleted"
+msgstr "यह निर्धारित करने में विफल रहा कि कितने पुरालेख मिटायें जायेंगे"
+
+#. Translators: Header while creating a list of old archives to be approved for deletion.
+#: src/ui/widget/dialog/prune.ui:38
+msgid "Checking for old Archives"
+msgstr "पुराने पुरालेखों की जाँच की जा रही है"
+
+#: src/ui/widget/dialog/prune.ui:39
+msgid "Creating a list of old archives to be approved for deletion."
+msgstr "हटाने के लिए अनुमोदित किए जाने वाले पुराने पुरालेखों की एक सूची बनाई जा रही है।"
+
+#: src/ui/widget/dialog/prune.ui:66 src/ui/widget/dialog/prune.ui:82
+#: src/ui/widget/dialog/prune_review.ui:82
+msgid "Delete Archives"
+msgstr "पुरालेख मिटायें"
+
+#: src/ui/widget/dialog/prune.ui:79
+msgid ""
+"Proceeding with this operation will irretrievably delete some of the "
+"archives. The saved data for those specific points in time will no longer be "
+"available."
+msgstr ""
+"इस अभियान के साथ आगे बढ़ने से कुछ पुरालेख अपरिवर्तनीय रूप से मिटा दिए जाएंगे। समय में उन "
+"विशिष्ट बिंदुओं के लिए सहेजा गया डेटा अब उपलब्ध नहीं होगा।"
+
+#: src/ui/widget/dialog/prune.ui:95 src/ui/widget/dialog/prune_review.ui:95
+msgid "Keep Archives"
+msgstr "पुरालेख रखें"
+
+#: src/ui/widget/dialog/prune.ui:108 src/ui/widget/dialog/prune_review.ui:108
+msgid "Not Considered"
+msgstr "विचार नहीं किया गया"
+
+#: src/ui/widget/dialog/prune.ui:109 src/ui/widget/dialog/prune_review.ui:109
+msgid "Archives with different prefix"
+msgstr "विभिन्न उपसर्गों के साथ पुरालेख"
+
+#: src/ui/widget/dialog/prune_review.ui:6
+msgid "Review Changes"
+msgstr "परिवर्तनों की समीक्षा करें"
+
+#: src/ui/widget/dialog/prune_review.ui:38
+msgid "Assessing Impact on old Archives"
+msgstr "पुराने पुरालेखों पर प्रभाव का आकलन किया जा रहा है"
+
+#: src/ui/widget/dialog/prune_review.ui:39
+msgid "Collecting information about the effect of the changes on old archives"
+msgstr "पुराने पुरालेखों पर परिवर्तनों के प्रभाव के बारे में जानकारी एकत्र कर रहे हैं"
+
+#: src/ui/widget/dialog/prune_review.ui:66
+msgid "Apply"
+msgstr "लागू"
+
+#: src/ui/widget/dialog/prune_review.ui:79
+msgid ""
+"After applying these changes, the next automatic deletion of old archives "
+"would have the following consequences."
+msgstr ""
+"इन परिवर्तनों को लागू करने के बाद, पुराने पुरालेखों के अगले स्वचालित विलोपन के निम्नलिखित "
+"परिणाम होंगे।"
+
+#: src/ui/widget/dialog/setup.ui:6 src/ui/widget/dialog/setup.ui:25
+msgid "Setup"
+msgstr "सेटअप"
+
+#: src/ui/widget/dialog/setup.ui:36
+msgid "Create new Repository"
+msgstr "नई रिपॉजिटरी बनाएं"
+
+#: src/ui/widget/dialog/setup.ui:37
+msgid "Select a location for a new backup repository."
+msgstr "नए बैकअप रिपॉजिटरी के लिए एक स्थान चुनें।"
+
+#: src/ui/widget/dialog/setup.ui:45 src/ui/widget/dialog/setup.ui:99
+msgid "Location on Disk"
+msgstr "डिस्क पर स्थान"
+
+#: src/ui/widget/dialog/setup.ui:90
+msgid "Use Existing Repository"
+msgstr "मौजूदा रिपॉजिटरी का उपयोग करें"
+
+#: src/ui/widget/dialog/setup.ui:91
+msgid ""
+"Select a location that contains an existing backup repository. Repositories "
+"created with other BorgBackup compatible software can be used as well."
+msgstr ""
+"ऐसे स्थान का चयन करें जिसमें मौजूदा बैकअप रिपॉजिटरी हो। अन्य BorgBackup संगत सॉफ़्टवेयर के "
+"साथ बनाई गई रिपॉजिटरी का भी उपयोग किया जा सकता है।"
+
+#: src/ui/widget/dialog/setup.ui:150
+msgid "Select Location"
+msgstr "स्थान चुनें"
+
+#: src/ui/widget/dialog/setup.ui:166 src/ui/widget/dialog/setup.ui:227
+msgid "Location"
+msgstr "स्थान"
+
+#: src/ui/widget/dialog/setup.ui:170 src/ui/widget/dialog/setup.ui:232
+msgid "Advanced Options"
+msgstr "उन्नत विकल्प"
+
+#: src/ui/widget/dialog/setup.ui:178
+msgid "Repository Base Folder"
+msgstr "रिपॉजिटरी आधार फोल्डर"
+
+#: src/ui/widget/dialog/setup.ui:190
+msgid "Repository Name"
+msgstr "रिपोजिटरी का नाम"
+
+#: src/ui/widget/dialog/setup.ui:213
+msgid ""
+"Backups to the selected location could be corrupted if the device is "
+"disconnected or powered down with a backup in progress. If possible, "
+"reformat the backup location with a format like “NTFS” or “Ext4.” Note that "
+"reformatting deletes all files on the location!"
+msgstr ""
+"बैकअप चालू होने पर यदि उपकरण वियोजीत या बंद हो जाता है, तो चयनित स्थान पर बैकअप "
+"दूषित हो सकता है। यदि संभव हो, तो बैकअप स्थान को \"NTFS\" या \"Ext4\" जैसे प्रारूप में "
+"पुन: स्वरूपित करें। ध्यान दें कि पुन: स्वरूपण करने से स्थान की सभी फाइलें मिट जाती हैं!"
+
+#: src/ui/widget/dialog/setup.ui:243
+msgid "Repository URL"
+msgstr "रिपोजिटरी URL"
+
+#: src/ui/widget/dialog/setup.ui:257
+msgid "Examples"
+msgstr "उदाहरण"
+
+#: src/ui/widget/dialog/setup.ui:268
+msgid ""
+"ssh://user@server.example.org/~/backup\n"
+"smb://user@server.example.org/files/backup"
+msgstr ""
+"ssh://user@server.example.org/~/backup\n"
+"smb://user@server.example.org/files/backup"
+
+#: src/ui/widget/dialog/setup.ui:275
+msgid "Conventional Locations"
+msgstr "परम्परागत स्थान"
+
+#: src/ui/widget/dialog/setup.ui:287
+msgid ""
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
+msgstr ""
+"SMB और SFTP रिमोट-बैकअप स्थानों को \"smb://\" या \"sftp://\" प्रोटोकॉल उपसर्ग के "
+"साथ URL के रूप में प्रदान किया जा सकता है।"
+
+#: src/ui/widget/dialog/setup.ui:294
+msgid "Locations with BorgBackup Support"
+msgstr "BorgBackup समर्थन वाले स्थान"
+
+#: src/ui/widget/dialog/setup.ui:306
+msgid ""
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
+"those locations, either the “<server address>:<folder>” syntax or the "
+"“ssh://” prefix can be used."
+msgstr ""
+"स्पष्ट BorgBackup समर्थन वाले स्थान बेहतर प्रदर्शन प्रदान कर सकते हैं। वे इस मायने में विशेष "
+"हैं कि सर्वर में BorgBackup बाइनरी स्थापित है। उन स्थानों के लिए, या तो \"<server "
+"address>:<folder>\" वाक्यविन्यास या \"ssh://\" उपसर्ग का उपयोग किया जा सकता है।"
+
+#: src/ui/widget/dialog/setup.ui:343
+msgid "_Connect"
+msgstr "जुड़ें (_C)"
+
+#: src/ui/widget/dialog/setup.ui:358
+msgid "_Continue"
+msgstr "जारी रखें (_C)"
+
+#: src/ui/widget/dialog/setup.ui:378
+msgid "Setup Encryption"
+msgstr "एन्क्रिप्शन स्थापित करें"
+
+#: src/ui/widget/dialog/setup.ui:402
+msgid "_Create"
+msgstr "बनाएं (_C)"
+
+#: src/ui/widget/dialog/setup.ui:432
+msgid "Checking Backup Repository"
+msgstr "बैकअप रिपोजिटरी की जाँच हो रही है"
+
+#: src/ui/widget/dialog/setup.ui:457
+msgid ""
+"The encryption password of this backup repository is required to access it."
+msgstr "इस बैकअप रिपॉजिटरी तक पहुंचने के लिए इसका एन्क्रिप्शन पासवर्ड आवश्यक है।"
+
+#: src/ui/widget/dialog/setup.ui:499 src/ui/widget/dialog/setup.ui:557
+msgid "Transfer Settings"
+msgstr "स्थानांतरण सेटिंग्स"
+
+#: src/ui/widget/dialog/setup.ui:512 src/ui/widget/dialog/setup.ui:543
+msgid "S_kip"
+msgstr "छोड़ें (_k)"
+
+#: src/ui/widget/dialog/setup.ui:522
+msgid "Checking for Previous Configurations"
+msgstr "पिछले विन्यास की जाँच की जा रही है"
+
+#: src/ui/widget/dialog/setup.ui:523
+msgid ""
+"Collecting information to transfer previously used settings. This step is "
+"optional."
+msgstr ""
+"पहले उपयोग की गई सेटिंग्स को स्थानांतरित करने के लिए जानकारी एकत्रित की जा रही है। यह "
+"कदम वैकल्पिक है।"
+
+#: src/ui/widget/dialog/setup.ui:558
+msgid ""
+"One set of configurations used for previous backups can be selected for "
+"transfer to the new setup. The configuration can be adjusted afterward."
+msgstr ""
+"पिछले बैकअप के लिए उपयोग किए गए विन्यास का एक सेट नए सेटअप में स्थानांतरण के लिए चुना जा "
+"सकता है। विन्यास को बाद में समायोजित किया जा सकता है।"
+
+#: src/ui/widget/dialog/setup.ui:601
+msgid ""
+"Archive prefixes must be unique to every backup configuration. Using the "
+"same prefix on two devices is discouraged unless a new device supersedes the "
+"old one."
+msgstr ""
+"पुरालेख उपसर्ग प्रत्येक बैकअप विन्यास के लिए अद्वितीय होने चाहिए। दो उपकरणों पर एक ही "
+"उपसर्ग का उपयोग तब तक हतोत्साहित किया जाता है जब तक कि कोई नया उपकरण पुराने उपकरण "
+"का स्थान न ले ले।"
+
+#: src/ui/widget/dialog/setup.ui:628
+msgid "_Save"
+msgstr "सहेजें (_S)"
+
+#: src/ui/widget/dialog/setup.ui:644 src/ui/widget/dialog/setup.ui:659
+#: src/ui/widget/dialog/setup/insert.rs:152
+msgid "Creating Backup Repository"
+msgstr "बैकअप रिपोजिटरी बना रहे हैं"
+
+#: src/ui/widget/dialog/setup/display.rs:233
+msgid "Free space: {}"
+msgstr "खाली जगह: {}"
+
+#: src/ui/widget/dialog/setup/folder_button.rs:130
+#: src/ui/widget/dialog/storage.ui:6
+msgid "Backup Location"
+msgstr "बैकअप स्थान"
+
+#: src/ui/widget/dialog/setup/folder_button.rs:146
+msgid "_Select Folder…"
+msgstr "फोल्डर चुनें… (_S)"
+
+#: src/ui/widget/dialog/setup/insert.rs:18
+msgid "Setup Existing Repository"
+msgstr "मौजूदा रिपॉजिटरी सेटअप करें"
+
+#: src/ui/widget/dialog/setup/insert.rs:35
+#: src/ui/widget/dialog/setup/insert.rs:105
+msgid "Location is not a valid backup repository."
+msgstr "स्थान एक वैध बैकअप रिपॉजिटरी नहीं है।"
+
+#: src/ui/widget/dialog/setup/insert.rs:37
+msgid "The repository must originate from Pika Backup or compatible software."
+msgstr "रिपॉजिटरी की उत्पत्ति Pika बैकअप या संगत सॉफ़्टवेयर से होनी चाहिए।"
+
+#: src/ui/widget/dialog/setup/insert.rs:51
+#: src/ui/widget/dialog/setup/insert.rs:113
+msgid "Invalid Remote Location"
+msgstr "अमान्य रिमोट स्थान"
+
+#: src/ui/widget/dialog/setup/insert.rs:106
+msgid "A repository location has to be given."
+msgstr "एक रिपॉजिटरी स्थान देना होगा।"
+
+#: src/ui/widget/dialog/setup/insert.rs:161
+msgid "Getting Repository Information"
+msgstr "रिपॉजिटरी सूचना प्राप्त कर रहे हैं"
+
+#: src/ui/widget/dialog/setup/insert.rs:206
+msgid "Loading Backup Repository"
+msgstr "बैकअप रिपोजिटरी लोड हो रही है"
+
+#: src/ui/widget/dialog/setup/insert.rs:226
+msgid "Failed to Configure Repository"
+msgstr "रिपोजिटरी विन्यस्त करने में विफल"
+
+#: src/ui/widget/dialog/setup/insert.rs:245
+msgid "Failed"
+msgstr "असफल"
+
+#: src/ui/widget/dialog/setup/insert.rs:307
+msgid "Repository location not found."
+msgstr "रिपॉजिटरी का स्थान नहीं मिला।"
+
+#: src/ui/widget/dialog/setup/insert.rs:308
+msgid "A mount operation succeeded but the location is still unavailable."
+msgstr "माउंट अभियान सफल हुआ लेकिन स्थान अभी भी अनुपलब्ध है।"
+
+#: src/ui/widget/dialog/setup/remote_location.rs:23
+msgid "Incomplete URL or borg syntax"
+msgstr "अपूर्ण URL या borg वाक्यविन्यास"
+
+#: src/ui/widget/dialog/setup/remote_location.rs:32
+msgid "The remote location must have a specified path."
+msgstr "दूरस्थ स्थान में एक निर्दिष्ट पथ होना चाहिए।"
+
+#: src/ui/widget/dialog/setup/remote_location.rs:36
+msgid "Invalid remote location: “{}”"
+msgstr "अमान्य दूरस्थ स्थान: \"{}\""
+
+#: src/ui/widget/dialog/storage.ui:30
+msgid "Disk"
+msgstr "डिस्क"
+
+#: src/ui/widget/dialog/storage.ui:33
+msgid "Volume"
+msgstr "आवाज़"
+
+#: src/ui/widget/dialog/storage.ui:42
+msgid "Device"
+msgstr "उपकरण"
+
+#: src/ui/widget/dialog/storage.ui:51
+msgid "Path"
+msgstr "पथ"
+
+#: src/ui/widget/dialog/storage.ui:63
+msgid "Remote"
+msgstr "रिमोट"
+
+#: src/ui/widget/dialog/storage.ui:66
+msgid "URL"
+msgstr "URL"
+
+#: src/ui/widget/dialog/storage.ui:78
+msgid "Space"
+msgstr "जगह"
+
+#: src/ui/widget/dialog/storage.ui:81
+msgid "Total"
+msgstr "कुल"
+
+#: src/ui/widget/dialog/storage.ui:90
+msgid "Free"
+msgstr "खाली"
 
 #: src/ui/widget/encryption_preferences_group.rs:84
 msgid "No Password Provided"
@@ -2312,261 +2559,49 @@ msgstr "नया एन्क्रिप्शन पासवर्ड"
 msgid "Repeat Password"
 msgstr "पासवर्ड दोहराएं"
 
-#: src/ui/widget/overview_page.rs:188
+#: src/ui/widget/overview.rs:171
 msgid "Remove Backup Setup?"
 msgstr "बैकअप सेटअप हटाएँ?"
 
-#: src/ui/widget/overview_page.rs:189
+#: src/ui/widget/overview.rs:172
 msgid "Removing the setup will not delete any archives."
-msgstr "सेटअप हटाने से कोई भी पुरालेख नहीं हटेगा।"
+msgstr "सेटअप मिटने से कोई भी पुरालेख नहीं हटेगा।"
 
-#: src/ui/widget/overview_page.rs:191
+#: src/ui/widget/overview.rs:174
 msgid "Remove Setup"
 msgstr "सेटअप हटाएँ"
 
-#: src/ui/widget/overview_page.ui:8
+#: src/ui/widget/overview.ui:8
 msgid "_Keyboard Shortcuts"
 msgstr "कीबोर्ड शॉर्टकट (_K)"
 
-#: src/ui/widget/overview_page.ui:12
+#: src/ui/widget/overview.ui:12
 msgid "_Help"
 msgstr "सहायता (_H)"
 
-#: src/ui/widget/overview_page.ui:16
+#: src/ui/widget/overview.ui:16
 msgid "_About Pika Backup"
 msgstr "Pika Backup के बारे में (_A)"
 
-#: src/ui/widget/overview_page.ui:29
+#: src/ui/widget/overview.ui:29
 msgid "Setup Backup"
 msgstr "बैकअप सेटअप"
 
-#: src/ui/widget/overview_page.ui:36
+#: src/ui/widget/overview.ui:36
 msgid "Main Menu"
 msgstr "मुख्य मेनू"
 
-#: src/ui/widget/overview_page.ui:56
+#: src/ui/widget/overview.ui:56
 msgid "No Backup Configured"
 msgstr "कोई बैकअप विन्यस्त नहीं"
 
-#: src/ui/widget/overview_page.ui:57
+#: src/ui/widget/overview.ui:57
 msgid "Add a new configuration to start creating backups"
 msgstr "बैकअप बनाना शुरू करने के लिए एक नया विन्यास जोड़ें"
 
-#: src/ui/widget/overview_page.ui:60
+#: src/ui/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "बैकअप सेटअप (_S)"
-
-#: src/ui/widget/schedule_page.ui:29
-msgid ":"
-msgstr ":"
-
-#: src/ui/widget/schedule_page.ui:71
-msgid "Regularly Create Backups"
-msgstr "नियमित रूप से बैकअप बनाएं"
-
-#: src/ui/widget/schedule_page.ui:76
-msgid "Frequency"
-msgstr "आवृत्ति"
-
-#: src/ui/widget/schedule_page.ui:84
-msgid "Preferred Time"
-msgstr "पसंदीदा समय"
-
-#: src/ui/widget/schedule_page.ui:104
-msgid "Preferred Weekday"
-msgstr "पसंदीदा कार्यदिवस"
-
-#: src/ui/widget/schedule_page.ui:109
-msgid "Preferred Day of Month"
-msgstr "महीने का पसंदीदा दिन"
-
-#: src/ui/widget/schedule_page.ui:133
-msgid "Save Configuration"
-msgstr "विन्यास सहेजें"
-
-#: src/ui/widget/schedule_page.ui:145
-msgid "Regularly Cleanup Archives"
-msgstr "नियमित रूप से पुरालेखागार की सफाई करें"
-
-#: src/ui/widget/schedule_page.ui:146
-msgid "Remove old archives after creating new backups"
-msgstr "नए बैकअप बनाने के बाद पुराने पुरालेख हटा दें"
-
-#: src/ui/widget/schedule_page.ui:156
-msgid "Preserved Archives"
-msgstr "संरक्षित पुरालेख"
-
-#: src/ui/widget/schedule_page.ui:157
-msgid "Amount and time span of retained archives"
-msgstr "संग्रहित पुरालेखों की मात्रा और समयावधि"
-
-#: src/ui/widget/schedule_page.ui:166
-msgid "Details"
-msgstr "विवरण"
-
-#: src/ui/widget/schedule_page.ui:170
-msgid "Keep Hourly"
-msgstr "प्रति घंटा रखें"
-
-#: src/ui/widget/schedule_page.ui:186
-msgid "Keep Daily"
-msgstr "दैनिक रखें"
-
-#: src/ui/widget/schedule_page.ui:202
-msgid "Keep Weekly"
-msgstr "साप्ताहिक रखें"
-
-#: src/ui/widget/schedule_page.ui:217
-msgid "Keep Monthly"
-msgstr "मासिक रखें"
-
-#: src/ui/widget/schedule_page.ui:231
-msgid "Keep Annual"
-msgstr "वार्षिक रखें"
-
-#: src/ui/widget/schedule_page/event.rs:114
-msgid "Invalid time format."
-msgstr "अमान्य समय प्रारूप।"
-
-#: src/ui/widget/schedule_page/event.rs:122
-msgid "Invalid weekday."
-msgstr "अमान्य कार्यदिवस।"
-
-#: src/ui/widget/schedule_page/event.rs:129
-msgid "No frequency selected."
-msgstr "कोई आवृत्ति चयनित नहीं।"
-
-#: src/ui/widget/schedule_page/event.rs:228
-msgid "Disable backup schedule?"
-msgstr "बैकअप अनुसूची अक्षम करें?"
-
-#: src/ui/widget/schedule_page/event.rs:229
-msgid "No longer remind of backups based on a schedule."
-msgstr "अब अनुसूची पर आधारित बैकअप याद नहीं दिलाया जाएगा।"
-
-#: src/ui/widget/schedule_page/event.rs:230
-msgid "Keep Schedule"
-msgstr "अनुसूची रखें"
-
-#: src/ui/widget/schedule_page/event.rs:231
-msgid "Disable Schedule"
-msgstr "अनुसूची अक्षम करें"
-
-#: src/ui/widget/schedule_page/event.rs:294
-msgid "No preset selected."
-msgstr "कोई प्रीसेट चयनित नहीं।"
-
-#: src/ui/widget/schedule_page/prune_preset.rs:20
-msgid "Keep Many"
-msgstr "अनेक रखें"
-
-#: src/ui/widget/schedule_page/prune_preset.rs:21
-msgid "Keep Some"
-msgstr "कुछ रखें"
-
-#: src/ui/widget/schedule_page/prune_preset.rs:22
-msgid "Custom"
-msgstr "कस्टम"
-
-#: src/ui/widget/schedule_page/status.rs:16
-msgid "Next backup in one minute"
-msgid_plural "Next backup in {} minutes"
-msgstr[0] "अगला बैकअप एक मिनट में"
-msgstr[1] "अगला बैकअप {} मिनटों में"
-
-#: src/ui/widget/schedule_page/status.rs:22
-msgid "Next backup in one hour"
-msgid_plural "Next backup in {} hours"
-msgstr[0] "अगला बैकअप एक घंटे में"
-msgstr[1] "अगला बैकअप {} घंटों में"
-
-#: src/ui/widget/schedule_page/status.rs:28
-msgid "Next backup in one day"
-msgid_plural "Next backup in {} days"
-msgstr[0] "अगला बैकअप एक दिन में"
-msgstr[1] "अगला बैकअप {} दिनों में"
-
-#: src/ui/widget/schedule_page/status.rs:34
-msgid "Next backup in one week"
-msgid_plural "Next backup in {} weeks"
-msgstr[0] "अगला बैकअप एक सप्ताह में"
-msgstr[1] "अगला बैकअप {} सप्ताहों में"
-
-#: src/ui/widget/schedule_page/status.rs:51
-msgid "Scheduled Backups Disabled"
-msgstr "अनुसूचित बैकअप अक्षम"
-
-#: src/ui/widget/schedule_page/status.rs:69
-msgid "Hourly Backups Enabled"
-msgstr "प्रति घंटा बैकअप सक्षम"
-
-#: src/ui/widget/schedule_page/status.rs:70
-msgid "Daily Backups Enabled"
-msgstr "दैनिक बैकअप सक्षम"
-
-#: src/ui/widget/schedule_page/status.rs:71
-msgid "Weekly Backups Enabled"
-msgstr "साप्ताहिक बैकअप सक्षम"
-
-#: src/ui/widget/schedule_page/status.rs:72
-msgid "Monthly Backups Enabled"
-msgstr "मासिक बैकअप सक्षम"
-
-#: src/ui/widget/schedule_page/status.rs:83
-msgid "Will not start until requirements are met."
-msgstr "जब तक आवश्यकताएं पूरी नहीं होंगी तब तक शुरू नहीं किया जाएगा।"
-
-#: src/ui/widget/schedule_page/status.rs:88
-msgid "Inconsistent backup information"
-msgstr "असंगत बैकअप जानकारी"
-
-#: src/ui/widget/schedule_page/status.rs:94
-msgid "Backup Past Due"
-msgstr "बैकअप विगत बकाया"
-
-#: src/ui/widget/schedule_page/status.rs:95
-msgid "Waiting until requirements are met"
-msgstr "आवश्यकताएँ पूरी होने तक प्रतीक्षा की जा रही है"
-
-#: src/ui/widget/schedule_page/status.rs:98
-msgid "Scheduled Backups Unavailable"
-msgstr "अनुसूचित बैकअप अनुपलब्ध"
-
-#: src/ui/widget/schedule_page/status.rs:101
-msgid "Waiting for Backup to Start"
-msgstr "बैकअप प्रारंभ होने की प्रतीक्षा की जा रही है"
-
-#: src/ui/widget/schedule_page/status.rs:110
-msgid "Network connection must not be metered"
-msgstr "नेटवर्क कनेक्शन मीटरयुक्त नहीं होना चाहिए"
-
-#: src/ui/widget/schedule_page/status.rs:116
-msgid "Other backups on repository have to be completed"
-msgstr "रिपॉजिटरी पर अन्य बैकअप को पूरा करना होगा"
-
-#: src/ui/widget/schedule_page/status.rs:123
-msgid "Device must be connected to power"
-msgstr "उपकरण बिजली से जुड़ा होना चाहिए"
-
-#: src/ui/widget/schedule_page/status.rs:134
-msgid "Backup device has to be connected"
-msgstr "बैकअप उपकरण कनेक्ट करना होगा"
-
-#: src/ui/widget/schedule_page/status.rs:136
-msgid "Reminder will be sent when device is required"
-msgstr "उपकरण की आवश्यकता होने पर अनुस्मारक भेजा जाएगा"
-
-#: src/ui/widget/schedule_page/status.rs:144
-msgid "Network connection has to be available"
-msgstr "नेटवर्क कनेक्शन उपलब्ध होना चाहिए"
-
-#: src/ui/widget/schedule_page/status.rs:154
-msgid "Background process inactive"
-msgstr "पृष्ठभूमि प्रक्रिया निष्क्रिय"
-
-#: src/ui/widget/schedule_page/status.rs:155
-msgid "This is required for scheduled backups"
-msgstr "यह अनुसूचित बैकअप के लिए आवश्यक है"
 
 #: src/utils.rs:79
 msgid "No such file or directory"
