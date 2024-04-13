@@ -251,8 +251,8 @@ impl SummarizeOperations
             0 => None,
             1 => self.first_key_value().map(|(_id, op)| op.name()),
             n => Some(ngettextf_(
-                "One Backup Operation Running",
-                "{} Backup Operations Running",
+                "One backup operation running",
+                "{} backup operations running",
                 n as u32,
             )),
         }

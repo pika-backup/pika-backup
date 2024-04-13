@@ -57,7 +57,7 @@ fn on_startup(_app: &gio::Application) {
         match ashpd::desktop::background::BackgroundProxy::new().await {
             Ok(proxy) => {
                 if let Err(err) = proxy
-                    .set_status(&gettext("Monitoring Backup Schedule"))
+                    .set_status(&gettext("Monitoring backup schedule"))
                     .await
                 {
                     debug!("Error setting background status: {err:?}");
