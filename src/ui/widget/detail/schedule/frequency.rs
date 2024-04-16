@@ -31,7 +31,7 @@ impl FrequencyObject {
     }
 
     pub fn frequency(&self) -> config::Frequency {
-        self.imp().frequency.borrow().clone()
+        *self.imp().frequency.borrow()
     }
 }
 
