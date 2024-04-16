@@ -350,6 +350,8 @@ impl Due {
 #[cfg(test)]
 mod test {
     use crate::schedule::USED_THRESHOLD;
+    use config::{Activity, Frequency};
+    use matches::assert_matches;
 
     use super::*;
 
@@ -357,7 +359,7 @@ mod test {
     fn test_check_running() {
         let config = config::Backup::test_new_mock();
         let mut history = config::history::History::default();
-        let activity = config::Activity {
+        let activity = Activity {
             used: USED_THRESHOLD,
             last_update: chrono::Local::now(),
         };
@@ -366,6 +368,422 @@ mod test {
 
         let due = Due::check_full(&config, Some(&history), Some(&activity));
         matches::assert_matches!(due, Err(Due::Running));
+    }
+
+    #[test]
+    fn test_check_real_hourly() {
+        let now = chrono::Local
+            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
+            .unwrap();
+        let yesterday = now.with_day(11).unwrap();
+        let tomorrow = now.with_day(13).unwrap();
+        let last_month = chrono::Local
+            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
+            .unwrap();
+        let activity_none = Activity::default();
+        let activity_enough = Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
+
+        // Activity or completed shouldn't matter for hourly
+        for activity in [activity_none, activity_enough] {
+            for completed in [None, Some(yesterday), Some(now), Some(tomorrow)] {
+                debug!("activity: {:?}, completed: {:?}", activity, completed);
+
+                // Yesterday
+                assert_matches!(
+                    Due::check_real(Frequency::Hourly, &activity, now, yesterday, completed),
+                    Ok(DueCause::Regular)
+                );
+
+                // Last month
+                assert_matches!(
+                    Due::check_real(Frequency::Hourly, &activity, now, last_month, completed),
+                    Ok(DueCause::Regular)
+                );
+
+                // Exactly one hour earlier
+                assert_matches!(
+                    Due::check_real(
+                        Frequency::Hourly,
+                        &activity,
+                        now,
+                        chrono::Local
+                            .with_ymd_and_hms(2024, 02, 12, 12, 02, 12)
+                            .unwrap(),
+                        completed
+                    ),
+                    Ok(DueCause::Regular)
+                );
+
+                // Exactly one hour and one second earlier
+                assert_matches!(
+                    Due::check_real(
+                        Frequency::Hourly,
+                        &activity,
+                        now,
+                        chrono::Local
+                            .with_ymd_and_hms(2024, 02, 12, 12, 02, 11)
+                            .unwrap(),
+                        completed
+                    ),
+                    Ok(DueCause::Regular)
+                );
+
+                // Exactly 59 minutes 59 seconds earlier
+                let next_schedule = chrono::Local
+                    .with_ymd_and_hms(2024, 02, 12, 13, 02, 13)
+                    .unwrap();
+                assert_matches!(
+                    Due::check_real(
+                        Frequency::Hourly,
+                        &activity,
+                        now,
+                        chrono::Local
+                            .with_ymd_and_hms(2024, 02, 12, 12, 02, 13)
+                            .unwrap(),
+                            completed
+                    ),
+                    Err(Due::NotDue { next }) if next == next_schedule
+                );
+
+                // Next backup is exactly one hour after the last run, even if the last run is in the future.
+                // The algorithm should not depend on system time.
+                assert_matches!(
+                    Due::check_real(
+                        Frequency::Hourly,
+                        &activity,
+                        now,
+                        tomorrow,
+                        completed
+                    ),
+                    Err(Due::NotDue { next }) if next == tomorrow + chrono::Duration::hours(1)
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn test_check_real_daily() {
+        let now = chrono::Local
+            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
+            .unwrap();
+        let preferred_time = chrono::NaiveTime::from_hms_opt(11, 02, 01).unwrap();
+        let yesterday = now.with_day(11).unwrap();
+        let tomorrow = now.with_day(13).unwrap();
+        let last_month = chrono::Local
+            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
+            .unwrap();
+        let activity_none = Activity::default();
+        let activity_enough = Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
+
+        // Completed shouldn't matter for daily, we don't do retries for daily
+        for completed in [None, Some(yesterday), Some(now), Some(tomorrow)] {
+            for date in [now, last_month, yesterday, tomorrow] {
+                for last_date in [now, last_month, yesterday, tomorrow] {
+                    println!(
+                        "date: {:?}, last_date: {:?}, completed: {:?}",
+                        date, last_date, completed
+                    );
+
+                    // Run at least USED_THRESHOLD after "now" if activity is empty no matter what time we ran the last time
+                    assert_matches!(
+                        Due::check_real(
+                            Frequency::Daily { preferred_time },
+                            &activity_none,
+                            date,
+                            last_date,
+                            completed
+                        ),
+                        Err(Due::NotDue { next }) if next >= date + USED_THRESHOLD
+                    )
+                }
+            }
+
+            // We ran yesterday, so we should run again now
+            assert_matches!(
+                Due::check_real(
+                    Frequency::Daily { preferred_time },
+                    &activity_enough,
+                    now,
+                    yesterday,
+                    completed
+                ),
+                Ok(DueCause::Regular)
+            );
+
+            // We ran last month, so we should run again now
+            assert_matches!(
+                Due::check_real(
+                    Frequency::Daily { preferred_time },
+                    &activity_enough,
+                    now,
+                    last_month,
+                    completed
+                ),
+                Ok(DueCause::Regular)
+            );
+
+            // We ran an hour ago. We shouldn't run again until tomorrow at the preferred time.
+            assert_matches!(
+                Due::check_real(
+                    Frequency::Daily { preferred_time },
+                    &activity_enough,
+                    now,
+                    chrono::Local
+                        .with_ymd_and_hms(2024, 02, 12, 12, 02, 12)
+                        .unwrap(),
+                    completed
+                ),
+                Err(Due::NotDue { next }) if next == tomorrow.with_time(preferred_time).unwrap()
+            );
+
+            // We finished two seconds before the preferred time. Now it's an hour later.
+            // The last backup technically ran before "today at the preferred time" so we run again.
+            // TODO: This is probably not ideal, do we want to introduce a "grace period" of couple minutes?
+            assert_matches!(
+                Due::check_real(
+                    Frequency::Daily { preferred_time },
+                    &activity_enough,
+                    now,
+                    now.with_time(preferred_time - chrono::Duration::seconds(2))
+                        .unwrap(),
+                    completed
+                ),
+                Ok(DueCause::Regular)
+            );
+
+            // Same as above but the backup finished 2 seconds ago. We are still due.
+            assert_matches!(
+                Due::check_real(
+                    Frequency::Daily { preferred_time },
+                    &activity_enough,
+                    now.with_time(preferred_time).unwrap(),
+                    now.with_time(preferred_time - chrono::Duration::seconds(2))
+                        .unwrap(),
+                    completed
+                ),
+                Ok(DueCause::Regular)
+            );
+
+            // The backup ran 1 second ago, which was one second before preferred time.
+            // we are one second before preferred time, we schedule a backup to run in one second.
+            assert_matches!(
+                Due::check_real(
+                    Frequency::Daily { preferred_time },
+                    &activity_enough,
+                    now.with_time(preferred_time - chrono::Duration::seconds(1))
+                        .unwrap(),
+                    now.with_time(preferred_time - chrono::Duration::seconds(2))
+                        .unwrap(),
+                    completed
+                ),
+                Err(Due::NotDue { next }) if next == now.with_time(preferred_time).unwrap()
+            );
+        }
+    }
+
+    #[test]
+    fn test_check_real_weekly() {
+        let now_monday = chrono::Local
+            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
+            .unwrap();
+        let tomorrow = now_monday.with_day(13).unwrap();
+        let preferred_weekday = chrono::Weekday::Sat;
+        let last_sunday = now_monday.with_day(11).unwrap();
+        let last_friday = now_monday.with_day(9).unwrap();
+        let next_saturday_00 = now_monday
+            .with_time(chrono::NaiveTime::from_hms_opt(0, 0, 0).unwrap())
+            .unwrap()
+            .with_day(17)
+            .unwrap();
+        let last_month = chrono::Local
+            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
+            .unwrap();
+        let activity_none = Activity::default();
+        let activity_enough = Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
+
+        for date in [now_monday, last_month, last_sunday, next_saturday_00] {
+            for last_date in [now_monday, last_month, last_sunday, next_saturday_00] {
+                // the exact time of day shouldn't matter for weekly
+                for hour in 0..13 {
+                    // The weekday is irrelevant for this test
+                    let mut weekday = preferred_weekday;
+                    for _ in 0..7 {
+                        weekday = weekday.succ();
+                        let dt = date.with_hour(hour).unwrap();
+                        println!("date: {:?}, last_date: {:?}, hour: {}", dt, last_date, hour);
+
+                        // Run at least USED_THRESHOLD after "now" if activity is empty no matter what time we ran the last time
+                        assert_matches!(
+                            Due::check_real(
+                                Frequency::Weekly { preferred_weekday: weekday },
+                                &activity_none,
+                                dt,
+                                last_date,
+                                None
+                            ),
+                            Err(Due::NotDue { next }) if next >= dt + USED_THRESHOLD
+                        )
+                    }
+                }
+            }
+        }
+
+        // We ran saturday, now it's monday, our preferred day is saturday.
+        // Schedule for next saturday at 00:00
+        assert_matches!(
+            Due::check_real(
+                Frequency::Weekly { preferred_weekday },
+                &activity_enough,
+                now_monday,
+                last_sunday,
+                Some(last_sunday)
+            ),
+            Err(Due::NotDue { next }) if next == chrono::Local
+                .with_ymd_and_hms(2024, 02, 17, 0, 0, 0)
+                .unwrap()
+        );
+
+        // We ran saturday but the backup didn't complete. The last complete backup was on friday.
+        // Now it's monday. We are due for a retry.
+        assert_matches!(
+            Due::check_real(
+                Frequency::Weekly { preferred_weekday },
+                &activity_enough,
+                now_monday,
+                last_sunday,
+                Some(last_friday)
+            ),
+            Ok(DueCause::Retry)
+        );
+
+        // We ran saturday but the backup didn't complete. The last complete backup was on friday.
+        // Now it's monday. We already ran a retry today at 3 am. Our next retry is scheduled for tomorrow.
+        assert_matches!(
+            Due::check_real(
+                Frequency::Weekly { preferred_weekday },
+                &activity_enough,
+                now_monday,
+                now_monday
+                    .with_time(chrono::NaiveTime::from_hms_opt(3, 0, 0).unwrap())
+                    .unwrap(),
+                Some(last_friday)
+            ),
+            Err(Due::NotDue { next }) if next == tomorrow.with_time(chrono::NaiveTime::MIN).unwrap()
+        );
+
+        // We last ran last month. We are due no matter what day it is.
+        assert_matches!(
+            Due::check_real(
+                Frequency::Weekly { preferred_weekday },
+                &activity_enough,
+                now_monday,
+                last_month,
+                Some(last_month)
+            ),
+            Ok(DueCause::Regular)
+        );
+    }
+
+    #[test]
+    fn test_check_real_monthly() {
+        let feb_12 = chrono::Local
+            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
+            .unwrap();
+        let preferred_day = 14;
+        let feb_14 = feb_12.with_day(14).unwrap();
+        let feb_15 = feb_12.with_day(15).unwrap();
+        let feb_29_00 = chrono::Local
+            .with_ymd_and_hms(2024, 02, 29, 0, 0, 0)
+            .unwrap();
+        let last_month = chrono::Local
+            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
+            .unwrap();
+        let activity_none = Activity::default();
+        let activity_enough = Activity {
+            used: USED_THRESHOLD,
+            last_update: chrono::Local::now(),
+        };
+
+        // Run at least USED_THRESHOLD after "now" if activity is empty no matter what time we ran the last time
+        for date in [feb_12, last_month, feb_14, feb_15, feb_29_00] {
+            for last_date in [feb_12, last_month, feb_14, feb_15, feb_29_00] {
+                // the exact time of day shouldn't matter for monthly
+                for hour in 0..13 {
+                    let dt = date.with_hour(hour).unwrap();
+                    println!("date: {:?}, last_date: {:?}", dt, last_date);
+                    assert_matches!(
+                        Due::check_real(
+                            Frequency::Monthly { preferred_day },
+                            &activity_none,
+                            dt,
+                            last_date,
+                            None
+                        ),
+                        Err(Due::NotDue { next }) if next >= dt + USED_THRESHOLD
+                    )
+                }
+            }
+        }
+
+        // Our last backup was last month, and we have not yet passed the preferred day
+        assert_matches!(
+            Due::check_real(
+                Frequency::Monthly { preferred_day },
+                &activity_enough,
+                feb_12,
+                last_month,
+                Some(last_month)
+            ),
+            Err(Due::NotDue { next }) if next == feb_14.with_time(chrono::NaiveTime::MIN).unwrap()
+        );
+
+        // Our last backup was last month, and today is the preferred day
+        assert_matches!(
+            Due::check_real(
+                Frequency::Monthly { preferred_day },
+                &activity_enough,
+                feb_15,
+                last_month,
+                Some(last_month)
+            ),
+            Ok(DueCause::Regular)
+        );
+
+        // Our last backup was yesterday on the preferred day. But the backup failed.
+        // We are due for a retry
+        assert_matches!(
+            Due::check_real(
+                Frequency::Monthly { preferred_day },
+                &activity_enough,
+                feb_15,
+                feb_14,
+                Some(last_month)
+            ),
+            Ok(DueCause::Retry)
+        );
+
+        // Our preferred day is the 31st. Make sure we still schedule a backup in months that don't have a 31st.
+        assert_matches!(
+            Due::check_real(
+                Frequency::Monthly { preferred_day: 31 },
+                &activity_enough,
+                feb_15,
+                feb_14,
+                Some(last_month)
+            ),
+            Err(Due::NotDue {
+                next
+            }) if next == feb_29_00
+        );
     }
 
     #[test]
