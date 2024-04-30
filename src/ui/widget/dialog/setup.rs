@@ -45,6 +45,9 @@ mod imp {
         command_line_args: RefCell<SetupCommandLineArgs>,
         new_config: RefCell<Option<config::Backup>>,
 
+        /// Indicates that an operation is currently ongoing. Used to prevent multiple input.
+        busy: Cell<bool>,
+
         #[template_child]
         pub(super) navigation_view: TemplateChild<adw::NavigationView>,
 
@@ -155,6 +158,10 @@ mod imp {
             repo: SetupLocationKind,
             file: Option<gio::File>,
         ) {
+            if self.busy.replace(true) {
+                return;
+            }
+
             self.action.set(action);
             self.obj().notify_action();
             self.location_page.configure(action, repo, file.clone());
@@ -170,6 +177,7 @@ mod imp {
                     {
                         file
                     } else {
+                        self.busy.set(false);
                         return;
                     };
 
@@ -181,6 +189,7 @@ mod imp {
                         self.create_repo_config(location, SetupCommandLineArgs::NONE)
                             .await,
                     ) else {
+                        self.busy.set(false);
                         return;
                     };
 
@@ -192,6 +201,7 @@ mod imp {
 
             // Next page is location page
             self.show_location_page();
+            self.busy.set(false);
         }
 
         // Location page
@@ -207,6 +217,10 @@ mod imp {
             location: SetupRepoLocation,
             args: SetupCommandLineArgs,
         ) {
+            if self.busy.replace(true) {
+                return;
+            }
+
             let action = self.action.get();
 
             if let Some(repo) = self.handle_result(self.create_repo_config(location, args).await) {
@@ -223,6 +237,8 @@ mod imp {
                     }
                 }
             }
+
+            self.busy.set(false);
         }
 
         // Encryption page
@@ -233,10 +249,15 @@ mod imp {
 
         #[template_callback]
         async fn on_encryption_page_continue(&self, password: Option<config::Password>) {
+            if self.busy.replace(true) {
+                return;
+            }
+
             let Some(repo) = self.repo_config.borrow().clone() else {
                 error!("Encryption page create button clicked but no repo config set");
                 self.navigation_view.pop_to_page(&*self.start_page);
 
+                self.busy.set(false);
                 return;
             };
 
@@ -256,6 +277,10 @@ mod imp {
             config: config::Backup,
             password: Option<config::Password>,
         ) {
+            if self.busy.replace(true) {
+                return;
+            }
+
             self.new_config.replace(Some(config.clone()));
 
             if let Some(password) = password {
@@ -263,6 +288,7 @@ mod imp {
             }
 
             self.show_transfer_settings(config).await;
+            self.busy.set(false);
         }
 
         /// Something went wrong when trying to access the repository.
@@ -319,6 +345,10 @@ mod imp {
 
         #[template_callback]
         async fn on_transfer_settings_continue(&self, archive_params: &ArchiveParams) {
+            if self.busy.replace(true) {
+                return;
+            }
+
             let config = self.new_config.borrow().clone();
             if let Some(mut config) = config {
                 let res = actions::transfer_settings(&mut config, archive_params);
@@ -326,10 +356,12 @@ mod imp {
 
                 if let Some(prefix) = self.handle_result(res) {
                     self.show_transfer_prefix_page(&prefix);
+                    self.busy.set(false);
                     return;
                 }
             }
 
+            self.busy.set(false);
             self.finish();
         }
 
