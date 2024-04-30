@@ -169,9 +169,9 @@ impl OverviewPage {
     async fn on_remove_backup(&self) -> Result<()> {
         ui::utils::confirmation_dialog(
             &gettext("Remove Backup Setup?"),
-            &gettext("Removing the setup will not delete any archives."),
-            &gettext("Cancel"),
-            &gettext("Remove Setup"),
+            &gettext("Removing the setup will not delete any archives"),
+            &gettext("_Cancel"),
+            &gettext("_Remove Setup"),
         )
         .await?;
 
