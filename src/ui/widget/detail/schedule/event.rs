@@ -227,8 +227,8 @@ impl imp::SchedulePage {
             && ui::utils::confirmation_dialog(
                 &gettext("Disable backup schedule?"),
                 &gettext("No longer remind of backups based on a schedule."),
-                &gettext("Keep Schedule"),
-                &gettext("Disable Schedule"),
+                &gettext("_Keep Schedule"),
+                &gettext("_Disable Schedule"),
             )
             .await
             .is_err()
