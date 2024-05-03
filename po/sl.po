@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-05-03 15:14+0000\n"
-"PO-Revision-Date: 2024-05-03 17:36+0200\n"
+"POT-Creation-Date: 2024-05-03 16:22+0000\n"
+"PO-Revision-Date: 2024-05-03 18:30+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -664,8 +664,8 @@ msgstr "Logični izraz"
 msgid "Unix Filename Pattern"
 msgstr "Vzorec imen datotek Unix"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/start.ui:47
-#: src/ui/widget/dialog/setup/start.ui:103
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
+#: src/ui/widget/dialog/setup/location_kind.ui:100
 msgid "Remote Location"
 msgstr "Oddaljeno mesto"
 
@@ -910,7 +910,7 @@ msgstr "Varnostna kopija, če bo opravilo preklicano, ne bo popolna."
 #: src/ui/widget/detail/backup/events.rs:25
 #: src/ui/widget/detail/backup/events.rs:34
 #: src/ui/widget/detail/backup/events.rs:43
-#: src/ui/widget/dialog/setup/add_existing.ui:70
+#: src/ui/widget/dialog/setup/add_existing.ui:69
 msgid "Continue"
 msgstr "Nadaljuj"
 
@@ -1920,14 +1920,13 @@ msgid "This is required for scheduled backups"
 msgstr "To je zahtevano za načrtovano varnostno kopiranje"
 
 #: src/ui/widget/dialog/archive_prefix.rs:78
-#: src/ui/widget/dialog/archive_prefix.rs:97 src/ui/widget/dialog/setup.rs:382
+#: src/ui/widget/dialog/archive_prefix.rs:97 src/ui/widget/dialog/setup.rs:396
 msgid "Invalid Archive Prefix"
 msgstr "Neveljavna predpona arhiva"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:95
 #: src/ui/widget/dialog/setup/transfer_prefix.ui:6
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:22
 msgid "Archive Prefix"
 msgstr "Predpona arhiva"
 
@@ -2082,7 +2081,7 @@ msgid ""
 msgstr "Operacija »{}« zahteva šifriranje gesla skladišča na »{}«."
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:45
+#: src/ui/widget/dialog/setup/add_existing.ui:44
 msgid "Encryption Password Required"
 msgstr "Šifrirno geslo je obvezno"
 
@@ -2097,7 +2096,7 @@ msgstr "Na_daljuj"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
 #: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:53
+#: src/ui/widget/dialog/setup/add_existing.ui:52
 msgid "Password"
 msgstr "Geslo"
 
@@ -2346,29 +2345,31 @@ msgstr ""
 "Po uveljavitvi teh sprememb bi imel naslednji samodejni izbris starih "
 "arhivov naslednje posledice."
 
-#: src/ui/widget/dialog/setup.rs:132
+#: src/ui/widget/dialog/setup.rs:139
 msgid "Setup Existing Repository"
 msgstr "Nastavi obstoječe skladišče"
 
-#: src/ui/widget/dialog/setup.rs:142
+#: src/ui/widget/dialog/setup.rs:149
 msgid "Location is not a valid backup repository."
 msgstr "Navedeno mesto ni veljavno mesto skladišča za varnostne kopiranje."
 
-#: src/ui/widget/dialog/setup.rs:144
+#: src/ui/widget/dialog/setup.rs:151
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Skladišče mora biti skladno s programom Pika Backup ali drugo združljivo "
 "programsko opremo."
 
-#: src/ui/widget/dialog/setup.rs:319
+#: src/ui/widget/dialog/setup.rs:333
 msgid "Failed to Configure Repository"
 msgstr "Prilagajanje skladišča je spodletelo"
 
-#: src/ui/widget/dialog/setup.rs:332
+#: src/ui/widget/dialog/setup.rs:346
 msgid "Failed"
 msgstr "Spodletelo"
 
-#: src/ui/widget/dialog/setup.ui:6 src/ui/widget/dialog/setup/start.ui:6
+#: src/ui/widget/dialog/setup.ui:6
+#: src/ui/widget/dialog/setup/location_kind.ui:6
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "Nastavitev"
 
@@ -2395,11 +2396,11 @@ msgstr "Ustvarjanje skladišča za varnostno kopiranje"
 msgid "Getting Repository Information"
 msgstr "Pridobivanje informacij o skladišču"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:21
+#: src/ui/widget/dialog/setup/add_existing.ui:20
 msgid "Checking Backup Repository"
 msgstr "Preverjanje skladišča za varnostne kopije"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:46
+#: src/ui/widget/dialog/setup/add_existing.ui:45
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
@@ -2410,7 +2411,7 @@ msgstr ""
 msgid "Setup Encryption"
 msgstr "Nastavitev šifriranja"
 
-#: src/ui/widget/dialog/setup/encryption.ui:31
+#: src/ui/widget/dialog/setup/encryption.ui:32
 msgid "_Create"
 msgstr "_Ustvari"
 
@@ -2521,28 +2522,20 @@ msgstr "_Poveži"
 msgid "_Continue"
 msgstr "_Nadaljuj"
 
-#: src/ui/widget/dialog/setup/start.rs:229
-msgid "Free space: {}"
-msgstr "Neporabljen prostor: {}"
-
-#: src/ui/widget/dialog/setup/start.ui:17
+#: src/ui/widget/dialog/setup/location_kind.rs:136
 msgid "Create new Repository"
 msgstr "Ustvari novo skladišče"
 
-#: src/ui/widget/dialog/setup/start.ui:18
-msgid "Select a location for a new backup repository."
-msgstr "Izberite mesto za skladišče varnostnih kopij."
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+msgid "Select a location for the new backup repository"
+msgstr "Izberite mesto za novo skladišče varnostnih kopij"
 
-#: src/ui/widget/dialog/setup/start.ui:26
-#: src/ui/widget/dialog/setup/start.ui:82
-msgid "Location on Disk"
-msgstr "Mesto na disku"
-
-#: src/ui/widget/dialog/setup/start.ui:73
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:31
 msgid "Use Existing Repository"
 msgstr "Uporabi obstoječe skladišče"
 
-#: src/ui/widget/dialog/setup/start.ui:74
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2551,7 +2544,24 @@ msgstr ""
 "lahko tudi skladišča, ustvarjena z drugo programsko opremo, združljivo z "
 "BorgBackup."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:264
+msgid "Free space: {}"
+msgstr "Neporabljen prostor: {}"
+
+#: src/ui/widget/dialog/setup/location_kind.ui:25
+#: src/ui/widget/dialog/setup/location_kind.ui:79
+msgid "Location on Disk"
+msgstr "Mesto na disku"
+
+#: src/ui/widget/dialog/setup/repo_kind.ui:16
+msgid "Configure a new or existing backup repository"
+msgstr "Prilagodite novo ali obstoječe skladišča za varnostno kopiranje"
+
+#: src/ui/widget/dialog/setup/repo_kind.ui:23
+msgid "Create New Repository"
+msgstr "Ustvari novo skladišče"
+
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2561,12 +2571,11 @@ msgstr ""
 "kopiranja. Uporabo iste predpone na dveh napravah odsvetujemo, razen če nova "
 "naprava nadomešča staro."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:50
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
 msgid "_Save"
 msgstr "_Shrani"
 
 #: src/ui/widget/dialog/setup/transfer_settings.ui:6
-#: src/ui/widget/dialog/setup/transfer_settings.ui:64
 msgid "Transfer Settings"
 msgstr "Nastavitve prenosov"
 
@@ -2587,7 +2596,7 @@ msgstr ""
 "Zbiranje informacij za prenos predhodno uporabljenih nastavitev. Ta korak je "
 "neobvezen."
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:65
+#: src/ui/widget/dialog/setup/transfer_settings.ui:59
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
