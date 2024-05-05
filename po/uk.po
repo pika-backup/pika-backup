@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-05-01 11:30+0000\n"
-"PO-Revision-Date: 2024-05-02 20:15+0300\n"
+"POT-Creation-Date: 2024-05-03 16:22+0000\n"
+"PO-Revision-Date: 2024-05-05 20:39+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -657,8 +657,8 @@ msgstr "Формальний вираз"
 msgid "Unix Filename Pattern"
 msgstr "Взірець назв файлів Unix"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/start.ui:47
-#: src/ui/widget/dialog/setup/start.ui:103
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
+#: src/ui/widget/dialog/setup/location_kind.ui:100
 msgid "Remote Location"
 msgstr "Місце на віддаленому комп'ютері"
 
@@ -901,7 +901,7 @@ msgstr "Якщо перервати дію зараз, резервна копі
 #: src/ui/widget/detail/backup/events.rs:25
 #: src/ui/widget/detail/backup/events.rs:34
 #: src/ui/widget/detail/backup/events.rs:43
-#: src/ui/widget/dialog/setup/add_existing.ui:70
+#: src/ui/widget/dialog/setup/add_existing.ui:69
 msgid "Continue"
 msgstr "Продовжити"
 
@@ -1780,12 +1780,14 @@ msgid "No longer remind of backups based on a schedule."
 msgstr "Більше не нагадувати про резервне копіювання на основі розкладу."
 
 #: src/ui/widget/detail/schedule/event.rs:230
-msgid "Keep Schedule"
-msgstr "Зберігати розклад"
+#| msgid "Keep Schedule"
+msgid "_Keep Schedule"
+msgstr "З_берігати розклад"
 
 #: src/ui/widget/detail/schedule/event.rs:231
-msgid "Disable Schedule"
-msgstr "Вимкнути розклад"
+#| msgid "Disable Schedule"
+msgid "_Disable Schedule"
+msgstr "Ви_мкнути розклад"
 
 #: src/ui/widget/detail/schedule/event.rs:294
 msgid "No preset selected."
@@ -1912,14 +1914,13 @@ msgid "This is required for scheduled backups"
 msgstr "Потрібен для резервного копіювання за розкладом"
 
 #: src/ui/widget/dialog/archive_prefix.rs:78
-#: src/ui/widget/dialog/archive_prefix.rs:97 src/ui/widget/dialog/setup.rs:382
+#: src/ui/widget/dialog/archive_prefix.rs:97 src/ui/widget/dialog/setup.rs:396
 msgid "Invalid Archive Prefix"
 msgstr "Некоректний префікс архівів"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:95
 #: src/ui/widget/dialog/setup/transfer_prefix.ui:6
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:22
 msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
@@ -2077,7 +2078,7 @@ msgid ""
 msgstr "Для виконання дії «{}» потрібен пароль шифрування до сховища у «{}»."
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:45
+#: src/ui/widget/dialog/setup/add_existing.ui:44
 msgid "Encryption Password Required"
 msgstr "Потрібен пароль для шифрування"
 
@@ -2092,7 +2093,7 @@ msgstr "П_родовжити"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
 #: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:53
+#: src/ui/widget/dialog/setup/add_existing.ui:52
 msgid "Password"
 msgstr "Пароль"
 
@@ -2343,29 +2344,31 @@ msgstr ""
 "Після застосування цих змін наступне автоматичне вилучення застарілих "
 "архівів матиме вказані нижче наслідки."
 
-#: src/ui/widget/dialog/setup.rs:132
+#: src/ui/widget/dialog/setup.rs:139
 msgid "Setup Existing Repository"
 msgstr "Налаштувати наявне сховище"
 
-#: src/ui/widget/dialog/setup.rs:142
+#: src/ui/widget/dialog/setup.rs:149
 msgid "Location is not a valid backup repository."
 msgstr "Місце зберігання не є коректним сховищем резервних копій."
 
-#: src/ui/widget/dialog/setup.rs:144
+#: src/ui/widget/dialog/setup.rs:151
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Сховище має бути створено «Пискуха-копіюванням» або сумісним програмним "
 "забезпеченням."
 
-#: src/ui/widget/dialog/setup.rs:319
+#: src/ui/widget/dialog/setup.rs:333
 msgid "Failed to Configure Repository"
 msgstr "Не вдалося налаштувати сховище"
 
-#: src/ui/widget/dialog/setup.rs:332
+#: src/ui/widget/dialog/setup.rs:346
 msgid "Failed"
 msgstr "Помилка"
 
-#: src/ui/widget/dialog/setup.ui:6 src/ui/widget/dialog/setup/start.ui:6
+#: src/ui/widget/dialog/setup.ui:6
+#: src/ui/widget/dialog/setup/location_kind.ui:6
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "Налаштування"
 
@@ -2393,11 +2396,11 @@ msgstr "Створення сховища резервних копій"
 msgid "Getting Repository Information"
 msgstr "Отримання даних щодо сховища"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:21
+#: src/ui/widget/dialog/setup/add_existing.ui:20
 msgid "Checking Backup Repository"
 msgstr "Перевірка сховища резервних копій"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:46
+#: src/ui/widget/dialog/setup/add_existing.ui:45
 msgid ""
 "The encryption password of this backup repository is required to access it."
 msgstr ""
@@ -2407,12 +2410,11 @@ msgstr ""
 msgid "Setup Encryption"
 msgstr "Налаштовування шифрування"
 
-#: src/ui/widget/dialog/setup/encryption.ui:31
+#: src/ui/widget/dialog/setup/encryption.ui:32
 msgid "_Create"
 msgstr "С_творити"
 
 #: src/ui/widget/dialog/setup/location.rs:198
-#| msgid "Repository Name"
 msgid "Repository Name Empty"
 msgstr "Назва сховища порожня"
 
@@ -2421,12 +2423,10 @@ msgid "The repository folder name must be set"
 msgstr "Має бути встановлено назву теки сховища"
 
 #: src/ui/widget/dialog/setup/location.rs:210
-#| msgid "No preset selected."
 msgid "No Base Folder Selected"
 msgstr "Не вибрано базової теки"
 
 #: src/ui/widget/dialog/setup/location.rs:211
-#| msgid "Select a location for a new backup repository."
 msgid "Select a base folder for the backup repository"
 msgstr "Виберіть базову теку для сховища резервних копій"
 
@@ -2523,28 +2523,21 @@ msgstr "З'_єднатись"
 msgid "_Continue"
 msgstr "П_родовжити"
 
-#: src/ui/widget/dialog/setup/start.rs:229
-msgid "Free space: {}"
-msgstr "Вільне місце: {}"
-
-#: src/ui/widget/dialog/setup/start.ui:17
+#: src/ui/widget/dialog/setup/location_kind.rs:136
 msgid "Create new Repository"
 msgstr "Створити сховище"
 
-#: src/ui/widget/dialog/setup/start.ui:18
-msgid "Select a location for a new backup repository."
-msgstr "Виберіть місце для нового сховища резервних копій."
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#| msgid "Select a location for a new backup repository."
+msgid "Select a location for the new backup repository"
+msgstr "Виберіть місце для нового сховища резервних копій"
 
-#: src/ui/widget/dialog/setup/start.ui:26
-#: src/ui/widget/dialog/setup/start.ui:82
-msgid "Location on Disk"
-msgstr "Місце на диску"
-
-#: src/ui/widget/dialog/setup/start.ui:73
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:31
 msgid "Use Existing Repository"
 msgstr "Використовувати наявне сховище"
 
-#: src/ui/widget/dialog/setup/start.ui:74
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2553,7 +2546,26 @@ msgstr ""
 "скористатися сховищами, які було створено іншим сумісним із BorgBackup "
 "програмним забезпеченням."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:264
+msgid "Free space: {}"
+msgstr "Вільне місце: {}"
+
+#: src/ui/widget/dialog/setup/location_kind.ui:25
+#: src/ui/widget/dialog/setup/location_kind.ui:79
+msgid "Location on Disk"
+msgstr "Місце на диску"
+
+#: src/ui/widget/dialog/setup/repo_kind.ui:16
+#| msgid "Creating Backup Repository"
+msgid "Configure a new or existing backup repository"
+msgstr "Налаштувати нове або наявне сховище резервних копій"
+
+#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#| msgid "Create new Repository"
+msgid "Create New Repository"
+msgstr "Створити сховище"
+
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2564,12 +2576,11 @@ msgstr ""
 "різних пристроях, якщо копії на новому пристрої не мають заміщувати копії на "
 "старому."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:50
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
 msgid "_Save"
 msgstr "З_берегти"
 
 #: src/ui/widget/dialog/setup/transfer_settings.ui:6
-#: src/ui/widget/dialog/setup/transfer_settings.ui:64
 msgid "Transfer Settings"
 msgstr "Параметри перенесення"
 
@@ -2590,7 +2601,7 @@ msgstr ""
 "Збираємо відомості для перенесення раніше використаних параметрів. Цей крок "
 "є необов'язковим."
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:65
+#: src/ui/widget/dialog/setup/transfer_settings.ui:59
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -2705,12 +2716,10 @@ msgid "Remove Backup Setup?"
 msgstr "Вилучити налаштування копіювання?"
 
 #: src/ui/widget/overview.rs:172
-#| msgid "Removing the setup will not delete any archives."
 msgid "Removing the setup will not delete any archives"
 msgstr "Вилучення налаштувань не призведе до вилучення архівів"
 
 #: src/ui/widget/overview.rs:174
-#| msgid "Remove Setup"
 msgid "_Remove Setup"
 msgstr "Ви_лучити налаштування"
 
