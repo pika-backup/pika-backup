@@ -184,7 +184,7 @@ impl imp::BackupPage {
         run_info: Option<crate::config::history::RunInfo>,
         guard: &QuitGuard,
     ) -> Result<()> {
-        if config.user_scripts.get(&kind).is_none() {
+        if !config.user_scripts.contains_key(&kind) {
             // Don't even run the task if it's not configured
             return Ok(());
         }

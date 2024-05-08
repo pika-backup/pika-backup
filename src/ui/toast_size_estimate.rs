@@ -21,7 +21,7 @@ pub async fn check(
         communication
             .specific_info
             .update(enclose!((estimated_size) move |status| {
-                status.estimated_size = estimated_size.clone();
+                status.estimated_size.clone_from(&estimated_size);
             }));
 
         let history_save_result = BACKUP_HISTORY.try_update(clone!(@strong config.id as config_id, @strong estimate.unreadable_paths as paths => move |history| {

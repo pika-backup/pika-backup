@@ -40,6 +40,7 @@ impl DialogPage {}
 pub trait PkDialogPageImpl: NavigationPageImpl + WidgetImpl + ObjectImpl {}
 unsafe impl<T: PkDialogPageImpl> IsSubclassable<T> for DialogPage {}
 
+#[allow(dead_code)]
 pub trait DialogPageExt: IsA<DialogPage> {
     fn set_default_widget(&self, widget: Option<impl IsA<gtk::Widget>>) {
         <self::DialogPage>::set_default_widget(self.upcast_ref::<DialogPage>(), widget);

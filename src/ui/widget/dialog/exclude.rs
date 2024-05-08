@@ -419,7 +419,7 @@ mod imp {
                 .collect();
 
             BACKUP_CONFIG.try_update(move |settings| {
-                settings.active_mut()?.exclude = new_exclude.clone();
+                settings.active_mut()?.exclude.clone_from(&new_exclude);
                 Ok(())
             })?;
 

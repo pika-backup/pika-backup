@@ -140,7 +140,7 @@ pub fn transfer_settings(
     config: &mut config::Backup,
     archive_params: &ArchiveParams,
 ) -> Result<config::ArchivePrefix> {
-    config.include = archive_params.parsed.include.clone();
+    config.include.clone_from(&archive_params.parsed.include);
     config.exclude = BTreeSet::from_iter(
         archive_params
             .parsed

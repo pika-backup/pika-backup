@@ -61,7 +61,7 @@ impl EncryptionPasswordDialog {
 
         let mut body = gettextf(
             "The operation “{}” requires the encryption password of the repository on “{}”.",
-            &[&purpose, &repo.location()],
+            &[purpose, &repo.location()],
         );
 
         if let Some(keyring_error) = &keyring_error {

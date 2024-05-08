@@ -64,6 +64,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 pub trait HasAppWindow {
     fn app_window(&self) -> super::widget::AppWindow;
 
