@@ -141,10 +141,21 @@ impl LookupConfigId for crate::config::Histories {
 }
 
 impl Histories {
-    pub fn from_file_ui() -> std::io::Result<super::Writeable<Self>> {
+    /// Loads a history file. The individual history entries are truncated via [`History::cleanup`]
+    /// and then returned.
+    ///
+    /// All histories that are not associated with a backup config from `valid_config_ids` will be
+    /// discarded to ensure we don't store backup data from long-gone backup configs.
+    pub fn from_file_ui(
+        valid_config_ids: &BTreeSet<ConfigId>,
+    ) -> std::io::Result<super::Writeable<Self>> {
         let mut histories: super::Writeable<Self> = super::Writeable::from_file()?;
 
-        for (_, history) in histories.0.iter_mut() {
+        for (_, history) in histories
+            .0
+            .iter_mut()
+            .filter(|(id, _)| valid_config_ids.contains(id))
+        {
             if let Some(running) = &history.running {
                 history
                     .run

@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use crate::config;
 use crate::config::Loadable;
 use crate::ui::prelude::*;
@@ -23,7 +25,14 @@ fn load_config_e() -> std::io::Result<()> {
         )?;
     }
 
-    BACKUP_CONFIG.swap(Arc::new(config::Writeable::from_file()?));
+    let config: config::Writeable<config::Backups> = config::Writeable::from_file()?;
+    let valid_config_ids = config
+        .current_config
+        .iter()
+        .map(|backup| backup.id.clone())
+        .collect::<BTreeSet<_>>();
+
+    BACKUP_CONFIG.swap(Arc::new(config));
     BACKUP_CONFIG.update_no_commit(|backups| {
         for config in backups.iter_mut() {
             if config.config_version.0 < config::VERSION {
@@ -34,7 +43,9 @@ fn load_config_e() -> std::io::Result<()> {
     // potentially write generated default value
     BACKUP_CONFIG.write_file()?;
 
-    BACKUP_HISTORY.swap(Arc::new(config::Histories::from_file_ui()?));
+    BACKUP_HISTORY.swap(Arc::new(config::Histories::from_file_ui(
+        &valid_config_ids,
+    )?));
     // potentially write internal error status
     BACKUP_HISTORY.write_file()?;
 

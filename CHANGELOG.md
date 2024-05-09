@@ -6,6 +6,7 @@
 - Change fnmatches to be stored as strings instead of bytes in config
 - Change setup dialog start page is split into two pages
 - Change setup dialog design to look more modern
+- Change history file to be smaller
 
 ## 0.7.3 (unreleased)
 
