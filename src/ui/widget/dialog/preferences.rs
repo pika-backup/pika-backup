@@ -409,7 +409,7 @@ mod imp {
                         .load()
                         .try_get(self.config_id.get().unwrap())
                         .ok()
-                        .and_then(|history| history.last_completed.as_ref())
+                        .and_then(|history| history.last_completed())
                     {
                         run_info.clone()
                     } else {

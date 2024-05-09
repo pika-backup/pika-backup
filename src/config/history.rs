@@ -19,24 +19,28 @@ pub enum SuggestedExcludeReason {
 pub struct History {
     /// Configuration version
     #[serde(default)]
-    pub config_version: super::Version,
+    config_version: super::Version,
 
     /// Last runs, latest run first
-    pub run: VecDeque<RunInfo>,
-    pub running: Option<Running>,
-    pub last_completed: Option<RunInfo>,
+    run: VecDeque<RunInfo>,
+    running: Option<Running>,
+    last_completed: Option<RunInfo>,
 
     /// Last borg check result
     #[serde(default)]
-    pub last_check: Option<CheckRunInfo>,
+    last_check: Option<CheckRunInfo>,
 
     // The excludes suggested from the last size estimate. Will be overwritten every time a size estimate is performed.
     #[serde(default)]
-    pub suggested_exclude:
+    suggested_exclude:
         BTreeMap<SuggestedExcludeReason, BTreeSet<config::Exclude<{ config::RELATIVE }>>>,
 }
 
 impl History {
+    pub fn clear(&mut self) {
+        *self = Default::default();
+    }
+
     pub fn insert(&mut self, entry: RunInfo) {
         if matches!(entry.outcome, borg::Outcome::Completed { .. }) {
             self.last_completed = Some(entry.clone());
@@ -45,6 +49,28 @@ impl History {
         self.running = None;
         self.run.push_front(entry);
         self.run.truncate(HISTORY_LENGTH);
+    }
+
+    pub fn last_run(&self) -> Option<&RunInfo> {
+        self.run.front()
+    }
+
+    pub fn start_running_now(&mut self) {
+        self.running = Some(config::history::Running {
+            start: chrono::Local::now(),
+        });
+    }
+
+    pub fn is_running(&self) -> bool {
+        self.running.is_some()
+    }
+
+    pub fn last_completed(&self) -> Option<&RunInfo> {
+        self.last_completed.as_ref()
+    }
+
+    pub fn last_check(&self) -> Option<&CheckRunInfo> {
+        self.last_check.as_ref()
     }
 
     pub fn set_suggested_excludes_from_absolute(
@@ -62,6 +88,13 @@ impl History {
 
         // Overwrite the previous suggested exclude list
         self.suggested_exclude.insert(reason, excludes);
+    }
+
+    pub fn suggested_excludes_with_reason(
+        &self,
+        reason: SuggestedExcludeReason,
+    ) -> Option<&BTreeSet<config::Exclude<{ config::RELATIVE }>>> {
+        self.suggested_exclude.get(&reason)
     }
 }
 

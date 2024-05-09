@@ -47,7 +47,7 @@ pub fn calculate(
     let last_run = history
         .try_get(&config.id)
         .ok()
-        .and_then(|x| x.last_completed.as_ref());
+        .and_then(|x| x.last_completed());
 
     let last_run_date = last_run
         .map(|x| x.end.into())

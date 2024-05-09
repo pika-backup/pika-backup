@@ -119,7 +119,7 @@ fn app_running(is_running: bool) {
         let backups_running = BACKUP_HISTORY
             .load()
             .iter()
-            .filter(|(_, x)| x.running.is_some())
+            .filter(|(_, x)| x.is_running())
             .count();
 
         if backups_running > 0 {

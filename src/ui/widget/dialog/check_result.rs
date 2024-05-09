@@ -55,7 +55,7 @@ mod imp {
                     .try_get(id)
                     .ok()
                     .cloned()
-                    .and_then(|history| history.last_check);
+                    .and_then(|history| history.last_check().cloned());
 
                 if let Some(check_result) = last_check {
                     self.detail_label.set_label(&match check_result.outcome {

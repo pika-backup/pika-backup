@@ -42,7 +42,7 @@ impl Display {
                 .load()
                 .try_get(config_id)
                 .ok()
-                .and_then(|x| x.run.get(0))
+                .and_then(|x| x.last_run())
             {
                 Self::from(last_run)
             } else {
@@ -63,9 +63,9 @@ impl Display {
                 .load()
                 .active()
                 .ok()
-                .and_then(|h| h.last_check.clone())
+                .and_then(|h| h.last_check())
             {
-                Self::from(&check_run_info)
+                Self::from(check_run_info)
             } else {
                 Self::no_check()
             }

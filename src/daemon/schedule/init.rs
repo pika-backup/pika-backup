@@ -42,7 +42,7 @@ fn track_activity() {
                     .load()
                     .try_get(&config.id)
                     .ok()
-                    .and_then(|x| x.last_completed.as_ref())
+                    .and_then(|x| x.last_completed())
                 {
                     Some(last_completed) if activity.last_update < last_completed.end => {
                         activity.reset()

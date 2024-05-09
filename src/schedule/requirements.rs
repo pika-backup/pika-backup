@@ -66,7 +66,7 @@ impl Global {
 
         let running_backup = histories
             .iter()
-            .filter(|(_, history)| history.running.is_some())
+            .filter(|(_, history)| history.is_running())
             .find(|(config_id, _)| {
                 backup_config().try_get(config_id).map(|x| &x.repo_id) == Ok(&config.repo_id)
             });
@@ -149,11 +149,11 @@ impl Due {
     ) -> Result<DueCause, Self> {
         let schedule = &config.schedule;
         let activity = activity.map(|x| x.used).unwrap_or_default();
-        let last_completed = history.and_then(|x| x.last_completed.as_ref());
+        let last_completed = history.and_then(|x| x.last_completed());
 
-        if history.map(|x| x.running.is_some()) == Some(true) {
+        if history.is_some_and(|x| x.is_running()) {
             Err(Self::Running)
-        } else if let Some(last_run) = history.and_then(|x| x.run.front()) {
+        } else if let Some(last_run) = history.and_then(|x| x.last_run()) {
             match schedule.frequency {
                 config::Frequency::Hourly => {
                     let last_run_ago = chrono::Local::now() - last_run.end;
@@ -311,9 +311,7 @@ fn test_check_running() {
         last_update: chrono::Local::now(),
     };
 
-    history.running = Some(config::history::Running {
-        start: chrono::Local::now(),
-    });
+    history.start_running_now();
 
     let due = Due::check_full(&config, Some(&history), Some(&activity));
     matches::assert_matches!(due, Err(Due::Running));
@@ -404,7 +402,7 @@ fn test_check_daily() {
 
     // completed today
 
-    history.run = Default::default();
+    history.clear();
     history.insert(config::history::RunInfo::test_new_mock(
         chrono::Duration::zero(),
     ));

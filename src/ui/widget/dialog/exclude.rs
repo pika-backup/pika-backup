@@ -149,9 +149,9 @@ mod imp {
             let histories = BACKUP_HISTORY.load();
             // If the history is missing we don't have any suggested excludes and shouldn't fail
             let suggested_excludes = histories.active().ok().and_then(|history| {
-                history
-                    .suggested_exclude
-                    .get(&config::history::SuggestedExcludeReason::PermissionDenied)
+                history.suggested_excludes_with_reason(
+                    config::history::SuggestedExcludeReason::PermissionDenied,
+                )
             });
 
             let Some(suggested_excludes) = suggested_excludes else {
