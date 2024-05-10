@@ -145,7 +145,10 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_on_battery_exceeded(&self) -> bool {
-        if let Some(instant) = status_tracking().on_battery_since.get() {
+        if self.command.config.schedule.settings.run_on_battery {
+            // Running on battery was explicitly enabled
+            false
+        } else if let Some(instant) = status_tracking().on_battery_since.get() {
             instant.elapsed() > TIME_ON_BATTERY_ABORT
         } else {
             false

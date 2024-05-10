@@ -5,6 +5,10 @@
 - Fix timestamps not respecting 12h/24h clock format setting
 - Change fnmatches to be stored as strings instead of bytes in config
 
+## 0.7.3 (unreleased)
+
+- Fix backups being aborted on battery if running on battery was explicitly allowed
+
 ## 0.7.2 (2024-04-10)
 
 - Fix shell scripts not inheriting environment variables which broke eg. `notify-send`
