@@ -76,8 +76,12 @@ impl Repository {
         }
     }
 
-    pub async fn is_host_local(&self) -> Option<bool> {
-        self.host_address().await.map(|x| x.is_site_local())
+    pub async fn is_internet(&self) -> bool {
+        if let Some(host_address) = self.host_address().await {
+            !host_address.is_site_local()
+        } else {
+            false
+        }
     }
 
     pub fn icon(&self) -> String {

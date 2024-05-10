@@ -8,6 +8,7 @@
 ## 0.7.3 (unreleased)
 
 - Fix backups being aborted on battery if running on battery was explicitly allowed
+- Fix local backups are considered metered
 
 ## 0.7.2 (2024-04-10)
 

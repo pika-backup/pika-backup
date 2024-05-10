@@ -122,7 +122,7 @@ impl<T: borg::Task> Operation<T> {
     async fn check(self_: Rc<Self>) {
         if self_.command.from_schedule.is_some()
             && self_.is_time_metered_exceeded()
-            && self_.command.config.repo.is_host_local().await == Some(false)
+            && self_.command.config.repo.is_internet().await
         {
             info!("Stopping scheduled operation on metered connection now.");
             self_
