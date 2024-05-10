@@ -4,14 +4,14 @@ use crate::config;
 use crate::config::ArcSwapWriteable;
 use crate::config::Loadable;
 
-fn try_write() -> crate::daemon::error::Result<()> {
-    SCHEDULE_STATUS.write_file()?;
+async fn try_write() -> crate::daemon::error::Result<()> {
+    SCHEDULE_STATUS.write_file().await?;
 
     Ok(())
 }
 
-pub fn write() {
-    try_write().handle("Could not Write Schedule Status");
+pub async fn write() {
+    try_write().await.handle("Could not Write Schedule Status");
 }
 
 fn try_load() -> crate::daemon::error::Result<()> {

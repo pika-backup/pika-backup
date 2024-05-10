@@ -3,6 +3,7 @@
 ## 0.8.0 (unreleased)
 
 - Fix timestamps not respecting 12h/24h clock format setting
+- Fix UI sometimes being unresponsive when starting / stopping backups
 - Change fnmatches to be stored as strings instead of bytes in config
 - Change setup dialog start page is split into two pages
 - Change setup dialog design to look more modern

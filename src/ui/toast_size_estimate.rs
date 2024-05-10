@@ -30,7 +30,7 @@ pub async fn check(
             }
 
             Ok(())
-        }));
+        })).await;
 
         if let Err(err) = history_save_result {
             err.show().await;

@@ -86,18 +86,20 @@ mod imp {
             }
 
             let imp = self.ref_counted();
-            BACKUP_CONFIG.try_update(enclose!(
-                (imp) | config | {
-                    config
-                        .try_get_mut(imp.config_id.get().unwrap())?
-                        .set_archive_prefix(
-                            config::ArchivePrefix::new(&new_prefix),
-                            BACKUP_CONFIG.load().iter(),
-                        )
-                        .err_to_msg(gettext("Invalid Archive Prefix"))?;
-                    Ok(())
-                }
-            ))?;
+            BACKUP_CONFIG
+                .try_update(enclose!(
+                    (imp) | config | {
+                        config
+                            .try_get_mut(imp.config_id.get().unwrap())?
+                            .set_archive_prefix(
+                                config::ArchivePrefix::new(&new_prefix),
+                                BACKUP_CONFIG.load().iter(),
+                            )
+                            .err_to_msg(gettext("Invalid Archive Prefix"))?;
+                        Ok(())
+                    }
+                ))
+                .await?;
 
             main_ui()
                 .page_detail()

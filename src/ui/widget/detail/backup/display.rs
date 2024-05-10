@@ -142,7 +142,7 @@ impl imp::BackupPage {
                     BACKUP_CONFIG.try_update(move |settings| {
                         settings.active_mut()?.exclude.remove(&pattern.clone());
                         Ok(())
-                    })?;
+                    }).await?;
                     obj.imp().refresh()?;
                     Ok(())
                 });

@@ -139,15 +139,17 @@ impl imp::BackupPage {
         };
 
         if !paths.is_empty() {
-            BACKUP_CONFIG.try_update(|settings| {
-                for path in &paths {
-                    settings
-                        .active_mut()?
-                        .include
-                        .insert(ui::utils::rel_path(path));
-                }
-                Ok(())
-            })?;
+            BACKUP_CONFIG
+                .try_update(|settings| {
+                    for path in &paths {
+                        settings
+                            .active_mut()?
+                            .include
+                            .insert(ui::utils::rel_path(path));
+                    }
+                    Ok(())
+                })
+                .await?;
 
             self.refresh()?;
         }
@@ -166,10 +168,12 @@ impl imp::BackupPage {
 
     pub async fn on_remove_include(&self, path: std::path::PathBuf) -> Result<()> {
         if self.confirm_remove_include(&path).await {
-            BACKUP_CONFIG.try_update(|settings| {
-                settings.active_mut()?.include.remove(&path);
-                Ok(())
-            })?;
+            BACKUP_CONFIG
+                .try_update(|settings| {
+                    settings.active_mut()?.include.remove(&path);
+                    Ok(())
+                })
+                .await?;
             self.refresh()?;
         }
 

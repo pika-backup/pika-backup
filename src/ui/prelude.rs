@@ -15,14 +15,14 @@ pub use glib::clone;
 
 pub trait ArcSwapResultExt<T> {
     // Update the inner value with the provided closure
-    fn try_update<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()>;
+    async fn try_update<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()>;
 }
 
 impl<T> ArcSwapResultExt<T> for ArcSwap<T>
 where
     T: Clone,
 {
-    fn try_update<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()> {
+    async fn try_update<F: Fn(&mut T) -> Result<()>>(&self, updater: F) -> Result<()> {
         let mut result = Ok(());
         self.rcu(|current| {
             let mut new = T::clone(current);
@@ -40,11 +40,13 @@ where
         + crate::config::Loadable
         + std::cmp::PartialEq
         + serde::Serialize
+        + Send
         + Default
-        + Clone,
+        + Clone
+        + 'static,
 {
     /// Update the inner value with the provided closure. Saves the writeable afterwards.
-    fn try_update<F: Fn(&mut C) -> Result<()>>(&self, updater: F) -> Result<()> {
+    async fn try_update<F: Fn(&mut C) -> Result<()>>(&self, updater: F) -> Result<()> {
         let mut result = Ok(());
 
         self.rcu(|current| {
@@ -58,6 +60,7 @@ where
         });
 
         self.write_file()
+            .await
             .err_to_msg(gettext("Could not write configuration file."))?;
 
         result

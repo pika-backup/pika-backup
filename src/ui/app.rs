@@ -50,6 +50,7 @@ mod imp {
             self.parent_startup();
 
             ui::utils::config_io::load_config();
+
             config::ScheduleStatus::update_on_change(&SCHEDULE_STATUS, |err| {
                 Err::<(), std::io::Error>(err).handle("Failed to load Schedule Status")
             })
@@ -85,10 +86,10 @@ mod imp {
             self.in_shutdown.set(true);
             self.obj().notify_in_shutdown();
 
-            let result = BACKUP_HISTORY.try_update(|histories| {
+            let result = async_std::task::block_on(BACKUP_HISTORY.try_update(|histories| {
                 config::Histories::handle_shutdown(histories);
                 Ok(())
-            });
+            }));
 
             if let Err(err) = result {
                 error!("Failed to write config during shutdown: {}", err);

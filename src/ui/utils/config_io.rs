@@ -40,14 +40,24 @@ fn load_config_e() -> std::io::Result<()> {
             }
         }
     });
-    // potentially write generated default value
-    BACKUP_CONFIG.write_file()?;
 
     BACKUP_HISTORY.swap(Arc::new(config::Histories::from_file_ui(
         &valid_config_ids,
     )?));
-    // potentially write internal error status
-    BACKUP_HISTORY.write_file()?;
+
+    Handler::run(async move {
+        // potentially write generated default value
+        BACKUP_CONFIG
+            .write_file()
+            .await
+            .err_to_msg(gettext("Could not save configuration file"))?;
+        // potentially write internal error status
+        BACKUP_HISTORY
+            .write_file()
+            .await
+            .err_to_msg(gettext("Could not save configuration file"))?;
+        Ok(())
+    });
 
     Ok(())
 }

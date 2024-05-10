@@ -135,9 +135,9 @@ mod imp {
                 // TODO: potential memory leak
                 let obj = self.obj().clone();
                 let buttons = buttons.clone();
-                button.connect_toggled(move |_| {
-                    Handler::handle(obj.imp().on_suggested_toggle(&buttons))
-                });
+                button.connect_toggled(glib::clone!(@weak obj, @weak buttons => move |_| {
+                    Handler::run(async move { obj.imp().on_suggested_toggle(&buttons).await })
+                }));
             }
         }
 
@@ -180,8 +180,8 @@ mod imp {
                 let dialog = self.obj().clone();
                 add_button.connect_toggled(
                 glib::clone!(@strong suggested_excludes, @strong suggested, @weak row, @weak dialog => move |button| {
-                    Handler::handle((|| {
-                        BACKUP_CONFIG.try_update(glib::clone!(@strong suggested_excludes, @strong suggested, @weak button => @default-return Ok(()), move |settings| {
+                    Handler::run(glib::clone!(@strong suggested_excludes, @strong suggested, @weak button => @default-return Ok(()), async move {
+                        BACKUP_CONFIG.try_update(move |settings| {
                             let active = settings.active_mut()?;
 
                             if button.is_active() {
@@ -191,13 +191,12 @@ mod imp {
                             }
 
                             Ok(())
-                        }))?;
+                        }).await?;
 
                         main_ui().page_detail().backup_page().refresh()?;
                         Ok(())
-                    })());
-                }),
-            );
+                    }));
+                }));
             }
         }
 
@@ -257,17 +256,19 @@ mod imp {
                     })?,
             ))?;
 
-            BACKUP_CONFIG.try_update(|settings| {
-                for path in &paths {
-                    settings
-                        .active_mut()?
-                        .exclude
-                        .insert(config::Exclude::from_pattern(config::Pattern::path_prefix(
-                            path,
-                        )));
-                }
-                Ok(())
-            })?;
+            BACKUP_CONFIG
+                .try_update(|settings| {
+                    for path in &paths {
+                        settings
+                            .active_mut()?
+                            .exclude
+                            .insert(config::Exclude::from_pattern(config::Pattern::path_prefix(
+                                path,
+                            )));
+                    }
+                    Ok(())
+                })
+                .await?;
 
             main_ui().page_detail().backup_page().refresh()?;
             Ok(())
@@ -302,17 +303,19 @@ mod imp {
                     })?,
             ))?;
 
-            BACKUP_CONFIG.try_update(|settings| {
-                for path in &paths {
-                    settings
-                        .active_mut()?
-                        .exclude
-                        .insert(config::Exclude::from_pattern(
-                            config::Pattern::path_full_match(path),
-                        ));
-                }
-                Ok(())
-            })?;
+            BACKUP_CONFIG
+                .try_update(|settings| {
+                    for path in &paths {
+                        settings
+                            .active_mut()?
+                            .exclude
+                            .insert(config::Exclude::from_pattern(
+                                config::Pattern::path_full_match(path),
+                            ));
+                    }
+                    Ok(())
+                })
+                .await?;
 
             main_ui().page_detail().backup_page().refresh()?;
             Ok(())
@@ -368,17 +371,19 @@ mod imp {
                 _ => Err(Message::short("No valid pattern type selected").into()),
             }?);
 
-            BACKUP_CONFIG.try_update(move |config| {
-                let active = config.active_mut()?;
+            BACKUP_CONFIG
+                .try_update(move |config| {
+                    let active = config.active_mut()?;
 
-                if let Some(edit_exclude) = &*self.edit_exclude.borrow() {
-                    active.exclude.remove(edit_exclude);
-                }
+                    if let Some(edit_exclude) = &*self.edit_exclude.borrow() {
+                        active.exclude.remove(edit_exclude);
+                    }
 
-                active.exclude.insert(exclude.clone());
+                    active.exclude.insert(exclude.clone());
 
-                Ok(())
-            })?;
+                    Ok(())
+                })
+                .await?;
 
             self.obj().close();
             App::default()
@@ -398,7 +403,7 @@ mod imp {
                 .await;
         }
 
-        fn on_suggested_toggle(
+        async fn on_suggested_toggle(
             &self,
             buttons: &[(config::exclude::Predefined, gtk::CheckButton)],
         ) -> Result<()> {
@@ -418,10 +423,12 @@ mod imp {
                 .chain(new_predefined)
                 .collect();
 
-            BACKUP_CONFIG.try_update(move |settings| {
-                settings.active_mut()?.exclude.clone_from(&new_exclude);
-                Ok(())
-            })?;
+            BACKUP_CONFIG
+                .try_update(move |settings| {
+                    settings.active_mut()?.exclude.clone_from(&new_exclude);
+                    Ok(())
+                })
+                .await?;
 
             main_ui().page_detail().backup_page().refresh()?;
 

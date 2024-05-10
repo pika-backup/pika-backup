@@ -164,12 +164,14 @@ impl imp::SchedulePage {
             self.preferred_day
                 .set_value(glib::random_int_range(1, 32) as f64);
 
-            BACKUP_CONFIG.try_update(enclose!(
-                (frequency) | config | {
-                    config.active_mut()?.schedule.frequency = frequency;
-                    Ok(())
-                }
-            ))?;
+            BACKUP_CONFIG
+                .try_update(enclose!(
+                    (frequency) | config | {
+                        config.active_mut()?.schedule.frequency = frequency;
+                        Ok(())
+                    }
+                ))
+                .await?;
 
             self.update_status(BACKUP_CONFIG.load().active()?).await;
         }
@@ -178,10 +180,12 @@ impl imp::SchedulePage {
     }
 
     pub async fn preferred_time_close(&self) -> Result<()> {
-        BACKUP_CONFIG.try_update(|config| {
-            config.active_mut()?.schedule.frequency = self.frequency()?;
-            Ok(())
-        })?;
+        BACKUP_CONFIG
+            .try_update(|config| {
+                config.active_mut()?.schedule.frequency = self.frequency()?;
+                Ok(())
+            })
+            .await?;
 
         self.update_status(BACKUP_CONFIG.load().active()?).await;
         Ok(())
@@ -200,20 +204,24 @@ impl imp::SchedulePage {
     }
 
     pub async fn preferred_weekday_change(&self) -> Result<()> {
-        BACKUP_CONFIG.try_update(|config| {
-            config.active_mut()?.schedule.frequency = self.frequency()?;
-            Ok(())
-        })?;
+        BACKUP_CONFIG
+            .try_update(|config| {
+                config.active_mut()?.schedule.frequency = self.frequency()?;
+                Ok(())
+            })
+            .await?;
 
         self.update_status(BACKUP_CONFIG.load().active()?).await;
         Ok(())
     }
 
     pub async fn preferred_day_change(&self) -> Result<()> {
-        BACKUP_CONFIG.try_update(|config| {
-            config.active_mut()?.schedule.frequency = self.frequency()?;
-            Ok(())
-        })?;
+        BACKUP_CONFIG
+            .try_update(|config| {
+                config.active_mut()?.schedule.frequency = self.frequency()?;
+                Ok(())
+            })
+            .await?;
 
         self.update_status(BACKUP_CONFIG.load().active()?).await;
         Ok(())
@@ -236,10 +244,12 @@ impl imp::SchedulePage {
             self.schedule_active.set_enable_expansion(true);
         }
 
-        BACKUP_CONFIG.try_update(|config| {
-            config.active_mut()?.schedule.enabled = self.schedule_active.enables_expansion();
-            Ok(())
-        })?;
+        BACKUP_CONFIG
+            .try_update(|config| {
+                config.active_mut()?.schedule.enabled = self.schedule_active.enables_expansion();
+                Ok(())
+            })
+            .await?;
 
         self.update_status(BACKUP_CONFIG.load().active()?).await;
 
@@ -324,14 +334,16 @@ impl imp::SchedulePage {
     }
 
     async fn prune_write_changes(&self) -> Result<()> {
-        BACKUP_CONFIG.try_update(|configs| {
-            let config = configs.active_mut()?;
+        BACKUP_CONFIG
+            .try_update(|configs| {
+                let config = configs.active_mut()?;
 
-            config.prune.enabled = self.prune_enabled.is_active();
-            config.prune.keep = self.keep();
+                config.prune.enabled = self.prune_enabled.is_active();
+                config.prune.keep = self.keep();
 
-            Ok(())
-        })
+                Ok(())
+            })
+            .await
     }
 
     fn keep(&self) -> config::Keep {

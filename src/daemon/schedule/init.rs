@@ -23,12 +23,13 @@ fn minutely() -> glib::ControlFlow {
             glib::MainContext::default().block_on(probe(config));
         }
     }
-    track_activity();
+
+    glib::spawn_future_local(track_activity());
 
     glib::ControlFlow::Continue
 }
 
-fn track_activity() {
+async fn track_activity() {
     for config in BACKUP_CONFIG.load().iter() {
         if config.schedule.enabled
             && !matches!(config.schedule.frequency, config::Frequency::Hourly)
@@ -53,7 +54,7 @@ fn track_activity() {
         }
     }
 
-    super::status::write();
+    super::status::write().await;
 }
 
 pub struct Reminder;

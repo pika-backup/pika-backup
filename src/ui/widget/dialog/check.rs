@@ -136,7 +136,7 @@ mod imp {
                         BACKUP_HISTORY.try_update(|history| {
                             history.set_last_check(config.id.clone(), CheckRunInfo::new_aborted());
                             Ok(())
-                        })?;
+                        }).await?;
 
                         return Ok(());
                     }
@@ -152,7 +152,7 @@ mod imp {
                     BACKUP_HISTORY.try_update(|history| {
                         history.set_last_check(config.id.clone(), run_info.clone());
                         Ok(())
-                    })?;
+                    }).await?;
 
                     return Err(Message::new(
                         gettext("Verify Archives Integrity"),
@@ -169,7 +169,7 @@ mod imp {
                     BACKUP_HISTORY.try_update(|history| {
                         history.set_last_check(config.id.clone(), run_info.clone());
                         Ok(())
-                    })?;
+                    }).await?;
 
                     crate::ui::utils::show_notice(gettext("Verify archives integrity completed successfully"));
                 }

@@ -21,7 +21,7 @@ pub use prune::*;
 pub use repository::*;
 pub use schedule::*;
 pub use schedule_status::*;
-pub use writeable::{ArcSwapWriteable, Writeable};
+pub(crate) use writeable::{ArcSwapWriteable, Writeable};
 
 use crate::prelude::*;
 

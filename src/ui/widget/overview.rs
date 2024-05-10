@@ -179,10 +179,12 @@ impl OverviewPage {
 
         let config_id = config.id.clone();
 
-        BACKUP_CONFIG.try_update(|s| {
-            s.remove(&config_id)?;
-            Ok(())
-        })?;
+        BACKUP_CONFIG
+            .try_update(|s| {
+                s.remove(&config_id)?;
+                Ok(())
+            })
+            .await?;
 
         if let Err(err) = ui::utils::password_storage::remove_password(&config, false).await {
             // Display the error and continue to leave the UI in a consistent state

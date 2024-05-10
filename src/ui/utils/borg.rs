@@ -60,10 +60,12 @@ where
         Ok(())
     }))?;
 
-    BACKUP_HISTORY.try_update(enclose!((config_id) move |history| {
-        history.set_running(config_id.clone());
-        Ok(())
-    }))?;
+    BACKUP_HISTORY
+        .try_update(enclose!((config_id) move |history| {
+            history.set_running(config_id.clone());
+            Ok(())
+        }))
+        .await?;
 
     scopeguard::defer_on_success! {
         BORG_OPERATION.with(enclose!((config_id) move |operations| {
@@ -72,10 +74,12 @@ where
             });
         }));
 
+        // TODO: Don't write the history in a Drop handler
+        async_std::task::spawn_local(async {
         Handler::handle(BACKUP_HISTORY.try_update(move |history| {
             history.remove_running(config_id.clone());
             Ok(())
-        }));
+        }).await)});
     };
 
     let mounted_result = crate::ui::repo::ensure_repo_available(&command.config, &T::name()).await;
@@ -202,12 +206,14 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
                             // We assumed that the repo doesn't have encryption, but this assumption was outdated.
                             // Set the encrypted flag in the config
                             if let Some(id) = command.config_id() {
-                                BACKUP_CONFIG.try_update(|config| {
-                                    let cfg = config.try_get_mut(&id)?;
-                                    cfg.encrypted = true;
+                                BACKUP_CONFIG
+                                    .try_update(|config| {
+                                        let cfg = config.try_get_mut(&id)?;
+                                        cfg.encrypted = true;
 
-                                    Ok(())
-                                })?;
+                                        Ok(())
+                                    })
+                                    .await?;
                             }
                         }
                     }

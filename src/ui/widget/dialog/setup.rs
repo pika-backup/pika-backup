@@ -47,6 +47,7 @@ mod imp {
         #[property(get)]
         command_line_args: RefCell<SetupCommandLineArgs>,
         new_config: RefCell<Option<config::Backup>>,
+        close_real: Cell<bool>,
 
         /// Indicates that an operation is currently ongoing. Used to prevent multiple input.
         busy: Cell<bool>,
@@ -117,17 +118,27 @@ mod imp {
     impl WidgetImpl for SetupDialog {}
     impl WindowImpl for SetupDialog {
         fn close_request(&self) -> glib::Propagation {
-            // Display a newly added backup in the main window if successful
-            if let Some(config) = self.new_config.take() {
+            if self.close_real.get() {
+                self.parent_close_request()
+            } else if let Some(config) = self.new_config.take() {
                 // Save the new config
-                self.handle_result(self.save_backup_config(&config));
-                self.obj().close();
+                let obj = self.obj().clone();
+                Handler::run(async move {
+                    let imp = obj.imp();
+                    imp.handle_result(imp.save_backup_config(&config).await);
+                    imp.close_real.set(true);
+                    obj.close();
 
-                // Display it in the UI
-                App::default().main_window().view_backup_conf(&config.id);
+                    // Display a newly added backup in the main window if successful
+                    App::default().main_window().view_backup_conf(&config.id);
+
+                    Ok(())
+                });
+
+                glib::Propagation::Stop
+            } else {
+                self.parent_close_request()
             }
-
-            self.parent_close_request()
         }
     }
     impl AdwWindowImpl for SetupDialog {}
@@ -365,7 +376,7 @@ mod imp {
 
             let config = self.new_config.borrow().clone();
             if let Some(mut config) = config {
-                let res = actions::transfer_settings(&mut config, archive_params);
+                let res = actions::transfer_settings(&mut config, archive_params).await;
                 self.new_config.replace(Some(config));
 
                 if let Some(prefix) = self.handle_result(res) {
@@ -454,13 +465,15 @@ mod imp {
         }
 
         /// Add the backup config
-        fn save_backup_config(&self, config: &crate::config::Backup) -> Result<()> {
+        async fn save_backup_config(&self, config: &crate::config::Backup) -> Result<()> {
             // We shouldn't fail this method after this point, otherwise we
             // leave a half-configured backup config
-            BACKUP_CONFIG.try_update(glib::clone!(@strong config => move |s| {
-                s.insert(config.clone())?;
-                Ok(())
-            }))?;
+            BACKUP_CONFIG
+                .try_update(glib::clone!(@strong config => move |s| {
+                    s.insert(config.clone())?;
+                    Ok(())
+                }))
+                .await?;
 
             Ok(())
         }

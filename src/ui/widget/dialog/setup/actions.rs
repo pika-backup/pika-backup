@@ -136,7 +136,7 @@ pub async fn fetch_archive_list(config: &config::Backup) -> CombinedResult<Vec<b
     ui::utils::borg::exec(list_command, &guard).await
 }
 
-pub fn transfer_settings(
+pub async fn transfer_settings(
     config: &mut config::Backup,
     archive_params: &ArchiveParams,
 ) -> Result<config::ArchivePrefix> {
@@ -165,10 +165,12 @@ pub fn transfer_settings(
 
     // Create fake history entry for duration estimate to be good for first run
     let config_id = &config.id;
-    BACKUP_HISTORY.try_update(enclose!((config_id) move |histories| {
-        histories.insert(config_id.clone(), entry.clone());
-        Ok(())
-    }))?;
+    BACKUP_HISTORY
+        .try_update(enclose!((config_id) move |histories| {
+            histories.insert(config_id.clone(), entry.clone());
+            Ok(())
+        }))
+        .await?;
 
     let prefix = if let Some(prefix) = &archive_params.prefix {
         prefix.clone()

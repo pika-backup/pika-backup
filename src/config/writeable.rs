@@ -50,13 +50,20 @@ impl<T, C: crate::utils::LookupConfigId<Item = T>> crate::utils::LookupConfigId 
 
 impl<C> Writeable<C>
 where
-    C: ConfigType + super::Loadable + std::cmp::PartialEq + serde::Serialize + Default + Clone,
+    C: ConfigType
+        + super::Loadable
+        + std::cmp::PartialEq
+        + serde::Serialize
+        + Send
+        + Default
+        + Clone
+        + 'static,
 {
     pub fn is_changed(&self) -> bool {
         self.current_config != self.written_config
     }
 
-    pub fn write_file(&mut self) -> Result<(), std::io::Error> {
+    pub async fn write_file(&mut self) -> Result<(), std::io::Error> {
         let path = C::path();
         debug!("Request to rewrite {:?}", path);
 
@@ -65,12 +72,20 @@ where
 
             std::fs::create_dir_all(&dir)?;
 
-            let config_file = tempfile::NamedTempFile::new_in(dir)?;
-            debug!("Writing new file to {:?}", config_file);
-            serde_json::ser::to_writer_pretty(&config_file, &self.current_config)?;
+            let current_config = self.current_config.clone();
+            async_std::task::spawn_blocking(move || {
+                let config_file = tempfile::NamedTempFile::new_in(dir)?;
+                debug!("Writing new file to {:?}", config_file);
 
-            debug!("Moving new file to {:?}", path);
-            config_file.persist(&path)?;
+                serde_json::ser::to_writer_pretty(&config_file, &current_config)?;
+
+                debug!("Moving new file to {:?}", path);
+                config_file.persist(&path)?;
+
+                Ok::<(), std::io::Error>(())
+            })
+            .await?;
+
             self.written_config = self.current_config.clone();
         } else {
             debug!("Not rewriting because data is unchanged.");
@@ -80,32 +95,46 @@ where
     }
 }
 
-pub trait ArcSwapWriteable {
-    fn write_file(&self) -> Result<(), std::io::Error>;
+pub(crate) trait ArcSwapWriteable {
+    async fn write_file(&self) -> Result<(), std::io::Error>;
 }
 
 impl<C> ArcSwapWriteable for ArcSwap<Writeable<C>>
 where
-    C: ConfigType + super::Loadable + std::cmp::PartialEq + serde::Serialize + Default + Clone,
+    C: ConfigType
+        + super::Loadable
+        + std::cmp::PartialEq
+        + serde::Serialize
+        + Send
+        + Default
+        + Clone
+        + 'static,
 {
-    fn write_file(&self) -> Result<(), std::io::Error> {
-        let mut cell = once_cell::sync::OnceCell::new();
+    /// Write the file asynchronously
+    ///
+    /// After this function has completed there are one of two possible outcomes:
+    /// - The file was written successfully, and written_config contains the data that is currently on disk
+    /// - An error occurred and the config is unchanged
+    async fn write_file(&self) -> Result<(), std::io::Error> {
+        let mut cur = self.load();
 
-        if self.load().is_changed() {
-            self.rcu(|current| {
-                let mut new = Writeable {
-                    current_config: current.current_config.clone(),
-                    written_config: current.written_config.clone(),
-                };
+        // Algorithm from arc_swap::ArcSwapAny::rcu
+        loop {
+            let mut new = Writeable {
+                current_config: cur.current_config.clone(),
+                written_config: cur.written_config.clone(),
+            };
 
-                let _set = cell.set(new.write_file());
-
-                new
-            });
-        } else {
-            let _set = cell.set(Ok(()));
+            // First we try to write the file and store the result
+            let result = new.write_file().await;
+            let prev = self.compare_and_swap(&*cur, new.into());
+            if ***prev == ***cur {
+                // Swap was successful
+                return result;
+            } else {
+                // We need to retry
+                cur = prev;
+            }
         }
-
-        cell.take().unwrap()
     }
 }

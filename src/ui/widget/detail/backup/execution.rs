@@ -123,10 +123,12 @@ impl imp::BackupPage {
 
         let run_info = history::RunInfo::new(&config, outcome, message_history);
 
-        BACKUP_HISTORY.try_update(|history| {
-            history.insert(config.id.clone(), run_info.clone());
-            Ok(())
-        })?;
+        BACKUP_HISTORY
+            .try_update(|history| {
+                history.insert(config.id.clone(), run_info.clone());
+                Ok(())
+            })
+            .await?;
 
         self.run_script(
             UserScriptKind::PostBackup,
@@ -217,10 +219,12 @@ impl imp::BackupPage {
         if let Some(outcome) = outcome {
             let run_info = RunInfo::new(&config, outcome, vec![]);
 
-            BACKUP_HISTORY.try_update(move |history| {
-                history.insert(config.id.clone(), run_info.clone());
-                Ok(())
-            })?;
+            BACKUP_HISTORY
+                .try_update(move |history| {
+                    history.insert(config.id.clone(), run_info.clone());
+                    Ok(())
+                })
+                .await?;
         }
 
         result.into_message(gettext("Error Running Shell Command"))
