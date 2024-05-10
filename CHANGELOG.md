@@ -7,6 +7,10 @@
 - Change setup dialog start page is split into two pages
 - Change setup dialog design to look more modern
 
+## 0.7.3 (unreleased)
+
+- Fix backups being aborted on battery if running on battery was explicitly allowed
+
 ## 0.7.2 (2024-04-10)
 
 - Fix shell scripts not inheriting environment variables which broke eg. `notify-send`
