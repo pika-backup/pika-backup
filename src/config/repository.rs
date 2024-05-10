@@ -36,26 +36,22 @@ impl Repository {
     pub async fn host(&self) -> Option<String> {
         match self {
             Self::Local(local) => {
-                let uri = local
-                    .uri
-                    .as_ref()
-                    .and_then(|x| glib::Uri::parse(x, glib::UriFlags::NONE).ok());
+                let uri = glib::Uri::parse(local.uri.as_ref()?, glib::UriFlags::NONE).ok()?;
 
-                match uri {
-                    Some(uri) if ["sftp", "ssh"].contains(&uri.scheme().as_str()) => {
-                        if let Some(host) = uri.host() {
-                            Some(ssh_host_lookup(&host).await)
-                        } else {
-                            None
-                        }
+                if ["sftp", "ssh"].contains(&uri.scheme().as_str()) {
+                    if let Some(host) = uri.host() {
+                        Some(ssh_host_lookup(&host).await)
+                    } else {
+                        None
                     }
-                    _ => uri.and_then(|x| x.host()).map(|x| x.to_string()),
+                } else {
+                    uri.host().as_deref().map(str::to_string)
                 }
             }
             Self::Remote(remote) => {
                 if let Some(host) = glib::Uri::parse(&remote.uri, glib::UriFlags::NONE)
-                    .ok()
-                    .and_then(|x| x.host())
+                    .ok()?
+                    .host()
                 {
                     Some(ssh_host_lookup(&host).await)
                 } else {
