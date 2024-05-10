@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-05-03 16:22+0000\n"
-"PO-Revision-Date: 2024-05-05 20:39+0300\n"
+"POT-Creation-Date: 2024-05-10 16:29+0000\n"
+"PO-Revision-Date: 2024-05-10 19:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -434,67 +434,68 @@ msgstr "Можна скористатися такими змінними:"
 msgid "Only available for the post-backup command:"
 msgstr "Доступні лише для команди після копіювання:"
 
-#: src/borg/scripts.rs:57
-msgid "<span line_height='1.6'>Only available for completed backups:</span>"
-msgstr "<span line_height='1.6'>Доступні лише для повних копій:</span>"
+#: src/borg/scripts.rs:56
+#| msgid "Only available for the post-backup command:"
+msgid "Only available for completed backups:"
+msgstr "Можна скористатися лише для повних резервних копій:"
 
-#: src/borg/scripts.rs:99
+#: src/borg/scripts.rs:98
 msgid "ID of the backup configuration"
 msgstr "Ідентифікатор налаштувань резервного копіювання"
 
-#: src/borg/scripts.rs:100
+#: src/borg/scripts.rs:99
 msgid "Title of the backup configuration"
 msgstr "Назва налаштувань резервного копіювання"
 
-#: src/borg/scripts.rs:101
+#: src/borg/scripts.rs:100
 msgid "Repository ID of the borg repository"
 msgstr "Ідентифікатор сховища borg"
 
-#: src/borg/scripts.rs:102
+#: src/borg/scripts.rs:101
 msgid "The full URL passed to borgbackup"
 msgstr "Повна адреса, яку передано borgbackup"
 
 #. Translators: Do not translate '0' and '1' here, this is documentation
 #. for possible variable values
-#: src/borg/scripts.rs:106
+#: src/borg/scripts.rs:105
 msgid "0: manual backup, 1: started from a schedule"
 msgstr "0: резервне копіювання вручну, 1: запущено за розкладом"
 
 #. Translators: String uses pango markup. Do not translate capslocked words
 #. they are values for a variable.
-#: src/borg/scripts.rs:111
+#: src/borg/scripts.rs:110
 msgid "Either “<tt>COMPLETED</tt>”, “<tt>ABORTED</tt>” or “<tt>FAILED</tt>”"
 msgstr "«<tt>COMPLETED</tt>», «<tt>ABORTED</tt>» або «<tt>FAILED</tt>»"
 
-#: src/borg/scripts.rs:113
+#: src/borg/scripts.rs:112
 msgid "An error/warning message"
 msgstr "Повідомлення про помилку/попередження"
 
-#: src/borg/scripts.rs:114
+#: src/borg/scripts.rs:113
 msgid "The ID of the created backup archive"
 msgstr "Ідентифікатор створеного архіву резервної копії"
 
-#: src/borg/scripts.rs:115
+#: src/borg/scripts.rs:114
 msgid "The name of the created backup archive"
 msgstr "Назва створеного архіву резервної копії"
 
-#: src/borg/scripts.rs:117
+#: src/borg/scripts.rs:116
 msgid "The total amount of bytes referenced by this archive"
 msgstr "Загальна кількість байтів, яку визначено цим архівом"
 
-#: src/borg/scripts.rs:120
+#: src/borg/scripts.rs:119
 msgid "The compressed size of all data references by this archive"
 msgstr "Стиснений розмір усіх даних, які визначено цим архівом"
 
-#: src/borg/scripts.rs:123
+#: src/borg/scripts.rs:122
 msgid "The deduplicated amount of bytes for this archive"
 msgstr "Кількість байтів після усування дублювання для цього архіву"
 
-#: src/borg/scripts.rs:125
+#: src/borg/scripts.rs:124
 msgid "The amount of files saved in this archive"
 msgstr "Кількість файлів, які збережено у цьому архіві"
 
-#: src/borg/scripts.rs:276
+#: src/borg/scripts.rs:275
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -502,7 +503,7 @@ msgstr ""
 "Не вдалося виконати налаштовану команду перед копіюванням.\n"
 "{}"
 
-#: src/borg/scripts.rs:280
+#: src/borg/scripts.rs:279
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -510,12 +511,12 @@ msgstr ""
 "Не вдалося виконати налаштовану команду після копіювання.\n"
 "{}"
 
-#: src/borg/scripts.rs:306
+#: src/borg/scripts.rs:305
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr "Налаштована команда перед копіюванням повернула код помилки: {}"
 
-#: src/borg/scripts.rs:310
+#: src/borg/scripts.rs:309
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr "Налаштована команда після копіювання повернула код помилки: {}"
@@ -1780,12 +1781,10 @@ msgid "No longer remind of backups based on a schedule."
 msgstr "Більше не нагадувати про резервне копіювання на основі розкладу."
 
 #: src/ui/widget/detail/schedule/event.rs:230
-#| msgid "Keep Schedule"
 msgid "_Keep Schedule"
 msgstr "З_берігати розклад"
 
 #: src/ui/widget/detail/schedule/event.rs:231
-#| msgid "Disable Schedule"
 msgid "_Disable Schedule"
 msgstr "Ви_мкнути розклад"
 
@@ -2105,13 +2104,15 @@ msgstr "Правила виключення"
 msgid "Add exclusion rule"
 msgstr "Додати правило виключення"
 
-#: src/ui/widget/dialog/exclude.rs:243
-msgid "Exclude Directory"
-msgstr "Виключити каталог"
+#: src/ui/widget/dialog/exclude.rs:243 src/ui/widget/dialog/exclude.ui:37
+#| msgid "Exclude Folder"
+msgid "Exclude Folders"
+msgstr "Виключити теки"
 
-#: src/ui/widget/dialog/exclude.rs:288
-msgid "Exclude File"
-msgstr "Виключити файл"
+#: src/ui/widget/dialog/exclude.rs:288 src/ui/widget/dialog/exclude.ui:50
+#| msgid "Exclude File"
+msgid "Exclude Files"
+msgstr "Виключити файли"
 
 #: src/ui/widget/dialog/exclude.rs:347 src/ui/widget/dialog/exclude.ui:164
 msgid "Add"
@@ -2120,14 +2121,6 @@ msgstr "Додати"
 #: src/ui/widget/dialog/exclude.rs:366
 msgid "Invalid Regular Expression"
 msgstr "Некоректний формальний вираз"
-
-#: src/ui/widget/dialog/exclude.ui:37
-msgid "Exclude Folder"
-msgstr "Виключити теку"
-
-#: src/ui/widget/dialog/exclude.ui:50
-msgid "Exclude Single File"
-msgstr "Виключити один файл"
 
 #: src/ui/widget/dialog/exclude.ui:63 src/ui/widget/dialog/exclude.ui:95
 msgid "Exclude Pattern"
@@ -2528,7 +2521,6 @@ msgid "Create new Repository"
 msgstr "Створити сховище"
 
 #: src/ui/widget/dialog/setup/location_kind.rs:138
-#| msgid "Select a location for a new backup repository."
 msgid "Select a location for the new backup repository"
 msgstr "Виберіть місце для нового сховища резервних копій"
 
@@ -2556,12 +2548,10 @@ msgid "Location on Disk"
 msgstr "Місце на диску"
 
 #: src/ui/widget/dialog/setup/repo_kind.ui:16
-#| msgid "Creating Backup Repository"
 msgid "Configure a new or existing backup repository"
 msgstr "Налаштувати нове або наявне сховище резервних копій"
 
 #: src/ui/widget/dialog/setup/repo_kind.ui:23
-#| msgid "Create new Repository"
 msgid "Create New Repository"
 msgstr "Створити сховище"
 
@@ -2758,6 +2748,15 @@ msgstr "_Налаштувати резервне копіювання"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Немає такого файла або каталогу"
+
+#~ msgid "<span line_height='1.6'>Only available for completed backups:</span>"
+#~ msgstr "<span line_height='1.6'>Доступні лише для повних копій:</span>"
+
+#~ msgid "Exclude Directory"
+#~ msgstr "Виключити каталог"
+
+#~ msgid "Exclude Single File"
+#~ msgstr "Виключити один файл"
 
 #~ msgid "A repository location has to be given."
 #~ msgstr "Слід вказати адресу сховища."
