@@ -8,7 +8,7 @@ use crate::prelude::*;
 use chrono::prelude::*;
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
-const HISTORY_LENGTH: usize = 100;
+const HISTORY_LENGTH: usize = 10;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum SuggestedExcludeReason {
