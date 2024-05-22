@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-03-30 14:07+0000\n"
-"PO-Revision-Date: 2024-03-30 11:17-0300\n"
+"POT-Creation-Date: 2024-05-13 18:12+0000\n"
+"PO-Revision-Date: 2024-05-15 16:05-0300\n"
 "Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
@@ -40,7 +40,7 @@ msgstr "Monitor do Pika Backup"
 #.
 #: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/about.rs:12
 #: src/ui/utils.rs:367 src/ui/utils.rs:429 src/ui/widget/app_window.ui:10
-#: src/ui/widget/overview_page.ui:22
+#: src/ui/widget/overview.ui:22
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -64,7 +64,7 @@ msgstr ""
 msgid "Small Mammal Collective"
 msgstr "Small Mammal Collective"
 
-#: data/app.metainfo.xml.in:28
+#: data/app.metainfo.xml.in:29
 msgid ""
 "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
 "rest for you."
@@ -72,15 +72,15 @@ msgstr ""
 "Fazendo backups da maneira fácil. Conecte sua unidade USB e deixe o Pika "
 "fazer o resto por você."
 
-#: data/app.metainfo.xml.in:32
+#: data/app.metainfo.xml.in:33
 msgid "Create backups locally and remotely"
 msgstr "Crie backups local e remotamente"
 
-#: data/app.metainfo.xml.in:33
+#: data/app.metainfo.xml.in:34
 msgid "Set a schedule for regular backups"
 msgstr "Defina um agendamento para backups regulares"
 
-#: data/app.metainfo.xml.in:34
+#: data/app.metainfo.xml.in:35
 msgid ""
 "Save time and disk space because Pika Backup does not need to copy known "
 "data again"
@@ -88,19 +88,19 @@ msgstr ""
 "Economize tempo e espaço em disco porque o Pika Backup não precisa copiar "
 "novamente os dados que já são conhecidos"
 
-#: data/app.metainfo.xml.in:35
+#: data/app.metainfo.xml.in:36
 msgid "Encrypt your backups"
 msgstr "Criptografe seus backups"
 
-#: data/app.metainfo.xml.in:36
+#: data/app.metainfo.xml.in:37
 msgid "List created archives and browse through their contents"
 msgstr "Liste os arquivamentos criados e navegue pelos seus conteúdos"
 
-#: data/app.metainfo.xml.in:37
+#: data/app.metainfo.xml.in:38
 msgid "Recover files or folders via your file browser"
 msgstr "Recupere arquivos ou pastas através do seu navegador de arquivos"
 
-#: data/app.metainfo.xml.in:39
+#: data/app.metainfo.xml.in:40
 msgid ""
 "Pika Backup is designed to save your personal data and does not support "
 "complete system recovery. Pika Backup is powered by the well-tested "
@@ -111,21 +111,21 @@ msgstr ""
 "bem testado software BorgBackup."
 
 #
-#: data/app.metainfo.xml.in:64
+#: data/app.metainfo.xml.in:65
 msgid "Just activate “Back Up Now” and your data will be saved"
 msgstr "Basta ativar “Fazer backup agora” e seus dados serão salvos"
 
-#: data/app.metainfo.xml.in:68
+#: data/app.metainfo.xml.in:69
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr ""
 "Mantenha backups em unidades locais e em serviços online ao mesmo tempo"
 
 # Leônidas -- Melhorar tradução. Está confusa
-#: data/app.metainfo.xml.in:72
+#: data/app.metainfo.xml.in:73
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "Agende backups regulares mensais ou até de hora em hora"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/dialog_preferences.ui:118
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:118
 msgid "General"
 msgstr "Geral"
 
@@ -137,7 +137,7 @@ msgstr "Define novo backup"
 msgid "Show keyboard shortcuts"
 msgstr "Mostra atalhos de teclado"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:272
+#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:277
 msgid "Quit"
 msgstr "Sai"
 
@@ -212,7 +212,7 @@ msgstr "Não foi possível acessar o repositório de backup: {}"
 msgid "Connection closed by remote host."
 msgstr "Conexão encerrada pelo host remoto."
 
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:253
+#: src/borg/error.rs:240 src/ui/utils/borg.rs:251
 msgid "Repository already in use."
 msgstr "Repositório já está em uso."
 
@@ -422,7 +422,8 @@ msgstr "Depuração"
 msgid "Info"
 msgstr "Info"
 
-#: src/borg/log_json.rs:475 src/ui/dialog_setup.ui:201 src/ui/utils.rs:382
+#: src/borg/log_json.rs:475 src/ui/utils.rs:382
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid "Warning"
 msgstr "Aviso"
 
@@ -446,68 +447,67 @@ msgstr "As seguintes variáveis estão disponíveis:"
 msgid "Only available for the post-backup command:"
 msgstr "Disponível apenas para o comando pós-backup:"
 
-#: src/borg/scripts.rs:57
-msgid "<span line_height='1.6'>Only available for completed backups:</span>"
-msgstr ""
-"<span line_height='1.6'>Disponível apenas para backups concluídos:</span>"
+#: src/borg/scripts.rs:56
+msgid "Only available for completed backups:"
+msgstr "Disponível apenas para backups concluídos:"
 
-#: src/borg/scripts.rs:99
+#: src/borg/scripts.rs:98
 msgid "ID of the backup configuration"
 msgstr "ID da configuração de backup"
 
-#: src/borg/scripts.rs:100
+#: src/borg/scripts.rs:99
 msgid "Title of the backup configuration"
 msgstr "Título da configuração de backup"
 
-#: src/borg/scripts.rs:101
+#: src/borg/scripts.rs:100
 msgid "Repository ID of the borg repository"
 msgstr "ID do repositório do repositório borg"
 
-#: src/borg/scripts.rs:102
+#: src/borg/scripts.rs:101
 msgid "The full URL passed to borgbackup"
 msgstr "O URL completo passado para borgbackup"
 
 #. Translators: Do not translate '0' and '1' here, this is documentation
 #. for possible variable values
-#: src/borg/scripts.rs:106
+#: src/borg/scripts.rs:105
 msgid "0: manual backup, 1: started from a schedule"
 msgstr "0: backup manual, 1: iniciado a partir de um agendamento"
 
 #. Translators: String uses pango markup. Do not translate capslocked words
 #. they are values for a variable.
-#: src/borg/scripts.rs:111
+#: src/borg/scripts.rs:110
 msgid "Either “<tt>COMPLETED</tt>”, “<tt>ABORTED</tt>” or “<tt>FAILED</tt>”"
 msgstr "Pode ser <tt>COMPLETED</tt>, <tt>ABORTED</tt> ou <tt>FAILED</tt>"
 
-#: src/borg/scripts.rs:113
+#: src/borg/scripts.rs:112
 msgid "An error/warning message"
 msgstr "Uma mensagem de erro/aviso"
 
-#: src/borg/scripts.rs:114
+#: src/borg/scripts.rs:113
 msgid "The ID of the created backup archive"
 msgstr "O ID do arquivo de backup criado"
 
-#: src/borg/scripts.rs:115
+#: src/borg/scripts.rs:114
 msgid "The name of the created backup archive"
 msgstr "O nome do arquivo de backup criado"
 
-#: src/borg/scripts.rs:117
+#: src/borg/scripts.rs:116
 msgid "The total amount of bytes referenced by this archive"
 msgstr "A quantidade total de bytes referenciados por este arquivo"
 
-#: src/borg/scripts.rs:120
+#: src/borg/scripts.rs:119
 msgid "The compressed size of all data references by this archive"
 msgstr "O tamanho compactado de todas as referências de dados deste arquivo"
 
-#: src/borg/scripts.rs:123
+#: src/borg/scripts.rs:122
 msgid "The deduplicated amount of bytes for this archive"
 msgstr "A quantidade deduplicada de bytes deste arquivo"
 
-#: src/borg/scripts.rs:125
+#: src/borg/scripts.rs:124
 msgid "The amount of files saved in this archive"
 msgstr "A quantidade de arquivos salvos neste arquivo"
 
-#: src/borg/scripts.rs:276
+#: src/borg/scripts.rs:275
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -515,7 +515,7 @@ msgstr ""
 "O comando pré-backup configurado nas preferências falhou ao ser executado.\n"
 "{}"
 
-#: src/borg/scripts.rs:280
+#: src/borg/scripts.rs:279
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -523,14 +523,14 @@ msgstr ""
 "O comando pós-backup configurado nas preferências falhou ao ser executado.\n"
 "{}"
 
-#: src/borg/scripts.rs:306
+#: src/borg/scripts.rs:305
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
 "O comando pré-backup configurado nas preferências retornou um código de "
 "falha: {}"
 
-#: src/borg/scripts.rs:310
+#: src/borg/scripts.rs:309
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -553,8 +553,9 @@ msgstr "Montando arquivos de backup"
 msgid "Removing old Archives"
 msgstr "Removendo arquivos antigos"
 
-#: src/borg/task.rs:103 src/ui/dialog_prune.rs:13
-#: src/ui/dialog_prune_review.rs:14
+#. First ensure the device is available to prevent overlapping dialogs
+#: src/borg/task.rs:103 src/ui/widget/dialog/prune.rs:176
+#: src/ui/widget/dialog/prune_review.rs:135
 msgid "Identifying old Archives"
 msgstr "Identificando arquivos antigos"
 
@@ -583,8 +584,8 @@ msgid "Running Custom Shell Command"
 msgstr "Executando comando Shell personalizado"
 
 #. Translators: User home directory
-#: src/config.rs:71 src/ui/widget/backup_page/display.rs:14
-#: src/ui/widget/backup_page/events.rs:177
+#: src/config.rs:72 src/ui/widget/detail/backup/display.rs:15
+#: src/ui/widget/detail/backup/events.rs:181
 msgid "Home"
 msgstr "Pasta pessoal"
 
@@ -665,16 +666,16 @@ msgstr ""
 "A versão do arquivo de configuração carregado {} é incompatível com esta "
 "versão do Pika Backup"
 
-#: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
+#: src/config/pattern.rs:276 src/ui/widget/dialog/exclude.ui:113
 msgid "Regular Expression"
 msgstr "Expressão Regular"
 
-#: src/config/pattern.rs:243 src/ui/dialog_exclude_pattern.ui:54
+#: src/config/pattern.rs:277 src/ui/widget/dialog/exclude.ui:112
 msgid "Unix Filename Pattern"
 msgstr "Padrão de nome de arquivo Unix"
 
-#: src/config/repository.rs:172 src/ui/dialog_setup.ui:65
-#: src/ui/dialog_setup.ui:119
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
+#: src/ui/widget/dialog/setup/location_kind.ui:100
 msgid "Remote Location"
 msgstr "Local remoto"
 
@@ -781,15 +782,15 @@ msgstr "“{}” precisa estar conectado para que o backup agendado seja iniciad
 msgid "Failed to start scheduled backup"
 msgstr "Falha ao iniciar o backup agendado"
 
-#: src/ui.rs:96
+#: src/ui.rs:81
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Falha ao executar \"borg\". O BorgBackup está instalado corretamente?"
 
-#: src/ui.rs:122
+#: src/ui.rs:107
 msgid "BorgBackup version too old"
 msgstr "Versão do BorgBackup é antiga demais"
 
-#: src/ui.rs:124
+#: src/ui.rs:109
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -797,11 +798,11 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito antiga. Alguns recursos que "
 "requerem a versão borg-backup {}.{}.{} não funcionarão."
 
-#: src/ui.rs:135
+#: src/ui.rs:120
 msgid "BorgBackup version too new"
 msgstr "Versão do BorgBackup é nova demais"
 
-#: src/ui.rs:137
+#: src/ui.rs:122
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -809,11 +810,11 @@ msgstr ""
 "A versão instalada {} do BorgBackup é muito nova. A versão {}.{} é a "
 "recomendada. Alguns recursos podem não funcionar conforme o esperado."
 
-#: src/ui.rs:147
+#: src/ui.rs:132
 msgid "Failed to Check BorgBackup Version"
 msgstr "Falha ao verificar a versão do BorgBackup"
 
-#: src/ui.rs:149
+#: src/ui.rs:134
 msgid "The installed version {} might not work."
 msgstr "A versão instalada {} pode não funcionar."
 
@@ -901,31 +902,33 @@ msgstr "Apoie-nos no Open Collective"
 msgid "Support us on GitHub Sponsors"
 msgstr "Apoie-nos nos patrocinadores do GitHub"
 
-#: src/ui/app.rs:243
+#: src/ui/app.rs:248
 msgid "Abort running backup creation?"
 msgstr "Anular a criação do backup em execução?"
 
-#: src/ui/app.rs:244
+#: src/ui/app.rs:249
 msgid "The backup will remain incomplete if aborted now."
 msgstr "O backup permanecerá incompleto se anulado agora."
 
-#: src/ui/app.rs:245 src/ui/dialog_setup.ui:481 src/ui/utils.rs:385
-#: src/ui/widget/backup_page/events.rs:24
-#: src/ui/widget/backup_page/events.rs:33
-#: src/ui/widget/backup_page/events.rs:42
+#: src/ui/app.rs:250 src/ui/utils.rs:385
+#: src/ui/widget/detail/backup/events.rs:25
+#: src/ui/widget/detail/backup/events.rs:34
+#: src/ui/widget/detail/backup/events.rs:43
+#: src/ui/widget/dialog/setup/add_existing.ui:69
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/ui/app.rs:246 src/ui/utils.rs:384 src/ui/widget/backup_page/events.rs:34
-#: src/ui/widget/backup_page/events.rs:43
+#: src/ui/app.rs:251 src/ui/utils.rs:384
+#: src/ui/widget/detail/backup/events.rs:35
+#: src/ui/widget/detail/backup/events.rs:44
 msgid "Abort"
 msgstr "Anular"
 
-#: src/ui/app.rs:257
+#: src/ui/app.rs:262
 msgid "A Backup Operation is Running"
 msgstr "Operação de backup em execução"
 
-#: src/ui/app.rs:259
+#: src/ui/app.rs:264
 msgid "Pika Backup cannot be quit during a backup operation."
 msgstr "O Pika Backup não pode ser fechado enquanto executa um backup."
 
@@ -1019,730 +1022,6 @@ msgstr "Parando o backup"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Falha ao gerar interface para backups agendados."
 
-#: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
-#: src/ui/dialog_setup/display.rs:169
-msgid "Invalid Archive Prefix"
-msgstr "Prefixo de arquivo inválido"
-
-#: src/ui/dialog_archive_prefix.ui:6 src/ui/dialog_archive_prefix.ui:94
-#: src/ui/dialog_setup.ui:584 src/ui/dialog_setup.ui:600
-msgid "Archive Prefix"
-msgstr "Prefixo de arquivo"
-
-#: src/ui/dialog_archive_prefix.ui:28 src/ui/dialog_delete_archive.ui:28
-#: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
-#: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
-#: src/ui/dialog_prune_review.ui:60 src/ui/utils/borg.rs:257
-#: src/ui/widget/backup_page/events.rs:187 src/ui/widget/overview_page.rs:190
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: src/ui/dialog_archive_prefix.ui:34 src/ui/dialog_exclude_pattern.rs:13
-msgid "Save"
-msgstr "Salvar"
-
-#: src/ui/dialog_archive_prefix.ui:56
-msgid "Archive Prefixes"
-msgstr "Prefixos de arquivo"
-
-#: src/ui/dialog_archive_prefix.ui:67
-msgid ""
-"Each backup run creates a new archive. The archive’s name is always prefixed "
-"with the current archive prefix."
-msgstr ""
-"Cada execução de backup cria um novo arquivo. O nome do arquivo é sempre "
-"prefixado com o prefixo do arquivo atual."
-
-#: src/ui/dialog_archive_prefix.ui:74
-msgid ""
-"This is especially relevant for the “Cleanup Archives” function. Only "
-"archives with the currently configured prefix in their name are considered "
-"for deletion."
-msgstr ""
-"Isto é especialmente relevante para a função “Arquivos de limpeza”. Somente "
-"os arquivos com o prefixo atualmente configurado em seu nome são "
-"considerados para exclusão."
-
-#: src/ui/dialog_archive_prefix.ui:81
-msgid "If the archive prefix is empty, no prefix is added."
-msgstr "Se o prefixo do arquivo estiver vazio, nenhum prefixo será adicionado."
-
-#: src/ui/dialog_check.rs:70
-msgid "Perform Repair"
-msgstr "Realizar reparo"
-
-#: src/ui/dialog_check.rs:74 src/ui/dialog_check.ui:66
-msgid "Perform Check"
-msgstr "Executar verificação"
-
-#: src/ui/dialog_check.rs:124 src/ui/dialog_check.rs:159
-msgid "Verify Archives Integrity"
-msgstr "Verificar a integridade dos arquivos"
-
-#: src/ui/dialog_check.rs:175
-msgid "Verify archives integrity completed successfully"
-msgstr "Verificação da integridade dos arquivos concluída com sucesso"
-
-#: src/ui/dialog_check.ui:5 src/ui/dialog_check.ui:26
-msgid "Archives Integrity Check"
-msgstr "Verificar integridade dos arquivos"
-
-#: src/ui/dialog_check.ui:30
-msgid ""
-"This operation will check all archives for data integrity. This may take a "
-"long time."
-msgstr ""
-"Esta operação verificará a integridade dos dados em todos os arquivos. Isso "
-"pode levar um longo tempo."
-
-#: src/ui/dialog_check.ui:33
-msgid "Verify data"
-msgstr "Verificar dados"
-
-#: src/ui/dialog_check.ui:34
-msgid "Perform full data verification."
-msgstr "Realize a verificação completa dos dados."
-
-#: src/ui/dialog_check.ui:47
-msgid ""
-"Perform a full repair. This is a potentially dangerous function and might "
-"lead to data loss (for kinds of corruption it is not capable of dealing "
-"with)."
-msgstr ""
-"Faz um reparo completo. Esta é uma função potencialmente perigosa e pode "
-"levar à perda de dados (para tipos de corrupção com os quais não é capaz de "
-"lidar)."
-
-#: src/ui/dialog_check.ui:50
-msgid "Repair"
-msgstr "Reparar"
-
-#: src/ui/dialog_check.ui:51
-msgid "Repair errors. This can lead to data loss."
-msgstr "Repara os erros. Isso pode levar à perda de dados."
-
-#: src/ui/dialog_delete_archive.rs:67
-msgid "Delete Archive Failed"
-msgstr "Falha ao excluir arquivo"
-
-#: src/ui/dialog_delete_archive.ui:34
-msgid "Delete Archive"
-msgstr "Excluir arquivo"
-
-#: src/ui/dialog_delete_archive.ui:47
-msgid ""
-"Proceeding with this operation will irretrievably delete this archive. The "
-"saved data for this specific point in time will no longer be available."
-msgstr ""
-"Prosseguir com esta operação excluirá permanentemente este arquivo. Os dados "
-"salvos para este momento específico não estarão mais disponíveis."
-
-#: src/ui/dialog_delete_archive.ui:57
-msgid "Archive Name"
-msgstr "Nome do arquivo"
-
-#: src/ui/dialog_delete_archive.ui:70
-msgid "Archive Date"
-msgstr "Data do arquivo"
-
-#: src/ui/dialog_device_missing.rs:83 src/ui/dialog_device_missing.rs:88
-#: src/ui/dialog_device_missing.rs:141 src/ui/dialog_device_missing.rs:146
-msgid "Failed to Mount"
-msgstr "Falha ao montar"
-
-#: src/ui/dialog_device_missing.rs:142
-msgid "The network server is not available"
-msgstr "O servidor de rede não está disponível"
-
-#: src/ui/dialog_device_missing.ui:39
-msgid "The following backup location needs to be connected:"
-msgstr "O seguinte local de backup precisa ser conectado:"
-
-#: src/ui/dialog_encryption_password.rs:33
-msgid ""
-"The operation “{}” requires the encryption password of the repository on "
-"“{}”."
-msgstr "A operação “{}” requer a senha de criptografia do repositório em “{}”."
-
-#: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:456
-msgid "Encryption Password Required"
-msgstr "Senha de criptografia necessária"
-
-#: src/ui/dialog_encryption_password.ui:9 src/ui/dialog_preferences.ui:98
-msgid "_Cancel"
-msgstr "_Cancelar"
-
-#: src/ui/dialog_encryption_password.ui:10
-msgid "Co_ntinue"
-msgstr "Co_ntinuar"
-
-#: src/ui/dialog_encryption_password.ui:14 src/ui/dialog_setup.ui:418
-#: src/ui/dialog_setup.ui:464
-msgid "Password"
-msgstr "Senha"
-
-#: src/ui/dialog_exclude.rs:76
-msgid "Exclusion Rules"
-msgstr "Regras de exclusão"
-
-#: src/ui/dialog_exclude.rs:157
-msgid "Add exclusion rule"
-msgstr "Adiciona regra de exclusão"
-
-#: src/ui/dialog_exclude.rs:231
-msgid "Exclude Directory"
-msgstr "Excluir diretório"
-
-#: src/ui/dialog_exclude.rs:232 src/ui/dialog_exclude.rs:268
-#: src/ui/utils.rs:293 src/ui/widget/backup_page/events.rs:75
-msgid "Select"
-msgstr "Selecionar"
-
-#: src/ui/dialog_exclude.rs:267
-msgid "Exclude File"
-msgstr "Excluir arquivo"
-
-#: src/ui/dialog_exclude.ui:6 src/ui/dialog_setup_transfer_option.ui:112
-#: src/ui/widget/backup_page.ui:121
-msgid "Exclude from Backup"
-msgstr "Excluir do Backup"
-
-#: src/ui/dialog_exclude.ui:32
-msgid "Exclude Folder"
-msgstr "Excluir pasta"
-
-#: src/ui/dialog_exclude.ui:44
-msgid "Exclude Single File"
-msgstr "Excluir arquivo único"
-
-#: src/ui/dialog_exclude.ui:56 src/ui/dialog_exclude_pattern.ui:6
-msgid "Exclude Pattern"
-msgstr "Excluir padrão"
-
-#: src/ui/dialog_exclude.ui:57
-msgid "Define regular expression or Unix filename patterns"
-msgstr "Definir expressão regular ou padrões de nome de arquivo Unix"
-
-#: src/ui/dialog_exclude.ui:70
-msgid "Suggested Exclusions"
-msgstr "Exclusões sugeridas"
-
-#: src/ui/dialog_exclude.ui:75
-msgid "Unreadable Paths"
-msgstr "Caminhos ilegíveis"
-
-#: src/ui/dialog_exclude.ui:76
-msgid "These locations were identified as unreadable from a previous backup."
-msgstr "Esses locais foram identificados como ilegíveis em um backup anterior."
-
-#: src/ui/dialog_exclude_pattern.rs:49
-msgid "Invalid Regular Expression"
-msgstr "Expressão regular inválida"
-
-#: src/ui/dialog_exclude_pattern.ui:35
-msgid "Add"
-msgstr "Adicionar"
-
-#: src/ui/dialog_exclude_pattern.ui:49
-msgid "Pattern Type"
-msgstr "Tipo de padrão"
-
-#: src/ui/dialog_exclude_pattern.ui:63
-msgid "Pattern"
-msgstr "Padrão"
-
-#: src/ui/dialog_exclude_pattern.ui:81
-msgid "BorgBackup Patterns"
-msgstr "Padrões de Backup Borg"
-
-#: src/ui/dialog_exclude_pattern.ui:92
-msgid ""
-"The patterns above have to be written in a particular form. They are matched "
-"against the path without leading <tt>/</tt>. Additionally, shell-style "
-"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
-"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
-"stable/usage/help.html\">BorgBackup documentation</a>."
-msgstr ""
-"Os padrões acima devem ser escritos de uma forma particular. Eles são "
-"comparados com o caminho sem levar <tt>/</tt>. Além disso, os padrões de "
-"estilo shell combinam como se estivessem carregando um <tt>*</tt> na parte "
-"de trás. Para obter mais detalhes, consulte a <a href=\"https://borgbackup."
-"readthedocs.io/en/stable/usage/help.html\">documentação do BorgBackup</a>."
-
-#: src/ui/dialog_preferences.rs:213
-msgid ""
-"The title of this backup configuration. Will be displayed as “{}” when left "
-"empty."
-msgstr ""
-"O título desta configuração de backup. Será exibido como “{}” quando deixado "
-"em branco."
-
-#: src/ui/dialog_preferences.rs:279
-msgid "Shell command invalid"
-msgstr "Comando shell inválido"
-
-#: src/ui/dialog_preferences.rs:280 src/ui/utils/borg.rs:25
-msgid "Please check for missing closing quotes."
-msgstr "Por favor, verifique se faltam as aspas de fechamento."
-
-#: src/ui/dialog_preferences.rs:345 src/ui/widget/backup_page/execution.rs:217
-msgid "Error Running Shell Command"
-msgstr "Erro ao executar o comando Shell"
-
-#: src/ui/dialog_preferences.rs:466
-msgid "Change Encryption Password Error"
-msgstr "Erro na troca de senha de criptografia"
-
-#: src/ui/dialog_preferences.rs:473
-msgid "Password changed successfully"
-msgstr "Senha alterada com sucesso"
-
-#: src/ui/dialog_preferences.ui:27 src/ui/dialog_preferences.ui:137
-msgid "Change Encryption Password"
-msgstr "Trocar a senha de criptografia"
-
-#: src/ui/dialog_preferences.ui:54
-msgid "_Change Password"
-msgstr "Alterar _senha"
-
-#: src/ui/dialog_preferences.ui:84
-msgid "Changing Encryption Password"
-msgstr "Trocando a senha de criptografia"
-
-#: src/ui/dialog_preferences.ui:122 src/ui/dialog_preferences.ui:125
-msgid "Title"
-msgstr "Título"
-
-#: src/ui/dialog_preferences.ui:133
-msgid "Encryption password"
-msgstr "Senha de criptografia"
-
-#: src/ui/dialog_preferences.ui:134
-msgid "The encryption password of the backup repository."
-msgstr "A senha de criptografia do repositório de backup."
-
-#: src/ui/dialog_preferences.ui:151 src/ui/widget/schedule_page.ui:67
-msgid "Scheduled Backups"
-msgstr "Backups agendados"
-
-#: src/ui/dialog_preferences.ui:154
-msgid "Run on Battery"
-msgstr "Executar com a bateria"
-
-#: src/ui/dialog_preferences.ui:155
-msgid "Allow scheduled backups when device is battery powered"
-msgstr ""
-"Permite backups agendados quando o dispositivo estiver alimentado por bateria"
-
-#: src/ui/dialog_preferences.ui:163 src/ui/dialog_setup.ui:317
-msgid "Additional command line arguments"
-msgstr "Argumentos adicionais de linha de comando"
-
-#: src/ui/dialog_preferences.ui:164 src/ui/dialog_setup.ui:318
-msgid ""
-"These arguments will be added to the call of the borg binary. Only long "
-"options, starting with “--”, are supported."
-msgstr ""
-"Esses argumentos serão adicionados para chamar o binário do borg. Há suporte "
-"apenas para as opções longas, que iniciam com “--”."
-
-#: src/ui/dialog_preferences.ui:167 src/ui/dialog_setup.ui:322
-msgid "Command line arguments"
-msgstr "Argumentos de linha de comando"
-
-#: src/ui/dialog_preferences.ui:178
-msgid "Shell Commands"
-msgstr "Comandos de shell"
-
-#: src/ui/dialog_preferences.ui:179
-msgid "These bash shell commands will be called on certain backup events."
-msgstr ""
-"Esses comandos bash de shell serão chamados em determinados eventos de "
-"backup."
-
-#: src/ui/dialog_preferences.ui:192
-msgid "Pre-Backup Shell Command"
-msgstr "Comando shell pré-backup"
-
-#: src/ui/dialog_preferences.ui:199 src/ui/dialog_preferences.ui:220
-msgid "Run with test values"
-msgstr "Execute com valores de teste"
-
-#: src/ui/dialog_preferences.ui:213
-msgid "Post-Backup Shell Command"
-msgstr "Comando shell pós-backup"
-
-#: src/ui/dialog_prune.rs:37 src/ui/dialog_prune_review.rs:50
-msgid "Failed to determine how many archives would be deleted"
-msgstr "Falha ao determinar quantos arquivos seria excluídos"
-
-#: src/ui/dialog_prune.rs:56 src/ui/utils.rs:425
-msgid "Close"
-msgstr "Fechar"
-
-#: src/ui/dialog_prune.rs:95 src/ui/widget/schedule_page.ui:127
-msgid "Delete old Archives"
-msgstr "Excluir arquivos antigos"
-
-#: src/ui/dialog_prune.rs:105
-msgid "Reclaim Free Space"
-msgstr "Recuperar espaço livre"
-
-#. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/dialog_prune.ui:38
-msgid "Checking for old Archives"
-msgstr "Verificando arquivos antigos"
-
-#: src/ui/dialog_prune.ui:39
-msgid "Creating a list of old archives to be approved for deletion."
-msgstr "Criando uma lista de arquivos antigos para ser aprovada para exclusão."
-
-#: src/ui/dialog_prune.ui:66 src/ui/dialog_prune.ui:81
-#: src/ui/dialog_prune_review.ui:81
-msgid "Delete Archives"
-msgstr "Excluir arquivos"
-
-#: src/ui/dialog_prune.ui:78
-msgid ""
-"Proceeding with this operation will irretrievably delete some of the "
-"archives. The saved data for those specific points in time will no longer be "
-"available."
-msgstr ""
-"Continuar com essa operação excluirá definitivamente alguns dos arquivos. Os "
-"dados salvos para estes pontos específicos no tempo não estarão mais "
-"disponíveis."
-
-#: src/ui/dialog_prune.ui:94 src/ui/dialog_prune_review.ui:94
-msgid "Keep Archives"
-msgstr "Manter arquivos"
-
-#: src/ui/dialog_prune.ui:107 src/ui/dialog_prune_review.ui:107
-msgid "Not Considered"
-msgstr "Não considerado"
-
-#: src/ui/dialog_prune.ui:108 src/ui/dialog_prune_review.ui:108
-msgid "Archives with different prefix"
-msgstr "Arquivos com prefixo diferente"
-
-#: src/ui/dialog_prune_review.ui:6
-msgid "Review Changes"
-msgstr "Revisar alterações"
-
-#: src/ui/dialog_prune_review.ui:38
-msgid "Assessing Impact on old Archives"
-msgstr "Avaliação do impacto em arquivos antigos"
-
-#: src/ui/dialog_prune_review.ui:39
-msgid "Collecting information about the effect of the changes on old archives"
-msgstr "Coletando informações sobre o efeito das mudanças em arquivos antigos"
-
-#: src/ui/dialog_prune_review.ui:66
-msgid "Apply"
-msgstr "Aplicar"
-
-#: src/ui/dialog_prune_review.ui:78
-msgid ""
-"After applying these changes, the next automatic deletion of old archives "
-"would have the following consequences."
-msgstr ""
-"Depois de aplicar essas alterações, a próxima exclusão automática de "
-"arquivos antigos teria as seguintes consequências."
-
-#: src/ui/dialog_setup.ui:6 src/ui/dialog_setup.ui:25
-msgid "Setup"
-msgstr "Configuração"
-
-#: src/ui/dialog_setup.ui:36
-msgid "Create new Repository"
-msgstr "Criar novo repositório"
-
-#: src/ui/dialog_setup.ui:37
-msgid "Select a location for a new backup repository."
-msgstr "Selecione um local para um novo repositório de backup."
-
-#: src/ui/dialog_setup.ui:45 src/ui/dialog_setup.ui:99
-msgid "Location on Disk"
-msgstr "Local no disco"
-
-#: src/ui/dialog_setup.ui:90
-msgid "Use Existing Repository"
-msgstr "Usar repositório existente"
-
-#: src/ui/dialog_setup.ui:91
-msgid ""
-"Select a location that contains an existing backup repository. Repositories "
-"created with other BorgBackup compatible software can be used as well."
-msgstr ""
-"Selecione um local que contenha um repositório de backup existente. "
-"Repositórios criados com outro software compatível com BorgBackup também "
-"podem ser usados."
-
-#: src/ui/dialog_setup.ui:150
-msgid "Select Location"
-msgstr "Selecione o local"
-
-#: src/ui/dialog_setup.ui:166 src/ui/dialog_setup.ui:227
-msgid "Location"
-msgstr "Local"
-
-#: src/ui/dialog_setup.ui:170 src/ui/dialog_setup.ui:232
-msgid "Advanced Options"
-msgstr "Opções avançadas"
-
-#: src/ui/dialog_setup.ui:178
-msgid "Repository Base Folder"
-msgstr "Pasta base do repositório"
-
-#: src/ui/dialog_setup.ui:190
-msgid "Repository Name"
-msgstr "Nome do repositório"
-
-#: src/ui/dialog_setup.ui:213
-msgid ""
-"Backups to the selected location could be corrupted if the device is "
-"disconnected or powered down with a backup in progress. If possible, "
-"reformat the backup location with a format like “NTFS” or “Ext4.” Note that "
-"reformatting deletes all files on the location!"
-msgstr ""
-"Os backups para o local selecionado podem ser corrompidos se o dispositivo "
-"for desconectado ou desligado com um backup em andamento. Se possível, "
-"formate novamente o local de backup com um formato como \"NTFS\" ou "
-"\"Ext4\". Observe que a reformatação exclui todos os arquivos no local!"
-
-#: src/ui/dialog_setup.ui:243
-msgid "Repository URL"
-msgstr "URL do repositório"
-
-#: src/ui/dialog_setup.ui:257
-msgid "Examples"
-msgstr "Exemplos"
-
-#: src/ui/dialog_setup.ui:268
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-
-#: src/ui/dialog_setup.ui:275
-msgid "Conventional Locations"
-msgstr "Locais convencionais"
-
-#: src/ui/dialog_setup.ui:287
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"Os locais de backup remoto SMB e SFTP podem ser fornecidos como um URL com o "
-"prefixo de protocolo “smb://” ou “sftp://”."
-
-#: src/ui/dialog_setup.ui:294
-msgid "Locations with BorgBackup Support"
-msgstr "Locais com suporte BorgBackup"
-
-#: src/ui/dialog_setup.ui:306
-msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
-msgstr ""
-"Locais com suporte explícito ao BorgBackup podem fornecer melhor desempenho. "
-"Eles são especiais porque o servidor possui um binário BorgBackup instalado. "
-"Para esses locais, a sintaxe “<endereço do servidor>:<pasta>” ou o prefixo "
-"“ssh://” podem ser usados."
-
-#: src/ui/dialog_setup.ui:343
-msgid "_Connect"
-msgstr "_Conectar"
-
-#: src/ui/dialog_setup.ui:358
-msgid "_Continue"
-msgstr "_Continuar"
-
-#: src/ui/dialog_setup.ui:378
-msgid "Setup Encryption"
-msgstr "Configurar criptografia"
-
-#: src/ui/dialog_setup.ui:402
-msgid "_Create"
-msgstr "_Criar"
-
-#: src/ui/dialog_setup.ui:432
-msgid "Checking Backup Repository"
-msgstr "Verificando o repositório de backup"
-
-#: src/ui/dialog_setup.ui:457
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr ""
-"A senha de criptografia deste repositório de backup é necessária para acessá-"
-"lo."
-
-#: src/ui/dialog_setup.ui:499 src/ui/dialog_setup.ui:557
-msgid "Transfer Settings"
-msgstr "Transferir configurações"
-
-#: src/ui/dialog_setup.ui:512 src/ui/dialog_setup.ui:543
-msgid "S_kip"
-msgstr "Avan_çar"
-
-#: src/ui/dialog_setup.ui:522
-msgid "Checking for Previous Configurations"
-msgstr "Verificando configurações anteriores"
-
-#: src/ui/dialog_setup.ui:523
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"Coletar informações para transferir configurações usadas anteriormente. Esta "
-"etapa é opcional."
-
-#: src/ui/dialog_setup.ui:558
-msgid ""
-"One set of configurations used for previous backups can be selected for "
-"transfer to the new setup. The configuration can be adjusted afterward."
-msgstr ""
-"Um conjunto de configurações usado para backups anteriores pode ser "
-"selecionado para transferência para a nova configuração. A configuração pode "
-"ser ajustada posteriormente."
-
-#: src/ui/dialog_setup.ui:601
-msgid ""
-"Archive prefixes must be unique to every backup configuration. Using the "
-"same prefix on two devices is discouraged unless a new device supersedes the "
-"old one."
-msgstr ""
-"Os prefixos de arquivo devem ser exclusivos para cada configuração de "
-"backup. O uso do mesmo prefixo em dois dispositivos é desencorajado, a menos "
-"que um novo dispositivo substitua o antigo."
-
-#: src/ui/dialog_setup.ui:628
-msgid "_Save"
-msgstr "_Salvar"
-
-#: src/ui/dialog_setup.ui:644 src/ui/dialog_setup.ui:659
-#: src/ui/dialog_setup/insert.rs:147
-msgid "Creating Backup Repository"
-msgstr "Criando repositório de backup"
-
-#: src/ui/dialog_setup/display.rs:78 src/ui/widget/archives_page/display.rs:88
-msgid "None"
-msgstr "Nenhum"
-
-#: src/ui/dialog_setup/display.rs:238
-msgid "Free space: {}"
-msgstr "Espaço livre: {}"
-
-#: src/ui/dialog_setup/folder_button.rs:130 src/ui/dialog_storage.ui:6
-msgid "Backup Location"
-msgstr "Local do backup"
-
-#: src/ui/dialog_setup/folder_button.rs:146
-msgid "_Select Folder…"
-msgstr "_Selecionar pasta…"
-
-#: src/ui/dialog_setup/insert.rs:17
-msgid "Setup Existing Repository"
-msgstr "Configurar repositório existente"
-
-#: src/ui/dialog_setup/insert.rs:33 src/ui/dialog_setup/insert.rs:101
-msgid "Location is not a valid backup repository."
-msgstr "O local não é um repositório de backup válido."
-
-#: src/ui/dialog_setup/insert.rs:34
-msgid "The repository must originate from Pika Backup or compatible software."
-msgstr ""
-"O repositório deve ser originado do Pika Backup ou software compatível."
-
-#: src/ui/dialog_setup/insert.rs:47 src/ui/dialog_setup/insert.rs:108
-msgid "Invalid Remote Location"
-msgstr "Local remoto inválido"
-
-#: src/ui/dialog_setup/insert.rs:102
-msgid "A repository location has to be given."
-msgstr "Um local de repositório deve ser fornecido."
-
-#: src/ui/dialog_setup/insert.rs:156
-msgid "Getting Repository Information"
-msgstr "Carregando informação do repositório"
-
-#: src/ui/dialog_setup/insert.rs:199
-msgid "Loading Backup Repository"
-msgstr "Carregando repositório de backup"
-
-#: src/ui/dialog_setup/insert.rs:219
-msgid "Failed to Configure Repository"
-msgstr "Falha ao configurar o repositório"
-
-#: src/ui/dialog_setup/insert.rs:238
-msgid "Failed"
-msgstr "Falhou"
-
-#: src/ui/dialog_setup/insert.rs:298
-msgid "Repository location not found."
-msgstr "Local do repositório não encontrado."
-
-#: src/ui/dialog_setup/insert.rs:299
-msgid "A mount operation succeeded but the location is still unavailable."
-msgstr ""
-"Uma operação de montagem foi bem-sucedida, mas o local ainda não está "
-"disponível."
-
-#: src/ui/dialog_setup/remote_location.rs:23
-msgid "Incomplete URL or borg syntax"
-msgstr "URL ou sintaxe borg incompleta"
-
-#: src/ui/dialog_setup/remote_location.rs:32
-msgid "The remote location must have a specified path."
-msgstr "O local remoto deve ter um caminho especificado."
-
-#: src/ui/dialog_setup/remote_location.rs:36
-msgid "Invalid remote location: “{}”"
-msgstr "Local remoto inválido: “{}”"
-
-#: src/ui/dialog_setup_transfer_option.ui:88 src/ui/widget/backup_page.ui:92
-msgid "Files to Back Up"
-msgstr "Arquivos para fazer backup"
-
-#: src/ui/dialog_storage.ui:30
-msgid "Disk"
-msgstr "Disco"
-
-#: src/ui/dialog_storage.ui:33
-msgid "Volume"
-msgstr "Volume"
-
-#: src/ui/dialog_storage.ui:42
-msgid "Device"
-msgstr "Dispositivo"
-
-#: src/ui/dialog_storage.ui:51
-msgid "Path"
-msgstr "Caminho"
-
-#: src/ui/dialog_storage.ui:63
-msgid "Remote"
-msgstr "Remoto"
-
-#: src/ui/dialog_storage.ui:66
-msgid "URL"
-msgstr "URL"
-
-#: src/ui/dialog_storage.ui:78
-msgid "Space"
-msgstr "Espaço"
-
-#: src/ui/dialog_storage.ui:81
-msgid "Total"
-msgstr "Total"
-
-#: src/ui/dialog_storage.ui:90
-msgid "Free"
-msgstr "Livre"
-
 #: src/ui/error.rs:102
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
@@ -1761,9 +1040,17 @@ msgstr "Já existe backup com o id “{}”."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Não foi possível localizar configuração de backup com id “{}”."
 
-#: src/ui/prelude.rs:60
+#: src/ui/prelude.rs:61
 msgid "Could not write configuration file."
 msgstr "Não foi possível gravar arquivo de configuração."
+
+#: src/ui/repo.rs:62 src/ui/repo.rs:67 src/ui/repo.rs:122 src/ui/repo.rs:127
+msgid "Failed to Mount"
+msgstr "Falha ao montar"
+
+#: src/ui/repo.rs:123
+msgid "The network server is not available"
+msgstr "O servidor de rede não está disponível"
 
 #: src/ui/shell.rs:29
 msgid "Idle"
@@ -1831,37 +1118,50 @@ msgstr[1] "{} operações de backups em execução"
 msgid "Failed to Create Thread"
 msgstr "Falha ao criar thread"
 
-#: src/ui/utils/borg.rs:24
+#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:76
+#: src/ui/widget/dialog/exclude.rs:244 src/ui/widget/dialog/exclude.rs:289
+msgid "Select"
+msgstr "Selecionar"
+
+#: src/ui/utils.rs:425 src/ui/widget/dialog/prune.rs:152
+msgid "Close"
+msgstr "Fechar"
+
+#: src/ui/utils/borg.rs:23
 msgid "Additional command line arguments invalid"
 msgstr "Argumentos de linha de comando adicionais inválidos"
 
-#: src/ui/utils/borg.rs:55
+#: src/ui/utils/borg.rs:24 src/ui/widget/dialog/preferences.rs:279
+msgid "Please check for missing closing quotes."
+msgstr "Por favor, verifique se faltam as aspas de fechamento."
+
+#: src/ui/utils/borg.rs:54
 msgid "Repository already in use"
 msgstr "Repositório já está em uso"
 
-#: src/ui/utils/borg.rs:121
+#: src/ui/utils/borg.rs:119
 msgid "Stop browsing files and start backup?"
 msgstr "Parar de navegar nos arquivos e iniciar o backup?"
 
-#: src/ui/utils/borg.rs:123
+#: src/ui/utils/borg.rs:121
 msgid "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Não é possível navegar pelos arquivos arquivados durante a execução de um "
 "backup."
 
-#: src/ui/utils/borg.rs:125 src/ui/utils/borg.rs:136
+#: src/ui/utils/borg.rs:123 src/ui/utils/borg.rs:134
 msgid "Keep Browsing"
 msgstr "Manter a navegação"
 
-#: src/ui/utils/borg.rs:126
+#: src/ui/utils/borg.rs:124
 msgid "Start Backup"
 msgstr "Iniciar backup"
 
-#: src/ui/utils/borg.rs:132
+#: src/ui/utils/borg.rs:130
 msgid "Stop browsing files and start operation?"
 msgstr "Parar de navegar nos arquivos e iniciar a operação?"
 
-#: src/ui/utils/borg.rs:134
+#: src/ui/utils/borg.rs:132
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository."
@@ -1869,15 +1169,15 @@ msgstr ""
 "Não é possível navegar pelos arquivos guardados durante a execução de uma "
 "operação no repositório."
 
-#: src/ui/utils/borg.rs:137
+#: src/ui/utils/borg.rs:135
 msgid "Start Operation"
 msgstr "Iniciar operação"
 
-#: src/ui/utils/borg.rs:146 src/ui/utils/borg.rs:276
+#: src/ui/utils/borg.rs:144 src/ui/utils/borg.rs:274
 msgid "Failed to unmount repository."
 msgstr "Falha ao desmontar repositório."
 
-#: src/ui/utils/borg.rs:254
+#: src/ui/utils/borg.rs:252
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1886,7 +1186,7 @@ msgstr ""
 "pode estar desatualizada se, por exemplo, o computador ficou sem energia "
 "enquanto usava o repositório."
 
-#: src/ui/utils/borg.rs:256
+#: src/ui/utils/borg.rs:254
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1896,23 +1196,30 @@ msgstr ""
 "programa! Continuar enquanto um outro programa usa o repositório pode "
 "corromper os dados de backup!"
 
-#: src/ui/utils/borg.rs:258
+#: src/ui/utils/borg.rs:255 src/ui/widget/detail/backup/events.rs:191
+#: src/ui/widget/dialog/archive_prefix.ui:28 src/ui/widget/dialog/prune.ui:30
+#: src/ui/widget/dialog/prune.ui:60 src/ui/widget/dialog/prune_review.ui:30
+#: src/ui/widget/dialog/prune_review.ui:60
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/ui/utils/borg.rs:256
 msgid "Continue Anyway"
 msgstr "Continuar mesmo assim"
 
-#: src/ui/utils/borg.rs:349 src/ui/utils/borg.rs:369
+#: src/ui/utils/borg.rs:347 src/ui/utils/borg.rs:367
 msgid "Unable to Eject Backup Disk"
 msgstr "Não é possível ejetar o disco de backup"
 
-#: src/ui/utils/borg.rs:358
+#: src/ui/utils/borg.rs:356
 msgid "{} can be safely unplugged."
 msgstr "{} pode ser desconectado com segurança."
 
-#: src/ui/utils/borg.rs:370
+#: src/ui/utils/borg.rs:368
 msgid "{} can't be ejected."
 msgstr "{} não pode ser ejetado."
 
-#: src/ui/utils/config_io.rs:45
+#: src/ui/utils/config_io.rs:56
 msgid "Could not load configuration file."
 msgstr "Não foi possível carregar arquivo de configuração."
 
@@ -2022,11 +1329,26 @@ msgid_plural "{} years ago"
 msgstr[0] "Um ano atrás"
 msgstr[1] "{} anos atrás"
 
-#: src/ui/utils/password_storage.rs:19
+#. Translators: This is the time format used for lists of full
+#. dates with times in 24-hour mode. It should use a numeric
+#. date if possible to align longer lists of dates and times.
+#: src/ui/utils/ext.rs:18
+msgid "%x %T"
+msgstr "%x %T"
+
+#. Translators: This is the time format used for lists of full
+#. dates with times in 12-hour mode (including AM/PM if
+#. appropriate). It should use a numeric date if possible to
+#. align longer lists of dates and times.
+#: src/ui/utils/ext.rs:24
+msgid "%x %r"
+msgstr "%x %r"
+
+#: src/ui/utils/password_storage.rs:23
 msgid "Failed to Store Password"
 msgstr "Falha ao armazenar a senha"
 
-#: src/ui/utils/password_storage.rs:37
+#: src/ui/utils/password_storage.rs:41
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr ""
 "Falha ao remover as senhas potencialmente restantes do armazenamento de "
@@ -2034,7 +1356,7 @@ msgstr ""
 
 # De acordo com a Wikipedia em [1]: "Ochotona é um gênero de mamíferos da família Ochotonidae. Na nomenclatura vernácula são chamados de pikas, lebres-assobiadoras, lágomis e coneys". Segundo o portal EnfoqueMS em [2] "os Ochotona iliensis, os pikas-de-ili estão em extinção". [1]<https://pt.wikipedia.org/wiki/Ochotona>[2]<https://www.enfoquems.com.br/ele-existe-pikachu-e-um-coelho-magico-e-foi-fotografado-na-china/>.
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:56
+#: src/ui/utils/password_storage.rs:60
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
 
@@ -2042,156 +1364,203 @@ msgstr "Pika Backup “{}”"
 msgid "Failed to Save Cache"
 msgstr "Falha ao salvar cache"
 
-#: src/ui/widget/archives_page.ui:98
+#: src/ui/widget/detail.ui:8
+msgid "Backup Preferences"
+msgstr "Preferências de backup"
+
+#: src/ui/widget/detail.ui:12
+msgid "Remove Backup Setup"
+msgstr "Remover configurações de backup"
+
+#: src/ui/widget/detail.ui:18
+msgid "Backup"
+msgstr "Backup"
+
+#: src/ui/widget/detail.ui:51
+msgid "Archives are being mounted. This might take a while."
+msgstr "Os arquivos estão sendo montados. Isso pode demorar um pouco."
+
+#: src/ui/widget/detail.ui:64
+msgid "Actions"
+msgstr "Ações"
+
+#: src/ui/widget/detail.ui:91
+msgid "_Backup"
+msgstr "_Backup"
+
+#: src/ui/widget/detail.ui:101
+msgid "_Archives"
+msgstr "_Arquivos"
+
+#: src/ui/widget/detail.ui:111
+msgid "_Schedule"
+msgstr "_Agendar"
+
+#: src/ui/widget/detail/archives.ui:98
 msgid "Archive _Prefix"
 msgstr "Arquivar _prefixo"
 
-#: src/ui/widget/archives_page.ui:100
+#: src/ui/widget/detail/archives.ui:100
 msgid "Added in front of all archive names"
 msgstr "Adicionado na frente de todos os nomes de arquivo"
 
-#: src/ui/widget/archives_page.ui:129
+#: src/ui/widget/detail/archives.ui:129
 msgid "_Cleanup Archives"
 msgstr "_Arquivos de limpeza"
 
-#: src/ui/widget/archives_page.ui:130
+#: src/ui/widget/detail/archives.ui:130
 msgid "Delete some older archives"
 msgstr "Exclui alguns dos arquivos antigos"
 
-#: src/ui/widget/archives_page.ui:146
+#: src/ui/widget/detail/archives.ui:146
 msgid "Data Integrity Check"
 msgstr "Verificação de integridade de dados"
 
-#: src/ui/widget/archives_page.ui:152
+#: src/ui/widget/detail/archives.ui:152
 msgid "_Check Now…"
 msgstr "Verifi_car agora…"
 
-#: src/ui/widget/archives_page.ui:160
+#: src/ui/widget/detail/archives.ui:160
 msgid "_Abort…"
 msgstr "A_nular…"
 
-#: src/ui/widget/archives_page.ui:171
+#: src/ui/widget/detail/archives.ui:171
 msgid "Archives"
 msgstr "Arquivamentos"
 
-#: src/ui/widget/archives_page.ui:180
+#: src/ui/widget/detail/archives.ui:180
 msgid "Refresh"
 msgstr "Atualizar"
 
-#: src/ui/widget/archives_page.ui:201
+#: src/ui/widget/detail/archives.ui:201
 msgid "Stop browsing archive files"
 msgstr "Parar navegação por arquivamentos"
 
-#: src/ui/widget/archives_page.ui:227
+#: src/ui/widget/detail/archives.ui:227
 msgid "No archives available"
 msgstr "Nenhum arquivamento disponível"
 
-#: src/ui/widget/archives_page/cache.rs:37
+#: src/ui/widget/detail/archives/cache.rs:37
 msgid "Failed to refresh archives cache."
 msgstr "Falha ao atualizar cache de arquivamentos."
 
-#: src/ui/widget/archives_page/display.rs:103
+#: src/ui/widget/detail/archives/display.rs:88
+#: src/ui/widget/dialog/setup/transfer_option.rs:59
+msgid "None"
+msgstr "Nenhum"
+
+#: src/ui/widget/detail/archives/display.rs:103
 msgid "Failed to open archive."
 msgstr "Falha ao abrir arquivo."
 
-#: src/ui/widget/archives_page/display.rs:169
+#: src/ui/widget/detail/archives/display.rs:170
 msgid "Incomplete Archive"
 msgstr "Arquivo incompleto"
 
-#: src/ui/widget/archives_page/display.rs:190
+#: src/ui/widget/detail/archives/display.rs:191
 msgid "Name"
 msgstr "Nome"
 
-#: src/ui/widget/archives_page/display.rs:192
+#: src/ui/widget/detail/archives/display.rs:193
 msgid "Duration"
 msgstr "Duração"
 
-#: src/ui/widget/archives_page/display.rs:196
+#: src/ui/widget/detail/archives/display.rs:197
 msgid "Comment"
 msgstr "Comentário"
 
-#: src/ui/widget/archives_page/display.rs:200
+#: src/ui/widget/detail/archives/display.rs:201
 msgid "Browse saved files"
 msgstr "Navegar pelos arquivos salvos"
 
-#: src/ui/widget/archives_page/display.rs:218
+#: src/ui/widget/detail/archives/display.rs:219
 msgid "Delete archive"
 msgstr "Excluir arquivo"
 
-#: src/ui/widget/archives_page/display.rs:249
+#: src/ui/widget/detail/archives/display.rs:250
 msgid "{} Available"
 msgstr "{} disponível"
 
-#: src/ui/widget/archives_page/display.rs:251
+#: src/ui/widget/detail/archives/display.rs:252
 msgid "{} Total"
 msgstr "Total de {}"
 
-#: src/ui/widget/archives_page/events.rs:83
+#: src/ui/widget/detail/archives/events.rs:88
 msgid "Failed to make archives available for browsing."
 msgstr "Falha em tornar disponíveis para navegação os arquivamentos."
 
-#: src/ui/widget/backup_page.ui:21
+#: src/ui/widget/detail/backup.ui:21
 msgid "Eject Backup Disk"
 msgstr "Ejetar disco de backup"
 
-#: src/ui/widget/backup_page.ui:37
+#: src/ui/widget/detail/backup.ui:37
 msgid "Disconnected"
 msgstr "Desconectar"
 
-#: src/ui/widget/backup_page.ui:55
+#: src/ui/widget/detail/backup.ui:55
 msgid "_Abort"
 msgstr "A_nular"
 
-#: src/ui/widget/backup_page.ui:77
+#: src/ui/widget/detail/backup.ui:77
 msgid "Back Up _Now"
 msgstr "Efetuar backup _agora"
 
-#: src/ui/widget/backup_page.ui:93
+#: src/ui/widget/detail/backup.ui:92
+#: src/ui/widget/dialog/setup/transfer_option.ui:88
+msgid "Files to Back Up"
+msgstr "Arquivos para fazer backup"
+
+#: src/ui/widget/detail/backup.ui:93
 msgid "Only files in the following folders are saved in the backup repository."
 msgstr ""
 "Apenas os arquivos nas seguintes pastas são salvos no repositório de backup."
 
-#: src/ui/widget/backup_page.ui:96
+#: src/ui/widget/detail/backup.ui:96
 msgid "Select Directory to Include"
 msgstr "Selecionar diretório para incluir"
 
-#: src/ui/widget/backup_page.ui:109
+#: src/ui/widget/detail/backup.ui:109
 msgid "No files included in backup"
 msgstr "Nenhum arquivo incluído no backup"
 
-#: src/ui/widget/backup_page.ui:122
+#: src/ui/widget/detail/backup.ui:121 src/ui/widget/dialog/exclude.ui:24
+#: src/ui/widget/dialog/setup/transfer_option.ui:112
+msgid "Exclude from Backup"
+msgstr "Excluir do Backup"
+
+#: src/ui/widget/detail/backup.ui:122
 msgid "The following folders are excluded from the backup repository."
 msgstr "As seguintes pastas são excluídas do repositório de backup."
 
-#: src/ui/widget/backup_page.ui:125
+#: src/ui/widget/detail/backup.ui:125
 msgid "Select Directory to Exclude"
 msgstr "Selecionar diretório para excluir"
 
-#: src/ui/widget/backup_page.ui:138
+#: src/ui/widget/detail/backup.ui:138
 msgid "Nothing excluded from backup"
 msgstr "Nada foi excluído do backup"
 
-#: src/ui/widget/backup_page/display.rs:20
+#: src/ui/widget/detail/backup/display.rs:21
 msgid "Usually contains all personal data"
 msgstr "Geralmente contém todos os dados pessoais"
 
-#: src/ui/widget/backup_page/display.rs:42
+#: src/ui/widget/detail/backup/display.rs:43
 msgid "Remove Directory"
 msgstr "Remover diretório"
 
-#: src/ui/widget/backup_page/display.rs:102
+#: src/ui/widget/detail/backup/display.rs:105
 msgid "Edit Pattern"
 msgstr "Excluir padrão"
 
-#: src/ui/widget/backup_page/display.rs:121
+#: src/ui/widget/detail/backup/display.rs:132
 msgid "Remove From List"
 msgstr "Remover da lista"
 
-#: src/ui/widget/backup_page/events.rs:22
+#: src/ui/widget/detail/backup/events.rs:23
 msgid "Stop Running Backup?"
 msgstr "Parar de executar o backup?"
 
-#: src/ui/widget/backup_page/events.rs:23
+#: src/ui/widget/detail/backup/events.rs:24
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -2199,15 +1568,15 @@ msgstr ""
 "O estado atual do backup será salvo. Você pode continuar seu backup mais "
 "tarde, iniciando-o novamente."
 
-#: src/ui/widget/backup_page/events.rs:25
+#: src/ui/widget/detail/backup/events.rs:26
 msgid "Stop"
 msgstr "Parar"
 
-#: src/ui/widget/backup_page/events.rs:31
+#: src/ui/widget/detail/backup/events.rs:32
 msgid "Abort Delete Operation?"
 msgstr "Abortar operação de exclusão?"
 
-#: src/ui/widget/backup_page/events.rs:32
+#: src/ui/widget/detail/backup/events.rs:33
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
@@ -2215,11 +1584,11 @@ msgstr ""
 "Os arquivos estão sendo excluídos no momento. O espaço livre não será "
 "recuperado ao abortar."
 
-#: src/ui/widget/backup_page/events.rs:40
+#: src/ui/widget/detail/backup/events.rs:41
 msgid "Abort Operation?"
 msgstr "Abortar operação?"
 
-#: src/ui/widget/backup_page/events.rs:41
+#: src/ui/widget/detail/backup/events.rs:42
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
@@ -2227,16 +1596,16 @@ msgstr ""
 "Uma operação está sendo executada no momento. Abortar agora fará com que "
 "qualquer progresso feito pela operação seja perdido."
 
-#: src/ui/widget/backup_page/events.rs:74
+#: src/ui/widget/detail/backup/events.rs:75
 msgid "Include Folder"
 msgstr "Incluir diretório"
 
-#: src/ui/widget/backup_page/events.rs:117
-#: src/ui/widget/backup_page/events.rs:127
+#: src/ui/widget/detail/backup/events.rs:118
+#: src/ui/widget/detail/backup/events.rs:128
 msgid "Unable to Include Location"
 msgstr "Não foi possível incluir o local"
 
-#: src/ui/widget/backup_page/events.rs:118
+#: src/ui/widget/detail/backup/events.rs:119
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -2246,7 +1615,7 @@ msgstr ""
 "de forma confiável no sandbox:\n"
 "{}"
 
-#: src/ui/widget/backup_page/events.rs:128
+#: src/ui/widget/detail/backup/events.rs:129
 msgid ""
 "Pika Backup cannot be used to backup the entire system or the “/dev” "
 "directory."
@@ -2254,100 +1623,990 @@ msgstr ""
 "O Pika Backup não pode ser usado para fazer backup de todo o sistema ou do "
 "diretório “/dev”."
 
-#: src/ui/widget/backup_page/events.rs:183
+#: src/ui/widget/detail/backup/events.rs:187
 msgid "No longer include “{}” in backups?"
 msgstr "Não incluir mais “{}” nos backups?"
 
-#: src/ui/widget/backup_page/events.rs:185
+#: src/ui/widget/detail/backup/events.rs:189
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Todos os arquivos contidos nesta pasta não farão mais parte de backups "
 "futuros."
 
-#: src/ui/widget/backup_page/events.rs:188
+#: src/ui/widget/detail/backup/events.rs:192
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/ui/widget/backup_page/execution.rs:43
+#: src/ui/widget/detail/backup/execution.rs:43
 msgid "Delete old Archives Failed"
 msgstr "Falha ao excluir arquivos antigos"
 
-#: src/ui/widget/backup_page/execution.rs:55
+#: src/ui/widget/detail/backup/execution.rs:55
 msgid "Reclaiming Free Space Failed"
 msgstr "Falha na recuperação de espaço livre"
 
-#: src/ui/widget/backup_page/execution.rs:136
+#: src/ui/widget/detail/backup/execution.rs:136
 msgid "Backup Failed"
 msgstr "Falha no backup"
 
-#: src/ui/widget/backup_page/execution.rs:168
+#: src/ui/widget/detail/backup/execution.rs:168
 msgid "Backup Completed with Warnings"
 msgstr "Backup concluído com avisos"
 
-#: src/ui/widget/check_result_dialog.ui:9
-msgid "Integrity Check Result"
-msgstr "Resultado da verificação de integridade"
+#: src/ui/widget/detail/backup/execution.rs:217
+#: src/ui/widget/dialog/preferences.rs:344
+msgid "Error Running Shell Command"
+msgstr "Erro ao executar o comando Shell"
 
-#: src/ui/widget/detail_dialog.ui:9
+#: src/ui/widget/detail/schedule.ui:29
+msgid ":"
+msgstr ":"
+
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:151
+msgid "Scheduled Backups"
+msgstr "Backups agendados"
+
+#: src/ui/widget/detail/schedule.ui:71
+msgid "Regularly Create Backups"
+msgstr "Criar backups regularmente"
+
+#: src/ui/widget/detail/schedule.ui:76
+msgid "Frequency"
+msgstr "Frequência"
+
+#: src/ui/widget/detail/schedule.ui:84
+msgid "Preferred Time"
+msgstr "Horário preferido"
+
+#: src/ui/widget/detail/schedule.ui:103
+msgid "Preferred Weekday"
+msgstr "Dia da semana preferido"
+
+#: src/ui/widget/detail/schedule.ui:108
+msgid "Preferred Day of Month"
+msgstr "Dia do mês preferido"
+
+#: src/ui/widget/detail/schedule.ui:125 src/ui/widget/dialog/prune.rs:79
+msgid "Delete old Archives"
+msgstr "Excluir arquivos antigos"
+
+#: src/ui/widget/detail/schedule.ui:131
+msgid "Save Configuration"
+msgstr "Salvar configuração"
+
+#: src/ui/widget/detail/schedule.ui:143
+msgid "Regularly Cleanup Archives"
+msgstr "Limpar arquivos regularmente"
+
+#: src/ui/widget/detail/schedule.ui:144
+msgid "Remove old archives after creating new backups"
+msgstr "Remover arquivos antigos após criar novos backups"
+
+#: src/ui/widget/detail/schedule.ui:154
+msgid "Preserved Archives"
+msgstr "Preservar arquivos"
+
+#: src/ui/widget/detail/schedule.ui:155
+msgid "Amount and time span of retained archives"
+msgstr "Quantidade e duração dos arquivos retidos"
+
+#: src/ui/widget/detail/schedule.ui:164
+msgid "Details"
+msgstr "Detalhes"
+
+#: src/ui/widget/detail/schedule.ui:168
+msgid "Keep Hourly"
+msgstr "Manter de hora em hora"
+
+#: src/ui/widget/detail/schedule.ui:183
+msgid "Keep Daily"
+msgstr "Manter diariamente"
+
+#: src/ui/widget/detail/schedule.ui:198
+msgid "Keep Weekly"
+msgstr "Manter semanalmente"
+
+#: src/ui/widget/detail/schedule.ui:212
+msgid "Keep Monthly"
+msgstr "Manter mensalmente"
+
+#: src/ui/widget/detail/schedule.ui:225
+msgid "Keep Annual"
+msgstr "Manter anualmente"
+
+#: src/ui/widget/detail/schedule/event.rs:114
+msgid "Invalid time format."
+msgstr "Formato de horário inválido."
+
+#: src/ui/widget/detail/schedule/event.rs:122
+msgid "Invalid weekday."
+msgstr "Dia da semana inválido."
+
+#: src/ui/widget/detail/schedule/event.rs:129
+msgid "No frequency selected."
+msgstr "Sem frequência selecionada."
+
+#: src/ui/widget/detail/schedule/event.rs:228
+msgid "Disable backup schedule?"
+msgstr "Desabilita agendamento de backup?"
+
+#: src/ui/widget/detail/schedule/event.rs:229
+msgid "Backups will no longer run on a schedule"
+msgstr "Os backups não serão mais executados de acordo com uma programação"
+
+#: src/ui/widget/detail/schedule/event.rs:230
+msgid "_Keep Schedule"
+msgstr "_Manter agendamento"
+
+#: src/ui/widget/detail/schedule/event.rs:231
+msgid "_Disable Schedule"
+msgstr "_Desabilitar agendamento"
+
+#: src/ui/widget/detail/schedule/event.rs:294
+msgid "No preset selected."
+msgstr "Nenhuma predefinição selecionada."
+
+#: src/ui/widget/detail/schedule/prune_preset.rs:20
+msgid "Keep Many"
+msgstr "Manter muitos"
+
+#: src/ui/widget/detail/schedule/prune_preset.rs:21
+msgid "Keep Some"
+msgstr "Manter alguns"
+
+#: src/ui/widget/detail/schedule/prune_preset.rs:22
+msgid "Custom"
+msgstr "Personalizado"
+
+#: src/ui/widget/detail/schedule/status.rs:16
+msgid "Next backup in one minute"
+msgid_plural "Next backup in {} minutes"
+msgstr[0] "Próximo backup em um minuto"
+msgstr[1] "Próximo backup em {} minutos"
+
+#: src/ui/widget/detail/schedule/status.rs:22
+msgid "Next backup in one hour"
+msgid_plural "Next backup in {} hours"
+msgstr[0] "Próximo backup em uma hora"
+msgstr[1] "Próximo backup em {} horas"
+
+#: src/ui/widget/detail/schedule/status.rs:28
+msgid "Next backup in one day"
+msgid_plural "Next backup in {} days"
+msgstr[0] "Próximo backup em um dia"
+msgstr[1] "Próximo backup em {} dias"
+
+#: src/ui/widget/detail/schedule/status.rs:34
+msgid "Next backup in one week"
+msgid_plural "Next backup in {} weeks"
+msgstr[0] "Próximo backup em uma semana"
+msgstr[1] "Próximo backup em {} semanas"
+
+#: src/ui/widget/detail/schedule/status.rs:51
+msgid "Scheduled Backups Disabled"
+msgstr "Backups agendados desativados"
+
+#: src/ui/widget/detail/schedule/status.rs:69
+msgid "Hourly Backups Enabled"
+msgstr "Backups de hora em hora ativados"
+
+#: src/ui/widget/detail/schedule/status.rs:70
+msgid "Daily Backups Enabled"
+msgstr "Backups diários ativados"
+
+#: src/ui/widget/detail/schedule/status.rs:71
+msgid "Weekly Backups Enabled"
+msgstr "Backups semanais ativados"
+
+#: src/ui/widget/detail/schedule/status.rs:72
+msgid "Monthly Backups Enabled"
+msgstr "Backups mensais ativados"
+
+#: src/ui/widget/detail/schedule/status.rs:83
+msgid "Will not start until requirements are met."
+msgstr "Não será iniciado até os requisitos serem atendidos."
+
+#: src/ui/widget/detail/schedule/status.rs:88
+msgid "Inconsistent backup information"
+msgstr "Informações de backup inconsistentes"
+
+#: src/ui/widget/detail/schedule/status.rs:94
+msgid "Backup Past Due"
+msgstr "Backup vencido"
+
+#: src/ui/widget/detail/schedule/status.rs:95
+msgid "Waiting until requirements are met"
+msgstr "Aguardando até os requisitos serem atendidos"
+
+#: src/ui/widget/detail/schedule/status.rs:98
+msgid "Scheduled Backups Unavailable"
+msgstr "Backups agendados indisponíveis"
+
+#: src/ui/widget/detail/schedule/status.rs:101
+msgid "Waiting for Backup to Start"
+msgstr "Aguardando o início do backup"
+
+#: src/ui/widget/detail/schedule/status.rs:110
+msgid "Network connection must not be metered"
+msgstr "A conexão de rede não deve ser limitada"
+
+#: src/ui/widget/detail/schedule/status.rs:116
+msgid "Other backups on repository have to be completed"
+msgstr "Outros backups no repositório devem estar concluídos"
+
+#: src/ui/widget/detail/schedule/status.rs:123
+msgid "Device must be connected to power"
+msgstr "O dispositivo deve estar conectado à energia"
+
+#: src/ui/widget/detail/schedule/status.rs:134
+msgid "Backup device has to be connected"
+msgstr "O dispositivo de backup precisa estar conectado"
+
+#: src/ui/widget/detail/schedule/status.rs:136
+msgid "Reminder will be sent when device is required"
+msgstr "Um lembrete será enviado quando o dispositivo for necessário"
+
+#: src/ui/widget/detail/schedule/status.rs:144
+msgid "Network connection has to be available"
+msgstr "Uma conexão de rede deve estar disponível"
+
+#: src/ui/widget/detail/schedule/status.rs:154
+msgid "Background process inactive"
+msgstr "Processo em segundo plano inativo"
+
+#: src/ui/widget/detail/schedule/status.rs:155
+msgid "This is required for scheduled backups"
+msgstr "Isso é necessário para backups agendados"
+
+#: src/ui/widget/dialog/archive_prefix.rs:78
+#: src/ui/widget/dialog/archive_prefix.rs:97 src/ui/widget/dialog/setup.rs:396
+msgid "Invalid Archive Prefix"
+msgstr "Prefixo de arquivo inválido"
+
+#: src/ui/widget/dialog/archive_prefix.ui:6
+#: src/ui/widget/dialog/archive_prefix.ui:95
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+msgid "Archive Prefix"
+msgstr "Prefixo de arquivo"
+
+#: src/ui/widget/dialog/archive_prefix.ui:34
+#: src/ui/widget/dialog/exclude.rs:338
+msgid "Save"
+msgstr "Salvar"
+
+#: src/ui/widget/dialog/archive_prefix.ui:57
+msgid "Archive Prefixes"
+msgstr "Prefixos de arquivo"
+
+#: src/ui/widget/dialog/archive_prefix.ui:68
+msgid ""
+"Each backup run creates a new archive. The archive’s name is always prefixed "
+"with the current archive prefix."
+msgstr ""
+"Cada execução de backup cria um novo arquivo. O nome do arquivo é sempre "
+"prefixado com o prefixo do arquivo atual."
+
+#: src/ui/widget/dialog/archive_prefix.ui:75
+msgid ""
+"This is especially relevant for the “Cleanup Archives” function. Only "
+"archives with the currently configured prefix in their name are considered "
+"for deletion."
+msgstr ""
+"Isto é especialmente relevante para a função “Arquivos de limpeza”. Somente "
+"os arquivos com o prefixo atualmente configurado em seu nome são "
+"considerados para exclusão."
+
+#: src/ui/widget/dialog/archive_prefix.ui:82
+msgid "If the archive prefix is empty, no prefix is added."
+msgstr "Se o prefixo do arquivo estiver vazio, nenhum prefixo será adicionado."
+
+#: src/ui/widget/dialog/backup_info.ui:9
 msgid "Backup Info"
 msgstr "Informações de backup"
 
-#: src/ui/widget/detail_dialog.ui:72
+#: src/ui/widget/dialog/backup_info.ui:72
 msgid "Amount saved"
 msgstr "Quantidade salva"
 
-#: src/ui/widget/detail_dialog.ui:73
+#: src/ui/widget/dialog/backup_info.ui:73
 msgid "Size of all files"
 msgstr "Tamanho de todos os arquivos"
 
-#: src/ui/widget/detail_dialog.ui:89
+#: src/ui/widget/dialog/backup_info.ui:89
 msgid "Number of files saved"
 msgstr "Número de arquivos salvos"
 
-#: src/ui/widget/detail_dialog.ui:105
+#: src/ui/widget/dialog/backup_info.ui:105
 msgid "Backup space used"
 msgstr "Espaço de backup utilizado"
 
-#: src/ui/widget/detail_dialog.ui:106
+#: src/ui/widget/dialog/backup_info.ui:106
 msgid "Newly used space in this backup"
 msgstr "Espaço recentemente utilizado neste backup"
 
-#: src/ui/widget/detail_dialog.ui:122
+#: src/ui/widget/dialog/backup_info.ui:122
 msgid "Current file"
 msgstr "Arquivo atual"
 
-#: src/ui/widget/detail_page.ui:8
-msgid "Backup Preferences"
-msgstr "Preferências de backup"
+#: src/ui/widget/dialog/check.rs:69
+msgid "Perform Repair"
+msgstr "Realizar reparo"
 
-#: src/ui/widget/detail_page.ui:12
-msgid "Remove Backup Setup"
-msgstr "Remover configurações de backup"
+#: src/ui/widget/dialog/check.rs:73 src/ui/widget/dialog/check.ui:66
+msgid "Perform Check"
+msgstr "Executar verificação"
 
-#: src/ui/widget/detail_page.ui:18
-msgid "Backup"
-msgstr "Backup"
+#: src/ui/widget/dialog/check.rs:123 src/ui/widget/dialog/check.rs:158
+msgid "Verify Archives Integrity"
+msgstr "Verificar a integridade dos arquivos"
 
-#: src/ui/widget/detail_page.ui:51
-msgid "Archives are being mounted. This might take a while."
-msgstr "Os arquivos estão sendo montados. Isso pode demorar um pouco."
+#: src/ui/widget/dialog/check.rs:174
+msgid "Verify archives integrity completed successfully"
+msgstr "Verificação da integridade dos arquivos concluída com sucesso"
 
-#: src/ui/widget/detail_page.ui:64
-msgid "Actions"
-msgstr "Ações"
+#: src/ui/widget/dialog/check.ui:5 src/ui/widget/dialog/check.ui:26
+msgid "Archives Integrity Check"
+msgstr "Verificar integridade dos arquivos"
 
-#: src/ui/widget/detail_page.ui:91
-msgid "_Backup"
-msgstr "_Backup"
+#: src/ui/widget/dialog/check.ui:30
+msgid ""
+"This operation will check all archives for data integrity. This may take a "
+"long time."
+msgstr ""
+"Esta operação verificará a integridade dos dados em todos os arquivos. Isso "
+"pode levar um longo tempo."
 
-#: src/ui/widget/detail_page.ui:101
-msgid "_Archives"
-msgstr "_Arquivos"
+#: src/ui/widget/dialog/check.ui:33
+msgid "Verify data"
+msgstr "Verificar dados"
 
-#: src/ui/widget/detail_page.ui:111
-msgid "_Schedule"
-msgstr "_Agendar"
+#: src/ui/widget/dialog/check.ui:34
+msgid "Perform full data verification."
+msgstr "Realize a verificação completa dos dados."
+
+#: src/ui/widget/dialog/check.ui:47
+msgid ""
+"Perform a full repair. This is a potentially dangerous function and might "
+"lead to data loss (for kinds of corruption it is not capable of dealing "
+"with)."
+msgstr ""
+"Faz um reparo completo. Esta é uma função potencialmente perigosa e pode "
+"levar à perda de dados (para tipos de corrupção com os quais não é capaz de "
+"lidar)."
+
+#: src/ui/widget/dialog/check.ui:50
+msgid "Repair"
+msgstr "Reparar"
+
+#: src/ui/widget/dialog/check.ui:51
+msgid "Repair errors. This can lead to data loss."
+msgstr "Repara os erros. Isso pode levar à perda de dados."
+
+#: src/ui/widget/dialog/check_result.ui:9
+msgid "Integrity Check Result"
+msgstr "Resultado da verificação de integridade"
+
+#: src/ui/widget/dialog/delete_archive.rs:73
+msgid "Delete Archive Failed"
+msgstr "Falha ao excluir arquivo"
+
+#: src/ui/widget/dialog/delete_archive.ui:6
+#: src/ui/widget/dialog/delete_archive.ui:62
+msgid "Delete Archive"
+msgstr "Excluir arquivo"
+
+#: src/ui/widget/dialog/delete_archive.ui:30
+msgid ""
+"Proceeding with this operation will irretrievably delete this archive. The "
+"saved data for this specific point in time will no longer be available."
+msgstr ""
+"Prosseguir com esta operação excluirá permanentemente este arquivo. Os dados "
+"salvos para este momento específico não estarão mais disponíveis."
+
+#: src/ui/widget/dialog/delete_archive.ui:40
+msgid "Archive Name"
+msgstr "Nome do arquivo"
+
+#: src/ui/widget/dialog/delete_archive.ui:48
+msgid "Archive Date"
+msgstr "Data do arquivo"
+
+#: src/ui/widget/dialog/device_missing.ui:40
+msgid "The following backup location needs to be connected:"
+msgstr "O seguinte local de backup precisa ser conectado:"
+
+#: src/ui/widget/dialog/encryption_password.rs:63
+msgid ""
+"The operation “{}” requires the encryption password of the repository on "
+"“{}”."
+msgstr "A operação “{}” requer a senha de criptografia do repositório em “{}”."
+
+#: src/ui/widget/dialog/encryption_password.ui:6
+#: src/ui/widget/dialog/setup/add_existing.ui:44
+msgid "Encryption Password Required"
+msgstr "Senha de criptografia necessária"
+
+#: src/ui/widget/dialog/encryption_password.ui:9
+#: src/ui/widget/dialog/preferences.ui:98 src/ui/widget/overview.rs:173
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: src/ui/widget/dialog/encryption_password.ui:10
+msgid "Co_ntinue"
+msgstr "Co_ntinuar"
+
+#: src/ui/widget/dialog/encryption_password.ui:14
+#: src/ui/widget/dialog/setup/add_existing.ui:6
+#: src/ui/widget/dialog/setup/add_existing.ui:52
+msgid "Password"
+msgstr "Senha"
+
+#: src/ui/widget/dialog/exclude.rs:112
+msgid "Exclusion Rules"
+msgstr "Regras de exclusão"
+
+#: src/ui/widget/dialog/exclude.rs:166
+msgid "Add exclusion rule"
+msgstr "Adiciona regra de exclusão"
+
+#: src/ui/widget/dialog/exclude.rs:243 src/ui/widget/dialog/exclude.ui:37
+msgid "Exclude Folders"
+msgstr "Excluir pastas"
+
+#: src/ui/widget/dialog/exclude.rs:288 src/ui/widget/dialog/exclude.ui:50
+msgid "Exclude Files"
+msgstr "Excluir arquivos"
+
+#: src/ui/widget/dialog/exclude.rs:347 src/ui/widget/dialog/exclude.ui:164
+msgid "Add"
+msgstr "Adicionar"
+
+#: src/ui/widget/dialog/exclude.rs:366
+msgid "Invalid Regular Expression"
+msgstr "Expressão regular inválida"
+
+#: src/ui/widget/dialog/exclude.ui:63 src/ui/widget/dialog/exclude.ui:95
+msgid "Exclude Pattern"
+msgstr "Excluir padrão"
+
+#: src/ui/widget/dialog/exclude.ui:64
+msgid "Define regular expression or Unix filename patterns"
+msgstr "Definir expressão regular ou padrões de nome de arquivo Unix"
+
+#: src/ui/widget/dialog/exclude.ui:78
+msgid "Suggested Exclusions"
+msgstr "Exclusões sugeridas"
+
+#: src/ui/widget/dialog/exclude.ui:83
+msgid "Unreadable Paths"
+msgstr "Caminhos ilegíveis"
+
+#: src/ui/widget/dialog/exclude.ui:84
+msgid "These locations were identified as unreadable from a previous backup."
+msgstr "Esses locais foram identificados como ilegíveis em um backup anterior."
+
+#: src/ui/widget/dialog/exclude.ui:107
+msgid "Pattern Type"
+msgstr "Tipo de padrão"
+
+#: src/ui/widget/dialog/exclude.ui:121
+msgid "Pattern"
+msgstr "Padrão"
+
+#: src/ui/widget/dialog/exclude.ui:139
+msgid "BorgBackup Patterns"
+msgstr "Padrões de Backup Borg"
+
+#: src/ui/widget/dialog/exclude.ui:150
+msgid ""
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
+msgstr ""
+"Os padrões acima devem ser escritos de uma forma particular. Eles são "
+"comparados com o caminho sem levar <tt>/</tt>. Além disso, os padrões de "
+"estilo shell combinam como se estivessem carregando um <tt>*</tt> na parte "
+"de trás. Para obter mais detalhes, consulte a <a href=\"https://borgbackup."
+"readthedocs.io/en/stable/usage/help.html\">documentação do BorgBackup</a>."
+
+#: src/ui/widget/dialog/preferences.rs:212
+msgid ""
+"The title of this backup configuration. Will be displayed as “{}” when left "
+"empty."
+msgstr ""
+"O título desta configuração de backup. Será exibido como “{}” quando deixado "
+"em branco."
+
+#: src/ui/widget/dialog/preferences.rs:278
+msgid "Shell command invalid"
+msgstr "Comando shell inválido"
+
+#: src/ui/widget/dialog/preferences.rs:465
+msgid "Change Encryption Password Error"
+msgstr "Erro na troca de senha de criptografia"
+
+#: src/ui/widget/dialog/preferences.rs:472
+msgid "Password changed successfully"
+msgstr "Senha alterada com sucesso"
+
+#: src/ui/widget/dialog/preferences.ui:27
+#: src/ui/widget/dialog/preferences.ui:137
+msgid "Change Encryption Password"
+msgstr "Trocar a senha de criptografia"
+
+#: src/ui/widget/dialog/preferences.ui:54
+msgid "_Change Password"
+msgstr "Alterar _senha"
+
+#: src/ui/widget/dialog/preferences.ui:84
+msgid "Changing Encryption Password"
+msgstr "Trocando a senha de criptografia"
+
+#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:125
+msgid "Title"
+msgstr "Título"
+
+#: src/ui/widget/dialog/preferences.ui:133
+msgid "Encryption password"
+msgstr "Senha de criptografia"
+
+#: src/ui/widget/dialog/preferences.ui:134
+msgid "The encryption password of the backup repository."
+msgstr "A senha de criptografia do repositório de backup."
+
+#: src/ui/widget/dialog/preferences.ui:154
+msgid "Run on Battery"
+msgstr "Executar com a bateria"
+
+#: src/ui/widget/dialog/preferences.ui:155
+msgid "Allow scheduled backups when device is battery powered"
+msgstr ""
+"Permite backups agendados quando o dispositivo estiver alimentado por bateria"
+
+#: src/ui/widget/dialog/preferences.ui:163
+#: src/ui/widget/dialog/setup/location.ui:174
+msgid "Additional command line arguments"
+msgstr "Argumentos adicionais de linha de comando"
+
+#: src/ui/widget/dialog/preferences.ui:164
+#: src/ui/widget/dialog/setup/location.ui:175
+msgid ""
+"These arguments will be added to the call of the borg binary. Only long "
+"options, starting with “--”, are supported."
+msgstr ""
+"Esses argumentos serão adicionados para chamar o binário do borg. Há suporte "
+"apenas para as opções longas, que iniciam com “--”."
+
+#: src/ui/widget/dialog/preferences.ui:167
+#: src/ui/widget/dialog/setup/location.ui:179
+msgid "Command line arguments"
+msgstr "Argumentos de linha de comando"
+
+#: src/ui/widget/dialog/preferences.ui:178
+msgid "Shell Commands"
+msgstr "Comandos de shell"
+
+#: src/ui/widget/dialog/preferences.ui:179
+msgid "These bash shell commands will be called on certain backup events."
+msgstr ""
+"Esses comandos bash de shell serão chamados em determinados eventos de "
+"backup."
+
+#: src/ui/widget/dialog/preferences.ui:192
+msgid "Pre-Backup Shell Command"
+msgstr "Comando shell pré-backup"
+
+#: src/ui/widget/dialog/preferences.ui:199
+#: src/ui/widget/dialog/preferences.ui:220
+msgid "Run with test values"
+msgstr "Execute com valores de teste"
+
+#: src/ui/widget/dialog/preferences.ui:213
+msgid "Post-Backup Shell Command"
+msgstr "Comando shell pós-backup"
+
+#: src/ui/widget/dialog/prune.rs:89
+msgid "Reclaim Free Space"
+msgstr "Recuperar espaço livre"
+
+#: src/ui/widget/dialog/prune.rs:123 src/ui/widget/dialog/prune_review.rs:87
+msgid "Failed to determine how many archives would be deleted"
+msgstr "Falha ao determinar quantos arquivos seria excluídos"
+
+#. Translators: Header while creating a list of old archives to be approved for deletion.
+#: src/ui/widget/dialog/prune.ui:38
+msgid "Checking for old Archives"
+msgstr "Verificando arquivos antigos"
+
+#: src/ui/widget/dialog/prune.ui:39
+msgid "Creating a list of old archives to be approved for deletion."
+msgstr "Criando uma lista de arquivos antigos para ser aprovada para exclusão."
+
+#: src/ui/widget/dialog/prune.ui:66 src/ui/widget/dialog/prune.ui:82
+#: src/ui/widget/dialog/prune_review.ui:82
+msgid "Delete Archives"
+msgstr "Excluir arquivos"
+
+#: src/ui/widget/dialog/prune.ui:79
+msgid ""
+"Proceeding with this operation will irretrievably delete some of the "
+"archives. The saved data for those specific points in time will no longer be "
+"available."
+msgstr ""
+"Continuar com essa operação excluirá definitivamente alguns dos arquivos. Os "
+"dados salvos para estes pontos específicos no tempo não estarão mais "
+"disponíveis."
+
+#: src/ui/widget/dialog/prune.ui:95 src/ui/widget/dialog/prune_review.ui:95
+msgid "Keep Archives"
+msgstr "Manter arquivos"
+
+#: src/ui/widget/dialog/prune.ui:108 src/ui/widget/dialog/prune_review.ui:108
+msgid "Not Considered"
+msgstr "Não considerado"
+
+#: src/ui/widget/dialog/prune.ui:109 src/ui/widget/dialog/prune_review.ui:109
+msgid "Archives with different prefix"
+msgstr "Arquivos com prefixo diferente"
+
+#: src/ui/widget/dialog/prune_review.ui:6
+msgid "Review Changes"
+msgstr "Revisar alterações"
+
+#: src/ui/widget/dialog/prune_review.ui:38
+msgid "Assessing Impact on old Archives"
+msgstr "Avaliação do impacto em arquivos antigos"
+
+#: src/ui/widget/dialog/prune_review.ui:39
+msgid "Collecting information about the effect of the changes on old archives"
+msgstr "Coletando informações sobre o efeito das mudanças em arquivos antigos"
+
+#: src/ui/widget/dialog/prune_review.ui:66
+msgid "Apply"
+msgstr "Aplicar"
+
+#: src/ui/widget/dialog/prune_review.ui:79
+msgid ""
+"After applying these changes, the next automatic deletion of old archives "
+"would have the following consequences."
+msgstr ""
+"Depois de aplicar essas alterações, a próxima exclusão automática de "
+"arquivos antigos teria as seguintes consequências."
+
+#: src/ui/widget/dialog/setup.rs:139
+msgid "Setup Existing Repository"
+msgstr "Configurar repositório existente"
+
+#: src/ui/widget/dialog/setup.rs:149
+msgid "Location is not a valid backup repository."
+msgstr "O local não é um repositório de backup válido."
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "The repository must originate from Pika Backup or compatible software."
+msgstr ""
+"O repositório deve ser originado do Pika Backup ou software compatível."
+
+#: src/ui/widget/dialog/setup.rs:333
+msgid "Failed to Configure Repository"
+msgstr "Falha ao configurar o repositório"
+
+#: src/ui/widget/dialog/setup.rs:346
+msgid "Failed"
+msgstr "Falhou"
+
+#: src/ui/widget/dialog/setup.ui:6
+#: src/ui/widget/dialog/setup/location_kind.ui:6
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+msgid "Setup"
+msgstr "Configuração"
+
+#: src/ui/widget/dialog/setup/actions.rs:56
+msgid "Repository location not found."
+msgstr "Local do repositório não encontrado."
+
+#: src/ui/widget/dialog/setup/actions.rs:58
+msgid "A mount operation succeeded but the location is still unavailable."
+msgstr ""
+"Uma operação de montagem foi bem-sucedida, mas o local ainda não está "
+"disponível."
+
+#: src/ui/widget/dialog/setup/actions.rs:113
+msgid "Loading Backup Repository"
+msgstr "Carregando repositório de backup"
+
+#: src/ui/widget/dialog/setup/actions.rs:192
+#: src/ui/widget/dialog/setup/create_new.ui:6
+#: src/ui/widget/dialog/setup/create_new.ui:21
+msgid "Creating Backup Repository"
+msgstr "Criando repositório de backup"
+
+#: src/ui/widget/dialog/setup/actions.rs:201
+msgid "Getting Repository Information"
+msgstr "Carregando informação do repositório"
+
+#: src/ui/widget/dialog/setup/add_existing.ui:20
+msgid "Checking Backup Repository"
+msgstr "Verificando o repositório de backup"
+
+#: src/ui/widget/dialog/setup/add_existing.ui:45
+msgid ""
+"The encryption password of this backup repository is required to access it."
+msgstr ""
+"A senha de criptografia deste repositório de backup é necessária para acessá-"
+"lo."
+
+#: src/ui/widget/dialog/setup/encryption.ui:6
+msgid "Setup Encryption"
+msgstr "Configurar criptografia"
+
+#: src/ui/widget/dialog/setup/encryption.ui:32
+msgid "_Create"
+msgstr "_Criar"
+
+#: src/ui/widget/dialog/setup/location.rs:198
+msgid "Repository Name Empty"
+msgstr "Nome do repositório vazio"
+
+#: src/ui/widget/dialog/setup/location.rs:199
+msgid "The repository folder name must be set"
+msgstr "O nome da pasta do repositório deve ser definido"
+
+#: src/ui/widget/dialog/setup/location.rs:210
+msgid "No Base Folder Selected"
+msgstr "Nenhuma pasta base selecionada"
+
+#: src/ui/widget/dialog/setup/location.rs:211
+msgid "Select a base folder for the backup repository"
+msgstr "Selecione uma pasta base para o repositório de backup"
+
+#: src/ui/widget/dialog/setup/location.rs:218
+msgid "Invalid Remote Location"
+msgstr "Local remoto inválido"
+
+#: src/ui/widget/dialog/setup/location.ui:6
+msgid "Select Location"
+msgstr "Selecione o local"
+
+#: src/ui/widget/dialog/setup/location.ui:22
+#: src/ui/widget/dialog/setup/location.ui:84
+msgid "Location"
+msgstr "Local"
+
+#: src/ui/widget/dialog/setup/location.ui:26
+#: src/ui/widget/dialog/setup/location.ui:89
+msgid "Advanced Options"
+msgstr "Opções avançadas"
+
+#: src/ui/widget/dialog/setup/location.ui:34
+msgid "Repository Base Folder"
+msgstr "Pasta base do repositório"
+
+#: src/ui/widget/dialog/setup/location.ui:47
+msgid "Repository Name"
+msgstr "Nome do repositório"
+
+#: src/ui/widget/dialog/setup/location.ui:70
+msgid ""
+"Backups to the selected location could be corrupted if the device is "
+"disconnected or powered down with a backup in progress. If possible, "
+"reformat the backup location with a format like “NTFS” or “Ext4.” Note that "
+"reformatting deletes all files on the location!"
+msgstr ""
+"Os backups para o local selecionado podem ser corrompidos se o dispositivo "
+"for desconectado ou desligado com um backup em andamento. Se possível, "
+"formate novamente o local de backup com um formato como \"NTFS\" ou "
+"\"Ext4\". Observe que a reformatação exclui todos os arquivos no local!"
+
+#: src/ui/widget/dialog/setup/location.ui:100
+msgid "Repository URL"
+msgstr "URL do repositório"
+
+#: src/ui/widget/dialog/setup/location.ui:114
+msgid "Examples"
+msgstr "Exemplos"
+
+#: src/ui/widget/dialog/setup/location.ui:125
+msgid ""
+"ssh://user@server.example.org/~/backup\n"
+"smb://user@server.example.org/files/backup"
+msgstr ""
+"ssh://user@server.example.org/~/backup\n"
+"smb://user@server.example.org/files/backup"
+
+#: src/ui/widget/dialog/setup/location.ui:132
+msgid "Conventional Locations"
+msgstr "Locais convencionais"
+
+#: src/ui/widget/dialog/setup/location.ui:144
+msgid ""
+"SMB and SFTP remote-backup locations can be provided as a URL with the "
+"“smb://” or “sftp://” protocol prefix."
+msgstr ""
+"Os locais de backup remoto SMB e SFTP podem ser fornecidos como um URL com o "
+"prefixo de protocolo “smb://” ou “sftp://”."
+
+#: src/ui/widget/dialog/setup/location.ui:151
+msgid "Locations with BorgBackup Support"
+msgstr "Locais com suporte BorgBackup"
+
+#: src/ui/widget/dialog/setup/location.ui:163
+msgid ""
+"Locations with explicit BorgBackup support can provide better performance. "
+"They are special in that the server has a BorgBackup binary installed. For "
+"those locations, either the “<server address>:<folder>” syntax or the "
+"“ssh://” prefix can be used."
+msgstr ""
+"Locais com suporte explícito ao BorgBackup podem fornecer melhor desempenho. "
+"Eles são especiais porque o servidor possui um binário BorgBackup instalado. "
+"Para esses locais, a sintaxe “<endereço do servidor>:<pasta>” ou o prefixo "
+"“ssh://” podem ser usados."
+
+#: src/ui/widget/dialog/setup/location.ui:200
+msgid "_Connect"
+msgstr "_Conectar"
+
+#: src/ui/widget/dialog/setup/location.ui:216
+msgid "_Continue"
+msgstr "_Continuar"
+
+#: src/ui/widget/dialog/setup/location_kind.rs:136
+msgid "Create new Repository"
+msgstr "Criar novo repositório"
+
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+msgid "Select a location for the new backup repository"
+msgstr "Selecione um local para o novo repositório de backup"
+
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:31
+msgid "Use Existing Repository"
+msgstr "Usar repositório existente"
+
+#: src/ui/widget/dialog/setup/location_kind.rs:144
+msgid ""
+"Select a location that contains an existing backup repository. Repositories "
+"created with other BorgBackup compatible software can be used as well."
+msgstr ""
+"Selecione um local que contenha um repositório de backup existente. "
+"Repositórios criados com outro software compatível com BorgBackup também "
+"podem ser usados."
+
+#: src/ui/widget/dialog/setup/location_kind.rs:264
+msgid "Free space: {}"
+msgstr "Espaço livre: {}"
+
+#: src/ui/widget/dialog/setup/location_kind.ui:25
+#: src/ui/widget/dialog/setup/location_kind.ui:79
+msgid "Location on Disk"
+msgstr "Local no disco"
+
+#: src/ui/widget/dialog/setup/repo_kind.ui:16
+msgid "Configure a new or existing backup repository"
+msgstr "Configure um repositório de backup novo ou existente"
+
+#: src/ui/widget/dialog/setup/repo_kind.ui:23
+msgid "Create New Repository"
+msgstr "Criar novo repositório"
+
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+msgid ""
+"Archive prefixes must be unique to every backup configuration. Using the "
+"same prefix on two devices is discouraged unless a new device supersedes the "
+"old one."
+msgstr ""
+"Os prefixos de arquivo devem ser exclusivos para cada configuração de "
+"backup. O uso do mesmo prefixo em dois dispositivos é desencorajado, a menos "
+"que um novo dispositivo substitua o antigo."
+
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+msgid "_Save"
+msgstr "_Salvar"
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:6
+msgid "Transfer Settings"
+msgstr "Transferir configurações"
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:19
+#: src/ui/widget/dialog/setup/transfer_settings.ui:50
+msgid "S_kip"
+msgstr "Avan_çar"
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:29
+msgid "Checking for Previous Configurations"
+msgstr "Verificando configurações anteriores"
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:30
+msgid ""
+"Collecting information to transfer previously used settings. This step is "
+"optional."
+msgstr ""
+"Coletar informações para transferir configurações usadas anteriormente. Esta "
+"etapa é opcional."
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+msgid ""
+"One set of configurations used for previous backups can be selected for "
+"transfer to the new setup. The configuration can be adjusted afterward."
+msgstr ""
+"Um conjunto de configurações usado para backups anteriores pode ser "
+"selecionado para transferência para a nova configuração. A configuração pode "
+"ser ajustada posteriormente."
+
+#: src/ui/widget/dialog/setup/types.rs:52
+msgid "Incomplete URL or borg syntax"
+msgstr "URL ou sintaxe borg incompleta"
+
+#: src/ui/widget/dialog/setup/types.rs:61
+msgid "The remote location must have a specified path."
+msgstr "O local remoto deve ter um caminho especificado."
+
+#: src/ui/widget/dialog/setup/types.rs:70
+msgid "Invalid remote location: “{}”"
+msgstr "Local remoto inválido: “{}”"
+
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:130
+msgid "Backup Location"
+msgstr "Local do backup"
+
+#: src/ui/widget/dialog/storage.ui:30
+msgid "Disk"
+msgstr "Disco"
+
+#: src/ui/widget/dialog/storage.ui:33
+msgid "Volume"
+msgstr "Volume"
+
+#: src/ui/widget/dialog/storage.ui:42
+msgid "Device"
+msgstr "Dispositivo"
+
+#: src/ui/widget/dialog/storage.ui:51
+msgid "Path"
+msgstr "Caminho"
+
+#: src/ui/widget/dialog/storage.ui:63
+msgid "Remote"
+msgstr "Remoto"
+
+#: src/ui/widget/dialog/storage.ui:66
+msgid "URL"
+msgstr "URL"
+
+#: src/ui/widget/dialog/storage.ui:78
+msgid "Space"
+msgstr "Espaço"
+
+#: src/ui/widget/dialog/storage.ui:81
+msgid "Total"
+msgstr "Total"
+
+#: src/ui/widget/dialog/storage.ui:90
+msgid "Free"
+msgstr "Livre"
 
 #: src/ui/widget/encryption_preferences_group.rs:84
 msgid "No Password Provided"
@@ -2393,266 +2652,74 @@ msgstr "Nova senha de criptografia"
 msgid "Repeat Password"
 msgstr "Repita a senha"
 
-#: src/ui/widget/overview_page.rs:188
+#: src/ui/widget/folder_button.rs:146
+msgid "_Select Folder…"
+msgstr "_Selecionar pasta…"
+
+#: src/ui/widget/overview.rs:171
 msgid "Remove Backup Setup?"
 msgstr "Remover configuração de backup?"
 
-#: src/ui/widget/overview_page.rs:189
-msgid "Removing the setup will not delete any archives."
-msgstr "A remoção da configuração não excluirá nenhum arquivo."
+#: src/ui/widget/overview.rs:172
+msgid "Removing the setup will not delete any archives"
+msgstr "A remoção da configuração não excluirá nenhum arquivo"
 
-#: src/ui/widget/overview_page.rs:191
-msgid "Remove Setup"
-msgstr "Remover configuração"
+#: src/ui/widget/overview.rs:174
+msgid "_Remove Setup"
+msgstr "_Remover configuração"
 
-#: src/ui/widget/overview_page.ui:8
+#: src/ui/widget/overview.ui:8
 msgid "_Keyboard Shortcuts"
 msgstr "Atalhos de _teclado"
 
-#: src/ui/widget/overview_page.ui:12
+#: src/ui/widget/overview.ui:12
 msgid "_Help"
 msgstr "Aj_uda"
 
 # De acordo com a Wikipedia em [1]: "Pika é um gênero de mamíferos da família Ochotonidae. Na nomenclatura vernácula são chamados de pikas, lebres-assobiadoras, lágomis e coneys". Segundo o portal EnfoqueMS em [2] "os Ochotona iliensis, os pikas-de-ili estão em extinção". [1]<https://pt.wikipedia.org/wiki/Ochotona>[2]<https://www.enfoquems.com.br/ele-existe-pikachu-e-um-coelho-magico-e-foi-fotografado-na-china/>.
-#: src/ui/widget/overview_page.ui:16
+#: src/ui/widget/overview.ui:16
 msgid "_About Pika Backup"
 msgstr "_Sobre o Pika Backup"
 
-#: src/ui/widget/overview_page.ui:29
+#: src/ui/widget/overview.ui:29
 msgid "Setup Backup"
 msgstr "Configurar backup"
 
-#: src/ui/widget/overview_page.ui:36
+#: src/ui/widget/overview.ui:36
 msgid "Main Menu"
 msgstr "Menu principal"
 
-#: src/ui/widget/overview_page.ui:56
+#: src/ui/widget/overview.ui:56
 msgid "No Backup Configured"
 msgstr "Nenhum backup configurado"
 
-#: src/ui/widget/overview_page.ui:57
+#: src/ui/widget/overview.ui:57
 msgid "Add a new configuration to start creating backups"
 msgstr "Adiciona uma nova configuração para começar a criar backups"
 
-#: src/ui/widget/overview_page.ui:60
+#: src/ui/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "_Configurar backup"
-
-#: src/ui/widget/schedule_page.ui:29
-msgid ":"
-msgstr ":"
-
-#: src/ui/widget/schedule_page.ui:71
-msgid "Regularly Create Backups"
-msgstr "Criar backups regularmente"
-
-#: src/ui/widget/schedule_page.ui:76
-msgid "Frequency"
-msgstr "Frequência"
-
-#: src/ui/widget/schedule_page.ui:84
-msgid "Preferred Time"
-msgstr "Horário preferido"
-
-#: src/ui/widget/schedule_page.ui:104
-msgid "Preferred Weekday"
-msgstr "Dia da semana preferido"
-
-#: src/ui/widget/schedule_page.ui:109
-msgid "Preferred Day of Month"
-msgstr "Dia do mês preferido"
-
-#: src/ui/widget/schedule_page.ui:133
-msgid "Save Configuration"
-msgstr "Salvar configuração"
-
-#: src/ui/widget/schedule_page.ui:145
-msgid "Regularly Cleanup Archives"
-msgstr "Limpar arquivos regularmente"
-
-#: src/ui/widget/schedule_page.ui:146
-msgid "Remove old archives after creating new backups"
-msgstr "Remover arquivos antigos após criar novos backups"
-
-#: src/ui/widget/schedule_page.ui:156
-msgid "Preserved Archives"
-msgstr "Preservar arquivos"
-
-#: src/ui/widget/schedule_page.ui:157
-msgid "Amount and time span of retained archives"
-msgstr "Quantidade e duração dos arquivos retidos"
-
-#: src/ui/widget/schedule_page.ui:166
-msgid "Details"
-msgstr "Detalhes"
-
-#: src/ui/widget/schedule_page.ui:170
-msgid "Keep Hourly"
-msgstr "Manter de hora em hora"
-
-#: src/ui/widget/schedule_page.ui:186
-msgid "Keep Daily"
-msgstr "Manter diariamente"
-
-#: src/ui/widget/schedule_page.ui:202
-msgid "Keep Weekly"
-msgstr "Manter semanalmente"
-
-#: src/ui/widget/schedule_page.ui:217
-msgid "Keep Monthly"
-msgstr "Manter mensalmente"
-
-#: src/ui/widget/schedule_page.ui:231
-msgid "Keep Annual"
-msgstr "Manter anualmente"
-
-#: src/ui/widget/schedule_page/event.rs:114
-msgid "Invalid time format."
-msgstr "Formato de horário inválido."
-
-#: src/ui/widget/schedule_page/event.rs:122
-msgid "Invalid weekday."
-msgstr "Dia da semana inválido."
-
-#: src/ui/widget/schedule_page/event.rs:129
-msgid "No frequency selected."
-msgstr "Sem frequência selecionada."
-
-#: src/ui/widget/schedule_page/event.rs:228
-msgid "Disable backup schedule?"
-msgstr "Desabilita agendamento de backup?"
-
-#: src/ui/widget/schedule_page/event.rs:229
-msgid "No longer remind of backups based on a schedule."
-msgstr "Não lembrar mais de backups baseados em agendamento."
-
-#: src/ui/widget/schedule_page/event.rs:230
-msgid "Keep Schedule"
-msgstr "Manter agendamento"
-
-#: src/ui/widget/schedule_page/event.rs:231
-msgid "Disable Schedule"
-msgstr "Desabilitar agendamento"
-
-#: src/ui/widget/schedule_page/event.rs:294
-msgid "No preset selected."
-msgstr "Nenhuma predefinição selecionada."
-
-#: src/ui/widget/schedule_page/prune_preset.rs:20
-msgid "Keep Many"
-msgstr "Manter muitos"
-
-#: src/ui/widget/schedule_page/prune_preset.rs:21
-msgid "Keep Some"
-msgstr "Manter alguns"
-
-#: src/ui/widget/schedule_page/prune_preset.rs:22
-msgid "Custom"
-msgstr "Personalizado"
-
-#: src/ui/widget/schedule_page/status.rs:16
-msgid "Next backup in one minute"
-msgid_plural "Next backup in {} minutes"
-msgstr[0] "Próximo backup em um minuto"
-msgstr[1] "Próximo backup em {} minutos"
-
-#: src/ui/widget/schedule_page/status.rs:22
-msgid "Next backup in one hour"
-msgid_plural "Next backup in {} hours"
-msgstr[0] "Próximo backup em uma hora"
-msgstr[1] "Próximo backup em {} horas"
-
-#: src/ui/widget/schedule_page/status.rs:28
-msgid "Next backup in one day"
-msgid_plural "Next backup in {} days"
-msgstr[0] "Próximo backup em um dia"
-msgstr[1] "Próximo backup em {} dias"
-
-#: src/ui/widget/schedule_page/status.rs:34
-msgid "Next backup in one week"
-msgid_plural "Next backup in {} weeks"
-msgstr[0] "Próximo backup em uma semana"
-msgstr[1] "Próximo backup em {} semanas"
-
-#: src/ui/widget/schedule_page/status.rs:51
-msgid "Scheduled Backups Disabled"
-msgstr "Backups agendados desativados"
-
-#: src/ui/widget/schedule_page/status.rs:69
-msgid "Hourly Backups Enabled"
-msgstr "Backups de hora em hora ativados"
-
-#: src/ui/widget/schedule_page/status.rs:70
-msgid "Daily Backups Enabled"
-msgstr "Backups diários ativados"
-
-#: src/ui/widget/schedule_page/status.rs:71
-msgid "Weekly Backups Enabled"
-msgstr "Backups semanais ativados"
-
-#: src/ui/widget/schedule_page/status.rs:72
-msgid "Monthly Backups Enabled"
-msgstr "Backups mensais ativados"
-
-#: src/ui/widget/schedule_page/status.rs:83
-msgid "Will not start until requirements are met."
-msgstr "Não será iniciado até os requisitos serem atendidos."
-
-#: src/ui/widget/schedule_page/status.rs:88
-msgid "Inconsistent backup information"
-msgstr "Informações de backup inconsistentes"
-
-#: src/ui/widget/schedule_page/status.rs:94
-msgid "Backup Past Due"
-msgstr "Backup vencido"
-
-#: src/ui/widget/schedule_page/status.rs:95
-msgid "Waiting until requirements are met"
-msgstr "Aguardando até os requisitos serem atendidos"
-
-#: src/ui/widget/schedule_page/status.rs:98
-msgid "Scheduled Backups Unavailable"
-msgstr "Backups agendados indisponíveis"
-
-#: src/ui/widget/schedule_page/status.rs:101
-msgid "Waiting for Backup to Start"
-msgstr "Aguardando o início do backup"
-
-#: src/ui/widget/schedule_page/status.rs:110
-msgid "Network connection must not be metered"
-msgstr "A conexão de rede não deve ser limitada"
-
-#: src/ui/widget/schedule_page/status.rs:116
-msgid "Other backups on repository have to be completed"
-msgstr "Outros backups no repositório devem estar concluídos"
-
-#: src/ui/widget/schedule_page/status.rs:123
-msgid "Device must be connected to power"
-msgstr "O dispositivo deve estar conectado à energia"
-
-#: src/ui/widget/schedule_page/status.rs:134
-msgid "Backup device has to be connected"
-msgstr "O dispositivo de backup precisa estar conectado"
-
-#: src/ui/widget/schedule_page/status.rs:136
-msgid "Reminder will be sent when device is required"
-msgstr "Um lembrete será enviado quando o dispositivo for necessário"
-
-#: src/ui/widget/schedule_page/status.rs:144
-msgid "Network connection has to be available"
-msgstr "Uma conexão de rede deve estar disponível"
-
-#: src/ui/widget/schedule_page/status.rs:154
-msgid "Background process inactive"
-msgstr "Processo em segundo plano inativo"
-
-#: src/ui/widget/schedule_page/status.rs:155
-msgid "This is required for scheduled backups"
-msgstr "Isso é necessário para backups agendados"
 
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Esse arquivo ou diretório não existe"
+
+#~ msgid "<span line_height='1.6'>Only available for completed backups:</span>"
+#~ msgstr ""
+#~ "<span line_height='1.6'>Disponível apenas para backups concluídos:</span>"
+
+#~ msgid "Exclude Directory"
+#~ msgstr "Excluir diretório"
+
+#~ msgid "Exclude Single File"
+#~ msgstr "Excluir arquivo único"
+
+#~ msgid "A repository location has to be given."
+#~ msgstr "Um local de repositório deve ser fornecido."
+
+#~ msgid "No longer remind of backups based on a schedule."
+#~ msgstr "Não lembrar mais de backups baseados em agendamento."
 
 #~ msgid "Sophie Herold"
 #~ msgstr "Sophie Herold"
