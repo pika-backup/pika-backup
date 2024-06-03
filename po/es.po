@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-05-19 11:19+0000\n"
-"PO-Revision-Date: 2024-05-28 11:34+0200\n"
+"POT-Creation-Date: 2024-05-29 11:58+0000\n"
+"PO-Revision-Date: 2024-06-02 23:54+0200\n"
 "Last-Translator: Julián Villodre <jvillodrede@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -150,10 +150,10 @@ msgid ""
 "a keyring daemon (“secret service”) to store passwords. For installation "
 "instructions see the operating system documentation."
 msgstr ""
-"Falló la recuperación de la contraseña de cifrado desde el llavero. Pika "
-"Backup requiere de un («servicio de secretos»\") de demonio de llavero para "
-"almacenar contraseñas. Para obtener instrucciones sobre su instalación, "
-"consulte la documentación del sistema operativo."
+"Falló la recuperación de la contraseña de cifrado desde el depósito de "
+"claves. Pika Backup requiere de un («servicio de secretos»\") de demonio del "
+"depósito de claves para almacenar contraseñas. Para obtener instrucciones "
+"sobre su instalación, consulte la documentación del sistema operativo."
 
 #: src/borg/error.rs:30 src/ui/utils.rs:283
 msgid "The operation terminated unexpectedly."
@@ -476,55 +476,64 @@ msgstr "Un mensaje de error/advertencia"
 
 #: src/borg/scripts.rs:109
 msgid "The ID of the created backup archive"
-msgstr ""
+msgstr "El ID del archivador de respaldo creado"
 
 #: src/borg/scripts.rs:110
 msgid "The name of the created backup archive"
-msgstr ""
+msgstr "El nombre del archivador de respaldo creado"
 
 #: src/borg/scripts.rs:112
 msgid "The total amount of bytes referenced by this archive"
-msgstr ""
+msgstr "La cantidad total de bytes a los que hace referencia este archivador"
 
 #: src/borg/scripts.rs:115
 msgid "The compressed size of all data references by this archive"
 msgstr ""
+"El tamaño comprimido de todas las referencias de datos de este archivador"
 
 #: src/borg/scripts.rs:118
 msgid "The deduplicated amount of bytes for this archive"
-msgstr ""
+msgstr "La cantidad de bytes deduplicados para este archivador"
 
 #: src/borg/scripts.rs:120
 msgid "The amount of files saved in this archive"
-msgstr ""
+msgstr "La cantidad de archivos guardados en este archivador"
 
 #: src/borg/scripts.rs:271
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
 msgstr ""
+"No se pudo ejecutar el comando previo al respaldo configurado en las "
+"preferencias.\n"
+"{}"
 
 #: src/borg/scripts.rs:275
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
 msgstr ""
+"No se pudo ejecutar el comando posterior al respaldo configurado en las "
+"preferencias.\n"
+"{}"
 
 #: src/borg/scripts.rs:301
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
+"El comando previo al respaldo configurado en las preferencias devolvió un "
+"código de error: {}"
 
 #: src/borg/scripts.rs:305
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
+"El comando posterior al respaldo configurado en las preferencias devolvió un "
+"código de error: {}"
 
 #: src/borg/task.rs:47
-#, fuzzy
-#| msgid "Unspecified operation"
 msgid "Generic Operation"
-msgstr "Operación no especificada"
+msgstr "Operación genérica"
 
 #: src/borg/task.rs:61
 msgid "Backing up Data"
@@ -545,13 +554,11 @@ msgstr "Identificando archivadores antiguos"
 
 #: src/borg/task.rs:117
 msgid "Reclaiming Free Space"
-msgstr ""
+msgstr "Recuperando espacio libre"
 
 #: src/borg/task.rs:152
-#, fuzzy
-#| msgid "Checking for old Archives"
 msgid "Checking Archives Integrity"
-msgstr "Buscando archivadores antiguos"
+msgstr "Comprobando la integridad de los archivadores"
 
 #: src/borg/task.rs:179
 msgid "Deleting Archive"
@@ -563,11 +570,11 @@ msgstr "Actualizando la lista de archivadores"
 
 #: src/borg/task.rs:248
 msgid "Changing Passphrase"
-msgstr ""
+msgstr "Cambiando contraseña"
 
 #: src/borg/task.rs:283
 msgid "Running Custom Shell Command"
-msgstr ""
+msgstr "Ejecutando comando de shell personalizado"
 
 #. Translators: User home directory
 #: src/config.rs:71 src/ui/page_backup/display.rs:13
@@ -649,6 +656,8 @@ msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
 msgstr ""
+"La versión del archivo de configuración cargado {} no es compatible con esta "
+"versión de Pika Backup"
 
 #: src/config/pattern.rs:242 src/ui/dialog_exclude_pattern.ui:55
 msgid "Regular Expression"
@@ -713,22 +722,16 @@ msgid "Back Up Now"
 msgstr "Crear respaldo ahora"
 
 #: src/daemon/init.rs:34
-#, fuzzy
-#| msgid "Could not load configuration file."
 msgid "Error loading configuration"
-msgstr "No se pudo cargar el archivo de configuración."
+msgstr "No se pudo cargar la configuración"
 
 #: src/daemon/init.rs:35
-#, fuzzy
-#| msgid "No longer remind of backups based on a schedule."
 msgid "Not monitoring backup schedule."
-msgstr "No volver a recordar acerca de respaldos programados."
+msgstr "No se monitoriza la programación del respaldo."
 
 #: src/daemon/init.rs:60
-#, fuzzy
-#| msgid "Mounting Backup Archives"
 msgid "Monitoring Backup Schedule"
-msgstr "Montando archivadores de respaldo"
+msgstr "Se monitoriza la programación de respaldo"
 
 #: src/daemon/init.rs:126
 msgid "Fatal Error During Back Up"
@@ -742,7 +745,7 @@ msgstr[1] "La copia de respaldo Pika falló mientras ejecutaba {} respaldos."
 
 #: src/daemon/init.rs:168 src/daemon/init.rs:170 src/daemon/init.rs:177
 msgid "Error restarting monitor daemon"
-msgstr ""
+msgstr "No se pudo reiniciar el demonio del monitor"
 
 #: src/daemon/schedule/init.rs:93
 msgid "The backup repository is already in use."
@@ -793,17 +796,13 @@ msgid "Abort"
 msgstr "Cancelar"
 
 #: src/ui.rs:202
-#, fuzzy
-#| msgid "Backup Running"
 msgid "A Backup Operation is Running"
-msgstr "Respaldo en ejecución"
+msgstr "Una operación de respaldo se encuentra en ejecución"
 
 #: src/ui.rs:204
-#, fuzzy
-#| msgid "Pika Backup crashed while running a backup."
-#| msgid_plural "Pika Backup crashed while running {} backups."
 msgid "Pika Backup cannot be quit during a backup operation."
-msgstr "La copia de respaldo Pika falló mientras ejecutaba un respaldo."
+msgstr ""
+"Pika Backup no se puede cerrar mientras ejecuta una operación de respaldo."
 
 #: src/ui.rs:232
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
@@ -856,10 +855,8 @@ msgid "_About Pika Backup"
 msgstr "_Acerca de Copia de respaldo Pika"
 
 #: src/ui/app_window.ui:29
-#, fuzzy
-#| msgid "BorgBackup Patterns"
 msgid "Backup Preferences"
-msgstr "Patrones de BorgBackup"
+msgstr "Preferencias de respaldo"
 
 #: src/ui/app_window.ui:33
 msgid "Remove Backup Setup"
@@ -875,7 +872,7 @@ msgstr "Configurar respaldo"
 
 #: src/ui/app_window.ui:115
 msgid "Main Menu"
-msgstr ""
+msgstr "Menú principal"
 
 #: src/ui/app_window.ui:135
 msgid "No Backup Configured"
@@ -886,48 +883,32 @@ msgid "Add a new configuration to start creating backups"
 msgstr "Añadir una configuración nueva para empezar a crear respaldos"
 
 #: src/ui/app_window.ui:139
-#, fuzzy
-#| msgid "Setup Backup"
 msgid "_Setup Backup"
-msgstr "Configurar respaldo"
+msgstr "Configurar re_spaldo"
 
 #: src/ui/app_window.ui:183
-#, fuzzy
-#| msgid "Backups"
 msgid "Backup"
-msgstr "Respaldos"
+msgstr "Respaldo"
 
 #: src/ui/app_window.ui:205
-#, fuzzy
-#| msgid ""
-#| "Archives are being mounted.\n"
-#| "This might take a while."
 msgid "Archives are being mounted. This might take a while."
-msgstr ""
-"Se están montando los archivadores.\n"
-"Esto puede tardar un poco."
+msgstr "Se están montando los archivadores. Esto puede tardar un poco."
 
 #: src/ui/app_window.ui:218
-#, fuzzy
-#| msgid "Location"
 msgid "Actions"
-msgstr "Ubicación"
+msgstr "Acciones"
 
 #: src/ui/app_window.ui:244
 msgid "_Backup"
 msgstr "_Respaldo"
 
 #: src/ui/app_window.ui:255
-#, fuzzy
-#| msgid "Get backup info"
 msgid "Eject Backup Disk"
-msgstr "Obtener información del respaldo"
+msgstr "Expulsar disco de respaldo"
 
 #: src/ui/app_window.ui:271
-#, fuzzy
-#| msgid "Connect"
 msgid "Disconnected"
-msgstr "Conectar"
+msgstr "Desconectado"
 
 # Not sure if the underscore should be kept in the translation
 #: src/ui/app_window.ui:289
@@ -950,10 +931,8 @@ msgstr ""
 "siguientes carpetas."
 
 #: src/ui/app_window.ui:330
-#, fuzzy
-#| msgid "Select directory to include…"
 msgid "Select Directory to Include"
-msgstr "Seleccionar carpeta que incluir…"
+msgstr "Seleccionar carpeta que incluir"
 
 #: src/ui/app_window.ui:343
 msgid "No files included in backup"
@@ -969,10 +948,8 @@ msgid "The following folders are excluded from the backup repository."
 msgstr "Las siguientes carpetas se excluirán del repositorio de respaldo."
 
 #: src/ui/app_window.ui:359
-#, fuzzy
-#| msgid "Select directory to exclude…"
 msgid "Select Directory to Exclude"
-msgstr "Seleccionar carpeta que excluir…"
+msgstr "Seleccionar carpeta que excluir"
 
 #: src/ui/app_window.ui:372
 msgid "Nothing excluded from backup"
@@ -1000,18 +977,16 @@ msgstr "Eliminar algunos archivadores antiguos"
 
 #: src/ui/app_window.ui:529
 msgid "Data Integrity Check"
-msgstr ""
+msgstr "Comprobar integridad de los datos"
 
 #: src/ui/app_window.ui:535
 msgid "_Check Now…"
-msgstr ""
+msgstr "_Comprobar ahora…"
 
 # Not sure if the underscore should be kept in the translation
 #: src/ui/app_window.ui:543
-#, fuzzy
-#| msgid "_Abort"
 msgid "_Abort…"
-msgstr "_Abortar"
+msgstr "_Abortar…"
 
 #: src/ui/app_window.ui:554
 msgid "Archives"
@@ -1019,7 +994,7 @@ msgstr "Archivadores"
 
 #: src/ui/app_window.ui:563
 msgid "Refresh"
-msgstr ""
+msgstr "Refrescar"
 
 #: src/ui/app_window.ui:584
 msgid "Stop browsing archive files"
@@ -1054,10 +1029,8 @@ msgid "Preferred Weekday"
 msgstr "Día de la semana preferido"
 
 #: src/ui/app_window.ui:692
-#, fuzzy
-#| msgid "Preferred Day"
 msgid "Preferred Day of Month"
-msgstr "Día preferido"
+msgstr "Día del mes preferido"
 
 #: src/ui/app_window.ui:709 src/ui/dialog_prune.rs:95
 msgid "Delete old Archives"
@@ -1117,21 +1090,19 @@ msgstr "Cantidad guardada"
 
 #: src/ui/app_window.ui:915
 msgid "Size of all files"
-msgstr ""
+msgstr "Tamaño de todos los archivos"
 
 #: src/ui/app_window.ui:931
 msgid "Number of files saved"
 msgstr "Número de archivos guardados"
 
 #: src/ui/app_window.ui:947
-#, fuzzy
-#| msgid "Additional backup space used"
 msgid "Backup space used"
-msgstr "Espacio adicional de respaldo utilizado"
+msgstr "Espacio de respaldo usado"
 
 #: src/ui/app_window.ui:948
 msgid "Newly used space in this backup"
-msgstr ""
+msgstr "Espacio recién usado en este respaldo"
 
 #: src/ui/app_window.ui:964
 msgid "Current file"
@@ -1147,11 +1118,12 @@ msgstr "Empiece realizando su primer respaldo"
 
 #: src/ui/backup_status.rs:87
 msgid "No Integrity Check"
-msgstr ""
+msgstr "Sin comprobación de integridad"
 
 #: src/ui/backup_status.rs:88
 msgid "Archives integrity check not yet performed"
 msgstr ""
+"Todavía no se ha realizado una comprobación de integridad de los archivadores"
 
 #: src/ui/backup_status.rs:104
 msgid "Last backup completed with warnings"
@@ -1172,29 +1144,27 @@ msgstr "El último respaldo falló"
 #. Translators: Argument is 'x months ago'
 #: src/ui/backup_status.rs:146
 msgid "Successful Integrity Check {}"
-msgstr ""
+msgstr "Comprobación de integridad exitosa {}"
 
 #: src/ui/backup_status.rs:147
 msgid "Result might be out of date"
-msgstr ""
+msgstr "El resultado puede estar desactualizado"
 
 #: src/ui/backup_status.rs:154
-#, fuzzy
-#| msgid "Last Backup Successful"
 msgid "Last Integrity Check Successful"
-msgstr "El último respaldo se completó con éxito"
+msgstr "La última comprobación de integridad se completó con éxito"
 
 #: src/ui/backup_status.rs:163
 msgid "Integrity Check Aborted"
-msgstr ""
+msgstr "Comprobación de integridad cancelada"
 
 #: src/ui/backup_status.rs:170
 msgid "Errors Found and Repaired"
-msgstr ""
+msgstr "Se encontraron y repararon errores"
 
 #: src/ui/backup_status.rs:177
 msgid "Integrity Errors Found"
-msgstr ""
+msgstr "Se encontraron errores de integridad"
 
 #: src/ui/backup_status.rs:225
 #, no-c-format
@@ -1231,11 +1201,11 @@ msgstr "Falló al mostrar la interfaz para los respaldos programados."
 
 #: src/ui/dialog_about.rs:25
 msgid "Support us on Open Collective"
-msgstr ""
+msgstr "Apóyenos en Open Collective"
 
 #: src/ui/dialog_about.rs:29
 msgid "Support us on GitHub Sponsors"
-msgstr ""
+msgstr "Apóyenos en GitHub Sponsors"
 
 #: src/ui/dialog_about.rs:36
 msgid "Sophie Herold <sophieherold@gnome.org>"
@@ -1243,7 +1213,7 @@ msgstr "Sophie Herold <sophieherold@gnome.org>"
 
 #: src/ui/dialog_about.rs:37
 msgid "Fina Wilke <finaw@gnome.org>"
-msgstr ""
+msgstr "Fina Wilke <finaw@gnome.org>"
 
 #: src/ui/dialog_about.rs:39
 msgid "Copyright © 2018–2023 Sophie Herold et al."
@@ -1251,7 +1221,9 @@ msgstr "Copyright © 2018–2023 Sophie Herold y otros."
 
 #: src/ui/dialog_about.rs:40
 msgid "translator-credits"
-msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2020-2021"
+msgstr ""
+"Julián Villodre <jvillodrede@gmail.com>, 2024\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2020-2021"
 
 #: src/ui/dialog_about.rs:44
 msgid "Back End"
@@ -1350,39 +1322,40 @@ msgstr "Si el prefijo del archivador está vacío, no se añade ningún prefijo.
 
 #: src/ui/dialog_check.rs:70
 msgid "Perform Repair"
-msgstr ""
+msgstr "Realizar reparación"
 
 #: src/ui/dialog_check.rs:74 src/ui/dialog_check.ui:66
 msgid "Perform Check"
-msgstr ""
+msgstr "Realizar comprobación"
 
 #: src/ui/dialog_check.rs:121 src/ui/dialog_check.rs:156
 msgid "Verify Archives Integrity"
-msgstr ""
+msgstr "Verificar integridad de los archivadores"
 
 #: src/ui/dialog_check.rs:172
 msgid "Verify archives integrity completed successfully"
 msgstr ""
+"La verificación de integridad de los archivadores se completó con éxito"
 
 #: src/ui/dialog_check.ui:5 src/ui/dialog_check.ui:26
 msgid "Archives Integrity Check"
-msgstr ""
+msgstr "Comprobación de la integridad de los archivadores"
 
 #: src/ui/dialog_check.ui:30
 msgid ""
 "This operation will check all archives for data integrity. This may take a "
 "long time."
 msgstr ""
+"Esta operación comprobará la integridad de los datos de todos los "
+"archivadores. Esto puede llevar mucho tiempo."
 
 #: src/ui/dialog_check.ui:33
-#, fuzzy
-#| msgid "Verifying data"
 msgid "Verify data"
-msgstr "Verificando datos"
+msgstr "Verificar datos"
 
 #: src/ui/dialog_check.ui:34
 msgid "Perform full data verification."
-msgstr ""
+msgstr "Realizar una verificación completa de los datos"
 
 #: src/ui/dialog_check.ui:47
 msgid ""
@@ -1390,24 +1363,25 @@ msgid ""
 "lead to data loss (for kinds of corruption it is not capable of dealing "
 "with)."
 msgstr ""
+"Realizar una reparación completa. Esta es una función muy peligrosa y podría "
+"provocar la pérdida de datos (para tipos de corrupción que no es capaz de "
+"afrontar)."
 
 #: src/ui/dialog_check.ui:50
 msgid "Repair"
-msgstr ""
+msgstr "Reparar"
 
 #: src/ui/dialog_check.ui:51
 msgid "Repair errors. This can lead to data loss."
-msgstr ""
+msgstr "Reparar errores. Esto puede provocar la pérdida de datos."
 
 #: src/ui/dialog_check_result.ui:9
 msgid "Integrity Check Result"
-msgstr ""
+msgstr "Resultado de la comprobación de integridad"
 
 #: src/ui/dialog_delete_archive.rs:67
-#, fuzzy
-#| msgid "Delete Archive"
 msgid "Delete Archive Failed"
-msgstr "Eliminar archivador"
+msgstr "Falló al eliminar el archivador"
 
 #: src/ui/dialog_delete_archive.ui:34
 msgid "Delete Archive"
@@ -1436,10 +1410,8 @@ msgid "Failed to Mount"
 msgstr "Falló al montar"
 
 #: src/ui/dialog_device_missing.rs:142
-#, fuzzy
-#| msgid "Network connection has to be available"
 msgid "The network server is not available"
-msgstr "Tiene que haber disponible una conexión de red"
+msgstr "El servidor de red no está disponible"
 
 #: src/ui/dialog_device_missing.ui:39
 msgid "The following backup location needs to be connected:"
@@ -1475,10 +1447,8 @@ msgid "Exclusion Rules"
 msgstr "Reglas de exclusión"
 
 #: src/ui/dialog_exclude.rs:157
-#, fuzzy
-#| msgid "Exclusion Rules"
 msgid "Add exclusion rule"
-msgstr "Reglas de exclusión"
+msgstr "Añadir regla de exclusión"
 
 #: src/ui/dialog_exclude.rs:231
 msgid "Exclude Directory"
@@ -1515,11 +1485,12 @@ msgstr "Exclusiones sugeridas"
 
 #: src/ui/dialog_exclude.ui:75
 msgid "Unreadable Paths"
-msgstr ""
+msgstr "Rutas ilegibles"
 
 #: src/ui/dialog_exclude.ui:76
 msgid "These locations were identified as unreadable from a previous backup."
 msgstr ""
+"Estas ubicaciones se identificaron como ilegibles en un respaldo anterior."
 
 #: src/ui/dialog_exclude_pattern.rs:50
 msgid "Invalid Regular Expression"
@@ -1531,13 +1502,11 @@ msgstr "Añadir"
 
 #: src/ui/dialog_exclude_pattern.ui:49
 msgid "Pattern Type"
-msgstr ""
+msgstr "Tipo de patrón"
 
 #: src/ui/dialog_exclude_pattern.ui:63
-#, fuzzy
-#| msgid "Exclude Pattern"
 msgid "Pattern"
-msgstr "Excluir patrón"
+msgstr "Patrón"
 
 #: src/ui/dialog_exclude_pattern.ui:81
 msgid "BorgBackup Patterns"
@@ -1562,10 +1531,12 @@ msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr ""
+"El título de esta configuración de respaldo. Se mostrará como «{}» cuando se "
+"deje vacío."
 
 #: src/ui/dialog_preferences.rs:279
 msgid "Shell command invalid"
-msgstr ""
+msgstr "Comando de shell no válido"
 
 #: src/ui/dialog_preferences.rs:280 src/ui/utils/borg.rs:25
 msgid "Please check for missing closing quotes."
@@ -1573,61 +1544,48 @@ msgstr "Compruebe que no faltan comillas de cierre."
 
 #: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:202
 msgid "Error Running Shell Command"
-msgstr ""
+msgstr "Falló al ejecutar el comando de shell"
 
 #: src/ui/dialog_preferences.rs:466
-#, fuzzy
-#| msgid "Encryption Password"
 msgid "Change Encryption Password Error"
-msgstr "Contraseña de cifrado"
+msgstr "Falló al cambiar la contraseña de cifrado"
 
 #: src/ui/dialog_preferences.rs:473
 msgid "Password changed successfully"
-msgstr ""
+msgstr "Contraseña cambiada con éxito"
 
 #: src/ui/dialog_preferences.ui:27 src/ui/dialog_preferences.ui:137
-#, fuzzy
-#| msgid "Encryption Password"
 msgid "Change Encryption Password"
-msgstr "Contraseña de cifrado"
+msgstr "Cambiar contraseña de cifrado"
 
 #: src/ui/dialog_preferences.ui:54
-#, fuzzy
-#| msgid "Save password"
 msgid "_Change Password"
-msgstr "Guardar la contraseña"
+msgstr "_Cambiar contraseña"
 
 #: src/ui/dialog_preferences.ui:84
-#, fuzzy
-#| msgid "Encryption Password"
 msgid "Changing Encryption Password"
-msgstr "Contraseña de cifrado"
+msgstr "Cambiando contraseña de cifrado"
 
 #: src/ui/dialog_preferences.ui:122 src/ui/dialog_preferences.ui:125
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: src/ui/dialog_preferences.ui:133
-#, fuzzy
-#| msgid "Encryption Password"
 msgid "Encryption password"
 msgstr "Contraseña de cifrado"
 
 #: src/ui/dialog_preferences.ui:134
-#, fuzzy
-#| msgid ""
-#| "The encryption password of this backup repository is required to access "
-#| "it."
 msgid "The encryption password of the backup repository."
-msgstr "Para acceder a este repositorio se requiere su contraseña de cifrado."
+msgstr "La contraseña de cifrado del repositorio de respaldo."
 
 #: src/ui/dialog_preferences.ui:154
 msgid "Run on Battery"
-msgstr ""
+msgstr "Ejecutar en modo batería"
 
 #: src/ui/dialog_preferences.ui:155
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
+"Permitir respaldos programados cuando el dispositivo esté en modo batería"
 
 #: src/ui/dialog_preferences.ui:163 src/ui/dialog_setup.ui:317
 msgid "Additional command line arguments"
@@ -1642,14 +1600,12 @@ msgstr ""
 "soportan opciones largas, las que empiezan por «--»"
 
 #: src/ui/dialog_preferences.ui:167 src/ui/dialog_setup.ui:322
-#, fuzzy
-#| msgid "Additional command line arguments"
 msgid "Command line arguments"
-msgstr "Argumentos adicionales de la línea de comandos"
+msgstr "Argumentos de la línea de comandos"
 
 #: src/ui/dialog_preferences.ui:178
 msgid "Shell Commands"
-msgstr ""
+msgstr "Comandos de shell"
 
 #: src/ui/dialog_preferences.ui:179
 msgid "These bash shell commands will be called on certain backup events."
