@@ -60,7 +60,14 @@ async fn run_backup(
     from_schedule: Option<schedule::DueCause>,
     guard: &QuitGuard,
 ) -> Result<()> {
-    run_script(UserScriptKind::PreBackup, config.clone(), None, guard).await?;
+    run_script(
+        UserScriptKind::PreBackup,
+        config.clone(),
+        from_schedule.clone(),
+        None,
+        guard,
+    )
+    .await?;
 
     // Configure additional free space if not already configured
     let configure_repo = borg::CommandOnlyRepo::new(config.repo.clone());
@@ -118,6 +125,7 @@ async fn run_backup(
     run_script(
         UserScriptKind::PostBackup,
         config.clone(),
+        from_schedule.clone(),
         Some(run_info.clone()),
         guard,
     )
@@ -167,6 +175,7 @@ async fn run_backup(
 async fn run_script(
     kind: UserScriptKind,
     config: crate::config::Backup,
+    from_schedule: Option<schedule::DueCause>,
     run_info: Option<crate::config::history::RunInfo>,
     guard: &QuitGuard,
 ) -> Result<()> {
@@ -175,7 +184,8 @@ async fn run_script(
         return Ok(());
     }
 
-    let mut command = crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
+    let mut command = crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone())
+        .set_from_schedule(from_schedule);
     command.task.set_kind(kind);
     command.task.set_run_info(run_info.clone());
 

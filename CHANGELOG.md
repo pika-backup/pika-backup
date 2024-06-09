@@ -9,6 +9,7 @@
 
 - Fix backups being aborted on battery if running on battery was explicitly allowed
 - Fix local backups are considered metered
+- Fix user script variable $FROM_SCHEDULE not being set correctly
 
 ## 0.7.2 (2024-04-10)
 
