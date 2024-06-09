@@ -66,8 +66,14 @@ impl imp::BackupPage {
         from_schedule: Option<schedule::DueCause>,
         guard: &QuitGuard,
     ) -> Result<()> {
-        self.run_script(UserScriptKind::PreBackup, config.clone(), None, guard)
-            .await?;
+        self.run_script(
+            UserScriptKind::PreBackup,
+            config.clone(),
+            from_schedule.clone(),
+            None,
+            guard,
+        )
+        .await?;
 
         // Configure additional free space if not already configured
         let configure_repo = borg::CommandOnlyRepo::new(config.repo.clone());
@@ -125,6 +131,7 @@ impl imp::BackupPage {
         self.run_script(
             UserScriptKind::PostBackup,
             config.clone(),
+            from_schedule.clone(),
             Some(run_info.clone()),
             guard,
         )
@@ -181,6 +188,7 @@ impl imp::BackupPage {
         &self,
         kind: UserScriptKind,
         config: crate::config::Backup,
+        from_schedule: Option<schedule::DueCause>,
         run_info: Option<crate::config::history::RunInfo>,
         guard: &QuitGuard,
     ) -> Result<()> {
@@ -190,7 +198,8 @@ impl imp::BackupPage {
         }
 
         let mut command =
-            crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
+            crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone())
+                .set_from_schedule(from_schedule);
         command.task.set_kind(kind);
         command.task.set_run_info(run_info.clone());
 
