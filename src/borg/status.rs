@@ -35,11 +35,7 @@ impl GeneralStatus {
     pub const MESSAGE_HISTORY_LENGTH: usize = 50;
 
     pub fn add_message(&mut self, msg: &LogEntry) {
-        let mut history = if let Some(h) = self.message_history.pop() {
-            h
-        } else {
-            Default::default()
-        };
+        let mut history = self.message_history.pop().unwrap_or_default();
 
         if history.0.len() < Self::MESSAGE_HISTORY_LENGTH {
             history.0.push(msg.clone());
