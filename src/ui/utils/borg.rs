@@ -27,11 +27,31 @@ pub fn parse_borg_command_line_args(text: &str) -> Result<Vec<String>> {
     }
 }
 
+/// The actual execution of a borg task
+async fn do_exec<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Return>
+where
+    borg::Command<T>: borg::CommandRun<T>,
+{
+    let mounted_result = crate::ui::repo::ensure_repo_available(&command.config, &T::name()).await;
+
+    match mounted_result {
+        Ok(config) => command.config = config,
+        Err(err) => {
+            // The repository is not available after trying to mount it
+            return Err(
+                borg::Error::Aborted(borg::Abort::RepositoryNotAvailable(err.to_string())).into(),
+            );
+        }
+    }
+
+    spawn_borg_thread_ask_password(command).await
+}
+
 /// Executes a borg command
 ///
 /// This takes a [QuitGuard] to prove that one has been set up and is currently active.
 pub async fn exec<T: Task>(
-    mut command: borg::Command<T>,
+    command: borg::Command<T>,
     _guard: &QuitGuard,
 ) -> CombinedResult<T::Return>
 where
@@ -43,6 +63,8 @@ where
         // If a repository is mounted we ask to unmount it before we continue
         ask_unmount(T::KIND, &command.config.repo_id).await?;
     }
+
+    // Setup: Create a borg operation, write running state to history
 
     BORG_OPERATION.with(enclose!((command) move |operations| {
         if let Some(operation) = operations
@@ -67,34 +89,28 @@ where
         }))
         .await?;
 
-    scopeguard::defer_on_success! {
-        BORG_OPERATION.with(enclose!((config_id) move |operations| {
-            operations.update(|op| {
-                op.remove(&config_id);
-            });
-        }));
+    // Execute the borg command, and store the result
+    let result = do_exec(command).await;
 
-        // TODO: Don't write the history in a Drop handler
-        async_std::task::spawn_local(async {
-        Handler::handle(BACKUP_HISTORY.try_update(move |history| {
-            history.remove_running(config_id.clone());
-            Ok(())
-        }).await)});
-    };
+    // Cleanup: Remove operation, remove running state from history
 
-    let mounted_result = crate::ui::repo::ensure_repo_available(&command.config, &T::name()).await;
+    BORG_OPERATION.with(enclose!((config_id) move |operations| {
+        operations.update(|op| {
+            op.remove(&config_id);
+        });
+    }));
 
-    match mounted_result {
-        Ok(config) => command.config = config,
-        Err(err) => {
-            // The repository is not available after trying to mount it
-            return Err(
-                borg::Error::Aborted(borg::Abort::RepositoryNotAvailable(err.to_string())).into(),
-            );
-        }
-    }
+    // Handle an error when writing history, but still return the result of the borg operation
+    Handler::handle(
+        BACKUP_HISTORY
+            .try_update(move |history| {
+                history.remove_running(config_id.clone());
+                Ok(())
+            })
+            .await,
+    );
 
-    spawn_borg_thread_ask_password(command).await
+    result
 }
 
 pub async fn exec_repo_only<P: core::fmt::Display, F, R, V>(
@@ -106,7 +122,6 @@ where
     F: FnOnce(borg::CommandOnlyRepo) -> R + Send + Clone + 'static + Sync,
     R: Future<Output = borg::Result<V>>,
     V: Send + 'static,
-    //B: borg::BorgBasics + 'static,
 {
     spawn_borg_thread(name, borg, task).await
 }
