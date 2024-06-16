@@ -31,8 +31,7 @@ impl imp::ArchivesPage {
         let config = configs.active()?.id.clone();
 
         let dialog = ArchivePrefixDialog::new(config);
-        dialog.set_transient_for(Some(&self.obj().app_window()));
-        dialog.present();
+        dialog.present(&*self.obj());
 
         Ok(())
     }

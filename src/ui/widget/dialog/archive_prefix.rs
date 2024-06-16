@@ -25,7 +25,7 @@ mod imp {
     impl ObjectSubclass for ArchivePrefixDialog {
         const NAME: &'static str = "PkArchivePrefixDialog";
         type Type = super::ArchivePrefixDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -53,8 +53,7 @@ mod imp {
     }
 
     impl WidgetImpl for ArchivePrefixDialog {}
-    impl WindowImpl for ArchivePrefixDialog {}
-    impl AdwWindowImpl for ArchivePrefixDialog {}
+    impl AdwDialogImpl for ArchivePrefixDialog {}
 
     #[gtk::template_callbacks]
     impl ArchivePrefixDialog {
@@ -123,7 +122,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct ArchivePrefixDialog(ObjectSubclass<imp::ArchivePrefixDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
