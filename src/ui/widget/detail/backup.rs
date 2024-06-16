@@ -91,8 +91,7 @@ mod imp {
             self.detail_status_row
                 .connect_activated(glib::clone!(@weak obj => move |_| {
                     let imp = obj.imp();
-                    imp.detail_dialog.set_transient_for(obj.root().and_downcast_ref::<gtk::Window>());
-                    imp.detail_dialog.present();
+                    imp.detail_dialog.present(&obj);
 
                     if let Some(status) = &*imp.backup_status.borrow() {
                         imp.detail_dialog.refresh_status_display(status);

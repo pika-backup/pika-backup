@@ -42,7 +42,7 @@ mod imp {
     impl ObjectSubclass for BackupInfoDialog {
         const NAME: &'static str = "PkBackupInfoDialog";
         type Type = super::BackupInfoDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -56,8 +56,7 @@ mod imp {
 
     impl ObjectImpl for BackupInfoDialog {}
     impl WidgetImpl for BackupInfoDialog {}
-    impl WindowImpl for BackupInfoDialog {}
-    impl AdwWindowImpl for BackupInfoDialog {}
+    impl AdwDialogImpl for BackupInfoDialog {}
 
     #[gtk::template_callbacks]
     impl BackupInfoDialog {
@@ -128,7 +127,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct BackupInfoDialog(ObjectSubclass<imp::BackupInfoDialog>)
-    @extends adw::Window, gtk::Window, gtk::Widget,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
