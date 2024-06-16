@@ -18,7 +18,7 @@ mod imp {
     impl ObjectSubclass for EncryptionPasswordDialog {
         const NAME: &'static str = "PkEncryptionPasswordDialog";
         type Type = super::EncryptionPasswordDialog;
-        type ParentType = adw::MessageDialog;
+        type ParentType = adw::AlertDialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -32,8 +32,8 @@ mod imp {
 
     impl ObjectImpl for EncryptionPasswordDialog {}
     impl WidgetImpl for EncryptionPasswordDialog {}
-    impl WindowImpl for EncryptionPasswordDialog {}
-    impl MessageDialogImpl for EncryptionPasswordDialog {}
+    impl AdwDialogImpl for EncryptionPasswordDialog {}
+    impl AdwAlertDialogImpl for EncryptionPasswordDialog {}
 
     #[gtk::template_callbacks]
     impl EncryptionPasswordDialog {}
@@ -41,7 +41,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct EncryptionPasswordDialog(ObjectSubclass<imp::EncryptionPasswordDialog>)
-    @extends adw::MessageDialog, gtk::Window, gtk::Widget,
+    @extends adw::AlertDialog, adw::Dialog, gtk::Widget,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
@@ -52,13 +52,11 @@ impl EncryptionPasswordDialog {
 
     pub async fn present_with(
         self,
-        transient_for: &impl IsA<gtk::Window>,
+        parent: &impl IsA<gtk::Widget>,
         repo: &config::Repository,
         purpose: &str,
         keyring_error: Option<&str>,
     ) -> Option<config::Password> {
-        self.set_transient_for(Some(transient_for));
-
         let mut body = gettextf(
             "The operation “{}” requires the encryption password of the repository on “{}”.",
             &[purpose, &repo.location()],
@@ -70,7 +68,7 @@ impl EncryptionPasswordDialog {
 
         self.set_body(&body);
         self.imp().password.grab_focus();
-        let response = self.clone().choose_future().await;
+        let response = self.clone().choose_future(parent).await;
         let password = config::Password::new(self.imp().password.text().to_string());
 
         if response == "apply" {
