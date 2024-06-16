@@ -50,7 +50,7 @@ mod imp {
     impl ObjectSubclass for ExcludeDialog {
         const NAME: &'static str = "PkExcludeDialog";
         type Type = super::ExcludeDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -76,8 +76,7 @@ mod imp {
         }
     }
     impl WidgetImpl for ExcludeDialog {}
-    impl WindowImpl for ExcludeDialog {}
-    impl AdwWindowImpl for ExcludeDialog {}
+    impl AdwDialogImpl for ExcludeDialog {}
 
     #[gtk::template_callbacks]
     impl ExcludeDialog {
@@ -439,7 +438,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct ExcludeDialog(ObjectSubclass<imp::ExcludeDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
@@ -448,18 +447,12 @@ impl ExcludeDialog {
         glib::Object::builder().property("config", config).build()
     }
 
-    pub fn present_transient_for(&self, window: &impl IsA<gtk::Window>) {
-        self.set_transient_for(Some(window));
-        self.present();
-    }
-
     pub fn present_edit_exclude(
         &self,
-        window: &impl IsA<gtk::Window>,
+        widget: &impl IsA<gtk::Widget>,
         pattern: config::Exclude<{ config::RELATIVE }>,
     ) {
-        self.set_transient_for(Some(window));
         self.imp().exclude_pattern(Some(pattern));
-        self.present();
+        self.present(widget);
     }
 }

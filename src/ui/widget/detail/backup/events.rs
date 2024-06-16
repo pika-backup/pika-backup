@@ -164,7 +164,7 @@ impl imp::BackupPage {
         let config = BACKUP_CONFIG.load_full();
         let active = config.active()?;
         let window = self.obj().app_window();
-        ui::widget::dialog::ExcludeDialog::new(active).present_transient_for(&window);
+        ui::widget::dialog::ExcludeDialog::new(active).present(&window);
 
         Ok(())
     }
