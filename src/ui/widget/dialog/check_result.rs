@@ -26,7 +26,7 @@ mod imp {
     impl ObjectSubclass for CheckResultDialog {
         const NAME: &'static str = "PkCheckResultDialog";
         type Type = super::CheckResultDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -40,8 +40,7 @@ mod imp {
 
     impl ObjectImpl for CheckResultDialog {}
     impl WidgetImpl for CheckResultDialog {}
-    impl WindowImpl for CheckResultDialog {}
-    impl AdwWindowImpl for CheckResultDialog {}
+    impl AdwDialogImpl for CheckResultDialog {}
 
     #[gtk::template_callbacks]
     impl CheckResultDialog {
@@ -74,7 +73,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct CheckResultDialog(ObjectSubclass<imp::CheckResultDialog>)
-        @extends gtk::Widget, gtk::Window, adw::Window,
+        @extends gtk::Widget, adw::Dialog,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

@@ -113,9 +113,8 @@ mod imp {
                 .connect_activated(glib::clone!(@weak obj => move |_| {
                     if let Some(id) = &**ACTIVE_BACKUP_ID.load() {
                         let dialog = &obj.imp().check_result_dialog;
-                        dialog.set_transient_for(obj.root().and_downcast_ref::<gtk::Window>());
                         dialog.set_config_id(Some(id.clone()));
-                        dialog.present();
+                        dialog.present(&obj);
                     }
                 }));
             self.check_button

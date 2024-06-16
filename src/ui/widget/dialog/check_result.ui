@@ -2,24 +2,11 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <template class="PkCheckResultDialog" parent="AdwWindow">
-    <property name="modal">1</property>
-    <property name="default-width">500</property>
-    <property name="default-height">400</property>
+  <template class="PkCheckResultDialog" parent="AdwDialog">
+    <property name="content-width">500</property>
+    <property name="content-height">400</property>
     <property name="title" translatable="yes">Integrity Check Result</property>
-    <property name="hide-on-close">1</property>
-    <child>
-      <object class="GtkShortcutController">
-        <property name="scope">managed</property>
-        <child>
-          <object class="GtkShortcut">
-            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
-            <property name="action">action(window.close)</property>
-          </object>
-        </child>
-      </object>
-    </child>
-    <property name="content">
+    <property name="child">
       <object class="AdwToolbarView">
         <child type="top">
           <object class="AdwHeaderBar"/>
