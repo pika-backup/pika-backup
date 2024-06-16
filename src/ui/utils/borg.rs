@@ -1,4 +1,5 @@
 use crate::ui::prelude::*;
+use crate::ui::App;
 use gio::prelude::*;
 
 use crate::borg;
@@ -135,6 +136,7 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
         match kind {
             task::Kind::Create => {
                 ui::utils::confirmation_dialog(
+                    &App::default().main_window(),
                     &gettext("Stop browsing files and start backup?"),
                     &gettext(
                         "Browsing through archived files is not possible while running a backup.",
@@ -146,6 +148,7 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
             }
             _ => {
                 ui::utils::confirmation_dialog(
+                    &App::default().main_window(),
                     &gettext("Stop browsing files and start operation?"),
                     &gettext(
                         "Browsing through archived files is not possible while running an operation on the repository.",
@@ -277,7 +280,7 @@ async fn handle_lock<B: borg::BorgRunConfig>(borg: B) -> CombinedResult<()> {
         &gettext("Continue Anyway"),
     )
     .set_destructive(true)
-    .ask()
+    .ask(&App::default().main_window())
     .await?;
 
     super::spawn_thread("borg_break_lock", move || {

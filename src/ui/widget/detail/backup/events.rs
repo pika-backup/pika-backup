@@ -20,30 +20,33 @@ impl imp::BackupPage {
             match operation.task_kind() {
                 borg::task::Kind::Create => {
                     ui::utils::confirmation_dialog(
-                &gettext("Stop Running Backup?"),
-                &gettext("The current backup state will be saved. You can continue your backup later by starting it again."),
-                &gettext("Continue"),
-                &gettext("Stop"),
-            )
-            .await?;
+                        &*self.obj(),
+                        &gettext("Stop Running Backup?"),
+                        &gettext("The current backup state will be saved. You can continue your backup later by starting it again."),
+                        &gettext("Continue"),
+                        &gettext("Stop"),
+                    )
+                    .await?;
                 }
                 borg::task::Kind::Prune | borg::task::Kind::Delete => {
                     ui::utils::confirmation_dialog(
-                    &gettext("Abort Delete Operation?"),
-                    &gettext("Archives are currently being deleted. Free space will not be reclaimed when aborting."),
-                    &gettext("Continue"),
-                    &gettext("Abort"),
-                )
-                .await?;
+                        &*self.obj(),
+                        &gettext("Abort Delete Operation?"),
+                        &gettext("Archives are currently being deleted. Free space will not be reclaimed when aborting."),
+                        &gettext("Continue"),
+                        &gettext("Abort"),
+                    )
+                    .await?;
                 }
                 _ => {
                     ui::utils::confirmation_dialog(
-                &gettext("Abort Operation?"),
-                &gettext("An operation is currently being performed. Aborting now will cause any progress made by the operation to be lost."),
-                &gettext("Continue"),
-                &gettext("Abort"),
-            )
-            .await?;
+                        &*self.obj(),
+                        &gettext("Abort Operation?"),
+                        &gettext("An operation is currently being performed. Aborting now will cause any progress made by the operation to be lost."),
+                        &gettext("Continue"),
+                        &gettext("Abort"),
+                    )
+                    .await?;
                 }
             }
         }
@@ -188,6 +191,7 @@ impl imp::BackupPage {
         };
 
         ui::utils::confirmation_dialog(
+            &*self.obj(),
             &gettextf("No longer include “{}” in backups?", &[&path_string]),
             &gettext(
                 "All files contained in this folder will no longer be part of future backups.",

@@ -372,6 +372,7 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
 }
 
 pub async fn show_borg_question(
+    widget: &impl IsA<gtk::Widget>,
     question: &crate::borg::log_json::QuestionPrompt,
 ) -> crate::borg::Response {
     let prompt = question.question_prompt();
@@ -385,7 +386,7 @@ pub async fn show_borg_question(
         &gettext("Continue"),
     )
     .set_destructive(true)
-    .ask()
+    .ask(widget)
     .await;
 
     match response {
@@ -439,13 +440,14 @@ pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
 }
 
 pub async fn confirmation_dialog(
+    widget: &impl IsA<gtk::Widget>,
     title: &str,
     message: &str,
     cancel: &str,
     accept: &str,
 ) -> Result<()> {
     ConfirmationDialog::new(title, message, cancel, accept)
-        .ask()
+        .ask(widget)
         .await
 }
 
@@ -473,10 +475,8 @@ impl ConfirmationDialog {
         self
     }
 
-    pub async fn ask(&self) -> Result<()> {
-        let dialog = adw::MessageDialog::builder()
-            .transient_for(&main_ui().window())
-            .modal(true)
+    pub async fn ask(&self, widget: &impl IsA<gtk::Widget>) -> Result<()> {
+        let dialog = adw::AlertDialog::builder()
             .heading(&self.title)
             .body(&self.message)
             .build();
@@ -487,7 +487,7 @@ impl ConfirmationDialog {
             dialog.set_response_appearance("accept", adw::ResponseAppearance::Destructive);
         }
 
-        if dialog.choose_future().await == "accept" {
+        if dialog.choose_future(widget).await == "accept" {
             Ok(())
         } else {
             Err(Error::UserCanceled)

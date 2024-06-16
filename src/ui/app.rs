@@ -246,6 +246,7 @@ impl App {
                         err.show().await;
 
                         ui::utils::confirmation_dialog(
+                            &self.main_window(),
                             &gettext("Abort running backup creation?"),
                             &gettext("The backup will remain incomplete if aborted now."),
                             &gettext("Continue"),

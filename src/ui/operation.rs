@@ -13,6 +13,8 @@ use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 use std::time::Duration;
 
+use super::App;
+
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
 const TIME_ON_BATTERY_ABORT: Duration = Duration::from_secs(20 * 60);
 const POLL_INTERVAL: Duration = Duration::from_secs(60);
@@ -207,7 +209,7 @@ impl<T: borg::Task> Operation<T> {
         let communication = self.communication().clone();
 
         glib::MainContext::default().spawn_local(glib::clone!(@strong question => async move {
-            let response = ui::utils::show_borg_question(&question).await;
+            let response = ui::utils::show_borg_question(&App::default().main_window(), &question).await;
             communication.set_instruction(borg::Instruction::Response(response));
         }));
     }
