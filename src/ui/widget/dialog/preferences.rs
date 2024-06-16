@@ -27,8 +27,6 @@ mod imp {
         #[property(get, set)]
         config_title: RefCell<String>,
 
-        close_real: Cell<bool>,
-
         command_line_args_error: RefCell<Option<crate::ui::error::Error>>,
         pre_backup_command_error: RefCell<Option<crate::ui::error::Error>>,
         post_backup_command_error: RefCell<Option<crate::ui::error::Error>>,
@@ -84,7 +82,7 @@ mod imp {
     impl ObjectSubclass for PreferencesDialog {
         const NAME: &'static str = "PkPreferencesDialog";
         type Type = super::PreferencesDialog;
-        type ParentType = adw::PreferencesWindow;
+        type ParentType = adw::PreferencesDialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -112,7 +110,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.load_config();
-            self.obj().set_transient_for(Some(&main_ui().window()));
             self.shell_commands_detail
                 .set_label(&crate::borg::scripts::ShellVariable::explanation_string_markup());
         }
@@ -120,55 +117,46 @@ mod imp {
 
     impl WidgetImpl for PreferencesDialog {}
 
-    impl WindowImpl for PreferencesDialog {
-        fn close_request(&self) -> glib::Propagation {
-            if self.close_real.get() {
-                self.parent_close_request()
-            } else {
-                let obj = self.obj().clone();
+    impl AdwDialogImpl for PreferencesDialog {
+        fn close_attempt(&self) {
+            let obj = self.obj().clone();
 
-                Handler::run(async move {
-                    let imp = obj.imp();
-                    imp.save_config().await?;
-                    main_ui().page_detail().backup_page().refresh()?;
+            Handler::run(async move {
+                let imp = obj.imp();
+                imp.save_config().await?;
+                main_ui().page_detail().backup_page().refresh()?;
 
-                    if imp.command_line_args_error.borrow().is_some() {
-                        glib::MainContext::default().spawn_local(async move {
-                            if let Some(err) = obj.imp().command_line_args_error.take() {
-                                err.show_transient_for(&obj).await;
-                                obj.imp().command_line_args_error.replace(Some(err));
-                            }
-                        });
-                    } else if imp.pre_backup_command_error.borrow().is_some() {
-                        glib::MainContext::default().spawn_local(async move {
-                            if let Some(err) = obj.imp().pre_backup_command_error.take() {
-                                err.show_transient_for(&obj).await;
-                                obj.imp().pre_backup_command_error.replace(Some(err));
-                            }
-                        });
-                    } else if imp.post_backup_command_error.borrow().is_some() {
-                        glib::MainContext::default().spawn_local(async move {
-                            if let Some(err) = obj.imp().post_backup_command_error.take() {
-                                err.show().await;
-                                obj.imp().post_backup_command_error.replace(Some(err));
-                            }
-                        });
-                    } else {
-                        imp.close_real.set(true);
-                        obj.close();
-                    }
+                if imp.command_line_args_error.borrow().is_some() {
+                    glib::MainContext::default().spawn_local(async move {
+                        if let Some(err) = obj.imp().command_line_args_error.take() {
+                            err.show_transient_for(&obj).await;
+                            obj.imp().command_line_args_error.replace(Some(err));
+                        }
+                    });
+                } else if imp.pre_backup_command_error.borrow().is_some() {
+                    glib::MainContext::default().spawn_local(async move {
+                        if let Some(err) = obj.imp().pre_backup_command_error.take() {
+                            err.show_transient_for(&obj).await;
+                            obj.imp().pre_backup_command_error.replace(Some(err));
+                        }
+                    });
+                } else if imp.post_backup_command_error.borrow().is_some() {
+                    glib::MainContext::default().spawn_local(async move {
+                        if let Some(err) = obj.imp().post_backup_command_error.take() {
+                            err.show().await;
+                            obj.imp().post_backup_command_error.replace(Some(err));
+                        }
+                    });
+                } else {
+                    obj.force_close();
+                }
 
-                    Ok(())
-                });
-
-                glib::Propagation::Stop
-            }
+                Ok(())
+            });
         }
     }
 
-    impl AdwWindowImpl for PreferencesDialog {}
-
-    impl PreferencesWindowImpl for PreferencesDialog {}
+    impl PreferencesDialogImpl for PreferencesDialog {}
 
     #[gtk::template_callbacks]
     impl PreferencesDialog {
@@ -542,7 +530,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct PreferencesDialog(ObjectSubclass<imp::PreferencesDialog>)
-        @extends gtk::Widget, gtk::Window, adw::Window, adw::PreferencesWindow;
+        @extends gtk::Widget, adw::Dialog, adw::PreferencesDialog;
 }
 
 impl PreferencesDialog {

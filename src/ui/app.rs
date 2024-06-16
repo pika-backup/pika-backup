@@ -184,7 +184,7 @@ impl App {
                     if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
                         if app.main_window().page_detail().is_visible() {
                             // Only display when the backup detail page is open
-                            PreferencesDialog::new(id.clone()).present();
+                            PreferencesDialog::new(id.clone()).present(&app.main_window());
                         }
                     }
                 })
