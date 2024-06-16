@@ -14,7 +14,7 @@ impl imp::ArchivesPage {
         let config = configs.active()?;
 
         let dialog = CheckDialog::new(config.id.clone());
-        dialog.set_visible(true);
+        dialog.present(&*self.obj());
 
         Ok(())
     }

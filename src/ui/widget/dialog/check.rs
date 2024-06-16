@@ -30,9 +30,9 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for CheckDialog {
-        const NAME: &'static str = "PkDialogCheck";
+        const NAME: &'static str = "PkCheckDialog";
         type Type = super::CheckDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -59,7 +59,6 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-            self.obj().set_transient_for(Some(&main_ui().window()));
 
             self.obj().connect_repair_notify(|dialog| {
                 let imp = dialog.imp();
@@ -77,14 +76,7 @@ mod imp {
     }
 
     impl WidgetImpl for CheckDialog {}
-
-    impl WindowImpl for CheckDialog {
-        fn close_request(&self) -> glib::Propagation {
-            glib::Propagation::Proceed
-        }
-    }
-
-    impl AdwWindowImpl for CheckDialog {}
+    impl AdwDialogImpl for CheckDialog {}
 
     #[gtk::template_callbacks]
     impl CheckDialog {
@@ -183,7 +175,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct CheckDialog(ObjectSubclass<imp::CheckDialog>)
-        @extends gtk::Widget, gtk::Window, adw::Window;
+        @extends gtk::Widget, adw::Dialog,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl CheckDialog {
