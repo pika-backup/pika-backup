@@ -61,12 +61,12 @@ mod imp {
             self.add_backup
                 .connect_clicked(glib::clone!(@weak obj => move |_| {
                     let window = obj.app_window();
-                    SetupDialog::new().present_with(&window);
+                    SetupDialog::new().present(&window);
                 }));
             self.add_backup_empty
                 .connect_clicked(glib::clone!(@weak obj => move |_| {
                     let window = obj.app_window();
-                    SetupDialog::new().present_with(&window);
+                    SetupDialog::new().present(&window);
                 }));
 
             let imp = self.ref_counted();

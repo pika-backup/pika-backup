@@ -2,29 +2,19 @@
 <interface>
   <requires lib="gtk" version="4.10" />
   <requires lib="libadwaita" version="1.4" />
-  <template class="PkSetupDialog" parent="AdwWindow">
+  <template class="PkSetupDialog" parent="AdwDialog">
     <property name="title" translatable="yes">Setup</property>
-    <property name="modal">1</property>
-    <property name="default-width">600</property>
-    <property name="default-height">550</property>
+    <property name="content-width">640</property>
+    <property name="content-height">550</property>
     <binding name="default-widget">
       <lookup name="default-widget" type="PkDialogPage">
         <lookup name="visible-page">navigation_view</lookup>
       </lookup>
     </binding>
-    <child>
-      <object class="GtkShortcutController">
-        <property name="scope">managed</property>
-        <child>
-          <object class="GtkShortcut">
-            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
-            <property name="action">action(window.close)</property>
-          </object>
-        </child>
-      </object>
-    </child>
-    <property name="content">
+    <property name="child">
       <object class="AdwNavigationView" id="navigation_view">
+        <property name="width-request">360</property>
+        <property name="height-request">150</property>
         <signal name="notify::visible_page" handler="on_visible_page_notify" swapped="true"/>
         <child>
           <object class="PkSetupRepoKindPage" id="start_page">

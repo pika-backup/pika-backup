@@ -156,7 +156,7 @@ impl App {
             gio::ActionEntryBuilder::new("setup")
                 .activate(|app: &Self, _, _| {
                     let window = app.main_window();
-                    SetupDialog::new().present_with(&window);
+                    SetupDialog::new().present(&window);
                 })
                 .build(),
             gio::ActionEntryBuilder::new("help")

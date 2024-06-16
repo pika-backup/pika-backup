@@ -27,6 +27,8 @@ use crate::ui::App;
 use types::*;
 
 mod imp {
+    use adw::subclass::dialog::AdwDialogImplExt;
+
     use crate::config;
 
     use self::repo_kind::SetupRepoKindPage;
@@ -46,8 +48,9 @@ mod imp {
         repo_config: RefCell<Option<config::Repository>>,
         #[property(get)]
         command_line_args: RefCell<SetupCommandLineArgs>,
+
+        /// This must be set by [Self::set_new_config], otherwise `can-close` will not be up to date
         new_config: RefCell<Option<config::Backup>>,
-        close_real: Cell<bool>,
 
         /// Indicates that an operation is currently ongoing. Used to prevent multiple input.
         busy: Cell<bool>,
@@ -92,7 +95,7 @@ mod imp {
     impl ObjectSubclass for SetupDialog {
         const NAME: &'static str = "PkSetupDialog";
         type Type = super::SetupDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -116,35 +119,40 @@ mod imp {
         }
     }
     impl WidgetImpl for SetupDialog {}
-    impl WindowImpl for SetupDialog {
-        fn close_request(&self) -> glib::Propagation {
-            if self.close_real.get() {
-                self.parent_close_request()
-            } else if let Some(config) = self.new_config.take() {
+    impl AdwDialogImpl for SetupDialog {
+        fn close_attempt(&self) {
+            self.parent_close_attempt();
+            debug!("close attempt");
+            if let Some(config) = self.new_config.take() {
                 // Save the new config
                 let obj = self.obj().clone();
                 Handler::run(async move {
                     let imp = obj.imp();
                     imp.handle_result(imp.save_backup_config(&config).await);
-                    imp.close_real.set(true);
-                    obj.close();
+                    obj.force_close();
 
                     // Display a newly added backup in the main window if successful
                     App::default().main_window().view_backup_conf(&config.id);
 
                     Ok(())
-                });
-
-                glib::Propagation::Stop
+                })
             } else {
-                self.parent_close_request()
-            }
+                self.obj().force_close();
+            };
         }
     }
-    impl AdwWindowImpl for SetupDialog {}
 
     #[gtk::template_callbacks]
     impl SetupDialog {
+        fn new_config(&self) -> Option<config::Backup> {
+            self.new_config.borrow().clone()
+        }
+
+        fn set_new_config(&self, config: Option<config::Backup>) {
+            self.obj().set_can_close(config.is_none());
+            self.new_config.replace(config);
+        }
+
         async fn show_add_existing_file_chooser(&self) -> Result<Option<gio::File>> {
             if let Some(path) =
                 ui::utils::folder_chooser_dialog(&gettext("Setup Existing Repository"), None)
@@ -306,7 +314,7 @@ mod imp {
                 return;
             }
 
-            self.new_config.replace(Some(config.clone()));
+            self.set_new_config(Some(config.clone()));
 
             if let Some(password) = password {
                 self.handle_result(self.save_password(&config, password).await);
@@ -374,10 +382,10 @@ mod imp {
                 return;
             }
 
-            let config = self.new_config.borrow().clone();
+            let config = self.new_config();
             if let Some(mut config) = config {
                 let res = actions::transfer_settings(&mut config, archive_params).await;
-                self.new_config.replace(Some(config));
+                self.set_new_config(Some(config));
 
                 if let Some(prefix) = self.handle_result(res) {
                     self.show_transfer_prefix_page(&prefix);
@@ -399,13 +407,13 @@ mod imp {
 
         #[template_callback]
         async fn on_transfer_prefix_continue(&self, prefix: &config::ArchivePrefix) {
-            let config = self.new_config.borrow().clone();
+            let config = self.new_config();
 
             if let Some(mut config) = config {
                 let res = config
                     .set_archive_prefix(prefix.clone(), BACKUP_CONFIG.load().iter())
                     .err_to_msg(gettext("Invalid Archive Prefix"));
-                self.new_config.replace(Some(config));
+                self.set_new_config(Some(config));
                 if self.handle_result(res).is_some() {
                     // Setup finished
                     self.finish();
@@ -441,7 +449,7 @@ mod imp {
 
             self.navigation_view.push(&*self.create_new_page);
             let config = actions::init_new_backup_repo(repo, &password).await?;
-            self.new_config.replace(Some(config.clone()));
+            self.set_new_config(Some(config.clone()));
 
             if let Some(password) = password {
                 self.handle_result(self.save_password(&config, password).await);
@@ -509,7 +517,7 @@ mod imp {
                 self.action.take();
                 self.location.take();
                 self.command_line_args.take();
-                self.new_config.take();
+                self.set_new_config(None);
             }
         }
     }
@@ -517,17 +525,12 @@ mod imp {
 
 glib::wrapper! {
     pub struct SetupDialog(ObjectSubclass<imp::SetupDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl SetupDialog {
     pub fn new() -> Self {
         glib::Object::new()
-    }
-
-    pub fn present_with(&self, transient_for: &impl IsA<gtk::Window>) {
-        self.set_transient_for(Some(transient_for));
-        self.present();
     }
 }
