@@ -2,22 +2,10 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <template class="PkDeleteArchiveDialog" parent="AdwWindow">
+  <template class="PkDeleteArchiveDialog" parent="AdwDialog">
     <property name="title" translatable="yes">Delete Archive</property>
-    <property name="modal">1</property>
-    <property name="default-width">430</property>
-    <child>
-      <object class="GtkShortcutController">
-        <property name="scope">managed</property>
-        <child>
-          <object class="GtkShortcut">
-            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
-            <property name="action">action(window.close)</property>
-          </object>
-        </child>
-      </object>
-    </child>
-    <property name="content">
+    <property name="content-width">430</property>
+    <property name="child">
       <object class="AdwToolbarView" id="page_decision">
         <child type="top">
           <object class="AdwHeaderBar"/>

@@ -60,6 +60,10 @@ impl ArchiveName {
     pub fn as_str(&self) -> &str {
         self.0.as_str()
     }
+
+    pub fn into_string(self) -> String {
+        self.0
+    }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]

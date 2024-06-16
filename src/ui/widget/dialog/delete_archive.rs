@@ -10,7 +10,7 @@ mod imp {
     use self::ui::{error::HandleError, App};
 
     use super::*;
-    use std::cell::{OnceCell, RefCell};
+    use std::cell::OnceCell;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "delete_archive.ui")]
@@ -18,7 +18,10 @@ mod imp {
     pub struct DeleteArchiveDialog {
         #[property(get, set, construct_only)]
         config: OnceCell<crate::config::Backup>,
-        archive_name: RefCell<String>,
+        #[property(get, set, construct_only)]
+        archive_name: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        archive_date: OnceCell<String>,
 
         #[template_child]
         name: TemplateChild<adw::ActionRow>,
@@ -30,7 +33,7 @@ mod imp {
     impl ObjectSubclass for DeleteArchiveDialog {
         const NAME: &'static str = "PkDeleteArchiveDialog";
         type Type = super::DeleteArchiveDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -43,20 +46,18 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for DeleteArchiveDialog {}
+    impl ObjectImpl for DeleteArchiveDialog {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.name.set_subtitle(self.archive_name.get().unwrap());
+            self.date.set_subtitle(self.archive_date.get().unwrap());
+        }
+    }
     impl WidgetImpl for DeleteArchiveDialog {}
-    impl WindowImpl for DeleteArchiveDialog {}
-    impl AdwWindowImpl for DeleteArchiveDialog {}
+    impl AdwDialogImpl for DeleteArchiveDialog {}
 
     #[gtk::template_callbacks]
     impl DeleteArchiveDialog {
-        pub(super) fn set_archive(&self, archive_name: &str, archive_date: &str) {
-            self.name.set_subtitle(archive_name);
-            self.archive_name.replace(archive_name.to_string());
-
-            self.date.set_subtitle(archive_date);
-        }
-
         async fn delete(&self) -> Result<()> {
             let config = self
                 .config
@@ -64,10 +65,11 @@ mod imp {
                 .expect("construct_only variable should be set");
 
             let guard = QuitGuard::default();
-            let archive_name = self.archive_name.borrow().clone();
 
             let mut command = borg::Command::<borg::task::Delete>::new(config.clone());
-            command.task.set_archive_name(Some(archive_name.clone()));
+            command
+                .task
+                .set_archive_name(self.archive_name.get().cloned());
             let result = ui::utils::borg::exec(command, &guard).await;
 
             result.into_message(gettext("Delete Archive Failed"))?;
@@ -99,23 +101,16 @@ mod imp {
 
 glib::wrapper! {
     pub struct DeleteArchiveDialog(ObjectSubclass<imp::DeleteArchiveDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl DeleteArchiveDialog {
-    pub fn new(config: &config::Backup) -> Self {
-        glib::Object::builder().property("config", config).build()
-    }
-
-    pub fn present_with_archive(
-        &self,
-        transient_for: &impl IsA<gtk::Window>,
-        archive_name: &str,
-        archive_date: &str,
-    ) {
-        self.set_transient_for(Some(transient_for));
-        self.present();
-        self.imp().set_archive(archive_name, archive_date);
+    pub fn new(config: &config::Backup, archive_name: String, archive_date: String) -> Self {
+        glib::Object::builder()
+            .property("config", config)
+            .property("archive-name", archive_name)
+            .property("archive-date", archive_date)
+            .build()
     }
 }

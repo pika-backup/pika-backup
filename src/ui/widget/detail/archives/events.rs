@@ -107,19 +107,16 @@ impl imp::ArchivesPage {
 
         debug!("Trying to delete an archive");
 
-        let archive_name = archive_name.as_str();
-        let archive_date = &archive
+        let archive_name = archive_name.into_string();
+        let archive_date = archive
             .start
             .to_locale()
             .unwrap_or_else(|| archive.start.to_string())
             .clone();
         let window = self.obj().app_window();
 
-        ui::widget::dialog::DeleteArchiveDialog::new(config).present_with_archive(
-            &window,
-            archive_name,
-            archive_date,
-        );
+        ui::widget::dialog::DeleteArchiveDialog::new(config, archive_name, archive_date)
+            .present(&window);
 
         Ok(())
     }
