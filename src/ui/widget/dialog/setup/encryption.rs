@@ -82,7 +82,7 @@ mod imp {
             if let Some(configured_password) = self
                 .encryption_preferences_group
                 .validated_password()
-                .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
+                .handle_transient_for(&*self.obj())
                 .await
             {
                 self.emit_continue(configured_password);

@@ -92,10 +92,7 @@ mod imp {
         #[template_callback]
         async fn on_delete(&self) {
             self.obj().close();
-            self.delete()
-                .await
-                .handle_transient_for(self.obj().transient_for().as_ref())
-                .await;
+            self.delete().await.handle_transient_for(&*self.obj()).await;
         }
     }
 }

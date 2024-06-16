@@ -279,7 +279,7 @@ mod imp {
             self.obj().close();
             self.exclude_folder()
                 .await
-                .handle_transient_for(self.obj().transient_for().as_ref())
+                .handle_transient_for(&*self.obj())
                 .await;
         }
 

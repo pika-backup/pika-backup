@@ -157,16 +157,12 @@ mod imp {
 
         #[template_callback]
         async fn on_add_button(&self) {
-            self.try_continue()
-                .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                .await;
+            self.try_continue().handle_transient_for(&*self.obj()).await;
         }
 
         #[template_callback]
         pub async fn on_continue_button(&self) {
-            self.try_continue()
-                .handle_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                .await;
+            self.try_continue().handle_transient_for(&*self.obj()).await;
         }
 
         #[template_callback]

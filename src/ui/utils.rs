@@ -394,11 +394,11 @@ pub async fn show_borg_question(
     }
 }
 
-pub async fn show_error_transient_for<W: IsA<gtk::Window>>(
+pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
     message: impl std::fmt::Display,
     detail: impl std::fmt::Display,
     notification_id: Option<&str>,
-    window: impl Into<Option<&W>>,
+    widget: &W,
 ) {
     let primary_text = ellipsize_multiline(message);
     let secondary_text = ellipsize_multiline(detail);
@@ -407,23 +407,23 @@ pub async fn show_error_transient_for<W: IsA<gtk::Window>>(
         &primary_text, &secondary_text
     );
 
+    let window = crate::ui::App::default().main_window();
+
     // Only display as dialog if focus and visible
-    if main_ui().is_mapped()
+    if window.is_mapped()
         && gtk::Window::list_toplevels().into_iter().any(|x| {
             x.downcast::<gtk::Window>()
                 .map(|w| w.is_active())
                 .unwrap_or_default()
         })
     {
-        let dialog = adw::MessageDialog::builder()
-            .modal(true)
+        let dialog = adw::AlertDialog::builder()
             .heading(&primary_text)
             .body(&secondary_text)
             .build();
 
-        dialog.set_transient_for(window.into());
         dialog.add_responses(&[("close", &gettext("Close"))]);
-        dialog.choose_future().await;
+        dialog.choose_future(widget).await;
     } else {
         let (title, body) = if secondary_text.is_empty() {
             (gettext("Pika Backup"), primary_text)

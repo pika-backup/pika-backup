@@ -350,9 +350,7 @@ mod imp {
 
             let error =
                 crate::ui::error::Message::new(gettext("Failed to Configure Repository"), error);
-            error
-                .show_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                .await;
+            error.show_transient_for(&*self.obj()).await;
         }
 
         // Transfer settings
@@ -431,10 +429,8 @@ mod imp {
             match result {
                 Ok(res) => Some(res),
                 Err(err) => {
-                    let window = self.obj().root().and_downcast::<gtk::Window>();
-                    glib::spawn_future_local(async move {
-                        err.show_transient_for(window.as_ref()).await
-                    });
+                    let obj = self.obj().clone();
+                    glib::spawn_future_local(async move { err.show_transient_for(&obj).await });
                     None
                 }
             }
@@ -495,8 +491,7 @@ mod imp {
                 // Error when storing the password.
                 // We don't fail the process here. Sometimes the keyring is just broken and people
                 // still want to access their backup archives.
-                err.show_transient_for(self.obj().root().and_downcast_ref::<gtk::Window>())
-                    .await;
+                err.show_transient_for(&*self.obj()).await;
             }
 
             Ok(())

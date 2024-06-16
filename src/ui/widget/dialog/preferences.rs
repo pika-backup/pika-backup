@@ -135,14 +135,14 @@ mod imp {
                     if imp.command_line_args_error.borrow().is_some() {
                         glib::MainContext::default().spawn_local(async move {
                             if let Some(err) = obj.imp().command_line_args_error.take() {
-                                err.show().await;
+                                err.show_transient_for(&obj).await;
                                 obj.imp().command_line_args_error.replace(Some(err));
                             }
                         });
                     } else if imp.pre_backup_command_error.borrow().is_some() {
                         glib::MainContext::default().spawn_local(async move {
                             if let Some(err) = obj.imp().pre_backup_command_error.take() {
-                                err.show().await;
+                                err.show_transient_for(&obj).await;
                                 obj.imp().pre_backup_command_error.replace(Some(err));
                             }
                         });

@@ -74,13 +74,13 @@ impl Message {
         self.show_transient_for(&main_ui().window()).await;
     }
 
-    pub async fn show_transient_for<W: IsA<gtk::Window>>(&self, window: impl Into<Option<&W>>) {
+    pub async fn show_transient_for(&self, widget: &impl IsA<gtk::Widget>) {
         if let Some(secondary) = &self.secondary_text {
             ui::utils::show_error_transient_for(
                 &self.text,
                 secondary,
                 self.notification_id.as_deref(),
-                window,
+                widget,
             )
             .await;
         } else {
@@ -88,7 +88,7 @@ impl Message {
                 &self.text,
                 "",
                 self.notification_id.as_deref(),
-                window,
+                widget,
             )
             .await;
         }
@@ -144,7 +144,7 @@ impl Error {
         }
     }
 
-    pub async fn show_transient_for<W: IsA<gtk::Window>>(&self, window: impl Into<Option<&W>>) {
+    pub async fn show_transient_for(&self, window: &impl IsA<gtk::Widget>) {
         if let Self::Message(err) = self {
             err.show_transient_for(window).await;
         }
@@ -183,7 +183,7 @@ impl<R> CombinedToError<R> for std::result::Result<R, Combined> {
     }
 }
 
-pub struct Handler<W: IsA<gtk::Window>> {
+pub struct Handler<W: IsA<gtk::Widget>> {
     transient_for: Option<W>,
 }
 
@@ -199,15 +199,15 @@ impl Handler<AppWindow> {
     }
 }
 
-impl<W: IsA<gtk::Window>> Handler<W> {
+impl<W: IsA<gtk::Widget>> Handler<W> {
     pub fn new() -> Self {
         Self {
             transient_for: None,
         }
     }
 
-    pub fn error_transient_for(mut self, window: W) -> Self {
-        self.transient_for = Some(window);
+    pub fn error_transient_for(mut self, widget: W) -> Self {
+        self.transient_for = Some(widget);
         self
     }
 
@@ -230,21 +230,15 @@ impl<W: IsA<gtk::Window>> Handler<W> {
 }
 
 pub trait HandleError<T> {
-    async fn handle_transient_for<W: IsA<gtk::Window>>(
-        self,
-        window: impl Into<Option<&W>>,
-    ) -> Option<T>;
+    async fn handle_transient_for(self, window: &impl IsA<gtk::Widget>) -> Option<T>;
 }
 
 impl<T> HandleError<T> for Result<T> {
-    async fn handle_transient_for<W: IsA<gtk::Window>>(
-        self,
-        window: impl Into<Option<&W>>,
-    ) -> Option<T> {
+    async fn handle_transient_for(self, widget: &impl IsA<gtk::Widget>) -> Option<T> {
         match self {
             Ok(res) => Some(res),
             Err(Error::Message(err)) => {
-                err.show_transient_for(window.into()).await;
+                err.show_transient_for(widget).await;
                 None
             }
             Err(Error::UserCanceled) => None,
