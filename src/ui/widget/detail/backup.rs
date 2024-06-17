@@ -102,8 +102,8 @@ mod imp {
                 .connect_activated(glib::clone!(@weak obj => move |_| {
                     let window = obj.app_window();
                     Handler::run(async move {
-                        let dialog = StorageDialog::new(BACKUP_CONFIG.load().active()?);
-                        dialog.present(&window).await;
+                        let dialog = StorageDialog::new(BACKUP_CONFIG.load().active()?).await;
+                        dialog.present(&window);
                         Ok(())
                     });
                 }));

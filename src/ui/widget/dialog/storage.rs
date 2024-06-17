@@ -45,7 +45,7 @@ mod imp {
     impl ObjectSubclass for StorageDialog {
         const NAME: &'static str = "PkStorageDialog";
         type Type = super::StorageDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -85,8 +85,7 @@ mod imp {
         }
     }
     impl WidgetImpl for StorageDialog {}
-    impl WindowImpl for StorageDialog {}
-    impl AdwWindowImpl for StorageDialog {}
+    impl AdwDialogImpl for StorageDialog {}
 
     #[gtk::template_callbacks]
     impl StorageDialog {
@@ -97,26 +96,29 @@ mod imp {
                 .set_value(1.0 - df.avail as f64 / df.size as f64);
             self.fs_group.set_visible(true);
         }
+
+        pub(super) async fn refresh(&self) {
+            if let Some(df) = ui::utils::df::cached_or_lookup(self.config.get().unwrap()).await {
+                self.set_df(&df);
+            }
+        }
     }
 }
 
 glib::wrapper! {
     pub struct StorageDialog(ObjectSubclass<imp::StorageDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl StorageDialog {
-    pub fn new(config: &config::Backup) -> Self {
-        glib::Object::builder().property("config", config).build()
+    pub async fn new(config: &config::Backup) -> Self {
+        let obj: Self = glib::Object::builder().property("config", config).build();
+        obj.refresh().await;
+        obj
     }
 
-    pub async fn present(&self, transient_for: &impl IsA<gtk::Window>) {
-        self.set_transient_for(Some(transient_for));
-        gtk::Window::present(self.upcast_ref());
-
-        if let Some(df) = ui::utils::df::cached_or_lookup(&self.config()).await {
-            self.imp().set_df(&df);
-        }
+    pub async fn refresh(&self) {
+        self.imp().refresh().await;
     }
 }
