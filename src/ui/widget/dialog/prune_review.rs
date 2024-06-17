@@ -10,6 +10,8 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
+    use adw::subclass::dialog::AdwDialogImplExt;
+
     use self::borg::{ListArchive, PruneInfo};
 
     use super::*;
@@ -36,7 +38,7 @@ mod imp {
     impl ObjectSubclass for PruneReviewDialog {
         const NAME: &'static str = "PkPruneReviewDialog";
         type Type = super::PruneReviewDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -50,16 +52,15 @@ mod imp {
 
     impl ObjectImpl for PruneReviewDialog {}
     impl WidgetImpl for PruneReviewDialog {}
-    impl WindowImpl for PruneReviewDialog {
-        fn close_request(&self) -> glib::Propagation {
+    impl AdwDialogImpl for PruneReviewDialog {
+        fn closed(&self) {
             if let Some(sender) = self.result_sender.take() {
                 let _ignore = sender.send(false);
             }
 
-            self.parent_close_request()
+            self.parent_closed()
         }
     }
-    impl AdwWindowImpl for PruneReviewDialog {}
 
     #[gtk::template_callbacks]
     impl PruneReviewDialog {
@@ -118,7 +119,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct PruneReviewDialog(ObjectSubclass<imp::PruneReviewDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
@@ -127,7 +128,7 @@ impl PruneReviewDialog {
         glib::Object::new()
     }
 
-    pub async fn review(parent: &impl IsA<gtk::Window>, config: &config::Backup) -> Result<()> {
+    pub async fn present(parent: &impl IsA<gtk::Widget>, config: &config::Backup) -> Result<()> {
         // First ensure the device is available to prevent overlapping dialogs
         ui::repo::ensure_device_plugged_in(
             parent.upcast_ref(),
@@ -137,8 +138,7 @@ impl PruneReviewDialog {
         .await?;
 
         let dialog = PruneReviewDialog::new();
-        dialog.set_transient_for(Some(parent));
-        dialog.present();
+        dialog.present(parent);
         dialog.imp().choose_future(config).await
     }
 }

@@ -77,7 +77,7 @@ mod imp {
                     .err_to_msg(gettext("Invalid Archive Prefix"))?;
 
                 self.obj().close();
-                ui::widget::dialog::PruneReviewDialog::review(
+                ui::widget::dialog::PruneReviewDialog::present(
                     &ui::App::default().main_window(),
                     &config,
                 )

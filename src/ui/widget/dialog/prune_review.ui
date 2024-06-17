@@ -2,21 +2,9 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
-  <template class="PkPruneReviewDialog" parent="AdwWindow">
+  <template class="PkPruneReviewDialog" parent="AdwDialog">
     <property name="title" translatable="yes">Review Changes</property>
-    <property name="modal">1</property>
-    <property name="default-width">500</property>
-    <child>
-      <object class="GtkShortcutController">
-        <property name="scope">managed</property>
-        <child>
-          <object class="GtkShortcut">
-            <property name="trigger">Escape|&lt;Ctrl&gt;w</property>
-            <property name="action">action(window.close)</property>
-          </object>
-        </child>
-      </object>
-    </child>
+    <property name="content-width">430</property>
     <property name="content">
       <object class="GtkStack" id="stack">
         <child>
