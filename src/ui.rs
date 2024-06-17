@@ -1,6 +1,5 @@
 //! User interface
 
-mod about;
 mod app;
 mod backup_status;
 mod dbus;

@@ -1,3 +1,4 @@
+pub mod about;
 mod archive_prefix;
 mod backup_info;
 mod check;

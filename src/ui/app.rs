@@ -148,7 +148,7 @@ impl App {
         let actions = [
             gio::ActionEntryBuilder::new("about")
                 .activate(|app: &Self, _, _| {
-                    let dialog = ui::about::window();
+                    let dialog = ui::widget::dialog::about::window();
                     dialog.set_transient_for(Some(&app.main_window()));
                     dialog.present()
                 })
