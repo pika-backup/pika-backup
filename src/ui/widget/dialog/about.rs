@@ -1,8 +1,8 @@
 use crate::ui;
 use crate::ui::prelude::*;
 
-pub fn window() -> adw::AboutWindow {
-    let dialog = adw::AboutWindow::builder()
+pub fn window() -> adw::AboutDialog {
+    let dialog = adw::AboutDialog::builder()
         /*
         Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," \
         please make sure that the transliteration does not coincide with a different meaning. If \
