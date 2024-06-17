@@ -86,7 +86,19 @@ fn debug_info() -> String {
             std::env::var("container").unwrap_or_default()
         ),
         format!(
-            "- BorgBackup Version: {}",
+            "- gtk: {}.{}.{}",
+            gtk::major_version(),
+            gtk::minor_version(),
+            gtk::micro_version()
+        ),
+        format!(
+            "- libadwaita: {}.{}.{}",
+            adw::major_version(),
+            adw::minor_version(),
+            adw::micro_version()
+        ),
+        format!(
+            "- BorgBackup: {}",
             crate::ui::BORG_VERSION
                 .get()
                 .map_or("Unknown", String::as_str)
