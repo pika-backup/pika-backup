@@ -168,15 +168,17 @@ impl PruneDialog {
         glib::Object::new()
     }
 
-    pub async fn ask_prune(
-        transient_for: &impl IsA<gtk::Window>,
-        config: &config::Backup,
-    ) -> Result<()> {
+    pub async fn ask_prune(parent: &impl IsA<gtk::Window>, config: &config::Backup) -> Result<()> {
         // First ensure the device is available to prevent overlapping dialogs
-        ui::repo::ensure_device_plugged_in(config, &gettext("Identifying old Archives")).await?;
+        ui::repo::ensure_device_plugged_in(
+            parent.upcast_ref(),
+            config,
+            &gettext("Identifying old Archives"),
+        )
+        .await?;
 
         let dialog = Self::new();
-        dialog.set_transient_for(Some(transient_for));
+        dialog.set_transient_for(Some(parent));
         dialog.present();
 
         // Returns Error::UserCanceled if canceled

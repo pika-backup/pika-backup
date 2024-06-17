@@ -27,7 +27,7 @@ mod imp {
     impl ObjectSubclass for DeviceMissingDialog {
         const NAME: &'static str = "PkDeviceMissingDialog";
         type Type = super::DeviceMissingDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -46,17 +46,13 @@ mod imp {
         }
     }
     impl WidgetImpl for DeviceMissingDialog {}
-    impl WindowImpl for DeviceMissingDialog {
-        fn close_request(&self) -> glib::Propagation {
+    impl AdwDialogImpl for DeviceMissingDialog {
+        fn closed(&self) {
             if let Some(sender) = self.mount_sender.take() {
                 let _ = sender.try_send(None);
             }
-
-            glib::Propagation::Proceed
         }
     }
-
-    impl AdwWindowImpl for DeviceMissingDialog {}
 
     #[gtk::template_callbacks]
     impl DeviceMissingDialog {
@@ -101,7 +97,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct DeviceMissingDialog(ObjectSubclass<imp::DeviceMissingDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
@@ -112,15 +108,15 @@ impl DeviceMissingDialog {
 
     pub async fn present_with_repo(
         &self,
+        parent: &impl IsA<gtk::Widget>,
         repo: &config::local::Repository,
         purpose: &str,
     ) -> Result<gio::Mount> {
-        self.set_transient_for(Some(&main_ui().window()));
-        self.set_title(Some(purpose));
+        self.set_title(purpose);
 
         let mount_receiver = self.imp().monitor_repo(repo);
 
-        self.present();
+        self.present(parent);
         mount_receiver
             .recv()
             .await

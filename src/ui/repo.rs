@@ -16,11 +16,15 @@ fn find_volume(repo: &config::local::Repository) -> Option<gio::Volume> {
 /// Make sure the device is plugged in and available
 ///
 /// No-Op for remote archives
-pub async fn ensure_device_plugged_in(config: &config::Backup, purpose: &str) -> Result<()> {
+pub async fn ensure_device_plugged_in(
+    parent: &impl IsA<gtk::Widget>,
+    config: &config::Backup,
+    purpose: &str,
+) -> Result<()> {
     if let config::Repository::Local(repo) = &config.repo {
         if repo.removable && find_volume(repo).is_none() {
             let dialog = DeviceMissingDialog::new(config);
-            dialog.present_with_repo(repo, purpose).await?;
+            dialog.present_with_repo(parent, repo, purpose).await?;
         }
     }
 
@@ -31,6 +35,7 @@ pub async fn ensure_device_plugged_in(config: &config::Backup, purpose: &str) ->
 ///
 /// If the repository is not available we try to mount it, showing the dialog if required.
 pub async fn ensure_repo_available(
+    parent: &impl IsA<gtk::Widget>,
     config: &config::Backup,
     purpose: &str,
 ) -> Result<config::Backup> {
@@ -69,7 +74,7 @@ pub async fn ensure_repo_available(
                     } else {
                         info!("Waiting for mount to appear");
                         let dialog = DeviceMissingDialog::new(config);
-                        let mount = dialog.present_with_repo(repo, purpose).await?;
+                        let mount = dialog.present_with_repo(parent, repo, purpose).await?;
                         new_config.set_mount_path(&mount);
                     }
                 } else {

@@ -33,7 +33,12 @@ async fn do_exec<T: Task>(mut command: borg::Command<T>) -> CombinedResult<T::Re
 where
     borg::Command<T>: borg::CommandRun<T>,
 {
-    let mounted_result = crate::ui::repo::ensure_repo_available(&command.config, &T::name()).await;
+    let mounted_result = crate::ui::repo::ensure_repo_available(
+        &App::default().main_window(),
+        &command.config,
+        &T::name(),
+    )
+    .await;
 
     match mounted_result {
         Ok(config) => command.config = config,
