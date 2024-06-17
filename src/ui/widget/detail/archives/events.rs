@@ -1,6 +1,7 @@
 use crate::ui::prelude::*;
 use crate::ui::widget::ArchivePrefixDialog;
 use crate::ui::widget::CheckDialog;
+use crate::ui::widget::PruneDialog;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
@@ -23,7 +24,10 @@ impl imp::ArchivesPage {
         let configs = BACKUP_CONFIG.load();
         let config = configs.active()?;
 
-        ui::widget::dialog::PruneDialog::ask_prune(&self.obj().app_window(), config).await
+        let dialog = PruneDialog::new(config.clone());
+        dialog.execute(&*self.obj()).await?;
+
+        Ok(())
     }
 
     pub async fn edit_prefix(&self) -> Result<()> {

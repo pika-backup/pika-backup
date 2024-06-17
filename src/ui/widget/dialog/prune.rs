@@ -8,14 +8,19 @@ use crate::ui::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
+    use adw::subclass::dialog::AdwDialogImplExt;
+
     use self::borg::{ListArchive, PruneInfo};
 
     use super::*;
-    use std::cell::RefCell;
+    use std::cell::{OnceCell, RefCell};
 
-    #[derive(Default, gtk::CompositeTemplate)]
+    #[derive(Default, gtk::CompositeTemplate, glib::Properties)]
+    #[properties(wrapper_type = super::PruneDialog)]
     #[template(file = "prune.ui")]
     pub struct PruneDialog {
+        #[property(get, set, construct_only)]
+        config: OnceCell<config::Backup>,
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -40,7 +45,7 @@ mod imp {
     impl ObjectSubclass for PruneDialog {
         const NAME: &'static str = "PkPruneDialog";
         type Type = super::PruneDialog;
-        type ParentType = adw::Window;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -52,18 +57,18 @@ mod imp {
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for PruneDialog {}
     impl WidgetImpl for PruneDialog {}
-    impl WindowImpl for PruneDialog {
-        fn close_request(&self) -> glib::Propagation {
+    impl AdwDialogImpl for PruneDialog {
+        fn closed(&self) {
             if let Some(sender) = self.result_sender.take() {
                 let _ignore = sender.send(false);
             }
 
-            self.parent_close_request()
+            self.parent_closed();
         }
     }
-    impl AdwWindowImpl for PruneDialog {}
 
     #[gtk::template_callbacks]
     impl PruneDialog {
@@ -159,33 +164,33 @@ mod imp {
 
 glib::wrapper! {
     pub struct PruneDialog(ObjectSubclass<imp::PruneDialog>)
-    @extends gtk::Widget, gtk::Window, adw::Window,
+    @extends gtk::Widget, adw::Dialog,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl PruneDialog {
-    fn new() -> Self {
-        glib::Object::new()
+    pub fn new(config: config::Backup) -> Self {
+        glib::Object::builder().property("config", config).build()
     }
 
-    pub async fn ask_prune(parent: &impl IsA<gtk::Window>, config: &config::Backup) -> Result<()> {
+    pub async fn execute(&self, parent: &impl IsA<gtk::Widget>) -> Result<()> {
+        let config = self.config();
+
         // First ensure the device is available to prevent overlapping dialogs
         ui::repo::ensure_device_plugged_in(
             parent.upcast_ref(),
-            config,
+            &config,
             &gettext("Identifying old Archives"),
         )
         .await?;
 
-        let dialog = Self::new();
-        dialog.set_transient_for(Some(parent));
-        dialog.present();
+        self.present(parent);
 
         // Returns Error::UserCanceled if canceled
-        dialog.imp().choose_future(config).await?;
+        self.imp().choose_future(&config).await?;
 
         // Run prune operation
-        dialog.imp().delete(config).await?;
+        self.imp().delete(&config).await?;
 
         Ok(())
     }
