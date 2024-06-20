@@ -32,11 +32,9 @@ mod imp {
         page_decision: TemplateChild<adw::ToolbarView>,
 
         #[template_child]
-        apply: TemplateChild<gtk::Button>,
+        apply_button: TemplateChild<gtk::Button>,
         #[template_child]
-        delete: TemplateChild<gtk::Button>,
-        #[template_child]
-        cancel: TemplateChild<gtk::Button>,
+        delete_button: TemplateChild<gtk::Button>,
 
         #[template_child]
         preferences_group: TemplateChild<adw::PreferencesGroup>,
@@ -71,6 +69,10 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            if self.review_only.get() {
+                self.obj().set_title(&gettext("Review Changes"))
+            }
+
             let status = if self.review_only.get() {
                 gettext("Collecting information about the effect of the changes on old archives")
             } else {
@@ -86,8 +88,8 @@ mod imp {
             };
 
             self.preferences_group.set_description(Some(&description));
-            self.apply.set_visible(self.review_only.get());
-            self.delete.set_visible(!self.review_only.get());
+            self.apply_button.set_visible(self.review_only.get());
+            self.delete_button.set_visible(!self.review_only.get());
         }
     }
     impl WidgetImpl for PruneDialog {}
@@ -183,9 +185,11 @@ mod imp {
             self.untouched
                 .set_label(&num_untouched_archives.to_string());
 
-            if prune_info.prune == 0 {
-                self.delete.set_visible(false);
-                self.cancel.set_label(&gettext("Close"));
+            if prune_info.prune == 0 && !self.review_only.get() {
+                self.delete_button.set_visible(false);
+                self.preferences_group.set_description(Some(&gettext(
+                    "No archives are selected for deletion with current cleanup rules",
+                )));
             }
 
             self.stack.set_visible_child(&*self.page_decision);
