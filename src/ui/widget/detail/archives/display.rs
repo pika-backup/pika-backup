@@ -208,12 +208,16 @@ impl imp::ArchivesPage {
             row.add_row(&browse_row);
 
             let obj = self.obj();
-            browse_row.connect_activated(
-                glib::clone!(@weak obj, @strong archive_name => move |_| {
+            browse_row.connect_activated(glib::clone!(
+                #[weak]
+                obj,
+                #[strong]
+                archive_name,
+                move |_| {
                     let name = archive_name.clone();
-                    Handler::run(async move { obj.imp().browse_archive(name).await});
-                }),
-            );
+                    Handler::run(async move { obj.imp().browse_archive(name).await });
+                }
+            ));
 
             let delete_row = adw::ActionRow::builder()
                 .title(&gettext("Delete archive"))
@@ -225,11 +229,15 @@ impl imp::ArchivesPage {
 
             row.add_row(&delete_row);
 
-            delete_row.connect_activated(glib::clone!(@weak obj => move |_| {
-                let name = archive_name.clone();
-                let archive = archive.clone();
-                Handler::run(async move { obj.imp().delete_archive(name, archive) });
-            }));
+            delete_row.connect_activated(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    let name = archive_name.clone();
+                    let archive = archive.clone();
+                    Handler::run(async move { obj.imp().delete_archive(name, archive) });
+                }
+            ));
 
             self.list.append(&row);
         }

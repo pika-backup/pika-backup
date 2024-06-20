@@ -60,10 +60,16 @@ impl<T: borg::Task> Operation<T> {
 
         glib::source::timeout_add_local(
             POLL_INTERVAL,
-            glib::clone!(@weak process => @default-return glib::ControlFlow::Break, move || {
-                glib::MainContext::default().spawn_local(Self::check(process));
-                glib::ControlFlow::Continue
-            }),
+            glib::clone!(
+                #[weak]
+                process,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
+                    glib::MainContext::default().spawn_local(Self::check(process));
+                    glib::ControlFlow::Continue
+                }
+            ),
         );
 
         // prevent shutdown etc.
@@ -208,10 +214,15 @@ impl<T: borg::Task> Operation<T> {
     fn handle_borg_question(&self, question: &log_json::QuestionPrompt) {
         let communication = self.communication().clone();
 
-        glib::MainContext::default().spawn_local(glib::clone!(@strong question => async move {
-            let response = ui::utils::show_borg_question(&App::default().main_window(), &question).await;
-            communication.set_instruction(borg::Instruction::Response(response));
-        }));
+        glib::MainContext::default().spawn_local(glib::clone!(
+            #[strong]
+            question,
+            async move {
+                let response =
+                    ui::utils::show_borg_question(&App::default().main_window(), &question).await;
+                communication.set_instruction(borg::Instruction::Response(response));
+            }
+        ));
     }
 }
 

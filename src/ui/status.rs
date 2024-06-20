@@ -42,8 +42,10 @@ impl StatusTracking {
 
         // Metered
         tracking.metered_signal_handler.set(Some(
-            gio::NetworkMonitor::default().connect_network_metered_notify(
-                glib::clone!(@weak tracking => move |x| {
+            gio::NetworkMonitor::default().connect_network_metered_notify(glib::clone!(
+                #[weak]
+                tracking,
+                move |x| {
                     if x.is_network_metered() {
                         debug!("Connection now metered.");
                         tracking.metered_since.set(Some(Instant::now()));
@@ -52,8 +54,8 @@ impl StatusTracking {
                         tracking.metered_since.set(None);
                     }
                     tracking.ui_schedule_update();
-                }),
-            ),
+                }
+            )),
         ));
 
         // Battery
@@ -124,25 +126,33 @@ impl StatusTracking {
         // Regular update
         glib::source::timeout_add_local(
             UI_INTERVAL,
-            glib::clone!(@weak tracking => @default-return glib::ControlFlow::Break, move || {
-                // Check if UI is idle without task. This should usually not happen.
-                if tracking.quit_inhibit_count() == 0 {
-                    if let Some(idle_since) = tracking.idle_since.get() {
-                        if idle_since.elapsed() > Duration::from_secs(120) && !main_ui().window().is_visible() {
-                            error!("UI has been indle without task for 120 secs. Quitting.");
-                            quit_background_app();
+            glib::clone!(
+                #[weak]
+                tracking,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move || {
+                    // Check if UI is idle without task. This should usually not happen.
+                    if tracking.quit_inhibit_count() == 0 {
+                        if let Some(idle_since) = tracking.idle_since.get() {
+                            if idle_since.elapsed() > Duration::from_secs(120)
+                                && !main_ui().window().is_visible()
+                            {
+                                error!("UI has been indle without task for 120 secs. Quitting.");
+                                quit_background_app();
+                            }
+                        } else {
+                            // Usually this should be set already
+                            tracking.idle_since.set(Some(Instant::now()));
                         }
-                    } else {
-                        // Usually this should be set already
-                        tracking.idle_since.set(Some(Instant::now()));
                     }
-                }
 
-                debug!("Regular UI update to keep 'time ago' etc correct.");
-                tracking.ui_status_update();
-                tracking.ui_schedule_update();
-                glib::ControlFlow::Continue
-            }),
+                    debug!("Regular UI update to keep 'time ago' etc correct.");
+                    tracking.ui_status_update();
+                    tracking.ui_schedule_update();
+                    glib::ControlFlow::Continue
+                }
+            ),
         );
 
         tracking

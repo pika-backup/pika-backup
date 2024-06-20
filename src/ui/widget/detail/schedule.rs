@@ -124,80 +124,131 @@ mod imp {
             // events
 
             self.schedule_active_signal_handler.get_or_init(|| {
-                self.schedule_active.connect_enable_expansion_notify(
-                    glib::clone!(@weak imp => move |_| Handler::run(async move { imp.active_change().await })),
-                )
+                self.schedule_active
+                    .connect_enable_expansion_notify(glib::clone!(
+                        #[weak]
+                        imp,
+                        move |_| Handler::run(async move { imp.active_change().await })
+                    ))
             });
 
-            self.frequency.connect_selected_item_notify(
-                glib::clone!(@weak imp => move |_| Handler::run(async move { imp.frequency_change().await })),
-            );
+            self.frequency.connect_selected_item_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.frequency_change().await })
+            ));
 
-            self.preferred_hour.connect_output(
-                glib::clone!(@weak imp => @default-return glib::Propagation::Stop, move |button| {
-                    imp.preferred_time_change(button)
-                }),
-            );
+            self.preferred_hour.connect_output(glib::clone!(
+                #[weak]
+                imp,
+                #[upgrade_or]
+                glib::Propagation::Stop,
+                move |button| imp.preferred_time_change(button)
+            ));
 
-            self.preferred_minute.connect_output(
-                glib::clone!(@weak imp => @default-return glib::Propagation::Stop, move |button| {
-                    imp.preferred_time_change(button)
-                }),
-            );
+            self.preferred_minute.connect_output(glib::clone!(
+                #[weak]
+                imp,
+                #[upgrade_or]
+                glib::Propagation::Stop,
+                move |button| imp.preferred_time_change(button)
+            ));
 
-            self.preferred_time_popover.connect_closed(
-                glib::clone!(@weak imp => move |_| Handler::run(async move { imp.preferred_time_close().await })),
-            );
+            self.preferred_time_popover.connect_closed(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.preferred_time_close().await })
+            ));
 
-            self.preferred_weekday_row.connect_selected_item_notify(
-                glib::clone!(@weak imp => move |_| Handler::run(async move { imp.preferred_weekday_change().await })),
-            );
+            self.preferred_weekday_row
+                .connect_selected_item_notify(glib::clone!(
+                    #[weak]
+                    imp,
+                    move |_| Handler::run(async move { imp.preferred_weekday_change().await })
+                ));
 
-            self.preferred_day
-                .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.preferred_day_change().await })));
+            self.preferred_day.connect_value_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.preferred_day_change().await })
+            ));
 
             // prune
 
-            self.prune_save
-                .connect_clicked(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.prune_save().await })));
+            self.prune_save.connect_clicked(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.prune_save().await })
+            ));
 
-            self.prune_enabled
-                .connect_active_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.prune_enabled().await } )));
+            self.prune_enabled.connect_active_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.prune_enabled().await })
+            ));
 
             self.prune_preset
                 .set_model(Some(&PrunePresetObject::list_store()));
 
-            self.prune_preset
-                .connect_selected_item_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.prune_preset_change().await } )));
+            self.prune_preset.connect_selected_item_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.prune_preset_change().await })
+            ));
 
-            self.keep_hourly
-                .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
+            self.keep_hourly.connect_value_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.keep_change().await })
+            ));
 
-            self.keep_daily
-                .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
+            self.keep_daily.connect_value_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.keep_change().await })
+            ));
 
-            self.keep_weekly
-                .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
+            self.keep_weekly.connect_value_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.keep_change().await })
+            ));
 
-            self.keep_monthly
-                .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
+            self.keep_monthly.connect_value_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.keep_change().await })
+            ));
 
-            self.keep_yearly
-                .connect_value_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.keep_change().await } )));
+            self.keep_yearly.connect_value_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.keep_change().await })
+            ));
 
             // Network
 
-            gio::NetworkMonitor::default()
-                .connect_network_metered_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.network_changed().await } )));
+            gio::NetworkMonitor::default().connect_network_metered_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.network_changed().await })
+            ));
 
-            gio::NetworkMonitor::default()
-                .connect_network_available_notify(glib::clone!(@weak imp => move |_| Handler::run(async move { imp.network_changed().await } )));
+            gio::NetworkMonitor::default().connect_network_available_notify(glib::clone!(
+                #[weak]
+                imp,
+                move |_| Handler::run(async move { imp.network_changed().await })
+            ));
 
             glib::timeout_add_local_once(std::time::Duration::ZERO, move || {
                 // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
-                main_ui().navigation_view().connect_visible_page_notify(
-                    glib::clone!(@weak imp => move |_| Handler::run(async move { imp.show_page().await })),
-                );
+                main_ui()
+                    .navigation_view()
+                    .connect_visible_page_notify(glib::clone!(
+                        #[weak]
+                        imp,
+                        move |_| Handler::run(async move { imp.show_page().await })
+                    ));
             });
         }
     }

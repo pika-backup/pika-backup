@@ -92,83 +92,96 @@ mod imp {
             let obj = self.obj();
             obj.close();
 
-            Handler::run(glib::clone!(@strong obj => async move {
-                let config = obj.imp().config()?;
+            Handler::run(glib::clone!(
+                #[strong]
+                obj,
+                async move {
+                    let config = obj.imp().config()?;
 
-                scopeguard::defer_on_success!({
-                    main_ui()
-                        .page_detail()
-                        .archives_page()
-                        .refresh_status();
-                });
+                    scopeguard::defer_on_success!({
+                        main_ui().page_detail().archives_page().refresh_status();
+                    });
 
-                let mut command =
-                    crate::borg::Command::<crate::borg::task::Check>::new(config.clone());
-                command.task.set_verify_data(obj.imp().verify_data.get());
-                let repair = obj.imp().repair.get();
-                command.task.set_repair(repair);
+                    let mut command =
+                        crate::borg::Command::<crate::borg::task::Check>::new(config.clone());
+                    command.task.set_verify_data(obj.imp().verify_data.get());
+                    let repair = obj.imp().repair.get();
+                    command.task.set_repair(repair);
 
-                let quit_guard = QuitGuard::default();
-                let communication = command.communication.clone();
-                let result = crate::ui::utils::borg::exec(command, &quit_guard)
-                    .await
-                    .into_message(gettext("Verify Archives Integrity"));
-                let mut message_history = communication
-                    .general_info
-                    .load()
-                    .all_combined_message_history();
+                    let quit_guard = QuitGuard::default();
+                    let communication = command.communication.clone();
+                    let result = crate::ui::utils::borg::exec(command, &quit_guard)
+                        .await
+                        .into_message(gettext("Verify Archives Integrity"));
+                    let mut message_history = communication
+                        .general_info
+                        .load()
+                        .all_combined_message_history();
 
-                // The actual error message is not very interesting, we need to dig through history
-                if let Err(err) = result {
-                    if message_history.is_empty() {
-                        message_history = vec![LogEntry::UnparsableErr(err.to_string())];
+                    // The actual error message is not very interesting, we need to dig through history
+                    if let Err(err) = result {
+                        if message_history.is_empty() {
+                            message_history = vec![LogEntry::UnparsableErr(err.to_string())];
+                        }
+
+                        if matches!(err, Error::UserCanceled) {
+                            BACKUP_HISTORY
+                                .try_update(|history| {
+                                    history.set_last_check(
+                                        config.id.clone(),
+                                        CheckRunInfo::new_aborted(),
+                                    );
+                                    Ok(())
+                                })
+                                .await?;
+
+                            return Ok(());
+                        }
                     }
 
-                    if matches!(err, Error::UserCanceled) {
-                        BACKUP_HISTORY.try_update(|history| {
-                            history.set_last_check(config.id.clone(), CheckRunInfo::new_aborted());
-                            Ok(())
-                        }).await?;
+                    if !message_history.is_empty() {
+                        let run_info = if repair {
+                            crate::config::history::CheckRunInfo::new_repair(
+                                message_history.clone(),
+                            )
+                        } else {
+                            crate::config::history::CheckRunInfo::new_error(message_history.clone())
+                        };
 
-                        return Ok(());
-                    }
-                }
+                        BACKUP_HISTORY
+                            .try_update(|history| {
+                                history.set_last_check(config.id.clone(), run_info.clone());
+                                Ok(())
+                            })
+                            .await?;
 
-                if !message_history.is_empty() {
-                    let run_info = if repair {
-                        crate::config::history::CheckRunInfo::new_repair(message_history.clone())
+                        return Err(Message::new(
+                            gettext("Verify Archives Integrity"),
+                            message_history
+                                .iter()
+                                .map(|h| h.message())
+                                .collect::<Vec<String>>()
+                                .join("\n"),
+                        )
+                        .into());
                     } else {
-                        crate::config::history::CheckRunInfo::new_error(message_history.clone())
-                    };
+                        let run_info = crate::config::history::CheckRunInfo::new_success();
 
-                    BACKUP_HISTORY.try_update(|history| {
-                        history.set_last_check(config.id.clone(), run_info.clone());
-                        Ok(())
-                    }).await?;
+                        BACKUP_HISTORY
+                            .try_update(|history| {
+                                history.set_last_check(config.id.clone(), run_info.clone());
+                                Ok(())
+                            })
+                            .await?;
 
-                    return Err(Message::new(
-                        gettext("Verify Archives Integrity"),
-                        message_history
-                            .iter()
-                            .map(|h| h.message())
-                            .collect::<Vec<String>>()
-                            .join("\n"),
-                    )
-                    .into());
-                } else {
-                    let run_info = crate::config::history::CheckRunInfo::new_success();
+                        crate::ui::utils::show_notice(gettext(
+                            "Verify archives integrity completed successfully",
+                        ));
+                    }
 
-                    BACKUP_HISTORY.try_update(|history| {
-                        history.set_last_check(config.id.clone(), run_info.clone());
-                        Ok(())
-                    }).await?;
-
-                    crate::ui::utils::show_notice(gettext("Verify archives integrity completed successfully"));
+                    Ok(())
                 }
-
-
-                Ok(())
-            }));
+            ));
         }
     }
 }

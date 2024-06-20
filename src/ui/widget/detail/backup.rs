@@ -81,61 +81,81 @@ mod imp {
             self.parent_constructed();
             let obj = self.obj().clone();
 
-            self.backup_button
-                .connect_clicked(glib::clone!(@weak obj => move |_| {
+            self.backup_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     let guard = QuitGuard::default();
                     Handler::run(async move { obj.imp().on_backup_run(&guard).await });
-                }));
+                }
+            ));
 
             // Backup details
-            self.detail_status_row
-                .connect_activated(glib::clone!(@weak obj => move |_| {
+            self.detail_status_row.connect_activated(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     let imp = obj.imp();
                     imp.detail_dialog.present(Some(&obj));
 
                     if let Some(status) = &*imp.backup_status.borrow() {
                         imp.detail_dialog.refresh_status_display(status);
                     };
-                }));
+                }
+            ));
 
-            self.detail_repo_row
-                .connect_activated(glib::clone!(@weak obj => move |_| {
+            self.detail_repo_row.connect_activated(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     let window = obj.app_window();
                     Handler::run(async move {
                         let dialog = StorageDialog::new(BACKUP_CONFIG.load().active()?).await;
                         dialog.present(Some(&window));
                         Ok(())
                     });
-                }));
+                }
+            ));
 
-            self.add_include_button.connect_clicked(
-                glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().add_include().await })),
-            );
-            self.add_exclude_button.connect_clicked(
-                glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().add_exclude().await })),
-            );
+            self.add_include_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().add_include().await })
+            ));
+            self.add_exclude_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().add_exclude().await })
+            ));
 
-            self.abort_button.connect_clicked(
-                glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().on_stop_backup_create().await })),
-            );
+            self.abort_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().on_stop_backup_create().await })
+            ));
 
-            self.backup_disk_eject_button
-                .connect_clicked(glib::clone!(@weak obj => move |_| {
-                    Handler::run(async move { obj.imp().on_backup_disk_eject().await })
-                }));
+            self.backup_disk_eject_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().on_backup_disk_eject().await })
+            ));
 
             glib::timeout_add_local(std::time::Duration::ZERO, move || {
                 // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
-                main_ui().navigation_view().connect_visible_page_notify(
-                    glib::clone!(@weak obj => move |navigation_view| {
-                        if navigation_view
-                            .visible_page()
-                            .is_some_and(|page| page == main_ui().page_detail())
-                        {
-                            Handler::handle(obj.imp().refresh());
+                main_ui()
+                    .navigation_view()
+                    .connect_visible_page_notify(glib::clone!(
+                        #[weak]
+                        obj,
+                        move |navigation_view| {
+                            if navigation_view
+                                .visible_page()
+                                .is_some_and(|page| page == main_ui().page_detail())
+                            {
+                                Handler::handle(obj.imp().refresh());
+                            }
                         }
-                    }),
-                );
+                    ));
 
                 glib::ControlFlow::Break
             });

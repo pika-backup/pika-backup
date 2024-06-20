@@ -104,21 +104,29 @@ mod imp {
         fn constructed(&self) {
             let obj = self.obj().clone();
 
-            self.prefix_edit_button.connect_clicked(
-                glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().edit_prefix().await })),
-            );
+            self.prefix_edit_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().edit_prefix().await })
+            ));
 
             // Backup details
-            self.check_status_row
-                .connect_activated(glib::clone!(@weak obj => move |_| {
+            self.check_status_row.connect_activated(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     if let Some(id) = &**ACTIVE_BACKUP_ID.load() {
                         let dialog = &obj.imp().check_result_dialog;
                         dialog.set_config_id(Some(id.clone()));
                         dialog.present(Some(&obj));
                     }
-                }));
-            self.check_button
-                .connect_clicked(glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().check().await })));
+                }
+            ));
+            self.check_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().check().await })
+            ));
             self.check_abort_button.connect_clicked(|_| {
                 Handler::run(async move {
                     main_ui()
@@ -129,21 +137,30 @@ mod imp {
                 })
             });
 
-            self.cleanup_row
-                .connect_activated(glib::clone!(@weak obj => move |_| Handler::run(async move { obj.imp().cleanup().await })));
+            self.cleanup_row.connect_activated(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().cleanup().await })
+            ));
 
-            self.refresh_archives_button
-                .connect_clicked(glib::clone!(@weak obj => move |_| {
+            self.refresh_archives_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     Handler::run(async move {
                         let config = BACKUP_CONFIG.load().active()?.clone();
                         obj.imp().refresh_archives(config, None).await
                     });
-                }));
+                }
+            ));
 
-            self.eject_button
-                .connect_clicked(glib::clone!(@weak obj => move |_| {
+            self.eject_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     Handler::run(async move { obj.imp().eject_button_clicked().await });
-                }));
+                }
+            ));
 
             // spinner performance
 

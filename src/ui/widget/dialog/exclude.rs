@@ -134,9 +134,15 @@ mod imp {
                 // TODO: potential memory leak
                 let obj = self.obj().clone();
                 let buttons = buttons.clone();
-                button.connect_toggled(glib::clone!(@weak obj, @weak buttons => move |_| {
-                    Handler::run(async move { obj.imp().on_suggested_toggle(&buttons).await })
-                }));
+                button.connect_toggled(glib::clone!(
+                    #[weak]
+                    obj,
+                    #[weak]
+                    buttons,
+                    move |_| {
+                        Handler::run(async move { obj.imp().on_suggested_toggle(&buttons).await })
+                    }
+                ));
             }
         }
 
@@ -176,26 +182,38 @@ mod imp {
 
                 self.unreadable_paths.add(&row);
 
-                let dialog = self.obj().clone();
-                add_button.connect_toggled(
-                glib::clone!(@strong suggested_excludes, @strong suggested, @weak row, @weak dialog => move |button| {
-                    Handler::run(glib::clone!(@strong suggested_excludes, @strong suggested, @weak button => @default-return Ok(()), async move {
-                        BACKUP_CONFIG.try_update(move |settings| {
-                            let active = settings.active_mut()?;
+                add_button.connect_toggled(glib::clone!(
+                    #[strong]
+                    suggested,
+                    move |button| {
+                        Handler::run(glib::clone!(
+                            #[strong]
+                            suggested,
+                            #[weak]
+                            button,
+                            #[upgrade_or]
+                            Ok(()),
+                            async move {
+                                BACKUP_CONFIG
+                                    .try_update(move |settings| {
+                                        let active = settings.active_mut()?;
 
-                            if button.is_active() {
-                                active.exclude.insert(suggested.clone());
-                            } else {
-                                active.exclude.remove(&suggested.clone());
+                                        if button.is_active() {
+                                            active.exclude.insert(suggested.clone());
+                                        } else {
+                                            active.exclude.remove(&suggested.clone());
+                                        }
+
+                                        Ok(())
+                                    })
+                                    .await?;
+
+                                main_ui().page_detail().backup_page().refresh()?;
+                                Ok(())
                             }
-
-                            Ok(())
-                        }).await?;
-
-                        main_ui().page_detail().backup_page().refresh()?;
-                        Ok(())
-                    }));
-                }));
+                        ));
+                    }
+                ));
             }
         }
 

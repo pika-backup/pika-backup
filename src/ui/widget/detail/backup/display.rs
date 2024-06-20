@@ -73,10 +73,14 @@ impl imp::BackupPage {
             let button = self.add_list_row(&self.include_list, file);
 
             let path = file.clone();
-            button.connect_clicked(glib::clone!(@weak obj => move |_| {
-                let path = path.clone();
-                Handler::run(async move { obj.imp().on_remove_include(path).await })
-            }));
+            button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    let path = path.clone();
+                    Handler::run(async move { obj.imp().on_remove_include(path).await })
+                }
+            ));
         }
 
         // exclude list
@@ -108,8 +112,12 @@ impl imp::BackupPage {
                         edit_button.add_css_class("flat");
 
                         // Edit patterns
-                        edit_button.connect_clicked(
-                            clone!(@strong exclude, @weak window => move |_| {
+                        edit_button.connect_clicked(clone!(
+                            #[strong]
+                            exclude,
+                            #[weak]
+                            window,
+                            move |_| {
                                 let config = BACKUP_CONFIG.load_full();
                                 let Ok(active) = config.active() else {
                                     return;
@@ -117,8 +125,8 @@ impl imp::BackupPage {
 
                                 let dialog = ExcludeDialog::new(active);
                                 dialog.present_edit_exclude(&window, exclude.clone());
-                            }),
-                        );
+                            }
+                        ));
 
                         row.add_suffix(&edit_button);
                     }
@@ -136,17 +144,23 @@ impl imp::BackupPage {
 
             let exclude_ = exclude.clone();
             let obj = self.obj();
-            delete_button.connect_clicked(glib::clone!(@weak obj => move |_| {
-                let pattern = exclude_.clone();
-                Handler::run(async move {
-                    BACKUP_CONFIG.try_update(move |settings| {
-                        settings.active_mut()?.exclude.remove(&pattern.clone());
+            delete_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    let pattern = exclude_.clone();
+                    Handler::run(async move {
+                        BACKUP_CONFIG
+                            .try_update(move |settings| {
+                                settings.active_mut()?.exclude.remove(&pattern.clone());
+                                Ok(())
+                            })
+                            .await?;
+                        obj.imp().refresh()?;
                         Ok(())
-                    }).await?;
-                    obj.imp().refresh()?;
-                    Ok(())
-                });
-            }));
+                    });
+                }
+            ));
             row.add_suffix(&delete_button);
 
             self.exclude_list.append(&row);

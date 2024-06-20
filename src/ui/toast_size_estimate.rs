@@ -24,13 +24,24 @@ pub async fn check(
                 status.estimated_size.clone_from(&estimated_size);
             }));
 
-        let history_save_result = BACKUP_HISTORY.try_update(clone!(@strong config.id as config_id, @strong estimate.unreadable_paths as paths => move |history| {
-            if let Ok(history) = history.try_get_mut(&config_id) {
-                history.set_suggested_excludes_from_absolute(config::history::SuggestedExcludeReason::PermissionDenied, paths.clone());
-            }
+        let history_save_result = BACKUP_HISTORY
+            .try_update(clone!(
+                #[strong(rename_to = config_id)]
+                config.id,
+                #[strong(rename_to = paths)]
+                estimate.unreadable_paths,
+                move |history| {
+                    if let Ok(history) = history.try_get_mut(&config_id) {
+                        history.set_suggested_excludes_from_absolute(
+                            config::history::SuggestedExcludeReason::PermissionDenied,
+                            paths.clone(),
+                        );
+                    }
 
-            Ok(())
-        })).await;
+                    Ok(())
+                }
+            ))
+            .await;
 
         if let Err(err) = history_save_result {
             err.show().await;

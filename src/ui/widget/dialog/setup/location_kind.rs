@@ -84,24 +84,29 @@ mod imp {
             let volume_monitor = gio::VolumeMonitor::get();
             let imp = self.ref_counted();
 
-            volume_monitor.connect_mount_added(clone!(@weak imp => move |_, mount| {
-                debug!("Mount added");
-                let mount = mount.clone();
-                if let Some(window) = imp.obj().root().and_downcast_ref::<gtk::Window>() {
-                    Handler::new().error_transient_for(window.clone())
-                        .spawn(async move { imp.load_mount(mount.clone()).await });
-
+            volume_monitor.connect_mount_added(clone!(
+                #[weak]
+                imp,
+                move |_, mount| {
+                    debug!("Mount added");
+                    let mount = mount.clone();
+                    if let Some(window) = imp.obj().root().and_downcast_ref::<gtk::Window>() {
+                        Handler::new()
+                            .error_transient_for(window.clone())
+                            .spawn(async move { imp.load_mount(mount.clone()).await });
+                    }
                 }
-            }));
+            ));
 
-            volume_monitor.connect_mount_removed(clone!(@weak imp => move |_, mount| {
-                debug!("Mount removed");
-                Self::remove_mount(&imp.add_repo_list, &mount.root().uri());
-                Self::remove_mount(
-                    &imp.init_repo_list,
-                    &mount.root().uri(),
-                );
-            }));
+            volume_monitor.connect_mount_removed(clone!(
+                #[weak]
+                imp,
+                move |_, mount| {
+                    debug!("Mount removed");
+                    Self::remove_mount(&imp.add_repo_list, &mount.root().uri());
+                    Self::remove_mount(&imp.init_repo_list, &mount.root().uri());
+                }
+            ));
         }
     }
     impl WidgetImpl for SetupLocationKindPage {}
@@ -191,9 +196,19 @@ mod imp {
                     &self.init_repo_list,
                     &mount,
                     None,
-                    clone!(@weak imp, @strong mount_point => move || {
-                        imp.emit_continue(SetupAction::Init, SetupLocationKind::Local, Some(&gio::File::for_path(&mount_point)));
-                    }),
+                    clone!(
+                        #[weak]
+                        imp,
+                        #[strong]
+                        mount_point,
+                        move || {
+                            imp.emit_continue(
+                                SetupAction::Init,
+                                SetupLocationKind::Local,
+                                Some(&gio::File::for_path(&mount_point)),
+                            );
+                        }
+                    ),
                 )
                 .await;
 
@@ -212,9 +227,19 @@ mod imp {
                         &self.add_repo_list,
                         &mount,
                         Some(path.as_ref()),
-                        glib::clone!(@weak imp, @strong path => move || {
-                            imp.emit_continue(SetupAction::AddExisting, SetupLocationKind::Local, Some(&gio::File::for_path(&path)));
-                        }),
+                        glib::clone!(
+                            #[weak]
+                            imp,
+                            #[strong]
+                            path,
+                            move || {
+                                imp.emit_continue(
+                                    SetupAction::AddExisting,
+                                    SetupLocationKind::Local,
+                                    Some(&gio::File::for_path(&path)),
+                                );
+                            }
+                        ),
                     )
                     .await;
                 }

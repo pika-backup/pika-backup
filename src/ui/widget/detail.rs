@@ -72,9 +72,11 @@ mod imp {
             glib::timeout_add_local_once(std::time::Duration::ZERO, move || {
                 // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
                 imp.on_visible_child_notify();
-                main_ui()
-                    .navigation_view()
-                    .connect_pushed(glib::clone!(@weak imp => move |view| imp.on_pushed(view)));
+                main_ui().navigation_view().connect_pushed(glib::clone!(
+                    #[weak]
+                    imp,
+                    move |view| imp.on_pushed(view)
+                ));
             });
         }
     }

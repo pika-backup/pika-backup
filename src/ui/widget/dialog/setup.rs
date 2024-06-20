@@ -473,10 +473,14 @@ mod imp {
             // We shouldn't fail this method after this point, otherwise we
             // leave a half-configured backup config
             BACKUP_CONFIG
-                .try_update(glib::clone!(@strong config => move |s| {
-                    s.insert(config.clone())?;
-                    Ok(())
-                }))
+                .try_update(glib::clone!(
+                    #[strong]
+                    config,
+                    move |s| {
+                        s.insert(config.clone())?;
+                        Ok(())
+                    }
+                ))
                 .await?;
 
             Ok(())

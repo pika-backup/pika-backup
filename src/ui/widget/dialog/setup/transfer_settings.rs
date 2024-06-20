@@ -109,11 +109,13 @@ mod imp {
                 let row = SetupTransferOption::new(suggestion);
 
                 let obj = self.obj();
-                row.transfer_row().connect_activated(
-                    clone!(@weak obj, @strong suggestion => move |_|
-                        obj.imp().emit_continue(Some(suggestion.clone()));
-                    ),
-                );
+                row.transfer_row().connect_activated(clone!(
+                    #[weak]
+                    obj,
+                    #[strong]
+                    suggestion,
+                    move |_| obj.imp().emit_continue(Some(suggestion.clone()))
+                ));
 
                 self.transfer_suggestions.append(&row);
             }

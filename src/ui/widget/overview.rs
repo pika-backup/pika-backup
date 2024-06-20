@@ -58,16 +58,22 @@ mod imp {
             self.parent_constructed();
             let obj = self.obj();
 
-            self.add_backup
-                .connect_clicked(glib::clone!(@weak obj => move |_| {
+            self.add_backup.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     let window = obj.app_window();
                     SetupDialog::new().present(Some(&window));
-                }));
-            self.add_backup_empty
-                .connect_clicked(glib::clone!(@weak obj => move |_| {
+                }
+            ));
+            self.add_backup_empty.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
                     let window = obj.app_window();
                     SetupDialog::new().present(Some(&window));
-                }));
+                }
+            ));
 
             let imp = self.ref_counted();
             self.main_backups.connect_map(move |_| imp.rebuild_list());
