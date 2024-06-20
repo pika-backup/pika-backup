@@ -9,7 +9,6 @@ mod encryption_password;
 mod exclude;
 mod preferences;
 mod prune;
-mod prune_review;
 pub mod setup;
 mod storage;
 
@@ -23,7 +22,6 @@ pub use encryption_password::EncryptionPasswordDialog;
 pub use exclude::ExcludeDialog;
 pub use preferences::PreferencesDialog;
 pub use prune::PruneDialog;
-pub use prune_review::PruneReviewDialog;
 pub use storage::StorageDialog;
 
 use glib::prelude::*;
@@ -38,6 +36,5 @@ pub fn init() {
     ExcludeDialog::static_type();
     PreferencesDialog::static_type();
     PruneDialog::static_type();
-    PruneReviewDialog::static_type();
     StorageDialog::static_type();
 }

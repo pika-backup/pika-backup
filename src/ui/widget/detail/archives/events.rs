@@ -24,7 +24,7 @@ impl imp::ArchivesPage {
         let configs = BACKUP_CONFIG.load();
         let config = configs.active()?;
 
-        let dialog = PruneDialog::new(config.clone());
+        let dialog = PruneDialog::new(config.clone(), false);
         dialog.execute(&*self.obj()).await?;
 
         Ok(())

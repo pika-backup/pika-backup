@@ -13,7 +13,7 @@ mod imp {
     use self::borg::{ListArchive, PruneInfo};
 
     use super::*;
-    use std::cell::{OnceCell, RefCell};
+    use std::cell::{Cell, OnceCell, RefCell};
 
     #[derive(Default, gtk::CompositeTemplate, glib::Properties)]
     #[properties(wrapper_type = super::PruneDialog)]
@@ -21,16 +21,25 @@ mod imp {
     pub struct PruneDialog {
         #[property(get, set, construct_only)]
         config: OnceCell<config::Backup>,
+        #[property(get, set, construct_only)]
+        review_only: Cell<bool>,
+
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
         page_decision: TemplateChild<adw::ToolbarView>,
 
+        #[template_child]
+        apply: TemplateChild<gtk::Button>,
         #[template_child]
         delete: TemplateChild<gtk::Button>,
         #[template_child]
         cancel: TemplateChild<gtk::Button>,
 
+        #[template_child]
+        preferences_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         prune: TemplateChild<gtk::Label>,
         #[template_child]
@@ -58,7 +67,29 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for PruneDialog {}
+    impl ObjectImpl for PruneDialog {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let status = if self.review_only.get() {
+                gettext("Collecting information about the effect of the changes on old archives")
+            } else {
+                gettext("Creating a list of old archives to be approved for deletion")
+            };
+
+            self.status_page.set_description(Some(&status));
+
+            let description = if self.review_only.get() {
+                gettext("After applying these changes, the next automatic deletion of old archives would have the following consequences.")
+            } else {
+                gettext("Proceeding with this operation will irretrievably delete some of the archives. The saved data for those specific points in time will no longer be available.")
+            };
+
+            self.preferences_group.set_description(Some(&description));
+            self.apply.set_visible(self.review_only.get());
+            self.delete.set_visible(!self.review_only.get());
+        }
+    }
     impl WidgetImpl for PruneDialog {}
     impl AdwDialogImpl for PruneDialog {
         fn closed(&self) {
@@ -105,7 +136,7 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_delete(&self) {
+        fn on_apply(&self) {
             if let Some(sender) = self.result_sender.take() {
                 let _ignore = sender.send(true);
             }
@@ -169,8 +200,11 @@ glib::wrapper! {
 }
 
 impl PruneDialog {
-    pub fn new(config: config::Backup) -> Self {
-        glib::Object::builder().property("config", config).build()
+    pub fn new(config: config::Backup, review_only: bool) -> Self {
+        glib::Object::builder()
+            .property("config", config)
+            .property("review-only", review_only)
+            .build()
     }
 
     pub async fn execute(&self, parent: &impl IsA<gtk::Widget>) -> Result<()> {
@@ -190,7 +224,9 @@ impl PruneDialog {
         self.imp().choose_future(&config).await?;
 
         // Run prune operation
-        self.imp().delete(&config).await?;
+        if !self.review_only() {
+            self.imp().delete(&config).await?;
+        }
 
         Ok(())
     }
