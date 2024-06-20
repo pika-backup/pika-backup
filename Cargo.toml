@@ -50,10 +50,15 @@ serde_ini = "0.2"
 serde_json = "1.0"
 
 # GNOME
-adw = { package = "libadwaita", version = "0.6", features = ["v1_5"] }
-gtk = { package = "gtk4", version = "0.8", features = ["gnome_46"] }
-glib = { version = "0.19" }
-gio = { version = "0.19" }
+adw = { package = "libadwaita", version = "0.7", features = [
+    "v1_5",
+], branch = "master", git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs.git" }
+gtk = { package = "gtk4", version = "0.9", branch = "master", features = [
+    "gnome_46",
+    "v4_16",
+], git = "https://github.com/gtk-rs/gtk4-rs.git" }
+glib = { version = "0.20", branch = "master", git = "https://github.com/gtk-rs/gtk-rs-core.git" }
+gio = { version = "0.20", branch = "master", git = "https://github.com/gtk-rs/gtk-rs-core.git" }
 
 ashpd = "0.7"
 gvdb-macros = "0.1"
