@@ -9,23 +9,6 @@
       <object class="AdwToolbarView">
         <child type="top">
           <object class="AdwHeaderBar">
-            <property name="show-start-title-buttons">0</property>
-            <property name="show-end-title-buttons">0</property>
-            <child type="start">
-              <object class="GtkButton">
-                <property name="label" translatable="yes">Cancel</property>
-                <property name="action-name">window.close</property>
-              </object>
-            </child>
-            <child type="end">
-              <object class="GtkButton">
-                <property name="label" translatable="yes">Save</property>
-                <signal name="clicked" handler="on_save" swapped="true"/>
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-              </object>
-            </child>
           </object>
         </child>
         <property name="content">
@@ -87,6 +70,19 @@
             </child>
           </object>
         </property>
+        <child type="bottom">
+          <object class="GtkButton">
+            <property name="label" translatable="yes">Save</property>
+            <signal name="clicked" handler="on_save" swapped="true"/>
+            <property name="halign">center</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <style>
+              <class name="pill"/>
+              <class name="suggested-action"/>
+            </style>
+          </object>
+        </child>
       </object>
     </property>
   </template>
