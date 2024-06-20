@@ -114,7 +114,7 @@ mod imp {
                     if let Some(id) = &**ACTIVE_BACKUP_ID.load() {
                         let dialog = &obj.imp().check_result_dialog;
                         dialog.set_config_id(Some(id.clone()));
-                        dialog.present(&obj);
+                        dialog.present(Some(&obj));
                     }
                 }));
             self.check_button

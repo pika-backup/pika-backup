@@ -116,7 +116,7 @@ impl DeviceMissingDialog {
 
         let mount_receiver = self.imp().monitor_repo(repo);
 
-        self.present(parent);
+        self.present(Some(parent));
         mount_receiver
             .recv()
             .await

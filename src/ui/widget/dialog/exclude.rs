@@ -453,6 +453,6 @@ impl ExcludeDialog {
         pattern: config::Exclude<{ config::RELATIVE }>,
     ) {
         self.imp().exclude_pattern(Some(pattern));
-        self.present(widget);
+        self.present(Some(widget));
     }
 }

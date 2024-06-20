@@ -83,8 +83,10 @@ mod imp {
                             .map(|x| x.icon());
                         let file_icon = info.as_ref().and_then(|x| x.icon());
 
-                        self.image
-                            .set_gicon([mount_icon, file_icon].iter().flatten().next());
+                        if let Some(icon) = mount_icon.or(file_icon) {
+                            self.image.set_from_gicon(&icon);
+                        }
+
                         self.image.set_visible(true);
 
                         self.label.set_label(

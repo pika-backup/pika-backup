@@ -222,7 +222,7 @@ impl PruneDialog {
         )
         .await?;
 
-        self.present(parent);
+        self.present(Some(parent));
 
         // Returns Error::UserCanceled if canceled
         self.imp().choose_future(&config).await?;

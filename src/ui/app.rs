@@ -149,13 +149,13 @@ impl App {
             gio::ActionEntryBuilder::new("about")
                 .activate(|app: &Self, _, _| {
                     let dialog = ui::widget::dialog::about::window();
-                    dialog.present(&app.main_window())
+                    dialog.present(Some(&app.main_window()))
                 })
                 .build(),
             gio::ActionEntryBuilder::new("setup")
                 .activate(|app: &Self, _, _| {
                     let window = app.main_window();
-                    SetupDialog::new().present(&window);
+                    SetupDialog::new().present(Some(&window));
                 })
                 .build(),
             gio::ActionEntryBuilder::new("help")
@@ -183,7 +183,7 @@ impl App {
                     if let Some(id) = &**ui::ACTIVE_BACKUP_ID.load() {
                         if app.main_window().page_detail().is_visible() {
                             // Only display when the backup detail page is open
-                            PreferencesDialog::new(id.clone()).present(&app.main_window());
+                            PreferencesDialog::new(id.clone()).present(Some(&app.main_window()));
                         }
                     }
                 })

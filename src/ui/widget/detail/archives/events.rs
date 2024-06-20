@@ -15,7 +15,7 @@ impl imp::ArchivesPage {
         let config = configs.active()?;
 
         let dialog = CheckDialog::new(config.id.clone());
-        dialog.present(&*self.obj());
+        dialog.present(Some(&*self.obj()));
 
         Ok(())
     }
@@ -35,7 +35,7 @@ impl imp::ArchivesPage {
         let config = configs.active()?.id.clone();
 
         let dialog = ArchivePrefixDialog::new(config);
-        dialog.present(&*self.obj());
+        dialog.present(Some(&*self.obj()));
 
         Ok(())
     }
@@ -120,7 +120,7 @@ impl imp::ArchivesPage {
         let window = self.obj().app_window();
 
         ui::widget::dialog::DeleteArchiveDialog::new(config, archive_name, archive_date)
-            .present(&window);
+            .present(Some(&window));
 
         Ok(())
     }

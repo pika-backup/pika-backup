@@ -91,7 +91,7 @@ mod imp {
             self.detail_status_row
                 .connect_activated(glib::clone!(@weak obj => move |_| {
                     let imp = obj.imp();
-                    imp.detail_dialog.present(&obj);
+                    imp.detail_dialog.present(Some(&obj));
 
                     if let Some(status) = &*imp.backup_status.borrow() {
                         imp.detail_dialog.refresh_status_display(status);
@@ -103,7 +103,7 @@ mod imp {
                     let window = obj.app_window();
                     Handler::run(async move {
                         let dialog = StorageDialog::new(BACKUP_CONFIG.load().active()?).await;
-                        dialog.present(&window);
+                        dialog.present(Some(&window));
                         Ok(())
                     });
                 }));
