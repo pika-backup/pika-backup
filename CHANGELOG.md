@@ -9,6 +9,8 @@
 - Change setup dialog design to look more modern
 - Change history file to be smaller
 - Change to use AdwAlertDialog
+- Change to use AdwAboutDialog
+- Change to use AdwDialog for all dialogs
 
 ## 0.7.3 (unreleased)
 
