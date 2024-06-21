@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-06-15 20:50+0000\n"
-"PO-Revision-Date: 2024-06-16 09:31+0300\n"
+"POT-Creation-Date: 2024-06-20 21:54+0000\n"
+"PO-Revision-Date: 2024-06-21 16:45+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -27,9 +27,9 @@ msgstr "Монітор Пискухи-копіювання"
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/about.rs:12
-#: src/ui/utils.rs:367 src/ui/utils.rs:429 src/ui/widget/app_window.ui:10
-#: src/ui/widget/overview.ui:22
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/utils.rs:367
+#: src/ui/utils.rs:430 src/ui/widget/app_window.ui:10
+#: src/ui/widget/dialog/about.rs:12 src/ui/widget/overview.ui:22
 msgid "Pika Backup"
 msgstr "Пискуха-копіювання"
 
@@ -48,7 +48,7 @@ msgstr ""
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 src/ui/about.rs:18
+#: data/app.metainfo.xml.in:9 src/ui/widget/dialog/about.rs:18
 msgid "Small Mammal Collective"
 msgstr "Малий колективний ссавець"
 
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "Плануйте звичайне резервне копіювання від щомісячного до щогодинного"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:118
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:119
 msgid "General"
 msgstr "Загальне"
 
@@ -205,7 +205,7 @@ msgstr "Не вдалося отримати доступ до сховища р
 msgid "Connection closed by remote host."
 msgstr "З'єднання розірвано віддаленим вузлом."
 
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:272
+#: src/borg/error.rs:240 src/ui/utils/borg.rs:280
 msgid "Repository already in use."
 msgstr "Сховище вже використовується."
 
@@ -409,7 +409,7 @@ msgstr "Діагностика"
 msgid "Info"
 msgstr "Відомості"
 
-#: src/borg/log_json.rs:475 src/ui/utils.rs:382
+#: src/borg/log_json.rs:475 src/ui/utils.rs:383
 #: src/ui/widget/dialog/setup/location.ui:58
 msgid "Warning"
 msgstr "Попередження"
@@ -536,9 +536,7 @@ msgstr "Монтування архівів резервних копій"
 msgid "Removing old Archives"
 msgstr "Вилучення застарілих архівів"
 
-#. First ensure the device is available to prevent overlapping dialogs
-#: src/borg/task.rs:103 src/ui/widget/dialog/prune.rs:176
-#: src/ui/widget/dialog/prune_review.rs:135
+#: src/borg/task.rs:103 src/ui/widget/dialog/prune.rs:221
 msgid "Identifying old Archives"
 msgstr "Визначення застарілих архівів"
 
@@ -568,7 +566,7 @@ msgstr "Виконуємо нетипову команду оболонки"
 
 #. Translators: User home directory
 #: src/config.rs:72 src/ui/widget/detail/backup/display.rs:15
-#: src/ui/widget/detail/backup/events.rs:185
+#: src/ui/widget/detail/backup/events.rs:188
 msgid "Home"
 msgstr "Домівка"
 
@@ -649,11 +647,11 @@ msgstr ""
 "Версія завантаженого файла налаштувань {} є несумісною з цією версією "
 "«Пискухи-копіювання»"
 
-#: src/config/pattern.rs:276 src/ui/widget/dialog/exclude.ui:113
+#: src/config/pattern.rs:276 src/ui/widget/dialog/exclude.ui:101
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: src/config/pattern.rs:277 src/ui/widget/dialog/exclude.ui:112
+#: src/config/pattern.rs:277 src/ui/widget/dialog/exclude.ui:100
 msgid "Unix Filename Pattern"
 msgstr "Взірець назв файлів Unix"
 
@@ -772,16 +770,16 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Не вдалося розпочати резервне копіювання за розкладом"
 
-#: src/ui.rs:81
+#: src/ui.rs:80
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "Не вдалося запустити «borg». Чи встановлено належним чином BorgBackup?"
 
-#: src/ui.rs:107
+#: src/ui.rs:106
 msgid "BorgBackup version too old"
 msgstr "Надто застаріла версія BorgBackup"
 
-#: src/ui.rs:109
+#: src/ui.rs:108
 msgid ""
 "The installed version {} of BorgBackup is too old. Some features requiring "
 "borg-backup version {}.{}.{} will not work."
@@ -789,11 +787,11 @@ msgstr ""
 "Встановлена версія BorgBackup {} є надто застарілою. Деякі можливості, для "
 "реалізації яких потрібна версія borg-backup {}.{}.{}, лишаться недоступними."
 
-#: src/ui.rs:120
+#: src/ui.rs:119
 msgid "BorgBackup version too new"
 msgstr "Надто нова версія BorgBackup"
 
-#: src/ui.rs:122
+#: src/ui.rs:121
 msgid ""
 "The installed version {} of BorgBackup is too new. Version {}.{} is "
 "recommended. Some features might not work as expected."
@@ -802,92 +800,13 @@ msgstr ""
 "скористатися версією {}.{}. Деякі з можливостей можуть працювати не так, як "
 "ви на те сподівалися."
 
-#: src/ui.rs:132
+#: src/ui.rs:131
 msgid "Failed to Check BorgBackup Version"
 msgstr "Не вдалося виконати перевірку версії BorgBackup"
 
-#: src/ui.rs:134
+#: src/ui.rs:133
 msgid "The installed version {} might not work."
 msgstr "Встановлена версія, {}, може виявитися непрацездатною."
-
-#: src/ui/about.rs:20
-msgid "Sophie Herold <sophieherold@gnome.org>"
-msgstr "Софі Герольд (Sophie Herold) <sophieherold@gnome.org>"
-
-#: src/ui/about.rs:21
-msgid "Fina Wilke <finaw@gnome.org>"
-msgstr "Fina Wilke <finaw@gnome.org>"
-
-#: src/ui/about.rs:23
-msgid "Copyright © 2018–2023 Sophie Herold et al."
-msgstr "© Sophie Herold та інші, 2018–2023"
-
-#: src/ui/about.rs:24
-msgid "translator-credits"
-msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
-
-#: src/ui/about.rs:26
-msgid "Jakub Steiner"
-msgstr "Jakub Steiner"
-
-#: src/ui/about.rs:27
-msgid "Tobias Bernard"
-msgstr "Tobias Bernard"
-
-#: src/ui/about.rs:30
-msgid "Back End"
-msgstr "Модуль обробки"
-
-#: src/ui/about.rs:31
-msgid ""
-"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
-"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
-"BorgBackup</a>."
-msgstr ""
-"У «Резервному копіюванні Пискуха» використано BorgBackup. Цієї програми "
-"ніколи б не було написано без Borg. Вам варто <a href='https://www."
-"borgbackup.org/support/fund.html'>підтримати BorgBackup</a>."
-
-#: src/ui/about.rs:32
-msgid "The Name"
-msgstr "Назва"
-
-#: src/ui/about.rs:33
-msgid ""
-"The name “Pika Backup” derives from the American pika. Pikas are small "
-"mammals belonging to the lagomorphs. The American pika is known for caching "
-"food in skillfully constructed haypiles. Techniques used by American pikas "
-"for building haypiles include: storing piles below overhanging rocks, using "
-"certain plants which inhibit bacterial growth as preservative and preferring "
-"plants with high nutrition value for haying. Last but not least, pikas do "
-"not only create very sophisticated haypiles but are quick in collecting "
-"vegetation as well."
-msgstr ""
-"У назві «Резервне копіювання Пискуха» використано назву тварини, пискухи, "
-"яка живе в Америці. Пискухи — маленькі ссавці, що належать до родини "
-"зайцеподібних. Американська пискуха відома тим, що збирає їжу у майстерно "
-"побудованих стіжках. Методики, які американські пискухи використовують для "
-"побудови стіжків є такими: купи трави вони розміщують під скелями, які "
-"прикривають їх від опадів, вони використовують певні рослини, які "
-"запобігають росту бактерій і псуванню їжі, а також вибирають для зберігання "
-"ті рослини, які є найпоживнішими. І нарешті, пискухи не лише створюють дуже "
-"продумані сховища, але і швидко збирають до них рослинність."
-
-#: src/ui/about.rs:34
-msgid ""
-"Frequent rumors that this software’s name is related to a monster with "
-"electrical abilities are unfounded."
-msgstr ""
-"Поширені чутки про те, що назву цієї програми пов'язано із електричним "
-"монстром, є безпідставними."
-
-#: src/ui/about.rs:40
-msgid "Support us on Open Collective"
-msgstr "Підтримайте нас на Open Collective"
-
-#: src/ui/about.rs:44
-msgid "Support us on GitHub Sponsors"
-msgstr "Підтримайте нас на GitHub Sponsors"
 
 #: src/ui/app.rs:249
 msgid "Abort running backup creation?"
@@ -897,17 +816,17 @@ msgstr "Перервати поточну дію зі створення рез�
 msgid "The backup will remain incomplete if aborted now."
 msgstr "Якщо перервати дію зараз, резервна копія лишиться незавершеною."
 
-#: src/ui/app.rs:251 src/ui/utils.rs:385
-#: src/ui/widget/detail/backup/events.rs:25
-#: src/ui/widget/detail/backup/events.rs:34
-#: src/ui/widget/detail/backup/events.rs:43
+#: src/ui/app.rs:251 src/ui/utils.rs:386
+#: src/ui/widget/detail/backup/events.rs:26
+#: src/ui/widget/detail/backup/events.rs:36
+#: src/ui/widget/detail/backup/events.rs:46
 #: src/ui/widget/dialog/setup/add_existing.ui:69
 msgid "Continue"
 msgstr "Продовжити"
 
-#: src/ui/app.rs:252 src/ui/utils.rs:384
-#: src/ui/widget/detail/backup/events.rs:35
-#: src/ui/widget/detail/backup/events.rs:44
+#: src/ui/app.rs:252 src/ui/utils.rs:385
+#: src/ui/widget/detail/backup/events.rs:37
+#: src/ui/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Перервати"
 
@@ -1035,11 +954,11 @@ msgstr ""
 msgid "Could not write configuration file."
 msgstr "Не вдалося записати файл налаштувань."
 
-#: src/ui/repo.rs:62 src/ui/repo.rs:67 src/ui/repo.rs:122 src/ui/repo.rs:127
+#: src/ui/repo.rs:67 src/ui/repo.rs:72 src/ui/repo.rs:127 src/ui/repo.rs:132
 msgid "Failed to Mount"
 msgstr "Не вдалося змонтувати"
 
-#: src/ui/repo.rs:123
+#: src/ui/repo.rs:128
 msgid "The network server is not available"
 msgstr "Немає доступу до мережевого сервера"
 
@@ -1112,64 +1031,64 @@ msgstr[3] "Виконання {} дії резервного копіюванн�
 msgid "Failed to Create Thread"
 msgstr "Не вдалося створити потік обробки"
 
-#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:76
-#: src/ui/widget/dialog/exclude.rs:243 src/ui/widget/dialog/exclude.rs:290
+#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:79
+#: src/ui/widget/dialog/exclude.rs:242 src/ui/widget/dialog/exclude.rs:289
 msgid "Select"
 msgstr "Вибрати"
 
-#: src/ui/utils.rs:425 src/ui/widget/dialog/prune.rs:152
+#: src/ui/utils.rs:426
 msgid "Close"
 msgstr "Закрити"
 
-#: src/ui/utils/borg.rs:23
+#: src/ui/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "Некоректні додаткові аргументи командного рядка"
 
-#: src/ui/utils/borg.rs:24 src/ui/widget/dialog/preferences.rs:288
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:276
 msgid "Please check for missing closing quotes."
 msgstr "Будь ласка, перевірте, чи закрито лапки."
 
-#: src/ui/utils/borg.rs:76
+#: src/ui/utils/borg.rs:82
 msgid "Repository already in use"
 msgstr "Сховище вже використано"
 
-#: src/ui/utils/borg.rs:138
+#: src/ui/utils/borg.rs:145
 msgid "Stop browsing files and start backup?"
 msgstr "Припинити навігацію файлами і почати створення резервної копії?"
 
-#: src/ui/utils/borg.rs:140
+#: src/ui/utils/borg.rs:147
 msgid ""
 "Browsing through archived files is not possible while running a backup."
 msgstr ""
 "Навігація архівованими файлами під час створення резервної копії неможлива."
 
-#: src/ui/utils/borg.rs:142 src/ui/utils/borg.rs:153
+#: src/ui/utils/borg.rs:149 src/ui/utils/borg.rs:161
 msgid "Keep Browsing"
 msgstr "Продовжити перегляд"
 
-#: src/ui/utils/borg.rs:143
+#: src/ui/utils/borg.rs:150
 msgid "Start Backup"
 msgstr "Розпочати копіювання"
 
-#: src/ui/utils/borg.rs:149
+#: src/ui/utils/borg.rs:157
 msgid "Stop browsing files and start operation?"
 msgstr "Припинити навігацію файлами і почати дію?"
 
-#: src/ui/utils/borg.rs:151
+#: src/ui/utils/borg.rs:159
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository."
 msgstr "Навігація архівованими файлами під час виконання дії зі сховищем."
 
-#: src/ui/utils/borg.rs:154
+#: src/ui/utils/borg.rs:162
 msgid "Start Operation"
 msgstr "Почати дію"
 
-#: src/ui/utils/borg.rs:163 src/ui/utils/borg.rs:295
+#: src/ui/utils/borg.rs:171 src/ui/utils/borg.rs:303
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
-#: src/ui/utils/borg.rs:273
+#: src/ui/utils/borg.rs:281
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1178,7 +1097,7 @@ msgstr ""
 "можуть виявитися застарілими, якщо, наприклад, ваш комп'ютер було "
 "несподівано вимкнено від джерела живлення під час користування сховищем."
 
-#: src/ui/utils/borg.rs:275
+#: src/ui/utils/borg.rs:283
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1188,31 +1107,28 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: src/ui/utils/borg.rs:276 src/ui/widget/detail/backup/events.rs:195
-#: src/ui/widget/dialog/archive_prefix.ui:28 src/ui/widget/dialog/prune.ui:30
-#: src/ui/widget/dialog/prune.ui:60 src/ui/widget/dialog/prune_review.ui:30
-#: src/ui/widget/dialog/prune_review.ui:60
+#: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/archive_prefix.ui:16
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/utils/borg.rs:277
+#: src/ui/utils/borg.rs:285
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
-#: src/ui/utils/borg.rs:368 src/ui/utils/borg.rs:388
+#: src/ui/utils/borg.rs:376 src/ui/utils/borg.rs:396
 msgid "Unable to Eject Backup Disk"
 msgstr "Не вдалося виштовхнути диск резервного копіювання"
 
-#: src/ui/utils/borg.rs:377
+#: src/ui/utils/borg.rs:385
 msgid "{} can be safely unplugged."
 msgstr "{} неможливо від'єднати безпечно."
 
-#: src/ui/utils/borg.rs:389
+#: src/ui/utils/borg.rs:397
 msgid "{} can't be ejected."
 msgstr "{} неможливо виштовхнути."
 
 #: src/ui/utils/config_io.rs:53 src/ui/utils/config_io.rs:58
-#| msgid "Could not load configuration file."
 msgid "Could not save configuration file"
 msgstr "Не вдалося зберегти файл налаштувань"
 
@@ -1513,7 +1429,7 @@ msgstr "Доступно {}"
 msgid "{} Total"
 msgstr "Загалом {}"
 
-#: src/ui/widget/detail/archives/events.rs:88
+#: src/ui/widget/detail/archives/events.rs:91
 msgid "Failed to make archives available for browsing."
 msgstr "Не вдалося зробити архіви доступними для навігації."
 
@@ -1552,7 +1468,7 @@ msgstr "Виберіть каталог для включення"
 msgid "No files included in backup"
 msgstr "До резервного копіювання не включено жодного файла"
 
-#: src/ui/widget/detail/backup.ui:121 src/ui/widget/dialog/exclude.ui:24
+#: src/ui/widget/detail/backup.ui:121 src/ui/widget/dialog/exclude.ui:12
 #: src/ui/widget/dialog/setup/transfer_option.ui:112
 msgid "Exclude from Backup"
 msgstr "Виключити з резервної копії"
@@ -1585,11 +1501,11 @@ msgstr "Змінити взірець"
 msgid "Remove From List"
 msgstr "Вилучити зі списку"
 
-#: src/ui/widget/detail/backup/events.rs:23
+#: src/ui/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr "Припинити виконання резервного копіювання?"
 
-#: src/ui/widget/detail/backup/events.rs:24
+#: src/ui/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1597,15 +1513,15 @@ msgstr ""
 "Поточний стан резервного копіювання буде збережено. Вид зможете пізніше "
 "продовжити резервне копіювання, запустивши його знову."
 
-#: src/ui/widget/detail/backup/events.rs:26
+#: src/ui/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "Зупинити"
 
-#: src/ui/widget/detail/backup/events.rs:32
+#: src/ui/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr "Перервати дію з вилучення?"
 
-#: src/ui/widget/detail/backup/events.rs:33
+#: src/ui/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
@@ -1613,11 +1529,11 @@ msgstr ""
 "Зараз виконуємо вилучення архівів. Якщо перервати вилучення, звільнити місце "
 "не вдасться."
 
-#: src/ui/widget/detail/backup/events.rs:41
+#: src/ui/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr "Перервати дію?"
 
-#: src/ui/widget/detail/backup/events.rs:42
+#: src/ui/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
@@ -1625,16 +1541,16 @@ msgstr ""
 "Зараз виконуємо дію. Її переривання призведе до того, що дію не буде "
 "завершено."
 
-#: src/ui/widget/detail/backup/events.rs:75
+#: src/ui/widget/detail/backup/events.rs:78
 msgid "Include Folder"
 msgstr "Включити теку"
 
-#: src/ui/widget/detail/backup/events.rs:118
-#: src/ui/widget/detail/backup/events.rs:128
+#: src/ui/widget/detail/backup/events.rs:121
+#: src/ui/widget/detail/backup/events.rs:131
 msgid "Unable to Include Location"
 msgstr "Не вдалося включити місце"
 
-#: src/ui/widget/detail/backup/events.rs:119
+#: src/ui/widget/detail/backup/events.rs:122
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -1644,7 +1560,7 @@ msgstr ""
 "доступними у пісочниці:\n"
 "{}"
 
-#: src/ui/widget/detail/backup/events.rs:129
+#: src/ui/widget/detail/backup/events.rs:132
 msgid ""
 "Pika Backup cannot be used to backup the entire system or the “/dev” "
 "directory."
@@ -1652,18 +1568,18 @@ msgstr ""
 "«Пискухою-копіюванням» не можна скористатися для резервного копіювання усієї "
 "системи або каталогу «/dev»."
 
-#: src/ui/widget/detail/backup/events.rs:191
+#: src/ui/widget/detail/backup/events.rs:195
 msgid "No longer include “{}” in backups?"
 msgstr "Більше не включати «{}» до резервних копій?"
 
-#: src/ui/widget/detail/backup/events.rs:193
+#: src/ui/widget/detail/backup/events.rs:197
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Усі файли, що містяться у цій теці не буде включено до наступних резервних "
 "копій."
 
-#: src/ui/widget/detail/backup/events.rs:196
+#: src/ui/widget/detail/backup/events.rs:200
 msgid "Confirm"
 msgstr "Підтвердити"
 
@@ -1684,7 +1600,7 @@ msgid "Backup Completed with Warnings"
 msgstr "Резервне копіювання було завершено із попередженнями"
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:353
+#: src/ui/widget/dialog/preferences.rs:341
 msgid "Error Running Shell Command"
 msgstr "Помилка під час виконання команди оболонки"
 
@@ -1692,7 +1608,7 @@ msgstr "Помилка під час виконання команди обол�
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:151
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:152
 msgid "Scheduled Backups"
 msgstr "Резервне копіювання за розкладом"
 
@@ -1716,7 +1632,7 @@ msgstr "Бажаний день тижня"
 msgid "Preferred Day of Month"
 msgstr "Бажаний день місяця"
 
-#: src/ui/widget/detail/schedule.ui:125 src/ui/widget/dialog/prune.rs:79
+#: src/ui/widget/detail/schedule.ui:125 src/ui/widget/dialog/prune.rs:117
 msgid "Delete old Archives"
 msgstr "Вилучити застарілі архіви"
 
@@ -1776,23 +1692,23 @@ msgstr "Некоректний день тижня."
 msgid "No frequency selected."
 msgstr "Не вибрано частоти."
 
-#: src/ui/widget/detail/schedule/event.rs:236
+#: src/ui/widget/detail/schedule/event.rs:237
 msgid "Disable backup schedule?"
 msgstr "Вимкнути розклад резервного копіювання?"
 
-#: src/ui/widget/detail/schedule/event.rs:237
+#: src/ui/widget/detail/schedule/event.rs:238
 msgid "Backups will no longer run on a schedule"
 msgstr "Резервне копіювання більше не відбуватиметься за розкладом"
 
-#: src/ui/widget/detail/schedule/event.rs:238
+#: src/ui/widget/detail/schedule/event.rs:239
 msgid "_Keep Schedule"
 msgstr "З_берігати розклад"
 
-#: src/ui/widget/detail/schedule/event.rs:239
+#: src/ui/widget/detail/schedule/event.rs:240
 msgid "_Disable Schedule"
 msgstr "Ви_мкнути розклад"
 
-#: src/ui/widget/detail/schedule/event.rs:304
+#: src/ui/widget/detail/schedule/event.rs:306
 msgid "No preset selected."
 msgstr "Не вибрано жодного набору."
 
@@ -1916,27 +1832,106 @@ msgstr "Фоновий процес є неактивним"
 msgid "This is required for scheduled backups"
 msgstr "Потрібен для резервного копіювання за розкладом"
 
-#: src/ui/widget/dialog/archive_prefix.rs:78
-#: src/ui/widget/dialog/archive_prefix.rs:98 src/ui/widget/dialog/setup.rs:407
+#: src/ui/widget/dialog/about.rs:20
+msgid "Sophie Herold <sophieherold@gnome.org>"
+msgstr "Софі Герольд (Sophie Herold) <sophieherold@gnome.org>"
+
+#: src/ui/widget/dialog/about.rs:21
+msgid "Fina Wilke <finaw@gnome.org>"
+msgstr "Fina Wilke <finaw@gnome.org>"
+
+#: src/ui/widget/dialog/about.rs:23
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "© Sophie Herold та інші, 2018–2023"
+
+#: src/ui/widget/dialog/about.rs:24
+msgid "translator-credits"
+msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
+
+#: src/ui/widget/dialog/about.rs:26
+msgid "Jakub Steiner"
+msgstr "Jakub Steiner"
+
+#: src/ui/widget/dialog/about.rs:27
+msgid "Tobias Bernard"
+msgstr "Tobias Bernard"
+
+#: src/ui/widget/dialog/about.rs:30
+msgid "Back End"
+msgstr "Модуль обробки"
+
+#: src/ui/widget/dialog/about.rs:31
+msgid ""
+"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
+"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
+"BorgBackup</a>."
+msgstr ""
+"У «Резервному копіюванні Пискуха» використано BorgBackup. Цієї програми "
+"ніколи б не було написано без Borg. Вам варто <a href='https://www."
+"borgbackup.org/support/fund.html'>підтримати BorgBackup</a>."
+
+#: src/ui/widget/dialog/about.rs:32
+msgid "The Name"
+msgstr "Назва"
+
+#: src/ui/widget/dialog/about.rs:33
+msgid ""
+"The name “Pika Backup” derives from the American pika. Pikas are small "
+"mammals belonging to the lagomorphs. The American pika is known for caching "
+"food in skillfully constructed haypiles. Techniques used by American pikas "
+"for building haypiles include: storing piles below overhanging rocks, using "
+"certain plants which inhibit bacterial growth as preservative and preferring "
+"plants with high nutrition value for haying. Last but not least, pikas do "
+"not only create very sophisticated haypiles but are quick in collecting "
+"vegetation as well."
+msgstr ""
+"У назві «Резервне копіювання Пискуха» використано назву тварини, пискухи, "
+"яка живе в Америці. Пискухи — маленькі ссавці, що належать до родини "
+"зайцеподібних. Американська пискуха відома тим, що збирає їжу у майстерно "
+"побудованих стіжках. Методики, які американські пискухи використовують для "
+"побудови стіжків є такими: купи трави вони розміщують під скелями, які "
+"прикривають їх від опадів, вони використовують певні рослини, які "
+"запобігають росту бактерій і псуванню їжі, а також вибирають для зберігання "
+"ті рослини, які є найпоживнішими. І нарешті, пискухи не лише створюють дуже "
+"продумані сховища, але і швидко збирають до них рослинність."
+
+#: src/ui/widget/dialog/about.rs:34
+msgid ""
+"Frequent rumors that this software’s name is related to a monster with "
+"electrical abilities are unfounded."
+msgstr ""
+"Поширені чутки про те, що назву цієї програми пов'язано із електричним "
+"монстром, є безпідставними."
+
+#: src/ui/widget/dialog/about.rs:40
+msgid "Support us on Open Collective"
+msgstr "Підтримайте нас на Open Collective"
+
+#: src/ui/widget/dialog/about.rs:44
+msgid "Support us on GitHub Sponsors"
+msgstr "Підтримайте нас на GitHub Sponsors"
+
+#: src/ui/widget/dialog/archive_prefix.rs:77
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
 msgid "Invalid Archive Prefix"
 msgstr "Некоректний префікс архівів"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
-#: src/ui/widget/dialog/archive_prefix.ui:95
+#: src/ui/widget/dialog/archive_prefix.ui:83
 #: src/ui/widget/dialog/setup/transfer_prefix.ui:6
 msgid "Archive Prefix"
 msgstr "Префікс архівів"
 
-#: src/ui/widget/dialog/archive_prefix.ui:34
-#: src/ui/widget/dialog/exclude.rs:341
+#: src/ui/widget/dialog/archive_prefix.ui:22
+#: src/ui/widget/dialog/exclude.rs:340
 msgid "Save"
 msgstr "Зберегти"
 
-#: src/ui/widget/dialog/archive_prefix.ui:57
+#: src/ui/widget/dialog/archive_prefix.ui:45
 msgid "Archive Prefixes"
 msgstr "Префікси архівів"
 
-#: src/ui/widget/dialog/archive_prefix.ui:68
+#: src/ui/widget/dialog/archive_prefix.ui:56
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1944,7 +1939,7 @@ msgstr ""
 "Кожен сеанс резервного копіювання призводить до створення архіву. Префіксом "
 "назви архіву завжди буде поточний префікс архівів."
 
-#: src/ui/widget/dialog/archive_prefix.ui:75
+#: src/ui/widget/dialog/archive_prefix.ui:63
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1954,59 +1949,59 @@ msgstr ""
 "розглядатиме вилучення лише архівів з поточним налаштованим префіксом у "
 "назві."
 
-#: src/ui/widget/dialog/archive_prefix.ui:82
+#: src/ui/widget/dialog/archive_prefix.ui:70
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Якщо префікс архівів є порожнім, ніякого префікса додано не буде."
 
-#: src/ui/widget/dialog/backup_info.ui:9
+#: src/ui/widget/dialog/backup_info.ui:8
 msgid "Backup Info"
 msgstr "Відомості щодо резервного копіювання"
 
-#: src/ui/widget/dialog/backup_info.ui:72
+#: src/ui/widget/dialog/backup_info.ui:60
 msgid "Amount saved"
 msgstr "Обсяг збереженого"
 
-#: src/ui/widget/dialog/backup_info.ui:73
+#: src/ui/widget/dialog/backup_info.ui:61
 msgid "Size of all files"
 msgstr "Розмір усіх файлів"
 
-#: src/ui/widget/dialog/backup_info.ui:89
+#: src/ui/widget/dialog/backup_info.ui:77
 msgid "Number of files saved"
 msgstr "Кількість збережених файлів"
 
-#: src/ui/widget/dialog/backup_info.ui:105
+#: src/ui/widget/dialog/backup_info.ui:93
 msgid "Backup space used"
 msgstr "Використане для резервного копіювання місце"
 
-#: src/ui/widget/dialog/backup_info.ui:106
+#: src/ui/widget/dialog/backup_info.ui:94
 msgid "Newly used space in this backup"
 msgstr "Нове використане місце у цій резервній копії"
 
-#: src/ui/widget/dialog/backup_info.ui:122
+#: src/ui/widget/dialog/backup_info.ui:110
 msgid "Current file"
 msgstr "Поточний файл"
 
-#: src/ui/widget/dialog/check.rs:69
+#: src/ui/widget/dialog/check.rs:68
 msgid "Perform Repair"
 msgstr "Виконати виправлення"
 
-#: src/ui/widget/dialog/check.rs:73 src/ui/widget/dialog/check.ui:66
+#: src/ui/widget/dialog/check.rs:72 src/ui/widget/dialog/check.ui:54
 msgid "Perform Check"
 msgstr "Виконати перевірку"
 
-#: src/ui/widget/dialog/check.rs:123 src/ui/widget/dialog/check.rs:158
+#: src/ui/widget/dialog/check.rs:115 src/ui/widget/dialog/check.rs:150
 msgid "Verify Archives Integrity"
 msgstr "Перевірити цілісність архівів"
 
-#: src/ui/widget/dialog/check.rs:174
+#: src/ui/widget/dialog/check.rs:166
 msgid "Verify archives integrity completed successfully"
 msgstr "Перевірку цілісності архівів успішно виконано"
 
-#: src/ui/widget/dialog/check.ui:5 src/ui/widget/dialog/check.ui:26
+#: src/ui/widget/dialog/check.ui:5 src/ui/widget/dialog/check.ui:14
 msgid "Archives Integrity Check"
 msgstr "Перевірка цілісності архівів"
 
-#: src/ui/widget/dialog/check.ui:30
+#: src/ui/widget/dialog/check.ui:18
 msgid ""
 "This operation will check all archives for data integrity. This may take a "
 "long time."
@@ -2014,15 +2009,15 @@ msgstr ""
 "У результаті усі архіви буде перевірено на цілісність даних. Перевірка може "
 "бути досить тривалою."
 
-#: src/ui/widget/dialog/check.ui:33
+#: src/ui/widget/dialog/check.ui:21
 msgid "Verify data"
 msgstr "Перевірити дані"
 
-#: src/ui/widget/dialog/check.ui:34
+#: src/ui/widget/dialog/check.ui:22
 msgid "Perform full data verification."
 msgstr "Виконати повну перевірку даних."
 
-#: src/ui/widget/dialog/check.ui:47
+#: src/ui/widget/dialog/check.ui:35
 msgid ""
 "Perform a full repair. This is a potentially dangerous function and might "
 "lead to data loss (for kinds of corruption it is not capable of dealing "
@@ -2032,28 +2027,28 @@ msgstr ""
 "можливість, яка може призвести до втрати даних (у випадках пошкодження, яке "
 "не піддається обробці)."
 
-#: src/ui/widget/dialog/check.ui:50
+#: src/ui/widget/dialog/check.ui:38
 msgid "Repair"
 msgstr "Виправити"
 
-#: src/ui/widget/dialog/check.ui:51
+#: src/ui/widget/dialog/check.ui:39
 msgid "Repair errors. This can lead to data loss."
 msgstr "Помилки під час виправлення. Це може призвести до втрати даних."
 
-#: src/ui/widget/dialog/check_result.ui:9
+#: src/ui/widget/dialog/check_result.ui:8
 msgid "Integrity Check Result"
 msgstr "Результат перевірки цілісності"
 
-#: src/ui/widget/dialog/delete_archive.rs:73
+#: src/ui/widget/dialog/delete_archive.rs:75
 msgid "Delete Archive Failed"
 msgstr "Не вдалося вилучити архів"
 
 #: src/ui/widget/dialog/delete_archive.ui:6
-#: src/ui/widget/dialog/delete_archive.ui:62
+#: src/ui/widget/dialog/delete_archive.ui:50
 msgid "Delete Archive"
 msgstr "Вилучити архів"
 
-#: src/ui/widget/dialog/delete_archive.ui:30
+#: src/ui/widget/dialog/delete_archive.ui:18
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -2062,19 +2057,19 @@ msgstr ""
 "Ви більше не зможете скористатися збереженими для відповідного моменту часу "
 "даними."
 
-#: src/ui/widget/dialog/delete_archive.ui:40
+#: src/ui/widget/dialog/delete_archive.ui:28
 msgid "Archive Name"
 msgstr "Назва архіву"
 
-#: src/ui/widget/dialog/delete_archive.ui:48
+#: src/ui/widget/dialog/delete_archive.ui:36
 msgid "Archive Date"
 msgstr "Дата архівування"
 
-#: src/ui/widget/dialog/device_missing.ui:40
+#: src/ui/widget/dialog/device_missing.ui:28
 msgid "The following backup location needs to be connected:"
 msgstr "Має бути встановлено з'єднання із таким місцем для резервних копій:"
 
-#: src/ui/widget/dialog/encryption_password.rs:63
+#: src/ui/widget/dialog/encryption_password.rs:61
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -2086,7 +2081,7 @@ msgid "Encryption Password Required"
 msgstr "Потрібен пароль для шифрування"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:98 src/ui/widget/overview.rs:173
+#: src/ui/widget/dialog/preferences.ui:98 src/ui/widget/overview.rs:174
 msgid "_Cancel"
 msgstr "_Скасувати"
 
@@ -2100,65 +2095,65 @@ msgstr "П_родовжити"
 msgid "Password"
 msgstr "Пароль"
 
-#: src/ui/widget/dialog/exclude.rs:112
+#: src/ui/widget/dialog/exclude.rs:111
 msgid "Exclusion Rules"
 msgstr "Правила виключення"
 
-#: src/ui/widget/dialog/exclude.rs:166
+#: src/ui/widget/dialog/exclude.rs:165
 msgid "Add exclusion rule"
 msgstr "Додати правило виключення"
 
-#: src/ui/widget/dialog/exclude.rs:242 src/ui/widget/dialog/exclude.ui:37
+#: src/ui/widget/dialog/exclude.rs:241 src/ui/widget/dialog/exclude.ui:25
 msgid "Exclude Folders"
 msgstr "Виключити теки"
 
-#: src/ui/widget/dialog/exclude.rs:289 src/ui/widget/dialog/exclude.ui:50
+#: src/ui/widget/dialog/exclude.rs:288 src/ui/widget/dialog/exclude.ui:38
 msgid "Exclude Files"
 msgstr "Виключити файли"
 
-#: src/ui/widget/dialog/exclude.rs:350 src/ui/widget/dialog/exclude.ui:164
+#: src/ui/widget/dialog/exclude.rs:349 src/ui/widget/dialog/exclude.ui:152
 msgid "Add"
 msgstr "Додати"
 
-#: src/ui/widget/dialog/exclude.rs:369
+#: src/ui/widget/dialog/exclude.rs:368
 msgid "Invalid Regular Expression"
 msgstr "Некоректний формальний вираз"
 
-#: src/ui/widget/dialog/exclude.ui:63 src/ui/widget/dialog/exclude.ui:95
+#: src/ui/widget/dialog/exclude.ui:51 src/ui/widget/dialog/exclude.ui:83
 msgid "Exclude Pattern"
 msgstr "Взірець виключення"
 
-#: src/ui/widget/dialog/exclude.ui:64
+#: src/ui/widget/dialog/exclude.ui:52
 msgid "Define regular expression or Unix filename patterns"
 msgstr "Визначте формальний вираз або взірці назв файлів Unix"
 
-#: src/ui/widget/dialog/exclude.ui:78
+#: src/ui/widget/dialog/exclude.ui:66
 msgid "Suggested Exclusions"
 msgstr "Пропоновані виключення"
 
-#: src/ui/widget/dialog/exclude.ui:83
+#: src/ui/widget/dialog/exclude.ui:71
 msgid "Unreadable Paths"
 msgstr "Непридатні до читання шляхи"
 
-#: src/ui/widget/dialog/exclude.ui:84
+#: src/ui/widget/dialog/exclude.ui:72
 msgid "These locations were identified as unreadable from a previous backup."
 msgstr ""
 "Ці місця було визначено як непридатні до читання під час попереднього "
 "резервного копіювання."
 
-#: src/ui/widget/dialog/exclude.ui:107
+#: src/ui/widget/dialog/exclude.ui:95
 msgid "Pattern Type"
 msgstr "Тип взірця"
 
-#: src/ui/widget/dialog/exclude.ui:121
+#: src/ui/widget/dialog/exclude.ui:109
 msgid "Pattern"
 msgstr "Взірець"
 
-#: src/ui/widget/dialog/exclude.ui:139
+#: src/ui/widget/dialog/exclude.ui:127
 msgid "BorgBackup Patterns"
 msgstr "Взірці BorgBackup"
 
-#: src/ui/widget/dialog/exclude.ui:150
+#: src/ui/widget/dialog/exclude.ui:138
 msgid ""
 "The patterns above have to be written in a particular form. They are matched "
 "against the path without leading <tt>/</tt>. Additionally, shell-style "
@@ -2173,7 +2168,7 @@ msgstr ""
 "borgbackup.readthedocs.io/en/stable/usage/help.html\">документацією до "
 "BorgBackup</a>."
 
-#: src/ui/widget/dialog/preferences.rs:221
+#: src/ui/widget/dialog/preferences.rs:209
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2181,20 +2176,20 @@ msgstr ""
 "Заголовок цих налаштувань резервного копіювання. Буде показано як «{}», якщо "
 "не заповнювати."
 
-#: src/ui/widget/dialog/preferences.rs:287
+#: src/ui/widget/dialog/preferences.rs:275
 msgid "Shell command invalid"
 msgstr "Некоректна команда оболонки"
 
-#: src/ui/widget/dialog/preferences.rs:474
+#: src/ui/widget/dialog/preferences.rs:462
 msgid "Change Encryption Password Error"
 msgstr "Помилка під час спроби змінити пароль шифрування"
 
-#: src/ui/widget/dialog/preferences.rs:481
+#: src/ui/widget/dialog/preferences.rs:469
 msgid "Password changed successfully"
 msgstr "Пароль успішно змінено"
 
 #: src/ui/widget/dialog/preferences.ui:27
-#: src/ui/widget/dialog/preferences.ui:137
+#: src/ui/widget/dialog/preferences.ui:138
 msgid "Change Encryption Password"
 msgstr "Змінити пароль шифрування"
 
@@ -2206,35 +2201,35 @@ msgstr "З_мінити пароль"
 msgid "Changing Encryption Password"
 msgstr "Зміна пароля шифрування"
 
-#: src/ui/widget/dialog/preferences.ui:122
-#: src/ui/widget/dialog/preferences.ui:125
+#: src/ui/widget/dialog/preferences.ui:123
+#: src/ui/widget/dialog/preferences.ui:126
 msgid "Title"
 msgstr "Заголовок"
 
-#: src/ui/widget/dialog/preferences.ui:133
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Encryption password"
 msgstr "Пароль для шифрування"
 
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:135
 msgid "The encryption password of the backup repository."
 msgstr "Пароль шифрування сховища резервних копій."
 
-#: src/ui/widget/dialog/preferences.ui:154
+#: src/ui/widget/dialog/preferences.ui:155
 msgid "Run on Battery"
 msgstr "Працювати з акумулятором"
 
-#: src/ui/widget/dialog/preferences.ui:155
+#: src/ui/widget/dialog/preferences.ui:156
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
 "Дозволити заплановані резервні копіювання, якщо пристрій працює від "
 "акумулятора"
 
-#: src/ui/widget/dialog/preferences.ui:163
+#: src/ui/widget/dialog/preferences.ui:164
 #: src/ui/widget/dialog/setup/location.ui:174
 msgid "Additional command line arguments"
 msgstr "Додаткові аргументи командного рядка"
 
-#: src/ui/widget/dialog/preferences.ui:164
+#: src/ui/widget/dialog/preferences.ui:165
 #: src/ui/widget/dialog/setup/location.ui:175
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
@@ -2243,57 +2238,56 @@ msgstr ""
 "Ці аргументи буде додано до виклику виконуваного файла borg. Передбачено "
 "підтримку лише довгих версій параметрів, які починаються з «--»."
 
-#: src/ui/widget/dialog/preferences.ui:167
+#: src/ui/widget/dialog/preferences.ui:168
 #: src/ui/widget/dialog/setup/location.ui:179
 msgid "Command line arguments"
 msgstr "Аргументи командного рядка"
 
-#: src/ui/widget/dialog/preferences.ui:178
+#: src/ui/widget/dialog/preferences.ui:179
 msgid "Shell Commands"
 msgstr "Команди оболонки"
 
-#: src/ui/widget/dialog/preferences.ui:179
+#: src/ui/widget/dialog/preferences.ui:180
 msgid "These bash shell commands will be called on certain backup events."
 msgstr ""
 "Ці команди оболонки bash буде викликано у відповідь на певні події "
 "резервного копіювання."
 
-#: src/ui/widget/dialog/preferences.ui:192
+#: src/ui/widget/dialog/preferences.ui:193
 msgid "Pre-Backup Shell Command"
 msgstr "Команда оболонки до копіювання"
 
-#: src/ui/widget/dialog/preferences.ui:199
-#: src/ui/widget/dialog/preferences.ui:220
+#: src/ui/widget/dialog/preferences.ui:200
+#: src/ui/widget/dialog/preferences.ui:221
 msgid "Run with test values"
 msgstr "Виконати із тестовими значеннями"
 
-#: src/ui/widget/dialog/preferences.ui:213
+#: src/ui/widget/dialog/preferences.ui:214
 msgid "Post-Backup Shell Command"
 msgstr "Команда оболонки після копіювання"
 
-#: src/ui/widget/dialog/prune.rs:89
-msgid "Reclaim Free Space"
-msgstr "Звільнити місце"
+#: src/ui/widget/dialog/prune.rs:73
+msgid "Review Changes"
+msgstr "Переглянути зміни"
 
-#: src/ui/widget/dialog/prune.rs:123 src/ui/widget/dialog/prune_review.rs:87
-msgid "Failed to determine how many archives would be deleted"
-msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
+#: src/ui/widget/dialog/prune.rs:77
+msgid "Collecting information about the effect of the changes on old archives"
+msgstr "Збираємо дані щодо впливу змін на старі архіви"
 
-#. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/widget/dialog/prune.ui:38
-msgid "Checking for old Archives"
-msgstr "Шукаємо застарілих архівів"
+#: src/ui/widget/dialog/prune.rs:79
+#| msgid "Creating a list of old archives to be approved for deletion."
+msgid "Creating a list of old archives to be approved for deletion"
+msgstr "Створення списку застарілих архівів, вилучення яких слід підтвердити"
 
-#: src/ui/widget/dialog/prune.ui:39
-msgid "Creating a list of old archives to be approved for deletion."
-msgstr "Створення списку застарілих архівів, вилучення яких слід підтвердити."
+#: src/ui/widget/dialog/prune.rs:85
+msgid ""
+"After applying these changes, the next automatic deletion of old archives "
+"would have the following consequences."
+msgstr ""
+"Після застосування цих змін наступне автоматичне вилучення застарілих "
+"архівів матиме вказані нижче наслідки."
 
-#: src/ui/widget/dialog/prune.ui:66 src/ui/widget/dialog/prune.ui:82
-#: src/ui/widget/dialog/prune_review.ui:82
-msgid "Delete Archives"
-msgstr "Вилучити архіви"
-
-#: src/ui/widget/dialog/prune.ui:79
+#: src/ui/widget/dialog/prune.rs:87 src/ui/widget/dialog/prune.ui:44
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -2303,61 +2297,63 @@ msgstr ""
 "архівів. Ви більше не зможете скористатися збереженими для відповідних "
 "моментів часу даними."
 
-#: src/ui/widget/dialog/prune.ui:95 src/ui/widget/dialog/prune_review.ui:95
+#: src/ui/widget/dialog/prune.rs:127
+msgid "Reclaim Free Space"
+msgstr "Звільнити місце"
+
+#: src/ui/widget/dialog/prune.rs:161
+msgid "Failed to determine how many archives would be deleted"
+msgstr "Не вдалося визначити, скільки архівів має бути вилучено"
+
+#: src/ui/widget/dialog/prune.rs:191
+msgid "No archives are selected for deletion with current cleanup rules"
+msgstr "Із поточним правилами чищення не вибрано жодного архіву для вилучення"
+
+#: src/ui/widget/dialog/prune.ui:6 src/ui/widget/dialog/prune.ui:47
+#: src/ui/widget/dialog/prune.ui:104
+msgid "Delete Archives"
+msgstr "Вилучити архіви"
+
+#. Translators: Header while creating a list of old archives to be approved for deletion.
+#: src/ui/widget/dialog/prune.ui:20
+msgid "Checking for old Archives"
+msgstr "Шукаємо застарілих архівів"
+
+#: src/ui/widget/dialog/prune.ui:60
 msgid "Keep Archives"
 msgstr "Зберегти архіви"
 
-#: src/ui/widget/dialog/prune.ui:108 src/ui/widget/dialog/prune_review.ui:108
+#: src/ui/widget/dialog/prune.ui:73
 msgid "Not Considered"
 msgstr "Не розглянуто"
 
-#: src/ui/widget/dialog/prune.ui:109 src/ui/widget/dialog/prune_review.ui:109
+#: src/ui/widget/dialog/prune.ui:74
 msgid "Archives with different prefix"
 msgstr "Архіви з іншим префіксом"
 
-#: src/ui/widget/dialog/prune_review.ui:6
-msgid "Review Changes"
-msgstr "Переглянути зміни"
-
-#: src/ui/widget/dialog/prune_review.ui:38
-msgid "Assessing Impact on old Archives"
-msgstr "Оцінюємо вплив на старі архіви"
-
-#: src/ui/widget/dialog/prune_review.ui:39
-msgid "Collecting information about the effect of the changes on old archives"
-msgstr "Збираємо дані щодо впливу змін на старі архіви"
-
-#: src/ui/widget/dialog/prune_review.ui:66
+#: src/ui/widget/dialog/prune.ui:91
 msgid "Apply"
 msgstr "Застосувати"
 
-#: src/ui/widget/dialog/prune_review.ui:79
-msgid ""
-"After applying these changes, the next automatic deletion of old archives "
-"would have the following consequences."
-msgstr ""
-"Після застосування цих змін наступне автоматичне вилучення застарілих "
-"архівів матиме вказані нижче наслідки."
-
-#: src/ui/widget/dialog/setup.rs:150
+#: src/ui/widget/dialog/setup.rs:158
 msgid "Setup Existing Repository"
 msgstr "Налаштувати наявне сховище"
 
-#: src/ui/widget/dialog/setup.rs:160
+#: src/ui/widget/dialog/setup.rs:168
 msgid "Location is not a valid backup repository."
 msgstr "Місце зберігання не є коректним сховищем резервних копій."
 
-#: src/ui/widget/dialog/setup.rs:162
+#: src/ui/widget/dialog/setup.rs:170
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Сховище має бути створено «Пискуха-копіюванням» або сумісним програмним "
 "забезпеченням."
 
-#: src/ui/widget/dialog/setup.rs:344
+#: src/ui/widget/dialog/setup.rs:352
 msgid "Failed to Configure Repository"
 msgstr "Не вдалося налаштувати сховище"
 
-#: src/ui/widget/dialog/setup.rs:357
+#: src/ui/widget/dialog/setup.rs:363
 msgid "Failed"
 msgstr "Помилка"
 
@@ -2409,23 +2405,23 @@ msgstr "Налаштовування шифрування"
 msgid "_Create"
 msgstr "С_творити"
 
-#: src/ui/widget/dialog/setup/location.rs:198
+#: src/ui/widget/dialog/setup/location.rs:194
 msgid "Repository Name Empty"
 msgstr "Назва сховища порожня"
 
-#: src/ui/widget/dialog/setup/location.rs:199
+#: src/ui/widget/dialog/setup/location.rs:195
 msgid "The repository folder name must be set"
 msgstr "Має бути встановлено назву теки сховища"
 
-#: src/ui/widget/dialog/setup/location.rs:210
+#: src/ui/widget/dialog/setup/location.rs:206
 msgid "No Base Folder Selected"
 msgstr "Не вибрано базової теки"
 
-#: src/ui/widget/dialog/setup/location.rs:211
+#: src/ui/widget/dialog/setup/location.rs:207
 msgid "Select a base folder for the backup repository"
 msgstr "Виберіть базову теку для сховища резервних копій"
 
-#: src/ui/widget/dialog/setup/location.rs:218
+#: src/ui/widget/dialog/setup/location.rs:214
 msgid "Invalid Remote Location"
 msgstr "Некоректне місце на віддаленому комп'ютері"
 
@@ -2618,39 +2614,39 @@ msgstr "Некоректна віддалена адреса: «{}»"
 msgid "Backup Location"
 msgstr "Місце резервного копіювання"
 
-#: src/ui/widget/dialog/storage.ui:30
+#: src/ui/widget/dialog/storage.ui:19
 msgid "Disk"
 msgstr "Диск"
 
-#: src/ui/widget/dialog/storage.ui:33
+#: src/ui/widget/dialog/storage.ui:22
 msgid "Volume"
 msgstr "Том"
 
-#: src/ui/widget/dialog/storage.ui:42
+#: src/ui/widget/dialog/storage.ui:31
 msgid "Device"
 msgstr "Пристрій"
 
-#: src/ui/widget/dialog/storage.ui:51
+#: src/ui/widget/dialog/storage.ui:40
 msgid "Path"
 msgstr "Шлях"
 
-#: src/ui/widget/dialog/storage.ui:63
+#: src/ui/widget/dialog/storage.ui:52
 msgid "Remote"
 msgstr "Віддалене"
 
-#: src/ui/widget/dialog/storage.ui:66
+#: src/ui/widget/dialog/storage.ui:55
 msgid "URL"
 msgstr "Адреса"
 
-#: src/ui/widget/dialog/storage.ui:78
+#: src/ui/widget/dialog/storage.ui:67
 msgid "Space"
 msgstr "Місце"
 
-#: src/ui/widget/dialog/storage.ui:81
+#: src/ui/widget/dialog/storage.ui:70
 msgid "Total"
 msgstr "Загалом"
 
-#: src/ui/widget/dialog/storage.ui:90
+#: src/ui/widget/dialog/storage.ui:79
 msgid "Free"
 msgstr "Вільно"
 
@@ -2703,15 +2699,15 @@ msgstr "Повторіть пароль"
 msgid "_Select Folder…"
 msgstr "_Вибрати теку…"
 
-#: src/ui/widget/overview.rs:171
+#: src/ui/widget/overview.rs:172
 msgid "Remove Backup Setup?"
 msgstr "Вилучити налаштування копіювання?"
 
-#: src/ui/widget/overview.rs:172
+#: src/ui/widget/overview.rs:173
 msgid "Removing the setup will not delete any archives"
 msgstr "Вилучення налаштувань не призведе до вилучення архівів"
 
-#: src/ui/widget/overview.rs:174
+#: src/ui/widget/overview.rs:175
 msgid "_Remove Setup"
 msgstr "Ви_лучити налаштування"
 
@@ -2750,6 +2746,9 @@ msgstr "_Налаштувати резервне копіювання"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Немає такого файла або каталогу"
+
+#~ msgid "Assessing Impact on old Archives"
+#~ msgstr "Оцінюємо вплив на старі архіви"
 
 #~ msgid "No longer remind of backups based on a schedule."
 #~ msgstr "Більше не нагадувати про резервне копіювання на основі розкладу."
