@@ -101,7 +101,7 @@ impl From<&history::RunInfo> for Display {
                     > Some(log_json::LogLevel::Info) =>
             {
                 Self {
-                    title: gettext("Last backup completed with warnings"),
+                    title: gettext("Last Backup Completed With Warnings"),
                     subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
                     graphic: Graphic::WarningIcon("dialog-warning-symbolic".to_string()),
                     progress: None,
@@ -245,7 +245,7 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
         }
 
         let title = match op.communication().status() {
-            Run::Init => gettext("Preparing backup"),
+            Run::Init => gettext("Preparing Backup"),
             Run::Running => gettext("Backup Running"),
             Run::Stalled => gettext("Backup Destination Unresponsive"),
             Run::Reconnecting(wait_time) => {

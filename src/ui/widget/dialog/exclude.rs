@@ -162,7 +162,7 @@ mod imp {
                 self.unreadable_paths.set_visible(true);
 
                 let add_button = gtk::CheckButton::builder()
-                    .tooltip_text(&gettext("Add exclusion rule"))
+                    .tooltip_text(&gettext("Add Exclusion Rule"))
                     .valign(gtk::Align::Center)
                     .active(exclude.contains(suggested))
                     .build();

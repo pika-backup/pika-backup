@@ -198,7 +198,7 @@ impl imp::ArchivesPage {
             }
 
             let browse_row = adw::ActionRow::builder()
-                .title(&gettext("Browse saved files"))
+                .title(&gettext("Browse Saved Files"))
                 .activatable(true)
                 .build();
 
@@ -220,7 +220,7 @@ impl imp::ArchivesPage {
             ));
 
             let delete_row = adw::ActionRow::builder()
-                .title(&gettext("Delete archive"))
+                .title(&gettext("Delete Archive"))
                 .activatable(true)
                 .build();
 

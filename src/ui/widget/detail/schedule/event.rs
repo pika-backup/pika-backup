@@ -234,7 +234,7 @@ impl imp::SchedulePage {
         if !active
             && ui::utils::confirmation_dialog(
                 &*self.obj(),
-                &gettext("Disable backup schedule?"),
+                &gettext("Disable Backup Schedule?"),
                 &gettext("Backups will no longer run on a schedule"),
                 &gettext("_Keep Schedule"),
                 &gettext("_Disable Schedule"),

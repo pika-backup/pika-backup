@@ -138,7 +138,7 @@ mod imp {
 
             match action {
                 SetupAction::Init => {
-                    self.obj().set_title(&gettext("Create new Repository"));
+                    self.obj().set_title(&gettext("Create New Repository"));
                     self.page.set_description(&gettext(
                         "Select a location for the new backup repository",
                     ));

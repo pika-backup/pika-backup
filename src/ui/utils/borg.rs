@@ -142,9 +142,9 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
             task::Kind::Create => {
                 ui::utils::confirmation_dialog(
                     &App::default().main_window(),
-                    &gettext("Stop browsing files and start backup?"),
+                    &gettext("Stop Browsing Files?"),
                     &gettext(
-                        "Browsing through archived files is not possible while running a backup.",
+                        "Browsing through archived files is not possible while running a backup",
                     ),
                     &gettext("Keep Browsing"),
                     &gettext("Start Backup"),
@@ -154,9 +154,9 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
             _ => {
                 ui::utils::confirmation_dialog(
                     &App::default().main_window(),
-                    &gettext("Stop browsing files and start operation?"),
+                    &gettext("Stop Browsing Files?"),
                     &gettext(
-                        "Browsing through archived files is not possible while running an operation on the repository.",
+                        "Browsing through archived files is not possible while running an operation on the repository",
                     ),
                     &gettext("Keep Browsing"),
                     &gettext("Start Operation"),

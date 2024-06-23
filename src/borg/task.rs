@@ -58,7 +58,7 @@ impl Task for Create {
     const KIND: Kind = Kind::Create;
 
     fn name() -> String {
-        gettext("Backing up Data")
+        gettext("Backing Up Data")
     }
 }
 
@@ -86,7 +86,7 @@ impl Task for Prune {
     const KIND: Kind = Kind::Prune;
 
     fn name() -> String {
-        gettext("Removing old Archives")
+        gettext("Removing Old Archives")
     }
 }
 
@@ -100,7 +100,7 @@ impl Task for PruneInfo {
     const KIND: Kind = Kind::PruneInfo;
 
     fn name() -> String {
-        gettext("Identifying old Archives")
+        gettext("Identifying Old Archives")
     }
 }
 

@@ -129,7 +129,7 @@ async fn probe(config: &config::Backup) {
                         let notification =
                             gio::Notification::new(&gettext("Backup Device Required"));
                         notification.set_body(Some(&gettextf(
-                            "“{}” has to be connected for the scheduled backup to start.",
+                            "“{}” has to be connected for the scheduled backup to start",
                             &[&config.repo.location()],
                         )));
                         gio_app().send_notification(

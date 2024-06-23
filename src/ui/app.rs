@@ -246,8 +246,8 @@ impl App {
 
                         ui::utils::confirmation_dialog(
                             &self.main_window(),
-                            &gettext("Abort running backup creation?"),
-                            &gettext("The backup will remain incomplete if aborted now."),
+                            &gettext("Abort Backup?"),
+                            &gettext("The backup will remain incomplete if aborted now"),
                             &gettext("Continue"),
                             &gettext("Abort"),
                         )
@@ -259,10 +259,9 @@ impl App {
                 // Someone wants to quit the app from the shell (eg via backgrounds app list)
                 // Or we do something wrong and called this erroneously
                 debug!("Received quit request while a backup operation is running. Ignoring");
-                let notification =
-                    gio::Notification::new(&gettext("A Backup Operation is Running"));
+                let notification = gio::Notification::new(&gettext("Backup Operation Running"));
                 notification.set_body(Some(&gettext(
-                    "Pika Backup cannot be quit during a backup operation.",
+                    "Pika Backup cannot be quit during a backup operation",
                 )));
 
                 self.send_notification(None, &notification);
