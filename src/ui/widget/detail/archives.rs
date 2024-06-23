@@ -61,9 +61,9 @@ mod imp {
         #[template_child]
         pub(super) check_status_row: TemplateChild<StatusRow>,
         #[template_child]
-        pub(super) check_button: TemplateChild<gtk::Button>,
+        pub(super) check_button_row: TemplateChild<adw::ButtonRow>,
         #[template_child]
-        pub(super) check_abort_button: TemplateChild<gtk::Button>,
+        pub(super) check_abort_button_row: TemplateChild<adw::ButtonRow>,
 
         // Archives list header suffix
         #[template_child]
@@ -122,12 +122,12 @@ mod imp {
                     }
                 }
             ));
-            self.check_button.connect_clicked(glib::clone!(
+            self.check_button_row.connect_activated(glib::clone!(
                 #[weak]
                 obj,
                 move |_| Handler::run(async move { obj.imp().check().await })
             ));
-            self.check_abort_button.connect_clicked(|_| {
+            self.check_abort_button_row.connect_activated(|_| {
                 Handler::run(async move {
                     main_ui()
                         .page_detail()

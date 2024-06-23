@@ -144,24 +144,22 @@
     <child>
       <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">Data Integrity Check</property>
+        <property name="separate-rows">true</property>
         <child>
-          <object class="PikaStatusRow" id="check_status_row">
-            <property name="activatable">1</property>
-            <child type="suffix">
-              <object class="GtkButton" id="check_button">
-                <property name="label" translatable="yes">_Check Now…</property>
-                <property name="use-underline">1</property>
-                <property name="valign">center</property>
-              </object>
-            </child>
-            <child type="suffix">
-              <object class="GtkButton" id="check_abort_button">
-                <property name="visible">0</property>
-                <property name="label" translatable="yes">_Abort…</property>
-                <property name="use-underline">1</property>
-                <property name="valign">center</property>
-              </object>
-            </child>
+          <object class="PikaStatusRow" id="check_status_row" />
+        </child>
+        <child>
+          <object class="AdwButtonRow" id="check_button_row">
+            <property name="title" translatable="yes">_Check Now</property>
+            <property name="use-underline">true</property>
+            <property name="end-icon-name">go-next-symbolic</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwButtonRow" id="check_abort_button_row">
+            <property name="visible">false</property>
+            <property name="title" translatable="yes">_Abort…</property>
+            <property name="use-underline">true</property>
           </object>
         </child>
       </object>

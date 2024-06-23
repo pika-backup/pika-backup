@@ -53,9 +53,9 @@ impl imp::ArchivesPage {
                     let running =
                         matches!(op, Some(ref op) if op.task_kind() == borg::task::Kind::Check);
 
-                    self.check_button.set_visible(!running);
-                    self.check_button.set_sensitive(op.is_none());
-                    self.check_abort_button.set_visible(running);
+                    self.check_button_row.set_visible(!running);
+                    self.check_button_row.set_sensitive(op.is_none());
+                    self.check_abort_button_row.set_visible(running);
                 });
             }
 
