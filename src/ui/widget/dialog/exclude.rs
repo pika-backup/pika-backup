@@ -3,7 +3,6 @@ use ui::config;
 use ui::prelude::*;
 
 use std::collections::BTreeSet;
-use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -81,7 +80,6 @@ mod imp {
     #[gtk::template_callbacks]
     impl ExcludeDialog {
         fn fill_suggestions(&self, config: &crate::config::Backup) {
-            let mut buttons = Vec::new();
             let exclude = &config.exclude;
 
             for predefined in config::exclude::Predefined::VALUES {
@@ -125,22 +123,18 @@ mod imp {
                 row.add_suffix(&info_button);
 
                 self.suggestions.add(&row);
-                buttons.push((predefined, check_button));
-            }
 
-            let buttons = Rc::new(buttons);
+                check_button.connect_toggled(glib::clone!(
+                    #[weak(rename_to = obj)]
+                    self.obj(),
+                    #[strong]
+                    predefined,
+                    move |button| {
+                        let is_active = button.is_active();
 
-            for (_, button) in buttons.iter() {
-                // TODO: potential memory leak
-                let obj = self.obj().clone();
-                let buttons = buttons.clone();
-                button.connect_toggled(glib::clone!(
-                    #[weak]
-                    obj,
-                    #[weak]
-                    buttons,
-                    move |_| {
-                        Handler::run(async move { obj.imp().on_suggested_toggle(&buttons).await })
+                        Handler::run(glib::clone!(#[strong] predefined, async move {
+                            obj.imp().on_suggested_toggle(predefined, is_active).await
+                        }))
                     }
                 ));
             }
@@ -422,27 +416,22 @@ mod imp {
 
         async fn on_suggested_toggle(
             &self,
-            buttons: &[(config::exclude::Predefined, gtk::CheckButton)],
+            predefined: config::exclude::Predefined,
+            active: bool,
         ) -> Result<()> {
-            let new_predefined = buttons
-                .iter()
-                .filter(|(_, button)| button.is_active())
-                .map(|(predefined, _)| config::Exclude::from_predefined(predefined.clone()));
-
             // TODO: store config id in dialog
-            let new_exclude: BTreeSet<config::Exclude<{ config::RELATIVE }>> = BACKUP_CONFIG
-                .load()
-                .active()?
-                .exclude
-                .clone()
-                .into_iter()
-                .filter(|x| !x.is_predefined())
-                .chain(new_predefined)
-                .collect();
+            let mut exclude: BTreeSet<config::Exclude<{ config::RELATIVE }>> =
+                BACKUP_CONFIG.load().active()?.exclude.clone();
+
+            if active {
+                exclude.insert(config::Exclude::from_predefined(predefined));
+            } else {
+                exclude.retain(|x| matches!(x, config::Exclude::Predefined(p) if *p != predefined));
+            }
 
             BACKUP_CONFIG
                 .try_update(move |settings| {
-                    settings.active_mut()?.exclude.clone_from(&new_exclude);
+                    settings.active_mut()?.exclude.clone_from(&exclude);
                     Ok(())
                 })
                 .await?;
