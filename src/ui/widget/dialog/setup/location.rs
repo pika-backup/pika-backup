@@ -5,7 +5,7 @@ use adw::subclass::prelude::*;
 
 use super::types::*;
 use super::SetupRepoLocation;
-use crate::ui::widget::{DialogPage, FolderButton};
+use crate::ui::widget::DialogPage;
 
 mod imp {
     use std::{cell::Cell, sync::OnceLock};
@@ -13,7 +13,10 @@ mod imp {
     use gettextrs::gettext;
     use glib::subclass::Signal;
 
-    use crate::ui::{error::HandleError, widget::dialog_page::PkDialogPageImpl};
+    use crate::ui::{
+        error::HandleError,
+        widget::{dialog_page::PkDialogPageImpl, folder_row::FolderRow},
+    };
 
     use super::*;
 
@@ -31,9 +34,7 @@ mod imp {
         #[template_child]
         pub(super) show_settings: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) location_local: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) init_path: TemplateChild<FolderButton>,
+        pub(super) location_folder_row: TemplateChild<FolderRow>,
         #[template_child]
         pub(super) init_dir: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -89,8 +90,8 @@ mod imp {
 
             match self.location_kind.get() {
                 SetupLocationKind::Local => {
-                    if self.init_path.file().is_none() {
-                        self.init_path.grab_focus();
+                    if self.location_folder_row.file().is_none() {
+                        self.location_folder_row.grab_focus();
                     } else {
                         self.init_dir.grab_focus();
                     }
@@ -110,7 +111,7 @@ mod imp {
         }
 
         pub(super) fn reset(&self) {
-            self.init_path.reset();
+            self.location_folder_row.reset();
             self.location_url.set_text("");
         }
 
@@ -167,7 +168,7 @@ mod imp {
 
         #[template_callback]
         fn on_path_change(&self) {
-            if let Some(path) = self.init_path.file().and_then(|x| x.path()) {
+            if let Some(path) = self.location_folder_row.file().and_then(|x| x.path()) {
                 let mount_entry = gio::UnixMountEntry::for_file_path(path);
                 if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
                     debug!("Selected filesystem type {}", fs);
@@ -198,7 +199,7 @@ mod imp {
                     }
 
                     Ok(SetupRepoLocation::from_file(
-                        self.init_path
+                        self.location_folder_row
                             .file()
                             .map(|p| p.child(repo_dir))
                             .ok_or_else(|| {
@@ -240,10 +241,6 @@ impl SetupLocationPage {
         self.set_action(action);
         self.set_location_kind(repo_kind);
 
-        if let Some(file) = file {
-            self.imp().init_path.set_property("file", file);
-        } else {
-            self.imp().init_path.set_property("file", None::<gio::File>);
-        }
+        self.imp().location_folder_row.set_file(file);
     }
 }
