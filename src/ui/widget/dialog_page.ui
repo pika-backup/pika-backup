@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PkDialogPage" parent="AdwNavigationPage">
+    <style>
+      <class name="dialog-page" />
+    </style>
+    <property name="child">
+      <object class="AdwToolbarView" id="toolbar_view">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="title-widget">
+              <object class="AdwBin"/>
+            </property>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkScrolledWindow" id="scrolled_window">
+            <property name="hscrollbar-policy">never</property>
+            <property name="propagate-natural-height">True</property>
+            <property name="child">
+              <object class="AdwClamp">
+                <property name="child">
+                  <object class="GtkBox">
+                    <style>
+                      <class name="container" />
+                    </style>
+                    <property name="valign">center</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="title">
+                        <property name="label" bind-source="PkDialogPage" bind-property="title"/>
+                        <property name="wrap">True</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="title-2" />
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="subtitle_label">
+                        <property name="label" bind-source="PkDialogPage" bind-property="subtitle"/>
+                        <property name="visible">False</property>
+                        <property name="wrap">True</property>
+                        <property name="justify">center</property>
+                        <property name="wrap">True</property>
+                        <property name="wrap-mode">word-char</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label" />
+                          <class name="description"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="content_box">
+                        <property name="orientation">vertical</property>
+                        <style>
+                          <class name="content" />
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>
