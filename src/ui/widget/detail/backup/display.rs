@@ -203,7 +203,7 @@ impl imp::BackupPage {
 
         let running = matches!(&status.graphic, ui::backup_status::Graphic::Spinner);
         self.abort_button.set_visible(running);
-        self.backup_button.set_sensitive(!running);
+        self.backup_button.set_visible(!running);
         self.detail_hint_icon.set_visible(!running);
     }
 }
