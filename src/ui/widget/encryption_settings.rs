@@ -6,28 +6,32 @@ use adw::subclass::prelude::*;
 mod imp {
     use super::*;
     use crate::config;
-    use std::cell::Cell;
+    use std::{cell::Cell, marker::PhantomData};
 
     #[derive(Debug, Default, glib::Properties, gtk::CompositeTemplate)]
-    #[template(file = "encryption_preferences_group.ui")]
-    #[properties(wrapper_type = super::EncryptionPreferencesGroup)]
-    pub struct EncryptionPreferencesGroup {
+    #[template(file = "encryption_settings.ui")]
+    #[properties(wrapper_type = super::EncryptionSettings)]
+    pub struct EncryptionSettings {
         #[template_child]
         password_entry: TemplateChild<adw::PasswordEntryRow>,
         #[template_child]
         password_confirm_entry: TemplateChild<adw::PasswordEntryRow>,
         #[template_child]
         password_quality_bar: TemplateChild<gtk::LevelBar>,
+        #[template_child]
+        revealer: TemplateChild<gtk::Revealer>,
 
         #[property(get, set)]
         encrypted: Cell<bool>,
+        #[property(get = Self::description)]
+        description: PhantomData<String>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for EncryptionPreferencesGroup {
-        const NAME: &'static str = "PikaEncryptionPreferencesGroup";
-        type Type = super::EncryptionPreferencesGroup;
-        type ParentType = adw::PreferencesGroup;
+    impl ObjectSubclass for EncryptionSettings {
+        const NAME: &'static str = "PkEncryptionSettings";
+        type Type = super::EncryptionSettings;
+        type ParentType = gtk::Box;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -39,7 +43,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for EncryptionPreferencesGroup {
+    impl ObjectImpl for EncryptionSettings {
         fn constructed(&self) {
             self.parent_constructed();
 
@@ -61,11 +65,11 @@ mod imp {
             self.derived_property(id, pspec)
         }
     }
-    impl WidgetImpl for EncryptionPreferencesGroup {}
-    impl PreferencesGroupImpl for EncryptionPreferencesGroup {}
+    impl WidgetImpl for EncryptionSettings {}
+    impl BoxImpl for EncryptionSettings {}
 
     #[gtk::template_callbacks]
-    impl EncryptionPreferencesGroup {
+    impl EncryptionSettings {
         #[template_callback]
         pub fn on_switch_active(&self) {
             if !self.encrypted.get() {
@@ -76,6 +80,10 @@ mod imp {
         pub(super) fn reset(&self) {
             self.password_entry.set_text("");
             self.password_confirm_entry.set_text("");
+        }
+
+        fn description(&self) -> String {
+            gettext("The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.")
         }
 
         pub fn validated_password(&self) -> Result<Option<config::Password>> {
@@ -144,11 +152,11 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub struct EncryptionPreferencesGroup(ObjectSubclass<imp::EncryptionPreferencesGroup>)
-        @extends adw::PreferencesGroup, gtk::Widget;
+    pub struct EncryptionSettings(ObjectSubclass<imp::EncryptionSettings>)
+        @extends gtk::Box, gtk::Widget;
 }
 
-impl EncryptionPreferencesGroup {
+impl EncryptionSettings {
     pub fn new() -> Self {
         glib::Object::new()
     }

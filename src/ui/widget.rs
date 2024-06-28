@@ -2,7 +2,7 @@ mod app_window;
 mod detail;
 pub mod dialog;
 mod dialog_page;
-mod encryption_preferences_group;
+mod encryption_settings;
 mod folder_row;
 mod location_tag;
 mod overview;
@@ -16,7 +16,7 @@ pub use detail::{
     ScheduleStatus,
 };
 pub use dialog_page::{DialogPage, DialogPageExt};
-pub use encryption_preferences_group::EncryptionPreferencesGroup;
+pub use encryption_settings::EncryptionSettings;
 use folder_row::FolderRow;
 pub use location_tag::LocationTag;
 pub use overview::OverviewPage;
@@ -36,7 +36,7 @@ pub fn init() {
     BackupPage::static_type();
     BackupInfoDialog::static_type();
     DetailPage::static_type();
-    EncryptionPreferencesGroup::static_type();
+    EncryptionSettings::static_type();
     FolderRow::static_type();
     DialogPage::static_type();
     OverviewPage::static_type();
@@ -46,5 +46,6 @@ pub fn init() {
     WrapBox::static_type();
     AppWindow::static_type();
 
+    setup::SetupEncryptionPage::ensure_type();
     dialog::init();
 }

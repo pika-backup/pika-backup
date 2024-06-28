@@ -5,7 +5,7 @@ use crate::config::BackupSettings;
 use crate::ui::prelude::*;
 
 mod imp {
-    use crate::{borg, config::UserScriptKind, ui::widget::EncryptionPreferencesGroup};
+    use crate::{borg, config::UserScriptKind, ui::widget::EncryptionSettings};
 
     use super::*;
     use glib::Properties;
@@ -65,9 +65,9 @@ mod imp {
         #[template_child]
         change_password_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        change_password_page_enter_password: TemplateChild<adw::ToolbarView>,
+        change_password_page_enter_password: TemplateChild<DialogPage>,
         #[template_child]
-        encryption_preferences_group: TemplateChild<EncryptionPreferencesGroup>,
+        encryption_settings: TemplateChild<EncryptionSettings>,
         #[template_child]
         change_password_page_spinner: TemplateChild<adw::ToolbarView>,
         #[template_child]
@@ -433,7 +433,7 @@ mod imp {
         #[template_callback]
         async fn change_password(&self) {
             let encrypted = self.config().map(|cfg| cfg.encrypted).unwrap_or_default();
-            self.encryption_preferences_group.reset(encrypted);
+            self.encryption_settings.reset(encrypted);
 
             self.obj()
                 .push_subpage(&*self.page_change_encryption_password);
@@ -447,8 +447,8 @@ mod imp {
                 .set_visible_child(&*self.change_password_page_spinner);
             self.changing_password_spinner.set_spinning(true);
 
-            let encrypted = self.encryption_preferences_group.encrypted();
-            let password = self.encryption_preferences_group.validated_password()?;
+            let encrypted = self.encryption_settings.encrypted();
+            let password = self.encryption_settings.validated_password()?;
 
             let config = self.config()?;
 

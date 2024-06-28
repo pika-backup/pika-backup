@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PkEncryptionSettings" parent="GtkBox">
+    <property name="encrypted" bind-source="encrypted_switch" bind-property="active" />
+    <property name="orientation">vertical</property>
+    <property name="spacing">12</property>
+    <child>
+      <object class="AdwPreferencesGroup" id="switch_group">
+        <child>
+          <object class="AdwSwitchRow" id="encrypted_switch">
+            <property name="title" translatable="yes">Use Encryption</property>
+            <property name="active">True</property>
+            <signal name="notify::active" handler="on_switch_active" swapped="true" />
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkRevealer" id="revealer">
+        <property name="reveal-child" bind-source="encrypted_switch" bind-property="active" bind-flags="sync-create" />
+        <child>        
+          <object class="AdwPreferencesGroup">
+            <child>
+              <object class="AdwPasswordEntryRow" id="password_entry">
+                <property name="title" translatable="yes">New Encryption Password</property>
+                <property name="activates-default">1</property>
+                <signal name="changed" handler="password_value_changed" swapped="true"/>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPasswordEntryRow" id="password_confirm_entry">
+                <property name="title" translatable="yes">Repeat Password</property>
+                <property name="activates-default">1</property>
+                <signal name="changed" handler="password_value_changed" swapped="true"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLevelBar" id="password_quality_bar">
+                <property name="margin-top">24</property>
+                <property name="max-value">7</property>
+                <property name="mode">discrete</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
