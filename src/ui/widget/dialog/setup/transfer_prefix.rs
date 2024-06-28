@@ -7,7 +7,6 @@ mod imp {
 
     use std::sync::OnceLock;
 
-    use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
     use crate::{config, ui::widget::dialog_page::PkDialogPageImpl};
