@@ -3,31 +3,12 @@
   <template class="PikaEncryptionPreferencesGroup" parent="AdwPreferencesGroup">
     <property name="description" translatable="yes">The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.</property>
     <property name="title" translatable="yes">Encryption</property>
+    <property name="encrypted" bind-source="encrypted_switch" bind-property="active" />
     <child>
-      <object class="AdwActionRow">
+      <object class="AdwSwitchRow" id="encrypted_switch">
         <property name="title" translatable="yes">Use Encryption</property>
-        <child type="suffix">
-          <object class="GtkBox">
-            <property name="valign">center</property>
-            <style>
-              <class name="linked" />
-            </style>
-            <child>
-              <object class="GtkToggleButton" id="encrypted_button">
-                <property name="label" translatable="yes">Encrypted</property>
-                <property name="active">1</property>
-                <signal name="clicked" handler="reset" swapped="true"/>
-              </object>
-            </child>
-            <child>
-              <object class="GtkToggleButton" id="unencrypted_button">
-                <property name="label" translatable="yes">Unencrypted</property>
-                <property name="group">encrypted_button</property>
-                <signal name="clicked" handler="reset" swapped="true"/>
-              </object>
-            </child>
-          </object>
-        </child>
+        <property name="active">True</property>
+        <signal name="notify::active" handler="on_switch_active" swapped="true" />
       </object>
     </child>
     <child>
@@ -35,7 +16,7 @@
         <property name="title" translatable="yes">New Encryption Password</property>
         <property name="activates-default">1</property>
         <signal name="changed" handler="password_value_changed" swapped="true"/>
-        <property name="visible" bind-source="encrypted_button" bind-property="active"/>
+        <property name="visible" bind-source="encrypted_switch" bind-property="active"/>
       </object>
     </child>
     <child>
@@ -43,7 +24,7 @@
         <property name="title" translatable="yes">Repeat Password</property>
         <property name="activates-default">1</property>
         <signal name="changed" handler="password_value_changed" swapped="true"/>
-        <property name="visible" bind-source="encrypted_button" bind-property="active"/>
+        <property name="visible" bind-source="encrypted_switch" bind-property="active"/>
       </object>
     </child>
     <child>
@@ -51,7 +32,7 @@
         <property name="margin-top">24</property>
         <property name="max-value">7</property>
         <property name="mode">discrete</property>
-        <property name="visible" bind-source="encrypted_button" bind-property="active"/>
+        <property name="visible" bind-source="encrypted_switch" bind-property="active"/>
       </object>
     </child>
   </template>
