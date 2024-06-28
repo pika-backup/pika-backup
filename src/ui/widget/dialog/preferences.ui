@@ -32,39 +32,29 @@
     <property name="child">
       <object class="GtkStack" id="change_password_stack">
         <child>
-          <object class="AdwToolbarView" id="change_password_page_enter_password">
-            <child type="top">
-              <object class="AdwHeaderBar"/>
+          <object class="PkDialogPage" id="change_password_page_enter_password">
+            <property name="vexpand">1</property>
+            <property name="title" translatable="yes">Change Encryption Password</property>
+            <property name="subtitle" bind-source="encryption_settings" bind-property="description" bind-flags="sync-create" />
+            <style>
+              <class name="dialog-page"/>
+            </style>
+            <child>
+              <object class="PkEncryptionSettings" id="encryption_settings"/>
             </child>
-            <property name="content">
-              <object class="GtkOverlay">
-                <child>
-                  <object class="AdwPreferencesPage">
-                    <property name="vexpand">1</property>
-                    <style>
-                      <class name="dialog-page"/>
-                    </style>
-                    <child>
-                      <object class="PikaEncryptionPreferencesGroup" id="encryption_preferences_group"/>
-                    </child>
-                  </object>
-                </child>
-                <child type="overlay">
-                  <object class="GtkButton" id="change_password_button">
-                    <property name="halign">center</property>
-                    <property name="valign">end</property>
-                    <property name="use-underline">1</property>
-                    <property name="label" translatable="yes">_Change Password</property>
-                    <signal name="clicked" handler="change_password_confirm" swapped="true"/>
-                    <style>
-                      <class name="pill"/>
-                      <class name="suggested-action"/>
-                      <class name="dialog-pill"/>
-                    </style>
-                  </object>
-                </child>
+            <child>
+              <object class="GtkButton" id="change_password_button">
+                <property name="halign">center</property>
+                <property name="valign">end</property>
+                <property name="use-underline">1</property>
+                <property name="label" translatable="yes">_Change Password</property>
+                <signal name="clicked" handler="change_password_confirm" swapped="true"/>
+                <style>
+                  <class name="pill"/>
+                  <class name="suggested-action"/>
+                </style>
               </object>
-            </property>
+            </child>
           </object>
         </child>
         <child>

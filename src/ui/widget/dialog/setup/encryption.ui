@@ -4,9 +4,10 @@
   <requires lib="libadwaita" version="1.4" />
   <template class="PkSetupEncryptionPage" parent="PkDialogPage">
     <property name="title" translatable="yes">Setup Encryption</property>
+    <property name="subtitle" bind-source="encryption_settings" bind-property="description" bind-flags="sync-create" />
     <property name="default-widget">create_button</property>
     <child>
-      <object class="PikaEncryptionPreferencesGroup" id="encryption_preferences_group" />
+      <object class="PkEncryptionSettings" id="encryption_settings" />
     </child>
     <child>
       <object class="GtkButton" id="create_button">

@@ -2,7 +2,7 @@ use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
-use crate::ui::widget::EncryptionPreferencesGroup;
+use crate::ui::widget::EncryptionSettings;
 
 mod imp {
     use std::sync::OnceLock;
@@ -10,10 +10,7 @@ mod imp {
     use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
-    use crate::ui::{
-        error::HandleError,
-        widget::dialog_page::{DialogPagePropertiesExt, PkDialogPageImpl},
-    };
+    use crate::ui::{error::HandleError, widget::dialog_page::PkDialogPageImpl};
 
     use super::*;
 
@@ -21,7 +18,7 @@ mod imp {
     #[template(file = "encryption.ui")]
     pub struct SetupEncryptionPage {
         #[template_child]
-        pub(super) encryption_preferences_group: TemplateChild<EncryptionPreferencesGroup>,
+        pub(super) encryption_settings: TemplateChild<EncryptionSettings>,
     }
 
     #[glib::object_subclass]
@@ -49,24 +46,13 @@ mod imp {
                     .build()]
             })
         }
-
-        fn constructed(&self) {
-            // TODO
-            self.encryption_preferences_group.set_title("");
-            self.obj().set_subtitle(Some(
-                self.encryption_preferences_group
-                    .description()
-                    .unwrap_or_default(),
-            ));
-            self.encryption_preferences_group.set_description(None);
-        }
     }
     impl WidgetImpl for SetupEncryptionPage {}
     impl NavigationPageImpl for SetupEncryptionPage {
         fn shown(&self) {
             self.parent_shown();
 
-            self.encryption_preferences_group.grab_focus();
+            self.encryption_settings.grab_focus();
         }
     }
     impl PkDialogPageImpl for SetupEncryptionPage {}
@@ -80,7 +66,7 @@ mod imp {
         #[template_callback]
         async fn on_create_clicked(&self) {
             if let Some(configured_password) = self
-                .encryption_preferences_group
+                .encryption_settings
                 .validated_password()
                 .handle_transient_for(&*self.obj())
                 .await
@@ -99,6 +85,6 @@ glib::wrapper! {
 
 impl SetupEncryptionPage {
     pub fn reset(&self) {
-        self.imp().encryption_preferences_group.reset(true);
+        self.imp().encryption_settings.reset(true);
     }
 }
