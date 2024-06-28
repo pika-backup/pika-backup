@@ -17,7 +17,7 @@ use adw::subclass::prelude::*;
 use add_existing::SetupAddExistingPage;
 use advanced_options::SetupAdvancedOptionsPage;
 use create_new::SetupCreateNewPage;
-use encryption::SetupEncryptionPage;
+pub use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
 use location_kind::SetupLocationKindPage;
 use transfer_prefix::SetupTransferPrefixPage;
@@ -298,7 +298,15 @@ mod imp {
                 return;
             };
 
-            self.handle_result(self.show_create_new_page(repo, password).await);
+            if self
+                .handle_result(self.show_create_new_page(repo, password).await)
+                .is_none()
+            {
+                // An error occurred
+                self.navigation_view.pop_to_page(&*self.location_page);
+            }
+
+            self.busy.set(false);
         }
 
         // Add existing page
