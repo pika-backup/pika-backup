@@ -4,126 +4,127 @@
   <requires lib="libadwaita" version="1.4" />
   <template class="PkSetupLocationKindPage" parent="PkDialogPage">
     <property name="title" translatable="yes">Setup</property>
-    <property name="child">
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar" />
-        </child>
-        <property name="content">
-          <object class="AdwPreferencesPage" id="page">
-            <property name="valign">center</property>
-            <property name="description-centered">True</property>
+    <child>
+      <object class="GtkBox" id="create_new_group">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="separate-rows">True</property>
             <child>
-              <object class="AdwPreferencesGroup" id="create_new_group">
-                <child>
-                  <object class="GtkListBox" id="init_repo_list">
-                    <property name="selection-mode">none</property>
-                    <child>
-                      <object class="AdwActionRow" id="init_local_row">
-                        <property name="name">-init-local</property>
-                        <property name="activatable">1</property>
-                        <property name="title" translatable="yes">Location on Disk</property>
-                        <signal name="activated" handler="on_row_activated" swapped="true"/>
-                        <child type="prefix">
-                          <object class="GtkImage">
-                            <property name="icon-name">drive-harddisk</property>
-                            <style>
-                              <class name="large-row-icon" />
-                            </style>
-                          </object>
-                        </child>
-                        <child type="suffix">
-                          <object class="GtkImage">
-                            <property name="icon-name">go-next-symbolic</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwActionRow" id="init_remote_row">
-                        <property name="name">-init-remote</property>
-                        <property name="activatable">1</property>
-                        <property name="title" translatable="yes">Remote Location</property>
-                        <signal name="activated" handler="on_row_activated" swapped="true"/>
-                        <child type="prefix">
-                          <object class="GtkImage">
-                            <property name="icon-name">network-server</property>
-                            <style>
-                              <class name="large-row-icon" />
-                            </style>
-                          </object>
-                        </child>
-                        <child type="suffix">
-                          <object class="GtkImage">
-                            <property name="icon-name">go-next-symbolic</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
+              <object class="AdwActionRow" id="init_local_row">
+                <property name="name">-init-local</property>
+                <property name="activatable">1</property>
+                <property name="title" translatable="yes">Location on Disk</property>
+                <signal name="activated" handler="on_row_activated" swapped="true"/>
+                <child type="prefix">
+                  <object class="GtkImage">
+                    <property name="icon-name">drive-harddisk</property>
                     <style>
-                      <class name="boxed-list" />
+                      <class name="large-row-icon" />
                     </style>
+                  </object>
+                </child>
+                <child type="suffix">
+                  <object class="GtkImage">
+                    <property name="icon-name">go-next-symbolic</property>
                   </object>
                 </child>
               </object>
             </child>
             <child>
-              <object class="AdwPreferencesGroup" id="add_existing_group">
-                <child>
-                  <object class="GtkListBox" id="add_repo_list">
-                    <property name="selection-mode">none</property>
-                    <child>
-                      <object class="AdwActionRow" id="add_local_row">
-                        <property name="name">-add-local</property>
-                        <property name="activatable">1</property>
-                        <property name="title" translatable="yes">Location on Disk</property>
-                        <signal name="activated" handler="on_row_activated" swapped="true"/>
-                        <child type="prefix">
-                          <object class="GtkImage">
-                            <property name="icon-name">drive-harddisk</property>
-                            <style>
-                              <class name="large-row-icon" />
-                            </style>
-                          </object>
-                        </child>
-                        <child type="suffix">
-                          <object class="GtkImage">
-                            <property name="icon-name">go-next-symbolic</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwActionRow" id="add_remote_row">
-                        <property name="name">-add-remote</property>
-                        <property name="activatable">1</property>
-                        <property name="title" translatable="yes">Remote Location</property>
-                        <signal name="activated" handler="on_row_activated" swapped="true"/>
-                        <child type="prefix">
-                          <object class="GtkImage">
-                            <property name="icon-name">network-server</property>
-                            <style>
-                              <class name="large-row-icon" />
-                            </style>
-                          </object>
-                        </child>
-                        <child type="suffix">
-                          <object class="GtkImage">
-                            <property name="icon-name">go-next-symbolic</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
+              <object class="AdwActionRow" id="init_remote_row">
+                <property name="name">-init-remote</property>
+                <property name="activatable">1</property>
+                <property name="title" translatable="yes">Remote Location</property>
+                <signal name="activated" handler="on_row_activated" swapped="true"/>
+                <child type="prefix">
+                  <object class="GtkImage">
+                    <property name="icon-name">network-server</property>
                     <style>
-                      <class name="boxed-list" />
+                      <class name="large-row-icon" />
                     </style>
+                  </object>
+                </child>
+                <child type="suffix">
+                  <object class="GtkImage">
+                    <property name="icon-name">go-next-symbolic</property>
                   </object>
                 </child>
               </object>
             </child>
           </object>
-        </property>
+        </child>
+        <child>
+          <object class="GtkListBox" id="init_repo_list">
+            <property name="selection-mode">none</property>
+            <style>
+              <class name="boxed-list" />
+            </style>
+          </object>
+        </child>
       </object>
-    </property>
+    </child>
+    <child>
+      <object class="GtkBox" id="add_existing_group">
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="separate-rows">True</property>
+            <child>
+              <object class="AdwActionRow" id="add_local_row">
+                <property name="name">-add-local</property>
+                <property name="activatable">1</property>
+                <property name="title" translatable="yes">Location on Disk</property>
+                <signal name="activated" handler="on_row_activated" swapped="true"/>
+                <child type="prefix">
+                  <object class="GtkImage">
+                    <property name="icon-name">drive-harddisk</property>
+                    <style>
+                      <class name="large-row-icon" />
+                    </style>
+                  </object>
+                </child>
+                <child type="suffix">
+                  <object class="GtkImage">
+                    <property name="icon-name">go-next-symbolic</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow" id="add_remote_row">
+                <property name="name">-add-remote</property>
+                <property name="activatable">1</property>
+                <property name="title" translatable="yes">Remote Location</property>
+                <signal name="activated" handler="on_row_activated" swapped="true"/>
+                <child type="prefix">
+                  <object class="GtkImage">
+                    <property name="icon-name">network-server</property>
+                    <style>
+                      <class name="large-row-icon" />
+                    </style>
+                  </object>
+                </child>
+                <child type="suffix">
+                  <object class="GtkImage">
+                    <property name="icon-name">go-next-symbolic</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkListBox" id="add_repo_list">
+            <property name="selection-mode">none</property>
+            <style>
+              <class name="boxed-list" />
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
   </template>
 </interface>

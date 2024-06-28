@@ -11,11 +11,15 @@ mod imp {
     use std::{cell::Cell, sync::OnceLock};
 
     use gettextrs::gettext;
-    use glib::subclass::Signal;
+    use glib::{subclass::Signal, WeakRef};
 
     use crate::ui::{
         error::HandleError,
-        widget::{dialog_page::PkDialogPageImpl, folder_row::FolderRow},
+        widget::{
+            dialog_page::{DialogPagePropertiesExt, PkDialogPageImpl},
+            folder_row::FolderRow,
+            setup::advanced_options::SetupAdvancedOptionsPage,
+        },
     };
 
     use super::*;
@@ -28,11 +32,13 @@ mod imp {
         action: Cell<SetupAction>,
         #[property(get, set = Self::set_repo_kind, builder(SetupLocationKind::Local))]
         location_kind: Cell<SetupLocationKind>,
+        #[property(get, set)]
+        navigation_view: WeakRef<adw::NavigationView>,
 
         #[template_child]
-        pub(super) location_group_local: TemplateChild<adw::PreferencesGroup>,
+        advanced_options_page: TemplateChild<SetupAdvancedOptionsPage>,
         #[template_child]
-        pub(super) show_settings: TemplateChild<gtk::ToggleButton>,
+        pub(super) location_group_local: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) location_folder_row: TemplateChild<FolderRow>,
         #[template_child]
@@ -43,8 +49,6 @@ mod imp {
         pub(super) location_group_remote: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) location_url: TemplateChild<adw::EntryRow>,
-        #[template_child]
-        pub(super) command_line_args_entry: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) button_stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -110,6 +114,13 @@ mod imp {
             self.obj().emit_by_name::<()>("continue", &[&repo, &args]);
         }
 
+        #[template_callback]
+        fn push_advanced_options(&self) {
+            if let Some(view) = self.navigation_view.upgrade() {
+                view.push(&*self.advanced_options_page);
+            }
+        }
+
         pub(super) fn reset(&self) {
             self.location_folder_row.reset();
             self.location_url.set_text("");
@@ -147,7 +158,7 @@ mod imp {
 
         fn try_continue(&self) -> Result<()> {
             let repo_location = self.selected_location()?;
-            let command_line_args = self.selected_command_line_args()?;
+            let command_line_args = self.advanced_options_page.selected_command_line_args()?;
 
             debug!("Continue with repo location '{}'", repo_location);
 
@@ -215,11 +226,6 @@ mod imp {
                         .err_to_msg(gettext("Invalid Remote Location"))
                 }
             }
-        }
-
-        fn selected_command_line_args(&self) -> Result<SetupCommandLineArgs> {
-            let command_line = self.command_line_args_entry.text();
-            command_line.parse()
         }
     }
 }

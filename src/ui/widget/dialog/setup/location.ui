@@ -2,226 +2,188 @@
 <interface>
   <requires lib="gtk" version="4.10" />
   <requires lib="libadwaita" version="1.4" />
+  <object class="PkSetupAdvancedOptionsPage" id="advanced_options_page" />
   <template class="PkSetupLocationPage" parent="PkDialogPage">
-    <property name="title" translatable="yes">Select Location</property>
-    <property name="child">
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar" />
+    <property name="title" translatable="yes">Configure Repository</property>
+    <child>
+      <object class="AdwPreferencesGroup" id="location_group_local">
+        <property name="separate-rows">True</property>
+        <child>
+          <object class="PkFolderRow" id="location_folder_row">
+            <property name="title" translatable="yes">Repository Folder</property>
+          </object>
         </child>
-        <property name="content">
-          <object class="GtkOverlay">
+        <child>
+          <object class="AdwEntryRow" id="init_dir">
+            <property name="activates-default">1</property>
+            <property name="title" translatable="yes">Repository Name</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="non_journaling_warning">
+            <property name="visible">0</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
+            <property name="margin-top">24</property>
             <child>
-              <object class="AdwPreferencesPage">
-                <property name="vexpand">1</property>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Warning</property>
+                <property name="xalign">0</property>
+                <attributes>
+                  <attribute name="weight" value="bold"></attribute>
+                </attributes>
                 <style>
-                  <class name="dialog-page" />
+                  <class name="warning" />
                 </style>
-                <child>
-                  <object class="AdwPreferencesGroup" id="location_group_local">
-                    <property name="title" translatable="yes">Location</property>
-                    <child type="header-suffix">
-                      <object class="GtkToggleButton" id="show_settings">
-                        <property name="icon-name">gear-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Advanced Options</property>
-                        <style>
-                          <class name="flat" />
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="PkFolderRow" id="location_folder_row">
-                        <property name="title" translatable="yes">Repository Folder</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwEntryRow" id="init_dir">
-                        <property name="activates-default">1</property>
-                        <property name="title" translatable="yes">Repository Name</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="non_journaling_warning">
-                        <property name="visible">0</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">6</property>
-                        <property name="margin-top">24</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Warning</property>
-                            <property name="xalign">0</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"></attribute>
-                            </attributes>
-                            <style>
-                              <class name="warning" />
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Backups to the selected location could be corrupted if the device is disconnected or powered down with a backup in progress. If possible, reformat the backup location with a format like “NTFS” or “Ext4.” Note that reformatting deletes all files on the location!</property>
-                            <property name="wrap">1</property>
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="dim-label" />
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwPreferencesGroup" id="location_group_remote">
-                    <property name="title" translatable="yes">Location</property>
-                    <property name="visible">0</property>
-                    <child type="header-suffix">
-                      <object class="GtkToggleButton">
-                        <property name="icon-name">gear-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Advanced Options</property>
-                        <property name="active" bind-source="show_settings" bind-property="active" bind-flags="sync-create|bidirectional" />
-                        <style>
-                          <class name="flat" />
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwEntryRow" id="location_url">
-                        <property name="hexpand">1</property>
-                        <property name="activates-default">1</property>
-                        <property name="title" translatable="yes">Repository URL</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="margin-top">24</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">3</property>
-                        <style>
-                          <class name="card" />
-                          <class name="info-card" />
-                        </style>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Examples</property>
-                            <property name="wrap">1</property>
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="heading" />
-                              <class name="accent" />
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">ssh://user@server.example.org/~/backup&#10;smb://user@server.example.org/files/backup</property>
-                            <property name="wrap">1</property>
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Conventional Locations</property>
-                            <property name="margin-top">6</property>
-                            <property name="wrap">1</property>
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="heading" />
-                              <class name="accent" />
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">SMB and SFTP remote-backup locations can be provided as a URL with the “smb://” or “sftp://” protocol prefix.</property>
-                            <property name="wrap">1</property>
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Locations With BorgBackup Support</property>
-                            <property name="margin-top">6</property>
-                            <property name="wrap">1</property>
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="heading" />
-                              <class name="accent" />
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Locations with explicit BorgBackup support can provide better performance. They are special in that the server has a BorgBackup binary installed. For those locations, either the “&lt;server address&gt;:&lt;folder&gt;” syntax or the “ssh://” prefix can be used.</property>
-                            <property name="wrap">1</property>
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwPreferencesGroup">
-                    <property name="title" translatable="yes">Additional Command Line Arguments</property>
-                    <property name="description" translatable="yes">These arguments will be added to the call of the borg binary. Only long options, starting with “--”, are supported.</property>
-                    <property name="visible" bind-source="show_settings" bind-property="active" bind-flags="sync-create" />
-                    <child>
-                      <object class="AdwEntryRow" id="command_line_args_entry">
-                        <property name="title" translatable="yes">Command Line Arguments</property>
-                        <property name="text" />
-                        <style>
-                          <class name="monospace" />
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                </child>
               </object>
             </child>
-            <child type="overlay">
-              <object class="GtkStack" id="button_stack">
-                <property name="hhomogeneous">0</property>
-                <property name="halign">center</property>
-                <property name="valign">end</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Backups to the selected location could be corrupted if the device is disconnected or powered down with a backup in progress. If possible, reformat the backup location with a format like “NTFS” or “Ext4.” Note that reformatting deletes all files on the location!</property>
+                <property name="wrap">1</property>
+                <property name="xalign">0</property>
+                <style>
+                  <class name="dim-label" />
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwButtonRow">
+            <property name="title" translatable="yes">Advanced Options</property>
+            <property name="end-icon-name">go-next-symbolic</property>
+            <signal name="activated" handler="push_advanced_options" swapped="true" />
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="location_group_remote">
+        <property name="separate-rows">True</property>
+        <property name="visible">0</property>
+        <child>
+          <object class="AdwEntryRow" id="location_url">
+            <property name="hexpand">1</property>
+            <property name="activates-default">1</property>
+            <property name="title" translatable="yes">Repository URL</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="activatable">False</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">3</property>
+                <style>
+                  <class name="info-card" />
+                </style>
                 <child>
-                  <object class="GtkStackPage">
-                    <property name="child">
-                      <object class="GtkButton" id="add_button">
-                        <property name="use-underline">1</property>
-                        <property name="label" translatable="yes">_Connect</property>
-                        <signal name="clicked" handler="on_add_button" swapped="true"/>
-                        <style>
-                          <class name="pill" />
-                          <class name="suggested-action" />
-                          <class name="dialog-pill" />
-                        </style>
-                      </object>
-                    </property>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Examples</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="heading" />
+                      <class name="accent" />
+                    </style>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkStackPage">
-                    <property name="child">
-                      <object class="GtkButton" id="continue_button">
-                        <property name="use-underline">1</property>
-                        <property name="label" translatable="yes">_Continue</property>
-                        <signal name="clicked" handler="on_continue_button" swapped="true"/>
-                        <style>
-                          <class name="pill" />
-                          <class name="suggested-action" />
-                          <class name="dialog-pill" />
-                        </style>
-                      </object>
-                    </property>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">ssh://user@server.example.org/~/backup&#10;smb://user@server.example.org/files/backup</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Conventional Locations</property>
+                    <property name="margin-top">6</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="heading" />
+                      <class name="accent" />
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">SMB and SFTP remote-backup locations can be provided as a URL with the “smb://” or “sftp://” protocol prefix.</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Locations With BorgBackup Support</property>
+                    <property name="margin-top">6</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="heading" />
+                      <class name="accent" />
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Locations with explicit BorgBackup support can provide better performance. They are special in that the server has a BorgBackup binary installed. For those locations, either the “&lt;server address&gt;:&lt;folder&gt;” syntax or the “ssh://” prefix can be used.</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
                   </object>
                 </child>
               </object>
             </child>
           </object>
-        </property>
+        </child>
+        <child>
+          <object class="AdwButtonRow">
+            <property name="title" translatable="yes">Advanced Options</property>
+            <property name="end-icon-name">go-next-symbolic</property>
+            <signal name="activated" handler="push_advanced_options" swapped="true" />
+          </object>
+        </child>
       </object>
-    </property>
+    </child>
+    <child>
+      <object class="GtkStack" id="button_stack">
+        <property name="hhomogeneous">0</property>
+        <property name="halign">center</property>
+        <property name="valign">end</property>
+        <child>
+          <object class="GtkStackPage">
+            <property name="child">
+              <object class="GtkButton" id="add_button">
+                <property name="use-underline">1</property>
+                <property name="label" translatable="yes">_Connect</property>
+                <signal name="clicked" handler="on_add_button" swapped="true"/>
+                <style>
+                  <class name="pill" />
+                  <class name="suggested-action" />
+                </style>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkStackPage">
+            <property name="child">
+              <object class="GtkButton" id="continue_button">
+                <property name="use-underline">1</property>
+                <property name="label" translatable="yes">_Continue</property>
+                <signal name="clicked" handler="on_continue_button" swapped="true"/>
+                <style>
+                  <class name="pill" />
+                  <class name="suggested-action" />
+                </style>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
   </template>
 </interface>

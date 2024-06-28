@@ -6,16 +6,12 @@ use adw::subclass::prelude::*;
 mod imp {
     use super::*;
     use crate::config;
-    use std::marker::PhantomData;
+    use std::cell::Cell;
 
     #[derive(Debug, Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "encryption_preferences_group.ui")]
     #[properties(wrapper_type = super::EncryptionPreferencesGroup)]
     pub struct EncryptionPreferencesGroup {
-        #[template_child]
-        encrypted_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        unencrypted_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         password_entry: TemplateChild<adw::PasswordEntryRow>,
         #[template_child]
@@ -23,8 +19,8 @@ mod imp {
         #[template_child]
         password_quality_bar: TemplateChild<gtk::LevelBar>,
 
-        #[property(get = Self::encrypted, set = Self::set_encrypted)]
-        encrypted: PhantomData<bool>,
+        #[property(get, set)]
+        encrypted: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -71,13 +67,19 @@ mod imp {
     #[gtk::template_callbacks]
     impl EncryptionPreferencesGroup {
         #[template_callback]
-        pub fn reset(&self) {
+        pub fn on_switch_active(&self) {
+            if !self.encrypted.get() {
+                self.reset();
+            }
+        }
+
+        pub(super) fn reset(&self) {
             self.password_entry.set_text("");
             self.password_confirm_entry.set_text("");
         }
 
         pub fn validated_password(&self) -> Result<Option<config::Password>> {
-            if self.encrypted() {
+            if self.encrypted.get() {
                 let password = self.password_entry.text().to_string();
                 if password.is_empty() {
                     return Err(Message::new(
@@ -137,20 +139,6 @@ mod imp {
                 self.password_confirm_entry.remove_css_class("success");
                 self.password_confirm_entry.remove_css_class("warning");
             }
-        }
-
-        fn set_encrypted(&self, encrypted: bool) {
-            if encrypted {
-                self.encrypted_button.set_active(true);
-            } else {
-                self.unencrypted_button.set_active(true);
-                self.password_entry.set_text("");
-                self.password_confirm_entry.set_text("");
-            }
-        }
-
-        fn encrypted(&self) -> bool {
-            self.encrypted_button.is_active()
         }
     }
 }

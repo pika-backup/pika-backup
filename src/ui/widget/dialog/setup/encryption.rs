@@ -10,15 +10,16 @@ mod imp {
     use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
-    use crate::ui::{error::HandleError, widget::dialog_page::PkDialogPageImpl};
+    use crate::ui::{
+        error::HandleError,
+        widget::dialog_page::{DialogPagePropertiesExt, PkDialogPageImpl},
+    };
 
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "encryption.ui")]
     pub struct SetupEncryptionPage {
-        #[template_child]
-        page: TemplateChild<adw::PreferencesPage>,
         #[template_child]
         pub(super) encryption_preferences_group: TemplateChild<EncryptionPreferencesGroup>,
     }
@@ -52,12 +53,11 @@ mod imp {
         fn constructed(&self) {
             // TODO
             self.encryption_preferences_group.set_title("");
-            self.page.set_description(
-                &self
-                    .encryption_preferences_group
+            self.obj().set_subtitle(Some(
+                self.encryption_preferences_group
                     .description()
                     .unwrap_or_default(),
-            );
+            ));
             self.encryption_preferences_group.set_description(None);
         }
     }
