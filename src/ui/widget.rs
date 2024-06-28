@@ -15,7 +15,7 @@ pub use detail::{
     frequency, prune_preset, weekday, ArchivesPage, BackupPage, DetailPage, SchedulePage,
     ScheduleStatus,
 };
-pub use dialog_page::{DialogPage, DialogPageExt};
+pub use dialog_page::{DialogPage, DialogPagePropertiesExt};
 pub use encryption_settings::EncryptionSettings;
 use folder_row::FolderRow;
 pub use location_tag::LocationTag;
