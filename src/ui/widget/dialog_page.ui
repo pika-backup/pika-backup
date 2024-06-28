@@ -21,13 +21,18 @@
               <object class="AdwClamp">
                 <property name="child">
                   <object class="GtkBox">
+                    <accessibility>
+                      <relation name="labelled-by">title_label</relation>
+                      <relation name="described-by">subtitle_label</relation>
+                    </accessibility>
                     <style>
                       <class name="container" />
                     </style>
                     <property name="valign">center</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkLabel" id="title">
+                      <object class="GtkLabel" id="title_label">
+                        <property name="accessible-role">caption</property>
                         <property name="label" bind-source="PkDialogPage" bind-property="title"/>
                         <property name="wrap">True</property>
                         <property name="justify">center</property>
