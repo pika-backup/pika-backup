@@ -1,6 +1,5 @@
 use crate::ui::prelude::*;
 use adw::prelude::*;
-use adw::subclass::navigation_page::NavigationPageImplExt;
 use adw::subclass::prelude::*;
 
 use super::types::*;
@@ -16,8 +15,7 @@ mod imp {
     use crate::ui::{
         error::HandleError,
         widget::{
-            dialog_page::{DialogPagePropertiesExt, PkDialogPageImpl},
-            folder_row::FolderRow,
+            dialog_page::PkDialogPageImpl, folder_row::FolderRow,
             setup::advanced_options::SetupAdvancedOptionsPage,
         },
     };

@@ -11,10 +11,9 @@ use crate::ui::prelude::*;
 const LISTED_URI_SCHEMES: &[&str] = &["file", "smb", "sftp", "ssh"];
 
 mod imp {
-    use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
-    use self::ui::widget::dialog_page::{DialogPagePropertiesExt, PkDialogPageImpl};
+    use self::ui::widget::dialog_page::PkDialogPageImpl;
 
     use super::*;
     use std::{cell::Cell, sync::OnceLock};
