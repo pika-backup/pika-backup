@@ -322,10 +322,6 @@ mod imp {
             config: config::Backup,
             password: Option<config::Password>,
         ) {
-            if self.busy.replace(true) {
-                return;
-            }
-
             self.set_new_config(Some(config.clone()));
 
             if let Some(password) = password {
@@ -333,7 +329,6 @@ mod imp {
             }
 
             self.show_transfer_settings(config).await;
-            self.busy.set(false);
         }
 
         /// Something went wrong when trying to access the repository.
@@ -363,6 +358,11 @@ mod imp {
             let error =
                 crate::ui::error::Message::new(gettext("Failed to Configure Repository"), error);
             error.show_transient_for(&*self.obj()).await;
+        }
+
+        #[template_callback]
+        fn on_add_existing_page_hidden(&self) {
+            self.busy.set(false);
         }
 
         // Transfer settings
