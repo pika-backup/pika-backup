@@ -48,11 +48,12 @@ mod imp {
             self.parent_constructed();
 
             self.password_quality_bar
-                .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 7.0);
+                .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 1.0);
+            self.password_quality_bar.add_offset_value("mid", 2.0);
             self.password_quality_bar
-                .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
+                .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 3.0);
             self.password_quality_bar
-                .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 3.0);
+                .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 5.0);
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
@@ -109,20 +110,7 @@ mod imp {
 
         pub fn score_password(password: &str) -> f64 {
             if let Ok(pw_check) = zxcvbn::zxcvbn(password, &[]) {
-                if pw_check.score() > 3 {
-                    let n = pw_check.guesses_log10();
-                    if (12.0..13.0).contains(&n) {
-                        5.
-                    } else if (13.0..14.0).contains(&n) {
-                        6.
-                    } else if n > 14.0 {
-                        7.
-                    } else {
-                        4.
-                    }
-                } else {
-                    pw_check.score() as f64
-                }
+                pw_check.score() as f64 + 1.
             } else {
                 0.
             }
