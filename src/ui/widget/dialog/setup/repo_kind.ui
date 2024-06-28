@@ -3,40 +3,26 @@
   <requires lib="gtk" version="4.10" />
   <requires lib="libadwaita" version="1.4" />
   <template class="PkSetupRepoKindPage" parent="PkDialogPage">
-    <property name="title" translatable="yes">Setup</property>
+    <property name="title" translatable="yes">Set Up Backup Repository</property>
     <property name="can-pop">0</property>
-    <property name="child">
-      <object class="AdwToolbarView">
-        <child type="top">
-          <object class="AdwHeaderBar" />
-        </child>
-        <property name="content">
-          <object class="AdwPreferencesPage">
-            <property name="valign">center</property>
-            <property name="description" translatable="yes">Configure a new or existing backup repository</property>
-            <property name="description-centered">True</property>
-            <child>
-              <object class="AdwPreferencesGroup">
-                <property name="separate-rows">True</property>
-                <child>
-                  <object class="AdwButtonRow">
-                    <property name="title" translatable="yes">Create New Repository</property>
-                    <signal name="activated" handler="on_create_new" swapped="true"/>
-                    <property name="end-icon-name">go-next-symbolic</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="AdwButtonRow">
-                    <property name="title" translatable="yes">Use Existing Repository</property>
-                    <signal name="activated" handler="on_use_existing" swapped="true"/>
-                    <property name="end-icon-name">go-next-symbolic</property>
-                  </object>
-                </child>
-              </object>
-            </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="separate-rows">True</property>
+        <child>
+          <object class="AdwButtonRow">
+            <property name="title" translatable="yes">Create New Repository</property>
+            <signal name="activated" handler="on_create_new" swapped="true"/>
+            <property name="end-icon-name">go-next-symbolic</property>
           </object>
-        </property>
+        </child>
+        <child>
+          <object class="AdwButtonRow">
+            <property name="title" translatable="yes">Use Existing Repository</property>
+            <signal name="activated" handler="on_use_existing" swapped="true"/>
+            <property name="end-icon-name">go-next-symbolic</property>
+          </object>
+        </child>
       </object>
-    </property>
+    </child>
   </template>
 </interface>

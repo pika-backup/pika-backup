@@ -1,5 +1,6 @@
 mod actions;
 mod add_existing;
+mod advanced_options;
 mod create_new;
 mod encryption;
 mod location;
@@ -14,6 +15,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use add_existing::SetupAddExistingPage;
+use advanced_options::SetupAdvancedOptionsPage;
 use create_new::SetupCreateNewPage;
 use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
@@ -98,6 +100,8 @@ mod imp {
         type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
+            SetupAdvancedOptionsPage::ensure_type();
+
             klass.bind_template();
             klass.bind_template_callbacks();
         }

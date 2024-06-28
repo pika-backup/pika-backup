@@ -14,7 +14,7 @@ mod imp {
     use adw::subclass::navigation_page::NavigationPageImplExt;
     use glib::subclass::Signal;
 
-    use self::ui::widget::dialog_page::PkDialogPageImpl;
+    use self::ui::widget::dialog_page::{DialogPagePropertiesExt, PkDialogPageImpl};
 
     use super::*;
     use std::{cell::Cell, sync::OnceLock};
@@ -27,9 +27,7 @@ mod imp {
         repo_action: Cell<SetupAction>,
 
         #[template_child]
-        page: TemplateChild<adw::PreferencesPage>,
-        #[template_child]
-        create_new_group: TemplateChild<adw::PreferencesGroup>,
+        create_new_group: TemplateChild<gtk::Box>,
         #[template_child]
         init_repo_list: TemplateChild<gtk::ListBox>,
         #[template_child]
@@ -38,7 +36,7 @@ mod imp {
         init_remote_row: TemplateChild<adw::ActionRow>,
 
         #[template_child]
-        add_existing_group: TemplateChild<adw::PreferencesGroup>,
+        add_existing_group: TemplateChild<gtk::Box>,
         #[template_child]
         add_repo_list: TemplateChild<gtk::ListBox>,
         #[template_child]
@@ -139,15 +137,13 @@ mod imp {
             match action {
                 SetupAction::Init => {
                     self.obj().set_title(&gettext("Create New Repository"));
-                    self.page.set_description(&gettext(
-                        "Select a location for the new backup repository",
-                    ));
+                    self.obj().set_subtitle(None::<&str>);
                 }
                 SetupAction::AddExisting => {
                     self.obj().set_title(&gettext("Use Existing Repository"));
-                    self.page.set_description(&gettext(
+                    self.obj().set_subtitle(Some(gettext(
                         "Select a location that contains an existing backup repository. Repositories created with other BorgBackup compatible software can be used as well."
-                    ));
+                    )));
                 }
             }
 
