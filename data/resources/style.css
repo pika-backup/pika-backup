@@ -31,14 +31,40 @@ button.dialog-pill {
   margin-bottom: 24px;
 }
 
+/* This matches with pref pages margin: 24px 12px.
+ * However we split it up and give the children 6px margin instead
+ * so that we can subsequently remove it for revealers to avoid clipping
+ */
 .dialog-page .container {
-  margin: 24px 12px;
-  border-spacing: 12px;
+  margin: 18px 0;
+  border-spacing: 0;
 }
 
+/* We only need this for .content */
+.dialog-page .container > .header {
+  margin: 6px;
+}
+
+.dialog-page .container > .description {
+  margin: 6px;
+}
+
+/* Handle nested boxes */
+.dialog-page .content > *:not(box),
+.dialog-page .content > box > *:not(revealer) {
+  margin: 6px;
+}
+
+/* Giving a revealer padding does not look very nice, so we give the child a margin instead */
+.dialog-page .content > revealer > *,
+.dialog-page .content > box > revealer > * {
+  margin: 6px;
+}
+
+/* We want a spacing of 24px, but 12 of those are used for margin above instead */
 .dialog-page .content {
   margin-top: 12px;
-  border-spacing: 24px;
+  border-spacing: 12px;
 }
 
 /* AdwActionRow prefix images */
