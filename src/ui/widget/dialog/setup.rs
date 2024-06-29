@@ -1,6 +1,7 @@
 mod actions;
 mod add_existing;
 mod advanced_options;
+mod ask_password;
 mod create_new;
 mod encryption;
 mod location;
@@ -16,6 +17,7 @@ use adw::subclass::prelude::*;
 
 use add_existing::SetupAddExistingPage;
 use advanced_options::SetupAdvancedOptionsPage;
+use ask_password::SetupAskPasswordPage;
 use create_new::SetupCreateNewPage;
 pub use encryption::SetupEncryptionPage;
 use location::SetupLocationPage;
@@ -79,6 +81,10 @@ mod imp {
         // Add existing repo page
         #[template_child]
         pub(super) add_existing_page: TemplateChild<SetupAddExistingPage>,
+
+        // Ask password page
+        #[template_child]
+        pub(super) ask_password_page: TemplateChild<SetupAskPasswordPage>,
 
         // Transfer settings page
         #[template_child]
@@ -230,7 +236,7 @@ mod imp {
                         return;
                     };
 
-                    self.show_add_existing_repo_page(repo);
+                    self.show_add_existing_repo_page(repo, None);
                     return;
                 }
                 (SetupAction::AddExisting, SetupLocationKind::Remote, _) => {}
@@ -270,7 +276,7 @@ mod imp {
                     }
                     SetupAction::AddExisting => {
                         // Try to access the repository
-                        self.show_add_existing_repo_page(repo);
+                        self.show_add_existing_repo_page(repo, None);
                     }
                 }
             }
@@ -311,24 +317,49 @@ mod imp {
 
         // Add existing page
 
-        fn show_add_existing_repo_page(&self, repo: config::Repository) {
-            self.navigation_view.push(&*self.add_existing_page);
-            self.add_existing_page.check_and_add_repo(repo);
-        }
-
-        #[template_callback]
-        async fn on_add_existing_page_continue(
+        fn show_add_existing_repo_page(
             &self,
-            config: config::Backup,
+            repo: config::Repository,
             password: Option<config::Password>,
         ) {
-            self.set_new_config(Some(config.clone()));
+            self.navigation_view.push(&*self.add_existing_page);
 
-            if let Some(password) = password {
-                self.handle_result(self.save_password(&config, password).await);
+            glib::spawn_future_local(glib::clone!(
+                #[strong(rename_to = imp)]
+                self.ref_counted(),
+                async move {
+                    imp.add_existing_repo(repo, password).await;
+                }
+            ));
+        }
+
+        async fn add_existing_repo(
+            &self,
+            repo: config::Repository,
+            password: Option<config::Password>,
+        ) {
+            let result = self
+                .add_existing_page
+                .check_repo(repo, password.clone())
+                .await;
+
+            match result {
+                Ok(config) => {
+                    self.set_new_config(Some(config.clone()));
+
+                    if let Some(password) = &password {
+                        self.handle_result(self.save_password(&config, password).await);
+                    }
+
+                    self.show_transfer_settings(config).await;
+                }
+                Err(actions::ConnectRepoError::PasswordWrong) => {
+                    self.show_ask_password_page();
+                }
+                Err(actions::ConnectRepoError::Error(err)) => {
+                    self.on_add_existing_page_error(&err.to_string()).await;
+                }
             }
-
-            self.show_transfer_settings(config).await;
         }
 
         /// Something went wrong when trying to access the repository.
@@ -360,9 +391,34 @@ mod imp {
             error.show_transient_for(&*self.obj()).await;
         }
 
+        // Ask Password
+
+        /// Ask for the password when adding an existing repo
+        ///
+        /// We don't want the add page in the stack here
+        fn show_ask_password_page(&self) {
+            self.navigation_view.set_animate_transitions(false);
+            self.navigation_view.pop();
+            self.navigation_view.push(&*self.ask_password_page);
+            self.navigation_view.set_animate_transitions(false);
+        }
+
         #[template_callback]
-        fn on_add_existing_page_hidden(&self) {
-            self.busy.set(false);
+        fn on_ask_password_page_continue(&self, password: config::Password) {
+            self.navigation_view.set_animate_transitions(false);
+            self.navigation_view.pop();
+            self.navigation_view.push(&*self.add_existing_page);
+            self.navigation_view.set_animate_transitions(false);
+
+            if let Some(repo) = self.repo_config.borrow().clone() {
+                glib::spawn_future_local(glib::clone!(
+                    #[strong(rename_to = imp)]
+                    self.ref_counted(),
+                    #[strong]
+                    repo,
+                    async move { imp.add_existing_repo(repo, Some(password)).await }
+                ));
+            }
         }
 
         // Transfer settings
@@ -460,7 +516,7 @@ mod imp {
             self.set_new_config(Some(config.clone()));
 
             if let Some(password) = password {
-                self.handle_result(self.save_password(&config, password).await);
+                self.handle_result(self.save_password(&config, &password).await);
             }
 
             // Everything is done, we have a new repo
@@ -501,9 +557,9 @@ mod imp {
         async fn save_password(
             &self,
             config: &crate::config::Backup,
-            password: config::Password,
+            password: &config::Password,
         ) -> Result<()> {
-            if let Err(err) = ui::utils::password_storage::store_password(config, &password).await {
+            if let Err(err) = ui::utils::password_storage::store_password(config, password).await {
                 // Error when storing the password.
                 // We don't fail the process here. Sometimes the keyring is just broken and people
                 // still want to access their backup archives.

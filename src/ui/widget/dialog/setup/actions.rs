@@ -100,6 +100,24 @@ pub enum ConnectRepoError {
     Error(crate::ui::error::Combined),
 }
 
+impl std::fmt::Display for ConnectRepoError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ConnectRepoError::PasswordWrong => write!(f, "{}", gettext("Invalid Password")),
+            ConnectRepoError::Error(err) => err.fmt(f),
+        }
+    }
+}
+
+impl std::error::Error for ConnectRepoError {
+    fn cause(&self) -> Option<&dyn std::error::Error> {
+        match self {
+            ConnectRepoError::PasswordWrong => None,
+            ConnectRepoError::Error(err) => Some(err),
+        }
+    }
+}
+
 /// Validate the password of the repository and try to fetch an archive list.
 pub async fn try_peek(
     repo: config::Repository,
