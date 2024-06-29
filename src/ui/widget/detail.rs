@@ -76,7 +76,15 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for DetailPage {}
+    impl WidgetImpl for DetailPage {
+        fn grab_focus(&self) -> bool {
+            if let Some(child) = self.detail_stack.visible_child() {
+                child.grab_focus()
+            } else {
+                self.parent_grab_focus()
+            }
+        }
+    }
     impl NavigationPageImpl for DetailPage {
         fn hidden(&self) {
             self.showing.set(false);
