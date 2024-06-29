@@ -15,8 +15,8 @@ mod imp {
     use crate::ui::{
         error::HandleError,
         widget::{
-            dialog_page::PkDialogPageImpl, folder_row::FolderRow,
-            setup::advanced_options::SetupAdvancedOptionsPage,
+            folder_row::FolderRow, setup::advanced_options::SetupAdvancedOptionsPage,
+            PkDialogPageImpl,
         },
     };
 

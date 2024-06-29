@@ -12,7 +12,7 @@ mod imp {
     use glib::subclass::Signal;
     use itertools::Itertools;
 
-    use crate::ui::widget::dialog_page::PkDialogPageImpl;
+    use crate::ui::widget::PkDialogPageImpl;
 
     use super::*;
 

@@ -7,7 +7,7 @@ use super::SetupAction;
 mod imp {
     use glib::subclass::Signal;
 
-    use crate::ui::widget::dialog_page::PkDialogPageImpl;
+    use crate::ui::widget::PkDialogPageImpl;
 
     use super::*;
     use std::{cell::Cell, sync::OnceLock};

@@ -13,7 +13,7 @@ const LISTED_URI_SCHEMES: &[&str] = &["file", "smb", "sftp", "ssh"];
 mod imp {
     use glib::subclass::Signal;
 
-    use self::ui::widget::dialog_page::PkDialogPageImpl;
+    use self::ui::widget::PkDialogPageImpl;
 
     use super::*;
     use std::{cell::Cell, sync::OnceLock};

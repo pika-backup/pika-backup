@@ -5,7 +5,7 @@ use adw::subclass::prelude::*;
 use super::SetupCommandLineArgs;
 
 mod imp {
-    use crate::ui::widget::{dialog_page::PkDialogPageImpl, setup::SetupCommandLineArgs};
+    use crate::ui::widget::{setup::SetupCommandLineArgs, PkDialogPageImpl};
 
     use super::*;
 

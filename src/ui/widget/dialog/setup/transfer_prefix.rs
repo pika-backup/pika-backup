@@ -9,7 +9,7 @@ mod imp {
 
     use glib::subclass::Signal;
 
-    use crate::{config, ui::widget::dialog_page::PkDialogPageImpl};
+    use crate::{config, ui::widget::PkDialogPageImpl};
 
     use super::*;
 
