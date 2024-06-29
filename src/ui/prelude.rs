@@ -8,7 +8,7 @@ pub use crate::ui::globals::*;
 pub use crate::ui::status::QuitGuard;
 pub use crate::ui::utils::ext::*;
 pub use crate::ui::utils::{Logable, LookupActiveConfigId, SummarizeOperations};
-pub use crate::ui::widget::{DialogPage, DialogPagePropertiesExt};
+pub use crate::ui::widget::{DialogPage, DialogPagePropertiesExt, SpinnerPagePropertiesExt};
 
 use arc_swap::ArcSwap;
 pub use glib::clone;
