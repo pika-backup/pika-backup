@@ -18,6 +18,8 @@ mod imp {
         icon_name: RefCell<Option<String>>,
 
         #[template_child]
+        status_page: TemplateChild<adw::StatusPage>,
+        #[template_child]
         spinner: TemplateChild<gtk::Spinner>,
     }
 
@@ -40,7 +42,11 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for SpinnerPage {}
     impl WidgetImpl for SpinnerPage {}
-    impl NavigationPageImpl for SpinnerPage {}
+    impl NavigationPageImpl for SpinnerPage {
+        fn shown(&self) {
+            self.status_page.grab_focus();
+        }
+    }
     impl BuildableImpl for SpinnerPage {}
 
     impl SpinnerPage {}
