@@ -181,6 +181,7 @@ impl AppWindow {
 
         if imp.navigation_view.visible_page().as_ref() != Some(imp.page_detail.upcast_ref()) {
             imp.navigation_view.push(&main_ui().page_detail());
+            imp.page_detail.grab_focus();
         }
     }
 }
