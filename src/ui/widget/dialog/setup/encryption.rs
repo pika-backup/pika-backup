@@ -9,7 +9,7 @@ mod imp {
 
     use glib::subclass::Signal;
 
-    use crate::ui::{error::HandleError, widget::dialog_page::PkDialogPageImpl};
+    use crate::ui::{error::HandleError, widget::PkDialogPageImpl};
 
     use super::*;
 

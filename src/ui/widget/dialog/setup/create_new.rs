@@ -3,7 +3,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use crate::ui::widget::dialog_page::PkDialogPageImpl;
+    use crate::ui::widget::PkDialogPageImpl;
 
     use super::*;
 

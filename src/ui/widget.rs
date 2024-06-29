@@ -1,10 +1,10 @@
 mod app_window;
 mod detail;
 pub mod dialog;
-mod dialog_page;
 mod encryption_settings;
 mod folder_row;
 mod location_tag;
+mod navigation;
 mod overview;
 mod status_icon;
 mod status_row;
@@ -15,7 +15,6 @@ pub use detail::{
     frequency, prune_preset, weekday, ArchivesPage, BackupPage, DetailPage, SchedulePage,
     ScheduleStatus,
 };
-pub use dialog_page::{DialogPage, DialogPagePropertiesExt};
 pub use encryption_settings::EncryptionSettings;
 use folder_row::FolderRow;
 pub use location_tag::LocationTag;
@@ -25,6 +24,7 @@ pub use status_row::StatusRow;
 pub use wrap_box::WrapBox;
 
 pub use dialog::*;
+pub use navigation::*;
 
 use glib::prelude::*;
 
@@ -38,7 +38,6 @@ pub fn init() {
     DetailPage::static_type();
     EncryptionSettings::static_type();
     FolderRow::static_type();
-    DialogPage::static_type();
     OverviewPage::static_type();
     SchedulePage::static_type();
     StatusIcon::static_type();
@@ -48,4 +47,5 @@ pub fn init() {
 
     setup::SetupEncryptionPage::ensure_type();
     dialog::init();
+    navigation::init();
 }
