@@ -1,28 +1,23 @@
 use crate::ui::prelude::*;
-use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use crate::ui::widget::PkDialogPageImpl;
+    use crate::ui::widget::{PkSpinnerPageImpl, SpinnerPage};
 
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "create_new.ui")]
-    pub struct SetupCreateNewPage {
-        #[template_child]
-        creating_repository_spinner: TemplateChild<gtk::Spinner>,
-    }
+    pub struct SetupCreateNewPage {}
 
     #[glib::object_subclass]
     impl ObjectSubclass for SetupCreateNewPage {
         const NAME: &'static str = "PkSetupCreateNewPage";
         type Type = super::SetupCreateNewPage;
-        type ParentType = DialogPage;
+        type ParentType = SpinnerPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -30,18 +25,11 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for SetupCreateNewPage {
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.creating_repository_spinner.connect_map(|s| s.start());
-            self.creating_repository_spinner.connect_unmap(|s| s.stop());
-        }
-    }
+    impl ObjectImpl for SetupCreateNewPage {}
     impl WidgetImpl for SetupCreateNewPage {}
     impl NavigationPageImpl for SetupCreateNewPage {}
-    impl PkDialogPageImpl for SetupCreateNewPage {}
+    impl PkSpinnerPageImpl for SetupCreateNewPage {}
 
-    #[gtk::template_callbacks]
     impl SetupCreateNewPage {}
 }
 
