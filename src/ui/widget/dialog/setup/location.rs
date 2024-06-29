@@ -89,6 +89,7 @@ mod imp {
     impl NavigationPageImpl for SetupLocationPage {
         fn shown(&self) {
             self.parent_shown();
+            self.on_folder_changed();
 
             match self.location_kind.get() {
                 SetupLocationKind::Local => {
@@ -116,6 +117,19 @@ mod imp {
         fn push_advanced_options(&self) {
             if let Some(view) = self.navigation_view.upgrade() {
                 view.push(&*self.advanced_options_page);
+            }
+        }
+
+        #[template_callback]
+        fn on_folder_changed(&self) {
+            let folder = self.location_folder_row.file();
+
+            if folder.is_some() {
+                self.location_folder_row
+                    .set_title(&gettext("Repository Folder"));
+            } else {
+                self.location_folder_row
+                    .set_title(&gettext("Choose Repository Folder"));
             }
         }
 

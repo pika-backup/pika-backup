@@ -10,7 +10,7 @@
         <property name="separate-rows">True</property>
         <child>
           <object class="PkFolderRow" id="location_folder_row">
-            <property name="title" translatable="yes">Repository Folder</property>
+            <signal name="notify::file" handler="on_folder_changed" swapped="true" />
           </object>
         </child>
         <child>
@@ -52,6 +52,7 @@
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Advanced Options</property>
+            <property name="accessible-role">button</property>
             <property name="activatable">True</property>
             <child type="suffix">
               <object class="GtkImage">
