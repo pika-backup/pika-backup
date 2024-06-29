@@ -13,7 +13,7 @@ mod imp {
     #[template(file = "spinner_page.ui")]
     pub struct SpinnerPage {
         #[property(get, set, nullable)]
-        subtitle: RefCell<Option<String>>,
+        description: RefCell<Option<String>>,
         #[property(get, set, nullable)]
         icon_name: RefCell<Option<String>>,
 
