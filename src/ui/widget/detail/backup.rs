@@ -162,7 +162,12 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for BackupPage {}
+    impl WidgetImpl for BackupPage {
+        fn grab_focus(&self) -> bool {
+            self.backup_button.grab_focus()
+        }
+    }
+
     impl PreferencesPageImpl for BackupPage {}
 
     impl BackupPage {}

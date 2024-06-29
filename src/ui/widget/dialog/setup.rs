@@ -132,17 +132,25 @@ mod imp {
     impl AdwDialogImpl for SetupDialog {
         fn close_attempt(&self) {
             self.parent_close_attempt();
-            debug!("close attempt");
             if let Some(config) = self.new_config.take() {
                 // Save the new config
                 let obj = self.obj().clone();
                 Handler::run(async move {
                     let imp = obj.imp();
                     imp.handle_result(imp.save_backup_config(&config).await);
+
                     obj.force_close();
 
+                    let window = App::default().main_window();
+
                     // Display a newly added backup in the main window if successful
-                    App::default().main_window().view_backup_conf(&config.id);
+                    window.view_backup_conf(&config.id);
+
+                    window.announce(
+                        // Translators: Announced to accessibility devices when setup dialog has finished
+                        &gettext("Backup Repository Added Successfully"),
+                        gtk::AccessibleAnnouncementPriority::Medium,
+                    );
 
                     Ok(())
                 })
