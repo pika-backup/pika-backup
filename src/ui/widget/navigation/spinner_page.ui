@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PkSpinnerPage" parent="AdwNavigationPage">
+    <property name="can-pop">False</property>
+    <style>
+      <class name="spinner-page" />
+    </style>
+    <property name="child">
+      <object class="AdwToolbarView" id="toolbar_view">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show_start_title_buttons">False</property>
+            <property name="show_end_title_buttons">False</property>
+            <property name="title-widget">
+              <object class="AdwBin"/>
+            </property>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwStatusPage" id="status_page">
+            <property name="vexpand">true</property>
+            <property name="icon-name" bind-source="PkSpinnerPage" bind-property="icon-name" />
+            <property name="title" bind-source="PkSpinnerPage" bind-property="title" />
+            <property name="subtitle" bind-source="PkSpinnerPage" bind-property="subtitle" />
+            <child>
+              <object class="GtkSpinner" id="spinner">
+                <property name="width-request">32</property>
+                <property name="height-request">32</property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>
