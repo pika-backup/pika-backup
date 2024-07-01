@@ -5,7 +5,7 @@
 - Fix timestamps not respecting 12h/24h clock format setting
 - Change fnmatches to be stored as strings instead of bytes in config
 
-## 0.7.3 (unreleased)
+## 0.7.3 (2024-07-01)
 
 - Fix backups being aborted on battery if running on battery was explicitly allowed
 - Fix local backups are considered metered
