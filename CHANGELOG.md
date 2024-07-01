@@ -13,7 +13,7 @@
 - Change to use AdwAboutDialog
 - Change to use AdwDialog for all dialogs
 
-## 0.7.3 (unreleased)
+## 0.7.3 (2024-07-01)
 
 - Fix backups being aborted on battery if running on battery was explicitly allowed
 - Fix local backups are considered metered
