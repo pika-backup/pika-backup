@@ -5,9 +5,9 @@ cd "$(dirname "$0")/.."
 yq -o json '
     .["id"] += ".Devel" |
     .["desktop-file-name-suffix"] = " 🚧" |
-    .["sdk-extensions"] += "org.freedesktop.Sdk.Extension.llvm16" |
+    .["sdk-extensions"] += "org.freedesktop.Sdk.Extension.llvm18" |
     .["build-options"] += {"build-args": ["--share=network"]} |
-    .["build-options"]["append-path"] += ":/usr/lib/sdk/llvm16/bin" |
+    .["build-options"]["append-path"] += ":/usr/lib/sdk/llvm18/bin" |
     .["build-options"] += {"env": {
       "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER" : "clang",
       "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER" : "clang",
