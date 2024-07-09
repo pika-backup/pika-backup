@@ -2,7 +2,7 @@
 
 Doing backups the easy way. Plugin your USB drive and let the Pika do the rest for you.
 
-[<img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png' />](https://flathub.org/apps/details/org.gnome.World.PikaBackup)
+[<img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en' />](https://flathub.org/apps/details/org.gnome.World.PikaBackup)
 
 [<img width='240' alt='More on Apps for GNOME' src='https://gitlab.gnome.org/World/pika-backup/uploads/2406312cda45cf979df75f1e15263c54/button.png' />](https://apps.gnome.org/PikaBackup/)
 
