@@ -9,16 +9,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
-"POT-Creation-Date: 2024-01-23 14:30+0000\n"
-"PO-Revision-Date: 2024-01-23 11:27-0300\n"
-"Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
+"POT-Creation-Date: 2024-07-04 19:54+0000\n"
+"PO-Revision-Date: 2024-07-06 22:49-0300\n"
+"Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 45.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -26,12 +26,13 @@ msgid "translator-credits"
 msgstr ""
 "Alex Jr <alexjrsh@proton.me>, 2023\n"
 "Antonio Novaes <antonionovaesjr@gmail.com>, 2022\n"
-"Enrico Nicoletto <hiko@duck.com>, 2022"
+"Enrico Nicoletto <hiko@duck.com>, 2022\n"
+"Leônidas Araújo <leorusvellt@hotmail.com>, 2024"
 
 #. (itstool) path: info/desc
 #: C/index.page:4
 msgid "Keep your data safe."
-msgstr ""
+msgstr "Mantenha seus dados seguros."
 
 #. (itstool) path: page/title
 #: C/index.page:6
@@ -41,17 +42,17 @@ msgstr "Pika Backup"
 #. (itstool) path: page/p
 #: C/index.page:7
 msgid "Welcome to <app>Pika Backup</app>. Choose a topic to get started."
-msgstr ""
+msgstr "Bem-vindo ao <app>Pika Backup</app>. Escolha um tópico para começar."
 
 #. (itstool) path: section/title
 #: C/index.page:9
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #. (itstool) path: section/title
 #: C/index.page:12
 msgid "Setup"
-msgstr ""
+msgstr "Configuração"
 
 #. (itstool) path: section/title
 #: C/index.page:15
@@ -61,17 +62,17 @@ msgstr "Recuperação"
 #. (itstool) path: section/title
 #: C/index.page:18
 msgid "Features"
-msgstr ""
+msgstr "Recursos"
 
 #. (itstool) path: info/desc
 #: C/feature-shell.page:5
 msgid "Configure commands to run before and after backups"
-msgstr ""
+msgstr "Configure comandos para serem executados antes e depois dos backups"
 
 #. (itstool) path: page/title
 #: C/feature-shell.page:7
 msgid "Shell Commands"
-msgstr ""
+msgstr "Comandos shell"
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:8
@@ -80,6 +81,10 @@ msgid ""
 "them, open <guiseq><gui>Menu</gui><gui>Backup Preferences</gui></guiseq>. "
 "Use the start button to try out the command without running a backup."
 msgstr ""
+"É possível executar comandos shell antes e depois dos backups. Para "
+"configurá-los, abra <guiseq><gui>Menu</gui><gui>Preferências de backup</"
+"gui></guiseq>. Use o botão Iniciar para testar o comando sem executar um "
+"backup."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:9
@@ -88,6 +93,9 @@ msgid ""
 "the backup. It can be used to perform database dumps, create file system "
 "snapshots and much more."
 msgstr ""
+"O comando shell <em>pre-backup</em> será executado logo antes de iniciar o "
+"backup. Ele pode ser usado para realizar dumps de banco de dados, criar "
+"cópias instantâneas do sistema de arquivos e muito mais."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:10
@@ -97,6 +105,11 @@ msgid ""
 "be used to tear down the actions done by the <em>pre-backup</em> command, or "
 "run actions like sending a notification based on the outcome of the backup."
 msgstr ""
+"O comando shell <em>post-backup</em> é executado após a invocação de "
+"<cmd>borg create</cmd>, mas antes que os arquivos antigos sejam excluídos. "
+"Isso pode ser usado para eliminar as ações realizadas pelo comando <em>pre-"
+"backup</em> ou executar ações como enviar uma notificação com base no "
+"resultado do backup."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:11
@@ -108,6 +121,12 @@ msgid ""
 "backup statistics. See the tooltip in preferences for available environment "
 "variables."
 msgstr ""
+"Ambos os comandos estão sendo executados através de um shell <cmd>bash</cmd> "
+"e possuem contexto sobre o backup disponível como variáveis ​​de ambiente. O "
+"diretório de trabalho é o diretório inicial do usuário. O comando <em>post-"
+"backup</em> também contém informações sobre o sucesso ou falha do backup e "
+"inclui estatísticas de backup. Consulte a dica de ferramenta nas "
+"preferências para variáveis ​​de ambiente disponíveis."
 
 #. (itstool) path: page/p
 #: C/feature-shell.page:12
@@ -116,6 +135,9 @@ msgid ""
 "with an error. The standard error output will be visible in the <gui>Backup "
 "Info</gui> window on the <gui>Backup</gui> tab."
 msgstr ""
+"Sair com um código de saída diferente de zero abortará quaisquer operações "
+"de backup adicionais com um erro. A saída de erro padrão estará visível na "
+"janela <gui>Informações de backup</gui> na aba <gui>Backup</gui>."
 
 #. (itstool) path: note/p
 #: C/feature-shell.page:14
@@ -124,22 +146,26 @@ msgid ""
 "character. It is recommended to store more complex scripts in a separate "
 "file, for example in the home directory."
 msgstr ""
+"Você pode executar vários comandos separando-os com um caractere <code>;</"
+"code>. Recomenda-se armazenar scripts mais complexos em um arquivo separado, "
+"por exemplo, na pasta pessoal."
 
 #. (itstool) path: info/desc
 #: C/feature-schedule.page:5
 msgid "Run backups automatically on a schedule"
-msgstr ""
+msgstr "Execute backups automaticamente de acordo com uma programação"
 
 #. (itstool) path: page/title
 #: C/feature-schedule.page:7
 msgid "Scheduled Backups"
-msgstr ""
+msgstr "Backups agendados"
 
 #. (itstool) path: page/p
 #: C/feature-schedule.page:8
 msgid ""
 "The schedule tab is used to configure the automatic creation of backups."
 msgstr ""
+"A aba de agendamento é usada para configurar a criação automática de backups."
 
 #. (itstool) path: page/p
 #: C/feature-schedule.page:9
@@ -148,6 +174,10 @@ msgid ""
 "em>, <em>Weekly</em> and <em>Monthly</em> backups. The status display at the "
 "top will always indicate the next time a backup is scheduled to be run."
 msgstr ""
+"Uma vez ativado, um agendamento pode ser escolhido entre backups <em>de hora "
+"em hora</em>, <em>diariamente</em>, <em>semanalmente</em> e <em>mensalmente</"
+"em>. A exibição de status na parte superior sempre indicará a próxima vez "
+"que um backup está programado para ser executado."
 
 #. (itstool) path: page/p
 #: C/feature-schedule.page:10
@@ -157,6 +187,10 @@ msgid ""
 "it if it's not available at the time. The backup will then start as soon as "
 "the drive is connected."
 msgstr ""
+"Quando o tempo apropriado tiver decorrido, um backup será iniciado "
+"automaticamente em segundo plano. Ao usar uma unidade externa, você será "
+"solicitado a inseri-la se ela não estiver disponível no momento. O backup "
+"será iniciado assim que a unidade for conectada."
 
 #. (itstool) path: note/p
 #: C/feature-schedule.page:12
@@ -166,11 +200,15 @@ msgid ""
 "<app>Pika Backup</app> is closed and regularly checks if the conditions are "
 "met to start a backup."
 msgstr ""
+"Os backups agendados usam um processo leve em segundo plano chamado "
+"<em>Monitor</em>. O processo <em>Monitor</em> é executado em segundo plano "
+"quando o <app>Pika Backup</app> é fechado e verifica regularmente se as "
+"condições foram atendidas para iniciar um backup."
 
 #. (itstool) path: section/title
 #: C/feature-schedule.page:15
 msgid "Cleanup old Archives"
-msgstr ""
+msgstr "Limpeza de arquivos antigos"
 
 #. (itstool) path: section/p
 #: C/feature-schedule.page:16
@@ -180,6 +218,10 @@ msgid ""
 "that should be kept. Then press <gui type=\"button\">Save Configuration</"
 "gui>."
 msgstr ""
+"A programação também pode ser configurada para remover automaticamente "
+"arquivos antigos. Uma vez habilitado, escolha a predefinição desejada ou "
+"personalize a quantidade de backups que devem ser mantidos. Em seguida "
+"pressione <gui type=\"button\">Salvar configuração</gui>."
 
 #. (itstool) path: note/p
 #: C/feature-schedule.page:18
@@ -188,11 +230,15 @@ msgid ""
 "only be configured to a minimum of at least <em>one</em> backup. This is due "
 "to a technical limitation of the removal algorithm."
 msgstr ""
+"<gui>Manter de hora em hora</gui>, <gui>Manter diariamente</gui> e "
+"<gui>Manter semanalmente</gui> só podem ser configurados para um mínimo de "
+"<em>um</em> backup. Isto se deve a uma limitação técnica do algoritmo de "
+"remoção."
 
 #. (itstool) path: section/title
 #: C/feature-schedule.page:22
 msgid "Troubleshooting"
-msgstr ""
+msgstr "Solução de problemas"
 
 #. (itstool) path: section/p
 #: C/feature-schedule.page:23
@@ -205,16 +251,23 @@ msgid ""
 "distributions for correct behavior regarding background portals in their "
 "stock configuration:"
 msgstr ""
+"O <app>Pika Backup</app> usa o <app>Background Portal</app> <app>xdg-desktop-"
+"portal</app> para configurar o processo <em>Monitor</em> para ser executado "
+"em segundo plano. Algumas distribuições configuram incorretamente o <app>xdg-"
+"desktop-portal</app> ou não ativam o <em>Background Portal</em>. Isso "
+"causará um erro ao ativar backups agendados. Testamos as seguintes "
+"distribuições quanto ao comportamento correto em relação aos portais de "
+"segundo plano em sua configuração de estoque:"
 
 #. (itstool) path: item/p
 #: C/feature-schedule.page:26
 msgid "Debian"
-msgstr ""
+msgstr "Debian"
 
 #. (itstool) path: item/p
 #: C/feature-schedule.page:29
 msgid "Fedora"
-msgstr ""
+msgstr "Fedora"
 
 #. (itstool) path: section/p
 #: C/feature-schedule.page:32
@@ -223,6 +276,9 @@ msgid ""
 "different distribution, please report an issue in your distribution issue "
 "tracker."
 msgstr ""
+"Se você encontrar problemas ao ativar backups agendados e estiver usando uma "
+"distribuição diferente, relate o problema em seu rastreador de problemas da "
+"distribuição."
 
 #. (itstool) path: note/p
 #: C/feature-schedule.page:34
@@ -232,26 +288,31 @@ msgid ""
 "the entire app is running in the background but only the <em>Monitor</em> "
 "process which only uses very few resources."
 msgstr ""
+"O <app>GNOME Shell</app> exibirá o <app>Pika Backup</app> como um aplicativo "
+"em segundo plano em execução sempre que backups agendados forem "
+"configurados. Isso não significa que todo o aplicativo esteja sendo "
+"executado em segundo plano, mas apenas o processo <em>Monitor</em>, que usa "
+"poucos recursos."
 
 #. (itstool) path: info/desc
 #: C/general-glossary.page:5
 msgid "Definition of terms"
-msgstr ""
+msgstr "Definição de termos"
 
 #. (itstool) path: page/title
 #: C/general-glossary.page:7
 msgid "Terminology"
-msgstr ""
+msgstr "Terminologia"
 
 #. (itstool) path: page/p
 #: C/general-glossary.page:8
 msgid "These terms are commonly used in this documentation and within the app."
-msgstr ""
+msgstr "Esses termos são comumente usados ​​nesta documentação e no aplicativo."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:10
 msgid "BorgBackup"
-msgstr ""
+msgstr "BorgBackup"
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:11
@@ -262,11 +323,17 @@ msgid ""
 "readthedocs.io\">BorgBackup documentation</link> for more information about "
 "how to use the <cmd>borg</cmd> command line utility."
 msgstr ""
+"<app>BorgBackup</app> é o programa subjacente usado para criar backups. Os "
+"repositórios do <app>Pika Backup</app> também podem ser acessados ​​com o "
+"utilitário de linha de comando BorgBackup. Consulte a <link href=\"https://"
+"borgbackup.readthedocs.io\">documentação do BorgBackup</link> para obter "
+"mais informações sobre como usar o utilitário de linha de comando <cmd>borg</"
+"cmd>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:14
 msgid "Repository"
-msgstr ""
+msgstr "Repositório"
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:15
@@ -275,11 +342,14 @@ msgid ""
 "contain backup data. They store one or more <link "
 "xref=\"#archive\">archives</link>."
 msgstr ""
+"Repositórios de backup são diretórios em um disco ou local remoto que contêm "
+"dados de backup. Eles armazenam um ou mais <link xref=\"#archive\">arquivos</"
+"link>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:18
 msgid "Archive"
-msgstr ""
+msgstr "Arquivo"
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:19
@@ -288,11 +358,14 @@ msgid ""
 "files at the time the backup was created. To restore data from a particular "
 "archive, see <link xref=\"index#recovery\"/>."
 msgstr ""
+"Cada backup criará um arquivo. Eles armazenam uma cópia instantânea única "
+"dos arquivos no momento em que o backup foi criado. Para restaurar dados de "
+"um arquivo específico, consulte <link xref=\"index#recovery\"/>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:22
 msgid "Deduplication"
-msgstr ""
+msgstr "Deduplicação"
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:23
@@ -302,6 +375,10 @@ msgid ""
 "disk space. The term <em>deduplication</em> is used to refer to this "
 "functionality."
 msgstr ""
+"O <app>Pika Backup</app> armazena <link xref=\"#archive\">arquivos</link> de "
+"backup de forma que apenas os dados novos e alterados do último backup "
+"ocupem mais espaço em disco. O termo <em>deduplicação</em> é usado para se "
+"referir a esta funcionalidade."
 
 #. (itstool) path: note/p
 #: C/general-glossary.page:25
@@ -310,11 +387,14 @@ msgid ""
 "<gui>Backup Info</gui> window that can be accessed via the <gui "
 "style=\"tab\">Backup</gui> tab."
 msgstr ""
+"A quantidade de espaço novo utilizado para o último backup pode ser vista na "
+"janela <gui>Informações de backup</gui> que pode ser acessada através da aba "
+"<gui style=\"tab\">Backup</gui>."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:29
 msgid "Compression"
-msgstr ""
+msgstr "Compressão"
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:30
@@ -324,11 +404,15 @@ msgid ""
 "em>. This was chosen as a compromise between performance and resulting "
 "backup size."
 msgstr ""
+"<link xref=\"#archive\">Arquivos</link> de backup criados com o <app>Pika "
+"Backup</app> são compactados com o algoritmo <em>zstd</em> no <em>nível 3</"
+"em>. Isto foi escolhido como um compromisso entre o desempenho e o tamanho "
+"do backup resultante."
 
 #. (itstool) path: section/title
 #: C/general-glossary.page:33
 msgid "Encryption"
-msgstr ""
+msgstr "Criptografia"
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:34
@@ -337,6 +421,9 @@ msgid ""
 "This will make it impossible for anyone to read the contents of the backup "
 "without knowing or guessing the encryption <em>password</em>."
 msgstr ""
+"Repositórios de backup criados com <app>Pika Backup</app> podem ser "
+"criptografados. Isso tornará impossível para qualquer pessoa ler o conteúdo "
+"do backup sem saber ou adivinhar a <em>senha</em> de criptografia."
 
 #. (itstool) path: note/p
 #: C/general-glossary.page:36
@@ -346,6 +433,10 @@ msgid ""
 "equally important to choose a password that is not easily forgotten or "
 "stored in a safe place."
 msgstr ""
+"Embora seja importante escolher uma senha de criptografia forte para dados "
+"confidenciais, perder a senha também significa perder o acesso a todos os "
+"dados. É igualmente importante escolher uma senha que não seja facilmente "
+"esquecida ou guardada em local seguro."
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:38
@@ -355,6 +446,10 @@ msgid ""
 "authentication algorithm is either <em>HMAC-SHA256</em> or <em>BLAKE2b-256</"
 "em> depending on whether SHA256 is hardware-accelerated on the system."
 msgstr ""
+"O algoritmo de criptografia usado para novos <link "
+"type=\"repository\">repositórios</link> é <em>AES-CTR-256</em>. O algoritmo "
+"de autenticação é <em>HMAC-SHA256</em> ou <em>BLAKE2b-256</em> dependendo se "
+"o SHA256 é acelerado pelo hardware no sistema."
 
 #. (itstool) path: section/p
 #: C/general-glossary.page:39
@@ -363,31 +458,28 @@ msgid ""
 "gui><gui>Backup Preferences</gui><gui>Change Encryption Password</gui></"
 "guiseq>."
 msgstr ""
+"A senha de criptografia pode ser alterada através do <guiseq><gui>Menu</"
+"gui><gui>Preferências de backup</gui><gui>Trocar a senha de criptografia</"
+"gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/general-intro.page:5
-#, fuzzy
-#| msgid "Access files without using <app>Pika Backup</app>"
 msgid "Introduction to <app>Pika Backup</app>"
-msgstr "Acesse arquivos sem usar o <app>Pika Backup</app>"
+msgstr "Introdução ao <app>Pika Backup</app>"
 
 #. (itstool) path: page/title
 #: C/general-intro.page:7
 msgid "Introduction"
-msgstr ""
+msgstr "Introdução"
 
 #. (itstool) path: page/p
 #: C/general-intro.page:8
-#, fuzzy
-#| msgid ""
-#| "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
-#| "rest for you."
 msgid ""
 "<app>Pika Backup</app> is designed to save your personal data. Plug in your "
 "USB drive and let the Pika do the rest for you."
 msgstr ""
-"Faça backups da maneira fácil. Conecte sua unidade USB e deixe o Pika "
-"fazer o resto por você."
+"O <app>Pika Backup</app> foi projetado para salvar seus dados pessoais. "
+"Conecte sua unidade USB e deixe o Pika fazer o resto para você."
 
 #. (itstool) path: item/p
 #: C/general-intro.page:11
@@ -396,11 +488,14 @@ msgid ""
 "xref=\"setup-gvfs\">network shares</link> and <link xref=\"setup-"
 "remote\">remotely</link>"
 msgstr ""
+"Crie backups <link xref=\"setup-drive\">localmente</link>, em <link "
+"xref=\"setup-gvfs\">compartilhamentos de rede</link> e <link xref=\"setup-"
+"remote\">remotamente</link >"
 
 #. (itstool) path: item/p
 #: C/general-intro.page:14
 msgid "Set a schedule for regular backups"
-msgstr ""
+msgstr "Defina uma programação para backups regulares"
 
 #. (itstool) path: item/p
 #: C/general-intro.page:17
@@ -408,11 +503,14 @@ msgid ""
 "Save time and disk space because Pika Backup <link xref=\"general-"
 "glossary#deduplication\">does not need</link> to copy known data again"
 msgstr ""
+"Economize tempo e espaço em disco porque o Pika Backup <link xref=\"general-"
+"glossary#deduplication\">não precisa</link> copiar dados conhecidos novamente"
 
 #. (itstool) path: item/p
 #: C/general-intro.page:20
 msgid "<link xref=\"general-glossary#encryption\">Encrypt</link> your backups"
 msgstr ""
+"<link xref=\"general-glossary#encryption\">Criptografe</link> seus backups"
 
 #. (itstool) path: item/p
 #: C/general-intro.page:23
@@ -420,6 +518,8 @@ msgid ""
 "List created <link xref=\"general-glossary#archive\">archives</link> and "
 "browse through their contents"
 msgstr ""
+"Liste os <link xref=\"general-glossary#archive\">arquivos</link> criados e "
+"navegue pelo seu conteúdo"
 
 #. (itstool) path: item/p
 #: C/general-intro.page:26
@@ -427,6 +527,8 @@ msgid ""
 "<link xref=\"recovery-pika\">Recover</link> files or folders via your file "
 "browser"
 msgstr ""
+"<link xref=\"recovery-pika\">Recupere</link> arquivos ou pastas através do "
+"seu explorador de arquivos"
 
 #. (itstool) path: page/p
 #: C/general-intro.page:29
@@ -434,42 +536,40 @@ msgid ""
 "<app>Pika Backup</app> does not support complete system recovery. It is "
 "powered by the well-tested <app>BorgBackup</app> software."
 msgstr ""
+"<app>Pika Backup</app> não oferece suporte à recuperação completa do "
+"sistema. Ele é alimentado pelo já bem testado software <app>BorgBackup</app>."
 
 #. (itstool) path: info/desc
 #: C/setup-drive.page:5
 msgid "Setup local backup on removable drive"
-msgstr "Configure o backup local na unidade removível"
+msgstr "Configure o backup local em unidade removível"
 
 #. (itstool) path: page/title
 #: C/setup-drive.page:7
-#, fuzzy
-#| msgid "Setup Removable Drive"
 msgid "Removable Drive"
-msgstr "Configurando unidade removível"
+msgstr "Unidade removível"
 
 #. (itstool) path: page/p
 #: C/setup-drive.page:8
 msgid "To configure a backup on a removable drive follow these steps."
-msgstr ""
+msgstr "Para configurar um backup em uma unidade removível, siga estas etapas."
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:11
-#, fuzzy
-#| msgid "Setup Removable Drive"
 msgid "Insert the removable drive"
-msgstr "Configurando unidade removível"
+msgstr "Insira a unidade removível"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:14
 msgid "Ensure the drive is visible and accessible via <app>GNOME Files</app>."
 msgstr ""
+"Certifique-se de que a unidade esteja visível e acessível por meio do "
+"<app>Arquivos</app> do GNOME."
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:17 C/setup-remote.page:11
-#, fuzzy
-#| msgid "Select the <gui>Archives</gui> tab."
 msgid "Select the <gui>Setup Backup</gui> button"
-msgstr "Selecione a aba <gui>Arquivos de backup</gui>."
+msgstr "Selecione o botão <gui>Configurar backup</gui>"
 
 #. (itstool) path: item/media
 #. This is a reference to an external file such as an image or video. When
@@ -489,6 +589,8 @@ msgid ""
 "In the <gui>Create new Repository</gui> section, choose the drive or "
 "<gui>Location on Disk</gui>"
 msgstr ""
+"Na seção <gui>Criar novo repositório</gui>, escolha a unidade ou o "
+"<gui>Local no disco</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:24
@@ -496,6 +598,9 @@ msgid ""
 "Ensure the <gui>Repository Base Folder</gui> has your removable drive "
 "selected. If not, press the <gui style=\"button\">Select Folder…</gui> button"
 msgstr ""
+"Certifique-se de que a <gui>Pasta base do repositório</gui> tenha sua "
+"unidade removível selecionada. Caso contrário, pressione o botão <gui "
+"style=\"button\">Selecionar pasta…</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:27 C/setup-gvfs.page:24
@@ -503,11 +608,14 @@ msgid ""
 "The new backup <link xref=\"general-glossary#repository\">repository</link> "
 "will be created in a folder with the specified <gui>Repository Name</gui>."
 msgstr ""
+"O novo <link xref=\"general-glossary#repository\">repositório</link> de "
+"backup será criado em uma pasta com o <gui>Nome do repositório</gui> "
+"especificado."
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:30 C/setup-gvfs.page:27 C/setup-remote.page:21
 msgid "Press <gui style=\"button\">Continue</gui>"
-msgstr ""
+msgstr "Pressione <gui style=\"button\">Continuar</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:33 C/setup-gvfs.page:30 C/setup-remote.page:24
@@ -515,11 +623,13 @@ msgid ""
 "Choose the desired <link xref=\"general-glossary#encryption\">encryption</"
 "link> settings"
 msgstr ""
+"Escolha as configurações de <link xref=\"general-"
+"glossary#encryption\">criptografia</link> desejadas"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:36 C/setup-gvfs.page:33 C/setup-remote.page:27
 msgid "Press <gui style=\"button\">Create</gui>"
-msgstr ""
+msgstr "Pressione <gui style=\"button\">Criar</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:39 C/setup-gvfs.page:36 C/setup-remote.page:30
@@ -527,11 +637,13 @@ msgid ""
 "Configure the <gui>Files to Back Up</gui> and <gui>Exclude from Backup</gui> "
 "sections"
 msgstr ""
+"Configure as seções <gui>Arquivos para fazer backup</gui> e <gui>Excluir do "
+"backup</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-drive.page:42 C/setup-gvfs.page:39 C/setup-remote.page:33
 msgid "Press <gui style=\"button\">Back Up Now</gui>"
-msgstr ""
+msgstr "Pressione <gui style=\"button\">Fazer backup agora</gui>"
 
 #. (itstool) path: note/p
 #: C/setup-drive.page:46
@@ -540,23 +652,24 @@ msgid ""
 "to create files and folders. Make sure the drive is configured in a way that "
 "<app>Pika Backup</app> can write to it."
 msgstr ""
+"Um problema comum com unidades removíveis é a falta de permissões do sistema "
+"de arquivos para criar arquivos e pastas. Certifique-se de que a unidade "
+"esteja configurada de forma que o <app>Pika Backup</app> possa gravar nela."
 
 #. (itstool) path: info/desc
 #: C/setup-gvfs.page:5
-#, fuzzy
-#| msgid "Setup local backup on removable drive"
 msgid "Setup remote backup on a network share"
-msgstr "Configure o backup local na unidade removível"
+msgstr "Configure o backup remoto em um compartilhamento de rede"
 
 #. (itstool) path: page/title
 #: C/setup-gvfs.page:7
 msgid "Network Share"
-msgstr ""
+msgstr "Compartilhamento de rede"
 
 #. (itstool) path: page/p
 #: C/setup-gvfs.page:8
 msgid "<app>Pika Backup</app> supports backing up on network shares."
-msgstr ""
+msgstr "<app>Pika Backup</app> suporta backup em compartilhamentos de rede."
 
 #. (itstool) path: item/p
 #: C/setup-gvfs.page:11
@@ -565,19 +678,22 @@ msgid ""
 "href=\"help:gnome-help/nautilus-connect\">GNOME Files</link> help pages for "
 "reference."
 msgstr ""
+"Conecte-se ao compartilhamento de rede usando o <app>Arquivos</app> do "
+"GNOME. Consulte as páginas de ajuda do <link href=\"help:gnome-help/nautilus-"
+"connect\">Arquivos</link> do GNOME para referência."
 
 #. (itstool) path: item/p
 #: C/setup-gvfs.page:14
-#, fuzzy
-#| msgid "Select the <gui>Archives</gui> tab."
 msgid "Select the <gui>Setup Backup</gui> button."
-msgstr "Selecione a aba <gui>Arquivos de backup</gui>."
+msgstr "Selecione o botão <gui>Configurar backup</gui>."
 
 #. (itstool) path: item/p
 #: C/setup-gvfs.page:18
 msgid ""
 "In the <gui>Create new Repository</gui> section, choose the network share."
 msgstr ""
+"Na seção <gui>Criar novo repositório</gui>, escolha o compartilhamento de "
+"rede."
 
 #. (itstool) path: item/p
 #: C/setup-gvfs.page:21
@@ -586,18 +702,20 @@ msgid ""
 "The <gui style=\"button\">Select Folder…</gui> button can be used to select "
 "a sub-folder on the network share."
 msgstr ""
+"Certifique-se de que a <gui>Pasta base do repositório</gui> tenha o "
+"compartilhamento de rede selecionado. O botão <gui "
+"style=\"button\">Selecionar pasta…</gui> pode ser usado para selecionar uma "
+"subpasta no compartilhamento de rede."
 
 #. (itstool) path: info/desc
 #: C/setup-remote.page:5
-#, fuzzy
-#| msgid "Setup local backup on removable drive"
 msgid "Setup backups to remote servers and online services"
-msgstr "Configure o backup local na unidade removível"
+msgstr "Configure backups para servidores remotos e serviços online"
 
 #. (itstool) path: page/title
 #: C/setup-remote.page:7
 msgid "Remote and Online Backups"
-msgstr ""
+msgstr "Backups remotos e online"
 
 #. (itstool) path: page/p
 #: C/setup-remote.page:8
@@ -607,6 +725,10 @@ msgid ""
 "support. Services with <app>BorgBackup</app> support are recommended for "
 "performance reasons."
 msgstr ""
+"<app>Pika Backup</app> suporta backup em servidores remotos e serviços "
+"online com suporte para <app>BorgBackup</app>, <cmd>ssh</cmd> ou <cmd>sftp</"
+"cmd>. Serviços com suporte a <app>BorgBackup</app> são recomendados por "
+"motivos de desempenho."
 
 #. (itstool) path: item/p
 #: C/setup-remote.page:15
@@ -614,6 +736,7 @@ msgid ""
 "In the <gui>Create new Repository</gui> section, choose <gui>Remote "
 "Location</gui>"
 msgstr ""
+"Na seção <gui>Criar novo repositório</gui>, escolha <gui>Local remoto</gui>"
 
 #. (itstool) path: item/p
 #: C/setup-remote.page:18
@@ -622,31 +745,28 @@ msgid ""
 "service if it has explicit <app>BorgBackup</app> support. The <gui>Examples</"
 "gui> section in the dialog has an overview of the syntax."
 msgstr ""
+"Insira o URL do repositório. Isso geralmente é fornecido pelo serviço de "
+"backup online se ele tiver suporte explícito para o <app>BorgBackup</app>. A "
+"seção <gui>Exemplos</gui> na caixa de diálogo tem uma visão geral da sintaxe."
 
 #. (itstool) path: info/desc
 #: C/recovery-pika.page:5
-#, fuzzy
-#| msgid "Copy files from a backup archive to your computer."
 msgid "Copy files from a backup archive to your computer"
-msgstr "Copie arquivos de um arquivo de backup para o seu computador."
+msgstr "Copie arquivos de um arquivo de backup para o seu computador"
 
 #. (itstool) path: page/title
 #: C/recovery-pika.page:7
 msgid "Recover files"
-msgstr "Recuperando arquivos"
+msgstr "Recupere arquivos"
 
 #. (itstool) path: page/p
 #: C/recovery-pika.page:8
-#, fuzzy
-#| msgid ""
-#| "You can browse and view files and folders in a backup archive using your "
-#| "usual file browser."
 msgid ""
 "You can browse and view files and folders in a backup archive using a file "
 "browser like <app>GNOME Files</app>."
 msgstr ""
 "Você pode navegar e visualizar arquivos e pastas em um arquivo de backup "
-"usando seu navegador de arquivos usual."
+"usando um explorador de arquivos como o <app>Arquivos</app> do GNOME."
 
 #. (itstool) path: item/p
 #: C/recovery-pika.page:11
@@ -660,7 +780,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/recovery-pika.page:14
 msgid "Select the <gui>Archives</gui> tab."
-msgstr "Selecione a aba <gui>Arquivos de backup</gui>."
+msgstr "Selecione a aba <gui>Arquivos</gui>."
 
 #. (itstool) path: item/media
 #. This is a reference to an external file such as an image or video. When
@@ -683,10 +803,9 @@ msgid ""
 "files. If the corresponding archive is not listed, use the refresh button to "
 "update the list of archives."
 msgstr ""
-"Selecione o arquivo de backup com a data e a hora a partir da qual você "
-"deseja recuperar os arquivos. Se o arquivo correspondente não estiver "
-"listado, use o botão Atualizar para recarregar/atualizar a lista de arquivos "
-"de backup."
+"Selecione o arquivo com a data e hora a partir da qual deseja realizar a "
+"recuperação. Se o arquivo correspondente não estiver listado, use o botão "
+"Atualizar para atualizar a lista de arquivos."
 
 #. (itstool) path: item/p
 #: C/recovery-pika.page:21
@@ -694,23 +813,18 @@ msgid ""
 "Use the <gui>Browse Saved Files</gui> option and wait until the file browser "
 "opens."
 msgstr ""
-"Use a opção <gui>Navegar pelos arquivos salvos</gui> e aguarde até que o "
-"navegador de arquivos seja aberto."
+"Use a opção <gui>Navegar pelos arquivos salvos</gui> e espere até que o "
+"explorador de arquivos abra."
 
 #. (itstool) path: item/p
 #: C/recovery-pika.page:24
-#, fuzzy
-#| msgid ""
-#| "Make use of the <link href=\"help:gnome-help/files\">Files and Folders</"
-#| "link> features to find the corresponding files and view them or to copy "
-#| "them to your computer."
 msgid ""
 "Make use of the <link href=\"help:gnome-help/files\">GNOME Files</link> "
 "features to find the corresponding files and view them or to copy them to "
 "your computer."
 msgstr ""
-"Use os recursos do <link href=\"help:gnome-help/files\">Arquivos e Pastas</"
-"link> para encontrar os arquivos correspondentes e visualizá-los ou copiá-"
+"Utilize os recursos do <link href=\"help:gnome-help/files\">Arquivos</link> "
+"do GNOME para encontrar os arquivos correspondentes e visualizá-los ou copiá-"
 "los para o seu computador."
 
 #. (itstool) path: p/media
@@ -724,6 +838,8 @@ msgid ""
 "external ref='media/eject-symbolic.svg' "
 "md5='6e47085bb625da128aca17b9bc929b93'"
 msgstr ""
+"external ref='media/eject-symbolic.svg' "
+"md5='6e47085bb625da128aca17b9bc929b93'"
 
 #. (itstool) path: item/p
 #: C/recovery-pika.page:27
@@ -732,69 +848,56 @@ msgid ""
 "<media type=\"image\" src=\"media/eject-symbolic.svg\"/> <gui "
 "style=\"button\">eject</gui> button"
 msgstr ""
+"Feche o <app>Pika Backup</app> ou <em>ejete</em> o arquivo de backup através "
+"do botão <media type=\"image\" src=\"media/eject-symbolic.svg\"/> <gui "
+"style=\"button\">ejetar</gui>"
 
 #. (itstool) path: note/p
 #: C/recovery-pika.page:31
-#, fuzzy
-#| msgid ""
-#| "Please note that GNOME Files will reset all permissions when copying from "
-#| "the backup archive. To restore files with correct permissions please use "
-#| "<cmd>cp -a</cmd> on the commandline."
 msgid ""
 "<app>GNOME Files</app> will not preserve permissions when copying from the "
 "backup archive. To restore files with correct permissions, use <cmd>cp -a</"
 "cmd> on the commandline."
 msgstr ""
-"Observe que o Arquivos do GNOME redefinirá todas as permissões ao copiar a "
-"partir do arquivo de backup. Para restaurar arquivos com as permissões "
-"corretas, use <cmd>cp -a</cmd> na linha de comando."
+"O <app>Arquivos</app> do GNOME não preservará as permissões ao copiar do "
+"arquivo de backup. Para restaurar arquivos com permissões corretas, use "
+"<cmd>cp -a</cmd> na linha de comando."
 
 #. (itstool) path: info/desc
 #: C/recovery-other.page:5
 msgid "Recover data using other apps"
-msgstr ""
+msgstr "Recupere dados usando outros apps"
 
 #. (itstool) path: page/title
 #: C/recovery-other.page:7
 msgid "Access Files without Pika Backup"
-msgstr "Acessando arquivos sem o Pika Backup"
+msgstr "Acesse arquivos sem o Pika Backup"
 
 #. (itstool) path: page/p
 #: C/recovery-other.page:8
-#, fuzzy
-#| msgid ""
-#| "<app>Pika Backup</app> stores files in a format that cannot simply be "
-#| "read by every computer. The recommended way to access files from your "
-#| "backup is to install <app>Pika Backup</app>, configure the backup, and "
-#| "follow the <link xref=\"recovery-pika\"/> instructions."
 msgid ""
 "<app>Pika Backup</app> stores files in a format that can only be read by "
 "<app>BorgBackup</app> compatible apps. The recommended way to access files "
 "from your backup is to install <app>Pika Backup</app>, configure the backup, "
 "and follow the <link xref=\"recovery-pika\"/> instructions."
 msgstr ""
-"O <app>Pika Backup</app> armazena arquivos em um formato que não pode "
-"ser simplesmente lido por todos os computadores. A maneira recomendada de "
-"acessar os arquivos do seu backup é instalar o <app>Pika Backup</app>, "
-"configurar o backup e seguir as instruções em <link xref=\"recovery-pika\"/>."
+"O <app>Pika Backup</app> armazena arquivos em um formato que só pode ser "
+"lido por aplicativos compatíveis com o <app>BorgBackup</app>. A maneira "
+"recomendada de acessar os arquivos do seu backup é instalar o <app>Pika "
+"Backup</app>, configurar o backup e seguir as<link xref=\"recovery-pika\"/> "
+"instruções."
 
 #. (itstool) path: page/p
 #: C/recovery-other.page:9
-#, fuzzy
-#| msgid ""
-#| "However, if <app>Pika Backup</app> is not available alternative software "
-#| "is available that works on a variety of operating systems."
 msgid ""
 "However, if <app>Pika Backup</app> is not available, alternative software "
 "can be used that works on a variety of operating systems."
 msgstr ""
-"No entanto, se o <app>Pika Backup</app> não estiver disponível, há "
-"alternativas de software que funcionam em vários sistemas operacionais."
+"No entanto, se o <app>Pika Backup</app> não estiver disponível, pode ser "
+"usado um software alternativo que funcione em vários sistemas operacionais."
 
 #. (itstool) path: section/title
 #: C/recovery-other.page:11
-#, fuzzy
-#| msgid "Alternative applications"
 msgid "Alternative Apps"
 msgstr "Aplicativos alternativos"
 
@@ -807,7 +910,7 @@ msgid ""
 msgstr ""
 "O aplicativo <link href=\"https://vorta.borgbase.com/install/\">Vorta</link> "
 "fornece acesso completo a todos os seus arquivos armazenados por meio de uma "
-"interface gráfica do usuário."
+"interface gráfica de usuário."
 
 #. (itstool) path: item/p
 #: C/recovery-other.page:17
