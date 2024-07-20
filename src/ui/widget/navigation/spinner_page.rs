@@ -14,13 +14,9 @@ mod imp {
     pub struct SpinnerPage {
         #[property(get, set, nullable)]
         description: RefCell<Option<String>>,
-        #[property(get, set, nullable)]
-        icon_name: RefCell<Option<String>>,
 
         #[template_child]
         status_page: TemplateChild<adw::StatusPage>,
-        #[template_child]
-        spinner: TemplateChild<gtk::Spinner>,
     }
 
     #[glib::object_subclass]
