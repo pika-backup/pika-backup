@@ -24,7 +24,6 @@ mod imp {
         const NAME: &'static str = "PkSpinnerPage";
         type Type = super::SpinnerPage;
         type ParentType = adw::NavigationPage;
-        type Interfaces = (gtk::Buildable,);
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -43,7 +42,6 @@ mod imp {
             self.status_page.grab_focus();
         }
     }
-    impl BuildableImpl for SpinnerPage {}
 
     impl SpinnerPage {}
 }
