@@ -452,9 +452,9 @@ mod imp {
 
         #[template_callback]
         async fn on_transfer_settings_continue(&self, archive_params: &ArchiveParams) {
-            if self.busy.replace(true) {
+            /*if self.busy.replace(true) {
                 return;
-            }
+            }*/
 
             let config = self.new_config();
             if let Some(mut config) = config {

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <object class="AdwSpinnerPaintable" id="spinner">
+    <property name="widget">status_page</property>
+  </object>
   <template class="PkSpinnerPage" parent="AdwNavigationPage">
     <property name="can-pop">False</property>
     <style>
@@ -20,11 +23,9 @@
           <object class="AdwStatusPage" id="status_page">
             <property name="focusable">True</property>
             <property name="vexpand">true</property>
+            <property name="paintable">spinner</property>
             <property name="title" bind-source="PkSpinnerPage" bind-property="title" />
             <property name="description" bind-source="PkSpinnerPage" bind-property="description" />
-            <property name="paintable">
-              <object class="AdwSpinnerPaintable" />
-            </property>
           </object>
         </property>
       </object>

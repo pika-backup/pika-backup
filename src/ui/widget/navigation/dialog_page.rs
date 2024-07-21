@@ -17,6 +17,8 @@ mod imp {
         default_widget: WeakRef<gtk::Widget>,
         #[property(get, set = Self::set_subtitle, nullable)]
         subtitle: RefCell<Option<String>>,
+        #[property(get, set)]
+        can_close: Cell<bool>,
 
         #[property(get, set)]
         show_continue_button: Cell<bool>,
