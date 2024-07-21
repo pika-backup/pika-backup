@@ -4,13 +4,14 @@
     <style>
       <class name="dialog-page" />
     </style>
+    <property name="can-close">True</property>
     <property name="child">
       <object class="AdwToolbarView" id="toolbar_view">
         <child type="top">
           <object class="AdwHeaderBar">
-            <property name="title-widget">
-              <object class="AdwBin"/>
-            </property>
+            <property name="show-title">False</property>
+            <property name="show_start_title_buttons" bind-source="PkDialogPage" bind-property="can-close" bind-flags="sync-create" />
+            <property name="show_end_title_buttons" bind-source="PkDialogPage" bind-property="can-close" bind-flags="sync-create" />
           </object>
         </child>
         <property name="content">

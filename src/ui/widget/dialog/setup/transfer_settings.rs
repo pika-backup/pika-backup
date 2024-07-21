@@ -24,14 +24,6 @@ mod imp {
         has_suggestions: Cell<bool>,
 
         #[template_child]
-        pub(super) page_transfer_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) page_transfer_pending: TemplateChild<adw::ToolbarView>,
-        #[template_child]
-        pub(super) transfer_pending_spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
-        pub(super) page_transfer_select: TemplateChild<adw::ToolbarView>,
-        #[template_child]
         pub(super) transfer_suggestions: TemplateChild<gtk::ListBox>,
     }
 
@@ -60,12 +52,6 @@ mod imp {
                     .param_types([Option::<ArchiveParams>::static_type()])
                     .build()]
             })
-        }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.transfer_pending_spinner.connect_map(|s| s.start());
-            self.transfer_pending_spinner.connect_unmap(|s| s.stop());
         }
     }
     impl WidgetImpl for SetupTransferSettingsPage {}
@@ -118,11 +104,6 @@ mod imp {
                 ));
 
                 self.transfer_suggestions.append(&row);
-            }
-
-            if self.has_suggestions.get() {
-                self.page_transfer_stack
-                    .set_visible_child(&*self.page_transfer_select);
             }
         }
     }
