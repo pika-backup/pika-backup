@@ -24,7 +24,7 @@ mod imp {
         has_suggestions: Cell<bool>,
 
         #[template_child]
-        pub(super) transfer_suggestions: TemplateChild<gtk::ListBox>,
+        pub(super) transfer_suggestions: TemplateChild<adw::PreferencesGroup>,
     }
 
     #[glib::object_subclass]
@@ -91,6 +91,15 @@ mod imp {
             self.has_suggestions.set(options.peek().is_some());
             self.obj().notify_has_suggestions();
 
+            let mut child = self.transfer_suggestions.first_child();
+            while let Some(row) = child {
+                if let Some(row) = row.downcast_ref::<SetupTransferOption>() {
+                    self.transfer_suggestions.remove(row);
+                }
+
+                child = row.next_sibling();
+            }
+
             for suggestion in options.take(10) {
                 let row = SetupTransferOption::new(suggestion);
 
@@ -103,7 +112,7 @@ mod imp {
                     move |_| obj.imp().emit_continue(Some(suggestion.clone()))
                 ));
 
-                self.transfer_suggestions.append(&row);
+                self.transfer_suggestions.add(&row);
             }
         }
     }
