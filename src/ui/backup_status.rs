@@ -74,7 +74,7 @@ impl Display {
 
     fn never_ran() -> Self {
         Self {
-            title: gettext("Backup Never Ran"),
+            title: gettext("Backup Never Run"),
             subtitle: Some(gettext("Begin by carrying out your first backup")),
             graphic: Graphic::WarningIcon("dialog-information-symbolic".to_string()),
             progress: None,
