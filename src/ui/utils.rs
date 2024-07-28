@@ -19,7 +19,7 @@ use std::fmt::Display;
 use std::io::Read;
 use std::os::unix::process::CommandExt;
 
-#[derive(Clone, Copy, Debug, glib::ValueDelegate)]
+#[derive(Clone, Copy, Debug, glib::ValueDelegate, PartialEq, Eq)]
 #[value_delegate(from = u8)]
 pub enum StatusLevel {
     Ok,

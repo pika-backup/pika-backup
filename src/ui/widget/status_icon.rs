@@ -78,7 +78,7 @@ mod imp {
 
         #[property(get, set)]
         icon_name: RefCell<String>,
-        #[property(get, set = Self::set_level)]
+        #[property(get, set = Self::set_level, explicit_notify)]
         level: Cell<StatusLevel>,
     }
 
@@ -89,6 +89,7 @@ mod imp {
         type ParentType = gtk::Box;
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for StatusIcon {
         fn constructed(&self) {
             self.parent_constructed();
@@ -111,16 +112,6 @@ mod imp {
 
             self.obj().append(&self.stack);
         }
-
-        fn properties() -> &'static [glib::ParamSpec] {
-            Self::derived_properties()
-        }
-        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            self.derived_set_property(id, value, pspec)
-        }
-        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            self.derived_property(id, pspec)
-        }
     }
 
     impl WidgetImpl for StatusIcon {}
@@ -136,6 +127,10 @@ mod imp {
         }
 
         pub fn set_level(&self, level: StatusLevel) {
+            if level == self.level.get() {
+                return;
+            }
+
             self.image.remove_css_class("ok-icon");
             self.image.remove_css_class("warning-icon");
             self.image.remove_css_class("error-icon");
@@ -150,6 +145,7 @@ mod imp {
             }
 
             self.level.replace(level);
+            self.obj().notify_level();
         }
     }
 }
