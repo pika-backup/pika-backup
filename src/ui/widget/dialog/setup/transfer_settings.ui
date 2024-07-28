@@ -8,18 +8,12 @@
     <property name="title" translatable="yes">Transfer Settings</property>
     <property name="subtitle" translatable="yes">One set of configurations used for previous backups can be selected for transfer to the new setup. The configuration can be adjusted afterward.</property>
     <child>
-      <object class="AdwPreferencesGroup">
+      <object class="AdwPreferencesGroup" id="transfer_suggestions">
         <child>
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkListBox" id="transfer_suggestions">
-                <property name="selection-mode">none</property>
-                <style>
-                  <class name="overview-list" />
-                </style>
-              </object>
-            </child>
+          <object class="AdwButtonRow">
+            <property name="title" translatable="yes">Skip</property>
+            <signal name="activated" handler="on_skip_button" swapped="true" />
+            <property name="end-icon-name">go-next-symbolic</property>
           </object>
         </child>
       </object>

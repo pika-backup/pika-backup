@@ -451,13 +451,13 @@ mod imp {
         }
 
         #[template_callback]
-        async fn on_transfer_settings_continue(&self, archive_params: &ArchiveParams) {
+        async fn on_transfer_settings_continue(&self, archive_params: Option<&ArchiveParams>) {
             /*if self.busy.replace(true) {
                 return;
             }*/
 
             let config = self.new_config();
-            if let Some(mut config) = config {
+            if let (Some(mut config), Some(archive_params)) = (config, archive_params) {
                 let res = actions::transfer_settings(&mut config, archive_params).await;
                 self.set_new_config(Some(config));
 
