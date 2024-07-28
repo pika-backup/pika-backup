@@ -1023,13 +1023,13 @@ mod test {
             .with_ymd_and_hms(2024, 10, 27, 0, 7, 0)
             .earliest()
             .unwrap()
-            .with_timezone(&chrono::offset::Local);
+            .with_timezone(&tz);
 
         let now = tz
             .with_ymd_and_hms(2024, 10, 27, 1, 30, 0)
             .earliest()
             .unwrap()
-            .with_timezone(&chrono::offset::Local);
+            .with_timezone(&tz);
 
         let frequency = config::Frequency::Daily {
             preferred_time: chrono::NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
