@@ -17,7 +17,7 @@ mod imp {
     #[template(file = "transfer_prefix.ui")]
     pub struct SetupTransferPrefixPage {
         #[template_child]
-        pub(super) prefix: TemplateChild<gtk::Entry>,
+        pub(super) prefix: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) prefix_submit: TemplateChild<gtk::Button>,
     }
