@@ -115,8 +115,8 @@ impl Hint {
 }
 
 #[derive(Debug, Clone)]
-pub enum Due {
-    NotDue { next: DateTime<Local> },
+pub enum Due<Tz: chrono::TimeZone> {
+    NotDue { next: DateTime<Tz> },
     Running,
 }
 
@@ -126,10 +126,10 @@ pub enum DueCause {
     Retry,
 }
 
-impl Due {
+impl Due<Local> {
     pub fn next_due(&self) -> Option<chrono::Duration> {
         match self {
-            Self::NotDue { next } => Some(*next - chrono::Local::now()),
+            Self::NotDue { next } => Some(next.with_timezone(&Local) - Local::now()),
             Self::Running => None,
         }
     }
@@ -152,10 +152,12 @@ impl Due {
             config.schedule.frequency,
             history,
             &activity.cloned().unwrap_or_default(),
-            chrono::Local::now(),
+            Local::now(),
         )
     }
+}
 
+impl<Tz: chrono::TimeZone> Due<Tz> {
     /// Same as check_full but does not rely on the current system time.
     ///
     /// Checks all the prerequisites in the history file and then delegates the actual
@@ -164,20 +166,29 @@ impl Due {
         schedule: config::Frequency,
         history: Option<&config::history::History>,
         activity: &config::Activity,
-        now: chrono::DateTime<Local>,
+        now: chrono::DateTime<Tz>,
     ) -> Result<DueCause, Self> {
         if history.is_some_and(|h| h.is_running()) {
             // Already running, skip
             return Err(Self::Running);
         };
 
-        let Some(last_run) = history.and_then(|h| h.last_run()).map(|run| run.end) else {
+        // Convert all times to the timezone of now
+        let tz = now.timezone();
+
+        // The last backup, no matter if successful or not
+        let Some(last_run) = history
+            .and_then(|h| h.last_run())
+            .map(|run| run.end.with_timezone(&tz))
+        else {
             // Never ran before, always due
             return Ok(DueCause::Regular);
         };
 
         // The last successful backup
-        let last_completed = history.and_then(|h| h.last_completed()).map(|run| run.end);
+        let last_completed = history
+            .and_then(|h| h.last_completed())
+            .map(|run| run.end.with_timezone(&tz));
 
         Self::check_real(schedule, activity, now, last_run, last_completed)
     }
@@ -186,12 +197,12 @@ impl Due {
     fn check_real(
         frequency: config::Frequency,
         activity: &config::Activity,
-        now: chrono::DateTime<Local>,
-        last_run: chrono::DateTime<Local>,
-        last_completed: Option<chrono::DateTime<Local>>,
+        now: chrono::DateTime<Tz>,
+        last_run: chrono::DateTime<Tz>,
+        last_completed: Option<chrono::DateTime<Tz>>,
     ) -> Result<DueCause, Self> {
         // The next backup according to the regular schedule
-        let next_run = Self::next_run(frequency, last_run);
+        let next_run = Self::next_run(frequency, last_run.clone());
 
         // Check if we are due for a regular backup
         if next_run <= now {
@@ -256,9 +267,9 @@ impl Due {
     /// Determine the next scheduled backup time
     fn next_run(
         frequency: config::Frequency,
-        last_run: chrono::DateTime<Local>,
-    ) -> chrono::DateTime<Local> {
-        let local_tz = chrono::Local;
+        last_run: chrono::DateTime<Tz>,
+    ) -> chrono::DateTime<Tz> {
+        let tz: Tz = last_run.timezone();
 
         match frequency {
             // Hourly backups just run every hour (measured after the last run end time)
@@ -283,7 +294,7 @@ impl Due {
                     .fixed_offset()
                     .with_time(preferred_time)
                     .unwrap()
-                    .with_timezone(&local_tz)
+                    .with_timezone(&tz)
             }
             // Weekly backups run every week on or after the preferred day.
             // We schedule a backup for the preferred day regardless of whether
@@ -312,7 +323,7 @@ impl Due {
                     .fixed_offset()
                     .with_time(chrono::NaiveTime::MIN)
                     .unwrap()
-                    .with_timezone(&local_tz)
+                    .with_timezone(&tz)
             }
             // Monthly runs every month on or after the preferred day.
             // If the preferred day is not yet reached we schedule a backup for this month.
@@ -341,7 +352,7 @@ impl Due {
                     .fixed_offset()
                     .with_time(chrono::NaiveTime::MIN)
                     .unwrap()
-                    .with_timezone(&local_tz)
+                    .with_timezone(&tz)
             }
         }
     }
@@ -361,7 +372,7 @@ mod test {
         let mut history = config::history::History::default();
         let activity = Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
 
         history.start_running_now();
@@ -372,18 +383,14 @@ mod test {
 
     #[test]
     fn test_check_real_hourly() {
-        let now = chrono::Local
-            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
-            .unwrap();
+        let now = Local.with_ymd_and_hms(2024, 02, 12, 13, 02, 12).unwrap();
         let yesterday = now.with_day(11).unwrap();
         let tomorrow = now.with_day(13).unwrap();
-        let last_month = chrono::Local
-            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
-            .unwrap();
+        let last_month = Local.with_ymd_and_hms(2024, 01, 31, 12, 59, 12).unwrap();
         let activity_none = Activity::default();
         let activity_enough = Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
 
         // Activity or completed shouldn't matter for hourly
@@ -409,9 +416,7 @@ mod test {
                         Frequency::Hourly,
                         &activity,
                         now,
-                        chrono::Local
-                            .with_ymd_and_hms(2024, 02, 12, 12, 02, 12)
-                            .unwrap(),
+                        Local.with_ymd_and_hms(2024, 02, 12, 12, 02, 12).unwrap(),
                         completed
                     ),
                     Ok(DueCause::Regular)
@@ -423,24 +428,20 @@ mod test {
                         Frequency::Hourly,
                         &activity,
                         now,
-                        chrono::Local
-                            .with_ymd_and_hms(2024, 02, 12, 12, 02, 11)
-                            .unwrap(),
+                        Local.with_ymd_and_hms(2024, 02, 12, 12, 02, 11).unwrap(),
                         completed
                     ),
                     Ok(DueCause::Regular)
                 );
 
                 // Exactly 59 minutes 59 seconds earlier
-                let next_schedule = chrono::Local
-                    .with_ymd_and_hms(2024, 02, 12, 13, 02, 13)
-                    .unwrap();
+                let next_schedule = Local.with_ymd_and_hms(2024, 02, 12, 13, 02, 13).unwrap();
                 assert_matches!(
                     Due::check_real(
                         Frequency::Hourly,
                         &activity,
                         now,
-                        chrono::Local
+                        Local
                             .with_ymd_and_hms(2024, 02, 12, 12, 02, 13)
                             .unwrap(),
                             completed
@@ -466,19 +467,15 @@ mod test {
 
     #[test]
     fn test_check_real_daily() {
-        let now = chrono::Local
-            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
-            .unwrap();
+        let now = Local.with_ymd_and_hms(2024, 02, 12, 13, 02, 12).unwrap();
         let preferred_time = chrono::NaiveTime::from_hms_opt(11, 02, 01).unwrap();
         let yesterday = now.with_day(11).unwrap();
         let tomorrow = now.with_day(13).unwrap();
-        let last_month = chrono::Local
-            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
-            .unwrap();
+        let last_month = Local.with_ymd_and_hms(2024, 01, 31, 12, 59, 12).unwrap();
         let activity_none = Activity::default();
         let activity_enough = Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
 
         // Completed shouldn't matter for daily, we don't do retries for daily
@@ -534,7 +531,7 @@ mod test {
                     Frequency::Daily { preferred_time },
                     &activity_enough,
                     now,
-                    chrono::Local
+                    Local
                         .with_ymd_and_hms(2024, 02, 12, 12, 02, 12)
                         .unwrap(),
                     completed
@@ -589,9 +586,7 @@ mod test {
 
     #[test]
     fn test_check_real_weekly() {
-        let now_monday = chrono::Local
-            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
-            .unwrap();
+        let now_monday = Local.with_ymd_and_hms(2024, 02, 12, 13, 02, 12).unwrap();
         let tomorrow = now_monday.with_day(13).unwrap();
         let preferred_weekday = chrono::Weekday::Sat;
         let last_sunday = now_monday.with_day(11).unwrap();
@@ -601,13 +596,11 @@ mod test {
             .unwrap()
             .with_day(17)
             .unwrap();
-        let last_month = chrono::Local
-            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
-            .unwrap();
+        let last_month = Local.with_ymd_and_hms(2024, 01, 31, 12, 59, 12).unwrap();
         let activity_none = Activity::default();
         let activity_enough = Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
 
         for date in [now_monday, last_month, last_sunday, next_saturday_00] {
@@ -647,7 +640,7 @@ mod test {
                 last_sunday,
                 Some(last_sunday)
             ),
-            Err(Due::NotDue { next }) if next == chrono::Local
+            Err(Due::NotDue { next }) if next == Local
                 .with_ymd_and_hms(2024, 02, 17, 0, 0, 0)
                 .unwrap()
         );
@@ -695,22 +688,16 @@ mod test {
 
     #[test]
     fn test_check_real_monthly() {
-        let feb_12 = chrono::Local
-            .with_ymd_and_hms(2024, 02, 12, 13, 02, 12)
-            .unwrap();
+        let feb_12 = Local.with_ymd_and_hms(2024, 02, 12, 13, 02, 12).unwrap();
         let preferred_day = 14;
         let feb_14 = feb_12.with_day(14).unwrap();
         let feb_15 = feb_12.with_day(15).unwrap();
-        let feb_29_00 = chrono::Local
-            .with_ymd_and_hms(2024, 02, 29, 0, 0, 0)
-            .unwrap();
-        let last_month = chrono::Local
-            .with_ymd_and_hms(2024, 01, 31, 12, 59, 12)
-            .unwrap();
+        let feb_29_00 = Local.with_ymd_and_hms(2024, 02, 29, 0, 0, 0).unwrap();
+        let last_month = Local.with_ymd_and_hms(2024, 01, 31, 12, 59, 12).unwrap();
         let activity_none = Activity::default();
         let activity_enough = Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
 
         // Run at least USED_THRESHOLD after "now" if activity is empty no matter what time we ran the last time
@@ -792,9 +779,9 @@ mod test {
         let mut history = config::history::History::default();
         let activity = config::Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
-        let preferred_time = chrono::Local::now().time() - chrono::Duration::hours(1);
+        let preferred_time = Local::now().time() - chrono::Duration::hours(1);
 
         config.schedule.frequency = config::Frequency::Daily { preferred_time };
 
@@ -809,8 +796,7 @@ mod test {
             Err(Due::NotDue { next }) => {
                 // due after device used enough
                 assert!(
-                    (chrono::Local::now() + chrono::Duration::from_std(USED_THRESHOLD).unwrap())
-                        - next
+                    (Local::now() + chrono::Duration::from_std(USED_THRESHOLD).unwrap()) - next
                         < chrono::Duration::seconds(1)
                 );
                 true
@@ -830,7 +816,7 @@ mod test {
         // failed today before preferred time
 
         history.insert(config::history::RunInfo::new_left_running(
-            &(chrono::Local::now() - chrono::Duration::hours(2)),
+            &(Local::now() - chrono::Duration::hours(2)),
         ));
 
         let due = Due::check_full(&config, Some(&history), Some(&activity));
@@ -839,7 +825,7 @@ mod test {
         // failed now, try again tomorrow
 
         let mut config_close = config;
-        let preferred_time_close = chrono::Local::now().time() - chrono::Duration::seconds(1);
+        let preferred_time_close = Local::now().time() - chrono::Duration::seconds(1);
 
         let mut history_close = history.clone();
         history_close.insert(config::history::RunInfo::test_new_mock(
@@ -850,16 +836,14 @@ mod test {
             preferred_time: preferred_time_close,
         };
 
-        history.insert(config::history::RunInfo::new_left_running(
-            &chrono::Local::now(),
-        ));
+        history.insert(config::history::RunInfo::new_left_running(&Local::now()));
 
         let due = Due::check_full(&config_close, Some(&history_close), Some(&activity));
         assert!(match due {
             Err(Due::NotDue { next }) => {
                 assert_eq!(
                     next,
-                    chrono::Local::now()
+                    Local::now()
                         .checked_add_days(chrono::Days::new(1))
                         .unwrap()
                         .with_time(preferred_time_close)
@@ -882,7 +866,7 @@ mod test {
             Err(Due::NotDue { next }) => {
                 assert_eq!(
                     next,
-                    chrono::Local::now()
+                    Local::now()
                         .checked_add_days(chrono::Days::new(1))
                         .unwrap()
                         .with_time(preferred_time_close)
@@ -900,11 +884,11 @@ mod test {
         let mut history = Default::default();
         let activity = config::Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
 
         config.schedule.frequency = config::Frequency::Weekly {
-            preferred_weekday: (chrono::Local::now() - chrono::Duration::days(1)).weekday(),
+            preferred_weekday: (Local::now() - chrono::Duration::days(1)).weekday(),
         };
 
         // Never ran
@@ -915,7 +899,7 @@ mod test {
         // no activity
 
         history.insert(config::history::RunInfo::new_left_running(
-            &(chrono::Local::now() - chrono::Duration::days(1)),
+            &(Local::now() - chrono::Duration::days(1)),
         ));
 
         let due = Due::check_full(&config, Some(&history), None);
@@ -923,8 +907,7 @@ mod test {
             Err(Due::NotDue { next }) => {
                 // due after device used enough
                 assert!(
-                    (chrono::Local::now() + chrono::Duration::from_std(USED_THRESHOLD).unwrap())
-                        - next
+                    (Local::now() + chrono::Duration::from_std(USED_THRESHOLD).unwrap()) - next
                         < chrono::Duration::seconds(1)
                 );
                 true
@@ -949,7 +932,7 @@ mod test {
             Err(Due::NotDue { next }) => {
                 assert_eq!(
                     next,
-                    (chrono::Local::now() + chrono::Duration::days(6))
+                    (Local::now() + chrono::Duration::days(6))
                         .with_time(chrono::NaiveTime::MIN)
                         .unwrap()
                 );
@@ -961,7 +944,7 @@ mod test {
         // due today and only completed yesterday
 
         config.schedule.frequency = config::Frequency::Weekly {
-            preferred_weekday: chrono::Local::now().weekday(),
+            preferred_weekday: Local::now().weekday(),
         };
 
         let due = Due::check_full(&config, Some(&history), Some(&activity));
@@ -979,9 +962,7 @@ mod test {
             Err(Due::NotDue { next }) => {
                 assert_eq!(
                     next,
-                    chrono::Local::now()
-                        .with_time(chrono::NaiveTime::MIN)
-                        .unwrap()
+                    Local::now().with_time(chrono::NaiveTime::MIN).unwrap()
                         + chrono::Duration::weeks(1)
                 );
                 true
@@ -996,10 +977,10 @@ mod test {
         let mut history = config::history::History::default();
         let activity = config::Activity {
             used: USED_THRESHOLD,
-            last_update: chrono::Local::now(),
+            last_update: Local::now(),
         };
 
-        let preferred_day = chrono::Local::now() - chrono::Duration::days(1);
+        let preferred_day = Local::now() - chrono::Duration::days(1);
         config.schedule.frequency = config::Frequency::Monthly {
             preferred_day: preferred_day.day() as u8,
         };
@@ -1062,6 +1043,45 @@ mod test {
                 assert_eq!(
                     next,
                     tz.with_ymd_and_hms(2024, 10, 28, 0, 0, 0)
+                        .earliest()
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
+    }
+
+    /// Ensure traveling between timezones works well
+    #[test]
+    fn tz_change() {
+        let tz_berlin = chrono_tz::Europe::Berlin;
+        let tz_nyc = chrono_tz::America::New_York;
+
+        let last_run = tz_berlin
+            .with_ymd_and_hms(2024, 10, 02, 0, 7, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&tz_nyc);
+
+        let now = tz_nyc
+            .with_ymd_and_hms(2024, 10, 01, 23, 30, 0)
+            .earliest()
+            .unwrap();
+
+        let frequency = config::Frequency::Daily {
+            preferred_time: chrono::NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
+        };
+        let activity = Activity::default();
+
+        let due = Due::check_real(frequency, &activity, now, last_run, Some(last_run));
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(next.timezone(), tz_nyc);
+                assert_eq!(
+                    next,
+                    tz_nyc
+                        .with_ymd_and_hms(2024, 10, 02, 0, 0, 0)
                         .earliest()
                         .unwrap()
                 );
