@@ -201,8 +201,16 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
         last_run: chrono::DateTime<Tz>,
         last_completed: Option<chrono::DateTime<Tz>>,
     ) -> Result<DueCause, Self> {
+        // The output timezone
+        let tz = now.timezone();
+
+        // Convert the last run into naive date time
+        let last_run_naive = last_run.naive_local();
+        let last_completed_naive = last_completed.map(|c| c.naive_local());
+
         // The next backup according to the regular schedule
-        let next_run = Self::next_run(frequency, last_run.clone());
+        let next_run =
+            Self::naive_to_next_local(Self::next_run(frequency, last_run_naive), tz.clone());
 
         // Check if we are due for a regular backup
         if next_run <= now {
@@ -224,25 +232,21 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
         match frequency {
             config::Frequency::Weekly { .. } | config::Frequency::Monthly { .. } => {
                 // The next day after the last run, 00:00 (start of day)
-                //
-                // Panics: This is safe because we use a fixed offset and fixed offset don't have gaps
-                let next_day_midnight = last_run
-                    .fixed_offset()
-                    .checked_add_days(chrono::Days::new(1))
-                    .unwrap()
-                    .with_time(chrono::NaiveTime::MIN)
-                    .unwrap()
-                    .with_timezone(&last_run.timezone());
+                let next_day_midnight =
+                    (last_run_naive.date() + chrono::Days::new(1)).and_time(chrono::NaiveTime::MIN);
 
                 // We only allow one retry a day
-                let next_retry = if let Some(completed) = last_completed {
-                    // We use the time for the last completed backup to figure out the next retry
-                    // the same way as we would with a regular scheduled backup.
-                    Self::next_run(frequency, completed).max(next_day_midnight)
-                } else {
-                    // If we never completed a backup we try every day until we get one.
-                    next_day_midnight
-                };
+                let next_retry = Self::naive_to_next_local(
+                    if let Some(completed) = last_completed_naive {
+                        // We use the time for the last completed backup to figure out the next retry
+                        // the same way as we would with a regular scheduled backup.
+                        Self::next_run(frequency, completed).max(next_day_midnight)
+                    } else {
+                        // If we never completed a backup we try every day until we get one.
+                        next_day_midnight
+                    },
+                    now.timezone(),
+                );
 
                 if next_retry <= now {
                     if activity.is_threshold_reached() {
@@ -264,26 +268,25 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
         }
     }
 
-    /// Calculate the next run based on the frequency, the last run, and a given timezone
-    fn next_run(
-        frequency: config::Frequency,
-        last_run: chrono::DateTime<Tz>,
-    ) -> chrono::DateTime<Tz> {
-        let tz = last_run.timezone();
-
-        let next = Self::next_run_naive(frequency, last_run.naive_local()).and_local_timezone(tz);
-
-        // Panics: We use fixed_offset for the calculation because this lets
-        // us ignore gaps in time (aka daylight savings time). According to
-        // chrono docs this can only fail at the end of time and space.
-        next.unwrap()
+    /// Calculate the next date that exists.
+    ///
+    /// This deals with gaps in the space-time continuum by finding the next representable time after the gap.
+    fn naive_to_next_local(mut naive: chrono::NaiveDateTime, tz: Tz) -> chrono::DateTime<Tz> {
+        loop {
+            let next = naive.and_local_timezone(tz.clone()).earliest();
+            if let Some(next) = next {
+                return next;
+            } else {
+                naive += chrono::Duration::minutes(1);
+            }
+        }
     }
 
     /// Determine the next scheduled backup time.
     ///
     /// This returns the time as a naive date time. Converting this to the local time is
     /// left to the caller.
-    fn next_run_naive(frequency: config::Frequency, last_run: NaiveDateTime) -> NaiveDateTime {
+    fn next_run(frequency: config::Frequency, last_run: NaiveDateTime) -> NaiveDateTime {
         match frequency {
             // Hourly backups just run every hour (measured after the last run end time)
             config::Frequency::Hourly => last_run + chrono::Duration::hours(1),
@@ -1078,6 +1081,82 @@ mod test {
                     next,
                     tz_nyc
                         .with_ymd_and_hms(2024, 10, 02, 0, 0, 0)
+                        .earliest()
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
+    }
+
+    /// Ensure gaps in the space-time contiuum are handled properly
+    #[test]
+    fn tz_gap() {
+        let tz = chrono_tz::Europe::Berlin;
+        let last_run = tz
+            .with_ymd_and_hms(2024, 3, 30, 2, 30, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&tz);
+
+        let now = tz
+            .with_ymd_and_hms(2024, 3, 31, 0, 30, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&tz);
+
+        let frequency = config::Frequency::Daily {
+            preferred_time: chrono::NaiveTime::from_hms_opt(2, 0, 0).unwrap(),
+        };
+        let activity = Activity::default();
+
+        // 2024-03-31 02:00 doesn't exist because of DST time change
+        // We expect the next possible time: 03:00
+        let due = Due::check_real(frequency, &activity, now, last_run, Some(last_run));
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    tz.with_ymd_and_hms(2024, 3, 31, 3, 0, 0)
+                        .earliest()
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
+    }
+
+    /// Ensure overlaps in the space-time contiuum are handled properly
+    #[test]
+    fn tz_overlap() {
+        let tz = chrono_tz::Europe::Berlin;
+        let last_run = tz
+            .with_ymd_and_hms(2024, 10, 26, 2, 30, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&tz);
+
+        let now = tz
+            .with_ymd_and_hms(2024, 10, 27, 0, 30, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&tz);
+
+        let frequency = config::Frequency::Daily {
+            preferred_time: chrono::NaiveTime::from_hms_opt(2, 0, 0).unwrap(),
+        };
+        let activity = Activity::default();
+
+        // 2024-03-31 02:00 exists twice because of DST time change
+        // We expect this to be the first 02:00
+        let due = Due::check_real(frequency, &activity, now, last_run, Some(last_run));
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    tz.with_ymd_and_hms(2024, 10, 27, 2, 0, 0)
                         .earliest()
                         .unwrap()
                 );
