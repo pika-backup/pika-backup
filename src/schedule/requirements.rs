@@ -264,13 +264,26 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
         }
     }
 
-    /// Determine the next scheduled backup time
+    /// Calculate the next run based on the frequency, the last run, and a given timezone
     fn next_run(
         frequency: config::Frequency,
         last_run: chrono::DateTime<Tz>,
     ) -> chrono::DateTime<Tz> {
-        let tz: Tz = last_run.timezone();
+        let tz = last_run.timezone();
 
+        let next = Self::next_run_naive(frequency, last_run.naive_local()).and_local_timezone(tz);
+
+        // Panics: We use fixed_offset for the calculation because this lets
+        // us ignore gaps in time (aka daylight savings time). According to
+        // chrono docs this can only fail at the end of time and space.
+        next.unwrap()
+    }
+
+    /// Determine the next scheduled backup time.
+    ///
+    /// This returns the time as a naive date time. Converting this to the local time is
+    /// left to the caller.
+    fn next_run_naive(frequency: config::Frequency, last_run: NaiveDateTime) -> NaiveDateTime {
         match frequency {
             // Hourly backups just run every hour (measured after the last run end time)
             config::Frequency::Hourly => last_run + chrono::Duration::hours(1),
@@ -279,22 +292,14 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
                 // First we change the date if needed
                 let next_date = if last_run.time() < preferred_time {
                     // Schedule for the same day because we ran before the preferred time
-                    last_run
+                    last_run.date()
                 } else {
                     // We already ran today on or after the scheduled time. Schedule for the next day.
-                    last_run + chrono::Duration::days(1)
+                    last_run.date() + chrono::Duration::days(1)
                 };
 
                 // Now we adjust the time to our preferred time.
-                //
-                // Panics: We use fixed_offset for the calculation because this lets
-                // us ignore gaps in time (aka daylight savings time). According to
-                // chrono docs this can only fail at the end of time and space.
-                next_date
-                    .fixed_offset()
-                    .with_time(preferred_time)
-                    .unwrap()
-                    .with_timezone(&tz)
+                next_date.and_time(preferred_time)
             }
             // Weekly backups run every week on or after the preferred day.
             // We schedule a backup for the preferred day regardless of whether
@@ -316,14 +321,8 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
                 };
 
                 // Add the offset to our last schedule
-                let next_run = last_run + chrono::Duration::days(offset_days.into());
-
-                // Panics: This only fails at the end of time because we use fixed_offset
-                next_run
-                    .fixed_offset()
-                    .with_time(chrono::NaiveTime::MIN)
-                    .unwrap()
-                    .with_timezone(&tz)
+                let next_run = last_run.date() + chrono::Days::new(offset_days.into());
+                next_run.and_time(chrono::NaiveTime::MIN)
             }
             // Monthly runs every month on or after the preferred day.
             // If the preferred day is not yet reached we schedule a backup for this month.
@@ -336,23 +335,20 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
                     // of the month if the day does not exist in the resulting month.
                     //
                     // Panics: This only fails at the end of time.
-                    last_run.checked_add_months(chrono::Months::new(1)).unwrap()
+                    last_run.date() + chrono::Months::new(1)
                 } else {
                     // We run this month
-                    last_run
+                    last_run.date()
                 };
 
                 // Set the day. This will clamp to the last day of the month if the month is shorter.
                 //
                 // Panics: This only fails at the end of time
-                let new_date = chronoutil::delta::with_day(next_month, preferred_day).unwrap();
-
-                // Panics: This only fails at the end of time because we use fixed_offset
-                new_date
-                    .fixed_offset()
-                    .with_time(chrono::NaiveTime::MIN)
-                    .unwrap()
-                    .with_timezone(&tz)
+                chronoutil::delta::with_day(
+                    next_month.and_time(chrono::NaiveTime::MIN),
+                    preferred_day,
+                )
+                .unwrap()
             }
         }
     }
