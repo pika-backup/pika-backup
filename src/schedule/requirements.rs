@@ -258,7 +258,7 @@ impl Due {
         frequency: config::Frequency,
         last_run: chrono::DateTime<Local>,
     ) -> chrono::DateTime<Local> {
-        let local_tz = last_run.timezone();
+        let local_tz = chrono::Local;
 
         match frequency {
             // Hourly backups just run every hour (measured after the last run end time)
