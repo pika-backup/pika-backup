@@ -1034,4 +1034,40 @@ mod test {
             _ => false,
         });
     }
+
+    /// Ensure we never schedule a backup in the past, even when directly at a time zone boundary
+    #[test]
+    fn schedule_in_the_past() {
+        let tz = chrono_tz::Europe::Berlin;
+        let last_run = tz
+            .with_ymd_and_hms(2024, 10, 27, 0, 7, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&chrono::offset::Local);
+
+        let now = tz
+            .with_ymd_and_hms(2024, 10, 27, 1, 30, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&chrono::offset::Local);
+
+        let frequency = config::Frequency::Daily {
+            preferred_time: chrono::NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
+        };
+        let activity = Activity::default();
+
+        let due = Due::check_real(frequency, &activity, now, last_run, Some(last_run));
+        assert!(match due {
+            Err(Due::NotDue { next }) => {
+                assert_eq!(
+                    next,
+                    tz.with_ymd_and_hms(2024, 10, 28, 0, 0, 0)
+                        .earliest()
+                        .unwrap()
+                );
+                true
+            }
+            _ => false,
+        });
+    }
 }
