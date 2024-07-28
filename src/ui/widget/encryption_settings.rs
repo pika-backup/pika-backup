@@ -99,7 +99,11 @@ mod imp {
                 }
 
                 if password != self.password_confirm_entry.text() {
-                    return Err(Message::short(gettext("Entered passwords do not match.")).into());
+                    return Err(Message::new(
+                        gettext("Invalid Passwords"),
+                        gettext("The passwords do not match"),
+                    )
+                    .into());
                 }
 
                 Ok(Some(crate::config::Password::new(password)))
