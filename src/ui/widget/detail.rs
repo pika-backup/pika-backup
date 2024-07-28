@@ -30,8 +30,6 @@ mod imp {
     #[template(file = "detail.ui")]
     pub struct DetailPage {
         #[template_child]
-        pending_menu_spinner: TemplateChild<gtk::Spinner>,
-        #[template_child]
         pub(super) pending_menu: TemplateChild<gtk::MenuButton>,
 
         #[template_child]
@@ -65,9 +63,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let imp = self.ref_counted();
-
-            self.pending_menu_spinner.connect_map(|s| s.start());
-            self.pending_menu_spinner.connect_unmap(|s| s.stop());
 
             glib::timeout_add_local_once(std::time::Duration::ZERO, move || {
                 // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion

@@ -71,7 +71,7 @@ mod imp {
         #[template_child]
         pub(super) refresh_archives_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) reloading_spinner: TemplateChild<gtk::Spinner>,
+        pub(super) reloading_spinner: TemplateChild<adw::Spinner>,
         #[template_child]
         pub(super) eject_button: TemplateChild<gtk::Button>,
 
@@ -161,11 +161,6 @@ mod imp {
                     Handler::run(async move { obj.imp().eject_button_clicked().await });
                 }
             ));
-
-            // spinner performance
-
-            self.reloading_spinner.connect_map(|s| s.start());
-            self.reloading_spinner.connect_unmap(|s| s.stop());
         }
     }
 

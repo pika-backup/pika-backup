@@ -72,8 +72,6 @@ mod imp {
         change_password_page_spinner: TemplateChild<adw::ToolbarView>,
         #[template_child]
         change_password_button: TemplateChild<gtk::Button>,
-        #[template_child]
-        changing_password_spinner: TemplateChild<gtk::Spinner>,
         change_password_communication:
             RefCell<Option<crate::borg::Communication<crate::borg::task::KeyChangePassphrase>>>,
     }
@@ -445,7 +443,6 @@ mod imp {
             self.page_change_encryption_password.set_can_pop(false);
             self.change_password_stack
                 .set_visible_child(&*self.change_password_page_spinner);
-            self.changing_password_spinner.set_spinning(true);
 
             let encrypted = self.encryption_preferences_group.encrypted();
             let password = self.encryption_preferences_group.validated_password()?;
@@ -515,7 +512,6 @@ mod imp {
             self.page_change_encryption_password.set_can_pop(true);
             self.change_password_stack
                 .set_visible_child(&*self.change_password_page_enter_password);
-            self.changing_password_spinner.set_spinning(false);
         }
 
         #[template_callback]

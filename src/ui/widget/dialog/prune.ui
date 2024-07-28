@@ -2,6 +2,9 @@
 <interface>
   <requires lib="gtk" version="4.10"/>
   <requires lib="libadwaita" version="1.4"/>
+  <object class="AdwSpinnerPaintable" id="spinner">
+    <property name="widget">status_page</property>
+  </object>
   <template class="PkPruneDialog" parent="AdwDialog">
     <property name="title" translatable="yes">Delete Archives</property>
     <property name="follows-content-size">True</property>
@@ -18,15 +21,8 @@
             <property name="content">
               <object class="AdwStatusPage" id="status_page">
                 <property name="title" translatable="yes" comments="Translators: Header while creating a list of old archives to be approved for deletion.">Checking for Old Archives</property>
-                <property name="icon-name">drive-harddisk-symbolic</property>
                 <property name="vexpand">1</property>
-                <child>
-                  <object class="GtkSpinner">
-                    <property name="spinning">1</property>
-                    <property name="width-request">32</property>
-                    <property name="height-request">32</property>
-                  </object>
-                </child>
+                <property name="paintable">spinner</property>
               </object>
             </property>
           </object>

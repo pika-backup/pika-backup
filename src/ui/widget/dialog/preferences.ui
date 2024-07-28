@@ -23,6 +23,9 @@
       </object>
     </child>
   </object>
+  <object class="AdwSpinnerPaintable" id="change_password_spinner">
+    <property name="widget">change_password_status_page</property>
+  </object>
   <object class="AdwNavigationPage" id="page_change_encryption_password">
     <property name="title" translatable="yes">Change Encryption Password</property>
     <signal name="hidden" handler="change_password_dismissed" swapped="true"/>
@@ -75,34 +78,27 @@
             <property name="content">
               <object class="GtkOverlay" id="page_change_encryption_password_enter_password">
                 <child>
-                  <object class="AdwStatusPage">
-                    <style>
-                      <class name="dialog-page"/>
-                    </style>
+                  <object class="AdwStatusPage" id="change_password_status_page">
                     <property name="vexpand">true</property>
-                    <property name="icon-name">drive-harddisk-symbolic</property>
+                    <property name="paintable">change_password_spinner</property>
                     <property name="title" translatable="yes">Changing Encryption Password</property>
                     <child>
-                      <object class="GtkSpinner" id="changing_password_spinner">
-                        <property name="width-request">32</property>
-                        <property name="height-request">32</property>
+                      <object class="GtkButton">
+                        <property name="halign">center</property>
+                        <property name="valign">end</property>
+                        <property name="use-underline">1</property>
+                        <property name="label" translatable="yes">_Cancel</property>
+                        <signal name="clicked" handler="change_password_cancel" swapped="true"/>
+                        <style>
+                          <class name="pill"/>
+                          <class name="opaque"/>
+                          <class name="dialog-pill"/>
+                        </style>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child type="overlay">
-                  <object class="GtkButton">
-                    <property name="halign">center</property>
-                    <property name="valign">end</property>
-                    <property name="use-underline">1</property>
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <signal name="clicked" handler="change_password_cancel" swapped="true"/>
-                    <style>
-                      <class name="pill"/>
-                      <class name="opaque"/>
-                      <class name="dialog-pill"/>
-                    </style>
-                  </object>
                 </child>
               </object>
             </property>

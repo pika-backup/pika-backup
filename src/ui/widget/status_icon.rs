@@ -73,7 +73,7 @@ mod imp {
     #[properties(wrapper_type = super::StatusIcon)]
     pub struct StatusIcon {
         pub image: gtk::Image,
-        pub spinner: gtk::Spinner,
+        pub spinner: adw::Spinner,
         pub stack: gtk::Stack,
 
         #[property(get, set)]
@@ -84,7 +84,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for StatusIcon {
-        const NAME: &'static str = "PikaStatusIcon";
+        const NAME: &'static str = "PkStatusIcon";
         type Type = super::StatusIcon;
         type ParentType = gtk::Box;
     }
@@ -100,14 +100,14 @@ mod imp {
                 .build();
 
             self.spinner.add_css_class("row-icon");
+            self.spinner.set_width_request(24);
+            self.spinner.set_height_request(24);
             self.spinner.set_valign(gtk::Align::Center);
+            self.spinner.set_halign(gtk::Align::Center);
 
             self.stack.add_child(&self.image);
             self.stack.add_child(&self.spinner);
             self.stack.set_visible_child(&self.image);
-
-            self.spinner.connect_map(|s| s.start());
-            self.spinner.connect_unmap(|s| s.stop());
 
             self.obj().append(&self.stack);
         }
