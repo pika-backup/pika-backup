@@ -17,6 +17,8 @@ mod imp {
         #[template_child]
         password_confirm_entry: TemplateChild<adw::PasswordEntryRow>,
         #[template_child]
+        validation_label: TemplateChild<gtk::Label>,
+        #[template_child]
         password_quality_bar: TemplateChild<gtk::LevelBar>,
         #[template_child]
         revealer: TemplateChild<gtk::Revealer>,
@@ -25,6 +27,8 @@ mod imp {
         encrypted: Cell<bool>,
         #[property(get = Self::description)]
         description: PhantomData<String>,
+        #[property(get)]
+        valid: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -43,27 +47,19 @@ mod imp {
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for EncryptionSettings {
         fn constructed(&self) {
             self.parent_constructed();
 
             self.password_quality_bar
-                .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 1.0);
-            self.password_quality_bar.add_offset_value("mid", 2.0);
+                .add_offset_value(gtk::LEVEL_BAR_OFFSET_LOW, 3.0);
             self.password_quality_bar
-                .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 3.0);
+                .add_offset_value(gtk::LEVEL_BAR_OFFSET_HIGH, 5.0);
             self.password_quality_bar
-                .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 5.0);
-        }
+                .add_offset_value(gtk::LEVEL_BAR_OFFSET_FULL, 7.0);
 
-        fn properties() -> &'static [glib::ParamSpec] {
-            Self::derived_properties()
-        }
-        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            self.derived_set_property(id, value, pspec)
-        }
-        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            self.derived_property(id, pspec)
+            self.score_password();
         }
     }
     impl WidgetImpl for EncryptionSettings {}
@@ -75,6 +71,15 @@ mod imp {
         pub fn on_switch_active(&self) {
             if !self.encrypted.get() {
                 self.reset();
+            }
+
+            self.update_valid();
+        }
+
+        fn update_valid(&self) {
+            let validated_password = self.validated_password().is_ok();
+            if self.valid.replace(validated_password) != validated_password {
+                self.obj().notify_valid()
             }
         }
 
@@ -112,33 +117,125 @@ mod imp {
             }
         }
 
-        pub fn score_password(password: &str) -> f64 {
-            if let Ok(pw_check) = zxcvbn::zxcvbn(password, &[]) {
-                pw_check.score() as f64 + 1.
+        pub fn score_password(&self) {
+            let password = self.password_entry.text();
+            let password_confirm = self.password_confirm_entry.text();
+
+            let entropy = zxcvbn::zxcvbn(&password, &[]);
+
+            // Score:
+            // - 0: no password
+            // - 1-4 rather easy to crack, in the order of magnitude of seconds to years
+            // - 5 centuries
+            let (score, feedback) = entropy
+                .map(|e| {
+                    let guesses_log10 = e.guesses_log10();
+                    let score = if guesses_log10 < 3. {
+                        // less than a second
+                        1
+                    } else if guesses_log10 < 6. {
+                        // seconds
+                        2
+                    } else if guesses_log10 < 8. {
+                        // minutes
+                        3
+                    } else if guesses_log10 < 10. {
+                        // hours
+                        4
+                    } else if guesses_log10 < 12. {
+                        // days
+                        5
+                    } else if guesses_log10 < 14. {
+                        // months / a few years
+                        6
+                    } else {
+                        // centuries
+                        7
+                    };
+
+                    debug!(
+                        "score: {}, time to crack: {}",
+                        score,
+                        e.crack_times().offline_slow_hashing_1e4_per_second()
+                    );
+
+                    (score, e.feedback().to_owned())
+                })
+                .unwrap_or((0, None));
+
+            let validation_str = if score == 0 {
+                // Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+                gettext("Enter a password")
+            } else if !password_confirm.is_empty() && password != password_confirm {
+                // Translators: Password feedback: The second password is not the same as the first
+                gettext("Passwords do not match")
+            } else if score < 7 {
+                let warning = feedback
+                    .as_ref()
+                    .and_then(|f| f.warning())
+                    .map(|w| match w {
+                        zxcvbn::feedback::Warning::AWordByItselfIsEasyToGuess => {
+                            // Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+                            gettext("A single word is easy to guess")
+                        }
+                        zxcvbn::feedback::Warning::CommonNamesAndSurnamesAreEasyToGuess | zxcvbn::feedback::Warning::NamesAndSurnamesByThemselvesAreEasyToGuess => {
+                            // Translators: Password feedback: Common name detected
+                            gettext("Avoid names on their own")
+                        }
+                        zxcvbn::feedback::Warning::DatesAreOftenEasyToGuess | zxcvbn::feedback::Warning::RecentYearsAreEasyToGuess => {
+                            // Translators: Password feedback: Date detected
+                            gettext("Avoid dates on their own")
+                        }
+                        zxcvbn::feedback::Warning::SequencesLikeAbcAreEasyToGuess => {
+                            // Translators: Password feedback: Easy to guess sequence detected
+                            gettext("Avoid sequences like “abc” or “6543”")
+                        }
+                        zxcvbn::feedback::Warning::RepeatsLikeAaaAreEasyToGuess | zxcvbn::feedback::Warning::RepeatsLikeAbcAbcAreOnlySlightlyHarderToGuess => {
+                            // Translators: Password feedback: Repeated keys or sequence detected
+                            gettext("Avoid repetitions like “aaa” or “abcabc”")
+                        },
+                        zxcvbn::feedback::Warning::StraightRowsOfKeysAreEasyToGuess | zxcvbn::feedback::Warning::ShortKeyboardPatternsAreEasyToGuess => {
+                            // Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+                            gettext("Avoid keyboard patterns")
+                        }
+                        zxcvbn::feedback::Warning::ThisIsACommonPassword
+                        | zxcvbn::feedback::Warning::ThisIsATop100Password
+                        | zxcvbn::feedback::Warning::ThisIsATop10Password => {
+                            // Translators: Password feedback: Password was found in a list of common passwords
+                            gettext("This is a very commonly used password")
+                        }
+                        zxcvbn::feedback::Warning::ThisIsSimilarToACommonlyUsedPassword => {
+                            // Translators: Password feedback: Password is very similar to a password from the list of common passwords
+                            gettext("This is similar to a commonly used password")
+                        }
+                    });
+
+                warning.unwrap_or(gettext("Add a few more words"))
             } else {
-                0.
+                // Translators: Password feedback: This password is looking pretty good
+                gettext("This looks like a strong password")
+            };
+
+            self.validation_label.set_text(&validation_str);
+
+            self.password_quality_bar.set_value(score as f64);
+
+            // Show warning highlight if passwords don't match
+            let validation_error = !self.password_confirm_entry.text().is_empty()
+                && self.password_entry.text() != self.password_confirm_entry.text();
+
+            if validation_error {
+                self.password_confirm_entry.add_css_class("error");
+            } else {
+                self.password_confirm_entry.remove_css_class("error");
             }
+
+            self.update_valid();
         }
 
         #[template_callback]
         fn password_value_changed(&self) {
-            let password = self.password_entry.text();
-            self.password_quality_bar
-                .set_value(Self::score_password(&password));
-
-            // Show warning highlight if passwords don't match
-            if !self.password_confirm_entry.text().is_empty() {
-                if self.password_entry.text() == self.password_confirm_entry.text() {
-                    self.password_confirm_entry.add_css_class("success");
-                    self.password_confirm_entry.remove_css_class("warning");
-                } else {
-                    self.password_confirm_entry.remove_css_class("success");
-                    self.password_confirm_entry.add_css_class("warning");
-                }
-            } else {
-                self.password_confirm_entry.remove_css_class("success");
-                self.password_confirm_entry.remove_css_class("warning");
-            }
+            self.score_password();
         }
     }
 }
