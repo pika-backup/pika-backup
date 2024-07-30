@@ -222,12 +222,9 @@ mod imp {
                     );
 
                     if let Some(settings) = backup.repo.settings() {
-                        self.obj().set_command_line_args(
-                            settings
-                                .command_line_args
-                                .map(|a| a.join(" "))
-                                .unwrap_or("".to_string()),
-                        );
+                        self.obj().set_command_line_args(shell_words::join(
+                            settings.command_line_args.iter().flatten(),
+                        ));
                     }
 
                     self.obj()
@@ -243,11 +240,7 @@ mod imp {
         }
 
         fn command_line_args(&self) -> String {
-            self.command_line_args
-                .borrow()
-                .clone()
-                .map(|v| v.join(" "))
-                .unwrap_or("".to_string())
+            shell_words::join(self.command_line_args.borrow().iter().flatten())
         }
 
         fn set_command_line_args(&self, args: String) {

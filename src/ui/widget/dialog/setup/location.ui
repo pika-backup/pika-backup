@@ -2,7 +2,9 @@
 <interface>
   <requires lib="gtk" version="4.10" />
   <requires lib="libadwaita" version="1.4" />
-  <object class="PkSetupAdvancedOptionsPage" id="advanced_options_page" />
+  <object class="PkSetupAdvancedOptionsPage" id="advanced_options_page">
+    <signal name="notify::command-line-args" handler="on_command_line_args_changed" swapped="true" />
+  </object>
   <template class="PkSetupLocationPage" parent="PkDialogPage">
     <property name="title" translatable="yes">Configure Repository</property>
     <child>
@@ -52,8 +54,7 @@
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Advanced Options</property>
-            <property name="subtitle" translatable="yes">Additional command line arguments</property>
-            <property name="accessible-role">button</property>
+            <property name="subtitle" bind-source="PkSetupLocationPage" bind-property="advanced_options_subtitle" bind-flags="sync-create" />
             <property name="activatable">True</property>
             <child type="suffix">
               <object class="GtkImage">
@@ -130,7 +131,7 @@
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Advanced Options</property>
-            <property name="subtitle" translatable="yes">Additional command line arguments</property>
+            <property name="subtitle" bind-source="PkSetupLocationPage" bind-property="advanced_options_subtitle" bind-flags="sync-create" />
             <property name="activatable">True</property>
             <child type="suffix">
               <object class="GtkImage">

@@ -7,7 +7,10 @@ use super::SetupRepoLocation;
 use crate::ui::widget::DialogPage;
 
 mod imp {
-    use std::{cell::Cell, sync::OnceLock};
+    use std::{
+        cell::{Cell, RefCell},
+        sync::OnceLock,
+    };
 
     use gettextrs::gettext;
     use glib::{subclass::Signal, WeakRef};
@@ -32,6 +35,8 @@ mod imp {
         location_kind: Cell<SetupLocationKind>,
         #[property(get, set)]
         navigation_view: WeakRef<adw::NavigationView>,
+        #[property(get)]
+        advanced_options_subtitle: RefCell<String>,
 
         #[template_child]
         advanced_options_page: TemplateChild<SetupAdvancedOptionsPage>,
@@ -84,6 +89,11 @@ mod imp {
                     .build()]
             })
         }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.on_command_line_args_changed();
+        }
     }
     impl WidgetImpl for SetupLocationPage {}
     impl NavigationPageImpl for SetupLocationPage {
@@ -133,6 +143,20 @@ mod imp {
             }
         }
 
+        #[template_callback]
+        fn on_command_line_args_changed(&self) {
+            let args = self.advanced_options_page.command_line_args();
+            let subtitle = if args.is_empty() {
+                gettext("Additional command line arguments")
+            } else {
+                format!("<tt>{}</tt>", glib::markup_escape_text(&args.to_string()))
+            };
+
+            if subtitle != self.advanced_options_subtitle.replace(subtitle.clone()) {
+                self.obj().notify_advanced_options_subtitle();
+            }
+        }
+
         pub(super) fn reset(&self) {
             self.location_folder_row.reset();
             self.location_url.set_text("");
@@ -165,12 +189,13 @@ mod imp {
                 .set_visible(repo_kind == SetupLocationKind::Local);
             self.location_group_remote
                 .set_visible(repo_kind == SetupLocationKind::Remote);
+
             self.location_kind.replace(repo_kind);
         }
 
         fn try_continue(&self) -> Result<()> {
             let repo_location = self.selected_location()?;
-            let command_line_args = self.advanced_options_page.selected_command_line_args()?;
+            let command_line_args = self.advanced_options_page.command_line_args();
 
             debug!("Continue with repo location '{}'", repo_location);
 

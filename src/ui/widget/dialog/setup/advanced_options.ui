@@ -11,9 +11,20 @@
         <child>
           <object class="AdwEntryRow" id="command_line_args_entry">
             <property name="title" translatable="yes">Command Line Arguments</property>
-            <property name="text" />
+            <signal name="notify::text" handler="on_command_line_args_changed" swapped="true" />
             <style>
               <class name="monospace" />
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="validation_label">
+            <property name="margin-top">12</property>
+            <property name="wrap">True</property>
+            <property name="ellipsize">end</property>
+            <property name="justify">center</property>
+            <style>
+              <class name="dim-label" />
             </style>
           </object>
         </child>
