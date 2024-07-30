@@ -149,6 +149,20 @@ impl Error {
             err.show_transient_for(window).await;
         }
     }
+
+    pub fn message_text(&self) -> &str {
+        match self {
+            Error::Message(msg) => &msg.text,
+            Error::UserCanceled => "",
+        }
+    }
+
+    pub fn message_secondary_text(&self) -> Option<&str> {
+        match self {
+            Error::Message(msg) => msg.secondary_text.as_deref(),
+            Error::UserCanceled => None,
+        }
+    }
 }
 
 pub trait ErrorToMessage<R> {

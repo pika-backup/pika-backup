@@ -81,7 +81,7 @@ impl std::fmt::Display for SetupRepoLocation {
     }
 }
 
-#[derive(Debug, Default, Clone, glib::Boxed)]
+#[derive(Debug, Default, Clone, glib::Boxed, PartialEq, Eq)]
 #[boxed_type(name = "PkSetupCommandLineArgs", nullable)]
 pub struct SetupCommandLineArgs(Vec<String>);
 
@@ -100,6 +100,16 @@ impl SetupCommandLineArgs {
 
     pub fn into_inner(self) -> Vec<String> {
         self.0
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
+}
+
+impl std::fmt::Display for SetupCommandLineArgs {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", shell_words::join(&self.0))
     }
 }
 
