@@ -237,57 +237,57 @@ async fn init_check_borg() -> Result<()> {
         Ok(version_output) => {
             let _ = globals::BORG_VERSION.set(version_output.clone());
 
-            if let Some(version_string) = version_output
+            if let Some(version) = version_output
                 .lines()
                 .next()
                 .and_then(|x| x.split(' ').nth(1))
+                .and_then(|v| {
+                    // Parse three numbers to a vec
+                    v.splitn(3, '.')
+                        .map(str::parse::<u32>)
+                        .collect::<std::result::Result<Vec<_>, _>>()
+                        .ok()
+                })
             {
-                let mut version_list = version_string.split('.').map(str::parse::<u32>);
+                let version_format = |version: &[u32]| {
+                    version
+                        .iter()
+                        .map(ToString::to_string)
+                        .reduce(|acc, s| format!("{acc}.{s}"))
+                        .unwrap_or_default()
+                };
 
-                if let (Some(Ok(major)), Some(Ok(minor)), Some(Ok(patch))) = (
-                    version_list.next(),
-                    version_list.next(),
-                    version_list.next(),
-                ) {
-                    #[allow(clippy::absurd_extreme_comparisons)]
-                    if major < borg::MIN_MAJOR_VERSION
-                        || minor < borg::MIN_MINOR_VERSION
-                        || patch < borg::MIN_PATCH_VERSION
-                    {
-                        return Err(Message::new(
-                    gettext("BorgBackup version too old"),
-                    gettextf(
-                        "The installed version {} of BorgBackup is too old. Some features requiring borg-backup version {}.{}.{} will not work.",
-                        &[
-                            &version_output,
-                            &borg::MIN_MAJOR_VERSION.to_string(),
-                            &borg::MIN_MINOR_VERSION.to_string(),
-                            &borg::MIN_PATCH_VERSION.to_string(),
-                        ],
-                    )).into());
-                    }
-                    if major > borg::MAX_MAJOR_VERSION || minor > borg::MAX_MINOR_VERSION {
-                        return Err(Message::new(
-                    gettext("BorgBackup version too new"),
-                    gettextf(
-                        "The installed version {} of BorgBackup is too new. Version {}.{} is recommended. Some features might not work as expected.",
-                        &[
-                            &version_output,
-                            &borg::MAX_MAJOR_VERSION.to_string(),
-                            &borg::MAX_MINOR_VERSION.to_string(),
-                        ],
-                    )).into());
-                    }
-                } else {
+                if version[..] < borg::MIN_VERSION[..] {
                     return Err(Message::new(
-                        gettext("Failed to Check BorgBackup Version"),
-                        gettextf(
-                            "The installed version {} might not work.",
-                            &[&version_output],
-                        ),
-                    )
-                    .into());
+                            gettext("BorgBackup Version Too Old"),
+                            gettextf(
+                                "The installed version {} of BorgBackup is older than the required version {}. This is unsupported.",
+                                &[
+                                    &version_format(&version),
+                                    &version_format(&borg::MIN_VERSION),
+                                ],
+                            )).into());
+                } else if version[..2] > borg::MAX_VERSION[..] {
+                    // Ignore patch version for maximum version determination
+                    return Err(Message::new(
+                            gettext("BorgBackup Version Too New"),
+                            gettextf(
+                                "The installed version {} of BorgBackup is new and untested. Version {} is recommended.",
+                                &[
+                                    &version_format(&version),
+                                    &version_format(&borg::MAX_VERSION),
+                                ],
+                            )).into());
                 }
+            } else {
+                return Err(Message::new(
+                    gettext("Failed to Check BorgBackup Version"),
+                    gettextf(
+                        "The installed version {} might not work.",
+                        &[&version_output],
+                    ),
+                )
+                .into());
             }
         }
     }
