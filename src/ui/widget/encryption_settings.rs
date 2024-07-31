@@ -13,6 +13,8 @@ mod imp {
     #[properties(wrapper_type = super::EncryptionSettings)]
     pub struct EncryptionSettings {
         #[template_child]
+        encrypted_switch: TemplateChild<adw::SwitchRow>,
+        #[template_child]
         password_entry: TemplateChild<adw::PasswordEntryRow>,
         #[template_child]
         password_confirm_entry: TemplateChild<adw::PasswordEntryRow>,
@@ -23,7 +25,7 @@ mod imp {
         #[template_child]
         revealer: TemplateChild<gtk::Revealer>,
 
-        #[property(get, set)]
+        #[property(get, set = Self::set_encrypted)]
         encrypted: Cell<bool>,
         #[property(get = Self::description)]
         description: PhantomData<String>,
@@ -67,10 +69,46 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EncryptionSettings {
+        fn set_encrypted(&self, encrypted: bool) {
+            self.encrypted.set(encrypted);
+            self.encrypted_switch.set_active(encrypted);
+        }
+
         #[template_callback]
         pub fn on_switch_active(&self) {
-            if !self.encrypted.get() {
-                self.reset();
+            let switch_encrypted = self.encrypted_switch.is_active();
+
+            if switch_encrypted != self.encrypted.get() {
+                if switch_encrypted {
+                    let dialog = adw::AlertDialog::new(
+                        Some(&gettext("Use Encryption?")),
+                        Some(&gettext(
+                            "Losing access to the encryption password will lead to a complete loss of all backed up data",
+                        )),
+                    );
+                    dialog.add_responses(&[
+                        ("close", &gettext("Cancel")),
+                        ("encrypt", &gettext("Use Encryption")),
+                    ]);
+
+                    dialog.set_response_appearance("encrypt", adw::ResponseAppearance::Suggested);
+
+                    glib::spawn_future_local(glib::clone!(
+                        #[strong(rename_to = obj)]
+                        self.obj(),
+                        async move {
+                            match &*dialog.choose_future(&obj).await {
+                                "encrypt" => obj.set_encrypted(true),
+                                _ => obj.imp().encrypted_switch.set_active(false),
+                            }
+
+                            obj.imp().update_valid();
+                        }
+                    ));
+                } else {
+                    self.obj().set_encrypted(false);
+                    self.reset();
+                }
             }
 
             self.update_valid();
@@ -98,7 +136,7 @@ mod imp {
                 if password.is_empty() {
                     return Err(Message::new(
                         gettext("No Password Provided"),
-                        gettext("To use encryption a password must be provided."),
+                        gettext("To use encryption a password must be provided"),
                     )
                     .into());
                 }

@@ -40,19 +40,41 @@
               <class name="dialog-page"/>
             </style>
             <child>
-              <object class="PkEncryptionSettings" id="encryption_settings"/>
+              <object class="PkEncryptionSettings" id="encryption_settings">
+                <signal name="notify::encrypted" handler="on_encryption_setting_changed" swapped="true" />
+              </object>
             </child>
             <child>
-              <object class="GtkButton" id="change_password_button">
-                <property name="halign">center</property>
-                <property name="valign">end</property>
-                <property name="use-underline">1</property>
-                <property name="label" translatable="yes">_Change Password</property>
-                <signal name="clicked" handler="change_password_confirm" swapped="true"/>
-                <style>
-                  <class name="pill"/>
-                  <class name="suggested-action"/>
-                </style>
+              <object class="GtkStack" id="encryption_button_stack">
+                <child>
+                  <object class="AdwBin" id="encryption_no_button" />
+                </child>
+                <child>
+                  <object class="GtkButton" id="encryption_change_password_button">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <property name="use-underline">1</property>
+                    <property name="label" translatable="yes">_Change Password</property>
+                    <signal name="clicked" handler="change_password_confirm" swapped="true"/>
+                    <style>
+                      <class name="pill"/>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>    
+                </child>
+                <child>
+                  <object class="GtkButton" id="encryption_remove_password_button">
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <property name="use-underline">1</property>
+                    <property name="label" translatable="yes">_Remove Password</property>
+                    <signal name="clicked" handler="change_password_confirm" swapped="true"/>
+                    <style>
+                      <class name="pill"/>
+                      <class name="destructive-action"/>
+                    </style>
+                  </object>    
+                </child>
               </object>
             </child>
           </object>

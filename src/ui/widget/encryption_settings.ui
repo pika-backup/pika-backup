@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PkEncryptionSettings" parent="GtkBox">
-    <property name="encrypted" bind-source="encrypted_switch" bind-property="active" />
     <property name="orientation">vertical</property>
     <style>
       <class name="encryption-settings" />
@@ -11,7 +10,7 @@
         <child>
           <object class="AdwSwitchRow" id="encrypted_switch">
             <property name="title" translatable="yes">Use Encryption</property>
-            <property name="active">True</property>
+            <property name="active">False</property>
             <signal name="notify::active" handler="on_switch_active" swapped="true" />
           </object>
         </child>
@@ -19,7 +18,7 @@
     </child>
     <child>
       <object class="GtkRevealer" id="revealer">
-        <property name="reveal-child" bind-source="encrypted_switch" bind-property="active" bind-flags="sync-create" />
+        <property name="reveal-child" bind-source="PkEncryptionSettings" bind-property="encrypted" bind-flags="sync-create" />
         <child>        
           <object class="AdwPreferencesGroup">
             <child>
