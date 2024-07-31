@@ -18,6 +18,8 @@ mod imp {
     pub struct SetupEncryptionPage {
         #[template_child]
         pub(super) encryption_settings: TemplateChild<EncryptionSettings>,
+        #[template_child]
+        create_button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]
@@ -63,6 +65,12 @@ mod imp {
         }
 
         #[template_callback]
+        fn on_encryption_settings_valid(&self) {
+            self.create_button
+                .set_sensitive(self.encryption_settings.valid());
+        }
+
+        #[template_callback]
         async fn on_create_clicked(&self) {
             if let Some(configured_password) = self
                 .encryption_settings
@@ -70,6 +78,22 @@ mod imp {
                 .handle_transient_for(&*self.obj())
                 .await
             {
+                if configured_password.is_none() {
+                    let dialog = adw::AlertDialog::new(
+                        Some(&gettext("Continue Unencrypted?")),
+                        Some(&gettext("When encryption is not used, everyone with access to the backup files can read all data"))
+                    );
+
+                    dialog.add_responses(&[
+                        ("close", &gettext("Cancel")),
+                        ("continue", &gettext("Continue")),
+                    ]);
+                    dialog.set_response_appearance("continue", adw::ResponseAppearance::Suggested);
+                    if dialog.choose_future(&*self.obj()).await != "continue" {
+                        return;
+                    }
+                }
+
                 self.emit_continue(configured_password);
             }
         }
@@ -84,6 +108,6 @@ glib::wrapper! {
 
 impl SetupEncryptionPage {
     pub fn reset(&self) {
-        self.imp().encryption_settings.reset(true);
+        self.imp().encryption_settings.reset(false);
     }
 }

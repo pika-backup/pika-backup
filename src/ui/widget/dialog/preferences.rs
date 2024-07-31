@@ -69,9 +69,15 @@ mod imp {
         #[template_child]
         encryption_settings: TemplateChild<EncryptionSettings>,
         #[template_child]
-        change_password_page_spinner: TemplateChild<adw::ToolbarView>,
+        encryption_button_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        change_password_button: TemplateChild<gtk::Button>,
+        encryption_no_button: TemplateChild<adw::Bin>,
+        #[template_child]
+        encryption_change_password_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        encryption_remove_password_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        change_password_page_spinner: TemplateChild<adw::ToolbarView>,
         change_password_communication:
             RefCell<Option<crate::borg::Communication<crate::borg::task::KeyChangePassphrase>>>,
     }
@@ -421,30 +427,78 @@ mod imp {
             }
         }
 
+        fn is_encrypted(&self) -> bool {
+            self.config().map(|cfg| cfg.encrypted).unwrap_or_default()
+        }
+
         #[template_callback]
-        async fn change_password(&self) {
-            let encrypted = self.config().map(|cfg| cfg.encrypted).unwrap_or_default();
-            self.encryption_settings.reset(encrypted);
+        fn change_password(&self) {
+            self.encryption_settings.reset(self.is_encrypted());
+            self.on_encryption_setting_changed();
 
             self.obj()
                 .push_subpage(&*self.page_change_encryption_password);
-            self.obj()
-                .set_default_widget(Some(&*self.change_password_button));
+        }
+
+        #[template_callback]
+        fn on_encryption_setting_changed(&self) {
+            let initial = self.is_encrypted();
+            let current = self.encryption_settings.encrypted();
+
+            if current {
+                // Offer to change encryption settings
+                self.encryption_button_stack
+                    .set_visible_child(&*self.encryption_change_password_button);
+                self.obj()
+                    .set_default_widget(Some(&*self.encryption_change_password_button));
+            } else if initial {
+                // Initially encrypted, offer to remove encryption
+                self.encryption_button_stack
+                    .set_visible_child(&*self.encryption_remove_password_button);
+                self.obj()
+                    .set_default_widget(Some(&*self.encryption_change_password_button));
+            } else {
+                // Previously unencrypted, no action necessary
+                self.encryption_button_stack
+                    .set_visible_child(&*self.encryption_no_button);
+                self.obj().set_default_widget(None::<&gtk::Widget>);
+            }
         }
 
         async fn do_change_password_confirm(&self) -> Result<()> {
-            self.page_change_encryption_password.set_can_pop(false);
-            self.change_password_stack
-                .set_visible_child(&*self.change_password_page_spinner);
-
             let encrypted = self.encryption_settings.encrypted();
             let password = self.encryption_settings.validated_password()?;
 
             let config = self.config()?;
 
+            if config.encrypted && !encrypted {
+                // Ask if we really want to remove the password
+                let dialog = adw::AlertDialog::new(
+                    Some(&gettext("Remove Password?")),
+                    Some(&gettext("When encryption is not used, everyone with access to the backup files can read all data"))
+                );
+
+                dialog.add_responses(&[
+                    ("close", &gettext("Cancel")),
+                    ("continue", &gettext("Remove Password")),
+                ]);
+                dialog.set_response_appearance("continue", adw::ResponseAppearance::Destructive);
+
+                if dialog.choose_future(&*self.obj()).await != "continue" {
+                    // cancel
+                    return Ok(());
+                }
+            }
+
+            self.page_change_encryption_password.set_can_pop(false);
+            self.change_password_stack
+                .set_visible_child(&*self.change_password_page_spinner);
+
             let mut command: borg::Command<borg::task::KeyChangePassphrase> =
                 borg::Command::new(config.clone());
-            command.task.set_new_password(password.clone());
+            command
+                .task
+                .set_new_password(Some(password.clone().unwrap_or_default()));
             self.change_password_communication
                 .replace(Some(command.communication.clone()));
             crate::ui::utils::borg::exec(command, &QuitGuard::default())
