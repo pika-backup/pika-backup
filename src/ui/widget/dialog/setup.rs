@@ -351,6 +351,8 @@ mod imp {
                 .check_repo(repo, password.clone())
                 .await;
 
+            self.busy.set(false);
+
             match result {
                 Ok(config) => {
                     self.set_new_config(Some(config.clone()));
@@ -364,8 +366,14 @@ mod imp {
                 Err(actions::ConnectRepoError::PasswordWrong) => {
                     self.show_ask_password_page();
                 }
+                Err(actions::ConnectRepoError::Error(ui::error::Combined::Ui(
+                    ui::error::Error::UserCanceled,
+                ))) => {
+                    self.on_add_existing_page_error(None).await;
+                }
                 Err(actions::ConnectRepoError::Error(err)) => {
-                    self.on_add_existing_page_error(&err.to_string()).await;
+                    self.on_add_existing_page_error(Some(&err.to_string()))
+                        .await;
                 }
             }
         }
@@ -373,8 +381,7 @@ mod imp {
         /// Something went wrong when trying to access the repository.
         ///
         /// Returns us back to the location / start page to allow the user to reconfigure the repository
-        #[template_callback]
-        async fn on_add_existing_page_error(&self, error: &str) {
+        async fn on_add_existing_page_error(&self, error: Option<&str>) {
             // We have two options here: Either we have location page in the stack or we don't,
             // depending on whether we are adding a remote repo from a custom URL or a local one /
             // a remote repo from a preset.
@@ -394,9 +401,13 @@ mod imp {
                 self.navigation_view.pop_to_page(&*self.location_kind_page);
             }
 
-            let error =
-                crate::ui::error::Message::new(gettext("Failed to Configure Repository"), error);
-            error.show_transient_for(&*self.obj()).await;
+            if let Some(error) = error {
+                let error = crate::ui::error::Message::new(
+                    gettext("Failed to Configure Repository"),
+                    error,
+                );
+                error.show_transient_for(&*self.obj()).await;
+            }
         }
 
         // Ask Password

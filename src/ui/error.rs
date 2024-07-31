@@ -24,13 +24,39 @@ impl<T> CombinedResultExt<T> for CombinedResult<T> {
     }
 }
 
-quick_error! {
-    #[derive(Debug)]
-    pub enum Combined {
-        Ui(err: Error) {
-            from()
+#[derive(Debug)]
+pub enum Combined {
+    Ui(Error),
+    Borg(borg::Error),
+}
+
+impl From<Error> for Combined {
+    fn from(value: Error) -> Self {
+        Self::Ui(value)
+    }
+}
+
+impl From<borg::error::Error> for Combined {
+    fn from(value: borg::error::Error) -> Self {
+        Self::Borg(value)
+    }
+}
+
+impl std::fmt::Display for Combined {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Combined::Ui(error) => error.fmt(f),
+            Combined::Borg(error) => error.fmt(f),
         }
-        Borg(err: borg::Error) { from () }
+    }
+}
+
+impl std::error::Error for Combined {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Combined::Ui(err) => Some(err),
+            Combined::Borg(err) => Some(err),
+        }
     }
 }
 
@@ -116,24 +142,53 @@ impl std::fmt::Display for Message {
     }
 }
 
-quick_error! {
-    #[derive(Debug, Eq, PartialEq)]
-    pub enum Error {
-        Message(err: Message) {
-            from()
-            from(err: config::error::BackupExists) ->
-                (Message::short(gettextf(
-                    "Backup with id “{}” already exists.",
-                    &[err.id.as_str()],
-                )))
-            from(err: config::error::BackupNotFound) ->
-                (Message::short(gettextf(
-                    "Could not find backup configuration with id “{}”.",
-                    &[err.id.as_str()],
-                )))
-            display("{}", err)
+impl std::error::Error for Message {}
+
+#[derive(Debug, Eq, PartialEq)]
+pub enum Error {
+    Message(Message),
+    UserCanceled,
+}
+
+impl From<config::error::BackupExists> for Error {
+    fn from(value: config::error::BackupExists) -> Self {
+        Self::Message(Message::short(gettextf(
+            "Backup with id “{}” already exists.",
+            &[value.id.as_str()],
+        )))
+    }
+}
+
+impl From<config::error::BackupNotFound> for Error {
+    fn from(value: config::error::BackupNotFound) -> Self {
+        Self::Message(Message::short(gettextf(
+            "Could not find backup configuration with id “{}”.",
+            &[value.id.as_str()],
+        )))
+    }
+}
+
+impl From<Message> for Error {
+    fn from(value: Message) -> Self {
+        Self::Message(value)
+    }
+}
+
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Error::Message(msg) => msg.fmt(f),
+            Error::UserCanceled => write!(f, "{}", gettext("Canceled")), // This should generally not appear anywhere,
         }
-        UserCanceled
+    }
+}
+
+impl std::error::Error for Error {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Error::Message(err) => Some(err),
+            Error::UserCanceled => None,
+        }
     }
 }
 
