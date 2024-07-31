@@ -89,7 +89,7 @@
                 </style>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Repository URL</property>
+                    <property name="label" translatable="yes">Locations with BorgBackup Support</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
                     <style>
@@ -100,17 +100,29 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Network shares from GNOME Files and BorgBackup enabled locations are supported.</property>
+                    <property name="label" translatable="yes">Servers with borgbackup installed have the best performance. &lt;a href="help:pika-backup/setup-remote"&gt;More&lt;/a&gt;</property>
+                    <property name="use-markup">True</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
+                    <signal name="activate-link" handler="on_activate_link" swapped="true" />
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Examples</property>
+                    <property name="label">ssh://user@example.net/~/backup</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="monospace"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Network Shares</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
                     <property name="margin-top">6</property>
-                    <property name="wrap">1</property>
-                    <property name="xalign">0</property>
                     <style>
                       <class name="heading" />
                       <class name="accent" />
@@ -119,9 +131,31 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">ssh://user@server.example.org/~/backup&#10;smb://user@server.example.org/files/backup</property>
+                    <property name="label" translatable="yes">Use GNOME Files syntax. &lt;a href="help:pika-backup/setup-gvfs"&gt;More&lt;/a&gt;</property>
+                    <property name="use-markup">True</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
+                    <signal name="activate-link" handler="on_activate_link" swapped="true" />
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">smb://user@example.net/files/repo</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="monospace"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">sftp://user@example.net/~/backup</property>
+                    <property name="wrap">1</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="monospace"/>
+                    </style>
                   </object>
                 </child>
               </object>
