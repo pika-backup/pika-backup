@@ -93,6 +93,41 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.on_command_line_args_changed();
+
+            if let Some(delegate) = self.location_url.delegate() {
+                let target =
+                    gtk::DropTarget::new(glib::GString::static_type(), gtk::gdk::DragAction::COPY);
+                target.set_preload(true);
+
+                target.connect_value_notify(|target| {
+                    if let Some(value) = target.value() {
+                        if Self::path_to_network_uri(&value).is_some() {
+                            // we handle this
+                            return;
+                        }
+                    }
+
+                    target.reject();
+                });
+
+                target.connect_drop(glib::clone!(
+                    #[weak(rename_to = obj)]
+                    self.obj(),
+                    #[upgrade_or]
+                    false,
+                    move |_target, value, _x, _y| {
+                        // Try to translate the a dropped file URL to a GVFS uri
+                        if let Some(uri) = Self::path_to_network_uri(value) {
+                            obj.imp().location_url.set_text(&uri.to_str());
+                            return true;
+                        }
+
+                        false
+                    },
+                ));
+
+                delegate.add_controller(target);
+            }
         }
     }
     impl WidgetImpl for SetupLocationPage {}
@@ -119,6 +154,24 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl SetupLocationPage {
+        fn path_to_network_uri(value: &glib::Value) -> Option<glib::Uri> {
+            if let Ok(string) = value.get::<&str>() {
+                let file = gio::File::for_path(string);
+                let uri = file.uri();
+                if !uri.is_empty() {
+                    // We dropped a file
+                    if let Ok(uri) = glib::Uri::parse(&uri, glib::UriFlags::NON_DNS) {
+                        return match &*uri.scheme() {
+                            "file" | "trash" | "recent" => None,
+                            _ => Some(uri),
+                        };
+                    }
+                }
+            }
+
+            None
+        }
+
         fn emit_continue(&self, repo: SetupRepoLocation, args: SetupCommandLineArgs) {
             self.obj().emit_by_name::<()>("continue", &[&repo, &args]);
         }
