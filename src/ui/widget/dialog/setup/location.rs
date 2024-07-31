@@ -131,6 +131,15 @@ mod imp {
         }
 
         #[template_callback]
+        fn on_activate_link(&self, link: &str) -> bool {
+            gio::AppInfo::launch_default_for_uri(
+                link,
+                Some(&self.obj().display().app_launch_context()),
+            )
+            .is_ok()
+        }
+
+        #[template_callback]
         fn on_folder_changed(&self) {
             let folder = self.location_folder_row.file();
 
