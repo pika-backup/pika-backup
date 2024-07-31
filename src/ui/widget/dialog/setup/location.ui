@@ -11,14 +11,28 @@
       <object class="AdwPreferencesGroup" id="location_group_local">
         <property name="separate-rows">True</property>
         <child>
+          <object class="GtkEventControllerFocus" id="location_local_group_focus">
+            <signal name="notify::contains-focus" handler="validate" swapped="true" />
+          </object>
+        </child>
+        <child>
           <object class="PkFolderRow" id="location_folder_row">
             <signal name="notify::file" handler="on_folder_changed" swapped="true" />
+            <accessibility>
+              <property name="required">True</property>
+            </accessibility>
+            <child>
+              <object class="GtkEventControllerFocus" id="location_folder_row_focus">
+                <signal name="notify::contains-focus" handler="validate" swapped="true" />
+              </object>
+            </child>
           </object>
         </child>
         <child>
           <object class="AdwEntryRow" id="init_dir">
             <property name="activates-default">1</property>
             <property name="title" translatable="yes">Repository Name</property>
+            <signal name="notify::text" handler="validate" swapped="true" />
           </object>
         </child>
         <child>
@@ -71,10 +85,21 @@
         <property name="separate-rows">True</property>
         <property name="visible">0</property>
         <child>
+          <object class="GtkEventControllerFocus" id="location_remote_group_focus">
+            <signal name="notify::contains-focus" handler="validate" swapped="true" />
+          </object>
+        </child>
+        <child>
           <object class="AdwEntryRow" id="location_url">
             <property name="hexpand">1</property>
             <property name="activates-default">1</property>
             <property name="title" translatable="yes">Repository URL</property>
+            <signal name="notify::text" handler="validate" swapped="true" />
+            <child>
+              <object class="GtkEventControllerFocus" id="location_url_focus">
+                <signal name="notify::contains-focus" handler="validate" swapped="true" />
+              </object>
+            </child>
           </object>
         </child>
         <child>
@@ -188,6 +213,7 @@
               <object class="GtkButton" id="add_button">
                 <property name="use-underline">1</property>
                 <property name="label" translatable="yes">_Connect</property>
+                <property name="sensitive" bind-source="PkSetupLocationPage" bind-property="can-continue" bind-flags="sync-create" />
                 <signal name="clicked" handler="on_add_button" swapped="true"/>
                 <style>
                   <class name="pill" />
@@ -203,6 +229,7 @@
               <object class="GtkButton" id="continue_button">
                 <property name="use-underline">1</property>
                 <property name="label" translatable="yes">_Continue</property>
+                <property name="sensitive" bind-source="PkSetupLocationPage" bind-property="can-continue" bind-flags="sync-create" />
                 <signal name="clicked" handler="on_continue_button" swapped="true"/>
                 <style>
                   <class name="pill" />

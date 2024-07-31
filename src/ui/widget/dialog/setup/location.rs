@@ -9,6 +9,7 @@ use crate::ui::widget::DialogPage;
 mod imp {
     use std::{
         cell::{Cell, RefCell},
+        marker::PhantomData,
         sync::OnceLock,
     };
 
@@ -37,6 +38,17 @@ mod imp {
         navigation_view: WeakRef<adw::NavigationView>,
         #[property(get)]
         advanced_options_subtitle: RefCell<String>,
+        #[property(get = Self::can_continue)]
+        can_continue: PhantomData<bool>,
+
+        #[template_child]
+        location_local_group_focus: TemplateChild<gtk::EventControllerFocus>,
+        #[template_child]
+        location_folder_row_focus: TemplateChild<gtk::EventControllerFocus>,
+        #[template_child]
+        location_remote_group_focus: TemplateChild<gtk::EventControllerFocus>,
+        #[template_child]
+        location_url_focus: TemplateChild<gtk::EventControllerFocus>,
 
         #[template_child]
         advanced_options_page: TemplateChild<SetupAdvancedOptionsPage>,
@@ -94,7 +106,13 @@ mod imp {
             self.parent_constructed();
             self.on_command_line_args_changed();
 
+            if let Some(delegate) = self.init_dir.delegate() {
+                delegate.update_property(&[gtk::accessible::Property::Required(true)]);
+            }
+
             if let Some(delegate) = self.location_url.delegate() {
+                delegate.update_property(&[gtk::accessible::Property::Required(true)]);
+
                 let target =
                     gtk::DropTarget::new(glib::GString::static_type(), gtk::gdk::DragAction::COPY);
                 target.set_preload(true);
@@ -194,15 +212,26 @@ mod imp {
 
         #[template_callback]
         fn on_folder_changed(&self) {
-            let folder = self.location_folder_row.file();
-
-            if folder.is_some() {
+            if let Some(path) = self.location_folder_row.file().and_then(|x| x.path()) {
                 self.location_folder_row
                     .set_title(&gettext("Repository Folder"));
+
+                let mount_entry = gio::UnixMountEntry::for_file_path(path);
+                if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
+                    debug!("Selected filesystem type {}", fs);
+                    self.non_journaling_warning
+                        .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
+                } else {
+                    self.non_journaling_warning.set_visible(false);
+                }
             } else {
                 self.location_folder_row
                     .set_title(&gettext("Choose Repository Folder"));
+
+                self.non_journaling_warning.set_visible(false);
             }
+
+            self.obj().notify_can_continue();
         }
 
         #[template_callback]
@@ -253,6 +282,11 @@ mod imp {
                 .set_visible(repo_kind == SetupLocationKind::Remote);
 
             self.location_kind.replace(repo_kind);
+            self.obj().notify_can_continue();
+        }
+
+        fn can_continue(&self) -> bool {
+            self.selected_location().is_ok()
         }
 
         fn try_continue(&self) -> Result<()> {
@@ -277,29 +311,80 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_path_change(&self) {
-            if let Some(path) = self.location_folder_row.file().and_then(|x| x.path()) {
-                let mount_entry = gio::UnixMountEntry::for_file_path(path);
-                if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
-                    debug!("Selected filesystem type {}", fs);
-                    self.non_journaling_warning
-                        .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
-                } else {
-                    self.non_journaling_warning.set_visible(false);
-                }
+        fn validate(&self) {
+            let kind = self.location_kind.get();
+            let valid = self.selected_location().is_ok();
+
+            // Folder row
+            if !valid
+                && kind == SetupLocationKind::Local
+                && self.location_folder_row.file().is_none()
+                && self.location_local_group_focus.contains_focus()
+                && !self.location_folder_row_focus.contains_focus()
+            {
+                self.location_folder_row.add_css_class("error");
+                self.location_folder_row
+                    .update_state(&[gtk::accessible::State::Invalid(
+                        gtk::AccessibleInvalidState::True,
+                    )]);
             } else {
-                self.non_journaling_warning.set_visible(false);
+                self.location_folder_row.remove_css_class("error");
+                self.location_folder_row
+                    .reset_state(gtk::AccessibleState::Invalid);
             }
+
+            // Repo name
+            if !valid && kind == SetupLocationKind::Local && self.init_dir.text().is_empty() {
+                self.init_dir.add_css_class("error");
+                self.init_dir.delegate().inspect(|d| {
+                    d.update_state(&[gtk::accessible::State::Invalid(
+                        gtk::AccessibleInvalidState::True,
+                    )]);
+                });
+            } else {
+                self.init_dir.remove_css_class("error");
+                self.init_dir.delegate().inspect(|d| {
+                    d.reset_state(gtk::AccessibleState::Invalid);
+                });
+            }
+
+            // Remote URL: If empty, only add error when not focused, to have a clean initial state
+            if !valid
+                && kind == SetupLocationKind::Remote
+                && (!self.location_url.text().is_empty()
+                    || (self.location_remote_group_focus.contains_focus()
+                        && !self.location_url_focus.contains_focus()))
+            {
+                self.location_url.add_css_class("error");
+                self.location_url.delegate().inspect(|d| {
+                    d.update_state(&[gtk::accessible::State::Invalid(
+                        gtk::AccessibleInvalidState::True,
+                    )])
+                });
+            } else {
+                self.location_url.remove_css_class("error");
+                self.location_url.delegate().inspect(|d| {
+                    d.reset_state(gtk::AccessibleState::Invalid);
+                });
+            }
+
+            self.obj().notify_can_continue();
         }
 
         fn selected_location(&self) -> Result<SetupRepoLocation> {
+            // This might be called during template initialisation, make sure this uses try_get everywhere
             match self.location_kind.get() {
                 SetupLocationKind::Local => {
                     // We can only be here because we are creating a new repository
                     // If we were adding an existing one, this page would have been skipped
 
                     // Repo dir must not be empty
-                    let repo_dir = self.init_dir.text();
+                    let repo_dir = self
+                        .init_dir
+                        .try_get()
+                        .map(|d| d.text())
+                        .unwrap_or_default();
+
                     if repo_dir.is_empty() {
                         return Err(Message::new(
                             gettext("Repository Name Empty"),
@@ -310,7 +395,8 @@ mod imp {
 
                     Ok(SetupRepoLocation::from_file(
                         self.location_folder_row
-                            .file()
+                            .try_get()
+                            .and_then(|r| r.file())
                             .map(|p| p.child(repo_dir))
                             .ok_or_else(|| {
                                 Message::new(
@@ -320,10 +406,13 @@ mod imp {
                             })?,
                     ))
                 }
-                SetupLocationKind::Remote => {
-                    SetupRepoLocation::parse_url(self.location_url.text().to_string())
-                        .err_to_msg(gettext("Invalid Remote Location"))
-                }
+                SetupLocationKind::Remote => SetupRepoLocation::parse_url(
+                    self.location_url
+                        .try_get()
+                        .map(|u| u.text().to_string())
+                        .unwrap_or_default(),
+                )
+                .err_to_msg(gettext("Invalid Remote Location")),
             }
         }
     }
