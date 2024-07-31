@@ -38,7 +38,16 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for SetupAdvancedOptionsPage {}
+    impl ObjectImpl for SetupAdvancedOptionsPage {
+        fn constructed(&self) {
+            self.parent_constructed();
+            if let Some(text) = self.command_line_args_entry.delegate() {
+                text.update_relation(&[gtk::accessible::Relation::ErrorMessage(
+                    self.validation_label.upcast_ref(),
+                )]);
+            }
+        }
+    }
     impl WidgetImpl for SetupAdvancedOptionsPage {}
     impl NavigationPageImpl for SetupAdvancedOptionsPage {
         fn hiding(&self) {
@@ -63,6 +72,11 @@ mod imp {
             let args = match res {
                 Ok(args) => {
                     self.command_line_args_entry.remove_css_class("error");
+                    self.command_line_args_entry.delegate().inspect(|d| {
+                        d.update_state(&[gtk::accessible::State::Invalid(
+                            gtk::AccessibleInvalidState::False,
+                        )]);
+                    });
                     self.validation_label.set_label("");
                     args
                 }
@@ -70,6 +84,11 @@ mod imp {
                     self.command_line_args_entry.add_css_class("error");
                     self.validation_label
                         .set_label(err.message_secondary_text().unwrap_or_default());
+                    self.command_line_args_entry.delegate().inspect(|d| {
+                        d.update_state(&[gtk::accessible::State::Invalid(
+                            gtk::AccessibleInvalidState::True,
+                        )]);
+                    });
                     SetupCommandLineArgs::NONE
                 }
             };
