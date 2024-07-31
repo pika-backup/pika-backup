@@ -5,11 +5,25 @@
 
 $app(Pika Backup) supports backing up to remote servers and online services with $app(BorgBackup), $cmd(ssh) or $cmd(sftp) support. Services with $app(BorgBackup) support are recommended for performance reasons.
 
+[note .tip]
+  For network shares without explicit $app(BorgBackup) support, follow $link[>setup-gvfs]
+
 [steps]
 * Select the $gui(Setup Backup) button
   [media image src=media/setup-button.svg]
-* In the $gui(Create new Repository) section, choose $gui(Remote Location)
-* Enter the repository URL. This is usually provided by the online backup service if it has explicit $app(BorgBackup) support. The $gui(Examples) section in the dialog has an overview of the syntax.
+* Select $gui(Create New Repository) or $gui(Use Existing Repository)
+* Choose $gui(Remote Location)
+* Enter the repository URL. This is usually provided by the online backup service if it has explicit $app(BorgBackup) support.
+
+  [note .advanced]
+    . Syntax
+
+    $code(ssh://user@host:port/./path/to/repo) - path relative to current directory
+
+    $code(ssh://user@host:port/~/path/to/repo) - path relative to user’s home directory
+
+    $code(ssh://user@host:port/~other/path/to/repo) - path relative to other’s home directory
+
 * Press $gui[.button](Continue)
 * Choose the desired $link[>general-glossary#encryption](encryption) settings
 * Press $gui[.button](Create)

@@ -6,22 +6,61 @@
  </info>
  <title>Network Share</title>
  <p><app>Pika Backup</app> supports backing up on network shares.</p>
+ <note style="tip">
+  <p>Installing BorgBackup on the server and <link xref="setup-remote">using SSH</link> can significantly improve performance.</p>
+ </note>
  <steps>
-  <item>
-   <p>Connect to the network share using <app>GNOME Files</app>. See <link href="help:gnome-help/nautilus-connect">GNOME Files</link> help pages for reference.</p>
-  </item>
   <item>
    <p>Select the <gui>Setup Backup</gui> button.</p>
    <media type="image" src="media/setup-button.svg"/>
   </item>
   <item>
-   <p>In the <gui>Create new Repository</gui> section, choose the network share.</p>
+   <p>Select <gui>Create New Repository</gui> or <gui>Use Existing Repository</gui></p>
   </item>
   <item>
-   <p>Ensure the <gui>Repository Base Folder</gui> has the network share selected. The <gui style="button">Select Folder…</gui> button can be used to select a sub-folder on the network share.</p>
-  </item>
-  <item>
-   <p>The new backup <link xref="general-glossary#repository">repository</link> will be created in a folder with the specified <gui>Repository Name</gui>.</p>
+   <p>Perform one of the following</p>
+   <list>
+    <item>
+     <p>Connect to the network share using <app>GNOME Files</app></p>
+     <list>
+      <item>
+       <p>See <link href="help:gnome-help/nautilus-connect">GNOME Files</link> help pages for reference</p>
+      </item>
+      <item>
+       <p>The network share will show up in the setup dialog automatically</p>
+      </item>
+      <item>
+       <p>Choose the network share</p>
+      </item>
+      <item>
+       <p>Ensure the <gui>Repository Folder</gui> has the network share selected. The <gui style="button">Repository Folder</gui> row can be used to select a sub-folder on the network share.</p>
+      </item>
+      <item>
+       <p>The new backup <link xref="general-glossary#repository">repository</link> will be created in a folder with the specified <gui>Repository Name</gui>.</p>
+      </item>
+     </list>
+    </item>
+    <item>
+     <p>Select <gui>Remote Location</gui></p>
+     <list>
+      <item>
+       <p>Enter a <app>GNOME Files</app> compatible URI. SMB or SFTP are recommended.</p>
+       <note style="tip">
+        <p>It is possible to drop network folders from <app>GNOME Files</app> on the input field.</p>
+       </note>
+       <note style="advanced">
+        <title>Syntax</title>
+        <p>Server addresses are made up of a protocol prefix and an address. Examples:</p>
+        <p><code>smb://user@server.example.org:port/share/path/to/backup</code> - Samba</p>
+        <p><code>sftp://user@server.example.org:port/path/to/backup</code> - SFTP</p>
+       </note>
+      </item>
+      <item>
+       <p>The new backup <link xref="general-glossary#repository">repository</link> will be created at the URI location. Ensure the folder is empty.</p>
+      </item>
+     </list>
+    </item>
+   </list>
   </item>
   <item>
    <p>Press <gui style="button">Continue</gui></p>
