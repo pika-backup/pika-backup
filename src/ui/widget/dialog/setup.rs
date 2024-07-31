@@ -32,6 +32,7 @@ use types::*;
 
 mod imp {
     use adw::subclass::dialog::AdwDialogImplExt;
+    use ui::widget::SpinnerPage;
 
     use crate::config;
 
@@ -634,6 +635,15 @@ mod imp {
                 self.location.take();
                 self.command_line_args.take();
                 self.set_new_config(None);
+            }
+        }
+
+        #[template_callback]
+        fn on_popped(&self, _page: &adw::NavigationPage) {
+            let visible = self.navigation_view.visible_page();
+            if visible.and_downcast_ref::<SpinnerPage>().is_some() {
+                // Don't pop back to spinner pages
+                self.navigation_view.pop();
             }
         }
     }
