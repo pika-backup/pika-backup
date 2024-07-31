@@ -56,6 +56,9 @@ mod imp {
         /// This must be set by [Self::set_new_config], otherwise `can-close` will not be up to date
         new_config: RefCell<Option<config::Backup>>,
 
+        /// Whether the config should be saved on close
+        save: Cell<bool>,
+
         /// Indicates that an operation is currently ongoing. Used to prevent multiple input.
         busy: Cell<bool>,
 
@@ -132,11 +135,37 @@ mod imp {
     impl AdwDialogImpl for SetupDialog {
         fn close_attempt(&self) {
             self.parent_close_attempt();
+
             if let Some(config) = self.new_config.take() {
                 // Save the new config
+                let save = self.save.get();
                 let obj = self.obj().clone();
                 Handler::run(async move {
                     let imp = obj.imp();
+
+                    if !save {
+                        let dialog = adw::AlertDialog::new(
+                            Some(&gettext("Abort Setup?")),
+                            Some(&gettext(
+                                "Aborting now will cause the repository to not be added",
+                            )),
+                        );
+
+                        dialog.add_responses(&[("close", "Continue Setup"), ("abort", "Abort")]);
+                        dialog
+                            .set_response_appearance("abort", adw::ResponseAppearance::Destructive);
+                        match &*dialog.choose_future(&obj).await {
+                            "abort" => {
+                                obj.force_close();
+                            }
+                            _ => {
+                                obj.imp().new_config.replace(Some(config));
+                            }
+                        }
+
+                        return Ok(());
+                    }
+
                     imp.handle_result(imp.save_backup_config(&config).await);
 
                     obj.force_close();
@@ -509,6 +538,7 @@ mod imp {
         /// Save the config and password, then close the dialog and show the new backup config
         fn finish(&self) {
             // The config is saved in the close handler
+            self.save.set(true);
             self.obj().close();
         }
 
