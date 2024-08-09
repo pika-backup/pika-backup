@@ -2,14 +2,14 @@
 # Copyright (C) 2021, 2022, 2023, 2024 Free Software Foundation, Inc.
 # This file is distributed under the same license as the pika-backup package.
 #
-# Balázs Meskó <mesko.balazs at fsf dot hu>, 2021, 2022, 2023.
+# Balázs Meskó <mesko.balazs at fsf dot hu>, 2021, 2022, 2023, 2024.
 # Balázs Úr <ur.balazs at fsf dot hu>, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-05-16 15:18+0000\n"
-"PO-Revision-Date: 2024-05-19 13:27+0200\n"
+"POT-Creation-Date: 2024-07-30 17:01+0000\n"
+"PO-Revision-Date: 2024-08-09 17:49+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -27,9 +27,9 @@ msgstr "Pika biztonságimentés-figyelő"
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/about.rs:12
-#: src/ui/utils.rs:367 src/ui/utils.rs:429 src/ui/widget/app_window.ui:10
-#: src/ui/widget/overview.ui:22
+#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/utils.rs:367
+#: src/ui/utils.rs:430 src/ui/widget/app_window.ui:10
+#: src/ui/widget/dialog/about.rs:12 src/ui/widget/overview.ui:22
 msgid "Pika Backup"
 msgstr "Pika biztonsági mentés"
 
@@ -47,7 +47,7 @@ msgstr "archiválás;biztonsági mentés;borg;"
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 src/ui/about.rs:18
+#: data/app.metainfo.xml.in:9 src/ui/widget/dialog/about.rs:18
 msgid "Small Mammal Collective"
 msgstr "Kis emlősök kollektívája"
 
@@ -85,7 +85,7 @@ msgstr "Létrehozott archívumok felsorolása és a tartalmuk tallózása"
 
 #: data/app.metainfo.xml.in:38
 msgid "Recover files or folders via your file browser"
-msgstr "Fájlok vagy mappák visszaállítása a fájlböngészője segítségével"
+msgstr "Fájlok vagy mappák helyreállítása a fájlböngészője segítségével"
 
 #: data/app.metainfo.xml.in:40
 msgid ""
@@ -113,16 +113,18 @@ msgid "Schedule regular backups from monthly up to hourly"
 msgstr ""
 "Ütemezzen rendszeres biztonsági mentéseket havi szinten vagy akár óránként"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:118
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
 msgid "General"
 msgstr "Általános"
 
 #: data/resources/gtk/help-overlay.ui:13
-msgid "Set up new backup"
+#| msgid "Set up new backup"
+msgid "Set Up New Backup"
 msgstr "Új biztonsági mentés beállítása"
 
 #: data/resources/gtk/help-overlay.ui:19
-msgid "Show keyboard shortcuts"
+#| msgid "Show keyboard shortcuts"
+msgid "Show Keyboard Shortcuts"
 msgstr "Gyorsbillentyűk megjelenítése"
 
 #: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:277
@@ -134,7 +136,8 @@ msgid "Back"
 msgstr "Vissza"
 
 #: data/resources/gtk/help-overlay.ui:37
-msgid "Open menu"
+#| msgid "Open menu"
+msgid "Open Menu"
 msgstr "Menü megnyitása"
 
 #: src/borg/error.rs:28
@@ -202,7 +205,7 @@ msgstr "Nem lehet hozzáférni a biztonsági mentési tárolóhoz: {}"
 msgid "Connection closed by remote host."
 msgstr "A távoli gép lezárta a kapcsolatot."
 
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:251
+#: src/borg/error.rs:240 src/ui/utils/borg.rs:280
 msgid "Repository already in use."
 msgstr "A tároló már használatban van."
 
@@ -306,7 +309,6 @@ msgid "Verifying data"
 msgstr "Adatok ellenőrzése"
 
 #: src/borg/log_json.rs:203
-#| msgid "Rebuilding main database"
 msgid "Verifying main database"
 msgstr "Fő adatbázis ellenőrzése"
 
@@ -409,7 +411,7 @@ msgstr "Hibakeresés"
 msgid "Info"
 msgstr "Információ"
 
-#: src/borg/log_json.rs:475 src/ui/utils.rs:382
+#: src/borg/log_json.rs:475 src/ui/utils.rs:383
 #: src/ui/widget/dialog/setup/location.ui:58
 msgid "Warning"
 msgstr "Figyelmeztetés"
@@ -463,11 +465,10 @@ msgstr "0: kézi biztonsági mentés, 1: ütemezőből indított"
 #. Translators: String uses pango markup. Do not translate capslocked words
 #. they are values for a variable.
 #: src/borg/scripts.rs:110
-#| msgid "Either COMPLETED, ABORTED or FAILED"
 msgid "Either “<tt>COMPLETED</tt>”, “<tt>ABORTED</tt>” or “<tt>FAILED</tt>”"
 msgstr ""
-"A következők egyike: „<tt>COMPLETED</tt>”, „<tt>ABORTED</tt>” vagy „<tt"
-">FAILED</tt>”"
+"A következők egyike: „<tt>COMPLETED</tt>”, „<tt>ABORTED</tt>” vagy "
+"„<tt>FAILED</tt>”"
 
 #: src/borg/scripts.rs:112
 msgid "An error/warning message"
@@ -530,12 +531,12 @@ msgstr ""
 "vissza: {}"
 
 #: src/borg/task.rs:47
-#| msgid "Start Operation"
 msgid "Generic Operation"
 msgstr "Általános művelet"
 
 #: src/borg/task.rs:61
-msgid "Backing up Data"
+#| msgid "Backing up Data"
+msgid "Backing Up Data"
 msgstr "Adatok biztonsági mentése"
 
 #: src/borg/task.rs:75
@@ -543,13 +544,13 @@ msgid "Mounting Backup Archives"
 msgstr "Biztonsági mentési archívumok csatolása"
 
 #: src/borg/task.rs:89
-msgid "Removing old Archives"
+#| msgid "Removing old Archives"
+msgid "Removing Old Archives"
 msgstr "Régi archívumok eltávolítása"
 
-#. First ensure the device is available to prevent overlapping dialogs
-#: src/borg/task.rs:103 src/ui/widget/dialog/prune.rs:176
-#: src/ui/widget/dialog/prune_review.rs:135
-msgid "Identifying old Archives"
+#: src/borg/task.rs:103
+#| msgid "Identifying old Archives"
+msgid "Identifying Old Archives"
 msgstr "Régi archívumok azonosítása"
 
 #: src/borg/task.rs:117
@@ -578,7 +579,7 @@ msgstr "Egyéni parancs futtatása"
 
 #. Translators: User home directory
 #: src/config.rs:72 src/ui/widget/detail/backup/display.rs:15
-#: src/ui/widget/detail/backup/events.rs:181
+#: src/ui/widget/detail/backup/events.rs:188
 msgid "Home"
 msgstr "Saját mappa"
 
@@ -643,7 +644,7 @@ msgstr "A dokumentumok és adatok továbbra is biztonsági mentést kapnak"
 #. Translators: Detailed description for trash exclusion rule
 #: src/config/exclude.rs:203
 msgid "Files that have not been irretrievably deleted"
-msgstr "Fájlok, amelyek nem lettek visszaállíthatatlanul törölve"
+msgstr "Fájlok, amelyek nem lettek helyreállíthatatlanul törölve"
 
 #. Translators: Detailed description for virtual machines and containers exclusion rule
 #: src/config/exclude.rs:205
@@ -656,14 +657,14 @@ msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
 msgstr ""
-"A betöltött beállítófájl {} verziója nem kompatibilis a Pika biztonsági"
+"A betöltött beállítófájl verziója ({}) nem kompatibilis a Pika biztonsági"
 " mentés ezen verziójával"
 
-#: src/config/pattern.rs:276 src/ui/widget/dialog/exclude.ui:113
+#: src/config/pattern.rs:276 src/ui/widget/dialog/exclude.ui:101
 msgid "Regular Expression"
 msgstr "Reguláris kifejezés"
 
-#: src/config/pattern.rs:277 src/ui/widget/dialog/exclude.ui:112
+#: src/config/pattern.rs:277 src/ui/widget/dialog/exclude.ui:100
 msgid "Unix Filename Pattern"
 msgstr "Unix fájlnévminta"
 
@@ -721,17 +722,14 @@ msgid "Back Up Now"
 msgstr "Biztonsági mentés most"
 
 #: src/daemon/init.rs:34
-#| msgid "Could not load configuration file."
 msgid "Error loading configuration"
 msgstr "Hiba a beállítások betöltésekor"
 
 #: src/daemon/init.rs:35
-#| msgid "Monitoring Backup Schedule"
 msgid "Not monitoring backup schedule."
 msgstr "A biztonsági mentés ütemezésének nincs figyelése."
 
 #: src/daemon/init.rs:60
-#| msgid "Monitoring Backup Schedule"
 msgid "Monitoring backup schedule"
 msgstr "Biztonsági mentés ütemezésének figyelése"
 
@@ -740,74 +738,84 @@ msgid "Fatal Error During Back Up"
 msgstr "Végzetes hiba a biztonsági mentés során"
 
 #: src/daemon/init.rs:129
-msgid "Pika Backup crashed while running a backup."
-msgid_plural "Pika Backup crashed while running {} backups."
+#| msgid "Pika Backup crashed while running a backup."
+#| msgid_plural "Pika Backup crashed while running {} backups."
+msgid "Pika Backup crashed while running a backup"
+msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] ""
-"A Pika biztonsági mentés összeomlott egy biztonsági mentés futtatása során."
+"A Pika biztonsági mentés összeomlott egy biztonsági mentés futtatása során"
 msgstr[1] ""
-"A Pika biztonsági mentés összeomlott {} biztonsági mentés futtatása során."
+"A Pika biztonsági mentés összeomlott {} biztonsági mentés futtatása során"
 
 #: src/daemon/init.rs:168 src/daemon/init.rs:170 src/daemon/init.rs:177
 msgid "Error restarting monitor daemon"
 msgstr "Hiba a figyelődémon újraindításakor"
 
-#: src/daemon/schedule/init.rs:93
+#: src/daemon/schedule/init.rs:94
 msgid "The backup repository is already in use."
 msgstr "A biztonsági mentési tároló már használatban van."
 
-#: src/daemon/schedule/init.rs:96
+#: src/daemon/schedule/init.rs:97
 msgid "Only metered internet connections available."
 msgstr "Csak forgalomkorlátos internetkapcsolatok érhetők el."
 
-#: src/daemon/schedule/init.rs:99
+#: src/daemon/schedule/init.rs:100
 msgid "Device not connected to power."
 msgstr "Az eszköz nincs csatlakoztatva az elektromos hálózathoz."
 
-#: src/daemon/schedule/init.rs:105
+#: src/daemon/schedule/init.rs:106
 msgid "Scheduled Backup Postponed"
 msgstr "Ütemezett biztonsági mentés elhalasztva"
 
-#: src/daemon/schedule/init.rs:129
+#: src/daemon/schedule/init.rs:130
 msgid "Backup Device Required"
 msgstr "Biztonsági mentési eszköz szükséges"
 
-#: src/daemon/schedule/init.rs:131
-msgid "“{}” has to be connected for the scheduled backup to start."
+#: src/daemon/schedule/init.rs:132
+#| msgid "“{}” has to be connected for the scheduled backup to start."
+msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr ""
-"A(z) „{}” csatlakoztatása szükséges az ütemezett biztonsági mentés "
-"indításához."
+"A(z) „{}” csatlakoztatása szükséges az ütemezett biztonsági mentés indításához"
 
-#: src/daemon/schedule/init.rs:144
+#: src/daemon/schedule/init.rs:145
 msgid "Failed to start scheduled backup"
 msgstr "Az ütemezett biztonsági mentés indítása sikertelen"
 
-#: src/ui.rs:81
+#: src/ui.rs:80
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Nem sikerült a „borg” futtatása. A BorgBackup helyesen van telepítve?"
 
-#: src/ui.rs:107
-msgid "BorgBackup version too old"
+#: src/ui.rs:110
+#| msgid "BorgBackup version too old"
+msgid "BorgBackup Version Too Old"
 msgstr "A BorgBackup verzió túl régi"
 
-#: src/ui.rs:109
+#: src/ui.rs:112
+#| msgid ""
+#| "The installed version {} of BorgBackup is too old. Some features "
+#| "requiring borg-backup version {}.{}.{} will not work."
 msgid ""
-"The installed version {} of BorgBackup is too old. Some features requiring "
-"borg-backup version {}.{}.{} will not work."
+"The installed version {} of BorgBackup is older than the required version "
+"{}. This is unsupported."
 msgstr ""
-"A BorgBackup telepített verziója ({}) túl régi. A borg-backup {}.{}.{} "
-"verzióját igénylő egyes funkciók nem fognak működni."
+"A BorgBackup telepített verziója ({}) régebbi mint a megkövetelt verzió ({})."
+" Ez nem támogatott."
 
-#: src/ui.rs:120
-msgid "BorgBackup version too new"
+#: src/ui.rs:121
+#| msgid "BorgBackup version too new"
+msgid "BorgBackup Version Too New"
 msgstr "A BorgBackup verzió túl új"
 
-#: src/ui.rs:122
+#: src/ui.rs:123
+#| msgid ""
+#| "The installed version {} of BorgBackup is too new. Version {}.{} is "
+#| "recommended. Some features might not work as expected."
 msgid ""
-"The installed version {} of BorgBackup is too new. Version {}.{} is "
-"recommended. Some features might not work as expected."
+"The installed version {} of BorgBackup is new and untested. Version {} is "
+"recommended."
 msgstr ""
-"A BorgBackup telepített verziója ({}) túl új. A következő verzió ajánlott: "
-"{}.{}. Egyes funkciók esetleg nem fognak megfelelően működni."
+"A BorgBackup telepített verziója ({}) új és nem tesztelt. A következő verzió"
+" ajánlott: {}."
 
 #: src/ui.rs:132
 msgid "Failed to Check BorgBackup Version"
@@ -817,121 +825,44 @@ msgstr "Nem sikerült a BorgBackup verziójának ellenőrzése"
 msgid "The installed version {} might not work."
 msgstr "A telepített verzió ({}) esetleg nem fog működni."
 
-#: src/ui/about.rs:20
-msgid "Sophie Herold <sophieherold@gnome.org>"
-msgstr "Sophie Herold <sophieherold@gnome.org>"
-
-#: src/ui/about.rs:21
-msgid "Fina Wilke <finaw@gnome.org>"
-msgstr "Fina Wilke <finaw@gnome.org>"
-
-#: src/ui/about.rs:23
-msgid "Copyright © 2018–2023 Sophie Herold et al."
-msgstr "Copyright © 2018–2023 Sophie Herold és mások"
-
-#: src/ui/about.rs:24
-msgid "translator-credits"
-msgstr ""
-"Meskó Balázs <mesko.balazs at fsf dot hu>, 2022, 2023.\n"
-"Úr Balázs <ur.balazs at fsf dot hu>, 2021, 2022, 2023."
-
-#: src/ui/about.rs:26
-msgid "Jakub Steiner"
-msgstr "Jakub Steiner"
-
-#: src/ui/about.rs:27
-msgid "Tobias Bernard"
-msgstr "Tobias Bernard"
-
-#: src/ui/about.rs:30
-msgid "Back End"
-msgstr "Háttérprogram"
-
-#: src/ui/about.rs:31
-msgid ""
-"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
-"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
-"BorgBackup</a>."
-msgstr ""
-"A Pika biztonsági mentés a BorgBackup programot használja. Ez az alkalmazás "
-"a Borg nélkül nem létezne. Fontolja meg a <a href='https://www.borgbackup."
-"org/support/fund.html'>BorgBackup támogatását</a>."
-
-#: src/ui/about.rs:32
-msgid "The Name"
-msgstr "A név"
-
-#: src/ui/about.rs:33
-msgid ""
-"The name “Pika Backup” derives from the American pika. Pikas are small "
-"mammals belonging to the lagomorphs. The American pika is known for caching "
-"food in skillfully constructed haypiles. Techniques used by American pikas "
-"for building haypiles include: storing piles below overhanging rocks, using "
-"certain plants which inhibit bacterial growth as preservative and preferring "
-"plants with high nutrition value for haying. Last but not least, pikas do "
-"not only create very sophisticated haypiles but are quick in collecting "
-"vegetation as well."
-msgstr ""
-"A „Pika biztonsági mentés” elnevezés az amerikai pika nevéből származik. A "
-"pikák a nyúlfélékhez tartozó kisemlősök. Az amerikai pika arról ismert, hogy "
-"ügyesen kialakított szénakazlakban rejti el a táplálékot. Az amerikai pikák "
-"által a szénakazlak építésére alkalmazott technikák közé tartozik: a "
-"szénakazlakat a kiálló sziklák alatt tárolják, bizonyos baktériumok "
-"növekedését gátló növényeket használnak tartósítószerként, valamint a magas "
-"tápértékű növényeket részesítik előnyben a szénakazlak készítéshez. Végül, "
-"de nem utolsó sorban, a pikák nemcsak nagyon kifinomult szénakazlakat "
-"készítenek, hanem a növényzet begyűjtésében is gyorsak."
-
-#: src/ui/about.rs:34
-msgid ""
-"Frequent rumors that this software’s name is related to a monster with "
-"electrical abilities are unfounded."
-msgstr ""
-"Alaptalanok azok a gyakori pletykák, hogy a szoftver neve egy elektromos "
-"képességekkel rendelkező szörnyeteghez kapcsolódik."
-
-#: src/ui/about.rs:40
-msgid "Support us on Open Collective"
-msgstr "Támogasson minket az Open Collective oldalon"
-
-#: src/ui/about.rs:44
-msgid "Support us on GitHub Sponsors"
-msgstr "Támogasson minket a GitHub Sponsors oldalon"
-
-#: src/ui/app.rs:248
-msgid "Abort running backup creation?"
-msgstr "Megszakítja a biztonsági mentés létrehozásának futását?"
-
 #: src/ui/app.rs:249
-msgid "The backup will remain incomplete if aborted now."
-msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja."
+#| msgid "Start Backup"
+msgid "Abort Backup?"
+msgstr "Megszakítja a biztonsági mentést?"
 
-#: src/ui/app.rs:250 src/ui/utils.rs:385
-#: src/ui/widget/detail/backup/events.rs:25
-#: src/ui/widget/detail/backup/events.rs:34
-#: src/ui/widget/detail/backup/events.rs:43
+#: src/ui/app.rs:250
+#| msgid "The backup will remain incomplete if aborted now."
+msgid "The backup will remain incomplete if aborted now"
+msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja"
+
+#: src/ui/app.rs:251 src/ui/utils.rs:386
+#: src/ui/widget/detail/backup/events.rs:26
+#: src/ui/widget/detail/backup/events.rs:36
+#: src/ui/widget/detail/backup/events.rs:46
 #: src/ui/widget/dialog/setup/add_existing.ui:69
 msgid "Continue"
 msgstr "Folytatás"
 
-#: src/ui/app.rs:251 src/ui/utils.rs:384
-#: src/ui/widget/detail/backup/events.rs:35
-#: src/ui/widget/detail/backup/events.rs:44
+#: src/ui/app.rs:252 src/ui/utils.rs:385
+#: src/ui/widget/detail/backup/events.rs:37
+#: src/ui/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Megszakítás"
 
 #: src/ui/app.rs:262
-msgid "A Backup Operation is Running"
-msgstr "Egy biztonsági mentési művelet fut"
+#| msgid "A Backup Operation is Running"
+msgid "Backup Operation Running"
+msgstr "Biztonsági mentési művelet fut"
 
 #: src/ui/app.rs:264
-msgid "Pika Backup cannot be quit during a backup operation."
+#| msgid "Pika Backup cannot be quit during a backup operation."
+msgid "Pika Backup cannot be quit during a backup operation"
 msgstr ""
-"A Pika biztonsági mentés nem tud kilépni egy biztonsági mentési művelet "
-"közben."
+"A Pika biztonsági mentés nem tud kilépni egy biztonsági mentési művelet közben"
 
 #: src/ui/backup_status.rs:77
-msgid "Backup Never Ran"
+#| msgid "Backup Never Ran"
+msgid "Backup Never Run"
 msgstr "A biztonsági mentés sosem futott"
 
 #: src/ui/backup_status.rs:78
@@ -947,8 +878,9 @@ msgid "Archives integrity check not yet performed"
 msgstr "Az archívumok integritásának ellenőrzése még nincs végrehajtva"
 
 #: src/ui/backup_status.rs:104
-msgid "Last backup completed with warnings"
-msgstr "A legutóbbi biztonsági mentés figyelmeztetésekkel ért véget"
+#| msgid "Backup Completed with Warnings"
+msgid "Last Backup Completed With Warnings"
+msgstr "Az utolsó biztonsági mentés figyelmeztetésekkel ért véget"
 
 #: src/ui/backup_status.rs:112
 msgid "Last Backup Successful"
@@ -993,7 +925,8 @@ msgid "{} % finished"
 msgstr "{}% kész"
 
 #: src/ui/backup_status.rs:248
-msgid "Preparing backup"
+#| msgid "Preparing backup"
+msgid "Preparing Backup"
 msgstr "Biztonsági mentés előkészítése"
 
 #: src/ui/backup_status.rs:249
@@ -1039,15 +972,15 @@ msgstr "Már létezik „{}” azonosítójú biztonsági mentés."
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Nem található „{}” azonosítójú biztonsági mentési beállítás."
 
-#: src/ui/prelude.rs:61
+#: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
 msgstr "Nem sikerült kiírni a beállítófájlt."
 
-#: src/ui/repo.rs:62 src/ui/repo.rs:67 src/ui/repo.rs:122 src/ui/repo.rs:127
+#: src/ui/repo.rs:67 src/ui/repo.rs:72 src/ui/repo.rs:127 src/ui/repo.rs:132
 msgid "Failed to Mount"
 msgstr "A csatolás sikertelen"
 
-#: src/ui/repo.rs:123
+#: src/ui/repo.rs:128
 msgid "The network server is not available"
 msgstr "A hálózati kiszolgáló nem érhető el"
 
@@ -1055,11 +988,11 @@ msgstr "A hálózati kiszolgáló nem érhető el"
 msgid "Idle"
 msgstr "Tétlen"
 
-#: src/ui/status.rs:92 src/ui/status.rs:99
+#: src/ui/status.rs:94 src/ui/status.rs:101
 msgid "Unable to determine background process status"
 msgstr "Nem lehet megállapítani a háttérfolyamat állapotát"
 
-#: src/ui/toast_size_estimate.rs:46
+#: src/ui/toast_size_estimate.rs:57
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
@@ -1110,8 +1043,6 @@ msgid "Failed to Start Monitor"
 msgstr "A figyelő indítása sikertelen"
 
 #: src/ui/utils.rs:254
-#| msgid "One Backup Operation Running"
-#| msgid_plural "{} Backup Operations Running"
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] "Egy biztonsági mentési művelet fut"
@@ -1121,66 +1052,68 @@ msgstr[1] "{} biztonsági mentési művelet fut"
 msgid "Failed to Create Thread"
 msgstr "Nem sikerült szálat létrehozni"
 
-#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:76
-#: src/ui/widget/dialog/exclude.rs:244 src/ui/widget/dialog/exclude.rs:289
+#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:79
+#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.rs:301
 msgid "Select"
 msgstr "Kiválasztás"
 
-#: src/ui/utils.rs:425 src/ui/widget/dialog/prune.rs:152
+#: src/ui/utils.rs:426
 msgid "Close"
 msgstr "Bezárás"
 
-#: src/ui/utils/borg.rs:23
+#: src/ui/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "A további parancssori argumentumok érvénytelenek"
 
-#: src/ui/utils/borg.rs:24 src/ui/widget/dialog/preferences.rs:279
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
 msgid "Please check for missing closing quotes."
 msgstr "Ellenőrizze a hiányzó záró idézőjeleket."
 
-#: src/ui/utils/borg.rs:54
+#: src/ui/utils/borg.rs:82
 msgid "Repository already in use"
 msgstr "A tároló már használatban van"
 
-#: src/ui/utils/borg.rs:119
-msgid "Stop browsing files and start backup?"
-msgstr "Leállítja a fájlok tallózását és elindítja a biztonsági mentést?"
+#: src/ui/utils/borg.rs:145 src/ui/utils/borg.rs:157
+#| msgid "Stop browsing archive files"
+msgid "Stop Browsing Files?"
+msgstr "Leállítja a fájlok tallózását?"
 
-#: src/ui/utils/borg.rs:121
-msgid "Browsing through archived files is not possible while running a backup."
+#: src/ui/utils/borg.rs:147
+#| msgid ""
+#| "Browsing through archived files is not possible while running a backup."
+msgid "Browsing through archived files is not possible while running a backup"
 msgstr ""
-"Az archivált fájlok tallózása a biztonsági mentés futtatása közben nem "
-"lehetséges."
+"Az archivált fájlok tallózása a biztonsági mentés futtatása közben nem"
+" lehetséges"
 
-#: src/ui/utils/borg.rs:123 src/ui/utils/borg.rs:134
+#: src/ui/utils/borg.rs:149 src/ui/utils/borg.rs:161
 msgid "Keep Browsing"
 msgstr "Tallózás folytatása"
 
-#: src/ui/utils/borg.rs:124
+#: src/ui/utils/borg.rs:150
 msgid "Start Backup"
 msgstr "Biztonsági mentés indítása"
 
-#: src/ui/utils/borg.rs:130
-msgid "Stop browsing files and start operation?"
-msgstr "Leállítja a fájlok tallózását és elindítja a műveletet?"
-
-#: src/ui/utils/borg.rs:132
+#: src/ui/utils/borg.rs:159
+#| msgid ""
+#| "Browsing through archived files is not possible while running an "
+#| "operation on the repository."
 msgid ""
 "Browsing through archived files is not possible while running an operation "
-"on the repository."
+"on the repository"
 msgstr ""
-"Az archivált fájlok tallózása a tárolón történő művelet futtatása közben nem "
-"lehetséges."
+"Az archivált fájlok tallózása a tárolón történő művelet futtatása közben nem"
+" lehetséges"
 
-#: src/ui/utils/borg.rs:135
+#: src/ui/utils/borg.rs:162
 msgid "Start Operation"
 msgstr "Művelet indítása"
 
-#: src/ui/utils/borg.rs:144 src/ui/utils/borg.rs:274
+#: src/ui/utils/borg.rs:171 src/ui/utils/borg.rs:303
 msgid "Failed to unmount repository."
 msgstr "A tároló leválasztása sikertelen."
 
-#: src/ui/utils/borg.rs:252
+#: src/ui/utils/borg.rs:281
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -1189,7 +1122,7 @@ msgstr ""
 "információ elavult lehet, ha például a számítógép kikapcsolt a tároló "
 "használata közben."
 
-#: src/ui/utils/borg.rs:254
+#: src/ui/utils/borg.rs:283
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1199,30 +1132,32 @@ msgstr ""
 "semmilyen program! Ha úgy folytatja, hogy egy másik program használja a "
 "tárolót, akkor megsérülhetnek az adatai!"
 
-#: src/ui/utils/borg.rs:255 src/ui/widget/detail/backup/events.rs:191
-#: src/ui/widget/dialog/archive_prefix.ui:28 src/ui/widget/dialog/prune.ui:30
-#: src/ui/widget/dialog/prune.ui:60 src/ui/widget/dialog/prune_review.ui:30
-#: src/ui/widget/dialog/prune_review.ui:60
+#: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
 msgid "Cancel"
 msgstr "Mégse"
 
-#: src/ui/utils/borg.rs:256
+#: src/ui/utils/borg.rs:285
 msgid "Continue Anyway"
 msgstr "Folytatás mindenképp"
 
-#: src/ui/utils/borg.rs:347 src/ui/utils/borg.rs:367
+#: src/ui/utils/borg.rs:376 src/ui/utils/borg.rs:396
 msgid "Unable to Eject Backup Disk"
 msgstr "Nem lehet kiadni a biztonsági mentési lemezt"
 
-#: src/ui/utils/borg.rs:356
+#: src/ui/utils/borg.rs:385
 msgid "{} can be safely unplugged."
 msgstr "A(z) {} biztonságosan kihúzható."
 
-#: src/ui/utils/borg.rs:368
+#: src/ui/utils/borg.rs:397
 msgid "{} can't be ejected."
 msgstr "A(z) {} nem adható ki."
 
-#: src/ui/utils/config_io.rs:56
+#: src/ui/utils/config_io.rs:53 src/ui/utils/config_io.rs:58
+#| msgid "Could not load configuration file."
+msgid "Could not save configuration file"
+msgstr "Nem sikerült elmenteni a beállítófájlt"
+
+#: src/ui/utils/config_io.rs:66
 msgid "Could not load configuration file."
 msgstr "Nem sikerült betölteni a beállítófájlt."
 
@@ -1378,9 +1313,6 @@ msgid "Backup"
 msgstr "Biztonsági mentés"
 
 #: src/ui/widget/detail.ui:51
-#| msgid ""
-#| "Archives are being mounted.\n"
-#| "This might take a while."
 msgid "Archives are being mounted. This might take a while."
 msgstr "Az archívumok csatolásra kerülnek. Ez eltarthat egy ideig."
 
@@ -1420,28 +1352,31 @@ msgstr "Néhány régebbi archívum törlése"
 msgid "Data Integrity Check"
 msgstr "Adatintegritás ellenőrzése"
 
-#: src/ui/widget/detail/archives.ui:152
-msgid "_Check Now…"
-msgstr "_Ellenőrzés most…"
+#: src/ui/widget/detail/archives.ui:153
+#| msgid "_Check Now…"
+msgid "_Check Now"
+msgstr "_Ellenőrzés most"
 
-#: src/ui/widget/detail/archives.ui:160
+#: src/ui/widget/detail/archives.ui:161 src/ui/widget/detail/backup.ui:77
 msgid "_Abort…"
 msgstr "_Megszakítás…"
 
-#: src/ui/widget/detail/archives.ui:171
+#: src/ui/widget/detail/archives.ui:169
 msgid "Archives"
 msgstr "Archívumok"
 
-#: src/ui/widget/detail/archives.ui:180
+#: src/ui/widget/detail/archives.ui:178
 msgid "Refresh"
 msgstr "Frissítés"
 
-#: src/ui/widget/detail/archives.ui:201
-msgid "Stop browsing archive files"
-msgstr "Archívumfájlok tallózásának leállítása"
+#: src/ui/widget/detail/archives.ui:199
+#| msgid "Stop browsing archive files"
+msgid "Stop Browsing Saved Files"
+msgstr "Mentett fájlok tallózásának leállítása"
 
-#: src/ui/widget/detail/archives.ui:227
-msgid "No archives available"
+#: src/ui/widget/detail/archives.ui:225
+#| msgid "No archives available"
+msgid "No Archives Available"
 msgstr "Nincsenek elérhető archívumok"
 
 #: src/ui/widget/detail/archives/cache.rs:37
@@ -1474,22 +1409,25 @@ msgid "Comment"
 msgstr "Megjegyzés"
 
 #: src/ui/widget/detail/archives/display.rs:201
-msgid "Browse saved files"
+#| msgid "Browse saved files"
+msgid "Browse Saved Files"
 msgstr "Mentett fájlok tallózása"
 
-#: src/ui/widget/detail/archives/display.rs:219
-msgid "Delete archive"
+#: src/ui/widget/detail/archives/display.rs:223
+#: src/ui/widget/dialog/delete_archive.ui:6
+#: src/ui/widget/dialog/delete_archive.ui:50
+msgid "Delete Archive"
 msgstr "Archívum törlése"
 
-#: src/ui/widget/detail/archives/display.rs:250
+#: src/ui/widget/detail/archives/display.rs:258
 msgid "{} Available"
 msgstr "{} érhető el"
 
-#: src/ui/widget/detail/archives/display.rs:252
+#: src/ui/widget/detail/archives/display.rs:260
 msgid "{} Total"
 msgstr "{} összesen"
 
-#: src/ui/widget/detail/archives/events.rs:88
+#: src/ui/widget/detail/archives/events.rs:91
 msgid "Failed to make archives available for browsing."
 msgstr "Az archívumok tallózásra elérhetővé tétele sikertelen."
 
@@ -1501,48 +1439,48 @@ msgstr "Biztonsági mentési lemez kiadása"
 msgid "Disconnected"
 msgstr "Leválasztva"
 
-#: src/ui/widget/detail/backup.ui:55
-msgid "_Abort"
-msgstr "_Megszakítás"
-
-#: src/ui/widget/detail/backup.ui:77
+#: src/ui/widget/detail/backup.ui:65
 msgid "Back Up _Now"
 msgstr "Biztonsági mentés _most"
 
-#: src/ui/widget/detail/backup.ui:92
+#: src/ui/widget/detail/backup.ui:90
 #: src/ui/widget/dialog/setup/transfer_option.ui:88
 msgid "Files to Back Up"
 msgstr "Mentendő fájlok"
 
-#: src/ui/widget/detail/backup.ui:93
-msgid "Only files in the following folders are saved in the backup repository."
-msgstr ""
-"Csak a következő mappákban lévő fájlok lesznek mentve a biztonsági mentési "
-"tárolóban."
+#: src/ui/widget/detail/backup.ui:91
+#| msgid ""
+#| "Only files in the following folders are saved in the backup repository."
+msgid "Only files in these folders are backed up"
+msgstr "Csak az ezekben a mappákban lévő fájlokról készül biztonsági mentés"
 
-#: src/ui/widget/detail/backup.ui:96
+#: src/ui/widget/detail/backup.ui:94
 msgid "Select Directory to Include"
 msgstr "Tartalmazandó könyvtár kiválasztása"
 
-#: src/ui/widget/detail/backup.ui:109
-msgid "No files included in backup"
+#: src/ui/widget/detail/backup.ui:110
+#| msgid "No files included in backup"
+msgid "No Files Included in Backup"
 msgstr "Nincsenek fájlok felvéve a biztonsági mentésbe"
 
-#: src/ui/widget/detail/backup.ui:121 src/ui/widget/dialog/exclude.ui:24
+#: src/ui/widget/detail/backup.ui:122 src/ui/widget/dialog/exclude.ui:12
 #: src/ui/widget/dialog/setup/transfer_option.ui:112
-msgid "Exclude from Backup"
+#| msgid "Exclude from Backup"
+msgid "Exclude From Backup"
 msgstr "Kihagyás a biztonsági mentésből"
 
-#: src/ui/widget/detail/backup.ui:122
-msgid "The following folders are excluded from the backup repository."
-msgstr "A következő mappák ki lesznek hagyva a biztonsági mentési tárolóból."
+#: src/ui/widget/detail/backup.ui:123
+#| msgid "The following backup location needs to be connected:"
+msgid "The following locations are not backed up"
+msgstr "A következő helyekről nem készül biztonsági mentés"
 
-#: src/ui/widget/detail/backup.ui:125
+#: src/ui/widget/detail/backup.ui:126
 msgid "Select Directory to Exclude"
 msgstr "Kihagyandó könyvtár kiválasztása"
 
-#: src/ui/widget/detail/backup.ui:138
-msgid "Nothing excluded from backup"
+#: src/ui/widget/detail/backup.ui:142
+#| msgid "Nothing excluded from backup"
+msgid "Nothing Excluded From Backup"
 msgstr "Semmi sem lesz kihagyva a mentésből"
 
 #: src/ui/widget/detail/backup/display.rs:21
@@ -1553,19 +1491,19 @@ msgstr "Általában tartalmazza az összes személyes adatot"
 msgid "Remove Directory"
 msgstr "Könyvtár eltávolítása"
 
-#: src/ui/widget/detail/backup/display.rs:105
+#: src/ui/widget/detail/backup/display.rs:109
 msgid "Edit Pattern"
 msgstr "Minta szerkesztése"
 
-#: src/ui/widget/detail/backup/display.rs:132
+#: src/ui/widget/detail/backup/display.rs:140
 msgid "Remove From List"
 msgstr "Eltávolítás a listáról"
 
-#: src/ui/widget/detail/backup/events.rs:23
+#: src/ui/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr "Leállítja a futó biztonsági mentést?"
 
-#: src/ui/widget/detail/backup/events.rs:24
+#: src/ui/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1573,30 +1511,27 @@ msgstr ""
 "A jelenlegi biztonsági mentési állapot mentésre kerül. A biztonsági mentést "
 "később folytathatja az újbóli elindításával."
 
-#: src/ui/widget/detail/backup/events.rs:26
+#: src/ui/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "Leállítás"
 
-#: src/ui/widget/detail/backup/events.rs:32
+#: src/ui/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr "Megszakítja a törlési műveletet?"
 
-#: src/ui/widget/detail/backup/events.rs:33
-#| msgid ""
-#| "Archives are currently being deleted. Aborting now will cause some "
-#| "deletion progress to be lost. Free space will not be reclaimed."
+#: src/ui/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
 msgstr ""
-"Az archívumok jelenleg törlés alatt állnak. Nem lesz szabad terület"
-" visszanyerve, ha megszakítja."
+"Az archívumok jelenleg törlés alatt állnak. Nem lesz szabad terület "
+"visszanyerve, ha megszakítja."
 
-#: src/ui/widget/detail/backup/events.rs:41
+#: src/ui/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr "Megszakítja a műveletet?"
 
-#: src/ui/widget/detail/backup/events.rs:42
+#: src/ui/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
@@ -1604,16 +1539,16 @@ msgstr ""
 "Egy művelet jelenleg folyamatban van. A mostani megszakítás a művelet által "
 "elvégzett folyamat elvesztését fogja okozni."
 
-#: src/ui/widget/detail/backup/events.rs:75
+#: src/ui/widget/detail/backup/events.rs:78
 msgid "Include Folder"
 msgstr "Mappa felvétele"
 
-#: src/ui/widget/detail/backup/events.rs:118
-#: src/ui/widget/detail/backup/events.rs:128
+#: src/ui/widget/detail/backup/events.rs:121
+#: src/ui/widget/detail/backup/events.rs:131
 msgid "Unable to Include Location"
 msgstr "Nem lehet felvenni a helyet"
 
-#: src/ui/widget/detail/backup/events.rs:119
+#: src/ui/widget/detail/backup/events.rs:122
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -1623,7 +1558,7 @@ msgstr ""
 "megbízhatóan a biztonságos környezetben:\n"
 "{}"
 
-#: src/ui/widget/detail/backup/events.rs:129
+#: src/ui/widget/detail/backup/events.rs:132
 msgid ""
 "Pika Backup cannot be used to backup the entire system or the “/dev” "
 "directory."
@@ -1631,18 +1566,18 @@ msgstr ""
 "A Pika biztonsági mentés nem használható a teljes rendszer vagy a „/dev” "
 "könyvtár biztonsági mentéséhez."
 
-#: src/ui/widget/detail/backup/events.rs:187
+#: src/ui/widget/detail/backup/events.rs:195
 msgid "No longer include “{}” in backups?"
 msgstr "A(z) „{}” többé ne legyen a biztonsági mentésben?"
 
-#: src/ui/widget/detail/backup/events.rs:189
+#: src/ui/widget/detail/backup/events.rs:197
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "A mappában szereplő összes fájl nem lesz a jövőbeli biztonsági mentések "
 "része."
 
-#: src/ui/widget/detail/backup/events.rs:192
+#: src/ui/widget/detail/backup/events.rs:200
 msgid "Confirm"
 msgstr "Megerősítés"
 
@@ -1654,16 +1589,16 @@ msgstr "A régi archívumok törlése sikertelen"
 msgid "Reclaiming Free Space Failed"
 msgstr "A szabad hely visszaszerzése sikertelen"
 
-#: src/ui/widget/detail/backup/execution.rs:136
+#: src/ui/widget/detail/backup/execution.rs:145
 msgid "Backup Failed"
 msgstr "A biztonsági mentés sikertelen"
 
-#: src/ui/widget/detail/backup/execution.rs:168
+#: src/ui/widget/detail/backup/execution.rs:177
 msgid "Backup Completed with Warnings"
 msgstr "A biztonsági mentés figyelmeztetésekkel ért véget"
 
-#: src/ui/widget/detail/backup/execution.rs:217
-#: src/ui/widget/dialog/preferences.rs:344
+#: src/ui/widget/detail/backup/execution.rs:230
+#: src/ui/widget/dialog/preferences.rs:339
 msgid "Error Running Shell Command"
 msgstr "Hiba a parancs futtatásakor"
 
@@ -1671,7 +1606,7 @@ msgstr "Hiba a parancs futtatásakor"
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:151
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
 msgid "Scheduled Backups"
 msgstr "Ütemezett biztonsági mentések"
 
@@ -1692,12 +1627,12 @@ msgid "Preferred Weekday"
 msgstr "Előnyben részesített hétköznap"
 
 #: src/ui/widget/detail/schedule.ui:108
-#| msgid "Preferred Day"
 msgid "Preferred Day of Month"
 msgstr "A hónap előnyben részesített napja"
 
-#: src/ui/widget/detail/schedule.ui:125 src/ui/widget/dialog/prune.rs:79
-msgid "Delete old Archives"
+#: src/ui/widget/detail/schedule.ui:125
+#| msgid "Delete old Archives"
+msgid "Delete Old Archives"
 msgstr "Régi archívumok törlése"
 
 #: src/ui/widget/detail/schedule.ui:131
@@ -1757,25 +1692,24 @@ msgstr "Érvénytelen hétköznap."
 msgid "No frequency selected."
 msgstr "Nincs gyakoriság kiválasztva."
 
-#: src/ui/widget/detail/schedule/event.rs:228
-msgid "Disable backup schedule?"
+#: src/ui/widget/detail/schedule/event.rs:237
+#| msgid "Disable backup schedule?"
+msgid "Disable Backup Schedule?"
 msgstr "Letiltja a biztonsági mentés ütemezését?"
 
-#: src/ui/widget/detail/schedule/event.rs:229
+#: src/ui/widget/detail/schedule/event.rs:238
 msgid "Backups will no longer run on a schedule"
 msgstr "A biztonsági mentések többé nem ütemezés szerint futnak"
 
-#: src/ui/widget/detail/schedule/event.rs:230
-#| msgid "Keep Schedule"
+#: src/ui/widget/detail/schedule/event.rs:239
 msgid "_Keep Schedule"
 msgstr "Ütemezés _megtartása"
 
-#: src/ui/widget/detail/schedule/event.rs:231
-#| msgid "Disable Schedule"
+#: src/ui/widget/detail/schedule/event.rs:240
 msgid "_Disable Schedule"
 msgstr "Ütemezés _letiltása"
 
-#: src/ui/widget/detail/schedule/event.rs:294
+#: src/ui/widget/detail/schedule/event.rs:306
 msgid "No preset selected."
 msgstr "Nincs előbeállítás kiválasztva."
 
@@ -1891,27 +1825,103 @@ msgstr "A háttérfolyamat inaktív"
 msgid "This is required for scheduled backups"
 msgstr "Ez szükséges az ütemezett biztonsági mentésekhez"
 
-#: src/ui/widget/dialog/archive_prefix.rs:78
-#: src/ui/widget/dialog/archive_prefix.rs:97 src/ui/widget/dialog/setup.rs:396
+#: src/ui/widget/dialog/about.rs:20
+msgid "Sophie Herold <sophieherold@gnome.org>"
+msgstr "Sophie Herold <sophieherold@gnome.org>"
+
+#: src/ui/widget/dialog/about.rs:21
+msgid "Fina Wilke <finaw@gnome.org>"
+msgstr "Fina Wilke <finaw@gnome.org>"
+
+#: src/ui/widget/dialog/about.rs:23
+msgid "Copyright © 2018–2023 Sophie Herold et al."
+msgstr "Copyright © 2018–2023 Sophie Herold és mások"
+
+#: src/ui/widget/dialog/about.rs:24
+msgid "translator-credits"
+msgstr ""
+"Meskó Balázs <mesko.balazs at fsf dot hu>, 2022, 2023, 2024.\n"
+"Úr Balázs <ur.balazs at fsf dot hu>, 2021, 2022, 2023, 2024."
+
+#: src/ui/widget/dialog/about.rs:26
+msgid "Jakub Steiner"
+msgstr "Jakub Steiner"
+
+#: src/ui/widget/dialog/about.rs:27
+msgid "Tobias Bernard"
+msgstr "Tobias Bernard"
+
+#: src/ui/widget/dialog/about.rs:30
+msgid "Back End"
+msgstr "Háttérprogram"
+
+#: src/ui/widget/dialog/about.rs:31
+msgid ""
+"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
+"<a href='https://www.borgbackup.org/support/fund.html'>supporting "
+"BorgBackup</a>."
+msgstr ""
+"A Pika biztonsági mentés a BorgBackup programot használja. Ez az alkalmazás "
+"a Borg nélkül nem létezne. Fontolja meg a <a href='https://www.borgbackup."
+"org/support/fund.html'>BorgBackup támogatását</a>."
+
+#: src/ui/widget/dialog/about.rs:32
+msgid "The Name"
+msgstr "A név"
+
+#: src/ui/widget/dialog/about.rs:33
+msgid ""
+"The name “Pika Backup” derives from the American pika. Pikas are small "
+"mammals belonging to the lagomorphs. The American pika is known for caching "
+"food in skillfully constructed haypiles. Techniques used by American pikas "
+"for building haypiles include: storing piles below overhanging rocks, using "
+"certain plants which inhibit bacterial growth as preservative and preferring "
+"plants with high nutrition value for haying. Last but not least, pikas do "
+"not only create very sophisticated haypiles but are quick in collecting "
+"vegetation as well."
+msgstr ""
+"A „Pika biztonsági mentés” elnevezés az amerikai pika nevéből származik. A "
+"pikák a nyúlfélékhez tartozó kisemlősök. Az amerikai pika arról ismert, hogy "
+"ügyesen kialakított szénakazlakban rejti el a táplálékot. Az amerikai pikák "
+"által a szénakazlak építésére alkalmazott technikák közé tartozik: a "
+"szénakazlakat a kiálló sziklák alatt tárolják, bizonyos baktériumok "
+"növekedését gátló növényeket használnak tartósítószerként, valamint a magas "
+"tápértékű növényeket részesítik előnyben a szénakazlak készítéshez. Végül, "
+"de nem utolsó sorban, a pikák nemcsak nagyon kifinomult szénakazlakat "
+"készítenek, hanem a növényzet begyűjtésében is gyorsak."
+
+#: src/ui/widget/dialog/about.rs:34
+msgid ""
+"Frequent rumors that this software’s name is related to a monster with "
+"electrical abilities are unfounded."
+msgstr ""
+"Alaptalanok azok a gyakori pletykák, hogy a szoftver neve egy elektromos "
+"képességekkel rendelkező szörnyeteghez kapcsolódik."
+
+#: src/ui/widget/dialog/about.rs:40
+msgid "Support us on Open Collective"
+msgstr "Támogasson minket az Open Collective oldalon"
+
+#: src/ui/widget/dialog/about.rs:44
+msgid "Support us on GitHub Sponsors"
+msgstr "Támogasson minket a GitHub Sponsors oldalon"
+
+#: src/ui/widget/dialog/archive_prefix.rs:77
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
 msgid "Invalid Archive Prefix"
 msgstr "Érvénytelen archívumelőtag"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
-#: src/ui/widget/dialog/archive_prefix.ui:95
+#: src/ui/widget/dialog/archive_prefix.ui:66
 #: src/ui/widget/dialog/setup/transfer_prefix.ui:6
 msgid "Archive Prefix"
 msgstr "Archívumelőtag"
 
-#: src/ui/widget/dialog/archive_prefix.ui:34
-#: src/ui/widget/dialog/exclude.rs:338
-msgid "Save"
-msgstr "Mentés"
-
-#: src/ui/widget/dialog/archive_prefix.ui:57
+#: src/ui/widget/dialog/archive_prefix.ui:28
 msgid "Archive Prefixes"
 msgstr "Archívumelőtagok"
 
-#: src/ui/widget/dialog/archive_prefix.ui:68
+#: src/ui/widget/dialog/archive_prefix.ui:39
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1919,7 +1929,7 @@ msgstr ""
 "A biztonsági mentés minden futtatása új archívumot hoz létre. Az archívum "
 "neve elé mindig az aktuális archívumelőtag kerül."
 
-#: src/ui/widget/dialog/archive_prefix.ui:75
+#: src/ui/widget/dialog/archive_prefix.ui:46
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1929,59 +1939,68 @@ msgstr ""
 "archívumok lehetnek törlésre jelölve, amelyek nevében szerepel a jelenleg "
 "beállított előtag."
 
-#: src/ui/widget/dialog/archive_prefix.ui:82
+#: src/ui/widget/dialog/archive_prefix.ui:53
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Ha az archívumelőtag üres, akkor nem lesz előtag hozzáadva."
 
-#: src/ui/widget/dialog/backup_info.ui:9
+#: src/ui/widget/dialog/archive_prefix.ui:75
+#: src/ui/widget/dialog/exclude.rs:352
+msgid "Save"
+msgstr "Mentés"
+
+#: src/ui/widget/dialog/backup_info.ui:8
 msgid "Backup Info"
 msgstr "Biztonsági mentés adatai"
 
-#: src/ui/widget/dialog/backup_info.ui:72
-msgid "Amount saved"
+#: src/ui/widget/dialog/backup_info.ui:60
+#| msgid "Amount saved"
+msgid "Amount Saved"
 msgstr "Mentett mennyiség"
 
-#: src/ui/widget/dialog/backup_info.ui:73
+#: src/ui/widget/dialog/backup_info.ui:61
 msgid "Size of all files"
 msgstr "Összes fájl mérete"
 
-#: src/ui/widget/dialog/backup_info.ui:89
-msgid "Number of files saved"
+#: src/ui/widget/dialog/backup_info.ui:77
+#| msgid "Number of files saved"
+msgid "Number of Files Saved"
 msgstr "Mentett fájlok száma"
 
-#: src/ui/widget/dialog/backup_info.ui:105
-msgid "Backup space used"
+#: src/ui/widget/dialog/backup_info.ui:93
+#| msgid "Backup space used"
+msgid "Backup Space Used"
 msgstr "Felhasznált biztonsági mentési hely"
 
-#: src/ui/widget/dialog/backup_info.ui:106
+#: src/ui/widget/dialog/backup_info.ui:94
 msgid "Newly used space in this backup"
 msgstr "Frissen használt hely ebben a biztonsági mentésben"
 
-#: src/ui/widget/dialog/backup_info.ui:122
-msgid "Current file"
+#: src/ui/widget/dialog/backup_info.ui:110
+#| msgid "Current file"
+msgid "Current File"
 msgstr "Jelenlegi fájl"
 
-#: src/ui/widget/dialog/check.rs:69
+#: src/ui/widget/dialog/check.rs:68
 msgid "Perform Repair"
 msgstr "Javítás végrehajtása"
 
-#: src/ui/widget/dialog/check.rs:73 src/ui/widget/dialog/check.ui:66
+#: src/ui/widget/dialog/check.rs:72 src/ui/widget/dialog/check.ui:54
 msgid "Perform Check"
 msgstr "Ellenőrzés végrehajtása"
 
-#: src/ui/widget/dialog/check.rs:123 src/ui/widget/dialog/check.rs:158
+#: src/ui/widget/dialog/check.rs:115 src/ui/widget/dialog/check.rs:159
 msgid "Verify Archives Integrity"
 msgstr "Archívumok integritásának ellenőrzése"
 
-#: src/ui/widget/dialog/check.rs:174
+#: src/ui/widget/dialog/check.rs:178
 msgid "Verify archives integrity completed successfully"
 msgstr "Az archívumok integritásának ellenőrzése sikeresen befejeződött"
 
-#: src/ui/widget/dialog/check.ui:5 src/ui/widget/dialog/check.ui:26
+#: src/ui/widget/dialog/check.ui:5 src/ui/widget/dialog/check.ui:14
 msgid "Archives Integrity Check"
 msgstr "Archívumok integritásának ellenőrzése"
 
-#: src/ui/widget/dialog/check.ui:30
+#: src/ui/widget/dialog/check.ui:18
 msgid ""
 "This operation will check all archives for data integrity. This may take a "
 "long time."
@@ -1989,15 +2008,17 @@ msgstr ""
 "Ez a művelet ellenőrzi az összes archívum adatintegritását. Ez hosszú időt "
 "vehet igénybe."
 
-#: src/ui/widget/dialog/check.ui:33
-msgid "Verify data"
+#: src/ui/widget/dialog/check.ui:21
+#| msgid "Verify data"
+msgid "Verify Data"
 msgstr "Adatok ellenőrzése"
 
-#: src/ui/widget/dialog/check.ui:34
-msgid "Perform full data verification."
-msgstr "Teljes adatellenőrzés végrehajtása."
+#: src/ui/widget/dialog/check.ui:22
+#| msgid "Perform full data verification."
+msgid "Perform full data verification"
+msgstr "Teljes adatellenőrzés végrehajtása"
 
-#: src/ui/widget/dialog/check.ui:47
+#: src/ui/widget/dialog/check.ui:35
 msgid ""
 "Perform a full repair. This is a potentially dangerous function and might "
 "lead to data loss (for kinds of corruption it is not capable of dealing "
@@ -2007,29 +2028,24 @@ msgstr ""
 "adatvesztéshez vezethet (olyan típusú sérülések esetén, amelyekkel nem képes "
 "megbirkózni)."
 
-#: src/ui/widget/dialog/check.ui:50
+#: src/ui/widget/dialog/check.ui:38
 msgid "Repair"
 msgstr "Javítás"
 
-#: src/ui/widget/dialog/check.ui:51
-msgid "Repair errors. This can lead to data loss."
-msgstr "Hibák javítása. Ez adatvesztéshez vezethet."
+#: src/ui/widget/dialog/check.ui:39
+#| msgid "Repair errors. This can lead to data loss."
+msgid "Repair errors. This can lead to data loss"
+msgstr "Hibák javítása, ez adatvesztéshez vezethet"
 
-#: src/ui/widget/dialog/check_result.ui:9
-#| msgid "Integrity Check Aborted"
+#: src/ui/widget/dialog/check_result.ui:8
 msgid "Integrity Check Result"
 msgstr "Integritás-ellenőrzés eredménye"
 
-#: src/ui/widget/dialog/delete_archive.rs:73
+#: src/ui/widget/dialog/delete_archive.rs:75
 msgid "Delete Archive Failed"
 msgstr "Az archívum törlése sikertelen"
 
-#: src/ui/widget/dialog/delete_archive.ui:6
-#: src/ui/widget/dialog/delete_archive.ui:62
-msgid "Delete Archive"
-msgstr "Archívum törlése"
-
-#: src/ui/widget/dialog/delete_archive.ui:30
+#: src/ui/widget/dialog/delete_archive.ui:18
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -2037,19 +2053,19 @@ msgstr ""
 "A művelet folytatása visszavonhatatlanul törli ezt az archívumot. Az erre az "
 "időpontra mentett adatok többé nem lesznek elérhetők."
 
-#: src/ui/widget/dialog/delete_archive.ui:40
+#: src/ui/widget/dialog/delete_archive.ui:28
 msgid "Archive Name"
 msgstr "Archívum neve"
 
-#: src/ui/widget/dialog/delete_archive.ui:48
+#: src/ui/widget/dialog/delete_archive.ui:36
 msgid "Archive Date"
 msgstr "Archívum dátuma"
 
-#: src/ui/widget/dialog/device_missing.ui:40
+#: src/ui/widget/dialog/device_missing.ui:28
 msgid "The following backup location needs to be connected:"
 msgstr "Kapcsolódnia kell a következő biztonsági mentési helyhez:"
 
-#: src/ui/widget/dialog/encryption_password.rs:63
+#: src/ui/widget/dialog/encryption_password.rs:61
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -2061,7 +2077,7 @@ msgid "Encryption Password Required"
 msgstr "Titkosítási jelszó szükséges"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:98 src/ui/widget/overview.rs:173
+#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -2075,67 +2091,67 @@ msgstr "_Folytatás"
 msgid "Password"
 msgstr "Jelszó"
 
-#: src/ui/widget/dialog/exclude.rs:112
+#: src/ui/widget/dialog/exclude.rs:109
 msgid "Exclusion Rules"
 msgstr "Kizárási szabályok"
 
-#: src/ui/widget/dialog/exclude.rs:166
-msgid "Add exclusion rule"
+#: src/ui/widget/dialog/exclude.rs:165
+#| msgid "Add exclusion rule"
+msgid "Add Exclusion Rule"
 msgstr "Kizárási szabály hozzáadása"
 
-#: src/ui/widget/dialog/exclude.rs:243 src/ui/widget/dialog/exclude.ui:37
-#| msgid "Exclude Folder"
+#: src/ui/widget/dialog/exclude.rs:253 src/ui/widget/dialog/exclude.ui:25
 msgid "Exclude Folders"
 msgstr "Mappák kizárása"
 
-#: src/ui/widget/dialog/exclude.rs:288 src/ui/widget/dialog/exclude.ui:50
-#| msgid "Exclude File"
+#: src/ui/widget/dialog/exclude.rs:300 src/ui/widget/dialog/exclude.ui:38
 msgid "Exclude Files"
 msgstr "Fájlok kizárása"
 
-#: src/ui/widget/dialog/exclude.rs:347 src/ui/widget/dialog/exclude.ui:164
+#: src/ui/widget/dialog/exclude.rs:361 src/ui/widget/dialog/exclude.ui:152
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: src/ui/widget/dialog/exclude.rs:366
+#: src/ui/widget/dialog/exclude.rs:380
 msgid "Invalid Regular Expression"
 msgstr "Érvénytelen reguláris kifejezés"
 
-#: src/ui/widget/dialog/exclude.ui:63 src/ui/widget/dialog/exclude.ui:95
+#: src/ui/widget/dialog/exclude.ui:51 src/ui/widget/dialog/exclude.ui:83
 msgid "Exclude Pattern"
 msgstr "Minta kizárása"
 
-#: src/ui/widget/dialog/exclude.ui:64
+#: src/ui/widget/dialog/exclude.ui:52
 msgid "Define regular expression or Unix filename patterns"
 msgstr "Reguláris kifejezés vagy Unix fájlnévminták meghatározása"
 
-#: src/ui/widget/dialog/exclude.ui:78
+#: src/ui/widget/dialog/exclude.ui:66
 msgid "Suggested Exclusions"
 msgstr "Ajánlott kizárások"
 
-#: src/ui/widget/dialog/exclude.ui:83
+#: src/ui/widget/dialog/exclude.ui:71
 msgid "Unreadable Paths"
 msgstr "Olvashatatlan útvonalak"
 
-#: src/ui/widget/dialog/exclude.ui:84
-msgid "These locations were identified as unreadable from a previous backup."
+#: src/ui/widget/dialog/exclude.ui:72
+#| msgid ""
+#| "These locations were identified as unreadable from a previous backup."
+msgid "These locations were identified as unreadable from a previous backup"
 msgstr ""
-"Ez a helyek olvashatatlanként voltak azonosítva egy előző biztonsági "
-"mentésből."
+"Ez a helyek olvashatatlanként voltak azonosítva egy előző biztonsági mentésből"
 
-#: src/ui/widget/dialog/exclude.ui:107
+#: src/ui/widget/dialog/exclude.ui:95
 msgid "Pattern Type"
 msgstr "Minta típusa"
 
-#: src/ui/widget/dialog/exclude.ui:121
+#: src/ui/widget/dialog/exclude.ui:109
 msgid "Pattern"
 msgstr "Minta"
 
-#: src/ui/widget/dialog/exclude.ui:139
+#: src/ui/widget/dialog/exclude.ui:127
 msgid "BorgBackup Patterns"
 msgstr "BorgBackup minták"
 
-#: src/ui/widget/dialog/exclude.ui:150
+#: src/ui/widget/dialog/exclude.ui:138
 msgid ""
 "The patterns above have to be written in a particular form. They are matched "
 "against the path without leading <tt>/</tt>. Additionally, shell-style "
@@ -2150,7 +2166,7 @@ msgstr ""
 "readthedocs.io/en/stable/usage/help.html\">BorgBackup dokumentációját</a> "
 "(angol nyelven)."
 
-#: src/ui/widget/dialog/preferences.rs:212
+#: src/ui/widget/dialog/preferences.rs:207
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2158,24 +2174,24 @@ msgstr ""
 "A biztonsági mentési beállítás címe. A következőként lesz megjelenítve, ha "
 "üresen marad: „{}”."
 
-#: src/ui/widget/dialog/preferences.rs:278
+#: src/ui/widget/dialog/preferences.rs:273
 msgid "Shell command invalid"
 msgstr "A parancs érvénytelen"
 
-#: src/ui/widget/dialog/preferences.rs:465
+#: src/ui/widget/dialog/preferences.rs:459
 msgid "Change Encryption Password Error"
 msgstr "Titkosítási jelszó megváltoztatási hiba"
 
-#: src/ui/widget/dialog/preferences.rs:472
+#: src/ui/widget/dialog/preferences.rs:466
 msgid "Password changed successfully"
 msgstr "A jelszó sikeresen megváltozott"
 
-#: src/ui/widget/dialog/preferences.ui:27
-#: src/ui/widget/dialog/preferences.ui:137
+#: src/ui/widget/dialog/preferences.ui:30
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Change Encryption Password"
 msgstr "Titkosítási jelszó megváltoztatása"
 
-#: src/ui/widget/dialog/preferences.ui:54
+#: src/ui/widget/dialog/preferences.ui:57
 msgid "_Change Password"
 msgstr "Jelszó _megváltoztatása"
 
@@ -2183,35 +2199,38 @@ msgstr "Jelszó _megváltoztatása"
 msgid "Changing Encryption Password"
 msgstr "Titkosítási jelszó megváltoztatása"
 
+#: src/ui/widget/dialog/preferences.ui:119
 #: src/ui/widget/dialog/preferences.ui:122
-#: src/ui/widget/dialog/preferences.ui:125
 msgid "Title"
 msgstr "Cím"
 
-#: src/ui/widget/dialog/preferences.ui:133
-msgid "Encryption password"
+#: src/ui/widget/dialog/preferences.ui:130
+#| msgid "Encryption password"
+msgid "Encryption Password"
 msgstr "Titkosítási jelszó"
 
-#: src/ui/widget/dialog/preferences.ui:134
-msgid "The encryption password of the backup repository."
-msgstr "A biztonsági mentési tároló titkosítási jelszava."
+#: src/ui/widget/dialog/preferences.ui:131
+#| msgid "The encryption password of the backup repository."
+msgid "The encryption password of the backup repository"
+msgstr "A biztonsági mentési tároló titkosítási jelszava"
 
-#: src/ui/widget/dialog/preferences.ui:154
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Run on Battery"
 msgstr "Futtatás akkumulátorról"
 
-#: src/ui/widget/dialog/preferences.ui:155
+#: src/ui/widget/dialog/preferences.ui:147
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
 "Ütemezett biztonsági mentések engedélyezése, ha az eszköz akkumulátorról "
 "működik"
 
-#: src/ui/widget/dialog/preferences.ui:163
+#: src/ui/widget/dialog/preferences.ui:155
 #: src/ui/widget/dialog/setup/location.ui:174
-msgid "Additional command line arguments"
+#| msgid "Additional command line arguments"
+msgid "Additional Command Line Arguments"
 msgstr "További parancssori argumentumok"
 
-#: src/ui/widget/dialog/preferences.ui:164
+#: src/ui/widget/dialog/preferences.ui:156
 #: src/ui/widget/dialog/setup/location.ui:175
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
@@ -2220,57 +2239,60 @@ msgstr ""
 "Ezek az argumentumok hozzá lesznek adva a borg bináris meghívásához. Csak a "
 "hosszú kapcsolók támogatottak, amelyek „--” karakterekkel kezdődnek."
 
-#: src/ui/widget/dialog/preferences.ui:167
+#: src/ui/widget/dialog/preferences.ui:159
 #: src/ui/widget/dialog/setup/location.ui:179
-msgid "Command line arguments"
+#| msgid "Command line arguments"
+msgid "Command Line Arguments"
 msgstr "Parancssori argumentumok"
 
-#: src/ui/widget/dialog/preferences.ui:178
+#: src/ui/widget/dialog/preferences.ui:170
 msgid "Shell Commands"
 msgstr "Parancsok"
 
-#: src/ui/widget/dialog/preferences.ui:179
-msgid "These bash shell commands will be called on certain backup events."
+#: src/ui/widget/dialog/preferences.ui:171
+#| msgid "These bash shell commands will be called on certain backup events."
+msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
-"Ezek a bash-parancsok lesznek meghívva bizonyos biztonsági mentési "
-"eseményeknél."
+"Ezek a bash-parancsok lesznek meghívva bizonyos biztonsági mentési"
+" eseményeknél"
 
-#: src/ui/widget/dialog/preferences.ui:192
+#: src/ui/widget/dialog/preferences.ui:184
 msgid "Pre-Backup Shell Command"
 msgstr "Biztonsági mentés előtti parancs"
 
-#: src/ui/widget/dialog/preferences.ui:199
-#: src/ui/widget/dialog/preferences.ui:220
-msgid "Run with test values"
+#: src/ui/widget/dialog/preferences.ui:191
+#: src/ui/widget/dialog/preferences.ui:212
+#| msgid "Run with test values"
+msgid "Run With Test Values"
 msgstr "Futtatás tesztértékekkel"
 
-#: src/ui/widget/dialog/preferences.ui:213
+#: src/ui/widget/dialog/preferences.ui:205
 msgid "Post-Backup Shell Command"
 msgstr "Biztonsági mentés utáni parancs"
 
-#: src/ui/widget/dialog/prune.rs:89
-msgid "Reclaim Free Space"
-msgstr "Szabad hely visszaszerzése"
+#: src/ui/widget/dialog/prune.rs:73
+msgid "Review Changes"
+msgstr "Változtatások áttekintése"
 
-#: src/ui/widget/dialog/prune.rs:123 src/ui/widget/dialog/prune_review.rs:87
-msgid "Failed to determine how many archives would be deleted"
-msgstr "Nem sikerült meghatározni, hogy hány archívum lenne törölve"
+#: src/ui/widget/dialog/prune.rs:77
+msgid "Collecting information about the effect of the changes on old archives"
+msgstr ""
+"Információk gyűjtése a régi archívumokra vonatkozó változtatás hatásáról"
 
-#. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/widget/dialog/prune.ui:38
-msgid "Checking for old Archives"
-msgstr "Régi archívumok keresése"
+#: src/ui/widget/dialog/prune.rs:79
+#| msgid "Creating a list of old archives to be approved for deletion."
+msgid "Creating a list of old archives to be approved for deletion"
+msgstr "A törlésre jóváhagyandó régi archívumok listájának létrehozása"
 
-#: src/ui/widget/dialog/prune.ui:39
-msgid "Creating a list of old archives to be approved for deletion."
-msgstr "A törlésre jóváhagyandó régi archívumok listájának létrehozása."
+#: src/ui/widget/dialog/prune.rs:85
+msgid ""
+"After applying these changes, the next automatic deletion of old archives "
+"would have the following consequences."
+msgstr ""
+"A változtatások alkalmazása után a régi archívumok következő automatikus "
+"törlése a következőket eredményezné."
 
-#: src/ui/widget/dialog/prune.ui:66 src/ui/widget/dialog/prune.ui:82
-#: src/ui/widget/dialog/prune_review.ui:82
-msgid "Delete Archives"
-msgstr "Archívumok törlése"
-
-#: src/ui/widget/dialog/prune.ui:79
+#: src/ui/widget/dialog/prune.rs:87 src/ui/widget/dialog/prune.ui:40
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -2279,62 +2301,73 @@ msgstr ""
 "A művelet folytatása egyes archívumok visszavonhatatlan törlését "
 "eredményezi. Az adott időben mentett adatok többé nem lesznek elérhetők."
 
-#: src/ui/widget/dialog/prune.ui:95 src/ui/widget/dialog/prune_review.ui:95
+#: src/ui/widget/dialog/prune.rs:117
+msgid "Delete old Archives"
+msgstr "Régi archívumok törlése"
+
+#: src/ui/widget/dialog/prune.rs:127
+msgid "Reclaim Free Space"
+msgstr "Szabad hely visszaszerzése"
+
+#: src/ui/widget/dialog/prune.rs:161
+msgid "Failed to determine how many archives would be deleted"
+msgstr "Nem sikerült meghatározni, hogy hány archívum lenne törölve"
+
+#: src/ui/widget/dialog/prune.rs:191
+msgid "No archives are selected for deletion with current cleanup rules"
+msgstr ""
+"Nincsenek törlésre kijelölt archívumok a jelenlegi tisztítási szabályokkal"
+
+#: src/ui/widget/dialog/prune.rs:221
+msgid "Identifying old Archives"
+msgstr "Régi archívumok azonosítása"
+
+#: src/ui/widget/dialog/prune.ui:9 src/ui/widget/dialog/prune.ui:43
+#: src/ui/widget/dialog/prune.ui:100
+msgid "Delete Archives"
+msgstr "Archívumok törlése"
+
+#. Translators: Header while creating a list of old archives to be approved for deletion.
+#: src/ui/widget/dialog/prune.ui:23
+#| msgid "Checking for old Archives"
+msgid "Checking for Old Archives"
+msgstr "Régi archívumok keresése"
+
+#: src/ui/widget/dialog/prune.ui:56
 msgid "Keep Archives"
 msgstr "Archívumok megtartása"
 
-#: src/ui/widget/dialog/prune.ui:108 src/ui/widget/dialog/prune_review.ui:108
+#: src/ui/widget/dialog/prune.ui:69
 msgid "Not Considered"
 msgstr "Nincs figyelembe véve"
 
-#: src/ui/widget/dialog/prune.ui:109 src/ui/widget/dialog/prune_review.ui:109
+#: src/ui/widget/dialog/prune.ui:70
 msgid "Archives with different prefix"
 msgstr "Eltérő előtaggal rendelkező archívumok"
 
-#: src/ui/widget/dialog/prune_review.ui:6
-msgid "Review Changes"
-msgstr "Változtatások áttekintése"
-
-#: src/ui/widget/dialog/prune_review.ui:38
-msgid "Assessing Impact on old Archives"
-msgstr "Régi archívumokra vonatkozó hatás felmérése"
-
-#: src/ui/widget/dialog/prune_review.ui:39
-msgid "Collecting information about the effect of the changes on old archives"
-msgstr ""
-"Információk gyűjtése a régi archívumokra vonatkozó változtatás hatásáról"
-
-#: src/ui/widget/dialog/prune_review.ui:66
+#: src/ui/widget/dialog/prune.ui:87
 msgid "Apply"
 msgstr "Alkalmaz"
 
-#: src/ui/widget/dialog/prune_review.ui:79
-msgid ""
-"After applying these changes, the next automatic deletion of old archives "
-"would have the following consequences."
-msgstr ""
-"A változtatások alkalmazása után a régi archívumok következő automatikus "
-"törlése a következőket eredményezné."
-
-#: src/ui/widget/dialog/setup.rs:139
+#: src/ui/widget/dialog/setup.rs:158
 msgid "Setup Existing Repository"
 msgstr "Meglévő tároló beállítása"
 
-#: src/ui/widget/dialog/setup.rs:149
+#: src/ui/widget/dialog/setup.rs:168
 msgid "Location is not a valid backup repository."
 msgstr "A hely nem érvényes biztonsági mentési tároló."
 
-#: src/ui/widget/dialog/setup.rs:151
+#: src/ui/widget/dialog/setup.rs:170
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "A tárolónak a Pika biztonsági mentésből vagy egy kompatibilis szoftverből "
 "kell származnia."
 
-#: src/ui/widget/dialog/setup.rs:333
+#: src/ui/widget/dialog/setup.rs:352
 msgid "Failed to Configure Repository"
 msgstr "A tároló beállítása sikertelen"
 
-#: src/ui/widget/dialog/setup.rs:346
+#: src/ui/widget/dialog/setup.rs:363
 msgid "Failed"
 msgstr "Sikertelen"
 
@@ -2356,14 +2389,13 @@ msgstr "A csatolási művelet sikeres volt, de a hely továbbra sem érhető el.
 msgid "Loading Backup Repository"
 msgstr "Biztonsági mentési tároló betöltése"
 
-#: src/ui/widget/dialog/setup/actions.rs:192
+#: src/ui/widget/dialog/setup/actions.rs:194
 #: src/ui/widget/dialog/setup/create_new.ui:6
 #: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "Biztonsági mentési tároló létrehozása"
 
-#: src/ui/widget/dialog/setup/actions.rs:201
-#| msgid "Setup Existing Repository"
+#: src/ui/widget/dialog/setup/actions.rs:203
 msgid "Getting Repository Information"
 msgstr "Tároló-információk lekérése"
 
@@ -2385,26 +2417,23 @@ msgstr "Titkosítás beállítása"
 msgid "_Create"
 msgstr "_Létrehozás"
 
-#: src/ui/widget/dialog/setup/location.rs:198
-#| msgid "Repository Name"
+#: src/ui/widget/dialog/setup/location.rs:194
 msgid "Repository Name Empty"
 msgstr "A tároló neve üres"
 
-#: src/ui/widget/dialog/setup/location.rs:199
+#: src/ui/widget/dialog/setup/location.rs:195
 msgid "The repository folder name must be set"
 msgstr "A tároló mappájának nevét be kell állítani"
 
-#: src/ui/widget/dialog/setup/location.rs:210
-#| msgid "No preset selected."
+#: src/ui/widget/dialog/setup/location.rs:206
 msgid "No Base Folder Selected"
 msgstr "Nincs alapmappa kiválasztva"
 
-#: src/ui/widget/dialog/setup/location.rs:211
-#| msgid "Select a location for a new backup repository."
+#: src/ui/widget/dialog/setup/location.rs:207
 msgid "Select a base folder for the backup repository"
 msgstr "Alapmappa kiválasztása a biztonsági mentési tárolóhoz"
 
-#: src/ui/widget/dialog/setup/location.rs:218
+#: src/ui/widget/dialog/setup/location.rs:214
 msgid "Invalid Remote Location"
 msgstr "Érvénytelen távoli hely"
 
@@ -2452,10 +2481,6 @@ msgid "Examples"
 msgstr "Példák"
 
 #: src/ui/widget/dialog/setup/location.ui:125
-#| msgid ""
-#| "ssh://user@server.example.org/~/backup\n"
-#| "smb://user@server.example.org/files/backup\n"
-#| "                                    "
 msgid ""
 "ssh://user@server.example.org/~/backup\n"
 "smb://user@server.example.org/files/backup"
@@ -2476,7 +2501,8 @@ msgstr ""
 "„smb://” vagy „sftp://” protokollelőtaggal."
 
 #: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations with BorgBackup Support"
+#| msgid "Locations with BorgBackup Support"
+msgid "Locations With BorgBackup Support"
 msgstr "BorgBackup támogatással rendelkező helyek"
 
 #: src/ui/widget/dialog/setup/location.ui:163
@@ -2499,21 +2525,21 @@ msgstr "_Kapcsolódás"
 msgid "_Continue"
 msgstr "_Folytatás"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:136
-msgid "Create new Repository"
+#: src/ui/widget/dialog/setup/location_kind.rs:141
+#: src/ui/widget/dialog/setup/repo_kind.ui:23
+msgid "Create New Repository"
 msgstr "Új tároló létrehozása"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:138
-#| msgid "Select a location for a new backup repository."
+#: src/ui/widget/dialog/setup/location_kind.rs:143
 msgid "Select a location for the new backup repository"
 msgstr "Hely kiválasztása az új biztonsági mentési tárolóhoz"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:142
-#: src/ui/widget/dialog/setup/repo_kind.ui:31
+#: src/ui/widget/dialog/setup/location_kind.rs:147
+#: src/ui/widget/dialog/setup/repo_kind.ui:30
 msgid "Use Existing Repository"
 msgstr "Meglévő tároló használata"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:144
+#: src/ui/widget/dialog/setup/location_kind.rs:149
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2521,7 +2547,7 @@ msgstr ""
 "Olyan hely kiválasztása, amely meglévő biztonsági mentési tárolót tartalmaz. "
 "Más BorgBackup kompatibilis szoftverrel létrehozott tárolók is használhatók."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:264
+#: src/ui/widget/dialog/setup/location_kind.rs:289
 msgid "Free space: {}"
 msgstr "Szabad hely: {}"
 
@@ -2531,14 +2557,8 @@ msgid "Location on Disk"
 msgstr "Lemezen lévő hely"
 
 #: src/ui/widget/dialog/setup/repo_kind.ui:16
-#| msgid "Creating Backup Repository"
 msgid "Configure a new or existing backup repository"
 msgstr "Új vagy meglévő biztonsági mentési tároló beállítása"
-
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
-#| msgid "Create new Repository"
-msgid "Create New Repository"
-msgstr "Új tároló létrehozása"
 
 #: src/ui/widget/dialog/setup/transfer_prefix.ui:18
 msgid ""
@@ -2596,43 +2616,43 @@ msgstr "A távoli helynek rendelkeznie kell egy megadott útvonallal."
 msgid "Invalid remote location: “{}”"
 msgstr "Érvénytelen távoli hely: „{}”"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:130
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
 msgid "Backup Location"
 msgstr "Biztonsági mentés helye"
 
-#: src/ui/widget/dialog/storage.ui:30
+#: src/ui/widget/dialog/storage.ui:19
 msgid "Disk"
 msgstr "Lemez"
 
-#: src/ui/widget/dialog/storage.ui:33
+#: src/ui/widget/dialog/storage.ui:22
 msgid "Volume"
 msgstr "Kötet"
 
-#: src/ui/widget/dialog/storage.ui:42
+#: src/ui/widget/dialog/storage.ui:31
 msgid "Device"
 msgstr "Eszköz"
 
-#: src/ui/widget/dialog/storage.ui:51
+#: src/ui/widget/dialog/storage.ui:40
 msgid "Path"
 msgstr "Útvonal"
 
-#: src/ui/widget/dialog/storage.ui:63
+#: src/ui/widget/dialog/storage.ui:52
 msgid "Remote"
 msgstr "Távoli"
 
-#: src/ui/widget/dialog/storage.ui:66
+#: src/ui/widget/dialog/storage.ui:55
 msgid "URL"
 msgstr "URL"
 
-#: src/ui/widget/dialog/storage.ui:78
+#: src/ui/widget/dialog/storage.ui:67
 msgid "Space"
 msgstr "Hely"
 
-#: src/ui/widget/dialog/storage.ui:81
+#: src/ui/widget/dialog/storage.ui:70
 msgid "Total"
 msgstr "Összesen"
 
-#: src/ui/widget/dialog/storage.ui:90
+#: src/ui/widget/dialog/storage.ui:79
 msgid "Free"
 msgstr "Szabad"
 
@@ -2680,21 +2700,19 @@ msgstr "Új titkosítási jelszó"
 msgid "Repeat Password"
 msgstr "Jelszó ismétlése"
 
-#: src/ui/widget/folder_button.rs:146
+#: src/ui/widget/folder_button.rs:148
 msgid "_Select Folder…"
 msgstr "Mappa ki_választása…"
 
-#: src/ui/widget/overview.rs:171
+#: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
 msgstr "Eltávolítja a biztonsági mentés beállítását?"
 
-#: src/ui/widget/overview.rs:172
-#| msgid "Removing the setup will not delete any archives."
+#: src/ui/widget/overview.rs:179
 msgid "Removing the setup will not delete any archives"
 msgstr "A beállítás eltávolítása nem törli az archívumokat"
 
-#: src/ui/widget/overview.rs:174
-#| msgid "Remove Setup"
+#: src/ui/widget/overview.rs:181
 msgid "_Remove Setup"
 msgstr "Beállítás _eltávolítása"
 
