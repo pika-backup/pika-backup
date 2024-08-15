@@ -1,13 +1,13 @@
 # Hungarian translation for pika-backup.
-# Copyright (C) 2022, 2023 Free Software Foundation, Inc.
+# Copyright (C) 2022, 2023, 2024 Free Software Foundation, Inc.
 # This file is distributed under the same license as the pika-backup package.
 #
-# Balázs Úr <ur.balazs at fsf dot hu>, 2022, 2023.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
-"POT-Creation-Date: 2023-03-22 21:36+0000\n"
-"PO-Revision-Date: 2023-03-25 00:48+0100\n"
+"POT-Creation-Date: 2024-07-27 14:50+0000\n"
+"PO-Revision-Date: 2024-08-15 12:04+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -15,103 +15,789 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Úr Balázs <ur dot balazs at fsf dot hu>, 2022, 2023."
+msgstr "Úr Balázs <ur dot balazs at fsf dot hu>, 2022, 2023, 2024."
 
 #. (itstool) path: info/desc
 #: C/index.page:4
-msgid ""
-"Doing backups the easy way. Plugin your USB drive and let the Pika do the "
-"rest for you."
-msgstr ""
-"Készítsen biztonsági mentéseket egyszerű módon. Csatlakoztassa az USB-"
-"meghajtóját, és hagyja, hogy a Pika elvégezze a többit Ön helyett."
+msgid "Keep your data safe."
+msgstr "Tartsa biztonságban az adatait."
 
 #. (itstool) path: page/title
 #: C/index.page:6
 msgid "Pika Backup"
 msgstr "Pika biztonsági mentés"
 
+#. (itstool) path: page/p
+#: C/index.page:7
+msgid "Welcome to <app>Pika Backup</app>. Choose a topic to get started."
+msgstr ""
+"Üdvözli a <app>Pika biztonsági mentés</app>. Válasszon egy témát a kezdéshez."
+
 #. (itstool) path: section/title
-#: C/index.page:8
+#: C/index.page:9
+msgid "General"
+msgstr "Általános"
+
+#. (itstool) path: section/title
+#: C/index.page:12
+msgid "Setup"
+msgstr "Beállítás"
+
+#. (itstool) path: section/title
+#: C/index.page:15
 msgid "Recovery"
-msgstr "Visszaállítás"
+msgstr "Helyreállítás"
+
+#. (itstool) path: section/title
+#: C/index.page:18
+msgid "Features"
+msgstr "Funkciók"
+
+#. (itstool) path: info/desc
+#: C/feature-shell.page:5
+msgid "Configure commands to run before and after backups"
+msgstr "A biztonsági mentések előtt és után futtatandó parancsok beállítása"
+
+#. (itstool) path: page/title
+#: C/feature-shell.page:7
+msgid "Shell Commands"
+msgstr "Parancsok"
+
+#. (itstool) path: page/p
+#: C/feature-shell.page:8
+msgid ""
+"It is possible to run shell commands before and after backups. To configure "
+"them, open <guiseq><gui>Menu</gui><gui>Backup Preferences</gui></guiseq>. "
+"Use the start button to try out the command without running a backup."
+msgstr ""
+"Lehetőség van parancsok futtatására a mentések előtt és után. A "
+"beállításukhoz nyissa meg a <guiseq><gui>Menü</gui><gui>Biztonsági mentés "
+"beállításai</gui></guiseq> ablakot. Használja a start gombot, és próbálja ki "
+"a parancsot biztonsági mentés futtatása nélkül."
+
+#. (itstool) path: page/p
+#: C/feature-shell.page:9
+msgid ""
+"The <em>pre-backup</em> shell command will be executed right before starting "
+"the backup. It can be used to perform database dumps, create file system "
+"snapshots and much more."
+msgstr ""
+"A <em>pre-backup</em> parancs közvetlenül a biztonsági mentés elindulása "
+"előtt kerül végrehajtásra. Használható adatbázis-mentések elvégzésére, a "
+"fájlrendszerről készült pillanatképek készítésére és még sok másra."
+
+#. (itstool) path: page/p
+#: C/feature-shell.page:10
+msgid ""
+"The <em>post-backup</em> shell command is executed after the <cmd>borg "
+"create</cmd> invocation, but before old archives are being deleted. This can "
+"be used to tear down the actions done by the <em>pre-backup</em> command, or "
+"run actions like sending a notification based on the outcome of the backup."
+msgstr ""
+"A <em>post-backup</em> parancs a <cmd>borg create</cmd> meghívása után, de a "
+"régi archívumok törlése előtt kerül végrehajtásra. Ez a parancs használható "
+"a <em>pre-backup</em> parancs által elvégzett műveletek utáni takarításra, "
+"vagy olyan műveletek futtatására, mint például értesítés küldése a "
+"biztonsági mentés eredménye alapján."
+
+#. (itstool) path: page/p
+#: C/feature-shell.page:11
+msgid ""
+"Both commands are being executed through a <cmd>bash</cmd> shell and have "
+"context about the backup available as environment variables. The working "
+"directory is the user home directory. The <em>post-backup</em> command also "
+"has information about the success or failure of the backup and includes "
+"backup statistics. See the tooltip in preferences for available environment "
+"variables."
+msgstr ""
+"Mindkét parancs <cmd>bash</cmd> parancsértelmezőn keresztül kerül "
+"végrehajtásra, és a biztonsági mentéssel kapcsolatos kontextus környezeti "
+"változóként érhető el. A munkakönyvtár a felhasználó saját könyvtára. A "
+"<em>post-backup</em> parancs szintén rendelkezik a biztonsági mentés "
+"sikerességével vagy sikertelenségével kapcsolatos információkkal, beleértve "
+"a biztonsági mentés statisztikáit is. Nézze meg a beállításokban lévő "
+"buboréksúgót az elérhető környezeti változókért."
+
+#. (itstool) path: page/p
+#: C/feature-shell.page:12
+msgid ""
+"Exiting with a non-zero exit code will abort any further backup operations "
+"with an error. The standard error output will be visible in the <gui>Backup "
+"Info</gui> window on the <gui>Backup</gui> tab."
+msgstr ""
+"A nem nulla kilépési kóddal történő kilépés hibaüzenettel megszakítja a "
+"további biztonsági mentési műveleteket. A szabványos hibakimenet látható "
+"lesz a <gui>Biztonsági mentés információs</gui> ablakban a <gui>Biztonsági "
+"mentés</gui> lapon."
+
+#. (itstool) path: note/p
+#: C/feature-shell.page:14
+msgid ""
+"You can run multiple commands by separating them with a <code>;</code> "
+"character. It is recommended to store more complex scripts in a separate "
+"file, for example in the home directory."
+msgstr ""
+"Több parancsot is futtathat, ha <code>;</code> karakterrel választja el "
+"azokat egymástól. Ajánlott az összetettebb parancsfájlokat külön fájlban "
+"tárolni, például a saját könyvtárban."
+
+#. (itstool) path: info/desc
+#: C/feature-schedule.page:5
+msgid "Run backups automatically on a schedule"
+msgstr "Biztonsági mentések automatikus futtatása ütemezetten"
+
+#. (itstool) path: page/title
+#: C/feature-schedule.page:7
+msgid "Scheduled Backups"
+msgstr "Ütemezett biztonsági mentések"
+
+#. (itstool) path: page/p
+#: C/feature-schedule.page:8
+msgid ""
+"The schedule tab is used to configure the automatic creation of backups."
+msgstr ""
+"Az ütemezés lap használható a biztonsági mentések automatikus létrehozásának "
+"beállításához."
+
+#. (itstool) path: page/p
+#: C/feature-schedule.page:9
+msgid ""
+"Once enabled a schedule can be chosen between <em>Hourly</em>, <em>Daily</"
+"em>, <em>Weekly</em> and <em>Monthly</em> backups. The status display at the "
+"top will always indicate the next time a backup is scheduled to be run."
+msgstr ""
+"Ha engedélyezve van, akkor <em>óránként</em>, <em>naponta</em>, <em>hetente</"
+"em> és <em>havonta</em> ütemezett biztonsági mentések közül lehet választani."
+
+#. (itstool) path: page/p
+#: C/feature-schedule.page:10
+msgid ""
+"When the appropriate time has elapsed a backup will automatically start in "
+"the background. When using an external drive, you will be prompted to insert "
+"it if it's not available at the time. The backup will then start as soon as "
+"the drive is connected."
+msgstr ""
+"A megfelelő idő elteltével egy biztonsági mentés automatikusan elindul a "
+"háttérben. Külső meghajtó használata esetén a rendszer arra kéri, hogy "
+"helyezze be a meghajtót, ha az éppen nem érhető el. A biztonsági mentés "
+"ezután elindul, amint a meghajtó csatlakoztatva lett."
+
+#. (itstool) path: note/p
+#: C/feature-schedule.page:12
+msgid ""
+"Scheduled backups use a lightweight background process called the "
+"<em>Monitor</em>. The <em>Monitor</em> process runs in the background when "
+"<app>Pika Backup</app> is closed and regularly checks if the conditions are "
+"met to start a backup."
+msgstr ""
+"Az ütemezett biztonsági mentések egy pehelysúlyú háttérfolyamatot "
+"használnak, az úgynevezett <em>Figyelőt</em>. A <em>Figyelő</em> folyamat a "
+"háttérben fut, ha a <app>Pika biztonsági mentés</app> bezárásra kerül, és "
+"rendszeresen ellenőrzi, hogy teljesülnek-e a feltételek egy biztonsági "
+"mentés elindításához."
+
+#. (itstool) path: section/title
+#: C/feature-schedule.page:15
+msgid "Cleanup old Archives"
+msgstr "Régi archívumok tisztítása"
+
+#. (itstool) path: section/p
+#: C/feature-schedule.page:16
+msgid ""
+"The schedule can also be configured to automatically remove old archives. "
+"Once enabled, choose the desired preset / customize the amount of backups "
+"that should be kept. Then press <gui type=\"button\">Save Configuration</"
+"gui>."
+msgstr ""
+"Az ütemezést úgy is be lehet állítani, hogy automatikusan eltávolítsa a régi "
+"archívumokat. Ha engedélyezve van, akkor válassza ki a kívánt előbeállítást, "
+"vagy szabja személyre a megőrzendő biztonsági mentések mennyiségét. Ezután "
+"nyomja meg a <gui type=\"button\">Beállítás mentése</gui> gombot."
+
+#. (itstool) path: note/p
+#: C/feature-schedule.page:18
+msgid ""
+"<gui>Keep Hourly</gui>, <gui>Keep Daily</gui> and <gui>Keep Weekly</gui> can "
+"only be configured to a minimum of at least <em>one</em> backup. This is due "
+"to a technical limitation of the removal algorithm."
+msgstr ""
+"Az <gui>óránkénti megtartása</gui>, <gui>napi megtartása</gui> és <gui>heti "
+"megtartása</gui> csak legalább <em>egy</em> biztonsági mentés legkisebbjére "
+"állítható be. Ez az eltávolítási algoritmus műszaki korlátozása miatt van."
+
+#. (itstool) path: section/title
+#: C/feature-schedule.page:22
+msgid "Troubleshooting"
+msgstr "Hibaelhárítás"
+
+#. (itstool) path: section/p
+#: C/feature-schedule.page:23
+msgid ""
+"<app>Pika Backup</app> uses the <app>xdg-desktop-portal</app> "
+"<app>Background Portal</app> to configure the <em>Monitor</em> process to "
+"run in the background. Some distributions misconfigure <app>xdg-desktop-"
+"portal</app> or don't enable the <em>Background Portal</em>. This will then "
+"cause an error when enabling scheduled backups. We have tested the following "
+"distributions for correct behavior regarding background portals in their "
+"stock configuration:"
+msgstr ""
+"A <app>Pika biztonsági mentés</app> az <app>xdg-desktop-portal</app> "
+"<app>Háttérportálját</app> használja a <em>Figyelő</em> folyamat "
+"beállításához, hogy az a háttérben fusson. Néhány disztribúció hibásan "
+"állítja be az <app>xdg-desktop-portal</app> alkalmazást, vagy nem "
+"engedélyezi a <app>Háttérportált</app>. Ez hibát okoz majd az ütemezett "
+"biztonsági mentések engedélyezésekor. A következő disztribúciókat teszteltük "
+"az alapbeállításukban lévő háttérportálok helyes viselkedése szempontjából:"
+
+#. (itstool) path: item/p
+#: C/feature-schedule.page:26
+msgid "Debian"
+msgstr "Debian"
+
+#. (itstool) path: item/p
+#: C/feature-schedule.page:29
+msgid "Fedora"
+msgstr "Fedora"
+
+#. (itstool) path: section/p
+#: C/feature-schedule.page:32
+msgid ""
+"If you encounter issues with enabling scheduled backups and you are using a "
+"different distribution, please report an issue in your distribution issue "
+"tracker."
+msgstr ""
+"Ha problémákat tapasztal az ütemezett biztonsági mentések engedélyezésével "
+"kapcsolatban, és más disztribúciót használ, akkor jelentse a problémát a "
+"disztribúciója problémakövetőjében."
+
+#. (itstool) path: note/p
+#: C/feature-schedule.page:34
+msgid ""
+"<app>GNOME Shell</app> will display <app>Pika Backup</app> as a running "
+"background app whenever scheduled backups are configured. This doesn't mean "
+"the entire app is running in the background but only the <em>Monitor</em> "
+"process which only uses very few resources."
+msgstr ""
+"A <app>GNOME Shell</app> futó háttéralkalmazásként jeleníti meg a <app>Pika "
+"biztonsági mentés</app> alkalmazást, amikor ütemezett biztonsági mentések "
+"vannak beállítva. Ez nem azt jelenti, hogy a teljes alkalmazás a háttérben "
+"fut, hanem csak a <em>Figyelő</em> folyamat, amely csak nagyon kevés "
+"erőforrást használ."
+
+#. (itstool) path: info/desc
+#: C/general-glossary.page:5
+msgid "Definition of terms"
+msgstr "Kifejezések meghatározása"
+
+#. (itstool) path: page/title
+#: C/general-glossary.page:7
+msgid "Terminology"
+msgstr "Szakkifejezések"
+
+#. (itstool) path: page/p
+#: C/general-glossary.page:8
+msgid "These terms are commonly used in this documentation and within the app."
+msgstr ""
+"Ezek a kifejezések gyakran használatosak ebben a dokumentációban és az "
+"alkalmazáson belül."
+
+#. (itstool) path: section/title
+#: C/general-glossary.page:10
+msgid "BorgBackup"
+msgstr "BorgBackup"
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:11
+msgid ""
+"<app>BorgBackup</app> is the underlying program that is used to create "
+"backups. <app>Pika Backup</app> repositories can also be accessed with the "
+"BorgBackup commandline utility. See <link href=\"https://borgbackup."
+"readthedocs.io\">BorgBackup documentation</link> for more information about "
+"how to use the <cmd>borg</cmd> command line utility."
+msgstr ""
+"A <app>BorgBackup</app> az a mögöttes program, amely a biztonsági mentések "
+"létrehozására szolgál. A <app>Pika biztonsági mentés</app> tárolói elérhetők "
+"a BorgBackup parancssori segédprogrammal is. A <cmd>borg</cmd> parancssori "
+"segédprogram használatával kapcsolatos további információkért nézze meg a "
+"<link href=\"https://borgbackup.readthedocs.io\">BorgBackup dokumentációját</"
+"link>."
+
+#. (itstool) path: section/title
+#: C/general-glossary.page:14
+msgid "Repository"
+msgstr "Tároló"
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:15
+msgid ""
+"Backup repositories are directories on a disk or on a remote location that "
+"contain backup data. They store one or more <link "
+"xref=\"#archive\">archives</link>."
+msgstr ""
+"A biztonsági mentés tárolói olyan könyvtárak egy lemezen vagy egy távoli "
+"helyen, amelyek a biztonsági mentés adatait tartalmazzák. Ezek egy vagy több "
+"<link xref=\"#archive\">archívumot</link> tárolnak."
+
+#. (itstool) path: section/title
+#: C/general-glossary.page:18
+msgid "Archive"
+msgstr "Archívum"
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:19
+msgid ""
+"Every backup will create one archive. They store a singular snapshot of the "
+"files at the time the backup was created. To restore data from a particular "
+"archive, see <link xref=\"index#recovery\"/>."
+msgstr ""
+"Minden biztonsági mentés egy archívumot hoz létre. Ezek tárolják a fájloknak "
+"a biztonsági mentés létrehozásának időpontjában készült egyszeri "
+"pillanatképét. Az adatoknak egy adott archívumból történő helyreállításához "
+"nézze meg a <link xref=\"index#recovery\"/> fejezetet."
+
+#. (itstool) path: section/title
+#: C/general-glossary.page:22
+msgid "Deduplication"
+msgstr "Deduplikáció"
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:23
+msgid ""
+"<app>Pika Backup</app> stores backup <link xref=\"#archive\">archives</link> "
+"in a way that only new and changed data from the last backup use up more "
+"disk space. The term <em>deduplication</em> is used to refer to this "
+"functionality."
+msgstr ""
+"A <app>Pika biztonsági mentés</app> úgy tárolja a biztonsági mentés "
+"archívumait, hogy csak a legutóbbi biztonsági mentéshez képest új és "
+"megváltozott adatok foglalnak el több lemezterületet. A <em>deduplikáció</"
+"em> kifejezést használják erre a funkcióra való hivatkozásként."
+
+#. (itstool) path: note/p
+#: C/general-glossary.page:25
+msgid ""
+"The amount of new space used for the last backup can be seen in the "
+"<gui>Backup Info</gui> window that can be accessed via the <gui "
+"style=\"tab\">Backup</gui> tab."
+msgstr ""
+"Az utolsó biztonsági mentéshez használt új lemezterület mennyisége a "
+"<gui>Biztonsági mentés információi</gui> ablakban látható, amely a <gui "
+"style=\"tab\">Biztonsági mentés</gui> lapon keresztül érhető el."
+
+#. (itstool) path: section/title
+#: C/general-glossary.page:29
+msgid "Compression"
+msgstr "Tömörítés"
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:30
+msgid ""
+"Backup <link xref=\"#archive\">archives</link> created with <app>Pika "
+"Backup</app> are compressed with the <em>zstd</em> algorithm on <em>level 3</"
+"em>. This was chosen as a compromise between performance and resulting "
+"backup size."
+msgstr ""
+"A <app>Pika biztonsági mentés</app> alkalmazással létrehozott biztonsági "
+"mentési <link xref=\"#archive\">archívumok</link> <em>zstd</em> "
+"algoritmussal vannak tömörítve, <em>3. szinten</em>. Ez a teljesítmény és a "
+"keletkező biztonsági mentés mérete közötti kompromisszumként lett "
+"kiválasztva."
+
+#. (itstool) path: section/title
+#: C/general-glossary.page:33
+msgid "Encryption"
+msgstr "Titkosítás"
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:34
+msgid ""
+"Backup repositories created with <app>Pika Backup</app> can be encrypted. "
+"This will make it impossible for anyone to read the contents of the backup "
+"without knowing or guessing the encryption <em>password</em>."
+msgstr ""
+"A <app>Pika biztonsági mentés</app> alkalmazással létrehozott biztonsági "
+"mentési tárolók titkosíthatók. Ez lehetetlenné teszi bárki számára, hogy a "
+"titkosítási <em>jelszó</em> ismerete vagy kitalálása nélkül elolvassa a "
+"biztonsági mentés tartalmát."
+
+#. (itstool) path: note/p
+#: C/general-glossary.page:36
+msgid ""
+"While it is important to choose a strong encryption password for sensitive "
+"data, losing the password also means losing access to all data. It is "
+"equally important to choose a password that is not easily forgotten or "
+"stored in a safe place."
+msgstr ""
+"Bár fontos, hogy erős titkosítási jelszót válasszon az érzékeny adatokhoz, a "
+"jelszó elvesztése egyben az összes adathoz való hozzáférés elvesztését is "
+"jelenti. Ugyanilyen fontos, hogy olyan jelszót válasszon, amelyet nem lehet "
+"könnyen elfelejteni vagy biztonságos helyen van tárolva."
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:38
+msgid ""
+"The encryption algorithm used for new <link "
+"type=\"repository\">repositories</link> is <em>AES-CTR-256</em>. The "
+"authentication algorithm is either <em>HMAC-SHA256</em> or <em>BLAKE2b-256</"
+"em> depending on whether SHA256 is hardware-accelerated on the system."
+msgstr ""
+"Az új <link type=\"repository\">tárolóknál</link> használt titkosítási "
+"algoritmus az <em>AES-CTR-256</em>. A hitelesítési algoritmus <em>HMAC-"
+"SHA256</em> vagy <em>BLAKE2b-256</em> attól függően, hogy az SHA256 "
+"hardveresen gyorsított-e a rendszeren."
+
+#. (itstool) path: section/p
+#: C/general-glossary.page:39
+msgid ""
+"The encryption password can be changed via <guiseq><gui>Menu</"
+"gui><gui>Backup Preferences</gui><gui>Change Encryption Password</gui></"
+"guiseq>."
+msgstr ""
+"A titkosítási jelszó a <guiseq><gui>Menü</gui><gui>Biztonsági mentés "
+"beállításai</gui><gui>Titkosítási jelszó megváltoztatása</gui></guiseq> "
+"menüpontban változtatható meg."
+
+#. (itstool) path: info/desc
+#: C/general-intro.page:5
+#| msgid "Access files without using <app>Pika Backup</app>"
+msgid "Introduction to <app>Pika Backup</app>"
+msgstr "Bevezetés a <app>Pika biztonsági mentés</app> alkalmazásba"
+
+#. (itstool) path: page/title
+#: C/general-intro.page:7
+msgid "Introduction"
+msgstr "Bevezetés"
+
+#. (itstool) path: page/p
+#: C/general-intro.page:8
+#| msgid ""
+#| "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
+#| "rest for you."
+msgid ""
+"<app>Pika Backup</app> is designed to save your personal data. Plug in your "
+"USB drive and let the Pika do the rest for you."
+msgstr ""
+"A <app>Pika biztonsági mentés</app> alkalmazást a személyes adatainak "
+"mentésére tervezték. Csatlakoztassa az USB-meghajtóját, és hagyja, hogy a "
+"Pika elvégezze a többit Ön helyett."
+
+#. (itstool) path: item/p
+#: C/general-intro.page:11
+msgid ""
+"Create backups <link xref=\"setup-drive\">locally</link>, on <link "
+"xref=\"setup-gvfs\">network shares</link> and <link xref=\"setup-"
+"remote\">remotely</link>"
+msgstr ""
+"Biztonsági mentések létrehozása <link xref=\"setup-drive\">helyileg</link>, "
+"<link xref=\"setup-gvfs\">hálózati megosztásokon</link> és <link "
+"xref=\"setup-remote\">távoli gépeken</link>"
+
+#. (itstool) path: item/p
+#: C/general-intro.page:14
+msgid "Set a schedule for regular backups"
+msgstr "Ütemezés beállítása a rendszeres biztonsági mentésekhez"
+
+#. (itstool) path: item/p
+#: C/general-intro.page:17
+msgid ""
+"Save time and disk space because Pika Backup <link xref=\"general-"
+"glossary#deduplication\">does not need</link> to copy known data again"
+msgstr ""
+"Idő és lemezterület megtakarítása, mert a Pika biztonsági mentésnek <link "
+"xref=\"general-glossary#deduplication\">nem kell</link> újra átmásolnia a "
+"már ismert adatokat"
+
+#. (itstool) path: item/p
+#: C/general-intro.page:20
+msgid "<link xref=\"general-glossary#encryption\">Encrypt</link> your backups"
+msgstr ""
+"A biztonsági mentéseinek <link xref=\"general-"
+"glossary#encryption\">titkosítása</link>"
+
+#. (itstool) path: item/p
+#: C/general-intro.page:23
+msgid ""
+"List created <link xref=\"general-glossary#archive\">archives</link> and "
+"browse through their contents"
+msgstr ""
+"Létrehozott <link xref=\"general-glossary#archive\">archívumok</link> "
+"felsorolása és a tartalmuk tallózása"
+
+#. (itstool) path: item/p
+#: C/general-intro.page:26
+msgid ""
+"<link xref=\"recovery-pika\">Recover</link> files or folders via your file "
+"browser"
+msgstr ""
+"Fájlok vagy mappák <link xref=\"recovery-pika\">helyreállítása</link> a "
+"fájlböngészőjén keresztül"
+
+#. (itstool) path: page/p
+#: C/general-intro.page:29
+msgid ""
+"<app>Pika Backup</app> does not support complete system recovery. It is "
+"powered by the well-tested <app>BorgBackup</app> software."
+msgstr ""
+"A <app>Pika biztonsági mentés</app> nem támogatja a teljes rendszer-"
+"helyreállítást. A jól tesztelt <app>BorgBackup</app> szoftverre épül."
 
 #. (itstool) path: info/desc
 #: C/setup-drive.page:5
 msgid "Setup local backup on removable drive"
-msgstr "Helyi biztonsági mentés beállítása egy cserélhető eszközön"
+msgstr "Helyi biztonsági mentés beállítása egy cserélhető meghajtón"
 
 #. (itstool) path: page/title
 #: C/setup-drive.page:7
-msgid "Setup Removable Drive"
-msgstr "Cserélhető meghajtó beállítása"
+#| msgid "Setup Removable Drive"
+msgid "Removable Drive"
+msgstr "Cserélhető meghajtó"
 
-#. (itstool) path: page/media
+#. (itstool) path: page/p
+#: C/setup-drive.page:8
+msgid "To configure a backup on a removable drive follow these steps."
+msgstr ""
+"Cserélhető meghajtón történő biztonsági mentés beállításához kövesse ezeket "
+"a lépéseket."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:11
+#| msgid "Setup Removable Drive"
+msgid "Insert the removable drive"
+msgstr "Helyezze be a cserélhető meghajtót."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:14
+msgid "Ensure the drive is visible and accessible via <app>GNOME Files</app>."
+msgstr ""
+"Biztosítsa, hogy a meghajtó látható és elérhető legyen a <app>GNOME Fájlok</"
+"app> alkalmazáson keresztül."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:17 C/setup-remote.page:11
+#| msgid "Select the <gui>Archives</gui> tab."
+msgid "Select the <gui>Setup Backup</gui> button"
+msgstr "Válassza a <gui>Biztonsági mentés beállítása</gui> gombot."
+
+#. (itstool) path: item/media
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/setup-drive.page:8
+#: C/setup-drive.page:18 C/setup-gvfs.page:15 C/setup-remote.page:12
 msgctxt "_"
 msgid ""
 "external ref='media/setup-button.svg' md5='69724ae8049e2c4b3deb734e4a740fbf'"
 msgstr ""
 "external ref='media/setup-button.svg' md5='69724ae8049e2c4b3deb734e4a740fbf'"
 
+#. (itstool) path: item/p
+#: C/setup-drive.page:21
+msgid ""
+"In the <gui>Create new Repository</gui> section, choose the drive or "
+"<gui>Location on Disk</gui>"
+msgstr ""
+"Az <gui>Új tároló létrehozása</gui> szakaszban válassza ki a meghajtót vagy "
+"a <gui>Lemezen lévő hely</gui> lehetőséget."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:24
+msgid ""
+"Ensure the <gui>Repository Base Folder</gui> has your removable drive "
+"selected. If not, press the <gui style=\"button\">Select Folder…</gui> button"
+msgstr ""
+"Biztosítsa, hogy a <gui>Tároló alapmappája</gui> rendelkezzen a kiválasztott "
+"cserélhető meghajtóval. Ha nem látható, akkor nyomja meg a <gui "
+"style=\"button\">Mappa kiválasztása…</gui> gombot."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:27 C/setup-gvfs.page:24
+msgid ""
+"The new backup <link xref=\"general-glossary#repository\">repository</link> "
+"will be created in a folder with the specified <gui>Repository Name</gui>."
+msgstr ""
+"Az új biztonsági mentési <link xref=\"general-glossary#repository\">tároló</"
+"link> a <gui>Tároló neve</gui> által megadott nevű mappában kerül "
+"létrehozásra."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:30 C/setup-gvfs.page:27 C/setup-remote.page:21
+msgid "Press <gui style=\"button\">Continue</gui>"
+msgstr "Nyomja meg a <gui style=\"button\">Folytatás</gui> gombot."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:33 C/setup-gvfs.page:30 C/setup-remote.page:24
+msgid ""
+"Choose the desired <link xref=\"general-glossary#encryption\">encryption</"
+"link> settings"
+msgstr ""
+"Válassza ki a kívánt <link xref=\"general-glossary#encryption\">titkosítási</"
+"link> beállításokat."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:36 C/setup-gvfs.page:33 C/setup-remote.page:27
+msgid "Press <gui style=\"button\">Create</gui>"
+msgstr "Nyomja meg a <gui style=\"button\">Létrehozás</gui> gombot."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:39 C/setup-gvfs.page:36 C/setup-remote.page:30
+msgid ""
+"Configure the <gui>Files to Back Up</gui> and <gui>Exclude from Backup</gui> "
+"sections"
+msgstr ""
+"Állítsa be a <gui>Mentendő fájlok</gui> és a <gui>Kihagyás a biztonsági "
+"mentésből</gui> szakaszokat."
+
+#. (itstool) path: item/p
+#: C/setup-drive.page:42 C/setup-gvfs.page:39 C/setup-remote.page:33
+msgid "Press <gui style=\"button\">Back Up Now</gui>"
+msgstr ""
+"Nyomja meg a <gui style=\"button\">Biztonsági mentés most</gui> gombot."
+
+#. (itstool) path: note/p
+#: C/setup-drive.page:46
+msgid ""
+"A common problem with removable drives are missing file system permissions "
+"to create files and folders. Make sure the drive is configured in a way that "
+"<app>Pika Backup</app> can write to it."
+msgstr ""
+"A cserélhető meghajtóknál gyakori probléma a fájlok és mappák létrehozásához "
+"szükséges fájlrendszeri jogosultságok hiánya. Győződjön meg arról, hogy a "
+"meghajtó úgy van-e beállítva, hogy a <app>Pika biztonsági mentés</app> írni "
+"tudjon rá."
+
 #. (itstool) path: info/desc
-#. (itstool) path: page/p
-#: C/setup-gvfs.page:5 C/setup-gvfs.page:8
-msgid "Setup remote drive"
-msgstr "Távoli meghajtó beállítása"
+#: C/setup-gvfs.page:5
+#| msgid "Setup local backup on removable drive"
+msgid "Setup remote backup on a network share"
+msgstr "Távoli biztonsági mentés beállítása egy hálózati megosztáson"
 
 #. (itstool) path: page/title
 #: C/setup-gvfs.page:7
-msgid "Setup Remote Drive"
-msgstr "Távoli meghajtó beállítása"
+msgid "Network Share"
+msgstr "Hálózati megosztás"
+
+#. (itstool) path: page/p
+#: C/setup-gvfs.page:8
+msgid "<app>Pika Backup</app> supports backing up on network shares."
+msgstr ""
+"A <app>Pika biztonsági mentés</app> támogatja a hálózati megosztásokra "
+"történő biztonsági mentést."
+
+#. (itstool) path: item/p
+#: C/setup-gvfs.page:11
+msgid ""
+"Connect to the network share using <app>GNOME Files</app>. See <link "
+"href=\"help:gnome-help/nautilus-connect\">GNOME Files</link> help pages for "
+"reference."
+msgstr ""
+"Kapcsolódjon a hálózati megosztáshoz a <app>GNOME Fájlok</app> "
+"használatával. Nézze meg a <link href=\"help:gnome-help/nautilus-"
+"connect\">GNOME Fájlok</link> súgóoldalait a hivatkozásért."
+
+#. (itstool) path: item/p
+#: C/setup-gvfs.page:14
+#| msgid "Select the <gui>Archives</gui> tab."
+msgid "Select the <gui>Setup Backup</gui> button."
+msgstr "Válassza a <gui>Biztonsági mentés beállítása</gui> gombot."
+
+#. (itstool) path: item/p
+#: C/setup-gvfs.page:18
+msgid ""
+"In the <gui>Create new Repository</gui> section, choose the network share."
+msgstr ""
+"Az <gui>Új tároló létrehozása</gui> szakaszban válassza ki a hálózati "
+"megosztást."
+
+#. (itstool) path: item/p
+#: C/setup-gvfs.page:21
+msgid ""
+"Ensure the <gui>Repository Base Folder</gui> has the network share selected. "
+"The <gui style=\"button\">Select Folder…</gui> button can be used to select "
+"a sub-folder on the network share."
+msgstr ""
+"Biztosítsa, hogy a <gui>Tároló alapmappája</gui> rendelkezzen a kiválasztott "
+"hálózati megosztással. A <gui style=\"button\">Mappa kiválasztása…</gui> "
+"gomb használható a hálózati megosztáson lévő almappa kiválasztásához."
+
+#. (itstool) path: info/desc
+#: C/setup-remote.page:5
+#| msgid "Setup local backup on removable drive"
+msgid "Setup backups to remote servers and online services"
+msgstr ""
+"Távoli kiszolgálókra és internetes szolgáltatásokra történő biztonsági "
+"mentések beállítása"
+
+#. (itstool) path: page/title
+#: C/setup-remote.page:7
+msgid "Remote and Online Backups"
+msgstr "Távoli és internetes biztonsági mentések"
+
+#. (itstool) path: page/p
+#: C/setup-remote.page:8
+msgid ""
+"<app>Pika Backup</app> supports backing up to remote servers and online "
+"services with <app>BorgBackup</app>, <cmd>ssh</cmd> or <cmd>sftp</cmd> "
+"support. Services with <app>BorgBackup</app> support are recommended for "
+"performance reasons."
+msgstr ""
+"A <app>Pika biztonsági mentés</app> támogatja a <app>BorgBackup</app>, az "
+"<cmd>ssh</cmd> vagy az <cmd>sftp</cmd> támogatással rendelkező távoli "
+"kiszolgálókra és internetes szolgáltatásokra történő biztonsági mentést. A "
+"<app>BorgBackup</app> támogatással rendelkező szolgáltatások ajánlottak "
+"teljesítménybeli okokból."
+
+#. (itstool) path: item/p
+#: C/setup-remote.page:15
+msgid ""
+"In the <gui>Create new Repository</gui> section, choose <gui>Remote "
+"Location</gui>"
+msgstr ""
+"Az <gui>Új tároló létrehozása</gui> szakaszban válassza ki a <gui>Távoli "
+"hely</gui> lehetőséget."
+
+#. (itstool) path: item/p
+#: C/setup-remote.page:18
+msgid ""
+"Enter the repository URL. This is usually provided by the online backup "
+"service if it has explicit <app>BorgBackup</app> support. The <gui>Examples</"
+"gui> section in the dialog has an overview of the syntax."
+msgstr ""
+"Adja meg a tároló URL-jét. Ezt általában az internetes biztonsági mentési "
+"szolgáltatás biztosítja, ha az rendelkezik kifejezett <app>BorgBackup</app> "
+"támogatással. A párbeszédablakban lévő <gui>Példák</gui> szakasz áttekintést "
+"nyújt a szintaxisról."
 
 #. (itstool) path: info/desc
 #: C/recovery-pika.page:5
-msgid "Copy files from a backup archive to your computer."
-msgstr "Fájlok másolása egy biztonsági mentés archívumból a számítógépére."
+#| msgid "Copy files from a backup archive to your computer."
+msgid "Copy files from a backup archive to your computer"
+msgstr "Fájlok másolása egy biztonsági mentés archívumból a számítógépére"
 
 #. (itstool) path: page/title
 #: C/recovery-pika.page:7
 msgid "Recover files"
-msgstr "Fájlok visszaállítása"
+msgstr "Fájlok helyreállítása"
 
-#. (itstool) path: section/title
-#: C/recovery-pika.page:9
-msgid "Recovering or accessing files"
-msgstr "Fájlok visszaállítása vagy hozzáférése"
-
-#. (itstool) path: section/p
-#: C/recovery-pika.page:10
+#. (itstool) path: page/p
+#: C/recovery-pika.page:8
+#| msgid ""
+#| "You can browse and view files and folders in a backup archive using your "
+#| "usual file browser."
 msgid ""
-"You can browse and view files and folders in a backup archive using your "
-"usual file browser."
+"You can browse and view files and folders in a backup archive using a file "
+"browser like <app>GNOME Files</app>."
 msgstr ""
-"A biztonsági mentési archívumban lévő fájlokat és mappákat a szokásos "
-"fájlböngésző használatával böngészheti és tekintheti meg."
-
-#. (itstool) path: section/p
-#: C/recovery-pika.page:11
-msgid ""
-"Please note that GNOME Files will reset all permissions when copying from "
-"the backup archive. To restore files with correct permissions please use "
-"<cmd>cp -a</cmd> on the commandline."
-msgstr ""
-"Ne feledje, hogy a GNOME Fájlok a biztonsági mentés archívumából való"
-" másoláskor visszaállítja az összes jogosultságot. A fájlok helyes"
-" jogosultságokkal történő visszaállításához használja a <cmd>cp -a</cmd>"
-" parancsot a parancssorban."
+"A biztonsági mentési archívumban lévő fájlokat és mappákat egy fájlböngésző, "
+"például a <app>GNOME Fájlok</app> használatával böngészheti és tekintheti "
+"meg."
 
 #. (itstool) path: item/p
-#: C/recovery-pika.page:14
+#: C/recovery-pika.page:11
 msgid ""
 "If you have multiple backups, you have to select the corresponding backup in "
 "the overview first."
@@ -120,7 +806,7 @@ msgstr ""
 "megfelelő biztonsági mentést az áttekintőben."
 
 #. (itstool) path: item/p
-#: C/recovery-pika.page:17
+#: C/recovery-pika.page:14
 msgid "Select the <gui>Archives</gui> tab."
 msgstr "Válassza az <gui>Archívumok</gui> lapot."
 
@@ -129,7 +815,7 @@ msgstr "Válassza az <gui>Archívumok</gui> lapot."
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/recovery-pika.page:18
+#: C/recovery-pika.page:15
 msgctxt "_"
 msgid ""
 "external ref='media/archives-button.svg' "
@@ -139,19 +825,19 @@ msgstr ""
 "md5='280ff4d8724a7e141be03c2cba579fb4'"
 
 #. (itstool) path: item/p
-#: C/recovery-pika.page:21
+#: C/recovery-pika.page:18
 msgid ""
 "Select the archive with the date and time from which you want to recover the "
 "files. If the corresponding archive is not listed, use the refresh button to "
 "update the list of archives."
 msgstr ""
-"Válassza ki azt az archívumot a dátum és időpont alapján, amelyből vissza "
+"Válassza ki azt az archívumot a dátum és időpont alapján, amelyből helyre "
 "szeretné állítani a fájlokat. Ha a megfelelő archívum nem szerepel a "
 "listában, használja a frissítés gombot az archívumok listájának "
 "frissítéséhez."
 
 #. (itstool) path: item/p
-#: C/recovery-pika.page:24
+#: C/recovery-pika.page:21
 msgid ""
 "Use the <gui>Browse Saved Files</gui> option and wait until the file browser "
 "opens."
@@ -160,20 +846,64 @@ msgstr ""
 "amíg a fájlböngésző megnyílik."
 
 #. (itstool) path: item/p
-#: C/recovery-pika.page:27
+#: C/recovery-pika.page:24
+#| msgid ""
+#| "Make use of the <link href=\"help:gnome-help/files\">Files and Folders</"
+#| "link> features to find the corresponding files and view them or to copy "
+#| "them to your computer."
 msgid ""
-"Make use of the <link href=\"help:gnome-help/files\">Files and Folders</"
-"link> features to find the corresponding files and view them or to copy them "
-"to your computer."
+"Make use of the <link href=\"help:gnome-help/files\">GNOME Files</link> "
+"features to find the corresponding files and view them or to copy them to "
+"your computer."
 msgstr ""
-"Használja a <link href=\"help:gnome-help/files\">Fájlok és mappák</link> "
+"Használja a <link href=\"help:gnome-help/files\">GNOME Fájlok</link> "
 "funkcióit a megfelelő fájlok megkereséséhez és megtekintéséhez vagy a "
 "számítógépre másolásukhoz."
 
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/recovery-pika.page:27
+msgctxt "_"
+msgid ""
+"external ref='media/eject-symbolic.svg' "
+"md5='6e47085bb625da128aca17b9bc929b93'"
+msgstr ""
+"external ref='media/eject-symbolic.svg' "
+"md5='6e47085bb625da128aca17b9bc929b93'"
+
+#. (itstool) path: item/p
+#: C/recovery-pika.page:27
+msgid ""
+"Close <app>Pika Backup</app> or <em>eject</em> the backup archive via the "
+"<media type=\"image\" src=\"media/eject-symbolic.svg\"/> <gui "
+"style=\"button\">eject</gui> button"
+msgstr ""
+"Zárja be a <app>Pika biztonsági mentés</app> alkalmazást, vagy <em>vegye ki</"
+"em> a biztonsági mentési archívumot a <media type=\"image\" src=\"media/"
+"eject-symbolic.svg\"/> <gui style=\"button\">kiadás</gui> gombbal"
+
+#. (itstool) path: note/p
+#: C/recovery-pika.page:31
+#| msgid ""
+#| "Please note that GNOME Files will reset all permissions when copying from "
+#| "the backup archive. To restore files with correct permissions please use "
+#| "<cmd>cp -a</cmd> on the commandline."
+msgid ""
+"<app>GNOME Files</app> will not preserve permissions when copying from the "
+"backup archive. To restore files with correct permissions, use <cmd>cp -a</"
+"cmd> on the commandline."
+msgstr ""
+"A <app>GNOME Fájlok</app> a biztonsági mentés archívumából való másoláskor "
+"nem őrzi meg a jogosultságokat. A fájlok helyes jogosultságokkal történő "
+"helyreállításához használja a <cmd>cp -a</cmd> parancsot a parancssorban."
+
 #. (itstool) path: info/desc
 #: C/recovery-other.page:5
-msgid "Access files without using <app>Pika Backup</app>"
-msgstr "Fájlok elérése a <app>Pika biztonsági mentés</app> használata nélkül"
+msgid "Recover data using other apps"
+msgstr "Adatok helyreállítása más alkalmazások használatával"
 
 #. (itstool) path: page/title
 #: C/recovery-other.page:7
@@ -182,31 +912,40 @@ msgstr "Fájlok elérése a Pika biztonsági mentés nélkül"
 
 #. (itstool) path: page/p
 #: C/recovery-other.page:8
+#| msgid ""
+#| "<app>Pika Backup</app> stores files in a format that cannot simply be "
+#| "read by every computer. The recommended way to access files from your "
+#| "backup is to install <app>Pika Backup</app>, configure the backup, and "
+#| "follow the <link xref=\"recovery-pika\"/> instructions."
 msgid ""
-"<app>Pika Backup</app> stores files in a format that cannot simply be read "
-"by every computer. The recommended way to access files from your backup is "
-"to install <app>Pika Backup</app>, configure the backup, and follow the "
-"<link xref=\"recovery-pika\"/> instructions."
+"<app>Pika Backup</app> stores files in a format that can only be read by "
+"<app>BorgBackup</app> compatible apps. The recommended way to access files "
+"from your backup is to install <app>Pika Backup</app>, configure the backup, "
+"and follow the <link xref=\"recovery-pika\"/> instructions."
 msgstr ""
 "A <app>Pika biztonsági mentés</app> olyan formátumban tárolja a fájlokat, "
-"amelyet nem minden számítógép tud egyszerűen olvasni. A biztonsági mentésben "
-"lévő fájlok elérésének ajánlott módja a <app>Pika biztonsági mentés</app> "
-"telepítése, a biztonsági mentés beállítása és a <link xref=\"recovery-pika\"/"
-"> utasítások követése."
+"amelyet csak a <app>BorgBackup</app> programmal kompatibilis alkalmazások "
+"tudnak olvasni. A biztonsági mentésben lévő fájlok elérésének ajánlott módja "
+"a <app>Pika biztonsági mentés</app> telepítése, a biztonsági mentés "
+"beállítása és a <link xref=\"recovery-pika\"/> utasítások követése."
 
 #. (itstool) path: page/p
 #: C/recovery-other.page:9
+#| msgid ""
+#| "However, if <app>Pika Backup</app> is not available alternative software "
+#| "is available that works on a variety of operating systems."
 msgid ""
-"However, if <app>Pika Backup</app> is not available alternative software is "
-"available that works on a variety of operating systems."
+"However, if <app>Pika Backup</app> is not available, alternative software "
+"can be used that works on a variety of operating systems."
 msgstr ""
-"Azonban ha a <app>Pika biztonsági mentés</app> nem érhető el, akkor "
-"alternatív szoftverek állnak rendelkezésre, amelyek számos operációs "
-"rendszeren működnek."
+"Azonban ha a <app>Pika biztonsági mentés</app> nem érhető el, akkor olyan "
+"alternatív szoftverek használhatók, amelyek számos operációs rendszeren "
+"működnek."
 
 #. (itstool) path: section/title
 #: C/recovery-other.page:11
-msgid "Alternative applications"
+#| msgid "Alternative applications"
+msgid "Alternative Apps"
 msgstr "Alternatív alkalmazások"
 
 #. (itstool) path: item/p
