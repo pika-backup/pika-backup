@@ -100,37 +100,37 @@ impl imp::BackupPage {
             }
 
             if let config::Exclude::Pattern(ref pattern) = exclude {
-                match pattern {
-                    config::Pattern::Fnmatch(_) | config::Pattern::RegularExpression(_) => {
-                        // Make Regex and Shell patterns editable
-                        let edit_button = gtk::Button::builder()
-                            .icon_name("document-edit-symbolic")
-                            .valign(gtk::Align::Center)
-                            .tooltip_text(gettext("Edit Pattern"))
-                            .build();
+                if matches!(
+                    pattern,
+                    config::Pattern::Fnmatch(_) | config::Pattern::RegularExpression(_)
+                ) {
+                    // Make Regex and Shell patterns editable
+                    let edit_button = gtk::Button::builder()
+                        .icon_name("document-edit-symbolic")
+                        .valign(gtk::Align::Center)
+                        .tooltip_text(gettext("Edit Pattern"))
+                        .build();
 
-                        edit_button.add_css_class("flat");
+                    edit_button.add_css_class("flat");
 
-                        // Edit patterns
-                        edit_button.connect_clicked(clone!(
-                            #[strong]
-                            exclude,
-                            #[weak]
-                            window,
-                            move |_| {
-                                let config = BACKUP_CONFIG.load_full();
-                                let Ok(active) = config.active() else {
-                                    return;
-                                };
+                    // Edit patterns
+                    edit_button.connect_clicked(clone!(
+                        #[strong]
+                        exclude,
+                        #[weak]
+                        window,
+                        move |_| {
+                            let config = BACKUP_CONFIG.load_full();
+                            let Ok(active) = config.active() else {
+                                return;
+                            };
 
-                                let dialog = ExcludeDialog::new(active);
-                                dialog.present_edit_exclude(&window, exclude.clone());
-                            }
-                        ));
+                            let dialog = ExcludeDialog::new(active);
+                            dialog.present_edit_exclude(&window, exclude.clone());
+                        }
+                    ));
 
-                        row.add_suffix(&edit_button);
-                    }
-                    _ => {}
+                    row.add_suffix(&edit_button);
                 }
             }
 
