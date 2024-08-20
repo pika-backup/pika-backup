@@ -37,6 +37,6 @@ pub static MESSAGE_POLL_TIMEOUT: std::time::Duration = std::time::Duration::from
 /// TODO: Increase before release
 pub static STALL_THRESHOLD: std::time::Duration = std::time::Duration::from_secs(60 * 2);
 
-/// require borg 1.2.2 because of smb bug
-pub const MIN_VERSION: [u32; 3] = [1, 2, 2];
+/// require borg 1.4.0 because of new messages
+pub const MIN_VERSION: [u32; 3] = [1, 4, 0];
 pub const MAX_VERSION: [u32; 2] = [1, 4];
