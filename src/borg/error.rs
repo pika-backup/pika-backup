@@ -190,18 +190,53 @@ impl std::fmt::Display for Abort {
 /// The borg process has thrown an error that caused the backup to fail
 ///
 /// The borg message ids are annotated with the return codes just to keep them in the same order as the borg docs to make it easier to check if we are missing ids.
+///
+/// <https://borgbackup.readthedocs.io/en/stable/internals/frontends.html#message-ids>
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Failure {
     // # Borg message IDs
     /// RC 10
     #[serde(rename = "Repository.AlreadyExists")]
     RepositoryAlreadyExists,
+    /// RC 12
+    #[serde(rename = "Repository.CheckNeeded")]
+    RepositoryCheckNeeded,
     /// RC 13
     #[serde(rename = "Repository.DoesNotExist")]
     RepositoryDoesNotExist,
     /// RC 14
     #[serde(rename = "Repository.InsufficientFreeSpaceError")]
     RepositoryInsufficientFreeSpaceError,
+    // RC 15
+    #[serde(rename = "Repository.InvalidRepository")]
+    RepositoryInvalidRepository,
+    // RC 16
+    #[serde(rename = "Repository.InvalidRepositoryConfig")]
+    RepositoryInvalidRepositoryConfig,
+    // RC 18
+    #[serde(rename = "Repository.ParentPathDoesNotExist")]
+    RepositoryParentPathDoesNotExist,
+    // RC 19
+    #[serde(rename = "Repository.PathAlreadyExists")]
+    RepositoryPathAlreadyExists,
+    // RC 20
+    #[serde(rename = "Repository.StorageQuotaExceeded")]
+    RepositoryStorageQuotaExceeded,
+    // RC 21
+    #[serde(rename = "Repository.PathPermissionDenied")]
+    RepositoryPathPermissionDenied,
+
+    // RC 25
+    MandatoryFeatureUnsupported,
+    // RC 27
+    UnsupportedManifestError,
+
+    // RC 30
+    #[serde(rename = "Archive.AlreadyExists")]
+    ArchiveAlreadyExists,
+    // RC 31
+    #[serde(rename = "Archive.DoesNotExist")]
+    ArchiveDoesNotExist,
 
     /// RC 52
     PassphraseWrong,
@@ -248,23 +283,58 @@ impl Failure {
 impl std::fmt::Display for Failure {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let text = match self {
-            Self::ConnectionClosed | Self::ConnectionClosedWithHint => {
-                gettext("Connection closed by remote host.")
-            }
-            Self::LockTimeout => gettext("Repository already in use."),
-            Self::LockFailed => gettext("Failed to lock repository."),
-            Self::PassphraseWrong => gettext("Invalid encryption password."),
-            Self::CacheRepositoryAccessAborted => gettext("Repository access was aborted"),
+            // RC 10+
             Self::RepositoryAlreadyExists => {
                 gettext("A repository already exists at this location.")
             }
+            Self::RepositoryCheckNeeded => gettext("Inconsistencies were detected in the repository. Running a data integrity check is needed."),
             Self::RepositoryDoesNotExist => gettext("No repository exists at this location."),
-            Self::RepositoryInsufficientFreeSpaceError => {
-                gettext("Not enough free space in repository.")
+            Self::RepositoryInsufficientFreeSpaceError => gettext("Not enough free space in repository."),
+            Self::RepositoryInvalidRepository => {
+                gettext("The configured location does not contain a valid repository.")
             }
+            Self::RepositoryInvalidRepositoryConfig => {
+                gettext("The configured location does not contain a valid repository configuration.")
+            }
+            Self::RepositoryParentPathDoesNotExist => gettext("The configured location does not exist."),
+            Self::RepositoryPathAlreadyExists => gettext("The selected location does already exist."),
+            Self::RepositoryStorageQuotaExceeded => {
+                gettext("The repositories storage quota has been reached. Try deleting older archives that are no longer needed.")
+            }
+            Self::RepositoryPathPermissionDenied => {
+                gettext("Permission to access the configured location has been denied. Check the file permissions.")
+            }
+
+            // RC 25+
+            Self::MandatoryFeatureUnsupported | Self::UnsupportedManifestError => {
+                gettext("A newer version of Pika Backup is required to access this repository. The repository uses unsupported features.")
+            }
+
+            // RC 30+
+            Self::ArchiveAlreadyExists => gettext("The selected location already contains a repository."),
+            Self::ArchiveDoesNotExist => gettext("The configured location does not contain an archive."),
+
+            // RC 50+
+            Self::PassphraseWrong => gettext("Invalid encryption password."),
+
+            // RC 60+
+            Self::CacheRepositoryAccessAborted => gettext("Repository access was aborted"),
+
+            // RC 70+
+            Self::LockFailed => gettext("Failed to lock repository."),
+            Self::LockTimeout => gettext("Repository already in use."),
+
+            // RC 80+
+            Self::ConnectionClosed | Self::ConnectionClosedWithHint => {
+                gettext("Connection closed by remote host.")
+            }
+
+            // Manually added data
             Self::ConnectionClosedWithHint_(hint) => {
                 gettextf("Connection closed by remote host: “{}”", &[hint])
             }
+
+            // General
             Self::Exception => gettext("Exception"),
             Self::Other(string) => string.to_string(),
             Self::Undefined => gettext("Unspecified error."),

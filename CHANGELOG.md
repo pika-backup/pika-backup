@@ -12,6 +12,7 @@
 - Change to use AdwAlertDialog
 - Change to use AdwAboutDialog
 - Change to use AdwDialog for all dialogs
+- Add propper error messages for more situations like missing filesystem access
 
 ## 0.7.4 (2024-09-23)
 - Fix borg version comparison
