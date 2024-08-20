@@ -44,7 +44,7 @@ impl Task for Generic {
     const KIND: Kind = Kind::Generic;
 
     fn name() -> String {
-        gettext("Generic Operation")
+        gettext("Generic operation")
     }
 }
 
@@ -58,7 +58,7 @@ impl Task for Create {
     const KIND: Kind = Kind::Create;
 
     fn name() -> String {
-        gettext("Backing Up Data")
+        gettext("Backing up data")
     }
 }
 
@@ -72,7 +72,7 @@ impl Task for Mount {
     const KIND: Kind = Kind::Mount;
 
     fn name() -> String {
-        gettext("Mounting Backup Archives")
+        gettext("Mounting backup archives")
     }
 }
 
@@ -86,7 +86,7 @@ impl Task for Prune {
     const KIND: Kind = Kind::Prune;
 
     fn name() -> String {
-        gettext("Removing Old Archives")
+        gettext("Removing old archives")
     }
 }
 
@@ -100,7 +100,7 @@ impl Task for PruneInfo {
     const KIND: Kind = Kind::PruneInfo;
 
     fn name() -> String {
-        gettext("Identifying Old Archives")
+        gettext("Identifying old archives")
     }
 }
 
@@ -114,7 +114,7 @@ impl Task for Compact {
     const KIND: Kind = Kind::Compact;
 
     fn name() -> String {
-        gettext("Reclaiming Free Space")
+        gettext("Reclaiming free space")
     }
 }
 
@@ -149,7 +149,7 @@ impl Task for Check {
     const KIND: Kind = Kind::Check;
 
     fn name() -> String {
-        gettext("Checking Archives Integrity")
+        gettext("Checking archive integrity")
     }
 }
 
@@ -176,7 +176,7 @@ impl Task for Delete {
     const KIND: Kind = Kind::Delete;
 
     fn name() -> String {
-        gettext("Deleting Archive")
+        gettext("Deleting archive")
     }
 }
 
@@ -199,7 +199,7 @@ impl Task for List {
     const KIND: Kind = Kind::List;
 
     fn name() -> String {
-        gettext("Refreshing Archive List")
+        gettext("Refreshing archive list")
     }
 }
 
@@ -245,7 +245,7 @@ impl Task for KeyChangePassphrase {
     const KIND: Kind = Kind::KeyChangePassphrase;
 
     fn name() -> String {
-        gettext("Changing Passphrase")
+        gettext("Changing passphrase")
     }
 }
 
@@ -280,6 +280,6 @@ impl Task for UserScript {
     const KIND: Kind = Kind::UserScript;
 
     fn name() -> String {
-        gettext("Running Custom Shell Command")
+        gettext("Running custom shell command")
     }
 }
