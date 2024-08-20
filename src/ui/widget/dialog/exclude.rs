@@ -89,8 +89,8 @@ mod imp {
                 }
 
                 let row = adw::ActionRow::builder()
-                    .title(&predefined.description())
-                    .subtitle(&predefined.kind())
+                    .title(predefined.description())
+                    .subtitle(predefined.kind())
                     .activatable_widget(&check_button)
                     .build();
 
@@ -162,7 +162,7 @@ mod imp {
                 self.unreadable_paths.set_visible(true);
 
                 let add_button = gtk::CheckButton::builder()
-                    .tooltip_text(&gettext("Add Exclusion Rule"))
+                    .tooltip_text(gettext("Add Exclusion Rule"))
                     .valign(gtk::Align::Center)
                     .active(exclude.contains(suggested))
                     .build();

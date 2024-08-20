@@ -247,12 +247,11 @@ impl BorgCall {
         self.add_options(&["--log-json"]);
 
         if self.positional.is_empty() {
-            self.add_positional(&borg.repo().to_string());
+            self.add_positional(borg.repo().to_string());
         }
 
         self.add_options(
-            &borg
-                .repo()
+            borg.repo()
                 .settings()
                 .and_then(|x| x.command_line_args)
                 .unwrap_or_default(),

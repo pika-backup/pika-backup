@@ -90,7 +90,7 @@ impl imp::BackupPage {
         for exclude in backup.exclude {
             let row = adw::ActionRow::builder()
                 .title(glib::markup_escape_text(&exclude.description()))
-                .subtitle(&exclude.kind())
+                .subtitle(exclude.kind())
                 .activatable(false)
                 .build();
 

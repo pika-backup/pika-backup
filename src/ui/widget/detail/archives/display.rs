@@ -149,7 +149,7 @@ impl imp::ArchivesPage {
         for (archive_name, archive) in repo_cache.archives_sorted_by_date() {
             let row = adw::ExpanderRow::builder()
                 .title(
-                    &archive
+                    archive
                         .start
                         .to_locale()
                         .unwrap_or_else(|| archive.start.to_string()),
@@ -198,7 +198,7 @@ impl imp::ArchivesPage {
             }
 
             let browse_row = adw::ActionRow::builder()
-                .title(&gettext("Browse Saved Files"))
+                .title(gettext("Browse Saved Files"))
                 .activatable(true)
                 .build();
 
@@ -220,7 +220,7 @@ impl imp::ArchivesPage {
             ));
 
             let delete_row = adw::ActionRow::builder()
-                .title(&gettext("Delete Archive"))
+                .title(gettext("Delete Archive"))
                 .activatable(true)
                 .build();
 

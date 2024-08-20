@@ -9,7 +9,7 @@ async fn predefined() -> Result<(), Box<dyn std::error::Error>> {
     let borg_base = tempdir()?;
     let home = tempdir()?;
 
-    let _env_vars = vec![
+    let _env_vars = [
         tmp_env::set_var("HOME", home.path()),
         tmp_env::set_var("BORG_BASE_DIR", borg_base.path()),
     ];
