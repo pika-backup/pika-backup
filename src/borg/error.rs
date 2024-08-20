@@ -188,25 +188,39 @@ impl std::fmt::Display for Abort {
 }
 
 /// The borg process has thrown an error that caused the backup to fail
+///
+/// The borg message ids are annotated with the return codes just to keep them in the same order as the borg docs to make it easier to check if we are missing ids.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Failure {
     // # Borg message IDs
-    ConnectionClosed,
-    ConnectionClosedWithHint,
-    /// TODO: undocumented
-    LockTimeout,
-    /// TODO: undocumented
-    LockFailed,
-    PassphraseWrong,
-    #[serde(rename = "Cache.RepositoryAccessAborted")]
-    CacheRepositoryAccessAborted,
+    /// RC 10
     #[serde(rename = "Repository.AlreadyExists")]
     RepositoryAlreadyExists,
+    /// RC 13
     #[serde(rename = "Repository.DoesNotExist")]
     RepositoryDoesNotExist,
+    /// RC 14
     #[serde(rename = "Repository.InsufficientFreeSpaceError")]
     RepositoryInsufficientFreeSpaceError,
-    /// Connection closed with mnually added hint
+
+    /// RC 52
+    PassphraseWrong,
+
+    /// RC 62
+    #[serde(rename = "Cache.RepositoryAccessAborted")]
+    CacheRepositoryAccessAborted,
+
+    /// RC 72
+    LockFailed,
+    /// RC 73
+    LockTimeout,
+
+    /// RC 80
+    ConnectionClosed,
+    /// RC 81
+    ConnectionClosedWithHint,
+
+    /// Connection closed with manually added hint
     ConnectionClosedWithHint_(String),
 
     // # General
