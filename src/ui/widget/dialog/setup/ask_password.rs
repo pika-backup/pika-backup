@@ -65,7 +65,13 @@ mod imp {
         }
 
         #[template_callback]
-        async fn on_continue_button(&self) {
+        fn validate(&self) {
+            self.continue_button
+                .set_sensitive(!self.password_entry.text().is_empty());
+        }
+
+        #[template_callback]
+        fn on_continue_button(&self) {
             let password = self.password_entry.text();
             if password.is_empty() {
                 return;
