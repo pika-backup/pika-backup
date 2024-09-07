@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-07-30 17:01+0000\n"
-"PO-Revision-Date: 2024-07-31 17:14+0200\n"
+"POT-Creation-Date: 2024-09-07 18:31+0000\n"
+"PO-Revision-Date: 2024-09-07 22:39+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -114,7 +114,7 @@ msgstr ""
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "Načrtujte redna varnostna kopiranja, od mesečnih do urnih"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "Splošno"
 
@@ -408,7 +408,7 @@ msgid "Info"
 msgstr "Podrobnosti"
 
 #: src/borg/log_json.rs:475 src/ui/utils.rs:383
-#: src/ui/widget/dialog/setup/location.ui:58
+#: src/ui/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "Opozorilo"
 
@@ -661,8 +661,8 @@ msgstr "Logični izraz"
 msgid "Unix Filename Pattern"
 msgstr "Vzorec imen datotek Unix"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
-#: src/ui/widget/dialog/setup/location_kind.ui:100
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:38
+#: src/ui/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "Oddaljeno mesto"
 
@@ -827,7 +827,7 @@ msgstr "Če bo opravilo preklicano, varnostna kopija ne bo popolna."
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
-#: src/ui/widget/dialog/setup/add_existing.ui:69
+#: src/ui/widget/dialog/setup/encryption.rs:89
 msgid "Continue"
 msgstr "Nadaljuj"
 
@@ -937,7 +937,7 @@ msgstr "Ustavljanje varnostnega kopiranja"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Ni uspelo zagnati vmesnika za načrtovano varnostno kopiranje."
 
-#: src/ui/error.rs:102
+#: src/ui/error.rs:128
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -947,13 +947,17 @@ msgstr ""
 "zbirke ključev (»tajna služba«) za shranjevanje gesel. Za navodila za "
 "namestitev glejte dokumentacijo operacijskega sistema."
 
-#: src/ui/error.rs:126
+#: src/ui/error.rs:156
 msgid "Backup with id “{}” already exists."
 msgstr "Varnostna kopija z ID »{}« že obstaja."
 
-#: src/ui/error.rs:131
+#: src/ui/error.rs:165
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Ni mogoče najti nastavitev varnostne kopije z ID »{}«."
+
+#: src/ui/error.rs:181
+msgid "Canceled"
+msgstr "Preklicano"
 
 #: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
@@ -1049,7 +1053,7 @@ msgstr "Zapri"
 msgid "Additional command line arguments invalid"
 msgstr "Dodatni argumenti ukazne vrstice niso veljavni"
 
-#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:273
 msgid "Please check for missing closing quotes."
 msgstr "Preverite, ali  v zapisu manjkajo zaključne navednice."
 
@@ -1110,6 +1114,9 @@ msgstr ""
 "okvari varnostno kopirane podatke!"
 
 #: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/preferences.rs:482
+#: src/ui/widget/dialog/setup/encryption.rs:88
+#: src/ui/widget/encryption_settings.rs:90
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -1491,7 +1498,7 @@ msgstr "Običajno vključuje vse osebne podatke"
 msgid "Remove Directory"
 msgstr "Odstrani mapo"
 
-#: src/ui/widget/detail/backup/display.rs:109
+#: src/ui/widget/detail/backup/display.rs:111
 msgid "Edit Pattern"
 msgstr "Uredi vzorec"
 
@@ -1596,7 +1603,7 @@ msgid "Backup Completed with Warnings"
 msgstr "Varnostna kopija je ustvarjena z opozorili."
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:339
+#: src/ui/widget/dialog/preferences.rs:338
 msgid "Error Running Shell Command"
 msgstr "Napaka pri izvajanju ukaza lupine"
 
@@ -1604,7 +1611,7 @@ msgstr "Napaka pri izvajanju ukaza lupine"
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "Načrtovano varnostno kopiranje"
 
@@ -1909,13 +1916,14 @@ msgid "Support us on GitHub Sponsors"
 msgstr "Podprite nas na Github Sponsors"
 
 #: src/ui/widget/dialog/archive_prefix.rs:77
-#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:530
 msgid "Invalid Archive Prefix"
 msgstr "Neveljavna predpona arhiva"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "Predpona arhiva"
 
@@ -2065,12 +2073,12 @@ msgid ""
 msgstr "Operacija »{}« zahteva šifriranje gesla skladišča na »{}«."
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:44
+#: src/ui/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "Šifrirno geslo je obvezno"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
+#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
@@ -2079,8 +2087,7 @@ msgid "Co_ntinue"
 msgstr "Na_daljuj"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:52
+#: src/ui/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "Geslo"
 
@@ -2155,7 +2162,7 @@ msgstr ""
 "borgbackup.readthedocs.io/en/stable/usage/help.html\">dokumentacijo "
 "BorgBackup</a>."
 
-#: src/ui/widget/dialog/preferences.rs:207
+#: src/ui/widget/dialog/preferences.rs:213
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2163,20 +2170,38 @@ msgstr ""
 "Naslov te prilagoditve varnostnega kopiranja. Prikaže se kot »{}«, če "
 "pustite prazno."
 
-#: src/ui/widget/dialog/preferences.rs:273
+#: src/ui/widget/dialog/preferences.rs:272
 msgid "Shell command invalid"
 msgstr "Ukaz lupine ni veljaven"
 
-#: src/ui/widget/dialog/preferences.rs:459
+#: src/ui/widget/dialog/preferences.rs:477
+msgid "Remove Password?"
+msgstr "Želite odstraniti geslo?"
+
+#: src/ui/widget/dialog/preferences.rs:478
+#: src/ui/widget/dialog/setup/encryption.rs:84
+msgid ""
+"When encryption is not used, everyone with access to the backup files can "
+"read all data"
+msgstr ""
+"Če šifriranje ni uporabljeno, lahko vsi, ki imajo dostop do varnostnih "
+"kopij, preberejo vse podatke"
+
+#: src/ui/widget/dialog/preferences.rs:483
+msgid "Remove Password"
+msgstr "Odstrani geslo"
+
+#: src/ui/widget/dialog/preferences.rs:506
 msgid "Change Encryption Password Error"
 msgstr "Napaka ob spremembi šifrirnega gesla"
 
-#: src/ui/widget/dialog/preferences.rs:466
+#: src/ui/widget/dialog/preferences.rs:513
 msgid "Password changed successfully"
 msgstr "Geslo je bilo uspešno spremenjeno"
 
 #: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:37
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "Spremeni šifrirno geslo"
 
@@ -2184,40 +2209,44 @@ msgstr "Spremeni šifrirno geslo"
 msgid "_Change Password"
 msgstr "_Spremeni geslo"
 
-#: src/ui/widget/dialog/preferences.ui:84
+#: src/ui/widget/dialog/preferences.ui:70
+msgid "_Remove Password"
+msgstr "_Odstrani geslo"
+
+#: src/ui/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "Spreminjanje gesla za šifriranje"
 
-#: src/ui/widget/dialog/preferences.ui:119
-#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "Naslov"
 
-#: src/ui/widget/dialog/preferences.ui:130
+#: src/ui/widget/dialog/preferences.ui:142
+#: src/ui/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "Šifrirno geslo"
 
-#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "Šifrirno geslo skladišča za varnostno kopiranje."
 
-#: src/ui/widget/dialog/preferences.ui:146
+#: src/ui/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "Izvajaj na baterijah"
 
-#: src/ui/widget/dialog/preferences.ui:147
+#: src/ui/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
 "Omogoči načrtovanje varnostnega kopiranja, ko je naprava na baterijskem "
 "napajanju"
 
-#: src/ui/widget/dialog/preferences.ui:155
-#: src/ui/widget/dialog/setup/location.ui:174
+#: src/ui/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "Dodatni argumenti ukazne vrstice"
 
-#: src/ui/widget/dialog/preferences.ui:156
-#: src/ui/widget/dialog/setup/location.ui:175
+#: src/ui/widget/dialog/preferences.ui:168
+#: src/ui/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -2225,31 +2254,32 @@ msgstr ""
 "Ti argumenti bodo dodani k sklicu ukaza programa borg. Podprte so le "
 "možnosti, vpisane z »--«."
 
-#: src/ui/widget/dialog/preferences.ui:159
-#: src/ui/widget/dialog/setup/location.ui:179
+#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/setup/advanced_options.ui:9
+#: src/ui/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "Argumenti ukazne vrstice"
 
-#: src/ui/widget/dialog/preferences.ui:170
+#: src/ui/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "Ukazi lupine"
 
-#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
 "Ti ukazi lupine bash bodo klicani pri določenih dogodkih varnostnega "
 "kopiranja"
 
-#: src/ui/widget/dialog/preferences.ui:184
+#: src/ui/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "Ukaz lupine pred varnostnim kopiranjem"
 
-#: src/ui/widget/dialog/preferences.ui:191
-#: src/ui/widget/dialog/preferences.ui:212
+#: src/ui/widget/dialog/preferences.ui:203
+#: src/ui/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "Izvedi s preskusnimi vrednostmi"
 
-#: src/ui/widget/dialog/preferences.ui:205
+#: src/ui/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "Ukaz lupine po varnostnem kopiranju"
 
@@ -2329,31 +2359,43 @@ msgstr "Arhivi z drugačno pripono"
 msgid "Apply"
 msgstr "Uveljavi"
 
-#: src/ui/widget/dialog/setup.rs:158
+#: src/ui/widget/dialog/setup.rs:149
+msgid "Abort Setup?"
+msgstr "Želite prekiniti nastavitev?"
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "Aborting now will cause the repository to not be added"
+msgstr "Prekinitev zdaj bo povzročila, da skladišče ne bo dodano"
+
+#. Translators: Announced to accessibility devices when setup dialog has finished
+#: src/ui/widget/dialog/setup.rs:181
+msgid "Backup Repository Added Successfully"
+msgstr "Uspešno dodano skladišče varnostnih kopij"
+
+#: src/ui/widget/dialog/setup.rs:206
 msgid "Setup Existing Repository"
 msgstr "Nastavi obstoječe skladišče"
 
-#: src/ui/widget/dialog/setup.rs:168
+#: src/ui/widget/dialog/setup.rs:216
 msgid "Location is not a valid backup repository."
 msgstr "Navedeno mesto ni veljavno mesto skladišča za varnostne kopiranje."
 
-#: src/ui/widget/dialog/setup.rs:170
+#: src/ui/widget/dialog/setup.rs:218
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Skladišče mora biti skladno s programom Pika Backup ali drugo združljivo "
 "programsko opremo."
 
-#: src/ui/widget/dialog/setup.rs:352
+#: src/ui/widget/dialog/setup.rs:436
 msgid "Failed to Configure Repository"
 msgstr "Prilagajanje skladišča je spodletelo"
 
-#: src/ui/widget/dialog/setup.rs:363
+#: src/ui/widget/dialog/setup.rs:480
 msgid "Failed"
 msgstr "Spodletelo"
 
 #: src/ui/widget/dialog/setup.ui:6
 #: src/ui/widget/dialog/setup/location_kind.ui:6
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "Nastavitev"
 
@@ -2366,82 +2408,91 @@ msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Priklapljanje mesta je uspešno končano, vendar pa mesto še vedno ni na voljo."
 
-#: src/ui/widget/dialog/setup/actions.rs:113
+#: src/ui/widget/dialog/setup/actions.rs:106
+msgid "Invalid Password"
+msgstr "Neveljavno geslo"
+
+#: src/ui/widget/dialog/setup/actions.rs:131
 msgid "Loading Backup Repository"
 msgstr "Nalaganje skladišča varnostnih kopij"
 
-#: src/ui/widget/dialog/setup/actions.rs:194
+#: src/ui/widget/dialog/setup/actions.rs:212
 #: src/ui/widget/dialog/setup/create_new.ui:6
-#: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "Ustvarjanje skladišča za varnostno kopiranje"
 
-#: src/ui/widget/dialog/setup/actions.rs:203
+#: src/ui/widget/dialog/setup/actions.rs:221
 msgid "Getting Repository Information"
 msgstr "Pridobivanje informacij o skladišču"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:20
+#: src/ui/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "Preverjanje skladišča za varnostne kopije"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:45
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr ""
-"Za dostop do tega skladišča za varnostno kopiranje je treba vpisati geslo za "
-"šifriranje."
+#: src/ui/widget/dialog/setup/advanced_options.ui:6
+#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:192
+msgid "Advanced Options"
+msgstr "Napredne možnosti"
+
+#: src/ui/widget/dialog/setup/ask_password.ui:23
+#: src/ui/widget/dialog/setup/location.ui:231
+msgid "_Continue"
+msgstr "_Nadaljuj"
+
+#: src/ui/widget/dialog/setup/encryption.rs:83
+msgid "Continue Unencrypted?"
+msgstr "Želite nadaljevati nešifrirano?"
 
 #: src/ui/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "Nastavitev šifriranja"
 
-#: src/ui/widget/dialog/setup/encryption.ui:32
+#: src/ui/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "_Ustvari"
 
-#: src/ui/widget/dialog/setup/location.rs:194
+#: src/ui/widget/dialog/setup/location.rs:217
+msgid "Repository Folder"
+msgstr "Mapa skladišča"
+
+#: src/ui/widget/dialog/setup/location.rs:229
+msgid "Choose Repository Folder"
+msgstr "Izberite mapo skladišča"
+
+#: src/ui/widget/dialog/setup/location.rs:241
+msgid "Additional command line arguments"
+msgstr "Dodatni argumenti ukazne vrstice"
+
+#: src/ui/widget/dialog/setup/location.rs:390
 msgid "Repository Name Empty"
 msgstr "Ime skladišča je prazno"
 
-#: src/ui/widget/dialog/setup/location.rs:195
+#: src/ui/widget/dialog/setup/location.rs:391
 msgid "The repository folder name must be set"
 msgstr "Ime mape skladišča mora biti določeno"
 
-#: src/ui/widget/dialog/setup/location.rs:206
+#: src/ui/widget/dialog/setup/location.rs:403
 msgid "No Base Folder Selected"
 msgstr "Ni izbrane osnovne mape"
 
-#: src/ui/widget/dialog/setup/location.rs:207
+#: src/ui/widget/dialog/setup/location.rs:404
 msgid "Select a base folder for the backup repository"
 msgstr "Izberite osnovno mapo za skladišče varnostnih kopij."
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: src/ui/widget/dialog/setup/location.rs:415
 msgid "Invalid Remote Location"
 msgstr "Neveljavno oddaljeno mesto"
 
-#: src/ui/widget/dialog/setup/location.ui:6
-msgid "Select Location"
-msgstr "Izberite mesto"
-
-#: src/ui/widget/dialog/setup/location.ui:22
-#: src/ui/widget/dialog/setup/location.ui:84
-msgid "Location"
-msgstr "Mesto"
-
-#: src/ui/widget/dialog/setup/location.ui:26
-#: src/ui/widget/dialog/setup/location.ui:89
-msgid "Advanced Options"
-msgstr "Napredne možnosti"
+#: src/ui/widget/dialog/setup/location.ui:9
+msgid "Configure Repository"
+msgstr "Prilagodi skladišče"
 
 #: src/ui/widget/dialog/setup/location.ui:34
-msgid "Repository Base Folder"
-msgstr "Osnovna mapa skladišča"
-
-#: src/ui/widget/dialog/setup/location.ui:47
 msgid "Repository Name"
 msgstr "Ime skladišča"
 
-#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2454,73 +2505,48 @@ msgstr ""
 "sta »NTFS« ali »EXT4«. Upoštevajte, da ta postopek izbriše vse datoteke na "
 "mestu!"
 
-#: src/ui/widget/dialog/setup/location.ui:100
+#: src/ui/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "Naslov URL skladišča"
 
-#: src/ui/widget/dialog/setup/location.ui:114
-msgid "Examples"
-msgstr "Primeri"
-
-#: src/ui/widget/dialog/setup/location.ui:125
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://uporabnik@streznik.primer.org/~/kopija\n"
-"smb://uporabnik@streznik.primer.org/datoteke/kopija"
-
-#: src/ui/widget/dialog/setup/location.ui:132
-msgid "Conventional Locations"
-msgstr "Običajna mesta"
-
-#: src/ui/widget/dialog/setup/location.ui:144
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"Mesta oddaljenega varnostnega kopiranja SMB in SFTP so lahko podani kot URL "
-"s predpono protokola »smb://» ali »sftp://»."
-
-#: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations With BorgBackup Support"
+#: src/ui/widget/dialog/setup/location.ui:117
+msgid "Locations with BorgBackup Support"
 msgstr "Mesta s podporo BorgBackup"
 
-#: src/ui/widget/dialog/setup/location.ui:163
+#: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
+"Servers with borgbackup installed have the best performance. <a href=\"help:"
+"pika-backup/setup-remote\">More</a>"
 msgstr ""
-"Mesta z izrecno podporo za BorgBackup lahko zagotovijo boljšo učinkovitost "
-"delovanja. Posebna so po tem, da ima strežnik nameščen binarni program "
-"BorgBackup. Za ta mesta je mogoče uporabiti skladnjo »<naslov streznika>:"
-"<mapa>« ali predpono »ssh://«."
+"Strežniki z nameščenim borgbackup imajo najboljše zmogljivosti. <a href="
+"\"help:pika-backup/setup-remote\">Več</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:200
+#: src/ui/widget/dialog/setup/location.ui:147
+msgid "Network Shares"
+msgstr "Omrežne shrambe v skupni rabi"
+
+#: src/ui/widget/dialog/setup/location.ui:159
+msgid ""
+"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+msgstr ""
+"Uporabite skladnjo Datotek GNOME. <a href=\"help:pika-backup/setup-gvfs"
+"\">Več</a>"
+
+#: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "_Poveži"
 
-#: src/ui/widget/dialog/setup/location.ui:216
-msgid "_Continue"
-msgstr "_Nadaljuj"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#: src/ui/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "Ustvari novo skladišče"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:143
-msgid "Select a location for the new backup repository"
-msgstr "Izberite mesto za novo skladišče varnostnih kopij"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:147
-#: src/ui/widget/dialog/setup/repo_kind.ui:30
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "Uporabi obstoječe skladišče"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:149
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2529,20 +2555,20 @@ msgstr ""
 "lahko tudi skladišča, ustvarjena z drugo programsko opremo, združljivo z "
 "BorgBackup."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:289
+#: src/ui/widget/dialog/setup/location_kind.rs:287
 msgid "Free space: {}"
 msgstr "Neporabljen prostor: {}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:25
-#: src/ui/widget/dialog/setup/location_kind.ui:79
+#: src/ui/widget/dialog/setup/location_kind.ui:17
+#: src/ui/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "Mesto na disku"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:16
-msgid "Configure a new or existing backup repository"
-msgstr "Prilagodite novo ali obstoječe skladišča za varnostno kopiranje"
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+msgid "Set Up Backup Repository"
+msgstr "Nastavite skladišče varnostnih kopij"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2552,7 +2578,7 @@ msgstr ""
 "kopiranja. Uporabo iste predpone na dveh napravah odsvetujemo, razen če nova "
 "naprava nadomešča staro."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "_Shrani"
 
@@ -2560,30 +2586,17 @@ msgstr "_Shrani"
 msgid "Transfer Settings"
 msgstr "Nastavitve prenosov"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:19
-#: src/ui/widget/dialog/setup/transfer_settings.ui:50
-msgid "S_kip"
-msgstr "Pres_koči"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:29
-msgid "Checking for Previous Configurations"
-msgstr "Preverjanje za predhodne prilagoditve"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:30
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"Zbiranje informacij za prenos predhodno uporabljenih nastavitev. Ta korak je "
-"neobvezen."
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+#: src/ui/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
 "En nabor prilagoditev, uporabljenih za prejšnje varnostne kopije, lahko "
 "izberete za prenos v novo nastavitev. Prilagoditev lahko spremenite kasneje."
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+msgid "Skip"
+msgstr "Preskoči"
 
 #: src/ui/widget/dialog/setup/types.rs:52
 msgid "Incomplete URL or borg syntax"
@@ -2597,7 +2610,7 @@ msgstr "Oddaljeno mesto mora imeti določeno pot."
 msgid "Invalid remote location: “{}”"
 msgstr "Neveljavno oddaljeno mesto: »{}«"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:54
 msgid "Backup Location"
 msgstr "Mesto varnostnih kopij"
 
@@ -2637,19 +2650,24 @@ msgstr "Skupno"
 msgid "Free"
 msgstr "Prosto"
 
-#: src/ui/widget/encryption_preferences_group.rs:84
-msgid "No Password Provided"
-msgstr "Ni podanega gesla"
+#: src/ui/widget/encryption_settings.rs:84
+msgid "Use Encryption?"
+msgstr "Želite uporabiti šifriranje?"
 
-#: src/ui/widget/encryption_preferences_group.rs:85
-msgid "To use encryption a password must be provided."
-msgstr "Za uporabo šifriranja je treba navesti geslo."
+#: src/ui/widget/encryption_settings.rs:86
+msgid ""
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
+msgstr ""
+"Izguba dostopa do gesla za šifriranje bo povzročila popolno izgubo vseh "
+"varnostno kopiranih podatkov"
 
-#: src/ui/widget/encryption_preferences_group.rs:91
-msgid "Entered passwords do not match."
-msgstr "Vpisana gesla niso skladna!"
+#: src/ui/widget/encryption_settings.rs:91
+#: src/ui/widget/encryption_settings.ui:12
+msgid "Use Encryption"
+msgstr "Uporabi šifriranje"
 
-#: src/ui/widget/encryption_preferences_group.ui:4
+#: src/ui/widget/encryption_settings.rs:130
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -2658,33 +2676,84 @@ msgstr ""
 "Če je šifriranje omogočeno, je za dostop do varnostnih kopij treba uporabiti "
 "veljavno geslo."
 
-#: src/ui/widget/encryption_preferences_group.ui:5
-msgid "Encryption"
-msgstr "Šifriranje"
+#: src/ui/widget/encryption_settings.rs:138
+msgid "No Password Provided"
+msgstr "Ni podanega gesla"
 
-#: src/ui/widget/encryption_preferences_group.ui:8
-msgid "Use Encryption"
-msgstr "Uporabi šifriranje"
+#: src/ui/widget/encryption_settings.rs:139
+msgid "To use encryption a password must be provided"
+msgstr "Za uporabo šifriranja morate vnesti geslo"
 
-#: src/ui/widget/encryption_preferences_group.ui:17
-msgid "Encrypted"
-msgstr "Šifrirano"
+#: src/ui/widget/encryption_settings.rs:146
+msgid "Invalid Passwords"
+msgstr "Neveljavna gesla"
 
-#: src/ui/widget/encryption_preferences_group.ui:24
-msgid "Unencrypted"
-msgstr "Nešifrirano"
+#: src/ui/widget/encryption_settings.rs:147
+msgid "The passwords do not match"
+msgstr "Gesli se ne ujemata"
 
-#: src/ui/widget/encryption_preferences_group.ui:35
-msgid "New Encryption Password"
-msgstr "Novo šifrirno geslo"
+#. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+#: src/ui/widget/encryption_settings.rs:206
+msgid "Enter a password"
+msgstr "Vnesite geslo"
 
-#: src/ui/widget/encryption_preferences_group.ui:43
+#. Translators: Password feedback: The second password is not the same as the first
+#: src/ui/widget/encryption_settings.rs:209
+msgid "Passwords do not match"
+msgstr "Gesli se ne ujemata"
+
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+#: src/ui/widget/encryption_settings.rs:217
+msgid "A single word is easy to guess"
+msgstr "Eno samo besedo je enostavno uganiti"
+
+#. Translators: Password feedback: Common name detected
+#: src/ui/widget/encryption_settings.rs:221
+msgid "Avoid names on their own"
+msgstr "Izogibajte se dejanskim imenom"
+
+#. Translators: Password feedback: Date detected
+#: src/ui/widget/encryption_settings.rs:225
+msgid "Avoid dates on their own"
+msgstr "Izogibajte se dejanskim datumom"
+
+#. Translators: Password feedback: Easy to guess sequence detected
+#: src/ui/widget/encryption_settings.rs:229
+msgid "Avoid sequences like “abc” or “6543”"
+msgstr "Izogibajte se zaporedjem, kot sta »abc« ali »6543«"
+
+#. Translators: Password feedback: Repeated keys or sequence detected
+#: src/ui/widget/encryption_settings.rs:233
+msgid "Avoid repetitions like “aaa” or “abcabc”"
+msgstr "Izogibajte se ponavljanjem, kot sta »aaa« ali »abcabc«"
+
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+#: src/ui/widget/encryption_settings.rs:237
+msgid "Avoid keyboard patterns"
+msgstr "Izogibajte se vzorcem s tipkovnice"
+
+#. Translators: Password feedback: Password was found in a list of common passwords
+#: src/ui/widget/encryption_settings.rs:243
+msgid "This is a very commonly used password"
+msgstr "To je zelo pogosto uporabljeno geslo"
+
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
+#: src/ui/widget/encryption_settings.rs:247
+msgid "This is similar to a commonly used password"
+msgstr "To je podobno pogosto uporabljenemu geslu"
+
+#: src/ui/widget/encryption_settings.rs:251
+msgid "Add a few more words"
+msgstr "Dodajte še nekaj besed"
+
+#. Translators: Password feedback: This password is looking pretty good
+#: src/ui/widget/encryption_settings.rs:254
+msgid "This looks like a strong password"
+msgstr "To se zdi močno geslo"
+
+#: src/ui/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "Ponovitev gesla"
-
-#: src/ui/widget/folder_button.rs:148
-msgid "_Select Folder…"
-msgstr "_Izberi mapo ..."
 
 #: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
