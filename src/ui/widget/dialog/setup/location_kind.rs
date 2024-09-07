@@ -169,7 +169,9 @@ mod imp {
 
         pub(super) fn clear(&self) {
             ui::utils::clear(&self.add_repo_list);
+            self.add_repo_list.set_visible(false);
             ui::utils::clear(&self.init_repo_list);
+            self.init_repo_list.set_visible(false);
         }
 
         pub(super) async fn load_mount(&self, mount: gio::Mount) -> Result<()> {
@@ -260,6 +262,7 @@ mod imp {
             repo: Option<&std::path::Path>,
             display_fn: F,
         ) {
+            list.set_visible(true);
             let row = ui::utils::new_action_row_with_gicon(Some(mount.icon().as_ref()));
             list.append(&row);
 
