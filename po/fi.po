@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-07-30 17:01+0000\n"
-"PO-Revision-Date: 2024-08-05 20:20+0300\n"
+"POT-Creation-Date: 2024-09-07 20:40+0000\n"
+"PO-Revision-Date: 2024-09-08 11:36+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -112,7 +112,7 @@ msgstr ""
 "Aikatauluta säännölliset varmuuskopiot esimerkiksi kuukausittain tai "
 "tunneittain"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "Yleiset"
 
@@ -408,7 +408,7 @@ msgid "Info"
 msgstr "Info"
 
 #: src/borg/log_json.rs:475 src/ui/utils.rs:383
-#: src/ui/widget/dialog/setup/location.ui:58
+#: src/ui/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -659,8 +659,8 @@ msgstr "Säännöllinen lauseke"
 msgid "Unix Filename Pattern"
 msgstr "Unix-tiedostonimen kuvio"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
-#: src/ui/widget/dialog/setup/location_kind.ui:100
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:38
+#: src/ui/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "Etäsijainti"
 
@@ -816,7 +816,7 @@ msgstr ""
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
-#: src/ui/widget/dialog/setup/add_existing.ui:69
+#: src/ui/widget/dialog/setup/encryption.rs:89
 msgid "Continue"
 msgstr "Jatka"
 
@@ -925,7 +925,7 @@ msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Aikataulutettujen varmuuskopioiden liittymän muodostaminen epäonnistui."
 
-#: src/ui/error.rs:102
+#: src/ui/error.rs:128
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -935,13 +935,17 @@ msgstr ""
 "taustapalvelun (“secret service”) salasanojen tallentamiseksi. Katso "
 "asennusohje käyttöjärjestelmäsi dokumentaatiosta."
 
-#: src/ui/error.rs:126
+#: src/ui/error.rs:156
 msgid "Backup with id “{}” already exists."
 msgstr "Varmuuskopio tunnisteella “{}” on jo olemassa."
 
-#: src/ui/error.rs:131
+#: src/ui/error.rs:165
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Varmuuskopioinnin kokoonpanoa tunnisteella “{}” ei löytynyt."
+
+#: src/ui/error.rs:181
+msgid "Canceled"
+msgstr "Peruttu"
 
 #: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
@@ -1034,7 +1038,7 @@ msgstr "Sulje"
 msgid "Additional command line arguments invalid"
 msgstr "Valinnaiset komentoriviargumentit ovat virheelliset"
 
-#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:273
 msgid "Please check for missing closing quotes."
 msgstr "Tarkista puuttuva sulkemiseen käytettävä lainausmerkki."
 
@@ -1096,6 +1100,9 @@ msgstr ""
 "korrupotoida varmuuskopion datan!"
 
 #: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/preferences.rs:482
+#: src/ui/widget/dialog/setup/encryption.rs:88
+#: src/ui/widget/encryption_settings.rs:90
 msgid "Cancel"
 msgstr "Peru"
 
@@ -1443,7 +1450,7 @@ msgstr "Sisältää yleensä kaiken henkilökohtaisen datan"
 msgid "Remove Directory"
 msgstr "Poista kansio"
 
-#: src/ui/widget/detail/backup/display.rs:109
+#: src/ui/widget/detail/backup/display.rs:111
 msgid "Edit Pattern"
 msgstr "Muokkaa kuviota"
 
@@ -1550,7 +1557,7 @@ msgid "Backup Completed with Warnings"
 msgstr "Varmuuskopiointi valmistui varoitusten kera"
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:339
+#: src/ui/widget/dialog/preferences.rs:338
 msgid "Error Running Shell Command"
 msgstr "Virhe suorittaessa shell-komentoja"
 
@@ -1558,7 +1565,7 @@ msgstr "Virhe suorittaessa shell-komentoja"
 msgid ":"
 msgstr "."
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "Aikataulutetut varmuuskopiot"
 
@@ -1853,13 +1860,14 @@ msgid "Support us on GitHub Sponsors"
 msgstr "Tue meitä GitHub Sponsorsissa"
 
 #: src/ui/widget/dialog/archive_prefix.rs:77
-#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:530
 msgid "Invalid Archive Prefix"
 msgstr "Virheellinen arkiston etuliite"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "Arkiston etuliite"
 
@@ -2012,12 +2020,12 @@ msgstr ""
 "salasanan."
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:44
+#: src/ui/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "Salauksen salasana vaaditaan"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
+#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "_Peru"
 
@@ -2026,8 +2034,7 @@ msgid "Co_ntinue"
 msgstr "_Jatka"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:52
+#: src/ui/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "Salasana"
 
@@ -2102,7 +2109,7 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
 "html\">BorgBackupin dokumentaatiossa</a>."
 
-#: src/ui/widget/dialog/preferences.rs:207
+#: src/ui/widget/dialog/preferences.rs:213
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2110,20 +2117,38 @@ msgstr ""
 "Tämä varmuuskopiomäärityksen nimi. Näkyy nimellä “{}”, jos on jätetty "
 "tyhjäksi."
 
-#: src/ui/widget/dialog/preferences.rs:273
+#: src/ui/widget/dialog/preferences.rs:272
 msgid "Shell command invalid"
 msgstr "Virheellinen shell-komento"
 
-#: src/ui/widget/dialog/preferences.rs:459
+#: src/ui/widget/dialog/preferences.rs:477
+msgid "Remove Password?"
+msgstr "Poistetaanko salasana?"
+
+#: src/ui/widget/dialog/preferences.rs:478
+#: src/ui/widget/dialog/setup/encryption.rs:84
+msgid ""
+"When encryption is not used, everyone with access to the backup files can "
+"read all data"
+msgstr ""
+"Kun salausta ei käytetä, kaikki, joilla on pääsy varmuuskopiotiedostoihin, "
+"on mahdollisuus lukea varmuuskopion sisältöä"
+
+#: src/ui/widget/dialog/preferences.rs:483
+msgid "Remove Password"
+msgstr "Poista salasana"
+
+#: src/ui/widget/dialog/preferences.rs:506
 msgid "Change Encryption Password Error"
 msgstr "Salauksen salasanan vaihtamisen virhe"
 
-#: src/ui/widget/dialog/preferences.rs:466
+#: src/ui/widget/dialog/preferences.rs:513
 msgid "Password changed successfully"
 msgstr "Salasana vaihdettu onnistuneesti"
 
 #: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:37
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "Vaihda salauksen salasana"
 
@@ -2131,38 +2156,42 @@ msgstr "Vaihda salauksen salasana"
 msgid "_Change Password"
 msgstr "_Vaihda salasana"
 
-#: src/ui/widget/dialog/preferences.ui:84
+#: src/ui/widget/dialog/preferences.ui:70
+msgid "_Remove Password"
+msgstr "_Poista salasana"
+
+#: src/ui/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "Vaihdetaan salauksen salasana"
 
-#: src/ui/widget/dialog/preferences.ui:119
-#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "Nimi"
 
-#: src/ui/widget/dialog/preferences.ui:130
+#: src/ui/widget/dialog/preferences.ui:142
+#: src/ui/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "Salauksen salasana"
 
-#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "Varmuuskopioinnin tietovaraston salauksen salasana"
 
-#: src/ui/widget/dialog/preferences.ui:146
+#: src/ui/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "Suorita akkuvirralla"
 
-#: src/ui/widget/dialog/preferences.ui:147
+#: src/ui/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr "Salli aikataulutetut varmuuskopiot, kun laite toimii akkuvirralla"
 
-#: src/ui/widget/dialog/preferences.ui:155
-#: src/ui/widget/dialog/setup/location.ui:174
+#: src/ui/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "Valinnaiset komentoriviargumentit"
 
-#: src/ui/widget/dialog/preferences.ui:156
-#: src/ui/widget/dialog/setup/location.ui:175
+#: src/ui/widget/dialog/preferences.ui:168
+#: src/ui/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -2170,31 +2199,32 @@ msgstr ""
 "Nämä argumentit välitetään borg-binääriä kutsuttaessa. Vain pitkät "
 "valitsimet, jotka alkavat “--”, ovat tuettuja."
 
-#: src/ui/widget/dialog/preferences.ui:159
-#: src/ui/widget/dialog/setup/location.ui:179
+#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/setup/advanced_options.ui:9
+#: src/ui/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "Komentorivin argumentit"
 
-#: src/ui/widget/dialog/preferences.ui:170
+#: src/ui/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "Shell-komennot"
 
-#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
 "Näitä bash-komentoja kutsutaan tiettyjen varmuuskopiointitapahtumien "
 "yhteydessä"
 
-#: src/ui/widget/dialog/preferences.ui:184
+#: src/ui/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "Shell-komento ennen varmuuskopiointia"
 
-#: src/ui/widget/dialog/preferences.ui:191
-#: src/ui/widget/dialog/preferences.ui:212
+#: src/ui/widget/dialog/preferences.ui:203
+#: src/ui/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "Suorita testiarvoilla"
 
-#: src/ui/widget/dialog/preferences.ui:205
+#: src/ui/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "Shell-komento varmuuskopioinnin jälkeen"
 
@@ -2273,31 +2303,43 @@ msgstr "Arkistot eri etuliitteellä"
 msgid "Apply"
 msgstr "Toteuta"
 
-#: src/ui/widget/dialog/setup.rs:158
+#: src/ui/widget/dialog/setup.rs:149
+msgid "Abort Setup?"
+msgstr "Lopetetaanko määritys?"
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "Aborting now will cause the repository to not be added"
+msgstr "Lopettaminen nyt tarkoittaa, ettei tietovarastoa lisätä"
+
+#. Translators: Announced to accessibility devices when setup dialog has finished
+#: src/ui/widget/dialog/setup.rs:181
+msgid "Backup Repository Added Successfully"
+msgstr "Varmuuskopion tietovarasto lisätty"
+
+#: src/ui/widget/dialog/setup.rs:206
 msgid "Setup Existing Repository"
 msgstr "Määritä olemassa oleva tietovarasto"
 
-#: src/ui/widget/dialog/setup.rs:168
+#: src/ui/widget/dialog/setup.rs:216
 msgid "Location is not a valid backup repository."
 msgstr "Sijainti ei ole kelvollinen varmuuskopion tietovarasto."
 
-#: src/ui/widget/dialog/setup.rs:170
+#: src/ui/widget/dialog/setup.rs:218
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Tietovaraston tulee olla Pika-varmuuskopioinnin tai yhteensopivan "
 "ohjelmiston toimesta luotu."
 
-#: src/ui/widget/dialog/setup.rs:352
+#: src/ui/widget/dialog/setup.rs:436
 msgid "Failed to Configure Repository"
 msgstr "Tietovaraston määrittäminen epäonnistui"
 
-#: src/ui/widget/dialog/setup.rs:363
+#: src/ui/widget/dialog/setup.rs:480
 msgid "Failed"
 msgstr "Epäonnistui"
 
 #: src/ui/widget/dialog/setup.ui:6
 #: src/ui/widget/dialog/setup/location_kind.ui:6
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "Määritys"
 
@@ -2309,82 +2351,91 @@ msgstr "Tietovaraston sijaintia ei löytynyt."
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "Liitostoimenpide onnistui, mutta sijainti ei silti ole käytettävissä."
 
-#: src/ui/widget/dialog/setup/actions.rs:113
+#: src/ui/widget/dialog/setup/actions.rs:106
+msgid "Invalid Password"
+msgstr "Virheellinen salasana"
+
+#: src/ui/widget/dialog/setup/actions.rs:131
 msgid "Loading Backup Repository"
 msgstr "Ladataan varmuuskopion tietovarastoa"
 
-#: src/ui/widget/dialog/setup/actions.rs:194
+#: src/ui/widget/dialog/setup/actions.rs:212
 #: src/ui/widget/dialog/setup/create_new.ui:6
-#: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "Luodaan varmuuskopion tietovarasto"
 
-#: src/ui/widget/dialog/setup/actions.rs:203
+#: src/ui/widget/dialog/setup/actions.rs:221
 msgid "Getting Repository Information"
 msgstr "Noudetaan tietovaraston tietoja"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:20
+#: src/ui/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "Tarkistetaan varmuuskopion tietovarastoa"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:45
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr ""
-"Tämän varmuuskopioinnin tietovaraston käyttö vaatii kyseisen tietovaraston "
-"salauksen salasanan."
+#: src/ui/widget/dialog/setup/advanced_options.ui:6
+#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:192
+msgid "Advanced Options"
+msgstr "Lisäasetukset"
+
+#: src/ui/widget/dialog/setup/ask_password.ui:23
+#: src/ui/widget/dialog/setup/location.ui:231
+msgid "_Continue"
+msgstr "_Jatka"
+
+#: src/ui/widget/dialog/setup/encryption.rs:83
+msgid "Continue Unencrypted?"
+msgstr "Jatketaanko ilman salausta?"
 
 #: src/ui/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "Määritä salaus"
 
-#: src/ui/widget/dialog/setup/encryption.ui:32
+#: src/ui/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "_Luo"
 
-#: src/ui/widget/dialog/setup/location.rs:194
+#: src/ui/widget/dialog/setup/location.rs:217
+msgid "Repository Folder"
+msgstr "Tietovaraston kansio"
+
+#: src/ui/widget/dialog/setup/location.rs:229
+msgid "Choose Repository Folder"
+msgstr "Valitse tietovaraston kansio"
+
+#: src/ui/widget/dialog/setup/location.rs:241
+msgid "Additional command line arguments"
+msgstr "Valinnaiset komentoriviargumentit"
+
+#: src/ui/widget/dialog/setup/location.rs:390
 msgid "Repository Name Empty"
 msgstr "Tietovaraston nimi on tyhjä"
 
-#: src/ui/widget/dialog/setup/location.rs:195
+#: src/ui/widget/dialog/setup/location.rs:391
 msgid "The repository folder name must be set"
 msgstr "Tietovaraston kansion nimi tulee olla asetettu"
 
-#: src/ui/widget/dialog/setup/location.rs:206
+#: src/ui/widget/dialog/setup/location.rs:403
 msgid "No Base Folder Selected"
 msgstr "Pohjakansiota ei ole valittu"
 
-#: src/ui/widget/dialog/setup/location.rs:207
+#: src/ui/widget/dialog/setup/location.rs:404
 msgid "Select a base folder for the backup repository"
 msgstr "Valitse pohjakansio varmuuskopion tietovarastolle"
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: src/ui/widget/dialog/setup/location.rs:415
 msgid "Invalid Remote Location"
 msgstr "Virheellinen etäsijainti"
 
-#: src/ui/widget/dialog/setup/location.ui:6
-msgid "Select Location"
-msgstr "Valitse sijainti"
-
-#: src/ui/widget/dialog/setup/location.ui:22
-#: src/ui/widget/dialog/setup/location.ui:84
-msgid "Location"
-msgstr "Sijainti"
-
-#: src/ui/widget/dialog/setup/location.ui:26
-#: src/ui/widget/dialog/setup/location.ui:89
-msgid "Advanced Options"
-msgstr "Lisäasetukset"
+#: src/ui/widget/dialog/setup/location.ui:9
+msgid "Configure Repository"
+msgstr "Määritä tietovarasto"
 
 #: src/ui/widget/dialog/setup/location.ui:34
-msgid "Repository Base Folder"
-msgstr "Tietovaraston peruskansio"
-
-#: src/ui/widget/dialog/setup/location.ui:47
 msgid "Repository Name"
 msgstr "Tietovaraston nimi"
 
-#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2397,73 +2448,48 @@ msgstr ""
 "“Ext4”. Huomioi, että alustaminen poistaa kaikki olemassa olevat tiedostot "
 "sijainnista!"
 
-#: src/ui/widget/dialog/setup/location.ui:100
+#: src/ui/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "Tietovaraston URL-osoite"
 
-#: src/ui/widget/dialog/setup/location.ui:114
-msgid "Examples"
-msgstr "Esimerkit"
+#: src/ui/widget/dialog/setup/location.ui:117
+msgid "Locations with BorgBackup Support"
+msgstr "Sijainnit BorgBackup-tuella"
 
-#: src/ui/widget/dialog/setup/location.ui:125
+#: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
+"Servers with borgbackup installed have the best performance. <a href=\"help:"
+"pika-backup/setup-remote\">More</a>"
 msgstr ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
+"Palvelimilla, joissa borgbackup on asennettu, on paras suorituskyky. <a "
+"href=\"help:pika-backup/setup-remote\">Lisätietoja</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:132
-msgid "Conventional Locations"
-msgstr "Perinteiset sijainnit"
+#: src/ui/widget/dialog/setup/location.ui:147
+msgid "Network Shares"
+msgstr "Verkkojaot"
 
-#: src/ui/widget/dialog/setup/location.ui:144
+#: src/ui/widget/dialog/setup/location.ui:159
 msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
+"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
 msgstr ""
-"SMB- ja SFTP-etäsijainnit varmuuskopioille voidaan määrittää URL-osoitteena, "
-"jossa etuliitteenä on protokolla “smb://” tai “sftp://”."
+"Käytä tiedostonhallinnan syntaksia. <a href=\"help:pika-backup/setup-"
+"gvfs\">Lisätietoja</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations With BorgBackup Support"
-msgstr "Sijainnit joilla BorgBackup-tuki"
-
-#: src/ui/widget/dialog/setup/location.ui:163
-msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
-msgstr ""
-"Sijainnit yksinomaisella BorgBackupin tuella voivat tarjota parempaa "
-"suorituskykyä. Tuki tarkoittaa, että palvelimella on BorgBackupin "
-"binääritiedosto asennettu. Näitä sijainteja varten käytä syntaksia "
-"“<palvelimen osoite>:<kansio>” tai etuliitettä “ssh://”."
-
-#: src/ui/widget/dialog/setup/location.ui:200
+#: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "_Yhdistä"
 
-#: src/ui/widget/dialog/setup/location.ui:216
-msgid "_Continue"
-msgstr "_Jatka"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#: src/ui/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "Luo uusi tietovarasto"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:143
-msgid "Select a location for the new backup repository"
-msgstr "Valitse sijainti uudelle varmuuskopion tietovarastolle"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:147
-#: src/ui/widget/dialog/setup/repo_kind.ui:30
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "Käytä olemassa olevaa tietovarastoa"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:149
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2472,20 +2498,20 @@ msgstr ""
 "tietovaraston. Myös muilla BorgBackup-yhteensopivilla ohjelmistoilla luotuja "
 "tietovarastoja on mahdollista käyttää."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:289
+#: src/ui/widget/dialog/setup/location_kind.rs:287
 msgid "Free space: {}"
 msgstr "Vapaata tilaa: {}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:25
-#: src/ui/widget/dialog/setup/location_kind.ui:79
+#: src/ui/widget/dialog/setup/location_kind.ui:17
+#: src/ui/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "Sijainti levyllä"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:16
-msgid "Configure a new or existing backup repository"
-msgstr "Määritä uusi tai olemassa oleva varmuuskopion tietovarasto"
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+msgid "Set Up Backup Repository"
+msgstr "Määritä varmuuskopion tietovarasto"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2495,7 +2521,7 @@ msgstr ""
 "määrityksessä. Saman etuliitteen käyttäminen kahdella eri laitteella ei ole "
 "suositeltavaa, ellei uuden laitteen ole tarkoitus korvata vanhaa."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "_Tallenna"
 
@@ -2503,23 +2529,7 @@ msgstr "_Tallenna"
 msgid "Transfer Settings"
 msgstr "Siirtoasetukset"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:19
-#: src/ui/widget/dialog/setup/transfer_settings.ui:50
-msgid "S_kip"
-msgstr "_Ohita"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:29
-msgid "Checking for Previous Configurations"
-msgstr "Tarkistetaan aiempia määrityksiä"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:30
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"Kerätään tietoja aiempien asetusten siirtämiseksi. Tämä vaihe on valinnainen."
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+#: src/ui/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -2527,6 +2537,10 @@ msgstr ""
 "Yksi joukko aiemmille varmuuskopioille käytettyjä määrityksiä voidaan valita "
 "siirrettäväksi uuteen määritykseen. Määritystä on mahdollista säätää "
 "jälkikäteen."
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+msgid "Skip"
+msgstr "Ohita"
 
 #: src/ui/widget/dialog/setup/types.rs:52
 msgid "Incomplete URL or borg syntax"
@@ -2540,7 +2554,7 @@ msgstr "Etäsijainnilla tulee olla määritelty polku."
 msgid "Invalid remote location: “{}”"
 msgstr "Virheellinen etäsijainti: “{}“"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:54
 msgid "Backup Location"
 msgstr "Varmuuskopion sijainti"
 
@@ -2580,19 +2594,23 @@ msgstr "Yhteensä"
 msgid "Free"
 msgstr "Vapaana"
 
-#: src/ui/widget/encryption_preferences_group.rs:84
-msgid "No Password Provided"
-msgstr "Salasanaa ei annettu"
+#: src/ui/widget/encryption_settings.rs:84
+msgid "Use Encryption?"
+msgstr "Käytetäänkö salausta?"
 
-#: src/ui/widget/encryption_preferences_group.rs:85
-msgid "To use encryption a password must be provided."
-msgstr "Salauksen käyttäminen vaatii salasanan asettamisen."
+#: src/ui/widget/encryption_settings.rs:86
+msgid ""
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
+msgstr ""
+"Jos kadotat salauksen salasanan, kaikki varmuuskopioitu data on menetetty"
 
-#: src/ui/widget/encryption_preferences_group.rs:91
-msgid "Entered passwords do not match."
-msgstr "Kirjoitetut salasanat eivät täsmää toisiaan."
+#: src/ui/widget/encryption_settings.rs:91
+#: src/ui/widget/encryption_settings.ui:12
+msgid "Use Encryption"
+msgstr "Käytä salausta"
 
-#: src/ui/widget/encryption_preferences_group.ui:4
+#: src/ui/widget/encryption_settings.rs:130
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -2601,33 +2619,84 @@ msgstr ""
 "salausta käytetään, varmuuskopioiden selaaminen ja palauttaminen vaatii "
 "salasanan."
 
-#: src/ui/widget/encryption_preferences_group.ui:5
-msgid "Encryption"
-msgstr "Salaus"
+#: src/ui/widget/encryption_settings.rs:138
+msgid "No Password Provided"
+msgstr "Salasanaa ei annettu"
 
-#: src/ui/widget/encryption_preferences_group.ui:8
-msgid "Use Encryption"
-msgstr "Käytä salausta"
+#: src/ui/widget/encryption_settings.rs:139
+msgid "To use encryption a password must be provided"
+msgstr "Salauksen käyttäminen vaatii salasanan asettamisen"
 
-#: src/ui/widget/encryption_preferences_group.ui:17
-msgid "Encrypted"
-msgstr "Salattu"
+#: src/ui/widget/encryption_settings.rs:146
+msgid "Invalid Passwords"
+msgstr "Virheelliset salasanat"
 
-#: src/ui/widget/encryption_preferences_group.ui:24
-msgid "Unencrypted"
-msgstr "Salaamaton"
+#: src/ui/widget/encryption_settings.rs:147
+msgid "The passwords do not match"
+msgstr "Salasanat eivät täsmää"
 
-#: src/ui/widget/encryption_preferences_group.ui:35
-msgid "New Encryption Password"
-msgstr "Uusi salauksen salasana"
+#. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+#: src/ui/widget/encryption_settings.rs:206
+msgid "Enter a password"
+msgstr "Kirjoita salasana"
 
-#: src/ui/widget/encryption_preferences_group.ui:43
+#. Translators: Password feedback: The second password is not the same as the first
+#: src/ui/widget/encryption_settings.rs:209
+msgid "Passwords do not match"
+msgstr "Salasanat eivät täsmää"
+
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+#: src/ui/widget/encryption_settings.rs:217
+msgid "A single word is easy to guess"
+msgstr "Yksittäinen sana on helppo arvata"
+
+#. Translators: Password feedback: Common name detected
+#: src/ui/widget/encryption_settings.rs:221
+msgid "Avoid names on their own"
+msgstr "Vältä pelkkiä nimiä"
+
+#. Translators: Password feedback: Date detected
+#: src/ui/widget/encryption_settings.rs:225
+msgid "Avoid dates on their own"
+msgstr "Vältä pelkkiä päiväyksiä"
+
+#. Translators: Password feedback: Easy to guess sequence detected
+#: src/ui/widget/encryption_settings.rs:229
+msgid "Avoid sequences like “abc” or “6543”"
+msgstr "Vältä sarjoja kuten “abc” tai “6543”"
+
+#. Translators: Password feedback: Repeated keys or sequence detected
+#: src/ui/widget/encryption_settings.rs:233
+msgid "Avoid repetitions like “aaa” or “abcabc”"
+msgstr "Vältä toistoja kuten “aaa” tai “abcabc”"
+
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+#: src/ui/widget/encryption_settings.rs:237
+msgid "Avoid keyboard patterns"
+msgstr "Vältä näppäimistön näppäinten kaavoja"
+
+#. Translators: Password feedback: Password was found in a list of common passwords
+#: src/ui/widget/encryption_settings.rs:243
+msgid "This is a very commonly used password"
+msgstr "Tämä on hyvin yleisesti käytetty salasana"
+
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
+#: src/ui/widget/encryption_settings.rs:247
+msgid "This is similar to a commonly used password"
+msgstr "Tämä on samankaltainen kuin hyvin yleisesti käytetty salasana"
+
+#: src/ui/widget/encryption_settings.rs:251
+msgid "Add a few more words"
+msgstr "Lisää enemmän sanoja"
+
+#. Translators: Password feedback: This password is looking pretty good
+#: src/ui/widget/encryption_settings.rs:254
+msgid "This looks like a strong password"
+msgstr "Tämä vaikuttaa vahvalta salasanalta"
+
+#: src/ui/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "Toista salasana"
-
-#: src/ui/widget/folder_button.rs:148
-msgid "_Select Folder…"
-msgstr "_Valitse kansio…"
 
 #: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
@@ -2676,6 +2745,81 @@ msgstr "_Määritä varmuuskopio"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Kyseistä tiedostoa tai kansiota ei löydy"
+
+#~ msgid ""
+#~ "The encryption password of this backup repository is required to access "
+#~ "it."
+#~ msgstr ""
+#~ "Tämän varmuuskopioinnin tietovaraston käyttö vaatii kyseisen "
+#~ "tietovaraston salauksen salasanan."
+
+#~ msgid "Select Location"
+#~ msgstr "Valitse sijainti"
+
+#~ msgid "Location"
+#~ msgstr "Sijainti"
+
+#~ msgid "Examples"
+#~ msgstr "Esimerkit"
+
+#~ msgid ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+#~ msgstr ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+
+#~ msgid "Conventional Locations"
+#~ msgstr "Perinteiset sijainnit"
+
+#~ msgid ""
+#~ "SMB and SFTP remote-backup locations can be provided as a URL with the "
+#~ "“smb://” or “sftp://” protocol prefix."
+#~ msgstr ""
+#~ "SMB- ja SFTP-etäsijainnit varmuuskopioille voidaan määrittää URL-"
+#~ "osoitteena, jossa etuliitteenä on protokolla “smb://” tai “sftp://”."
+
+#~ msgid ""
+#~ "Locations with explicit BorgBackup support can provide better "
+#~ "performance. They are special in that the server has a BorgBackup binary "
+#~ "installed. For those locations, either the “<server address>:<folder>” "
+#~ "syntax or the “ssh://” prefix can be used."
+#~ msgstr ""
+#~ "Sijainnit yksinomaisella BorgBackupin tuella voivat tarjota parempaa "
+#~ "suorituskykyä. Tuki tarkoittaa, että palvelimella on BorgBackupin "
+#~ "binääritiedosto asennettu. Näitä sijainteja varten käytä syntaksia "
+#~ "“<palvelimen osoite>:<kansio>” tai etuliitettä “ssh://”."
+
+#~ msgid "Select a location for the new backup repository"
+#~ msgstr "Valitse sijainti uudelle varmuuskopion tietovarastolle"
+
+#~ msgid "Configure a new or existing backup repository"
+#~ msgstr "Määritä uusi tai olemassa oleva varmuuskopion tietovarasto"
+
+#~ msgid "S_kip"
+#~ msgstr "_Ohita"
+
+#~ msgid "Checking for Previous Configurations"
+#~ msgstr "Tarkistetaan aiempia määrityksiä"
+
+#~ msgid ""
+#~ "Collecting information to transfer previously used settings. This step is "
+#~ "optional."
+#~ msgstr ""
+#~ "Kerätään tietoja aiempien asetusten siirtämiseksi. Tämä vaihe on "
+#~ "valinnainen."
+
+#~ msgid "Encryption"
+#~ msgstr "Salaus"
+
+#~ msgid "Encrypted"
+#~ msgstr "Salattu"
+
+#~ msgid "New Encryption Password"
+#~ msgstr "Uusi salauksen salasana"
+
+#~ msgid "_Select Folder…"
+#~ msgstr "_Valitse kansio…"
 
 #~ msgid "Abort running backup creation?"
 #~ msgstr "Lopetetaanko käynnissä oleva varmuuskopion luominen?"
@@ -2976,9 +3120,6 @@ msgstr "Kyseistä tiedostoa tai kansiota ei löydy"
 
 #~ msgid "No active backup to delete."
 #~ msgstr "Ei aktiivista varmuuskopiota poistettavaksi."
-
-#~ msgid "Store Password"
-#~ msgstr "Talleta salasana"
 
 #~ msgid ""
 #~ "Your borg-backup version seems to be smaller then "
