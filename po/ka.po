@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-07-30 17:01+0000\n"
-"PO-Revision-Date: 2024-07-31 06:53+0200\n"
+"POT-Creation-Date: 2024-09-09 08:51+0000\n"
+"PO-Revision-Date: 2024-09-09 15:13+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -109,7 +109,7 @@ msgstr "იქონიეთ მარქაფები ერთდროუ�
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "დაგეგმეთ ჩვეულებრივი მარქაფები თვიდან საათამდე სიზუსტით"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "საერთო"
 
@@ -401,7 +401,7 @@ msgid "Info"
 msgstr "ინფორმაცია"
 
 #: src/borg/log_json.rs:475 src/ui/utils.rs:383
-#: src/ui/widget/dialog/setup/location.ui:58
+#: src/ui/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "გაფრთხილება"
 
@@ -650,8 +650,8 @@ msgstr "რეგულარული ექსპრესია"
 msgid "Unix Filename Pattern"
 msgstr "Unix-ის ფაილის სახელის ნიმუში"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
-#: src/ui/widget/dialog/setup/location_kind.ui:100
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:38
+#: src/ui/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "დაშორებული მდებარეობა"
 
@@ -804,7 +804,7 @@ msgstr "მარქაფი, თუ ახლა გააუქმებთ, 
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
-#: src/ui/widget/dialog/setup/add_existing.ui:69
+#: src/ui/widget/dialog/setup/encryption.rs:89
 msgid "Continue"
 msgstr "გაგრძელება"
 
@@ -912,7 +912,7 @@ msgstr "მარქაფს გაჩერება"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "დაგეგმილი მარქაფებისთვის ინტერფეისის გამოჩენის შეცდომა."
 
-#: src/ui/error.rs:102
+#: src/ui/error.rs:128
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -922,13 +922,17 @@ msgstr ""
 "(\"საიდუმლოებების სერვისი\") სჭირდება პაროლების შესანახად. დაყენების "
 "ინსტრუქციები იხილეთ ოპერაციული სისტემის დოკუმენტაციაში."
 
-#: src/ui/error.rs:126
+#: src/ui/error.rs:156
 msgid "Backup with id “{}” already exists."
 msgstr "მარქაფი id-ით “{}” უკვე არსებობს."
 
-#: src/ui/error.rs:131
+#: src/ui/error.rs:165
 msgid "Could not find backup configuration with id “{}”."
 msgstr "მარქაფის კონფიგურაცია ID-ით \"{}\" ვერ ვიპოვე."
+
+#: src/ui/error.rs:181
+msgid "Canceled"
+msgstr "გაუქმებულია"
 
 #: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
@@ -1019,7 +1023,7 @@ msgstr "დაკეტვა"
 msgid "Additional command line arguments invalid"
 msgstr "ბრძანების სტრიქონის დამატებითი არგუმენტები არასწორია"
 
-#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:273
 msgid "Please check for missing closing quotes."
 msgstr "შეამოწმეთ, დახურვის ბრჭყალები ხომ არ გამოგრჩათ."
 
@@ -1079,6 +1083,9 @@ msgstr ""
 "შეიძლება მარქაფის მონაცემების დაზიანება მოჰყვეს!"
 
 #: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/preferences.rs:482
+#: src/ui/widget/dialog/setup/encryption.rs:88
+#: src/ui/widget/encryption_settings.rs:90
 msgid "Cancel"
 msgstr "შეწყვეტა"
 
@@ -1408,7 +1415,7 @@ msgstr "როგორც წესი, კონფიდენციალუ
 msgid "Remove Directory"
 msgstr "საქაღალდის წაშლა"
 
-#: src/ui/widget/detail/backup/display.rs:109
+#: src/ui/widget/detail/backup/display.rs:111
 msgid "Edit Pattern"
 msgstr "ნიმუშის ჩასწორება"
 
@@ -1515,7 +1522,7 @@ msgid "Backup Completed with Warnings"
 msgstr "მარქაფი შენიშვნებით დასრულდა"
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:339
+#: src/ui/widget/dialog/preferences.rs:338
 msgid "Error Running Shell Command"
 msgstr "გარსის ბრძანების შესრულების შეცდომა"
 
@@ -1523,7 +1530,7 @@ msgstr "გარსის ბრძანების შესრულებ�
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "დაგეგმილი მარქაფები"
 
@@ -1815,13 +1822,14 @@ msgid "Support us on GitHub Sponsors"
 msgstr "დაგვიჭირეთ მხარი GitHub Sponsors-ზე"
 
 #: src/ui/widget/dialog/archive_prefix.rs:77
-#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:530
 msgid "Invalid Archive Prefix"
 msgstr "არქივის არასწორი პრეფიქსი"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "არქივის პრეფიქსი"
 
@@ -1972,12 +1980,12 @@ msgid ""
 msgstr "ოპერაციას \"{}\" სჭირდება დაშიფვრის პაროლი რეპოზიტორიისთვის \"{}\"-ზე."
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:44
+#: src/ui/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "დაშიფვრის პაროლი აუცილებელია"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
+#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "გაუქმება"
 
@@ -1986,8 +1994,7 @@ msgid "Co_ntinue"
 msgstr "_გაგრძელება"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:52
+#: src/ui/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "პაროლი"
 
@@ -2061,27 +2068,45 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
 "html\">BorgBackup-ის დოკუმენტაცია</a>."
 
-#: src/ui/widget/dialog/preferences.rs:207
+#: src/ui/widget/dialog/preferences.rs:213
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr ""
 "მარქაფის კონფიგურაციის სათაური. თუ ცარიელს დატოვებთ, გამოჩნდება \"{}\"."
 
-#: src/ui/widget/dialog/preferences.rs:273
+#: src/ui/widget/dialog/preferences.rs:272
 msgid "Shell command invalid"
 msgstr "გარსის ბრძანება არასწორია"
 
-#: src/ui/widget/dialog/preferences.rs:459
+#: src/ui/widget/dialog/preferences.rs:477
+msgid "Remove Password?"
+msgstr "წავშალო პაროლი?"
+
+#: src/ui/widget/dialog/preferences.rs:478
+#: src/ui/widget/dialog/setup/encryption.rs:84
+msgid ""
+"When encryption is not used, everyone with access to the backup files can "
+"read all data"
+msgstr ""
+"როცა დაშიფვრა არ გამოიყენება, ყველას, ვისაც მარქაფის ფაილებთან წვდომა აქვს, "
+"შეუძლია, მონაცემები სრულად წაიკითხოს"
+
+#: src/ui/widget/dialog/preferences.rs:483
+msgid "Remove Password"
+msgstr "პაროლის წაშლა"
+
+#: src/ui/widget/dialog/preferences.rs:506
 msgid "Change Encryption Password Error"
 msgstr "დაშიფვრის პაროლის შეცვლის შეცდომა"
 
-#: src/ui/widget/dialog/preferences.rs:466
+#: src/ui/widget/dialog/preferences.rs:513
 msgid "Password changed successfully"
 msgstr "პაროლი წარმატებით შეიცვალა"
 
 #: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:37
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "დაშიფვრის პაროლის შეცვლა"
 
@@ -2089,38 +2114,42 @@ msgstr "დაშიფვრის პაროლის შეცვლა"
 msgid "_Change Password"
 msgstr "პაროლის _შეცვლა"
 
-#: src/ui/widget/dialog/preferences.ui:84
+#: src/ui/widget/dialog/preferences.ui:70
+msgid "_Remove Password"
+msgstr "პა_როლის წაშლა"
+
+#: src/ui/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "მიმდინარეობს დაშიფვრის პაროლის შეცვლა"
 
-#: src/ui/widget/dialog/preferences.ui:119
-#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "სათაური"
 
-#: src/ui/widget/dialog/preferences.ui:130
+#: src/ui/widget/dialog/preferences.ui:142
+#: src/ui/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "დაშიფვრის პაროლი"
 
-#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "მარქაფის რეპოზიტორიის დაშიფვრის პაროლი"
 
-#: src/ui/widget/dialog/preferences.ui:146
+#: src/ui/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "გაშვება, როცა ელემენტზე ვმუშაობ"
 
-#: src/ui/widget/dialog/preferences.ui:147
+#: src/ui/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr "დაგეგმილი მარქაფების დაშვება, როცა მოწყობილობა ელემენტზე მუშაობს"
 
-#: src/ui/widget/dialog/preferences.ui:155
-#: src/ui/widget/dialog/setup/location.ui:174
+#: src/ui/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "ბრძანების სტრიქონის დამატებითი არგუმენტები"
 
-#: src/ui/widget/dialog/preferences.ui:156
-#: src/ui/widget/dialog/setup/location.ui:175
+#: src/ui/widget/dialog/preferences.ui:168
+#: src/ui/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -2128,30 +2157,31 @@ msgstr ""
 "ეს არგუმენტები borg-ის გამშვები ფაილის არგუმენტებს მიემატება. მხარდაჭერილია, "
 "მხოლოდ, გრძელი პარამეტრები, რომლებიც '--'-ით იწყება."
 
-#: src/ui/widget/dialog/preferences.ui:159
-#: src/ui/widget/dialog/setup/location.ui:179
+#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/setup/advanced_options.ui:9
+#: src/ui/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "ბრძანების სტრიქონის არგუმენტები"
 
-#: src/ui/widget/dialog/preferences.ui:170
+#: src/ui/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "გარსის ბრძანებები"
 
-#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
 "ეს bash გარსის ბრძანებები ზოგიერთი მარქაფის მოვლენის დროს იქნება გამოძახებული"
 
-#: src/ui/widget/dialog/preferences.ui:184
+#: src/ui/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "მარქაფამდელი გარსის ბრძანება"
 
-#: src/ui/widget/dialog/preferences.ui:191
-#: src/ui/widget/dialog/preferences.ui:212
+#: src/ui/widget/dialog/preferences.ui:203
+#: src/ui/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "სატესტო მნიშვნელობებით გაშვება"
 
-#: src/ui/widget/dialog/preferences.ui:205
+#: src/ui/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "მარქაფის-შემდგომი გარსის ბრძანება"
 
@@ -2231,31 +2261,43 @@ msgstr "განსხვავებული პრეფიქსის მ�
 msgid "Apply"
 msgstr "გადატარება"
 
-#: src/ui/widget/dialog/setup.rs:158
+#: src/ui/widget/dialog/setup.rs:149
+msgid "Abort Setup?"
+msgstr "შეწყდეს მორგება?"
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "Aborting now will cause the repository to not be added"
+msgstr "ახლა შეწყვეტა გამოიწვევს იმას, რომ რეპოზიტორია არ დაემატება"
+
+#. Translators: Announced to accessibility devices when setup dialog has finished
+#: src/ui/widget/dialog/setup.rs:181
+msgid "Backup Repository Added Successfully"
+msgstr "მარქაფის რეპოზიტორია წარმატებით დაემატა"
+
+#: src/ui/widget/dialog/setup.rs:206
 msgid "Setup Existing Repository"
 msgstr "არსებული საცავის მორგება"
 
-#: src/ui/widget/dialog/setup.rs:168
+#: src/ui/widget/dialog/setup.rs:216
 msgid "Location is not a valid backup repository."
 msgstr "მითითებული მდებარეობა სწორი მარქაფის საცავი არაა."
 
-#: src/ui/widget/dialog/setup.rs:170
+#: src/ui/widget/dialog/setup.rs:218
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "რეპოზიტორია Pika Backup ან რომელიმე თავსებადი პროგრამის მიერ უნდა იყოს "
 "შექმნილი."
 
-#: src/ui/widget/dialog/setup.rs:352
+#: src/ui/widget/dialog/setup.rs:436
 msgid "Failed to Configure Repository"
 msgstr "რეპოზიტორიის მორგების შეცდომა"
 
-#: src/ui/widget/dialog/setup.rs:363
+#: src/ui/widget/dialog/setup.rs:480
 msgid "Failed"
 msgstr "ჩაიშალა"
 
 #: src/ui/widget/dialog/setup.ui:6
 #: src/ui/widget/dialog/setup/location_kind.ui:6
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "მორგება"
 
@@ -2268,82 +2310,91 @@ msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "მიმაგრების ოპერაცია წარმატებულია, მაგრამ მდებარეობა ჯერ კიდევ მიუწვდომელია."
 
-#: src/ui/widget/dialog/setup/actions.rs:113
+#: src/ui/widget/dialog/setup/actions.rs:106
+msgid "Invalid Password"
+msgstr "არასწორი პაროლი"
+
+#: src/ui/widget/dialog/setup/actions.rs:131
 msgid "Loading Backup Repository"
 msgstr "აღდგენის საცავის ჩატვირთვა"
 
-#: src/ui/widget/dialog/setup/actions.rs:194
+#: src/ui/widget/dialog/setup/actions.rs:212
 #: src/ui/widget/dialog/setup/create_new.ui:6
-#: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "მარქაფის საცავის შექმნა"
 
-#: src/ui/widget/dialog/setup/actions.rs:203
+#: src/ui/widget/dialog/setup/actions.rs:221
 msgid "Getting Repository Information"
 msgstr "რეპოზიტორიის ინფორმაციის მიღება"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:20
+#: src/ui/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "მარქაფის რეპოზიტორიის შემოწმება"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:45
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr ""
-"ამ მარქაფის რეპოზიტორიასთან წვდომისთვის დაშიფვრის პაროლის მითითება "
-"აუცილებელია."
+#: src/ui/widget/dialog/setup/advanced_options.ui:6
+#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:192
+msgid "Advanced Options"
+msgstr "დამატებითი პარამეტრები"
+
+#: src/ui/widget/dialog/setup/ask_password.ui:23
+#: src/ui/widget/dialog/setup/location.ui:231
+msgid "_Continue"
+msgstr "_გაგრძელება"
+
+#: src/ui/widget/dialog/setup/encryption.rs:83
+msgid "Continue Unencrypted?"
+msgstr "გავაგრძელო დაუშიფრავად?"
 
 #: src/ui/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "დაშიფვრის მორგება"
 
-#: src/ui/widget/dialog/setup/encryption.ui:32
+#: src/ui/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "შექმნა"
 
-#: src/ui/widget/dialog/setup/location.rs:194
+#: src/ui/widget/dialog/setup/location.rs:217
+msgid "Repository Folder"
+msgstr "რეპოზიტორიის საქაღალდე"
+
+#: src/ui/widget/dialog/setup/location.rs:229
+msgid "Choose Repository Folder"
+msgstr "აირჩიეთ რეპოზიტორიის საქაღალდე"
+
+#: src/ui/widget/dialog/setup/location.rs:241
+msgid "Additional command line arguments"
+msgstr "ბრძანების სტრიქონის დამატებითი არგუმენტები"
+
+#: src/ui/widget/dialog/setup/location.rs:390
 msgid "Repository Name Empty"
 msgstr "რეპოზიტორიის სახელი ცარიელია"
 
-#: src/ui/widget/dialog/setup/location.rs:195
+#: src/ui/widget/dialog/setup/location.rs:391
 msgid "The repository folder name must be set"
 msgstr "რეპოზიტორიის საქაღალდის სახელის დაყენება აუცილებელია"
 
-#: src/ui/widget/dialog/setup/location.rs:206
+#: src/ui/widget/dialog/setup/location.rs:403
 msgid "No Base Folder Selected"
 msgstr "საბაზისო საქაღალდე არჩეული არაა"
 
-#: src/ui/widget/dialog/setup/location.rs:207
+#: src/ui/widget/dialog/setup/location.rs:404
 msgid "Select a base folder for the backup repository"
 msgstr "აირჩიეთ საბაზისო საქაღალდე მარქაფის რეპოზიტორიისთვის"
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: src/ui/widget/dialog/setup/location.rs:415
 msgid "Invalid Remote Location"
 msgstr "არასწორი დაშორებული მდებარეობა"
 
-#: src/ui/widget/dialog/setup/location.ui:6
-msgid "Select Location"
-msgstr "მდებარეობის არჩევა"
-
-#: src/ui/widget/dialog/setup/location.ui:22
-#: src/ui/widget/dialog/setup/location.ui:84
-msgid "Location"
-msgstr "მდებარეობა"
-
-#: src/ui/widget/dialog/setup/location.ui:26
-#: src/ui/widget/dialog/setup/location.ui:89
-msgid "Advanced Options"
-msgstr "დამატებითი პარამეტრები"
+#: src/ui/widget/dialog/setup/location.ui:9
+msgid "Configure Repository"
+msgstr "რეპოზიტორიის მორგება"
 
 #: src/ui/widget/dialog/setup/location.ui:34
-msgid "Repository Base Folder"
-msgstr "რეპოზიტორიის საბაზისო საქაღალდე"
-
-#: src/ui/widget/dialog/setup/location.ui:47
 msgid "Repository Name"
 msgstr "რეპოზიტორიის სახელი"
 
-#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2356,73 +2407,48 @@ msgstr ""
 "დაიმახსოვრეთ, რომ თავიდან დაფორმატება ამ მდებარეობაზე არსებულ ყველა ფაილს "
 "წაშლის!"
 
-#: src/ui/widget/dialog/setup/location.ui:100
+#: src/ui/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "რეპოზიტორიის URL"
 
-#: src/ui/widget/dialog/setup/location.ui:114
-msgid "Examples"
-msgstr "მაგალითები"
-
-#: src/ui/widget/dialog/setup/location.ui:125
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-
-#: src/ui/widget/dialog/setup/location.ui:132
-msgid "Conventional Locations"
-msgstr "მიღებული მდებარეობები"
-
-#: src/ui/widget/dialog/setup/location.ui:144
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"SMB და SFTP დაშორებული მარქაფის მდებარეობების მითითება \"smb://\" ან "
-"\"sftp://\" პროტოკოლის პრეფიქსებით შეგიძლიათ."
-
-#: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations With BorgBackup Support"
+#: src/ui/widget/dialog/setup/location.ui:117
+msgid "Locations with BorgBackup Support"
 msgstr "მდებარეობები BorgBackup-ის მხარდაჭერით"
 
-#: src/ui/widget/dialog/setup/location.ui:163
+#: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
+"Servers with borgbackup installed have the best performance. <a href=\"help:"
+"pika-backup/setup-remote\">More</a>"
 msgstr ""
-"მდებარეობები BorgBackup-ის მხარდაჭერით უფრო სწრაფად მუშაობენ. ისინი "
-"სპეციალურია, რადგან ამ სერვერზე დაყენებულია BorgBackup-ის გამშვები ფაილი. ამ "
-"მდებარეობისთვის \"<სერვერის მისამართი>:<საქაღალდე>\" სინტაქსი ან \"ssh://\" "
-"პრეფიქსი შეგიძლიათ, გამოიყენოთ."
+"სერვერები borgbackup-ით ყველაზე სწრაფია. <a href=\"help:pika-backup/setup-"
+"remote\">მეტი</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:200
+#: src/ui/widget/dialog/setup/location.ui:147
+msgid "Network Shares"
+msgstr "ქსელური გაზიარებები"
+
+#: src/ui/widget/dialog/setup/location.ui:159
+msgid ""
+"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+msgstr ""
+"GNOME Files-ის სინტაქსის გამოყენება. <a href=\"help:pika-backup/setup-"
+"gvfs\">მეტი</a>"
+
+#: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "_დაკავშირება"
 
-#: src/ui/widget/dialog/setup/location.ui:216
-msgid "_Continue"
-msgstr "_გაგრძელება"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#: src/ui/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "ახალი რეპოზიტორიის შექმნა"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:143
-msgid "Select a location for the new backup repository"
-msgstr "აირჩიეთ მდებარეობა ახალი მარქაფის რეპოზიტორიისთვის"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:147
-#: src/ui/widget/dialog/setup/repo_kind.ui:30
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "არსებული რეპოზიტორიის გამოყენება"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:149
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2431,20 +2457,20 @@ msgstr ""
 "შეგიძლიათ გამოიყენოთ BorgBackup-თან თავსებადი სხვა პროგრამების "
 "რეპოზიტორიებიც."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:289
+#: src/ui/widget/dialog/setup/location_kind.rs:287
 msgid "Free space: {}"
 msgstr "თავისუფალი ადგილი: {}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:25
-#: src/ui/widget/dialog/setup/location_kind.ui:79
+#: src/ui/widget/dialog/setup/location_kind.ui:17
+#: src/ui/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "მდებარეობა დისკზე"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:16
-msgid "Configure a new or existing backup repository"
-msgstr "ახალი ან არსებული მარქაფის რეპოზიტორიის მორგება"
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+msgid "Set Up Backup Repository"
+msgstr "მარქაფის საცავის მორგება"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2454,7 +2480,7 @@ msgstr ""
 "პრეფიქსის გამოყენება ორ მოწყობილობაზე რეკომენდებული არაა, თუ ძველ "
 "მოწყობილობას ახლით არ ანაცვლებთ."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "_შენახვა"
 
@@ -2462,24 +2488,7 @@ msgstr "_შენახვა"
 msgid "Transfer Settings"
 msgstr "მიმოცვლის მორგება"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:19
-#: src/ui/widget/dialog/setup/transfer_settings.ui:50
-msgid "S_kip"
-msgstr "_გამოტოვება"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:29
-msgid "Checking for Previous Configurations"
-msgstr "წინა კონფიგურაციების შემოწმება"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:30
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"ინფორმაციის მოგროვება ადრე გამოყენებული პარამეტრების გადასაცემად. ეს ნაბიჯი "
-"არასავალდებულოა."
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+#: src/ui/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -2487,6 +2496,10 @@ msgstr ""
 "ახალი მდებარეობის მორგებისას, შეგიძლიათ, წინა მარქაფებისთვის გამოყენებული "
 "კონფიგურაციებს ერთ-ერთი ვარიანტი გადაიტანოთ. კონფიგურაცია მოგვიანებით "
 "შეგიძლიათ, მოირგოთ."
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+msgid "Skip"
+msgstr "გამოტოვება"
 
 #: src/ui/widget/dialog/setup/types.rs:52
 msgid "Incomplete URL or borg syntax"
@@ -2500,7 +2513,7 @@ msgstr "დაშორებული მდებარეობისთვ�
 msgid "Invalid remote location: “{}”"
 msgstr "არასწორი დაშორებული მდებარეობა: \"{}\""
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:54
 msgid "Backup Location"
 msgstr "მარქაფის მდებარეობა"
 
@@ -2540,19 +2553,24 @@ msgstr "ჯამში"
 msgid "Free"
 msgstr "თავისუფალი"
 
-#: src/ui/widget/encryption_preferences_group.rs:84
-msgid "No Password Provided"
-msgstr "პაროლი მითითებული არაა"
+#: src/ui/widget/encryption_settings.rs:84
+msgid "Use Encryption?"
+msgstr "გამოვიყენო დაშიფვრა?"
 
-#: src/ui/widget/encryption_preferences_group.rs:85
-msgid "To use encryption a password must be provided."
-msgstr "დაშიფვრის გამოსაყენებლად პაროლის მითითება აუცილებელია."
+#: src/ui/widget/encryption_settings.rs:86
+msgid ""
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
+msgstr ""
+"დაშიფვრის პაროლთან წვდომის დაკარგვა დამარქაფებულ მონაცემებთან წვდომის "
+"დაკარგვას უდრის"
 
-#: src/ui/widget/encryption_preferences_group.rs:91
-msgid "Entered passwords do not match."
-msgstr "შეყვანილი პაროლები არ ემთხვევა."
+#: src/ui/widget/encryption_settings.rs:91
+#: src/ui/widget/encryption_settings.ui:12
+msgid "Use Encryption"
+msgstr "დაშიფვრის გამოყენება"
 
-#: src/ui/widget/encryption_preferences_group.ui:4
+#: src/ui/widget/encryption_settings.rs:130
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -2560,33 +2578,85 @@ msgstr ""
 "დაშიფრულ პაროლებში შენახული მონაცემები პაროლითაა დაცული. თუ გამოყენებულია "
 "დაშიფვრა, მარქაფთან წვდომისთვის პაროლი დაგჭირდებათ."
 
-#: src/ui/widget/encryption_preferences_group.ui:5
-msgid "Encryption"
-msgstr "დაშიფვრა"
+#: src/ui/widget/encryption_settings.rs:138
+msgid "No Password Provided"
+msgstr "პაროლი მითითებული არაა"
 
-#: src/ui/widget/encryption_preferences_group.ui:8
-msgid "Use Encryption"
-msgstr "დაშიფვრის გამოყენება"
+#: src/ui/widget/encryption_settings.rs:139
+msgid "To use encryption a password must be provided"
+msgstr "დაშიფვრის გამოსაყენებლად პაროლის მითითება აუცილებელია"
 
-#: src/ui/widget/encryption_preferences_group.ui:17
-msgid "Encrypted"
-msgstr "დაშიფრული"
+#: src/ui/widget/encryption_settings.rs:146
+msgid "Invalid Passwords"
+msgstr "არასწორი პაროლები"
 
-#: src/ui/widget/encryption_preferences_group.ui:24
-msgid "Unencrypted"
-msgstr "დაუშიფრავი"
+#: src/ui/widget/encryption_settings.rs:147
+msgid "The passwords do not match"
+msgstr "პაროლები არ ემთხვევა"
 
-#: src/ui/widget/encryption_preferences_group.ui:35
-msgid "New Encryption Password"
-msgstr "ახალი დაშიფვრის პაროლი"
+#. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+#: src/ui/widget/encryption_settings.rs:206
+msgid "Enter a password"
+msgstr "შეიყვანეთ პაროლი"
 
-#: src/ui/widget/encryption_preferences_group.ui:43
+#. Translators: Password feedback: The second password is not the same as the first
+#: src/ui/widget/encryption_settings.rs:209
+msgid "Passwords do not match"
+msgstr "პაროლები არ ემთხვევა"
+
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+#: src/ui/widget/encryption_settings.rs:217
+msgid "A single word is easy to guess"
+msgstr "ერთი სიტყვა მისახვედრად ადვილია"
+
+#. Translators: Password feedback: Common name detected
+#: src/ui/widget/encryption_settings.rs:221
+msgid "Avoid names on their own"
+msgstr "სახელებს ნუ შეიყვანთ"
+
+#. Translators: Password feedback: Date detected
+#: src/ui/widget/encryption_settings.rs:225
+msgid "Avoid dates on their own"
+msgstr "თარიღებს ნუ შეიყვანთ"
+
+#. Translators: Password feedback: Easy to guess sequence detected
+#: src/ui/widget/encryption_settings.rs:229
+msgid "Avoid sequences like “abc” or “6543”"
+msgstr "სცადეთ, თავი აარიდოთ ისეთ მიმდევრობებს, როგორიცაა 1234 ან abcd"
+
+#. Translators: Password feedback: Repeated keys or sequence detected
+#: src/ui/widget/encryption_settings.rs:233
+msgid "Avoid repetitions like “aaa” or “abcabc”"
+msgstr ""
+"სცადეთ, თავი აარიდოთ ისე ისეთ მიმდევრობებს, როგორიცაა 'aaa' ან 'abcabc'"
+
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+#: src/ui/widget/encryption_settings.rs:237
+msgid "Avoid keyboard patterns"
+msgstr "კლავიატურის ღილაკების მიმდევრობის აცილბა"
+
+#. Translators: Password feedback: Password was found in a list of common passwords
+#: src/ui/widget/encryption_settings.rs:243
+msgid "This is a very commonly used password"
+msgstr "ეს ძალიან ხშირად გამოყენებული პაროლია"
+
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
+#: src/ui/widget/encryption_settings.rs:247
+msgid "This is similar to a commonly used password"
+msgstr "ეს ძალიან ჰგავს ხშირად გამოყენებულ პაროლს"
+
+#: src/ui/widget/encryption_settings.rs:251
+msgid "Add a few more words"
+msgstr "დაამატეთ კიდევ რამდენიმე სიტყვა"
+
+#. Translators: Password feedback: This password is looking pretty good
+#: src/ui/widget/encryption_settings.rs:254
+msgid "This looks like a strong password"
+msgstr "ეს პაროლი მომწონს"
+
+#: src/ui/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "გაიმეორე პაროლი"
-
-#: src/ui/widget/folder_button.rs:148
-msgid "_Select Folder…"
-msgstr "_აირჩიეთ საქაღალდე…"
 
 #: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
@@ -2635,6 +2705,81 @@ msgstr "_მარქაფის მორგება"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "ფაილი ან საქაღალდე არ არსებობს"
+
+#~ msgid ""
+#~ "The encryption password of this backup repository is required to access "
+#~ "it."
+#~ msgstr ""
+#~ "ამ მარქაფის რეპოზიტორიასთან წვდომისთვის დაშიფვრის პაროლის მითითება "
+#~ "აუცილებელია."
+
+#~ msgid "Select Location"
+#~ msgstr "მდებარეობის არჩევა"
+
+#~ msgid "Location"
+#~ msgstr "მდებარეობა"
+
+#~ msgid "Examples"
+#~ msgstr "მაგალითები"
+
+#~ msgid ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+#~ msgstr ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+
+#~ msgid "Conventional Locations"
+#~ msgstr "მიღებული მდებარეობები"
+
+#~ msgid ""
+#~ "SMB and SFTP remote-backup locations can be provided as a URL with the "
+#~ "“smb://” or “sftp://” protocol prefix."
+#~ msgstr ""
+#~ "SMB და SFTP დაშორებული მარქაფის მდებარეობების მითითება \"smb://\" ან "
+#~ "\"sftp://\" პროტოკოლის პრეფიქსებით შეგიძლიათ."
+
+#~ msgid ""
+#~ "Locations with explicit BorgBackup support can provide better "
+#~ "performance. They are special in that the server has a BorgBackup binary "
+#~ "installed. For those locations, either the “<server address>:<folder>” "
+#~ "syntax or the “ssh://” prefix can be used."
+#~ msgstr ""
+#~ "მდებარეობები BorgBackup-ის მხარდაჭერით უფრო სწრაფად მუშაობენ. ისინი "
+#~ "სპეციალურია, რადგან ამ სერვერზე დაყენებულია BorgBackup-ის გამშვები ფაილი. "
+#~ "ამ მდებარეობისთვის \"<სერვერის მისამართი>:<საქაღალდე>\" სინტაქსი ან "
+#~ "\"ssh://\" პრეფიქსი შეგიძლიათ, გამოიყენოთ."
+
+#~ msgid "Select a location for the new backup repository"
+#~ msgstr "აირჩიეთ მდებარეობა ახალი მარქაფის რეპოზიტორიისთვის"
+
+#~ msgid "Configure a new or existing backup repository"
+#~ msgstr "ახალი ან არსებული მარქაფის რეპოზიტორიის მორგება"
+
+#~ msgid "S_kip"
+#~ msgstr "_გამოტოვება"
+
+#~ msgid "Checking for Previous Configurations"
+#~ msgstr "წინა კონფიგურაციების შემოწმება"
+
+#~ msgid ""
+#~ "Collecting information to transfer previously used settings. This step is "
+#~ "optional."
+#~ msgstr ""
+#~ "ინფორმაციის მოგროვება ადრე გამოყენებული პარამეტრების გადასაცემად. ეს "
+#~ "ნაბიჯი არასავალდებულოა."
+
+#~ msgid "Encryption"
+#~ msgstr "დაშიფვრა"
+
+#~ msgid "Encrypted"
+#~ msgstr "დაშიფრული"
+
+#~ msgid "New Encryption Password"
+#~ msgstr "ახალი დაშიფვრის პაროლი"
+
+#~ msgid "_Select Folder…"
+#~ msgstr "_აირჩიეთ საქაღალდე…"
 
 #~ msgid "Abort running backup creation?"
 #~ msgstr "გავაუქმო მარქაფის შექმნის გაშვებული სესია?"
