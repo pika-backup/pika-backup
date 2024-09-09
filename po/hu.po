@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-08-09 15:52+0000\n"
-"PO-Revision-Date: 2024-08-15 12:01+0200\n"
+"POT-Creation-Date: 2024-09-07 20:40+0000\n"
+"PO-Revision-Date: 2024-09-09 10:50+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -113,7 +113,7 @@ msgid "Schedule regular backups from monthly up to hourly"
 msgstr ""
 "Ütemezzen rendszeres biztonsági mentéseket havi szinten vagy akár óránként"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "Általános"
 
@@ -409,7 +409,7 @@ msgid "Info"
 msgstr "Információ"
 
 #: src/borg/log_json.rs:475 src/ui/utils.rs:383
-#: src/ui/widget/dialog/setup/location.ui:58
+#: src/ui/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
@@ -662,8 +662,8 @@ msgstr "Reguláris kifejezés"
 msgid "Unix Filename Pattern"
 msgstr "Unix fájlnévminta"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
-#: src/ui/widget/dialog/setup/location_kind.ui:100
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:38
+#: src/ui/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "Távoli hely"
 
@@ -821,7 +821,7 @@ msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja"
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
-#: src/ui/widget/dialog/setup/add_existing.ui:69
+#: src/ui/widget/dialog/setup/encryption.rs:89
 msgid "Continue"
 msgstr "Folytatás"
 
@@ -932,7 +932,7 @@ msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Nem sikerült a csatoló előkészítése az ütemezett biztonsági mentésekhez."
 
-#: src/ui/error.rs:102
+#: src/ui/error.rs:128
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -942,13 +942,18 @@ msgstr ""
 "(„titokszolgáltatást”) igényel a jelszavak tárolásához. A telepítési "
 "utasításokért nézze meg az operációs rendszer dokumentációját."
 
-#: src/ui/error.rs:126
+#: src/ui/error.rs:156
 msgid "Backup with id “{}” already exists."
 msgstr "Már létezik „{}” azonosítójú biztonsági mentés."
 
-#: src/ui/error.rs:131
+#: src/ui/error.rs:165
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Nem található „{}” azonosítójú biztonsági mentési beállítás."
+
+#: src/ui/error.rs:181
+#| msgid "Cancel"
+msgid "Canceled"
+msgstr "Megszakítva"
 
 #: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
@@ -1043,7 +1048,7 @@ msgstr "Bezárás"
 msgid "Additional command line arguments invalid"
 msgstr "A további parancssori argumentumok érvénytelenek"
 
-#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:273
 msgid "Please check for missing closing quotes."
 msgstr "Ellenőrizze a hiányzó záró idézőjeleket."
 
@@ -1105,6 +1110,9 @@ msgstr ""
 "tárolót, akkor megsérülhetnek az adatai!"
 
 #: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/preferences.rs:482
+#: src/ui/widget/dialog/setup/encryption.rs:88
+#: src/ui/widget/encryption_settings.rs:90
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -1452,7 +1460,7 @@ msgstr "Általában tartalmazza az összes személyes adatot"
 msgid "Remove Directory"
 msgstr "Könyvtár eltávolítása"
 
-#: src/ui/widget/detail/backup/display.rs:109
+#: src/ui/widget/detail/backup/display.rs:111
 msgid "Edit Pattern"
 msgstr "Minta szerkesztése"
 
@@ -1559,7 +1567,7 @@ msgid "Backup Completed with Warnings"
 msgstr "A biztonsági mentés figyelmeztetésekkel ért véget"
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:339
+#: src/ui/widget/dialog/preferences.rs:338
 msgid "Error Running Shell Command"
 msgstr "Hiba a parancs futtatásakor"
 
@@ -1567,7 +1575,7 @@ msgstr "Hiba a parancs futtatásakor"
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "Ütemezett biztonsági mentések"
 
@@ -1866,13 +1874,14 @@ msgid "Support us on GitHub Sponsors"
 msgstr "Támogasson minket a GitHub Sponsors oldalon"
 
 #: src/ui/widget/dialog/archive_prefix.rs:77
-#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:530
 msgid "Invalid Archive Prefix"
 msgstr "Érvénytelen archívumelőtag"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "Archívumelőtag"
 
@@ -2024,12 +2033,12 @@ msgid ""
 msgstr "A(z) „{}” művelethez a(z) „{}” tároló titkosítási jelszava szükséges."
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:44
+#: src/ui/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "Titkosítási jelszó szükséges"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
+#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -2038,8 +2047,7 @@ msgid "Co_ntinue"
 msgstr "_Folytatás"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:52
+#: src/ui/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "Jelszó"
 
@@ -2116,7 +2124,7 @@ msgstr ""
 "readthedocs.io/en/stable/usage/help.html\">BorgBackup dokumentációját</a> "
 "(angol nyelven)."
 
-#: src/ui/widget/dialog/preferences.rs:207
+#: src/ui/widget/dialog/preferences.rs:213
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2124,20 +2132,40 @@ msgstr ""
 "A biztonsági mentési beállítás címe. A következőként lesz megjelenítve, ha "
 "üresen marad: „{}”."
 
-#: src/ui/widget/dialog/preferences.rs:273
+#: src/ui/widget/dialog/preferences.rs:272
 msgid "Shell command invalid"
 msgstr "A parancs érvénytelen"
 
-#: src/ui/widget/dialog/preferences.rs:459
+#: src/ui/widget/dialog/preferences.rs:477
+#| msgid "Repeat Password"
+msgid "Remove Password?"
+msgstr "Eltávolítja a jelszót?"
+
+#: src/ui/widget/dialog/preferences.rs:478
+#: src/ui/widget/dialog/setup/encryption.rs:84
+msgid ""
+"When encryption is not used, everyone with access to the backup files can "
+"read all data"
+msgstr ""
+"Ha nincs titkosítás használva, akkor bárki elolvashatja az összes adatot,"
+" akinek hozzáférése van a biztonsági mentés fájljaihoz"
+
+#: src/ui/widget/dialog/preferences.rs:483
+#| msgid "Repeat Password"
+msgid "Remove Password"
+msgstr "Jelszó eltávolítása"
+
+#: src/ui/widget/dialog/preferences.rs:506
 msgid "Change Encryption Password Error"
 msgstr "Titkosítási jelszó megváltoztatási hiba"
 
-#: src/ui/widget/dialog/preferences.rs:466
+#: src/ui/widget/dialog/preferences.rs:513
 msgid "Password changed successfully"
-msgstr "A jelszó sikeresen megváltozott"
+msgstr "A jelszó sikeresen megváltoztatva"
 
 #: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:37
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "Titkosítási jelszó megváltoztatása"
 
@@ -2145,40 +2173,45 @@ msgstr "Titkosítási jelszó megváltoztatása"
 msgid "_Change Password"
 msgstr "Jelszó _megváltoztatása"
 
-#: src/ui/widget/dialog/preferences.ui:84
+#: src/ui/widget/dialog/preferences.ui:70
+#| msgid "Repeat Password"
+msgid "_Remove Password"
+msgstr "Jelszó _eltávolítása"
+
+#: src/ui/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "Titkosítási jelszó megváltoztatása"
 
-#: src/ui/widget/dialog/preferences.ui:119
-#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "Cím"
 
-#: src/ui/widget/dialog/preferences.ui:130
+#: src/ui/widget/dialog/preferences.ui:142
+#: src/ui/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "Titkosítási jelszó"
 
-#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "A biztonsági mentési tároló titkosítási jelszava"
 
-#: src/ui/widget/dialog/preferences.ui:146
+#: src/ui/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "Futtatás akkumulátorról"
 
-#: src/ui/widget/dialog/preferences.ui:147
+#: src/ui/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
 "Ütemezett biztonsági mentések engedélyezése, ha az eszköz akkumulátorról "
 "működik"
 
-#: src/ui/widget/dialog/preferences.ui:155
-#: src/ui/widget/dialog/setup/location.ui:174
+#: src/ui/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "További parancssori argumentumok"
 
-#: src/ui/widget/dialog/preferences.ui:156
-#: src/ui/widget/dialog/setup/location.ui:175
+#: src/ui/widget/dialog/preferences.ui:168
+#: src/ui/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -2186,31 +2219,32 @@ msgstr ""
 "Ezek az argumentumok hozzá lesznek adva a borg bináris meghívásához. Csak a "
 "hosszú kapcsolók támogatottak, amelyek „--” karakterekkel kezdődnek."
 
-#: src/ui/widget/dialog/preferences.ui:159
-#: src/ui/widget/dialog/setup/location.ui:179
+#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/setup/advanced_options.ui:9
+#: src/ui/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "Parancssori argumentumok"
 
-#: src/ui/widget/dialog/preferences.ui:170
+#: src/ui/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "Parancsok"
 
-#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
 "Ezek a bash-parancsok lesznek meghívva bizonyos biztonsági mentési "
 "eseményeknél"
 
-#: src/ui/widget/dialog/preferences.ui:184
+#: src/ui/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "Biztonsági mentés előtti parancs"
 
-#: src/ui/widget/dialog/preferences.ui:191
-#: src/ui/widget/dialog/preferences.ui:212
+#: src/ui/widget/dialog/preferences.ui:203
+#: src/ui/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "Futtatás tesztértékekkel"
 
-#: src/ui/widget/dialog/preferences.ui:205
+#: src/ui/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "Biztonsági mentés utáni parancs"
 
@@ -2291,31 +2325,45 @@ msgstr "Eltérő előtaggal rendelkező archívumok"
 msgid "Apply"
 msgstr "Alkalmaz"
 
-#: src/ui/widget/dialog/setup.rs:158
+#: src/ui/widget/dialog/setup.rs:149
+#| msgid "Abort Backup?"
+msgid "Abort Setup?"
+msgstr "Megszakítja a beállítást?"
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "Aborting now will cause the repository to not be added"
+msgstr ""
+"A mostani megszakítás azt fogja okozni, hogy a tároló nem lesz hozzáadva"
+
+#. Translators: Announced to accessibility devices when setup dialog has finished
+#: src/ui/widget/dialog/setup.rs:181
+msgid "Backup Repository Added Successfully"
+msgstr "A biztonsági mentési tároló sikeresen hozzáadva"
+
+#: src/ui/widget/dialog/setup.rs:206
 msgid "Setup Existing Repository"
 msgstr "Meglévő tároló beállítása"
 
-#: src/ui/widget/dialog/setup.rs:168
+#: src/ui/widget/dialog/setup.rs:216
 msgid "Location is not a valid backup repository."
 msgstr "A hely nem érvényes biztonsági mentési tároló."
 
-#: src/ui/widget/dialog/setup.rs:170
+#: src/ui/widget/dialog/setup.rs:218
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "A tárolónak a Pika biztonsági mentésből vagy egy kompatibilis szoftverből "
 "kell származnia."
 
-#: src/ui/widget/dialog/setup.rs:352
+#: src/ui/widget/dialog/setup.rs:436
 msgid "Failed to Configure Repository"
 msgstr "A tároló beállítása sikertelen"
 
-#: src/ui/widget/dialog/setup.rs:363
+#: src/ui/widget/dialog/setup.rs:480
 msgid "Failed"
 msgstr "Sikertelen"
 
 #: src/ui/widget/dialog/setup.ui:6
 #: src/ui/widget/dialog/setup/location_kind.ui:6
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "Beállítás"
 
@@ -2327,81 +2375,97 @@ msgstr "A tároló helye nem található."
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "A csatolási művelet sikeres volt, de a hely továbbra sem érhető el."
 
-#: src/ui/widget/dialog/setup/actions.rs:113
+#: src/ui/widget/dialog/setup/actions.rs:106
+#| msgid "Invalid encryption password."
+msgid "Invalid Password"
+msgstr "Érvénytelen jelszó"
+
+#: src/ui/widget/dialog/setup/actions.rs:131
 msgid "Loading Backup Repository"
 msgstr "Biztonsági mentési tároló betöltése"
 
-#: src/ui/widget/dialog/setup/actions.rs:194
+#: src/ui/widget/dialog/setup/actions.rs:212
 #: src/ui/widget/dialog/setup/create_new.ui:6
-#: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "Biztonsági mentési tároló létrehozása"
 
-#: src/ui/widget/dialog/setup/actions.rs:203
+#: src/ui/widget/dialog/setup/actions.rs:221
 msgid "Getting Repository Information"
 msgstr "Tároló-információk lekérése"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:20
+#: src/ui/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "Biztonsági mentési tároló ellenőrzése"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:45
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr ""
-"A biztonsági mentési tároló titkosítási jelszava kötelező a hozzáféréséhez."
+#: src/ui/widget/dialog/setup/advanced_options.ui:6
+#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:192
+msgid "Advanced Options"
+msgstr "Speciális beállítások"
+
+#: src/ui/widget/dialog/setup/ask_password.ui:23
+#: src/ui/widget/dialog/setup/location.ui:231
+msgid "_Continue"
+msgstr "_Folytatás"
+
+#: src/ui/widget/dialog/setup/encryption.rs:83
+#| msgid "Unencrypted"
+msgid "Continue Unencrypted?"
+msgstr "Folytatja titkosítatlanul?"
 
 #: src/ui/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "Titkosítás beállítása"
 
-#: src/ui/widget/dialog/setup/encryption.ui:32
+#: src/ui/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "_Létrehozás"
 
-#: src/ui/widget/dialog/setup/location.rs:194
+#: src/ui/widget/dialog/setup/location.rs:217
+#| msgid "Repository Base Folder"
+msgid "Repository Folder"
+msgstr "Tároló mappája"
+
+#: src/ui/widget/dialog/setup/location.rs:229
+#| msgid "Repository Base Folder"
+msgid "Choose Repository Folder"
+msgstr "Tároló mappájának kiválasztása"
+
+#: src/ui/widget/dialog/setup/location.rs:241
+#| msgid "Additional Command Line Arguments"
+msgid "Additional command line arguments"
+msgstr "További parancssori argumentumok"
+
+#: src/ui/widget/dialog/setup/location.rs:390
 msgid "Repository Name Empty"
 msgstr "A tároló neve üres"
 
-#: src/ui/widget/dialog/setup/location.rs:195
+#: src/ui/widget/dialog/setup/location.rs:391
 msgid "The repository folder name must be set"
 msgstr "A tároló mappájának nevét be kell állítani"
 
-#: src/ui/widget/dialog/setup/location.rs:206
+#: src/ui/widget/dialog/setup/location.rs:403
 msgid "No Base Folder Selected"
 msgstr "Nincs alapmappa kiválasztva"
 
-#: src/ui/widget/dialog/setup/location.rs:207
+#: src/ui/widget/dialog/setup/location.rs:404
 msgid "Select a base folder for the backup repository"
 msgstr "Alapmappa kiválasztása a biztonsági mentési tárolóhoz"
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: src/ui/widget/dialog/setup/location.rs:415
 msgid "Invalid Remote Location"
 msgstr "Érvénytelen távoli hely"
 
-#: src/ui/widget/dialog/setup/location.ui:6
-msgid "Select Location"
-msgstr "Hely kiválasztása"
-
-#: src/ui/widget/dialog/setup/location.ui:22
-#: src/ui/widget/dialog/setup/location.ui:84
-msgid "Location"
-msgstr "Hely"
-
-#: src/ui/widget/dialog/setup/location.ui:26
-#: src/ui/widget/dialog/setup/location.ui:89
-msgid "Advanced Options"
-msgstr "Speciális beállítások"
+#: src/ui/widget/dialog/setup/location.ui:9
+#| msgid "Failed to Configure Repository"
+msgid "Configure Repository"
+msgstr "Tároló beállítása"
 
 #: src/ui/widget/dialog/setup/location.ui:34
-msgid "Repository Base Folder"
-msgstr "Tároló alapmappája"
-
-#: src/ui/widget/dialog/setup/location.ui:47
 msgid "Repository Name"
 msgstr "Tároló neve"
 
-#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2414,73 +2478,50 @@ msgstr ""
 "formátumúra. Vegye figyelembe, hogy az újraformázás törli az összes fájlt az "
 "adott helyről."
 
-#: src/ui/widget/dialog/setup/location.ui:100
+#: src/ui/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "Tároló URL-e"
 
-#: src/ui/widget/dialog/setup/location.ui:114
-msgid "Examples"
-msgstr "Példák"
-
-#: src/ui/widget/dialog/setup/location.ui:125
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://felhasznalo@server.example.org/~/backup\n"
-"smb://felhasznalo@server.example.org/files/backup"
-
-#: src/ui/widget/dialog/setup/location.ui:132
-msgid "Conventional Locations"
-msgstr "Szokásos helyek"
-
-#: src/ui/widget/dialog/setup/location.ui:144
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"Az SMB és SFTP távoli biztonsági mentési helyek URL-ként adhatók meg az "
-"„smb://” vagy „sftp://” protokollelőtaggal."
-
-#: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations With BorgBackup Support"
+#: src/ui/widget/dialog/setup/location.ui:117
+#| msgid "Locations With BorgBackup Support"
+msgid "Locations with BorgBackup Support"
 msgstr "BorgBackup támogatással rendelkező helyek"
 
-#: src/ui/widget/dialog/setup/location.ui:163
+#: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
+"Servers with borgbackup installed have the best performance. <a href=\"help:"
+"pika-backup/setup-remote\">More</a>"
 msgstr ""
-"A kifejezetten BorgBackup támogatással rendelkező helyek jobb teljesítményt "
-"biztosíthatnak. Abban különlegesek, hogy a kiszolgálón telepítve van a "
-"BorgBackup bináris. Ezeknél a helyeknél a „<kiszolgálócím>:<mappa>” "
-"szintaxis, vagy az „ssh://” előtag használható."
+"A borgbackup telepítéssel rendelkező kiszolgálóknak van a legjobb"
+" teljesítményük. <a href=\"help:"
+"pika-backup/setup-remote\">További információk</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:200
+#: src/ui/widget/dialog/setup/location.ui:147
+msgid "Network Shares"
+msgstr "Hálózati megosztások"
+
+#: src/ui/widget/dialog/setup/location.ui:159
+msgid ""
+"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+msgstr ""
+"GNOME Fájlok szintaxisának használata. <a"
+" href=\"help:pika-backup/setup-gvfs\">További információk</a>"
+
+#: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "_Kapcsolódás"
 
-#: src/ui/widget/dialog/setup/location.ui:216
-msgid "_Continue"
-msgstr "_Folytatás"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#: src/ui/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "Új tároló létrehozása"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:143
-msgid "Select a location for the new backup repository"
-msgstr "Hely kiválasztása az új biztonsági mentési tárolóhoz"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:147
-#: src/ui/widget/dialog/setup/repo_kind.ui:30
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "Meglévő tároló használata"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:149
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2488,20 +2529,21 @@ msgstr ""
 "Olyan hely kiválasztása, amely meglévő biztonsági mentési tárolót tartalmaz. "
 "Más BorgBackup kompatibilis szoftverrel létrehozott tárolók is használhatók."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:289
+#: src/ui/widget/dialog/setup/location_kind.rs:287
 msgid "Free space: {}"
 msgstr "Szabad hely: {}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:25
-#: src/ui/widget/dialog/setup/location_kind.ui:79
+#: src/ui/widget/dialog/setup/location_kind.ui:17
+#: src/ui/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "Lemezen lévő hely"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:16
-msgid "Configure a new or existing backup repository"
-msgstr "Új vagy meglévő biztonsági mentési tároló beállítása"
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+#| msgid "Creating Backup Repository"
+msgid "Set Up Backup Repository"
+msgstr "Biztonsági mentési tároló beállítása"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2511,7 +2553,7 @@ msgstr ""
 "beállításnál. Ugyanazon előtag két különböző eszközön történő használata nem "
 "javasolt, kivéve ha az új eszköz leváltja a régit."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "_Mentés"
 
@@ -2519,24 +2561,7 @@ msgstr "_Mentés"
 msgid "Transfer Settings"
 msgstr "Átviteli beállítások"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:19
-#: src/ui/widget/dialog/setup/transfer_settings.ui:50
-msgid "S_kip"
-msgstr "_Kihagyás"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:29
-msgid "Checking for Previous Configurations"
-msgstr "Korábbi beállítások ellenőrzése"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:30
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"Információk gyűjtése a korábban használt beállítások átviteléhez. Ez a lépés "
-"kihagyható."
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+#: src/ui/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -2544,6 +2569,10 @@ msgstr ""
 "A korábbi biztonsági mentésekhez használt beállítások egy halmaza "
 "kiválasztható ahhoz, hogy átvitelre kerüljön az új beállításba. A beállítás "
 "utána módosítható."
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+msgid "Skip"
+msgstr "Kihagyás"
 
 #: src/ui/widget/dialog/setup/types.rs:52
 msgid "Incomplete URL or borg syntax"
@@ -2557,7 +2586,7 @@ msgstr "A távoli helynek rendelkeznie kell egy megadott útvonallal."
 msgid "Invalid remote location: “{}”"
 msgstr "Érvénytelen távoli hely: „{}”"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:54
 msgid "Backup Location"
 msgstr "Biztonsági mentés helye"
 
@@ -2597,19 +2626,25 @@ msgstr "Összesen"
 msgid "Free"
 msgstr "Szabad"
 
-#: src/ui/widget/encryption_preferences_group.rs:84
-msgid "No Password Provided"
-msgstr "Nincs jelszó megadva"
+#: src/ui/widget/encryption_settings.rs:84
+#| msgid "Use Encryption"
+msgid "Use Encryption?"
+msgstr "Használjon titkosítást?"
 
-#: src/ui/widget/encryption_preferences_group.rs:85
-msgid "To use encryption a password must be provided."
-msgstr "A titkosítás használatához meg kell adnia egy jelszót."
+#: src/ui/widget/encryption_settings.rs:86
+msgid ""
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
+msgstr ""
+"A titkosítási jelszóhoz való hozzáférés elvesztése a biztonsági mentés összes"
+" adatának teljes elvesztéséhez vezet"
 
-#: src/ui/widget/encryption_preferences_group.rs:91
-msgid "Entered passwords do not match."
-msgstr "A megadott jelszavak nem egyeznek."
+#: src/ui/widget/encryption_settings.rs:91
+#: src/ui/widget/encryption_settings.ui:12
+msgid "Use Encryption"
+msgstr "Titkosítás használata"
 
-#: src/ui/widget/encryption_preferences_group.ui:4
+#: src/ui/widget/encryption_settings.rs:130
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -2617,33 +2652,89 @@ msgstr ""
 "A titkosított biztonsági mentésekben tárolt adatok jelszóval védettek. Ha "
 "titkosítást használ, akkor jelszó szükséges a biztonsági mentések eléréséhez."
 
-#: src/ui/widget/encryption_preferences_group.ui:5
-msgid "Encryption"
-msgstr "Titkosítás"
+#: src/ui/widget/encryption_settings.rs:138
+msgid "No Password Provided"
+msgstr "Nincs jelszó megadva"
 
-#: src/ui/widget/encryption_preferences_group.ui:8
-msgid "Use Encryption"
-msgstr "Titkosítás használata"
+#: src/ui/widget/encryption_settings.rs:139
+#| msgid "To use encryption a password must be provided."
+msgid "To use encryption a password must be provided"
+msgstr "A titkosítás használatához meg kell adnia egy jelszót"
 
-#: src/ui/widget/encryption_preferences_group.ui:17
-msgid "Encrypted"
-msgstr "Titkosított"
+#: src/ui/widget/encryption_settings.rs:146
+#| msgid "Invalid encryption password."
+msgid "Invalid Passwords"
+msgstr "Érvénytelen jelszavak"
 
-#: src/ui/widget/encryption_preferences_group.ui:24
-msgid "Unencrypted"
-msgstr "Titkosítatlan"
+#: src/ui/widget/encryption_settings.rs:147
+#| msgid "Entered passwords do not match."
+msgid "The passwords do not match"
+msgstr "A jelszavak nem egyeznek"
 
-#: src/ui/widget/encryption_preferences_group.ui:35
-msgid "New Encryption Password"
-msgstr "Új titkosítási jelszó"
+#. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+#: src/ui/widget/encryption_settings.rs:206
+#| msgid "Repeat Password"
+msgid "Enter a password"
+msgstr "Adjon meg egy jelszót"
 
-#: src/ui/widget/encryption_preferences_group.ui:43
+#. Translators: Password feedback: The second password is not the same as the first
+#: src/ui/widget/encryption_settings.rs:209
+#| msgid "Entered passwords do not match."
+msgid "Passwords do not match"
+msgstr "A jelszavak nem egyeznek"
+
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+#: src/ui/widget/encryption_settings.rs:217
+msgid "A single word is easy to guess"
+msgstr "Egyetlen szót könnyű kitalálni"
+
+#. Translators: Password feedback: Common name detected
+#: src/ui/widget/encryption_settings.rs:221
+msgid "Avoid names on their own"
+msgstr "Kerülje az önmagukban álló neveket"
+
+#. Translators: Password feedback: Date detected
+#: src/ui/widget/encryption_settings.rs:225
+msgid "Avoid dates on their own"
+msgstr "Kerülje az önmagukban álló dátumokat"
+
+#. Translators: Password feedback: Easy to guess sequence detected
+#: src/ui/widget/encryption_settings.rs:229
+msgid "Avoid sequences like “abc” or “6543”"
+msgstr "Kerülje az olyan sorozatokat, mint például „abc” vagy „6543”"
+
+#. Translators: Password feedback: Repeated keys or sequence detected
+#: src/ui/widget/encryption_settings.rs:233
+msgid "Avoid repetitions like “aaa” or “abcabc”"
+msgstr "Kerülje az olyan ismétléseket, mint például „aaa” vagy „abcabc”"
+
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+#: src/ui/widget/encryption_settings.rs:237
+msgid "Avoid keyboard patterns"
+msgstr "Kerülje a billentyűzetmintákat"
+
+#. Translators: Password feedback: Password was found in a list of common passwords
+#: src/ui/widget/encryption_settings.rs:243
+msgid "This is a very commonly used password"
+msgstr "Ez egy nagyon gyakran használt jelszó"
+
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
+#: src/ui/widget/encryption_settings.rs:247
+msgid "This is similar to a commonly used password"
+msgstr "Ez hasonló egy gyakran használt jelszóhoz"
+
+#: src/ui/widget/encryption_settings.rs:251
+msgid "Add a few more words"
+msgstr "Adjon hozzá még néhány szót"
+
+#. Translators: Password feedback: This password is looking pretty good
+#: src/ui/widget/encryption_settings.rs:254
+msgid "This looks like a strong password"
+msgstr "Ez egy erős jelszónak tűnik"
+
+#: src/ui/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "Jelszó ismétlése"
-
-#: src/ui/widget/folder_button.rs:148
-msgid "_Select Folder…"
-msgstr "Mappa ki_választása…"
 
 #: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
