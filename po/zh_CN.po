@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-07-30 17:01+0000\n"
-"PO-Revision-Date: 2024-07-31 20:01+0800\n"
+"POT-Creation-Date: 2024-09-09 13:14+0000\n"
+"PO-Revision-Date: 2024-09-10 10:41+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -105,7 +105,7 @@ msgstr "同时在本地驱动器和在线服务上保存备份"
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "从每月到每小时的计划常规备份"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "常规"
 
@@ -392,7 +392,7 @@ msgid "Info"
 msgstr "信息"
 
 #: src/borg/log_json.rs:475 src/ui/utils.rs:383
-#: src/ui/widget/dialog/setup/location.ui:58
+#: src/ui/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "警告"
 
@@ -627,8 +627,8 @@ msgstr "正则表达式"
 msgid "Unix Filename Pattern"
 msgstr "Unix 文件名模式"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
-#: src/ui/widget/dialog/setup/location_kind.ui:100
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:38
+#: src/ui/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "远程位置"
 
@@ -777,7 +777,7 @@ msgstr "如果现在中止程序备份将保持不完整状态"
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
-#: src/ui/widget/dialog/setup/add_existing.ui:69
+#: src/ui/widget/dialog/setup/encryption.rs:89
 msgid "Continue"
 msgstr "继续"
 
@@ -885,7 +885,7 @@ msgstr "正在停止备份"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "为计划备份产生接口失败。"
 
-#: src/ui/error.rs:102
+#: src/ui/error.rs:128
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -894,13 +894,17 @@ msgstr ""
 "钥匙串不可用。Pika 备份需要钥匙串守护程序（“secret service”）来存储密码。关于"
 "安装介绍请查阅操作系统文档。"
 
-#: src/ui/error.rs:126
+#: src/ui/error.rs:156
 msgid "Backup with id “{}” already exists."
 msgstr "ID 为“{}”的备份已存在。"
 
-#: src/ui/error.rs:131
+#: src/ui/error.rs:165
 msgid "Could not find backup configuration with id “{}”."
 msgstr "无法找到 ID 为“{}”的备份配置。"
+
+#: src/ui/error.rs:181
+msgid "Canceled"
+msgstr "已取消"
 
 #: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
@@ -986,7 +990,7 @@ msgstr "关闭"
 msgid "Additional command line arguments invalid"
 msgstr "附加的命令行参数无效"
 
-#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:273
 msgid "Please check for missing closing quotes."
 msgstr "请检查缺失的闭合引号。"
 
@@ -1041,6 +1045,9 @@ msgstr ""
 "备份数据！"
 
 #: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/preferences.rs:482
+#: src/ui/widget/dialog/setup/encryption.rs:88
+#: src/ui/widget/encryption_settings.rs:90
 msgid "Cancel"
 msgstr "取消"
 
@@ -1370,7 +1377,7 @@ msgstr "通常包含所有个人数据"
 msgid "Remove Directory"
 msgstr "移除目录"
 
-#: src/ui/widget/detail/backup/display.rs:109
+#: src/ui/widget/detail/backup/display.rs:111
 msgid "Edit Pattern"
 msgstr "编辑方案"
 
@@ -1466,7 +1473,7 @@ msgid "Backup Completed with Warnings"
 msgstr "备份完成但有警告"
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:339
+#: src/ui/widget/dialog/preferences.rs:338
 msgid "Error Running Shell Command"
 msgstr "运行 Shell 命令时发生错误"
 
@@ -1474,7 +1481,7 @@ msgstr "运行 Shell 命令时发生错误"
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "计划备份"
 
@@ -1763,13 +1770,14 @@ msgid "Support us on GitHub Sponsors"
 msgstr "在 GitHub 赞助者上支持我们"
 
 #: src/ui/widget/dialog/archive_prefix.rs:77
-#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:530
 msgid "Invalid Archive Prefix"
 msgstr "无效的归档文件前缀"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "归档文件前缀"
 
@@ -1915,12 +1923,12 @@ msgid ""
 msgstr "“{}”操作需要在“{}”的仓库的加密密码。"
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:44
+#: src/ui/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "需要加密密码"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
+#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -1929,8 +1937,7 @@ msgid "Co_ntinue"
 msgstr "继续(_N)"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:52
+#: src/ui/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "密码"
 
@@ -2003,26 +2010,42 @@ msgstr ""
 "href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
 "html\">BorgBackup 文档</a>。"
 
-#: src/ui/widget/dialog/preferences.rs:207
+#: src/ui/widget/dialog/preferences.rs:213
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr "该备份配置的标题。留空时将会显示为“{}”。"
 
-#: src/ui/widget/dialog/preferences.rs:273
+#: src/ui/widget/dialog/preferences.rs:272
 msgid "Shell command invalid"
 msgstr "Shell 命令无效"
 
-#: src/ui/widget/dialog/preferences.rs:459
+#: src/ui/widget/dialog/preferences.rs:477
+msgid "Remove Password?"
+msgstr "移除密码吗？"
+
+#: src/ui/widget/dialog/preferences.rs:478
+#: src/ui/widget/dialog/setup/encryption.rs:84
+msgid ""
+"When encryption is not used, everyone with access to the backup files can "
+"read all data"
+msgstr "如果不使用加密，所有可访问备份文件的人都可以读取所有数据"
+
+#: src/ui/widget/dialog/preferences.rs:483
+msgid "Remove Password"
+msgstr "移除密码"
+
+#: src/ui/widget/dialog/preferences.rs:506
 msgid "Change Encryption Password Error"
 msgstr "更改加密密码出错"
 
-#: src/ui/widget/dialog/preferences.rs:466
+#: src/ui/widget/dialog/preferences.rs:513
 msgid "Password changed successfully"
 msgstr "密码已成功修改"
 
 #: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:37
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "更改加密密码"
 
@@ -2030,66 +2053,71 @@ msgstr "更改加密密码"
 msgid "_Change Password"
 msgstr "更改密码(_C)"
 
-#: src/ui/widget/dialog/preferences.ui:84
+#: src/ui/widget/dialog/preferences.ui:70
+msgid "_Remove Password"
+msgstr "移除密码(_R)"
+
+#: src/ui/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "正在更改加密密码"
 
-#: src/ui/widget/dialog/preferences.ui:119
-#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "标题"
 
-#: src/ui/widget/dialog/preferences.ui:130
+#: src/ui/widget/dialog/preferences.ui:142
+#: src/ui/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "加密密码"
 
-#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "该备份仓库的加密密码"
 
-#: src/ui/widget/dialog/preferences.ui:146
+#: src/ui/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "使用电池时运行"
 
-#: src/ui/widget/dialog/preferences.ui:147
+#: src/ui/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr "当设备由电池供电时允许计划备份"
 
-#: src/ui/widget/dialog/preferences.ui:155
-#: src/ui/widget/dialog/setup/location.ui:174
+#: src/ui/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "附加命令行参数"
 
-#: src/ui/widget/dialog/preferences.ui:156
-#: src/ui/widget/dialog/setup/location.ui:175
+#: src/ui/widget/dialog/preferences.ui:168
+#: src/ui/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
 msgstr "这些参数将添加到 Borg 程序的调用中。只支持以“--”开头的长选项。"
 
-#: src/ui/widget/dialog/preferences.ui:159
-#: src/ui/widget/dialog/setup/location.ui:179
+#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/setup/advanced_options.ui:9
+#: src/ui/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "命令行参数"
 
-#: src/ui/widget/dialog/preferences.ui:170
+#: src/ui/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "Shell 命令"
 
-#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr "这些 bash shell 命令将在特定备份事件上调用"
 
-#: src/ui/widget/dialog/preferences.ui:184
+#: src/ui/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "预备份 Shell 命令"
 
-#: src/ui/widget/dialog/preferences.ui:191
-#: src/ui/widget/dialog/preferences.ui:212
+#: src/ui/widget/dialog/preferences.ui:203
+#: src/ui/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "带测试值运行"
 
-#: src/ui/widget/dialog/preferences.ui:205
+#: src/ui/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "备份后 Shell 命令"
 
@@ -2165,29 +2193,41 @@ msgstr "带有不同前缀的归档文件"
 msgid "Apply"
 msgstr "应用"
 
-#: src/ui/widget/dialog/setup.rs:158
+#: src/ui/widget/dialog/setup.rs:149
+msgid "Abort Setup?"
+msgstr "中止部署吗？"
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "Aborting now will cause the repository to not be added"
+msgstr "现在中止将导致无法添加该仓库"
+
+#. Translators: Announced to accessibility devices when setup dialog has finished
+#: src/ui/widget/dialog/setup.rs:181
+msgid "Backup Repository Added Successfully"
+msgstr "备份仓库已添加成功"
+
+#: src/ui/widget/dialog/setup.rs:206
 msgid "Setup Existing Repository"
 msgstr "部署现有仓库"
 
-#: src/ui/widget/dialog/setup.rs:168
+#: src/ui/widget/dialog/setup.rs:216
 msgid "Location is not a valid backup repository."
 msgstr "该位置不是有效的备份仓库。"
 
-#: src/ui/widget/dialog/setup.rs:170
+#: src/ui/widget/dialog/setup.rs:218
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr "仓库必须来自 Pika 备份或者兼容的软件。"
 
-#: src/ui/widget/dialog/setup.rs:352
+#: src/ui/widget/dialog/setup.rs:436
 msgid "Failed to Configure Repository"
 msgstr "配置仓库失败"
 
-#: src/ui/widget/dialog/setup.rs:363
+#: src/ui/widget/dialog/setup.rs:480
 msgid "Failed"
 msgstr "失败"
 
 #: src/ui/widget/dialog/setup.ui:6
 #: src/ui/widget/dialog/setup/location_kind.ui:6
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "部署"
 
@@ -2199,80 +2239,91 @@ msgstr "未找到仓库位置。"
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "挂载操作已成功但位置仍不可用。"
 
-#: src/ui/widget/dialog/setup/actions.rs:113
+#: src/ui/widget/dialog/setup/actions.rs:106
+msgid "Invalid Password"
+msgstr "无效密码"
+
+#: src/ui/widget/dialog/setup/actions.rs:131
 msgid "Loading Backup Repository"
 msgstr "正在载入备份仓库"
 
-#: src/ui/widget/dialog/setup/actions.rs:194
+#: src/ui/widget/dialog/setup/actions.rs:212
 #: src/ui/widget/dialog/setup/create_new.ui:6
-#: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "正在创建备份仓库"
 
-#: src/ui/widget/dialog/setup/actions.rs:203
+#: src/ui/widget/dialog/setup/actions.rs:221
 msgid "Getting Repository Information"
 msgstr "正在获取仓库信息"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:20
+#: src/ui/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "检查备份仓库"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:45
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr "需要该备份仓库的加密密码来访问它。"
+#: src/ui/widget/dialog/setup/advanced_options.ui:6
+#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:192
+msgid "Advanced Options"
+msgstr "高级选项"
+
+#: src/ui/widget/dialog/setup/ask_password.ui:23
+#: src/ui/widget/dialog/setup/location.ui:231
+msgid "_Continue"
+msgstr "继续(_C)"
+
+#: src/ui/widget/dialog/setup/encryption.rs:83
+msgid "Continue Unencrypted?"
+msgstr "不加密继续吗？"
 
 #: src/ui/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "设置加密"
 
-#: src/ui/widget/dialog/setup/encryption.ui:32
+#: src/ui/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "创建(_C)"
 
-#: src/ui/widget/dialog/setup/location.rs:194
+#: src/ui/widget/dialog/setup/location.rs:217
+msgid "Repository Folder"
+msgstr "仓库文件夹"
+
+#: src/ui/widget/dialog/setup/location.rs:229
+msgid "Choose Repository Folder"
+msgstr "选择仓库文件夹"
+
+#: src/ui/widget/dialog/setup/location.rs:241
+msgid "Additional command line arguments"
+msgstr "附加命令行参数"
+
+#: src/ui/widget/dialog/setup/location.rs:390
 msgid "Repository Name Empty"
 msgstr "仓库名称空白"
 
-#: src/ui/widget/dialog/setup/location.rs:195
+#: src/ui/widget/dialog/setup/location.rs:391
 msgid "The repository folder name must be set"
 msgstr "必须设置仓库文件夹名称"
 
-#: src/ui/widget/dialog/setup/location.rs:206
+#: src/ui/widget/dialog/setup/location.rs:403
 msgid "No Base Folder Selected"
 msgstr "未选择基础文件夹"
 
-#: src/ui/widget/dialog/setup/location.rs:207
+#: src/ui/widget/dialog/setup/location.rs:404
 msgid "Select a base folder for the backup repository"
 msgstr "为该备份仓库选择基础文件夹"
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: src/ui/widget/dialog/setup/location.rs:415
 msgid "Invalid Remote Location"
 msgstr "无效的远程位置"
 
-#: src/ui/widget/dialog/setup/location.ui:6
-msgid "Select Location"
-msgstr "选择位置"
-
-#: src/ui/widget/dialog/setup/location.ui:22
-#: src/ui/widget/dialog/setup/location.ui:84
-msgid "Location"
-msgstr "位置"
-
-#: src/ui/widget/dialog/setup/location.ui:26
-#: src/ui/widget/dialog/setup/location.ui:89
-msgid "Advanced Options"
-msgstr "高级选项"
+#: src/ui/widget/dialog/setup/location.ui:9
+msgid "Configure Repository"
+msgstr "配置仓库"
 
 #: src/ui/widget/dialog/setup/location.ui:34
-msgid "Repository Base Folder"
-msgstr "仓库基础文件夹"
-
-#: src/ui/widget/dialog/setup/location.ui:47
 msgid "Repository Name"
 msgstr "仓库名称"
 
-#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2283,71 +2334,47 @@ msgstr ""
 "以，以“NTFS”或“Ext4”之类的格式重新格式化该备份位置。注意重新格式化会完全删除"
 "位置上的文件！"
 
-#: src/ui/widget/dialog/setup/location.ui:100
+#: src/ui/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "仓库 URL"
 
-#: src/ui/widget/dialog/setup/location.ui:114
-msgid "Examples"
-msgstr "示例"
-
-#: src/ui/widget/dialog/setup/location.ui:125
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-
-#: src/ui/widget/dialog/setup/location.ui:132
-msgid "Conventional Locations"
-msgstr "常规位置"
-
-#: src/ui/widget/dialog/setup/location.ui:144
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"SMB 和 SFTP 远程备份位置可由带有“smb://”或“sftp://”协议前缀的网址提供。"
-
-#: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations With BorgBackup Support"
+#: src/ui/widget/dialog/setup/location.ui:117
+msgid "Locations with BorgBackup Support"
 msgstr "支持 BorgBackup 的位置"
 
-#: src/ui/widget/dialog/setup/location.ui:163
+#: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
+"Servers with borgbackup installed have the best performance. <a href=\"help:"
+"pika-backup/setup-remote\">More</a>"
 msgstr ""
-"明确支持 BorgBackup 的位置可以提供更好性能。它们比较特殊因为服务器需要安装 "
-"BorgBackup 程序。对于这些位置，可以使用“<server address>:<folder>”语法"
-"或“ssh://”前缀。"
+"安装了 borgbackup 的服务器会具有最佳性能。<a href=\"help:pika-backup/setup-"
+"remote\">了解更多</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:200
+#: src/ui/widget/dialog/setup/location.ui:147
+msgid "Network Shares"
+msgstr "网络共享"
+
+#: src/ui/widget/dialog/setup/location.ui:159
+msgid ""
+"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+msgstr ""
+"使用 GNOME 文件语法。<a href=\"help:pika-backup/setup-gvfs\">了解更多</a>"
+
+#: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "连接(_C)"
 
-#: src/ui/widget/dialog/setup/location.ui:216
-msgid "_Continue"
-msgstr "继续(_C)"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#: src/ui/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "创建新仓库"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:143
-msgid "Select a location for the new backup repository"
-msgstr "为新的备份仓库选择位置"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:147
-#: src/ui/widget/dialog/setup/repo_kind.ui:30
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "使用现有仓库"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:149
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2355,20 +2382,20 @@ msgstr ""
 "选择包含现有备份仓库的位置。通过其它 BorgBackup 兼容软件创建的仓库同样可以使"
 "用。"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:289
+#: src/ui/widget/dialog/setup/location_kind.rs:287
 msgid "Free space: {}"
 msgstr "空闲空间：{}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:25
-#: src/ui/widget/dialog/setup/location_kind.ui:79
+#: src/ui/widget/dialog/setup/location_kind.ui:17
+#: src/ui/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "磁盘上的位置"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:16
-msgid "Configure a new or existing backup repository"
-msgstr "配置新的或现有备份仓库"
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+msgid "Set Up Backup Repository"
+msgstr "部署备份仓库"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2377,7 +2404,7 @@ msgstr ""
 "归档文件前缀必须对每个备份配置是独一无二的。除非是新设备替换旧设备否则不鼓励"
 "在两个设备上使用相同前缀。"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "保存(_S)"
 
@@ -2385,27 +2412,16 @@ msgstr "保存(_S)"
 msgid "Transfer Settings"
 msgstr "迁移设置"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:19
-#: src/ui/widget/dialog/setup/transfer_settings.ui:50
-msgid "S_kip"
-msgstr "跳过(_K)"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:29
-msgid "Checking for Previous Configurations"
-msgstr "检查先前配置"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:30
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr "收集信息来传输上次使用的设置。该步骤是可选的。"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+#: src/ui/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
 "可以选择用于先前备份的配置并将其迁移到新的部署。随后可以对配置进行调整。"
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+msgid "Skip"
+msgstr "跳过"
 
 #: src/ui/widget/dialog/setup/types.rs:52
 msgid "Incomplete URL or borg syntax"
@@ -2419,7 +2435,7 @@ msgstr "远程位置必须具有特定路径。"
 msgid "Invalid remote location: “{}”"
 msgstr "无效的远程位置：“{}”"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:54
 msgid "Backup Location"
 msgstr "备份位置"
 
@@ -2459,51 +2475,105 @@ msgstr "总容量"
 msgid "Free"
 msgstr "空闲"
 
-#: src/ui/widget/encryption_preferences_group.rs:84
-msgid "No Password Provided"
-msgstr "未提供密码"
+#: src/ui/widget/encryption_settings.rs:84
+msgid "Use Encryption?"
+msgstr "使用加密吗？"
 
-#: src/ui/widget/encryption_preferences_group.rs:85
-msgid "To use encryption a password must be provided."
-msgstr "要使用加密必须提供密码。"
+#: src/ui/widget/encryption_settings.rs:86
+msgid ""
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
+msgstr "丢失加密密码将导致所有备份数据的完全丢失"
 
-#: src/ui/widget/encryption_preferences_group.rs:91
-msgid "Entered passwords do not match."
-msgstr "输入的密码不匹配。"
+#: src/ui/widget/encryption_settings.rs:91
+#: src/ui/widget/encryption_settings.ui:12
+msgid "Use Encryption"
+msgstr "使用加密"
 
-#: src/ui/widget/encryption_preferences_group.ui:4
+#: src/ui/widget/encryption_settings.rs:130
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
 msgstr "加密备份中储存的数据受密码保护。如果使用了加密，则访问备份需要密码。"
 
-#: src/ui/widget/encryption_preferences_group.ui:5
-msgid "Encryption"
-msgstr "加密"
+#: src/ui/widget/encryption_settings.rs:138
+msgid "No Password Provided"
+msgstr "未提供密码"
 
-#: src/ui/widget/encryption_preferences_group.ui:8
-msgid "Use Encryption"
-msgstr "使用加密"
+#: src/ui/widget/encryption_settings.rs:139
+msgid "To use encryption a password must be provided"
+msgstr "要使用加密必须提供密码"
 
-#: src/ui/widget/encryption_preferences_group.ui:17
-msgid "Encrypted"
-msgstr "已加密"
+#: src/ui/widget/encryption_settings.rs:146
+msgid "Invalid Passwords"
+msgstr "无效密码"
 
-#: src/ui/widget/encryption_preferences_group.ui:24
-msgid "Unencrypted"
-msgstr "未加密"
+#: src/ui/widget/encryption_settings.rs:147
+msgid "The passwords do not match"
+msgstr "密码不匹配"
 
-#: src/ui/widget/encryption_preferences_group.ui:35
-msgid "New Encryption Password"
-msgstr "新加密密码"
+#. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+#: src/ui/widget/encryption_settings.rs:206
+msgid "Enter a password"
+msgstr "输入密码"
 
-#: src/ui/widget/encryption_preferences_group.ui:43
+#. Translators: Password feedback: The second password is not the same as the first
+#: src/ui/widget/encryption_settings.rs:209
+msgid "Passwords do not match"
+msgstr "密码不匹配"
+
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+#: src/ui/widget/encryption_settings.rs:217
+msgid "A single word is easy to guess"
+msgstr "独立单词很容易被猜到"
+
+#. Translators: Password feedback: Common name detected
+#: src/ui/widget/encryption_settings.rs:221
+msgid "Avoid names on their own"
+msgstr "请避免使用单独的名称"
+
+#. Translators: Password feedback: Date detected
+#: src/ui/widget/encryption_settings.rs:225
+msgid "Avoid dates on their own"
+msgstr "请避免使用单独的日期"
+
+#. Translators: Password feedback: Easy to guess sequence detected
+#: src/ui/widget/encryption_settings.rs:229
+msgid "Avoid sequences like “abc” or “6543”"
+msgstr "请避免使用规律序列如“abc”或“6543”"
+
+#. Translators: Password feedback: Repeated keys or sequence detected
+#: src/ui/widget/encryption_settings.rs:233
+msgid "Avoid repetitions like “aaa” or “abcabc”"
+msgstr "请避免使用重复序列如“aaa”或“abcabc”"
+
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+#: src/ui/widget/encryption_settings.rs:237
+msgid "Avoid keyboard patterns"
+msgstr "请避免使用键盘模式序列"
+
+#. Translators: Password feedback: Password was found in a list of common passwords
+#: src/ui/widget/encryption_settings.rs:243
+msgid "This is a very commonly used password"
+msgstr "这是非常常用的密码"
+
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
+#: src/ui/widget/encryption_settings.rs:247
+msgid "This is similar to a commonly used password"
+msgstr "这是与常用密码相似的密码"
+
+#: src/ui/widget/encryption_settings.rs:251
+msgid "Add a few more words"
+msgstr "请多添加几个单词"
+
+#. Translators: Password feedback: This password is looking pretty good
+#: src/ui/widget/encryption_settings.rs:254
+msgid "This looks like a strong password"
+msgstr "这个看起来是一个安全的密码"
+
+#: src/ui/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "重复该密码"
-
-#: src/ui/widget/folder_button.rs:148
-msgid "_Select Folder…"
-msgstr "选择文件夹(_S)…"
 
 #: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
@@ -2552,6 +2622,75 @@ msgstr "部署备份(_S)"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "无此文件或目录"
+
+#~ msgid ""
+#~ "The encryption password of this backup repository is required to access "
+#~ "it."
+#~ msgstr "需要该备份仓库的加密密码来访问它。"
+
+#~ msgid "Select Location"
+#~ msgstr "选择位置"
+
+#~ msgid "Location"
+#~ msgstr "位置"
+
+#~ msgid "Examples"
+#~ msgstr "示例"
+
+#~ msgid ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+#~ msgstr ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+
+#~ msgid "Conventional Locations"
+#~ msgstr "常规位置"
+
+#~ msgid ""
+#~ "SMB and SFTP remote-backup locations can be provided as a URL with the "
+#~ "“smb://” or “sftp://” protocol prefix."
+#~ msgstr ""
+#~ "SMB 和 SFTP 远程备份位置可由带有“smb://”或“sftp://”协议前缀的网址提供。"
+
+#~ msgid ""
+#~ "Locations with explicit BorgBackup support can provide better "
+#~ "performance. They are special in that the server has a BorgBackup binary "
+#~ "installed. For those locations, either the “<server address>:<folder>” "
+#~ "syntax or the “ssh://” prefix can be used."
+#~ msgstr ""
+#~ "明确支持 BorgBackup 的位置可以提供更好性能。它们比较特殊因为服务器需要安"
+#~ "装 BorgBackup 程序。对于这些位置，可以使用“<server address>:<folder>”语法"
+#~ "或“ssh://”前缀。"
+
+#~ msgid "Select a location for the new backup repository"
+#~ msgstr "为新的备份仓库选择位置"
+
+#~ msgid "Configure a new or existing backup repository"
+#~ msgstr "配置新的或现有备份仓库"
+
+#~ msgid "S_kip"
+#~ msgstr "跳过(_K)"
+
+#~ msgid "Checking for Previous Configurations"
+#~ msgstr "检查先前配置"
+
+#~ msgid ""
+#~ "Collecting information to transfer previously used settings. This step is "
+#~ "optional."
+#~ msgstr "收集信息来传输上次使用的设置。该步骤是可选的。"
+
+#~ msgid "Encryption"
+#~ msgstr "加密"
+
+#~ msgid "Encrypted"
+#~ msgstr "已加密"
+
+#~ msgid "New Encryption Password"
+#~ msgstr "新加密密码"
+
+#~ msgid "_Select Folder…"
+#~ msgstr "选择文件夹(_S)…"
 
 #~ msgid "Abort running backup creation?"
 #~ msgstr "中止备份创建的运行？"
@@ -2849,9 +2988,6 @@ msgstr "无此文件或目录"
 
 #~ msgid "Server"
 #~ msgstr "服务器"
-
-#~ msgid "Store Password"
-#~ msgstr "存储密码"
 
 #~ msgid ""
 #~ "Your borg-backup version seems to be smaller then "
