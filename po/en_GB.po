@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-03-06 15:19+0000\n"
-"PO-Revision-Date: 2024-03-08 10:50+0000\n"
+"POT-Creation-Date: 2024-09-03 21:49+0000\n"
+"PO-Revision-Date: 2024-09-04 12:40+0100\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: English - United Kingdom <en@li.org>\n"
 "Language: en_GB\n"
@@ -52,7 +52,7 @@ msgstr "archive;back-up;borg;"
 msgid "Small Mammal Collective"
 msgstr "Small Mammal Collective"
 
-#: data/app.metainfo.xml.in:28
+#: data/app.metainfo.xml.in:29
 msgid ""
 "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
 "rest for you."
@@ -60,15 +60,15 @@ msgstr ""
 "Doing backups the easy way. Plug in your USB drive and let the Pika do the "
 "rest for you."
 
-#: data/app.metainfo.xml.in:32
+#: data/app.metainfo.xml.in:33
 msgid "Create backups locally and remotely"
 msgstr "Create backups locally and remotely"
 
-#: data/app.metainfo.xml.in:33
+#: data/app.metainfo.xml.in:34
 msgid "Set a schedule for regular backups"
 msgstr "Set a schedule for regular backups"
 
-#: data/app.metainfo.xml.in:34
+#: data/app.metainfo.xml.in:35
 msgid ""
 "Save time and disk space because Pika Backup does not need to copy known "
 "data again"
@@ -76,19 +76,19 @@ msgstr ""
 "Save time and disk space because Pika Backup does not need to copy known "
 "data again"
 
-#: data/app.metainfo.xml.in:35
+#: data/app.metainfo.xml.in:36
 msgid "Encrypt your backups"
 msgstr "Encrypt your backups"
 
-#: data/app.metainfo.xml.in:36
+#: data/app.metainfo.xml.in:37
 msgid "List created archives and browse through their contents"
 msgstr "List created archives and browse through their contents"
 
-#: data/app.metainfo.xml.in:37
+#: data/app.metainfo.xml.in:38
 msgid "Recover files or folders via your file browser"
 msgstr "Recover files or folders via your file browser"
 
-#: data/app.metainfo.xml.in:39
+#: data/app.metainfo.xml.in:40
 msgid ""
 "Pika Backup is designed to save your personal data and does not support "
 "complete system recovery. Pika Backup is powered by the well-tested "
@@ -98,15 +98,15 @@ msgstr ""
 "complete system recovery. Pika Backup is powered by the well-tested "
 "BorgBackup software."
 
-#: data/app.metainfo.xml.in:64
+#: data/app.metainfo.xml.in:65
 msgid "Just activate “Back Up Now” and your data will be saved"
 msgstr "Just activate “Back Up Now” and your data will be saved"
 
-#: data/app.metainfo.xml.in:68
+#: data/app.metainfo.xml.in:69
 msgid "Keep backups on local drives and at online services at the same time"
 msgstr "Keep backups on local drives and at online services at the same time"
 
-#: data/app.metainfo.xml.in:72
+#: data/app.metainfo.xml.in:73
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "Schedule regular backups from monthly up to hourly"
 
@@ -197,7 +197,7 @@ msgstr "Unable to access backup repository: {}"
 msgid "Connection closed by remote host."
 msgstr "Connection closed by remote host."
 
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:262
+#: src/borg/error.rs:240 src/ui/utils/borg.rs:253
 msgid "Repository already in use."
 msgstr "Repository already in use."
 
@@ -645,7 +645,7 @@ msgstr "Regular Expression"
 msgid "Unix Filename Pattern"
 msgstr "Unix Filename Pattern"
 
-#: src/config/repository.rs:172 src/ui/dialog_setup.ui:65
+#: src/config/repository.rs:176 src/ui/dialog_setup.ui:65
 #: src/ui/dialog_setup.ui:119
 msgid "Remote Location"
 msgstr "Remote Location"
@@ -783,35 +783,43 @@ msgstr "Pika Backup cannot be quit during a backup operation."
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Failed to run “borg”. Is BorgBackup installed correctly?"
 
-#: src/ui.rs:258
-msgid "BorgBackup version too old"
-msgstr "BorgBackup version too old"
+#: src/ui.rs:262
+#| msgid "BorgBackup version too old"
+msgid "BorgBackup Version Too Old"
+msgstr "BorgBackup Version Too Old"
 
-#: src/ui.rs:260
+#: src/ui.rs:264
+#| msgid ""
+#| "The installed version {} of BorgBackup is too old. Some features "
+#| "requiring borg-backup version {}.{}.{} will not work."
 msgid ""
-"The installed version {} of BorgBackup is too old. Some features requiring "
-"borg-backup version {}.{}.{} will not work."
+"The installed version {} of BorgBackup is older than the required version "
+"{}. This is unsupported."
 msgstr ""
-"The installed version {} of BorgBackup is too old. Some features requiring "
-"borg-backup version {}.{}.{} will not work."
-
-#: src/ui.rs:271
-msgid "BorgBackup version too new"
-msgstr "BorgBackup version too new"
+"The installed version {} of BorgBackup is older than the required version "
+"{}. This is unsupported."
 
 #: src/ui.rs:273
-msgid ""
-"The installed version {} of BorgBackup is too new. Version {}.{} is "
-"recommended. Some features might not work as expected."
-msgstr ""
-"The installed version {} of BorgBackup is too new. Version {}.{} is "
-"recommended. Some features might not work as expected."
+#| msgid "BorgBackup version too new"
+msgid "BorgBackup Version Too New"
+msgstr "BorgBackup Version Too New"
 
-#: src/ui.rs:283
+#: src/ui.rs:275
+#| msgid ""
+#| "The installed version {} of BorgBackup is too new. Version {}.{} is "
+#| "recommended. Some features might not work as expected."
+msgid ""
+"The installed version {} of BorgBackup is new and untested. Version {} is "
+"recommended."
+msgstr ""
+"The installed version {} of BorgBackup is new and untested. Version {} is "
+"recommended."
+
+#: src/ui.rs:284
 msgid "Failed to Check BorgBackup Version"
 msgstr "Failed to Check BorgBackup Version"
 
-#: src/ui.rs:285
+#: src/ui.rs:286
 msgid "The installed version {} might not work."
 msgstr "The installed version {} might not work."
 
@@ -1001,79 +1009,79 @@ msgstr "Preferred Weekday"
 msgid "Preferred Day of Month"
 msgstr "Preferred Day of Month"
 
-#: src/ui/app_window.ui:710 src/ui/dialog_prune.rs:95
+#: src/ui/app_window.ui:709 src/ui/dialog_prune.rs:95
 msgid "Delete old Archives"
 msgstr "Delete old Archives"
 
-#: src/ui/app_window.ui:716
+#: src/ui/app_window.ui:715
 msgid "Save Configuration"
 msgstr "Save Configuration"
 
-#: src/ui/app_window.ui:728
+#: src/ui/app_window.ui:727
 msgid "Regularly Cleanup Archives"
 msgstr "Regularly Cleanup Archives"
 
-#: src/ui/app_window.ui:729
+#: src/ui/app_window.ui:728
 msgid "Remove old archives after creating new backups"
 msgstr "Remove old archives after creating new backups"
 
-#: src/ui/app_window.ui:739
+#: src/ui/app_window.ui:738
 msgid "Preserved Archives"
 msgstr "Preserved Archives"
 
-#: src/ui/app_window.ui:740
+#: src/ui/app_window.ui:739
 msgid "Amount and time span of retained archives"
 msgstr "Amount and time span of retained archives"
 
-#: src/ui/app_window.ui:749
+#: src/ui/app_window.ui:748
 msgid "Details"
 msgstr "Details"
 
-#: src/ui/app_window.ui:753
+#: src/ui/app_window.ui:752
 msgid "Keep Hourly"
 msgstr "Keep Hourly"
 
-#: src/ui/app_window.ui:769
+#: src/ui/app_window.ui:767
 msgid "Keep Daily"
 msgstr "Keep Daily"
 
-#: src/ui/app_window.ui:785
+#: src/ui/app_window.ui:782
 msgid "Keep Weekly"
 msgstr "Keep Weekly"
 
-#: src/ui/app_window.ui:800
+#: src/ui/app_window.ui:796
 msgid "Keep Monthly"
 msgstr "Keep Monthly"
 
-#: src/ui/app_window.ui:814
+#: src/ui/app_window.ui:809
 msgid "Keep Annual"
 msgstr "Keep Annual"
 
-#: src/ui/app_window.ui:857
+#: src/ui/app_window.ui:851
 msgid "Backup Info"
 msgstr "Backup Info"
 
-#: src/ui/app_window.ui:920
+#: src/ui/app_window.ui:914
 msgid "Amount saved"
 msgstr "Amount saved"
 
-#: src/ui/app_window.ui:921
+#: src/ui/app_window.ui:915
 msgid "Size of all files"
 msgstr "Size of all files"
 
-#: src/ui/app_window.ui:937
+#: src/ui/app_window.ui:931
 msgid "Number of files saved"
 msgstr "Number of files saved"
 
-#: src/ui/app_window.ui:953
+#: src/ui/app_window.ui:947
 msgid "Backup space used"
 msgstr "Backup space used"
 
-#: src/ui/app_window.ui:954
+#: src/ui/app_window.ui:948
 msgid "Newly used space in this backup"
 msgstr "Newly used space in this backup"
 
-#: src/ui/app_window.ui:970
+#: src/ui/app_window.ui:964
 msgid "Current file"
 msgstr "Current file"
 
@@ -1253,7 +1261,7 @@ msgstr "Archive Prefix"
 #: src/ui/dialog_exclude_pattern.ui:29 src/ui/dialog_prune.ui:30
 #: src/ui/dialog_prune.ui:60 src/ui/dialog_prune_review.ui:30
 #: src/ui/dialog_prune_review.ui:60 src/ui/page_backup/events.rs:189
-#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:266
+#: src/ui/page_overview.rs:52 src/ui/utils/borg.rs:257
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -1506,7 +1514,7 @@ msgstr "Shell command invalid"
 msgid "Please check for missing closing quotes."
 msgstr "Please check for missing closing quotes."
 
-#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:202
+#: src/ui/dialog_preferences.rs:345 src/ui/page_backup/execution.rs:212
 msgid "Error Running Shell Command"
 msgstr "Error Running Shell Command"
 
@@ -2109,11 +2117,11 @@ msgstr "Delete old Archives Failed"
 msgid "Reclaiming Free Space Failed"
 msgstr "Reclaiming Free Space Failed"
 
-#: src/ui/page_backup/execution.rs:129
+#: src/ui/page_backup/execution.rs:137
 msgid "Backup Failed"
 msgstr "Backup Failed"
 
-#: src/ui/page_backup/execution.rs:155
+#: src/ui/page_backup/execution.rs:163
 msgid "Backup Completed with Warnings"
 msgstr "Backup Completed with Warnings"
 
@@ -2141,23 +2149,23 @@ msgstr "Invalid weekday."
 msgid "No frequency selected."
 msgstr "No frequency selected."
 
-#: src/ui/page_schedule/event.rs:248
+#: src/ui/page_schedule/event.rs:255
 msgid "Disable backup schedule?"
 msgstr "Disable backup schedule?"
 
-#: src/ui/page_schedule/event.rs:249
+#: src/ui/page_schedule/event.rs:256
 msgid "No longer remind of backups based on a schedule."
 msgstr "No longer remind of backups based on a schedule."
 
-#: src/ui/page_schedule/event.rs:250
+#: src/ui/page_schedule/event.rs:257
 msgid "Keep Schedule"
 msgstr "Keep Schedule"
 
-#: src/ui/page_schedule/event.rs:251
+#: src/ui/page_schedule/event.rs:258
 msgid "Disable Schedule"
 msgstr "Disable Schedule"
 
-#: src/ui/page_schedule/event.rs:316
+#: src/ui/page_schedule/event.rs:323
 msgid "No preset selected."
 msgstr "No preset selected."
 
@@ -2384,11 +2392,11 @@ msgstr ""
 msgid "Start Operation"
 msgstr "Start Operation"
 
-#: src/ui/utils/borg.rs:146 src/ui/utils/borg.rs:285
+#: src/ui/utils/borg.rs:146 src/ui/utils/borg.rs:276
 msgid "Failed to unmount repository."
 msgstr "Failed to unmount repository."
 
-#: src/ui/utils/borg.rs:263
+#: src/ui/utils/borg.rs:254
 msgid ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
@@ -2396,7 +2404,7 @@ msgstr ""
 "The backup repository is marked as already in use. This information can be "
 "outdated if, for example, the computer lost power while using the repository."
 
-#: src/ui/utils/borg.rs:265
+#: src/ui/utils/borg.rs:256
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -2406,19 +2414,19 @@ msgstr ""
 "program! Continuing while another program uses the repository might corrupt "
 "backup data!"
 
-#: src/ui/utils/borg.rs:267
+#: src/ui/utils/borg.rs:258
 msgid "Continue Anyway"
 msgstr "Continue Anyway"
 
-#: src/ui/utils/borg.rs:358 src/ui/utils/borg.rs:378
+#: src/ui/utils/borg.rs:349 src/ui/utils/borg.rs:369
 msgid "Unable to Eject Backup Disk"
 msgstr "Unable to Eject Backup Disk"
 
-#: src/ui/utils/borg.rs:367
+#: src/ui/utils/borg.rs:358
 msgid "{} can be safely unplugged."
 msgstr "{} can be safely unplugged."
 
-#: src/ui/utils/borg.rs:379
+#: src/ui/utils/borg.rs:370
 msgid "{} can't be ejected."
 msgstr "{} can't be ejected."
 
