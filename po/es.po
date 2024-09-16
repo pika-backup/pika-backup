@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-08-19 13:27+0000\n"
-"PO-Revision-Date: 2024-08-30 16:57+0200\n"
+"POT-Creation-Date: 2024-09-11 10:01+0000\n"
+"PO-Revision-Date: 2024-09-15 19:34+0200\n"
 "Last-Translator: Julián Villodre <jvillodrede@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "Programe respaldos regulares, desde cada mes hasta cada hora"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "General"
 
@@ -403,7 +403,7 @@ msgid ""
 msgstr ""
 "{}\n"
 "\n"
-"Desea continuar?"
+"¿Quiere continuar?"
 
 #: src/borg/log_json.rs:324
 msgid "Standard error output"
@@ -418,7 +418,7 @@ msgid "Info"
 msgstr "Info"
 
 #: src/borg/log_json.rs:475 src/ui/utils.rs:383
-#: src/ui/widget/dialog/setup/location.ui:58
+#: src/ui/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "Advertencia"
 
@@ -670,8 +670,8 @@ msgstr "Expresión regular"
 msgid "Unix Filename Pattern"
 msgstr "Patrón de nombre de archivo de Unix"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
-#: src/ui/widget/dialog/setup/location_kind.ui:100
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:38
+#: src/ui/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "Ubicación remota"
 
@@ -826,7 +826,7 @@ msgstr "El respaldo estará incompleto si lo cancela ahora"
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
-#: src/ui/widget/dialog/setup/add_existing.ui:69
+#: src/ui/widget/dialog/setup/encryption.rs:89
 msgid "Continue"
 msgstr "Continuar"
 
@@ -937,7 +937,7 @@ msgstr "Deteniendo el respaldo"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Falló al mostrar la interfaz para los respaldos programados."
 
-#: src/ui/error.rs:102
+#: src/ui/error.rs:128
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -948,13 +948,17 @@ msgstr ""
 "contraseñas. Para obtener instrucciones sobre su instalación, consulte la "
 "documentación del sistema operativo."
 
-#: src/ui/error.rs:126
+#: src/ui/error.rs:156
 msgid "Backup with id “{}” already exists."
 msgstr "Ya existe un respaldo con ID «{}»"
 
-#: src/ui/error.rs:131
+#: src/ui/error.rs:165
 msgid "Could not find backup configuration with id “{}”."
 msgstr "No se pudo encontrar la configuración del respaldo con ID «{}»."
+
+#: src/ui/error.rs:181
+msgid "Canceled"
+msgstr "Cancelado"
 
 #: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
@@ -1048,7 +1052,7 @@ msgstr "Cerrar"
 msgid "Additional command line arguments invalid"
 msgstr "Argumentos adicionales de la línea de comandos no válidos"
 
-#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:273
 msgid "Please check for missing closing quotes."
 msgstr "Compruebe que no faltan comillas de cierre."
 
@@ -1109,6 +1113,9 @@ msgstr ""
 "corromper los datos de respaldo."
 
 #: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/preferences.rs:482
+#: src/ui/widget/dialog/setup/encryption.rs:88
+#: src/ui/widget/encryption_settings.rs:90
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -1458,7 +1465,7 @@ msgstr "Normalmente contiene todos los datos personales"
 msgid "Remove Directory"
 msgstr "Quitar carpeta"
 
-#: src/ui/widget/detail/backup/display.rs:109
+#: src/ui/widget/detail/backup/display.rs:111
 msgid "Edit Pattern"
 msgstr "Editar patrón"
 
@@ -1564,7 +1571,7 @@ msgid "Backup Completed with Warnings"
 msgstr "El respaldo se ha completado con advertencias"
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:339
+#: src/ui/widget/dialog/preferences.rs:338
 msgid "Error Running Shell Command"
 msgstr "Falló al ejecutar el comando de shell"
 
@@ -1572,7 +1579,7 @@ msgstr "Falló al ejecutar el comando de shell"
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "Respaldos programados"
 
@@ -1870,13 +1877,14 @@ msgid "Support us on GitHub Sponsors"
 msgstr "Apóyenos en GitHub Sponsors"
 
 #: src/ui/widget/dialog/archive_prefix.rs:77
-#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:530
 msgid "Invalid Archive Prefix"
 msgstr "Prefijo de los archivadores no válido"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "Prefijo de los archivadores"
 
@@ -2032,12 +2040,12 @@ msgstr ""
 "en «{}» "
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:44
+#: src/ui/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "Se requiere la contraseña de cifrado"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
+#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -2046,8 +2054,7 @@ msgid "Co_ntinue"
 msgstr "Co_ntinuar"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:52
+#: src/ui/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "Contraseña"
 
@@ -2122,7 +2129,7 @@ msgstr ""
 "Para más detalles, revise la <a href=\"https://borgbackup.readthedocs.io/en/"
 "stable/usage/help.html\">documentación de BorgBackup</a>."
 
-#: src/ui/widget/dialog/preferences.rs:207
+#: src/ui/widget/dialog/preferences.rs:213
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2130,20 +2137,38 @@ msgstr ""
 "El título de esta configuración de respaldo. Se mostrará como «{}» cuando se "
 "deje vacío."
 
-#: src/ui/widget/dialog/preferences.rs:273
+#: src/ui/widget/dialog/preferences.rs:272
 msgid "Shell command invalid"
 msgstr "Comando de shell no válido"
 
-#: src/ui/widget/dialog/preferences.rs:459
+#: src/ui/widget/dialog/preferences.rs:477
+msgid "Remove Password?"
+msgstr "¿Eliminar la contraseña?"
+
+#: src/ui/widget/dialog/preferences.rs:478
+#: src/ui/widget/dialog/setup/encryption.rs:84
+msgid ""
+"When encryption is not used, everyone with access to the backup files can "
+"read all data"
+msgstr ""
+"Cuando no se utiliza el cifrado, cualquiera con acceso a los archivos de "
+"respaldo puede leer todos los datos."
+
+#: src/ui/widget/dialog/preferences.rs:483
+msgid "Remove Password"
+msgstr "Eliminar contraseña"
+
+#: src/ui/widget/dialog/preferences.rs:506
 msgid "Change Encryption Password Error"
 msgstr "Falló al cambiar la contraseña de cifrado"
 
-#: src/ui/widget/dialog/preferences.rs:466
+#: src/ui/widget/dialog/preferences.rs:513
 msgid "Password changed successfully"
 msgstr "Contraseña cambiada con éxito"
 
 #: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:37
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "Cambiar contraseña de cifrado"
 
@@ -2151,39 +2176,43 @@ msgstr "Cambiar contraseña de cifrado"
 msgid "_Change Password"
 msgstr "_Cambiar contraseña"
 
-#: src/ui/widget/dialog/preferences.ui:84
+#: src/ui/widget/dialog/preferences.ui:70
+msgid "_Remove Password"
+msgstr "Elimina_r la contraseña"
+
+#: src/ui/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "Cambiando contraseña de cifrado"
 
-#: src/ui/widget/dialog/preferences.ui:119
-#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "Título"
 
-#: src/ui/widget/dialog/preferences.ui:130
+#: src/ui/widget/dialog/preferences.ui:142
+#: src/ui/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "Contraseña de cifrado"
 
-#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "La contraseña de cifrado del repositorio de respaldo"
 
-#: src/ui/widget/dialog/preferences.ui:146
+#: src/ui/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "Ejecutar en modo batería"
 
-#: src/ui/widget/dialog/preferences.ui:147
+#: src/ui/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
 "Permitir respaldos programados cuando el dispositivo esté en modo batería"
 
-#: src/ui/widget/dialog/preferences.ui:155
-#: src/ui/widget/dialog/setup/location.ui:174
+#: src/ui/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "Argumentos adicionales de la línea de comandos"
 
-#: src/ui/widget/dialog/preferences.ui:156
-#: src/ui/widget/dialog/setup/location.ui:175
+#: src/ui/widget/dialog/preferences.ui:168
+#: src/ui/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -2191,30 +2220,31 @@ msgstr ""
 "Estos argumentos se añadirán a la llamada al binario de borg. Sólo se "
 "soportan opciones largas, las que empiezan por «--»"
 
-#: src/ui/widget/dialog/preferences.ui:159
-#: src/ui/widget/dialog/setup/location.ui:179
+#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/setup/advanced_options.ui:9
+#: src/ui/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "Argumentos de la línea de comandos"
 
-#: src/ui/widget/dialog/preferences.ui:170
+#: src/ui/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "Comandos de shell"
 
-#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
 "Estos comandos de shell bash se invocarán durante ciertos eventos de respaldo"
 
-#: src/ui/widget/dialog/preferences.ui:184
+#: src/ui/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "Comando de shell previo al respaldo"
 
-#: src/ui/widget/dialog/preferences.ui:191
-#: src/ui/widget/dialog/preferences.ui:212
+#: src/ui/widget/dialog/preferences.ui:203
+#: src/ui/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "Ejecutar con valores de prueba"
 
-#: src/ui/widget/dialog/preferences.ui:205
+#: src/ui/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "Comando de shell posterior al respaldo"
 
@@ -2300,31 +2330,43 @@ msgstr "Archivadores con prefijo diferente"
 msgid "Apply"
 msgstr "Aplicar"
 
-#: src/ui/widget/dialog/setup.rs:158
+#: src/ui/widget/dialog/setup.rs:149
+msgid "Abort Setup?"
+msgstr "¿Quiere cancelar la configuración?"
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "Aborting now will cause the repository to not be added"
+msgstr "Si cancela ahora, no se añadirá el repositorio."
+
+#. Translators: Announced to accessibility devices when setup dialog has finished
+#: src/ui/widget/dialog/setup.rs:181
+msgid "Backup Repository Added Successfully"
+msgstr "El repositorio de respaldo se añadió con éxito"
+
+#: src/ui/widget/dialog/setup.rs:206
 msgid "Setup Existing Repository"
 msgstr "Configurar un repositorio existente"
 
-#: src/ui/widget/dialog/setup.rs:168
+#: src/ui/widget/dialog/setup.rs:216
 msgid "Location is not a valid backup repository."
 msgstr "La ubicación no es un repositorio de respaldos válido"
 
-#: src/ui/widget/dialog/setup.rs:170
+#: src/ui/widget/dialog/setup.rs:218
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "El repositorio debe proceder de Copia de respaldo Pika o algún software "
 "compatible."
 
-#: src/ui/widget/dialog/setup.rs:352
+#: src/ui/widget/dialog/setup.rs:436
 msgid "Failed to Configure Repository"
 msgstr "Falló al configurar el repositorio"
 
-#: src/ui/widget/dialog/setup.rs:363
+#: src/ui/widget/dialog/setup.rs:480
 msgid "Failed"
 msgstr "Fallo"
 
 #: src/ui/widget/dialog/setup.ui:6
 #: src/ui/widget/dialog/setup/location_kind.ui:6
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "Configuración"
 
@@ -2338,80 +2380,91 @@ msgstr ""
 "La operación de montaje ha sido correcta, pero la ubicación sigue sin estar "
 "disponible."
 
-#: src/ui/widget/dialog/setup/actions.rs:113
+#: src/ui/widget/dialog/setup/actions.rs:106
+msgid "Invalid Password"
+msgstr "Contraseña incorrecta"
+
+#: src/ui/widget/dialog/setup/actions.rs:131
 msgid "Loading Backup Repository"
 msgstr "Cargando repositorio de respaldo"
 
-#: src/ui/widget/dialog/setup/actions.rs:194
+#: src/ui/widget/dialog/setup/actions.rs:212
 #: src/ui/widget/dialog/setup/create_new.ui:6
-#: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "Creando repositorio de respaldo"
 
-#: src/ui/widget/dialog/setup/actions.rs:203
+#: src/ui/widget/dialog/setup/actions.rs:221
 msgid "Getting Repository Information"
 msgstr "Obteniendo información del repositorio"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:20
+#: src/ui/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "Comprobando el repositorio de respaldo"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:45
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr "Para acceder a este repositorio se requiere su contraseña de cifrado."
+#: src/ui/widget/dialog/setup/advanced_options.ui:6
+#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:192
+msgid "Advanced Options"
+msgstr "Opciones avanzadas"
+
+#: src/ui/widget/dialog/setup/ask_password.ui:23
+#: src/ui/widget/dialog/setup/location.ui:231
+msgid "_Continue"
+msgstr "_Continuar"
+
+#: src/ui/widget/dialog/setup/encryption.rs:83
+msgid "Continue Unencrypted?"
+msgstr "¿Quiere continuar sin cifrar?"
 
 #: src/ui/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "Configurar cifrado"
 
-#: src/ui/widget/dialog/setup/encryption.ui:32
+#: src/ui/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "_Crear"
 
-#: src/ui/widget/dialog/setup/location.rs:194
+#: src/ui/widget/dialog/setup/location.rs:217
+msgid "Repository Folder"
+msgstr "Carpeta del repositorio"
+
+#: src/ui/widget/dialog/setup/location.rs:229
+msgid "Choose Repository Folder"
+msgstr "Escoja una carpeta del repositorio"
+
+#: src/ui/widget/dialog/setup/location.rs:241
+msgid "Additional command line arguments"
+msgstr "Argumentos adicionales de la línea de comandos"
+
+#: src/ui/widget/dialog/setup/location.rs:390
 msgid "Repository Name Empty"
 msgstr "Nombre del repositorio vacío"
 
-#: src/ui/widget/dialog/setup/location.rs:195
+#: src/ui/widget/dialog/setup/location.rs:391
 msgid "The repository folder name must be set"
 msgstr "Se debe establecer el nombre de la carpeta del repositorio"
 
-#: src/ui/widget/dialog/setup/location.rs:206
+#: src/ui/widget/dialog/setup/location.rs:403
 msgid "No Base Folder Selected"
 msgstr "Ninguna carpeta base seleccionada"
 
-#: src/ui/widget/dialog/setup/location.rs:207
+#: src/ui/widget/dialog/setup/location.rs:404
 msgid "Select a base folder for the backup repository"
 msgstr "Seleccione una carpeta base para el repositorio de respaldo"
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: src/ui/widget/dialog/setup/location.rs:415
 msgid "Invalid Remote Location"
 msgstr "Ubicación remota no válida"
 
-#: src/ui/widget/dialog/setup/location.ui:6
-msgid "Select Location"
-msgstr "Seleccionar ubicación"
-
-#: src/ui/widget/dialog/setup/location.ui:22
-#: src/ui/widget/dialog/setup/location.ui:84
-msgid "Location"
-msgstr "Ubicación"
-
-#: src/ui/widget/dialog/setup/location.ui:26
-#: src/ui/widget/dialog/setup/location.ui:89
-msgid "Advanced Options"
-msgstr "Opciones avanzadas"
+#: src/ui/widget/dialog/setup/location.ui:9
+msgid "Configure Repository"
+msgstr "Configurar el repositorio"
 
 #: src/ui/widget/dialog/setup/location.ui:34
-msgid "Repository Base Folder"
-msgstr "Carpeta base del repositorio"
-
-#: src/ui/widget/dialog/setup/location.ui:47
 msgid "Repository Name"
 msgstr "Nombre del repositorio"
 
-#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2424,73 +2477,48 @@ msgstr ""
 "«Ext4». Tenga en cuenta que el reformateo elimina todos los archivos en la "
 "ubicación."
 
-#: src/ui/widget/dialog/setup/location.ui:100
+#: src/ui/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "URL del repositorio"
 
-#: src/ui/widget/dialog/setup/location.ui:114
-msgid "Examples"
-msgstr "Ejemplos"
-
-#: src/ui/widget/dialog/setup/location.ui:125
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://usuario@servidor.ejemplo.org/~/backup\n"
-"smb://usuario@servidor.ejemplo.org/archivos/backup"
-
-#: src/ui/widget/dialog/setup/location.ui:132
-msgid "Conventional Locations"
-msgstr "Ubicaciones convencionales"
-
-#: src/ui/widget/dialog/setup/location.ui:144
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"Se pueden proporcionar ubicaciones remotas de respaldo tipo SMB and SFTP "
-"usando una URL con el prefijo de protocolo “smb://” o “sftp://”."
-
-#: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations With BorgBackup Support"
+#: src/ui/widget/dialog/setup/location.ui:117
+msgid "Locations with BorgBackup Support"
 msgstr "Ubicaciones con soporte para BorgBackup"
 
-#: src/ui/widget/dialog/setup/location.ui:163
+#: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
+"Servers with borgbackup installed have the best performance. <a href=\"help:"
+"pika-backup/setup-remote\">More</a>"
 msgstr ""
-"Las ubicaciones con soporte explícito para BorgBackup pueden proporcionar un "
-"mejor rendimiento. Son especiales en que el servidor tiene un binario de "
-"BorgBackup instalado. Para esas ubicaciones se puede usar tanto la sintaxis "
-"«<servidor dirección>:<carpeta>» como el prefijo «ssh://»."
+"Los servidores con borgbackup instalado tienen el mejor rendimiento. <a "
+"href=\"help:pika-backup/setup-remote\">Más información</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:200
+#: src/ui/widget/dialog/setup/location.ui:147
+msgid "Network Shares"
+msgstr "Recursos compartidos de red"
+
+#: src/ui/widget/dialog/setup/location.ui:159
+msgid ""
+"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+msgstr ""
+"Use la sintaxis de Archivos de GNOME. <a href=\"help:pika-backup/setup-"
+"gvfs\">Más información</a>"
+
+#: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "_Conectar"
 
-#: src/ui/widget/dialog/setup/location.ui:216
-msgid "_Continue"
-msgstr "_Continuar"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#: src/ui/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "Crear un nuevo repositorio"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:143
-msgid "Select a location for the new backup repository"
-msgstr "Seleccione una ubicación para el nuevo repositorio de respaldo"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:147
-#: src/ui/widget/dialog/setup/repo_kind.ui:30
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "Usar un repositorio existente"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:149
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2499,20 +2527,20 @@ msgstr ""
 "Se pueden usar también repositorios creados con otros programas compatibles "
 "con BorgBackup."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:289
+#: src/ui/widget/dialog/setup/location_kind.rs:287
 msgid "Free space: {}"
 msgstr "Espacio libre: {}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:25
-#: src/ui/widget/dialog/setup/location_kind.ui:79
+#: src/ui/widget/dialog/setup/location_kind.ui:17
+#: src/ui/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "Ubicación en el disco"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:16
-msgid "Configure a new or existing backup repository"
-msgstr "Configurar un repositorio de respaldo nuevo o existente"
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+msgid "Set Up Backup Repository"
+msgstr "Configurar repositorio de respaldo"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2522,7 +2550,7 @@ msgstr ""
 "de respaldo. No se recomienda usar el mismo prefijo en dos dispositivos "
 "salvo que el nuevo dispositivo sustituya al antiguo."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "_Guardar"
 
@@ -2530,24 +2558,7 @@ msgstr "_Guardar"
 msgid "Transfer Settings"
 msgstr "Transferir ajustes"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:19
-#: src/ui/widget/dialog/setup/transfer_settings.ui:50
-msgid "S_kip"
-msgstr "Sal_tar"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:29
-msgid "Checking for Previous Configurations"
-msgstr "Comprobando si existen configuraciones anteriores"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:30
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"Recopilando información para transferir los ajustes anteriormente "
-"utilizados. Este paso es opcional."
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+#: src/ui/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -2555,6 +2566,10 @@ msgstr ""
 "Se puede seleccionar un conjunto de ajustes usados en respaldos anteriores "
 "para transferirlo a esta esta nueva configuración. La configuración se puede "
 "ajustar después."
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+msgid "Skip"
+msgstr "Omitir"
 
 #: src/ui/widget/dialog/setup/types.rs:52
 msgid "Incomplete URL or borg syntax"
@@ -2568,7 +2583,7 @@ msgstr "La ubicación remota ha de tener una ruta especificada."
 msgid "Invalid remote location: “{}”"
 msgstr "Ubicación remota no válida: «{}»"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:54
 msgid "Backup Location"
 msgstr "Ubicación del respaldo"
 
@@ -2608,19 +2623,24 @@ msgstr "Total"
 msgid "Free"
 msgstr "Libre"
 
-#: src/ui/widget/encryption_preferences_group.rs:84
-msgid "No Password Provided"
-msgstr "No se introdujo ninguna contraseña"
+#: src/ui/widget/encryption_settings.rs:84
+msgid "Use Encryption?"
+msgstr "¿Quiere usar el cifrado?"
 
-#: src/ui/widget/encryption_preferences_group.rs:85
-msgid "To use encryption a password must be provided."
-msgstr "Para usar el cifrado se debe proporcionar una contraseña."
+#: src/ui/widget/encryption_settings.rs:86
+msgid ""
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
+msgstr ""
+"La pérdida de acceso a la contraseña de cifrado provocará la pérdida total "
+"de todos los datos respaldados"
 
-#: src/ui/widget/encryption_preferences_group.rs:91
-msgid "Entered passwords do not match."
-msgstr "Las contraseñas no coinciden."
+#: src/ui/widget/encryption_settings.rs:91
+#: src/ui/widget/encryption_settings.ui:12
+msgid "Use Encryption"
+msgstr "Usar cifrado"
 
-#: src/ui/widget/encryption_preferences_group.ui:4
+#: src/ui/widget/encryption_settings.rs:130
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -2629,33 +2649,84 @@ msgstr ""
 "contraseña. Si se usa cifrado se necesita la contraseña para acceder a los "
 "respaldos."
 
-#: src/ui/widget/encryption_preferences_group.ui:5
-msgid "Encryption"
-msgstr "Cifrado"
+#: src/ui/widget/encryption_settings.rs:138
+msgid "No Password Provided"
+msgstr "No se introdujo ninguna contraseña"
 
-#: src/ui/widget/encryption_preferences_group.ui:8
-msgid "Use Encryption"
-msgstr "Usar cifrado"
+#: src/ui/widget/encryption_settings.rs:139
+msgid "To use encryption a password must be provided"
+msgstr "Para usar el cifrado se debe proporcionar una contraseña"
 
-#: src/ui/widget/encryption_preferences_group.ui:17
-msgid "Encrypted"
-msgstr "Cifrado"
+#: src/ui/widget/encryption_settings.rs:146
+msgid "Invalid Passwords"
+msgstr "Contraseñas no válidas"
 
-#: src/ui/widget/encryption_preferences_group.ui:24
-msgid "Unencrypted"
-msgstr "Sin cifrar"
+#: src/ui/widget/encryption_settings.rs:147
+msgid "The passwords do not match"
+msgstr "Las contraseñas no coinciden"
 
-#: src/ui/widget/encryption_preferences_group.ui:35
-msgid "New Encryption Password"
-msgstr "Nueva contraseña de cifrado"
+#. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+#: src/ui/widget/encryption_settings.rs:206
+msgid "Enter a password"
+msgstr "Introduzca una contraseña"
 
-#: src/ui/widget/encryption_preferences_group.ui:43
+#. Translators: Password feedback: The second password is not the same as the first
+#: src/ui/widget/encryption_settings.rs:209
+msgid "Passwords do not match"
+msgstr "Las contraseñas no coinciden"
+
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+#: src/ui/widget/encryption_settings.rs:217
+msgid "A single word is easy to guess"
+msgstr "Una única palabra es fácil de adivinar"
+
+#. Translators: Password feedback: Common name detected
+#: src/ui/widget/encryption_settings.rs:221
+msgid "Avoid names on their own"
+msgstr "Evite usar su nombre"
+
+#. Translators: Password feedback: Date detected
+#: src/ui/widget/encryption_settings.rs:225
+msgid "Avoid dates on their own"
+msgstr "Evite usar sus fechas personales"
+
+#. Translators: Password feedback: Easy to guess sequence detected
+#: src/ui/widget/encryption_settings.rs:229
+msgid "Avoid sequences like “abc” or “6543”"
+msgstr "Evite usar secuencias como «abc» o «6543»"
+
+#. Translators: Password feedback: Repeated keys or sequence detected
+#: src/ui/widget/encryption_settings.rs:233
+msgid "Avoid repetitions like “aaa” or “abcabc”"
+msgstr "Evite usar repeticiones como «aaa» o «abcabc»"
+
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+#: src/ui/widget/encryption_settings.rs:237
+msgid "Avoid keyboard patterns"
+msgstr "Evite usar patrones del teclado"
+
+#. Translators: Password feedback: Password was found in a list of common passwords
+#: src/ui/widget/encryption_settings.rs:243
+msgid "This is a very commonly used password"
+msgstr "Esta es una contraseña muy común"
+
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
+#: src/ui/widget/encryption_settings.rs:247
+msgid "This is similar to a commonly used password"
+msgstr "Esta es similar a una contraseña muy común"
+
+#: src/ui/widget/encryption_settings.rs:251
+msgid "Add a few more words"
+msgstr "Añada algunas palabras más"
+
+#. Translators: Password feedback: This password is looking pretty good
+#: src/ui/widget/encryption_settings.rs:254
+msgid "This looks like a strong password"
+msgstr "Esta parece una contraseña segura"
+
+#: src/ui/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "Repita la contraseña"
-
-#: src/ui/widget/folder_button.rs:148
-msgid "_Select Folder…"
-msgstr "_Seleccionar carpeta…"
 
 #: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
@@ -2704,6 +2775,80 @@ msgstr "Configurar re_spaldo"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "El archivo o carpeta no existe"
+
+#~ msgid ""
+#~ "The encryption password of this backup repository is required to access "
+#~ "it."
+#~ msgstr ""
+#~ "Para acceder a este repositorio se requiere su contraseña de cifrado."
+
+#~ msgid "Select Location"
+#~ msgstr "Seleccionar ubicación"
+
+#~ msgid "Location"
+#~ msgstr "Ubicación"
+
+#~ msgid "Examples"
+#~ msgstr "Ejemplos"
+
+#~ msgid ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+#~ msgstr ""
+#~ "ssh://usuario@servidor.ejemplo.org/~/backup\n"
+#~ "smb://usuario@servidor.ejemplo.org/archivos/backup"
+
+#~ msgid "Conventional Locations"
+#~ msgstr "Ubicaciones convencionales"
+
+#~ msgid ""
+#~ "SMB and SFTP remote-backup locations can be provided as a URL with the "
+#~ "“smb://” or “sftp://” protocol prefix."
+#~ msgstr ""
+#~ "Se pueden proporcionar ubicaciones remotas de respaldo tipo SMB and SFTP "
+#~ "usando una URL con el prefijo de protocolo “smb://” o “sftp://”."
+
+#~ msgid ""
+#~ "Locations with explicit BorgBackup support can provide better "
+#~ "performance. They are special in that the server has a BorgBackup binary "
+#~ "installed. For those locations, either the “<server address>:<folder>” "
+#~ "syntax or the “ssh://” prefix can be used."
+#~ msgstr ""
+#~ "Las ubicaciones con soporte explícito para BorgBackup pueden proporcionar "
+#~ "un mejor rendimiento. Son especiales en que el servidor tiene un binario "
+#~ "de BorgBackup instalado. Para esas ubicaciones se puede usar tanto la "
+#~ "sintaxis «<servidor dirección>:<carpeta>» como el prefijo «ssh://»."
+
+#~ msgid "Select a location for the new backup repository"
+#~ msgstr "Seleccione una ubicación para el nuevo repositorio de respaldo"
+
+#~ msgid "Configure a new or existing backup repository"
+#~ msgstr "Configurar un repositorio de respaldo nuevo o existente"
+
+#~ msgid "S_kip"
+#~ msgstr "Sal_tar"
+
+#~ msgid "Checking for Previous Configurations"
+#~ msgstr "Comprobando si existen configuraciones anteriores"
+
+#~ msgid ""
+#~ "Collecting information to transfer previously used settings. This step is "
+#~ "optional."
+#~ msgstr ""
+#~ "Recopilando información para transferir los ajustes anteriormente "
+#~ "utilizados. Este paso es opcional."
+
+#~ msgid "Encryption"
+#~ msgstr "Cifrado"
+
+#~ msgid "Encrypted"
+#~ msgstr "Cifrado"
+
+#~ msgid "New Encryption Password"
+#~ msgstr "Nueva contraseña de cifrado"
+
+#~ msgid "_Select Folder…"
+#~ msgstr "_Seleccionar carpeta…"
 
 #~ msgid "Abort running backup creation?"
 #~ msgstr "¿Cancelar la creación del respaldo en ejecución?"
@@ -2993,6 +3138,3 @@ msgstr "El archivo o carpeta no existe"
 
 #~ msgid "Server"
 #~ msgstr "Servidor"
-
-#~ msgid "Store Password"
-#~ msgstr "Guardar la contraseña"
