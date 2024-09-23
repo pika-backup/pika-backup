@@ -253,11 +253,11 @@ mod imp {
             match crate::ui::utils::borg::parse_borg_command_line_args(&args) {
                 Ok(args) => {
                     self.command_line_args_entry.remove_css_class("error");
-                    self.command_line_args.set(Some(args));
+                    self.command_line_args.replace(Some(args));
                     self.command_line_args_error.replace(None);
                 }
                 Err(err) => {
-                    self.command_line_args.set(Some(vec![]));
+                    self.command_line_args.replace(Some(vec![]));
                     self.command_line_args_entry.add_css_class("error");
                     self.command_line_args_error.replace(Some(err));
                 }
@@ -280,11 +280,11 @@ mod imp {
             match Self::validate_shell_command(&command) {
                 Ok(_) => {
                     self.pre_backup_command_entry.remove_css_class("error");
-                    self.pre_backup_command.set(command);
+                    self.pre_backup_command.replace(command);
                     self.pre_backup_command_error.replace(None);
                 }
                 Err(err) => {
-                    self.pre_backup_command.set(String::new());
+                    self.pre_backup_command.replace(String::new());
                     self.pre_backup_command_entry.add_css_class("error");
                     self.pre_backup_command_error.replace(Some(err));
                 }
@@ -295,11 +295,11 @@ mod imp {
             match Self::validate_shell_command(&command) {
                 Ok(_) => {
                     self.post_backup_command_entry.remove_css_class("error");
-                    self.post_backup_command.set(command);
+                    self.post_backup_command.replace(command);
                     self.post_backup_command_error.replace(None);
                 }
                 Err(err) => {
-                    self.post_backup_command.set(String::new());
+                    self.post_backup_command.replace(String::new());
                     self.post_backup_command_entry.add_css_class("error");
                     self.post_backup_command_error.replace(Some(err));
                 }
