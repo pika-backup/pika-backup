@@ -6,7 +6,7 @@
 - Fix UI sometimes being unresponsive when starting / stopping backups
 - Change fnmatches to be stored as strings instead of bytes in config
 
-## 0.7.4 (unreleased)
+## 0.7.4 (2024-09-23)
 - Fix borg version comparison
 
 ## 0.7.3 (2024-07-01)
