@@ -154,7 +154,7 @@ impl imp::ArchivesPage {
                         .to_locale()
                         .unwrap_or_else(|| archive.start.to_string()),
                 )
-                .subtitle(&format!(
+                .subtitle(format!(
                     "{hostname}, {username}",
                     hostname = archive.hostname,
                     username = archive.username

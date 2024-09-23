@@ -106,7 +106,7 @@ mod imp {
                 let popover = gtk::Popover::builder()
                     .child(
                         &gtk::Label::builder()
-                            .label(&format!("{}\n\n{desc}", gettext("Exclusion Rules")))
+                            .label(format!("{}\n\n{desc}", gettext("Exclusion Rules")))
                             .selectable(true)
                             .focusable(false)
                             .build(),

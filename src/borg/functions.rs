@@ -451,7 +451,7 @@ pub async fn umount(repo_id: &RepoId) -> Result<()> {
 
 pub fn mount_point(repo_id: &RepoId) -> std::path::PathBuf {
     let mut dir = mount_base_dir();
-    dir.push(&format!("{:.8}", repo_id.as_str()));
+    dir.push(format!("{:.8}", repo_id.as_str()));
     dir
 }
 
