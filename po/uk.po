@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-09-07 20:40+0000\n"
-"PO-Revision-Date: 2024-09-08 10:18+0300\n"
+"POT-Creation-Date: 2024-09-23 20:57+0000\n"
+"PO-Revision-Date: 2024-09-24 17:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -201,47 +201,112 @@ msgstr "{}"
 msgid "Unable to access backup repository: {}"
 msgstr "Не вдалося отримати доступ до сховища резервних копій: {}"
 
-#: src/borg/error.rs:238
-msgid "Connection closed by remote host."
-msgstr "З'єднання розірвано віддаленим вузлом."
-
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:280
-msgid "Repository already in use."
-msgstr "Сховище вже використовується."
-
-#: src/borg/error.rs:241
-msgid "Failed to lock repository."
-msgstr "Не вдалося заблокувати сховище."
-
-#: src/borg/error.rs:242
-msgid "Invalid encryption password."
-msgstr "Некоректний пароль для шифрування."
-
-#: src/borg/error.rs:243
-msgid "Repository access was aborted"
-msgstr "Доступ до сховища було перервано"
-
-#: src/borg/error.rs:245
+#: src/borg/error.rs:288
 msgid "A repository already exists at this location."
 msgstr "За цією адресою вже є сховище."
 
-#: src/borg/error.rs:247
+#: src/borg/error.rs:290
+msgid ""
+"Inconsistencies were detected in the repository. Running a data integrity "
+"check is needed."
+msgstr ""
+"У сховищі виявлено несумісності. Слід запустити засіб перевірки цілісності"
+" даних."
+
+#: src/borg/error.rs:291
 msgid "No repository exists at this location."
 msgstr "За цією адресою немає сховища."
 
-#: src/borg/error.rs:249
+#: src/borg/error.rs:292
 msgid "Not enough free space in repository."
 msgstr "Недостатньо вільного місця у сховищі."
 
-#: src/borg/error.rs:252
+#: src/borg/error.rs:294
+#| msgid "Location is not a valid backup repository."
+msgid "The configured location does not contain a valid repository."
+msgstr "У налаштованому місці не міститься коректного сховища."
+
+#: src/borg/error.rs:297
+msgid ""
+"The configured location does not contain a valid repository configuration."
+msgstr "У налаштованому місці не міститься коректних налаштувань сховища."
+
+#: src/borg/error.rs:299
+#| msgid "The following locations are not backed up"
+msgid "The configured location does not exist."
+msgstr "Налаштованого місця не існує."
+
+#: src/borg/error.rs:300
+#| msgid "The remote location must have a specified path."
+msgid "The selected location does already exist."
+msgstr "Вибраного місця не існує."
+
+#: src/borg/error.rs:302
+msgid ""
+"The repositories storage quota has been reached. Try deleting older archives "
+"that are no longer needed."
+msgstr ""
+"Досягнуто максимальної квоти у місці зберігання сховищ. Спробуйте вилучити"
+" застарілі архіви, у яких вже немає потреби."
+
+#: src/borg/error.rs:305
+msgid ""
+"Permission to access the configured location has been denied. Check the file "
+"permissions."
+msgstr ""
+"Немає прав доступу до налаштованого місця. Перевірте права доступу до файла."
+
+#: src/borg/error.rs:310
+msgid ""
+"A newer version of Pika Backup is required to access this repository. The "
+"repository uses unsupported features."
+msgstr ""
+"Для доступу до цього сховища потрібна новіша версія «Піки». У сховищі"
+" використано непідтримувані у цій версії можливості."
+
+#. RC 30+
+#: src/borg/error.rs:314
+#| msgid "Select a location for the new backup repository"
+msgid "The selected location already contains a repository."
+msgstr "У вибраному місці вже міститься якесь сховище."
+
+#: src/borg/error.rs:315
+msgid "The configured location does not contain an archive."
+msgstr "У налаштованому місці не міститься архіву."
+
+#. RC 50+
+#: src/borg/error.rs:318
+msgid "Invalid encryption password."
+msgstr "Некоректний пароль для шифрування."
+
+#. RC 60+
+#: src/borg/error.rs:321
+msgid "Repository access was aborted"
+msgstr "Доступ до сховища було перервано"
+
+#. RC 70+
+#: src/borg/error.rs:324
+msgid "Failed to lock repository."
+msgstr "Не вдалося заблокувати сховище."
+
+#: src/borg/error.rs:325 src/ui/utils/borg.rs:280
+msgid "Repository already in use."
+msgstr "Сховище вже використовується."
+
+#: src/borg/error.rs:329
+msgid "Connection closed by remote host."
+msgstr "З'єднання розірвано віддаленим вузлом."
+
+#: src/borg/error.rs:334
 msgid "Connection closed by remote host: “{}”"
 msgstr "З'єднання розірвано віддаленим вузлом: «{}»"
 
-#: src/borg/error.rs:254
+#. General
+#: src/borg/error.rs:338
 msgid "Exception"
 msgstr "Виключення"
 
-#: src/borg/error.rs:256
+#: src/borg/error.rs:340
 msgid "Unspecified error."
 msgstr "Невизначена помилка."
 
@@ -950,7 +1015,6 @@ msgstr ""
 "Не вдалося знайти налаштування резервної копії із ідентифікатором «{}»."
 
 #: src/ui/error.rs:181
-#| msgid "Cancel"
 msgid "Canceled"
 msgstr "Скасовано"
 
@@ -2173,7 +2237,6 @@ msgid "Shell command invalid"
 msgstr "Некоректна команда оболонки"
 
 #: src/ui/widget/dialog/preferences.rs:477
-#| msgid "Repeat Password"
 msgid "Remove Password?"
 msgstr "Вилучити пароль?"
 
@@ -2183,11 +2246,10 @@ msgid ""
 "When encryption is not used, everyone with access to the backup files can "
 "read all data"
 msgstr ""
-"Якщо шифрування не використано, читати дані зможе будь-хто із доступом до"
-" файлів резервних копій"
+"Якщо шифрування не використано, читати дані зможе будь-хто із доступом до "
+"файлів резервних копій"
 
 #: src/ui/widget/dialog/preferences.rs:483
-#| msgid "Repeat Password"
 msgid "Remove Password"
 msgstr "Вилучити пароль"
 
@@ -2210,7 +2272,6 @@ msgid "_Change Password"
 msgstr "З_мінити пароль"
 
 #: src/ui/widget/dialog/preferences.ui:70
-#| msgid "Repeat Password"
 msgid "_Remove Password"
 msgstr "Ви_лучити пароль"
 
@@ -2361,7 +2422,6 @@ msgid "Apply"
 msgstr "Застосувати"
 
 #: src/ui/widget/dialog/setup.rs:149
-#| msgid "Abort Backup?"
 msgid "Abort Setup?"
 msgstr "Перервати налаштовування?"
 
@@ -2412,7 +2472,6 @@ msgstr ""
 "лишається недоступним."
 
 #: src/ui/widget/dialog/setup/actions.rs:106
-#| msgid "Invalid encryption password."
 msgid "Invalid Password"
 msgstr "Некоректний пароль"
 
@@ -2445,7 +2504,6 @@ msgid "_Continue"
 msgstr "П_родовжити"
 
 #: src/ui/widget/dialog/setup/encryption.rs:83
-#| msgid "Unencrypted"
 msgid "Continue Unencrypted?"
 msgstr "Продовжити без шифрування?"
 
@@ -2458,17 +2516,14 @@ msgid "_Create"
 msgstr "С_творити"
 
 #: src/ui/widget/dialog/setup/location.rs:217
-#| msgid "Repository Base Folder"
 msgid "Repository Folder"
 msgstr "Тека сховища"
 
 #: src/ui/widget/dialog/setup/location.rs:229
-#| msgid "Repository Base Folder"
 msgid "Choose Repository Folder"
 msgstr "Виберіть теку сховища"
 
 #: src/ui/widget/dialog/setup/location.rs:241
-#| msgid "Additional Command Line Arguments"
 msgid "Additional command line arguments"
 msgstr "Додаткові аргументи командного рядка"
 
@@ -2493,7 +2548,6 @@ msgid "Invalid Remote Location"
 msgstr "Некоректне місце на віддаленому комп'ютері"
 
 #: src/ui/widget/dialog/setup/location.ui:9
-#| msgid "Failed to Configure Repository"
 msgid "Configure Repository"
 msgstr "Налаштувати сховище"
 
@@ -2520,7 +2574,6 @@ msgid "Repository URL"
 msgstr "Адреса сховища"
 
 #: src/ui/widget/dialog/setup/location.ui:117
-#| msgid "Locations With BorgBackup Support"
 msgid "Locations with BorgBackup Support"
 msgstr "Місця з підтримкою BorgBackup"
 
@@ -2529,8 +2582,8 @@ msgid ""
 "Servers with borgbackup installed have the best performance. <a href=\"help:"
 "pika-backup/setup-remote\">More</a>"
 msgstr ""
-"Найкращою швидкодія буде для серверів зі встановленим borgbackup. <a"
-" href=\"help:pika-backup/setup-remote\">Докладніше</a>"
+"Найкращою швидкодія буде для серверів зі встановленим borgbackup. <a "
+"href=\"help:pika-backup/setup-remote\">Докладніше</a>"
 
 #: src/ui/widget/dialog/setup/location.ui:147
 msgid "Network Shares"
@@ -2540,8 +2593,8 @@ msgstr "Спільні ресурси мережі"
 msgid ""
 "Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
 msgstr ""
-"Скористайтеся синтаксисом «Файлів GNOME». <a"
-" href=\"help:pika-backup/setup-gvfs\">Додатково</a>"
+"Скористайтеся синтаксисом «Файлів GNOME». <a href=\"help:pika-backup/setup-"
+"gvfs\">Додатково</a>"
 
 #: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
@@ -2576,7 +2629,6 @@ msgid "Location on Disk"
 msgstr "Місце на диску"
 
 #: src/ui/widget/dialog/setup/repo_kind.ui:6
-#| msgid "Creating Backup Repository"
 msgid "Set Up Backup Repository"
 msgstr "Налаштовування сховища резервних копій"
 
@@ -2665,7 +2717,6 @@ msgid "Free"
 msgstr "Вільно"
 
 #: src/ui/widget/encryption_settings.rs:84
-#| msgid "Use Encryption"
 msgid "Use Encryption?"
 msgstr "Використовувати шифрування?"
 
@@ -2674,8 +2725,8 @@ msgid ""
 "Losing access to the encryption password will lead to a complete loss of all "
 "backed up data"
 msgstr ""
-"Втрата доступу до пароля шифрування призведе до повної втрати усіх даних"
-" резервних копій"
+"Втрата доступу до пароля шифрування призведе до повної втрати усіх даних "
+"резервних копій"
 
 #: src/ui/widget/encryption_settings.rs:91
 #: src/ui/widget/encryption_settings.ui:12
@@ -2696,29 +2747,24 @@ msgid "No Password Provided"
 msgstr "Не вказано пароль"
 
 #: src/ui/widget/encryption_settings.rs:139
-#| msgid "To use encryption a password must be provided."
 msgid "To use encryption a password must be provided"
 msgstr "Щоб скористатися шифруванням, слід вказати пароль"
 
 #: src/ui/widget/encryption_settings.rs:146
-#| msgid "Invalid encryption password."
 msgid "Invalid Passwords"
 msgstr "Некоректні паролі"
 
 #: src/ui/widget/encryption_settings.rs:147
-#| msgid "Entered passwords do not match."
 msgid "The passwords do not match"
 msgstr "Паролі не збігаються"
 
 #. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
 #: src/ui/widget/encryption_settings.rs:206
-#| msgid "Store Password"
 msgid "Enter a password"
 msgstr "Введіть пароль"
 
 #. Translators: Password feedback: The second password is not the same as the first
 #: src/ui/widget/encryption_settings.rs:209
-#| msgid "Entered passwords do not match."
 msgid "Passwords do not match"
 msgstr "Паролі не збігаються"
 
@@ -2867,9 +2913,6 @@ msgstr "Немає такого файла або каталогу"
 #~ "швидкодію. Вони є особливими у тому сенсі, що на відповідному сервері "
 #~ "встановлено виконуваний файл BorgBackup. Для цих місць можна скористатися "
 #~ "форматом «<адреса сервера>:<тека>» або префіксом «ssh://»."
-
-#~ msgid "Select a location for the new backup repository"
-#~ msgstr "Виберіть місце для нового сховища резервних копій"
 
 #~ msgid "Configure a new or existing backup repository"
 #~ msgstr "Налаштувати нове або наявне сховище резервних копій"
