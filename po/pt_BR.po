@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-09-20 00:16+0000\n"
-"PO-Revision-Date: 2024-09-21 10:13-0300\n"
+"POT-Creation-Date: 2024-09-23 20:57+0000\n"
+"PO-Revision-Date: 2024-09-24 08:18-0300\n"
 "Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>>\n"
 "Language: pt_BR\n"
@@ -210,47 +210,109 @@ msgstr "{}"
 msgid "Unable to access backup repository: {}"
 msgstr "Não foi possível acessar o repositório de backup: {}"
 
-#: src/borg/error.rs:238
-msgid "Connection closed by remote host."
-msgstr "Conexão encerrada pelo host remoto."
-
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:280
-msgid "Repository already in use."
-msgstr "Repositório já está em uso."
-
-#: src/borg/error.rs:241
-msgid "Failed to lock repository."
-msgstr "Falha ao bloquear o repositório."
-
-#: src/borg/error.rs:242
-msgid "Invalid encryption password."
-msgstr "Senha de criptografia inválida."
-
-#: src/borg/error.rs:243
-msgid "Repository access was aborted"
-msgstr "O acesso ao repositório foi abortado"
-
-#: src/borg/error.rs:245
+#: src/borg/error.rs:288
 msgid "A repository already exists at this location."
 msgstr "Já existe um repositório neste local."
 
-#: src/borg/error.rs:247
+#: src/borg/error.rs:290
+msgid ""
+"Inconsistencies were detected in the repository. Running a data integrity "
+"check is needed."
+msgstr ""
+"Inconsistências foram detectadas no repositório. É necessário rodar uma "
+"verificação de dados."
+
+#: src/borg/error.rs:291
 msgid "No repository exists at this location."
 msgstr "Não há repositórios neste local."
 
-#: src/borg/error.rs:249
+#: src/borg/error.rs:292
 msgid "Not enough free space in repository."
 msgstr "Não há espaço livre suficiente no repositório."
 
-#: src/borg/error.rs:252
+#: src/borg/error.rs:294
+msgid "The configured location does not contain a valid repository."
+msgstr "O local configurado não contém um repositório válido."
+
+#: src/borg/error.rs:297
+msgid ""
+"The configured location does not contain a valid repository configuration."
+msgstr "O local configurado não contém uma configuração de repositório válida."
+
+#: src/borg/error.rs:299
+msgid "The configured location does not exist."
+msgstr "O local configurado não existe."
+
+#: src/borg/error.rs:300
+msgid "The selected location does already exist."
+msgstr "O local selecionado já existe."
+
+#: src/borg/error.rs:302
+msgid ""
+"The repositories storage quota has been reached. Try deleting older archives "
+"that are no longer needed."
+msgstr ""
+"A cota de armazenamento do repositório atingiu o limite. Tente excluir "
+"arquivos antigos que não são mais necessários."
+
+#: src/borg/error.rs:305
+msgid ""
+"Permission to access the configured location has been denied. Check the file "
+"permissions."
+msgstr ""
+"A permissão para acessar o local configurado foi negada. Verifique as "
+"permissões de arquivo."
+
+#: src/borg/error.rs:310
+msgid ""
+"A newer version of Pika Backup is required to access this repository. The "
+"repository uses unsupported features."
+msgstr ""
+"Uma nova versão do Pika Backup é requerida para acessar este repositório. O "
+"repositório usa funcionalidades sem suporte."
+
+#. RC 30+
+#: src/borg/error.rs:314
+msgid "The selected location already contains a repository."
+msgstr "O local selecionado já contém um repositório."
+
+#: src/borg/error.rs:315
+msgid "The configured location does not contain an archive."
+msgstr "O local configurado não contém um arquivo."
+
+#. RC 50+
+#: src/borg/error.rs:318
+msgid "Invalid encryption password."
+msgstr "Senha de criptografia inválida."
+
+#. RC 60+
+#: src/borg/error.rs:321
+msgid "Repository access was aborted"
+msgstr "O acesso ao repositório foi abortado"
+
+#. RC 70+
+#: src/borg/error.rs:324
+msgid "Failed to lock repository."
+msgstr "Falha ao bloquear o repositório."
+
+#: src/borg/error.rs:325 src/ui/utils/borg.rs:280
+msgid "Repository already in use."
+msgstr "Repositório já está em uso."
+
+#: src/borg/error.rs:329
+msgid "Connection closed by remote host."
+msgstr "Conexão encerrada pelo host remoto."
+
+#: src/borg/error.rs:334
 msgid "Connection closed by remote host: “{}”"
 msgstr "Conexão encerrada pelo host remoto: “{}”"
 
-#: src/borg/error.rs:254
+#. General
+#: src/borg/error.rs:338
 msgid "Exception"
 msgstr "Exceção"
 
-#: src/borg/error.rs:256
+#: src/borg/error.rs:340
 msgid "Unspecified error."
 msgstr "Erro não especificado."
 
@@ -2307,7 +2369,7 @@ msgstr "Excluir arquivos"
 #. Translators: Header while creating a list of old archives to be approved for deletion.
 #: src/ui/widget/dialog/prune.ui:23
 msgid "Checking for Old Archives"
-msgstr "Verificando arquivos antigosU"
+msgstr "Verificando arquivos antigos"
 
 #: src/ui/widget/dialog/prune.ui:56
 msgid "Keep Archives"
@@ -2812,9 +2874,6 @@ msgstr "Esse arquivo ou diretório não existe"
 #~ "desempenho. Eles são especiais porque o servidor possui um binário "
 #~ "BorgBackup instalado. Para esses locais, a sintaxe “<endereço do "
 #~ "servidor>:<pasta>” ou o prefixo “ssh://” podem ser usados."
-
-#~ msgid "Select a location for the new backup repository"
-#~ msgstr "Selecione um local para o novo repositório de backup"
 
 #~ msgid "Configure a new or existing backup repository"
 #~ msgstr "Configure um repositório de backup novo ou existente"
