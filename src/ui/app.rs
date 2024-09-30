@@ -61,6 +61,8 @@ mod imp {
                 settings.set_property("gtk-icon-theme-name", "Adwaita");
             }
 
+            gtk::Window::set_default_icon_name(crate::APP_ID);
+
             self.obj().setup_actions();
 
             glib::MainContext::default().spawn_local(async {
