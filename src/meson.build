@@ -1,6 +1,7 @@
 cargo_bin = find_program('cargo')
 
 target_dir = meson.project_build_root() / 'src'
+manifest = meson.project_source_root() / 'Cargo.toml'
 
 if get_option('profile') == 'release'
   rust_target = 'release'
@@ -13,6 +14,7 @@ endif
 cargo_options = [
   '--target-dir', target_dir,
   '--profile', profile,
+  '--manifest-path', manifest,
 ]
 
 cargo_env = {
