@@ -168,6 +168,12 @@ impl From<config::error::BackupNotFound> for Error {
     }
 }
 
+impl From<config::error::RepoCache> for Error {
+    fn from(value: config::error::RepoCache) -> Self {
+        Self::Message(Message::new(value.to_string(), value.message()))
+    }
+}
+
 impl From<Message> for Error {
     fn from(value: Message) -> Self {
         Self::Message(value)

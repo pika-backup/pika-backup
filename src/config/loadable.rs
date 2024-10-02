@@ -78,7 +78,9 @@ where
                     info!("Reloading file after change {:?}", file.path());
                     // TODO send notification?
                     match Self::from_file() {
-                        Ok(new) => store.update(|s| *s = new.clone()),
+                        Ok(new) => {
+                            store.update(|s| *s = new.clone());
+                        }
                         Err(err) => {
                             error!("Failed to reload {:?}: {}", file.path(), err);
                             error_handler(err);

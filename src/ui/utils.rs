@@ -6,7 +6,6 @@ pub mod ext;
 pub mod flatpak_info;
 pub mod notification;
 pub mod password_storage;
-pub mod repo_cache;
 
 use crate::ui::prelude::*;
 use adw::prelude::*;
@@ -94,12 +93,6 @@ pub async fn is_backup_repo(path: &std::path::Path) -> bool {
 
     trace!("Is not a repository");
     false
-}
-
-pub fn cache_dir() -> std::path::PathBuf {
-    [glib::user_cache_dir(), env!("CARGO_PKG_NAME").into()]
-        .iter()
-        .collect()
 }
 
 pub async fn background_permission() -> Result<()> {

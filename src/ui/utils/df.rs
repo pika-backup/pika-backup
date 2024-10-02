@@ -7,12 +7,16 @@ use gio::prelude::*;
 use async_std::process;
 
 use crate::config;
-use crate::ui::utils::repo_cache::RepoCache;
 
 type Result<T> = std::result::Result<T, Error>;
 
-pub async fn cached_or_lookup(config: &config::Backup) -> Option<Space> {
-    let cached = RepoCache::get(&config.repo_id).space;
+pub async fn cached_or_lookup(config: &config::Backup) -> Option<config::Space> {
+    let cache = REPO_CACHE.update(|cache| {
+        cache
+            .entry(config.repo_id.clone())
+            .or_insert_with_key(config::RepoCache::get);
+    });
+    let cached = cache.get(&config.repo_id).and_then(|c| c.space.clone());
 
     match &config.repo {
         config::Repository::Local(_) => {
@@ -33,19 +37,19 @@ pub async fn cached_or_lookup(config: &config::Backup) -> Option<Space> {
     }
 }
 
-pub async fn lookup_and_cache(config: &config::Backup) -> Result<Space> {
+pub async fn lookup_and_cache(config: &config::Backup) -> Result<config::Space> {
     let space = match &config.repo {
         config::Repository::Local(repo) => local(&repo.path()).await,
         config::Repository::Remote(repo) => remote(&repo.uri).await,
     }?;
 
-    REPO_CACHE.update(enclose!((config, space) move |cache| {
+    let cache = REPO_CACHE.update(enclose!((config, space) move |cache| {
         cache
             .entry(config.repo_id.clone())
-            .or_insert_with_key(RepoCache::new)
+            .or_insert_with_key(config::RepoCache::get)
             .space = Some(space.clone());
     }));
-    let _ignore = RepoCache::write(&config.repo_id);
+    let _ignore = cache.get(&config.repo_id).unwrap().write();
 
     Ok(space)
 }
@@ -61,7 +65,7 @@ fn sftp_path_normalize(path: &str) -> String {
     }
 }
 
-pub async fn remote(server: &str) -> Result<Space> {
+pub async fn remote(server: &str) -> Result<config::Space> {
     let original_uri = glib::Uri::parse(server, glib::UriFlags::NONE)?;
 
     // If the remote uses SSH with the SSH scheme and a port was specified we use that port
@@ -120,19 +124,19 @@ pub async fn remote(server: &str) -> Result<Space> {
         .collect();
 
     // df gives us kb not bytes
-    Ok(Space {
+    Ok(config::Space {
         size: 1024 * df.get(0).ok_or("First column missing.")?.parse::<u64>()?,
         used: 1024 * df.get(1).ok_or("Second column missing.")?.parse::<u64>()?,
         avail: 1024 * df.get(2).ok_or("Third column missing.")?.parse::<u64>()?,
     })
 }
 
-pub async fn local(root: &std::path::Path) -> Result<Space> {
+pub async fn local(root: &std::path::Path) -> Result<config::Space> {
     let fsinfo = gio::File::for_path(root)
         .query_filesystem_info_future("*", Default::default())
         .await?;
 
-    Ok(Space {
+    Ok(config::Space {
         size: fsinfo.attribute_uint64(gio::FILE_ATTRIBUTE_FILESYSTEM_SIZE),
         used: fsinfo.attribute_uint64(gio::FILE_ATTRIBUTE_FILESYSTEM_USED),
         avail: fsinfo.attribute_uint64(gio::FILE_ATTRIBUTE_FILESYSTEM_FREE),
@@ -147,13 +151,6 @@ quick_error! {
         StdIo(err: std::io::Error) { from() }
         Other(err: String) { from(err: &str) -> (err.to_string()) }
     }
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Space {
-    pub size: u64,
-    pub used: u64,
-    pub avail: u64,
 }
 
 #[test]
