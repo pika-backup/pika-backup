@@ -89,7 +89,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl StorageDialog {
-        pub(super) fn set_df(&self, df: &ui::utils::df::Space) {
+        pub(super) fn set_df(&self, df: &config::Space) {
             self.fs_size_row.set_subtitle(&glib::format_size(df.size));
             self.fs_free_row.set_subtitle(&glib::format_size(df.avail));
             self.fs_usage_bar

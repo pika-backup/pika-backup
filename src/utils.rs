@@ -82,3 +82,9 @@ pub fn file_symbolic_icon(path: &std::path::Path) -> Option<gtk::Image> {
         Err(_) => None,
     }
 }
+
+pub fn cache_dir() -> std::path::PathBuf {
+    [glib::user_cache_dir(), env!("CARGO_PKG_NAME").into()]
+        .iter()
+        .collect()
+}

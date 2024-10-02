@@ -3,9 +3,9 @@ use crate::ui::prelude::*;
 use super::imp;
 use crate::borg;
 use crate::config;
+use crate::config::RepoCache;
 use crate::schedule;
 use crate::ui;
-use crate::ui::utils::repo_cache::RepoCache;
 
 impl imp::ArchivesPage {
     pub async fn refresh_archives(
@@ -23,7 +23,7 @@ impl imp::ArchivesPage {
             REPO_CACHE.update(|repos| {
                 repos
                     .entry(config.repo_id.clone())
-                    .or_insert_with_key(RepoCache::new)
+                    .or_insert_with_key(RepoCache::get)
                     .reloading = true;
             });
         }
@@ -39,7 +39,7 @@ impl imp::ArchivesPage {
         REPO_CACHE.update(|repos| {
             repos
                 .entry(config.repo_id.clone())
-                .or_insert_with_key(RepoCache::new)
+                .or_insert_with_key(RepoCache::get)
                 .reloading = false;
         });
 
@@ -47,10 +47,10 @@ impl imp::ArchivesPage {
 
         let archives = result?;
 
-        REPO_CACHE.update(enclose!((config) move |repos| {
+        let cache = REPO_CACHE.update(enclose!((config) move |repos| {
             let repo_archives = repos
                 .entry(config.repo_id.clone())
-                .or_insert_with_key(RepoCache::new);
+                .or_insert_with_key(RepoCache::get);
 
             repo_archives.archives = Some(
                 archives
@@ -58,11 +58,10 @@ impl imp::ArchivesPage {
                     .map(|x| (x.name.clone(), x.clone()))
                     .collect(),
             );
-
         }));
         info!("Archives cache refreshed");
 
-        RepoCache::write(&config.repo_id)?;
+        cache.get(&config.repo_id).unwrap().write()?;
 
         self.ui_display_archives(&config.repo_id);
 

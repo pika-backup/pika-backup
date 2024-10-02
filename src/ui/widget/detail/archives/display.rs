@@ -6,7 +6,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use super::imp;
-use crate::ui::utils::repo_cache::RepoCache;
+use crate::config::RepoCache;
 use crate::{borg, config, ui};
 
 impl imp::ArchivesPage {
@@ -25,7 +25,12 @@ impl imp::ArchivesPage {
 
         // archives list
 
-        let repo_archives = RepoCache::get(&config.repo_id);
+        let cache = REPO_CACHE.update(|cache| {
+            cache
+                .entry(config.repo_id.clone())
+                .or_insert_with_key(RepoCache::get);
+        });
+        let repo_archives = cache.get(&config.repo_id).unwrap();
 
         let result = if repo_archives.archives.as_ref().is_none() {
             trace!("Archives have never been retrieved");
@@ -141,7 +146,12 @@ impl imp::ArchivesPage {
         }
 
         debug!("Displaying archive list from cache");
-        let repo_cache = RepoCache::get(repo_id);
+        let cache = REPO_CACHE.update(|cache| {
+            cache
+                .entry(repo_id.clone())
+                .or_insert_with_key(RepoCache::get);
+        });
+        let repo_cache = cache.get(repo_id).unwrap();
 
         ui::utils::clear(&self.list);
         self.ui_update_archives_spinner();

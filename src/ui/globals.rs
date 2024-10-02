@@ -26,7 +26,7 @@ pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<borg::RepoId>>> = Lazy::new(Defau
 
 pub static BORG_VERSION: OnceLock<String> = OnceLock::new();
 
-pub static REPO_CACHE: Lazy<ArcSwap<BTreeMap<borg::RepoId, ui::utils::repo_cache::RepoCache>>> =
+pub static REPO_CACHE: Lazy<ArcSwap<BTreeMap<borg::RepoId, config::RepoCache>>> =
     Lazy::new(Default::default);
 
 pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {

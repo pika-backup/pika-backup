@@ -50,19 +50,19 @@ impl<T> LookupConfigId for std::collections::BTreeMap<ConfigId, T> {
 
 pub trait ArcSwapUpdate<T> {
     /// Clone and update the inner value with the provided closure
-    fn update<F: Fn(&mut T)>(&self, updater: F);
+    fn update<F: Fn(&mut T)>(&self, updater: F) -> Arc<T>;
 }
 
 impl<T> ArcSwapUpdate<T> for ArcSwap<T>
 where
     T: Clone,
 {
-    fn update<F: Fn(&mut T)>(&self, updater: F) {
+    fn update<F: Fn(&mut T)>(&self, updater: F) -> Arc<T> {
         self.rcu(|current| {
             let mut new = T::clone(current);
             updater(&mut new);
             new
-        });
+        })
     }
 }
 
