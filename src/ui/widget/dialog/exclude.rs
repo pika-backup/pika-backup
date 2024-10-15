@@ -84,6 +84,7 @@ mod imp {
 
             for predefined in config::exclude::Predefined::VALUES {
                 let check_button = gtk::CheckButton::new();
+                check_button.add_css_class("selection-mode");
                 if exclude.contains(&config::Exclude::from_predefined(predefined.clone())) {
                     check_button.set_active(true);
                 }
