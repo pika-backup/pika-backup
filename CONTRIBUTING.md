@@ -37,19 +37,6 @@ See ["Running GLib Applications"](https://developer.gnome.org/glib/stable/glib-r
 
 The help pages are currently written in [ducktype](http://projectmallard.org/ducktype/1.0/index.html). The files are stored in `help/C/duck` and the corresponding `.page`-files can be generated via `make -C help/C/`. Afterwards, you can preview the generated help pages via `yelp help/C/index.page`. The generated `.page`-files have to be committed to the repository as well. The `ducktype` program required for running `make` is probably packaged in you distro and is also [availabe on GitHub](https://github.com/projectmallard/mallard-ducktype).
 
-### GtkBuilder files
-
-Binding to objects defined in `.ui`-files are auto generated via
-
-```sh
-$ ./build-aux/generate-ui-bindings.py
-```
-
-You have to execute this script after adding, changing or removing ids from `.ui`-files. The bindings can be found in `src/ui/builder.rs`. Using only those bindings allows to catch all errors in accessing builder elements on compile time.
-
 ### Flatpak manifests
 
 The `org.gnome.World.PikaBackup.Devel.json` manifest is generated via `generate-manifest.sh`. Please adjust the `org.gnome.World.PikaBackup.yml` manifest and generate the devel version from it.
-
-Outside of GNOME Builder the flatpak manifests depend on the generated `generated-sources.json` file. After changes of the `Cargo.lock` file this file must also be updated via executing `generate-manifest.sh`.
-
