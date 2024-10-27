@@ -1,20 +1,22 @@
 project(
     run_command(
         find_program(meson.project_source_root() / 'build-aux/meson-cargo-manifest.py'),
-        'package', 'name',
-        check: true
+        'package',
+        'name',
+        check: true,
     ).stdout(),
     'rust',
     version: run_command(
         find_program(meson.project_source_root() / 'build-aux/meson-cargo-manifest.py'),
-        'package', 'version',
-        check: true
+        'package',
+        'version',
+        check: true,
     ).stdout(),
     meson_version: '>=0.57',
 )
 
-i18n = import ('i18n')
-gnome = import ('gnome')
+i18n = import('i18n')
+gnome = import('gnome')
 
 dependency('gtk4', version: '>= 4.12.5')
 dependency('libadwaita-1', version: '>= 1.6.beta')

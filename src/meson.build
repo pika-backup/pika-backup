@@ -22,11 +22,12 @@ cargo_env = {
   'LOCALEDIR': get_option('prefix') / get_option('localedir'),
   'APPLICATION_ID_SUFFIX': get_option('app_id_suffix'),
   'GIT_DESCRIBE': run_command(
-      'git',
-      '-C', meson.project_source_root(),
-      'rev-parse', '--short', 'HEAD',
-      check: false
-    ).stdout().strip(),
+    'git',
+    '-C', meson.project_source_root(),
+    'rev-parse',
+    '--short', 'HEAD',
+    check: false,
+  ).stdout().strip(),
 }
 
 cargo_build = custom_target(
@@ -37,7 +38,8 @@ cargo_build = custom_target(
   console: true,
   env: cargo_env,
   command: [
-    cargo_bin, 'build',
+    cargo_bin,
+    'build',
     cargo_options,
   ],
 )
@@ -80,7 +82,8 @@ cargo_doc = custom_target(
   console: true,
   env: cargo_env,
   command: [
-    cargo_bin, 'doc',
+    cargo_bin,
+    'doc',
     cargo_options + ['--no-deps', '--document-private-items'],
   ],
 )
