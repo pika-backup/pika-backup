@@ -44,7 +44,7 @@ cargo_build = custom_target(
   ],
 )
 
-copy_binary = custom_target(
+custom_target(
   'cp-binary',
   depends: cargo_build,
   build_by_default: true,
@@ -59,7 +59,7 @@ copy_binary = custom_target(
   ],
 )
 
-copy_daemon_binary = custom_target(
+custom_target(
   'cp-daemon-binary',
   depends: cargo_build,
   build_by_default: true,
@@ -74,7 +74,7 @@ copy_daemon_binary = custom_target(
   ],
 )
 
-cargo_doc = custom_target(
+custom_target(
   'cargo-doc',
   build_by_default: false,
   build_always_stale: true,
