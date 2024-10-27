@@ -1,8 +1,9 @@
 use super::prelude::*;
 use arc_swap::ArcSwap;
+use std::sync::LazyLock;
 
-static LAST_MESSAGE: once_cell::sync::Lazy<ArcSwap<Option<String>>> =
-    once_cell::sync::Lazy::new(|| ArcSwap::new(Default::default()));
+static LAST_MESSAGE: LazyLock<ArcSwap<Option<String>>> =
+    LazyLock::new(|| ArcSwap::new(Default::default()));
 
 async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>> {
     static PROXY: async_lock::Mutex<

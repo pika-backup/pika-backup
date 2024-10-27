@@ -1,9 +1,9 @@
 use super::*;
 
-use once_cell::sync::Lazy;
 use std::ffi::OsString;
 use std::io::Read;
 use std::path::Path;
+use std::sync::LazyLock;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(untagged)]
@@ -93,7 +93,7 @@ pub enum Predefined {
 mod rules {
     use super::*;
 
-    pub static CACHES: Lazy<[Rule<ABSOLUTE>; 3]> = Lazy::new(|| {
+    pub static CACHES: LazyLock<[Rule<ABSOLUTE>; 3]> = LazyLock::new(|| {
         [
             // XDG cache
             Rule::Pattern(Pattern::PathPrefix(crate::utils::host::user_cache_dir())),
@@ -110,7 +110,7 @@ mod rules {
         ]
     });
 
-    pub static VMS_CONTAINERS: Lazy<[Rule<ABSOLUTE>; 9]> = Lazy::new(|| {
+    pub static VMS_CONTAINERS: LazyLock<[Rule<ABSOLUTE>; 9]> = LazyLock::new(|| {
         [
             // Boxes (host)
             Rule::Pattern(Pattern::PathPrefix(
@@ -150,7 +150,7 @@ mod rules {
         ]
     });
 
-    pub static FLATPAK_APPS: Lazy<[Rule<ABSOLUTE>; 1]> = Lazy::new(|| {
+    pub static FLATPAK_APPS: LazyLock<[Rule<ABSOLUTE>; 1]> = LazyLock::new(|| {
         [Rule::Pattern(Pattern::RegularExpression(
             regex::Regex::new(&format!(
                 r"^{}/flatpak/(?!overrides)",
@@ -160,7 +160,7 @@ mod rules {
         ))]
     });
 
-    pub static TRASH: Lazy<[Rule<ABSOLUTE>; 1]> = Lazy::new(|| {
+    pub static TRASH: LazyLock<[Rule<ABSOLUTE>; 1]> = LazyLock::new(|| {
         [Rule::Pattern(Pattern::PathPrefix(
             crate::utils::host::user_data_dir().join("Trash"),
         ))]

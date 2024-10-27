@@ -2,8 +2,8 @@ use crate::prelude::*;
 use gio::prelude::*;
 
 use arc_swap::ArcSwap;
-use once_cell::sync::Lazy;
 use std::cell::Cell;
+use std::sync::LazyLock;
 
 pub trait Loadable: Sized {
     fn from_file() -> Result<Self, std::io::Error>;
@@ -41,7 +41,7 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default> Load
 
 pub trait TrackChanges: Sized {
     fn update_on_change<H>(
-        store: &'static Lazy<ArcSwap<Self>>,
+        store: &'static LazyLock<ArcSwap<Self>>,
         error_handler: H,
     ) -> std::io::Result<()>
     where
@@ -57,7 +57,7 @@ where
     C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default + Clone,
 {
     fn update_on_change<H>(
-        store: &'static Lazy<ArcSwap<Self>>,
+        store: &'static LazyLock<ArcSwap<Self>>,
         error_handler: H,
     ) -> std::io::Result<()>
     where

@@ -62,8 +62,8 @@ mod imp {
 
     use glib::{ParamSpec, ParamSpecInt, Value};
 
-    use once_cell::sync::Lazy;
     use std::cell::{Cell, RefCell};
+    use std::sync::LazyLock;
 
     #[derive(Debug, Default)]
     pub struct WrapBox {
@@ -80,7 +80,7 @@ mod imp {
 
     impl ObjectImpl for WrapBox {
         fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: LazyLock<Vec<ParamSpec>> = LazyLock::new(|| {
                 vec![ParamSpecInt::builder("width-estimate")
                     .minimum(100)
                     .maximum(1000)

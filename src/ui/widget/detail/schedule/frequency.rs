@@ -3,8 +3,8 @@ use crate::config;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 use glib::{ParamSpec, ParamSpecString};
-use once_cell::sync::Lazy;
 use std::cell::RefCell;
+use std::sync::LazyLock;
 
 pub fn list() -> Vec<config::Frequency> {
     vec![
@@ -45,8 +45,8 @@ mod imp {
 
     impl ObjectImpl for FrequencyObject {
         fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: Lazy<Vec<ParamSpec>> =
-                Lazy::new(|| vec![ParamSpecString::builder("display").build()]);
+            static PROPERTIES: LazyLock<Vec<ParamSpec>> =
+                LazyLock::new(|| vec![ParamSpecString::builder("display").build()]);
             PROPERTIES.as_ref()
         }
 

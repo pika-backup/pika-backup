@@ -6,30 +6,32 @@ use std::rc::Rc;
 use std::sync::OnceLock;
 
 use arc_swap::ArcSwap;
-use once_cell::sync::Lazy;
+use std::sync::LazyLock;
 
 use crate::borg;
 use crate::ui;
 
 use super::app::App;
 
-pub static BACKUP_CONFIG: Lazy<ArcSwap<config::Writeable<config::Backups>>> =
-    Lazy::new(Default::default);
-pub static BACKUP_HISTORY: Lazy<ArcSwap<config::Writeable<config::Histories>>> =
-    Lazy::new(Default::default);
+pub static BACKUP_CONFIG: LazyLock<ArcSwap<config::Writeable<config::Backups>>> =
+    LazyLock::new(Default::default);
+pub static BACKUP_HISTORY: LazyLock<ArcSwap<config::Writeable<config::Histories>>> =
+    LazyLock::new(Default::default);
 
-pub static SCHEDULE_STATUS: Lazy<ArcSwap<config::ScheduleStatus>> = Lazy::new(Default::default);
+pub static SCHEDULE_STATUS: LazyLock<ArcSwap<config::ScheduleStatus>> =
+    LazyLock::new(Default::default);
 
-pub static ACTIVE_BACKUP_ID: Lazy<ArcSwap<Option<ConfigId>>> = Lazy::new(Default::default);
+pub static ACTIVE_BACKUP_ID: LazyLock<ArcSwap<Option<ConfigId>>> = LazyLock::new(Default::default);
 
-pub static ACTIVE_MOUNTS: Lazy<ArcSwap<HashSet<borg::RepoId>>> = Lazy::new(Default::default);
+pub static ACTIVE_MOUNTS: LazyLock<ArcSwap<HashSet<borg::RepoId>>> =
+    LazyLock::new(Default::default);
 
 pub static BORG_VERSION: OnceLock<String> = OnceLock::new();
 
-pub static REPO_CACHE: Lazy<ArcSwap<BTreeMap<borg::RepoId, ui::utils::repo_cache::RepoCache>>> =
-    Lazy::new(Default::default);
+pub static REPO_CACHE: LazyLock<ArcSwap<BTreeMap<borg::RepoId, ui::utils::repo_cache::RepoCache>>> =
+    LazyLock::new(Default::default);
 
-pub static LC_LOCALE: Lazy<num_format::Locale> = Lazy::new(|| {
+pub static LC_LOCALE: LazyLock<num_format::Locale> = LazyLock::new(|| {
     std::env::var("LC_NUMERIC")
         .ok()
         .as_deref()

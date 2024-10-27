@@ -1,6 +1,6 @@
 use gio::{prelude::*, ApplicationHoldGuard};
-use once_cell::unsync::OnceCell;
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
