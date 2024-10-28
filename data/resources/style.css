@@ -1,17 +1,16 @@
 /* Add config location */
-
-.location-row > * {
+.location-row>* {
   color: var(--theme-fg-color);
   border: 1px solid var(--border-color);
   background-clip: padding-box;
 }
 
-.location-row > *:nth-child(2) {
+.location-row>*:nth-child(2) {
   border-left: none;
   border-right: none;
 }
 
-.location-row > label {
+.location-row>label {
   padding: 0 10px;
   opacity: 1;
 }
@@ -21,7 +20,6 @@
 }
 
 /* AdwPreferencesPage Dialog with pill button below */
-
 preferencespage.dialog-page viewport {
   /* 24 px margin bottom of button + 44 px button height */
   padding-bottom: 68px;
@@ -41,23 +39,23 @@ button.dialog-pill {
 }
 
 /* We only need this for .content */
-.dialog-page .container > .header {
+.dialog-page .container>.header {
   margin: 6px;
 }
 
-.dialog-page .container > .description {
+.dialog-page .container>.description {
   margin: 6px;
 }
 
 /* Handle nested boxes */
-.dialog-page .content > *:not(box),
-.dialog-page .content > box > *:not(revealer) {
+.dialog-page .content>*:not(box),
+.dialog-page .content>box>*:not(revealer) {
   margin: 6px;
 }
 
 /* Giving a revealer padding does not look very nice, so we give the child a margin instead */
-.dialog-page .content > revealer > *,
-.dialog-page .content > box > revealer > * {
+.dialog-page .content>revealer>*,
+.dialog-page .content>box>revealer>* {
   margin: 6px;
 }
 
@@ -68,7 +66,6 @@ button.dialog-pill {
 }
 
 /* AdwActionRow prefix images */
-
 image.row-icon {
   -gtk-icon-size: 16px;
 }
@@ -83,7 +80,6 @@ spinner.row-icon {
 }
 
 /* Overview with existing configs */
-
 .overview-list {
   background-color: inherit;
 }
@@ -103,7 +99,6 @@ spinner.row-icon {
 }
 
 .tag-box .tag {
-
   background-color: alpha(currentColor, .1);
   padding: 4px 11px;
   border-radius: 9999px;
@@ -114,7 +109,6 @@ spinner.row-icon {
 }
 
 /* PikaStatusIcon */
-
 .status-icon {
   min-width: 32px;
   min-height: 32px;
@@ -150,15 +144,27 @@ spinner.row-icon {
   color: var(--warning-color);
 }
 
-levelbar .low {
-  background-color: var(--error-bg-color);
+levelbar.disk-usage .low {
+  background-color: var(--success-bg-color);
 }
 
-levelbar .high {
+levelbar.disk-usage .high {
   background-color: var(--warning-bg-color);
 }
 
-levelbar .full {
+levelbar.disk-usage .full {
+  background-color: var(--error-bg-color);
+}
+
+levelbar.password-quality .low {
+  background-color: var(--error-bg-color);
+}
+
+levelbar.password-quality .high {
+  background-color: var(--warning-bg-color);
+}
+
+levelbar.password-quality .full {
   background-color: var(--success-bg-color);
 }
 
@@ -180,7 +186,7 @@ statuspage.dimmed label.description {
   opacity: 0.55;
 }
 
-statuspage.dimmed box > label.title {
+statuspage.dimmed box>label.title {
   font-weight: 700;
   font-size: 15pt;
 }

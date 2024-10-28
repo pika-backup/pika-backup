@@ -19,20 +19,20 @@
     <child>
       <object class="GtkRevealer" id="revealer">
         <property name="reveal-child" bind-source="PkEncryptionSettings" bind-property="encrypted" bind-flags="sync-create" />
-        <child>        
+        <child>
           <object class="AdwPreferencesGroup">
             <child>
               <object class="AdwPasswordEntryRow" id="password_entry">
                 <property name="title" translatable="yes">Encryption Password</property>
                 <property name="activates-default">1</property>
-                <signal name="changed" handler="password_value_changed" swapped="true"/>
+                <signal name="changed" handler="password_value_changed" swapped="true" />
               </object>
             </child>
             <child>
               <object class="AdwPasswordEntryRow" id="password_confirm_entry">
                 <property name="title" translatable="yes">Repeat Password</property>
                 <property name="activates-default">1</property>
-                <signal name="changed" handler="password_value_changed" swapped="true"/>
+                <signal name="changed" handler="password_value_changed" swapped="true" />
               </object>
             </child>
             <child>
@@ -40,6 +40,9 @@
                 <property name="margin-top">12</property>
                 <property name="max-value">7</property>
                 <property name="mode">continuous</property>
+                <style>
+                  <class name="password-quality" />
+                </style>
               </object>
             </child>
             <child>
