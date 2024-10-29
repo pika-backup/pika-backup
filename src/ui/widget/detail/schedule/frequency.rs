@@ -2,9 +2,7 @@ use crate::config;
 
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::{ParamSpec, ParamSpecString};
 use std::cell::RefCell;
-use std::sync::LazyLock;
 
 pub fn list() -> Vec<config::Frequency> {
     vec![
@@ -36,26 +34,16 @@ impl FrequencyObject {
 }
 
 mod imp {
+    use std::marker::PhantomData;
+
     use super::*;
 
-    #[derive(Default)]
+    #[derive(Default, glib::Properties)]
+    #[properties(wrapper_type=super::FrequencyObject)]
     pub struct FrequencyObject {
         pub frequency: RefCell<config::Frequency>,
-    }
-
-    impl ObjectImpl for FrequencyObject {
-        fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: LazyLock<Vec<ParamSpec>> =
-                LazyLock::new(|| vec![ParamSpecString::builder("display").build()]);
-            PROPERTIES.as_ref()
-        }
-
-        fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "display" => self.frequency.borrow().name().to_value(),
-                _ => unimplemented!(),
-            }
-        }
+        #[property(get=Self::name)]
+        display: PhantomData<String>,
     }
 
     #[glib::object_subclass]
@@ -63,5 +51,14 @@ mod imp {
         const NAME: &'static str = "PikaBackupScheduleFrequency";
         type Type = super::FrequencyObject;
         type ParentType = glib::Object;
+    }
+
+    #[glib::derived_properties]
+    impl ObjectImpl for FrequencyObject {}
+
+    impl FrequencyObject {
+        fn name(&self) -> String {
+            self.frequency.borrow().name()
+        }
     }
 }

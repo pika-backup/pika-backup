@@ -2,9 +2,6 @@ use glib::prelude::*;
 use glib::subclass::prelude::*;
 use std::cell::RefCell;
 
-use glib::{ParamSpec, ParamSpecString};
-use std::sync::LazyLock;
-
 pub static LIST: [chrono::Weekday; 7] = [
     chrono::Weekday::Mon,
     chrono::Weekday::Tue,
@@ -32,10 +29,23 @@ impl WeekdayObject {
 }
 
 mod imp {
+    use std::marker::PhantomData;
+
     use super::*;
 
+    #[derive(glib::Properties)]
+    #[properties(wrapper_type = super::WeekdayObject)]
     pub struct WeekdayObject {
         pub weekday: RefCell<chrono::Weekday>,
+        #[property(get = Self::name)]
+        display: PhantomData<String>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for WeekdayObject {
+        const NAME: &'static str = "PikaBackupWeekday";
+        type Type = super::WeekdayObject;
+        type ParentType = glib::Object;
     }
 
     impl WeekdayObject {
@@ -59,29 +69,11 @@ mod imp {
         fn default() -> Self {
             Self {
                 weekday: RefCell::new(chrono::Weekday::Fri),
+                display: Default::default(),
             }
         }
     }
 
-    impl ObjectImpl for WeekdayObject {
-        fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: LazyLock<Vec<ParamSpec>> =
-                LazyLock::new(|| vec![ParamSpecString::builder("display").build()]);
-            PROPERTIES.as_ref()
-        }
-
-        fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "display" => self.name().to_value(),
-                _ => unimplemented!(),
-            }
-        }
-    }
-
-    #[glib::object_subclass]
-    impl ObjectSubclass for WeekdayObject {
-        const NAME: &'static str = "PikaBackupWeekday";
-        type Type = super::WeekdayObject;
-        type ParentType = glib::Object;
-    }
+    #[glib::derived_properties]
+    impl ObjectImpl for WeekdayObject {}
 }

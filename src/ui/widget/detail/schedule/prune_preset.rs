@@ -3,9 +3,7 @@ use crate::ui::prelude::*;
 
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::{ParamSpec, ParamSpecString};
 use std::cell::RefCell;
-use std::sync::LazyLock;
 
 #[derive(Debug, Clone)]
 pub enum PrunePreset {
@@ -85,26 +83,16 @@ impl PrunePresetObject {
 }
 
 mod imp {
+    use std::marker::PhantomData;
+
     use super::*;
 
-    #[derive(Default)]
+    #[derive(Default, glib::Properties)]
+    #[properties(wrapper_type=super::PrunePresetObject)]
     pub struct PrunePresetObject {
         pub preset: RefCell<PrunePreset>,
-    }
-
-    impl ObjectImpl for PrunePresetObject {
-        fn properties() -> &'static [ParamSpec] {
-            static PROPERTIES: LazyLock<Vec<ParamSpec>> =
-                LazyLock::new(|| vec![ParamSpecString::builder("display").build()]);
-            PROPERTIES.as_ref()
-        }
-
-        fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "display" => self.preset.borrow().name().to_value(),
-                _ => unimplemented!(),
-            }
-        }
+        #[property(get=Self::name)]
+        display: PhantomData<String>,
     }
 
     #[glib::object_subclass]
@@ -112,5 +100,14 @@ mod imp {
         const NAME: &'static str = "PikaBackupPrunePreset";
         type Type = super::PrunePresetObject;
         type ParentType = glib::Object;
+    }
+
+    #[glib::derived_properties]
+    impl ObjectImpl for PrunePresetObject {}
+
+    impl PrunePresetObject {
+        fn name(&self) -> String {
+            self.preset.borrow().name()
+        }
     }
 }
