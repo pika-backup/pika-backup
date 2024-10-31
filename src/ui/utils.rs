@@ -418,6 +418,7 @@ pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
         let dialog = adw::AlertDialog::builder()
             .heading(&primary_text)
             .body(&secondary_text)
+            .prefer_wide_layout(true)
             .build();
 
         dialog.add_responses(&[("close", &gettext("Close"))]);
@@ -476,6 +477,7 @@ impl ConfirmationDialog {
         let dialog = adw::AlertDialog::builder()
             .heading(&self.title)
             .body(&self.message)
+            .prefer_wide_layout(true)
             .build();
 
         dialog.add_responses(&[("cancel", &self.cancel), ("accept", &self.accept)]);
