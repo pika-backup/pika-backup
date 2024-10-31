@@ -267,7 +267,8 @@ where
         .await;
 
         return match result? {
-            Err(borg::Error::Failed(borg::Failure::LockTimeout)) => {
+            Err(borg::Error::Failed(borg::Failure::LockTimeout)) if !borg.is_scheduled() => {
+                // Ask to break lock for manually started backups
                 handle_lock(borg.clone()).await?;
                 continue;
             }
@@ -278,9 +279,10 @@ where
 }
 
 async fn handle_lock<B: borg::BorgRunConfig>(borg: B) -> CombinedResult<()> {
+    let repo_location = borg.repo().location();
     ui::utils::ConfirmationDialog::new(
-        &gettext("Repository already in use."),
-        &(gettext("The backup repository is marked as already in use. This information can be outdated if, for example, the computer lost power while using the repository.")
+        &gettext("Repository Already in Use"),
+        &(gettextf("The backup repository “{}” is marked as already in use. This information can be outdated if, for example, the computer lost power while using the repository.", [repo_location])
         + "\n\n"
         + &gettext("Only continue if it is certain that the repository is not used by any program! Continuing while another program uses the repository might corrupt backup data!")),
         &gettext("Cancel"),
