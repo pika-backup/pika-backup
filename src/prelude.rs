@@ -12,11 +12,11 @@ use arc_swap::ArcSwap;
 
 pub use gettextrs::{gettext, ngettext};
 
-pub fn gettextf(format: &str, args: &[&str]) -> String {
+pub fn gettextf(format: &str, args: impl IntoIterator<Item = impl std::fmt::Display>) -> String {
     let mut s = gettext(format);
 
     for arg in args {
-        s = s.replacen("{}", arg, 1)
+        s = s.replacen("{}", &arg.to_string(), 1)
     }
     s
 }

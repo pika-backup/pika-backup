@@ -342,6 +342,7 @@ pub trait BorgRunConfig: Clone + Send + 'static {
     fn is_encrypted(&self) -> bool;
     fn config_id(&self) -> Option<ConfigId>;
     fn try_config(&self) -> Option<config::Backup>;
+    fn is_scheduled(&self) -> bool;
 }
 
 impl<T: Task> BorgRunConfig for Command<T> {
@@ -372,6 +373,10 @@ impl<T: Task> BorgRunConfig for Command<T> {
     fn try_config(&self) -> Option<config::Backup> {
         Some(self.config.clone())
     }
+
+    fn is_scheduled(&self) -> bool {
+        self.from_schedule.is_some()
+    }
 }
 
 impl BorgRunConfig for CommandOnlyRepo {
@@ -401,6 +406,10 @@ impl BorgRunConfig for CommandOnlyRepo {
 
     fn try_config(&self) -> Option<config::Backup> {
         None
+    }
+
+    fn is_scheduled(&self) -> bool {
+        false
     }
 }
 
