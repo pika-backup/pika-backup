@@ -150,6 +150,7 @@ pub enum Abort {
     /// Unable to mount / access the repository during setup.
     /// Detailed error message in parameter.
     RepositoryNotAvailable(String),
+    QuestionDuringSchedule(QuestionPrompt),
 }
 
 impl std::fmt::Display for Abort {
@@ -183,6 +184,7 @@ impl std::fmt::Display for Abort {
                     gettextf("Unable to access backup repository: {}", &[msg])
                 )
             }
+            Abort::QuestionDuringSchedule(_) => todo!(),
         }
     }
 }
