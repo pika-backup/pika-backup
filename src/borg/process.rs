@@ -468,11 +468,8 @@ impl<'a, T: Task> BorgProcess<'a, T> {
     async fn spawn<S: std::fmt::Debug + serde::de::DeserializeOwned + 'static>(
         mut self,
     ) -> Result<S> {
-        info!(
-            "Running managed borg command: {:#?}\nenv: {:#?}",
-            self.call.args(),
-            self.call.envs
-        );
+        info!("Running managed borg command: {:?}", self.command);
+        debug!("Command details: {:#?}", self.command);
 
         let mut process = self.command.spawn()?;
 

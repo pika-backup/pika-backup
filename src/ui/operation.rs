@@ -211,15 +211,24 @@ impl<T: borg::Task> Operation<T> {
     fn handle_borg_question(&self, question: &log_json::QuestionPrompt) {
         let communication = self.communication().clone();
 
-        glib::MainContext::default().spawn_local(glib::clone!(
-            #[strong]
-            question,
-            async move {
-                let response =
-                    ui::utils::show_borg_question(&App::default().main_window(), &question).await;
-                communication.set_instruction(borg::Instruction::Response(response));
-            }
-        ));
+        if !self.command.is_scheduled() {
+            // Abort backup if question is asked during schedule
+            communication.set_instruction(borg::Instruction::Abort(
+                borg::Abort::QuestionDuringSchedule(question.clone()),
+            ));
+        } else {
+            // Show dialog if question is asked during schedule
+            glib::MainContext::default().spawn_local(glib::clone!(
+                #[strong]
+                question,
+                async move {
+                    let response =
+                        ui::utils::show_borg_question(&App::default().main_window(), &question)
+                            .await;
+                    communication.set_instruction(borg::Instruction::Response(response));
+                }
+            ));
+        }
     }
 }
 

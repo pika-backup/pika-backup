@@ -217,7 +217,7 @@ impl fmt::Display for Operation {
     }
 }
 
-#[derive(Deserialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Eq)]
 pub struct QuestionPrompt {
     #[serde(default)]
     msgid: QuestionId,
@@ -275,7 +275,7 @@ impl QuestionPrompt {
     }
 }
 
-#[derive(Deserialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum QuestionId {
     #[serde(rename = "BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK")]
