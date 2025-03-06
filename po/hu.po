@@ -1,15 +1,15 @@
 # Hungarian translation for pika-backup.
-# Copyright (C) 2021, 2022, 2023, 2024 Free Software Foundation, Inc.
+# Copyright (C) 2021, 2022, 2023, 2024, 2025 Free Software Foundation, Inc.
 # This file is distributed under the same license as the pika-backup package.
 #
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2021, 2022, 2023, 2024.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2021, 2022, 2023, 2024.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-09-07 20:40+0000\n"
-"PO-Revision-Date: 2024-09-09 10:50+0200\n"
+"POT-Creation-Date: 2025-02-23 10:34+0000\n"
+"PO-Revision-Date: 2025-03-06 19:06+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -125,7 +125,7 @@ msgstr "Új biztonsági mentés beállítása"
 msgid "Show Keyboard Shortcuts"
 msgstr "Gyorsbillentyűk megjelenítése"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:277
+#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:279
 msgid "Quit"
 msgstr "Kilépés"
 
@@ -198,47 +198,113 @@ msgstr "{}"
 msgid "Unable to access backup repository: {}"
 msgstr "Nem lehet hozzáférni a biztonsági mentési tárolóhoz: {}"
 
-#: src/borg/error.rs:238
-msgid "Connection closed by remote host."
-msgstr "A távoli gép lezárta a kapcsolatot."
-
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:280
-msgid "Repository already in use."
-msgstr "A tároló már használatban van."
-
-#: src/borg/error.rs:241
-msgid "Failed to lock repository."
-msgstr "A tároló zárolása sikertelen."
-
-#: src/borg/error.rs:242
-msgid "Invalid encryption password."
-msgstr "Érvénytelen titkosítási jelszó."
-
-#: src/borg/error.rs:243
-msgid "Repository access was aborted"
-msgstr "A tároló-hozzáférés meg lett szakítva"
-
-#: src/borg/error.rs:245
+#: src/borg/error.rs:288
 msgid "A repository already exists at this location."
 msgstr "Már létezik egy tároló ezen a helyen."
 
-#: src/borg/error.rs:247
+#: src/borg/error.rs:290
+msgid ""
+"Inconsistencies were detected in the repository. Running a data integrity "
+"check is needed."
+msgstr ""
+"Következetlenségek merültek fel a tárolóban. Adatintegritás-ellenőrzés"
+" futtatása szükséges."
+
+#: src/borg/error.rs:291
 msgid "No repository exists at this location."
 msgstr "Nem létezik tároló ezen a helyen."
 
-#: src/borg/error.rs:249
+#: src/borg/error.rs:292
 msgid "Not enough free space in repository."
 msgstr "Nincs elég szabad terület a tárolóban."
 
-#: src/borg/error.rs:252
+#: src/borg/error.rs:294
+#| msgid "Location is not a valid backup repository."
+msgid "The configured location does not contain a valid repository."
+msgstr "A beállított hely nem tartalmaz érvényes tárolót."
+
+#: src/borg/error.rs:297
+msgid ""
+"The configured location does not contain a valid repository configuration."
+msgstr "A beállított hely nem tartalmaz érvényes tárolóbeállítást."
+
+#: src/borg/error.rs:299
+#| msgid "The following locations are not backed up"
+msgid "The configured location does not exist."
+msgstr "A beállított hely nem létezik."
+
+#: src/borg/error.rs:300
+#| msgid "The remote location must have a specified path."
+msgid "The selected location does already exist."
+msgstr "A kiválasztott hely már létezik."
+
+#: src/borg/error.rs:302
+msgid ""
+"The repositories storage quota has been reached. Try deleting older archives "
+"that are no longer needed."
+msgstr ""
+"A tárolók tárolási kvótája elérve. Próbálja meg törölni a régebbi, már nem"
+" szükséges archívumokat."
+
+#: src/borg/error.rs:305
+msgid ""
+"Permission to access the configured location has been denied. Check the file "
+"permissions."
+msgstr ""
+"A beállított hely elérésének jogosultsága megtagadásra került. Ellenőrizze a"
+" fájl jogosultságait."
+
+#: src/borg/error.rs:310
+msgid ""
+"A newer version of Pika Backup is required to access this repository. The "
+"repository uses unsupported features."
+msgstr ""
+"A Pika biztonsági mentés újabb verziója szükséges a tároló eléréséhez. A"
+" tároló nem támogatott funkciókat használ."
+
+#. RC 30+
+#: src/borg/error.rs:314
+#| msgid "The encryption password of the backup repository"
+msgid "The selected location already contains a repository."
+msgstr "A kiválasztott hely már tartalmaz tárolót."
+
+#: src/borg/error.rs:315
+msgid "The configured location does not contain an archive."
+msgstr "A beállított hely nem tartalmaz archívumot."
+
+#. RC 50+
+#: src/borg/error.rs:318
+msgid "Invalid encryption password."
+msgstr "Érvénytelen titkosítási jelszó."
+
+#. RC 60+
+#: src/borg/error.rs:321
+msgid "Repository access was aborted"
+msgstr "A tároló-hozzáférés meg lett szakítva"
+
+#. RC 70+
+#: src/borg/error.rs:324
+msgid "Failed to lock repository."
+msgstr "A tároló zárolása sikertelen."
+
+#: src/borg/error.rs:325 src/ui/utils/borg.rs:280
+msgid "Repository already in use."
+msgstr "A tároló már használatban van."
+
+#: src/borg/error.rs:329
+msgid "Connection closed by remote host."
+msgstr "A távoli gép lezárta a kapcsolatot."
+
+#: src/borg/error.rs:334
 msgid "Connection closed by remote host: “{}”"
 msgstr "A távoli gép lezárta a kapcsolatot: „{}”"
 
-#: src/borg/error.rs:254
+#. General
+#: src/borg/error.rs:338
 msgid "Exception"
 msgstr "Kivétel"
 
-#: src/borg/error.rs:256
+#: src/borg/error.rs:340
 msgid "Unspecified error."
 msgstr "Meghatározatlan hiba."
 
@@ -528,47 +594,58 @@ msgstr ""
 "vissza: {}"
 
 #: src/borg/task.rs:47
-msgid "Generic Operation"
+#| msgid "Generic Operation"
+msgid "Generic operation"
 msgstr "Általános művelet"
 
 #: src/borg/task.rs:61
-msgid "Backing Up Data"
+#| msgid "Backing Up Data"
+msgid "Backing up data"
 msgstr "Adatok biztonsági mentése"
 
 #: src/borg/task.rs:75
-msgid "Mounting Backup Archives"
+#| msgid "Mounting Backup Archives"
+msgid "Mounting backup archives"
 msgstr "Biztonsági mentési archívumok csatolása"
 
 #: src/borg/task.rs:89
-msgid "Removing Old Archives"
+#| msgid "Removing Old Archives"
+msgid "Removing old archives"
 msgstr "Régi archívumok eltávolítása"
 
 #: src/borg/task.rs:103
-msgid "Identifying Old Archives"
+#| msgid "Identifying old Archives"
+msgid "Identifying old archives"
 msgstr "Régi archívumok azonosítása"
 
 #: src/borg/task.rs:117
-msgid "Reclaiming Free Space"
+#| msgid "Reclaiming Free Space"
+msgid "Reclaiming free space"
 msgstr "Szabad hely visszaszerzése"
 
 #: src/borg/task.rs:152
-msgid "Checking Archives Integrity"
-msgstr "Archívumok integritásának ellenőrzése"
+#| msgid "Checking Archives Integrity"
+msgid "Checking archive integrity"
+msgstr "Archívum integritásának ellenőrzése"
 
 #: src/borg/task.rs:179
-msgid "Deleting Archive"
+#| msgid "Deleting Archive"
+msgid "Deleting archive"
 msgstr "Archívum törlése"
 
 #: src/borg/task.rs:202
-msgid "Refreshing Archive List"
+#| msgid "Refreshing Archive List"
+msgid "Refreshing archive list"
 msgstr "Archívumlista frissítése"
 
 #: src/borg/task.rs:248
-msgid "Changing Passphrase"
+#| msgid "Changing Passphrase"
+msgid "Changing passphrase"
 msgstr "Jelmondat megváltoztatása"
 
 #: src/borg/task.rs:283
-msgid "Running Custom Shell Command"
+#| msgid "Running Custom Shell Command"
+msgid "Running custom shell command"
 msgstr "Egyéni parancs futtatása"
 
 #. Translators: User home directory
@@ -667,19 +744,19 @@ msgstr "Unix fájlnévminta"
 msgid "Remote Location"
 msgstr "Távoli hely"
 
-#: src/config/schedule.rs:37
+#: src/config/schedule.rs:38
 msgid "Hourly"
 msgstr "Óránként"
 
-#: src/config/schedule.rs:38
+#: src/config/schedule.rs:39
 msgid "Daily"
 msgstr "Naponta"
 
-#: src/config/schedule.rs:39
+#: src/config/schedule.rs:40
 msgid "Weekly"
 msgstr "Hetente"
 
-#: src/config/schedule.rs:40
+#: src/config/schedule.rs:41
 msgid "Monthly"
 msgstr "Havonta"
 
@@ -809,15 +886,15 @@ msgstr "Nem sikerült a BorgBackup verziójának ellenőrzése"
 msgid "The installed version {} might not work."
 msgstr "A telepített verzió ({}) esetleg nem fog működni."
 
-#: src/ui/app.rs:249
+#: src/ui/app.rs:251
 msgid "Abort Backup?"
 msgstr "Megszakítja a biztonsági mentést?"
 
-#: src/ui/app.rs:250
+#: src/ui/app.rs:252
 msgid "The backup will remain incomplete if aborted now"
 msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja"
 
-#: src/ui/app.rs:251 src/ui/utils.rs:386
+#: src/ui/app.rs:253 src/ui/utils.rs:386
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
@@ -825,17 +902,17 @@ msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja"
 msgid "Continue"
 msgstr "Folytatás"
 
-#: src/ui/app.rs:252 src/ui/utils.rs:385
+#: src/ui/app.rs:254 src/ui/utils.rs:385
 #: src/ui/widget/detail/backup/events.rs:37
 #: src/ui/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Megszakítás"
 
-#: src/ui/app.rs:262
+#: src/ui/app.rs:264
 msgid "Backup Operation Running"
 msgstr "Biztonsági mentési művelet fut"
 
-#: src/ui/app.rs:264
+#: src/ui/app.rs:266
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr ""
 "A Pika biztonsági mentés nem tud kilépni egy biztonsági mentési művelet "
@@ -951,7 +1028,6 @@ msgid "Could not find backup configuration with id “{}”."
 msgstr "Nem található „{}” azonosítójú biztonsági mentési beállítás."
 
 #: src/ui/error.rs:181
-#| msgid "Cancel"
 msgid "Canceled"
 msgstr "Megszakítva"
 
@@ -967,7 +1043,7 @@ msgstr "A csatolás sikertelen"
 msgid "The network server is not available"
 msgstr "A hálózati kiszolgáló nem érhető el"
 
-#: src/ui/shell.rs:29
+#: src/ui/shell.rs:30
 msgid "Idle"
 msgstr "Tétlen"
 
@@ -1036,7 +1112,7 @@ msgid "Failed to Create Thread"
 msgstr "Nem sikerült szálat létrehozni"
 
 #: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:79
-#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.rs:301
+#: src/ui/widget/dialog/exclude.rs:255 src/ui/widget/dialog/exclude.rs:302
 msgid "Select"
 msgstr "Kiválasztás"
 
@@ -1311,47 +1387,47 @@ msgstr "_Archívumok"
 msgid "_Schedule"
 msgstr "Ü_temezés"
 
-#: src/ui/widget/detail/archives.ui:98
+#: src/ui/widget/detail/archives.ui:101
 msgid "Archive _Prefix"
 msgstr "Archívum_előtag"
 
-#: src/ui/widget/detail/archives.ui:100
+#: src/ui/widget/detail/archives.ui:103
 msgid "Added in front of all archive names"
 msgstr "Hozzáadva az összes archívum neve elé"
 
-#: src/ui/widget/detail/archives.ui:129
+#: src/ui/widget/detail/archives.ui:132
 msgid "_Cleanup Archives"
 msgstr "Archívumok _tisztítása"
 
-#: src/ui/widget/detail/archives.ui:130
+#: src/ui/widget/detail/archives.ui:133
 msgid "Delete some older archives"
 msgstr "Néhány régebbi archívum törlése"
 
-#: src/ui/widget/detail/archives.ui:146
+#: src/ui/widget/detail/archives.ui:149
 msgid "Data Integrity Check"
 msgstr "Adatintegritás ellenőrzése"
 
-#: src/ui/widget/detail/archives.ui:153
+#: src/ui/widget/detail/archives.ui:156
 msgid "_Check Now"
 msgstr "_Ellenőrzés most"
 
-#: src/ui/widget/detail/archives.ui:161 src/ui/widget/detail/backup.ui:77
+#: src/ui/widget/detail/archives.ui:164 src/ui/widget/detail/backup.ui:77
 msgid "_Abort…"
 msgstr "_Megszakítás…"
 
-#: src/ui/widget/detail/archives.ui:169
+#: src/ui/widget/detail/archives.ui:172
 msgid "Archives"
 msgstr "Archívumok"
 
-#: src/ui/widget/detail/archives.ui:178
+#: src/ui/widget/detail/archives.ui:181
 msgid "Refresh"
 msgstr "Frissítés"
 
-#: src/ui/widget/detail/archives.ui:199
+#: src/ui/widget/detail/archives.ui:202
 msgid "Stop Browsing Saved Files"
 msgstr "Mentett fájlok tallózásának leállítása"
 
-#: src/ui/widget/detail/archives.ui:225
+#: src/ui/widget/detail/archives.ui:228
 msgid "No Archives Available"
 msgstr "Nincsenek elérhető archívumok"
 
@@ -1680,15 +1756,15 @@ msgstr "Ütemezés _letiltása"
 msgid "No preset selected."
 msgstr "Nincs előbeállítás kiválasztva."
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:20
+#: src/ui/widget/detail/schedule/prune_preset.rs:18
 msgid "Keep Many"
 msgstr "Sok megtartása"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:21
+#: src/ui/widget/detail/schedule/prune_preset.rs:19
 msgid "Keep Some"
 msgstr "Néhány megtartása"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:22
+#: src/ui/widget/detail/schedule/prune_preset.rs:20
 msgid "Custom"
 msgstr "Egyéni"
 
@@ -1912,7 +1988,7 @@ msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Ha az archívumelőtag üres, akkor nem lesz előtag hozzáadva."
 
 #: src/ui/widget/dialog/archive_prefix.ui:75
-#: src/ui/widget/dialog/exclude.rs:352
+#: src/ui/widget/dialog/exclude.rs:353
 msgid "Save"
 msgstr "Mentés"
 
@@ -2051,27 +2127,27 @@ msgstr "_Folytatás"
 msgid "Password"
 msgstr "Jelszó"
 
-#: src/ui/widget/dialog/exclude.rs:109
+#: src/ui/widget/dialog/exclude.rs:110
 msgid "Exclusion Rules"
 msgstr "Kizárási szabályok"
 
-#: src/ui/widget/dialog/exclude.rs:165
+#: src/ui/widget/dialog/exclude.rs:166
 msgid "Add Exclusion Rule"
 msgstr "Kizárási szabály hozzáadása"
 
-#: src/ui/widget/dialog/exclude.rs:253 src/ui/widget/dialog/exclude.ui:25
+#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.ui:25
 msgid "Exclude Folders"
 msgstr "Mappák kizárása"
 
-#: src/ui/widget/dialog/exclude.rs:300 src/ui/widget/dialog/exclude.ui:38
+#: src/ui/widget/dialog/exclude.rs:301 src/ui/widget/dialog/exclude.ui:38
 msgid "Exclude Files"
 msgstr "Fájlok kizárása"
 
-#: src/ui/widget/dialog/exclude.rs:361 src/ui/widget/dialog/exclude.ui:152
+#: src/ui/widget/dialog/exclude.rs:362 src/ui/widget/dialog/exclude.ui:152
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: src/ui/widget/dialog/exclude.rs:380
+#: src/ui/widget/dialog/exclude.rs:381
 msgid "Invalid Regular Expression"
 msgstr "Érvénytelen reguláris kifejezés"
 
@@ -2137,7 +2213,6 @@ msgid "Shell command invalid"
 msgstr "A parancs érvénytelen"
 
 #: src/ui/widget/dialog/preferences.rs:477
-#| msgid "Repeat Password"
 msgid "Remove Password?"
 msgstr "Eltávolítja a jelszót?"
 
@@ -2147,11 +2222,10 @@ msgid ""
 "When encryption is not used, everyone with access to the backup files can "
 "read all data"
 msgstr ""
-"Ha nincs titkosítás használva, akkor bárki elolvashatja az összes adatot,"
-" akinek hozzáférése van a biztonsági mentés fájljaihoz"
+"Ha nincs titkosítás használva, akkor bárki elolvashatja az összes adatot, "
+"akinek hozzáférése van a biztonsági mentés fájljaihoz"
 
 #: src/ui/widget/dialog/preferences.rs:483
-#| msgid "Repeat Password"
 msgid "Remove Password"
 msgstr "Jelszó eltávolítása"
 
@@ -2174,7 +2248,6 @@ msgid "_Change Password"
 msgstr "Jelszó _megváltoztatása"
 
 #: src/ui/widget/dialog/preferences.ui:70
-#| msgid "Repeat Password"
 msgid "_Remove Password"
 msgstr "Jelszó _eltávolítása"
 
@@ -2326,7 +2399,6 @@ msgid "Apply"
 msgstr "Alkalmaz"
 
 #: src/ui/widget/dialog/setup.rs:149
-#| msgid "Abort Backup?"
 msgid "Abort Setup?"
 msgstr "Megszakítja a beállítást?"
 
@@ -2376,7 +2448,6 @@ msgid "A mount operation succeeded but the location is still unavailable."
 msgstr "A csatolási művelet sikeres volt, de a hely továbbra sem érhető el."
 
 #: src/ui/widget/dialog/setup/actions.rs:106
-#| msgid "Invalid encryption password."
 msgid "Invalid Password"
 msgstr "Érvénytelen jelszó"
 
@@ -2409,7 +2480,6 @@ msgid "_Continue"
 msgstr "_Folytatás"
 
 #: src/ui/widget/dialog/setup/encryption.rs:83
-#| msgid "Unencrypted"
 msgid "Continue Unencrypted?"
 msgstr "Folytatja titkosítatlanul?"
 
@@ -2422,17 +2492,14 @@ msgid "_Create"
 msgstr "_Létrehozás"
 
 #: src/ui/widget/dialog/setup/location.rs:217
-#| msgid "Repository Base Folder"
 msgid "Repository Folder"
 msgstr "Tároló mappája"
 
 #: src/ui/widget/dialog/setup/location.rs:229
-#| msgid "Repository Base Folder"
 msgid "Choose Repository Folder"
 msgstr "Tároló mappájának kiválasztása"
 
 #: src/ui/widget/dialog/setup/location.rs:241
-#| msgid "Additional Command Line Arguments"
 msgid "Additional command line arguments"
 msgstr "További parancssori argumentumok"
 
@@ -2457,7 +2524,6 @@ msgid "Invalid Remote Location"
 msgstr "Érvénytelen távoli hely"
 
 #: src/ui/widget/dialog/setup/location.ui:9
-#| msgid "Failed to Configure Repository"
 msgid "Configure Repository"
 msgstr "Tároló beállítása"
 
@@ -2483,7 +2549,6 @@ msgid "Repository URL"
 msgstr "Tároló URL-e"
 
 #: src/ui/widget/dialog/setup/location.ui:117
-#| msgid "Locations With BorgBackup Support"
 msgid "Locations with BorgBackup Support"
 msgstr "BorgBackup támogatással rendelkező helyek"
 
@@ -2492,9 +2557,9 @@ msgid ""
 "Servers with borgbackup installed have the best performance. <a href=\"help:"
 "pika-backup/setup-remote\">More</a>"
 msgstr ""
-"A borgbackup telepítéssel rendelkező kiszolgálóknak van a legjobb"
-" teljesítményük. <a href=\"help:"
-"pika-backup/setup-remote\">További információk</a>"
+"A borgbackup telepítéssel rendelkező kiszolgálóknak van a legjobb "
+"teljesítményük. <a href=\"help:pika-backup/setup-remote\">További "
+"információk</a>"
 
 #: src/ui/widget/dialog/setup/location.ui:147
 msgid "Network Shares"
@@ -2504,8 +2569,8 @@ msgstr "Hálózati megosztások"
 msgid ""
 "Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
 msgstr ""
-"GNOME Fájlok szintaxisának használata. <a"
-" href=\"help:pika-backup/setup-gvfs\">További információk</a>"
+"GNOME Fájlok szintaxisának használata. <a href=\"help:pika-backup/setup-"
+"gvfs\">További információk</a>"
 
 #: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
@@ -2539,7 +2604,6 @@ msgid "Location on Disk"
 msgstr "Lemezen lévő hely"
 
 #: src/ui/widget/dialog/setup/repo_kind.ui:6
-#| msgid "Creating Backup Repository"
 msgid "Set Up Backup Repository"
 msgstr "Biztonsági mentési tároló beállítása"
 
@@ -2627,7 +2691,6 @@ msgid "Free"
 msgstr "Szabad"
 
 #: src/ui/widget/encryption_settings.rs:84
-#| msgid "Use Encryption"
 msgid "Use Encryption?"
 msgstr "Használjon titkosítást?"
 
@@ -2636,8 +2699,8 @@ msgid ""
 "Losing access to the encryption password will lead to a complete loss of all "
 "backed up data"
 msgstr ""
-"A titkosítási jelszóhoz való hozzáférés elvesztése a biztonsági mentés összes"
-" adatának teljes elvesztéséhez vezet"
+"A titkosítási jelszóhoz való hozzáférés elvesztése a biztonsági mentés "
+"összes adatának teljes elvesztéséhez vezet"
 
 #: src/ui/widget/encryption_settings.rs:91
 #: src/ui/widget/encryption_settings.ui:12
@@ -2657,29 +2720,24 @@ msgid "No Password Provided"
 msgstr "Nincs jelszó megadva"
 
 #: src/ui/widget/encryption_settings.rs:139
-#| msgid "To use encryption a password must be provided."
 msgid "To use encryption a password must be provided"
 msgstr "A titkosítás használatához meg kell adnia egy jelszót"
 
 #: src/ui/widget/encryption_settings.rs:146
-#| msgid "Invalid encryption password."
 msgid "Invalid Passwords"
 msgstr "Érvénytelen jelszavak"
 
 #: src/ui/widget/encryption_settings.rs:147
-#| msgid "Entered passwords do not match."
 msgid "The passwords do not match"
 msgstr "A jelszavak nem egyeznek"
 
 #. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
 #: src/ui/widget/encryption_settings.rs:206
-#| msgid "Repeat Password"
 msgid "Enter a password"
 msgstr "Adjon meg egy jelszót"
 
 #. Translators: Password feedback: The second password is not the same as the first
 #: src/ui/widget/encryption_settings.rs:209
-#| msgid "Entered passwords do not match."
 msgid "Passwords do not match"
 msgstr "A jelszavak nem egyeznek"
 
