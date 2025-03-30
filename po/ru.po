@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-07-30 17:01+0000\n"
-"PO-Revision-Date: 2024-07-31 20:52+0300\n"
-"Last-Translator: Artur So <arturios2005@mail.ru>\n"
+"POT-Creation-Date: 2025-03-11 01:51+0000\n"
+"PO-Revision-Date: 2025-03-29 22:22+1000\n"
+"Last-Translator: Ser82-png <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: data/app.Monitor.desktop.in:4
 msgid "Pika Backup Monitor"
@@ -113,7 +113,7 @@ msgid "Schedule regular backups from monthly up to hourly"
 msgstr ""
 "Планируйте регулярное резервное копирование от ежемесячного до ежечасного"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:115
+#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "Общие"
 
@@ -125,7 +125,7 @@ msgstr "Настройка новой резервной копии"
 msgid "Show Keyboard Shortcuts"
 msgstr "Показать комбинации клавиш"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:277
+#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:279
 msgid "Quit"
 msgstr "Закрыть"
 
@@ -198,47 +198,109 @@ msgstr "{}"
 msgid "Unable to access backup repository: {}"
 msgstr "Невозможно получить доступ к хранилищу резервных копий: {}"
 
-#: src/borg/error.rs:238
-msgid "Connection closed by remote host."
-msgstr "Соединение закрыто удаленным узлом."
-
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:280
-msgid "Repository already in use."
-msgstr "Хранилище уже используется."
-
-#: src/borg/error.rs:241
-msgid "Failed to lock repository."
-msgstr "Не удалось заблокировать хранилище."
-
-#: src/borg/error.rs:242
-msgid "Invalid encryption password."
-msgstr "Неверный пароль шифрования."
-
-#: src/borg/error.rs:243
-msgid "Repository access was aborted"
-msgstr "Доступ к хранилищу был прерван"
-
-#: src/borg/error.rs:245
+#: src/borg/error.rs:288
 msgid "A repository already exists at this location."
 msgstr "В этом расположении уже существует хранилище."
 
-#: src/borg/error.rs:247
+#: src/borg/error.rs:290
+msgid ""
+"Inconsistencies were detected in the repository. Running a data integrity "
+"check is needed."
+msgstr ""
+"В хранилище были обнаружены несоответствия. Необходимо выполнить проверку "
+"целостности данных."
+
+#: src/borg/error.rs:291
 msgid "No repository exists at this location."
 msgstr "В этом расположении нет хранилища."
 
-#: src/borg/error.rs:249
+#: src/borg/error.rs:292
 msgid "Not enough free space in repository."
 msgstr "Недостаточно свободного места в хранилище."
 
-#: src/borg/error.rs:252
+#: src/borg/error.rs:294
+msgid "The configured location does not contain a valid repository."
+msgstr "В настроенном расположении отсутствует корректное хранилище."
+
+#: src/borg/error.rs:297
+msgid ""
+"The configured location does not contain a valid repository configuration."
+msgstr "В настроенном расположение отсутствуют корректные настройки хранилища."
+
+#: src/borg/error.rs:299
+msgid "The configured location does not exist."
+msgstr "Настроенное местоположение не существует."
+
+#: src/borg/error.rs:300
+msgid "The selected location does already exist."
+msgstr "Выбранное расположение уже существует."
+
+#: src/borg/error.rs:302
+msgid ""
+"The repositories storage quota has been reached. Try deleting older archives "
+"that are no longer needed."
+msgstr ""
+"Достигнут предел в месте расположения хранилищ. Попробуйте удалить старые "
+"архивы, в которых больше нет необходимости."
+
+#: src/borg/error.rs:305
+msgid ""
+"Permission to access the configured location has been denied. Check the file "
+"permissions."
+msgstr ""
+"В доступе к настроенному расположению отказано. Проверьте права доступа к "
+"файлам."
+
+#: src/borg/error.rs:310
+msgid ""
+"A newer version of Pika Backup is required to access this repository. The "
+"repository uses unsupported features."
+msgstr ""
+"Для доступа к этому хранилищу требуется более новая версия Pika Backup. В "
+"хранилище используются неподдерживаемые в этой версии функции."
+
+#. RC 30+
+#: src/borg/error.rs:314
+msgid "The selected location already contains a repository."
+msgstr "Выбранное расположение уже содержит хранилище."
+
+#: src/borg/error.rs:315
+msgid "The configured location does not contain an archive."
+msgstr "В настроенном расположении нет архива."
+
+#. RC 50+
+#: src/borg/error.rs:318
+msgid "Invalid encryption password."
+msgstr "Неверный пароль шифрования."
+
+#. RC 60+
+#: src/borg/error.rs:321
+msgid "Repository access was aborted"
+msgstr "Доступ к хранилищу был прерван"
+
+#. RC 70+
+#: src/borg/error.rs:324
+msgid "Failed to lock repository."
+msgstr "Не удалось заблокировать хранилище."
+
+#: src/borg/error.rs:325 src/ui/utils/borg.rs:280
+msgid "Repository already in use."
+msgstr "Хранилище уже используется."
+
+#: src/borg/error.rs:329
+msgid "Connection closed by remote host."
+msgstr "Соединение закрыто удаленным узлом."
+
+#: src/borg/error.rs:334
 msgid "Connection closed by remote host: “{}”"
 msgstr "Соединение закрыто удаленным хостом: «{}»"
 
-#: src/borg/error.rs:254
+#. General
+#: src/borg/error.rs:338
 msgid "Exception"
 msgstr "Исключение"
 
-#: src/borg/error.rs:256
+#: src/borg/error.rs:340
 msgid "Unspecified error."
 msgstr "Неизвестная ошибка."
 
@@ -408,7 +470,7 @@ msgid "Info"
 msgstr "Информация"
 
 #: src/borg/log_json.rs:475 src/ui/utils.rs:383
-#: src/ui/widget/dialog/setup/location.ui:58
+#: src/ui/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -521,47 +583,47 @@ msgstr ""
 "Настроенная команда после резервного копирования вернула код ошибки: {}"
 
 #: src/borg/task.rs:47
-msgid "Generic Operation"
+msgid "Generic operation"
 msgstr "Общая операция"
 
 #: src/borg/task.rs:61
-msgid "Backing Up Data"
+msgid "Backing up data"
 msgstr "Резервное копирование данных"
 
 #: src/borg/task.rs:75
-msgid "Mounting Backup Archives"
+msgid "Mounting backup archives"
 msgstr "Монтирование архивов резервного копирования"
 
 #: src/borg/task.rs:89
-msgid "Removing Old Archives"
+msgid "Removing old archives"
 msgstr "Удаление старых архивов"
 
 #: src/borg/task.rs:103
-msgid "Identifying Old Archives"
+msgid "Identifying old archives"
 msgstr "Выявление старых архивов"
 
 #: src/borg/task.rs:117
-msgid "Reclaiming Free Space"
+msgid "Reclaiming free space"
 msgstr "Высвобождение свободного места"
 
 #: src/borg/task.rs:152
-msgid "Checking Archives Integrity"
+msgid "Checking archive integrity"
 msgstr "Проверка целостности архивов"
 
 #: src/borg/task.rs:179
-msgid "Deleting Archive"
+msgid "Deleting archive"
 msgstr "Удаление архива"
 
 #: src/borg/task.rs:202
-msgid "Refreshing Archive List"
+msgid "Refreshing archive list"
 msgstr "Обновление списка архивов"
 
 #: src/borg/task.rs:248
-msgid "Changing Passphrase"
+msgid "Changing passphrase"
 msgstr "Изменение парольной фразы"
 
 #: src/borg/task.rs:283
-msgid "Running Custom Shell Command"
+msgid "Running custom shell command"
 msgstr "Выполняется пользовательская команда оболочки"
 
 #. Translators: User home directory
@@ -654,24 +716,24 @@ msgstr "Регулярное выражение"
 msgid "Unix Filename Pattern"
 msgstr "Шаблон имени файла Unix"
 
-#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:46
-#: src/ui/widget/dialog/setup/location_kind.ui:100
+#: src/config/repository.rs:173 src/ui/widget/dialog/setup/location_kind.ui:38
+#: src/ui/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "Удаленное расположение"
 
-#: src/config/schedule.rs:37
+#: src/config/schedule.rs:38
 msgid "Hourly"
 msgstr "Каждый час"
 
-#: src/config/schedule.rs:38
+#: src/config/schedule.rs:39
 msgid "Daily"
 msgstr "Ежедневно"
 
-#: src/config/schedule.rs:39
+#: src/config/schedule.rs:40
 msgid "Weekly"
 msgstr "Еженедельно"
 
-#: src/config/schedule.rs:40
+#: src/config/schedule.rs:41
 msgid "Monthly"
 msgstr "Ежемесячно"
 
@@ -800,34 +862,34 @@ msgstr "Не удалось проверить версию BorgBackup"
 msgid "The installed version {} might not work."
 msgstr "Установленная версия {} может не работать."
 
-#: src/ui/app.rs:249
+#: src/ui/app.rs:251
 msgid "Abort Backup?"
 msgstr "Прервать резервное копирование?"
 
-#: src/ui/app.rs:250
+#: src/ui/app.rs:252
 msgid "The backup will remain incomplete if aborted now"
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас"
 
-#: src/ui/app.rs:251 src/ui/utils.rs:386
+#: src/ui/app.rs:253 src/ui/utils.rs:386
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
-#: src/ui/widget/dialog/setup/add_existing.ui:69
+#: src/ui/widget/dialog/setup/encryption.rs:89
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui/app.rs:252 src/ui/utils.rs:385
+#: src/ui/app.rs:254 src/ui/utils.rs:385
 #: src/ui/widget/detail/backup/events.rs:37
 #: src/ui/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Прервать"
 
-#: src/ui/app.rs:262
+#: src/ui/app.rs:264
 msgid "Backup Operation Running"
 msgstr "Выполняется операция резервного копирования"
 
-#: src/ui/app.rs:264
+#: src/ui/app.rs:266
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "Pika Backup нельзя закрыть во время операции резервного копирования"
 
@@ -922,7 +984,7 @@ msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Не удалось создать интерфейс для запланированного резервного копирования."
 
-#: src/ui/error.rs:102
+#: src/ui/error.rs:128
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -932,14 +994,18 @@ msgstr ""
 "связки ключей («секретная служба»). Инструкции по установке см. в "
 "документации к операционной системе."
 
-#: src/ui/error.rs:126
+#: src/ui/error.rs:156
 msgid "Backup with id “{}” already exists."
 msgstr "Резервная копия с идентификатором «{}» уже существует."
 
-#: src/ui/error.rs:131
+#: src/ui/error.rs:165
 msgid "Could not find backup configuration with id “{}”."
 msgstr ""
 "Не удалось найти конфигурацию резервного копирования с идентификатором «{}»."
+
+#: src/ui/error.rs:181
+msgid "Canceled"
+msgstr "Отменено"
 
 #: src/ui/prelude.rs:64
 msgid "Could not write configuration file."
@@ -953,7 +1019,7 @@ msgstr "Не удалось смонтировать"
 msgid "The network server is not available"
 msgstr "Сетевой сервер недоступен"
 
-#: src/ui/shell.rs:29
+#: src/ui/shell.rs:30
 msgid "Idle"
 msgstr "Ожидание"
 
@@ -1023,7 +1089,7 @@ msgid "Failed to Create Thread"
 msgstr "Не удалось создать поток"
 
 #: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:79
-#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.rs:301
+#: src/ui/widget/dialog/exclude.rs:255 src/ui/widget/dialog/exclude.rs:302
 msgid "Select"
 msgstr "Выбрать"
 
@@ -1035,7 +1101,7 @@ msgstr "Закрыть"
 msgid "Additional command line arguments invalid"
 msgstr "Дополнительные аргументы командной строки недействительны"
 
-#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:274
+#: src/ui/utils/borg.rs:25 src/ui/widget/dialog/preferences.rs:273
 msgid "Please check for missing closing quotes."
 msgstr "Проверьте, нет ли закрывающих кавычек."
 
@@ -1096,6 +1162,9 @@ msgstr ""
 "программой, может привести к повреждению данных резервных копий!"
 
 #: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/widget/dialog/preferences.rs:482
+#: src/ui/widget/dialog/setup/encryption.rs:88
+#: src/ui/widget/encryption_settings.rs:90
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -1310,47 +1379,47 @@ msgstr "_Архивы"
 msgid "_Schedule"
 msgstr "_Расписание"
 
-#: src/ui/widget/detail/archives.ui:98
+#: src/ui/widget/detail/archives.ui:101
 msgid "Archive _Prefix"
 msgstr "Префикс _архива"
 
-#: src/ui/widget/detail/archives.ui:100
+#: src/ui/widget/detail/archives.ui:103
 msgid "Added in front of all archive names"
 msgstr "Добавляется перед всеми именами архивов"
 
-#: src/ui/widget/detail/archives.ui:129
+#: src/ui/widget/detail/archives.ui:132
 msgid "_Cleanup Archives"
 msgstr "_Очистка архивов"
 
-#: src/ui/widget/detail/archives.ui:130
+#: src/ui/widget/detail/archives.ui:133
 msgid "Delete some older archives"
 msgstr "Удалить некоторые старые архивы"
 
-#: src/ui/widget/detail/archives.ui:146
+#: src/ui/widget/detail/archives.ui:149
 msgid "Data Integrity Check"
 msgstr "Проверка целостности данных"
 
-#: src/ui/widget/detail/archives.ui:153
+#: src/ui/widget/detail/archives.ui:156
 msgid "_Check Now"
 msgstr "П_роверить сейчас"
 
-#: src/ui/widget/detail/archives.ui:161 src/ui/widget/detail/backup.ui:77
+#: src/ui/widget/detail/archives.ui:164 src/ui/widget/detail/backup.ui:77
 msgid "_Abort…"
 msgstr "_Прервать…"
 
-#: src/ui/widget/detail/archives.ui:169
+#: src/ui/widget/detail/archives.ui:172
 msgid "Archives"
 msgstr "Архивы"
 
-#: src/ui/widget/detail/archives.ui:178
+#: src/ui/widget/detail/archives.ui:181
 msgid "Refresh"
 msgstr "Обновить"
 
-#: src/ui/widget/detail/archives.ui:199
+#: src/ui/widget/detail/archives.ui:202
 msgid "Stop Browsing Saved Files"
 msgstr "Остановить просмотр сохраненных файлов"
 
-#: src/ui/widget/detail/archives.ui:225
+#: src/ui/widget/detail/archives.ui:228
 msgid "No Archives Available"
 msgstr "Архивы отсутствуют"
 
@@ -1459,7 +1528,7 @@ msgstr "Обычно содержит все персональные данны
 msgid "Remove Directory"
 msgstr "Удалить каталог"
 
-#: src/ui/widget/detail/backup/display.rs:109
+#: src/ui/widget/detail/backup/display.rs:111
 msgid "Edit Pattern"
 msgstr "Редактировать шаблон"
 
@@ -1566,7 +1635,7 @@ msgid "Backup Completed with Warnings"
 msgstr "Резервное копирование выполнено с предупреждениями"
 
 #: src/ui/widget/detail/backup/execution.rs:230
-#: src/ui/widget/dialog/preferences.rs:339
+#: src/ui/widget/dialog/preferences.rs:338
 msgid "Error Running Shell Command"
 msgstr "Ошибка при выполнении команды оболочки"
 
@@ -1574,7 +1643,7 @@ msgstr "Ошибка при выполнении команды оболочки
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:143
+#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "Резервное копирование по расписанию"
 
@@ -1678,15 +1747,15 @@ msgstr "_Отключить расписание"
 msgid "No preset selected."
 msgstr "Не выбрана предустановка."
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:20
+#: src/ui/widget/detail/schedule/prune_preset.rs:18
 msgid "Keep Many"
 msgstr "Сохранить много"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:21
+#: src/ui/widget/detail/schedule/prune_preset.rs:19
 msgid "Keep Some"
 msgstr "Сохранить несколько"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:22
+#: src/ui/widget/detail/schedule/prune_preset.rs:20
 msgid "Custom"
 msgstr "Другое"
 
@@ -1878,13 +1947,14 @@ msgid "Support us on GitHub Sponsors"
 msgstr "Поддержите нас на GitHub"
 
 #: src/ui/widget/dialog/archive_prefix.rs:77
-#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:413
+#: src/ui/widget/dialog/archive_prefix.rs:94 src/ui/widget/dialog/setup.rs:530
 msgid "Invalid Archive Prefix"
 msgstr "Неверный префикс архива"
 
 #: src/ui/widget/dialog/archive_prefix.ui:6
 #: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:6
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "Префикс архива"
 
@@ -1914,7 +1984,7 @@ msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Если префикс архива пуст, префикс не добавляется."
 
 #: src/ui/widget/dialog/archive_prefix.ui:75
-#: src/ui/widget/dialog/exclude.rs:352
+#: src/ui/widget/dialog/exclude.rs:353
 msgid "Save"
 msgstr "Сохранить"
 
@@ -2037,12 +2107,12 @@ msgstr ""
 "Для выполнения операции «{}» требуется пароль шифрования хранилища на «{}»."
 
 #: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:44
+#: src/ui/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "Требуется пароль шифрования"
 
 #: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:90 src/ui/widget/overview.rs:180
+#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
 msgid "_Cancel"
 msgstr "_Отменить"
 
@@ -2051,32 +2121,31 @@ msgid "Co_ntinue"
 msgstr "_Продолжить"
 
 #: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/add_existing.ui:6
-#: src/ui/widget/dialog/setup/add_existing.ui:52
+#: src/ui/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "Пароль"
 
-#: src/ui/widget/dialog/exclude.rs:109
+#: src/ui/widget/dialog/exclude.rs:110
 msgid "Exclusion Rules"
 msgstr "Правила исключения"
 
-#: src/ui/widget/dialog/exclude.rs:165
+#: src/ui/widget/dialog/exclude.rs:166
 msgid "Add Exclusion Rule"
 msgstr "Добавить правила исключения"
 
-#: src/ui/widget/dialog/exclude.rs:253 src/ui/widget/dialog/exclude.ui:25
+#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.ui:25
 msgid "Exclude Folders"
 msgstr "Исключить папки"
 
-#: src/ui/widget/dialog/exclude.rs:300 src/ui/widget/dialog/exclude.ui:38
+#: src/ui/widget/dialog/exclude.rs:301 src/ui/widget/dialog/exclude.ui:38
 msgid "Exclude Files"
 msgstr "Исключить файлы"
 
-#: src/ui/widget/dialog/exclude.rs:361 src/ui/widget/dialog/exclude.ui:152
+#: src/ui/widget/dialog/exclude.rs:362 src/ui/widget/dialog/exclude.ui:152
 msgid "Add"
 msgstr "Добавить"
 
-#: src/ui/widget/dialog/exclude.rs:380
+#: src/ui/widget/dialog/exclude.rs:381
 msgid "Invalid Regular Expression"
 msgstr "Недопустимое регулярное выражение"
 
@@ -2128,7 +2197,7 @@ msgstr ""
 "подробную информацию можно найти в <a href=\"https://borgbackup.readthedocs."
 "io/en/stable/usage/help.html\">документации по BorgBackup</a>."
 
-#: src/ui/widget/dialog/preferences.rs:207
+#: src/ui/widget/dialog/preferences.rs:213
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2136,20 +2205,38 @@ msgstr ""
 "Заголовок этой конфигурации резервного копирования. Если оставить его "
 "пустым, будет отображаться как «{} »."
 
-#: src/ui/widget/dialog/preferences.rs:273
+#: src/ui/widget/dialog/preferences.rs:272
 msgid "Shell command invalid"
 msgstr "Недопустимая команда оболочки"
 
-#: src/ui/widget/dialog/preferences.rs:459
+#: src/ui/widget/dialog/preferences.rs:477
+msgid "Remove Password?"
+msgstr "Удалить пароль?"
+
+#: src/ui/widget/dialog/preferences.rs:478
+#: src/ui/widget/dialog/setup/encryption.rs:84
+msgid ""
+"When encryption is not used, everyone with access to the backup files can "
+"read all data"
+msgstr ""
+"Если не используется шифрование, то любой, кто имеет доступ к файлам "
+"резервных копий, может прочитать все данные"
+
+#: src/ui/widget/dialog/preferences.rs:483
+msgid "Remove Password"
+msgstr "Удалить пароль"
+
+#: src/ui/widget/dialog/preferences.rs:506
 msgid "Change Encryption Password Error"
 msgstr "Ошибка при смене пароля шифрования"
 
-#: src/ui/widget/dialog/preferences.rs:466
+#: src/ui/widget/dialog/preferences.rs:513
 msgid "Password changed successfully"
 msgstr "Пароль успешно изменён"
 
 #: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:134
+#: src/ui/widget/dialog/preferences.ui:37
+#: src/ui/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "Изменить пароль шифрования"
 
@@ -2157,40 +2244,44 @@ msgstr "Изменить пароль шифрования"
 msgid "_Change Password"
 msgstr "_Изменить пароль"
 
-#: src/ui/widget/dialog/preferences.ui:84
+#: src/ui/widget/dialog/preferences.ui:70
+msgid "_Remove Password"
+msgstr "_Удалить пароль"
+
+#: src/ui/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "Изменение пароля шифрования"
 
-#: src/ui/widget/dialog/preferences.ui:119
-#: src/ui/widget/dialog/preferences.ui:122
+#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "Заголовок"
 
-#: src/ui/widget/dialog/preferences.ui:130
+#: src/ui/widget/dialog/preferences.ui:142
+#: src/ui/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "Пароль шифрования"
 
-#: src/ui/widget/dialog/preferences.ui:131
+#: src/ui/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "Пароль шифрования хранилища резервных копий"
 
-#: src/ui/widget/dialog/preferences.ui:146
+#: src/ui/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "Работа от батареи"
 
-#: src/ui/widget/dialog/preferences.ui:147
+#: src/ui/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
 "Разрешить запланированное резервное копирование, когда устройство работает "
 "от батареи"
 
-#: src/ui/widget/dialog/preferences.ui:155
-#: src/ui/widget/dialog/setup/location.ui:174
+#: src/ui/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "Дополнительные аргументы командной строки"
 
-#: src/ui/widget/dialog/preferences.ui:156
-#: src/ui/widget/dialog/setup/location.ui:175
+#: src/ui/widget/dialog/preferences.ui:168
+#: src/ui/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -2198,31 +2289,32 @@ msgstr ""
 "Эти аргументы будут добавлены к вызову бинарного файла borg. Поддерживаются "
 "только длинные опции, начинающиеся с «--»."
 
-#: src/ui/widget/dialog/preferences.ui:159
-#: src/ui/widget/dialog/setup/location.ui:179
+#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/setup/advanced_options.ui:9
+#: src/ui/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "Аргументы командной строки"
 
-#: src/ui/widget/dialog/preferences.ui:170
+#: src/ui/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "Команды оболочки"
 
-#: src/ui/widget/dialog/preferences.ui:171
+#: src/ui/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
 "Эти команды оболочки bash будут вызываться при определенных событиях во "
 "время резервного копирования"
 
-#: src/ui/widget/dialog/preferences.ui:184
+#: src/ui/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "Команда оболочки до резервного копирования"
 
-#: src/ui/widget/dialog/preferences.ui:191
-#: src/ui/widget/dialog/preferences.ui:212
+#: src/ui/widget/dialog/preferences.ui:203
+#: src/ui/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "Выполнить с тестовыми значениями"
 
-#: src/ui/widget/dialog/preferences.ui:205
+#: src/ui/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "Команда оболочки после резервного копирования"
 
@@ -2303,31 +2395,45 @@ msgstr "Архивы с разными префиксами"
 msgid "Apply"
 msgstr "Применить"
 
-#: src/ui/widget/dialog/setup.rs:158
+#: src/ui/widget/dialog/setup.rs:149
+msgid "Abort Setup?"
+msgstr "Прервать настройку?"
+
+#: src/ui/widget/dialog/setup.rs:151
+msgid "Aborting now will cause the repository to not be added"
+msgstr ""
+"Прерывание работы на данном этапе приведёт к тому, что хранилище не будет "
+"добавлено"
+
+#. Translators: Announced to accessibility devices when setup dialog has finished
+#: src/ui/widget/dialog/setup.rs:181
+msgid "Backup Repository Added Successfully"
+msgstr "Хранилище резервных копий успешно добавлено"
+
+#: src/ui/widget/dialog/setup.rs:206
 msgid "Setup Existing Repository"
 msgstr "Настройка существующего хранилища"
 
-#: src/ui/widget/dialog/setup.rs:168
+#: src/ui/widget/dialog/setup.rs:216
 msgid "Location is not a valid backup repository."
 msgstr "Расположение не является действительным хранилищем резервных копий."
 
-#: src/ui/widget/dialog/setup.rs:170
+#: src/ui/widget/dialog/setup.rs:218
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Хранилище должно быть создано с помощью Pika Backup или совместимого "
 "программного обеспечения."
 
-#: src/ui/widget/dialog/setup.rs:352
+#: src/ui/widget/dialog/setup.rs:436
 msgid "Failed to Configure Repository"
 msgstr "Не удалось настроить хранилище"
 
-#: src/ui/widget/dialog/setup.rs:363
+#: src/ui/widget/dialog/setup.rs:480
 msgid "Failed"
 msgstr "Ошибка"
 
 #: src/ui/widget/dialog/setup.ui:6
 #: src/ui/widget/dialog/setup/location_kind.ui:6
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
 msgid "Setup"
 msgstr "Настройка"
 
@@ -2340,81 +2446,91 @@ msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Операция монтирования прошла успешно, но расположение по-прежнему недоступно."
 
-#: src/ui/widget/dialog/setup/actions.rs:113
+#: src/ui/widget/dialog/setup/actions.rs:106
+msgid "Invalid Password"
+msgstr "Неверный пароль"
+
+#: src/ui/widget/dialog/setup/actions.rs:131
 msgid "Loading Backup Repository"
 msgstr "Загрузка хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/actions.rs:194
+#: src/ui/widget/dialog/setup/actions.rs:212
 #: src/ui/widget/dialog/setup/create_new.ui:6
-#: src/ui/widget/dialog/setup/create_new.ui:21
 msgid "Creating Backup Repository"
 msgstr "Создание хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/actions.rs:203
+#: src/ui/widget/dialog/setup/actions.rs:221
 msgid "Getting Repository Information"
 msgstr "Получение информации о хранилище"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:20
+#: src/ui/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "Проверка хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:45
-msgid ""
-"The encryption password of this backup repository is required to access it."
-msgstr ""
-"Для доступа к этому хранилищу резервных копий требуется пароль шифрования."
+#: src/ui/widget/dialog/setup/advanced_options.ui:6
+#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:192
+msgid "Advanced Options"
+msgstr "Расширенные параметры"
+
+#: src/ui/widget/dialog/setup/ask_password.ui:23
+#: src/ui/widget/dialog/setup/location.ui:231
+msgid "_Continue"
+msgstr "_Продолжить"
+
+#: src/ui/widget/dialog/setup/encryption.rs:83
+msgid "Continue Unencrypted?"
+msgstr "Продолжить без шифрования?"
 
 #: src/ui/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "Настройка шифрования"
 
-#: src/ui/widget/dialog/setup/encryption.ui:32
+#: src/ui/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "_Создать"
 
-#: src/ui/widget/dialog/setup/location.rs:194
+#: src/ui/widget/dialog/setup/location.rs:217
+msgid "Repository Folder"
+msgstr "Папка хранилища"
+
+#: src/ui/widget/dialog/setup/location.rs:229
+msgid "Choose Repository Folder"
+msgstr "Выбрать папка хранилища"
+
+#: src/ui/widget/dialog/setup/location.rs:241
+msgid "Additional command line arguments"
+msgstr "Дополнительные аргументы командной строки"
+
+#: src/ui/widget/dialog/setup/location.rs:390
 msgid "Repository Name Empty"
 msgstr "Имя хранилища пустое"
 
-#: src/ui/widget/dialog/setup/location.rs:195
+#: src/ui/widget/dialog/setup/location.rs:391
 msgid "The repository folder name must be set"
 msgstr "Имя папки хранилища должно быть задано"
 
-#: src/ui/widget/dialog/setup/location.rs:206
+#: src/ui/widget/dialog/setup/location.rs:403
 msgid "No Base Folder Selected"
 msgstr "Базовая папка не выбрана"
 
-#: src/ui/widget/dialog/setup/location.rs:207
+#: src/ui/widget/dialog/setup/location.rs:404
 msgid "Select a base folder for the backup repository"
 msgstr "Выберите базовую папку для хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: src/ui/widget/dialog/setup/location.rs:415
 msgid "Invalid Remote Location"
 msgstr "Недействительное удаленное расположение"
 
-#: src/ui/widget/dialog/setup/location.ui:6
-msgid "Select Location"
-msgstr "Выбрать расположение"
-
-#: src/ui/widget/dialog/setup/location.ui:22
-#: src/ui/widget/dialog/setup/location.ui:84
-msgid "Location"
-msgstr "Расположение"
-
-#: src/ui/widget/dialog/setup/location.ui:26
-#: src/ui/widget/dialog/setup/location.ui:89
-msgid "Advanced Options"
-msgstr "Расширенные параметры"
+#: src/ui/widget/dialog/setup/location.ui:9
+msgid "Configure Repository"
+msgstr "Настройка хранилища"
 
 #: src/ui/widget/dialog/setup/location.ui:34
-msgid "Repository Base Folder"
-msgstr "Базовая папка хранилища"
-
-#: src/ui/widget/dialog/setup/location.ui:47
 msgid "Repository Name"
 msgstr "Название хранилища"
 
-#: src/ui/widget/dialog/setup/location.ui:70
+#: src/ui/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2427,74 +2543,48 @@ msgstr ""
 "формат «NTFS» или «Ext4» Обратите внимание, что при переформатировании все "
 "файлы в этом расположении будут удалены!"
 
-#: src/ui/widget/dialog/setup/location.ui:100
+#: src/ui/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "URL хранилища"
 
-#: src/ui/widget/dialog/setup/location.ui:114
-msgid "Examples"
-msgstr "Примеры"
-
-#: src/ui/widget/dialog/setup/location.ui:125
-msgid ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-msgstr ""
-"ssh://user@server.example.org/~/backup\n"
-"smb://user@server.example.org/files/backup"
-
-#: src/ui/widget/dialog/setup/location.ui:132
-msgid "Conventional Locations"
-msgstr "Обычные расположения"
-
-#: src/ui/widget/dialog/setup/location.ui:144
-msgid ""
-"SMB and SFTP remote-backup locations can be provided as a URL with the "
-"“smb://” or “sftp://” protocol prefix."
-msgstr ""
-"Удаленные расположения резервного копирования SMB и SFTP могут быть "
-"предоставлены в виде URL с префиксом протокола «smb://» или «sftp://»."
-
-#: src/ui/widget/dialog/setup/location.ui:151
-msgid "Locations With BorgBackup Support"
+#: src/ui/widget/dialog/setup/location.ui:117
+msgid "Locations with BorgBackup Support"
 msgstr "Расположения с поддержкой BorgBackup"
 
-#: src/ui/widget/dialog/setup/location.ui:163
+#: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"Locations with explicit BorgBackup support can provide better performance. "
-"They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the “<server address>:<folder>” syntax or the "
-"“ssh://” prefix can be used."
+"Servers with borgbackup installed have the best performance. <a href=\"help:"
+"pika-backup/setup-remote\">More</a>"
 msgstr ""
-"Расположения с явной поддержкой BorgBackup могут обеспечить лучшую "
-"производительность. Их особенность заключается в том, что на сервере "
-"установлен двоичный файл BorgBackup. Для этих расположений можно "
-"использовать либо синтаксис «<server address>:<folder>», либо префикс "
-"«ssh://»."
+"Серверы с установленным borgbackup имеют наилучшую производительность. <a "
+"href=\"help:pika-backup/setup-remote\">Подробнее</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:200
+#: src/ui/widget/dialog/setup/location.ui:147
+msgid "Network Shares"
+msgstr "Общие ресурсы сети"
+
+#: src/ui/widget/dialog/setup/location.ui:159
+msgid ""
+"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+msgstr ""
+"Используйте синтаксис файлов GNOME. <a href=\"help:pika-backup/setup-"
+"gvfs\">Подробнее</a>"
+
+#: src/ui/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "_Соединиться"
 
-#: src/ui/widget/dialog/setup/location.ui:216
-msgid "_Continue"
-msgstr "_Продолжить"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:23
+#: src/ui/widget/dialog/setup/location_kind.rs:138
+#: src/ui/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "Создать новое хранилище"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:143
-msgid "Select a location for the new backup repository"
-msgstr "Выберите расположение для нового хранилища резервных копий"
-
-#: src/ui/widget/dialog/setup/location_kind.rs:147
-#: src/ui/widget/dialog/setup/repo_kind.ui:30
+#: src/ui/widget/dialog/setup/location_kind.rs:142
+#: src/ui/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "Использовать существующее хранилище"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:149
+#: src/ui/widget/dialog/setup/location_kind.rs:144
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2503,20 +2593,20 @@ msgstr ""
 "Можно также использовать хранилища, созданные с помощью других программ, "
 "совместимых с BorgBackup."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:289
+#: src/ui/widget/dialog/setup/location_kind.rs:287
 msgid "Free space: {}"
 msgstr "Свободное место: {}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:25
-#: src/ui/widget/dialog/setup/location_kind.ui:79
+#: src/ui/widget/dialog/setup/location_kind.ui:17
+#: src/ui/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "Расположение на диске"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:16
-msgid "Configure a new or existing backup repository"
-msgstr "Настройка нового или существующего хранилища резервных копий"
+#: src/ui/widget/dialog/setup/repo_kind.ui:6
+msgid "Set Up Backup Repository"
+msgstr "Настройка хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:18
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2526,7 +2616,7 @@ msgstr ""
 "копирования. Не рекомендуется использовать один и тот же префикс на двух "
 "устройствах, если только новое устройство не заменяет старое."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:51
+#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "_Сохранить"
 
@@ -2534,24 +2624,7 @@ msgstr "_Сохранить"
 msgid "Transfer Settings"
 msgstr "Настройки переноса"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:19
-#: src/ui/widget/dialog/setup/transfer_settings.ui:50
-msgid "S_kip"
-msgstr "Пропу_стить"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:29
-msgid "Checking for Previous Configurations"
-msgstr "Проверка предыдущих конфигураций"
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:30
-msgid ""
-"Collecting information to transfer previously used settings. This step is "
-"optional."
-msgstr ""
-"Сбор информации для переноса ранее использовавшихся настроек. Этот шаг "
-"является необязательным."
-
-#: src/ui/widget/dialog/setup/transfer_settings.ui:59
+#: src/ui/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -2559,6 +2632,10 @@ msgstr ""
 "Для переноса в новую установку можно выбрать один набор конфигураций, "
 "использованных для предыдущих резервных копий. Конфигурация может быть "
 "скорректирована впоследствии."
+
+#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+msgid "Skip"
+msgstr "Пропустить"
 
 #: src/ui/widget/dialog/setup/types.rs:52
 msgid "Incomplete URL or borg syntax"
@@ -2572,7 +2649,7 @@ msgstr "Необходимо указать путь для удаленного
 msgid "Invalid remote location: “{}”"
 msgstr "Недействительное удаленное расположение: «{}»"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_button.rs:132
+#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:54
 msgid "Backup Location"
 msgstr "Расположение резервной копии"
 
@@ -2612,19 +2689,22 @@ msgstr "Всего"
 msgid "Free"
 msgstr "Свободно"
 
-#: src/ui/widget/encryption_preferences_group.rs:84
-msgid "No Password Provided"
-msgstr "Пароль не предоставляется"
+#: src/ui/widget/encryption_settings.rs:84
+msgid "Use Encryption?"
+msgstr "Использовать шифрование?"
 
-#: src/ui/widget/encryption_preferences_group.rs:85
-msgid "To use encryption a password must be provided."
-msgstr "Для использования шифрования необходимо ввести пароль."
+#: src/ui/widget/encryption_settings.rs:86
+msgid ""
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
+msgstr "Потеря пароля приведёт к полной потере всех резервных копий данных"
 
-#: src/ui/widget/encryption_preferences_group.rs:91
-msgid "Entered passwords do not match."
-msgstr "Введенные пароли не совпадают."
+#: src/ui/widget/encryption_settings.rs:91
+#: src/ui/widget/encryption_settings.ui:12
+msgid "Use Encryption"
+msgstr "Использовать шифрование"
 
-#: src/ui/widget/encryption_preferences_group.ui:4
+#: src/ui/widget/encryption_settings.rs:130
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -2632,33 +2712,84 @@ msgstr ""
 "Данные, хранящиеся в зашифрованных резервных копиях, защищены паролем. Если "
 "используется шифрование, для доступа к резервным копиям требуется пароль."
 
-#: src/ui/widget/encryption_preferences_group.ui:5
-msgid "Encryption"
-msgstr "Шифрование"
+#: src/ui/widget/encryption_settings.rs:138
+msgid "No Password Provided"
+msgstr "Пароль не предоставляется"
 
-#: src/ui/widget/encryption_preferences_group.ui:8
-msgid "Use Encryption"
-msgstr "Использовать шифрование"
+#: src/ui/widget/encryption_settings.rs:139
+msgid "To use encryption a password must be provided"
+msgstr "Для использования шифрования необходимо ввести пароль"
 
-#: src/ui/widget/encryption_preferences_group.ui:17
-msgid "Encrypted"
-msgstr "Зашифровано"
+#: src/ui/widget/encryption_settings.rs:146
+msgid "Invalid Passwords"
+msgstr "Неверные пароли"
 
-#: src/ui/widget/encryption_preferences_group.ui:24
-msgid "Unencrypted"
-msgstr "Не зашифровано"
+#: src/ui/widget/encryption_settings.rs:147
+msgid "The passwords do not match"
+msgstr "Введённые пароли не совпадают"
 
-#: src/ui/widget/encryption_preferences_group.ui:35
-msgid "New Encryption Password"
-msgstr "Новый пароль шифрования"
+#. Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+#: src/ui/widget/encryption_settings.rs:206
+msgid "Enter a password"
+msgstr "Введите пароль"
 
-#: src/ui/widget/encryption_preferences_group.ui:43
+#. Translators: Password feedback: The second password is not the same as the first
+#: src/ui/widget/encryption_settings.rs:209
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
+#: src/ui/widget/encryption_settings.rs:217
+msgid "A single word is easy to guess"
+msgstr "Одно слово легко угадать"
+
+#. Translators: Password feedback: Common name detected
+#: src/ui/widget/encryption_settings.rs:221
+msgid "Avoid names on their own"
+msgstr "Избегайте использования своих имён"
+
+#. Translators: Password feedback: Date detected
+#: src/ui/widget/encryption_settings.rs:225
+msgid "Avoid dates on their own"
+msgstr "Избегайте использования сведений о себе"
+
+#. Translators: Password feedback: Easy to guess sequence detected
+#: src/ui/widget/encryption_settings.rs:229
+msgid "Avoid sequences like “abc” or “6543”"
+msgstr "Избегайте таких последовательностей, как «abc» или «6543»"
+
+#. Translators: Password feedback: Repeated keys or sequence detected
+#: src/ui/widget/encryption_settings.rs:233
+msgid "Avoid repetitions like “aaa” or “abcabc”"
+msgstr "Избегайте повторений типа «aaa» или «abcabc»"
+
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
+#: src/ui/widget/encryption_settings.rs:237
+msgid "Avoid keyboard patterns"
+msgstr "Избегайте клавиатурных шаблонов"
+
+#. Translators: Password feedback: Password was found in a list of common passwords
+#: src/ui/widget/encryption_settings.rs:243
+msgid "This is a very commonly used password"
+msgstr "Похоже на пароль, который часто используется"
+
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
+#: src/ui/widget/encryption_settings.rs:247
+msgid "This is similar to a commonly used password"
+msgstr "Похоже на пароль, который обычно используется"
+
+#: src/ui/widget/encryption_settings.rs:251
+msgid "Add a few more words"
+msgstr "Добавьте ещё несколько слов"
+
+#. Translators: Password feedback: This password is looking pretty good
+#: src/ui/widget/encryption_settings.rs:254
+msgid "This looks like a strong password"
+msgstr "Выглядит как надежный пароль"
+
+#: src/ui/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "Повторите пароль"
-
-#: src/ui/widget/folder_button.rs:148
-msgid "_Select Folder…"
-msgstr "_Выбрать папку…"
 
 #: src/ui/widget/overview.rs:178
 msgid "Remove Backup Setup?"
@@ -2707,6 +2838,81 @@ msgstr "_Настройка резервного копирования"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Нет такого файла или каталога"
+
+#~ msgid "Identifying Old Archives"
+#~ msgstr "Выявление старых архивов"
+
+#~ msgid ""
+#~ "The encryption password of this backup repository is required to access "
+#~ "it."
+#~ msgstr ""
+#~ "Для доступа к этому хранилищу резервных копий требуется пароль шифрования."
+
+#~ msgid "Select Location"
+#~ msgstr "Выбрать расположение"
+
+#~ msgid "Location"
+#~ msgstr "Расположение"
+
+#~ msgid "Examples"
+#~ msgstr "Примеры"
+
+#~ msgid ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+#~ msgstr ""
+#~ "ssh://user@server.example.org/~/backup\n"
+#~ "smb://user@server.example.org/files/backup"
+
+#~ msgid "Conventional Locations"
+#~ msgstr "Обычные расположения"
+
+#~ msgid ""
+#~ "SMB and SFTP remote-backup locations can be provided as a URL with the "
+#~ "“smb://” or “sftp://” protocol prefix."
+#~ msgstr ""
+#~ "Удаленные расположения резервного копирования SMB и SFTP могут быть "
+#~ "предоставлены в виде URL с префиксом протокола «smb://» или «sftp://»."
+
+#~ msgid ""
+#~ "Locations with explicit BorgBackup support can provide better "
+#~ "performance. They are special in that the server has a BorgBackup binary "
+#~ "installed. For those locations, either the “<server address>:<folder>” "
+#~ "syntax or the “ssh://” prefix can be used."
+#~ msgstr ""
+#~ "Расположения с явной поддержкой BorgBackup могут обеспечить лучшую "
+#~ "производительность. Их особенность заключается в том, что на сервере "
+#~ "установлен двоичный файл BorgBackup. Для этих расположений можно "
+#~ "использовать либо синтаксис «<server address>:<folder>», либо префикс "
+#~ "«ssh://»."
+
+#~ msgid "Configure a new or existing backup repository"
+#~ msgstr "Настройка нового или существующего хранилища резервных копий"
+
+#~ msgid "S_kip"
+#~ msgstr "Пропу_стить"
+
+#~ msgid "Checking for Previous Configurations"
+#~ msgstr "Проверка предыдущих конфигураций"
+
+#~ msgid ""
+#~ "Collecting information to transfer previously used settings. This step is "
+#~ "optional."
+#~ msgstr ""
+#~ "Сбор информации для переноса ранее использовавшихся настроек. Этот шаг "
+#~ "является необязательным."
+
+#~ msgid "Encryption"
+#~ msgstr "Шифрование"
+
+#~ msgid "Encrypted"
+#~ msgstr "Зашифровано"
+
+#~ msgid "New Encryption Password"
+#~ msgstr "Новый пароль шифрования"
+
+#~ msgid "_Select Folder…"
+#~ msgstr "_Выбрать папку…"
 
 #~ msgid "Abort running backup creation?"
 #~ msgstr "Прервать выполнение создания резервной копии?"
