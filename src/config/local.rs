@@ -76,10 +76,7 @@ impl Repository {
             icon_symbolic: IconExt::to_string(&mount.symbolic_icon()).map(Into::into),
             mount_name: Some(mount.name().to_string()),
             drive_name: mount.drive().as_ref().map(gio::Drive::name).map(Into::into),
-            removable: mount
-                .drive()
-                .as_ref()
-                .map_or(false, gio::Drive::is_removable),
+            removable: mount.drive().as_ref().is_some_and(gio::Drive::is_removable),
             volume_uuid: mount.volume().and_then(|v| v.uuid()).map(|x| x.to_string()),
             volume_uuid_identifier: mount
                 .volume()

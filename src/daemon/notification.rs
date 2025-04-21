@@ -6,7 +6,7 @@ pub enum Note<'a> {
     DeviceAvailable(&'a str),
 }
 
-impl<'a> std::fmt::Display for Note<'a> {
+impl std::fmt::Display for Note<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::Postponed(id) => write!(f, "postponed-{id}"),

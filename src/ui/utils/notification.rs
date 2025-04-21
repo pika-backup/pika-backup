@@ -5,7 +5,7 @@ pub enum BackupNote<'a> {
     Failed(&'a config::ConfigId),
 }
 
-impl<'a> std::fmt::Display for BackupNote<'a> {
+impl std::fmt::Display for BackupNote<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::Warnings(id) => write!(f, "backup-warnings-{id}"),
