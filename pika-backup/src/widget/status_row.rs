@@ -29,6 +29,7 @@ mod imp {
         type ParentType = adw::ActionRow;
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for StatusRow {
         fn constructed(&self) {
             self.parent_constructed();
@@ -43,16 +44,6 @@ mod imp {
                 .build();
             obj.bind_property("level", &self.status_icon, "level")
                 .build();
-        }
-
-        fn properties() -> &'static [glib::ParamSpec] {
-            Self::derived_properties()
-        }
-        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            self.derived_set_property(id, value, pspec)
-        }
-        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            self.derived_property(id, pspec)
         }
     }
     impl WidgetImpl for StatusRow {}
