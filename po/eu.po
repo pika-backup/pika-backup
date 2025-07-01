@@ -1,19 +1,19 @@
 # Basque translation for pika-backup.
 # Copyright (C) 2021 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2021, 2022, 2023, 2024.
+# Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2021, 2022, 2023, 2024, 2025.
 #
 msgid ""
-msgstr "--roject-Id-Version: pika-backup main\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-09-11 10:01+0000\n"
-"PO-Revision-Date: 2024-09-28 17:00+0100\n"
-"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
+msgstr "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
+"POT-Creation-Date: 2025-05-12 18:56+0000\n"
+"PO-Revision-Date: 2025-07-01 17:00+0100\n"
+"Last-Translator: Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"--roject-Id-Version: pika-backup main\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/app.Monitor.desktop.in:4
@@ -111,7 +111,7 @@ msgstr "Konfiguratu babeskopia berria"
 msgid "Show Keyboard Shortcuts"
 msgstr "Erakutsi lasterbideak"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:277
+#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:279
 msgid "Quit"
 msgstr "Irten"
 
@@ -179,47 +179,101 @@ msgstr "{}"
 msgid "Unable to access backup repository: {}"
 msgstr "Ezin da babeskopia-biltegira sartu: {}"
 
-#: src/borg/error.rs:238
-msgid "Connection closed by remote host."
-msgstr "Urruneko ostalariak konexioa itxi du."
-
-#: src/borg/error.rs:240 src/ui/utils/borg.rs:280
-msgid "Repository already in use."
-msgstr "Biltegia dagoeneko erabilia dago."
-
-#: src/borg/error.rs:241
-msgid "Failed to lock repository."
-msgstr "Huts egin du biltegia blokeatzeak."
-
-#: src/borg/error.rs:242
-msgid "Invalid encryption password."
-msgstr "Zifratze-pasahitz baliogabea."
-
-#: src/borg/error.rs:243
-msgid "Repository access was aborted"
-msgstr "Biltegiaren atzipena abortatu da"
-
-#: src/borg/error.rs:245
+#: src/borg/error.rs:288
 msgid "A repository already exists at this location."
 msgstr "Badago lehendik biltegi bat kokaleku horretan."
 
-#: src/borg/error.rs:247
+#: src/borg/error.rs:290
+msgid ""
+"Inconsistencies were detected in the repository. Running a data integrity "
+"check is needed."
+msgstr "Inkoherentziak detektatu dira biltegian. Datuen integritatea egiaztatzeko saiakera bat exekutatu behar da."
+
+#: src/borg/error.rs:291
 msgid "No repository exists at this location."
 msgstr "Ez dago biltegirik kokaleku horretan."
 
-#: src/borg/error.rs:249
+#: src/borg/error.rs:292
 msgid "Not enough free space in repository."
 msgstr "Ez dago nahikoa leku biltegian."
 
-#: src/borg/error.rs:252
+#: src/borg/error.rs:294
+msgid "The configured location does not contain a valid repository."
+msgstr "Konfiguratutako kokalekuak ez du baliozko biltegirik."
+
+#: src/borg/error.rs:297
+msgid ""
+"The configured location does not contain a valid repository configuration."
+msgstr "Konfiguratutako kokalekuak ez du baliozko biltegi-konfiguraziorik."
+
+#: src/borg/error.rs:299
+msgid "The configured location does not exist."
+msgstr "Konfiguratutako kokalekua ez da existitzen."
+
+#: src/borg/error.rs:300
+msgid "The selected location does already exist."
+msgstr "Hautatutako kokalekua badago lehendik."
+
+#: src/borg/error.rs:302
+msgid ""
+"The repositories storage quota has been reached. Try deleting older archives "
+"that are no longer needed."
+msgstr "Biltegien leku osoa bete da. Saiatu jadanik behar ez diren artxibo zaharrak ezabatzen."
+
+#: src/borg/error.rs:305
+msgid ""
+"Permission to access the configured location has been denied. Check the file "
+"permissions."
+msgstr "Konfiguratutako kokalekua atzitzeko baimena ukatu da. Begiratu fitxategi-baimenak."
+
+#: src/borg/error.rs:310
+msgid ""
+"A newer version of Pika Backup is required to access this repository. The "
+"repository uses unsupported features."
+msgstr "Pika Backup aplikazioaren bertsio berriagoa behar da biltegi horretara sartzeko. Biltegiak onartzen ez diren eginbideak darabiltza."
+
+#. RC 30+
+#: src/borg/error.rs:314
+msgid "The selected location already contains a repository."
+msgstr "Hautatutako kokalekuak badauka biltegi bat jadanik."
+
+#: src/borg/error.rs:315
+msgid "The configured location does not contain an archive."
+msgstr "Konfiguratutako kokalekuak ez du artxiborik."
+
+#. RC 50+
+#: src/borg/error.rs:318
+msgid "Invalid encryption password."
+msgstr "Zifratze-pasahitz baliogabea."
+
+#. RC 60+
+#: src/borg/error.rs:321
+msgid "Repository access was aborted"
+msgstr "Biltegiaren atzipena abortatu da"
+
+#. RC 70+
+#: src/borg/error.rs:324
+msgid "Failed to lock repository."
+msgstr "Huts egin du biltegia blokeatzeak."
+
+#: src/borg/error.rs:325 src/ui/utils/borg.rs:280
+msgid "Repository already in use."
+msgstr "Biltegia dagoeneko erabilia dago."
+
+#: src/borg/error.rs:329
+msgid "Connection closed by remote host."
+msgstr "Urruneko ostalariak konexioa itxi du."
+
+#: src/borg/error.rs:334
 msgid "Connection closed by remote host: “{}”"
 msgstr "Urruneko ostalariak konexioa itxi du: “{}“"
 
-#: src/borg/error.rs:254
+#. General
+#: src/borg/error.rs:338
 msgid "Exception"
 msgstr "Salbuespena"
 
-#: src/borg/error.rs:256
+#: src/borg/error.rs:340
 msgid "Unspecified error."
 msgstr "Zehaztu gabeko errorea."
 
@@ -488,47 +542,47 @@ msgid ""
 msgstr "Hobespenetan babeskopiaren ondorenerako konfiguratutako komandoak hutsegite-kodea itzuli du: {}."
 
 #: src/borg/task.rs:47
-msgid "Generic Operation"
+msgid "Generic operation"
 msgstr "Eragiketa orokorra"
 
 #: src/borg/task.rs:61
-msgid "Backing Up Data"
-msgstr "Datuen babeskopia egiten"
+msgid "Backing up data"
+msgstr "Datuan babeskopia egiten"
 
 #: src/borg/task.rs:75
-msgid "Mounting Backup Archives"
+msgid "Mounting backup archives"
 msgstr "Babeskopia-artxiboak muntatzen"
 
 #: src/borg/task.rs:89
-msgid "Removing Old Archives"
+msgid "Removing old archives"
 msgstr "Artxibo zaharrak kentzen"
 
 #: src/borg/task.rs:103
-msgid "Identifying Old Archives"
+msgid "Identifying old archives"
 msgstr "Artxibo zaharrak identifikatzen"
 
 #: src/borg/task.rs:117
-msgid "Reclaiming Free Space"
+msgid "Reclaiming free space"
 msgstr "Leku librea berreskuratzen"
 
 #: src/borg/task.rs:152
-msgid "Checking Archives Integrity"
-msgstr "Artxiboen osotasuna egiaztatzen"
+msgid "Checking archive integrity"
+msgstr "Artxiboaren osotasuna egiaztatzen"
 
 #: src/borg/task.rs:179
-msgid "Deleting Archive"
+msgid "Deleting archive"
 msgstr "Artxiboa ezabatzen"
 
 #: src/borg/task.rs:202
-msgid "Refreshing Archive List"
+msgid "Refreshing archive list"
 msgstr "Artxibo-zerrenda freskatzen"
 
 #: src/borg/task.rs:248
-msgid "Changing Passphrase"
+msgid "Changing passphrase"
 msgstr "Pasaesaldia aldatzen"
 
 #: src/borg/task.rs:283
-msgid "Running Custom Shell Command"
+msgid "Running custom shell command"
 msgstr "Shell komando pertsonalizatua exekutatzen"
 
 #. Translators: User home directory
@@ -617,19 +671,19 @@ msgstr "UNIX fitxategi-sistemako eredua"
 msgid "Remote Location"
 msgstr "Urruneko kokalekua"
 
-#: src/config/schedule.rs:37
+#: src/config/schedule.rs:38
 msgid "Hourly"
 msgstr "Orduro"
 
-#: src/config/schedule.rs:38
+#: src/config/schedule.rs:39
 msgid "Daily"
 msgstr "Egunero"
 
-#: src/config/schedule.rs:39
+#: src/config/schedule.rs:40
 msgid "Weekly"
 msgstr "Astero"
 
-#: src/config/schedule.rs:40
+#: src/config/schedule.rs:41
 msgid "Monthly"
 msgstr "Hilero"
 
@@ -751,15 +805,15 @@ msgstr "Huts egin du BorgBackup bertsioa egiaztatzeak"
 msgid "The installed version {} might not work."
 msgstr "Instalatutako {} bertsioa agian ez dabil."
 
-#: src/ui/app.rs:249
+#: src/ui/app.rs:251
 msgid "Abort Backup?"
 msgstr "Abortatu babeskopia?"
 
-#: src/ui/app.rs:250
+#: src/ui/app.rs:252
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Babeskopia ez da osatuko orian abortatzen bada"
 
-#: src/ui/app.rs:251 src/ui/utils.rs:386
+#: src/ui/app.rs:253 src/ui/utils.rs:386
 #: src/ui/widget/detail/backup/events.rs:26
 #: src/ui/widget/detail/backup/events.rs:36
 #: src/ui/widget/detail/backup/events.rs:46
@@ -767,17 +821,17 @@ msgstr "Babeskopia ez da osatuko orian abortatzen bada"
 msgid "Continue"
 msgstr "Jarraitu"
 
-#: src/ui/app.rs:252 src/ui/utils.rs:385
+#: src/ui/app.rs:254 src/ui/utils.rs:385
 #: src/ui/widget/detail/backup/events.rs:37
 #: src/ui/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Abortatu"
 
-#: src/ui/app.rs:262
+#: src/ui/app.rs:264
 msgid "Backup Operation Running"
 msgstr "Babeskopiako eragiketa bat abian dago"
 
-#: src/ui/app.rs:264
+#: src/ui/app.rs:266
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "Pika Backup ezin da itxi babeskopiako eragiketa bat abian dagoenean"
 
@@ -902,7 +956,7 @@ msgstr "Huts egin du muntatzeak"
 msgid "The network server is not available"
 msgstr "Sareko zerbitzaria ez dago eskuragarri"
 
-#: src/ui/shell.rs:29
+#: src/ui/shell.rs:30
 msgid "Idle"
 msgstr "Inaktiboa"
 
@@ -959,7 +1013,7 @@ msgid "Failed to Create Thread"
 msgstr "Huts egin du haria sortzeak"
 
 #: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:79
-#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.rs:301
+#: src/ui/widget/dialog/exclude.rs:255 src/ui/widget/dialog/exclude.rs:302
 msgid "Select"
 msgstr "Hautatu"
 
@@ -1223,47 +1277,47 @@ msgstr "_Artxiboak"
 msgid "_Schedule"
 msgstr "_Programazioa"
 
-#: src/ui/widget/detail/archives.ui:98
+#: src/ui/widget/detail/archives.ui:101
 msgid "Archive _Prefix"
 msgstr "Artxibo-a_urrizkia"
 
-#: src/ui/widget/detail/archives.ui:100
+#: src/ui/widget/detail/archives.ui:103
 msgid "Added in front of all archive names"
 msgstr "Artxibo-izen guztien aurren gehitua"
 
-#: src/ui/widget/detail/archives.ui:129
+#: src/ui/widget/detail/archives.ui:132
 msgid "_Cleanup Archives"
 msgstr "_Garbitu artxiboak"
 
-#: src/ui/widget/detail/archives.ui:130
+#: src/ui/widget/detail/archives.ui:133
 msgid "Delete some older archives"
 msgstr "Ezabatu zenbait artxibo zahar"
 
-#: src/ui/widget/detail/archives.ui:146
+#: src/ui/widget/detail/archives.ui:149
 msgid "Data Integrity Check"
 msgstr "Datuen osotasunaren egiaztatzea"
 
-#: src/ui/widget/detail/archives.ui:153
+#: src/ui/widget/detail/archives.ui:156
 msgid "_Check Now"
 msgstr "_Egiaztatu orain"
 
-#: src/ui/widget/detail/archives.ui:161 src/ui/widget/detail/backup.ui:77
+#: src/ui/widget/detail/archives.ui:164 src/ui/widget/detail/backup.ui:77
 msgid "_Abort…"
 msgstr "_Abortatu…"
 
-#: src/ui/widget/detail/archives.ui:169
+#: src/ui/widget/detail/archives.ui:172
 msgid "Archives"
 msgstr "Artxiboak"
 
-#: src/ui/widget/detail/archives.ui:178
+#: src/ui/widget/detail/archives.ui:181
 msgid "Refresh"
 msgstr "Freskatu"
 
-#: src/ui/widget/detail/archives.ui:199
+#: src/ui/widget/detail/archives.ui:202
 msgid "Stop Browsing Saved Files"
 msgstr "Gelditu gordetako fitxategiak arakatzea"
 
-#: src/ui/widget/detail/archives.ui:225
+#: src/ui/widget/detail/archives.ui:228
 msgid "No Archives Available"
 msgstr "Ez dago artxiborik erabilgarri"
 
@@ -1578,15 +1632,15 @@ msgstr "_Desgaitu programazioa"
 msgid "No preset selected."
 msgstr "Ez da aurrezarpenik hautatu."
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:20
+#: src/ui/widget/detail/schedule/prune_preset.rs:18
 msgid "Keep Many"
 msgstr "Mantendu anitz"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:21
+#: src/ui/widget/detail/schedule/prune_preset.rs:19
 msgid "Keep Some"
 msgstr "Mantendu batzuk"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:22
+#: src/ui/widget/detail/schedule/prune_preset.rs:20
 msgid "Custom"
 msgstr "Pertsonalizatua"
 
@@ -1789,7 +1843,7 @@ msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Artxibo-aurrizkia hutsik badago, ez da aurrizkirik gehituko."
 
 #: src/ui/widget/dialog/archive_prefix.ui:75
-#: src/ui/widget/dialog/exclude.rs:352
+#: src/ui/widget/dialog/exclude.rs:353
 msgid "Save"
 msgstr "Gorde"
 
@@ -1921,27 +1975,27 @@ msgstr "_Jarraitu"
 msgid "Password"
 msgstr "Pasahitza"
 
-#: src/ui/widget/dialog/exclude.rs:109
+#: src/ui/widget/dialog/exclude.rs:110
 msgid "Exclusion Rules"
 msgstr "Baztertze-arauak"
 
-#: src/ui/widget/dialog/exclude.rs:165
+#: src/ui/widget/dialog/exclude.rs:166
 msgid "Add Exclusion Rule"
 msgstr "Gehitu baztertze-araua"
 
-#: src/ui/widget/dialog/exclude.rs:253 src/ui/widget/dialog/exclude.ui:25
+#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.ui:25
 msgid "Exclude Folders"
 msgstr "Baztertu karpetak"
 
-#: src/ui/widget/dialog/exclude.rs:300 src/ui/widget/dialog/exclude.ui:38
+#: src/ui/widget/dialog/exclude.rs:301 src/ui/widget/dialog/exclude.ui:38
 msgid "Exclude Files"
 msgstr "Baztertu fitxategiak"
 
-#: src/ui/widget/dialog/exclude.rs:361 src/ui/widget/dialog/exclude.ui:152
+#: src/ui/widget/dialog/exclude.rs:362 src/ui/widget/dialog/exclude.ui:152
 msgid "Add"
 msgstr "Gehitu"
 
-#: src/ui/widget/dialog/exclude.rs:380
+#: src/ui/widget/dialog/exclude.rs:381
 msgid "Invalid Regular Expression"
 msgstr "Adierazpen erregular baliogabea"
 
@@ -2586,6 +2640,9 @@ msgstr "_Konfiguratu babeskopia"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Ez dago halako fitxategi edo direktoriorik"
+
+#~ msgid "Identifying Old Archives"
+#~ msgstr "Artxibo zaharrak identifikatzen"
 
 #~ msgid "<span line_height='1.6'>Only available for completed backups:</span>"
 #~ msgstr ""
