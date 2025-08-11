@@ -1,12 +1,12 @@
 use std::ffi::OsStr;
 use std::path::PathBuf;
 
-use adw::prelude::*;
-use adw::subclass::prelude::*;
-
 use crate::borg;
 use crate::ui;
 use crate::ui::prelude::*;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
+use gtk::FileFilter;
 
 use super::imp;
 
@@ -72,26 +72,7 @@ impl imp::BackupPage {
         res
     }
 
-    pub async fn add_include(&self) -> Result<()> {
-        let chooser = gtk::FileDialog::builder()
-            .initial_folder(&gio::File::for_path(glib::home_dir()))
-            .title(gettext("Include Folder"))
-            .accept_label(gettext("Select"))
-            .modal(true)
-            .build();
-
-        let paths = ui::utils::paths_from_model(Some(
-            chooser
-                .select_multiple_folders_future(Some(&main_ui().window()))
-                .await
-                .map_err(|err| match err.kind::<gtk::DialogError>() {
-                    Some(gtk::DialogError::Cancelled | gtk::DialogError::Dismissed) => {
-                        Error::UserCanceled
-                    }
-                    _ => Message::short(err.to_string()).into(),
-                })?,
-        ))?;
-
+    async fn include_file_paths(&self, paths: Vec<PathBuf>) -> Result<()> {
         let paths = if *APP_IS_SANDBOXED {
             let runtime_dir = glib::user_runtime_dir();
             let mut sandbox_filtered_paths = Vec::new();
@@ -158,6 +139,53 @@ impl imp::BackupPage {
         }
 
         Ok(())
+    }
+
+    pub async fn add_include_file(&self) -> Result<()> {
+        let chooser = gtk::FileDialog::builder()
+            .initial_folder(&gio::File::for_path(glib::home_dir()))
+            .title(gettext("Include File"))
+            .accept_label(gettext("Select"))
+            .modal(true)
+            .build();
+
+        let paths = ui::utils::paths_from_model(Some(
+            chooser
+                .open_multiple_future(Some(&main_ui().window()))
+                .await
+                .map_err(|err| match err.kind::<gtk::DialogError>() {
+                    Some(gtk::DialogError::Cancelled | gtk::DialogError::Dismissed) => {
+                        Error::UserCanceled
+                    }
+                    _ => Message::short(err.to_string()).into(),
+                })?,
+        ))?;
+
+        self.include_file_paths(paths).await?;
+        Ok(())
+    }
+
+    pub async fn add_include(&self) -> Result<()> {
+        let chooser = gtk::FileDialog::builder()
+            .initial_folder(&gio::File::for_path(glib::home_dir()))
+            .title(gettext("Include Folder"))
+            .accept_label(gettext("Select"))
+            .modal(true)
+            .build();
+
+        let paths = ui::utils::paths_from_model(Some(
+            chooser
+                .select_multiple_folders_future(Some(&main_ui().window()))
+                .await
+                .map_err(|err| match err.kind::<gtk::DialogError>() {
+                    Some(gtk::DialogError::Cancelled | gtk::DialogError::Dismissed) => {
+                        Error::UserCanceled
+                    }
+                    _ => Message::short(err.to_string()).into(),
+                })?,
+        ))?;
+
+        self.include_file_paths(paths).await
     }
 
     pub async fn add_exclude(&self) -> Result<()> {

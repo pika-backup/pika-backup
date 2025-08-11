@@ -53,7 +53,9 @@ mod imp {
         #[template_child]
         pub(super) include_list: TemplateChild<gtk::ListBox>,
         #[template_child]
-        pub(super) add_include_button: TemplateChild<gtk::Button>,
+        pub(super) add_include_file_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) add_include_folder_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) exclude_list: TemplateChild<gtk::ListBox>,
         #[template_child]
@@ -117,7 +119,12 @@ mod imp {
                 }
             ));
 
-            self.add_include_button.connect_clicked(glib::clone!(
+            self.add_include_file_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| Handler::run(async move { obj.imp().add_include_file().await })
+            ));
+            self.add_include_folder_button.connect_clicked(glib::clone!(
                 #[weak]
                 obj,
                 move |_| Handler::run(async move { obj.imp().add_include().await })

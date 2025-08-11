@@ -90,13 +90,29 @@
         <property name="title" translatable="yes">Files to Back Up</property>
         <property name="description" translatable="yes">Only files in these folders are backed up</property>
         <property name="header-suffix">
-          <object class="GtkButton" id="add_include_button">
-            <property name="tooltip-text" translatable="yes">Select Directory to Include</property>
-            <property name="icon-name">list-add-symbolic</property>
-            <property name="valign">start</property>
-            <style>
-              <class name="flat" />
-            </style>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+
+            <child>
+              <object class="GtkButton" id="add_include_file_button">
+                <property name="tooltip-text" translatable="yes">Select File to Include</property>
+                <property name="icon-name">document-new-symbolic</property>
+                <property name="valign">start</property>
+                <style>
+                  <class name="flat" />
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="add_include_folder_button">
+                <property name="tooltip-text" translatable="yes">Select Directory to Include</property>
+                <property name="icon-name">folder-new-symbolic</property>
+                <property name="valign">start</property>
+                <style>
+                  <class name="flat" />
+                </style>
+              </object>
+            </child>
           </object>
         </property>
         <child>
