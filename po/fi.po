@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-10-28 02:27+0000\n"
-"PO-Revision-Date: 2024-11-11 20:44+0200\n"
+"POT-Creation-Date: 2025-08-23 22:42+0000\n"
+"PO-Revision-Date: 2025-08-24 14:20+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,9 +16,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.6\n"
 
-#: data/app.Monitor.desktop.in:4
+#: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
 msgstr "Pika-varmuuskopioinnin tarkkailu"
 
@@ -26,21 +26,21 @@ msgstr "Pika-varmuuskopioinnin tarkkailu"
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/utils.rs:367
+#: data/app.desktop.in:5 data/app.metainfo.xml.in:4 src/ui/utils.rs:367
 #: src/ui/utils.rs:430 src/ui/widget/app_window.ui:10
 #: src/ui/widget/dialog/about.rs:12 src/ui/widget/overview.ui:22
 msgid "Pika Backup"
 msgstr "Pika-varmuuskopiointi"
 
-#: data/app.desktop.in:7
+#: data/app.desktop.in:6
 msgid "Backups"
 msgstr "Varmuuskopiot"
 
-#: data/app.desktop.in:8 data/app.metainfo.xml.in:5
+#: data/app.desktop.in:7 data/app.metainfo.xml.in:5
 msgid "Keep your data safe"
 msgstr "Pidä tietosi turvassa"
 
-#: data/app.desktop.in:14
+#: data/app.desktop.in:13
 msgid "archive;back-up;borg;"
 msgstr "archive;back-up;borg;arkisto;varmuuskopio;"
 
@@ -239,6 +239,8 @@ msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
 msgstr ""
+"Tietovarastojen tilakiintiö on täynnä. Poista vanhoja, tarpeettomia "
+"arkistoja vapauttaaksesi tilaa."
 
 #: src/borg/error.rs:305
 msgid ""
@@ -628,7 +630,7 @@ msgstr "Suoritetaan omavalintainen shell-komento"
 
 #. Translators: User home directory
 #: src/config.rs:72 src/ui/widget/detail/backup/display.rs:15
-#: src/ui/widget/detail/backup/events.rs:188
+#: src/ui/widget/detail/backup/events.rs:216
 msgid "Home"
 msgstr "Koti"
 
@@ -722,19 +724,19 @@ msgstr "Unix-tiedostonimen kuvio"
 msgid "Remote Location"
 msgstr "Etäsijainti"
 
-#: src/config/schedule.rs:37
+#: src/config/schedule.rs:38
 msgid "Hourly"
 msgstr "Tunneittain"
 
-#: src/config/schedule.rs:38
+#: src/config/schedule.rs:39
 msgid "Daily"
 msgstr "Päivittäin"
 
-#: src/config/schedule.rs:39
+#: src/config/schedule.rs:40
 msgid "Weekly"
 msgstr "Viikottain"
 
-#: src/config/schedule.rs:40
+#: src/config/schedule.rs:41
 msgid "Monthly"
 msgstr "Kuukausittain"
 
@@ -794,7 +796,7 @@ msgstr[1] "Pika-varmuuskopiointi kaatui suorittaessa {} varmuuskopiointia"
 
 #: src/daemon/init.rs:168 src/daemon/init.rs:170 src/daemon/init.rs:177
 msgid "Error restarting monitor daemon"
-msgstr ""
+msgstr "Virhe käynnistäessä uudelleen tarkkailun taustaosaa"
 
 #: src/daemon/schedule/init.rs:94
 msgid "The backup repository is already in use."
@@ -1083,7 +1085,8 @@ msgstr[1] "{} varmuuskopiointitoimintoa käynnissä"
 msgid "Failed to Create Thread"
 msgstr "Säikeen luominen epäonnistui"
 
-#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:79
+#: src/ui/utils.rs:293 src/ui/widget/detail/backup/events.rs:148
+#: src/ui/widget/detail/backup/events.rs:172
 #: src/ui/widget/dialog/exclude.rs:255 src/ui/widget/dialog/exclude.rs:302
 msgid "Select"
 msgstr "Valitse"
@@ -1157,7 +1160,7 @@ msgstr ""
 "Jatkaminen samalla kun toinen ohjelma käyttää tietovarastoa saattaa "
 "korrupotoida varmuuskopion datan!"
 
-#: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:199
+#: src/ui/utils/borg.rs:284 src/ui/widget/detail/backup/events.rs:227
 #: src/ui/widget/dialog/preferences.rs:482
 #: src/ui/widget/dialog/setup/encryption.rs:88
 #: src/ui/widget/encryption_settings.rs:90
@@ -1475,28 +1478,32 @@ msgstr "Varmuuskopioitavat tiedostot"
 msgid "Only files in these folders are backed up"
 msgstr "Vain tiedostot seuraavista kansioista varmuuskopioidaan"
 
-#: src/ui/widget/detail/backup.ui:94
+#: src/ui/widget/detail/backup.ui:98
+msgid "Select File to Include"
+msgstr "Valitse sisällytettävä tiedosto"
+
+#: src/ui/widget/detail/backup.ui:108
 msgid "Select Directory to Include"
 msgstr "Valitse sisällytettävä kansio"
 
-#: src/ui/widget/detail/backup.ui:110
+#: src/ui/widget/detail/backup.ui:126
 msgid "No Files Included in Backup"
 msgstr "Varmuuskopioon ei ole sisällytetty tiedostoja"
 
-#: src/ui/widget/detail/backup.ui:122 src/ui/widget/dialog/exclude.ui:12
+#: src/ui/widget/detail/backup.ui:138 src/ui/widget/dialog/exclude.ui:12
 #: src/ui/widget/dialog/setup/transfer_option.ui:112
 msgid "Exclude From Backup"
 msgstr "Ohita varmuuskopiosta"
 
-#: src/ui/widget/detail/backup.ui:123
+#: src/ui/widget/detail/backup.ui:139
 msgid "The following locations are not backed up"
 msgstr "Seuraavia sijainteja ei ole varmuuskopioitu"
 
-#: src/ui/widget/detail/backup.ui:126
+#: src/ui/widget/detail/backup.ui:142
 msgid "Select Directory to Exclude"
 msgstr "Valitse ohitettava kansio"
 
-#: src/ui/widget/detail/backup.ui:142
+#: src/ui/widget/detail/backup.ui:158
 msgid "Nothing Excluded From Backup"
 msgstr "Mitään ei ole suljettu pois varmuuskopiosta"
 
@@ -1556,16 +1563,12 @@ msgstr ""
 "Toimintoa suoritetaan parhaillaan. Peruminen nyt aiheuttaa sen, että kaikki "
 "mitä toiminnon edistymisen aikana on tapahtunut, katoaa."
 
-#: src/ui/widget/detail/backup/events.rs:78
-msgid "Include Folder"
-msgstr "Sisällytä kansio"
-
-#: src/ui/widget/detail/backup/events.rs:121
-#: src/ui/widget/detail/backup/events.rs:131
+#: src/ui/widget/detail/backup/events.rs:102
+#: src/ui/widget/detail/backup/events.rs:112
 msgid "Unable to Include Location"
 msgstr "Sijaintia ei voitu sisällyttää"
 
-#: src/ui/widget/detail/backup/events.rs:122
+#: src/ui/widget/detail/backup/events.rs:103
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -1575,7 +1578,7 @@ msgstr ""
 "saatavilla eristystilassa:\n"
 "{}"
 
-#: src/ui/widget/detail/backup/events.rs:132
+#: src/ui/widget/detail/backup/events.rs:113
 msgid ""
 "Pika Backup cannot be used to backup the entire system or the “/dev” "
 "directory."
@@ -1583,18 +1586,26 @@ msgstr ""
 "Pika-varmuuskopiointia ei voi käyttää koko järjestelmän tai \"/dev\"-"
 "hakemiston varmuuskopiointiin."
 
-#: src/ui/widget/detail/backup/events.rs:195
+#: src/ui/widget/detail/backup/events.rs:147
+msgid "Include File"
+msgstr "Sisällytä tiedosto"
+
+#: src/ui/widget/detail/backup/events.rs:171
+msgid "Include Folder"
+msgstr "Sisällytä kansio"
+
+#: src/ui/widget/detail/backup/events.rs:223
 msgid "No longer include “{}” in backups?"
 msgstr "Jätetäänkö “{}” jatkossa pois varmuuskopioista?"
 
-#: src/ui/widget/detail/backup/events.rs:197
+#: src/ui/widget/detail/backup/events.rs:225
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Kaikki tässä kansiossa olevat tiedostot eivät jatkossa ole osa "
 "varmuuskopiota."
 
-#: src/ui/widget/detail/backup/events.rs:200
+#: src/ui/widget/detail/backup/events.rs:228
 msgid "Confirm"
 msgstr "Vahvista"
 
@@ -1727,15 +1738,15 @@ msgstr "_Poista aikataulu käytöstä"
 msgid "No preset selected."
 msgstr "Esiasetusta ei ole valittu."
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:20
+#: src/ui/widget/detail/schedule/prune_preset.rs:18
 msgid "Keep Many"
 msgstr "Pidä useita"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:21
+#: src/ui/widget/detail/schedule/prune_preset.rs:19
 msgid "Keep Some"
 msgstr "Pidä joitain"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:22
+#: src/ui/widget/detail/schedule/prune_preset.rs:20
 msgid "Custom"
 msgstr "Mukautettu"
 
@@ -2164,8 +2175,8 @@ msgstr ""
 "Yllä olevat kaavat tulee kirjoittaa tietyssä muodossa. Ne peilataan polkua "
 "vasten ilman ensimmäistä <tt>/</tt>-merkkiä. Kehotetyyliset kaavat peilataan "
 "myös, jos niiden perässä on merkki <tt>*</tt>. Lisätietoja on saatavilla <a "
-"href=\"https://borgbackup.readthedocs.io/en/stable/usage/help."
-"html\">BorgBackupin dokumentaatiossa</a>."
+"href=\"https://borgbackup.readthedocs.io/en/stable/usage/"
+"help.html\">BorgBackupin dokumentaatiossa</a>."
 
 #: src/ui/widget/dialog/preferences.rs:213
 msgid ""
@@ -2516,8 +2527,8 @@ msgstr "Sijainnit BorgBackup-tuella"
 
 #: src/ui/widget/dialog/setup/location.ui:128
 msgid ""
-"Servers with borgbackup installed have the best performance. <a href=\"help:"
-"pika-backup/setup-remote\">More</a>"
+"Servers with borgbackup installed have the best performance. <a "
+"href=\"help:pika-backup/setup-remote\">More</a>"
 msgstr ""
 "Palvelimilla, joissa borgbackup on asennettu, on paras suorituskyky. <a "
 "href=\"help:pika-backup/setup-remote\">Lisätietoja</a>"
