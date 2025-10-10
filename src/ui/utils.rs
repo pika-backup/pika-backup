@@ -9,6 +9,7 @@ pub mod password_storage;
 pub mod repo_cache;
 
 use crate::ui::prelude::*;
+use crate::ui::App;
 use adw::prelude::*;
 
 use crate::config;
@@ -122,7 +123,7 @@ pub async fn background_permission() -> Result<()> {
         Ok(())
     } else {
         let response = background::Background::request()
-            .identifier(ashpd::WindowIdentifier::default())
+            .identifier(ashpd::WindowIdentifier::from_native(&App::default().main_window()).await)
             .reason(&*gettext("Schedule backups and continue running backups."))
             .auto_start(true)
             .command(std::iter::once(crate::DAEMON_BINARY))

@@ -159,7 +159,7 @@ pub async fn restart_daemon() {
                 .spawn(
                     glib::current_dir(),
                     &[binary.as_os_str(), "--gapplication-replace".as_ref()],
-                    HashMap::new(),
+                    HashMap::<u32, std::os::fd::OwnedFd>::new(),
                     HashMap::new(),
                     ashpd::flatpak::SpawnFlags::LatestVersion.into(),
                     ashpd::flatpak::SpawnOptions::default(),

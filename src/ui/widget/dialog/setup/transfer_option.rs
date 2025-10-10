@@ -75,7 +75,7 @@ mod imp {
 glib::wrapper! {
     pub struct SetupTransferOption(ObjectSubclass<imp::SetupTransferOption>)
     @extends gtk::ListBoxRow, gtk::Widget,
-    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Actionable;
 }
 
 impl SetupTransferOption {

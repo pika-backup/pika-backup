@@ -280,7 +280,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct EncryptionSettings(ObjectSubclass<imp::EncryptionSettings>)
-        @extends gtk::Box, gtk::Widget;
+        @extends gtk::Box, gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl EncryptionSettings {

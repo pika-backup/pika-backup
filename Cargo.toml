@@ -10,7 +10,7 @@ homepage = "https://apps.gnome.org/PikaBackup/"
 repository = "https://gitlab.gnome.org/World/pika-backup"
 edition = "2021"
 default-run = "pika-backup"
-rust-version = "1.80"
+rust-version = "1.83"
 
 [profile.release]
 lto = true
@@ -50,12 +50,15 @@ serde_ini = "0.2"
 serde_json = "1.0"
 
 # GNOME
-adw = { package = "libadwaita", version = "0.7", features = ["v1_6"] }
-gtk = { package = "gtk4", version = "0.9", features = ["gnome_47"] }
-glib = "0.20"
-gio = "0.20"
+adw = { package = "libadwaita", version = "0.8", features = ["v1_6"] }
+gtk = { package = "gtk4", version = "0.10", features = ["gnome_47"] }
+glib = "0.21"
+gio = "0.21"
 
-ashpd = "0.9"
+ashpd = { version = "0.12", default-features = false, features = [
+    "async-std",
+    "gtk4_wayland",
+] }
 gvdb-macros = "0.1"
 oo7 = "0.3"
 zbus = "4.3.1"

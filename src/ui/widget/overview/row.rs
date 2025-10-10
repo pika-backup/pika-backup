@@ -101,8 +101,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct OverviewRow(ObjectSubclass<imp::OverviewRow>)
-    @extends gtk::Widget,
-    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+    @extends gtk::Widget, gtk::ListBoxRow,
+    @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Actionable;
 }
 
 impl OverviewRow {

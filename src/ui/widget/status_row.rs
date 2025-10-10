@@ -61,7 +61,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct StatusRow(ObjectSubclass<imp::StatusRow>)
-        @extends adw::ActionRow, adw::PreferencesRow, gtk::ListBoxRow, gtk::Widget;
+        @extends adw::ActionRow, adw::PreferencesRow, gtk::ListBoxRow, gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Actionable;
 }
 
 impl StatusRow {

@@ -3,7 +3,8 @@ use gtk::subclass::prelude::*;
 
 glib::wrapper! {
     pub struct WrapBox(ObjectSubclass<imp::WrapBox>)
-        @extends gtk::Box, gtk::Widget, gtk::Orientable;
+        @extends gtk::Box, gtk::Widget, gtk::Orientable,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl WrapBox {
