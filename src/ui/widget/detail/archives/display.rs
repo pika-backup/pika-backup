@@ -1,6 +1,6 @@
+use crate::ui::App;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
-use crate::ui::App;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;

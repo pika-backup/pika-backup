@@ -1,8 +1,8 @@
 use chrono::prelude::*;
 
 use crate::borg;
-use crate::borg::log_json;
 use crate::borg::Run;
+use crate::borg::log_json;
 use crate::config::history;
 use crate::config::*;
 use crate::ui;

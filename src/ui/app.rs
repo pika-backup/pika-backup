@@ -8,9 +8,9 @@ use adw::subclass::prelude::*;
 use config::TrackChanges;
 
 use super::shell;
-use super::widget::setup::SetupDialog;
 use super::widget::AppWindow;
 use super::widget::PreferencesDialog;
+use super::widget::setup::SetupDialog;
 
 mod imp {
     use std::cell::Cell;
@@ -117,12 +117,13 @@ mod imp {
 
     impl App {
         pub(super) fn main_window(&self) -> AppWindow {
-            if let Some(window) = self.main_window.upgrade() {
-                window
-            } else {
-                let window = AppWindow::new(&self.obj());
-                self.main_window.set(Some(&window));
-                window
+            match self.main_window.upgrade() {
+                Some(window) => window,
+                _ => {
+                    let window = AppWindow::new(&self.obj());
+                    self.main_window.set(Some(&window));
+                    window
+                }
             }
         }
     }

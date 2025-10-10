@@ -82,11 +82,13 @@ mod imp {
     impl ObjectImpl for WrapBox {
         fn properties() -> &'static [ParamSpec] {
             static PROPERTIES: LazyLock<Vec<ParamSpec>> = LazyLock::new(|| {
-                vec![ParamSpecInt::builder("width-estimate")
-                    .minimum(100)
-                    .maximum(1000)
-                    .default_value(350)
-                    .build()]
+                vec![
+                    ParamSpecInt::builder("width-estimate")
+                        .minimum(100)
+                        .maximum(1000)
+                        .default_value(350)
+                        .build(),
+                ]
             });
             PROPERTIES.as_ref()
         }

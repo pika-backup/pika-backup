@@ -112,7 +112,10 @@ pub fn calculate(
 
                         match result {
                             Ok(size) => size_touched += size,
-                            Err(err) => error!("FILESYSTEM BUG: mtime/ctime has invalid value for path {:?}. Backtrace: {err:?}", entry.path()),
+                            Err(err) => error!(
+                                "FILESYSTEM BUG: mtime/ctime has invalid value for path {:?}. Backtrace: {err:?}",
+                                entry.path()
+                            ),
                         };
                     }
                 }

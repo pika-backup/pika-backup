@@ -1,5 +1,5 @@
-pub use super::log_json::LogExt;
 pub use super::BorgRunConfig;
+pub use super::log_json::LogExt;
 pub use crate::prelude::*;
 
 #[async_trait]

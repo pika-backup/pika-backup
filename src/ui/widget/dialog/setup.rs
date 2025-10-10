@@ -26,8 +26,8 @@ use transfer_prefix::SetupTransferPrefixPage;
 use transfer_settings::SetupTransferSettingsPage;
 
 use crate::ui;
-use crate::ui::prelude::*;
 use crate::ui::App;
+use crate::ui::prelude::*;
 use types::*;
 
 mod imp {
@@ -137,55 +137,61 @@ mod imp {
         fn close_attempt(&self) {
             self.parent_close_attempt();
 
-            if let Some(config) = self.new_config.take() {
-                // Save the new config
-                let save = self.save.get();
-                let obj = self.obj().clone();
-                Handler::run(async move {
-                    let imp = obj.imp();
+            match self.new_config.take() {
+                Some(config) => {
+                    // Save the new config
+                    let save = self.save.get();
+                    let obj = self.obj().clone();
+                    Handler::run(async move {
+                        let imp = obj.imp();
 
-                    if !save {
-                        let dialog = adw::AlertDialog::new(
-                            Some(&gettext("Abort Setup?")),
-                            Some(&gettext(
-                                "Aborting now will cause the repository to not be added",
-                            )),
-                        );
+                        if !save {
+                            let dialog = adw::AlertDialog::new(
+                                Some(&gettext("Abort Setup?")),
+                                Some(&gettext(
+                                    "Aborting now will cause the repository to not be added",
+                                )),
+                            );
 
-                        dialog.add_responses(&[("close", "Continue Setup"), ("abort", "Abort")]);
-                        dialog
-                            .set_response_appearance("abort", adw::ResponseAppearance::Destructive);
-                        match &*dialog.choose_future(&obj).await {
-                            "abort" => {
-                                obj.force_close();
+                            dialog
+                                .add_responses(&[("close", "Continue Setup"), ("abort", "Abort")]);
+                            dialog.set_response_appearance(
+                                "abort",
+                                adw::ResponseAppearance::Destructive,
+                            );
+                            match &*dialog.choose_future(&obj).await {
+                                "abort" => {
+                                    obj.force_close();
+                                }
+                                _ => {
+                                    obj.imp().new_config.replace(Some(config));
+                                }
                             }
-                            _ => {
-                                obj.imp().new_config.replace(Some(config));
-                            }
+
+                            return Ok(());
                         }
 
-                        return Ok(());
-                    }
+                        imp.handle_result(imp.save_backup_config(&config).await);
 
-                    imp.handle_result(imp.save_backup_config(&config).await);
+                        obj.force_close();
 
-                    obj.force_close();
+                        let window = App::default().main_window();
 
-                    let window = App::default().main_window();
+                        // Display a newly added backup in the main window if successful
+                        window.view_backup_conf(&config.id);
 
-                    // Display a newly added backup in the main window if successful
-                    window.view_backup_conf(&config.id);
+                        window.announce(
+                            // Translators: Announced to accessibility devices when setup dialog has finished
+                            &gettext("Backup Repository Added Successfully"),
+                            gtk::AccessibleAnnouncementPriority::Medium,
+                        );
 
-                    window.announce(
-                        // Translators: Announced to accessibility devices when setup dialog has finished
-                        &gettext("Backup Repository Added Successfully"),
-                        gtk::AccessibleAnnouncementPriority::Medium,
-                    );
-
-                    Ok(())
-                })
-            } else {
-                self.obj().force_close();
+                        Ok(())
+                    })
+                }
+                _ => {
+                    self.obj().force_close();
+                }
             };
         }
     }
@@ -252,14 +258,17 @@ mod imp {
                 (SetupAction::AddExisting, SetupLocationKind::Local, file) => {
                     let file = if let Some(file) = file {
                         file
-                    } else if let Some(file) = self
-                        .handle_result(self.show_add_existing_file_chooser().await)
-                        .flatten()
-                    {
-                        file
                     } else {
-                        self.busy.set(false);
-                        return;
+                        match self
+                            .handle_result(self.show_add_existing_file_chooser().await)
+                            .flatten()
+                        {
+                            Some(file) => file,
+                            _ => {
+                                self.busy.set(false);
+                                return;
+                            }
+                        }
                     };
 
                     let location = SetupRepoLocation::from_file(file);

@@ -82,9 +82,13 @@ mod imp {
             self.status_page.set_description(Some(&status));
 
             let description = if self.review_only.get() {
-                gettext("After applying these changes, the next automatic deletion of old archives would have the following consequences.")
+                gettext(
+                    "After applying these changes, the next automatic deletion of old archives would have the following consequences.",
+                )
             } else {
-                gettext("Proceeding with this operation will irretrievably delete some of the archives. The saved data for those specific points in time will no longer be available.")
+                gettext(
+                    "Proceeding with this operation will irretrievably delete some of the archives. The saved data for those specific points in time will no longer be available.",
+                )
             };
 
             self.preferences_group.set_description(Some(&description));

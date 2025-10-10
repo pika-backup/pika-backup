@@ -12,8 +12,8 @@ mod wrap_box;
 
 pub use app_window::AppWindow;
 pub use detail::{
-    frequency, prune_preset, weekday, ArchivesPage, BackupPage, DetailPage, SchedulePage,
-    ScheduleStatus,
+    ArchivesPage, BackupPage, DetailPage, SchedulePage, ScheduleStatus, frequency, prune_preset,
+    weekday,
 };
 pub use encryption_settings::EncryptionSettings;
 use folder_row::FolderRow;

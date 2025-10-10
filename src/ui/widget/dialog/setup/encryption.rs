@@ -42,9 +42,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("continue")
-                    .param_types([Option::<crate::config::Password>::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("continue")
+                        .param_types([Option::<crate::config::Password>::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -81,7 +83,9 @@ mod imp {
                 if configured_password.is_none() {
                     let dialog = adw::AlertDialog::new(
                         Some(&gettext("Continue Unencrypted?")),
-                        Some(&gettext("When encryption is not used, everyone with access to the backup files can read all data"))
+                        Some(&gettext(
+                            "When encryption is not used, everyone with access to the backup files can read all data",
+                        )),
                     );
 
                     dialog.add_responses(&[

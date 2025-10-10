@@ -1,7 +1,7 @@
 use crate::borg::prelude::*;
 
-use super::error;
 use super::Result;
+use super::error;
 use arc_swap::ArcSwap;
 use async_std::channel::{self, unbounded};
 use std::sync::Arc;

@@ -22,7 +22,7 @@ pub trait LookupConfigId {
     fn try_get(&self, key: &ConfigId) -> Result<&Self::Item, config::error::BackupNotFound>;
 }
 
-extern "C" {
+unsafe extern "C" {
     fn fnmatch(pattern: *const c_char, string: *const c_char, flags: c_int) -> c_int;
 }
 

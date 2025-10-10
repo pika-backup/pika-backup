@@ -7,8 +7,8 @@ use std::path;
 
 use super::loadable::ConfigVersion;
 use super::{
-    absolute, error, exclude, ConfigType, Exclude, Pattern, Prune, Repository, Schedule, ABSOLUTE,
-    RELATIVE,
+    ABSOLUTE, ConfigType, Exclude, Pattern, Prune, RELATIVE, Repository, Schedule, absolute, error,
+    exclude,
 };
 
 #[derive(

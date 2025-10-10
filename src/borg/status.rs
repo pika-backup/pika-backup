@@ -24,11 +24,7 @@ pub struct Status {
 }
 
 fn positive(n: f64) -> f64 {
-    if n.is_finite() && n > 0. {
-        n
-    } else {
-        0.
-    }
+    if n.is_finite() && n > 0. { n } else { 0. }
 }
 
 impl GeneralStatus {

@@ -98,12 +98,12 @@ impl imp::SchedulePage {
     }
 
     fn frequency(&self) -> Result<config::Frequency> {
-        if let Some(frequency) = self
+        match self
             .frequency
             .selected_item()
             .and_then(|x| x.downcast::<frequency::FrequencyObject>().ok())
         {
-            Ok(match frequency.frequency() {
+            Some(frequency) => Ok(match frequency.frequency() {
                 config::Frequency::Hourly => config::Frequency::Hourly,
                 config::Frequency::Daily { .. } => config::Frequency::Daily {
                     preferred_time: chrono::NaiveTime::from_hms_opt(
@@ -124,9 +124,8 @@ impl imp::SchedulePage {
                 config::Frequency::Monthly { .. } => config::Frequency::Monthly {
                     preferred_day: self.preferred_day.value() as u8,
                 },
-            })
-        } else {
-            Err(Message::short(gettext("No frequency selected.")).into())
+            }),
+            _ => Err(Message::short(gettext("No frequency selected.")).into()),
         }
     }
 
@@ -288,22 +287,23 @@ impl imp::SchedulePage {
     }
 
     pub async fn prune_preset_change(&self) -> Result<()> {
-        if let Some(preset) = self
+        match self
             .prune_preset
             .selected_item()
             .and_then(|x| x.downcast::<prune_preset::PrunePresetObject>().ok())
         {
-            if let Some(keep) = preset.preset().keep() {
-                let mut config = BACKUP_CONFIG.load().active()?.clone();
-                config.prune.keep = keep;
-                self.update_prune_details(&config);
-            } else {
-                self.prune_detail.set_expanded(true);
-            }
+            Some(preset) => {
+                if let Some(keep) = preset.preset().keep() {
+                    let mut config = BACKUP_CONFIG.load().active()?.clone();
+                    config.prune.keep = keep;
+                    self.update_prune_details(&config);
+                } else {
+                    self.prune_detail.set_expanded(true);
+                }
 
-            Ok(())
-        } else {
-            Err(Message::short(gettext("No preset selected.")).into())
+                Ok(())
+            }
+            _ => Err(Message::short(gettext("No preset selected.")).into()),
         }
     }
 

@@ -17,11 +17,7 @@ pub async fn cached_or_lookup(config: &config::Backup) -> Option<Space> {
     match &config.repo {
         config::Repository::Local(_) => {
             let lookup = lookup_and_cache(config).await;
-            if lookup.is_ok() {
-                lookup.ok()
-            } else {
-                cached
-            }
+            if lookup.is_ok() { lookup.ok() } else { cached }
         }
         config::Repository::Remote(_) => {
             if cached.is_some() {

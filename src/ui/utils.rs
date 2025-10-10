@@ -8,8 +8,8 @@ pub mod notification;
 pub mod password_storage;
 pub mod repo_cache;
 
-use crate::ui::prelude::*;
 use crate::ui::App;
+use crate::ui::prelude::*;
 use adw::prelude::*;
 
 use crate::config;

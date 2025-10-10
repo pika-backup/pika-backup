@@ -7,7 +7,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use self::ui::{error::HandleError, App};
+    use self::ui::{App, error::HandleError};
 
     use super::*;
     use std::cell::OnceCell;

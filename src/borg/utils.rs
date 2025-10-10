@@ -34,11 +34,7 @@ fn is_sha256_faster() -> bool {
 }
 
 pub fn fasted_hash_algorithm() -> &'static str {
-    if is_sha256_faster() {
-        ""
-    } else {
-        "-blake2"
-    }
+    if is_sha256_faster() { "" } else { "-blake2" }
 }
 
 pub fn mount_base_dir() -> std::path::PathBuf {

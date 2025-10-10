@@ -127,7 +127,9 @@ mod imp {
         }
 
         fn description(&self) -> String {
-            gettext("The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.")
+            gettext(
+                "The data stored in encrypted backups is password protected. If encryption is used, the password is required for accessing your backups.",
+            )
         }
 
         pub fn validated_password(&self) -> Result<Option<config::Password>> {

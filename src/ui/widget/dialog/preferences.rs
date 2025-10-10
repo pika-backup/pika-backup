@@ -475,7 +475,9 @@ mod imp {
                 // Ask if we really want to remove the password
                 let dialog = adw::AlertDialog::new(
                     Some(&gettext("Remove Password?")),
-                    Some(&gettext("When encryption is not used, everyone with access to the backup files can read all data"))
+                    Some(&gettext(
+                        "When encryption is not used, everyone with access to the backup files can read all data",
+                    )),
                 );
 
                 dialog.add_responses(&[

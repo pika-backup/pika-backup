@@ -12,13 +12,13 @@ use std::os::unix::io::AsRawFd;
 use std::os::unix::net::UnixStream;
 use std::time::Duration;
 
+use super::Task;
 use super::communication::*;
 use super::error::*;
 use super::log_json;
 use super::prelude::*;
 use super::status::*;
 use super::utils;
-use super::Task;
 use super::{BorgRunConfig, Command, Error, Result, USER_INTERACTION_TIME};
 use crate::config;
 
@@ -158,44 +158,54 @@ impl BorgCall {
     }
 
     pub async fn add_password<T: BorgRunConfig>(&mut self, borg: &T) -> Result<&mut Self> {
-        if let Some(ref password) = borg.password() {
-            debug!("Using password enforced by explicitly passed password");
-            self.password = password.clone();
-        } else if borg.is_encrypted() {
-            debug!("Config says the backup is encrypted");
-            if let Some(config) = borg.try_config() {
-                let password = match self.get_password_keyring(&config.repo_id).await {
-                    // keyring is available and has the password
-                    Ok(password) => password,
-                    // keyring is available but doesn't have the password
-                    Err(
-                        err @ Error::PasswordMissing {
-                            keyring_error: None,
-                        },
-                    ) => Err(err)?,
-                    // keyring unavailable
-                    Err(err) => {
-                        warn!("Error using keyring, using in-memory password store. Keyring error: '{err:?}'");
-
-                        // Use the in-memory password store
-                        crate::globals::MEMORY_PASSWORD_STORE
-                            .load_password(&config)
-                            .ok_or(Error::PasswordMissing {
-                                keyring_error: Some(err.to_string()),
-                            })?
-                    }
-                };
-
-                self.password = password;
-            } else {
-                // TODO when is this happening?
-                return Err(Error::PasswordMissing {
-                    keyring_error: None,
-                });
+        match borg.password() {
+            Some(ref password) => {
+                debug!("Using password enforced by explicitly passed password");
+                self.password = password.clone();
             }
-        } else {
-            trace!("Config says no encryption. Writing empty password.");
-            self.password = config::Password::default();
+            _ => {
+                if borg.is_encrypted() {
+                    debug!("Config says the backup is encrypted");
+                    match borg.try_config() {
+                        Some(config) => {
+                            let password = match self.get_password_keyring(&config.repo_id).await {
+                                // keyring is available and has the password
+                                Ok(password) => password,
+                                // keyring is available but doesn't have the password
+                                Err(
+                                    err @ Error::PasswordMissing {
+                                        keyring_error: None,
+                                    },
+                                ) => Err(err)?,
+                                // keyring unavailable
+                                Err(err) => {
+                                    warn!(
+                                        "Error using keyring, using in-memory password store. Keyring error: '{err:?}'"
+                                    );
+
+                                    // Use the in-memory password store
+                                    crate::globals::MEMORY_PASSWORD_STORE
+                                        .load_password(&config)
+                                        .ok_or(Error::PasswordMissing {
+                                            keyring_error: Some(err.to_string()),
+                                        })?
+                                }
+                            };
+
+                            self.password = password;
+                        }
+                        _ => {
+                            // TODO when is this happening?
+                            return Err(Error::PasswordMissing {
+                                keyring_error: None,
+                            });
+                        }
+                    }
+                } else {
+                    trace!("Config says no encryption. Writing empty password.");
+                    self.password = config::Password::default();
+                }
+            }
         }
 
         Ok(self)
@@ -358,7 +368,7 @@ impl BorgCall {
             let result = managed_process.spawn().await;
 
             match &result {
-                Err(Error::Failed(ref failure)) if failure.is_connection_error() => {
+                Err(Error::Failed(failure)) if failure.is_connection_error() => {
                     if !communication.general_info.load().is_schedule
                         && std::time::Instant::now().duration_since(started_instant)
                             < USER_INTERACTION_TIME
@@ -532,15 +542,16 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         // borg also returns >0 for warnings, therefore check messages
         if status.success() || max_log_level < Some(log_json::LogLevel::Error) {
             Ok(*result?)
-        } else if let Ok(err) = Error::try_from(
-            self.communication
-                .general_info
-                .load()
-                .last_combined_message_history(),
-        ) {
-            Err(err)
         } else {
-            Err(ReturnCodeError::new(status.code()).into())
+            match Error::try_from(
+                self.communication
+                    .general_info
+                    .load()
+                    .last_combined_message_history(),
+            ) {
+                Ok(err) => Err(err),
+                _ => Err(ReturnCodeError::new(status.code()).into()),
+            }
         }
     }
 
@@ -559,7 +570,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
             // react to instructions before potentially listening for messages again
 
             match &**self.communication.instruction.load() {
-                Instruction::Abort(ref reason) => {
+                Instruction::Abort(reason) => {
                     self.communication.set_status(Run::Stopping);
                     debug!("Sending SIGINT to borg process");
                     nix::sys::signal::kill(

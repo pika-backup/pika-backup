@@ -34,7 +34,13 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default> Load
             Ok(serde_json::from_value(json)?)
         } else {
             // The config is incompatible with this app version
-            Err(std::io::Error::new(std::io::ErrorKind::InvalidData, gettextf("The loaded configuration file version {} is incompatible with this version of Pika Backup", &[&version.to_string()])))
+            Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                gettextf(
+                    "The loaded configuration file version {} is incompatible with this version of Pika Backup",
+                    &[&version.to_string()],
+                ),
+            ))
         }
     }
 }

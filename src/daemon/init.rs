@@ -1,4 +1,4 @@
-use gio::{prelude::*, ApplicationHoldGuard};
+use gio::{ApplicationHoldGuard, prelude::*};
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::collections::HashMap;
@@ -8,7 +8,7 @@ use super::action;
 use crate::config::{ConfigType, Loadable, TrackChanges};
 use crate::daemon;
 use crate::daemon::prelude::*;
-use crate::{config, DAEMON_BINARY};
+use crate::{DAEMON_BINARY, config};
 
 pub fn init() {
     gio_app().connect_startup(on_startup);

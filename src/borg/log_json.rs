@@ -237,16 +237,16 @@ impl QuestionPrompt {
                 gettext("Attempting to access a previously unknown unencrypted repository.")
             }
             QuestionId::RelocatedRepoAccessIsOk => {
-                let pattern: regex::Regex = regex::Regex::new(
-                    r".*at location (\S+) .*previously located at (\S+).*",
-                )
-                .expect("Regex to be valid");
+                let pattern: regex::Regex =
+                    regex::Regex::new(r".*at location (\S+) .*previously located at (\S+).*")
+                        .expect("Regex to be valid");
 
-                let locations = if let Some(captures) = pattern.captures(&self.message).ok().flatten() {
-                    (captures.get(1), captures.get(2))
-                } else {
-                    (None, None)
-                };
+                let locations =
+                    if let Some(captures) = pattern.captures(&self.message).ok().flatten() {
+                        (captures.get(1), captures.get(2))
+                    } else {
+                        (None, None)
+                    };
 
                 if let (Some(current), Some(previous)) = locations {
                     gettextf(
@@ -257,9 +257,16 @@ impl QuestionPrompt {
                     gettext("The backup repository was previously located at a different location.")
                 }
             }
-            QuestionId::CheckIKnowWhatIAmDoing => gettext("This is a potentially dangerous function. Repairing a repository might lead to data loss (for kinds of corruption it is not capable of dealing with). BE VERY CAREFUL!"),
-            QuestionId::DeleteIKnowWhatIAmDoing => gettext("You requested to delete the repository completely, including all backup archives it contains."),
-            QuestionId::Unknown => gettextf("Unexpected question from borgbackup: “{}”", &[&self.message]),
+            QuestionId::CheckIKnowWhatIAmDoing => gettext(
+                "This is a potentially dangerous function. Repairing a repository might lead to data loss (for kinds of corruption it is not capable of dealing with). BE VERY CAREFUL!",
+            ),
+            QuestionId::DeleteIKnowWhatIAmDoing => gettext(
+                "You requested to delete the repository completely, including all backup archives it contains.",
+            ),
+            QuestionId::Unknown => gettextf(
+                "Unexpected question from borgbackup: “{}”",
+                &[&self.message],
+            ),
         };
 
         // Translators: Combines statement from above and this question
@@ -345,8 +352,8 @@ pub enum LogEntry {
 impl LogEntry {
     pub fn message(&self) -> String {
         match &self {
-            Self::ParsedErr(LogMessage { ref message, .. }) => message.to_string(),
-            Self::UnparsableErr(ref message) => message.to_string(),
+            Self::ParsedErr(LogMessage { message, .. }) => message.to_string(),
+            Self::UnparsableErr(message) => message.to_string(),
         }
     }
 

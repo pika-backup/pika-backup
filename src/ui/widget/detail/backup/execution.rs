@@ -1,8 +1,8 @@
 use crate::borg;
 use crate::config;
+use crate::config::UserScriptKind;
 use crate::config::history;
 use crate::config::history::RunInfo;
-use crate::config::UserScriptKind;
 use crate::schedule;
 use crate::ui;
 
@@ -52,7 +52,7 @@ impl imp::BackupPage {
         match compact_result {
             Err(borg::Error::Aborted(_)) => return Ok(false),
             Err(err) => {
-                return Err(Message::new(gettext("Reclaiming Free Space Failed"), err).into())
+                return Err(Message::new(gettext("Reclaiming Free Space Failed"), err).into());
             }
             _ => {}
         };

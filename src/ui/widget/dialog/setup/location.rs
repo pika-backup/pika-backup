@@ -2,8 +2,8 @@ use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
-use super::types::*;
 use super::SetupRepoLocation;
+use super::types::*;
 use crate::ui::widget::DialogPage;
 
 mod imp {
@@ -14,13 +14,13 @@ mod imp {
     };
 
     use gettextrs::gettext;
-    use glib::{subclass::Signal, WeakRef};
+    use glib::{WeakRef, subclass::Signal};
 
     use crate::ui::{
         error::HandleError,
         widget::{
-            folder_row::FolderRow, setup::advanced_options::SetupAdvancedOptionsPage,
-            PkDialogPageImpl,
+            PkDialogPageImpl, folder_row::FolderRow,
+            setup::advanced_options::SetupAdvancedOptionsPage,
         },
     };
 
@@ -93,12 +93,14 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("continue")
-                    .param_types([
-                        SetupRepoLocation::static_type(),
-                        SetupCommandLineArgs::static_type(),
-                    ])
-                    .build()]
+                vec![
+                    Signal::builder("continue")
+                        .param_types([
+                            SetupRepoLocation::static_type(),
+                            SetupCommandLineArgs::static_type(),
+                        ])
+                        .build(),
+                ]
             })
         }
 
@@ -217,12 +219,16 @@ mod imp {
                     .set_title(&gettext("Repository Folder"));
 
                 let mount_entry = gio::UnixMountEntry::for_file_path(path);
-                if let Some(fs) = mount_entry.0.map(|x| x.fs_type()) {
-                    debug!("Selected filesystem type {}", fs);
-                    self.non_journaling_warning
-                        .set_visible(crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs));
-                } else {
-                    self.non_journaling_warning.set_visible(false);
+                match mount_entry.0.map(|x| x.fs_type()) {
+                    Some(fs) => {
+                        debug!("Selected filesystem type {}", fs);
+                        self.non_journaling_warning.set_visible(
+                            crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs),
+                        );
+                    }
+                    _ => {
+                        self.non_journaling_warning.set_visible(false);
+                    }
                 }
             } else {
                 self.location_folder_row

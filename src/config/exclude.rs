@@ -273,11 +273,12 @@ fn borg_regex_path(path: &Path) -> String {
 pub const CACHEDIR_TAG_HEADER: &[u8; 43] = b"Signature: 8a477f597d28d172789f06886806bc55";
 
 fn path_is_cachedir(directory: &std::path::Path) -> bool {
-    if let Ok(mut file) = std::fs::File::open(directory.join("CACHEDIR.TAG")) {
-        let mut buffer = [0; CACHEDIR_TAG_HEADER.len()];
-        let _ignore = file.read(&mut buffer);
-        CACHEDIR_TAG_HEADER == &buffer
-    } else {
-        false
+    match std::fs::File::open(directory.join("CACHEDIR.TAG")) {
+        Ok(mut file) => {
+            let mut buffer = [0; CACHEDIR_TAG_HEADER.len()];
+            let _ignore = file.read(&mut buffer);
+            CACHEDIR_TAG_HEADER == &buffer
+        }
+        _ => false,
     }
 }

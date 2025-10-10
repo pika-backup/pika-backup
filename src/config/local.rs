@@ -33,27 +33,28 @@ impl Repository {
     pub fn from_path(path: std::path::PathBuf) -> Self {
         let file = gio::File::for_path(&path);
 
-        if let Ok(mount) = file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
-            Self::from_mount(mount, path, file.uri().to_string())
-        } else {
-            let mount_entry = gio::UnixMountEntry::for_file_path(&path).0;
+        match file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
+            Ok(mount) => Self::from_mount(mount, path, file.uri().to_string()),
+            _ => {
+                let mount_entry = gio::UnixMountEntry::for_file_path(&path).0;
 
-            Self {
-                path,
-                mount_path: default_mount_path(),
-                uri: None,
-                icon: mount_entry
-                    .as_ref()
-                    .and_then(|x| IconExt::to_string(&x.guess_icon()).map(|x| x.to_string())),
-                icon_symbolic: mount_entry.as_ref().and_then(|x| {
-                    IconExt::to_string(&x.guess_symbolic_icon()).map(|x| x.to_string())
-                }),
-                mount_name: mount_entry.map(|x| x.guess_name().to_string()),
-                drive_name: None,
-                removable: false,
-                volume_uuid: None,
-                volume_uuid_identifier: None,
-                settings: None,
+                Self {
+                    path,
+                    mount_path: default_mount_path(),
+                    uri: None,
+                    icon: mount_entry
+                        .as_ref()
+                        .and_then(|x| IconExt::to_string(&x.guess_icon()).map(|x| x.to_string())),
+                    icon_symbolic: mount_entry.as_ref().and_then(|x| {
+                        IconExt::to_string(&x.guess_symbolic_icon()).map(|x| x.to_string())
+                    }),
+                    mount_name: mount_entry.map(|x| x.guess_name().to_string()),
+                    drive_name: None,
+                    removable: false,
+                    volume_uuid: None,
+                    volume_uuid_identifier: None,
+                    settings: None,
+                }
             }
         }
     }

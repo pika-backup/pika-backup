@@ -145,10 +145,9 @@ impl<T: borg::Task> Operation<T> {
     }
 
     pub fn is_time_metered_exceeded(&self) -> bool {
-        if let Some(instant) = status_tracking().metered_since.get() {
-            instant.elapsed() > TIME_METERED_ABORT
-        } else {
-            false
+        match status_tracking().metered_since.get() {
+            Some(instant) => instant.elapsed() > TIME_METERED_ABORT,
+            _ => false,
         }
     }
 
@@ -156,10 +155,11 @@ impl<T: borg::Task> Operation<T> {
         if self.command.config.schedule.settings.run_on_battery {
             // Running on battery was explicitly enabled
             false
-        } else if let Some(instant) = status_tracking().on_battery_since.get() {
-            instant.elapsed() > TIME_ON_BATTERY_ABORT
         } else {
-            false
+            match status_tracking().on_battery_since.get() {
+                Some(instant) => instant.elapsed() > TIME_ON_BATTERY_ABORT,
+                _ => false,
+            }
         }
     }
 

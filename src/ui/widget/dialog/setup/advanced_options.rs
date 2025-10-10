@@ -5,7 +5,7 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
-    use crate::ui::widget::{setup::SetupCommandLineArgs, PkDialogPageImpl};
+    use crate::ui::widget::{PkDialogPageImpl, setup::SetupCommandLineArgs};
 
     use super::*;
 

@@ -42,9 +42,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("continue")
-                    .param_types([config::ArchivePrefix::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("continue")
+                        .param_types([config::ArchivePrefix::static_type()])
+                        .build(),
+                ]
             })
         }
     }

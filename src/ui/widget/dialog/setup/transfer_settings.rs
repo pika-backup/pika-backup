@@ -1,5 +1,5 @@
-use super::transfer_option::SetupTransferOption;
 use super::ArchiveParams;
+use super::transfer_option::SetupTransferOption;
 use crate::borg;
 use crate::ui::prelude::*;
 use adw::prelude::*;
@@ -48,9 +48,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("continue")
-                    .param_types([Option::<ArchiveParams>::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("continue")
+                        .param_types([Option::<ArchiveParams>::static_type()])
+                        .build(),
+                ]
             })
         }
     }

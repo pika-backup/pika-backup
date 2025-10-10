@@ -53,29 +53,39 @@ pub async fn ensure_repo_available(
                     // try to find volume with same uuid
                     let volume = find_volume(repo);
 
-                    if let Some(mount) = volume.as_ref().and_then(|v| v.get_mount()) {
-                        info!("Probably found repo somewhere else");
-                        new_config.set_mount_path(&mount);
-                    } else if let Some(new_volume) = volume {
-                        error!("Not mounted yet. Mounting");
-                        new_volume
-                            .mount_future(
-                                gio::MountMountFlags::NONE,
-                                Some(&gtk::MountOperation::new(Some(&main_ui().window()))),
-                            )
-                            .await
-                            .err_to_msg(gettext("Failed to Mount"))?;
-                        if let Some(mount) = new_volume.get_mount() {
-                            info!("Successfully mounted");
+                    match volume.as_ref().and_then(|v| v.get_mount()) {
+                        Some(mount) => {
+                            info!("Probably found repo somewhere else");
                             new_config.set_mount_path(&mount);
-                        } else {
-                            return Err(Message::short(gettext("Failed to Mount")).into());
                         }
-                    } else {
-                        info!("Waiting for mount to appear");
-                        let dialog = DeviceMissingDialog::new(config);
-                        let mount = dialog.present_with_repo(parent, repo, purpose).await?;
-                        new_config.set_mount_path(&mount);
+                        _ => {
+                            if let Some(new_volume) = volume {
+                                error!("Not mounted yet. Mounting");
+                                new_volume
+                                    .mount_future(
+                                        gio::MountMountFlags::NONE,
+                                        Some(&gtk::MountOperation::new(Some(&main_ui().window()))),
+                                    )
+                                    .await
+                                    .err_to_msg(gettext("Failed to Mount"))?;
+                                match new_volume.get_mount() {
+                                    Some(mount) => {
+                                        info!("Successfully mounted");
+                                        new_config.set_mount_path(&mount);
+                                    }
+                                    _ => {
+                                        return Err(
+                                            Message::short(gettext("Failed to Mount")).into()
+                                        );
+                                    }
+                                }
+                            } else {
+                                info!("Waiting for mount to appear");
+                                let dialog = DeviceMissingDialog::new(config);
+                                let mount = dialog.present_with_repo(parent, repo, purpose).await?;
+                                new_config.set_mount_path(&mount);
+                            }
+                        }
                     }
                 } else {
                     info!("Local drive not available");

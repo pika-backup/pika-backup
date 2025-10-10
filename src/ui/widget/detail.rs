@@ -5,7 +5,7 @@ mod schedule;
 pub use archives::ArchivesPage;
 pub use backup::BackupPage;
 pub use schedule::{
-    frequency, prune_preset, status::Status as ScheduleStatus, weekday, SchedulePage,
+    SchedulePage, frequency, prune_preset, status::Status as ScheduleStatus, weekday,
 };
 
 use crate::ui::prelude::*;
@@ -78,10 +78,9 @@ mod imp {
 
     impl WidgetImpl for DetailPage {
         fn grab_focus(&self) -> bool {
-            if let Some(child) = self.detail_stack.visible_child() {
-                child.grab_focus()
-            } else {
-                self.parent_grab_focus()
+            match self.detail_stack.visible_child() {
+                Some(child) => child.grab_focus(),
+                _ => self.parent_grab_focus(),
             }
         }
     }

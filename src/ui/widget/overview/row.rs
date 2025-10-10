@@ -5,9 +5,8 @@ use crate::ui::widget::StatusRow;
 
 mod imp {
     use crate::ui::{
-        self,
+        self, App,
         widget::{StatusRow, WrapBox},
-        App,
     };
 
     use super::*;

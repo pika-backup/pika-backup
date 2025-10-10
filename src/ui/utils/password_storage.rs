@@ -1,6 +1,6 @@
 use crate::config::{self, Password};
 use crate::ui::widget::EncryptionPasswordDialog;
-use crate::ui::{prelude::*, App};
+use crate::ui::{App, prelude::*};
 use std::collections::HashMap;
 
 pub async fn password_dialog(

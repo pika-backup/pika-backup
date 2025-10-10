@@ -44,10 +44,9 @@ mod imp {
                 #[strong(rename_to = obj)]
                 self.obj(),
                 async move {
-                    let preselect = if let Some(file) = obj.file() {
-                        file
-                    } else {
-                        gio::File::for_path(glib::home_dir())
+                    let preselect = match obj.file() {
+                        Some(file) => file,
+                        _ => gio::File::for_path(glib::home_dir()),
                     };
 
                     let file = crate::ui::utils::folder_chooser_dialog(

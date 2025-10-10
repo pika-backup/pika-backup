@@ -147,7 +147,7 @@ macro_rules! trace {
 
 #[macro_export]
 macro_rules! generic {
-    ($suffix:tt, $level:expr, $($arg:tt)*) => ({
+    ($suffix:tt, $level:expr_2021, $($arg:tt)*) => ({
         let domain = env!("CARGO_PKG_NAME").to_string() + $suffix;
         glib::g_log!(domain.as_str(), $level, "{}:{}:0: {}", file!(), line!(), format!($($arg)+))
     })
@@ -155,7 +155,7 @@ macro_rules! generic {
 
 #[macro_export]
 macro_rules! log_generic {
-    ($level:expr, $($arg:tt)*) => ({
+    ($level:expr_2021, $($arg:tt)*) => ({
         let domain = env!("CARGO_PKG_NAME");
         glib::g_log!(domain, $level, "{}", format!($($arg)+))
     })
