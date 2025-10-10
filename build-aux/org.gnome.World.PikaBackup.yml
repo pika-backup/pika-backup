@@ -1,7 +1,7 @@
 id: org.gnome.World.PikaBackup
 command: pika-backup
 runtime: org.gnome.Platform
-runtime-version: '47'
+runtime-version: '49'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -77,8 +77,9 @@ modules:
         path: fusermount-wrapper.sh
       - type: file
         path: umount-wrapper.sh
-  - python3-tomli.json
   - python3-setuptools-scm.json
+  - python3-flit.json
+  - python3-tomli.json
   - python3-pkgconfig.json
   - python3-pyfuse3.json
   - python3-borgbackup.json
@@ -90,7 +91,7 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/World/pika-backup.git
-        commit: 402fa0bf9c3f0f569e43a9400b0d8f6f07e1998e
+        commit: 90781e41935f3058f6874978a5144fc58ee89abb
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$

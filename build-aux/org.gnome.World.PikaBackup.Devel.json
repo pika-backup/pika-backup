@@ -2,23 +2,16 @@
   "id": "org.gnome.World.PikaBackup.Devel",
   "command": "pika-backup",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "47",
+  "runtime-version": "49",
   "sdk": "org.gnome.Sdk",
   "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.rust-stable",
-    "org.freedesktop.Sdk.Extension.llvm18"
+    "org.freedesktop.Sdk.Extension.rust-stable"
   ],
   "build-options": {
-    "append-path": "/usr/lib/sdk/rust-stable/bin:/app/bin:/usr/lib/sdk/llvm18/bin",
+    "append-path": "/usr/lib/sdk/rust-stable/bin:/app/bin",
     "build-args": [
       "--share=network"
-    ],
-    "env": {
-      "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER": "clang",
-      "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER": "clang",
-      "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold",
-      "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
-    }
+    ]
   },
   "finish-args": [
     "--filesystem=host",
@@ -89,8 +82,9 @@
         }
       ]
     },
-    "python3-tomli.json",
     "python3-setuptools-scm.json",
+    "python3-flit.json",
+    "python3-tomli.json",
     "python3-pkgconfig.json",
     "python3-pyfuse3.json",
     "python3-borgbackup.json",
