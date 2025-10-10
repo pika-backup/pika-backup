@@ -3,7 +3,7 @@ use crate::ui::prelude::*;
 pub fn from_std(duration: std::time::Duration) -> chrono::Duration {
     chrono::Duration::from_std(duration)
         .ok()
-        .unwrap_or_else(chrono::Duration::max_value)
+        .unwrap_or(chrono::TimeDelta::MAX)
 }
 
 pub fn plain(d: &chrono::Duration) -> String {

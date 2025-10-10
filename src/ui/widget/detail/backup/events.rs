@@ -6,7 +6,6 @@ use crate::ui;
 use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gtk::FileFilter;
 
 use super::imp;
 
