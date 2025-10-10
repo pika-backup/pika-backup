@@ -42,9 +42,9 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             if let Some(text) = self.command_line_args_entry.delegate() {
-                text.update_relation(&[gtk::accessible::Relation::ErrorMessage(
-                    self.validation_label.upcast_ref(),
-                )]);
+                text.update_relation(&[gtk::accessible::Relation::ErrorMessage(&[self
+                    .validation_label
+                    .upcast_ref()])]);
             }
         }
     }
