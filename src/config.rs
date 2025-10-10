@@ -61,6 +61,15 @@ impl From<Zeroizing<Vec<u8>>> for Password {
     }
 }
 
+impl From<oo7::Secret> for Password {
+    fn from(password: oo7::Secret) -> Self {
+        match password {
+            oo7::Secret::Text(ref s) => Self(Zeroizing::new(s.as_bytes().to_owned())),
+            oo7::Secret::Blob(ref b) => Self(Zeroizing::new(b.to_owned())),
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct BackupSettings {
     pub command_line_args: Option<Vec<String>>,

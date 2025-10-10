@@ -121,11 +121,10 @@ impl Message {
     }
 
     pub fn from_secret_service<T: std::fmt::Display>(text: T, err: oo7::Error) -> Self {
-        if matches!(
-            err,
-            oo7::Error::Portal(oo7::portal::Error::CancelledPortalRequest)
-        ) {
-            Self::new(text, gettext("The keyring is not available. Pika Backup requires a keyring daemon (“secret service”) to store passwords. For installation instructions see the operating system documentation."))
+        if let oo7::Error::File(oo7::file::Error::Portal(portal_err)) = &err {
+            let mut msg = gettext("The keyring is not available. Pika Backup requires a keyring daemon (“secret service”) to store passwords. For installation instructions see the operating system documentation.");
+            msg.push_str(&portal_err.to_string());
+            Self::new(text, msg)
         } else {
             Self::new(text, err)
         }
