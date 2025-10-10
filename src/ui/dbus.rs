@@ -108,7 +108,7 @@ pub async fn session_connection() -> zbus::Result<zbus::Connection> {
         Ok(connection.clone())
     } else {
         let command = spawn_command_listener().await;
-        let new_connection = zbus::ConnectionBuilder::session()?
+        let new_connection = zbus::connection::Builder::session()?
             .name(crate::DBUS_API_NAME)?
             .serve_at(crate::DBUS_API_PATH, PikaBackup { command })?
             .build()

@@ -43,7 +43,8 @@ impl UPower {
         }
     }
 
-    pub async fn receive_on_battery_changed() -> Option<zbus::PropertyStream<'static, bool>> {
+    pub async fn receive_on_battery_changed() -> Option<zbus::proxy::PropertyStream<'static, bool>>
+    {
         if let Ok(proxy) = Self::proxy().await {
             let result = proxy.receive_on_battery_changed().await;
 
