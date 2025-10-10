@@ -11,12 +11,12 @@ use ui::prelude::*;
 use super::DetailPageKind;
 
 fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
-    if let Ok(mut dir_iter) = dir.read_dir() {
-        if let Some(Ok(new_dir)) = dir_iter.next() {
-            if new_dir.path().is_dir() && dir_iter.next().is_none() {
-                return find_first_populated_dir(&new_dir.path());
-            }
-        }
+    if let Ok(mut dir_iter) = dir.read_dir()
+        && let Some(Ok(new_dir)) = dir_iter.next()
+        && new_dir.path().is_dir()
+        && dir_iter.next().is_none()
+    {
+        return find_first_populated_dir(&new_dir.path());
     }
 
     dir.to_path_buf()

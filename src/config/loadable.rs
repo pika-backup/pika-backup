@@ -15,11 +15,11 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default> Load
         info!("Loading file {:?}", path);
 
         let file_result = std::fs::File::open(&path);
-        if let Err(err) = &file_result {
-            if matches!(err.kind(), std::io::ErrorKind::NotFound) {
-                info!("File not found. Using default value.");
-                return Ok(Default::default());
-            }
+        if let Err(err) = &file_result
+            && matches!(err.kind(), std::io::ErrorKind::NotFound)
+        {
+            info!("File not found. Using default value.");
+            return Ok(Default::default());
         }
 
         let file = file_result?;

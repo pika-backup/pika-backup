@@ -21,11 +21,12 @@ pub async fn ensure_device_plugged_in(
     config: &config::Backup,
     purpose: &str,
 ) -> Result<()> {
-    if let config::Repository::Local(repo) = &config.repo {
-        if repo.removable && find_volume(repo).is_none() {
-            let dialog = DeviceMissingDialog::new(config);
-            dialog.present_with_repo(parent, repo, purpose).await?;
-        }
+    if let config::Repository::Local(repo) = &config.repo
+        && repo.removable
+        && find_volume(repo).is_none()
+    {
+        let dialog = DeviceMissingDialog::new(config);
+        dialog.present_with_repo(parent, repo, purpose).await?;
     }
 
     Ok(())

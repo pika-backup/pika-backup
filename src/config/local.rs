@@ -62,11 +62,11 @@ impl Repository {
     pub fn from_mount(mount: gio::Mount, mut path: std::path::PathBuf, uri: String) -> Self {
         let mut mount_path = "/".into();
 
-        if let Some(mount_root) = mount.root().path() {
-            if let Ok(repo_path) = path.strip_prefix(&mount_root) {
-                mount_path = mount_root;
-                path = repo_path.to_path_buf();
-            }
+        if let Some(mount_root) = mount.root().path()
+            && let Ok(repo_path) = path.strip_prefix(&mount_root)
+        {
+            mount_path = mount_root;
+            path = repo_path.to_path_buf();
         }
 
         Self {

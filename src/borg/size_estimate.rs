@@ -120,10 +120,10 @@ pub fn calculate(
                     }
                 }
                 Err(err) => {
-                    if let (Some(path), Some(io_error)) = (err.path(), err.io_error()) {
-                        if io_error.kind() == std::io::ErrorKind::PermissionDenied {
-                            unreadable_paths.push(path.to_path_buf());
-                        }
+                    if let (Some(path), Some(io_error)) = (err.path(), err.io_error())
+                        && io_error.kind() == std::io::ErrorKind::PermissionDenied
+                    {
+                        unreadable_paths.push(path.to_path_buf());
                     }
                 }
             }

@@ -372,10 +372,10 @@ impl LogEntry {
     }
 
     pub fn has_borg_msgid(&self, msgid_needle: &MsgId) -> bool {
-        if let Self::ParsedErr(x) = self {
-            if x.msgid == *msgid_needle {
-                return true;
-            }
+        if let Self::ParsedErr(x) = self
+            && x.msgid == *msgid_needle
+        {
+            return true;
         }
 
         false

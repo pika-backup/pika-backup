@@ -375,15 +375,15 @@ mod imp {
 
             let command = self.obj().pre_backup_command();
 
-            if !command.is_empty() {
-                if let Ok(mut config) = self.config() {
-                    config
-                        .user_scripts
-                        .insert(UserScriptKind::PreBackup, command);
+            if !command.is_empty()
+                && let Ok(mut config) = self.config()
+            {
+                config
+                    .user_scripts
+                    .insert(UserScriptKind::PreBackup, command);
 
-                    self.test_run_script(UserScriptKind::PreBackup, config, None)
-                        .await;
-                }
+                self.test_run_script(UserScriptKind::PreBackup, config, None)
+                    .await;
             }
         }
 
@@ -396,34 +396,34 @@ mod imp {
 
             let command = self.obj().post_backup_command();
 
-            if !command.is_empty() {
-                if let Ok(mut config) = self.config() {
-                    // Check if there is already a last RunInfo, if so, use that one
-                    let run_info = if let Some(run_info) = BACKUP_HISTORY
-                        .load()
-                        .try_get(self.config_id.get().unwrap())
-                        .ok()
-                        .and_then(|history| history.last_completed())
-                    {
-                        run_info.clone()
-                    } else {
-                        // Create one from scratch with random values
-                        crate::config::history::RunInfo::new(
-                            &config,
-                            crate::borg::Outcome::Completed {
-                                stats: crate::borg::Stats::new_example(),
-                            },
-                            Default::default(),
-                        )
-                    };
+            if !command.is_empty()
+                && let Ok(mut config) = self.config()
+            {
+                // Check if there is already a last RunInfo, if so, use that one
+                let run_info = if let Some(run_info) = BACKUP_HISTORY
+                    .load()
+                    .try_get(self.config_id.get().unwrap())
+                    .ok()
+                    .and_then(|history| history.last_completed())
+                {
+                    run_info.clone()
+                } else {
+                    // Create one from scratch with random values
+                    crate::config::history::RunInfo::new(
+                        &config,
+                        crate::borg::Outcome::Completed {
+                            stats: crate::borg::Stats::new_example(),
+                        },
+                        Default::default(),
+                    )
+                };
 
-                    config
-                        .user_scripts
-                        .insert(UserScriptKind::PostBackup, command);
+                config
+                    .user_scripts
+                    .insert(UserScriptKind::PostBackup, command);
 
-                    self.test_run_script(UserScriptKind::PostBackup, config, Some(run_info))
-                        .await;
-                }
+                self.test_run_script(UserScriptKind::PostBackup, config, Some(run_info))
+                    .await;
             }
         }
 

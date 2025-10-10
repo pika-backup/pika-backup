@@ -107,21 +107,21 @@ impl imp::ArchivesPage {
     }
 
     pub fn ui_update_archives_spinner(&self) {
-        if self.obj().is_visible() {
-            if let Ok(repo_id) = BACKUP_CONFIG.load().active().map(|x| &x.repo_id) {
-                let reloading = REPO_CACHE
-                    .load()
-                    .get(repo_id)
-                    .map(|x| x.reloading)
-                    .unwrap_or_default();
+        if self.obj().is_visible()
+            && let Ok(repo_id) = BACKUP_CONFIG.load().active().map(|x| &x.repo_id)
+        {
+            let reloading = REPO_CACHE
+                .load()
+                .get(repo_id)
+                .map(|x| x.reloading)
+                .unwrap_or_default();
 
-                if reloading {
-                    self.reloading_stack
-                        .set_visible_child(&*self.reloading_spinner);
-                } else {
-                    self.reloading_stack
-                        .set_visible_child(&*self.refresh_archives_button);
-                }
+            if reloading {
+                self.reloading_stack
+                    .set_visible_child(&*self.reloading_spinner);
+            } else {
+                self.reloading_stack
+                    .set_visible_child(&*self.refresh_archives_button);
             }
         }
     }

@@ -291,12 +291,12 @@ impl SchedulePage {
     }
 
     pub fn refresh_status(&self) {
-        if self.is_visible() {
-            if let Ok(config) = BACKUP_CONFIG.load().active().cloned() {
-                let obj = self.clone();
-                glib::MainContext::default()
-                    .spawn_local(async move { obj.imp().update_status(&config).await });
-            }
+        if self.is_visible()
+            && let Ok(config) = BACKUP_CONFIG.load().active().cloned()
+        {
+            let obj = self.clone();
+            glib::MainContext::default()
+                .spawn_local(async move { obj.imp().update_status(&config).await });
         }
     }
 }

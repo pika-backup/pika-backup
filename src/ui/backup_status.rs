@@ -229,10 +229,9 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
                         // Do not show estimate when stalled for example
                         if matches!(op.communication().status(), borg::status::Run::Running)
                             && !progress_archive.finished
+                            && let Some(remaining) = status.time_remaining()
                         {
-                            if let Some(remaining) = status.time_remaining() {
-                                let _ = write!(sub, " – {}", utils::duration::left(&remaining));
-                            }
+                            let _ = write!(sub, " – {}", utils::duration::left(&remaining));
                         }
 
                         subtitle = Some(sub);
@@ -260,10 +259,10 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
             Run::Stopping => gettext("Stopping Backup"),
         };
 
-        if subtitle.is_none() {
-            if let Some(log) = op.last_log() {
-                subtitle = Some(log.to_string());
-            }
+        if subtitle.is_none()
+            && let Some(log) = op.last_log()
+        {
+            subtitle = Some(log.to_string());
         }
 
         Self {

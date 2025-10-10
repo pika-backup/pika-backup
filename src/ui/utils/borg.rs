@@ -211,36 +211,34 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
                 }
             }
             _ => {
-                if password_changed {
-                    if let (Some(password), Some(config)) =
+                if password_changed
+                    && let (Some(password), Some(config)) =
                         (&command.password(), &command.try_config())
+                {
+                    if let Err(Error::Message(err)) =
+                        crate::ui::utils::password_storage::store_password(config, password).await
                     {
-                        if let Err(Error::Message(err)) =
-                            crate::ui::utils::password_storage::store_password(config, password)
-                                .await
-                        {
-                            warn!(
-                                "Error using keyring, using in-memory password store. Keyring error: '{err:?}'"
-                            );
+                        warn!(
+                            "Error using keyring, using in-memory password store. Keyring error: '{err:?}'"
+                        );
 
-                            // Use the in-memory password store instead
-                            crate::globals::MEMORY_PASSWORD_STORE
-                                .set_password(config, password.clone());
-                        }
+                        // Use the in-memory password store instead
+                        crate::globals::MEMORY_PASSWORD_STORE
+                            .set_password(config, password.clone());
+                    }
 
-                        if !config.encrypted {
-                            // We assumed that the repo doesn't have encryption, but this assumption was outdated.
-                            // Set the encrypted flag in the config
-                            if let Some(id) = command.config_id() {
-                                BACKUP_CONFIG
-                                    .try_update(|config| {
-                                        let cfg = config.try_get_mut(&id)?;
-                                        cfg.encrypted = true;
+                    if !config.encrypted {
+                        // We assumed that the repo doesn't have encryption, but this assumption was outdated.
+                        // Set the encrypted flag in the config
+                        if let Some(id) = command.config_id() {
+                            BACKUP_CONFIG
+                                .try_update(|config| {
+                                    let cfg = config.try_get_mut(&id)?;
+                                    cfg.encrypted = true;
 
-                                        Ok(())
-                                    })
-                                    .await?;
-                            }
+                                    Ok(())
+                                })
+                                .await?;
                         }
                     }
                 }

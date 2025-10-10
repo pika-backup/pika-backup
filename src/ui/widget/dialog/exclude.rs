@@ -236,13 +236,12 @@ mod imp {
             }
 
             // Make sure this is a directory, not a file
-            if let Some(base_path) = &base {
-                if async_std::fs::metadata(base_path)
+            if let Some(base_path) = &base
+                && async_std::fs::metadata(base_path)
                     .await
                     .is_ok_and(|meta| meta.is_file())
-                {
-                    base = base_path.parent().map(|p| p.to_path_buf())
-                }
+            {
+                base = base_path.parent().map(|p| p.to_path_buf())
             }
 
             Ok(gio::File::for_path(base.unwrap_or_else(glib::home_dir)))

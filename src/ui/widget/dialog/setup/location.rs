@@ -120,11 +120,11 @@ mod imp {
                 target.set_preload(true);
 
                 target.connect_value_notify(|target| {
-                    if let Some(value) = target.value() {
-                        if Self::path_to_network_uri(&value).is_some() {
-                            // we handle this
-                            return;
-                        }
+                    if let Some(value) = target.value()
+                        && Self::path_to_network_uri(&value).is_some()
+                    {
+                        // we handle this
+                        return;
                     }
 
                     target.reject();

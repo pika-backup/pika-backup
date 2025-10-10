@@ -76,20 +76,17 @@ pub fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
 /// - `config` exists and contains the string `[repository]`
 pub async fn is_backup_repo(path: &std::path::Path) -> bool {
     trace!("Checking path if it is a repo '{}'", &path.display());
-    if let Ok(data) = std::fs::File::open(path.join("data")).and_then(|x| x.metadata()) {
-        if data.is_dir() {
-            if let Ok(mut cfg) = std::fs::File::open(path.join("config")) {
-                if let Ok(metadata) = cfg.metadata() {
-                    if metadata.len() < 1024 * 1024 {
-                        let mut content = String::new();
-                        let _result = cfg.read_to_string(&mut content);
-                        if content.contains("[repository]") {
-                            trace!("Is a repository");
-                            return true;
-                        }
-                    }
-                }
-            }
+    if let Ok(data) = std::fs::File::open(path.join("data")).and_then(|x| x.metadata())
+        && data.is_dir()
+        && let Ok(mut cfg) = std::fs::File::open(path.join("config"))
+        && let Ok(metadata) = cfg.metadata()
+        && metadata.len() < 1024 * 1024
+    {
+        let mut content = String::new();
+        let _result = cfg.read_to_string(&mut content);
+        if content.contains("[repository]") {
+            trace!("Is a repository");
+            return true;
         }
     };
 
