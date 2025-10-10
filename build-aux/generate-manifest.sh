@@ -5,15 +5,7 @@ cd "$(dirname "$0")/.."
 yq -o json '
     .["id"] += ".Devel" |
     .["desktop-file-name-suffix"] = " 🚧" |
-    .["sdk-extensions"] += "org.freedesktop.Sdk.Extension.llvm20" |
     .["build-options"] += {"build-args": ["--share=network"]} |
-    .["build-options"]["append-path"] += ":/usr/lib/sdk/llvm20/bin" |
-    .["build-options"] += {"env": {
-      "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER" : "clang",
-      "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER" : "clang",
-      "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS" : "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold",
-      "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS" : "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
-    }} |
     .["finish-args"] += "--env=G_MESSAGES_DEBUG=all" |
     .["finish-args"] += "--env=RUST_BACKTRACE=1" |
     .modules[-1].sources = [{"type": "dir", "path": ".."}] |

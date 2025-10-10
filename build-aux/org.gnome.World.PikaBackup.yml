@@ -1,13 +1,12 @@
 id: org.gnome.World.PikaBackup
 command: pika-backup
 runtime: org.gnome.Platform
-runtime-version: 'master'
+runtime-version: '49'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
 build-options:
   append-path: /usr/lib/sdk/rust-stable/bin:/app/bin
-
 finish-args:
   # Read files for to backup
   # Host has to be writable because configs become unwriteable otherwise
@@ -59,7 +58,6 @@ modules:
     config-opts:
       - -DBUILD_SHARED_LIBS=ON
       - -DCMAKE_BUILD_TYPE=Release
-
   - name: libfuse
     buildsystem: meson
     config-opts:
@@ -72,14 +70,13 @@ modules:
       - -Dinitscriptdir=
     sources:
       - type: archive
-        url: https://github.com/libfuse/libfuse/releases/download/fuse-3.16.2/fuse-3.16.2.tar.gz
-        sha256: f797055d9296b275e981f5f62d4e32e089614fc253d1ef2985851025b8a0ce87
+        url: https://github.com/libfuse/libfuse/releases/download/fuse-3.17.2/fuse-3.17.2.tar.gz
+        sha256: 3d932431ad94e86179e5265cddde1d67aa3bb2fb09a5bd35c641f86f2b5ed06f
         x-checker-data:
           type: anitya
           project-id: 861
           url-template: https://github.com/libfuse/libfuse/releases/download/fuse-$version/fuse-$version.tar.gz
           versions: {<: '4.0'}
-
   - name: host-command-wrapper
     buildsystem: simple
     build-commands:
@@ -91,13 +88,12 @@ modules:
         path: fusermount-wrapper.sh
       - type: file
         path: umount-wrapper.sh
+  - python3-setuptools-scm.json
   - python3-flit.json
   - python3-tomli.json
-  - python3-setuptools-scm.json
   - python3-pkgconfig.json
   - python3-pyfuse3.json
   - python3-borgbackup.json
-
   - name: pika-backup
     buildsystem: meson
     config-opts:
@@ -105,7 +101,7 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/World/pika-backup.git
-        commit: 402fa0bf9c3f0f569e43a9400b0d8f6f07e1998e
+        commit: 2372744703b06e9f5bc4c9d89fe83dd2802c37f7
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
