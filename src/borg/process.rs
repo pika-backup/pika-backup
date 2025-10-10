@@ -222,15 +222,12 @@ impl BorgCall {
 
         // Allow pipe to be passed to borg
         let mut flags = nix::fcntl::FdFlag::from_bits_truncate(nix::fcntl::fcntl(
-            pipe_reader.as_raw_fd(),
+            &pipe_reader,
             nix::fcntl::FcntlArg::F_GETFD,
         )?);
 
         flags.remove(nix::fcntl::FdFlag::FD_CLOEXEC);
-        nix::fcntl::fcntl(
-            pipe_reader.as_raw_fd(),
-            nix::fcntl::FcntlArg::F_SETFD(flags),
-        )?;
+        nix::fcntl::fcntl(&pipe_reader, nix::fcntl::FcntlArg::F_SETFD(flags))?;
 
         // We drop the pipe_writer here, so this end will be closed when this function returns
         pipe_writer.write_all(self.password.as_bytes())?;
