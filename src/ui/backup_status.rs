@@ -111,7 +111,7 @@ impl From<&history::RunInfo> for Display {
             borg::Outcome::Completed { .. } => Self {
                 title: gettext("Last Backup Successful"),
                 subtitle: Some(utils::duration::ago(&(Local::now() - run_info.end))),
-                graphic: Graphic::OkIcon("emblem-default-symbolic".to_string()),
+                graphic: Graphic::OkIcon("check-round-outline-symbolic".to_string()),
                 progress: None,
                 stats: Some(Stats::Final(run_info.clone())),
             },
@@ -145,7 +145,7 @@ impl From<&history::CheckRunInfo> for Display {
                         // Translators: Argument is 'x months ago'
                         title: gettextf("Successful Integrity Check {}", &[&when]),
                         subtitle: Some(gettext("Result might be out of date")),
-                        graphic: Graphic::WarningIcon("emblem-default-symbolic".to_string()),
+                        graphic: Graphic::WarningIcon("check-round-outline-symbolic".to_string()),
                         progress: None,
                         stats: None,
                     }
@@ -153,7 +153,7 @@ impl From<&history::CheckRunInfo> for Display {
                     Self {
                         title: gettext("Last Integrity Check Successful"),
                         subtitle: Some(when),
-                        graphic: Graphic::OkIcon("emblem-default-symbolic".to_string()),
+                        graphic: Graphic::OkIcon("check-round-outline-symbolic".to_string()),
                         progress: None,
                         stats: None,
                     }
