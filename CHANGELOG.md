@@ -6,6 +6,10 @@
 - Fix UI sometimes being unresponsive when starting / stopping backups
 - Change fnmatches to be stored as strings instead of bytes in config
 
+## 0.7.5 (2025-10-10)
+
+- Fix missing icons for GNOME 49 runtime
+
 ## 0.7.4 (2024-09-23)
 - Fix borg version comparison
 
