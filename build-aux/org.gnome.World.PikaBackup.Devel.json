@@ -38,6 +38,26 @@
   ],
   "modules": [
     {
+      "name": "libxxhash",
+      "buildsystem": "cmake",
+      "subdir": "cmake_unofficial",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.3.tar.gz",
+          "sha256": "aae608dfe8213dfd05d909a57718ef82f30722c392344583d3f39050c7f29a80",
+          "x-checker-data": {
+            "type": "git",
+            "tag-pattern": "^v([\\d.]+)$"
+          }
+        }
+      ],
+      "config-opts": [
+        "-DBUILD_SHARED_LIBS=ON",
+        "-DCMAKE_BUILD_TYPE=Release"
+      ]
+    },
+    {
       "name": "libfuse",
       "buildsystem": "meson",
       "config-opts": [
@@ -50,8 +70,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/libfuse/libfuse/releases/download/fuse-3.16.2/fuse-3.16.2.tar.gz",
-          "sha256": "f797055d9296b275e981f5f62d4e32e089614fc253d1ef2985851025b8a0ce87",
+          "url": "https://github.com/libfuse/libfuse/releases/download/fuse-3.17.2/fuse-3.17.2.tar.gz",
+          "sha256": "3d932431ad94e86179e5265cddde1d67aa3bb2fb09a5bd35c641f86f2b5ed06f",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 861,
