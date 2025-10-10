@@ -15,6 +15,10 @@
 - Add propper error messages for more situations like missing filesystem access
 - Add ability to backup files
 
+## 0.7.5 (2025-10-10)
+
+- Fix missing icons for GNOME 49 runtime
+
 ## 0.7.4 (2024-09-23)
 - Fix borg version comparison
 
