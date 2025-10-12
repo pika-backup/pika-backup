@@ -2,9 +2,11 @@ use cmd_lib::run_fun;
 
 mod common;
 use common::*;
+use macro_rules_attribute::apply;
 use pika_backup::borg::CommandRun;
+use smol_macros::test;
 
-#[async_std::test]
+#[apply(test!)]
 async fn patterns() -> Result<(), Box<dyn std::error::Error>> {
     let borg_base = tempdir()?;
     let home = tempdir()?;
