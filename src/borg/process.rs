@@ -1,8 +1,9 @@
 use async_process;
 use async_process::ChildStderr;
 use async_process::ChildStdin;
-use futures::prelude::*;
+use futures_util::FutureExt;
 use smol::io::BufReader;
+use smol::prelude::*;
 
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
@@ -502,7 +503,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         let mut stdout_content = Vec::new();
 
         // Handle stderr and collect stdout to avoid pipe stall
-        let (return_message, _) = futures::join!(
+        let (return_message, _) = futures_util::join!(
             self.handle_stderr(stderr, stdin, process.id()),
             stdout.read_to_end(&mut stdout_content)
         );
@@ -592,8 +593,8 @@ impl<'a, T: Task> BorgProcess<'a, T> {
 
             stderr_line.clear();
             // Listen to stderr with timeout to also handle instructions in-between
-            let stderr_result = futures::select!(
-                _ = futures::FutureExt::fuse(smol::Timer::after(super::MESSAGE_POLL_TIMEOUT)) => Err(()),
+            let stderr_result = futures_util::select!(
+                _ = futures_util::FutureExt::fuse(smol::Timer::after(super::MESSAGE_POLL_TIMEOUT)) => Err(()),
                 res = stderr.read_line(&mut stderr_line).fuse() => Ok(res),
             );
 

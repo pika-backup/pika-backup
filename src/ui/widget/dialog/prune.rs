@@ -45,7 +45,7 @@ mod imp {
         #[template_child]
         untouched: TemplateChild<gtk::Label>,
 
-        result_sender: RefCell<Option<futures::channel::oneshot::Sender<bool>>>,
+        result_sender: RefCell<Option<futures_channel::oneshot::Sender<bool>>>,
     }
 
     #[glib::object_subclass]
@@ -153,7 +153,7 @@ mod imp {
         pub(super) async fn choose_future(&self, config: &config::Backup) -> Result<()> {
             let guard = QuitGuard::default();
 
-            let (sender, receiver) = futures::channel::oneshot::channel();
+            let (sender, receiver) = futures_channel::oneshot::channel();
             self.result_sender.replace(Some(sender));
 
             let prune_info = ui::utils::borg::exec(
