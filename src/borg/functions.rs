@@ -4,7 +4,6 @@ use crate::config;
 use crate::config::UserScriptKind;
 use crate::prelude::*;
 use crate::schedule;
-use async_std::prelude::*;
 use process::*;
 use std::os::unix::fs::DirBuilderExt;
 use utils::*;
@@ -211,9 +210,9 @@ impl CommandRun<task::Create> for Command<task::Create> {
             status.started = Some(chrono::Local::now());
         });
 
-        let mut log = self.communication.new_receiver();
+        let log = self.communication.new_receiver();
 
-        while let Some(msg) = log.next().await {
+        while let Ok(msg) = log.recv().await {
             trace!("borg::create: {:?}", msg);
 
             if let Update::Msg(log_json::Output::Progress(log_json::Progress::Archive(

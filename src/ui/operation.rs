@@ -1,7 +1,6 @@
 //! Track [crate::borg] operation from UI's side
 
 use adw::prelude::*;
-use async_std::prelude::*;
 use ui::prelude::*;
 
 use crate::borg;
@@ -40,12 +39,12 @@ impl<T: borg::Task> Operation<T> {
 
         let weak_process = Rc::downgrade(&process);
         glib::MainContext::default().spawn_local(async move {
-            while let Some(mut log_receiver) = weak_process
+            while let Some(log_receiver) = weak_process
                 .upgrade()
                 .map(|x| x.communication().new_receiver())
             {
                 debug!("Connect to new communication messages");
-                while let Some(output) = log_receiver.next().await {
+                while let Ok(output) = log_receiver.recv().await {
                     if let Some(process) = weak_process.upgrade() {
                         process.check_output(output);
                     }

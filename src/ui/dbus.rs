@@ -1,8 +1,7 @@
 use crate::ui::prelude::*;
-use async_std::prelude::*;
 
 use crate::schedule;
-use async_std::channel::Sender;
+use async_channel::Sender;
 
 struct PikaBackup {
     command: Sender<Command>,
@@ -69,11 +68,11 @@ pub async fn init() {
 }
 
 async fn spawn_command_listener() -> Sender<Command> {
-    let (sender, mut receiver) = async_std::channel::unbounded();
+    let (sender, receiver) = async_channel::unbounded();
 
     Handler::run(async move {
         debug!("Internally awaiting D-Bus API commands");
-        while let Some(command) = receiver.next().await {
+        while let Ok(command) = receiver.recv().await {
             debug!("Received D-Bus API command {command:?}");
             match command {
                 Command::StartBackup(config_id, due_cause) => {

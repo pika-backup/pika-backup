@@ -35,7 +35,7 @@ quick_error! {
             from(err: String) -> (Failure::Other(err))
             display("{}", err)
         }
-        ChannelSend(err: async_std::channel::SendError<super::Update>) { from() }
+        ChannelSend(err: async_channel::SendError<super::Update>) { from() }
         Aborted(err: Abort) {
             from()
             display("{}", err)
