@@ -263,16 +263,15 @@ fn try_active_config_id() -> Result<ConfigId> {
         .ok_or_else(|| Message::short("There is no active backup in the interface.").into())
 }
 
-pub async fn spawn_thread<P: core::fmt::Display, F, R>(name: P, task: F) -> Result<R>
+// TODO: Currently the name is ignored
+pub async fn spawn_thread<P: core::fmt::Display, F, R>(_name: P, task: F) -> Result<R>
 where
     F: FnOnce() -> R + Send + 'static,
     R: Send + 'static,
 {
-    let result = async_std::task::Builder::new()
-        .name(name.to_string())
-        .spawn(async { task() });
+    let result = smol::unblock(task);
 
-    Ok(result.err_to_msg(gettext("Failed to Create Thread"))?.await)
+    Ok(result.await)
 }
 
 quick_error! {

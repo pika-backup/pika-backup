@@ -10,10 +10,10 @@ const CLOCK_KEY: &str = "clock-format";
 pub static LIB_USER: OnceLock<LibUser> = OnceLock::new();
 
 pub static APP_IS_SANDBOXED: LazyLock<bool> =
-    LazyLock::new(|| async_std::task::block_on(ashpd::is_sandboxed()));
+    LazyLock::new(|| smol::block_on(ashpd::is_sandboxed()));
 
 pub static CLOCK_IS_24H: LazyLock<bool> = LazyLock::new(|| {
-    async_std::task::block_on(async {
+    smol::block_on(async {
         let proxy = ashpd::desktop::settings::Settings::new().await?;
         proxy.read::<String>(CLOCK_INTERFACE, CLOCK_KEY).await
     })

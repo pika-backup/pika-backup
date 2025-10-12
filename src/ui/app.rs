@@ -88,7 +88,7 @@ mod imp {
             self.in_shutdown.set(true);
             self.obj().notify_in_shutdown();
 
-            let result = async_std::task::block_on(BACKUP_HISTORY.try_update(|histories| {
+            let result = smol::block_on(BACKUP_HISTORY.try_update(|histories| {
                 config::Histories::handle_shutdown(histories);
                 Ok(())
             }));
@@ -98,7 +98,7 @@ mod imp {
             }
 
             while !ACTIVE_MOUNTS.load().is_empty() {
-                async_std::task::block_on(async {
+                smol::block_on(async {
                     for repo_id in ACTIVE_MOUNTS.load().iter() {
                         if borg::functions::umount(repo_id).await.is_ok() {
                             ACTIVE_MOUNTS.update(|mounts| {

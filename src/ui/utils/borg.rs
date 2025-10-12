@@ -260,7 +260,7 @@ where
         let result = super::spawn_thread(
             name.to_string(),
             enclose!((borg, task) move || {
-                async_std::task::block_on(task(borg))
+               smol::block_on(task(borg))
             }),
         )
         .await;

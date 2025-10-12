@@ -410,7 +410,7 @@ impl BorgCall {
                                     .unwrap_or(Duration::ZERO),
                             ));
 
-                            async_std::task::sleep(Duration::from_millis(100)).await;
+                            smol::Timer::after(Duration::from_millis(100)).await;
                         }
 
                         communication.set_status(Run::Init);

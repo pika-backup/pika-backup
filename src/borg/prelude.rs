@@ -36,7 +36,7 @@ impl CommandCommunicationExt for async_std::process::Command {
                 return Ok(child.output().await?);
             }
 
-            async_std::task::sleep(Duration::from_millis(100)).await;
+            smol::Timer::after(Duration::from_millis(100)).await;
         }
     }
 }

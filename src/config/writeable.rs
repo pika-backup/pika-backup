@@ -73,7 +73,7 @@ where
             std::fs::create_dir_all(&dir)?;
 
             let current_config = self.current_config.clone();
-            async_std::task::spawn_blocking(move || {
+            smol::unblock(move || {
                 let config_file = tempfile::NamedTempFile::new_in(dir)?;
                 debug!("Writing new file to {:?}", config_file);
 

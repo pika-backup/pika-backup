@@ -279,7 +279,7 @@ impl CommandRun<task::KeyChangePassphrase> for Command<task::KeyChangePassphrase
     }
 }
 
-#[async_std::test]
+#[macro_rules_attribute::apply(smol_macros::test!)]
 async fn create_non_existent_location() {
     let config = config::Backup::test_new_mock();
 
@@ -413,10 +413,7 @@ pub async fn is_mounted(repo_id: &RepoId) -> bool {
     let mount_point = mount_point(repo_id);
 
     // Check if the directory is still a mountpoint (otherwise it was unmounted via other means)
-    async_std::task::spawn_blocking(move || {
-        gio::UnixMountEntry::for_mount_path(mount_point).0.is_some()
-    })
-    .await
+    smol::unblock(move || gio::UnixMountEntry::for_mount_path(mount_point).0.is_some()).await
 }
 
 pub async fn umount(repo_id: &RepoId) -> Result<()> {

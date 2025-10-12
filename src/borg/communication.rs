@@ -45,13 +45,14 @@ impl<T: Task> Communication<T> {
         if !matches!(**self.status.load(), Status::Stopping) {
             self.status.store(Arc::new(status));
             let senders = self.sender.get().into_iter();
-            async_std::task::spawn(async move {
+            smol::spawn(async move {
                 for sender in senders {
                     if let Err(err) = sender.send(Update::Status(status)).await {
                         error!("Failed to send status update: {}", err);
                     }
                 }
-            });
+            })
+            .detach();
         }
     }
 
