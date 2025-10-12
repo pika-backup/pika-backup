@@ -239,7 +239,7 @@ pub async fn run_script(
     );
 
     let mut cmd = if *APP_IS_SANDBOXED {
-        let mut cmd = async_std::process::Command::new("flatpak-spawn");
+        let mut cmd = async_process::Command::new("flatpak-spawn");
 
         // Don't remove the entire env, flatpak-spawn needs some of it
         // Prevents debug logging to influence flatpak-spawn output
@@ -255,7 +255,7 @@ pub async fn run_script(
         cmd.args(["--host", "bash", "-c", command]);
         cmd
     } else {
-        let mut cmd = async_std::process::Command::new("bash");
+        let mut cmd = async_process::Command::new("bash");
 
         cmd.envs(envs);
 

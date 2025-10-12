@@ -1,10 +1,10 @@
 //! Disk space information
 
 use crate::ui::prelude::*;
-use async_std::prelude::*;
 use gio::prelude::*;
+use smol::prelude::*;
 
-use async_std::process;
+use async_process as process;
 
 use crate::config;
 use crate::ui::utils::repo_cache::RepoCache;

@@ -1,6 +1,6 @@
+use async_process;
 use async_process::ChildStderr;
 use async_process::ChildStdin;
-use async_std::process as async_process;
 use futures::prelude::*;
 use smol::io::BufReader;
 

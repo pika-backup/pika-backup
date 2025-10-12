@@ -170,7 +170,7 @@ pub async fn restart_daemon() {
             flatpak_result.handle(gettext("Error restarting monitor daemon"));
         }
     } else {
-        let mut command = async_std::process::Command::new(DAEMON_BINARY);
+        let mut command = async_process::Command::new(DAEMON_BINARY);
         command.arg("--gapplication-replace");
         command
             .spawn()

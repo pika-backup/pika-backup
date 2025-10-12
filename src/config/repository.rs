@@ -13,9 +13,9 @@ pub enum Repository {
 }
 
 async fn ssh_host_lookup(host: &str) -> String {
-    let result = async_std::process::Command::new("ssh")
+    let result = async_process::Command::new("ssh")
         .args(["-G", host])
-        .stdout(async_std::process::Stdio::piped())
+        .stdout(async_process::Stdio::piped())
         .output()
         .await;
 
