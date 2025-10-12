@@ -59,7 +59,7 @@ impl std::fmt::Debug for BorgCall {
 }
 
 pub struct Process<T> {
-    pub result: async_std::task::JoinHandle<Result<T>>,
+    pub result: smol::Task<Result<T>>,
 }
 
 impl BorgCall {
@@ -335,7 +335,7 @@ impl BorgCall {
         self,
         communication: &super::Communication<T>,
     ) -> Result<Process<S>> {
-        let result = async_std::task::spawn(self.handle_disconnect(communication.clone()));
+        let result = smol::spawn(self.handle_disconnect(communication.clone()));
 
         Ok(Process { result })
     }
