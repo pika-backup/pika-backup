@@ -427,7 +427,7 @@ pub async fn umount(repo_id: &RepoId) -> Result<()> {
             .await?;
     }
 
-    if let Err(err) = async_std::fs::remove_dir(mount_point).await {
+    if let Err(err) = smol::fs::remove_dir(mount_point).await {
         match err.kind() {
             std::io::ErrorKind::NotFound => {
                 // If the dir didn't exist in the first place we shouldn't throw an error
@@ -438,7 +438,7 @@ pub async fn umount(repo_id: &RepoId) -> Result<()> {
     }
 
     // Other mounts could exist that still use the dir. We just clean it up if possible.
-    if let Err(err) = async_std::fs::remove_dir(mount_base_dir()).await {
+    if let Err(err) = smol::fs::remove_dir(mount_base_dir()).await {
         debug!("Error when removing mount base dir: {:?}", err);
     }
 

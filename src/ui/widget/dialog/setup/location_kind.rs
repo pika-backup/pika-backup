@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use async_std::stream::StreamExt;
+use smol::prelude::*;
 
 use super::{SetupAction, SetupLocationKind};
 use crate::ui;
@@ -212,7 +212,7 @@ mod imp {
                 .await;
 
                 let mut paths = Vec::new();
-                if let Ok(mut dirs) = async_std::fs::read_dir(mount_point).await {
+                if let Ok(mut dirs) = smol::fs::read_dir(mount_point).await {
                     while let Some(Ok(path)) = dirs.next().await {
                         if ui::utils::is_backup_repo(path.path().as_ref()).await {
                             paths.push(path.path());

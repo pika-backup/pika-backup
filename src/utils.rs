@@ -5,7 +5,7 @@ pub mod upower;
 
 use crate::config;
 use crate::prelude::*;
-use async_std::prelude::*;
+use smol::prelude::*;
 
 use gio::prelude::*;
 use std::convert::TryInto;

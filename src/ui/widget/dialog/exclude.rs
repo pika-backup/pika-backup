@@ -237,7 +237,7 @@ mod imp {
 
             // Make sure this is a directory, not a file
             if let Some(base_path) = &base
-                && async_std::fs::metadata(base_path)
+                && smol::fs::metadata(base_path)
                     .await
                     .is_ok_and(|meta| meta.is_file())
             {

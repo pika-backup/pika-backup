@@ -1,5 +1,5 @@
 use adw::prelude::*;
-use async_std::prelude::*;
+use smol::prelude::*;
 use ui::prelude::*;
 
 use crate::ui;

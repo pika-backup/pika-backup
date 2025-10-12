@@ -1,8 +1,8 @@
 use async_process::ChildStderr;
 use async_process::ChildStdin;
-use async_std::io::BufReader;
 use async_std::process as async_process;
 use futures::prelude::*;
+use smol::io::BufReader;
 
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
@@ -480,14 +480,14 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         // This prevents backup operations from straining the system resources
         Self::set_scheduler_priority(process.id(), 10);
 
-        let stderr = async_std::io::BufReader::new(
+        let stderr = smol::io::BufReader::new(
             process
                 .stderr
                 .take()
                 .ok_or_else(|| String::from("Failed to get stderr."))?,
         );
 
-        let mut stdout = async_std::io::BufReader::new(
+        let mut stdout = smol::io::BufReader::new(
             process
                 .stdout
                 .take()
@@ -592,15 +592,14 @@ impl<'a, T: Task> BorgProcess<'a, T> {
 
             stderr_line.clear();
             // Listen to stderr with timeout to also handle instructions in-between
-            let stderr_result = async_std::io::timeout(
-                super::MESSAGE_POLL_TIMEOUT,
-                stderr.read_line(&mut stderr_line),
-            )
-            .await;
+            let stderr_result = futures::select!(
+                _ = futures::FutureExt::fuse(smol::Timer::after(super::MESSAGE_POLL_TIMEOUT)) => Err(()),
+                res = stderr.read_line(&mut stderr_line).fuse() => Ok(res),
+            );
 
             match stderr_result {
-                // nothing new to read
-                Err(err) if err.kind() == async_std::io::ErrorKind::TimedOut => {
+                // Nothing new to read
+                Err(()) => {
                     unresponsive += super::MESSAGE_POLL_TIMEOUT;
                     if unresponsive > super::STALL_THRESHOLD
                         && !matches!(self.communication.status(), Run::Reconnecting(_))
@@ -609,11 +608,11 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                     }
                     continue;
                 }
-                Err(err) => return Err(err.into()),
+                Ok(Err(err)) => return Err(err.into()),
                 // end of stream
-                Ok(0) => return return_message,
+                Ok(Ok(0)) => return return_message,
                 // one line read
-                Ok(_) => {
+                Ok(Ok(_)) => {
                     unresponsive = Duration::ZERO;
 
                     trace!("borg output: {}", stderr_line);
