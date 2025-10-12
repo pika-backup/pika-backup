@@ -6,9 +6,9 @@ static LAST_MESSAGE: LazyLock<ArcSwap<Option<String>>> =
     LazyLock::new(|| ArcSwap::new(Default::default()));
 
 async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>> {
-    static PROXY: async_lock::Mutex<
+    static PROXY: smol::lock::Mutex<
         Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>>,
-    > = async_lock::Mutex::new(None);
+    > = smol::lock::Mutex::new(None);
 
     let mut proxy = PROXY.lock().await;
 

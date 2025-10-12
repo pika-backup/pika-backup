@@ -3,7 +3,7 @@ use crate::borg::prelude::*;
 use super::Result;
 use super::error;
 use arc_swap::ArcSwap;
-use async_channel::{self as channel, unbounded};
+use smol::channel::{self as channel, unbounded};
 use std::sync::Arc;
 
 use super::log_json;

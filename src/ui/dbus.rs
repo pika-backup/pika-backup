@@ -1,7 +1,7 @@
 use crate::ui::prelude::*;
 
 use crate::schedule;
-use async_channel::Sender;
+use smol::channel::Sender;
 
 struct PikaBackup {
     command: Sender<Command>,
@@ -68,7 +68,7 @@ pub async fn init() {
 }
 
 async fn spawn_command_listener() -> Sender<Command> {
-    let (sender, receiver) = async_channel::unbounded();
+    let (sender, receiver) = smol::channel::unbounded();
 
     Handler::run(async move {
         debug!("Internally awaiting D-Bus API commands");
@@ -99,7 +99,7 @@ async fn spawn_command_listener() -> Sender<Command> {
 
 /// Session Bus
 pub async fn session_connection() -> zbus::Result<zbus::Connection> {
-    static CONNECTION: async_lock::Mutex<Option<zbus::Connection>> = async_lock::Mutex::new(None);
+    static CONNECTION: smol::lock::Mutex<Option<zbus::Connection>> = smol::lock::Mutex::new(None);
 
     let mut connection = CONNECTION.lock().await;
 

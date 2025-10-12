@@ -5,7 +5,7 @@ use zbus::Result;
 
 /// Session Bus
 pub async fn session_connection() -> Result<zbus::Connection> {
-    static CONNECTION: async_lock::Mutex<Option<zbus::Connection>> = async_lock::Mutex::new(None);
+    static CONNECTION: smol::lock::Mutex<Option<zbus::Connection>> = smol::lock::Mutex::new(None);
 
     let mut connection = CONNECTION.lock().await;
 
@@ -37,8 +37,8 @@ pub struct PikaBackup;
 
 impl PikaBackup {
     pub async fn proxy() -> Result<PikaBackupProxy<'static>> {
-        static PROXY: async_lock::Mutex<Option<PikaBackupProxy<'static>>> =
-            async_lock::Mutex::new(None);
+        static PROXY: smol::lock::Mutex<Option<PikaBackupProxy<'static>>> =
+            smol::lock::Mutex::new(None);
 
         let mut proxy = PROXY.lock().await;
 

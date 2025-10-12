@@ -1,6 +1,6 @@
 /// System Bus
 pub async fn system_connection() -> Result<zbus::Connection, zbus::Error> {
-    static CONNECTION: async_lock::Mutex<Option<zbus::Connection>> = async_lock::Mutex::new(None);
+    static CONNECTION: smol::lock::Mutex<Option<zbus::Connection>> = smol::lock::Mutex::new(None);
 
     let mut connection = CONNECTION.lock().await;
 
@@ -17,8 +17,8 @@ pub async fn system_connection() -> Result<zbus::Connection, zbus::Error> {
 pub async fn fdo_proxy(
     session_connection: &zbus::Connection,
 ) -> Result<zbus::fdo::DBusProxy<'static>, zbus::Error> {
-    static PROXY: async_lock::Mutex<Option<zbus::fdo::DBusProxy<'static>>> =
-        async_lock::Mutex::new(None);
+    static PROXY: smol::lock::Mutex<Option<zbus::fdo::DBusProxy<'static>>> =
+        smol::lock::Mutex::new(None);
 
     let mut proxy = PROXY.lock().await;
 

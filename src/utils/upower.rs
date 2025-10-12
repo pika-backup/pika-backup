@@ -15,8 +15,8 @@ pub struct UPower;
 
 impl UPower {
     async fn proxy() -> Result<UPowerProxy<'static>> {
-        static PROXY: async_lock::Mutex<Option<crate::utils::upower::UPowerProxy<'static>>> =
-            async_lock::Mutex::new(None);
+        static PROXY: smol::lock::Mutex<Option<crate::utils::upower::UPowerProxy<'static>>> =
+            smol::lock::Mutex::new(None);
 
         let mut proxy = PROXY.lock().await;
 
