@@ -1,10 +1,10 @@
 #![allow(dead_code)]
 
-pub use pika_backup::{borg, config, config::ConfigId};
-
 pub use std::collections::BTreeSet;
 pub use std::path::{Path, PathBuf};
 
+pub use pika_backup::config::ConfigId;
+pub use pika_backup::{borg, config};
 pub use tempfile::tempdir;
 
 pub fn config(path: &std::path::Path) -> config::Backup {

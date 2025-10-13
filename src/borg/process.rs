@@ -1,10 +1,3 @@
-use async_process;
-use async_process::ChildStderr;
-use async_process::ChildStdin;
-use futures_util::FutureExt;
-use smol::io::BufReader;
-use smol::prelude::*;
-
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
 use std::ffi::OsString;
@@ -13,14 +6,17 @@ use std::os::unix::io::AsRawFd;
 use std::os::unix::net::UnixStream;
 use std::time::Duration;
 
-use super::Task;
+use async_process;
+use async_process::{ChildStderr, ChildStdin};
+use futures_util::FutureExt;
+use smol::io::BufReader;
+use smol::prelude::*;
+
 use super::communication::*;
 use super::error::*;
-use super::log_json;
 use super::prelude::*;
 use super::status::*;
-use super::utils;
-use super::{BorgRunConfig, Command, Error, Result, USER_INTERACTION_TIME};
+use super::{BorgRunConfig, Command, Error, Result, Task, USER_INTERACTION_TIME, log_json, utils};
 use crate::config;
 
 /// Return raw stdout from `BorgCall` instead JSON decoding it
@@ -240,7 +236,8 @@ impl BorgCall {
         flags.remove(nix::fcntl::FdFlag::FD_CLOEXEC);
         nix::fcntl::fcntl(&pipe_reader, nix::fcntl::FcntlArg::F_SETFD(flags))?;
 
-        // We drop the pipe_writer here, so this end will be closed when this function returns
+        // We drop the pipe_writer here, so this end will be closed when this function
+        // returns
         pipe_writer.write_all(self.password.as_bytes())?;
 
         let fd = pipe_reader.as_raw_fd();
@@ -328,7 +325,8 @@ impl BorgCall {
 
     /// Spawn a borg task, parsing the output as `S`
     ///
-    /// Returns immedialetly running the task in the background. Handles disconnects.
+    /// Returns immedialetly running the task in the background. Handles
+    /// disconnects.
     pub fn spawn_background<
         T: Task,
         S: std::fmt::Debug + serde::de::DeserializeOwned + Send + Sync + 'static,
@@ -374,7 +372,8 @@ impl BorgCall {
                         && std::time::Instant::now().duration_since(started_instant)
                             < USER_INTERACTION_TIME
                     {
-                        // Don't reconnect when manual backups fail right at the beginning. This is most likely a permanent problem.
+                        // Don't reconnect when manual backups fail right at the beginning. This is
+                        // most likely a permanent problem.
                         return result;
                     }
 
@@ -556,7 +555,8 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         }
     }
 
-    /// Handle the stderr output and `Communication` signals while the process is running
+    /// Handle the stderr output and `Communication` signals while the process
+    /// is running
     async fn handle_stderr(
         &self,
         mut stderr: BufReader<ChildStderr>,

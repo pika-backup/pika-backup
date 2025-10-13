@@ -1,8 +1,8 @@
-use crate::config;
-use crate::ui::prelude::*;
-
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+
+use crate::config;
+use crate::ui::prelude::*;
 
 mod imp {
     use super::*;

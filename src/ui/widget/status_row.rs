@@ -1,6 +1,8 @@
-use crate::ui::{backup_status, utils::StatusLevel};
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+
+use crate::ui::backup_status;
+use crate::ui::utils::StatusLevel;
 
 mod imp {
     use std::cell::{Cell, RefCell};

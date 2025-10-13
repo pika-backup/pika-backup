@@ -1,8 +1,9 @@
-use crate::config;
+use std::cell::RefCell;
 
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use std::cell::RefCell;
+
+use crate::config;
 
 pub fn list() -> Vec<config::Frequency> {
     vec![

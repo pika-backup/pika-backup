@@ -1,14 +1,14 @@
-use gio::{ApplicationHoldGuard, prelude::*};
-use std::cell::Cell;
-use std::cell::OnceCell;
+use std::cell::{Cell, OnceCell};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
+use gio::ApplicationHoldGuard;
+use gio::prelude::*;
+
 use super::action;
 use crate::config::{ConfigType, Loadable, TrackChanges};
-use crate::daemon;
 use crate::daemon::prelude::*;
-use crate::{DAEMON_BINARY, config};
+use crate::{DAEMON_BINARY, config, daemon};
 
 pub fn init() {
     gio_app().connect_startup(on_startup);
@@ -106,7 +106,8 @@ fn app_running(is_running: bool) {
     APP_RUNNING.set(is_running);
 
     if !is_running {
-        // Reload backup history manually to prevent race conditions between the application exit event and file monitor
+        // Reload backup history manually to prevent race conditions between the
+        // application exit event and file monitor
         match config::Histories::from_file() {
             Ok(new) => {
                 BACKUP_HISTORY.swap(Arc::new(new));

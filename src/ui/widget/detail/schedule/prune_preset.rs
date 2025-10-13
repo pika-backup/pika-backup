@@ -1,9 +1,10 @@
-use crate::config;
-use crate::ui::prelude::*;
+use std::cell::RefCell;
 
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use std::cell::RefCell;
+
+use crate::config;
+use crate::ui::prelude::*;
 
 #[derive(Debug, Clone)]
 pub enum PrunePreset {

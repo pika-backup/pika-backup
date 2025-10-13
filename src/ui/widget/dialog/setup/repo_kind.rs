@@ -1,16 +1,17 @@
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use super::SetupAction;
+use crate::ui::prelude::*;
 
 mod imp {
+    use std::cell::Cell;
+    use std::sync::OnceLock;
+
     use glib::subclass::Signal;
 
-    use crate::ui::widget::PkDialogPageImpl;
-
     use super::*;
-    use std::{cell::Cell, sync::OnceLock};
+    use crate::ui::widget::PkDialogPageImpl;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "repo_kind.ui")]

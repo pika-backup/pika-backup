@@ -160,8 +160,9 @@ impl Due<Local> {
 impl<Tz: chrono::TimeZone> Due<Tz> {
     /// Same as check_full but does not rely on the current system time.
     ///
-    /// Checks all the prerequisites in the history file and then delegates the actual
-    /// implementation to [`check_real`] to allow for more comprehensive testing.
+    /// Checks all the prerequisites in the history file and then delegates the
+    /// actual implementation to [`check_real`] to allow for more
+    /// comprehensive testing.
     fn check_with_frequency(
         schedule: config::Frequency,
         history: Option<&config::history::History>,
@@ -214,11 +215,13 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
 
         // Check if we are due for a regular backup
         if next_run <= now {
-            // Check if the device has been in use for at least USED_THRESHOLD minutes. We ignore this for hourly.
+            // Check if the device has been in use for at least USED_THRESHOLD minutes. We
+            // ignore this for hourly.
             if matches!(frequency, config::Frequency::Hourly) || activity.is_threshold_reached() {
                 return Ok(DueCause::Regular);
             } else {
-                // We will be due soon, just wait a little longer until the device has been in use for a few more minutes
+                // We will be due soon, just wait a little longer until the device has been in
+                // use for a few more minutes
                 return Err(Self::NotDue {
                     next: now + activity.time_until_threshold(),
                 });
@@ -227,8 +230,9 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
 
         // We are not technically due. We might however be eligible for a retry.
         //
-        // Retries work on weekly and monthly backups. The idea is that if the last scheduled backup failed
-        // we try again the day after to ensure a valid backup every week / month.
+        // Retries work on weekly and monthly backups. The idea is that if the last
+        // scheduled backup failed we try again the day after to ensure a valid
+        // backup every week / month.
         match frequency {
             config::Frequency::Weekly { .. } | config::Frequency::Monthly { .. } => {
                 // The next day after the last run, 00:00 (start of day)
@@ -238,8 +242,9 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
                 // We only allow one retry a day
                 let next_retry = Self::naive_to_next_local(
                     if let Some(completed) = last_completed_naive {
-                        // We use the time for the last completed backup to figure out the next retry
-                        // the same way as we would with a regular scheduled backup.
+                        // We use the time for the last completed backup to figure out the next
+                        // retry the same way as we would with a regular
+                        // scheduled backup.
                         Self::next_run(frequency, completed).max(next_day_midnight)
                     } else {
                         // If we never completed a backup we try every day until we get one.
@@ -270,7 +275,8 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
 
     /// Calculate the next date that exists.
     ///
-    /// This deals with gaps in the space-time continuum by finding the next representable time after the gap.
+    /// This deals with gaps in the space-time continuum by finding the next
+    /// representable time after the gap.
     fn naive_to_next_local(mut naive: chrono::NaiveDateTime, tz: Tz) -> chrono::DateTime<Tz> {
         loop {
             let next = naive.and_local_timezone(tz.clone()).earliest();
@@ -284,8 +290,8 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
 
     /// Determine the next scheduled backup time.
     ///
-    /// This returns the time as a naive date time. Converting this to the local time is
-    /// left to the caller.
+    /// This returns the time as a naive date time. Converting this to the local
+    /// time is left to the caller.
     fn next_run(frequency: config::Frequency, last_run: NaiveDateTime) -> NaiveDateTime {
         match frequency {
             // Hourly backups just run every hour (measured after the last run end time)
@@ -297,7 +303,8 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
                     // Schedule for the same day because we ran before the preferred time
                     last_run.date()
                 } else {
-                    // We already ran today on or after the scheduled time. Schedule for the next day.
+                    // We already ran today on or after the scheduled time. Schedule for the next
+                    // day.
                     last_run.date() + chrono::Duration::days(1)
                 };
 
@@ -344,7 +351,8 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
                     last_run.date()
                 };
 
-                // Set the day. This will clamp to the last day of the month if the month is shorter.
+                // Set the day. This will clamp to the last day of the month if the month is
+                // shorter.
                 //
                 // Panics: This only fails at the end of time
                 chronoutil::delta::with_day(
@@ -359,11 +367,11 @@ impl<Tz: chrono::TimeZone> Due<Tz> {
 
 #[cfg(test)]
 mod test {
-    use crate::schedule::USED_THRESHOLD;
     use config::{Activity, Frequency};
     use matches::assert_matches;
 
     use super::*;
+    use crate::schedule::USED_THRESHOLD;
 
     #[test]
     fn test_check_running() {
@@ -448,8 +456,9 @@ mod test {
                     Err(Due::NotDue { next }) if next == next_schedule
                 );
 
-                // Next backup is exactly one hour after the last run, even if the last run is in the future.
-                // The algorithm should not depend on system time.
+                // Next backup is exactly one hour after the last run, even if the last run is
+                // in the future. The algorithm should not depend on system
+                // time.
                 assert_matches!(
                     Due::check_real(
                         Frequency::Hourly,
@@ -486,7 +495,8 @@ mod test {
                         date, last_date, completed
                     );
 
-                    // Run at least USED_THRESHOLD after "now" if activity is empty no matter what time we ran the last time
+                    // Run at least USED_THRESHOLD after "now" if activity is empty no matter what
+                    // time we ran the last time
                     assert_matches!(
                         Due::check_real(
                             Frequency::Daily { preferred_time },
@@ -524,7 +534,8 @@ mod test {
                 Ok(DueCause::Regular)
             );
 
-            // We ran an hour ago. We shouldn't run again until tomorrow at the preferred time.
+            // We ran an hour ago. We shouldn't run again until tomorrow at the preferred
+            // time.
             assert_matches!(
                 Due::check_real(
                     Frequency::Daily { preferred_time },
@@ -539,8 +550,9 @@ mod test {
             );
 
             // We finished two seconds before the preferred time. Now it's an hour later.
-            // The last backup technically ran before "today at the preferred time" so we run again.
-            // TODO: This is probably not ideal, do we want to introduce a "grace period" of couple minutes?
+            // The last backup technically ran before "today at the preferred time" so we
+            // run again. TODO: This is probably not ideal, do we want to
+            // introduce a "grace period" of couple minutes?
             assert_matches!(
                 Due::check_real(
                     Frequency::Daily { preferred_time },
@@ -567,7 +579,8 @@ mod test {
             );
 
             // The backup ran 1 second ago, which was one second before preferred time.
-            // we are one second before preferred time, we schedule a backup to run in one second.
+            // we are one second before preferred time, we schedule a backup to run in one
+            // second.
             assert_matches!(
                 Due::check_real(
                     Frequency::Daily { preferred_time },
@@ -613,7 +626,8 @@ mod test {
                         let dt = date.with_hour(hour).unwrap();
                         println!("date: {:?}, last_date: {:?}, hour: {}", dt, last_date, hour);
 
-                        // Run at least USED_THRESHOLD after "now" if activity is empty no matter what time we ran the last time
+                        // Run at least USED_THRESHOLD after "now" if activity is empty no matter
+                        // what time we ran the last time
                         assert_matches!(
                             Due::check_real(
                                 Frequency::Weekly { preferred_weekday: weekday },
@@ -644,8 +658,8 @@ mod test {
                 .unwrap()
         );
 
-        // We ran saturday but the backup didn't complete. The last complete backup was on friday.
-        // Now it's monday. We are due for a retry.
+        // We ran saturday but the backup didn't complete. The last complete backup was
+        // on friday. Now it's monday. We are due for a retry.
         assert_matches!(
             Due::check_real(
                 Frequency::Weekly { preferred_weekday },
@@ -657,8 +671,9 @@ mod test {
             Ok(DueCause::Retry)
         );
 
-        // We ran saturday but the backup didn't complete. The last complete backup was on friday.
-        // Now it's monday. We already ran a retry today at 3 am. Our next retry is scheduled for tomorrow.
+        // We ran saturday but the backup didn't complete. The last complete backup was
+        // on friday. Now it's monday. We already ran a retry today at 3 am. Our
+        // next retry is scheduled for tomorrow.
         assert_matches!(
             Due::check_real(
                 Frequency::Weekly { preferred_weekday },
@@ -699,7 +714,8 @@ mod test {
             last_update: Local::now(),
         };
 
-        // Run at least USED_THRESHOLD after "now" if activity is empty no matter what time we ran the last time
+        // Run at least USED_THRESHOLD after "now" if activity is empty no matter what
+        // time we ran the last time
         for date in [feb_12, last_month, feb_14, feb_15, feb_29_00] {
             for last_date in [feb_12, last_month, feb_14, feb_15, feb_29_00] {
                 // the exact time of day shouldn't matter for monthly
@@ -757,7 +773,8 @@ mod test {
             Ok(DueCause::Retry)
         );
 
-        // Our preferred day is the 31st. Make sure we still schedule a backup in months that don't have a 31st.
+        // Our preferred day is the 31st. Make sure we still schedule a backup in months
+        // that don't have a 31st.
         assert_matches!(
             Due::check_real(
                 Frequency::Monthly { preferred_day: 31 },
@@ -1015,7 +1032,8 @@ mod test {
         });
     }
 
-    /// Ensure we never schedule a backup in the past, even when directly at a time zone boundary
+    /// Ensure we never schedule a backup in the past, even when directly at a
+    /// time zone boundary
     #[test]
     fn schedule_in_the_past() {
         let tz = chrono_tz::Europe::Berlin;

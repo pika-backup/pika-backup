@@ -4,22 +4,20 @@ pub mod prune_preset;
 pub mod status;
 pub mod weekday;
 
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 pub use frequency::FrequencyObject;
 pub use prune_preset::PrunePresetObject;
 pub use weekday::WeekdayObject;
 
-use crate::ui::prelude::*;
-use adw::prelude::*;
-use adw::subclass::prelude::*;
-
 use super::DetailPageKind;
+use crate::ui::prelude::*;
 
 mod imp {
     use std::cell::OnceCell;
 
-    use crate::ui::widget::StatusRow;
-
     use super::*;
+    use crate::ui::widget::StatusRow;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "schedule.ui")]
@@ -241,7 +239,8 @@ mod imp {
             ));
 
             glib::timeout_add_local_once(std::time::Duration::ZERO, move || {
-                // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
+                // TODO: This should be run directly, but as long as we need main_ui we need to
+                // do it later to prevent recursion
                 main_ui()
                     .navigation_view()
                     .connect_visible_page_notify(glib::clone!(

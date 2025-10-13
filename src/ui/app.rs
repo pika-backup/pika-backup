@@ -1,16 +1,13 @@
-use crate::borg;
-use crate::config;
-use crate::ui;
-use crate::ui::prelude::*;
-use crate::ui::utils;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use config::TrackChanges;
 
 use super::shell;
-use super::widget::AppWindow;
-use super::widget::PreferencesDialog;
 use super::widget::setup::SetupDialog;
+use super::widget::{AppWindow, PreferencesDialog};
+use crate::ui::prelude::*;
+use crate::ui::utils;
+use crate::{borg, config, ui};
 
 mod imp {
     use std::cell::Cell;

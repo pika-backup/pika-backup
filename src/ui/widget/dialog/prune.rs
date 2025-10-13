@@ -1,19 +1,16 @@
 use adw::prelude::*;
-
-use crate::borg;
-use crate::config;
-use crate::ui;
-use crate::ui::prelude::*;
-
 use adw::subclass::prelude::*;
 
+use crate::ui::prelude::*;
+use crate::{borg, config, ui};
+
 mod imp {
+    use std::cell::{Cell, OnceCell, RefCell};
+
     use adw::subclass::dialog::AdwDialogImplExt;
 
     use self::borg::{ListArchive, PruneInfo};
-
     use super::*;
-    use std::cell::{Cell, OnceCell, RefCell};
 
     #[derive(Default, gtk::CompositeTemplate, glib::Properties)]
     #[properties(wrapper_type = super::PruneDialog)]

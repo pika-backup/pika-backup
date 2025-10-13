@@ -1,13 +1,10 @@
-use crate::ui::prelude::*;
-use crate::ui::widget::ArchivePrefixDialog;
-use crate::ui::widget::CheckDialog;
-use crate::ui::widget::PruneDialog;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use super::imp;
-use crate::borg;
-use crate::ui;
+use crate::ui::prelude::*;
+use crate::ui::widget::{ArchivePrefixDialog, CheckDialog, PruneDialog};
+use crate::{borg, ui};
 
 impl imp::ArchivesPage {
     pub async fn check(&self) -> Result<()> {

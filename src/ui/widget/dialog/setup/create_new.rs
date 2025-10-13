@@ -1,10 +1,10 @@
-use crate::ui::prelude::*;
 use adw::subclass::prelude::*;
 
-mod imp {
-    use crate::ui::widget::{PkSpinnerPageImpl, SpinnerPage};
+use crate::ui::prelude::*;
 
+mod imp {
     use super::*;
+    use crate::ui::widget::{PkSpinnerPageImpl, SpinnerPage};
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "create_new.ui")]

@@ -1,14 +1,13 @@
+use std::future::Future;
+
+use borg::task::Task;
+use gio::prelude::*;
+use ui::error::Combined;
+
+use crate::borg::{RepoId, task};
 use crate::ui::App;
 use crate::ui::prelude::*;
-use gio::prelude::*;
-
-use crate::borg;
-use crate::borg::RepoId;
-use crate::borg::task;
-use crate::ui;
-use borg::task::Task;
-use std::future::Future;
-use ui::error::Combined;
+use crate::{borg, ui};
 
 /// Is a borg operation registered with a [QuitGuard]]?
 pub fn is_borg_operation_running() -> bool {
@@ -55,7 +54,8 @@ where
 
 /// Executes a borg command
 ///
-/// This takes a [QuitGuard] to prove that one has been set up and is currently active.
+/// This takes a [QuitGuard] to prove that one has been set up and is currently
+/// active.
 pub async fn exec<T: Task>(
     command: borg::Command<T>,
     _guard: &QuitGuard,
@@ -106,7 +106,8 @@ where
         });
     }));
 
-    // Handle an error when writing history, but still return the result of the borg operation
+    // Handle an error when writing history, but still return the result of the borg
+    // operation
     Handler::handle(
         BACKUP_HISTORY
             .try_update(move |history| {
@@ -228,8 +229,8 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
                     }
 
                     if !config.encrypted {
-                        // We assumed that the repo doesn't have encryption, but this assumption was outdated.
-                        // Set the encrypted flag in the config
+                        // We assumed that the repo doesn't have encryption, but this assumption was
+                        // outdated. Set the encrypted flag in the config
                         if let Some(id) = command.config_id() {
                             BACKUP_CONFIG
                                 .try_update(|config| {
@@ -325,7 +326,8 @@ pub async fn cleanup_mounts() -> Result<()> {
     }
 
     // Find mounts that should belong to Pika but aren't registered.
-    // This would be leftover mounts from a previous run of Pika when it wasn't quit properly.
+    // This would be leftover mounts from a previous run of Pika when it wasn't quit
+    // properly.
     for config in BACKUP_CONFIG.load().iter() {
         let repo_id = &config.repo_id;
         if !mounts.contains(repo_id) && borg::is_mounted(repo_id).await {
@@ -352,7 +354,8 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
                 .and_then(|drive| if drive.can_eject() { Some(drive) } else { None })
             {
                 Some(drive) => {
-                    // We don't need to stop the drive, it will only spin down the hard disk. The drive is safe to remove in any case
+                    // We don't need to stop the drive, it will only spin down the hard disk. The
+                    // drive is safe to remove in any case
                     let res = if drive.can_stop() {
                         debug!("Stopping drive {}", drive.name());
                         drive

@@ -1,9 +1,11 @@
-use crate::config;
-pub use crate::globals::*;
-use arc_swap::ArcSwap;
 use std::collections::HashMap;
 use std::rc::Rc;
 use std::sync::LazyLock;
+
+use arc_swap::ArcSwap;
+
+use crate::config;
+pub use crate::globals::*;
 
 pub static BACKUP_CONFIG: LazyLock<ArcSwap<config::Backups>> = LazyLock::new(Default::default);
 pub static BACKUP_HISTORY: LazyLock<ArcSwap<config::Histories>> = LazyLock::new(Default::default);

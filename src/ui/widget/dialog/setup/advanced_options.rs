@@ -1,13 +1,14 @@
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+
+use crate::ui::prelude::*;
 
 mod imp {
     use std::cell::RefCell;
 
-    use crate::ui::widget::{PkDialogPageImpl, setup::SetupCommandLineArgs};
-
     use super::*;
+    use crate::ui::widget::PkDialogPageImpl;
+    use crate::ui::widget::setup::SetupCommandLineArgs;
 
     #[derive(Default, gtk::CompositeTemplate, glib::Properties)]
     #[template(file = "advanced_options.ui")]

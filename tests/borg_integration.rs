@@ -5,7 +5,8 @@ pub use pika_backup::borg::CommandRun;
 extern crate matches;
 
 use macro_rules_attribute::apply;
-use pika_backup::{borg, borg::prelude::*, config};
+use pika_backup::borg::prelude::*;
+use pika_backup::{borg, config};
 use smol_macros::test;
 
 // Currently, there are no init tasks

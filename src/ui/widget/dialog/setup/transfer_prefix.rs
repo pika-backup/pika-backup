@@ -1,7 +1,8 @@
-use crate::config;
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+
+use crate::config;
+use crate::ui::prelude::*;
 
 mod imp {
 
@@ -9,9 +10,9 @@ mod imp {
 
     use glib::subclass::Signal;
 
-    use crate::{config, ui::widget::PkDialogPageImpl};
-
     use super::*;
+    use crate::config;
+    use crate::ui::widget::PkDialogPageImpl;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "transfer_prefix.ui")]

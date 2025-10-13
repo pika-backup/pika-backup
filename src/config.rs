@@ -12,6 +12,8 @@ mod schedule;
 mod schedule_status;
 mod writeable;
 
+use std::path;
+
 pub use backup::*;
 pub use exclude::Exclude;
 pub use history::Histories;
@@ -22,11 +24,9 @@ pub use repository::*;
 pub use schedule::*;
 pub use schedule_status::*;
 pub(crate) use writeable::{ArcSwapWriteable, Writeable};
+use zeroize::Zeroizing;
 
 use crate::prelude::*;
-
-use std::path;
-use zeroize::Zeroizing;
 
 #[derive(Debug, Clone, serde::Deserialize, serde::Serialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(transparent)]

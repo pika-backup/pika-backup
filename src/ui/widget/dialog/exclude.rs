@@ -1,17 +1,17 @@
-use crate::ui;
-use ui::config;
-use ui::prelude::*;
-
 use std::collections::BTreeSet;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use ui::config;
+use ui::prelude::*;
+
+use crate::ui;
 
 mod imp {
     use std::cell::{OnceCell, RefCell};
 
-    use self::ui::{App, error::HandleError};
-
+    use self::ui::App;
+    use self::ui::error::HandleError;
     use super::*;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
@@ -147,7 +147,8 @@ mod imp {
             let exclude = &config.exclude;
 
             let histories = BACKUP_HISTORY.load();
-            // If the history is missing we don't have any suggested excludes and shouldn't fail
+            // If the history is missing we don't have any suggested excludes and shouldn't
+            // fail
             let suggested_excludes = histories.active().ok().and_then(|history| {
                 history.suggested_excludes_with_reason(
                     config::history::SuggestedExcludeReason::PermissionDenied,

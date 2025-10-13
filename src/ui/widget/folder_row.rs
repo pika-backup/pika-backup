@@ -1,13 +1,15 @@
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use crate::ui::prelude::*;
+
 mod imp {
-    use super::*;
+    use std::cell::RefCell;
 
     use glib::Properties;
     use gtk::CompositeTemplate;
-    use std::cell::RefCell;
+
+    use super::*;
 
     #[derive(Default, CompositeTemplate, Properties)]
     #[template(file = "folder_row.ui")]

@@ -1,13 +1,14 @@
-use adw::prelude::*;
-use smol::prelude::*;
-use ui::prelude::*;
-
-use crate::ui;
-use glib::SignalHandlerId;
 use std::cell::Cell;
 use std::marker::PhantomData;
 use std::rc::Rc;
 use std::time::{Duration, Instant};
+
+use adw::prelude::*;
+use glib::SignalHandlerId;
+use smol::prelude::*;
+use ui::prelude::*;
+
+use crate::ui;
 
 /// Forced UI updates to update 'time ago' etc.
 const UI_INTERVAL: Duration = Duration::from_secs(60);
@@ -187,9 +188,11 @@ impl Drop for StatusTracking {
 pub struct QuitGuard(PhantomData<()>);
 
 impl Default for QuitGuard {
-    /// Create a quit guard that will quit the app if no other guards are running at the same time
+    /// Create a quit guard that will quit the app if no other guards are
+    /// running at the same time
     fn default() -> Self {
-        // Invoke with higher priority than the Drop handler to make sure this runs first
+        // Invoke with higher priority than the Drop handler to make sure this runs
+        // first
         glib::MainContext::default().invoke_with_priority(glib::Priority::HIGH, || {
             ui::globals::STATUS_TRACKING.with(|status| {
                 let new = status.quit_inhibit_count.get() + 1;

@@ -11,12 +11,13 @@ use crate::ui::prelude::*;
 const LISTED_URI_SCHEMES: &[&str] = &["file", "smb", "sftp", "ssh"];
 
 mod imp {
+    use std::cell::Cell;
+    use std::sync::OnceLock;
+
     use glib::subclass::Signal;
 
     use self::ui::widget::PkDialogPageImpl;
-
     use super::*;
-    use std::{cell::Cell, sync::OnceLock};
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "location_kind.ui")]

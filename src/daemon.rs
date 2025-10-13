@@ -10,9 +10,8 @@ mod notification;
 mod prelude;
 mod schedule;
 
-pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
-
 use gio::prelude::*;
+pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
 use prelude::*;
 
 pub fn main() {

@@ -1,5 +1,4 @@
-use std::sync::LazyLock;
-use std::sync::OnceLock;
+use std::sync::{LazyLock, OnceLock};
 
 use crate::config;
 use crate::prelude::*;

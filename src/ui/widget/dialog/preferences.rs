@@ -5,11 +5,14 @@ use crate::config::BackupSettings;
 use crate::ui::prelude::*;
 
 mod imp {
-    use crate::{borg, config::UserScriptKind, ui::widget::EncryptionSettings};
+    use std::cell::{Cell, OnceCell, RefCell};
+
+    use glib::Properties;
 
     use super::*;
-    use glib::Properties;
-    use std::cell::{Cell, OnceCell, RefCell};
+    use crate::borg;
+    use crate::config::UserScriptKind;
+    use crate::ui::widget::EncryptionSettings;
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::PreferencesDialog)]

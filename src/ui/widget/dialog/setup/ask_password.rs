@@ -1,15 +1,16 @@
-use crate::config;
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use crate::config;
+use crate::ui::prelude::*;
+
 mod imp {
+    use std::sync::OnceLock;
+
     use glib::subclass::Signal;
 
-    use crate::ui::widget::PkDialogPageImpl;
-
     use super::*;
-    use std::sync::OnceLock;
+    use crate::ui::widget::PkDialogPageImpl;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "ask_password.ui")]

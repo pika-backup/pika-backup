@@ -1,3 +1,5 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use num_format::ToFormattedString;
 
 use crate::borg;
@@ -5,13 +7,9 @@ use crate::config::history::*;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
 
-use adw::prelude::*;
-use adw::subclass::prelude::*;
-
 mod imp {
-    use crate::ui::widget::StatusRow;
-
     use super::*;
+    use crate::ui::widget::StatusRow;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "backup_info.ui")]

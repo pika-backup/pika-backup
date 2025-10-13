@@ -1,6 +1,8 @@
-use super::prelude::*;
-use arc_swap::ArcSwap;
 use std::sync::LazyLock;
+
+use arc_swap::ArcSwap;
+
+use super::prelude::*;
 
 static LAST_MESSAGE: LazyLock<ArcSwap<Option<String>>> =
     LazyLock::new(|| ArcSwap::new(Default::default()));

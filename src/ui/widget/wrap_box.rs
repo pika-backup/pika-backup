@@ -59,12 +59,12 @@ impl WrapBox {
 }
 
 mod imp {
-    use super::*;
+    use std::cell::{Cell, RefCell};
+    use std::sync::LazyLock;
 
     use glib::{ParamSpec, ParamSpecInt, Value};
 
-    use std::cell::{Cell, RefCell};
-    use std::sync::LazyLock;
+    use super::*;
 
     #[derive(Debug, Default)]
     pub struct WrapBox {

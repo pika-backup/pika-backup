@@ -5,8 +5,9 @@ use crate::config;
 use crate::ui::prelude::*;
 
 mod imp {
-    use super::*;
     use std::cell::{OnceCell, RefCell};
+
+    use super::*;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "device_missing.ui")]

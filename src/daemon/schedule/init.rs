@@ -1,12 +1,14 @@
 /*!
 # Daemon initialization
 */
-use crate::daemon::prelude::*;
-use gio::prelude::*;
 use std::collections::HashMap;
 
+use gio::prelude::*;
+
 use crate::config;
-use crate::daemon::{action, dbus, notification::Note, schedule};
+use crate::daemon::notification::Note;
+use crate::daemon::prelude::*;
+use crate::daemon::{action, dbus, schedule};
 use crate::schedule::requirements;
 
 pub fn init() {

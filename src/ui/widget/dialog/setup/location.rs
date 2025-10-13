@@ -1,30 +1,25 @@
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use super::SetupRepoLocation;
 use super::types::*;
+use crate::ui::prelude::*;
 use crate::ui::widget::DialogPage;
 
 mod imp {
-    use std::{
-        cell::{Cell, RefCell},
-        marker::PhantomData,
-        sync::OnceLock,
-    };
+    use std::cell::{Cell, RefCell};
+    use std::marker::PhantomData;
+    use std::sync::OnceLock;
 
     use gettextrs::gettext;
-    use glib::{WeakRef, subclass::Signal};
-
-    use crate::ui::{
-        error::HandleError,
-        widget::{
-            PkDialogPageImpl, folder_row::FolderRow,
-            setup::advanced_options::SetupAdvancedOptionsPage,
-        },
-    };
+    use glib::WeakRef;
+    use glib::subclass::Signal;
 
     use super::*;
+    use crate::ui::error::HandleError;
+    use crate::ui::widget::PkDialogPageImpl;
+    use crate::ui::widget::folder_row::FolderRow;
+    use crate::ui::widget::setup::advanced_options::SetupAdvancedOptionsPage;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "location.ui")]
@@ -354,7 +349,8 @@ mod imp {
                 });
             }
 
-            // Remote URL: If empty, only add error when not focused, to have a clean initial state
+            // Remote URL: If empty, only add error when not focused, to have a clean
+            // initial state
             if !valid
                 && kind == SetupLocationKind::Remote
                 && (!self.location_url.text().is_empty()
@@ -378,7 +374,8 @@ mod imp {
         }
 
         fn selected_location(&self) -> Result<SetupRepoLocation> {
-            // This might be called during template initialisation, make sure this uses try_get everywhere
+            // This might be called during template initialisation, make sure this uses
+            // try_get everywhere
             match self.location_kind.get() {
                 SetupLocationKind::Local => {
                     // We can only be here because we are creating a new repository

@@ -1,12 +1,11 @@
 //! Disk space information
 
-use crate::ui::prelude::*;
+use async_process as process;
 use gio::prelude::*;
 use smol::prelude::*;
 
-use async_process as process;
-
 use crate::config;
+use crate::ui::prelude::*;
 use crate::ui::utils::repo_cache::RepoCache;
 
 type Result<T> = std::result::Result<T, Error>;
@@ -60,7 +59,8 @@ fn sftp_path_normalize(path: &str) -> String {
 pub async fn remote(server: &str) -> Result<Space> {
     let original_uri = glib::Uri::parse(server, glib::UriFlags::NONE)?;
 
-    // If the remote uses SSH with the SSH scheme and a port was specified we use that port
+    // If the remote uses SSH with the SSH scheme and a port was specified we use
+    // that port
     let port = if original_uri.scheme() == "ssh" {
         original_uri.port()
     } else {

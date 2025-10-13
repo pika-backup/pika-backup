@@ -1,20 +1,21 @@
+use adw::prelude::*;
+use adw::subclass::prelude::*;
+
 use super::ArchiveParams;
 use super::transfer_option::SetupTransferOption;
 use crate::borg;
 use crate::ui::prelude::*;
-use adw::prelude::*;
-use adw::subclass::prelude::*;
 
 mod imp {
 
-    use std::{cell::Cell, sync::OnceLock};
+    use std::cell::Cell;
+    use std::sync::OnceLock;
 
     use glib::subclass::Signal;
     use itertools::Itertools;
 
-    use crate::ui::widget::PkDialogPageImpl;
-
     use super::*;
+    use crate::ui::widget::PkDialogPageImpl;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "transfer_settings.ui")]

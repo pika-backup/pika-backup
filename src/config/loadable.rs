@@ -1,9 +1,10 @@
-use crate::prelude::*;
-use gio::prelude::*;
-
-use arc_swap::ArcSwap;
 use std::cell::Cell;
 use std::sync::LazyLock;
+
+use arc_swap::ArcSwap;
+use gio::prelude::*;
+
+use crate::prelude::*;
 
 pub trait Loadable: Sized {
     fn from_file() -> Result<Self, std::io::Error>;
@@ -116,11 +117,14 @@ pub trait ConfigType {
 
 /// This trait needs to be implemented for all config files
 ///
-/// The default implementation considers all versions valid <= current config version
+/// The default implementation considers all versions valid <= current config
+/// version
 pub trait ConfigVersion {
-    /// Whether the version on disk is read-compatible with this version of the app
+    /// Whether the version on disk is read-compatible with this version of the
+    /// app
     ///
-    /// Unless the on-disk version is newer than our latest version this is assumed to be true
+    /// Unless the on-disk version is newer than our latest version this is
+    /// assumed to be true
     fn version_compatible(version: u64) -> bool {
         version <= super::VERSION
     }

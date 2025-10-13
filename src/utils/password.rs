@@ -1,4 +1,5 @@
-use std::{collections::HashMap, sync::RwLock};
+use std::collections::HashMap;
+use std::sync::RwLock;
 
 use crate::config::Password;
 use crate::prelude::*;

@@ -1,17 +1,11 @@
-use crate::borg;
-use crate::config;
-use crate::config::UserScriptKind;
-use crate::config::history;
-use crate::config::history::RunInfo;
-use crate::schedule;
-use crate::ui;
-
-use crate::ui::prelude::*;
-use crate::ui::utils::notification::BackupNote;
-
 use adw::prelude::*;
 
 use super::imp;
+use crate::config::history::RunInfo;
+use crate::config::{UserScriptKind, history};
+use crate::ui::prelude::*;
+use crate::ui::utils::notification::BackupNote;
+use crate::{borg, config, schedule, ui};
 
 impl imp::BackupPage {
     pub(super) async fn backup(

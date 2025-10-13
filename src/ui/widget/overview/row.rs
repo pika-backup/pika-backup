@@ -4,13 +4,11 @@ use adw::subclass::prelude::*;
 use crate::ui::widget::StatusRow;
 
 mod imp {
-    use crate::ui::{
-        self, App,
-        widget::{StatusRow, WrapBox},
-    };
+    use std::cell::OnceCell;
 
     use super::*;
-    use std::cell::OnceCell;
+    use crate::ui::widget::{StatusRow, WrapBox};
+    use crate::ui::{self, App};
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "row.ui")]

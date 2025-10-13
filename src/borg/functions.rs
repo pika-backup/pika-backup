@@ -1,12 +1,13 @@
+use std::os::unix::fs::DirBuilderExt;
+
+use process::*;
+use utils::*;
+
 use super::task::Task;
 use super::*;
-use crate::config;
 use crate::config::UserScriptKind;
 use crate::prelude::*;
-use crate::schedule;
-use process::*;
-use std::os::unix::fs::DirBuilderExt;
-use utils::*;
+use crate::{config, schedule};
 
 #[derive(Clone)]
 pub struct Command<T: Task> {
@@ -262,8 +263,9 @@ impl CommandRun<task::KeyChangePassphrase> for Command<task::KeyChangePassphrase
                     .map_err(|_| Error::from("The new password is not valid UTF-8".to_string()))?,
             )]);
 
-        // TODO: Use spawn_managed. The lack of properly tagged output unfortunately means that a
-        // non-zero return code wouldn't be considered an error by that function.
+        // TODO: Use spawn_managed. The lack of properly tagged output unfortunately
+        // means that a non-zero return code wouldn't be considered an error by
+        // that function.
         info!("Running borg: {:#?}", borg_call);
         let output: RawOutput = borg_call.output_generic().await?;
 
@@ -300,7 +302,8 @@ impl CommandRun<task::UserScript> for Command<task::UserScript> {
         };
 
         let Some(script) = self.config.user_scripts.get(&kind) else {
-            // We don't have a script action configured in the config, so we don't do anything
+            // We don't have a script action configured in the config, so we don't do
+            // anything
             return Ok(());
         };
 
@@ -412,7 +415,8 @@ pub struct PruneInfo {
 pub async fn is_mounted(repo_id: &RepoId) -> bool {
     let mount_point = mount_point(repo_id);
 
-    // Check if the directory is still a mountpoint (otherwise it was unmounted via other means)
+    // Check if the directory is still a mountpoint (otherwise it was unmounted via
+    // other means)
     smol::unblock(move || gio::UnixMountEntry::for_mount_path(mount_point).0.is_some()).await
 }
 
@@ -437,7 +441,8 @@ pub async fn umount(repo_id: &RepoId) -> Result<()> {
         }
     }
 
-    // Other mounts could exist that still use the dir. We just clean it up if possible.
+    // Other mounts could exist that still use the dir. We just clean it up if
+    // possible.
     if let Err(err) = smol::fs::remove_dir(mount_base_dir()).await {
         debug!("Error when removing mount base dir: {:?}", err);
     }

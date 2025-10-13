@@ -1,10 +1,11 @@
-use crate::prelude::*;
-
-use super::{absolute, display_path};
-use serde::Deserialize;
 use std::ffi::{CString, OsString};
 use std::os::unix::ffi::{OsStrExt, OsStringExt};
 use std::path::{Path, PathBuf};
+
+use serde::Deserialize;
+
+use super::{absolute, display_path};
+use crate::prelude::*;
 
 pub const RELATIVE: bool = false;
 pub const ABSOLUTE: bool = true;

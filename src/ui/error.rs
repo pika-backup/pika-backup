@@ -2,9 +2,7 @@ use gtk::prelude::*;
 
 use super::prelude::*;
 use super::widget::AppWindow;
-use crate::borg;
-use crate::config;
-use crate::ui;
+use crate::{borg, config, ui};
 
 pub type Result<T> = std::result::Result<T, Error>;
 pub type CombinedResult<T> = std::result::Result<T, Combined>;
@@ -179,7 +177,7 @@ impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Error::Message(msg) => msg.fmt(f),
-            Error::UserCanceled => write!(f, "{}", gettext("Canceled")), // This should generally not appear anywhere,
+            Error::UserCanceled => write!(f, "{}", gettext("Canceled")), /* This should generally not appear anywhere, */
         }
     }
 }

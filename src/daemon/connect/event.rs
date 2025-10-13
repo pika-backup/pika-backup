@@ -1,7 +1,8 @@
-use crate::daemon::prelude::*;
 use gio::prelude::*;
 
-use crate::daemon::{action, notification::Note};
+use crate::daemon::action;
+use crate::daemon::notification::Note;
+use crate::daemon::prelude::*;
 
 pub fn volume_added(volume: &gio::Volume) {
     let uuid = volume.uuid().unwrap_or_default();

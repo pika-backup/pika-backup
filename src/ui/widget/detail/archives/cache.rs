@@ -1,11 +1,7 @@
-use crate::ui::prelude::*;
-
 use super::imp;
-use crate::borg;
-use crate::config;
-use crate::schedule;
-use crate::ui;
+use crate::ui::prelude::*;
 use crate::ui::utils::repo_cache::RepoCache;
+use crate::{borg, config, schedule, ui};
 
 impl imp::ArchivesPage {
     pub async fn refresh_archives(

@@ -1,10 +1,8 @@
-use crate::ui::prelude::*;
-
 use std::collections::BTreeMap;
 use std::iter::FromIterator;
 
-use crate::borg;
-use crate::ui;
+use crate::ui::prelude::*;
+use crate::{borg, ui};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RepoCache {

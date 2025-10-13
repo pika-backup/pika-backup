@@ -72,7 +72,8 @@ impl std::convert::TryFrom<LogCollection> for Error {
                         .filter(|x| match x.level() {
                             // SSH error: Broken pipe
                             LogLevel::Error => x.message().contains("[Errno 32] Broken pipe"),
-                            // Will be thrown by borg when the network is disabled manually / the wifi disconnects
+                            // Will be thrown by borg when the network is disabled manually / the
+                            // wifi disconnects
                             LogLevel::Warning => x
                                 .message()
                                 .contains("Remote: Timeout, server borg not responding."),
@@ -189,7 +190,9 @@ impl std::fmt::Display for Abort {
 
 /// The borg process has thrown an error that caused the backup to fail
 ///
-/// The borg message ids are annotated with the return codes just to keep them in the same order as the borg docs to make it easier to check if we are missing ids.
+/// The borg message ids are annotated with the return codes just to keep them
+/// in the same order as the borg docs to make it easier to check if we are
+/// missing ids.
 ///
 /// <https://borgbackup.readthedocs.io/en/stable/internals/frontends.html#message-ids>
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]

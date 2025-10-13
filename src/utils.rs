@@ -3,14 +3,15 @@ pub mod host;
 pub mod password;
 pub mod upower;
 
-use crate::config;
-use crate::prelude::*;
-use smol::prelude::*;
-
-use gio::prelude::*;
 use std::convert::TryInto;
 use std::ffi::CStr;
 use std::os::raw::{c_char, c_int};
+
+use gio::prelude::*;
+use smol::prelude::*;
+
+use crate::config;
+use crate::prelude::*;
 
 pub trait LookupConfigId {
     type Item;

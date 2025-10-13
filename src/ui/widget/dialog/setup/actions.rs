@@ -1,14 +1,10 @@
-use crate::borg;
-use crate::config;
-use crate::ui;
-use crate::ui::prelude::*;
-use gio::prelude::*;
 use std::collections::BTreeSet;
 
-use super::ArchiveParams;
-use super::SetupAction;
-use super::SetupCommandLineArgs;
-use super::SetupRepoLocation;
+use gio::prelude::*;
+
+use super::{ArchiveParams, SetupAction, SetupCommandLineArgs, SetupRepoLocation};
+use crate::ui::prelude::*;
+use crate::{borg, config, ui};
 
 pub async fn create_repo_config(
     action: SetupAction,
@@ -75,8 +71,8 @@ pub async fn create_repo_config(
                 // We resort to just store the path.
                 //
                 // Note: Not storing a mount disables GVFS features, such as detecting drives
-                // that have been renamed, or being able to mount the repository location ourselves.
-                // This is not the best configuration.
+                // that have been renamed, or being able to mount the repository location
+                // ourselves. This is not the best configuration.
                 debug!("Creating local repository config with path: {:?}", path);
                 config::local::Repository::from_path(path).into_config()
             }
@@ -123,7 +119,8 @@ pub async fn try_peek(
     repo: config::Repository,
     password: Option<config::Password>,
 ) -> std::result::Result<borg::List, ConnectRepoError> {
-    // We connect to the repository to validate the password and retrieve its parameters
+    // We connect to the repository to validate the password and retrieve its
+    // parameters
     let mut borg = borg::CommandOnlyRepo::new(repo.clone());
     borg.password = password;
 

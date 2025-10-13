@@ -1,15 +1,14 @@
-use crate::ui::prelude::*;
 use adw::subclass::prelude::*;
+
+use crate::ui::prelude::*;
 
 mod imp {
     use std::cell::RefCell;
 
-    use crate::{
-        config::history::CheckOutcome,
-        ui::{backup_status, widget::StatusRow},
-    };
-
     use super::*;
+    use crate::config::history::CheckOutcome;
+    use crate::ui::backup_status;
+    use crate::ui::widget::StatusRow;
 
     #[derive(Debug, Default, gtk::CompositeTemplate)]
     #[template(file = "check_result.ui")]

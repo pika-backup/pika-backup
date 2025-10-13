@@ -1,7 +1,7 @@
-use crate::ui::prelude::*;
+use smol::channel::Sender;
 
 use crate::schedule;
-use smol::channel::Sender;
+use crate::ui::prelude::*;
 
 struct PikaBackup {
     command: Sender<Command>,

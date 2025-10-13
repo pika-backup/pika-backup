@@ -5,20 +5,16 @@ mod execution;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use super::DetailPageKind;
 use crate::schedule;
 use crate::ui::prelude::*;
-
-use super::DetailPageKind;
 
 mod imp {
     use std::cell::RefCell;
 
-    use crate::ui::{
-        self, backup_status,
-        widget::dialog::{BackupInfoDialog, StorageDialog},
-    };
-
     use super::*;
+    use crate::ui::widget::dialog::{BackupInfoDialog, StorageDialog};
+    use crate::ui::{self, backup_status};
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "backup.ui")]
@@ -148,7 +144,8 @@ mod imp {
             ));
 
             glib::timeout_add_local(std::time::Duration::ZERO, move || {
-                // TODO: This should be run directly, but as long as we need main_ui we need to do it later to prevent recursion
+                // TODO: This should be run directly, but as long as we need main_ui we need to
+                // do it later to prevent recursion
                 main_ui()
                     .navigation_view()
                     .connect_visible_page_notify(glib::clone!(
@@ -197,8 +194,9 @@ impl BackupPage {
 
         // We spawn a new task instead of waiting for backup completion here.
         //
-        // This is necessary because we can start backups from many different sources, including dbus.
-        // If we waited here we wouldn't be receiving any more dbus messages until this backup is finished.
+        // This is necessary because we can start backups from many different sources,
+        // including dbus. If we waited here we wouldn't be receiving any more
+        // dbus messages until this backup is finished.
         Handler::run(async move {
             obj.imp()
                 .backup(

@@ -20,11 +20,10 @@ pub use delete_archive::DeleteArchiveDialog;
 pub use device_missing::DeviceMissingDialog;
 pub use encryption_password::EncryptionPasswordDialog;
 pub use exclude::ExcludeDialog;
+use glib::prelude::*;
 pub use preferences::PreferencesDialog;
 pub use prune::PruneDialog;
 pub use storage::StorageDialog;
-
-use glib::prelude::*;
 
 pub fn init() {
     ArchivePrefixDialog::static_type();

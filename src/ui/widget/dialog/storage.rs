@@ -1,14 +1,13 @@
-use gtk::prelude::*;
-
-use crate::config;
-use crate::ui;
-
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use gtk::prelude::*;
+
+use crate::{config, ui};
 
 mod imp {
-    use super::*;
     use std::cell::OnceCell;
+
+    use super::*;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "storage.ui")]

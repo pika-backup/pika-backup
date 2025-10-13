@@ -1,12 +1,15 @@
-use crate::config;
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use crate::config;
+use crate::ui::prelude::*;
+
 mod imp {
+    use std::cell::Cell;
+    use std::marker::PhantomData;
+
     use super::*;
     use crate::config;
-    use std::{cell::Cell, marker::PhantomData};
 
     #[derive(Debug, Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "encryption_settings.ui")]
@@ -202,10 +205,13 @@ mod imp {
             };
 
             let validation_str = if score == 0 {
-                // Translators: Password feedback: Empty password. All strings labelled like this must fit in a single line at 360 width, to prevent the label from ellipsizing.
+                // Translators: Password feedback: Empty password. All strings labelled like
+                // this must fit in a single line at 360 width, to prevent the label from
+                // ellipsizing.
                 gettext("Enter a password")
             } else if !password_confirm.is_empty() && password != password_confirm {
-                // Translators: Password feedback: The second password is not the same as the first
+                // Translators: Password feedback: The second password is not the same as the
+                // first
                 gettext("Passwords do not match")
             } else if score < 7 {
                 let warning = feedback

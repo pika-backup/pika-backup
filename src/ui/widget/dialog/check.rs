@@ -4,12 +4,13 @@ use adw::subclass::prelude::*;
 use crate::ui::prelude::*;
 
 mod imp {
-    use crate::borg::log_json::LogEntry;
-    use crate::config::history::CheckRunInfo;
+    use std::cell::{Cell, OnceCell};
+
+    use glib::Properties;
 
     use super::*;
-    use glib::Properties;
-    use std::cell::{Cell, OnceCell};
+    use crate::borg::log_json::LogEntry;
+    use crate::config::history::CheckRunInfo;
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::CheckDialog)]
@@ -118,7 +119,8 @@ mod imp {
                         .load()
                         .all_combined_message_history();
 
-                    // The actual error message is not very interesting, we need to dig through history
+                    // The actual error message is not very interesting, we need to dig through
+                    // history
                     if let Err(err) = result {
                         if message_history.is_empty() {
                             message_history = vec![LogEntry::UnparsableErr(err.to_string())];

@@ -12,11 +12,10 @@ mod transfer_prefix;
 mod transfer_settings;
 mod types;
 
-use adw::prelude::*;
-use adw::subclass::prelude::*;
-
 use add_existing::SetupAddExistingPage;
 use advanced_options::SetupAdvancedOptionsPage;
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 use ask_password::SetupAskPasswordPage;
 use create_new::SetupCreateNewPage;
 pub use encryption::SetupEncryptionPage;
@@ -24,22 +23,21 @@ use location::SetupLocationPage;
 use location_kind::SetupLocationKindPage;
 use transfer_prefix::SetupTransferPrefixPage;
 use transfer_settings::SetupTransferSettingsPage;
+use types::*;
 
 use crate::ui;
 use crate::ui::App;
 use crate::ui::prelude::*;
-use types::*;
 
 mod imp {
+    use std::cell::{Cell, RefCell};
+
     use adw::subclass::dialog::AdwDialogImplExt;
     use ui::widget::SpinnerPage;
 
-    use crate::config;
-
     use self::repo_kind::SetupRepoKindPage;
-
     use super::*;
-    use std::cell::{Cell, RefCell};
+    use crate::config;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "setup.ui")]
@@ -54,13 +52,15 @@ mod imp {
         #[property(get)]
         command_line_args: RefCell<SetupCommandLineArgs>,
 
-        /// This must be set by [Self::set_new_config], otherwise `can-close` will not be up to date
+        /// This must be set by [Self::set_new_config], otherwise `can-close`
+        /// will not be up to date
         new_config: RefCell<Option<config::Backup>>,
 
         /// Whether the config should be saved on close
         save: Cell<bool>,
 
-        /// Indicates that an operation is currently ongoing. Used to prevent multiple input.
+        /// Indicates that an operation is currently ongoing. Used to prevent
+        /// multiple input.
         busy: Cell<bool>,
 
         #[template_child]
@@ -181,7 +181,8 @@ mod imp {
                         window.view_backup_conf(&config.id);
 
                         window.announce(
-                            // Translators: Announced to accessibility devices when setup dialog has finished
+                            // Translators: Announced to accessibility devices when setup dialog
+                            // has finished
                             &gettext("Backup Repository Added Successfully"),
                             gtk::AccessibleAnnouncementPriority::Medium,
                         );
@@ -419,11 +420,12 @@ mod imp {
 
         /// Something went wrong when trying to access the repository.
         ///
-        /// Returns us back to the location / start page to allow the user to reconfigure the repository
+        /// Returns us back to the location / start page to allow the user to
+        /// reconfigure the repository
         async fn on_add_existing_page_error(&self, error: Option<&str>) {
-            // We have two options here: Either we have location page in the stack or we don't,
-            // depending on whether we are adding a remote repo from a custom URL or a local one /
-            // a remote repo from a preset.
+            // We have two options here: Either we have location page in the stack or we
+            // don't, depending on whether we are adding a remote repo from a
+            // custom URL or a local one / a remote repo from a preset.
             //
             // So we check whether it's in the stack and return to the appropriate page.
             if self
@@ -481,7 +483,8 @@ mod imp {
 
         // Transfer settings
 
-        /// Shows a page that allows to select includes / excludes from the last archives
+        /// Shows a page that allows to select includes / excludes from the last
+        /// archives
         async fn show_transfer_settings(&self, config: config::Backup) {
             let Some(archives) = self.handle_result(
                 actions::fetch_archive_list(&config)
@@ -545,7 +548,8 @@ mod imp {
             }
         }
 
-        /// Save the config and password, then close the dialog and show the new backup config
+        /// Save the config and password, then close the dialog and show the new
+        /// backup config
         fn finish(&self) {
             // The config is saved in the close handler
             self.save.set(true);
@@ -620,8 +624,8 @@ mod imp {
         ) -> Result<()> {
             if let Err(err) = ui::utils::password_storage::store_password(config, password).await {
                 // Error when storing the password.
-                // We don't fail the process here. Sometimes the keyring is just broken and people
-                // still want to access their backup archives.
+                // We don't fail the process here. Sometimes the keyring is just broken and
+                // people still want to access their backup archives.
                 err.show_transient_for(&*self.obj()).await;
             }
 

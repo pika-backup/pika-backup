@@ -1,9 +1,10 @@
 use std::collections::BTreeSet;
 
+use config::ArcSwapWriteable;
+
 use crate::config;
 use crate::config::Loadable;
 use crate::ui::prelude::*;
-use config::ArcSwapWriteable;
 
 fn load_config_e() -> std::io::Result<()> {
     if glib::user_config_dir()

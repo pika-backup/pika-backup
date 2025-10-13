@@ -1,3 +1,6 @@
+use arc_swap::ArcSwap;
+pub use glib::clone;
+
 pub use crate::borg::prelude::*;
 use crate::config::ArcSwapWriteable;
 pub use crate::ui::error::{
@@ -9,9 +12,6 @@ pub use crate::ui::status::QuitGuard;
 pub use crate::ui::utils::ext::*;
 pub use crate::ui::utils::{Logable, LookupActiveConfigId, SummarizeOperations};
 pub use crate::ui::widget::{DialogPage, DialogPagePropertiesExt, SpinnerPagePropertiesExt};
-
-use arc_swap::ArcSwap;
-pub use glib::clone;
 
 pub trait ArcSwapResultExt<T> {
     // Update the inner value with the provided closure
@@ -45,7 +45,8 @@ where
         + Clone
         + 'static,
 {
-    /// Update the inner value with the provided closure. Saves the writeable afterwards.
+    /// Update the inner value with the provided closure. Saves the writeable
+    /// afterwards.
     async fn try_update<F: Fn(&mut C) -> Result<()>>(&self, updater: F) -> Result<()> {
         let mut result = Ok(());
 

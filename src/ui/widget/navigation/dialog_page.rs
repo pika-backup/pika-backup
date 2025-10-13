@@ -1,7 +1,6 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::WeakRef;
-
 pub use imp::DialogPagePropertiesExt;
 
 mod imp {

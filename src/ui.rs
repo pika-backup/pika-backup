@@ -16,13 +16,11 @@ mod widget;
 
 pub use app::App;
 pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
-
 use gtk::prelude::*;
 use gvdb_macros::include_gresource_from_dir;
 
-use crate::borg;
-use crate::config;
 use crate::ui::prelude::*;
+use crate::{borg, config};
 
 static GRESOURCE_BYTES: &[u8] =
     if const_str::equal!("/org/gnome/World/PikaBackup", crate::DBUS_API_PATH) {

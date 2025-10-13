@@ -1,18 +1,18 @@
 mod row;
 
-use crate::ui;
-use crate::ui::prelude::*;
-
 use std::collections::BTreeMap;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use crate::ui;
+use crate::ui::prelude::*;
+
 mod imp {
     use std::cell::RefCell;
 
-    use self::{row::OverviewRow, ui::widget::setup::SetupDialog};
-
+    use self::row::OverviewRow;
+    use self::ui::widget::setup::SetupDialog;
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]

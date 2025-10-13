@@ -1,9 +1,8 @@
 use gio::prelude::*;
 
-use crate::config;
-use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::widget::DeviceMissingDialog;
+use crate::{config, ui};
 
 // Try to find volume that contains the repository
 fn find_volume(repo: &config::local::Repository) -> Option<gio::Volume> {
@@ -34,7 +33,8 @@ pub async fn ensure_device_plugged_in(
 
 /// Check the current repository availability
 ///
-/// If the repository is not available we try to mount it, showing the dialog if required.
+/// If the repository is not available we try to mount it, showing the dialog if
+/// required.
 pub async fn ensure_repo_available(
     parent: &impl IsA<gtk::Widget>,
     config: &config::Backup,

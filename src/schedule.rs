@@ -1,8 +1,8 @@
 pub mod requirements;
 
-pub use requirements::DueCause;
-
 use std::time::Duration;
+
+pub use requirements::DueCause;
 
 /// Time in seconds after which the device is considered "in use" for
 /// long enough to start a scheduled backup

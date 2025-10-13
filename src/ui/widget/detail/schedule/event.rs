@@ -2,13 +2,9 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use chrono::prelude::*;
 
-use super::frequency;
-use super::imp;
-use super::prune_preset;
-use super::weekday;
-use crate::config;
-use crate::ui;
+use super::{frequency, imp, prune_preset, weekday};
 use crate::ui::prelude::*;
+use crate::{config, ui};
 
 impl imp::SchedulePage {
     pub async fn show_page(&self) -> Result<()> {

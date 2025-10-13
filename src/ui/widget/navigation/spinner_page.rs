@@ -1,6 +1,5 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-
 pub use imp::SpinnerPagePropertiesExt;
 
 mod imp {

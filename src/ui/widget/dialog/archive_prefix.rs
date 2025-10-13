@@ -1,14 +1,13 @@
 use adw::prelude::*;
+use adw::subclass::prelude::*;
 use ui::prelude::*;
 
-use crate::config;
-use crate::ui;
-
-use adw::subclass::prelude::*;
+use crate::{config, ui};
 
 mod imp {
-    use super::*;
     use std::cell::OnceCell;
+
+    use super::*;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::ArchivePrefixDialog)]

@@ -1,7 +1,8 @@
 //! Extract information from previous borg run command lines
-use crate::config;
 use std::collections::BTreeSet;
 use std::path::PathBuf;
+
+use crate::config;
 
 #[derive(Clone, Debug)]
 enum CreateTerm {

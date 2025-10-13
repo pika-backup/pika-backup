@@ -1,6 +1,7 @@
+use std::cell::RefCell;
+
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use std::cell::RefCell;
 
 pub static LIST: [chrono::Weekday; 7] = [
     chrono::Weekday::Mon,

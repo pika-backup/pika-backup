@@ -1,8 +1,8 @@
+use std::collections::BTreeSet;
+
 use super::*;
 use crate::config;
 use crate::prelude::*;
-
-use std::collections::BTreeSet;
 
 /// Empirical value for the space that borg needs
 pub static DIRECTORY_SIZE: u64 = 109;
@@ -34,8 +34,8 @@ impl Exclude {
 
 /// Estimate backup size
 ///
-/// Returns the total size of the backup and the size of all created/modified files.
-/// Using `u64` is sufficient for several exabytes.
+/// Returns the total size of the backup and the size of all created/modified
+/// files. Using `u64` is sufficient for several exabytes.
 pub fn calculate(
     config: &config::Backup,
     history: &config::history::Histories,

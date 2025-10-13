@@ -1,7 +1,7 @@
+use zbus::Result;
+
 use crate::daemon::prelude::*;
 use crate::schedule;
-
-use zbus::Result;
 
 /// Session Bus
 pub async fn session_connection() -> Result<zbus::Connection> {

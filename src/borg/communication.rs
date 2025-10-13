@@ -1,14 +1,12 @@
-use crate::borg::prelude::*;
-
-use super::Result;
-use super::error;
-use arc_swap::ArcSwap;
-use smol::channel::{self as channel, unbounded};
 use std::sync::Arc;
 
-use super::log_json;
+use arc_swap::ArcSwap;
+use smol::channel::{self as channel, unbounded};
+
 use super::status::Run as Status;
 use super::task::Task;
+use super::{Result, error, log_json};
+use crate::borg::prelude::*;
 
 #[derive(Debug, Clone)]
 pub enum Update {

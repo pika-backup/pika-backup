@@ -1,12 +1,10 @@
-use crate::ui::App;
-use crate::ui::backup_status;
-use crate::ui::prelude::*;
-
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use super::imp;
+use crate::ui::prelude::*;
 use crate::ui::utils::repo_cache::RepoCache;
+use crate::ui::{App, backup_status};
 use crate::{borg, config, ui};
 
 impl imp::ArchivesPage {

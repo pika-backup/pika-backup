@@ -1,7 +1,8 @@
-use crate::daemon::prelude::*;
+use std::fmt::Display;
+
 use gio::prelude::*;
 
-use std::fmt::Display;
+use crate::daemon::prelude::*;
 
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 

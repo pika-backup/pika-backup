@@ -1,12 +1,11 @@
-use crate::borg;
-use crate::borg::log_json::LogCollection;
-use crate::config;
+use std::collections::{BTreeMap, BTreeSet, VecDeque};
+
+use chrono::prelude::*;
 
 use super::Loadable;
-
+use crate::borg::log_json::LogCollection;
 use crate::prelude::*;
-use chrono::prelude::*;
-use std::collections::{BTreeMap, BTreeSet, VecDeque};
+use crate::{borg, config};
 
 const HISTORY_LENGTH: usize = 10;
 
@@ -30,7 +29,8 @@ pub struct History {
     #[serde(default)]
     last_check: Option<CheckRunInfo>,
 
-    // The excludes suggested from the last size estimate. Will be overwritten every time a size estimate is performed.
+    // The excludes suggested from the last size estimate. Will be overwritten every time a size
+    // estimate is performed.
     #[serde(default)]
     suggested_exclude:
         BTreeMap<SuggestedExcludeReason, BTreeSet<config::Exclude<{ config::RELATIVE }>>>,
@@ -141,11 +141,12 @@ impl LookupConfigId for crate::config::Histories {
 }
 
 impl Histories {
-    /// Loads a history file. The individual history entries are truncated via [`History::cleanup`]
-    /// and then returned.
+    /// Loads a history file. The individual history entries are truncated via
+    /// [`History::cleanup`] and then returned.
     ///
-    /// All histories that are not associated with a backup config from `valid_config_ids` will be
-    /// discarded to ensure we don't store backup data from long-gone backup configs.
+    /// All histories that are not associated with a backup config from
+    /// `valid_config_ids` will be discarded to ensure we don't store backup
+    /// data from long-gone backup configs.
     pub fn from_file_ui(
         valid_config_ids: &BTreeSet<ConfigId>,
     ) -> std::io::Result<super::Writeable<Self>> {

@@ -2,8 +2,9 @@
 Borg output to STDERR with `--log-json` flag.
 */
 
-use crate::prelude::*;
 use std::fmt;
+
+use crate::prelude::*;
 
 /// All possible output
 #[derive(Clone, Debug)]

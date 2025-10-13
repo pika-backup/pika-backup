@@ -1,16 +1,15 @@
-use crate::borg;
-use crate::config;
-use crate::ui;
-use crate::ui::prelude::*;
-
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
-mod imp {
-    use self::ui::{App, error::HandleError};
+use crate::ui::prelude::*;
+use crate::{borg, config, ui};
 
-    use super::*;
+mod imp {
     use std::cell::OnceCell;
+
+    use self::ui::App;
+    use self::ui::error::HandleError;
+    use super::*;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "delete_archive.ui")]

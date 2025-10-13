@@ -1,7 +1,7 @@
-use super::{ConfigType, Loadable};
-
-use crate::config;
 use arc_swap::ArcSwap;
+
+use super::{ConfigType, Loadable};
+use crate::config;
 
 #[derive(Default)]
 pub struct Writeable<C> {
@@ -112,8 +112,10 @@ where
 {
     /// Write the file asynchronously
     ///
-    /// After this function has completed there are one of two possible outcomes:
-    /// - The file was written successfully, and written_config contains the data that is currently on disk
+    /// After this function has completed there are one of two possible
+    /// outcomes:
+    /// - The file was written successfully, and written_config contains the
+    ///   data that is currently on disk
     /// - An error occurred and the config is unchanged
     async fn write_file(&self) -> Result<(), std::io::Error> {
         let mut cur = self.load();

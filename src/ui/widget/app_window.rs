@@ -1,15 +1,13 @@
-use crate::ui::prelude::*;
-use crate::ui::{self, App};
-
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use super::detail::DetailPageKind;
 use super::{DetailPage, OverviewPage};
+use crate::ui::prelude::*;
+use crate::ui::{self, App};
 
 mod imp {
     use self::ui::widget::{DetailPage, OverviewPage};
-
     use super::*;
 
     #[derive(Default, gtk::CompositeTemplate)]

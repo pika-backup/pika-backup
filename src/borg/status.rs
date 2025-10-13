@@ -1,6 +1,8 @@
-use super::log_json::*;
-use itertools::Itertools;
 use std::collections::VecDeque;
+
+use itertools::Itertools;
+
+use super::log_json::*;
 
 #[derive(Default, Debug, Clone)]
 pub struct GeneralStatus {
@@ -148,13 +150,14 @@ pub struct DataRateHistory {
 
 /// This struct provides betas from linear regression based on the model
 ///
-/// > `interval(skipped, copied) = beta_skipped * skipped + beta_copied * copied`.
+/// > `interval(skipped, copied) = beta_skipped * skipped + beta_copied *
+/// > copied`.
 ///
 /// This model is used to estimate the backup duration. The processing rates
 /// are given by `1/beta` in bytes per second.
 impl DataRateHistory {
-    /// Samples often only span over 0.2 seconds. This choice should ensure for the
-    /// analysis to span over at least 3 minute.
+    /// Samples often only span over 0.2 seconds. This choice should ensure for
+    /// the analysis to span over at least 3 minute.
     const STORE_SAMPLES: usize = 3 * 60 * 5;
     const GROUP_SAMPLES: usize = 10;
 
@@ -208,8 +211,14 @@ impl DataRateHistory {
     ///     copied: 0.0,
     /// });
     ///
-    /// assert_eq!(borg::DataRateHistory::linear_regression(&history.skipped).0, 4.0);
-    /// assert_eq!(borg::DataRateHistory::linear_regression(&history.copied).1, 0.5);
+    /// assert_eq!(
+    ///     borg::DataRateHistory::linear_regression(&history.skipped).0,
+    ///     4.0
+    /// );
+    /// assert_eq!(
+    ///     borg::DataRateHistory::linear_regression(&history.copied).1,
+    ///     0.5
+    /// );
     /// ```
     pub fn linear_regression(history: &VecDeque<DataRate>) -> (f64, f64) {
         // Renaming the original model to

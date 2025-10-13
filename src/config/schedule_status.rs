@@ -1,5 +1,6 @@
-use crate::config;
 use std::collections::BTreeMap;
+
+use crate::config;
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 pub struct ScheduleStatus {
@@ -44,12 +45,13 @@ impl crate::utils::LookupConfigId for ScheduleStatus {
 
 /// System activity monitoring
 ///
-/// We increment this at regular intervals while the system is running up to USED_THRESHOLD.
+/// We increment this at regular intervals while the system is running up to
+/// USED_THRESHOLD.
 ///
-/// This is used to determine whether we should start a backup. We only start backups when
-/// the system has been "in use" for 10 minutes *or* the accumulated in-use-time is higher
-/// than 10 minutes. (to prevent backups from never running if the system is never in use for
-/// longer than 10 minutes)
+/// This is used to determine whether we should start a backup. We only start
+/// backups when the system has been "in use" for 10 minutes *or* the
+/// accumulated in-use-time is higher than 10 minutes. (to prevent backups from
+/// never running if the system is never in use for longer than 10 minutes)
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Activity {
     /// The total time

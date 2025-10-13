@@ -1,9 +1,10 @@
+use std::fmt::Write;
+
 use crate::config;
 use crate::schedule::requirements;
 use crate::ui::prelude::*;
 use crate::ui::utils::StatusLevel;
 use crate::ui::widget::StatusRow;
-use std::fmt::Write;
 
 pub struct Status {
     pub main: StatusRow,

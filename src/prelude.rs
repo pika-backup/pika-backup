@@ -1,16 +1,15 @@
-pub use crate::config::ConfigId;
-pub use crate::globals::*;
-pub use crate::utils::LookupConfigId;
 pub use std::convert::TryFrom;
 pub use std::rc::Rc;
 pub use std::sync::Arc;
 pub use std::time::Duration;
 
-use crate::config;
-
 use arc_swap::ArcSwap;
-
 pub use gettextrs::{gettext, ngettext};
+
+use crate::config;
+pub use crate::config::ConfigId;
+pub use crate::globals::*;
+pub use crate::utils::LookupConfigId;
 
 pub fn gettextf(format: &str, args: &[&str]) -> String {
     let mut s = gettext(format);
@@ -74,7 +73,8 @@ impl<T> ArcSwapUpdateWriteable<T> for ArcSwap<config::Writeable<T>>
 where
     T: Clone,
 {
-    /// Update the inner value with the provided closure. Doesn't save the writeable.
+    /// Update the inner value with the provided closure. Doesn't save the
+    /// writeable.
     fn update_no_commit<F: Fn(&mut T)>(&self, updater: F) {
         self.rcu(|current| {
             let mut new = T::clone(&current.current_config);

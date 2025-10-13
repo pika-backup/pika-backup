@@ -6,8 +6,8 @@ pub use crate::prelude::*;
 pub(crate) trait CommandCommunicationExt {
     /// Abortable [Command::output](async_process::Command::output)
     ///
-    /// This will listen on the communication channel for abort messages and abort the task
-    /// early when an abort is desired.
+    /// This will listen on the communication channel for abort messages and
+    /// abort the task early when an abort is desired.
     async fn output_with_communication<T: super::Task>(
         &mut self,
         communication: super::Communication<T>,

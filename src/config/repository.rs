@@ -1,8 +1,7 @@
-use crate::prelude::*;
 use gio::prelude::*;
 
-use super::BackupSettings;
-use super::{local, remote};
+use super::{BackupSettings, local, remote};
+use crate::prelude::*;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, glib::Boxed)]
 #[boxed_type(name = "PkRepositoryConfig", nullable)]

@@ -1,13 +1,12 @@
 use std::ffi::OsStr;
 use std::path::PathBuf;
 
-use crate::borg;
-use crate::ui;
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 use super::imp;
+use crate::ui::prelude::*;
+use crate::{borg, ui};
 
 #[gtk::template_callbacks]
 impl imp::BackupPage {
@@ -61,8 +60,8 @@ impl imp::BackupPage {
     }
 
     pub async fn on_backup_disk_eject(&self) -> Result<()> {
-        // Hide the button immediately to prevent accidental multiple triggers of the action
-        // It will be shown again on error
+        // Hide the button immediately to prevent accidental multiple triggers of the
+        // action It will be shown again on error
         self.backup_disk_eject_button.set_visible(false);
 
         let res =

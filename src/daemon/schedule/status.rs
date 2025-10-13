@@ -1,8 +1,6 @@
-use crate::daemon::prelude::*;
-
 use crate::config;
-use crate::config::ArcSwapWriteable;
-use crate::config::Loadable;
+use crate::config::{ArcSwapWriteable, Loadable};
+use crate::daemon::prelude::*;
 
 async fn try_write() -> crate::daemon::error::Result<()> {
     SCHEDULE_STATUS.write_file().await?;

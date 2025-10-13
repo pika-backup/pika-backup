@@ -1,7 +1,7 @@
-use crate::ui::prelude::*;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use crate::ui::prelude::*;
 use crate::ui::widget::EncryptionSettings;
 
 mod imp {
@@ -9,9 +9,9 @@ mod imp {
 
     use glib::subclass::Signal;
 
-    use crate::ui::{error::HandleError, widget::PkDialogPageImpl};
-
     use super::*;
+    use crate::ui::error::HandleError;
+    use crate::ui::widget::PkDialogPageImpl;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "encryption.ui")]

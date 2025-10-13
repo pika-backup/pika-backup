@@ -1,7 +1,5 @@
-use crate::borg;
-use crate::config;
-use crate::ui;
 use crate::ui::prelude::*;
+use crate::{borg, config, ui};
 
 pub async fn check(
     config: &config::Backup,

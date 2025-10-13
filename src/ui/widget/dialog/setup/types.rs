@@ -1,7 +1,9 @@
 use std::str::FromStr;
 
-use crate::{borg, config, ui::prelude::*};
 use gio::prelude::*;
+
+use crate::ui::prelude::*;
+use crate::{borg, config};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum, Default)]
 #[enum_type(name = "PkSetupKind")]
@@ -27,7 +29,8 @@ pub enum SetupRepoLocation {
 }
 
 impl SetupRepoLocation {
-    /// Takes a [`gio::File`]. Any checks will be performed when creating the repo config
+    /// Takes a [`gio::File`]. Any checks will be performed when creating the
+    /// repo config
     pub fn from_file(file: gio::File) -> Self {
         Self::Local(file)
     }

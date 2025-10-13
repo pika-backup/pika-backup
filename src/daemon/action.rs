@@ -1,7 +1,7 @@
-use super::prelude::*;
 use gio::prelude::*;
 
 use super::dbus;
+use super::prelude::*;
 
 pub trait Action {
     const NAME: &'static str;

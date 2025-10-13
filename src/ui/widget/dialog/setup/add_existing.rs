@@ -1,7 +1,8 @@
-use crate::{config, ui::widget::SpinnerPage};
 use adw::subclass::prelude::*;
 
 use super::actions;
+use crate::config;
+use crate::ui::widget::SpinnerPage;
 
 mod imp {
     use super::*;

@@ -8,17 +8,17 @@ pub mod notification;
 pub mod password_storage;
 pub mod repo_cache;
 
-use crate::ui::App;
-use crate::ui::prelude::*;
-use adw::prelude::*;
-
-use crate::config;
-
-use ashpd::desktop::background;
 use std::convert::TryInto;
 use std::fmt::Display;
 use std::io::Read;
 use std::os::unix::process::CommandExt;
+
+use adw::prelude::*;
+use ashpd::desktop::background;
+
+use crate::config;
+use crate::ui::App;
+use crate::ui::prelude::*;
 
 #[derive(Clone, Copy, Debug, glib::ValueDelegate, PartialEq, Eq)]
 #[value_delegate(from = u8)]

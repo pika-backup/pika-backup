@@ -34,7 +34,7 @@ pub fn user_config_dir() -> PathBuf {
 }
 
 pub fn user_runtime_dir() -> PathBuf {
-    // TODO: HOST_XDG_RUNTIME_DIR doesn't exist, we just assume it's the same on host and inside flatpak
-    // See: https://github.com/flatpak/flatpak/issues/4885
+    // TODO: HOST_XDG_RUNTIME_DIR doesn't exist, we just assume it's the same on
+    // host and inside flatpak See: https://github.com/flatpak/flatpak/issues/4885
     glib::user_runtime_dir()
 }

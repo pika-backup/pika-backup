@@ -1,13 +1,11 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
-use crate::config;
-use crate::ui;
+use super::imp;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
 use crate::ui::widget::ExcludeDialog;
-
-use super::imp;
+use crate::{config, ui};
 
 impl imp::BackupPage {
     pub fn add_list_row(&self, list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {

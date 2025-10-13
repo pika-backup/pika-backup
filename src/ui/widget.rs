@@ -15,18 +15,16 @@ pub use detail::{
     ArchivesPage, BackupPage, DetailPage, SchedulePage, ScheduleStatus, frequency, prune_preset,
     weekday,
 };
+pub use dialog::*;
 pub use encryption_settings::EncryptionSettings;
 use folder_row::FolderRow;
+use glib::prelude::*;
 pub use location_tag::LocationTag;
+pub use navigation::*;
 pub use overview::OverviewPage;
 pub use status_icon::StatusIcon;
 pub use status_row::StatusRow;
 pub use wrap_box::WrapBox;
-
-pub use dialog::*;
-pub use navigation::*;
-
-use glib::prelude::*;
 
 pub fn init() {
     frequency::FrequencyObject::static_type();

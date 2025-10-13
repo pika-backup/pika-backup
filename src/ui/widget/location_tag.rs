@@ -1,7 +1,8 @@
+use std::path::PathBuf;
+
 use adw::prelude::*;
 
 use crate::config;
-use std::path::PathBuf;
 
 pub enum LocationTag {
     Location(PathBuf),

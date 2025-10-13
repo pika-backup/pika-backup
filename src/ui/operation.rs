@@ -1,18 +1,16 @@
 //! Track [crate::borg] operation from UI's side
 
-use adw::prelude::*;
-use ui::prelude::*;
-
-use crate::borg;
-use crate::borg::log_json;
-use crate::config;
-use crate::ui;
 use std::any::Any;
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 use std::time::Duration;
 
+use adw::prelude::*;
+use ui::prelude::*;
+
 use super::App;
+use crate::borg::log_json;
+use crate::{borg, config, ui};
 
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
 const TIME_ON_BATTERY_ABORT: Duration = Duration::from_secs(20 * 60);
