@@ -1,6 +1,5 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gtk::prelude::*;
 
 use crate::{config, ui};
 
