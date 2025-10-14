@@ -570,11 +570,18 @@ impl<'a, T: Task> BorgProcess<'a, T> {
             match &**self.communication.instruction.load() {
                 Instruction::Abort(reason) => {
                     self.communication.set_status(Run::Stopping);
+
                     debug!("Sending SIGINT to borg process");
                     nix::sys::signal::kill(
                         nix::unistd::Pid::from_raw(pid.try_into().unwrap()),
                         nix::sys::signal::Signal::SIGINT,
                     )?;
+
+                    // This is needed if there is a pending question where SIGINT won't work
+                    // <https://github.com/borgbackup/borg/issues/8521>
+                    debug!("Sending default answer borg process");
+                    stdin.write_all(format!("\n").as_bytes()).await?;
+
                     // Do not return immediately to get further progress information
                     // and be able to send signal again.
                     return_message = Err(Error::Aborted(reason.clone()));
