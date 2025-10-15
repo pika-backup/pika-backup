@@ -58,7 +58,10 @@ impl imp::ArchivesPage {
             }
 
             if let Ok(config) = BACKUP_CONFIG.load().active() {
-                let is_mounted = ACTIVE_MOUNTS.load().contains(&config.repo_id);
+                let is_mounted = BACKUP_HISTORY
+                    .load()
+                    .browsing_repo_ids(&BACKUP_CONFIG.load())
+                    .contains(&config.repo_id);
                 self.eject_button.set_visible(is_mounted);
             }
         }
@@ -125,7 +128,7 @@ impl imp::ArchivesPage {
     }
 
     pub async fn update_eject_button(&self) -> Result<()> {
-        ui::utils::borg::cleanup_mounts().await?;
+        ui::utils::borg::cleanup_repo_mounts().await?;
         self.refresh_status();
         Ok(())
     }

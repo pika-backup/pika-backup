@@ -7,7 +7,7 @@ use super::widget::setup::SetupDialog;
 use super::widget::{AppWindow, PreferencesDialog};
 use crate::ui::prelude::*;
 use crate::ui::utils;
-use crate::{borg, config, ui};
+use crate::{config, ui};
 
 mod imp {
     use std::cell::Cell;
@@ -92,18 +92,6 @@ mod imp {
 
             if let Err(err) = result {
                 error!("Failed to write config during shutdown: {}", err);
-            }
-
-            while !ACTIVE_MOUNTS.load().is_empty() {
-                smol::block_on(async {
-                    for repo_id in ACTIVE_MOUNTS.load().iter() {
-                        if borg::functions::umount(repo_id).await.is_ok() {
-                            ACTIVE_MOUNTS.update(|mounts| {
-                                mounts.remove(repo_id);
-                            });
-                        }
-                    }
-                })
             }
 
             debug!("App::shutdown finished");

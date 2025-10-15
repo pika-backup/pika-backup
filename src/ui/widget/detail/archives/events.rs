@@ -3,6 +3,7 @@ use adw::subclass::prelude::*;
 
 use super::imp;
 use crate::ui::prelude::*;
+use crate::ui::utils;
 use crate::ui::widget::{ArchivePrefixDialog, CheckDialog, PruneDialog};
 use crate::{borg, ui};
 
@@ -39,7 +40,7 @@ impl imp::ArchivesPage {
 
     pub async fn eject(&self) -> Result<()> {
         let repo_id = BACKUP_CONFIG.load().active()?.repo_id.clone();
-        ui::utils::borg::unmount(&repo_id).await?;
+        ui::utils::borg::repo_unmount(&repo_id).await?;
 
         Ok(())
     }
@@ -58,17 +59,18 @@ impl imp::ArchivesPage {
         debug!("Trying to browse an archive");
 
         // Register mounts from a previous run that quit improperly
-        crate::ui::utils::borg::cleanup_mounts().await?;
+        crate::ui::utils::borg::cleanup_repo_mounts().await?;
 
-        let backup_mounted = ACTIVE_MOUNTS.load().contains(repo_id);
+        let backup_mounted = BACKUP_HISTORY
+            .load()
+            .browsing_repo_ids(&BACKUP_CONFIG.load())
+            .contains(repo_id);
 
         let mut path = borg::functions::mount_point(repo_id);
         path.push(archive_name.as_str());
 
         if !backup_mounted {
-            ACTIVE_MOUNTS.update(|mounts| {
-                mounts.insert(repo_id.clone());
-            });
+            utils::borg::set_repo_browsing(repo_id).await;
 
             main_ui().page_detail().show_pending_menu(true);
 
@@ -79,9 +81,14 @@ impl imp::ArchivesPage {
             .await;
 
             if mount.is_err() {
-                ACTIVE_MOUNTS.update(|mounts| {
-                    mounts.remove(repo_id);
-                });
+                utils::borg::unset_repo_browsing(repo_id).await;
+
+                BACKUP_HISTORY
+                    .try_update(|histories| {
+                        histories.remove_browsing(config.id.clone());
+                        Ok(())
+                    })
+                    .await?;
                 main_ui().page_detail().show_pending_menu(false);
             }
 

@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, HashSet};
+use std::collections::BTreeMap;
 use std::rc::Rc;
 use std::sync::{LazyLock, OnceLock};
 
@@ -17,9 +17,6 @@ pub static SCHEDULE_STATUS: LazyLock<ArcSwap<config::ScheduleStatus>> =
     LazyLock::new(Default::default);
 
 pub static ACTIVE_BACKUP_ID: LazyLock<ArcSwap<Option<ConfigId>>> = LazyLock::new(Default::default);
-
-pub static ACTIVE_MOUNTS: LazyLock<ArcSwap<HashSet<borg::RepoId>>> =
-    LazyLock::new(Default::default);
 
 pub static BORG_VERSION: OnceLock<String> = OnceLock::new();
 
