@@ -54,7 +54,7 @@ pub async fn check(
         {
             let message = gettextf(
                 "Backup location “{}” might be filling up. Estimated space missing to store all data: {}.",
-                &[
+                [
                     config.repo.location().as_str(),
                     &glib::format_size(estimate.changed - space_avail),
                 ],

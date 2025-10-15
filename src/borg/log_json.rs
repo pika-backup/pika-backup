@@ -81,7 +81,7 @@ impl fmt::Display for ProgressArchive {
             "{}",
             gettextf(
                 "Backed up data: {}",
-                &[&glib::format_size(self.original_size)]
+                [&glib::format_size(self.original_size)]
             )
         )
     }
@@ -111,7 +111,7 @@ impl fmt::Display for ProgressPercent {
                 gettextf(
                     // xgettext:no-c-format
                     "Operation {} % completed ({}/{})",
-                    &[
+                    [
                         &format!("{percent:.0}"),
                         &current.to_string(),
                         &total.to_string()
@@ -252,7 +252,7 @@ impl QuestionPrompt {
                 if let (Some(current), Some(previous)) = locations {
                     gettextf(
                         "The backup repository at location “{}” was previously located at “{}”.",
-                        &[current.as_str(), previous.as_str()],
+                        [current.as_str(), previous.as_str()],
                     )
                 } else {
                     gettext("The backup repository was previously located at a different location.")
@@ -264,14 +264,13 @@ impl QuestionPrompt {
             QuestionId::DeleteIKnowWhatIAmDoing => gettext(
                 "You requested to delete the repository completely, including all backup archives it contains.",
             ),
-            QuestionId::Unknown => gettextf(
-                "Unexpected question from borgbackup: “{}”",
-                &[&self.message],
-            ),
+            QuestionId::Unknown => {
+                gettextf("Unexpected question from borgbackup: “{}”", [&self.message])
+            }
         };
 
         // Translators: Combines statement from above and this question
-        gettextf("{}\n\nDo you want to continue?", &[&msg])
+        gettextf("{}\n\nDo you want to continue?", [&msg])
     }
 }
 

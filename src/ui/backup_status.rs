@@ -141,7 +141,7 @@ impl From<&history::CheckRunInfo> for Display {
                 if Local::now() - run_info.end > chrono::Duration::days(120) {
                     Self {
                         // Translators: Argument is 'x months ago'
-                        title: gettextf("Successful Integrity Check {}", &[&when]),
+                        title: gettextf("Successful Integrity Check {}", [&when]),
                         subtitle: Some(gettext("Result might be out of date")),
                         graphic: Graphic::WarningIcon("check-round-outline-symbolic".to_string()),
                         progress: None,
@@ -221,7 +221,7 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
                         let mut sub = gettextf(
                             // xgettext:no-c-format
                             "{} % finished",
-                            &[&format!("{:.1}", fraction * 100.0)],
+                            [&format!("{:.1}", fraction * 100.0)],
                         );
 
                         // Do not show estimate when stalled for example
@@ -248,7 +248,7 @@ impl From<&ui::operation::Operation<borg::task::Create>> for Display {
             Run::Reconnecting(wait_time) => {
                 subtitle = Some(gettextf(
                     "Connection lost, reconnecting in {}",
-                    &[&utils::duration::plain_lowercase(
+                    [&utils::duration::plain_lowercase(
                         &utils::duration::from_std(wait_time),
                     )],
                 ));

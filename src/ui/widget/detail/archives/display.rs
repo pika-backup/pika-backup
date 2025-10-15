@@ -253,9 +253,9 @@ impl imp::ArchivesPage {
 
         if let Some(df) = ui::utils::df::cached_or_lookup(config).await {
             self.location_suffix_title
-                .set_label(&gettextf("{} Available", &[&glib::format_size(df.avail)]));
+                .set_label(&gettextf("{} Available", [&glib::format_size(df.avail)]));
             self.location_suffix_subtitle
-                .set_label(&gettextf("{} Total", &[&glib::format_size(df.size)]));
+                .set_label(&gettextf("{} Total", [&glib::format_size(df.size)]));
 
             self.fs_usage
                 .set_value(1.0 - df.avail as f64 / df.size as f64);

@@ -98,7 +98,7 @@ impl imp::BackupPage {
 
                 ui::utils::show_error_transient_for(
                 gettext("Unable to Include Location"),
-                gettextf("The following paths could not be included because they aren't reliably available in the sandbox:\n{}", &[&path_list]),
+                gettextf("The following paths could not be included because they aren't reliably available in the sandbox:\n{}", [&path_list]),
                 None,
                 &main_ui().window(),
             )
@@ -218,7 +218,7 @@ impl imp::BackupPage {
 
         ui::utils::confirmation_dialog(
             &*self.obj(),
-            &gettextf("No longer include “{}” in backups?", &[&path_string]),
+            &gettextf("No longer include “{}” in backups?", [&path_string]),
             &gettext(
                 "All files contained in this folder will no longer be part of future backups.",
             ),

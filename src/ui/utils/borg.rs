@@ -389,7 +389,7 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
 
                     // When the drive was ejected we can show a toast
                     let toast = adw::Toast::builder()
-                        .title(gettextf("{} can be safely unplugged.", &[&drive.name()]))
+                        .title(gettextf("{} can be safely unplugged.", [&drive.name()]))
                         .timeout(5)
                         .build();
 
@@ -402,7 +402,7 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
                     );
                     Err(Message::new(
                         gettext("Unable to Eject Backup Disk"),
-                        gettextf("{} can't be ejected.", &[&volume.name()]),
+                        gettextf("{} can't be ejected.", [&volume.name()]),
                     ))?;
                 }
             }

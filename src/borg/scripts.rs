@@ -273,11 +273,11 @@ pub async fn run_script(
                 match kind {
                     UserScriptKind::PreBackup => Error::from(gettextf(
                         "The pre-backup command configured in preferences failed to run.\n{}",
-                        &[&format!("{:?}", e)],
+                        [&format!("{:?}", e)],
                     )),
                     UserScriptKind::PostBackup => Error::from(gettextf(
                         "The post-backup command configured in preferences failed to run.\n{}",
-                        &[&format!("{:?}", e)],
+                        [&format!("{:?}", e)],
                     )),
                 }
             }
@@ -303,11 +303,11 @@ pub async fn run_script(
         let mut msg = match kind {
             UserScriptKind::PreBackup => gettextf(
                 "The pre-backup command configured in preferences returned a failure code: {}",
-                &[&return_code.to_string()],
+                [&return_code.to_string()],
             ),
             UserScriptKind::PostBackup => gettextf(
                 "The post-backup command configured in preferences returned a failure code: {}",
-                &[&return_code.to_string()],
+                [&return_code.to_string()],
             ),
         };
 
