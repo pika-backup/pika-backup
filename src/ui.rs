@@ -108,7 +108,7 @@ async fn init_check_borg() -> Result<()> {
                             gettext("BorgBackup Version Too Old"),
                             gettextf(
                                 "The installed version {} of BorgBackup is older than the required version {}. This is unsupported.",
-                                &[
+                                [
                                     &version_format(&version),
                                     &version_format(&borg::MIN_VERSION),
                                 ],
@@ -119,7 +119,7 @@ async fn init_check_borg() -> Result<()> {
                             gettext("BorgBackup Version Too New"),
                             gettextf(
                                 "The installed version {} of BorgBackup is new and untested. Version {} is recommended.",
-                                &[
+                                [
                                     &version_format(&version),
                                     &version_format(&borg::MAX_VERSION),
                                 ],
@@ -130,7 +130,7 @@ async fn init_check_borg() -> Result<()> {
                     gettext("Failed to Check BorgBackup Version"),
                     gettextf(
                         "The installed version {} might not work.",
-                        &[&version_output],
+                        [&version_output],
                     ),
                 )
                 .into());

@@ -287,7 +287,7 @@ mod imp {
                     let _ = write!(label1, " – {}", &glib::format_size(df.size));
 
                     label2.push_str(" – ");
-                    label2.push_str(&gettextf("Free space: {}", &[&glib::format_size(df.avail)]));
+                    label2.push_str(&gettextf("Free space: {}", [&glib::format_size(df.avail)]));
                 }
 
                 if let Some(repo_path) = repo {

@@ -59,7 +59,7 @@ async fn set_password(
     keyring
         .create_item(
             // Translators: This is the description for entries in the password database.
-            &gettextf("Pika Backup “{}”", &[&config.repo.location()]),
+            &gettextf("Pika Backup “{}”", [&config.repo.location()]),
             &HashMap::from([("repo-id", config.repo_id.as_str())]),
             password.as_bytes(),
             true,

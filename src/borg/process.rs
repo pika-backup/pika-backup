@@ -429,7 +429,7 @@ impl BorgCall {
 
 /// Represents an actual process
 struct BorgProcess<'a, T: Task> {
-    call: &'a BorgCall,
+    _call: &'a BorgCall,
     communication: super::Communication<T>,
     sender: Sender<T>,
     command: async_process::Command,
@@ -447,7 +447,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         let (command, password_stream) = call.command()?;
 
         Ok(Self {
-            call,
+            _call: call,
             communication,
             sender,
             command,
@@ -580,7 +580,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                     // This is needed if there is a pending question where SIGINT won't work
                     // <https://github.com/borgbackup/borg/issues/8521>
                     debug!("Sending default answer borg process");
-                    stdin.write_all(format!("\n").as_bytes()).await?;
+                    stdin.write_all("\n".to_string().as_bytes()).await?;
 
                     // Do not return immediately to get further progress information
                     // and be able to send signal again.

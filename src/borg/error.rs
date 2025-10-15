@@ -176,13 +176,13 @@ impl std::fmt::Display for Abort {
                 gettext("The program or system seems to have crashed.")
             ),
             Self::UserShellCommand(msg) => {
-                write!(f, "{}", gettextf("{}", &[msg]))
+                write!(f, "{}", gettextf("{}", [msg]))
             }
             Self::RepositoryNotAvailable(msg) => {
                 write!(
                     f,
                     "{}",
-                    gettextf("Unable to access backup repository: {}", &[msg])
+                    gettextf("Unable to access backup repository: {}", [msg])
                 )
             }
             Abort::QuestionDuringSchedule(_) => todo!(),
@@ -348,7 +348,7 @@ impl std::fmt::Display for Failure {
 
             // Manually added data
             Self::ConnectionClosedWithHint_(hint) => {
-                gettextf("Connection closed by remote host: “{}”", &[hint])
+                gettextf("Connection closed by remote host: “{}”", [hint])
             }
 
             // General

@@ -153,7 +153,7 @@ impl From<config::error::BackupExists> for Error {
     fn from(value: config::error::BackupExists) -> Self {
         Self::Message(Message::short(gettextf(
             "Backup with id “{}” already exists.",
-            &[value.id.as_str()],
+            [value.id.as_str()],
         )))
     }
 }
@@ -162,7 +162,7 @@ impl From<config::error::BackupNotFound> for Error {
     fn from(value: config::error::BackupNotFound) -> Self {
         Self::Message(Message::short(gettextf(
             "Could not find backup configuration with id “{}”.",
-            &[value.id.as_str()],
+            [value.id.as_str()],
         )))
     }
 }

@@ -27,7 +27,7 @@ pub fn volume_added(volume: &gio::Volume) {
 
             notification.set_body(Some(&gettextf(
                 "“{}” contains multiple configured backups.",
-                &[&first_backup.repo.location()],
+                [&first_backup.repo.location()],
             )));
 
             notification.add_button_with_target_value(
@@ -40,7 +40,7 @@ pub fn volume_added(volume: &gio::Volume) {
 
             notification.set_body(Some(&gettextf(
                 "“{}” contains one configured backup.",
-                &[&first_backup.repo.location()],
+                [&first_backup.repo.location()],
             )));
 
             notification.add_button_with_target_value(

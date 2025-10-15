@@ -213,7 +213,7 @@ mod imp {
             match self.config() {
                 Ok(backup) => {
                     self.obj().set_config_title(backup.title());
-                    self.title_pref_group.set_description(Some(&gettextf("The title of this backup configuration. Will be displayed as “{}” when left empty.", &[&backup.repo.title_fallback()])));
+                    self.title_pref_group.set_description(Some(&gettextf("The title of this backup configuration. Will be displayed as “{}” when left empty.", [&backup.repo.title_fallback()])));
 
                     self.obj().set_pre_backup_command(
                         backup

@@ -70,7 +70,7 @@ impl SetupRepoLocation {
                     Ok(Self::Local(gio::File::for_uri(&url)))
                 }
             }
-            Err(err) => Err(gettextf("Invalid remote location: “{}”", &[err.message()])),
+            Err(err) => Err(gettextf("Invalid remote location: “{}”", [err.message()])),
         }
     }
 }

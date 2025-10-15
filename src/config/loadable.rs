@@ -39,7 +39,7 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default> Load
                 std::io::ErrorKind::InvalidData,
                 gettextf(
                     "The loaded configuration file version {} is incompatible with this version of Pika Backup",
-                    &[&version.to_string()],
+                    [&version.to_string()],
                 ),
             ))
         }
