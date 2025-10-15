@@ -1,9 +1,12 @@
-use std::collections::{BTreeMap, BTreeSet, VecDeque};
+use std::collections::{BTreeMap, BTreeSet, HashSet, VecDeque};
+use std::hash::Hash;
 
 use chrono::prelude::*;
 
 use super::Loadable;
+use crate::borg::RepoId;
 use crate::borg::log_json::LogCollection;
+use crate::config::Backups;
 use crate::prelude::*;
 use crate::{borg, config};
 
@@ -23,6 +26,7 @@ pub struct History {
     /// Last runs, latest run first
     run: VecDeque<RunInfo>,
     running: Option<Running>,
+    browsing: Option<Browsing>,
     last_completed: Option<RunInfo>,
 
     /// Last borg check result
@@ -63,6 +67,10 @@ impl History {
 
     pub fn is_running(&self) -> bool {
         self.running.is_some()
+    }
+
+    pub fn is_browsing(&self) -> bool {
+        self.browsing.is_some()
     }
 
     pub fn last_completed(&self) -> Option<&RunInfo> {
@@ -164,6 +172,9 @@ impl Histories {
                 history.running = None;
                 history.run.truncate(HISTORY_LENGTH);
             }
+
+            // Assume that we are not browsing
+            history.browsing = None;
         }
 
         Ok(histories)
@@ -207,6 +218,49 @@ impl Histories {
         let history = self.0.entry(config_id).or_default();
 
         history.running = None;
+    }
+
+    pub fn set_browsing(&mut self, config_id: ConfigId) {
+        debug!("Set {:?} to state browsing.", config_id);
+        let history = self.0.entry(config_id).or_default();
+
+        history.browsing = Some(Browsing {
+            start: Local::now(),
+        });
+    }
+
+    pub fn remove_browsing(&mut self, config_id: ConfigId) {
+        debug!("Set {:?} to state not browsing", config_id);
+        let history = self.0.entry(config_id).or_default();
+
+        history.browsing = None;
+    }
+
+    pub fn browsing_repo_ids(&self, configs: &Backups) -> HashSet<RepoId> {
+        let config_ids = self
+            .0
+            .iter()
+            .filter(|(_, history)| history.browsing.is_some())
+            .map(|(config_id, _)| config_id)
+            .collect::<Vec<_>>();
+
+        let repo_ids = configs
+            .iter()
+            .filter(|x| config_ids.contains(&&x.id))
+            .map(|x| &x.repo_id);
+
+        HashSet::from_iter(repo_ids.cloned())
+    }
+
+    pub fn browsing_config_ids(&self, configs: &Backups) -> HashSet<ConfigId> {
+        let repos = self.browsing_repo_ids(configs);
+
+        HashSet::from_iter(
+            configs
+                .iter()
+                .filter_map(|x| repos.contains(&x.repo_id).then_some(&x.id))
+                .cloned(),
+        )
     }
 
     pub fn iter(&self) -> std::collections::btree_map::Iter<'_, config::ConfigId, History> {
@@ -280,6 +334,11 @@ impl RunInfo {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Running {
+    pub start: DateTime<Local>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct Browsing {
     pub start: DateTime<Local>,
 }
 

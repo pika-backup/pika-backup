@@ -34,6 +34,8 @@ Daily backups try to ensure that a backup exists for every day the system is use
 
 */
 
+use std::collections::BTreeMap;
+
 use chrono::prelude::*;
 use gio::prelude::*;
 
@@ -53,6 +55,7 @@ pub enum Global {
     /// Backup must not be running
     ThisBackupRunning,
     OtherBackupRunning(config::ConfigId),
+    Browsing,
     /// May not use metered connection
     MeteredConnection,
     OnBattery,
@@ -64,20 +67,31 @@ impl Global {
         let mut vec = Vec::new();
         let settings = &config.schedule.settings;
 
-        let running_backup = histories
+        let histories_with_repo_id = histories
             .iter()
-            .filter(|(_, history)| history.is_running())
-            .find(|(config_id, _)| {
+            .filter(|(config_id, _)| {
                 backup_config().try_get(config_id).map(|x| &x.repo_id) == Ok(&config.repo_id)
-            });
+            })
+            .collect::<BTreeMap<_, _>>();
+
+        let running_backup = histories_with_repo_id
+            .iter()
+            .find(|(_, history)| history.is_running());
 
         if let Some((running_config_id, _)) = running_backup {
             // TODO: Is this ever triggered?
-            if *running_config_id == config.id {
+            if **running_config_id == config.id {
                 vec.push(Self::ThisBackupRunning)
             } else {
-                vec.push(Self::OtherBackupRunning(running_config_id.clone()))
+                vec.push(Self::OtherBackupRunning((*running_config_id).clone()))
             }
+        }
+
+        if histories_with_repo_id
+            .iter()
+            .any(|(_, history)| history.is_browsing())
+        {
+            vec.push(Self::Browsing)
         }
 
         if gio::NetworkMonitor::default().is_network_metered() && config.repo.is_internet().await {

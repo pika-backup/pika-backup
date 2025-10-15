@@ -119,6 +119,12 @@ impl Status {
                         "media-playback-start-symbolic",
                         problem_level,
                     )),
+                    requirements::Global::Browsing => problems.push(StatusRow::new(
+                        gettext("Archives cannot be opened for browsing"),
+                        "",
+                        "folder-open-symbolic",
+                        problem_level,
+                    )),
                     requirements::Global::ThisBackupRunning => (),
                     requirements::Global::OnBattery => problems.push(StatusRow::new(
                         gettext("Device must be connected to power"),

@@ -5,8 +5,8 @@ use gio::prelude::*;
 use ui::error::Combined;
 
 use crate::borg::{RepoId, task};
-use crate::ui::App;
 use crate::ui::prelude::*;
+use crate::ui::{App, utils};
 use crate::{borg, ui};
 
 /// Is a borg operation registered with a [QuitGuard]]?
@@ -134,9 +134,13 @@ where
 }
 
 async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
-    crate::ui::utils::borg::cleanup_mounts().await?;
+    crate::ui::utils::borg::cleanup_repo_mounts().await?;
 
-    if ACTIVE_MOUNTS.load().contains(repo_id) {
+    if BACKUP_HISTORY
+        .load()
+        .browsing_repo_ids(&BACKUP_CONFIG.load())
+        .contains(repo_id)
+    {
         debug!("Trying to run a {kind:?} on a backup that is currently mounted.");
 
         match kind {
@@ -167,7 +171,7 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
         }
 
         trace!("User decided to unmount repo.");
-        unmount(repo_id)
+        repo_unmount(repo_id)
             .await
             .err_to_msg(gettext("Failed to unmount repository."))?;
     }
@@ -301,21 +305,73 @@ async fn handle_lock<B: borg::BorgRunConfig>(borg: B) -> CombinedResult<()> {
     .map_err(Into::into)
 }
 
-pub async fn unmount(repo_id: &RepoId) -> Result<()> {
+pub async fn repo_unmount(repo_id: &RepoId) -> Result<()> {
     borg::functions::umount(repo_id)
         .await
         .err_to_msg(gettext("Failed to unmount repository."))?;
-    ACTIVE_MOUNTS.update(|mounts| {
-        mounts.remove(repo_id);
-    });
+    utils::borg::unset_repo_browsing(repo_id).await;
+
+    let configs = BACKUP_CONFIG.load();
+    let backup_ids = configs
+        .iter()
+        .filter(|x| x.repo_id == *repo_id)
+        .map(|x| &x.id)
+        .collect::<Vec<_>>();
+
+    BACKUP_HISTORY
+        .try_update(|histories| {
+            for id in backup_ids.iter() {
+                histories.remove_browsing((*id).clone());
+            }
+            Ok(())
+        })
+        .await?;
 
     main_ui().page_detail().archives_page().refresh_status();
 
     Ok(())
 }
 
-pub async fn cleanup_mounts() -> Result<()> {
-    let mounts = ACTIVE_MOUNTS.load();
+pub async fn set_repo_browsing(repo_id: &RepoId) {
+    let configs = BACKUP_CONFIG.load();
+    let backup_ids = configs
+        .iter()
+        .filter(|x| x.repo_id == *repo_id)
+        .map(|x| &x.id)
+        .collect::<Vec<_>>();
+
+    let _ = BACKUP_HISTORY
+        .try_update(|histories| {
+            for id in backup_ids.iter() {
+                histories.set_browsing((*id).clone());
+            }
+            Ok(())
+        })
+        .await;
+}
+
+pub async fn unset_repo_browsing(repo_id: &RepoId) {
+    let configs = BACKUP_CONFIG.load();
+    let backup_ids = configs
+        .iter()
+        .filter(|x| x.repo_id == *repo_id)
+        .map(|x| &x.id)
+        .collect::<Vec<_>>();
+
+    let _ = BACKUP_HISTORY
+        .try_update(|histories| {
+            for id in backup_ids.iter() {
+                histories.remove_browsing((*id).clone());
+            }
+            Ok(())
+        })
+        .await;
+}
+
+pub async fn cleanup_repo_mounts() -> Result<()> {
+    let mounts = BACKUP_HISTORY
+        .load()
+        .browsing_repo_ids(&BACKUP_CONFIG.load());
 
     // Find mounts that were already unmounted outside of Pika
     for repo_id in mounts.iter() {
@@ -323,7 +379,7 @@ pub async fn cleanup_mounts() -> Result<()> {
             // The repository was unmounted somewhere else
             // Call unmount to fix the state
             warn!("Marking repo {repo_id:?} as unmounted, as the mountpoint doesn't exist anymore");
-            unmount(repo_id).await?;
+            repo_unmount(repo_id).await?;
         }
     }
 
@@ -336,9 +392,7 @@ pub async fn cleanup_mounts() -> Result<()> {
             warn!(
                 "Marking repo {repo_id:?} as mounted, was probably mounted from a force-quit app"
             );
-            ACTIVE_MOUNTS.update(|mounts| {
-                mounts.insert(repo_id.clone());
-            });
+            utils::borg::set_repo_browsing(repo_id).await;
         }
     }
 

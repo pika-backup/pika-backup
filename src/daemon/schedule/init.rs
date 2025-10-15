@@ -95,6 +95,9 @@ async fn probe(config: &config::Backup) {
                         requirements::Global::OtherBackupRunning(_) => {
                             Some(gettext("The backup repository is already in use."))
                         }
+                        requirements::Global::Browsing => {
+                            Some(gettext("Archives are currently opened for browsing."))
+                        }
                         requirements::Global::MeteredConnection => {
                             Some(gettext("Only metered internet connections available."))
                         }
