@@ -7,6 +7,7 @@ use super::widget::setup::SetupDialog;
 use super::widget::{AppWindow, PreferencesDialog};
 use crate::ui::prelude::*;
 use crate::ui::utils;
+use crate::ui::widget::UnmountArchives;
 use crate::{config, ui};
 
 mod imp {
@@ -220,10 +221,19 @@ impl App {
 
     pub async fn try_quit(&self) -> Result<()> {
         debug!("App::try_quit");
+
+        let dialog = UnmountArchives::new();
+        dialog.execute(&self.main_window()).await?;
+
+        if BACKUP_HISTORY.load().iter().any(|(_, x)| x.is_browsing()) {
+            debug!("Some archives are still mounted for browsing.");
+        } else {
+            debug!("No archives mounted for browsing");
+        }
+
         if utils::borg::is_borg_operation_running() {
             if self.main_window().is_visible() {
                 let permission = utils::background_permission().await;
-
                 match permission {
                     Ok(()) => {
                         debug!("Hiding main window as backup is currently running");

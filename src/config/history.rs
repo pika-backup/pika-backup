@@ -172,9 +172,6 @@ impl Histories {
                 history.running = None;
                 history.run.truncate(HISTORY_LENGTH);
             }
-
-            // Assume that we are not browsing
-            history.browsing = None;
         }
 
         Ok(histories)

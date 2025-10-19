@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="AdwSpinnerPaintable" id="spinner">
+    <property name="widget">status_page</property>
+  </object>
+  <template class="PkUnmountArchives" parent="AdwWindow">
+    <property name="title"></property>
+    <property name="default-width">450</property>
+    <property name="default-height">500</property>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwStatusPage" id="status_page">
+            <property name="title" translatable="yes">Closing Archives</property>
+            <property name="description" translatable="yes">Closing Archives Still Open for Browsing</property>
+            <property name="paintable">spinner</property>
+            <property name="child">
+              <object class="GtkBox" id="error_info">
+                <property name="visible">false</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="margin-bottom">12</property>
+                    <style>
+                      <class name="card" />
+                      <class name="warning" />
+                    </style>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">The listed archives failed to close. Files within these archives must no longer be open with other applications. Folders in within these archives must no longer be open in browsers.</property>
+                        <property name="wrap">true</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-end">12</property>
+                        <property name="margin-bottom">12</property>
+                        <property name="margin-start">12</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBox" id="error_list">
+                    <property name="selection-mode">none</property>
+                    <style>
+                      <class name="boxed-list" />
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

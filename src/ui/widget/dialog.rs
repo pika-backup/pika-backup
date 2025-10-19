@@ -11,6 +11,7 @@ mod preferences;
 mod prune;
 pub mod setup;
 mod storage;
+mod unmount_archives;
 
 pub use archive_prefix::ArchivePrefixDialog;
 pub use backup_info::BackupInfoDialog;
@@ -24,6 +25,7 @@ use glib::prelude::*;
 pub use preferences::PreferencesDialog;
 pub use prune::PruneDialog;
 pub use storage::StorageDialog;
+pub use unmount_archives::UnmountArchives;
 
 pub fn init() {
     ArchivePrefixDialog::static_type();
@@ -35,5 +37,6 @@ pub fn init() {
     ExcludeDialog::static_type();
     PreferencesDialog::static_type();
     PruneDialog::static_type();
+    UnmountArchives::static_type();
     StorageDialog::static_type();
 }

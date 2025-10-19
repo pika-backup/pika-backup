@@ -13,8 +13,9 @@
 - Change to use AdwAlertDialog
 - Change to use AdwAboutDialog
 - Change to use AdwDialog for all dialogs
-- Add propper error messages for more situations like missing filesystem access
 - Add ability to backup files
+- Add dialog showing the state of closing archives mounted for browsing when closing main window.
+- Add propper error messages for more situations like missing filesystem access
 
 ## 0.7.5 (2025-10-10)
 
