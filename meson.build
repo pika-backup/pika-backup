@@ -1,13 +1,9 @@
 project(
-    run_command(
-        find_program(meson.project_source_root() / 'build-aux/meson-cargo-manifest.py'),
-        'package',
-        'name',
-        check: true,
-    ).stdout(),
+    'pika-backup',
     'rust',
     version: run_command(
         find_program(meson.project_source_root() / 'build-aux/meson-cargo-manifest.py'),
+        'workspace',
         'package',
         'version',
         check: true,
@@ -30,4 +26,4 @@ meson.add_dist_script('build-aux/meson-dist-vendor.sh')
 subdir('data')
 subdir('help')
 subdir('po')
-subdir('src')
+subdir('pika-backup/src')

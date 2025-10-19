@@ -1,13 +1,12 @@
 #!/bin/sh
 
-src="$(find src/ -path '*.rs')"
 git ls-files \
-	$src "src/*.ui" "data/*.ui" "data/*.desktop.in" "data/*.xml.in" \
+	"pika-backup/*.ui" "pika-backup/*.rs" "data/*.ui" "data/*.desktop.in" "data/*.xml.in" \
 	> po/POTFILES.in
 
 cd po
 intltool-update --maintain 2> /dev/null
-cat missing | grep '^\(src\|data\)/'
+cat missing | grep '^\(pika-backup/src\|data\)/'
 code=$?
 rm missing
 
