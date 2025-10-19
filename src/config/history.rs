@@ -186,6 +186,10 @@ impl Histories {
                 history.running = None;
                 history.run.truncate(HISTORY_LENGTH);
             }
+
+            if history.browsing.is_some() {
+                history.browsing = None;
+            }
         }
     }
 
