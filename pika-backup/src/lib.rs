@@ -24,7 +24,7 @@ const LOCALEDIR: &str = default_env!("LOCALEDIR", "/usr/share/locale");
 
 const APP_ID_WITHOUT_SUFFIX: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
-    "/data",
+    "/../data",
     "/APPLICATION_ID"
 ));
 const APP_ID_SUFFIX: &str = default_env!("APPLICATION_ID_SUFFIX", "");
