@@ -9,6 +9,7 @@
 - Change setup dialog start page is split into two pages
 - Change setup dialog design to look more modern
 - Change history file to be smaller
+- Change to error out if archives are mounted for scheduled backup
 - Change to error out if backup is already in use for scheduled backup
 - Change to use AdwAlertDialog
 - Change to use AdwAboutDialog

@@ -134,7 +134,7 @@ where
 }
 
 async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
-    crate::ui::utils::borg::cleanup_repo_mounts().await?;
+    crate::ui::utils::borg::cleanup_repo_mounts().await;
 
     if BACKUP_HISTORY
         .load()
@@ -368,7 +368,7 @@ pub async fn unset_repo_browsing(repo_id: &RepoId) {
         .await;
 }
 
-pub async fn cleanup_repo_mounts() -> Result<()> {
+pub async fn cleanup_repo_mounts() {
     let mounts = BACKUP_HISTORY
         .load()
         .browsing_repo_ids(&BACKUP_CONFIG.load());
@@ -379,7 +379,9 @@ pub async fn cleanup_repo_mounts() -> Result<()> {
             // The repository was unmounted somewhere else
             // Call unmount to fix the state
             warn!("Marking repo {repo_id:?} as unmounted, as the mountpoint doesn't exist anymore");
-            repo_unmount(repo_id).await?;
+            if let Err(err) = repo_unmount(repo_id).await {
+                warn!("Failed to run the borg unmount procedure for '{repo_id:?}': {err}");
+            }
         }
     }
 
@@ -395,8 +397,6 @@ pub async fn cleanup_repo_mounts() -> Result<()> {
             utils::borg::set_repo_browsing(repo_id).await;
         }
     }
-
-    Ok(())
 }
 
 pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {

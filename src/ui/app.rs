@@ -65,6 +65,7 @@ mod imp {
 
             glib::MainContext::default().spawn_local(async {
                 ui::dbus::init().await;
+                ui::utils::borg::cleanup_repo_mounts().await;
             });
 
             // init status tracking

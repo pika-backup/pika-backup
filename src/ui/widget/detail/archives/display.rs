@@ -128,7 +128,7 @@ impl imp::ArchivesPage {
     }
 
     pub async fn update_eject_button(&self) -> Result<()> {
-        ui::utils::borg::cleanup_repo_mounts().await?;
+        ui::utils::borg::cleanup_repo_mounts().await;
         self.refresh_status();
         Ok(())
     }

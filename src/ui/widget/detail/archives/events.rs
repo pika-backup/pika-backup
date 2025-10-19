@@ -59,7 +59,7 @@ impl imp::ArchivesPage {
         debug!("Trying to browse an archive");
 
         // Register mounts from a previous run that quit improperly
-        crate::ui::utils::borg::cleanup_repo_mounts().await?;
+        crate::ui::utils::borg::cleanup_repo_mounts().await;
 
         let backup_mounted = BACKUP_HISTORY
             .load()
