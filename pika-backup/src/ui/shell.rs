@@ -38,16 +38,16 @@ pub async fn set_status_message(message: &str) {
     let last_message = LAST_MESSAGE.swap(new_message.clone());
 
     if *last_message != *new_message {
-        debug!("New background status: {new_message:?}");
+        tracing::debug!("New background status: {new_message:?}");
 
-        if !*crate::globals::APP_IS_SANDBOXED {
+        if !*common::globals::APP_IS_SANDBOXED {
             return;
         }
 
         if let Some(proxy) = proxy().await
             && let Err(err) = proxy.set_status(&ellipsized_message).await
         {
-            debug!("Error setting background status: {err:?}");
+            tracing::debug!("Error setting background status: {err:?}");
         }
     }
 }

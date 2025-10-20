@@ -216,7 +216,7 @@ mod imp {
                 let mount_entry = gio::UnixMountEntry::for_file_path(path);
                 match mount_entry.0.map(|x| x.fs_type()) {
                     Some(fs) => {
-                        debug!("Selected filesystem type {}", fs);
+                        tracing::debug!("Selected filesystem type {}", fs);
                         self.non_journaling_warning.set_visible(
                             crate::NON_JOURNALING_FILESYSTEMS.iter().any(|x| x == &fs),
                         );
@@ -294,7 +294,7 @@ mod imp {
             let repo_location = self.selected_location()?;
             let command_line_args = self.advanced_options_page.command_line_args();
 
-            debug!("Continue with repo location '{}'", repo_location);
+            tracing::debug!("Continue with repo location '{}'", repo_location);
 
             self.emit_continue(repo_location, command_line_args);
 

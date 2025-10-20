@@ -1,10 +1,12 @@
 use std::collections::BTreeSet;
 
+use common::{borg, config};
+use enclose::enclose;
 use gio::prelude::*;
 
 use super::{ArchiveParams, SetupAction, SetupCommandLineArgs, SetupRepoLocation};
+use crate::ui;
 use crate::ui::prelude::*;
-use crate::{borg, config, ui};
 
 pub async fn create_repo_config(
     action: SetupAction,
@@ -15,7 +17,7 @@ pub async fn create_repo_config(
     let mut repo = match location {
         SetupRepoLocation::Remote(url) => {
             // A remote config can only be verified by running borg and checking if it works
-            debug!("Creating remote repository config with uri: {}", url);
+            tracing::debug!("Creating remote repository config with uri: {}", url);
             config::remote::Repository::from_uri(url).into_config()
         }
         SetupRepoLocation::Local(file) => {
@@ -34,7 +36,7 @@ pub async fn create_repo_config(
 
             // Check if the file is contained in a [`gio::Mount`]
             let mount = mount_file.find_enclosing_mount(Some(&gio::Cancellable::new()));
-            debug!("Find mount for '{}': {:?}", mount_file.uri(), mount);
+            tracing::debug!("Find mount for '{}': {:?}", mount_file.uri(), mount);
 
             // Check if we have an actual path already
             let path = if let Some(path) = file.path() {
@@ -44,9 +46,10 @@ pub async fn create_repo_config(
                 ui::repo::mount_enclosing(&mount_file).await?;
 
                 file.path().ok_or_else(|| {
-                    warn!(
+                    tracing::warn!(
                         "Finding enclosing mount failed. URI: '{}', mount result: {:?}",
-                        uri, mount
+                        uri,
+                        mount
                     );
                     Error::Message(Message::new(
                         gettext("Repository location not found."),
@@ -59,7 +62,7 @@ pub async fn create_repo_config(
 
             if let Ok(mount) = mount {
                 // We found a mount
-                debug!(
+                tracing::debug!(
                     "Creating local repository config with mount: '{}', path: {:?}, uri: {:?}",
                     mount.name(),
                     path,
@@ -73,7 +76,7 @@ pub async fn create_repo_config(
                 // Note: Not storing a mount disables GVFS features, such as detecting drives
                 // that have been renamed, or being able to mount the repository location
                 // ourselves. This is not the best configuration.
-                debug!("Creating local repository config with path: {:?}", path);
+                tracing::debug!("Creating local repository config with path: {:?}", path);
                 config::local::Repository::from_path(path).into_config()
             }
         }
@@ -197,9 +200,9 @@ pub async fn transfer_settings(
 }
 
 pub async fn init_new_backup_repo(
-    repo: crate::config::Repository,
-    password: &Option<crate::config::Password>,
-) -> Result<crate::config::Backup> {
+    repo: common::config::Repository,
+    password: &Option<common::config::Password>,
+) -> Result<common::config::Backup> {
     let mut borg = borg::CommandOnlyRepo::new(repo.clone());
     if let Some(password) = &password {
         borg.set_password(password.clone());

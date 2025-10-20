@@ -1,6 +1,6 @@
+use common::schedule;
 use smol::channel::Sender;
 
-use crate::schedule;
 use crate::ui::prelude::*;
 
 struct PikaBackup {
@@ -17,43 +17,44 @@ enum Command {
 #[zbus::interface(name = "org.gnome.World.PikaBackup1")]
 impl PikaBackup {
     async fn start_scheduled_backup(&self, config_id: ConfigId, due_cause: schedule::DueCause) {
-        info!(
+        tracing::info!(
             "Request to start scheduled backup {:?} {:?}",
-            config_id, due_cause
+            config_id,
+            due_cause
         );
         if let Err(err) = self
             .command
             .send(Command::StartBackup(config_id, Some(due_cause)))
             .await
         {
-            error!("{}", err);
+            tracing::error!("{}", err);
         } else {
-            debug!("Command to start scheduled backup sent.")
+            tracing::debug!("Command to start scheduled backup sent.")
         }
     }
 
     async fn start_backup(&self, config_id: ConfigId) {
-        info!("Request to start backup {:?}", config_id);
+        tracing::info!("Request to start backup {:?}", config_id);
         if let Err(err) = self
             .command
             .send(Command::StartBackup(config_id, None))
             .await
         {
-            error!("{}", err);
+            tracing::error!("{}", err);
         }
     }
 
     async fn show_overview(&self) {
-        info!("Request to show overview");
+        tracing::info!("Request to show overview");
         if let Err(err) = self.command.send(Command::ShowOverview).await {
-            error!("{}", err);
+            tracing::error!("{}", err);
         }
     }
 
     async fn show_schedule(&self, config_id: ConfigId) {
-        info!("Request to show schedule {:?}", config_id);
+        tracing::info!("Request to show schedule {:?}", config_id);
         if let Err(err) = self.command.send(Command::ShowSchedule(config_id)).await {
-            error!("{}", err);
+            tracing::error!("{}", err);
         }
     }
 }
@@ -71,9 +72,9 @@ async fn spawn_command_listener() -> Sender<Command> {
     let (sender, receiver) = smol::channel::unbounded();
 
     Handler::run(async move {
-        debug!("Internally awaiting D-Bus API commands");
+        tracing::debug!("Internally awaiting D-Bus API commands");
         while let Ok(command) = receiver.recv().await {
-            debug!("Received D-Bus API command {command:?}");
+            tracing::debug!("Received D-Bus API command {command:?}");
             match command {
                 Command::StartBackup(config_id, due_cause) => {
                     // Prevent app from closing
@@ -108,11 +109,11 @@ pub async fn session_connection() -> zbus::Result<zbus::Connection> {
     } else {
         let command = spawn_command_listener().await;
         let new_connection = zbus::connection::Builder::session()?
-            .name(crate::DBUS_API_NAME)?
-            .serve_at(crate::DBUS_API_PATH, PikaBackup { command })?
+            .name(common::DBUS_API_NAME)?
+            .serve_at(common::DBUS_API_PATH, PikaBackup { command })?
             .build()
             .await?;
-        debug!("D-Bus listening on {}", crate::DBUS_API_NAME);
+        tracing::debug!("D-Bus listening on {}", common::DBUS_API_NAME);
 
         *connection = Some(new_connection.clone());
         Ok(new_connection)

@@ -1,11 +1,12 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::borg;
 
 use super::imp;
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils;
 use crate::ui::widget::{ArchivePrefixDialog, CheckDialog, PruneDialog};
-use crate::{borg, ui};
 
 impl imp::ArchivesPage {
     pub async fn check(&self) -> Result<()> {
@@ -56,7 +57,7 @@ impl imp::ArchivesPage {
         let config = configs.active()?;
         let repo_id = &config.repo_id;
 
-        debug!("Trying to browse an archive");
+        tracing::debug!("Trying to browse an archive");
 
         // Register mounts from a previous run that quit improperly
         crate::ui::utils::borg::cleanup_repo_mounts().await;
@@ -113,7 +114,7 @@ impl imp::ArchivesPage {
         let configs = BACKUP_CONFIG.load();
         let config = configs.active()?;
 
-        debug!("Trying to delete an archive");
+        tracing::debug!("Trying to delete an archive");
 
         let archive_name = archive_name.into_string();
         let archive_date = archive

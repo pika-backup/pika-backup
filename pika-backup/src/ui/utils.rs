@@ -6,6 +6,7 @@ pub mod ext;
 pub mod flatpak_info;
 pub mod notification;
 pub mod password_storage;
+use quick_error::quick_error;
 pub mod repo_cache;
 
 use std::convert::TryInto;
@@ -15,8 +16,8 @@ use std::os::unix::process::CommandExt;
 
 use adw::prelude::*;
 use ashpd::desktop::background;
+use common::config;
 
-use crate::config;
 use crate::ui::App;
 use crate::ui::prelude::*;
 
@@ -75,7 +76,7 @@ pub fn rel_path(path: &std::path::Path) -> std::path::PathBuf {
 /// - `data/` exists and is a directory
 /// - `config` exists and contains the string `[repository]`
 pub async fn is_backup_repo(path: &std::path::Path) -> bool {
-    trace!("Checking path if it is a repo '{}'", &path.display());
+    tracing::trace!("Checking path if it is a repo '{}'", &path.display());
     if let Ok(data) = std::fs::File::open(path.join("data")).and_then(|x| x.metadata())
         && data.is_dir()
         && let Ok(mut cfg) = std::fs::File::open(path.join("config"))
@@ -85,12 +86,12 @@ pub async fn is_backup_repo(path: &std::path::Path) -> bool {
         let mut content = String::new();
         let _result = cfg.read_to_string(&mut content);
         if content.contains("[repository]") {
-            trace!("Is a repository");
+            tracing::trace!("Is a repository");
             return true;
         }
     };
 
-    trace!("Is not a repository");
+    tracing::trace!("Is not a repository");
     false
 }
 
@@ -103,16 +104,19 @@ pub fn cache_dir() -> std::path::PathBuf {
 pub async fn background_permission() -> Result<()> {
     let generic_msg = gettext("Request to run in background failed");
 
-    if !*crate::globals::APP_IS_SANDBOXED {
+    if !*common::globals::APP_IS_SANDBOXED {
         // start
-        crate::utils::dbus::fdo_proxy(
+        common::utils::dbus::fdo_proxy(
             &crate::ui::dbus::session_connection()
                 .await
                 .err_to_msg(&generic_msg)?,
         )
         .await
         .err_to_msg(&generic_msg)?
-        .start_service_by_name(crate::DAEMON_APP_ID.try_into().unwrap(), Default::default())
+        .start_service_by_name(
+            common::DAEMON_APP_ID.try_into().unwrap(),
+            Default::default(),
+        )
         .await
         .err_to_msg(&generic_msg)?;
 
@@ -123,7 +127,7 @@ pub async fn background_permission() -> Result<()> {
             .identifier(ashpd::WindowIdentifier::from_native(&App::default().main_window()).await)
             .reason(&*gettext("Schedule backups and continue running backups."))
             .auto_start(true)
-            .command(std::iter::once(crate::DAEMON_BINARY))
+            .command(std::iter::once(common::DAEMON_BINARY))
             // Do not use dbus-activation because that would start the UI
             // See <https://gitlab.gnome.org/Teams/Design/hig-www/-/issues/107>
             .dbus_activatable(false)
@@ -144,7 +148,7 @@ pub async fn background_permission() -> Result<()> {
 
         match response {
             Err(err) => {
-                warn!("Background portal response: {:?}", err);
+                tracing::warn!("Background portal response: {:?}", err);
 
                 Err(
                     Message::new(
@@ -155,7 +159,7 @@ pub async fn background_permission() -> Result<()> {
                 )
             }
             Ok(_) => {
-                let mut command = std::process::Command::new(crate::DAEMON_BINARY);
+                let mut command = std::process::Command::new(common::DAEMON_BINARY);
 
                 if let Ok(debug) = std::env::var("G_MESSAGES_DEBUG") {
                     command.env("G_MESSAGES_DEBUG", debug);
@@ -351,7 +355,7 @@ pub fn ellipsize_end<S: std::fmt::Display>(x: S, max_len: usize) -> String {
 }
 
 pub fn show_notice<S: std::fmt::Display>(message: S) {
-    warn!("Displaying notice:\n  {}", message);
+    tracing::warn!("Displaying notice:\n  {}", message);
 
     let toast = adw::Toast::builder()
         .title(message.to_string())
@@ -370,10 +374,10 @@ pub fn show_notice<S: std::fmt::Display>(message: S) {
 
 pub async fn show_borg_question(
     widget: &impl IsA<gtk::Widget>,
-    question: &crate::borg::log_json::QuestionPrompt,
-) -> crate::borg::Response {
+    question: &common::borg::log_json::QuestionPrompt,
+) -> common::borg::Response {
     let prompt = question.question_prompt();
-    warn!("Displaying borg question: '{}'", prompt);
+    tracing::warn!("Displaying borg question: '{}'", prompt);
 
     // TODO: handle main window closed
     let response = ConfirmationDialog::new(
@@ -387,8 +391,8 @@ pub async fn show_borg_question(
     .await;
 
     match response {
-        Ok(()) => crate::borg::Response::Yes,
-        Err(_) => crate::borg::Response::No,
+        Ok(()) => common::borg::Response::Yes,
+        Err(_) => common::borg::Response::No,
     }
 }
 
@@ -400,9 +404,10 @@ pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
 ) {
     let primary_text = ellipsize_multiline(message);
     let secondary_text = ellipsize_multiline(detail);
-    warn!(
+    tracing::warn!(
         "Displaying error:\n  {}\n  {}",
-        &primary_text, &secondary_text
+        &primary_text,
+        &secondary_text
     );
 
     let window = crate::ui::App::default().main_window();
@@ -525,7 +530,7 @@ pub trait Logable {
 impl<T, E: Display> Logable for std::result::Result<T, E> {
     fn handle<D: Display>(&self, msg: D) {
         if let Err(err) = self {
-            error!("Error: {}: {}", msg, err);
+            tracing::error!("Error: {}: {}", msg, err);
 
             let notification = gio::Notification::new(&msg.to_string());
 

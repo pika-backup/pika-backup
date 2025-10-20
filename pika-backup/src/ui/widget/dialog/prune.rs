@@ -1,8 +1,9 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::{borg, config};
 
+use crate::ui;
 use crate::ui::prelude::*;
-use crate::{borg, config, ui};
 
 mod imp {
     use std::cell::{Cell, OnceCell, RefCell};
@@ -106,7 +107,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl PruneDialog {
-        pub(super) async fn delete(&self, config: &crate::config::Backup) -> Result<()> {
+        pub(super) async fn delete(&self, config: &common::config::Backup) -> Result<()> {
             let guard = QuitGuard::default();
             let result = ui::utils::borg::exec(
                 borg::Command::<borg::task::Prune>::new(config.clone()),

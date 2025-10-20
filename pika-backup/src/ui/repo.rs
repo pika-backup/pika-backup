@@ -1,8 +1,9 @@
+use common::config;
 use gio::prelude::*;
 
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::widget::DeviceMissingDialog;
-use crate::{config, ui};
 
 // Try to find volume that contains the repository
 fn find_volume(repo: &config::local::Repository) -> Option<gio::Volume> {
@@ -46,22 +47,22 @@ pub async fn ensure_repo_available(
         config::Repository::Local(repo) => {
             if !ui::utils::is_backup_repo(&repo.path()).await {
                 if let Some(uri) = config.repo.uri_fuse() {
-                    info!("Remote gvfs repo not available");
+                    tracing::info!("Remote gvfs repo not available");
                     mount_enclosing(&gio::File::for_uri(&uri)).await?;
                 } else if repo.removable {
-                    info!("Removable drive not available");
+                    tracing::info!("Removable drive not available");
 
                     // try to find volume with same uuid
                     let volume = find_volume(repo);
 
                     match volume.as_ref().and_then(|v| v.get_mount()) {
                         Some(mount) => {
-                            info!("Probably found repo somewhere else");
+                            tracing::info!("Probably found repo somewhere else");
                             new_config.set_mount_path(&mount);
                         }
                         _ => {
                             if let Some(new_volume) = volume {
-                                error!("Not mounted yet. Mounting");
+                                tracing::error!("Not mounted yet. Mounting");
                                 new_volume
                                     .mount_future(
                                         gio::MountMountFlags::NONE,
@@ -71,7 +72,7 @@ pub async fn ensure_repo_available(
                                     .err_to_msg(gettext("Failed to Mount"))?;
                                 match new_volume.get_mount() {
                                     Some(mount) => {
-                                        info!("Successfully mounted");
+                                        tracing::info!("Successfully mounted");
                                         new_config.set_mount_path(&mount);
                                     }
                                     _ => {
@@ -81,7 +82,7 @@ pub async fn ensure_repo_available(
                                     }
                                 }
                             } else {
-                                info!("Waiting for mount to appear");
+                                tracing::info!("Waiting for mount to appear");
                                 let dialog = DeviceMissingDialog::new(config);
                                 let mount = dialog.present_with_repo(parent, repo, purpose).await?;
                                 new_config.set_mount_path(&mount);
@@ -89,7 +90,7 @@ pub async fn ensure_repo_available(
                         }
                     }
                 } else {
-                    info!("Local drive not available");
+                    tracing::info!("Local drive not available");
                 }
             }
         }
@@ -103,7 +104,7 @@ pub async fn ensure_repo_available(
 
 /// Mount the volume that contains `file`
 pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
-    info!("Trying to mount '{}'", file.uri());
+    tracing::info!("Trying to mount '{}'", file.uri());
     let mount_result = file.mount_enclosing_volume_future(
         gio::MountMountFlags::NONE,
         Some(
@@ -122,7 +123,7 @@ pub async fn mount_enclosing(file: &gio::File) -> Result<()> {
         Ok(()) => Ok(()),
         Err(err) => match err.kind::<gio::IOErrorEnum>() {
             Some(gio::IOErrorEnum::AlreadyMounted) => {
-                warn!("Tried to mount {file:#?} but it was already mounted");
+                tracing::warn!("Tried to mount {file:#?} but it was already mounted");
                 Ok(())
             }
             Some(gio::IOErrorEnum::FailedHandled) => Err(Error::UserCanceled),

@@ -1,11 +1,12 @@
 use adw::prelude::*;
+use common::config::history::RunInfo;
+use common::config::{UserScriptKind, history};
+use common::{borg, config, schedule};
 
 use super::imp;
-use crate::config::history::RunInfo;
-use crate::config::{UserScriptKind, history};
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils::notification::BackupNote;
-use crate::{borg, config, schedule, ui};
 
 impl imp::BackupPage {
     pub(super) async fn backup(
@@ -72,9 +73,10 @@ impl imp::BackupPage {
         // Configure additional free space if not already configured
         let configure_repo = borg::CommandOnlyRepo::new(config.repo.clone());
         if let Err(err) = configure_repo.configure_free_space_if_required().await {
-            error!(
+            tracing::error!(
                 "Error when configuring additional_free_space for repo {}, ignoring: {}",
-                config.id, err
+                config.id,
+                err
             );
         }
 
@@ -183,9 +185,9 @@ impl imp::BackupPage {
     async fn run_script(
         &self,
         kind: UserScriptKind,
-        config: crate::config::Backup,
+        config: common::config::Backup,
         from_schedule: Option<schedule::DueCause>,
-        run_info: Option<crate::config::history::RunInfo>,
+        run_info: Option<common::config::history::RunInfo>,
         guard: &QuitGuard,
     ) -> Result<()> {
         if !config.user_scripts.contains_key(&kind) {
@@ -194,7 +196,7 @@ impl imp::BackupPage {
         }
 
         let mut command =
-            crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone())
+            common::borg::Command::<common::borg::task::UserScript>::new(config.clone())
                 .set_from_schedule(from_schedule);
         command.task.set_kind(kind);
         command.task.set_run_info(run_info.clone());

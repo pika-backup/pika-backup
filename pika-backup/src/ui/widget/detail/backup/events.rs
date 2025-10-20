@@ -3,10 +3,11 @@ use std::path::PathBuf;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::borg;
 
 use super::imp;
+use crate::ui;
 use crate::ui::prelude::*;
-use crate::{borg, ui};
 
 #[gtk::template_callbacks]
 impl imp::BackupPage {

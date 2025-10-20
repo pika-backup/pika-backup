@@ -1,5 +1,6 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use enclose::enclose;
 
 use crate::ui::widget::StatusRow;
 
@@ -15,7 +16,7 @@ mod imp {
     #[properties(wrapper_type = super::OverviewRow)]
     pub struct OverviewRow {
         #[property(get, set, construct_only)]
-        config: OnceCell<crate::config::Backup>,
+        config: OnceCell<common::config::Backup>,
 
         #[template_child]
         location_row: TemplateChild<adw::ActionRow>,
@@ -103,7 +104,7 @@ glib::wrapper! {
 }
 
 impl OverviewRow {
-    pub fn new(config: &crate::config::Backup) -> Self {
+    pub fn new(config: &common::config::Backup) -> Self {
         glib::Object::builder().property("config", config).build()
     }
 

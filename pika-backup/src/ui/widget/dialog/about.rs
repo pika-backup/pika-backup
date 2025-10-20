@@ -10,7 +10,7 @@ pub fn window() -> adw::AboutDialog {
         <https://en.wikipedia.org/wiki/Pika>
         */
         .application_name(gettext("Pika Backup"))
-        .application_icon(crate::APP_ID)
+        .application_icon(common::APP_ID)
         .version(env!("CARGO_PKG_VERSION"))
         .website(env!("CARGO_PKG_HOMEPAGE"))
         .issue_url("https://gitlab.gnome.org/World/pika-backup/-/issues")
@@ -49,7 +49,7 @@ pub fn window() -> adw::AboutDialog {
 }
 
 fn etc() -> std::path::PathBuf {
-    if *crate::globals::APP_IS_SANDBOXED {
+    if *common::globals::APP_IS_SANDBOXED {
         std::path::PathBuf::from("/run/host/etc")
     } else {
         std::path::PathBuf::from("/etc")
@@ -62,13 +62,14 @@ fn os_release() -> String {
 
 fn user_autostart() -> String {
     std::fs::read_to_string(
-        crate::utils::host::user_config_dir().join(format!("autostart/{}.desktop", crate::APP_ID)),
+        common::utils::host::user_config_dir()
+            .join(format!("autostart/{}.desktop", common::APP_ID)),
     )
     .unwrap_or_default()
 }
 
 fn global_autostart() -> String {
-    std::fs::read_to_string(etc().join(format!("xdg/autostart/{}.desktop", crate::APP_ID)))
+    std::fs::read_to_string(etc().join(format!("xdg/autostart/{}.desktop", common::APP_ID)))
         .unwrap_or_default()
 }
 
@@ -79,10 +80,10 @@ fn debug_info() -> String {
             "- Commit: {}",
             option_env!("GIT_DESCRIBE").unwrap_or("not set")
         ),
-        format!("- App ID: {}", crate::APP_ID),
+        format!("- App ID: {}", common::APP_ID),
         format!(
             "- Sandboxed: {} ({})",
-            *crate::globals::APP_IS_SANDBOXED,
+            *common::globals::APP_IS_SANDBOXED,
             std::env::var("container").unwrap_or_default()
         ),
         format!(

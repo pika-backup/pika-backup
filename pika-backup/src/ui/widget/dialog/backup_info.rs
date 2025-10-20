@@ -1,9 +1,9 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::borg;
+use common::config::history::*;
 use num_format::ToFormattedString;
 
-use crate::borg;
-use crate::config::history::*;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
 

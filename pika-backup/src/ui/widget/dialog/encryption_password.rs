@@ -1,7 +1,7 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
 
-use crate::config;
 use crate::ui::prelude::*;
 
 mod imp {

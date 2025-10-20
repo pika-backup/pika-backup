@@ -19,7 +19,7 @@ mod imp {
     #[properties(wrapper_type = super::ExcludeDialog)]
     pub struct ExcludeDialog {
         #[property(get, set, construct_only)]
-        config: OnceCell<crate::config::Backup>,
+        config: OnceCell<common::config::Backup>,
         edit_exclude: RefCell<Option<config::Exclude<{ config::RELATIVE }>>>,
 
         // Navigation
@@ -79,7 +79,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ExcludeDialog {
-        fn fill_suggestions(&self, config: &crate::config::Backup) {
+        fn fill_suggestions(&self, config: &common::config::Backup) {
             let exclude = &config.exclude;
 
             for predefined in config::exclude::Predefined::VALUES {
@@ -141,7 +141,7 @@ mod imp {
             }
         }
 
-        fn fill_unreadable(&self, config: &crate::config::Backup) {
+        fn fill_unreadable(&self, config: &common::config::Backup) {
             self.unreadable_paths.set_visible(false);
 
             let exclude = &config.exclude;
@@ -451,7 +451,7 @@ glib::wrapper! {
 }
 
 impl ExcludeDialog {
-    pub fn new(config: &crate::config::Backup) -> Self {
+    pub fn new(config: &common::config::Backup) -> Self {
         glib::Object::builder().property("config", config).build()
     }
 

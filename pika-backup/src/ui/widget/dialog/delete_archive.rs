@@ -1,8 +1,9 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::{borg, config};
 
+use crate::ui;
 use crate::ui::prelude::*;
-use crate::{borg, config, ui};
 
 mod imp {
     use std::cell::OnceCell;
@@ -16,7 +17,7 @@ mod imp {
     #[properties(wrapper_type = super::DeleteArchiveDialog)]
     pub struct DeleteArchiveDialog {
         #[property(get, set, construct_only)]
-        config: OnceCell<crate::config::Backup>,
+        config: OnceCell<common::config::Backup>,
         #[property(get, set, construct_only)]
         archive_name: OnceCell<String>,
         #[property(get, set, construct_only)]

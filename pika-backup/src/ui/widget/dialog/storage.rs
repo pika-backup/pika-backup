@@ -1,7 +1,8 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
 
-use crate::{config, ui};
+use crate::ui;
 
 mod imp {
     use std::cell::OnceCell;
@@ -13,7 +14,7 @@ mod imp {
     #[properties(wrapper_type = super::StorageDialog)]
     pub struct StorageDialog {
         #[property(get, set, construct_only)]
-        config: OnceCell<crate::config::Backup>,
+        config: OnceCell<common::config::Backup>,
 
         #[template_child]
         disk_group: TemplateChild<adw::PreferencesGroup>,

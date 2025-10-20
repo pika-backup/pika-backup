@@ -1,8 +1,10 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
+use enclose::enclose;
 use ui::prelude::*;
 
-use crate::{config, ui};
+use crate::ui;
 
 mod imp {
     use std::cell::OnceCell;
@@ -56,7 +58,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ArchivePrefixDialog {
-        fn config(&self) -> Result<crate::config::Backup> {
+        fn config(&self) -> Result<common::config::Backup> {
             match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
                 Ok(backup) => Ok(backup.clone()),
                 Err(err) => Err(crate::ui::Error::from(err)),

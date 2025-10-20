@@ -41,7 +41,7 @@ mod imp {
 
     impl ObjectImpl for AppWindow {
         fn constructed(&self) {
-            debug!("AppWindow::constructed");
+            tracing::debug!("AppWindow::constructed");
             self.parent_constructed();
 
             // decorate headerbar of pre-release versions
@@ -66,7 +66,7 @@ mod imp {
 
     impl WidgetImpl for AppWindow {
         fn map(&self) {
-            debug!("AppWindow::map");
+            tracing::debug!("AppWindow::map");
             self.parent_map();
 
             // When launching the app and we only have one backup config, display it
@@ -95,7 +95,7 @@ mod imp {
                             .estimated_size
                             .is_none()
                     {
-                        debug!("A running backup is lacking size estimate");
+                        tracing::debug!("A running backup is lacking size estimate");
                         if let Some(config) = BACKUP_CONFIG.load().try_get(config_id).ok().cloned()
                         {
                             let communication = create_op.communication().clone();
@@ -111,7 +111,7 @@ mod imp {
 
     impl WindowImpl for AppWindow {
         fn close_request(&self) -> glib::Propagation {
-            debug!("AppWindow::close_request");
+            tracing::debug!("AppWindow::close_request");
             let app = self.app();
 
             Handler::run(async move { app.try_quit().await });
@@ -138,7 +138,7 @@ glib::wrapper! {
 
 impl AppWindow {
     pub fn new(app: &App) -> Self {
-        debug!("Creating new PkAppWindow");
+        tracing::debug!("Creating new PkAppWindow");
         glib::Object::builder().property("application", app).build()
     }
 

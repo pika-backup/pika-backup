@@ -106,7 +106,7 @@ mod imp {
                     if let Ok(width) = value.get() {
                         self.width_estimate.set(width);
                     } else {
-                        error!("Invalid value for property width-estimate");
+                        tracing::error!("Invalid value for property width-estimate");
                     }
                 }
                 _ => unimplemented!(),

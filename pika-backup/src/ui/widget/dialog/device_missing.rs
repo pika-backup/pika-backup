@@ -1,7 +1,8 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
+use enclose::enclose;
 
-use crate::config;
 use crate::ui::prelude::*;
 
 mod imp {
@@ -14,7 +15,7 @@ mod imp {
     #[properties(wrapper_type = super::DeviceMissingDialog)]
     pub struct DeviceMissingDialog {
         #[property(get, set, construct_only)]
-        config: OnceCell<crate::config::Backup>,
+        config: OnceCell<common::config::Backup>,
 
         mount_sender: RefCell<Option<smol::channel::Sender<Option<gio::Mount>>>>,
 
@@ -84,7 +85,7 @@ mod imp {
                             let _ignore = mount_sender.try_send(Some(new_mount.clone()));
                             dialog.close();
                         } else {
-                            debug!("New volume, but likely not on there.");
+                            tracing::debug!("New volume, but likely not on there.");
                         }
                     }
                 }),

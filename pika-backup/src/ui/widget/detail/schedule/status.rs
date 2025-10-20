@@ -1,7 +1,8 @@
 use std::fmt::Write;
 
-use crate::config;
-use crate::schedule::requirements;
+use common::config;
+use common::schedule::requirements;
+
 use crate::ui::prelude::*;
 use crate::ui::utils::StatusLevel;
 use crate::ui::widget::StatusRow;
@@ -41,9 +42,13 @@ pub fn next_backup_in(d: &chrono::Duration) -> String {
 
 impl Status {
     pub async fn new(config: &config::Backup) -> Self {
-        let due_requirements = requirements::Due::check(config);
-        let global_requirements =
-            requirements::Global::check(config, BACKUP_HISTORY.load().as_ref()).await;
+        let due_requirements = requirements::Due::check(config, None, None);
+        let global_requirements = requirements::Global::check(
+            config,
+            BACKUP_CONFIG.load().as_ref(),
+            BACKUP_HISTORY.load().as_ref(),
+        )
+        .await;
         let hints = requirements::Hint::check(config);
 
         if !config.schedule.enabled {

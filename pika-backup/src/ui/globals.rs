@@ -3,10 +3,11 @@ use std::rc::Rc;
 use std::sync::{LazyLock, OnceLock};
 
 use arc_swap::ArcSwap;
+use common::config::ConfigId;
+use common::{borg, config};
 
 use super::app::App;
-use crate::config::ConfigId;
-use crate::{borg, config, ui};
+use crate::ui;
 
 pub static BACKUP_CONFIG: LazyLock<ArcSwap<config::Writeable<config::Backups>>> =
     LazyLock::new(Default::default);

@@ -33,11 +33,11 @@ mod imp {
     use std::cell::{Cell, RefCell};
 
     use adw::subclass::dialog::AdwDialogImplExt;
+    use common::config;
     use ui::widget::SpinnerPage;
 
     use self::repo_kind::SetupRepoKindPage;
     use super::*;
-    use crate::config;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "setup.ui")]
@@ -345,7 +345,7 @@ mod imp {
             }
 
             let Some(repo) = self.repo_config.borrow().clone() else {
-                error!("Encryption page create button clicked but no repo config set");
+                tracing::error!("Encryption page create button clicked but no repo config set");
                 self.navigation_view.pop_to_page(&*self.location_kind_page);
 
                 self.busy.set(false);
@@ -600,7 +600,7 @@ mod imp {
         }
 
         /// Add the backup config
-        async fn save_backup_config(&self, config: &crate::config::Backup) -> Result<()> {
+        async fn save_backup_config(&self, config: &common::config::Backup) -> Result<()> {
             // We shouldn't fail this method after this point, otherwise we
             // leave a half-configured backup config
             BACKUP_CONFIG
@@ -619,7 +619,7 @@ mod imp {
 
         async fn save_password(
             &self,
-            config: &crate::config::Backup,
+            config: &common::config::Backup,
             password: &config::Password,
         ) -> Result<()> {
             if let Err(err) = ui::utils::password_storage::store_password(config, password).await {

@@ -1,9 +1,9 @@
 use std::collections::BTreeSet;
 
+use common::config;
+use common::config::Loadable;
 use config::ArcSwapWriteable;
 
-use crate::config;
-use crate::config::Loadable;
 use crate::ui::prelude::*;
 
 fn load_config_e() -> std::io::Result<()> {

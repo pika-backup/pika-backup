@@ -1,8 +1,7 @@
 use std::path::PathBuf;
 
 use adw::prelude::*;
-
-use crate::config;
+use common::config;
 
 pub enum LocationTag {
     Location(PathBuf),
@@ -27,7 +26,7 @@ impl LocationTag {
 
     fn icon(&self) -> Option<gtk::Image> {
         match self {
-            Self::Location(path) => crate::utils::file_symbolic_icon(&config::absolute(path)),
+            Self::Location(path) => common::utils::file_symbolic_icon(&config::absolute(path)),
             Self::Exclude(exclude) => exclude.symbolic_icon(),
         }
     }

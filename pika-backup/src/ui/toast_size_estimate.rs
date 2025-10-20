@@ -1,5 +1,8 @@
+use common::{borg, config};
+use enclose::enclose;
+
+use crate::ui;
 use crate::ui::prelude::*;
-use crate::{borg, config, ui};
 
 pub async fn check(
     config: &config::Backup,
