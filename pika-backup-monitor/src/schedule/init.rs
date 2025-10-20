@@ -81,9 +81,11 @@ async fn probe(config: &config::Backup) {
     tracing::debug!("Probing backup: {}", config.repo);
     tracing::debug!("Frequency: {:?}", schedule.frequency);
 
-    // TODO: Activity?
-    let due =
-        requirements::Due::check(config, BACKUP_HISTORY.load().try_get(&config.id).ok(), None);
+    let due = requirements::Due::check(
+        config,
+        BACKUP_HISTORY.load().try_get(&config.id).ok(),
+        SCHEDULE_STATUS.load().try_get(&config.id).ok(),
+    );
 
     match due {
         Ok(due_cause) => {
