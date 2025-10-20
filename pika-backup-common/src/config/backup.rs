@@ -225,7 +225,7 @@ pub struct ArchivePrefix(pub String);
 
 /**
 ```
-# use pika_backup::config::ArchivePrefix;
+# use pika_backup_common::config::ArchivePrefix;
 assert_eq!(ArchivePrefix::new("x").to_string(), String::from("x-"));
 assert_eq!(ArchivePrefix::new(" x-").to_string(), String::from("x-"));
 assert_eq!(ArchivePrefix::new("").to_string(), String::from(""));

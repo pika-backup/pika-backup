@@ -192,7 +192,7 @@ impl DataRateHistory {
     /// Estimate duration in seconds for skipping and downloading one byte
     ///
     /// ```
-    /// # use pika_backup::*;
+    /// # use pika_backup_common::*;
     /// let mut history = borg::DataRateHistory::default();
     ///
     /// history.insert(borg::DataRate {
