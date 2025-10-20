@@ -20,4 +20,4 @@ pub const DBUS_API_NAME: &str = const_str::concat!(APP_ID, ".Api");
 pub const DBUS_API_PATH: &str = const_str::concat!("/", const_str::replace!(APP_ID, ".", "/"));
 
 pub const DAEMON_APP_ID: &str = const_str::concat!(APP_ID, ".Monitor");
-pub const DAEMON_BINARY: &str = concat!(env!("CARGO_PKG_NAME"), "-monitor");
+pub const DAEMON_BINARY: &str = "pika-backup-monitor";

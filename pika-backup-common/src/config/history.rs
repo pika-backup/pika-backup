@@ -113,7 +113,7 @@ pub struct Histories(pub BTreeMap<config::ConfigId, History>);
 impl super::ConfigType for Histories {
     fn path() -> std::path::PathBuf {
         let mut path = glib::user_config_dir();
-        path.push(env!("CARGO_PKG_NAME"));
+        path.push("pika-backup");
         path.push("history.json");
 
         path
