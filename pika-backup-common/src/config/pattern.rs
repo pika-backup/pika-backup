@@ -189,7 +189,7 @@ impl<const T: bool> Pattern<T> {
 
     ///
     /// ```
-    /// # use pika_backup::config;
+    /// # use pika_backup_common::config;
     /// # type Pattern = config::Pattern<{config::ABSOLUTE}>;
     /// let path = std::path::Path::new("/tmp/test/file");
     ///
