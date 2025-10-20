@@ -1,13 +1,10 @@
-mod common;
-pub use pika_backup::borg::CommandRun;
-
-#[macro_use]
-extern crate matches;
-
+mod test_common;
 use macro_rules_attribute::apply;
-use pika_backup::borg::prelude::*;
-use pika_backup::{borg, config};
+use matches::assert_matches;
 use smol_macros::test;
+pub use test_common::borg::CommandRun;
+use test_common::borg::prelude::*;
+use test_common::{borg, config};
 
 // Currently, there are no init tasks
 fn init() {}
@@ -16,7 +13,7 @@ fn init() {}
 async fn simple_backup() {
     init();
 
-    let config = config();
+    let config = tmp_config();
 
     let init = borg::CommandOnlyRepo::new(config.repo.clone());
     assert_matches!(init.clone().init().await, Ok(()));
@@ -28,7 +25,7 @@ async fn simple_backup() {
 
 #[apply(test!)]
 async fn backup_communication() -> borg::Result<()> {
-    let config = config();
+    let config = tmp_config();
 
     let init = borg::CommandOnlyRepo::new(config.repo.clone());
     init.init().await?;
@@ -46,7 +43,7 @@ async fn backup_communication() -> borg::Result<()> {
 #[apply(test!)]
 async fn encrypted_backup() {
     init();
-    let mut config = config();
+    let mut config = tmp_config();
     config.encrypted = true;
 
     let mut init = borg::CommandOnlyRepo::new(config.repo.clone());
@@ -83,7 +80,7 @@ async fn failed_ssh_connection() {
 #[apply(test!)]
 async fn failed_repo() {
     init();
-    let result = borg::CommandOnlyRepo::new(config().repo).peek().await;
+    let result = borg::CommandOnlyRepo::new(tmp_config().repo).peek().await;
     assert_matches!(
         result,
         Err(borg::Error::Failed(
@@ -92,9 +89,9 @@ async fn failed_repo() {
     );
 }
 
-fn config() -> config::Backup {
+fn tmp_config() -> config::Backup {
     let uuid = glib::uuid_string_random().to_string();
-    let mut config = common::config(std::path::Path::new(&format!("/tmp/{}", &uuid)));
+    let mut config = test_common::config(std::path::Path::new(&format!("/tmp/{}", &uuid)));
     config.include.insert("/dev/null".into());
     config
 }

@@ -14,9 +14,6 @@ use gio::prelude::*;
 use prelude::*;
 
 pub fn main() {
-    LIB_USER
-        .set(LibUser::Daemon)
-        .expect("Could not set daemon mode for library.");
     init::init();
     gio_app().run();
 }

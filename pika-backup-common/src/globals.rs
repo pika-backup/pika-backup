@@ -1,9 +1,7 @@
-use std::sync::{LazyLock, OnceLock};
+use std::sync::LazyLock;
 
 const CLOCK_INTERFACE: &str = "org.gnome.desktop.interface";
 const CLOCK_KEY: &str = "clock-format";
-
-pub static LIB_USER: OnceLock<LibUser> = OnceLock::new();
 
 pub static APP_IS_SANDBOXED: LazyLock<bool> =
     LazyLock::new(|| smol::block_on(ashpd::is_sandboxed()));
@@ -21,9 +19,3 @@ pub static CLOCK_IS_24H: LazyLock<bool> = LazyLock::new(|| {
 pub static MEMORY_PASSWORD_STORE: LazyLock<
     std::sync::Arc<crate::utils::password::MemoryPasswordStore>,
 > = LazyLock::new(Default::default);
-
-#[derive(Debug)]
-pub enum LibUser {
-    Daemon,
-    Ui,
-}
