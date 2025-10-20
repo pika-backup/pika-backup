@@ -1,7 +1,7 @@
 #!/bin/sh
 
 git ls-files \
-	"pika-backup/*.ui" "pika-backup/*.rs" "data/*.ui" "data/*.desktop.in" "data/*.xml.in" \
+	"pika-backup/*.ui" "pika-backup/*.rs" "pika-backup-common/*.rs" "pika-backup-monitor/*.rs" "data/*.ui" "data/*.desktop.in" "data/*.xml.in" \
 	> po/POTFILES.in
 
 cd po

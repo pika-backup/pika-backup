@@ -6,11 +6,11 @@ use crate::ui::prelude::*;
 mod imp {
     use std::cell::{Cell, OnceCell};
 
+    use common::borg::log_json::LogEntry;
+    use common::config::history::CheckRunInfo;
     use glib::Properties;
 
     use super::*;
-    use crate::borg::log_json::LogEntry;
-    use crate::config::history::CheckRunInfo;
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
     #[properties(wrapper_type = super::CheckDialog)]
@@ -81,7 +81,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl CheckDialog {
-        fn config(&self) -> Result<crate::config::Backup> {
+        fn config(&self) -> Result<common::config::Backup> {
             match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
                 Ok(backup) => Ok(backup.clone()),
                 Err(err) => Err(crate::ui::Error::from(err)),
@@ -104,7 +104,7 @@ mod imp {
                     });
 
                     let mut command =
-                        crate::borg::Command::<crate::borg::task::Check>::new(config.clone());
+                        common::borg::Command::<common::borg::task::Check>::new(config.clone());
                     command.task.set_verify_data(obj.imp().verify_data.get());
                     let repair = obj.imp().repair.get();
                     command.task.set_repair(repair);
@@ -143,11 +143,13 @@ mod imp {
 
                     if !message_history.is_empty() {
                         let run_info = if repair {
-                            crate::config::history::CheckRunInfo::new_repair(
+                            common::config::history::CheckRunInfo::new_repair(
                                 message_history.clone(),
                             )
                         } else {
-                            crate::config::history::CheckRunInfo::new_error(message_history.clone())
+                            common::config::history::CheckRunInfo::new_error(
+                                message_history.clone(),
+                            )
                         };
 
                         BACKUP_HISTORY
@@ -167,7 +169,7 @@ mod imp {
                         )
                         .into());
                     } else {
-                        let run_info = crate::config::history::CheckRunInfo::new_success();
+                        let run_info = common::config::history::CheckRunInfo::new_success();
 
                         BACKUP_HISTORY
                             .try_update(|history| {

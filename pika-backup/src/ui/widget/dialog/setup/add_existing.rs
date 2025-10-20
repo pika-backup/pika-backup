@@ -1,7 +1,7 @@
 use adw::subclass::prelude::*;
+use common::config;
 
 use super::actions;
-use crate::config;
 use crate::ui::widget::SpinnerPage;
 
 mod imp {
@@ -35,7 +35,7 @@ mod imp {
     impl SetupAddExistingPage {
         pub(super) async fn check_repo(
             &self,
-            repo: crate::config::Repository,
+            repo: common::config::Repository,
             password: Option<config::Password>,
         ) -> std::result::Result<config::Backup, actions::ConnectRepoError> {
             actions::try_peek(repo.clone(), password.clone())

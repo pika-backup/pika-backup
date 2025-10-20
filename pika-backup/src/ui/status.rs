@@ -4,6 +4,7 @@ use std::rc::Rc;
 use std::time::{Duration, Instant};
 
 use adw::prelude::*;
+use enclose::enclose;
 use glib::SignalHandlerId;
 use smol::prelude::*;
 use ui::prelude::*;
@@ -26,10 +27,10 @@ pub struct StatusTracking {
 impl StatusTracking {
     pub fn new_rc() -> Rc<Self> {
         if !gtk::is_initialized_main_thread() {
-            error!("StatusTracking must not be initialized outside of the main thread");
+            tracing::error!("StatusTracking must not be initialized outside of the main thread");
         }
 
-        debug!("Setting up global status tracking");
+        tracing::debug!("Setting up global status tracking");
 
         let tracking = Rc::new(Self {
             on_battery_since: Default::default(),
@@ -48,10 +49,10 @@ impl StatusTracking {
                 tracking,
                 move |x| {
                     if x.is_network_metered() {
-                        debug!("Connection now metered.");
+                        tracing::debug!("Connection now metered.");
                         tracking.metered_since.set(Some(Instant::now()));
                     } else {
-                        debug!("Connection no longer metered.");
+                        tracing::debug!("Connection no longer metered.");
                         tracking.metered_since.set(None);
                     }
                     tracking.ui_schedule_update();
@@ -63,22 +64,22 @@ impl StatusTracking {
         let weak_tracking = Rc::downgrade(&tracking);
         glib::MainContext::default().spawn_local(async move {
             if let Some(mut stream) =
-                crate::utils::upower::UPower::receive_on_battery_changed().await
+                common::utils::upower::UPower::receive_on_battery_changed().await
             {
                 while let (Some(result), Some(tracking)) =
                     (stream.next().await, weak_tracking.upgrade())
                 {
                     match result.get().await {
                         Ok(true) => {
-                            debug!("Device now battery powered.");
+                            tracing::debug!("Device now battery powered.");
                             tracking.on_battery_since.set(Some(Instant::now()));
                         }
                         Ok(false) => {
-                            debug!("Device no longer battery powered.");
+                            tracing::debug!("Device no longer battery powered.");
                             tracking.on_battery_since.set(None);
                         }
                         Err(err) => {
-                            warn!("Failed to get new OnBattery() status: {}", err);
+                            tracing::warn!("Failed to get new OnBattery() status: {}", err);
                         }
                     }
                     tracking.ui_schedule_update();
@@ -88,8 +89,8 @@ impl StatusTracking {
 
         // Daemon
         Handler::run(enclose!((tracking) async {
-            crate::utils::listen_remote_app_running(
-                crate::DAEMON_APP_ID,
+            common::utils::listen_remote_app_running(
+                common::DAEMON_APP_ID,
                 &crate::ui::dbus::session_connection()
                     .await
                     .err_to_msg(gettext("Unable to determine background process status"))?,
@@ -139,7 +140,9 @@ impl StatusTracking {
                             if idle_since.elapsed() > Duration::from_secs(120)
                                 && !main_ui().window().is_visible()
                             {
-                                error!("UI has been indle without task for 120 secs. Quitting.");
+                                tracing::error!(
+                                    "UI has been indle without task for 120 secs. Quitting."
+                                );
                                 quit_background_app();
                             }
                         } else {
@@ -148,7 +151,7 @@ impl StatusTracking {
                         }
                     }
 
-                    debug!("Regular UI update to keep 'time ago' etc correct.");
+                    tracing::debug!("Regular UI update to keep 'time ago' etc correct.");
                     tracking.ui_status_update();
                     tracking.ui_schedule_update();
                     glib::ControlFlow::Continue
@@ -164,7 +167,7 @@ impl StatusTracking {
     }
 
     fn ui_status_update(&self) {
-        debug!("UI status update");
+        tracing::debug!("UI status update");
 
         main_ui().page_detail().backup_page().refresh_status();
         main_ui().page_detail().archives_page().refresh_status();
@@ -172,7 +175,7 @@ impl StatusTracking {
     }
 
     fn ui_schedule_update(&self) {
-        debug!("UI schedule update");
+        tracing::debug!("UI schedule update");
 
         main_ui().page_detail().schedule_page().refresh_status();
         main_ui().page_overview().refresh_status();
@@ -181,7 +184,7 @@ impl StatusTracking {
 
 impl Drop for StatusTracking {
     fn drop(&mut self) {
-        debug!("Dropping global status tracking");
+        tracing::debug!("Dropping global status tracking");
     }
 }
 
@@ -196,7 +199,7 @@ impl Default for QuitGuard {
         glib::MainContext::default().invoke_with_priority(glib::Priority::HIGH, || {
             ui::globals::STATUS_TRACKING.with(|status| {
                 let new = status.quit_inhibit_count.get() + 1;
-                debug!("Increasing quit guard count to {new}");
+                tracing::debug!("Increasing quit guard count to {new}");
                 status.quit_inhibit_count.set(new);
                 status.idle_since.set(None);
             });
@@ -213,14 +216,14 @@ impl Drop for QuitGuard {
                 let count = status.quit_inhibit_count.get();
 
                 if let Some(new) = count.checked_sub(1) {
-                    debug!("Decreasing quit guard count to {new}");
+                    tracing::debug!("Decreasing quit guard count to {new}");
                     status.quit_inhibit_count.set(new);
 
                     if new == 0 {
                         status.idle_since.set(Some(Instant::now()));
                     }
                 } else {
-                    error!("BUG: Would reduce quit guard to < 0. Something has gone terribly wrong with status tracking.");
+                    tracing::error!("BUG: Would reduce quit guard to < 0. Something has gone terribly wrong with status tracking.");
                 }
 
                 status.quit_inhibit_count.get()

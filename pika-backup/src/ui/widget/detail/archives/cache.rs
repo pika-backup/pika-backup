@@ -1,7 +1,10 @@
+use common::{borg, config, schedule};
+use enclose::enclose;
+
 use super::imp;
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils::repo_cache::RepoCache;
-use crate::{borg, config, schedule, ui};
 
 impl imp::ArchivesPage {
     pub async fn refresh_archives(
@@ -9,11 +12,11 @@ impl imp::ArchivesPage {
         config: config::Backup,
         from_schedule: Option<schedule::DueCause>,
     ) -> Result<()> {
-        info!("Refreshing archives cache");
+        tracing::info!("Refreshing archives cache");
         let guard = QuitGuard::default();
 
         if Some(true) == REPO_CACHE.load().get(&config.repo_id).map(|x| x.reloading) {
-            info!("Aborting archives cache reload because already in progress");
+            tracing::info!("Aborting archives cache reload because already in progress");
             return Ok(());
         } else {
             REPO_CACHE.update(|repos| {
@@ -56,7 +59,7 @@ impl imp::ArchivesPage {
             );
 
         }));
-        info!("Archives cache refreshed");
+        tracing::info!("Archives cache refreshed");
 
         RepoCache::write(&config.repo_id)?;
 

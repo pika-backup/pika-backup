@@ -1,9 +1,9 @@
 use std::str::FromStr;
 
+use common::{borg, config};
 use gio::prelude::*;
 
 use crate::ui::prelude::*;
-use crate::{borg, config};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, glib::Enum, Default)]
 #[enum_type(name = "PkSetupKind")]

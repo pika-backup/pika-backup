@@ -1,12 +1,13 @@
 use std::fmt::Write;
 
 use chrono::prelude::*;
+use common::borg;
+use common::borg::{Run, log_json};
+use common::config::{history, *};
 
-use crate::borg::{Run, log_json};
-use crate::config::{history, *};
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils;
-use crate::{borg, ui};
 
 #[derive(Debug)]
 pub struct Display {

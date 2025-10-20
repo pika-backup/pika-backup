@@ -1,17 +1,17 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
 
-use crate::config;
 use crate::ui::prelude::*;
 
 mod imp {
 
     use std::sync::OnceLock;
 
+    use common::config;
     use glib::subclass::Signal;
 
     use super::*;
-    use crate::config;
     use crate::ui::widget::PkDialogPageImpl;
 
     #[derive(Default, gtk::CompositeTemplate)]
@@ -66,7 +66,7 @@ mod imp {
             self.obj().emit_by_name::<()>("continue", &[&prefix]);
         }
 
-        pub(super) fn set_prefix(&self, prefix: &crate::config::ArchivePrefix) {
+        pub(super) fn set_prefix(&self, prefix: &common::config::ArchivePrefix) {
             self.prefix.set_text(&prefix.0);
         }
 

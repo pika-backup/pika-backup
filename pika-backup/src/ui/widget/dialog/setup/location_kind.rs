@@ -88,7 +88,7 @@ mod imp {
                 #[weak]
                 imp,
                 move |_, mount| {
-                    debug!("Mount added");
+                    tracing::debug!("Mount added");
                     let mount = mount.clone();
                     if let Some(window) = imp.obj().root().and_downcast_ref::<gtk::Window>() {
                         Handler::new()
@@ -102,7 +102,7 @@ mod imp {
                 #[weak]
                 imp,
                 move |_, mount| {
-                    debug!("Mount removed");
+                    tracing::debug!("Mount removed");
                     Self::remove_mount(&imp.add_repo_list, &mount.root().uri());
                     Self::remove_mount(&imp.init_repo_list, &mount.root().uri());
                 }
@@ -185,7 +185,7 @@ mod imp {
                 .to_lowercase();
 
             if !LISTED_URI_SCHEMES.contains(&uri_scheme.as_str()) {
-                info!("Ignoring volume because of URI scheme '{}'", uri_scheme);
+                tracing::info!("Ignoring volume because of URI scheme '{}'", uri_scheme);
                 return Ok(());
             }
 
@@ -222,7 +222,7 @@ mod imp {
                 }
 
                 for path in paths {
-                    trace!("Adding repo to ui '{:?}'", path);
+                    tracing::trace!("Adding repo to ui '{:?}'", path);
                     Self::add_mount(
                         &self.add_repo_list,
                         &mount,
@@ -305,7 +305,7 @@ mod imp {
         }
 
         pub(super) async fn refresh(&self) -> Result<()> {
-            debug!("Refreshing list of existing repos");
+            tracing::debug!("Refreshing list of existing repos");
             let monitor = gio::VolumeMonitor::get();
 
             self.clear();
@@ -314,7 +314,7 @@ mod imp {
                 self.load_mount(mount).await?;
             }
 
-            debug!("List of existing repos refreshed");
+            tracing::debug!("List of existing repos refreshed");
             Ok(())
         }
     }

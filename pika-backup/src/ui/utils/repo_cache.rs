@@ -1,8 +1,12 @@
 use std::collections::BTreeMap;
 use std::iter::FromIterator;
 
+use common::borg;
+use enclose::enclose;
+use serde::{Deserialize, Serialize};
+
+use crate::ui;
 use crate::ui::prelude::*;
-use crate::{borg, ui};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RepoCache {
@@ -25,10 +29,10 @@ impl RepoCache {
 
     pub fn get(repo_id: &borg::RepoId) -> Self {
         if let Some(repo_archives) = REPO_CACHE.load().get(repo_id) {
-            debug!("Repo cache already loaded from file");
+            tracing::debug!("Repo cache already loaded from file");
             repo_archives.clone()
         } else {
-            debug!("Try loading repo cache from file");
+            tracing::debug!("Try loading repo cache from file");
 
             let repo_cache: Option<Self> = std::fs::File::open(Self::path(repo_id))
                 .ok()
@@ -59,7 +63,7 @@ impl RepoCache {
         }
     }
 
-    pub fn path(repo_id: &crate::borg::RepoId) -> std::path::PathBuf {
+    pub fn path(repo_id: &common::borg::RepoId) -> std::path::PathBuf {
         [super::cache_dir(), repo_id.as_str().into()]
             .iter()
             .collect()

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
-use crate::config::{self, Password};
+use common::config::{self, Password};
+
 use crate::ui::App;
 use crate::ui::prelude::*;
 use crate::ui::widget::EncryptionPasswordDialog;
@@ -19,7 +20,7 @@ pub async fn password_dialog(
 }
 
 pub async fn store_password(config: &config::Backup, password: &Password) -> Result<()> {
-    debug!("Storing new password at secret service");
+    tracing::debug!("Storing new password at secret service");
     set_password(config, password)
         .await
         .map_err(|err| Message::from_secret_service(gettext("Failed to Store Password"), err))?;
@@ -35,9 +36,9 @@ pub async fn remove_password(config: &config::Backup, remove_all: bool) -> Resul
             .iter()
             .any(|x| x.id != config.id && x.repo_id == config.repo_id)
     {
-        debug!("Not removing password because other configs need it");
+        tracing::debug!("Not removing password because other configs need it");
     } else {
-        debug!("Removing password from secret service");
+        tracing::debug!("Removing password from secret service");
         delete_passwords(config).await.map_err(|err| {
             Message::from_secret_service(
                 gettext("Failed to remove potentially remaining passwords from key storage."),
@@ -53,7 +54,7 @@ async fn set_password(
     config: &config::Backup,
     password: &Password,
 ) -> std::result::Result<(), oo7::Error> {
-    debug!("Starting to store password");
+    tracing::debug!("Starting to store password");
     let keyring = oo7::Keyring::new().await?;
 
     keyring
@@ -66,19 +67,19 @@ async fn set_password(
         )
         .await?;
 
-    debug!("Storing password returned");
+    tracing::debug!("Storing password returned");
 
     Ok(())
 }
 
 async fn delete_passwords(config: &config::Backup) -> std::result::Result<(), oo7::Error> {
-    debug!("Starting to clear passwords");
+    tracing::debug!("Starting to clear passwords");
 
     let keyring = oo7::Keyring::new().await?;
     keyring
         .delete(&HashMap::from([("repo-id", config.repo_id.as_str())]))
         .await?;
 
-    debug!("Clearing password returned");
+    tracing::debug!("Clearing password returned");
     Ok(())
 }

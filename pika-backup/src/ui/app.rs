@@ -1,14 +1,15 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
 use config::TrackChanges;
 
 use super::shell;
 use super::widget::setup::SetupDialog;
 use super::widget::{AppWindow, PreferencesDialog};
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils;
 use crate::ui::widget::UnmountArchives;
-use crate::{config, ui};
 
 mod imp {
     use std::cell::Cell;
@@ -36,7 +37,7 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for App {
         fn constructed(&self) {
-            debug!("App::constructed");
+            tracing::debug!("App::constructed");
             self.parent_constructed();
 
             ui::widget::init();
@@ -44,7 +45,7 @@ mod imp {
     }
     impl ApplicationImpl for App {
         fn startup(&self) {
-            debug!("App::startup");
+            tracing::debug!("App::startup");
             self.parent_startup();
 
             ui::utils::config_io::load_config();
@@ -59,7 +60,7 @@ mod imp {
                 settings.set_property("gtk-icon-theme-name", "Adwaita");
             }
 
-            gtk::Window::set_default_icon_name(crate::APP_ID);
+            gtk::Window::set_default_icon_name(common::APP_ID);
 
             self.obj().setup_actions();
 
@@ -73,7 +74,7 @@ mod imp {
         }
 
         fn activate(&self) {
-            debug!("App::activate");
+            tracing::debug!("App::activate");
             self.parent_activate();
 
             let window = self.main_window();
@@ -81,7 +82,7 @@ mod imp {
         }
 
         fn shutdown(&self) {
-            debug!("App::shutdown");
+            tracing::debug!("App::shutdown");
             self.parent_shutdown();
 
             self.in_shutdown.set(true);
@@ -93,10 +94,10 @@ mod imp {
             }));
 
             if let Err(err) = result {
-                error!("Failed to write config during shutdown: {}", err);
+                tracing::error!("Failed to write config during shutdown: {}", err);
             }
 
-            debug!("App::shutdown finished");
+            tracing::debug!("App::shutdown finished");
         }
     }
     impl GtkApplicationImpl for App {}
@@ -124,9 +125,9 @@ glib::wrapper! {
 
 impl App {
     pub fn new() -> Self {
-        debug!("Setting up application with id '{}'", crate::APP_ID);
+        tracing::debug!("Setting up application with id '{}'", common::APP_ID);
         glib::Object::builder()
-            .property("application-id", Some(crate::APP_ID))
+            .property("application-id", Some(common::APP_ID))
             .build()
     }
 
@@ -157,13 +158,13 @@ impl App {
                     if let Err(err) =
                         gio::AppInfo::launch_default_for_uri("help:pika-backup", context.as_ref())
                     {
-                        error!("Launch help error: {err}");
+                        tracing::error!("Launch help error: {err}");
                     }
                 })
                 .build(),
             gio::ActionEntryBuilder::new("quit")
                 .activate(|app: &Self, _, _| {
-                    debug!("Potential quit: Action app.quit (Ctrl+Q)");
+                    tracing::debug!("Potential quit: Action app.quit (Ctrl+Q)");
                     let app = app.clone();
                     Handler::run(async move { app.try_quit().await });
                 })
@@ -184,7 +185,7 @@ impl App {
             gio::ActionEntryBuilder::new("backup.start")
                 .parameter_type(Some(&String::static_variant_type()))
                 .activate(|app: &Self, _, config_id| {
-                    info!("action backup.start: called");
+                    tracing::info!("action backup.start: called");
                     if let Some(config_id) =
                         config_id.and_then(|v| v.str()).map(ToString::to_string)
                     {
@@ -195,7 +196,7 @@ impl App {
                             guard,
                         );
                     } else {
-                        error!("action backup.start: Did not receive valid config id");
+                        tracing::error!("action backup.start: Did not receive valid config id");
                     }
                 })
                 .build(),
@@ -221,15 +222,15 @@ impl App {
     }
 
     pub async fn try_quit(&self) -> Result<()> {
-        debug!("App::try_quit");
+        tracing::debug!("App::try_quit");
 
         let dialog = UnmountArchives::new();
         dialog.execute(&self.main_window()).await?;
 
         if BACKUP_HISTORY.load().iter().any(|(_, x)| x.is_browsing()) {
-            debug!("Some archives are still mounted for browsing.");
+            tracing::debug!("Some archives are still mounted for browsing.");
         } else {
-            debug!("No archives mounted for browsing");
+            tracing::debug!("No archives mounted for browsing");
         }
 
         if utils::borg::is_borg_operation_running() {
@@ -237,7 +238,7 @@ impl App {
                 let permission = utils::background_permission().await;
                 match permission {
                     Ok(()) => {
-                        debug!("Hiding main window as backup is currently running");
+                        tracing::debug!("Hiding main window as backup is currently running");
                         self.main_window().set_visible(false);
                     }
                     Err(err) => {
@@ -257,7 +258,9 @@ impl App {
             } else {
                 // Someone wants to quit the app from the shell (eg via backgrounds app list)
                 // Or we do something wrong and called this erroneously
-                debug!("Received quit request while a backup operation is running. Ignoring");
+                tracing::debug!(
+                    "Received quit request while a backup operation is running. Ignoring"
+                );
                 let notification = gio::Notification::new(&gettext("Backup Operation Running"));
                 notification.set_body(Some(&gettext(
                     "Pika Backup cannot be quit during a backup operation",
@@ -275,7 +278,7 @@ impl App {
     async fn quit_real(&self) {
         shell::set_status_message(&gettext("Quit")).await;
 
-        debug!("gio::Application::quit");
+        tracing::debug!("gio::Application::quit");
         gio::Application::quit(self.upcast_ref());
     }
 }

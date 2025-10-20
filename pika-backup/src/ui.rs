@@ -15,17 +15,17 @@ mod utils;
 mod widget;
 
 pub use app::App;
-pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY, SCHEDULE_STATUS};
+use common::{borg, config};
+pub(crate) use globals::{BACKUP_CONFIG, BACKUP_HISTORY};
 use gtk::prelude::*;
 use gvdb_macros::include_gresource_from_dir;
 
 use crate::ui::prelude::*;
-use crate::{borg, config};
 
 static GRESOURCE_BYTES: &[u8] =
-    if const_str::equal!("/org/gnome/World/PikaBackup", crate::DBUS_API_PATH) {
+    if const_str::equal!("/org/gnome/World/PikaBackup", common::DBUS_API_PATH) {
         include_gresource_from_dir!("/org/gnome/World/PikaBackup", "data/resources")
-    } else if const_str::equal!("/org/gnome/World/PikaBackup/Devel", crate::DBUS_API_PATH) {
+    } else if const_str::equal!("/org/gnome/World/PikaBackup/Devel", common::DBUS_API_PATH) {
         include_gresource_from_dir!("/org/gnome/World/PikaBackup/Devel", "data/resources")
     } else {
         panic!("Invalid DBUS_API_PATH")
@@ -39,7 +39,7 @@ pub fn main() {
             .init();
     }
 
-    crate::utils::init_gettext();
+    common::utils::init_gettext();
 
     // Ctrl-C handling
     glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
@@ -53,7 +53,7 @@ pub fn main() {
 }
 
 fn on_ctrlc() -> glib::ControlFlow {
-    debug!("Quit: SIGINT (Ctrl+C)");
+    tracing::debug!("Quit: SIGINT (Ctrl+C)");
 
     BORG_OPERATION.with(|operations| {
         for op in operations.load().values() {

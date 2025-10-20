@@ -1,4 +1,4 @@
-use crate::config;
+use common::config;
 
 pub enum BackupNote<'a> {
     Warnings(&'a config::ConfigId),

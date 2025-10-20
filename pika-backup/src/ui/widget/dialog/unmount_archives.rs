@@ -4,13 +4,13 @@ use std::time::Duration;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use adw::{glib, gtk};
+use common::borg;
+use common::config::ConfigId;
+use common::utils::LookupConfigId;
 
-use crate::borg;
-use crate::config::ConfigId;
 use crate::ui::error::{Error, Result};
 use crate::ui::prelude::ArcSwapResultExt;
 use crate::ui::{BACKUP_CONFIG, BACKUP_HISTORY};
-use crate::utils::LookupConfigId;
 
 mod imp {
     use super::*;
@@ -96,7 +96,7 @@ impl UnmountArchives {
             {
                 match BACKUP_CONFIG.load().try_get(config_id) {
                     Err(err) => {
-                        error!("Can't unmount: {err:?}");
+                        tracing::error!("Can't unmount: {err:?}");
                     }
                     Ok(config) => match borg::functions::umount(&config.repo_id).await {
                         Err(err) => {
@@ -124,7 +124,7 @@ impl UnmountArchives {
             }
 
             if !self.is_mapped() {
-                debug!("Dialog closed. Stopping unmounts.");
+                tracing::debug!("Dialog closed. Stopping unmounts.");
                 return Err(Error::UserCanceled);
             }
 

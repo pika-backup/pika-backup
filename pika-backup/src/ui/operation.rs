@@ -1,4 +1,4 @@
-//! Track [crate::borg] operation from UI's side
+//! Track [common::borg] operation from UI's side
 
 use std::any::Any;
 use std::cell::{Cell, RefCell};
@@ -6,11 +6,13 @@ use std::rc::Rc;
 use std::time::Duration;
 
 use adw::prelude::*;
+use common::borg::log_json;
+use common::{borg, config};
+use enclose::enclose;
 use ui::prelude::*;
 
 use super::App;
-use crate::borg::log_json;
-use crate::{borg, config, ui};
+use crate::ui;
 
 const TIME_METERED_ABORT: Duration = Duration::from_secs(60);
 const TIME_ON_BATTERY_ABORT: Duration = Duration::from_secs(20 * 60);
@@ -41,7 +43,7 @@ impl<T: borg::Task> Operation<T> {
                 .upgrade()
                 .map(|x| x.communication().new_receiver())
             {
-                debug!("Connect to new communication messages");
+                tracing::debug!("Connect to new communication messages");
                 while let Ok(output) = log_receiver.recv().await {
                     if let Some(process) = weak_process.upgrade() {
                         process.check_output(output);
@@ -49,7 +51,7 @@ impl<T: borg::Task> Operation<T> {
                 }
 
                 if Some(false) != weak_process.upgrade().map(|x| x.operation_shutdown.get()) {
-                    debug!("Stop listening to communication messages because of shutdown");
+                    tracing::debug!("Stop listening to communication messages because of shutdown");
                     return;
                 }
             }
@@ -129,12 +131,12 @@ impl<T: borg::Task> Operation<T> {
             && self_.is_time_metered_exceeded()
             && self_.command.config.repo.is_internet().await
         {
-            info!("Stopping scheduled operation on metered connection now.");
+            tracing::info!("Stopping scheduled operation on metered connection now.");
             self_
                 .communication()
                 .set_instruction(borg::Instruction::Abort(borg::Abort::MeteredConnection));
         } else if self_.command.from_schedule.is_some() && self_.is_time_on_battery_exceeded() {
-            info!("Stopping scheduled operation on battery now.");
+            tracing::info!("Stopping scheduled operation on battery now.");
             self_
                 .communication()
                 .set_instruction(borg::Instruction::Abort(borg::Abort::OnBattery));
@@ -180,12 +182,12 @@ impl<T: borg::Task> Operation<T> {
         if cookie > 0 {
             self.inhibit_cookie.set(Some(cookie));
         } else {
-            warn!("Failed to set application inhibit.");
+            tracing::warn!("Failed to set application inhibit.");
         }
     }
 
     fn ui_status_update(&self) {
-        debug!("UI status update");
+        tracing::debug!("UI status update");
 
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
             main_ui().page_detail().backup_page().refresh_status();
@@ -198,7 +200,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     fn ui_schedule_update(&self) {
-        debug!("UI schedule update");
+        tracing::debug!("UI schedule update");
 
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
             main_ui().page_detail().schedule_page().refresh_status();
@@ -234,13 +236,13 @@ impl<T: borg::Task> Operation<T> {
 
 impl<T: borg::Task> Drop for Operation<T> {
     fn drop(&mut self) {
-        debug!("Dropping operation tracking '{}'.", T::name());
+        tracing::debug!("Dropping operation tracking '{}'.", T::name());
 
         self.operation_shutdown.replace(true);
         self.communication().drop_senders();
 
         if BORG_OPERATION.try_with(|_| {}).is_err() {
-            debug!("Not doing any external operations.");
+            tracing::debug!("Not doing any external operations.");
         } else {
             self.ui_status_update();
             self.ui_schedule_update();

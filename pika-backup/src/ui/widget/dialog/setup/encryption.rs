@@ -44,7 +44,7 @@ mod imp {
             SIGNALS.get_or_init(|| {
                 vec![
                     Signal::builder("continue")
-                        .param_types([Option::<crate::config::Password>::static_type()])
+                        .param_types([Option::<common::config::Password>::static_type()])
                         .build(),
                 ]
             })
@@ -62,7 +62,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl SetupEncryptionPage {
-        fn emit_continue(&self, password: Option<crate::config::Password>) {
+        fn emit_continue(&self, password: Option<common::config::Password>) {
             self.obj().emit_by_name::<()>("continue", &[&password]);
         }
 

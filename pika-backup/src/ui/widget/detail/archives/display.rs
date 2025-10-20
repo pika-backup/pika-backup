@@ -1,11 +1,12 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::{borg, config};
 
 use super::imp;
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::utils::repo_cache::RepoCache;
 use crate::ui::{App, backup_status};
-use crate::{borg, config, ui};
 
 impl imp::ArchivesPage {
     pub async fn show(&self) -> Result<()> {
@@ -26,7 +27,7 @@ impl imp::ArchivesPage {
         let repo_archives = RepoCache::get(&config.repo_id);
 
         let result = if repo_archives.archives.as_ref().is_none() {
-            trace!("Archives have never been retrieved");
+            tracing::trace!("Archives have never been retrieved");
             self.refresh_archives(config.clone(), None).await
         } else {
             Ok(())
@@ -137,11 +138,11 @@ impl imp::ArchivesPage {
         if Ok(repo_id) != BACKUP_CONFIG.load().active().map(|x| &x.repo_id)
             || !self.obj().is_visible()
         {
-            debug!("Not displaying archive list because it's not visible");
+            tracing::debug!("Not displaying archive list because it's not visible");
             return;
         }
 
-        debug!("Displaying archive list from cache");
+        tracing::debug!("Displaying archive list from cache");
         let repo_cache = RepoCache::get(repo_id);
 
         ui::utils::clear(&self.list);

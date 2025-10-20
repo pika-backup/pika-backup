@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use serde::Deserialize;
+
 #[allow(dead_code)]
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "PascalCase")]

@@ -1,13 +1,15 @@
 use std::future::Future;
 
 use borg::task::Task;
+use common::borg;
+use common::borg::{RepoId, task};
+use enclose::enclose;
 use gio::prelude::*;
 use ui::error::Combined;
 
-use crate::borg::{RepoId, task};
+use crate::ui;
 use crate::ui::prelude::*;
 use crate::ui::{App, utils};
-use crate::{borg, ui};
 
 /// Is a borg operation registered with a [QuitGuard]]?
 pub fn is_borg_operation_running() -> bool {
@@ -141,7 +143,7 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
         .browsing_repo_ids(&BACKUP_CONFIG.load())
         .contains(repo_id)
     {
-        debug!("Trying to run a {kind:?} on a backup that is currently mounted.");
+        tracing::debug!("Trying to run a {kind:?} on a backup that is currently mounted.");
 
         match kind {
             task::Kind::Create => {
@@ -170,7 +172,7 @@ async fn ask_unmount(kind: task::Kind, repo_id: &RepoId) -> Result<()> {
             }
         }
 
-        trace!("User decided to unmount repo.");
+        tracing::trace!("User decided to unmount repo.");
         repo_unmount(repo_id)
             .await
             .err_to_msg(gettext("Failed to unmount repository."))?;
@@ -223,12 +225,12 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
                     if let Err(Error::Message(err)) =
                         crate::ui::utils::password_storage::store_password(config, password).await
                     {
-                        warn!(
+                        tracing::warn!(
                             "Error using keyring, using in-memory password store. Keyring error: '{err:?}'"
                         );
 
                         // Use the in-memory password store instead
-                        crate::globals::MEMORY_PASSWORD_STORE
+                        common::globals::MEMORY_PASSWORD_STORE
                             .set_password(config, password.clone());
                     }
 
@@ -378,9 +380,11 @@ pub async fn cleanup_repo_mounts() {
         if !borg::is_mounted(repo_id).await {
             // The repository was unmounted somewhere else
             // Call unmount to fix the state
-            warn!("Marking repo {repo_id:?} as unmounted, as the mountpoint doesn't exist anymore");
+            tracing::warn!(
+                "Marking repo {repo_id:?} as unmounted, as the mountpoint doesn't exist anymore"
+            );
             if let Err(err) = repo_unmount(repo_id).await {
-                warn!("Failed to run the borg unmount procedure for '{repo_id:?}': {err}");
+                tracing::warn!("Failed to run the borg unmount procedure for '{repo_id:?}': {err}");
             }
         }
     }
@@ -391,7 +395,7 @@ pub async fn cleanup_repo_mounts() {
     for config in BACKUP_CONFIG.load().iter() {
         let repo_id = &config.repo_id;
         if !mounts.contains(repo_id) && borg::is_mounted(repo_id).await {
-            warn!(
+            tracing::warn!(
                 "Marking repo {repo_id:?} as mounted, was probably mounted from a force-quit app"
             );
             utils::borg::set_repo_browsing(repo_id).await;
@@ -399,7 +403,7 @@ pub async fn cleanup_repo_mounts() {
     }
 }
 
-pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
+pub async fn unmount_backup_disk(backup: common::config::Backup) -> Result<()> {
     match backup.repo.removable_drive_volume() {
         Some(volume) => {
             // We have a removable drive and found a volume
@@ -413,12 +417,12 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
                     // We don't need to stop the drive, it will only spin down the hard disk. The
                     // drive is safe to remove in any case
                     let res = if drive.can_stop() {
-                        debug!("Stopping drive {}", drive.name());
+                        tracing::debug!("Stopping drive {}", drive.name());
                         drive
                             .stop_future(gio::MountUnmountFlags::empty(), Some(&mount_operation))
                             .await
                     } else {
-                        debug!("Ejecting drive {}", drive.name());
+                        tracing::debug!("Ejecting drive {}", drive.name());
                         drive
                             .eject_with_operation_future(
                                 gio::MountUnmountFlags::empty(),
@@ -429,10 +433,10 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
 
                     if let Err(err) = res {
                         if let Some(gio::IOErrorEnum::FailedHandled) = err.kind() {
-                            debug!("Unmount aborted by user: {}", err);
+                            tracing::debug!("Unmount aborted by user: {}", err);
                             return Ok(());
                         } else {
-                            debug!("Error ejecting disk: {}", err);
+                            tracing::debug!("Error ejecting disk: {}", err);
                             return Err(Message::new(
                                 gettext("Unable to Eject Backup Disk"),
                                 err.to_string(),
@@ -450,7 +454,7 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
                     main_ui().toast().add_toast(toast);
                 }
                 _ => {
-                    debug!(
+                    tracing::debug!(
                         "Unmount disk: Backup disk {} can't be ejected",
                         volume.name()
                     );
@@ -462,7 +466,7 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
             }
         }
         _ => {
-            debug!("Unmount disk: Backup disk not found");
+            tracing::debug!("Unmount disk: Backup disk not found");
         }
     }
 
@@ -473,11 +477,11 @@ pub async fn unmount_backup_disk(backup: crate::config::Backup) -> Result<()> {
 async fn test_exec_operation_register() {
     let _app = crate::ui::App::new();
 
-    let mut config = crate::config::Backup::test_new_mock();
-    config.schedule.frequency = crate::config::Frequency::Hourly;
+    let mut config = common::config::Backup::test_new_mock();
+    config.schedule.frequency = common::config::Frequency::Hourly;
 
     let command = borg::Command::<borg::task::List>::new(config)
-        .set_from_schedule(Some(crate::schedule::DueCause::Regular));
+        .set_from_schedule(Some(common::schedule::DueCause::Regular));
 
     assert!(!is_borg_operation_running());
 

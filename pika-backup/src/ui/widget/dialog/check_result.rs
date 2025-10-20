@@ -5,8 +5,9 @@ use crate::ui::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
+    use common::config::history::CheckOutcome;
+
     use super::*;
-    use crate::config::history::CheckOutcome;
     use crate::ui::backup_status;
     use crate::ui::widget::StatusRow;
 

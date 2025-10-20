@@ -4,10 +4,11 @@ mod events;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::{config, schedule};
 use ui::prelude::*;
 
 use super::DetailPageKind;
-use crate::{config, schedule, ui};
+use crate::ui;
 
 fn find_first_populated_dir(dir: &std::path::Path) -> std::path::PathBuf {
     if let Ok(mut dir_iter) = dir.read_dir()

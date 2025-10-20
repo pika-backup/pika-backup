@@ -1,9 +1,9 @@
 use std::cell::RefCell;
 
+use common::config;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 
-use crate::config;
 use crate::ui::prelude::*;
 
 #[derive(Debug, Clone)]

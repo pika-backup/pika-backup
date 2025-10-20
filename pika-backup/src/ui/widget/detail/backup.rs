@@ -4,9 +4,9 @@ mod execution;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::schedule;
 
 use super::DetailPageKind;
-use crate::schedule;
 use crate::ui::prelude::*;
 
 mod imp {

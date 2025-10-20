@@ -1,8 +1,9 @@
+use common::{borg, config};
 use gtk::prelude::*;
 
 use super::prelude::*;
 use super::widget::AppWindow;
-use crate::{borg, config, ui};
+use crate::ui;
 
 pub type Result<T> = std::result::Result<T, Error>;
 pub type CombinedResult<T> = std::result::Result<T, Combined>;

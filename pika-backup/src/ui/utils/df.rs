@@ -1,10 +1,13 @@
 //! Disk space information
 
 use async_process as process;
+use common::config;
+use enclose::enclose;
 use gio::prelude::*;
+use quick_error::quick_error;
+use serde::{Deserialize, Serialize};
 use smol::prelude::*;
 
-use crate::config;
 use crate::ui::prelude::*;
 use crate::ui::utils::repo_cache::RepoCache;
 
@@ -81,7 +84,7 @@ pub async fn remote(server: &str) -> Result<Space> {
     // just hope that the home path is the same as the default path
     let path = sftp_path_normalize(&original_uri.path());
 
-    debug!("sftp connect to '{}'", connect_url.to_str());
+    tracing::debug!("sftp connect to '{}'", connect_url.to_str());
 
     let mut child = process::Command::new("sftp")
         .args(["-b", "-", &connect_url.to_str()])
@@ -92,7 +95,7 @@ pub async fn remote(server: &str) -> Result<Space> {
     let mut stdin = child.stdin.take().ok_or("STDIN not available.")?;
 
     // this might fail but we don't care since output goes to STDERR
-    debug!("sftp: try to change to dir {:?}", path);
+    tracing::debug!("sftp: try to change to dir {:?}", path);
     stdin
         .write_all(format!("cd {}\n", shell_words::quote(&path)).as_bytes())
         .await?;
@@ -101,7 +104,7 @@ pub async fn remote(server: &str) -> Result<Space> {
 
     let out = child.output().await?;
 
-    debug!(
+    tracing::debug!(
         "sftp output:\n{}\n{}",
         String::from_utf8_lossy(&out.stdout),
         String::from_utf8_lossy(&out.stderr)

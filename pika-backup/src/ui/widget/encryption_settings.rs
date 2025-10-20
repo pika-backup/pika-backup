@@ -1,15 +1,15 @@
+use std::cell::Cell;
+use std::marker::PhantomData;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
 
-use crate::config;
 use crate::ui::prelude::*;
 
 mod imp {
-    use std::cell::Cell;
-    use std::marker::PhantomData;
 
     use super::*;
-    use crate::config;
 
     #[derive(Debug, Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "encryption_settings.ui")]
@@ -154,7 +154,7 @@ mod imp {
                     .into());
                 }
 
-                Ok(Some(crate::config::Password::new(password)))
+                Ok(Some(common::config::Password::new(password)))
             } else {
                 Ok(None)
             }
@@ -195,7 +195,7 @@ mod imp {
                     7
                 };
 
-                debug!(
+                tracing::debug!(
                     "score: {}, time to crack: {}",
                     score,
                     entropy.crack_times().offline_slow_hashing_1e4_per_second()

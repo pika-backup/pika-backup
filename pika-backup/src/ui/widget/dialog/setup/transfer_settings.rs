@@ -1,9 +1,9 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::borg;
 
 use super::ArchiveParams;
 use super::transfer_option::SetupTransferOption;
-use crate::borg;
 use crate::ui::prelude::*;
 
 mod imp {

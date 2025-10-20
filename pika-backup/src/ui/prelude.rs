@@ -1,8 +1,8 @@
 use arc_swap::ArcSwap;
+pub use common::borg::prelude::*;
+use common::config::ArcSwapWriteable;
 pub use glib::clone;
 
-pub use crate::borg::prelude::*;
-use crate::config::ArcSwapWriteable;
 pub use crate::ui::error::{
     CombinedResult, CombinedResultExt, CombinedToError, Error, ErrorToMessage, Handler, Message,
     Result,
@@ -34,10 +34,10 @@ where
     }
 }
 
-impl<C> ArcSwapResultExt<C> for ArcSwap<crate::config::Writeable<C>>
+impl<C> ArcSwapResultExt<C> for ArcSwap<common::config::Writeable<C>>
 where
-    C: crate::config::ConfigType
-        + crate::config::Loadable
+    C: common::config::ConfigType
+        + common::config::Loadable
         + std::cmp::PartialEq
         + serde::Serialize
         + Send
@@ -54,7 +54,7 @@ where
             let mut new = C::clone(&current.current_config);
             result = updater(&mut new);
 
-            crate::config::Writeable {
+            common::config::Writeable {
                 current_config: new,
                 written_config: current.written_config.clone(),
             }

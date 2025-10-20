@@ -1,11 +1,12 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config;
 
 use super::imp;
+use crate::ui;
 use crate::ui::backup_status;
 use crate::ui::prelude::*;
 use crate::ui::widget::ExcludeDialog;
-use crate::{config, ui};
 
 impl imp::BackupPage {
     pub fn add_list_row(&self, list: &gtk::ListBox, file: &std::path::Path) -> gtk::Button {
@@ -30,7 +31,7 @@ impl imp::BackupPage {
         row.set_subtitle(&subtitle);
         list.append(&row);
 
-        if let Some(image) = crate::utils::file_symbolic_icon(&config::absolute(file)) {
+        if let Some(image) = common::utils::file_symbolic_icon(&config::absolute(file)) {
             image.add_css_class("row-icon");
             row.add_prefix(&image);
         }

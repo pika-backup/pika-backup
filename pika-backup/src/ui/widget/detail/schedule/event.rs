@@ -1,10 +1,12 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use chrono::prelude::*;
+use common::config;
+use enclose::enclose;
 
 use super::{frequency, imp, prune_preset, weekday};
+use crate::ui;
 use crate::ui::prelude::*;
-use crate::{config, ui};
 
 impl imp::SchedulePage {
     pub async fn show_page(&self) -> Result<()> {
@@ -57,7 +59,7 @@ impl imp::SchedulePage {
     }
 
     pub async fn network_changed(&self) -> Result<()> {
-        debug!("Network changed");
+        tracing::debug!("Network changed");
         if self.obj().is_visible() {
             self.update_status(BACKUP_CONFIG.load().active()?).await;
         }

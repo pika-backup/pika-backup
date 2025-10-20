@@ -1,17 +1,17 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use common::config::BackupSettings;
 
-use crate::config::BackupSettings;
 use crate::ui::prelude::*;
 
 mod imp {
     use std::cell::{Cell, OnceCell, RefCell};
 
+    use common::borg;
+    use common::config::UserScriptKind;
     use glib::Properties;
 
     use super::*;
-    use crate::borg;
-    use crate::config::UserScriptKind;
     use crate::ui::widget::EncryptionSettings;
 
     #[derive(Debug, Default, Properties, gtk::CompositeTemplate)]
@@ -36,7 +36,7 @@ mod imp {
 
         script_running: Cell<bool>,
         script_communication:
-            RefCell<Option<crate::borg::Communication<crate::borg::task::UserScript>>>,
+            RefCell<Option<common::borg::Communication<common::borg::task::UserScript>>>,
 
         #[template_child]
         command_line_args_entry: TemplateChild<adw::EntryRow>,
@@ -82,7 +82,7 @@ mod imp {
         #[template_child]
         change_password_page_spinner: TemplateChild<adw::ToolbarView>,
         change_password_communication:
-            RefCell<Option<crate::borg::Communication<crate::borg::task::KeyChangePassphrase>>>,
+            RefCell<Option<common::borg::Communication<common::borg::task::KeyChangePassphrase>>>,
     }
 
     #[glib::object_subclass]
@@ -118,7 +118,7 @@ mod imp {
             self.parent_constructed();
             self.load_config();
             self.shell_commands_detail
-                .set_label(&crate::borg::scripts::ShellVariable::explanation_string_markup());
+                .set_label(&common::borg::scripts::ShellVariable::explanation_string_markup());
         }
     }
 
@@ -167,7 +167,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl PreferencesDialog {
-        fn config(&self) -> Result<crate::config::Backup> {
+        fn config(&self) -> Result<common::config::Backup> {
             match BACKUP_CONFIG.load().try_get(self.config_id.get().unwrap()) {
                 Ok(backup) => Ok(backup.clone()),
                 Err(err) => Err(crate::ui::Error::from(err)),
@@ -312,8 +312,8 @@ mod imp {
         async fn test_run_script(
             &self,
             kind: UserScriptKind,
-            config: crate::config::Backup,
-            run_info: Option<crate::config::history::RunInfo>,
+            config: common::config::Backup,
+            run_info: Option<common::config::history::RunInfo>,
         ) {
             self.script_running.set(true);
 
@@ -331,7 +331,7 @@ mod imp {
             }
 
             let mut command =
-                crate::borg::Command::<crate::borg::task::UserScript>::new(config.clone());
+                common::borg::Command::<common::borg::task::UserScript>::new(config.clone());
             self.script_communication
                 .replace(Some(command.communication.clone()));
             command.task.set_kind(kind.clone());
@@ -362,10 +362,10 @@ mod imp {
 
         async fn abort_test_run_script(&self) {
             if let Some(communication) = self.script_communication.take() {
-                debug!("Aborting script test");
+                tracing::debug!("Aborting script test");
 
                 communication
-                    .set_instruction(crate::borg::Instruction::Abort(crate::borg::Abort::User));
+                    .set_instruction(common::borg::Instruction::Abort(common::borg::Abort::User));
             }
         }
 
@@ -412,10 +412,10 @@ mod imp {
                     run_info.clone()
                 } else {
                     // Create one from scratch with random values
-                    crate::config::history::RunInfo::new(
+                    common::config::history::RunInfo::new(
                         &config,
-                        crate::borg::Outcome::Completed {
-                            stats: crate::borg::Stats::new_example(),
+                        common::borg::Outcome::Completed {
+                            stats: common::borg::Stats::new_example(),
                         },
                         Default::default(),
                     )
@@ -555,10 +555,10 @@ mod imp {
         #[template_callback]
         fn change_password_cancel(&self) {
             if let Some(communication) = self.change_password_communication.take() {
-                debug!("Aborting change password");
+                tracing::debug!("Aborting change password");
 
                 communication
-                    .set_instruction(crate::borg::Instruction::Abort(crate::borg::Abort::User));
+                    .set_instruction(common::borg::Instruction::Abort(common::borg::Abort::User));
             }
 
             self.page_change_encryption_password.set_can_pop(true);
