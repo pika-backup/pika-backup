@@ -126,7 +126,7 @@ impl Backup {
         }
     }
 
-    #[cfg(test)]
+    #[cfg(feature = "test")]
     pub fn test_new_mock() -> Backup {
         let info = borg::List {
             archives: vec![],
