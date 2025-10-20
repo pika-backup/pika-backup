@@ -42,7 +42,11 @@ pub fn next_backup_in(d: &chrono::Duration) -> String {
 
 impl Status {
     pub async fn new(config: &config::Backup) -> Self {
-        let due_requirements = requirements::Due::check(config, None, None);
+        let due_requirements = requirements::Due::check(
+            config,
+            BACKUP_HISTORY.load().try_get(&config.id).ok(),
+            SCHEDULE_STATUS.load().try_get(&config.id).ok(),
+        );
         let global_requirements = requirements::Global::check(
             config,
             BACKUP_CONFIG.load().as_ref(),
