@@ -1,3 +1,3 @@
 fn main() {
-    pika_backup::ui::main()
+    pika_backup::main()
 }
