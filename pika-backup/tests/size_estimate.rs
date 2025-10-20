@@ -1,12 +1,12 @@
-mod common;
+mod test_common;
 
-use pika_backup::borg::size_estimate::*;
-use pika_backup::borg::status::SizeEstimate;
-use pika_backup::config;
-use pika_backup::config::{Exclude, Pattern};
+use common::borg::size_estimate::*;
+use common::borg::status::SizeEstimate;
+use common::config;
+use common::config::{Exclude, Pattern};
 
 fn config(include: &[&str], exclude: &[Exclude<{ config::RELATIVE }>]) -> config::Backup {
-    let mut config = common::config(std::path::Path::new("backup_data"));
+    let mut config = test_common::config(std::path::Path::new("backup_data"));
 
     for path in include {
         config.include.insert(total(path));

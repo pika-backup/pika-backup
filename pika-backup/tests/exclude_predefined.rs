@@ -1,10 +1,10 @@
 use cmd_lib::run_fun;
 
-mod common;
-use common::*;
+mod test_common;
+use common::borg::CommandRun;
 use macro_rules_attribute::apply;
-use pika_backup::borg::CommandRun;
 use smol_macros::test;
+use test_common::*;
 
 #[apply(test!)]
 async fn predefined() -> Result<(), Box<dyn std::error::Error>> {

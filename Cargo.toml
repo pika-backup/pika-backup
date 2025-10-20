@@ -15,6 +15,14 @@ edition = "2024"
 rust-version = "1.90"
 license = "GPL-3.0-only"
 
+[workspace.lints.clippy]
+derive_partial_eq_without_eq = "allow"
+get_first = "allow"
+new_without_default = "allow"
+# Pattern contains a Regex which apparently has some interior mutability.
+# That should however not influence our Ord and Eq implementations.
+mutable_key_type = "allow"
+
 [profile.release]
 lto = true
 codegen-units = 1

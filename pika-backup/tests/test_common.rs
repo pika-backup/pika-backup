@@ -3,8 +3,8 @@
 pub use std::collections::BTreeSet;
 pub use std::path::{Path, PathBuf};
 
-pub use pika_backup::config::ConfigId;
-pub use pika_backup::{borg, config};
+pub use common::config::ConfigId;
+pub use common::{borg, config};
 pub use tempfile::tempdir;
 
 pub fn config(path: &std::path::Path) -> config::Backup {
