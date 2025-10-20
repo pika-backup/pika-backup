@@ -35,12 +35,9 @@ pub fn init_gettext() {
     gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
     tracing::debug!(
         "bindtextdomain: {:?}",
-        gettextrs::bindtextdomain(env!("CARGO_PKG_NAME"), crate::LOCALEDIR)
+        gettextrs::bindtextdomain("pika-backup", crate::LOCALEDIR)
     );
-    tracing::debug!(
-        "textdomain: {:?}",
-        gettextrs::textdomain(env!("CARGO_PKG_NAME"))
-    );
+    tracing::debug!("textdomain: {:?}", gettextrs::textdomain("pika-backup"));
 }
 
 pub async fn listen_remote_app_running<T: Fn(bool)>(

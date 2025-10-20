@@ -14,7 +14,7 @@ pub struct ScheduleStatus {
 impl super::ConfigType for ScheduleStatus {
     fn path() -> std::path::PathBuf {
         let mut path = glib::user_config_dir();
-        path.push(env!("CARGO_PKG_NAME"));
+        path.push("pika-backup");
         path.push("schedule_status.json");
 
         path

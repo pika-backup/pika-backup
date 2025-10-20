@@ -325,7 +325,7 @@ impl LookupConfigId for Backups {
 impl ConfigType for Backups {
     fn path() -> std::path::PathBuf {
         let mut path = glib::user_config_dir();
-        path.push(env!("CARGO_PKG_NAME"));
+        path.push("pika-backup");
         path.push("backup.json");
 
         path
