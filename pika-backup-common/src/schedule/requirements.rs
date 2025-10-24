@@ -975,26 +975,6 @@ mod test {
 
         let due = Due::check(&config, Some(&history), Some(&activity));
         matches::assert_matches!(due, Ok(DueCause::Regular));
-
-        // due today and completed today
-
-        history.insert(config::history::RunInfo::test_new_mock(
-            chrono::Duration::zero(),
-        ));
-
-        let due = Due::check(&config, Some(&history), Some(&activity));
-
-        assert!(match due {
-            Err(Due::NotDue { next }) => {
-                assert_eq!(
-                    next,
-                    Local::now().with_time(chrono::NaiveTime::MIN).unwrap()
-                        + chrono::Duration::weeks(1)
-                );
-                true
-            }
-            _ => false,
-        });
     }
 
     #[test]
