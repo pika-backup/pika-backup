@@ -44,7 +44,8 @@ cargo-doc:
     - flatpak build-finish --socket=x11 --share=network flatpak_app
     - echo "../build-aux/build-pages-html.bash" | flatpak-builder --user --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     - mkdir -p doc
-    - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc doc/code-doc
+    # TODO: Add back code documentation
+    #- cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc doc/code-doc
     - cp -r .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/help-out doc/help
     - cp help/LINGUAS doc/help
     - chmod -R a=rwx doc
