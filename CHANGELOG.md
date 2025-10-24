@@ -5,6 +5,7 @@
 - Fix timestamps not respecting 12h/24h clock format setting
 - Fix UI sometimes being unresponsive when starting / stopping backups
 - Add detailed explanation about the risks and benefits of encrypting backups
+- Change code to use three different Rust modules
 - Change fnmatches to be stored as strings instead of bytes in config
 - Change setup dialog start page is split into two pages
 - Change setup dialog design to look more modern
