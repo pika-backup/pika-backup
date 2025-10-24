@@ -188,7 +188,7 @@ impl std::fmt::Display for Abort {
                     gettextf("Unable to access backup repository: {}", [msg])
                 )
             }
-            Abort::QuestionDuringSchedule(_) => todo!(),
+            Abort::QuestionDuringSchedule(question) => f.write_str(&question.question_prompt()),
         }
     }
 }
