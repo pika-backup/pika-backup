@@ -159,37 +159,23 @@ pub enum Abort {
 
 impl std::fmt::Display for Abort {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        match self {
-            Self::User => write!(f, "{}", gettext("Aborted on user request.")),
-            Self::MeteredConnection => write!(
-                f,
-                "{}",
+        f.write_str(&match self {
+            Self::User => gettext("Aborted on user request."),
+            Self::MeteredConnection => {
                 gettext("Aborted because only metered connection was available.")
-            ),
-            Self::OnBattery => write!(
-                f,
-                "{}",
+            }
+            Self::OnBattery => {
                 // Translators: Running backup was aborted because computer running on battery
                 gettext("Aborted because too long not connected to power.")
-            ),
-            Self::Shutdown => write!(f, "{}", gettext("Aborted by system.")),
-            Self::LeftRunning => write!(
-                f,
-                "{}",
-                gettext("The program or system seems to have crashed.")
-            ),
-            Self::UserShellCommand(msg) => {
-                write!(f, "{}", gettextf("{}", [msg]))
             }
+            Self::Shutdown => gettext("Aborted by system."),
+            Self::LeftRunning => gettext("The program or system seems to have crashed."),
+            Self::UserShellCommand(msg) => gettextf("{}", [msg]),
             Self::RepositoryNotAvailable(msg) => {
-                write!(
-                    f,
-                    "{}",
-                    gettextf("Unable to access backup repository: {}", [msg])
-                )
+                gettextf("Unable to access backup repository: {}", [msg])
             }
-            Abort::QuestionDuringSchedule(question) => f.write_str(&question.question_prompt()),
-        }
+            Abort::QuestionDuringSchedule(question) => question.question_prompt(),
+        })
     }
 }
 
