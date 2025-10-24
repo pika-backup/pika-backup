@@ -96,7 +96,7 @@ mod imp {
         fn property(&self, _id: usize, pspec: &ParamSpec) -> glib::Value {
             match pspec.name() {
                 "width-estimate" => self.width_estimate.get().to_value(),
-                _ => unimplemented!(),
+                _ => unreachable!(),
             }
         }
 
@@ -109,7 +109,7 @@ mod imp {
                         tracing::error!("Invalid value for property width-estimate");
                     }
                 }
-                _ => unimplemented!(),
+                _ => unreachable!(),
             }
         }
 
