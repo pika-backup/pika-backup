@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-10-15 00:03+0000\n"
-"PO-Revision-Date: 2025-10-15 12:41+0300\n"
+"POT-Creation-Date: 2025-11-05 14:30+0000\n"
+"PO-Revision-Date: 2025-11-05 18:39+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
@@ -28,9 +28,11 @@ msgstr "Монитор Pika Backup"
 #. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:5 data/app.metainfo.xml.in:4 src/ui/utils.rs:364
-#: src/ui/utils.rs:428 src/ui/widget/app_window.ui:10
-#: src/ui/widget/dialog/about.rs:12 src/ui/widget/overview.ui:22
+#: data/app.desktop.in:5 data/app.metainfo.xml.in:4
+#: pika-backup/src/utils.rs:368 pika-backup/src/utils.rs:433
+#: pika-backup/src/widget/app_window.ui:10
+#: pika-backup/src/widget/dialog/about.rs:11
+#: pika-backup/src/widget/overview.ui:22
 msgid "Pika Backup"
 msgstr "Pika Backup"
 
@@ -48,7 +50,7 @@ msgstr "archive;back-up;borg;архив;резервная;копия;"
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 src/ui/widget/dialog/about.rs:18
+#: data/app.metainfo.xml.in:9 pika-backup/src/widget/dialog/about.rs:17
 msgid "Small Mammal Collective"
 msgstr "Small Mammal Collective"
 
@@ -114,7 +116,8 @@ msgid "Schedule regular backups from monthly up to hourly"
 msgstr ""
 "Планируйте регулярное резервное копирование от ежемесячного до ежечасного"
 
-#: data/resources/gtk/help-overlay.ui:9 src/ui/widget/dialog/preferences.ui:127
+#: data/resources/gtk/help-overlay.ui:9
+#: pika-backup/src/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "Общие"
 
@@ -126,7 +129,7 @@ msgstr "Настройка новой резервной копии"
 msgid "Show Keyboard Shortcuts"
 msgstr "Показать комбинации клавиш"
 
-#: data/resources/gtk/help-overlay.ui:25 src/ui/app.rs:277
+#: data/resources/gtk/help-overlay.ui:25 pika-backup/src/app.rs:278
 msgid "Quit"
 msgstr "Закрыть"
 
@@ -138,7 +141,7 @@ msgstr "Назад"
 msgid "Open Menu"
 msgstr "Открыть меню"
 
-#: src/borg/error.rs:28
+#: pika-backup-common/src/borg/error.rs:31
 msgid ""
 "Retrieving encryption password from the keyring failed. Pika Backup requires "
 "a keyring daemon (“secret service”) to store passwords. For installation "
@@ -148,62 +151,62 @@ msgstr ""
 "в Pika Backup требуется демон связки ключей («секретная служба»). Инструкции "
 "по установке см. в документации к операционной системе."
 
-#: src/borg/error.rs:30 src/ui/utils.rs:280
+#: pika-backup-common/src/borg/error.rs:33 pika-backup/src/utils.rs:284
 msgid "The operation terminated unexpectedly."
 msgstr "Операция завершилась неожиданно."
 
-#: src/borg/error.rs:31
+#: pika-backup-common/src/borg/error.rs:34
 msgid "This delete operation would delete too many archives."
 msgstr ""
 "Эта операция удаления приведет к удалению слишком большого количества "
 "архивов."
 
-#: src/borg/error.rs:32
+#: pika-backup-common/src/borg/error.rs:35
 msgid "No files selected to be included into backup."
 msgstr "Не выбраны файлы для включения в резервную копию."
 
-#: src/borg/error.rs:83
+#: pika-backup-common/src/borg/error.rs:86
 msgid "Timeout"
 msgstr "Время ожидания"
 
-#: src/borg/error.rs:130
+#: pika-backup-common/src/borg/error.rs:133
 msgid "Completed"
 msgstr "Выполнено"
 
-#: src/borg/error.rs:160
+#: pika-backup-common/src/borg/error.rs:163
 msgid "Aborted on user request."
 msgstr "Прервано по запросу пользователя."
 
-#: src/borg/error.rs:164
+#: pika-backup-common/src/borg/error.rs:165
 msgid "Aborted because only metered connection was available."
 msgstr "Прервано, так как было доступно только лимитное подключение."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: src/borg/error.rs:170
+#: pika-backup-common/src/borg/error.rs:169
 msgid "Aborted because too long not connected to power."
 msgstr "Прервано из-за слишком долгого отсутствия питания."
 
-#: src/borg/error.rs:172
+#: pika-backup-common/src/borg/error.rs:171
 msgid "Aborted by system."
 msgstr "Прервано системой."
 
-#: src/borg/error.rs:176
+#: pika-backup-common/src/borg/error.rs:172
 msgid "The program or system seems to have crashed."
 msgstr "Кажется, что программа или система потерпела крах."
 
-#: src/borg/error.rs:179
+#: pika-backup-common/src/borg/error.rs:173
 msgid "{}"
 msgstr "{}"
 
-#: src/borg/error.rs:185
+#: pika-backup-common/src/borg/error.rs:175
 msgid "Unable to access backup repository: {}"
 msgstr "Невозможно получить доступ к хранилищу резервных копий: {}"
 
-#: src/borg/error.rs:293
+#: pika-backup-common/src/borg/error.rs:282
 msgid "A repository already exists at this location."
 msgstr "В этом расположении уже существует хранилище."
 
-#: src/borg/error.rs:296
+#: pika-backup-common/src/borg/error.rs:285
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
@@ -211,32 +214,32 @@ msgstr ""
 "В хранилище были обнаружены несоответствия. Необходимо выполнить проверку "
 "целостности данных."
 
-#: src/borg/error.rs:298
+#: pika-backup-common/src/borg/error.rs:287
 msgid "No repository exists at this location."
 msgstr "В этом расположении нет хранилища."
 
-#: src/borg/error.rs:300
+#: pika-backup-common/src/borg/error.rs:289
 msgid "Not enough free space in repository."
 msgstr "Недостаточно свободного места в хранилище."
 
-#: src/borg/error.rs:303
+#: pika-backup-common/src/borg/error.rs:292
 msgid "The configured location does not contain a valid repository."
 msgstr "В настроенном расположении отсутствует корректное хранилище."
 
-#: src/borg/error.rs:306
+#: pika-backup-common/src/borg/error.rs:295
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "В настроенном расположение отсутствуют корректные настройки хранилища."
 
-#: src/borg/error.rs:309
+#: pika-backup-common/src/borg/error.rs:298
 msgid "The configured location does not exist."
 msgstr "Настроенное местоположение не существует."
 
-#: src/borg/error.rs:312
+#: pika-backup-common/src/borg/error.rs:301
 msgid "The selected location does already exist."
 msgstr "Выбранное расположение уже существует."
 
-#: src/borg/error.rs:315
+#: pika-backup-common/src/borg/error.rs:304
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
@@ -244,7 +247,7 @@ msgstr ""
 "Достигнут предел в месте расположения хранилищ. Попробуйте удалить старые "
 "архивы, в которых больше нет необходимости."
 
-#: src/borg/error.rs:318
+#: pika-backup-common/src/borg/error.rs:307
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
@@ -252,7 +255,7 @@ msgstr ""
 "В доступе к настроенному расположению отказано. Проверьте права доступа к "
 "файлам."
 
-#: src/borg/error.rs:323
+#: pika-backup-common/src/borg/error.rs:312
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
@@ -260,51 +263,51 @@ msgstr ""
 "Для доступа к этому хранилищу требуется более новая версия Pika Backup. В "
 "хранилище используются неподдерживаемые в этой версии функции."
 
-#: src/borg/error.rs:328
+#: pika-backup-common/src/borg/error.rs:317
 msgid "The selected location already contains a repository."
 msgstr "Выбранное расположение уже содержит хранилище."
 
-#: src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:320
 msgid "The configured location does not contain an archive."
 msgstr "В настроенном расположении нет архива."
 
 #. RC 50+
-#: src/borg/error.rs:335
+#: pika-backup-common/src/borg/error.rs:324
 msgid "Invalid encryption password."
 msgstr "Неверный пароль шифрования."
 
 #. RC 60+
-#: src/borg/error.rs:338
+#: pika-backup-common/src/borg/error.rs:327
 msgid "Repository access was aborted"
 msgstr "Доступ к хранилищу был прерван"
 
 #. RC 70+
-#: src/borg/error.rs:341
+#: pika-backup-common/src/borg/error.rs:330
 msgid "Failed to lock repository."
 msgstr "Не удалось заблокировать хранилище."
 
-#: src/borg/error.rs:342
+#: pika-backup-common/src/borg/error.rs:331
 msgid "Repository already in use."
 msgstr "Хранилище уже используется."
 
-#: src/borg/error.rs:346
+#: pika-backup-common/src/borg/error.rs:335
 msgid "Connection closed by remote host."
 msgstr "Соединение закрыто удаленным узлом."
 
-#: src/borg/error.rs:351
+#: pika-backup-common/src/borg/error.rs:340
 msgid "Connection closed by remote host: “{}”"
 msgstr "Соединение закрыто удаленным хостом: «{}»"
 
 #. General
-#: src/borg/error.rs:355
+#: pika-backup-common/src/borg/error.rs:344
 msgid "Exception"
 msgstr "Исключение"
 
-#: src/borg/error.rs:357
+#: pika-backup-common/src/borg/error.rs:346
 msgid "Unspecified error."
 msgstr "Неизвестная ошибка."
 
-#: src/borg/functions.rs:277
+#: pika-backup-common/src/borg/functions.rs:278
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
@@ -314,117 +317,117 @@ msgstr ""
 "хранится в виде обычного текста. Пароли можно добавлять только в хранилища, "
 "использующие шифрование."
 
-#: src/borg/log_json.rs:52
+#: pika-backup-common/src/borg/log_json.rs:54
 msgid "Backup will be aborted."
 msgstr "Резервное копирование будет прервано."
 
-#: src/borg/log_json.rs:55
+#: pika-backup-common/src/borg/log_json.rs:57
 msgid "Backup will continue."
 msgstr "Резервное копирование будет продолжено."
 
-#: src/borg/log_json.rs:83
+#: pika-backup-common/src/borg/log_json.rs:85
 msgid "Backed up data: {}"
 msgstr "Резервное копирование данных: {}"
 
-#: src/borg/log_json.rs:113
+#: pika-backup-common/src/borg/log_json.rs:115
 #, no-c-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Операция {} % выполнена ({}/{})"
 
-#: src/borg/log_json.rs:122
+#: pika-backup-common/src/borg/log_json.rs:124
 msgid "Operation completed."
 msgstr "Операция выполнена."
 
-#: src/borg/log_json.rs:196
+#: pika-backup-common/src/borg/log_json.rs:198
 msgid "Beginning cache transaction"
 msgstr "Начало транзакции кэша"
 
-#: src/borg/log_json.rs:197
+#: pika-backup-common/src/borg/log_json.rs:199
 msgid "Downloading cache data"
 msgstr "Загрузка данных кэша"
 
-#: src/borg/log_json.rs:198
+#: pika-backup-common/src/borg/log_json.rs:200
 msgid "Writing cache"
 msgstr "Запись кэша"
 
-#: src/borg/log_json.rs:199
+#: pika-backup-common/src/borg/log_json.rs:201
 msgid "Synchronizing cache"
 msgstr "Синхронизация кэша"
 
-#: src/borg/log_json.rs:200
+#: pika-backup-common/src/borg/log_json.rs:202
 msgid "Compacting repository"
 msgstr "Уплотнение хранилища"
 
-#: src/borg/log_json.rs:201
+#: pika-backup-common/src/borg/log_json.rs:203
 msgid "Updating repository"
 msgstr "Обновление информации хранилища"
 
-#: src/borg/log_json.rs:202
+#: pika-backup-common/src/borg/log_json.rs:204
 msgid "Checking repository"
 msgstr "Проверка хранилища"
 
-#: src/borg/log_json.rs:203
+#: pika-backup-common/src/borg/log_json.rs:205
 msgid "Verifying data"
 msgstr "Проверка данных"
 
-#: src/borg/log_json.rs:204
+#: pika-backup-common/src/borg/log_json.rs:206
 msgid "Verifying main database"
 msgstr "Проверка основной базы данных"
 
-#: src/borg/log_json.rs:205
+#: pika-backup-common/src/borg/log_json.rs:207
 msgid "Verifying references"
 msgstr "Проверка ссылок"
 
-#: src/borg/log_json.rs:206
+#: pika-backup-common/src/borg/log_json.rs:208
 msgid "Extracting data"
 msgstr "Извлечение данных"
 
-#: src/borg/log_json.rs:207
+#: pika-backup-common/src/borg/log_json.rs:209
 msgid "Extracting permissions"
 msgstr "Извлечение разрешений"
 
-#: src/borg/log_json.rs:208
+#: pika-backup-common/src/borg/log_json.rs:210
 msgid "Marking archives as deleted"
 msgstr "Пометить архивы как удаленные"
 
-#: src/borg/log_json.rs:209
+#: pika-backup-common/src/borg/log_json.rs:211
 msgid "Calculating archive statistics"
 msgstr "Расчет статистики архива"
 
-#: src/borg/log_json.rs:210
+#: pika-backup-common/src/borg/log_json.rs:212
 msgid "Marking old archives as deleted"
 msgstr "Пометить старые архивы как удаленные"
 
-#: src/borg/log_json.rs:211
+#: pika-backup-common/src/borg/log_json.rs:213
 msgid "Upgrading repository"
 msgstr "Обновление хранилища"
 
-#: src/borg/log_json.rs:212
+#: pika-backup-common/src/borg/log_json.rs:214
 msgid "Unspecified operation"
 msgstr "Неопределенная операция"
 
-#: src/borg/log_json.rs:213
+#: pika-backup-common/src/borg/log_json.rs:215
 msgid "Unknown operation"
 msgstr "Неизвестная операция"
 
-#: src/borg/log_json.rs:230
+#: pika-backup-common/src/borg/log_json.rs:232
 msgid "Handling a Question"
 msgstr "Обработка вопроса"
 
-#: src/borg/log_json.rs:238
+#: pika-backup-common/src/borg/log_json.rs:240
 msgid "Attempting to access a previously unknown unencrypted repository."
 msgstr "Попытка доступа к ранее неизвестному незашифрованному хранилищу."
 
-#: src/borg/log_json.rs:254
+#: pika-backup-common/src/borg/log_json.rs:256
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr ""
 "Хранилище резервных копий, расположенное в «{}», ранее находилось в «{}»."
 
-#: src/borg/log_json.rs:258
+#: pika-backup-common/src/borg/log_json.rs:260
 msgid "The backup repository was previously located at a different location."
 msgstr "Хранилище резервных копий ранее находилось в другом расположении."
 
-#: src/borg/log_json.rs:262
+#: pika-backup-common/src/borg/log_json.rs:264
 msgid ""
 "This is a potentially dangerous function. Repairing a repository might lead "
 "to data loss (for kinds of corruption it is not capable of dealing with). BE "
@@ -434,7 +437,7 @@ msgstr ""
 "потере данных (для тех видов повреждений, с которыми она не способна "
 "справиться). БУДЬТЕ ОЧЕНЬ ОСТОРОЖНЫ!"
 
-#: src/borg/log_json.rs:265
+#: pika-backup-common/src/borg/log_json.rs:267
 msgid ""
 "You requested to delete the repository completely, including all backup "
 "archives it contains."
@@ -442,12 +445,12 @@ msgstr ""
 "Вы запросили полное удаление хранилища, включая все содержащиеся в нем "
 "резервные архивы."
 
-#: src/borg/log_json.rs:268
+#: pika-backup-common/src/borg/log_json.rs:270
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "Неожиданный вопрос от borgbackup: «{}»"
 
 #. Translators: Combines statement from above and this question
-#: src/borg/log_json.rs:274
+#: pika-backup-common/src/borg/log_json.rs:275
 msgid ""
 "{}\n"
 "\n"
@@ -457,104 +460,104 @@ msgstr ""
 "\n"
 "Вы хотите продолжить?"
 
-#: src/borg/log_json.rs:332
+#: pika-backup-common/src/borg/log_json.rs:333
 msgid "Standard error output"
 msgstr "Стандартный вывод ошибок"
 
-#: src/borg/log_json.rs:481
+#: pika-backup-common/src/borg/log_json.rs:483
 msgid "Debug"
 msgstr "Отладка"
 
-#: src/borg/log_json.rs:482
+#: pika-backup-common/src/borg/log_json.rs:484
 msgid "Info"
 msgstr "Информация"
 
-#: src/borg/log_json.rs:483 src/ui/utils.rs:380
-#: src/ui/widget/dialog/setup/location.ui:46
+#: pika-backup-common/src/borg/log_json.rs:485 pika-backup/src/utils.rs:384
+#: pika-backup/src/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: src/borg/log_json.rs:484
+#: pika-backup-common/src/borg/log_json.rs:486
 msgid "Error"
 msgstr "Ошибка"
 
-#: src/borg/log_json.rs:485
+#: pika-backup-common/src/borg/log_json.rs:487
 msgid "Critical"
 msgstr "Критическая"
 
-#: src/borg/log_json.rs:486
+#: pika-backup-common/src/borg/log_json.rs:488
 msgid "Undefined"
 msgstr "Неопределено"
 
-#: src/borg/scripts.rs:52
+#: pika-backup-common/src/borg/scripts.rs:52
 msgid "The following variables are available:"
 msgstr "Доступны следующие переменные:"
 
-#: src/borg/scripts.rs:54
+#: pika-backup-common/src/borg/scripts.rs:54
 msgid "Only available for the post-backup command:"
 msgstr "Доступно только для команды после резервного копирования:"
 
-#: src/borg/scripts.rs:56
+#: pika-backup-common/src/borg/scripts.rs:56
 msgid "Only available for completed backups:"
 msgstr "Доступно только для завершенных резервных копий:"
 
-#: src/borg/scripts.rs:98
+#: pika-backup-common/src/borg/scripts.rs:98
 msgid "ID of the backup configuration"
 msgstr "Идентификатор настройки резервного копирования"
 
-#: src/borg/scripts.rs:99
+#: pika-backup-common/src/borg/scripts.rs:99
 msgid "Title of the backup configuration"
 msgstr "Заголовок настройки резервного копирования"
 
-#: src/borg/scripts.rs:100
+#: pika-backup-common/src/borg/scripts.rs:100
 msgid "Repository ID of the borg repository"
 msgstr "Идентификатор хранилища borg"
 
-#: src/borg/scripts.rs:101
+#: pika-backup-common/src/borg/scripts.rs:101
 msgid "The full URL passed to borgbackup"
 msgstr "Полный URL, переданный в borgbackup"
 
 #. Translators: Do not translate '0' and '1' here, this is documentation
 #. for possible variable values
-#: src/borg/scripts.rs:105
+#: pika-backup-common/src/borg/scripts.rs:105
 msgid "0: manual backup, 1: started from a schedule"
 msgstr "0: резервное копирование вручную, 1: запущено по расписанию"
 
 #. Translators: String uses pango markup. Do not translate capslocked words
 #. they are values for a variable.
-#: src/borg/scripts.rs:110
+#: pika-backup-common/src/borg/scripts.rs:110
 msgid "Either “<tt>COMPLETED</tt>”, “<tt>ABORTED</tt>” or “<tt>FAILED</tt>”"
 msgstr "“<tt>ВЫПОЛНЕНО</tt>”, “<tt>ПРЕРВАНО</tt>” или “<tt>НЕ УДАЛОСЬ</tt>”"
 
-#: src/borg/scripts.rs:112
+#: pika-backup-common/src/borg/scripts.rs:112
 msgid "An error/warning message"
 msgstr "Сообщение об ошибке/предупреждении"
 
-#: src/borg/scripts.rs:113
+#: pika-backup-common/src/borg/scripts.rs:113
 msgid "The ID of the created backup archive"
 msgstr "ID созданного архива резервной копии"
 
-#: src/borg/scripts.rs:114
+#: pika-backup-common/src/borg/scripts.rs:114
 msgid "The name of the created backup archive"
 msgstr "Название созданного архива резервной копии"
 
-#: src/borg/scripts.rs:116
+#: pika-backup-common/src/borg/scripts.rs:116
 msgid "The total amount of bytes referenced by this archive"
 msgstr "Общее количество байтов, определённое этим архивом"
 
-#: src/borg/scripts.rs:119
+#: pika-backup-common/src/borg/scripts.rs:119
 msgid "The compressed size of all data references by this archive"
 msgstr "Сжатый размер всех данных, определённый этим архивом"
 
-#: src/borg/scripts.rs:122
+#: pika-backup-common/src/borg/scripts.rs:122
 msgid "The deduplicated amount of bytes for this archive"
 msgstr "Количество байтов для этого архива после устранения дупликатов"
 
-#: src/borg/scripts.rs:124
+#: pika-backup-common/src/borg/scripts.rs:124
 msgid "The amount of files saved in this archive"
 msgstr "Количество файлов, сохранённых в этом архиве"
 
-#: src/borg/scripts.rs:275
+#: pika-backup-common/src/borg/scripts.rs:276
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -562,7 +565,7 @@ msgstr ""
 "Не удалось выполнить настроенную команду перед резервным копированием.\n"
 "{}"
 
-#: src/borg/scripts.rs:279
+#: pika-backup-common/src/borg/scripts.rs:280
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -570,69 +573,70 @@ msgstr ""
 "Не удалось выполнить настроенную команду после резервного копирования.\n"
 "{}"
 
-#: src/borg/scripts.rs:305
+#: pika-backup-common/src/borg/scripts.rs:306
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
 "Настроенная команда перед резервным копированием вернула код ошибки: {}"
 
-#: src/borg/scripts.rs:309
+#: pika-backup-common/src/borg/scripts.rs:310
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
 "Настроенная команда после резервного копирования вернула код ошибки: {}"
 
-#: src/borg/task.rs:47
+#: pika-backup-common/src/borg/task.rs:47
 msgid "Generic operation"
 msgstr "Общая операция"
 
-#: src/borg/task.rs:61
+#: pika-backup-common/src/borg/task.rs:61
 msgid "Backing up data"
 msgstr "Резервное копирование данных"
 
-#: src/borg/task.rs:75
+#: pika-backup-common/src/borg/task.rs:75
 msgid "Mounting backup archives"
 msgstr "Монтирование архивов резервного копирования"
 
-#: src/borg/task.rs:89
+#: pika-backup-common/src/borg/task.rs:89
 msgid "Removing old archives"
 msgstr "Удаление старых архивов"
 
-#: src/borg/task.rs:103
+#: pika-backup-common/src/borg/task.rs:103
 msgid "Identifying old archives"
 msgstr "Выявление старых архивов"
 
-#: src/borg/task.rs:117
+#: pika-backup-common/src/borg/task.rs:117
 msgid "Reclaiming free space"
 msgstr "Высвобождение свободного места"
 
-#: src/borg/task.rs:152
+#: pika-backup-common/src/borg/task.rs:152
 msgid "Checking archive integrity"
 msgstr "Проверка целостности архивов"
 
-#: src/borg/task.rs:179
+#: pika-backup-common/src/borg/task.rs:179
 msgid "Deleting archive"
 msgstr "Удаление архива"
 
-#: src/borg/task.rs:202
+#: pika-backup-common/src/borg/task.rs:202
 msgid "Refreshing archive list"
 msgstr "Обновление списка архивов"
 
-#: src/borg/task.rs:248
+#: pika-backup-common/src/borg/task.rs:248
 msgid "Changing passphrase"
 msgstr "Изменение парольной фразы"
 
-#: src/borg/task.rs:283
+#: pika-backup-common/src/borg/task.rs:283
 msgid "Running custom shell command"
 msgstr "Выполняется пользовательская команда оболочки"
 
 #. Translators: User home directory
-#: src/config.rs:81 src/ui/widget/detail/backup/display.rs:13
-#: src/ui/widget/detail/backup/events.rs:214
+#: pika-backup-common/src/config.rs:82
+#: pika-backup/src/widget/detail/backup/display.rs:13
+#: pika-backup/src/widget/detail/backup/events.rs:214
 msgid "Home"
 msgstr "Домашняя папка"
 
-#: src/config/error.rs:32
+#: pika-backup-common/src/config/error.rs:34
 msgid ""
 "This archive prefix is already used by another backup configuration for the "
 "same backup repository."
@@ -640,14 +644,15 @@ msgstr ""
 "Этот префикс архива уже используется другой конфигурацией резервного "
 "копирования для того же хранилища резервных копий."
 
-#: src/config/error.rs:39
+#: pika-backup-common/src/config/error.rs:41
 msgid ""
 "A configuration for the same backup repository with an empty archive prefix "
 "exists."
 msgstr ""
 "Конфигурация для того же хранилища резервных копий с пустым префиксом архива."
 
-#: src/config/error.rs:42 src/config/error.rs:52
+#: pika-backup-common/src/config/error.rs:44
+#: pika-backup-common/src/config/error.rs:54
 msgid ""
 "There can only be one configuration for a backup repository if the archive "
 "prefix is empty."
@@ -655,7 +660,7 @@ msgstr ""
 "Для хранилища резервных копий может быть только одна конфигурация, если "
 "префикс архива пуст."
 
-#: src/config/error.rs:49
+#: pika-backup-common/src/config/error.rs:51
 msgid ""
 "The archive prefix is empty and a configuration for the same backup "
 "repository already exists."
@@ -663,43 +668,43 @@ msgstr ""
 "Префикс архива пуст, и конфигурация для того же хранилища резервных копий "
 "уже существует."
 
-#: src/config/exclude.rs:189
+#: pika-backup-common/src/config/exclude.rs:191
 msgid "Caches"
 msgstr "Кэши"
 
-#: src/config/exclude.rs:190
+#: pika-backup-common/src/config/exclude.rs:192
 msgid "Flatpak App Installations"
 msgstr "Установки приложений Flatpak"
 
-#: src/config/exclude.rs:191
+#: pika-backup-common/src/config/exclude.rs:193
 msgid "Trash"
 msgstr "Корзина"
 
-#: src/config/exclude.rs:192
+#: pika-backup-common/src/config/exclude.rs:194
 msgid "Virtual Machines and Containers"
 msgstr "Виртуальные машины и контейнеры"
 
 #. Translators: Detailed description for caches exclusion rule
-#: src/config/exclude.rs:199
+#: pika-backup-common/src/config/exclude.rs:201
 msgid "Data that can be regenerated when needed"
 msgstr "Данные, которые могут быть воссозданы при необходимости"
 
 #. Translators: Detailed description for Flatpak app installations exclusion rule
-#: src/config/exclude.rs:201
+#: pika-backup-common/src/config/exclude.rs:203
 msgid "Documents and data are still backed up"
 msgstr "Документы и данные по-прежнему резервируются"
 
 #. Translators: Detailed description for trash exclusion rule
-#: src/config/exclude.rs:203
+#: pika-backup-common/src/config/exclude.rs:205
 msgid "Files that have not been irretrievably deleted"
 msgstr "Файлы, которые не были безвозвратно удалены"
 
 #. Translators: Detailed description for virtual machines and containers exclusion rule
-#: src/config/exclude.rs:205
+#: pika-backup-common/src/config/exclude.rs:207
 msgid "Might include data stored within"
 msgstr "Может включать данные, хранящиеся в"
 
-#: src/config/loadable.rs:41
+#: pika-backup-common/src/config/loadable.rs:41
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
@@ -707,283 +712,259 @@ msgstr ""
 "Загруженный файл конфигурации версии {} несовместим с данной версией Pika "
 "Backup"
 
-#: src/config/pattern.rs:276 src/ui/widget/dialog/exclude.ui:101
+#: pika-backup-common/src/config/pattern.rs:276
+#: pika-backup/src/widget/dialog/exclude.ui:101
 msgid "Regular Expression"
 msgstr "Регулярное выражение"
 
-#: src/config/pattern.rs:277 src/ui/widget/dialog/exclude.ui:100
+#: pika-backup-common/src/config/pattern.rs:277
+#: pika-backup/src/widget/dialog/exclude.ui:100
 msgid "Unix Filename Pattern"
 msgstr "Шаблон имени файла Unix"
 
-#: src/config/repository.rs:169 src/ui/widget/dialog/setup/location_kind.ui:38
-#: src/ui/widget/dialog/setup/location_kind.ui:98
+#: pika-backup-common/src/config/repository.rs:170
+#: pika-backup/src/widget/dialog/setup/location_kind.ui:38
+#: pika-backup/src/widget/dialog/setup/location_kind.ui:98
 msgid "Remote Location"
 msgstr "Удаленное расположение"
 
-#: src/config/schedule.rs:38
+#: pika-backup-common/src/config/schedule.rs:40
 msgid "Hourly"
 msgstr "Каждый час"
 
-#: src/config/schedule.rs:39
+#: pika-backup-common/src/config/schedule.rs:41
 msgid "Daily"
 msgstr "Ежедневно"
 
-#: src/config/schedule.rs:40
+#: pika-backup-common/src/config/schedule.rs:42
 msgid "Weekly"
 msgstr "Еженедельно"
 
-#: src/config/schedule.rs:41
+#: pika-backup-common/src/config/schedule.rs:43
 msgid "Monthly"
 msgstr "Ежемесячно"
 
-#: src/daemon/action.rs:58
+#: pika-backup-common/src/utils.rs:78
+msgid "No such file or directory"
+msgstr "Нет такого файла или каталога"
+
+#: pika-backup-monitor/src/action.rs:58
 msgid "Failed to start backup from daemon"
 msgstr "Не удалось запустить резервное копирование с помощью демона"
 
-#: src/daemon/action.rs:79
+#: pika-backup-monitor/src/action.rs:79
 msgid "Failed to show overview from daemon"
 msgstr "Не удалось показать обзор копий с помощью демона"
 
-#: src/daemon/action.rs:98
+#: pika-backup-monitor/src/action.rs:98
 msgid "Failed to show schedule from daemon"
 msgstr "Не удалось показать расписание из демона"
 
-#: src/daemon/connect/event.rs:23
+#: pika-backup-monitor/src/connect/event.rs:23
 msgid "Backup Device Connected"
 msgstr "Устройство резервного копирования подключено"
 
-#: src/daemon/connect/event.rs:29
+#: pika-backup-monitor/src/connect/event.rs:29
 msgid "“{}” contains multiple configured backups."
 msgstr "«{}» содержит несколько настроенных резервных копий."
 
-#: src/daemon/connect/event.rs:34
+#: pika-backup-monitor/src/connect/event.rs:34
 msgid "Show Backups"
 msgstr "Показать резервные копии"
 
-#: src/daemon/connect/event.rs:42
+#: pika-backup-monitor/src/connect/event.rs:42
 msgid "“{}” contains one configured backup."
 msgstr "«{}» содержит одну настроенную резервную копию."
 
-#: src/daemon/connect/event.rs:47
+#: pika-backup-monitor/src/connect/event.rs:47
 msgid "Back Up Now"
 msgstr "Сделать резервную копию сейчас"
 
-#: src/daemon/init.rs:34
+#: pika-backup-monitor/src/init.rs:34
 msgid "Error loading configuration"
 msgstr "Ошибка загрузки конфигурации"
 
-#: src/daemon/init.rs:35
+#: pika-backup-monitor/src/init.rs:35
 msgid "Not monitoring backup schedule."
 msgstr "Не контролируется расписание резервного копирования."
 
-#: src/daemon/init.rs:60
+#: pika-backup-monitor/src/init.rs:60
 msgid "Monitoring backup schedule"
 msgstr "Мониторинг расписания резервного копирования"
 
-#: src/daemon/init.rs:127
+#: pika-backup-monitor/src/init.rs:127
 msgid "Fatal Error During Back Up"
 msgstr "Фатальная ошибка во время резервного копирования"
 
-#: src/daemon/init.rs:130
+#: pika-backup-monitor/src/init.rs:130
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] "При выполнении {} резервного копирования произошел сбой Pika Backup"
 msgstr[1] "При выполнении {} резервных копирований произошел сбой Pika Backup"
 msgstr[2] "При выполнении {} резервных копирований произошел сбой Pika Backup"
 
-#: src/daemon/init.rs:169 src/daemon/init.rs:171 src/daemon/init.rs:178
+#: pika-backup-monitor/src/init.rs:169 pika-backup-monitor/src/init.rs:171
+#: pika-backup-monitor/src/init.rs:178
 msgid "Error restarting monitor daemon"
 msgstr "Ошибка перезапуска демона монитора"
 
-#: src/daemon/schedule/init.rs:96
+#: pika-backup-monitor/src/schedule/init.rs:105
 msgid "The backup repository is already in use."
 msgstr "Хранилище резервных копий уже используется."
 
-#: src/daemon/schedule/init.rs:99
+#: pika-backup-monitor/src/schedule/init.rs:108
+msgid "Archives are currently opened for browsing."
+msgstr "В данный момент архивы открыты для просмотра."
+
+#: pika-backup-monitor/src/schedule/init.rs:111
 msgid "Only metered internet connections available."
 msgstr "Доступно только лимитированное подключение к Интернету."
 
-#: src/daemon/schedule/init.rs:102
+#: pika-backup-monitor/src/schedule/init.rs:114
 msgid "Device not connected to power."
 msgstr "Устройство не подключено к питанию."
 
-#: src/daemon/schedule/init.rs:108
+#: pika-backup-monitor/src/schedule/init.rs:120
 msgid "Scheduled Backup Postponed"
 msgstr "Запланированное резервное копирование отложено"
 
-#: src/daemon/schedule/init.rs:132
+#: pika-backup-monitor/src/schedule/init.rs:144
 msgid "Backup Device Required"
 msgstr "Требуется устройство резервного копирования"
 
-#: src/daemon/schedule/init.rs:134
+#: pika-backup-monitor/src/schedule/init.rs:146
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr ""
 "«{}» должен быть подключен для запуска запланированного резервного "
 "копирования"
 
-#: src/daemon/schedule/init.rs:147
+#: pika-backup-monitor/src/schedule/init.rs:159
 msgid "Failed to start scheduled backup"
 msgstr "Не удалось запустить запланированное резервное копирование"
 
-#: src/ui.rs:78
-msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
-msgstr "Не удалось запустить «borg». Правильно ли установлен BorgBackup?"
-
-#: src/ui.rs:108
-msgid "BorgBackup Version Too Old"
-msgstr "Версия BorgBackup слишком старая"
-
-#: src/ui.rs:110
-msgid ""
-"The installed version {} of BorgBackup is older than the required version "
-"{}. This is unsupported."
-msgstr ""
-"Установленная версия {} BorgBackup старше требуемой версии {}. Это не "
-"поддерживается."
-
-#: src/ui.rs:119
-msgid "BorgBackup Version Too New"
-msgstr "Версия BorgBackup слишком новая"
-
-#: src/ui.rs:121
-msgid ""
-"The installed version {} of BorgBackup is new and untested. Version {} is "
-"recommended."
-msgstr ""
-"Установленная версия {} BorgBackup слишком новая и непроверенная. "
-"Рекомендуется использовать версию {}."
-
-#: src/ui.rs:130
-msgid "Failed to Check BorgBackup Version"
-msgstr "Не удалось проверить версию BorgBackup"
-
-#: src/ui.rs:132
-msgid "The installed version {} might not work."
-msgstr "Установленная версия {} может не работать."
-
-#: src/ui/app.rs:249
+#: pika-backup/src/app.rs:248
 msgid "Abort Backup?"
 msgstr "Прервать резервное копирование?"
 
-#: src/ui/app.rs:250
+#: pika-backup/src/app.rs:249
 msgid "The backup will remain incomplete if aborted now"
 msgstr ""
 "Резервное копирование останется незавершенным, если его прервать сейчас"
 
-#: src/ui/app.rs:251 src/ui/utils.rs:383
-#: src/ui/widget/detail/backup/events.rs:24
-#: src/ui/widget/detail/backup/events.rs:34
-#: src/ui/widget/detail/backup/events.rs:44
-#: src/ui/widget/dialog/setup/encryption.rs:93
+#: pika-backup/src/app.rs:250 pika-backup/src/utils.rs:387
+#: pika-backup/src/widget/detail/backup/events.rs:24
+#: pika-backup/src/widget/detail/backup/events.rs:34
+#: pika-backup/src/widget/detail/backup/events.rs:44
+#: pika-backup/src/widget/dialog/setup/encryption.rs:93
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/ui/app.rs:252 src/ui/utils.rs:382
-#: src/ui/widget/detail/backup/events.rs:35
-#: src/ui/widget/detail/backup/events.rs:45
+#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:386
+#: pika-backup/src/widget/detail/backup/events.rs:35
+#: pika-backup/src/widget/detail/backup/events.rs:45
 msgid "Abort"
 msgstr "Прервать"
 
-#: src/ui/app.rs:262
+#: pika-backup/src/app.rs:263
 msgid "Backup Operation Running"
 msgstr "Выполняется операция резервного копирования"
 
-#: src/ui/app.rs:264
+#: pika-backup/src/app.rs:265
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "Pika Backup нельзя закрыть во время операции резервного копирования"
 
-#: src/ui/backup_status.rs:75
+#: pika-backup/src/backup_status.rs:75
 msgid "Backup Never Run"
 msgstr "Резервное копирование никогда не запускалось"
 
-#: src/ui/backup_status.rs:76
+#: pika-backup/src/backup_status.rs:76
 msgid "Begin by carrying out your first backup"
 msgstr "Начните с выполнения первого резервного копирования"
 
-#: src/ui/backup_status.rs:85
+#: pika-backup/src/backup_status.rs:85
 msgid "No Integrity Check"
 msgstr "Проверка целостности отсутствует"
 
-#: src/ui/backup_status.rs:86
+#: pika-backup/src/backup_status.rs:86
 msgid "Archives integrity check not yet performed"
 msgstr "Проверка целостности архивов ещё не выполнена"
 
-#: src/ui/backup_status.rs:102
+#: pika-backup/src/backup_status.rs:102
 msgid "Last Backup Completed With Warnings"
 msgstr "Последнее резервное копирование выполнено с предупреждениями"
 
-#: src/ui/backup_status.rs:110
+#: pika-backup/src/backup_status.rs:110
 msgid "Last Backup Successful"
 msgstr "Последнее резервное копирование успешно"
 
-#: src/ui/backup_status.rs:117
+#: pika-backup/src/backup_status.rs:117
 msgid "Last Backup Aborted"
 msgstr "Последнее резервное копирование прервано"
 
-#: src/ui/backup_status.rs:124
+#: pika-backup/src/backup_status.rs:124
 msgid "Last Backup Failed"
 msgstr "Последнее резервное копирование не удалось"
 
 #. Translators: Argument is 'x months ago'
-#: src/ui/backup_status.rs:144
+#: pika-backup/src/backup_status.rs:144
 msgid "Successful Integrity Check {}"
 msgstr "Успешная проверка целостности {}"
 
-#: src/ui/backup_status.rs:145
+#: pika-backup/src/backup_status.rs:145
 msgid "Result might be out of date"
 msgstr "Результат может быть устаревшим"
 
-#: src/ui/backup_status.rs:152
+#: pika-backup/src/backup_status.rs:152
 msgid "Last Integrity Check Successful"
 msgstr "Последняя проверка целостности прошла успешно"
 
-#: src/ui/backup_status.rs:161
+#: pika-backup/src/backup_status.rs:161
 msgid "Integrity Check Aborted"
 msgstr "Проверка целостности была прервана"
 
-#: src/ui/backup_status.rs:168
+#: pika-backup/src/backup_status.rs:168
 msgid "Errors Found and Repaired"
 msgstr "Обнаружены и исправлены ошибки"
 
-#: src/ui/backup_status.rs:175
+#: pika-backup/src/backup_status.rs:175
 msgid "Integrity Errors Found"
 msgstr "Обнаружены ошибки целостности"
 
-#: src/ui/backup_status.rs:223
+#: pika-backup/src/backup_status.rs:223
 #, no-c-format
 msgid "{} % finished"
 msgstr "{} % закончено"
 
-#: src/ui/backup_status.rs:245
+#: pika-backup/src/backup_status.rs:245
 msgid "Preparing Backup"
 msgstr "Подготовка резервного копирования"
 
-#: src/ui/backup_status.rs:246
+#: pika-backup/src/backup_status.rs:246
 msgid "Backup Running"
 msgstr "Выполняется резервное копирование"
 
-#: src/ui/backup_status.rs:247
+#: pika-backup/src/backup_status.rs:247
 msgid "Backup Destination Unresponsive"
 msgstr "Место назначения резервного копирования не реагирует"
 
-#: src/ui/backup_status.rs:250
+#: pika-backup/src/backup_status.rs:250
 msgid "Connection lost, reconnecting in {}"
 msgstr "Соединение потеряно, переподключение через {}"
 
-#: src/ui/backup_status.rs:255
+#: pika-backup/src/backup_status.rs:255
 msgid "Reconnecting"
 msgstr "Переподключение"
 
-#: src/ui/backup_status.rs:257
+#: pika-backup/src/backup_status.rs:257
 msgid "Stopping Backup"
 msgstr "Остановка резервного копирования"
 
-#: src/ui/dbus.rs:66
+#: pika-backup/src/dbus.rs:67
 msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Не удалось создать интерфейс для запланированного резервного копирования."
 
-#: src/ui/error.rs:124
+#: pika-backup/src/error.rs:124
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -993,40 +974,77 @@ msgstr ""
 "связки ключей («секретная служба»). Инструкции по установке см. в "
 "документации к операционной системе."
 
-#: src/ui/error.rs:155
+#: pika-backup/src/error.rs:155
 msgid "Backup with id “{}” already exists."
 msgstr "Резервная копия с идентификатором «{}» уже существует."
 
-#: src/ui/error.rs:164
+#: pika-backup/src/error.rs:164
 msgid "Could not find backup configuration with id “{}”."
 msgstr ""
 "Не удалось найти конфигурацию резервного копирования с идентификатором «{}»."
 
-#: src/ui/error.rs:180
+#: pika-backup/src/error.rs:180
 msgid "Canceled"
 msgstr "Отменено"
 
-#: src/ui/prelude.rs:65
+#: pika-backup/src/lib.rs:80
+msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
+msgstr "Не удалось запустить «borg». Правильно ли установлен BorgBackup?"
+
+#: pika-backup/src/lib.rs:110
+msgid "BorgBackup Version Too Old"
+msgstr "Версия BorgBackup слишком старая"
+
+#: pika-backup/src/lib.rs:112
+msgid ""
+"The installed version {} of BorgBackup is older than the required version "
+"{}. This is unsupported."
+msgstr ""
+"Установленная версия {} BorgBackup старше требуемой версии {}. Это не "
+"поддерживается."
+
+#: pika-backup/src/lib.rs:121
+msgid "BorgBackup Version Too New"
+msgstr "Версия BorgBackup слишком новая"
+
+#: pika-backup/src/lib.rs:123
+msgid ""
+"The installed version {} of BorgBackup is new and untested. Version {} is "
+"recommended."
+msgstr ""
+"Установленная версия {} BorgBackup слишком новая и непроверенная. "
+"Рекомендуется использовать версию {}."
+
+#: pika-backup/src/lib.rs:132
+msgid "Failed to Check BorgBackup Version"
+msgstr "Не удалось проверить версию BorgBackup"
+
+#: pika-backup/src/lib.rs:134
+msgid "The installed version {} might not work."
+msgstr "Установленная версия {} может не работать."
+
+#: pika-backup/src/prelude.rs:65
 msgid "Could not write configuration file."
 msgstr "Не удалось записать файл конфигурации."
 
-#: src/ui/repo.rs:71 src/ui/repo.rs:79 src/ui/repo.rs:138 src/ui/repo.rs:143
+#: pika-backup/src/repo.rs:71 pika-backup/src/repo.rs:79
+#: pika-backup/src/repo.rs:138 pika-backup/src/repo.rs:143
 msgid "Failed to Mount"
 msgstr "Не удалось смонтировать"
 
-#: src/ui/repo.rs:139
+#: pika-backup/src/repo.rs:139
 msgid "The network server is not available"
 msgstr "Сетевой сервер недоступен"
 
-#: src/ui/shell.rs:32
+#: pika-backup/src/shell.rs:32
 msgid "Idle"
 msgstr "Ожидание"
 
-#: src/ui/status.rs:95 src/ui/status.rs:102
+#: pika-backup/src/status.rs:95 pika-backup/src/status.rs:102
 msgid "Unable to determine background process status"
 msgstr "Невозможно определить статус фонового процесса"
 
-#: src/ui/toast_size_estimate.rs:56
+#: pika-backup/src/toast_size_estimate.rs:58
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
@@ -1034,21 +1052,21 @@ msgstr ""
 "Расположение резервного копирования «{}» может быть заполнено. "
 "Предполагаемое место, недостающее для хранения всех данных: {}."
 
-#: src/ui/utils.rs:104
+#: pika-backup/src/utils.rs:105
 msgid "Request to run in background failed"
 msgstr "Запрос на выполнение в фоновом режиме не выполнен"
 
-#: src/ui/utils.rs:124
+#: pika-backup/src/utils.rs:128
 msgid "Schedule backups and continue running backups."
 msgstr ""
 "Запланировать резервное копирование и продолжить выполнение резервного "
 "копирования."
 
-#: src/ui/utils.rs:141
+#: pika-backup/src/utils.rs:145
 msgid "Run in background disabled"
 msgstr "Запуск в фоновом режиме отключен"
 
-#: src/ui/utils.rs:142
+#: pika-backup/src/utils.rs:146
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1058,7 +1076,7 @@ msgstr ""
 "копирования в фоновом режиме будут недоступны. Опцию «запуск в фоновом "
 "режиме» можно включить через системные настройки."
 
-#: src/ui/utils.rs:152
+#: pika-backup/src/utils.rs:156
 msgid ""
 "The system does not support running Pika Backup in the background. Scheduled "
 "backup functionality and continuing backups in the background will not be "
@@ -1072,77 +1090,80 @@ msgstr ""
 "конфигурация, либо другая проблема с xdg-desktop-portal. Пожалуйста, "
 "сообщите об этой проблеме в трекере проблем вашего дистрибутива."
 
-#: src/ui/utils.rs:174
+#: pika-backup/src/utils.rs:178
 msgid "Failed to Start Monitor"
 msgstr "Не удалось запустить монитор"
 
-#: src/ui/utils.rs:252
+#: pika-backup/src/utils.rs:256
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] "Выполняется одна операция резервного копирования"
 msgstr[1] "Выполняется {} операции резервного копирования"
 msgstr[2] "Выполняется {} операций резервного копирования"
 
-#: src/ui/utils.rs:290 src/ui/widget/detail/backup/events.rs:146
-#: src/ui/widget/detail/backup/events.rs:170
-#: src/ui/widget/dialog/exclude.rs:255 src/ui/widget/dialog/exclude.rs:302
+#: pika-backup/src/utils.rs:294
+#: pika-backup/src/widget/detail/backup/events.rs:146
+#: pika-backup/src/widget/detail/backup/events.rs:170
+#: pika-backup/src/widget/dialog/exclude.rs:254
+#: pika-backup/src/widget/dialog/exclude.rs:301
 msgid "Select"
 msgstr "Выбрать"
 
-#: src/ui/utils.rs:424
+#: pika-backup/src/utils.rs:429
 msgid "Close"
 msgstr "Закрыть"
 
-#: src/ui/utils/borg.rs:23
+#: pika-backup/src/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "Дополнительные аргументы командной строки недействительны"
 
-#: src/ui/utils/borg.rs:24 src/ui/widget/dialog/preferences.rs:276
+#: pika-backup/src/utils/borg.rs:25
+#: pika-backup/src/widget/dialog/preferences.rs:276
 msgid "Please check for missing closing quotes."
 msgstr "Проверьте, нет ли закрывающих кавычек."
 
-#: src/ui/utils/borg.rs:82
+#: pika-backup/src/utils/borg.rs:83
 msgid "Repository already in use"
 msgstr "Хранилище уже используется"
 
-#: src/ui/utils/borg.rs:146 src/ui/utils/borg.rs:158
+#: pika-backup/src/utils/borg.rs:151 pika-backup/src/utils/borg.rs:163
 msgid "Stop Browsing Files?"
 msgstr "Остановить просмотр файлов?"
 
-#: src/ui/utils/borg.rs:148
+#: pika-backup/src/utils/borg.rs:153
 msgid "Browsing through archived files is not possible while running a backup"
 msgstr ""
 "Во время выполнения резервного копирования просмотр архивных файлов "
 "невозможен"
 
-#: src/ui/utils/borg.rs:150 src/ui/utils/borg.rs:162
+#: pika-backup/src/utils/borg.rs:155 pika-backup/src/utils/borg.rs:167
 msgid "Keep Browsing"
 msgstr "Продолжить просмотр"
 
-#: src/ui/utils/borg.rs:151
+#: pika-backup/src/utils/borg.rs:156
 msgid "Start Backup"
 msgstr "Запуск резервного копирования"
 
-#: src/ui/utils/borg.rs:160
+#: pika-backup/src/utils/borg.rs:165
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository"
 msgstr ""
 "Просмотр архивных файлов невозможен во время выполнения операции с хранилищем"
 
-#: src/ui/utils/borg.rs:163
+#: pika-backup/src/utils/borg.rs:168
 msgid "Start Operation"
 msgstr "Запустить операцию"
 
-#: src/ui/utils/borg.rs:172 src/ui/utils/borg.rs:307
+#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:312
 msgid "Failed to unmount repository."
 msgstr "Не удалось размонтировать хранилище."
 
-#: src/ui/utils/borg.rs:284
+#: pika-backup/src/utils/borg.rs:289
 msgid "Repository Already in Use"
 msgstr "Хранилище уже используется"
 
-#: src/ui/utils/borg.rs:285
+#: pika-backup/src/utils/borg.rs:290
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
@@ -1152,7 +1173,7 @@ msgstr ""
 "может быть устаревшей, если, например, во время использования хранилища "
 "компьютер потерял питание."
 
-#: src/ui/utils/borg.rs:287
+#: pika-backup/src/utils/borg.rs:292
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1162,154 +1183,155 @@ msgstr ""
 "программой! Продолжение работы, пока хранилище используется другой "
 "программой, может привести к повреждению данных резервных копий!"
 
-#: src/ui/utils/borg.rs:288 src/ui/widget/detail/backup/events.rs:225
-#: src/ui/widget/dialog/preferences.rs:487
-#: src/ui/widget/dialog/setup/encryption.rs:92
-#: src/ui/widget/encryption_settings.rs:93
+#: pika-backup/src/utils/borg.rs:293
+#: pika-backup/src/widget/detail/backup/events.rs:225
+#: pika-backup/src/widget/dialog/preferences.rs:487
+#: pika-backup/src/widget/dialog/setup/encryption.rs:92
+#: pika-backup/src/widget/encryption_settings.rs:93
 msgid "Cancel"
 msgstr "Отменить"
 
-#: src/ui/utils/borg.rs:289
+#: pika-backup/src/utils/borg.rs:294
 msgid "Continue Anyway"
 msgstr "Всё равно продолжить"
 
-#: src/ui/utils/borg.rs:383 src/ui/utils/borg.rs:404
+#: pika-backup/src/utils/borg.rs:440 pika-backup/src/utils/borg.rs:461
 msgid "Unable to Eject Backup Disk"
 msgstr "Не удалось извлечь диск резервного копирования"
 
-#: src/ui/utils/borg.rs:392
+#: pika-backup/src/utils/borg.rs:449
 msgid "{} can be safely unplugged."
 msgstr "{} может быть безопасно отключён."
 
-#: src/ui/utils/borg.rs:405
+#: pika-backup/src/utils/borg.rs:462
 msgid "{} can't be ejected."
 msgstr "{} не может быть извлечён."
 
-#: src/ui/utils/config_io.rs:54 src/ui/utils/config_io.rs:59
+#: pika-backup/src/utils/config_io.rs:54 pika-backup/src/utils/config_io.rs:59
 msgid "Could not save configuration file"
 msgstr "Не удалось сохранить файл конфигурации"
 
-#: src/ui/utils/config_io.rs:67
+#: pika-backup/src/utils/config_io.rs:67
 msgid "Could not load configuration file."
 msgstr "Не удалось загрузить файл конфигурации."
 
-#: src/ui/utils/duration.rs:11
+#: pika-backup/src/utils/duration.rs:11
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "Одна секунда"
 msgstr[1] "{} секунды"
 msgstr[2] "{} секунд"
 
-#: src/ui/utils/duration.rs:13
+#: pika-backup/src/utils/duration.rs:13
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "Одна минута"
 msgstr[1] "{} минуты"
 msgstr[2] "{} минут"
 
-#: src/ui/utils/duration.rs:15
+#: pika-backup/src/utils/duration.rs:15
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "Один час"
 msgstr[1] "{} часа"
 msgstr[2] "{} часов"
 
-#: src/ui/utils/duration.rs:17
+#: pika-backup/src/utils/duration.rs:17
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "Один день"
 msgstr[1] "{} дня"
 msgstr[2] "{} дней"
 
-#: src/ui/utils/duration.rs:23
+#: pika-backup/src/utils/duration.rs:23
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "одна секунда"
 msgstr[1] "{} секунды"
 msgstr[2] "{} секунд"
 
-#: src/ui/utils/duration.rs:25
+#: pika-backup/src/utils/duration.rs:25
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "одна минута"
 msgstr[1] "{} минуты"
 msgstr[2] "{} минут"
 
-#: src/ui/utils/duration.rs:27
+#: pika-backup/src/utils/duration.rs:27
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "один час"
 msgstr[1] "{} часа"
 msgstr[2] "{} часов"
 
-#: src/ui/utils/duration.rs:29
+#: pika-backup/src/utils/duration.rs:29
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "один день"
 msgstr[1] "{} дня"
 msgstr[2] "{} дней"
 
-#: src/ui/utils/duration.rs:36
+#: pika-backup/src/utils/duration.rs:36
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "Осталась одна минута"
 msgstr[1] "Осталось {} минуты"
 msgstr[2] "Осталось {} минут"
 
-#: src/ui/utils/duration.rs:41
+#: pika-backup/src/utils/duration.rs:41
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "Остался один час"
 msgstr[1] "Осталось {} часа"
 msgstr[2] "Осталось {} часов"
 
-#: src/ui/utils/duration.rs:43
+#: pika-backup/src/utils/duration.rs:43
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "Остался один день"
 msgstr[1] "Осталось {} дня"
 msgstr[2] "Осталось {} дней"
 
-#: src/ui/utils/duration.rs:49
+#: pika-backup/src/utils/duration.rs:49
 msgid "Now"
 msgstr "Сейчас"
 
-#: src/ui/utils/duration.rs:51
+#: pika-backup/src/utils/duration.rs:51
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Минуту назад"
 msgstr[1] "{} минуты назад"
 msgstr[2] "{} минут назад"
 
-#: src/ui/utils/duration.rs:53
+#: pika-backup/src/utils/duration.rs:53
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Час назад"
 msgstr[1] "{} часа назад"
 msgstr[2] "{} часов назад"
 
-#: src/ui/utils/duration.rs:55
+#: pika-backup/src/utils/duration.rs:55
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "День назад"
 msgstr[1] "{} дня назад"
 msgstr[2] "{} дней назад"
 
-#: src/ui/utils/duration.rs:57
+#: pika-backup/src/utils/duration.rs:57
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Неделю назад"
 msgstr[1] "{} недели назад"
 msgstr[2] "{} недель назад"
 
-#: src/ui/utils/duration.rs:59
+#: pika-backup/src/utils/duration.rs:59
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Месяц назад"
 msgstr[1] "{} месяца назад"
 msgstr[2] "{} месяцев назад"
 
-#: src/ui/utils/duration.rs:61
+#: pika-backup/src/utils/duration.rs:61
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Год назад"
@@ -1319,7 +1341,7 @@ msgstr[2] "{} лет назад"
 #. Translators: This is the time format used for lists of full
 #. dates with times in 24-hour mode. It should use a numeric
 #. date if possible to align longer lists of dates and times.
-#: src/ui/utils/ext.rs:18
+#: pika-backup/src/utils/ext.rs:17
 msgid "%x %T"
 msgstr "%x %T"
 
@@ -1327,225 +1349,227 @@ msgstr "%x %T"
 #. dates with times in 12-hour mode (including AM/PM if
 #. appropriate). It should use a numeric date if possible to
 #. align longer lists of dates and times.
-#: src/ui/utils/ext.rs:24
+#: pika-backup/src/utils/ext.rs:23
 msgid "%x %r"
 msgstr "%x %r"
 
-#: src/ui/utils/password_storage.rs:25
+#: pika-backup/src/utils/password_storage.rs:26
 msgid "Failed to Store Password"
 msgstr "Не удалось сохранить пароль"
 
-#: src/ui/utils/password_storage.rs:43
+#: pika-backup/src/utils/password_storage.rs:44
 msgid "Failed to remove potentially remaining passwords from key storage."
 msgstr "Не удалось удалить потенциально оставшиеся пароли из хранилища ключей."
 
 #. Translators: This is the description for entries in the password database.
-#: src/ui/utils/password_storage.rs:62
+#: pika-backup/src/utils/password_storage.rs:63
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup «{}»"
 
-#: src/ui/utils/repo_cache.rs:57
+#: pika-backup/src/utils/repo_cache.rs:60
 msgid "Failed to Save Cache"
 msgstr "Не удалось сохранить кэш"
 
-#: src/ui/widget/detail.ui:8
+#: pika-backup/src/widget/detail.ui:8
 msgid "Backup Preferences"
 msgstr "Параметры резервного копирования"
 
-#: src/ui/widget/detail.ui:12
+#: pika-backup/src/widget/detail.ui:12
 msgid "Remove Backup Setup"
 msgstr "Удалить конфигурацию резервного копирования"
 
-#: src/ui/widget/detail.ui:18
+#: pika-backup/src/widget/detail.ui:18
 msgid "Backup"
 msgstr "Резервная копия"
 
-#: src/ui/widget/detail.ui:51
+#: pika-backup/src/widget/detail.ui:51
 msgid "Archives are being mounted. This might take a while."
 msgstr "Архивы монтируются. Это может занять некоторое время."
 
-#: src/ui/widget/detail.ui:64
+#: pika-backup/src/widget/detail.ui:64
 msgid "Actions"
 msgstr "Действия"
 
-#: src/ui/widget/detail.ui:91
+#: pika-backup/src/widget/detail.ui:91
 msgid "_Backup"
 msgstr "_Резервное копирование"
 
-#: src/ui/widget/detail.ui:101
+#: pika-backup/src/widget/detail.ui:101
 msgid "_Archives"
 msgstr "_Архивы"
 
-#: src/ui/widget/detail.ui:111
+#: pika-backup/src/widget/detail.ui:111
 msgid "_Schedule"
 msgstr "_Расписание"
 
-#: src/ui/widget/detail/archives.ui:101
+#: pika-backup/src/widget/detail/archives.ui:101
 msgid "Archive _Prefix"
 msgstr "Префикс _архива"
 
-#: src/ui/widget/detail/archives.ui:103
+#: pika-backup/src/widget/detail/archives.ui:103
 msgid "Added in front of all archive names"
 msgstr "Добавляется перед всеми именами архивов"
 
-#: src/ui/widget/detail/archives.ui:132
+#: pika-backup/src/widget/detail/archives.ui:132
 msgid "_Cleanup Archives"
 msgstr "_Очистка архивов"
 
-#: src/ui/widget/detail/archives.ui:133
+#: pika-backup/src/widget/detail/archives.ui:133
 msgid "Delete some older archives"
 msgstr "Удалить некоторые старые архивы"
 
-#: src/ui/widget/detail/archives.ui:149
+#: pika-backup/src/widget/detail/archives.ui:149
 msgid "Data Integrity Check"
 msgstr "Проверка целостности данных"
 
-#: src/ui/widget/detail/archives.ui:156
+#: pika-backup/src/widget/detail/archives.ui:156
 msgid "_Check Now"
 msgstr "П_роверить сейчас"
 
-#: src/ui/widget/detail/archives.ui:164 src/ui/widget/detail/backup.ui:77
+#: pika-backup/src/widget/detail/archives.ui:164
+#: pika-backup/src/widget/detail/backup.ui:77
 msgid "_Abort…"
 msgstr "_Прервать…"
 
-#: src/ui/widget/detail/archives.ui:172
+#: pika-backup/src/widget/detail/archives.ui:172
 msgid "Archives"
 msgstr "Архивы"
 
-#: src/ui/widget/detail/archives.ui:181
+#: pika-backup/src/widget/detail/archives.ui:181
 msgid "Refresh"
 msgstr "Обновить"
 
-#: src/ui/widget/detail/archives.ui:202
+#: pika-backup/src/widget/detail/archives.ui:202
 msgid "Stop Browsing Saved Files"
 msgstr "Остановить просмотр сохраненных файлов"
 
-#: src/ui/widget/detail/archives.ui:228
+#: pika-backup/src/widget/detail/archives.ui:228
 msgid "No Archives Available"
 msgstr "Архивы отсутствуют"
 
-#: src/ui/widget/detail/archives/cache.rs:33
+#: pika-backup/src/widget/detail/archives/cache.rs:35
 msgid "Failed to refresh archives cache."
 msgstr "Не удалось обновить кэш архивов."
 
-#: src/ui/widget/detail/archives/display.rs:86
-#: src/ui/widget/dialog/setup/transfer_option.rs:59
+#: pika-backup/src/widget/detail/archives/display.rs:89
+#: pika-backup/src/widget/dialog/setup/transfer_option.rs:58
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/widget/detail/archives/display.rs:101
+#: pika-backup/src/widget/detail/archives/display.rs:104
 msgid "Failed to open archive."
 msgstr "Не удалось открыть архив."
 
-#: src/ui/widget/detail/archives/display.rs:168
+#: pika-backup/src/widget/detail/archives/display.rs:171
 msgid "Incomplete Archive"
 msgstr "Неполный архив"
 
-#: src/ui/widget/detail/archives/display.rs:189
+#: pika-backup/src/widget/detail/archives/display.rs:192
 msgid "Name"
 msgstr "Имя"
 
-#: src/ui/widget/detail/archives/display.rs:191
+#: pika-backup/src/widget/detail/archives/display.rs:194
 msgid "Duration"
 msgstr "Длительность"
 
-#: src/ui/widget/detail/archives/display.rs:195
+#: pika-backup/src/widget/detail/archives/display.rs:198
 msgid "Comment"
 msgstr "Комментарий"
 
-#: src/ui/widget/detail/archives/display.rs:199
+#: pika-backup/src/widget/detail/archives/display.rs:202
 msgid "Browse Saved Files"
 msgstr "Просмотр сохраненных файлов"
 
-#: src/ui/widget/detail/archives/display.rs:221
-#: src/ui/widget/dialog/delete_archive.ui:6
-#: src/ui/widget/dialog/delete_archive.ui:50
+#: pika-backup/src/widget/detail/archives/display.rs:224
+#: pika-backup/src/widget/dialog/delete_archive.ui:6
+#: pika-backup/src/widget/dialog/delete_archive.ui:50
 msgid "Delete Archive"
 msgstr "Удалить архив"
 
-#: src/ui/widget/detail/archives/display.rs:256
+#: pika-backup/src/widget/detail/archives/display.rs:259
 msgid "{} Available"
 msgstr "{} Доступно"
 
-#: src/ui/widget/detail/archives/display.rs:258
+#: pika-backup/src/widget/detail/archives/display.rs:261
 msgid "{} Total"
 msgstr "{} Всего"
 
-#: src/ui/widget/detail/archives/events.rs:88
+#: pika-backup/src/widget/detail/archives/events.rs:95
 msgid "Failed to make archives available for browsing."
 msgstr "Не удалось сделать архивы доступными для просмотра."
 
-#: src/ui/widget/detail/backup.ui:21
+#: pika-backup/src/widget/detail/backup.ui:21
 msgid "Eject Backup Disk"
 msgstr "Извлечь диск резервного копирования"
 
-#: src/ui/widget/detail/backup.ui:37
+#: pika-backup/src/widget/detail/backup.ui:37
 msgid "Disconnected"
 msgstr "Отсоединено"
 
-#: src/ui/widget/detail/backup.ui:65
+#: pika-backup/src/widget/detail/backup.ui:65
 msgid "Back Up _Now"
 msgstr "Сделать резервную копию _сейчас"
 
-#: src/ui/widget/detail/backup.ui:90
-#: src/ui/widget/dialog/setup/transfer_option.ui:88
+#: pika-backup/src/widget/detail/backup.ui:90
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:88
 msgid "Files to Back Up"
 msgstr "Файлы для резервного копирования"
 
-#: src/ui/widget/detail/backup.ui:91
+#: pika-backup/src/widget/detail/backup.ui:91
 msgid "Only files in these folders are backed up"
 msgstr "Резервное копирование выполняется только для файлов в этих папках"
 
-#: src/ui/widget/detail/backup.ui:98
+#: pika-backup/src/widget/detail/backup.ui:98
 msgid "Select File to Include"
 msgstr "Выберите файл для добавления"
 
-#: src/ui/widget/detail/backup.ui:108
+#: pika-backup/src/widget/detail/backup.ui:108
 msgid "Select Directory to Include"
 msgstr "Выберите каталог для добавления"
 
-#: src/ui/widget/detail/backup.ui:126
+#: pika-backup/src/widget/detail/backup.ui:126
 msgid "No Files Included in Backup"
 msgstr "Нет файлов, включенных в резервную копию"
 
-#: src/ui/widget/detail/backup.ui:138 src/ui/widget/dialog/exclude.ui:12
-#: src/ui/widget/dialog/setup/transfer_option.ui:112
+#: pika-backup/src/widget/detail/backup.ui:138
+#: pika-backup/src/widget/dialog/exclude.ui:12
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:112
 msgid "Exclude From Backup"
 msgstr "Исключить из резервного копирования"
 
-#: src/ui/widget/detail/backup.ui:139
+#: pika-backup/src/widget/detail/backup.ui:139
 msgid "The following locations are not backed up"
 msgstr "В следующих расположениях резервное копирование не выполняется"
 
-#: src/ui/widget/detail/backup.ui:142
+#: pika-backup/src/widget/detail/backup.ui:142
 msgid "Select Directory to Exclude"
 msgstr "Выберите каталог для исключения"
 
-#: src/ui/widget/detail/backup.ui:158
+#: pika-backup/src/widget/detail/backup.ui:158
 msgid "Nothing Excluded From Backup"
 msgstr "Ничего не исключено из резервного копирования"
 
-#: src/ui/widget/detail/backup/display.rs:19
+#: pika-backup/src/widget/detail/backup/display.rs:19
 msgid "Usually contains all personal data"
 msgstr "Обычно содержит все персональные данные"
 
-#: src/ui/widget/detail/backup/display.rs:41
+#: pika-backup/src/widget/detail/backup/display.rs:41
 msgid "Remove Directory"
 msgstr "Удалить каталог"
 
-#: src/ui/widget/detail/backup/display.rs:110
+#: pika-backup/src/widget/detail/backup/display.rs:110
 msgid "Edit Pattern"
 msgstr "Редактировать шаблон"
 
-#: src/ui/widget/detail/backup/display.rs:138
+#: pika-backup/src/widget/detail/backup/display.rs:138
 msgid "Remove From List"
 msgstr "Удалить из списка"
 
-#: src/ui/widget/detail/backup/events.rs:22
+#: pika-backup/src/widget/detail/backup/events.rs:22
 msgid "Stop Running Backup?"
 msgstr "Остановить выполнение резервного копирования?"
 
-#: src/ui/widget/detail/backup/events.rs:23
+#: pika-backup/src/widget/detail/backup/events.rs:23
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1553,15 +1577,15 @@ msgstr ""
 "Текущее состояние резервного копирования будет сохранено. Вы можете "
 "продолжить резервное копирование позже, запустив его снова."
 
-#: src/ui/widget/detail/backup/events.rs:25
+#: pika-backup/src/widget/detail/backup/events.rs:25
 msgid "Stop"
 msgstr "Остановить"
 
-#: src/ui/widget/detail/backup/events.rs:32
+#: pika-backup/src/widget/detail/backup/events.rs:32
 msgid "Abort Delete Operation?"
 msgstr "Прервать операцию удаления?"
 
-#: src/ui/widget/detail/backup/events.rs:33
+#: pika-backup/src/widget/detail/backup/events.rs:33
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
@@ -1569,11 +1593,11 @@ msgstr ""
 "В настоящее время архивы удаляются. Если прервать этого процесс, то "
 "освободить место не получится."
 
-#: src/ui/widget/detail/backup/events.rs:42
+#: pika-backup/src/widget/detail/backup/events.rs:42
 msgid "Abort Operation?"
 msgstr "Прервать операцию?"
 
-#: src/ui/widget/detail/backup/events.rs:43
+#: pika-backup/src/widget/detail/backup/events.rs:43
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
@@ -1581,12 +1605,12 @@ msgstr ""
 "В настоящее время выполняется операция. Прерывание операции приведет к "
 "потере прогресса, достигнутого операцией."
 
-#: src/ui/widget/detail/backup/events.rs:100
-#: src/ui/widget/detail/backup/events.rs:110
+#: pika-backup/src/widget/detail/backup/events.rs:100
+#: pika-backup/src/widget/detail/backup/events.rs:110
 msgid "Unable to Include Location"
 msgstr "Невозможно включить расположение"
 
-#: src/ui/widget/detail/backup/events.rs:101
+#: pika-backup/src/widget/detail/backup/events.rs:101
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -1596,7 +1620,7 @@ msgstr ""
 "песочнице:\n"
 "{}"
 
-#: src/ui/widget/detail/backup/events.rs:111
+#: pika-backup/src/widget/detail/backup/events.rs:111
 msgid ""
 "Pika Backup cannot be used to backup the entire system or the “/dev” "
 "directory."
@@ -1604,287 +1628,292 @@ msgstr ""
 "Pika Backup нельзя использовать для резервного копирования всей системы или "
 "каталога «/dev»."
 
-#: src/ui/widget/detail/backup/events.rs:145
+#: pika-backup/src/widget/detail/backup/events.rs:145
 msgid "Include File"
 msgstr "Включить файл"
 
-#: src/ui/widget/detail/backup/events.rs:169
+#: pika-backup/src/widget/detail/backup/events.rs:169
 msgid "Include Folder"
 msgstr "Включить папку"
 
-#: src/ui/widget/detail/backup/events.rs:221
+#: pika-backup/src/widget/detail/backup/events.rs:221
 msgid "No longer include “{}” in backups?"
 msgstr "Больше не включать «{}» в резервные копии?"
 
-#: src/ui/widget/detail/backup/events.rs:223
+#: pika-backup/src/widget/detail/backup/events.rs:223
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
 msgstr ""
 "Все файлы, содержащиеся в этой папке, больше не будут входить в будущие "
 "резервные копии."
 
-#: src/ui/widget/detail/backup/events.rs:226
+#: pika-backup/src/widget/detail/backup/events.rs:226
 msgid "Confirm"
 msgstr "Подтвердить"
 
-#: src/ui/widget/detail/backup/execution.rs:37
+#: pika-backup/src/widget/detail/backup/execution.rs:37
 msgid "Delete old Archives Failed"
 msgstr "Удалить старые архивы не удалось"
 
-#: src/ui/widget/detail/backup/execution.rs:49
+#: pika-backup/src/widget/detail/backup/execution.rs:49
 msgid "Reclaiming Free Space Failed"
 msgstr "Высвобождение свободного места не удалось"
 
-#: src/ui/widget/detail/backup/execution.rs:139
+#: pika-backup/src/widget/detail/backup/execution.rs:140
 msgid "Backup Failed"
 msgstr "Сбой резервного копирования"
 
-#: src/ui/widget/detail/backup/execution.rs:171
+#: pika-backup/src/widget/detail/backup/execution.rs:172
 msgid "Backup Completed with Warnings"
 msgstr "Резервное копирование выполнено с предупреждениями"
 
-#: src/ui/widget/detail/backup/execution.rs:224
-#: src/ui/widget/dialog/preferences.rs:341
+#: pika-backup/src/widget/detail/backup/execution.rs:225
+#: pika-backup/src/widget/dialog/preferences.rs:341
 msgid "Error Running Shell Command"
 msgstr "Ошибка при выполнении команды оболочки"
 
-#: src/ui/widget/detail/schedule.ui:29
+#: pika-backup/src/widget/detail/schedule.ui:29
 msgid ":"
 msgstr ":"
 
-#: src/ui/widget/detail/schedule.ui:67 src/ui/widget/dialog/preferences.ui:155
+#: pika-backup/src/widget/detail/schedule.ui:67
+#: pika-backup/src/widget/dialog/preferences.ui:155
 msgid "Scheduled Backups"
 msgstr "Резервное копирование по расписанию"
 
-#: src/ui/widget/detail/schedule.ui:71
+#: pika-backup/src/widget/detail/schedule.ui:71
 msgid "Regularly Create Backups"
 msgstr "Регулярное создание резервных копий"
 
-#: src/ui/widget/detail/schedule.ui:76
+#: pika-backup/src/widget/detail/schedule.ui:76
 msgid "Frequency"
 msgstr "Частота"
 
-#: src/ui/widget/detail/schedule.ui:84
+#: pika-backup/src/widget/detail/schedule.ui:84
 msgid "Preferred Time"
 msgstr "Предпочтительное время"
 
-#: src/ui/widget/detail/schedule.ui:103
+#: pika-backup/src/widget/detail/schedule.ui:103
 msgid "Preferred Weekday"
 msgstr "Предпочтительный будний день"
 
-#: src/ui/widget/detail/schedule.ui:108
+#: pika-backup/src/widget/detail/schedule.ui:108
 msgid "Preferred Day of Month"
 msgstr "Предпочтительный день месяца"
 
-#: src/ui/widget/detail/schedule.ui:125
+#: pika-backup/src/widget/detail/schedule.ui:125
 msgid "Delete Old Archives"
 msgstr "Удалить старые архивы"
 
-#: src/ui/widget/detail/schedule.ui:131
+#: pika-backup/src/widget/detail/schedule.ui:131
 msgid "Save Configuration"
 msgstr "Сохранить конфигурацию"
 
-#: src/ui/widget/detail/schedule.ui:143
+#: pika-backup/src/widget/detail/schedule.ui:143
 msgid "Regularly Cleanup Archives"
 msgstr "Регулярная очистка архивов"
 
-#: src/ui/widget/detail/schedule.ui:144
+#: pika-backup/src/widget/detail/schedule.ui:144
 msgid "Remove old archives after creating new backups"
 msgstr "Удалять старые архивы после создания новых резервных копий"
 
-#: src/ui/widget/detail/schedule.ui:154
+#: pika-backup/src/widget/detail/schedule.ui:154
 msgid "Preserved Archives"
 msgstr "Сохраненные архивы"
 
-#: src/ui/widget/detail/schedule.ui:155
+#: pika-backup/src/widget/detail/schedule.ui:155
 msgid "Amount and time span of retained archives"
 msgstr "Объем и срок хранения архивов"
 
-#: src/ui/widget/detail/schedule.ui:164
+#: pika-backup/src/widget/detail/schedule.ui:164
 msgid "Details"
 msgstr "Подробности"
 
-#: src/ui/widget/detail/schedule.ui:168
+#: pika-backup/src/widget/detail/schedule.ui:168
 msgid "Keep Hourly"
 msgstr "Хранить каждый час"
 
-#: src/ui/widget/detail/schedule.ui:183
+#: pika-backup/src/widget/detail/schedule.ui:183
 msgid "Keep Daily"
 msgstr "Хранить ежедневно"
 
-#: src/ui/widget/detail/schedule.ui:198
+#: pika-backup/src/widget/detail/schedule.ui:198
 msgid "Keep Weekly"
 msgstr "Хранить еженедельно"
 
-#: src/ui/widget/detail/schedule.ui:212
+#: pika-backup/src/widget/detail/schedule.ui:212
 msgid "Keep Monthly"
 msgstr "Хранить ежемесячно"
 
-#: src/ui/widget/detail/schedule.ui:225
+#: pika-backup/src/widget/detail/schedule.ui:225
 msgid "Keep Annual"
 msgstr "Хранить ежегодно"
 
-#: src/ui/widget/detail/schedule/event.rs:110
+#: pika-backup/src/widget/detail/schedule/event.rs:111
 msgid "Invalid time format."
 msgstr "Неверный формат времени."
 
-#: src/ui/widget/detail/schedule/event.rs:118
+#: pika-backup/src/widget/detail/schedule/event.rs:119
 msgid "Invalid weekday."
 msgstr "Неверный день недели."
 
-#: src/ui/widget/detail/schedule/event.rs:124
+#: pika-backup/src/widget/detail/schedule/event.rs:125
 msgid "No frequency selected."
 msgstr "Частота не выбрана."
 
-#: src/ui/widget/detail/schedule/event.rs:232
+#: pika-backup/src/widget/detail/schedule/event.rs:233
 msgid "Disable Backup Schedule?"
 msgstr "Отключить резервное копирование по расписанию?"
 
-#: src/ui/widget/detail/schedule/event.rs:233
+#: pika-backup/src/widget/detail/schedule/event.rs:234
 msgid "Backups will no longer run on a schedule"
 msgstr "Резервные копии больше не будут выполняться по расписанию"
 
-#: src/ui/widget/detail/schedule/event.rs:234
+#: pika-backup/src/widget/detail/schedule/event.rs:235
 msgid "_Keep Schedule"
 msgstr "_Соблюдать расписание"
 
-#: src/ui/widget/detail/schedule/event.rs:235
+#: pika-backup/src/widget/detail/schedule/event.rs:236
 msgid "_Disable Schedule"
 msgstr "_Отключить расписание"
 
-#: src/ui/widget/detail/schedule/event.rs:302
+#: pika-backup/src/widget/detail/schedule/event.rs:303
 msgid "No preset selected."
 msgstr "Не выбрана предустановка."
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:19
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:19
 msgid "Keep Many"
 msgstr "Сохранить много"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:20
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:20
 msgid "Keep Some"
 msgstr "Сохранить несколько"
 
-#: src/ui/widget/detail/schedule/prune_preset.rs:21
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:21
 msgid "Custom"
 msgstr "Другое"
 
-#: src/ui/widget/detail/schedule/status.rs:17
+#: pika-backup/src/widget/detail/schedule/status.rs:18
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Следующее резервное копирование через одну минуту"
 msgstr[1] "Следующее резервное копирование через {} минуты"
 msgstr[2] "Следующее резервное копирование через {} минут"
 
-#: src/ui/widget/detail/schedule/status.rs:23
+#: pika-backup/src/widget/detail/schedule/status.rs:24
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Следующее резервное копирование через час"
 msgstr[1] "Следующее резервное копирование через {} часа"
 msgstr[2] "Следующее резервное копирование через {} часов"
 
-#: src/ui/widget/detail/schedule/status.rs:29
+#: pika-backup/src/widget/detail/schedule/status.rs:30
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Следующее резервное копирование через один день"
 msgstr[1] "Следующее резервное копирование через {} дня"
 msgstr[2] "Следующее резервное копирование через {} дней"
 
-#: src/ui/widget/detail/schedule/status.rs:35
+#: pika-backup/src/widget/detail/schedule/status.rs:36
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Следующее резервное копирование через неделю"
 msgstr[1] "Следующее резервное копирование через {} недели"
 msgstr[2] "Следующее резервное копирование через {} недель"
 
-#: src/ui/widget/detail/schedule/status.rs:52
+#: pika-backup/src/widget/detail/schedule/status.rs:61
 msgid "Scheduled Backups Disabled"
 msgstr "Резервное копирование по расписанию отключено"
 
-#: src/ui/widget/detail/schedule/status.rs:70
+#: pika-backup/src/widget/detail/schedule/status.rs:79
 msgid "Hourly Backups Enabled"
 msgstr "Включено почасовое резервное копирование"
 
-#: src/ui/widget/detail/schedule/status.rs:71
+#: pika-backup/src/widget/detail/schedule/status.rs:80
 msgid "Daily Backups Enabled"
 msgstr "Включено ежедневное резервное копирование"
 
-#: src/ui/widget/detail/schedule/status.rs:72
+#: pika-backup/src/widget/detail/schedule/status.rs:81
 msgid "Weekly Backups Enabled"
 msgstr "Включено еженедельное резервное копирование"
 
-#: src/ui/widget/detail/schedule/status.rs:73
+#: pika-backup/src/widget/detail/schedule/status.rs:82
 msgid "Monthly Backups Enabled"
 msgstr "Включено ежемесячное резервное копирование"
 
-#: src/ui/widget/detail/schedule/status.rs:84
+#: pika-backup/src/widget/detail/schedule/status.rs:93
 msgid "Will not start until requirements are met."
 msgstr "Не запускается до тех пор, пока не будут выполнены все требования."
 
-#: src/ui/widget/detail/schedule/status.rs:89
+#: pika-backup/src/widget/detail/schedule/status.rs:98
 msgid "Inconsistent backup information"
 msgstr "Непоследовательная информация о резервном копировании"
 
-#: src/ui/widget/detail/schedule/status.rs:95
+#: pika-backup/src/widget/detail/schedule/status.rs:104
 msgid "Backup Past Due"
 msgstr "Просроченная резервная копия"
 
-#: src/ui/widget/detail/schedule/status.rs:96
+#: pika-backup/src/widget/detail/schedule/status.rs:105
 msgid "Waiting until requirements are met"
 msgstr "Ожидание выполнения требований"
 
-#: src/ui/widget/detail/schedule/status.rs:99
+#: pika-backup/src/widget/detail/schedule/status.rs:108
 msgid "Scheduled Backups Unavailable"
 msgstr "Запланированное резервное копирование недоступно"
 
-#: src/ui/widget/detail/schedule/status.rs:102
+#: pika-backup/src/widget/detail/schedule/status.rs:111
 msgid "Waiting for Backup to Start"
 msgstr "Ожидание начала резервного копирования"
 
-#: src/ui/widget/detail/schedule/status.rs:111
+#: pika-backup/src/widget/detail/schedule/status.rs:120
 msgid "Network connection must not be metered"
 msgstr "Сетевое подключение не должно быть дозированным"
 
-#: src/ui/widget/detail/schedule/status.rs:117
+#: pika-backup/src/widget/detail/schedule/status.rs:126
 msgid "Other backups on repository have to be completed"
 msgstr "Другие резервные копии хранилища должны быть выполнены"
 
-#: src/ui/widget/detail/schedule/status.rs:124
+#: pika-backup/src/widget/detail/schedule/status.rs:132
+msgid "Archives cannot be opened for browsing"
+msgstr "Архивы не могут быть открыты для просмотра"
+
+#: pika-backup/src/widget/detail/schedule/status.rs:139
 msgid "Device must be connected to power"
 msgstr "Устройство должно быть подключено к питанию"
 
-#: src/ui/widget/detail/schedule/status.rs:135
+#: pika-backup/src/widget/detail/schedule/status.rs:150
 msgid "Backup device has to be connected"
 msgstr "Резервное устройство должно быть подключено"
 
-#: src/ui/widget/detail/schedule/status.rs:137
+#: pika-backup/src/widget/detail/schedule/status.rs:152
 msgid "Reminder will be sent when device is required"
 msgstr "Напоминание будет отправлено, когда устройство будет необходимо"
 
-#: src/ui/widget/detail/schedule/status.rs:145
+#: pika-backup/src/widget/detail/schedule/status.rs:160
 msgid "Network connection has to be available"
 msgstr "Сетевое подключение должно быть доступно"
 
-#: src/ui/widget/detail/schedule/status.rs:155
+#: pika-backup/src/widget/detail/schedule/status.rs:170
 msgid "Background process inactive"
 msgstr "Фоновый процесс неактивен"
 
-#: src/ui/widget/detail/schedule/status.rs:156
+#: pika-backup/src/widget/detail/schedule/status.rs:171
 msgid "This is required for scheduled backups"
 msgstr "Требуется для поддержки резервирования по расписанию"
 
-#: src/ui/widget/dialog/about.rs:20
+#: pika-backup/src/widget/dialog/about.rs:19
 msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
-#: src/ui/widget/dialog/about.rs:21
+#: pika-backup/src/widget/dialog/about.rs:20
 msgid "Fina Wilke <finaw@gnome.org>"
 msgstr "Fina Wilke <finaw@gnome.org>"
 
-#: src/ui/widget/dialog/about.rs:23
+#: pika-backup/src/widget/dialog/about.rs:22
 msgid "Copyright © 2018–2023 Sophie Herold et al."
 msgstr "Copyright © 2018–2023 Sophie Herold et al."
 
-#: src/ui/widget/dialog/about.rs:24
+#: pika-backup/src/widget/dialog/about.rs:23
 msgid "translator-credits"
 msgstr ""
 "Stas Solovey <whats_up@tut.by>, 2014-2019.\n"
@@ -1893,19 +1922,19 @@ msgstr ""
 "Alexey Rubtsov <rushills@gmail.com>, 2021\n"
 "Aleksandr Melman <alexmelman88@gmail.com>, 2022-2023"
 
-#: src/ui/widget/dialog/about.rs:26
+#: pika-backup/src/widget/dialog/about.rs:25
 msgid "Jakub Steiner"
 msgstr "Jakub Steiner"
 
-#: src/ui/widget/dialog/about.rs:27
+#: pika-backup/src/widget/dialog/about.rs:26
 msgid "Tobias Bernard"
 msgstr "Tobias Bernard"
 
-#: src/ui/widget/dialog/about.rs:30
+#: pika-backup/src/widget/dialog/about.rs:29
 msgid "Back End"
 msgstr "Внутренний интерфейс"
 
-#: src/ui/widget/dialog/about.rs:31
+#: pika-backup/src/widget/dialog/about.rs:30
 msgid ""
 "Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
@@ -1915,11 +1944,11 @@ msgstr ""
 "Borg. Рассмотрите возможность <a href='https://www.borgbackup.org/support/"
 "fund.html'>поддержки BorgBackup</a>."
 
-#: src/ui/widget/dialog/about.rs:32
+#: pika-backup/src/widget/dialog/about.rs:31
 msgid "The Name"
 msgstr "Название"
 
-#: src/ui/widget/dialog/about.rs:33
+#: pika-backup/src/widget/dialog/about.rs:32
 msgid ""
 "The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
@@ -1939,7 +1968,7 @@ msgstr ""
 "питательной ценностью для сена. И последнее, но не менее важное: пищухи не "
 "только создают очень сложные кучи сена, но и быстро собирают растительность."
 
-#: src/ui/widget/dialog/about.rs:34
+#: pika-backup/src/widget/dialog/about.rs:33
 msgid ""
 "Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
@@ -1947,31 +1976,32 @@ msgstr ""
 "Частые слухи о том, что название этой программы связано с монстром, "
 "обладающим электрическими способностями, беспочвенны."
 
-#: src/ui/widget/dialog/about.rs:40
+#: pika-backup/src/widget/dialog/about.rs:39
 msgid "Support us on Open Collective"
 msgstr "Поддержите нас на Open Collective"
 
-#: src/ui/widget/dialog/about.rs:44
+#: pika-backup/src/widget/dialog/about.rs:43
 msgid "Support us on GitHub Sponsors"
 msgstr "Поддержите нас на GitHub"
 
-#: src/ui/widget/dialog/archive_prefix.rs:76
-#: src/ui/widget/dialog/archive_prefix.rs:93 src/ui/widget/dialog/setup.rs:542
+#: pika-backup/src/widget/dialog/archive_prefix.rs:77
+#: pika-backup/src/widget/dialog/archive_prefix.rs:94
+#: pika-backup/src/widget/dialog/setup.rs:539
 msgid "Invalid Archive Prefix"
 msgstr "Неверный префикс архива"
 
-#: src/ui/widget/dialog/archive_prefix.ui:6
-#: src/ui/widget/dialog/archive_prefix.ui:66
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:8
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:15
+#: pika-backup/src/widget/dialog/archive_prefix.ui:6
+#: pika-backup/src/widget/dialog/archive_prefix.ui:66
+#: pika-backup/src/widget/dialog/setup/transfer_prefix.ui:8
+#: pika-backup/src/widget/dialog/setup/transfer_prefix.ui:15
 msgid "Archive Prefix"
 msgstr "Префикс архива"
 
-#: src/ui/widget/dialog/archive_prefix.ui:28
+#: pika-backup/src/widget/dialog/archive_prefix.ui:28
 msgid "Archive Prefixes"
 msgstr "Префиксы архива"
 
-#: src/ui/widget/dialog/archive_prefix.ui:39
+#: pika-backup/src/widget/dialog/archive_prefix.ui:39
 msgid ""
 "Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
@@ -1979,7 +2009,7 @@ msgstr ""
 "При каждом запуске резервного копирования создается новый архив. Имя архива "
 "всегда имеет префикс текущего архива."
 
-#: src/ui/widget/dialog/archive_prefix.ui:46
+#: pika-backup/src/widget/dialog/archive_prefix.ui:46
 msgid ""
 "This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
@@ -1988,64 +2018,67 @@ msgstr ""
 "Это особенно актуально для функции «Очистка архивов». Только архивы с "
 "настроенным префиксом в имени рассматриваются для удаления."
 
-#: src/ui/widget/dialog/archive_prefix.ui:53
+#: pika-backup/src/widget/dialog/archive_prefix.ui:53
 msgid "If the archive prefix is empty, no prefix is added."
 msgstr "Если префикс архива пуст, префикс не добавляется."
 
-#: src/ui/widget/dialog/archive_prefix.ui:75
-#: src/ui/widget/dialog/exclude.rs:353
+#: pika-backup/src/widget/dialog/archive_prefix.ui:75
+#: pika-backup/src/widget/dialog/exclude.rs:352
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/ui/widget/dialog/backup_info.ui:8
+#: pika-backup/src/widget/dialog/backup_info.ui:8
 msgid "Backup Info"
 msgstr "Информация о резервном копировании"
 
-#: src/ui/widget/dialog/backup_info.ui:60
+#: pika-backup/src/widget/dialog/backup_info.ui:60
 msgid "Amount Saved"
 msgstr "Объём экономии"
 
-#: src/ui/widget/dialog/backup_info.ui:61
+#: pika-backup/src/widget/dialog/backup_info.ui:61
 msgid "Size of all files"
 msgstr "Размер всех файлов"
 
-#: src/ui/widget/dialog/backup_info.ui:77
+#: pika-backup/src/widget/dialog/backup_info.ui:77
 msgid "Number of Files Saved"
 msgstr "Количество сохраненных файлов"
 
-#: src/ui/widget/dialog/backup_info.ui:93
+#: pika-backup/src/widget/dialog/backup_info.ui:93
 msgid "Backup Space Used"
 msgstr "Используемое место для резервного копирования"
 
-#: src/ui/widget/dialog/backup_info.ui:94
+#: pika-backup/src/widget/dialog/backup_info.ui:94
 msgid "Newly used space in this backup"
 msgstr "Вновь используемое место в этой резервной копии"
 
-#: src/ui/widget/dialog/backup_info.ui:110
+#: pika-backup/src/widget/dialog/backup_info.ui:110
 msgid "Current File"
 msgstr "Текущий файл"
 
-#: src/ui/widget/dialog/check.rs:69
+#: pika-backup/src/widget/dialog/check.rs:69
 msgid "Perform Repair"
 msgstr "Выполнить исправление"
 
-#: src/ui/widget/dialog/check.rs:73 src/ui/widget/dialog/check.ui:54
+#: pika-backup/src/widget/dialog/check.rs:73
+#: pika-backup/src/widget/dialog/check.ui:54
 msgid "Perform Check"
 msgstr "Выполнить проверку"
 
-#: src/ui/widget/dialog/check.rs:116 src/ui/widget/dialog/check.rs:161
+#: pika-backup/src/widget/dialog/check.rs:116
+#: pika-backup/src/widget/dialog/check.rs:163
 msgid "Verify Archives Integrity"
 msgstr "Проверить целостность архивов"
 
-#: src/ui/widget/dialog/check.rs:180
+#: pika-backup/src/widget/dialog/check.rs:182
 msgid "Verify archives integrity completed successfully"
 msgstr "Проверка целостности архивов успешно завершена"
 
-#: src/ui/widget/dialog/check.ui:5 src/ui/widget/dialog/check.ui:14
+#: pika-backup/src/widget/dialog/check.ui:5
+#: pika-backup/src/widget/dialog/check.ui:14
 msgid "Archives Integrity Check"
 msgstr "Проверить целостность архивов"
 
-#: src/ui/widget/dialog/check.ui:18
+#: pika-backup/src/widget/dialog/check.ui:18
 msgid ""
 "This operation will check all archives for data integrity. This may take a "
 "long time."
@@ -2053,15 +2086,15 @@ msgstr ""
 "Эта операция проверит целостность данных всех архивов. Это может занять "
 "продолжительное время."
 
-#: src/ui/widget/dialog/check.ui:21
+#: pika-backup/src/widget/dialog/check.ui:21
 msgid "Verify Data"
 msgstr "Проверить данные"
 
-#: src/ui/widget/dialog/check.ui:22
+#: pika-backup/src/widget/dialog/check.ui:22
 msgid "Perform full data verification"
 msgstr "Выполнить полную проверку данных"
 
-#: src/ui/widget/dialog/check.ui:35
+#: pika-backup/src/widget/dialog/check.ui:35
 msgid ""
 "Perform a full repair. This is a potentially dangerous function and might "
 "lead to data loss (for kinds of corruption it is not capable of dealing "
@@ -2071,23 +2104,23 @@ msgstr ""
 "может привести к потере данных (для тех видов повреждений, с которыми она не "
 "способна справиться)."
 
-#: src/ui/widget/dialog/check.ui:38
+#: pika-backup/src/widget/dialog/check.ui:38
 msgid "Repair"
 msgstr "Исправить"
 
-#: src/ui/widget/dialog/check.ui:39
+#: pika-backup/src/widget/dialog/check.ui:39
 msgid "Repair errors. This can lead to data loss"
 msgstr "Исправление ошибок. Это действие может привести к потере данных"
 
-#: src/ui/widget/dialog/check_result.ui:8
+#: pika-backup/src/widget/dialog/check_result.ui:8
 msgid "Integrity Check Result"
 msgstr "Результат проверки целостности"
 
-#: src/ui/widget/dialog/delete_archive.rs:74
+#: pika-backup/src/widget/dialog/delete_archive.rs:74
 msgid "Delete Archive Failed"
 msgstr "Не удалось удалить архив"
 
-#: src/ui/widget/dialog/delete_archive.ui:18
+#: pika-backup/src/widget/dialog/delete_archive.ui:18
 msgid ""
 "Proceeding with this operation will irretrievably delete this archive. The "
 "saved data for this specific point in time will no longer be available."
@@ -2096,103 +2129,108 @@ msgstr ""
 "Сохраненные данные для этого конкретного момента времени больше не будут "
 "доступны."
 
-#: src/ui/widget/dialog/delete_archive.ui:28
+#: pika-backup/src/widget/dialog/delete_archive.ui:28
 msgid "Archive Name"
 msgstr "Имя архива"
 
-#: src/ui/widget/dialog/delete_archive.ui:36
+#: pika-backup/src/widget/dialog/delete_archive.ui:36
 msgid "Archive Date"
 msgstr "Дата архива"
 
-#: src/ui/widget/dialog/device_missing.ui:28
+#: pika-backup/src/widget/dialog/device_missing.ui:28
 msgid "The following backup location needs to be connected:"
 msgstr "Необходимо подключить следующее расположение резервного копирования:"
 
-#: src/ui/widget/dialog/encryption_password.rs:61
+#: pika-backup/src/widget/dialog/encryption_password.rs:61
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
 msgstr ""
 "Для выполнения операции «{}» требуется пароль шифрования хранилища на «{}»."
 
-#: src/ui/widget/dialog/encryption_password.ui:6
-#: src/ui/widget/dialog/setup/ask_password.ui:6
+#: pika-backup/src/widget/dialog/encryption_password.ui:6
+#: pika-backup/src/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
 msgstr "Требуется пароль шифрования"
 
-#: src/ui/widget/dialog/encryption_password.ui:9
-#: src/ui/widget/dialog/preferences.ui:102 src/ui/widget/overview.rs:180
+#: pika-backup/src/widget/dialog/encryption_password.ui:9
+#: pika-backup/src/widget/dialog/preferences.ui:102
+#: pika-backup/src/widget/overview.rs:179
 msgid "_Cancel"
 msgstr "_Отменить"
 
-#: src/ui/widget/dialog/encryption_password.ui:10
+#: pika-backup/src/widget/dialog/encryption_password.ui:10
 msgid "Co_ntinue"
 msgstr "_Продолжить"
 
-#: src/ui/widget/dialog/encryption_password.ui:14
-#: src/ui/widget/dialog/setup/ask_password.ui:12
+#: pika-backup/src/widget/dialog/encryption_password.ui:14
+#: pika-backup/src/widget/dialog/setup/ask_password.ui:12
 msgid "Password"
 msgstr "Пароль"
 
-#: src/ui/widget/dialog/exclude.rs:110
+#: pika-backup/src/widget/dialog/exclude.rs:109
 msgid "Exclusion Rules"
 msgstr "Правила исключения"
 
-#: src/ui/widget/dialog/exclude.rs:167
+#: pika-backup/src/widget/dialog/exclude.rs:166
 msgid "Add Exclusion Rule"
 msgstr "Добавить правила исключения"
 
-#: src/ui/widget/dialog/exclude.rs:254 src/ui/widget/dialog/exclude.ui:25
+#: pika-backup/src/widget/dialog/exclude.rs:253
+#: pika-backup/src/widget/dialog/exclude.ui:25
 msgid "Exclude Folders"
 msgstr "Исключить папки"
 
-#: src/ui/widget/dialog/exclude.rs:301 src/ui/widget/dialog/exclude.ui:38
+#: pika-backup/src/widget/dialog/exclude.rs:300
+#: pika-backup/src/widget/dialog/exclude.ui:38
 msgid "Exclude Files"
 msgstr "Исключить файлы"
 
-#: src/ui/widget/dialog/exclude.rs:362 src/ui/widget/dialog/exclude.ui:152
+#: pika-backup/src/widget/dialog/exclude.rs:361
+#: pika-backup/src/widget/dialog/exclude.ui:152
 msgid "Add"
 msgstr "Добавить"
 
-#: src/ui/widget/dialog/exclude.rs:381
+#: pika-backup/src/widget/dialog/exclude.rs:380
 msgid "Invalid Regular Expression"
 msgstr "Недопустимое регулярное выражение"
 
-#: src/ui/widget/dialog/exclude.ui:51 src/ui/widget/dialog/exclude.ui:83
+#: pika-backup/src/widget/dialog/exclude.ui:51
+#: pika-backup/src/widget/dialog/exclude.ui:83
 msgid "Exclude Pattern"
 msgstr "Исключить шаблон"
 
-#: src/ui/widget/dialog/exclude.ui:52
+#: pika-backup/src/widget/dialog/exclude.ui:52
 msgid "Define regular expression or Unix filename patterns"
 msgstr "Определение регулярных выражений или шаблонов имен файлов Unix"
 
-#: src/ui/widget/dialog/exclude.ui:66
+#: pika-backup/src/widget/dialog/exclude.ui:66
 msgid "Suggested Exclusions"
 msgstr "Предлагаемые исключения"
 
-#: src/ui/widget/dialog/exclude.ui:71
+#: pika-backup/src/widget/dialog/exclude.ui:71
 msgid "Unreadable Paths"
 msgstr "Нечитаемые пути"
 
-#: src/ui/widget/dialog/exclude.ui:72
+#: pika-backup/src/widget/dialog/exclude.ui:72
 msgid "These locations were identified as unreadable from a previous backup"
 msgstr ""
 "Эти расположения были определены как непригодные для чтения при "
 "предварительном резервном копировании"
 
-#: src/ui/widget/dialog/exclude.ui:95
+#: pika-backup/src/widget/dialog/exclude.ui:95
 msgid "Pattern Type"
 msgstr "Тип шаблона"
 
-#: src/ui/widget/dialog/exclude.ui:109
+#: pika-backup/src/widget/dialog/exclude.ui:109
 msgid "Pattern"
 msgstr "Шаблон"
 
-#: src/ui/widget/dialog/exclude.ui:127
+#: pika-backup/src/widget/dialog/exclude.ui:127
 msgid "BorgBackup Patterns"
 msgstr "Шаблоны BorgBackup"
 
-#: src/ui/widget/dialog/exclude.ui:138
+#: pika-backup/src/widget/dialog/exclude.ui:138
 msgid ""
 "The patterns above have to be written in a particular form. They are matched "
 "against the path without leading <tt>/</tt>. Additionally, shell-style "
@@ -2207,7 +2245,7 @@ msgstr ""
 "borgbackup.readthedocs.io/en/stable/usage/help.html\">документации по "
 "BorgBackup</a>."
 
-#: src/ui/widget/dialog/preferences.rs:216
+#: pika-backup/src/widget/dialog/preferences.rs:216
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2215,16 +2253,16 @@ msgstr ""
 "Заголовок этой конфигурации резервного копирования. Если оставить его "
 "пустым, будет отображаться как «{} »."
 
-#: src/ui/widget/dialog/preferences.rs:275
+#: pika-backup/src/widget/dialog/preferences.rs:275
 msgid "Shell command invalid"
 msgstr "Недопустимая команда оболочки"
 
-#: src/ui/widget/dialog/preferences.rs:480
+#: pika-backup/src/widget/dialog/preferences.rs:480
 msgid "Remove Password?"
 msgstr "Удалить пароль?"
 
-#: src/ui/widget/dialog/preferences.rs:482
-#: src/ui/widget/dialog/setup/encryption.rs:87
+#: pika-backup/src/widget/dialog/preferences.rs:482
+#: pika-backup/src/widget/dialog/setup/encryption.rs:87
 msgid ""
 "When encryption is not used, everyone with access to the backup files can "
 "read all data"
@@ -2232,66 +2270,66 @@ msgstr ""
 "Если не используется шифрование, то любой, кто имеет доступ к файлам "
 "резервных копий, может прочитать все данные"
 
-#: src/ui/widget/dialog/preferences.rs:488
+#: pika-backup/src/widget/dialog/preferences.rs:488
 msgid "Remove Password"
 msgstr "Удалить пароль"
 
-#: src/ui/widget/dialog/preferences.rs:511
+#: pika-backup/src/widget/dialog/preferences.rs:511
 msgid "Change Encryption Password Error"
 msgstr "Ошибка при смене пароля шифрования"
 
-#: src/ui/widget/dialog/preferences.rs:518
+#: pika-backup/src/widget/dialog/preferences.rs:518
 msgid "Password changed successfully"
 msgstr "Пароль успешно изменён"
 
-#: src/ui/widget/dialog/preferences.ui:30
-#: src/ui/widget/dialog/preferences.ui:37
-#: src/ui/widget/dialog/preferences.ui:146
+#: pika-backup/src/widget/dialog/preferences.ui:30
+#: pika-backup/src/widget/dialog/preferences.ui:37
+#: pika-backup/src/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
 msgstr "Изменить пароль шифрования"
 
-#: src/ui/widget/dialog/preferences.ui:57
+#: pika-backup/src/widget/dialog/preferences.ui:57
 msgid "_Change Password"
 msgstr "_Изменить пароль"
 
-#: src/ui/widget/dialog/preferences.ui:70
+#: pika-backup/src/widget/dialog/preferences.ui:70
 msgid "_Remove Password"
 msgstr "_Удалить пароль"
 
-#: src/ui/widget/dialog/preferences.ui:96
+#: pika-backup/src/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
 msgstr "Изменение пароля шифрования"
 
-#: src/ui/widget/dialog/preferences.ui:131
-#: src/ui/widget/dialog/preferences.ui:134
+#: pika-backup/src/widget/dialog/preferences.ui:131
+#: pika-backup/src/widget/dialog/preferences.ui:134
 msgid "Title"
 msgstr "Заголовок"
 
-#: src/ui/widget/dialog/preferences.ui:142
-#: src/ui/widget/encryption_settings.ui:26
+#: pika-backup/src/widget/dialog/preferences.ui:142
+#: pika-backup/src/widget/encryption_settings.ui:26
 msgid "Encryption Password"
 msgstr "Пароль шифрования"
 
-#: src/ui/widget/dialog/preferences.ui:143
+#: pika-backup/src/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
 msgstr "Пароль шифрования хранилища резервных копий"
 
-#: src/ui/widget/dialog/preferences.ui:158
+#: pika-backup/src/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
 msgstr "Работа от батареи"
 
-#: src/ui/widget/dialog/preferences.ui:159
+#: pika-backup/src/widget/dialog/preferences.ui:159
 msgid "Allow scheduled backups when device is battery powered"
 msgstr ""
 "Разрешить запланированное резервное копирование, когда устройство работает "
 "от батареи"
 
-#: src/ui/widget/dialog/preferences.ui:167
+#: pika-backup/src/widget/dialog/preferences.ui:167
 msgid "Additional Command Line Arguments"
 msgstr "Дополнительные аргументы командной строки"
 
-#: src/ui/widget/dialog/preferences.ui:168
-#: src/ui/widget/dialog/setup/advanced_options.ui:10
+#: pika-backup/src/widget/dialog/preferences.ui:168
+#: pika-backup/src/widget/dialog/setup/advanced_options.ui:10
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
 "options, starting with “--”, are supported."
@@ -2299,49 +2337,49 @@ msgstr ""
 "Эти аргументы будут добавлены к вызову бинарного файла borg. Поддерживаются "
 "только длинные опции, начинающиеся с «--»."
 
-#: src/ui/widget/dialog/preferences.ui:171
-#: src/ui/widget/dialog/setup/advanced_options.ui:9
-#: src/ui/widget/dialog/setup/advanced_options.ui:13
+#: pika-backup/src/widget/dialog/preferences.ui:171
+#: pika-backup/src/widget/dialog/setup/advanced_options.ui:9
+#: pika-backup/src/widget/dialog/setup/advanced_options.ui:13
 msgid "Command Line Arguments"
 msgstr "Аргументы командной строки"
 
-#: src/ui/widget/dialog/preferences.ui:182
+#: pika-backup/src/widget/dialog/preferences.ui:182
 msgid "Shell Commands"
 msgstr "Команды оболочки"
 
-#: src/ui/widget/dialog/preferences.ui:183
+#: pika-backup/src/widget/dialog/preferences.ui:183
 msgid "These bash shell commands will be called on certain backup events"
 msgstr ""
 "Эти команды оболочки bash будут вызываться при определенных событиях во "
 "время резервного копирования"
 
-#: src/ui/widget/dialog/preferences.ui:196
+#: pika-backup/src/widget/dialog/preferences.ui:196
 msgid "Pre-Backup Shell Command"
 msgstr "Команда оболочки до резервного копирования"
 
-#: src/ui/widget/dialog/preferences.ui:203
-#: src/ui/widget/dialog/preferences.ui:224
+#: pika-backup/src/widget/dialog/preferences.ui:203
+#: pika-backup/src/widget/dialog/preferences.ui:224
 msgid "Run With Test Values"
 msgstr "Выполнить с тестовыми значениями"
 
-#: src/ui/widget/dialog/preferences.ui:217
+#: pika-backup/src/widget/dialog/preferences.ui:217
 msgid "Post-Backup Shell Command"
 msgstr "Команда оболочки после резервного копирования"
 
-#: src/ui/widget/dialog/prune.rs:70
+#: pika-backup/src/widget/dialog/prune.rs:70
 msgid "Review Changes"
 msgstr "Обзор изменений"
 
-#: src/ui/widget/dialog/prune.rs:74
+#: pika-backup/src/widget/dialog/prune.rs:74
 msgid "Collecting information about the effect of the changes on old archives"
 msgstr "Сбор информации о влиянии изменений на старые архивы"
 
-#: src/ui/widget/dialog/prune.rs:76
+#: pika-backup/src/widget/dialog/prune.rs:76
 msgid "Creating a list of old archives to be approved for deletion"
 msgstr ""
 "Создание списка старых архивов, которые должны быть одобрены для удаления"
 
-#: src/ui/widget/dialog/prune.rs:83
+#: pika-backup/src/widget/dialog/prune.rs:83
 msgid ""
 "After applying these changes, the next automatic deletion of old archives "
 "would have the following consequences."
@@ -2349,7 +2387,8 @@ msgstr ""
 "После применения этих изменений следующее автоматическое удаление старых "
 "архивов будет иметь следующие последствия."
 
-#: src/ui/widget/dialog/prune.rs:87 src/ui/widget/dialog/prune.ui:40
+#: pika-backup/src/widget/dialog/prune.rs:87
+#: pika-backup/src/widget/dialog/prune.ui:40
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
 "archives. The saved data for those specific points in time will no longer be "
@@ -2359,57 +2398,58 @@ msgstr ""
 "архивов. Сохраненные данные для этих конкретных моментов времени больше не "
 "будут доступны."
 
-#: src/ui/widget/dialog/prune.rs:118
+#: pika-backup/src/widget/dialog/prune.rs:118
 msgid "Delete old Archives"
 msgstr "Удалить старые архивы"
 
-#: src/ui/widget/dialog/prune.rs:128
+#: pika-backup/src/widget/dialog/prune.rs:128
 msgid "Reclaim Free Space"
 msgstr "Высвободить свободное место"
 
-#: src/ui/widget/dialog/prune.rs:162
+#: pika-backup/src/widget/dialog/prune.rs:162
 msgid "Failed to determine how many archives would be deleted"
 msgstr "Не удалось установить, сколько архивов будет удалено"
 
-#: src/ui/widget/dialog/prune.rs:192
+#: pika-backup/src/widget/dialog/prune.rs:192
 msgid "No archives are selected for deletion with current cleanup rules"
 msgstr "Ни один архив не выбран для удаления с помощью текущих правил очистки"
 
-#: src/ui/widget/dialog/prune.rs:222
+#: pika-backup/src/widget/dialog/prune.rs:222
 msgid "Identifying old Archives"
 msgstr "Выявление старых архивов"
 
-#: src/ui/widget/dialog/prune.ui:9 src/ui/widget/dialog/prune.ui:43
-#: src/ui/widget/dialog/prune.ui:100
+#: pika-backup/src/widget/dialog/prune.ui:9
+#: pika-backup/src/widget/dialog/prune.ui:43
+#: pika-backup/src/widget/dialog/prune.ui:100
 msgid "Delete Archives"
 msgstr "Удалить архивы"
 
 #. Translators: Header while creating a list of old archives to be approved for deletion.
-#: src/ui/widget/dialog/prune.ui:23
+#: pika-backup/src/widget/dialog/prune.ui:23
 msgid "Checking for Old Archives"
 msgstr "Проверка наличия старых архивов"
 
-#: src/ui/widget/dialog/prune.ui:56
+#: pika-backup/src/widget/dialog/prune.ui:56
 msgid "Keep Archives"
 msgstr "Сохранить архивы"
 
-#: src/ui/widget/dialog/prune.ui:69
+#: pika-backup/src/widget/dialog/prune.ui:69
 msgid "Not Considered"
 msgstr "Не учтено"
 
-#: src/ui/widget/dialog/prune.ui:70
+#: pika-backup/src/widget/dialog/prune.ui:70
 msgid "Archives with different prefix"
 msgstr "Архивы с разными префиксами"
 
-#: src/ui/widget/dialog/prune.ui:87
+#: pika-backup/src/widget/dialog/prune.ui:87
 msgid "Apply"
 msgstr "Применить"
 
-#: src/ui/widget/dialog/setup.rs:150
+#: pika-backup/src/widget/dialog/setup.rs:149
 msgid "Abort Setup?"
 msgstr "Прервать настройку?"
 
-#: src/ui/widget/dialog/setup.rs:152
+#: pika-backup/src/widget/dialog/setup.rs:151
 msgid "Aborting now will cause the repository to not be added"
 msgstr ""
 "Прерывание работы на данном этапе приведёт к тому, что хранилище не будет "
@@ -2417,131 +2457,131 @@ msgstr ""
 
 #. Translators: Announced to accessibility devices when setup dialog
 #. has finished
-#: src/ui/widget/dialog/setup.rs:186
+#: pika-backup/src/widget/dialog/setup.rs:185
 msgid "Backup Repository Added Successfully"
 msgstr "Хранилище резервных копий успешно добавлено"
 
-#: src/ui/widget/dialog/setup.rs:213
+#: pika-backup/src/widget/dialog/setup.rs:212
 msgid "Setup Existing Repository"
 msgstr "Настройка существующего хранилища"
 
-#: src/ui/widget/dialog/setup.rs:223
+#: pika-backup/src/widget/dialog/setup.rs:222
 msgid "Location is not a valid backup repository."
 msgstr "Расположение не является действительным хранилищем резервных копий."
 
-#: src/ui/widget/dialog/setup.rs:225
+#: pika-backup/src/widget/dialog/setup.rs:224
 msgid "The repository must originate from Pika Backup or compatible software."
 msgstr ""
 "Хранилище должно быть создано с помощью Pika Backup или совместимого "
 "программного обеспечения."
 
-#: src/ui/widget/dialog/setup.rs:447
+#: pika-backup/src/widget/dialog/setup.rs:446
 msgid "Failed to Configure Repository"
 msgstr "Не удалось настроить хранилище"
 
-#: src/ui/widget/dialog/setup.rs:492
+#: pika-backup/src/widget/dialog/setup.rs:489
 msgid "Failed"
 msgstr "Ошибка"
 
-#: src/ui/widget/dialog/setup.ui:6
-#: src/ui/widget/dialog/setup/location_kind.ui:6
+#: pika-backup/src/widget/dialog/setup.ui:6
+#: pika-backup/src/widget/dialog/setup/location_kind.ui:6
 msgid "Setup"
 msgstr "Настройка"
 
-#: src/ui/widget/dialog/setup/actions.rs:52
+#: pika-backup/src/widget/dialog/setup/actions.rs:54
 msgid "Repository location not found."
 msgstr "Расположение хранилища не найдено."
 
-#: src/ui/widget/dialog/setup/actions.rs:54
+#: pika-backup/src/widget/dialog/setup/actions.rs:56
 msgid "A mount operation succeeded but the location is still unavailable."
 msgstr ""
 "Операция монтирования прошла успешно, но расположение по-прежнему недоступно."
 
-#: src/ui/widget/dialog/setup/actions.rs:102
+#: pika-backup/src/widget/dialog/setup/actions.rs:104
 msgid "Invalid Password"
 msgstr "Неверный пароль"
 
-#: src/ui/widget/dialog/setup/actions.rs:128
+#: pika-backup/src/widget/dialog/setup/actions.rs:130
 msgid "Loading Backup Repository"
 msgstr "Загрузка хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/actions.rs:209
-#: src/ui/widget/dialog/setup/create_new.ui:6
+#: pika-backup/src/widget/dialog/setup/actions.rs:211
+#: pika-backup/src/widget/dialog/setup/create_new.ui:6
 msgid "Creating Backup Repository"
 msgstr "Создание хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/actions.rs:218
+#: pika-backup/src/widget/dialog/setup/actions.rs:220
 msgid "Getting Repository Information"
 msgstr "Получение информации о хранилище"
 
-#: src/ui/widget/dialog/setup/add_existing.ui:6
+#: pika-backup/src/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
 msgstr "Проверка хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/advanced_options.ui:6
-#: src/ui/widget/dialog/setup/location.ui:70
-#: src/ui/widget/dialog/setup/location.ui:192
+#: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
+#: pika-backup/src/widget/dialog/setup/location.ui:70
+#: pika-backup/src/widget/dialog/setup/location.ui:192
 msgid "Advanced Options"
 msgstr "Расширенные параметры"
 
-#: src/ui/widget/dialog/setup/ask_password.ui:23
-#: src/ui/widget/dialog/setup/location.ui:231
+#: pika-backup/src/widget/dialog/setup/ask_password.ui:23
+#: pika-backup/src/widget/dialog/setup/location.ui:231
 msgid "_Continue"
 msgstr "_Продолжить"
 
-#: src/ui/widget/dialog/setup/encryption.rs:85
+#: pika-backup/src/widget/dialog/setup/encryption.rs:85
 msgid "Continue Unencrypted?"
 msgstr "Продолжить без шифрования?"
 
-#: src/ui/widget/dialog/setup/encryption.ui:6
+#: pika-backup/src/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
 msgstr "Настройка шифрования"
 
-#: src/ui/widget/dialog/setup/encryption.ui:17
+#: pika-backup/src/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "_Создать"
 
-#: src/ui/widget/dialog/setup/location.rs:214
+#: pika-backup/src/widget/dialog/setup/location.rs:214
 msgid "Repository Folder"
 msgstr "Папка хранилища"
 
-#: src/ui/widget/dialog/setup/location.rs:230
+#: pika-backup/src/widget/dialog/setup/location.rs:230
 msgid "Choose Repository Folder"
 msgstr "Выбрать папка хранилища"
 
-#: src/ui/widget/dialog/setup/location.rs:242
+#: pika-backup/src/widget/dialog/setup/location.rs:242
 msgid "Additional command line arguments"
 msgstr "Дополнительные аргументы командной строки"
 
-#: src/ui/widget/dialog/setup/location.rs:393
+#: pika-backup/src/widget/dialog/setup/location.rs:393
 msgid "Repository Name Empty"
 msgstr "Имя хранилища пустое"
 
-#: src/ui/widget/dialog/setup/location.rs:394
+#: pika-backup/src/widget/dialog/setup/location.rs:394
 msgid "The repository folder name must be set"
 msgstr "Имя папки хранилища должно быть задано"
 
-#: src/ui/widget/dialog/setup/location.rs:406
+#: pika-backup/src/widget/dialog/setup/location.rs:406
 msgid "No Base Folder Selected"
 msgstr "Базовая папка не выбрана"
 
-#: src/ui/widget/dialog/setup/location.rs:407
+#: pika-backup/src/widget/dialog/setup/location.rs:407
 msgid "Select a base folder for the backup repository"
 msgstr "Выберите базовую папку для хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/location.rs:418
+#: pika-backup/src/widget/dialog/setup/location.rs:418
 msgid "Invalid Remote Location"
 msgstr "Недействительное удаленное расположение"
 
-#: src/ui/widget/dialog/setup/location.ui:9
+#: pika-backup/src/widget/dialog/setup/location.ui:9
 msgid "Configure Repository"
 msgstr "Настройка хранилища"
 
-#: src/ui/widget/dialog/setup/location.ui:34
+#: pika-backup/src/widget/dialog/setup/location.ui:34
 msgid "Repository Name"
 msgstr "Название хранилища"
 
-#: src/ui/widget/dialog/setup/location.ui:58
+#: pika-backup/src/widget/dialog/setup/location.ui:58
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2554,15 +2594,15 @@ msgstr ""
 "формат «NTFS» или «Ext4» Обратите внимание, что при переформатировании все "
 "файлы в этом расположении будут удалены!"
 
-#: src/ui/widget/dialog/setup/location.ui:96
+#: pika-backup/src/widget/dialog/setup/location.ui:96
 msgid "Repository URL"
 msgstr "URL хранилища"
 
-#: src/ui/widget/dialog/setup/location.ui:117
+#: pika-backup/src/widget/dialog/setup/location.ui:117
 msgid "Locations with BorgBackup Support"
 msgstr "Расположения с поддержкой BorgBackup"
 
-#: src/ui/widget/dialog/setup/location.ui:128
+#: pika-backup/src/widget/dialog/setup/location.ui:128
 msgid ""
 "Servers with borgbackup installed have the best performance. <a "
 "href=\"help:pika-backup/setup-remote\">More</a>"
@@ -2570,32 +2610,32 @@ msgstr ""
 "Серверы с установленным borgbackup имеют наилучшую производительность. <a "
 "href=\"help:pika-backup/setup-remote\">Подробнее</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:147
+#: pika-backup/src/widget/dialog/setup/location.ui:147
 msgid "Network Shares"
 msgstr "Общие ресурсы сети"
 
-#: src/ui/widget/dialog/setup/location.ui:159
+#: pika-backup/src/widget/dialog/setup/location.ui:159
 msgid ""
 "Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
 msgstr ""
 "Используйте синтаксис файлов GNOME. <a href=\"help:pika-backup/setup-"
 "gvfs\">Подробнее</a>"
 
-#: src/ui/widget/dialog/setup/location.ui:215
+#: pika-backup/src/widget/dialog/setup/location.ui:215
 msgid "_Connect"
 msgstr "_Соединиться"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:141
-#: src/ui/widget/dialog/setup/repo_kind.ui:12
+#: pika-backup/src/widget/dialog/setup/location_kind.rs:140
+#: pika-backup/src/widget/dialog/setup/repo_kind.ui:12
 msgid "Create New Repository"
 msgstr "Создать новое хранилище"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:145
-#: src/ui/widget/dialog/setup/repo_kind.ui:19
+#: pika-backup/src/widget/dialog/setup/location_kind.rs:144
+#: pika-backup/src/widget/dialog/setup/repo_kind.ui:19
 msgid "Use Existing Repository"
 msgstr "Использовать существующее хранилище"
 
-#: src/ui/widget/dialog/setup/location_kind.rs:147
+#: pika-backup/src/widget/dialog/setup/location_kind.rs:146
 msgid ""
 "Select a location that contains an existing backup repository. Repositories "
 "created with other BorgBackup compatible software can be used as well."
@@ -2604,20 +2644,20 @@ msgstr ""
 "Можно также использовать хранилища, созданные с помощью других программ, "
 "совместимых с BorgBackup."
 
-#: src/ui/widget/dialog/setup/location_kind.rs:290
+#: pika-backup/src/widget/dialog/setup/location_kind.rs:289
 msgid "Free space: {}"
 msgstr "Свободное место: {}"
 
-#: src/ui/widget/dialog/setup/location_kind.ui:17
-#: src/ui/widget/dialog/setup/location_kind.ui:77
+#: pika-backup/src/widget/dialog/setup/location_kind.ui:17
+#: pika-backup/src/widget/dialog/setup/location_kind.ui:77
 msgid "Location on Disk"
 msgstr "Расположение на диске"
 
-#: src/ui/widget/dialog/setup/repo_kind.ui:6
+#: pika-backup/src/widget/dialog/setup/repo_kind.ui:6
 msgid "Set Up Backup Repository"
 msgstr "Настройка хранилища резервных копий"
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:9
+#: pika-backup/src/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
 "same prefix on two devices is discouraged unless a new device supersedes the "
@@ -2627,15 +2667,15 @@ msgstr ""
 "копирования. Не рекомендуется использовать один и тот же префикс на двух "
 "устройствах, если только новое устройство не заменяет старое."
 
-#: src/ui/widget/dialog/setup/transfer_prefix.ui:26
+#: pika-backup/src/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
 msgstr "_Сохранить"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:6
+#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:6
 msgid "Transfer Settings"
 msgstr "Настройки переноса"
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:7
+#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:7
 msgid ""
 "One set of configurations used for previous backups can be selected for "
 "transfer to the new setup. The configuration can be adjusted afterward."
@@ -2644,78 +2684,97 @@ msgstr ""
 "использованных для предыдущих резервных копий. Конфигурация может быть "
 "скорректирована впоследствии."
 
-#: src/ui/widget/dialog/setup/transfer_settings.ui:12
+#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:12
 msgid "Skip"
 msgstr "Пропустить"
 
-#: src/ui/widget/dialog/setup/types.rs:55
+#: pika-backup/src/widget/dialog/setup/types.rs:55
 msgid "Incomplete URL or borg syntax"
 msgstr "Недостаточный синтаксис URL или команды borg"
 
-#: src/ui/widget/dialog/setup/types.rs:64
+#: pika-backup/src/widget/dialog/setup/types.rs:64
 msgid "The remote location must have a specified path."
 msgstr "Необходимо указать путь для удаленного расположения."
 
-#: src/ui/widget/dialog/setup/types.rs:73
+#: pika-backup/src/widget/dialog/setup/types.rs:73
 msgid "Invalid remote location: “{}”"
 msgstr "Недействительное удаленное расположение: «{}»"
 
-#: src/ui/widget/dialog/storage.ui:6 src/ui/widget/folder_row.rs:55
+#: pika-backup/src/widget/dialog/storage.ui:6
+#: pika-backup/src/widget/folder_row.rs:55
 msgid "Backup Location"
 msgstr "Расположение резервной копии"
 
-#: src/ui/widget/dialog/storage.ui:19
+#: pika-backup/src/widget/dialog/storage.ui:19
 msgid "Disk"
 msgstr "Диск"
 
-#: src/ui/widget/dialog/storage.ui:22
+#: pika-backup/src/widget/dialog/storage.ui:22
 msgid "Volume"
 msgstr "Том"
 
-#: src/ui/widget/dialog/storage.ui:31
+#: pika-backup/src/widget/dialog/storage.ui:31
 msgid "Device"
 msgstr "Устройство"
 
-#: src/ui/widget/dialog/storage.ui:40
+#: pika-backup/src/widget/dialog/storage.ui:40
 msgid "Path"
 msgstr "Путь"
 
-#: src/ui/widget/dialog/storage.ui:52
+#: pika-backup/src/widget/dialog/storage.ui:52
 msgid "Remote"
 msgstr "Удалённый"
 
-#: src/ui/widget/dialog/storage.ui:55
+#: pika-backup/src/widget/dialog/storage.ui:55
 msgid "URL"
 msgstr "URL"
 
-#: src/ui/widget/dialog/storage.ui:67
+#: pika-backup/src/widget/dialog/storage.ui:67
 msgid "Space"
 msgstr "Место"
 
-#: src/ui/widget/dialog/storage.ui:70
+#: pika-backup/src/widget/dialog/storage.ui:70
 msgid "Total"
 msgstr "Всего"
 
-#: src/ui/widget/dialog/storage.ui:79
+#: pika-backup/src/widget/dialog/storage.ui:79
 msgid "Free"
 msgstr "Свободно"
 
-#: src/ui/widget/encryption_settings.rs:87
+#: pika-backup/src/widget/dialog/unmount_archives.ui:18
+msgid "Closing Archives"
+msgstr "Закрытие архивов"
+
+#: pika-backup/src/widget/dialog/unmount_archives.ui:19
+msgid "Closing Archives Still Open for Browsing"
+msgstr "Закрытие архивов, которые все еще открыты для просмотра"
+
+#: pika-backup/src/widget/dialog/unmount_archives.ui:34
+msgid ""
+"The listed archives failed to close. Files within these archives must no "
+"longer be open with other applications. Folders in within these archives "
+"must no longer be open in browsers."
+msgstr ""
+"Не удалось закрыть перечисленные архивы. Файлы в этих архивах больше "
+"не должны открываться с помощью других приложений. Папки в этих архивах "
+"больше не должны открываться в браузерах."
+
+#: pika-backup/src/widget/encryption_settings.rs:87
 msgid "Use Encryption?"
 msgstr "Использовать шифрование?"
 
-#: src/ui/widget/encryption_settings.rs:89
+#: pika-backup/src/widget/encryption_settings.rs:89
 msgid ""
 "Losing access to the encryption password will lead to a complete loss of all "
 "backed up data"
 msgstr "Потеря пароля приведёт к полной потере всех резервных копий данных"
 
-#: src/ui/widget/encryption_settings.rs:94
-#: src/ui/widget/encryption_settings.ui:12
+#: pika-backup/src/widget/encryption_settings.rs:94
+#: pika-backup/src/widget/encryption_settings.ui:12
 msgid "Use Encryption"
 msgstr "Использовать шифрование"
 
-#: src/ui/widget/encryption_settings.rs:134
+#: pika-backup/src/widget/encryption_settings.rs:134
 msgid ""
 "The data stored in encrypted backups is password protected. If encryption is "
 "used, the password is required for accessing your backups."
@@ -2723,135 +2782,131 @@ msgstr ""
 "Данные, хранящиеся в зашифрованных резервных копиях, защищены паролем. Если "
 "используется шифрование, для доступа к резервным копиям требуется пароль."
 
-#: src/ui/widget/encryption_settings.rs:143
+#: pika-backup/src/widget/encryption_settings.rs:143
 msgid "No Password Provided"
 msgstr "Пароль не предоставляется"
 
-#: src/ui/widget/encryption_settings.rs:144
+#: pika-backup/src/widget/encryption_settings.rs:144
 msgid "To use encryption a password must be provided"
 msgstr "Для использования шифрования необходимо ввести пароль"
 
-#: src/ui/widget/encryption_settings.rs:151
+#: pika-backup/src/widget/encryption_settings.rs:151
 msgid "Invalid Passwords"
 msgstr "Неверные пароли"
 
-#: src/ui/widget/encryption_settings.rs:152
+#: pika-backup/src/widget/encryption_settings.rs:152
 msgid "The passwords do not match"
 msgstr "Введённые пароли не совпадают"
 
 #. Translators: Password feedback: Empty password. All strings labelled like
 #. this must fit in a single line at 360 width, to prevent the label from
 #. ellipsizing.
-#: src/ui/widget/encryption_settings.rs:211
+#: pika-backup/src/widget/encryption_settings.rs:211
 msgid "Enter a password"
 msgstr "Введите пароль"
 
 #. Translators: Password feedback: The second password is not the same as the
 #. first
-#: src/ui/widget/encryption_settings.rs:215
+#: pika-backup/src/widget/encryption_settings.rs:215
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
 #. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
-#: src/ui/widget/encryption_settings.rs:223
+#: pika-backup/src/widget/encryption_settings.rs:223
 msgid "A single word is easy to guess"
 msgstr "Одно слово легко угадать"
 
 #. Translators: Password feedback: Common name detected
-#: src/ui/widget/encryption_settings.rs:227
+#: pika-backup/src/widget/encryption_settings.rs:227
 msgid "Avoid names on their own"
 msgstr "Избегайте использования своих имён"
 
 #. Translators: Password feedback: Date detected
-#: src/ui/widget/encryption_settings.rs:231
+#: pika-backup/src/widget/encryption_settings.rs:231
 msgid "Avoid dates on their own"
 msgstr "Избегайте использования сведений о себе"
 
 #. Translators: Password feedback: Easy to guess sequence detected
-#: src/ui/widget/encryption_settings.rs:235
+#: pika-backup/src/widget/encryption_settings.rs:235
 msgid "Avoid sequences like “abc” or “6543”"
 msgstr "Избегайте таких последовательностей, как «abc» или «6543»"
 
 #. Translators: Password feedback: Repeated keys or sequence detected
-#: src/ui/widget/encryption_settings.rs:239
+#: pika-backup/src/widget/encryption_settings.rs:239
 msgid "Avoid repetitions like “aaa” or “abcabc”"
 msgstr "Избегайте повторений типа «aaa» или «abcabc»"
 
 #. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
-#: src/ui/widget/encryption_settings.rs:243
+#: pika-backup/src/widget/encryption_settings.rs:243
 msgid "Avoid keyboard patterns"
 msgstr "Избегайте клавиатурных шаблонов"
 
 #. Translators: Password feedback: Password was found in a list of common passwords
-#: src/ui/widget/encryption_settings.rs:249
+#: pika-backup/src/widget/encryption_settings.rs:249
 msgid "This is a very commonly used password"
 msgstr "Похоже на пароль, который часто используется"
 
 #. Translators: Password feedback: Password is very similar to a password from the list of common passwords
-#: src/ui/widget/encryption_settings.rs:253
+#: pika-backup/src/widget/encryption_settings.rs:253
 msgid "This is similar to a commonly used password"
 msgstr "Похоже на пароль, который обычно используется"
 
-#: src/ui/widget/encryption_settings.rs:257
+#: pika-backup/src/widget/encryption_settings.rs:257
 msgid "Add a few more words"
 msgstr "Добавьте ещё несколько слов"
 
 #. Translators: Password feedback: This password is looking pretty good
-#: src/ui/widget/encryption_settings.rs:260
+#: pika-backup/src/widget/encryption_settings.rs:260
 msgid "This looks like a strong password"
 msgstr "Выглядит как надежный пароль"
 
-#: src/ui/widget/encryption_settings.ui:33
+#: pika-backup/src/widget/encryption_settings.ui:33
 msgid "Repeat Password"
 msgstr "Повторите пароль"
 
-#: src/ui/widget/overview.rs:178
+#: pika-backup/src/widget/overview.rs:177
 msgid "Remove Backup Setup?"
 msgstr "Удалить конфигурацию резервного копирования?"
 
-#: src/ui/widget/overview.rs:179
+#: pika-backup/src/widget/overview.rs:178
 msgid "Removing the setup will not delete any archives"
 msgstr "Удаление конфигурации не приведет к удалению архивов"
 
-#: src/ui/widget/overview.rs:181
+#: pika-backup/src/widget/overview.rs:180
 msgid "_Remove Setup"
 msgstr "_Удалить конфигурацию"
 
-#: src/ui/widget/overview.ui:8
+#: pika-backup/src/widget/overview.ui:8
 msgid "_Keyboard Shortcuts"
 msgstr "_Комбинации клавиш"
 
-#: src/ui/widget/overview.ui:12
+#: pika-backup/src/widget/overview.ui:12
 msgid "_Help"
 msgstr "_Справка"
 
-#: src/ui/widget/overview.ui:16
+#: pika-backup/src/widget/overview.ui:16
 msgid "_About Pika Backup"
 msgstr "_О приложении"
 
-#: src/ui/widget/overview.ui:29
+#: pika-backup/src/widget/overview.ui:29
 msgid "Setup Backup"
 msgstr "Настройка резервного копирования"
 
-#: src/ui/widget/overview.ui:36
+#: pika-backup/src/widget/overview.ui:36
 msgid "Main Menu"
 msgstr "Главное меню"
 
-#: src/ui/widget/overview.ui:56
+#: pika-backup/src/widget/overview.ui:56
 msgid "No Backup Configured"
 msgstr "Резервное копирование не настроено"
 
-#: src/ui/widget/overview.ui:57
+#: pika-backup/src/widget/overview.ui:57
 msgid "Add a new configuration to start creating backups"
 msgstr "Добавьте новую конфигурацию для начала создания резервных копий"
 
-#: src/ui/widget/overview.ui:60
+#: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "_Настройка резервного копирования"
-
-#: src/utils.rs:80
-msgid "No such file or directory"
-msgstr "Нет такого файла или каталога"
 
 #~ msgid "Failed to Create Thread"
 #~ msgstr "Не удалось создать поток"
@@ -3054,9 +3109,6 @@ msgstr "Нет такого файла или каталога"
 
 #~ msgid "Refresh list of archives"
 #~ msgstr "Обновить список архивов"
-
-#~ msgid "Compacting Archives"
-#~ msgstr "Уплотнение архивов"
 
 #~ msgid "Court Witch"
 #~ msgstr "Курт Уитч (Court Witch)"
