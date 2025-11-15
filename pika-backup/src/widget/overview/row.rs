@@ -9,7 +9,7 @@ mod imp {
 
     use super::*;
     use crate::App;
-    use crate::widget::{StatusRow, WrapBox};
+    use crate::widget::StatusRow;
 
     #[derive(Default, glib::Properties, gtk::CompositeTemplate)]
     #[template(file = "row.ui")]
@@ -27,7 +27,7 @@ mod imp {
         #[template_child]
         location_subtitle: TemplateChild<gtk::Label>,
         #[template_child]
-        include_box: TemplateChild<WrapBox>,
+        include_box: TemplateChild<adw::WrapBox>,
         #[template_child]
         pub(super) status: TemplateChild<StatusRow>,
         #[template_child]
@@ -86,7 +86,7 @@ mod imp {
             for path in &config.include {
                 let incl = crate::widget::LocationTag::from_path(path.clone());
 
-                self.include_box.add_child(&incl.build());
+                self.include_box.append(&incl.build());
             }
         }
     }
