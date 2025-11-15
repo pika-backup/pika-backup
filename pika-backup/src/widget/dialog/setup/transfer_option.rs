@@ -6,7 +6,6 @@ use crate::prelude::*;
 mod imp {
 
     use super::*;
-    use crate::widget::WrapBox;
 
     #[derive(Default, gtk::CompositeTemplate)]
     #[template(file = "transfer_option.ui")]
@@ -20,9 +19,9 @@ mod imp {
         #[template_child]
         prefix: TemplateChild<gtk::Label>,
         #[template_child]
-        include_box: TemplateChild<WrapBox>,
+        include_box: TemplateChild<adw::WrapBox>,
         #[template_child]
-        exclude_box: TemplateChild<WrapBox>,
+        exclude_box: TemplateChild<adw::WrapBox>,
     }
 
     #[glib::object_subclass]
@@ -60,12 +59,12 @@ mod imp {
 
             for include in suggestion.parsed.include.iter() {
                 let tag = crate::widget::LocationTag::from_path(include.clone());
-                self.include_box.add_child(&tag.build());
+                self.include_box.append(&tag.build());
             }
 
             for exclude in suggestion.parsed.exclude.iter() {
                 let tag = crate::widget::LocationTag::from_exclude(exclude.clone().into_relative());
-                self.exclude_box.add_child(&tag.build());
+                self.exclude_box.append(&tag.build());
             }
         }
     }

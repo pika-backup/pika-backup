@@ -15,7 +15,7 @@ i18n = import('i18n')
 gnome = import('gnome')
 
 dependency('gtk4', version: '>= 4.12.5')
-dependency('libadwaita-1', version: '>= 1.6.beta')
+dependency('libadwaita-1', version: '>= 1.7')
 
 bindir = get_option('prefix') / get_option('bindir')
 etcdir = get_option('prefix') / get_option('sysconfdir')

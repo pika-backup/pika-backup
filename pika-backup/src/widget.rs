@@ -8,7 +8,6 @@ mod navigation;
 mod overview;
 mod status_icon;
 mod status_row;
-mod wrap_box;
 
 pub use app_window::AppWindow;
 pub use detail::{
@@ -24,7 +23,6 @@ pub use navigation::*;
 pub use overview::OverviewPage;
 pub use status_icon::StatusIcon;
 pub use status_row::StatusRow;
-pub use wrap_box::WrapBox;
 
 pub fn init() {
     frequency::FrequencyObject::static_type();
@@ -40,7 +38,6 @@ pub fn init() {
     SchedulePage::static_type();
     StatusIcon::static_type();
     StatusRow::static_type();
-    WrapBox::static_type();
     AppWindow::static_type();
 
     setup::SetupEncryptionPage::ensure_type();
