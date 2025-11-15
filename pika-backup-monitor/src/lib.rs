@@ -14,6 +14,7 @@ use gio::prelude::*;
 use prelude::*;
 
 pub fn main() {
+    common::utils::init_logging("pika-backup-monitor");
     init::init();
     gio_app().run();
 }
