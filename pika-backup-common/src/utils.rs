@@ -9,6 +9,7 @@ use std::os::raw::{c_char, c_int};
 
 use gio::prelude::*;
 use smol::prelude::*;
+use tracing_subscriber::prelude::*;
 
 use crate::config;
 use crate::prelude::*;
@@ -38,6 +39,27 @@ pub fn init_gettext() {
         gettextrs::bindtextdomain("pika-backup", crate::LOCALEDIR)
     );
     tracing::debug!("textdomain: {:?}", gettextrs::textdomain("pika-backup"));
+}
+
+pub fn init_logging(domain: &str) {
+    // Follow G_MESSAGES_DEBUG env variable
+    let default_level = if !glib::log_writer_default_would_drop(glib::LogLevel::Debug, Some(domain))
+    {
+        tracing_subscriber::filter::LevelFilter::DEBUG
+    } else {
+        tracing_subscriber::filter::LevelFilter::ERROR
+    };
+
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::builder()
+                .with_default_directive(default_level.into())
+                .from_env_lossy(),
+        )
+        .with(tracing_subscriber::fmt::Layer::default().compact())
+        .init();
+
+    tracing::debug!("Logger initialized");
 }
 
 pub async fn listen_remote_app_running<T: Fn(bool)>(

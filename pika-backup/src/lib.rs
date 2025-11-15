@@ -35,12 +35,7 @@ static GRESOURCE_BYTES: &[u8] =
 
 // Run application
 pub fn main() {
-    if std::env::var_os("ZBUS_TRACING").is_some_and(|x| !x.is_empty()) {
-        tracing_subscriber::FmtSubscriber::builder()
-            .with_max_level(tracing_subscriber::filter::LevelFilter::TRACE)
-            .init();
-    }
-
+    common::utils::init_logging("pika-backup");
     common::utils::init_gettext();
 
     // Ctrl-C handling
