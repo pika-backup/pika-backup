@@ -215,9 +215,6 @@ impl App {
 
         self.set_accels_for_action("app.help", &["F1"]);
         self.set_accels_for_action("app.quit", &["<Ctrl>Q"]);
-        self.set_accels_for_action("app.setup", &["<Ctrl>N"]);
-        self.set_accels_for_action("app.backup-preferences", &["<Ctrl>comma"]);
-        self.set_accels_for_action("win.show-help-overlay", &["<Ctrl>question"]);
     }
 
     pub async fn try_quit(&self) -> Result<()> {
