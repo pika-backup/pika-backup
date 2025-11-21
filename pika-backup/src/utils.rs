@@ -167,9 +167,8 @@ pub async fn background_permission() -> Result<()> {
 
                 unsafe {
                     command.pre_exec(|| {
-                        nix::unistd::setsid()
-                            .map_err(std::io::Error::other)
-                            .map(|_| ())
+                        nix::unistd::setsid()?;
+                        Ok(())
                     });
                 }
 
