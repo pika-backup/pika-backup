@@ -15,6 +15,10 @@
 - Change to use AdwAlertDialog
 - Change to use AdwAboutDialog
 - Change to use AdwDialog for all dialogs
+- Change to use AdwWrapBox instead of our own implementation
+- Change to use AdwShortcutsDialog
+- Change to use `tracing` for logging instead of glib
+- Change to no longer explicitly support X11
 - Add ability to backup files
 - Add dialog showing the state of closing archives mounted for browsing when closing main window.
 - Add propper error messages for more situations like missing filesystem access
