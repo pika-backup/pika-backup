@@ -199,12 +199,23 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_activate_link(&self, link: &str) -> bool {
-            gio::AppInfo::launch_default_for_uri(
-                link,
+        fn on_click_borg_server_info(&self) {
+            if let Err(err) = gio::AppInfo::launch_default_for_uri(
+                "help:pika-backup/setup-remote",
                 Some(&self.obj().display().app_launch_context()),
-            )
-            .is_ok()
+            ) {
+                tracing::error!("Failed to launch help: {err}");
+            }
+        }
+
+        #[template_callback]
+        fn on_click_network_share_info(&self) {
+            if let Err(err) = gio::AppInfo::launch_default_for_uri(
+                "help:pika-backup/setup-gvfs",
+                Some(&self.obj().display().app_launch_context()),
+            ) {
+                tracing::error!("Failed to launch help: {err}");
+            }
         }
 
         #[template_callback]

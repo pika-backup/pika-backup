@@ -108,28 +108,49 @@
             <child>
               <object class="GtkBox">
                 <property name="orientation">vertical</property>
-                <property name="spacing">3</property>
                 <style>
                   <class name="info-card" />
                 </style>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="label" translatable="yes">Locations with BorgBackup Support</property>
-                    <property name="wrap">1</property>
-                    <property name="xalign">0</property>
-                    <style>
-                      <class name="heading" />
-                      <class name="accent" />
-                    </style>
+                  <object class="AdwWrapBox">
+                    <property name="justify">spread</property>
+                    <property name="justify-last-line">true</property>
+                    <property name="child-spacing">12</property>
+                    <property name="line-spacing">6</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Locations with BorgBackup Support</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                        <property name="hexpand">1</property>
+                        <style>
+                          <class name="heading" />
+                          <class name="accent" />
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">More Information</property>
+                        <property name="halign">start</property>
+                        <style>
+                          <class name="" />
+                          <class name="pill" />
+                        </style>
+                        <signal name="clicked" handler="on_click_borg_server_info" swapped="true" />
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Servers with borgbackup installed have the best performance. &lt;a href="help:pika-backup/setup-remote"&gt;More&lt;/a&gt;</property>
+                    <property name="label" translatable="yes">The “ssh://” prefix is reserved for servers with BorgBackup support. This option provides the best performance.</property>
                     <property name="use-markup">True</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
-                    <signal name="activate-link" handler="on_activate_link" swapped="true" />
+                    <style>
+                      <class name="document" />
+                    </style>
                   </object>
                 </child>
                 <child>
@@ -137,30 +158,53 @@
                     <property name="label">ssh://user@example.net/~/backup</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
+                    <property name="margin-top">3</property>
                     <style>
-                      <class name="monospace"/>
+                      <class name="monospace" />
+                      <class name="subtitle" />
                     </style>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="label" translatable="yes">Network Shares</property>
-                    <property name="wrap">1</property>
-                    <property name="xalign">0</property>
-                    <property name="margin-top">6</property>
-                    <style>
-                      <class name="heading" />
-                      <class name="accent" />
-                    </style>
+                  <object class="AdwWrapBox">
+                    <property name="justify">spread</property>
+                    <property name="justify-last-line">true</property>
+                    <property name="child-spacing">12</property>
+                    <property name="line-spacing">6</property>
+                    <property name="margin-top">9</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">SMB and SFTP Network Shares</property>
+                        <property name="wrap">1</property>
+                        <property name="xalign">0</property>
+                        <property name="hexpand">1</property>
+                        <style>
+                          <class name="heading" />
+                          <class name="accent" />
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">More Information</property>
+                        <property name="halign">start</property>
+                        <style>
+                          <class name="pill" />
+                        </style>
+                        <signal name="clicked" handler="on_click_network_share_info" swapped="true" />
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Use GNOME Files syntax. &lt;a href="help:pika-backup/setup-gvfs"&gt;More&lt;/a&gt;</property>
+                    <property name="label" translatable="yes">The “sftp://” and “smb://” prefixes can be used to access network shares. The network share does not need explicit BorgBackup support.</property>
                     <property name="use-markup">True</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
-                    <signal name="activate-link" handler="on_activate_link" swapped="true" />
+                    <style>
+                      <class name="document" />
+                    </style>
                   </object>
                 </child>
                 <child>
@@ -168,8 +212,10 @@
                     <property name="label">smb://user@example.net/files/repo</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
+                    <property name="margin-top">3</property>
                     <style>
-                      <class name="monospace"/>
+                      <class name="monospace" />
+                      <class name="subtitle" />
                     </style>
                   </object>
                 </child>
@@ -179,7 +225,8 @@
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
                     <style>
-                      <class name="monospace"/>
+                      <class name="monospace" />
+                      <class name="subtitle" />
                     </style>
                   </object>
                 </child>
@@ -214,7 +261,7 @@
                 <property name="use-underline">1</property>
                 <property name="label" translatable="yes">_Connect</property>
                 <property name="sensitive" bind-source="PkSetupLocationPage" bind-property="can-continue" bind-flags="sync-create" />
-                <signal name="clicked" handler="on_add_button" swapped="true"/>
+                <signal name="clicked" handler="on_add_button" swapped="true" />
                 <style>
                   <class name="pill" />
                   <class name="suggested-action" />
@@ -230,7 +277,7 @@
                 <property name="use-underline">1</property>
                 <property name="label" translatable="yes">_Continue</property>
                 <property name="sensitive" bind-source="PkSetupLocationPage" bind-property="can-continue" bind-flags="sync-create" />
-                <signal name="clicked" handler="on_continue_button" swapped="true"/>
+                <signal name="clicked" handler="on_continue_button" swapped="true" />
                 <style>
                   <class name="pill" />
                   <class name="suggested-action" />
