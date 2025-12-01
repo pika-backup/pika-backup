@@ -4,24 +4,80 @@
   <requires lib="libadwaita" version="1.4" />
   <template class="PkSetupRepoKindPage" parent="PkDialogPage">
     <property name="title" translatable="yes">Set Up Backup Repository</property>
+
+
     <child>
       <object class="AdwPreferencesGroup">
         <property name="separate-rows">True</property>
         <child>
-          <object class="AdwButtonRow">
+          <object class="AdwActionRow">
             <property name="title" translatable="yes">Create New Repository</property>
-            <signal name="activated" handler="on_create_new" swapped="true"/>
-            <property name="end-icon-name">go-next-symbolic</property>
+            <property name="subtitle" translatable="yes">Use a new location to store your backups.</property>
+            <property name="activatable">true</property>
+            <signal name="activated" handler="on_create_new" swapped="true" />
+            <child type="suffix">
+              <object class="GtkImage">
+                <property name="icon-name">go-next-symbolic</property>
+                <property name="margin-start">16</property>
+              </object>
+            </child>
           </object>
         </child>
         <child>
-          <object class="AdwButtonRow">
+          <object class="AdwActionRow">
             <property name="title" translatable="yes">Use Existing Repository</property>
-            <signal name="activated" handler="on_use_existing" swapped="true"/>
-            <property name="end-icon-name">go-next-symbolic</property>
+            <property name="subtitle" translatable="yes">Use a location used to store backups created with Pika Backup or BorgBackup before.</property>
+            <property name="title" translatable="yes">Use Existing Repository</property>
+            <property name="activatable">true</property>
+            <signal name="activated" handler="on_create_new" swapped="true" />
+            <child type="suffix">
+              <object class="GtkImage">
+                <property name="icon-name">go-next-symbolic</property>
+                <property name="margin-start">16</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>
     </child>
+
+    <!-- 
+
+    <child>
+
+
+      <object class="AdwPreferencesGroup">
+        <property name="description">Use a new location to store your backups</property>
+        <child>
+          <object class="AdwButtonRow">
+            <property name="title" translatable="yes">Create New Repository</property>
+            <signal name="activated" handler="on_create_new" swapped="true" />
+            <property name="end-icon-name">go-next-symbolic</property>
+          </object>
+        </child>
+      </object>
+
+    </child>
+
+
+    <child>
+
+      <object class="AdwPreferencesGroup">
+        <property name="description">Use a location used to store backups created with Pika Backup or BorgBackup before</property>
+        <child>
+          <object class="AdwButtonRow">
+            <property name="title" translatable="yes">Use Existing Repository</property>
+            <signal name="activated" handler="on_use_existing" swapped="true" />
+            <property name="end-icon-name">go-next-symbolic</property>
+          </object>
+        </child>
+      </object>
+
+
+    </child>
+
+-->
+
+
   </template>
 </interface>
