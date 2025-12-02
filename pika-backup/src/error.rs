@@ -58,11 +58,12 @@ impl std::error::Error for Combined {
     }
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug)]
 pub struct Message {
     text: String,
     secondary_text: Option<String>,
     notification_id: Option<String>,
+    borg_error: Option<borg::Error>,
 }
 
 impl Message {
@@ -71,6 +72,20 @@ impl Message {
             text: text.to_string(),
             secondary_text: Some(secondary_text.to_string()),
             notification_id: None,
+            borg_error: None,
+        }
+    }
+
+    pub fn with_borg(
+        text: impl std::fmt::Display,
+        secondary_text: impl std::fmt::Display,
+        borg: borg::Error,
+    ) -> Self {
+        Self {
+            text: text.to_string(),
+            secondary_text: Some(secondary_text.to_string()),
+            notification_id: None,
+            borg_error: Some(borg),
         }
     }
 
@@ -83,6 +98,7 @@ impl Message {
             text: format!("{text}"),
             secondary_text: Some(format!("{secondary_text}")),
             notification_id: Some(notification_id.to_string()),
+            borg_error: None,
         }
     }
 
@@ -91,7 +107,12 @@ impl Message {
             text: text.to_string(),
             secondary_text: None,
             notification_id: None,
+            borg_error: None,
         }
+    }
+
+    pub fn borg_error(&self) -> Option<&borg::Error> {
+        self.borg_error.as_ref()
     }
 
     pub async fn show(&self) {
@@ -143,7 +164,7 @@ impl std::fmt::Display for Message {
 
 impl std::error::Error for Message {}
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug)]
 pub enum Error {
     Message(Message),
     UserCanceled,
@@ -239,7 +260,7 @@ impl<R> CombinedToError<R> for std::result::Result<R, Combined> {
         self.map_err(|err| match err {
             Combined::Ui(err) => err,
             Combined::Borg(borg::Error::Aborted(borg::Abort::User)) => Error::UserCanceled,
-            Combined::Borg(err) => Message::new(text, err).into(),
+            Combined::Borg(err) => Message::with_borg(text, err.to_string(), err).into(),
         })
     }
     fn into_borg_error(self) -> Result<borg::Result<R>> {

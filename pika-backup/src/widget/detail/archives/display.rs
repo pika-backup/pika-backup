@@ -134,7 +134,11 @@ impl imp::ArchivesPage {
     }
 
     pub fn ui_display_archives(&self, repo_id: &borg::RepoId) {
-        if Ok(repo_id) != BACKUP_CONFIG.load().active().map(|x| &x.repo_id)
+        if BACKUP_CONFIG
+            .load()
+            .active()
+            .ok()
+            .map_or(false, |x| &x.repo_id == repo_id)
             || !self.obj().is_visible()
         {
             tracing::debug!("Not displaying archive list because it's not visible");
