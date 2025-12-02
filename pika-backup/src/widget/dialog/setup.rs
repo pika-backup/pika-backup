@@ -55,6 +55,8 @@ mod imp {
         /// will not be up to date
         new_config: RefCell<Option<config::Backup>>,
 
+        new_password: RefCell<Option<Option<config::Password>>>,
+
         /// Whether the config should be saved on close
         save: Cell<bool>,
 
@@ -318,8 +320,17 @@ mod imp {
 
                 match action {
                     SetupAction::Init => {
-                        // Show encryption page before doing anything with the repo config
-                        self.show_encryption_page();
+                        let password = self.new_password.borrow().clone();
+                        if let Some(password) = password {
+                            // There is already a password stored. This means we updated the
+                            // location details and already know the encryption settings. Hence, we
+                            // can skip to the step after that.
+                            self.busy.replace(false);
+                            self.on_encryption_page_continue(password).await;
+                        } else {
+                            // Show encryption page before doing anything with the repo config
+                            self.show_encryption_page();
+                        }
                     }
                     SetupAction::AddExisting => {
                         // Try to access the repository
@@ -342,6 +353,8 @@ mod imp {
             if self.busy.replace(true) {
                 return;
             }
+
+            self.new_password.replace(Some(password.clone()));
 
             let Some(repo) = self.repo_config.borrow().clone() else {
                 tracing::error!("Encryption page create button clicked but no repo config set");
