@@ -203,16 +203,11 @@ impl Task for List {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub(super) enum NumArchives {
+    #[default]
     All,
     First(u32),
-}
-
-impl Default for NumArchives {
-    fn default() -> Self {
-        Self::All
-    }
 }
 
 #[derive(Clone, Default)]

@@ -150,6 +150,7 @@ impl fmt::Display for ProgressMessage {
 
 #[derive(Deserialize, Clone, Debug)]
 #[serde(rename_all = "snake_case")]
+#[derive(Default)]
 pub enum Operation {
     #[serde(rename = "cache.begin_transaction")]
     CacheBeginTransaction,
@@ -181,15 +182,10 @@ pub enum Operation {
     Prune,
     #[serde(rename = "upgrade.convert_segments")]
     UpgradeConvertSegments,
+    #[default]
     Unspecified,
     #[serde(other)]
     Unknown,
-}
-
-impl Default for Operation {
-    fn default() -> Self {
-        Self::Unspecified
-    }
 }
 
 impl fmt::Display for Operation {
@@ -278,6 +274,7 @@ impl QuestionPrompt {
 
 #[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+#[derive(Default)]
 pub enum QuestionId {
     #[serde(rename = "BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK")]
     UnknownUnencryptedRepoAccessIsOk,
@@ -291,13 +288,8 @@ pub enum QuestionId {
     #[serde(rename = "BORG_DELETE_I_KNOW_WHAT_I_AM_DOING")]
     DeleteIKnowWhatIAmDoing,
 
+    #[default]
     Unknown,
-}
-
-impl Default for QuestionId {
-    fn default() -> Self {
-        Self::Unknown
-    }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
@@ -331,12 +323,6 @@ pub struct BorgUnparsableErr {
 impl std::fmt::Display for BorgUnparsableErr {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{}: {}", gettext("Standard error output"), self.stderr)
-    }
-}
-
-impl Default for MsgId {
-    fn default() -> Self {
-        Self::Undefined
     }
 }
 

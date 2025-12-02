@@ -278,17 +278,12 @@ impl std::iter::Sum for DataRate {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 pub enum Run {
+    #[default]
     Init,
     Running,
     Stalled,
     Reconnecting(std::time::Duration),
     Stopping,
-}
-
-impl Default for Run {
-    fn default() -> Self {
-        Self::Init
-    }
 }

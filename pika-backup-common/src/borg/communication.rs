@@ -79,17 +79,12 @@ impl std::fmt::Display for Response {
     }
 }
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq, Default)]
 pub enum Instruction {
+    #[default]
     Nothing,
     Abort(error::Abort),
     Response(Response),
-}
-
-impl Default for Instruction {
-    fn default() -> Self {
-        Self::Nothing
-    }
 }
 
 /// Wrapper to close all channels when dropped

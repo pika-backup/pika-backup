@@ -6,10 +6,11 @@ use glib::subclass::prelude::*;
 
 use crate::prelude::*;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub enum PrunePreset {
     KeepMany,
     KeepSome,
+    #[default]
     Custom,
 }
 
@@ -48,12 +49,6 @@ impl PrunePreset {
 
     pub fn list() -> Vec<Self> {
         vec![Self::KeepMany, Self::KeepSome, Self::Custom]
-    }
-}
-
-impl Default for PrunePreset {
-    fn default() -> Self {
-        Self::Custom
     }
 }
 

@@ -186,7 +186,7 @@ impl std::fmt::Display for Abort {
 /// missing ids.
 ///
 /// <https://borgbackup.readthedocs.io/en/stable/internals/frontends.html#message-ids>
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Default)]
 pub enum Failure {
     // # Borg message IDs
     /// RC 10
@@ -260,6 +260,7 @@ pub enum Failure {
 
     /// Fallback
     #[serde(other)]
+    #[default]
     Undefined,
 }
 

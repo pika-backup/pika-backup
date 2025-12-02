@@ -23,18 +23,14 @@ use crate::prelude::*;
 
 #[derive(Clone, Copy, Debug, glib::ValueDelegate, PartialEq, Eq)]
 #[value_delegate(from = u8)]
+#[derive(Default)]
 pub enum StatusLevel {
     Ok,
+    #[default]
     Neutral,
     Warning,
     Error,
     Spinner,
-}
-
-impl Default for StatusLevel {
-    fn default() -> Self {
-        Self::Neutral
-    }
 }
 
 impl From<u8> for StatusLevel {
