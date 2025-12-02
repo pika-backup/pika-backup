@@ -279,9 +279,9 @@ impl std::fmt::Display for Failure {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let text = match self {
             // RC 10+
-            Self::RepositoryAlreadyExists => {
-                gettext("A repository already exists at this location.")
-            }
+            Self::RepositoryAlreadyExists => gettext(
+                "A repository already exists at this location. Try the “Use Existing Repository” option or select a different location.",
+            ),
             Self::RepositoryCheckNeeded => gettext(
                 "Inconsistencies were detected in the repository. Running a data integrity check is needed.",
             ),
