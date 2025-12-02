@@ -50,7 +50,7 @@ pub async fn create_repo_config(
                         uri,
                         mount
                     );
-                    Error::Message(Message::new(
+                    Error::message(Message::new(
                         gettext("Repository location not found."),
                         gettext(
                             "A mount operation succeeded but the location is still unavailable.",

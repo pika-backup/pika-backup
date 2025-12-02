@@ -166,13 +166,19 @@ impl std::error::Error for Message {}
 
 #[derive(Debug)]
 pub enum Error {
-    Message(Message),
+    Message(Box<Message>),
     UserCanceled,
+}
+
+impl Error {
+    pub fn message(msg: Message) -> Self {
+        Self::Message(Box::new(msg))
+    }
 }
 
 impl From<config::error::BackupExists> for Error {
     fn from(value: config::error::BackupExists) -> Self {
-        Self::Message(Message::short(gettextf(
+        Self::message(Message::short(gettextf(
             "Backup with id “{}” already exists.",
             [value.id.as_str()],
         )))
@@ -181,7 +187,7 @@ impl From<config::error::BackupExists> for Error {
 
 impl From<config::error::BackupNotFound> for Error {
     fn from(value: config::error::BackupNotFound) -> Self {
-        Self::Message(Message::short(gettextf(
+        Self::message(Message::short(gettextf(
             "Could not find backup configuration with id “{}”.",
             [value.id.as_str()],
         )))
@@ -190,7 +196,7 @@ impl From<config::error::BackupNotFound> for Error {
 
 impl From<Message> for Error {
     fn from(value: Message) -> Self {
-        Self::Message(value)
+        Self::message(value)
     }
 }
 
