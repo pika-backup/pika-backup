@@ -11,8 +11,6 @@ mod imp {
     #[template(file = "transfer_option.ui")]
     pub struct SetupTransferOption {
         #[template_child]
-        pub(super) transfer_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
         hostname: TemplateChild<gtk::Label>,
         #[template_child]
         username: TemplateChild<gtk::Label>,
@@ -28,7 +26,7 @@ mod imp {
     impl ObjectSubclass for SetupTransferOption {
         const NAME: &'static str = "PkSetupTransferOption";
         type Type = super::SetupTransferOption;
-        type ParentType = gtk::ListBoxRow;
+        type ParentType = adw::ActionRow;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -43,6 +41,8 @@ mod imp {
     impl ObjectImpl for SetupTransferOption {}
     impl WidgetImpl for SetupTransferOption {}
     impl ListBoxRowImpl for SetupTransferOption {}
+    impl PreferencesRowImpl for SetupTransferOption {}
+    impl ActionRowImpl for SetupTransferOption {}
 
     #[gtk::template_callbacks]
     impl SetupTransferOption {
@@ -72,7 +72,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct SetupTransferOption(ObjectSubclass<imp::SetupTransferOption>)
-    @extends gtk::ListBoxRow, gtk::Widget,
+    @extends adw::ActionRow, adw::PreferencesRow, gtk::ListBoxRow, gtk::Widget,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Actionable;
 }
 
@@ -81,9 +81,5 @@ impl SetupTransferOption {
         let dialog: Self = glib::Object::new();
         dialog.imp().set_suggestion(suggestion);
         dialog
-    }
-
-    pub fn transfer_row(&self) -> adw::ActionRow {
-        self.imp().transfer_row.clone()
     }
 }

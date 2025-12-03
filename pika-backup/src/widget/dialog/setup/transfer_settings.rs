@@ -107,7 +107,7 @@ mod imp {
                 let row = SetupTransferOption::new(suggestion);
 
                 let obj = self.obj();
-                row.transfer_row().connect_activated(clone!(
+                row.connect_activated(clone!(
                     #[weak]
                     obj,
                     #[strong]

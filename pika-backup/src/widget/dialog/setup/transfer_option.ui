@@ -2,145 +2,133 @@
 <interface>
   <requires lib="gtk" version="4.10" />
   <requires lib="libadwaita" version="1.4" />
-  <template class="PkSetupTransferOption" parent="GtkListBoxRow">
-    <property name="activatable">0</property>
+  <template class="PkSetupTransferOption" parent="AdwActionRow">
+    <property name="activatable">1</property>
     <style>
       <class name="overview-row" />
     </style>
-    <property name="child">
-      <object class="GtkListBox">
-        <property name="selection-mode">none</property>
-        <style>
-          <class name="boxed-list" />
-        </style>
+    <child type="prefix">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">3</property>
+        <property name="margin-top">12</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">3</property>
         <child>
-          <object class="AdwActionRow" id="transfer_row">
-            <property name="activatable">1</property>
-            <child type="prefix">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">9</property>
+            <property name="margin-bottom">9</property>
+            <child>
               <object class="GtkBox">
-                <property name="orientation">vertical</property>
-                <property name="spacing">3</property>
-                <property name="margin-top">12</property>
-                <property name="margin-bottom">6</property>
-                <property name="margin-start">3</property>
+                <property name="spacing">9</property>
                 <child>
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">9</property>
-                    <property name="margin-bottom">9</property>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="spacing">9</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">computer-symbolic</property>
-                            <style>
-                              <class name="status-icon" />
-                              <class name="accent-icon" />
-                            </style>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="hostname">
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="title-4" />
-                            </style>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="spacing">6</property>
-                        <property name="margin-start">3</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">system-users-symbolic</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="username">
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="margin-start">9</property>
-                            <property name="icon-name">tag-symbolic</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="prefix">
-                            <property name="xalign">0</property>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
+                  <object class="GtkImage">
+                    <property name="icon-name">computer-symbolic</property>
+                    <style>
+                      <class name="status-icon" />
+                      <class name="accent-icon" />
+                    </style>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">3</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Files to Back Up</property>
-                        <property name="xalign">0</property>
-                        <style>
-                          <class name="caption-heading" />
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwWrapBox" id="include_box">
-                        <property name="child-spacing">5</property>
-                        <property name="line-spacing">5</property>
-                        <style>
-                          <class name="tag-box" />
-                          <class name="caption" />
-                        </style>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">3</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Exclude From Backup</property>
-                        <property name="xalign">0</property>
-                        <style>
-                          <class name="caption-heading" />
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="PikaWrapBox" id="exclude_box">
-                        <property name="spacing">5</property>
-                        <property name="width-estimate">370</property>
-                        <style>
-                          <class name="tag-box" />
-                        </style>
-                      </object>
-                    </child>
+                  <object class="GtkLabel" id="hostname">
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="title-4" />
+                    </style>
                   </object>
                 </child>
               </object>
             </child>
-            <child type="suffix">
-              <object class="GtkImage">
-                <property name="icon-name">go-next-symbolic</property>
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">6</property>
+                <property name="margin-start">3</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">system-users-symbolic</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="username">
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkImage">
+                    <property name="margin-start">9</property>
+                    <property name="icon-name">tag-symbolic</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="prefix">
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">3</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Files to Back Up</property>
+                <property name="xalign">0</property>
                 <style>
-                  <class name="dim-label" />
+                  <class name="caption-heading" />
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="AdwWrapBox" id="include_box">
+                <property name="child-spacing">5</property>
+                <property name="line-spacing">5</property>
+                <style>
+                  <class name="tag-box" />
+                  <class name="caption" />
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">3</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">Exclude From Backup</property>
+                <property name="xalign">0</property>
+                <style>
+                  <class name="caption-heading" />
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="AdwWrapBox" id="exclude_box">
+                <property name="child-spacing">5</property>
+                <property name="line-spacing">5</property>
+                <style>
+                  <class name="tag-box" />
+                  <class name="caption" />
                 </style>
               </object>
             </child>
           </object>
         </child>
       </object>
-    </property>
+    </child>
+    <child type="suffix">
+      <object class="GtkImage">
+        <property name="icon-name">go-next-symbolic</property>
+        <style>
+          <class name="dim-label" />
+        </style>
+      </object>
+    </child>
   </template>
 </interface>
