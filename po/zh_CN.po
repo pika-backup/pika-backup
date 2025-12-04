@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-12-01 18:43+0000\n"
-"PO-Revision-Date: 2025-12-02 10:34+0800\n"
+"POT-Creation-Date: 2025-12-03 15:33+0000\n"
+"PO-Revision-Date: 2025-12-04 08:28+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -29,7 +29,7 @@ msgstr "Pika 备份监视器"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:5 data/app.metainfo.xml.in:4
-#: pika-backup/src/utils.rs:367 pika-backup/src/utils.rs:432
+#: pika-backup/src/utils.rs:363 pika-backup/src/utils.rs:428
 #: pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
@@ -141,7 +141,7 @@ msgstr ""
 "从钥匙串取回加密密码失败。Pika 备份需要一个钥匙串守护程序（“secret service”）"
 "来存储密码。关于安装介绍请查阅操作系统文档。"
 
-#: pika-backup-common/src/borg/error.rs:33 pika-backup/src/utils.rs:283
+#: pika-backup-common/src/borg/error.rs:33 pika-backup/src/utils.rs:279
 msgid "The operation terminated unexpectedly."
 msgstr "操作意外终止。"
 
@@ -190,100 +190,102 @@ msgstr "{}"
 msgid "Unable to access backup repository: {}"
 msgstr "无法访问备份仓库：{}"
 
-#: pika-backup-common/src/borg/error.rs:282
-msgid "A repository already exists at this location."
-msgstr "此位置已存在一个仓库。"
+#: pika-backup-common/src/borg/error.rs:283
+msgid ""
+"A repository already exists at this location. Try the “Use Existing "
+"Repository” option or select a different location."
+msgstr "此位置已存在一个仓库。请尝试“使用已有仓库”选项或选择其它位置。"
 
-#: pika-backup-common/src/borg/error.rs:285
+#: pika-backup-common/src/borg/error.rs:286
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
 msgstr "仓库中检测到数据不一致。需要运行数据完整性检查。"
 
-#: pika-backup-common/src/borg/error.rs:287
+#: pika-backup-common/src/borg/error.rs:288
 msgid "No repository exists at this location."
 msgstr "此位置没有仓库存在。"
 
-#: pika-backup-common/src/borg/error.rs:289
+#: pika-backup-common/src/borg/error.rs:290
 msgid "Not enough free space in repository."
 msgstr "仓库中剩余空间不足。"
 
-#: pika-backup-common/src/borg/error.rs:292
+#: pika-backup-common/src/borg/error.rs:293
 msgid "The configured location does not contain a valid repository."
 msgstr "配置的位置未包含有效仓库。"
 
-#: pika-backup-common/src/borg/error.rs:295
+#: pika-backup-common/src/borg/error.rs:296
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "配置的位置未包含有效的仓库配置。"
 
-#: pika-backup-common/src/borg/error.rs:298
+#: pika-backup-common/src/borg/error.rs:299
 msgid "The configured location does not exist."
 msgstr "配置的位置不存在。"
 
-#: pika-backup-common/src/borg/error.rs:301
+#: pika-backup-common/src/borg/error.rs:302
 msgid "The selected location does already exist."
 msgstr "选择的位置已存在。"
 
-#: pika-backup-common/src/borg/error.rs:304
+#: pika-backup-common/src/borg/error.rs:305
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
 msgstr "已达到仓库存储限额。请尝试删除不再需要的旧归档文件。"
 
-#: pika-backup-common/src/borg/error.rs:307
+#: pika-backup-common/src/borg/error.rs:308
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
 msgstr "访问该配置位置的权限已被拒绝。请检查文件权限。"
 
-#: pika-backup-common/src/borg/error.rs:312
+#: pika-backup-common/src/borg/error.rs:313
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
 msgstr "需要更新版本的 Pika 备份来访问该仓库。该仓库使用了不支持的特性。"
 
-#: pika-backup-common/src/borg/error.rs:317
+#: pika-backup-common/src/borg/error.rs:318
 msgid "The selected location already contains a repository."
 msgstr "选择的位置已经包含了仓库。"
 
-#: pika-backup-common/src/borg/error.rs:320
+#: pika-backup-common/src/borg/error.rs:321
 msgid "The configured location does not contain an archive."
 msgstr "配置的位置未包含归档文件。"
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:324
+#: pika-backup-common/src/borg/error.rs:325
 msgid "Invalid encryption password."
 msgstr "无效的加密密码。"
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:327
+#: pika-backup-common/src/borg/error.rs:328
 msgid "Repository access was aborted"
 msgstr "仓库访问已中止"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:330
+#: pika-backup-common/src/borg/error.rs:331
 msgid "Failed to lock repository."
 msgstr "锁定仓库失败。"
 
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:332
 msgid "Repository already in use."
 msgstr "仓库已被使用。"
 
-#: pika-backup-common/src/borg/error.rs:335
+#: pika-backup-common/src/borg/error.rs:336
 msgid "Connection closed by remote host."
 msgstr "连接被远程主机关闭。"
 
-#: pika-backup-common/src/borg/error.rs:340
+#: pika-backup-common/src/borg/error.rs:341
 msgid "Connection closed by remote host: “{}”"
 msgstr "连接被远程主机关闭：“{}”"
 
 #. General
-#: pika-backup-common/src/borg/error.rs:344
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Exception"
 msgstr "异常"
 
-#: pika-backup-common/src/borg/error.rs:346
+#: pika-backup-common/src/borg/error.rs:347
 msgid "Unspecified error."
 msgstr "未指定的错误。"
 
@@ -317,95 +319,95 @@ msgstr "操作 {} % 已完成 ({}/{})"
 msgid "Operation completed."
 msgstr "操作已完成。"
 
-#: pika-backup-common/src/borg/log_json.rs:198
+#: pika-backup-common/src/borg/log_json.rs:194
 msgid "Beginning cache transaction"
 msgstr "正在开始缓存处理"
 
-#: pika-backup-common/src/borg/log_json.rs:199
+#: pika-backup-common/src/borg/log_json.rs:195
 msgid "Downloading cache data"
 msgstr "正在下载缓存数据"
 
-#: pika-backup-common/src/borg/log_json.rs:200
+#: pika-backup-common/src/borg/log_json.rs:196
 msgid "Writing cache"
 msgstr "正在写入缓存"
 
-#: pika-backup-common/src/borg/log_json.rs:201
+#: pika-backup-common/src/borg/log_json.rs:197
 msgid "Synchronizing cache"
 msgstr "正在同步缓存"
 
-#: pika-backup-common/src/borg/log_json.rs:202
+#: pika-backup-common/src/borg/log_json.rs:198
 msgid "Compacting repository"
 msgstr "正在压制仓库"
 
-#: pika-backup-common/src/borg/log_json.rs:203
+#: pika-backup-common/src/borg/log_json.rs:199
 msgid "Updating repository"
 msgstr "正在更新仓库"
 
-#: pika-backup-common/src/borg/log_json.rs:204
+#: pika-backup-common/src/borg/log_json.rs:200
 msgid "Checking repository"
 msgstr "正在检查仓库"
 
-#: pika-backup-common/src/borg/log_json.rs:205
+#: pika-backup-common/src/borg/log_json.rs:201
 msgid "Verifying data"
 msgstr "正在校验数据"
 
-#: pika-backup-common/src/borg/log_json.rs:206
+#: pika-backup-common/src/borg/log_json.rs:202
 msgid "Verifying main database"
 msgstr "正在校验主数据库"
 
-#: pika-backup-common/src/borg/log_json.rs:207
+#: pika-backup-common/src/borg/log_json.rs:203
 msgid "Verifying references"
 msgstr "正在校验引用"
 
-#: pika-backup-common/src/borg/log_json.rs:208
+#: pika-backup-common/src/borg/log_json.rs:204
 msgid "Extracting data"
 msgstr "正在提取数据"
 
-#: pika-backup-common/src/borg/log_json.rs:209
+#: pika-backup-common/src/borg/log_json.rs:205
 msgid "Extracting permissions"
 msgstr "正在提取权限"
 
-#: pika-backup-common/src/borg/log_json.rs:210
+#: pika-backup-common/src/borg/log_json.rs:206
 msgid "Marking archives as deleted"
 msgstr "正在将归档文件标记为已删除"
 
-#: pika-backup-common/src/borg/log_json.rs:211
+#: pika-backup-common/src/borg/log_json.rs:207
 msgid "Calculating archive statistics"
 msgstr "正在计算归档文件总数"
 
-#: pika-backup-common/src/borg/log_json.rs:212
+#: pika-backup-common/src/borg/log_json.rs:208
 msgid "Marking old archives as deleted"
 msgstr "正在将旧归档文件标记为已删除"
 
-#: pika-backup-common/src/borg/log_json.rs:213
+#: pika-backup-common/src/borg/log_json.rs:209
 msgid "Upgrading repository"
 msgstr "正在升级仓库"
 
-#: pika-backup-common/src/borg/log_json.rs:214
+#: pika-backup-common/src/borg/log_json.rs:210
 msgid "Unspecified operation"
 msgstr "未指定的操作"
 
-#: pika-backup-common/src/borg/log_json.rs:215
+#: pika-backup-common/src/borg/log_json.rs:211
 msgid "Unknown operation"
 msgstr "未知操作"
 
-#: pika-backup-common/src/borg/log_json.rs:232
+#: pika-backup-common/src/borg/log_json.rs:228
 msgid "Handling a Question"
 msgstr "正在处理问题"
 
-#: pika-backup-common/src/borg/log_json.rs:240
+#: pika-backup-common/src/borg/log_json.rs:236
 msgid "Attempting to access a previously unknown unencrypted repository."
 msgstr "正在尝试访问之前未知的未加密仓库。"
 
-#: pika-backup-common/src/borg/log_json.rs:256
+#: pika-backup-common/src/borg/log_json.rs:252
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr "位于“{}”的备份仓库曾经位于“{}”。"
 
-#: pika-backup-common/src/borg/log_json.rs:260
+#: pika-backup-common/src/borg/log_json.rs:256
 msgid "The backup repository was previously located at a different location."
 msgstr "该备份仓库曾经位于不同的位置。"
 
-#: pika-backup-common/src/borg/log_json.rs:264
+#: pika-backup-common/src/borg/log_json.rs:260
 msgid ""
 "This is a potentially dangerous function. Repairing a repository might lead "
 "to data loss (for kinds of corruption it is not capable of dealing with). BE "
@@ -414,18 +416,18 @@ msgstr ""
 "这可能是一个危险的操作。修复仓库可能会导致数据丢失（比如它无法处理的损坏类"
 "型）。请小心谨慎！"
 
-#: pika-backup-common/src/borg/log_json.rs:267
+#: pika-backup-common/src/borg/log_json.rs:263
 msgid ""
 "You requested to delete the repository completely, including all backup "
 "archives it contains."
 msgstr "您请求完全删除该仓库，包括其中所有的备份归档文件。"
 
-#: pika-backup-common/src/borg/log_json.rs:270
+#: pika-backup-common/src/borg/log_json.rs:266
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "来自 borgbackup 的意外问题：“{}”"
 
 #. Translators: Combines statement from above and this question
-#: pika-backup-common/src/borg/log_json.rs:275
+#: pika-backup-common/src/borg/log_json.rs:271
 msgid ""
 "{}\n"
 "\n"
@@ -435,32 +437,32 @@ msgstr ""
 "\n"
 "您想要继续吗？"
 
-#: pika-backup-common/src/borg/log_json.rs:333
+#: pika-backup-common/src/borg/log_json.rs:325
 msgid "Standard error output"
 msgstr "标准错误输出"
 
-#: pika-backup-common/src/borg/log_json.rs:483
+#: pika-backup-common/src/borg/log_json.rs:469
 msgid "Debug"
 msgstr "调试"
 
-#: pika-backup-common/src/borg/log_json.rs:484
+#: pika-backup-common/src/borg/log_json.rs:470
 msgid "Info"
 msgstr "信息"
 
-#: pika-backup-common/src/borg/log_json.rs:485 pika-backup/src/utils.rs:383
+#: pika-backup-common/src/borg/log_json.rs:471 pika-backup/src/utils.rs:379
 #: pika-backup/src/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "警告"
 
-#: pika-backup-common/src/borg/log_json.rs:486
+#: pika-backup-common/src/borg/log_json.rs:472
 msgid "Error"
 msgstr "错误"
 
-#: pika-backup-common/src/borg/log_json.rs:487
+#: pika-backup-common/src/borg/log_json.rs:473
 msgid "Critical"
 msgstr "严重"
 
-#: pika-backup-common/src/borg/log_json.rs:488
+#: pika-backup-common/src/borg/log_json.rs:474
 msgid "Undefined"
 msgstr "未定义"
 
@@ -594,11 +596,11 @@ msgstr "正在删除归档文件"
 msgid "Refreshing archive list"
 msgstr "正在刷新归档文件列表"
 
-#: pika-backup-common/src/borg/task.rs:248
+#: pika-backup-common/src/borg/task.rs:243
 msgid "Changing passphrase"
 msgstr "正在更改口令"
 
-#: pika-backup-common/src/borg/task.rs:283
+#: pika-backup-common/src/borg/task.rs:278
 msgid "Running custom shell command"
 msgstr "正在运行自定义 Shell 命令"
 
@@ -810,7 +812,7 @@ msgstr "中止备份吗？"
 msgid "The backup will remain incomplete if aborted now"
 msgstr "如果现在中止程序备份将保持不完整状态"
 
-#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:386
+#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:382
 #: pika-backup/src/widget/detail/backup/events.rs:24
 #: pika-backup/src/widget/detail/backup/events.rs:34
 #: pika-backup/src/widget/detail/backup/events.rs:44
@@ -818,7 +820,7 @@ msgstr "如果现在中止程序备份将保持不完整状态"
 msgid "Continue"
 msgstr "继续"
 
-#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:385
+#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:381
 #: pika-backup/src/widget/detail/backup/events.rs:35
 #: pika-backup/src/widget/detail/backup/events.rs:45
 msgid "Abort"
@@ -922,7 +924,7 @@ msgstr "正在停止备份"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "为计划备份产生接口失败。"
 
-#: pika-backup/src/error.rs:124
+#: pika-backup/src/error.rs:145
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -931,15 +933,15 @@ msgstr ""
 "钥匙串不可用。Pika 备份需要钥匙串守护程序（“secret service”）来存储密码。关于"
 "安装介绍请查阅操作系统文档。"
 
-#: pika-backup/src/error.rs:155
+#: pika-backup/src/error.rs:182
 msgid "Backup with id “{}” already exists."
 msgstr "ID 为“{}”的备份已存在。"
 
-#: pika-backup/src/error.rs:164
+#: pika-backup/src/error.rs:191
 msgid "Could not find backup configuration with id “{}”."
 msgstr "无法找到 ID 为“{}”的备份配置。"
 
-#: pika-backup/src/error.rs:180
+#: pika-backup/src/error.rs:207
 msgid "Canceled"
 msgstr "已取消"
 
@@ -1002,19 +1004,19 @@ msgid ""
 "all data: {}."
 msgstr "备份位置“{}”可能填满了。保存全部数据估计还缺少空间：{}。"
 
-#: pika-backup/src/utils.rs:105
+#: pika-backup/src/utils.rs:101
 msgid "Request to run in background failed"
 msgstr "请求后台运行失败"
 
-#: pika-backup/src/utils.rs:128
+#: pika-backup/src/utils.rs:124
 msgid "Schedule backups and continue running backups."
 msgstr "计划备份且继续运行备份。"
 
-#: pika-backup/src/utils.rs:145
+#: pika-backup/src/utils.rs:141
 msgid "Run in background disabled"
 msgstr "已禁用后台运行"
 
-#: pika-backup/src/utils.rs:146
+#: pika-backup/src/utils.rs:142
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1022,7 +1024,7 @@ msgid ""
 msgstr ""
 "计划备份功能和后台继续备份将不可用。可以通过系统设置启用“后台运行”选项。"
 
-#: pika-backup/src/utils.rs:156
+#: pika-backup/src/utils.rs:152
 msgid ""
 "The system does not support running Pika Backup in the background. Scheduled "
 "backup functionality and continuing backups in the background will not be "
@@ -1034,16 +1036,16 @@ msgstr ""
 "是程序故障、错误配置或其它与 xdg-desktop-portal 有关的问题。请在您的发行版问"
 "题追踪器上报告该问题。"
 
-#: pika-backup/src/utils.rs:177
+#: pika-backup/src/utils.rs:173
 msgid "Failed to Start Monitor"
 msgstr "开启监视器失败"
 
-#: pika-backup/src/utils.rs:255
+#: pika-backup/src/utils.rs:251
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] "{} 个备份操作正在运行"
 
-#: pika-backup/src/utils.rs:293
+#: pika-backup/src/utils.rs:289
 #: pika-backup/src/widget/detail/backup/events.rs:146
 #: pika-backup/src/widget/detail/backup/events.rs:170
 #: pika-backup/src/widget/dialog/exclude.rs:254
@@ -1051,7 +1053,7 @@ msgstr[0] "{} 个备份操作正在运行"
 msgid "Select"
 msgstr "选择"
 
-#: pika-backup/src/utils.rs:428
+#: pika-backup/src/utils.rs:424
 msgid "Close"
 msgstr "关闭"
 
@@ -1363,37 +1365,37 @@ msgstr "无"
 msgid "Failed to open archive."
 msgstr "无法打开归档文件。"
 
-#: pika-backup/src/widget/detail/archives/display.rs:171
+#: pika-backup/src/widget/detail/archives/display.rs:175
 msgid "Incomplete Archive"
 msgstr "未完成的归档"
 
-#: pika-backup/src/widget/detail/archives/display.rs:192
+#: pika-backup/src/widget/detail/archives/display.rs:196
 msgid "Name"
 msgstr "名称"
 
-#: pika-backup/src/widget/detail/archives/display.rs:194
+#: pika-backup/src/widget/detail/archives/display.rs:198
 msgid "Duration"
 msgstr "持续时间"
 
-#: pika-backup/src/widget/detail/archives/display.rs:198
+#: pika-backup/src/widget/detail/archives/display.rs:202
 msgid "Comment"
 msgstr "注释"
 
-#: pika-backup/src/widget/detail/archives/display.rs:202
+#: pika-backup/src/widget/detail/archives/display.rs:206
 msgid "Browse Saved Files"
 msgstr "浏览保存的文件"
 
-#: pika-backup/src/widget/detail/archives/display.rs:224
+#: pika-backup/src/widget/detail/archives/display.rs:228
 #: pika-backup/src/widget/dialog/delete_archive.ui:6
 #: pika-backup/src/widget/dialog/delete_archive.ui:50
 msgid "Delete Archive"
 msgstr "删除归档"
 
-#: pika-backup/src/widget/detail/archives/display.rs:259
+#: pika-backup/src/widget/detail/archives/display.rs:263
 msgid "{} Available"
 msgstr "{} 可用"
 
-#: pika-backup/src/widget/detail/archives/display.rs:261
+#: pika-backup/src/widget/detail/archives/display.rs:265
 msgid "{} Total"
 msgstr "{} 总计"
 
@@ -1414,7 +1416,7 @@ msgid "Back Up _Now"
 msgstr "立即备份(_N)"
 
 #: pika-backup/src/widget/detail/backup.ui:90
-#: pika-backup/src/widget/dialog/setup/transfer_option.ui:88
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:79
 msgid "Files to Back Up"
 msgstr "要备份的文件"
 
@@ -1436,7 +1438,7 @@ msgstr "备份中未包含文件"
 
 #: pika-backup/src/widget/detail/backup.ui:138
 #: pika-backup/src/widget/dialog/exclude.ui:12
-#: pika-backup/src/widget/dialog/setup/transfer_option.ui:113
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:104
 msgid "Exclude From Backup"
 msgstr "从备份中排除"
 
@@ -1673,15 +1675,15 @@ msgstr "禁用计划(_D)"
 msgid "No preset selected."
 msgstr "未选择预设。"
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:19
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:20
 msgid "Keep Many"
 msgstr "保留很多"
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:20
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:21
 msgid "Keep Some"
 msgstr "保留一些"
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:21
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:22
 msgid "Custom"
 msgstr "自定义"
 
@@ -2529,7 +2531,7 @@ msgid ""
 msgstr ""
 "可以选择用于先前备份的配置并将其迁移到新的部署。随后可以对配置进行调整。"
 
-#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:12
+#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:13
 msgid "Skip"
 msgstr "跳过"
 
@@ -2749,6 +2751,9 @@ msgstr "添加新配置以开始创建备份"
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "部署备份(_S)"
+
+#~ msgid "A repository already exists at this location."
+#~ msgstr "此位置已存在一个仓库。"
 
 #~ msgid ""
 #~ "Servers with borgbackup installed have the best performance. <a "
