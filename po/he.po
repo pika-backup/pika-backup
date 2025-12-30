@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-11-04 11:37+0000\n"
-"PO-Revision-Date: 2025-11-05 08:40+0200\n"
+"POT-Creation-Date: 2025-12-03 15:17+0000\n"
+"PO-Revision-Date: 2025-12-30 19:00+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
@@ -18,18 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? 2 : "
 "3);\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
 msgstr "מעקב אחר גיבויי פיקה"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," #. please make sure that the transliteration does not coincide with a different meaning. If #. fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:5 data/app.metainfo.xml.in:4 pika-backup/src/utils.rs:368
-#: pika-backup/src/utils.rs:433 pika-backup/src/widget/app_window.ui:10
+#: data/app.desktop.in:5 data/app.metainfo.xml.in:4 pika-backup/src/utils.rs:363
+#: pika-backup/src/utils.rs:428 pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
 msgid "Pika Backup"
@@ -109,28 +109,28 @@ msgstr "לשמור על גיבויים בכוננים מקומיים בשירו�
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "תזמון גיבויים תדירים מלפי חודש עד לפי שעה"
 
-#: data/resources/gtk/help-overlay.ui:9
+#: data/resources/shortcuts-dialog.ui:6
 #: pika-backup/src/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "כללי"
 
-#: data/resources/gtk/help-overlay.ui:13
+#: data/resources/shortcuts-dialog.ui:10
 msgid "Set Up New Backup"
 msgstr "הקמת גיבוי חדש"
 
-#: data/resources/gtk/help-overlay.ui:19
+#: data/resources/shortcuts-dialog.ui:16
 msgid "Show Keyboard Shortcuts"
 msgstr "הצגת צירופי מקשים"
 
-#: data/resources/gtk/help-overlay.ui:25 pika-backup/src/app.rs:278
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:275
 msgid "Quit"
 msgstr "יציאה"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/shortcuts-dialog.ui:28
 msgid "Back"
 msgstr "חזרה"
 
-#: data/resources/gtk/help-overlay.ui:37
+#: data/resources/shortcuts-dialog.ui:34
 msgid "Open Menu"
 msgstr "פתיחת תפריט"
 
@@ -144,7 +144,7 @@ msgstr ""
 "(„שירות סודות” - secret service) כדי לאחסן ססמאות. לקבלת הנחיות התקנה נא "
 "לעיין בתיעוד של מערכת ההפעלה שלך."
 
-#: pika-backup-common/src/borg/error.rs:33 pika-backup/src/utils.rs:284
+#: pika-backup-common/src/borg/error.rs:33 pika-backup/src/utils.rs:279
 msgid "The operation terminated unexpectedly."
 msgstr "הפעולה הסתיימה במפתיע."
 
@@ -186,49 +186,55 @@ msgid "The program or system seems to have crashed."
 msgstr "נראה כי התכנית או המערכת קרסו."
 
 #: pika-backup-common/src/borg/error.rs:173
+#, rust-format
 msgid "{}"
 msgstr "{}"
 
 #: pika-backup-common/src/borg/error.rs:175
+#, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "לא ניתן לגשת למאגר הגיבויים: {}"
 
-#: pika-backup-common/src/borg/error.rs:282
-msgid "A repository already exists at this location."
-msgstr "כבר קיים מאגר במיקום הזה."
+#: pika-backup-common/src/borg/error.rs:283
+msgid ""
+"A repository already exists at this location. Try the “Use Existing "
+"Repository” option or select a different location."
+msgstr ""
+"כבר קיים מאגר במקום הזה. אפשר לנסות להשתמש באפשרות „להשתמש במאגר קיים” או "
+"לבחור מקום אחר."
 
-#: pika-backup-common/src/borg/error.rs:285
+#: pika-backup-common/src/borg/error.rs:286
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
 msgstr "זוהו חוסרי עקביות במאגר. יש להריץ בדיקת שלמות."
 
-#: pika-backup-common/src/borg/error.rs:287
+#: pika-backup-common/src/borg/error.rs:288
 msgid "No repository exists at this location."
 msgstr "לא קיים מאגר במיקום הזה."
 
-#: pika-backup-common/src/borg/error.rs:289
+#: pika-backup-common/src/borg/error.rs:290
 msgid "Not enough free space in repository."
 msgstr "אין מספיק מקום פנוי במאגר."
 
-#: pika-backup-common/src/borg/error.rs:292
+#: pika-backup-common/src/borg/error.rs:293
 msgid "The configured location does not contain a valid repository."
 msgstr "המקום הנבחר לא מכיל מאגר תקף."
 
-#: pika-backup-common/src/borg/error.rs:295
+#: pika-backup-common/src/borg/error.rs:296
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "המקום המוגדל לא מכיל הגדרות מאגר תקפות."
 
-#: pika-backup-common/src/borg/error.rs:298
+#: pika-backup-common/src/borg/error.rs:299
 msgid "The configured location does not exist."
 msgstr "המקום הנבחר לא קיים."
 
-#: pika-backup-common/src/borg/error.rs:301
+#: pika-backup-common/src/borg/error.rs:302
 msgid "The selected location does already exist."
 msgstr "המקום הנבחר כבר קיים."
 
-#: pika-backup-common/src/borg/error.rs:304
+#: pika-backup-common/src/borg/error.rs:305
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
@@ -236,13 +242,13 @@ msgstr ""
 "הגעת לתקורת מכסת אחסון המאגרים. כדאי לנסות למחוק ארכיונים ישנים יותר שאין בהם "
 "עוד צורך."
 
-#: pika-backup-common/src/borg/error.rs:307
+#: pika-backup-common/src/borg/error.rs:308
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
 msgstr "ההרשאה לגשת למקום נדחתה. יש לבדוק את הרשאות הקובץ."
 
-#: pika-backup-common/src/borg/error.rs:312
+#: pika-backup-common/src/borg/error.rs:313
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
@@ -250,47 +256,48 @@ msgstr ""
 "נחוצה גרסה חדשה יותר של גיבוי פיקה כדי לגשת למאגר הזה. המאגר משתמש ביכולות לא "
 "נתמכות."
 
-#: pika-backup-common/src/borg/error.rs:317
+#: pika-backup-common/src/borg/error.rs:318
 msgid "The selected location already contains a repository."
 msgstr "המקום הנבחר כבר מכיר מאגר."
 
-#: pika-backup-common/src/borg/error.rs:320
+#: pika-backup-common/src/borg/error.rs:321
 msgid "The configured location does not contain an archive."
 msgstr "המקום המוגדר לא מכיל ארכיון."
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:324
+#: pika-backup-common/src/borg/error.rs:325
 msgid "Invalid encryption password."
 msgstr "ססמת ההצפנה שגויה."
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:327
+#: pika-backup-common/src/borg/error.rs:328
 msgid "Repository access was aborted"
 msgstr "הגישה למאגר בוטלה"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:330
+#: pika-backup-common/src/borg/error.rs:331
 msgid "Failed to lock repository."
 msgstr "נעילת המאגר נכשלה."
 
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:332
 msgid "Repository already in use."
 msgstr "המאגר כבר בשימוש."
 
-#: pika-backup-common/src/borg/error.rs:335
+#: pika-backup-common/src/borg/error.rs:336
 msgid "Connection closed by remote host."
 msgstr "החיבור נסגר על ידי המארח המרוחק."
 
-#: pika-backup-common/src/borg/error.rs:340
+#: pika-backup-common/src/borg/error.rs:341
+#, rust-format
 msgid "Connection closed by remote host: “{}”"
 msgstr "המארח סגר את החיבור המרוחק: „{}”"
 
 #. General
-#: pika-backup-common/src/borg/error.rs:344
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Exception"
 msgstr "חריגה"
 
-#: pika-backup-common/src/borg/error.rs:346
+#: pika-backup-common/src/borg/error.rs:347
 msgid "Unspecified error."
 msgstr "שגיאה בלתי מוגדרת."
 
@@ -311,11 +318,12 @@ msgid "Backup will continue."
 msgstr "הגיבוי ימשך."
 
 #: pika-backup-common/src/borg/log_json.rs:85
+#, rust-format
 msgid "Backed up data: {}"
 msgstr "נתונים שגובו: {}"
 
 #: pika-backup-common/src/borg/log_json.rs:115
-#, no-c-format
+#, no-c-format, rust-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "פעולה {} % הושלמו ({}/{})"
 
@@ -323,95 +331,96 @@ msgstr "פעולה {} % הושלמו ({}/{})"
 msgid "Operation completed."
 msgstr "הפעולה הושלמה."
 
-#: pika-backup-common/src/borg/log_json.rs:198
+#: pika-backup-common/src/borg/log_json.rs:194
 msgid "Beginning cache transaction"
 msgstr "העברת המטמון מתחילה"
 
-#: pika-backup-common/src/borg/log_json.rs:199
+#: pika-backup-common/src/borg/log_json.rs:195
 msgid "Downloading cache data"
 msgstr "נתוני המטמון מתקבלים"
 
-#: pika-backup-common/src/borg/log_json.rs:200
+#: pika-backup-common/src/borg/log_json.rs:196
 msgid "Writing cache"
 msgstr "המטמון נכתב"
 
-#: pika-backup-common/src/borg/log_json.rs:201
+#: pika-backup-common/src/borg/log_json.rs:197
 msgid "Synchronizing cache"
 msgstr "המטמון מסונכרן"
 
-#: pika-backup-common/src/borg/log_json.rs:202
+#: pika-backup-common/src/borg/log_json.rs:198
 msgid "Compacting repository"
 msgstr "המאגר מצטמק"
 
-#: pika-backup-common/src/borg/log_json.rs:203
+#: pika-backup-common/src/borg/log_json.rs:199
 msgid "Updating repository"
 msgstr "המאגר מתעדכן"
 
-#: pika-backup-common/src/borg/log_json.rs:204
+#: pika-backup-common/src/borg/log_json.rs:200
 msgid "Checking repository"
 msgstr "המאגר נבדק"
 
-#: pika-backup-common/src/borg/log_json.rs:205
+#: pika-backup-common/src/borg/log_json.rs:201
 msgid "Verifying data"
 msgstr "הנתונים מאומתים"
 
-#: pika-backup-common/src/borg/log_json.rs:206
+#: pika-backup-common/src/borg/log_json.rs:202
 msgid "Verifying main database"
 msgstr "מסד הנתונים הראשי מאומת"
 
-#: pika-backup-common/src/borg/log_json.rs:207
+#: pika-backup-common/src/borg/log_json.rs:203
 msgid "Verifying references"
 msgstr "ההפניות מאומתות"
 
-#: pika-backup-common/src/borg/log_json.rs:208
+#: pika-backup-common/src/borg/log_json.rs:204
 msgid "Extracting data"
 msgstr "הנתונים מחולצים"
 
-#: pika-backup-common/src/borg/log_json.rs:209
+#: pika-backup-common/src/borg/log_json.rs:205
 msgid "Extracting permissions"
 msgstr "ההרשאות מחולצות"
 
-#: pika-backup-common/src/borg/log_json.rs:210
+#: pika-backup-common/src/borg/log_json.rs:206
 msgid "Marking archives as deleted"
 msgstr "הארכיונים מסומנים כמחוקים"
 
-#: pika-backup-common/src/borg/log_json.rs:211
+#: pika-backup-common/src/borg/log_json.rs:207
 msgid "Calculating archive statistics"
 msgstr "סטטיסטיקת הארכיון מחושבת"
 
-#: pika-backup-common/src/borg/log_json.rs:212
+#: pika-backup-common/src/borg/log_json.rs:208
 msgid "Marking old archives as deleted"
 msgstr "ארכיונים ישנים מסומנים כמחוקים"
 
-#: pika-backup-common/src/borg/log_json.rs:213
+#: pika-backup-common/src/borg/log_json.rs:209
 msgid "Upgrading repository"
 msgstr "המאגר משודרג"
 
-#: pika-backup-common/src/borg/log_json.rs:214
+#: pika-backup-common/src/borg/log_json.rs:210
 msgid "Unspecified operation"
 msgstr "פעולה שלא צוינה"
 
-#: pika-backup-common/src/borg/log_json.rs:215
+#: pika-backup-common/src/borg/log_json.rs:211
 msgid "Unknown operation"
 msgstr "פעולה לא ידועה"
 
-#: pika-backup-common/src/borg/log_json.rs:232
+#: pika-backup-common/src/borg/log_json.rs:228
 msgid "Handling a Question"
 msgstr "טיפול בשאלה"
 
-#: pika-backup-common/src/borg/log_json.rs:240
+#: pika-backup-common/src/borg/log_json.rs:236
 msgid "Attempting to access a previously unknown unencrypted repository."
 msgstr "מתבצע ניסיון לגשת למאגר עבר לא ידוע ולא מוצפן."
 
-#: pika-backup-common/src/borg/log_json.rs:256
+#: pika-backup-common/src/borg/log_json.rs:252
+#, rust-format
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr "מאגר הגיבוי תחת „{}” היה ממוקם בעבר תחת „{}”."
 
-#: pika-backup-common/src/borg/log_json.rs:260
+#: pika-backup-common/src/borg/log_json.rs:256
 msgid "The backup repository was previously located at a different location."
 msgstr "מאגר הגיבוי היה קודם במקום אחר."
 
-#: pika-backup-common/src/borg/log_json.rs:264
+#: pika-backup-common/src/borg/log_json.rs:260
 msgid ""
 "This is a potentially dangerous function. Repairing a repository might lead "
 "to data loss (for kinds of corruption it is not capable of dealing with). BE "
@@ -420,18 +429,20 @@ msgstr ""
 "זאת פונקציה שעלולה להוביל לאסון. תיקון מאגר יכול להוביל לאובדן נתונים (עקב "
 "סוגי פגמים שאין לה אפשרות להתמודד אתם). כדאי לנקוט במשנה זהירות!"
 
-#: pika-backup-common/src/borg/log_json.rs:267
+#: pika-backup-common/src/borg/log_json.rs:263
 msgid ""
 "You requested to delete the repository completely, including all backup "
 "archives it contains."
 msgstr "ביקשת למחוק מאגר לחלוטין, כולל כל הגיבויים שהוא מכיל."
 
-#: pika-backup-common/src/borg/log_json.rs:270
+#: pika-backup-common/src/borg/log_json.rs:266
+#, rust-format
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "שאלה לא צפויה מ־borgbackup: „{}”"
 
 #. Translators: Combines statement from above and this question
-#: pika-backup-common/src/borg/log_json.rs:275
+#: pika-backup-common/src/borg/log_json.rs:271
+#, rust-format
 msgid ""
 "{}\n"
 "\n"
@@ -441,32 +452,32 @@ msgstr ""
 "\n"
 "להמשיך?"
 
-#: pika-backup-common/src/borg/log_json.rs:333
+#: pika-backup-common/src/borg/log_json.rs:325
 msgid "Standard error output"
 msgstr "פלט שגיאה תקני"
 
-#: pika-backup-common/src/borg/log_json.rs:483
+#: pika-backup-common/src/borg/log_json.rs:469
 msgid "Debug"
 msgstr "ניפוי שגיאות"
 
-#: pika-backup-common/src/borg/log_json.rs:484
+#: pika-backup-common/src/borg/log_json.rs:470
 msgid "Info"
 msgstr "מידע"
 
-#: pika-backup-common/src/borg/log_json.rs:485 pika-backup/src/utils.rs:384
+#: pika-backup-common/src/borg/log_json.rs:471 pika-backup/src/utils.rs:379
 #: pika-backup/src/widget/dialog/setup/location.ui:46
 msgid "Warning"
 msgstr "אזהרה"
 
-#: pika-backup-common/src/borg/log_json.rs:486
+#: pika-backup-common/src/borg/log_json.rs:472
 msgid "Error"
 msgstr "שגיאה"
 
-#: pika-backup-common/src/borg/log_json.rs:487
+#: pika-backup-common/src/borg/log_json.rs:473
 msgid "Critical"
 msgstr "קריטי"
 
-#: pika-backup-common/src/borg/log_json.rs:488
+#: pika-backup-common/src/borg/log_json.rs:474
 msgid "Undefined"
 msgstr "לא מוגדר"
 
@@ -541,6 +552,7 @@ msgid "The amount of files saved in this archive"
 msgstr "כמות הקבצים ששמורים בארכיון הזה"
 
 #: pika-backup-common/src/borg/scripts.rs:276
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -549,6 +561,7 @@ msgstr ""
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:280
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -557,11 +570,13 @@ msgstr ""
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:306
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr "פקודת טרום הגיבוי שמוגדרת בהעדפות החזירה קוד כשל: {}"
 
 #: pika-backup-common/src/borg/scripts.rs:310
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr "הפקודה שלאחר הגיבוי ומוגדרת בהעדפות החזירה קוד כשל: {}"
@@ -602,11 +617,11 @@ msgstr "מוחק ארכיון"
 msgid "Refreshing archive list"
 msgstr "רשימת הארכיונים מתרעננת"
 
-#: pika-backup-common/src/borg/task.rs:248
+#: pika-backup-common/src/borg/task.rs:243
 msgid "Changing passphrase"
 msgstr "שינוי מילת צופן"
 
-#: pika-backup-common/src/borg/task.rs:283
+#: pika-backup-common/src/borg/task.rs:278
 msgid "Running custom shell command"
 msgstr "הרצת פקודות מעטפת בהתאמה אישית"
 
@@ -680,6 +695,7 @@ msgid "Might include data stored within"
 msgstr "יכול לכלול מידע מאוחסן בתוך"
 
 #: pika-backup-common/src/config/loadable.rs:41
+#, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version of "
 "Pika Backup"
@@ -717,7 +733,7 @@ msgstr "שבועי"
 msgid "Monthly"
 msgstr "חודשי"
 
-#: pika-backup-common/src/utils.rs:78
+#: pika-backup-common/src/utils.rs:100
 msgid "No such file or directory"
 msgstr "אין קובץ או תיקייה כאלה"
 
@@ -738,6 +754,7 @@ msgid "Backup Device Connected"
 msgstr "התקן הגיבוי מחובר"
 
 #: pika-backup-monitor/src/connect/event.rs:29
+#, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "„{}” מכיל מגוון גיבויים מוגדרים."
 
@@ -746,6 +763,7 @@ msgid "Show Backups"
 msgstr "הצגת גיבויים"
 
 #: pika-backup-monitor/src/connect/event.rs:42
+#, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "„{}” מכיל גיבוי מוגדר אחד."
 
@@ -770,6 +788,7 @@ msgid "Fatal Error During Back Up"
 msgstr "שגיאה מכרעת במהלך הגיבוי"
 
 #: pika-backup-monitor/src/init.rs:130
+#, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] "גיבוי פיקה קרס במהלך ביצוע גיבוי"
@@ -807,6 +826,7 @@ msgid "Backup Device Required"
 msgstr "דרוש התקן גיבוי"
 
 #: pika-backup-monitor/src/schedule/init.rs:146
+#, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr "„{}” חייב להיות מחובר כדי שהחיבור המתוזמן יתחיל"
 
@@ -814,15 +834,15 @@ msgstr "„{}” חייב להיות מחובר כדי שהחיבור המתוז
 msgid "Failed to start scheduled backup"
 msgstr "התחלת הגיבוי המתוזמן נכשלה"
 
-#: pika-backup/src/app.rs:248
+#: pika-backup/src/app.rs:245
 msgid "Abort Backup?"
 msgstr "לנטוש את הגיבוי?"
 
-#: pika-backup/src/app.rs:249
+#: pika-backup/src/app.rs:246
 msgid "The backup will remain incomplete if aborted now"
 msgstr "הגיבוי יישאר חלקי אם יינטש כעת"
 
-#: pika-backup/src/app.rs:250 pika-backup/src/utils.rs:387
+#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:382
 #: pika-backup/src/widget/detail/backup/events.rs:24
 #: pika-backup/src/widget/detail/backup/events.rs:34
 #: pika-backup/src/widget/detail/backup/events.rs:44
@@ -830,17 +850,17 @@ msgstr "הגיבוי יישאר חלקי אם יינטש כעת"
 msgid "Continue"
 msgstr "להמשיך"
 
-#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:386
+#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:381
 #: pika-backup/src/widget/detail/backup/events.rs:35
 #: pika-backup/src/widget/detail/backup/events.rs:45
 msgid "Abort"
 msgstr "לבטל"
 
-#: pika-backup/src/app.rs:263
+#: pika-backup/src/app.rs:260
 msgid "Backup Operation Running"
 msgstr "פעולת גיבוי רצה"
 
-#: pika-backup/src/app.rs:265
+#: pika-backup/src/app.rs:262
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "אי אפשר לצאת מגיבוי פיקה תוך כדי שמתבצע גיבוי"
 
@@ -878,6 +898,7 @@ msgstr "הגיבוי האחרון נכשל"
 
 #. Translators: Argument is 'x months ago'
 #: pika-backup/src/backup_status.rs:144
+#, rust-format
 msgid "Successful Integrity Check {}"
 msgstr "בדיקת אמינות מוצלחת {}"
 
@@ -902,7 +923,7 @@ msgid "Integrity Errors Found"
 msgstr "נמצאו שגיאות אמינות"
 
 #: pika-backup/src/backup_status.rs:223
-#, no-c-format
+#, no-c-format, rust-format
 msgid "{} % finished"
 msgstr "{} % הושלמו"
 
@@ -919,6 +940,7 @@ msgid "Backup Destination Unresponsive"
 msgstr "יעד הגיבוי לא מגיב"
 
 #: pika-backup/src/backup_status.rs:250
+#, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "החיבור אבד, נוצר חיבור חדש בעוד {}"
 
@@ -934,7 +956,7 @@ msgstr "הגיבוי נעצר"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "יצירת מנשק לגיבויים מתוזמנים נכשלה."
 
-#: pika-backup/src/error.rs:124
+#: pika-backup/src/error.rs:145
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the operating "
@@ -944,48 +966,53 @@ msgstr ""
 "secret service) כדי לאחסון ססמאות. להנחיות התקנה יש לפנות לתיעוד של מערכת "
 "ההפעלה."
 
-#: pika-backup/src/error.rs:155
+#: pika-backup/src/error.rs:182
+#, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "כבר קיים גיבוי עם המזהה „{}”."
 
-#: pika-backup/src/error.rs:164
+#: pika-backup/src/error.rs:191
+#, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "לא ניתן למצוא את הגדרות הגיבוי עם המזהה „{}”."
 
-#: pika-backup/src/error.rs:180
+#: pika-backup/src/error.rs:207
 msgid "Canceled"
 msgstr "בוטל"
 
-#: pika-backup/src/lib.rs:80
+#: pika-backup/src/lib.rs:75
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "הפעלת „borg” נכשלה. האם BorgBackup מותקן כראוי?"
 
-#: pika-backup/src/lib.rs:110
+#: pika-backup/src/lib.rs:105
 msgid "BorgBackup Version Too Old"
 msgstr "הגרסה של BorgBackup ישנה מדי"
 
-#: pika-backup/src/lib.rs:112
+#: pika-backup/src/lib.rs:107
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version {}. "
 "This is unsupported."
 msgstr ""
 "הגרסה המותקנת {} של BorgBackup ישנה מהגרסה הנחוצה {}. אין תמיכה במצב כזה."
 
-#: pika-backup/src/lib.rs:121
+#: pika-backup/src/lib.rs:116
 msgid "BorgBackup Version Too New"
 msgstr "הגרסה של BorgBackup חדשה מדי"
 
-#: pika-backup/src/lib.rs:123
+#: pika-backup/src/lib.rs:118
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
 msgstr "הגרסה המותקנת {} של BorgBackup חדשה וטרם נבדקה. מומלץ להשתמש בגרסה {}."
 
-#: pika-backup/src/lib.rs:132
+#: pika-backup/src/lib.rs:127
 msgid "Failed to Check BorgBackup Version"
 msgstr "בדיקת גרסת ה־BorgBackup נכשלה"
 
-#: pika-backup/src/lib.rs:134
+#: pika-backup/src/lib.rs:129
+#, rust-format
 msgid "The installed version {} might not work."
 msgstr "יכול להיות שהגרסה המותקנת {} לא תעבוד."
 
@@ -1011,24 +1038,25 @@ msgid "Unable to determine background process status"
 msgstr "לא ניתן לזהות את מצב תהליך הרקע"
 
 #: pika-backup/src/toast_size_estimate.rs:58
+#, rust-format
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
 msgstr "מיקום הגיבוי „{}” מתמלא. המקום החסר המשוערך לאחסון כל הנתונים: {}."
 
-#: pika-backup/src/utils.rs:105
+#: pika-backup/src/utils.rs:101
 msgid "Request to run in background failed"
 msgstr "הבקשה להרצה ברקע נכשלה"
 
-#: pika-backup/src/utils.rs:128
+#: pika-backup/src/utils.rs:124
 msgid "Schedule backups and continue running backups."
 msgstr "תזמון גיבויים והמשך הרצת גיבויים."
 
-#: pika-backup/src/utils.rs:145
+#: pika-backup/src/utils.rs:141
 msgid "Run in background disabled"
 msgstr "הפעלה ברקע הושבתה"
 
-#: pika-backup/src/utils.rs:146
+#: pika-backup/src/utils.rs:142
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
@@ -1037,7 +1065,7 @@ msgstr ""
 "יכולת הגיבויים המתוזמנים והמשכיות הגיבויים ברקע לא יהיו זמינים. אפשר להפעיל "
 "את האפשרות „הרצה ברקע“ דרך הגדרות המערכת."
 
-#: pika-backup/src/utils.rs:156
+#: pika-backup/src/utils.rs:152
 msgid ""
 "The system does not support running Pika Backup in the background. Scheduled "
 "backup functionality and continuing backups in the background will not be "
@@ -1049,12 +1077,13 @@ msgstr ""
 "ברקע לא יהיו זמינים. זה כנראה תפקוד לקוי, הגדרות שגויות או בעיה אחרת ב־xdg-"
 "desktop-portal. נא לדווח על הבעיה הזאת מול עוקב הבעיות של ההפצה שלך."
 
-#: pika-backup/src/utils.rs:178
+#: pika-backup/src/utils.rs:173
 msgid "Failed to Start Monitor"
 msgstr "התחלת המעקב נכשלה"
 
 # msgid_plural "{} Backup Operations Running"
-#: pika-backup/src/utils.rs:256
+#: pika-backup/src/utils.rs:251
+#, rust-format
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] "מתרחשת פעולת גיבוי אחת"
@@ -1062,7 +1091,7 @@ msgstr[1] "מתרחשות {} פעולות גיבוי"
 msgstr[2] "מתרחשות {} פעולות גיבוי"
 msgstr[3] "מתרחשות {} פעולות גיבוי"
 
-#: pika-backup/src/utils.rs:294
+#: pika-backup/src/utils.rs:289
 #: pika-backup/src/widget/detail/backup/events.rs:146
 #: pika-backup/src/widget/detail/backup/events.rs:170
 #: pika-backup/src/widget/dialog/exclude.rs:254
@@ -1070,7 +1099,7 @@ msgstr[3] "מתרחשות {} פעולות גיבוי"
 msgid "Select"
 msgstr "בחירה"
 
-#: pika-backup/src/utils.rs:429
+#: pika-backup/src/utils.rs:424
 msgid "Close"
 msgstr "סגירה"
 
@@ -1079,7 +1108,7 @@ msgid "Additional command line arguments invalid"
 msgstr "הארגומנטים הנוספים לשורת הפקודה שגויים"
 
 #: pika-backup/src/utils/borg.rs:25
-#: pika-backup/src/widget/dialog/preferences.rs:276
+#: pika-backup/src/widget/dialog/preferences.rs:265
 msgid "Please check for missing closing quotes."
 msgstr "נא לבדוק אם חסרים סימני ציטוט סוגרים."
 
@@ -1122,6 +1151,7 @@ msgid "Repository Already in Use"
 msgstr "המאגר כבר בשימוש"
 
 #: pika-backup/src/utils/borg.rs:290
+#, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
@@ -1141,7 +1171,7 @@ msgstr ""
 
 #: pika-backup/src/utils/borg.rs:293
 #: pika-backup/src/widget/detail/backup/events.rs:225
-#: pika-backup/src/widget/dialog/preferences.rs:487
+#: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
 #: pika-backup/src/widget/encryption_settings.rs:93
 msgid "Cancel"
@@ -1156,10 +1186,12 @@ msgid "Unable to Eject Backup Disk"
 msgstr "לא ניתן לשלוף את כונן הגיבוי"
 
 #: pika-backup/src/utils/borg.rs:449
+#, rust-format
 msgid "{} can be safely unplugged."
 msgstr "אפשר לנתק את {} בבטחה."
 
 #: pika-backup/src/utils/borg.rs:462
+#, rust-format
 msgid "{} can't be ejected."
 msgstr "אי אפשר לשלוף את {}."
 
@@ -1172,6 +1204,7 @@ msgid "Could not load configuration file."
 msgstr "לא ניתן לטעון את קובץ ההגדרות."
 
 #: pika-backup/src/utils/duration.rs:11
+#, rust-format
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "שנייה"
@@ -1180,6 +1213,7 @@ msgstr[2] "{} שניות"
 msgstr[3] "{} שניות"
 
 #: pika-backup/src/utils/duration.rs:13
+#, rust-format
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "דקה"
@@ -1188,6 +1222,7 @@ msgstr[2] "{} דקות"
 msgstr[3] "{} דקות"
 
 #: pika-backup/src/utils/duration.rs:15
+#, rust-format
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "שעה"
@@ -1196,6 +1231,7 @@ msgstr[2] "{} שעות"
 msgstr[3] "{} שעות"
 
 #: pika-backup/src/utils/duration.rs:17
+#, rust-format
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "יום"
@@ -1205,6 +1241,7 @@ msgstr[3] "{} ימים"
 
 # msgid_plural "{} seconds"
 #: pika-backup/src/utils/duration.rs:23
+#, rust-format
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "שנייה אחת"
@@ -1214,6 +1251,7 @@ msgstr[3] "{} שניות"
 
 # msgid_plural "{} minutes"
 #: pika-backup/src/utils/duration.rs:25
+#, rust-format
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "דקה אחת"
@@ -1223,6 +1261,7 @@ msgstr[3] "{} דקות"
 
 # msgid_plural "{} hours"
 #: pika-backup/src/utils/duration.rs:27
+#, rust-format
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "שעה אחת"
@@ -1232,6 +1271,7 @@ msgstr[3] "{} שעות"
 
 # msgid_plural "{} days"
 #: pika-backup/src/utils/duration.rs:29
+#, rust-format
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "יום אחד"
@@ -1240,6 +1280,7 @@ msgstr[2] "{} ימים"
 msgstr[3] "{} ימים"
 
 #: pika-backup/src/utils/duration.rs:36
+#, rust-format
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "נותרה דקה"
@@ -1248,6 +1289,7 @@ msgstr[2] "נותרו {} דקות"
 msgstr[3] "נותרו {} דקות"
 
 #: pika-backup/src/utils/duration.rs:41
+#, rust-format
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "נותרה שעה"
@@ -1256,6 +1298,7 @@ msgstr[2] "נותרו {} דקות"
 msgstr[3] "נותרו {} שעות"
 
 #: pika-backup/src/utils/duration.rs:43
+#, rust-format
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "נותר יום"
@@ -1268,6 +1311,7 @@ msgid "Now"
 msgstr "עכשיו"
 
 #: pika-backup/src/utils/duration.rs:51
+#, rust-format
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "לפני דקה"
@@ -1276,6 +1320,7 @@ msgstr[2] "לפני {} דקות"
 msgstr[3] "לפני {} דקות"
 
 #: pika-backup/src/utils/duration.rs:53
+#, rust-format
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "לפני שעה"
@@ -1284,6 +1329,7 @@ msgstr[2] "לפני {} שעות"
 msgstr[3] "לפני {} שעות"
 
 #: pika-backup/src/utils/duration.rs:55
+#, rust-format
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "אתמול"
@@ -1292,6 +1338,7 @@ msgstr[2] "לפני {} ימים"
 msgstr[3] "לפני {} ימים"
 
 #: pika-backup/src/utils/duration.rs:57
+#, rust-format
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "לפני שבוע"
@@ -1300,6 +1347,7 @@ msgstr[2] "לפני {} שבועות"
 msgstr[3] "לפני {} שבועות"
 
 #: pika-backup/src/utils/duration.rs:59
+#, rust-format
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "לפני חודש"
@@ -1308,6 +1356,7 @@ msgstr[2] "לפני {} חודשים"
 msgstr[3] "לפני {} חודשים"
 
 #: pika-backup/src/utils/duration.rs:61
+#, rust-format
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "לפני שנה"
@@ -1340,6 +1389,7 @@ msgstr "הסרת הססמאות שאולי נותרו באחסון המפתחו�
 
 #. Translators: This is the description for entries in the password database.
 #: pika-backup/src/utils/password_storage.rs:63
+#, rust-format
 msgid "Pika Backup “{}”"
 msgstr "גיבוי פיקה „{}”"
 
@@ -1399,28 +1449,28 @@ msgstr "מחיקת מספר ארכיונים ישנים יותר"
 msgid "Data Integrity Check"
 msgstr "בדיקת אמינות נתונים"
 
-#: pika-backup/src/widget/detail/archives.ui:156
+#: pika-backup/src/widget/detail/archives.ui:158
 msgid "_Check Now"
 msgstr "לבדוק _כעת"
 
-#: pika-backup/src/widget/detail/archives.ui:164
+#: pika-backup/src/widget/detail/archives.ui:166
 #: pika-backup/src/widget/detail/backup.ui:77
 msgid "_Abort…"
 msgstr "_ביטול…"
 
-#: pika-backup/src/widget/detail/archives.ui:172
+#: pika-backup/src/widget/detail/archives.ui:174
 msgid "Archives"
 msgstr "ארכיונים"
 
-#: pika-backup/src/widget/detail/archives.ui:181
+#: pika-backup/src/widget/detail/archives.ui:183
 msgid "Refresh"
 msgstr "רענון"
 
-#: pika-backup/src/widget/detail/archives.ui:202
+#: pika-backup/src/widget/detail/archives.ui:204
 msgid "Stop Browsing Saved Files"
 msgstr "עצירת העיון בקבצים השמורים"
 
-#: pika-backup/src/widget/detail/archives.ui:228
+#: pika-backup/src/widget/detail/archives.ui:230
 msgid "No Archives Available"
 msgstr "אין ארכיונים זמינים"
 
@@ -1429,7 +1479,7 @@ msgid "Failed to refresh archives cache."
 msgstr "רענון מטמון הארכיונים נכשל."
 
 #: pika-backup/src/widget/detail/archives/display.rs:89
-#: pika-backup/src/widget/dialog/setup/transfer_option.rs:58
+#: pika-backup/src/widget/dialog/setup/transfer_option.rs:57
 msgid "None"
 msgstr "ללא"
 
@@ -1437,37 +1487,39 @@ msgstr "ללא"
 msgid "Failed to open archive."
 msgstr "פתיחת הארכיון נכשלה."
 
-#: pika-backup/src/widget/detail/archives/display.rs:171
+#: pika-backup/src/widget/detail/archives/display.rs:175
 msgid "Incomplete Archive"
 msgstr "ארכיון חלקי"
 
-#: pika-backup/src/widget/detail/archives/display.rs:192
+#: pika-backup/src/widget/detail/archives/display.rs:196
 msgid "Name"
 msgstr "שם"
 
-#: pika-backup/src/widget/detail/archives/display.rs:194
+#: pika-backup/src/widget/detail/archives/display.rs:198
 msgid "Duration"
 msgstr "משך"
 
-#: pika-backup/src/widget/detail/archives/display.rs:198
+#: pika-backup/src/widget/detail/archives/display.rs:202
 msgid "Comment"
 msgstr "הערה"
 
-#: pika-backup/src/widget/detail/archives/display.rs:202
+#: pika-backup/src/widget/detail/archives/display.rs:206
 msgid "Browse Saved Files"
 msgstr "עיון בקבצים השמורים"
 
-#: pika-backup/src/widget/detail/archives/display.rs:224
+#: pika-backup/src/widget/detail/archives/display.rs:228
 #: pika-backup/src/widget/dialog/delete_archive.ui:6
 #: pika-backup/src/widget/dialog/delete_archive.ui:50
 msgid "Delete Archive"
 msgstr "מחיקת ארכיון"
 
-#: pika-backup/src/widget/detail/archives/display.rs:259
+#: pika-backup/src/widget/detail/archives/display.rs:263
+#, rust-format
 msgid "{} Available"
 msgstr "{} פנויים"
 
-#: pika-backup/src/widget/detail/archives/display.rs:261
+#: pika-backup/src/widget/detail/archives/display.rs:265
+#, rust-format
 msgid "{} Total"
 msgstr "{} בסך הכול"
 
@@ -1488,7 +1540,7 @@ msgid "Back Up _Now"
 msgstr "ל_גבות כעת"
 
 #: pika-backup/src/widget/detail/backup.ui:90
-#: pika-backup/src/widget/dialog/setup/transfer_option.ui:88
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:79
 msgid "Files to Back Up"
 msgstr "קבצים לגיבוי"
 
@@ -1510,7 +1562,7 @@ msgstr "לא נבחרו קבצים שייכללו בגיבוי"
 
 #: pika-backup/src/widget/detail/backup.ui:138
 #: pika-backup/src/widget/dialog/exclude.ui:12
-#: pika-backup/src/widget/dialog/setup/transfer_option.ui:112
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:104
 msgid "Exclude From Backup"
 msgstr "החרגה מהגיבוי"
 
@@ -1583,6 +1635,7 @@ msgid "Unable to Include Location"
 msgstr "לא ניתן לכלול מקום"
 
 #: pika-backup/src/widget/detail/backup/events.rs:101
+#, rust-format
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -1606,6 +1659,7 @@ msgid "Include Folder"
 msgstr "לרבות תיקייה"
 
 #: pika-backup/src/widget/detail/backup/events.rs:221
+#, rust-format
 msgid "No longer include “{}” in backups?"
 msgstr "לא לכלול עוד את „{}” בגיבויים?"
 
@@ -1635,7 +1689,7 @@ msgid "Backup Completed with Warnings"
 msgstr "הגיבוי הושלם עם אזהרות"
 
 #: pika-backup/src/widget/detail/backup/execution.rs:225
-#: pika-backup/src/widget/dialog/preferences.rs:341
+#: pika-backup/src/widget/dialog/preferences.rs:330
 msgid "Error Running Shell Command"
 msgstr "שגיאה בהרצת פקודת מעטפת"
 
@@ -1748,19 +1802,20 @@ msgstr "לה_שבית תזמון"
 msgid "No preset selected."
 msgstr "לא נבחרה ערכה."
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:19
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:20
 msgid "Keep Many"
 msgstr "לשמור הרבה"
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:20
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:21
 msgid "Keep Some"
 msgstr "לשמור חלק"
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:21
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:22
 msgid "Custom"
 msgstr "התאמה אישית"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:18
+#, rust-format
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "הגיבוי הבא בעוד דקה"
@@ -1769,6 +1824,7 @@ msgstr[2] "הגיבוי הבא בעוד {} דקות"
 msgstr[3] "הגיבוי הבא בעוד {} דקות"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:24
+#, rust-format
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "הגיבוי הבא בעוד שעה"
@@ -1777,6 +1833,7 @@ msgstr[2] "הגיבוי הבא בעוד {} שעות"
 msgstr[3] "הגיבוי הבא בעוד {} שעות"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:30
+#, rust-format
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "הגיבוי הבא בעוד יום"
@@ -1785,6 +1842,7 @@ msgstr[2] "הגיבוי הבא בעוד {} ימים"
 msgstr[3] "הגיבוי הבא בעוד {} ימים"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:36
+#, rust-format
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "הגיבוי הבא בעוד שבוע"
@@ -2021,23 +2079,14 @@ msgstr "שטח חדש שמנוצל על ידי הגיבוי הזה"
 msgid "Current File"
 msgstr "קובץ נוכחי"
 
-#: pika-backup/src/widget/dialog/check.rs:69
+#: pika-backup/src/widget/dialog/check.rs:58
 msgid "Perform Repair"
 msgstr "ביצוע תיקון"
 
-#: pika-backup/src/widget/dialog/check.rs:73
+#: pika-backup/src/widget/dialog/check.rs:62
 #: pika-backup/src/widget/dialog/check.ui:54
 msgid "Perform Check"
 msgstr "ביצוע בדיקה"
-
-#: pika-backup/src/widget/dialog/check.rs:116
-#: pika-backup/src/widget/dialog/check.rs:163
-msgid "Verify Archives Integrity"
-msgstr "אימות אמינות הארכיונים"
-
-#: pika-backup/src/widget/dialog/check.rs:182
-msgid "Verify archives integrity completed successfully"
-msgstr "אימות אמינות הארכיונים הושלם בהצלחה"
 
 #: pika-backup/src/widget/dialog/check.ui:5
 #: pika-backup/src/widget/dialog/check.ui:14
@@ -2103,6 +2152,7 @@ msgid "The following backup location needs to be connected:"
 msgstr "יש לחבר את מיקום הגיבוי הבא:"
 
 #: pika-backup/src/widget/dialog/encryption_password.rs:61
+#, rust-format
 msgid ""
 "The operation “{}” requires the encryption password of the repository on “{}”."
 msgstr "הפעולה „{}” דורשת את ססמת ההצפנה של המאגר „{}”."
@@ -2200,21 +2250,22 @@ msgstr ""
 "לפרטים נוספים ניתן לעיין ב<a href=\"https://borgbackup.readthedocs.io/en/"
 "stable/usage/help.html\">תיעוד של BorgBackup</a>."
 
-#: pika-backup/src/widget/dialog/preferences.rs:216
+#: pika-backup/src/widget/dialog/preferences.rs:205
+#, rust-format
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr "כותרת הגדרות הגיבוי האלה. תוצג בתור „{}” אם תישאר ריקה."
 
-#: pika-backup/src/widget/dialog/preferences.rs:275
+#: pika-backup/src/widget/dialog/preferences.rs:264
 msgid "Shell command invalid"
 msgstr "פקודת המעטפת שגויה"
 
-#: pika-backup/src/widget/dialog/preferences.rs:480
+#: pika-backup/src/widget/dialog/preferences.rs:469
 msgid "Remove Password?"
 msgstr "להסיר את הססמה?"
 
-#: pika-backup/src/widget/dialog/preferences.rs:482
+#: pika-backup/src/widget/dialog/preferences.rs:471
 #: pika-backup/src/widget/dialog/setup/encryption.rs:87
 msgid ""
 "When encryption is not used, everyone with access to the backup files can "
@@ -2223,15 +2274,15 @@ msgstr ""
 "כאשר לא נעשה שימוש בהצלחה, לכל מי שיש גישה לקובצי הגיבוי יוכל לקרוא את כל "
 "הנתונים שבהם"
 
-#: pika-backup/src/widget/dialog/preferences.rs:488
+#: pika-backup/src/widget/dialog/preferences.rs:477
 msgid "Remove Password"
 msgstr "להסיר את הססמה"
 
-#: pika-backup/src/widget/dialog/preferences.rs:511
+#: pika-backup/src/widget/dialog/preferences.rs:500
 msgid "Change Encryption Password Error"
 msgstr "שגיאת החלפת ססמת הצפנה"
 
-#: pika-backup/src/widget/dialog/preferences.rs:518
+#: pika-backup/src/widget/dialog/preferences.rs:507
 msgid "Password changed successfully"
 msgstr "הססמה הוחלפה בהצלחה"
 
@@ -2462,12 +2513,12 @@ msgstr "מאגר הגיבויים נבדק"
 
 #: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
 #: pika-backup/src/widget/dialog/setup/location.ui:70
-#: pika-backup/src/widget/dialog/setup/location.ui:192
+#: pika-backup/src/widget/dialog/setup/location.ui:239
 msgid "Advanced Options"
 msgstr "אפשרויות מתקדמות"
 
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:23
-#: pika-backup/src/widget/dialog/setup/location.ui:231
+#: pika-backup/src/widget/dialog/setup/location.ui:278
 msgid "_Continue"
 msgstr "להמ_שיך"
 
@@ -2483,35 +2534,35 @@ msgstr "הגדרת הצפנה"
 msgid "_Create"
 msgstr "י_צירה"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:214
+#: pika-backup/src/widget/dialog/setup/location.rs:225
 msgid "Repository Folder"
 msgstr "תיקיית מאגר"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:230
+#: pika-backup/src/widget/dialog/setup/location.rs:241
 msgid "Choose Repository Folder"
 msgstr "נא לבחור תיקיית מאגר"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:242
+#: pika-backup/src/widget/dialog/setup/location.rs:253
 msgid "Additional command line arguments"
 msgstr "ארגומנטים נוספים לשורת הפקודה"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:393
+#: pika-backup/src/widget/dialog/setup/location.rs:404
 msgid "Repository Name Empty"
 msgstr "שם מאגר ריק"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:394
+#: pika-backup/src/widget/dialog/setup/location.rs:405
 msgid "The repository folder name must be set"
 msgstr "חובה להגדיר שם לתיקיית המאגר"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:406
+#: pika-backup/src/widget/dialog/setup/location.rs:417
 msgid "No Base Folder Selected"
 msgstr "לא נבחרה תיקיית בסיס"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:407
+#: pika-backup/src/widget/dialog/setup/location.rs:418
 msgid "Select a base folder for the backup repository"
 msgstr "נא לבחור תיקיית בסיס למאגר הגיבוי"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:418
+#: pika-backup/src/widget/dialog/setup/location.rs:429
 msgid "Invalid Remote Location"
 msgstr "מיקום מרוחק שגוי"
 
@@ -2538,28 +2589,36 @@ msgstr ""
 msgid "Repository URL"
 msgstr "כתובת מאגר"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:117
+#: pika-backup/src/widget/dialog/setup/location.ui:122
 msgid "Locations with BorgBackup Support"
 msgstr "מקומות עם תמיכה ב־BorgBackup"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:128
-msgid ""
-"Servers with borgbackup installed have the best performance. <a "
-"href=\"help:pika-backup/setup-remote\">More</a>"
-msgstr ""
-"לשרתים שמותקן בהם borgbackup יהיו הביצועים הטובים ביותר. <a href=\"help:pika-"
-"backup/setup-remote\">עוד</a>"
+#: pika-backup/src/widget/dialog/setup/location.ui:134
+#: pika-backup/src/widget/dialog/setup/location.ui:189
+msgid "More Information"
+msgstr "פרטים נוספים"
 
 #: pika-backup/src/widget/dialog/setup/location.ui:147
-msgid "Network Shares"
-msgstr "שיתופי רשת"
-
-#: pika-backup/src/widget/dialog/setup/location.ui:159
-msgid "Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+msgid ""
+"The “ssh://” prefix is reserved for servers with BorgBackup support. This "
+"option provides the best performance."
 msgstr ""
-"להשתמש בתחביר קבצים של GNOME. <a href=\"help:pika-backup/setup-gvfs\">עוד</a>"
+"הקידומת „ssh://‎” שמור לשרתים עם תמיכה ב־BorgBackup. האפשרות הזאת מספקת את "
+"הביצועים הטובים ביותר."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:215
+#: pika-backup/src/widget/dialog/setup/location.ui:177
+msgid "SMB and SFTP Network Shares"
+msgstr "שיתופי רשת SMB ו־SFTP"
+
+#: pika-backup/src/widget/dialog/setup/location.ui:201
+msgid ""
+"The “sftp://” and “smb://” prefixes can be used to access network shares. The "
+"network share does not need explicit BorgBackup support."
+msgstr ""
+"אפשר להשתמש בקידומות „sftp://‎” ו־„smb://‎” כדי לגשת לשיתופי רשת. לא חובה "
+"שלשיתוף הרשת תהיה תמיכה מפורשת ב־BorgBackup."
+
+#: pika-backup/src/widget/dialog/setup/location.ui:262
 msgid "_Connect"
 msgstr "_חיבור"
 
@@ -2582,6 +2641,7 @@ msgstr ""
 "אחרות בעלות תאימות עם BorgBackup."
 
 #: pika-backup/src/widget/dialog/setup/location_kind.rs:289
+#, rust-format
 msgid "Free space: {}"
 msgstr "מקום פנוי: {}"
 
@@ -2619,7 +2679,7 @@ msgstr ""
 "ניתן לבחור באוסף של הגדרות המשמשות גיבויים קודמים להעברה להגדרה החדשה. ניתן "
 "לשנות ולהתאים את ההגדרות גם בשלב מאוחר יותר."
 
-#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:12
+#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:13
 msgid "Skip"
 msgstr "דילוג"
 
@@ -2632,11 +2692,11 @@ msgid "The remote location must have a specified path."
 msgstr "במיקום המרוחק חייב להיות נתיב מסוים."
 
 #: pika-backup/src/widget/dialog/setup/types.rs:73
+#, rust-format
 msgid "Invalid remote location: “{}”"
 msgstr "מיקום מרוחק שגוי: „{}”"
 
 #: pika-backup/src/widget/dialog/storage.ui:6
-#: pika-backup/src/widget/folder_row.rs:55
 msgid "Backup Location"
 msgstr "מיקום הגיבוי"
 
@@ -2841,6 +2901,28 @@ msgstr "יש להוסיף הגדרות חדשות כדי להתחיל ליצור
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "ה_קמת גיבוי"
+
+#~ msgid "A repository already exists at this location."
+#~ msgstr "כבר קיים מאגר במיקום הזה."
+
+#~ msgid "Verify Archives Integrity"
+#~ msgstr "אימות אמינות הארכיונים"
+
+#~ msgid "Verify archives integrity completed successfully"
+#~ msgstr "אימות אמינות הארכיונים הושלם בהצלחה"
+
+#~ msgid ""
+#~ "Servers with borgbackup installed have the best performance. <a "
+#~ "href=\"help:pika-backup/setup-remote\">More</a>"
+#~ msgstr ""
+#~ "לשרתים שמותקן בהם borgbackup יהיו הביצועים הטובים ביותר. <a "
+#~ "href=\"help:pika-backup/setup-remote\">עוד</a>"
+
+#~ msgid ""
+#~ "Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+#~ msgstr ""
+#~ "להשתמש בתחביר קבצים של GNOME. <a href=\"help:pika-backup/setup-gvfs\">עוד</"
+#~ "a>"
 
 #~ msgid "Failed to Create Thread"
 #~ msgstr "יצירת התהליכון נכשלה"
