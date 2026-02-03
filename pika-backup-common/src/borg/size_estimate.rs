@@ -88,35 +88,22 @@ pub fn calculate(
                     } else if let Ok(metadata) = entry.metadata() {
                         size_total += metadata.len();
 
-                        // Workaround for rust std assertion about broken mtime / ctime on btrfs
-                        let result = std::panic::catch_unwind(|| {
-                            // check if file is new/modified since last backup
-                            if metadata
-                                .modified()
+                        // check if file is new/modified since last backup
+                        if metadata
+                            .modified()
+                            .map(|date| date >= last_run_date)
+                            .unwrap_or_default()
+                            || metadata
+                                .created()
                                 .map(|date| date >= last_run_date)
                                 .unwrap_or_default()
-                                || metadata
-                                    .created()
-                                    .map(|date| date >= last_run_date)
-                                    .unwrap_or_default()
-                                || !exclude_previously.is_included(&entry)
-                                || !include_previously
-                                    .iter()
-                                    .any(|p| entry.path().starts_with(p))
-                            {
-                                metadata.len()
-                            } else {
-                                0
-                            }
-                        });
-
-                        match result {
-                            Ok(size) => size_touched += size,
-                            Err(err) => tracing::error!(
-                                "FILESYSTEM BUG: mtime/ctime has invalid value for path {:?}. Backtrace: {err:?}",
-                                entry.path()
-                            ),
-                        };
+                            || !exclude_previously.is_included(&entry)
+                            || !include_previously
+                                .iter()
+                                .any(|p| entry.path().starts_with(p))
+                        {
+                            size_touched += metadata.len();
+                        }
                     }
                 }
                 Err(err) => {
