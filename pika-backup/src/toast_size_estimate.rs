@@ -1,4 +1,5 @@
-use common::{borg, config};
+use common::borg::{self};
+use common::config;
 use enclose::enclose;
 
 use crate::prelude::*;
@@ -10,18 +11,19 @@ pub async fn check(
     let estimated_size = crate::utils::spawn_thread(
         "estimate_backup_size",
         enclose!((config, communication) move ||
-            borg::size_estimate::calculate(&config, &BACKUP_HISTORY.load(), &communication)
+            borg::size_estimate::calculate(&config, &BACKUP_HISTORY.load(), &communication, 5)
         ),
     )
     .await
     .ok()
     .flatten();
 
-    if let Some(estimate) = &estimated_size {
+    if let Some(estimate_info) = &estimated_size {
+        let estimate = estimate_info.size_estimate();
         communication
             .specific_info
-            .update(enclose!((estimated_size) move |status| {
-                status.estimated_size.clone_from(&estimated_size);
+            .update(enclose!((estimate) move |status| {
+                status.estimated_size.clone_from(&Some(estimate));
             }));
 
         let history_save_result = BACKUP_HISTORY
@@ -29,7 +31,7 @@ pub async fn check(
                 #[strong(rename_to = config_id)]
                 config.id,
                 #[strong(rename_to = paths)]
-                estimate.unreadable_paths,
+                estimate_info.unreadable_paths,
                 move |history| {
                     if let Ok(history) = history.try_get_mut(&config_id) {
                         history.set_suggested_excludes_from_absolute(

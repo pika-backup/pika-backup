@@ -1,4 +1,5 @@
-use std::collections::VecDeque;
+use std::collections::{BTreeMap, VecDeque};
+use std::path::PathBuf;
 
 use itertools::Itertools;
 
@@ -129,11 +130,36 @@ impl Status {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default, Copy)]
 pub struct SizeEstimate {
     pub total: u64,
     pub changed: u64,
+}
+
+impl std::ops::AddAssign for SizeEstimate {
+    fn add_assign(&mut self, rhs: Self) {
+        self.changed += rhs.changed;
+        self.total += rhs.total;
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct SizeEstimateLeaf {
+    pub overall: SizeEstimate,
+    pub children: BTreeMap<PathBuf, SizeEstimateLeaf>,
+}
+
+#[derive(Debug)]
+
+pub struct SizeEstimateInfo {
+    pub tree: SizeEstimateLeaf,
     pub unreadable_paths: Vec<std::path::PathBuf>,
+}
+
+impl SizeEstimateInfo {
+    pub fn size_estimate(&self) -> SizeEstimate {
+        self.tree.overall
+    }
 }
 
 impl SizeEstimate {

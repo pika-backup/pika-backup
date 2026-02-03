@@ -1,4 +1,7 @@
 use std::collections::BTreeSet;
+use std::ffi::OsStr;
+use std::os::unix::ffi::OsStrExt;
+use std::path::PathBuf;
 
 use super::*;
 use crate::config;
@@ -40,8 +43,11 @@ pub fn calculate(
     config: &config::Backup,
     history: &config::history::Histories,
     communication: &Communication<task::Create>,
-) -> Option<SizeEstimate> {
+    recoding_depth: usize,
+) -> Option<SizeEstimateInfo> {
     tracing::debug!("Estimating backup size");
+
+    let mut tree = SizeEstimateLeaf::default();
 
     // datetime of last completed backup
     let last_run = history
@@ -68,8 +74,6 @@ pub fn calculate(
     let exclude_previously = Exclude::new(last_run.map(|x| x.exclude.clone()).unwrap_or_default());
     let include_previously = last_run.map(|x| x.include.clone()).unwrap_or_default();
 
-    let mut size_total = 0;
-    let mut size_touched = 0;
     let mut unreadable_paths = Vec::new();
 
     for dir in include {
@@ -79,14 +83,16 @@ pub fn calculate(
         {
             match entry_result {
                 Ok(entry) => {
+                    let mut size_estimate = SizeEstimate::default();
+
                     if matches!(**communication.instruction.load(), Instruction::Abort(_)) {
                         return None;
                     }
 
                     if entry.file_type().is_dir() {
-                        size_total += DIRECTORY_SIZE;
+                        size_estimate.total += DIRECTORY_SIZE;
                     } else if let Ok(metadata) = entry.metadata() {
-                        size_total += metadata.len();
+                        size_estimate.total += metadata.len();
 
                         // check if file is new/modified since last backup
                         if metadata
@@ -102,7 +108,28 @@ pub fn calculate(
                                 .iter()
                                 .any(|p| entry.path().starts_with(p))
                         {
-                            size_touched += metadata.len();
+                            size_estimate.changed += metadata.len();
+                        }
+                    }
+
+                    tree.overall += size_estimate;
+
+                    let mut current_leaf = &mut tree;
+                    if let Some(parent) = entry.path().parent() {
+                        for path_segment in parent
+                            .as_os_str()
+                            .as_bytes()
+                            .splitn(recoding_depth.saturating_add(1), |x| *x == b'/')
+                            .skip(1)
+                            .take(recoding_depth.saturating_sub(1))
+                        {
+                            let path_segment = PathBuf::from(OsStr::from_bytes(path_segment));
+
+                            let entry = current_leaf.children.entry(path_segment).or_default();
+
+                            entry.overall += size_estimate;
+
+                            current_leaf = entry;
                         }
                     }
                 }
@@ -119,8 +146,8 @@ pub fn calculate(
 
     tracing::debug!(
         "Estimated size: total {} created/modified {}",
-        &size_total,
-        &size_touched
+        &tree.overall.total,
+        &tree.overall.changed,
     );
     tracing::debug!(
         "Number of unreablable files/directories: {}",
@@ -128,9 +155,8 @@ pub fn calculate(
     );
     tracing::trace!("Unreadable files/directories: {:#?}", unreadable_paths);
 
-    Some(SizeEstimate {
-        total: size_total,
-        changed: size_touched,
+    Some(SizeEstimateInfo {
+        tree,
         unreadable_paths,
     })
 }
