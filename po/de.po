@@ -6,14 +6,14 @@
 # Volker Thiel <volker@warp-nine.de>, 2021.
 # Tim Sabsch <tim@sabsch.com>, 2021-2022.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2020-2023.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022-2024.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022-2024, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2024-09-04 14:32+0000\n"
-"PO-Revision-Date: 2024-09-04 20:09+0200\n"
+"POT-Creation-Date: 2025-10-10 15:10+0000\n"
+"PO-Revision-Date: 2026-02-05 22:23+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -21,32 +21,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.8\n"
 
-#: data/app.Monitor.desktop.in:4
+#: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
 msgstr "Pika Datensicherungsüberwachung"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," #. please make sure that the transliteration does not coincide with a different meaning. If #. fitting, translations of "Pika" are welcome too.
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
-#: data/app.desktop.in:6 data/app.metainfo.xml.in:4 src/ui/app_window.ui:87
+#: data/app.desktop.in:5 data/app.metainfo.xml.in:4 src/ui/app_window.ui:87
 #: src/ui/app_window.ui:101 src/ui/dialog_about.rs:19 src/ui/utils.rs:367
 #: src/ui/utils.rs:429
 msgid "Pika Backup"
 msgstr "Pika Datensicherung"
 
-#: data/app.desktop.in:7
+#: data/app.desktop.in:6
 msgid "Backups"
 msgstr "Datensicherungen"
 
-#: data/app.desktop.in:8 data/app.metainfo.xml.in:5
+#: data/app.desktop.in:7 data/app.metainfo.xml.in:5
 msgid "Keep your data safe"
 msgstr "Bewahren Sie Ihre Daten sicher auf"
 
-#: data/app.desktop.in:14
+#: data/app.desktop.in:13
 msgid "archive;back-up;borg;"
 msgstr "archive;back-up;borg;Archiv;Datensicherung;"
 
@@ -201,10 +201,12 @@ msgid "The program or system seems to have crashed."
 msgstr "Das Programm oder System scheint abgestürzt zu sein."
 
 #: src/borg/error.rs:177
+#, rust-format
 msgid "{}"
 msgstr "{}"
 
 #: src/borg/error.rs:183
+#, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "Auf Sicherungsdepot kann nicht zugegriffen werden: {}"
 
@@ -241,6 +243,7 @@ msgid "Not enough free space in repository."
 msgstr "Nicht genug Speicherplatz im Sicherungsdepot."
 
 #: src/borg/error.rs:252
+#, rust-format
 msgid "Connection closed by remote host: “{}”"
 msgstr "Verbindung wurde von der Gegenstelle getrennt: »{}«"
 
@@ -271,11 +274,12 @@ msgid "Backup will continue."
 msgstr "Datensicherung wird fortgesetzt."
 
 #: src/borg/log_json.rs:82
+#, rust-format
 msgid "Backed up data: {}"
 msgstr "Gesicherte Daten: {}"
 
 #: src/borg/log_json.rs:112
-#, no-c-format
+#, no-c-format, rust-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Vorgang {} % abgeschlossen ({}/{})"
 
@@ -368,6 +372,7 @@ msgstr ""
 
 # auf, in?
 #: src/borg/log_json.rs:253
+#, rust-format
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr "Das Sicherungsdepot am Ort »{}« befand sich früher auf »{}«."
 
@@ -394,11 +399,13 @@ msgstr ""
 "beinhaltenden Sicherungsarchive."
 
 #: src/borg/log_json.rs:262
+#, rust-format
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "Unerwartete Frage von borgbackup: »{}«"
 
 #. Translators: Combines statement from above and this question
 #: src/borg/log_json.rs:266
+#, rust-format
 msgid ""
 "{}\n"
 "\n"
@@ -505,6 +512,7 @@ msgid "The amount of files saved in this archive"
 msgstr "Die Anzahl der in diesem Archiv gespeicherten Dateien"
 
 #: src/borg/scripts.rs:271
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -514,6 +522,7 @@ msgstr ""
 "{}"
 
 #: src/borg/scripts.rs:275
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -523,6 +532,7 @@ msgstr ""
 "{}"
 
 #: src/borg/scripts.rs:301
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -530,6 +540,7 @@ msgstr ""
 "Fehlercode zurückgegeben: {}"
 
 #: src/borg/scripts.rs:305
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -658,6 +669,7 @@ msgstr "Kann darin gespeicherte Daten beinhalten"
 
 #. The config is incompatible with this app version
 #: src/config/loadable.rs:37
+#, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
@@ -711,6 +723,7 @@ msgid "Backup Device Connected"
 msgstr "Sicherungsgerät verbunden"
 
 #: src/daemon/connect/event.rs:28
+#, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "»{}« enthält mehrere konfigurierte Sicherungen."
 
@@ -719,6 +732,7 @@ msgid "Show Backups"
 msgstr "Datensicherungen anzeigen"
 
 #: src/daemon/connect/event.rs:41
+#, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "»{}« eine konfigurierte Sicherung."
 
@@ -743,6 +757,7 @@ msgid "Fatal Error During Back Up"
 msgstr "Kritischer Fehler während der Datensicherung"
 
 #: src/daemon/init.rs:129
+#, rust-format
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
 msgstr[0] ""
@@ -775,6 +790,7 @@ msgid "Backup Device Required"
 msgstr "Sicherungsgerät erforderlich"
 
 #: src/daemon/schedule/init.rs:131
+#, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start."
 msgstr "»{}« muss verbunden sein, damit eine geplante Sicherung starten kann."
 
@@ -823,18 +839,20 @@ msgstr "Die Version von BorgBackup ist zu alt"
 
 # CHECK
 #: src/ui.rs:264
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
 "{}. This is unsupported."
 msgstr ""
 "Die installierte Version {} von BorgBackup ist älter als die erforderliche "
-"Version. Dies wird nicht unterstützt."
+"Version {}. Dies wird nicht unterstützt."
 
 #: src/ui.rs:273
 msgid "BorgBackup Version Too New"
 msgstr "Die Version von BorgBackup ist zu neu"
 
 #: src/ui.rs:275
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
@@ -847,6 +865,7 @@ msgid "Failed to Check BorgBackup Version"
 msgstr "Überprüfen der BorgBackup-Version fehlgeschlagen"
 
 #: src/ui.rs:286
+#, rust-format
 msgid "The installed version {} might not work."
 msgstr "Die installierte Version {} funktioniert möglicherweise nicht."
 
@@ -1148,6 +1167,7 @@ msgstr "Letzte Datensicherung ist fehlgeschlagen"
 
 #. Translators: Argument is 'x months ago'
 #: src/ui/backup_status.rs:146
+#, rust-format
 msgid "Successful Integrity Check {}"
 msgstr "Erfolgreiche Integritätsprüfung {}"
 
@@ -1172,7 +1192,7 @@ msgid "Integrity Errors Found"
 msgstr "Integritätsfehler gefunden"
 
 #: src/ui/backup_status.rs:225
-#, no-c-format
+#, no-c-format, rust-format
 msgid "{} % finished"
 msgstr "{} % abgeschlossen"
 
@@ -1189,6 +1209,7 @@ msgid "Backup Destination Unresponsive"
 msgstr "Sicherungsziel reagiert nicht"
 
 #: src/ui/backup_status.rs:253
+#, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "Verbindung verloren, neuer Versuch in {}"
 
@@ -1336,14 +1357,6 @@ msgstr "Reparatur durchführen"
 msgid "Perform Check"
 msgstr "Überprüfung durchführen"
 
-#: src/ui/dialog_check.rs:121 src/ui/dialog_check.rs:156
-msgid "Verify Archives Integrity"
-msgstr "Archivintegrität verifizieren"
-
-#: src/ui/dialog_check.rs:172
-msgid "Verify archives integrity completed successfully"
-msgstr "Verifizierung der Archivintegrität erfolgreich abgeschlossen"
-
 #: src/ui/dialog_check.ui:5 src/ui/dialog_check.ui:26
 msgid "Archives Integrity Check"
 msgstr "Archiv-Integritätsprüfung"
@@ -1425,6 +1438,7 @@ msgid "The following backup location needs to be connected:"
 msgstr "Der folgende Sicherungsort muss verbunden sein:"
 
 #: src/ui/dialog_encryption_password.rs:33
+#, rust-format
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -1537,6 +1551,7 @@ msgstr ""
 "Dokumentation</a> an."
 
 #: src/ui/dialog_preferences.rs:213
+#, rust-format
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -1897,6 +1912,7 @@ msgid "None"
 msgstr "Keine"
 
 #: src/ui/dialog_setup/display.rs:238
+#, rust-format
 msgid "Free space: {}"
 msgstr "Freier Speicherplatz: {}"
 
@@ -1965,6 +1981,7 @@ msgid "The remote location must have a specified path."
 msgstr "Für den entfernten Ort muss ein Pfad angegeben sein."
 
 #: src/ui/dialog_setup/remote_location.rs:36
+#, rust-format
 msgid "Invalid remote location: “{}”"
 msgstr "Ungültiger entfernter Ort: »{}«"
 
@@ -2018,10 +2035,12 @@ msgstr ""
 "Dokumentation des Betriebssystems nach."
 
 #: src/ui/error.rs:125
+#, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "Datensicherung mit der ID »{}« existiert bereits."
 
 #: src/ui/error.rs:130
+#, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Sicherungskonfiguration mit der ID »{}« konnte nicht gefunden werden."
 
@@ -2058,10 +2077,12 @@ msgid "Delete archive"
 msgstr "Archiv löschen"
 
 #: src/ui/page_archives/display.rs:252
+#, rust-format
 msgid "{} Available"
 msgstr "{} verfügbar"
 
 #: src/ui/page_archives/display.rs:255
+#, rust-format
 msgid "{} Total"
 msgstr "{} gesamt"
 
@@ -2134,6 +2155,7 @@ msgid "Unable to Include Location"
 msgstr "Ort konnte nicht einbezogen werden"
 
 #: src/ui/page_backup/events.rs:122
+#, rust-format
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -2152,6 +2174,7 @@ msgstr ""
 "das »/dev«-Verzeichnis zu sichern."
 
 #: src/ui/page_backup/events.rs:187
+#, rust-format
 msgid "No longer include “{}” in backups?"
 msgstr "»{}« nicht weiter in Datensicherungen einbeziehen?"
 
@@ -2239,24 +2262,28 @@ msgid "Custom"
 msgstr "Benutzerdefiniert"
 
 #: src/ui/page_schedule/status.rs:16
+#, rust-format
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Nächste Datensicherung in einer Minute"
 msgstr[1] "Nächste Datensicherung in {} Minuten"
 
 #: src/ui/page_schedule/status.rs:22
+#, rust-format
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Nächste Datensicherung in einer Stunde"
 msgstr[1] "Nächste Datensicherung in {} Stunden"
 
 #: src/ui/page_schedule/status.rs:28
+#, rust-format
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Nächste Datensicherung in einem Tag"
 msgstr[1] "Nächste Datensicherung in {} Tagen"
 
 #: src/ui/page_schedule/status.rs:34
+#, rust-format
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Nächste Datensicherung in einer Woche"
@@ -2351,6 +2378,7 @@ msgid "Unable to determine background process status"
 msgstr "Der Status des Hintergrundprozesses konnte nicht ermittelt werden"
 
 #: src/ui/toast_size_estimate.rs:46
+#, rust-format
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
@@ -2399,6 +2427,7 @@ msgid "Failed to Start Monitor"
 msgstr "Starten der Überwachung ist fehlgeschlagen"
 
 #: src/ui/utils.rs:254
+#, rust-format
 msgid "One Backup Operation Running"
 msgid_plural "{} Backup Operations Running"
 msgstr[0] "Ein Sicherungsvorgang läuft"
@@ -2483,10 +2512,12 @@ msgid "Unable to Eject Backup Disk"
 msgstr "Datensicherungsfestplatte kann nicht ausgeworfen werden"
 
 #: src/ui/utils/borg.rs:358
+#, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} kann sicher entfernt werden."
 
 #: src/ui/utils/borg.rs:370
+#, rust-format
 msgid "{} can't be ejected."
 msgstr "{} kann nicht ausgeworfen werden."
 
@@ -2495,66 +2526,77 @@ msgid "Could not load configuration file."
 msgstr "Konfigurationsdatei konnte nicht geladen werden."
 
 #: src/ui/utils/duration.rs:11
+#, rust-format
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "Eine Sekunde"
 msgstr[1] "{} Sekunden"
 
 #: src/ui/utils/duration.rs:13
+#, rust-format
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "Eine Minute"
 msgstr[1] "{} Minuten"
 
 #: src/ui/utils/duration.rs:15
+#, rust-format
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "Eine Stunde"
 msgstr[1] "{} Stunden"
 
 #: src/ui/utils/duration.rs:17
+#, rust-format
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "Ein Tag"
 msgstr[1] "{} Tage"
 
 #: src/ui/utils/duration.rs:23
+#, rust-format
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "Eine Sekunde"
 msgstr[1] "{} Sekunden"
 
 #: src/ui/utils/duration.rs:25
+#, rust-format
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "Eine Minute"
 msgstr[1] "{} Minuten"
 
 #: src/ui/utils/duration.rs:27
+#, rust-format
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "Eine Stunde"
 msgstr[1] "{} Stunden"
 
 #: src/ui/utils/duration.rs:29
+#, rust-format
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "Ein Tag"
 msgstr[1] "{} Tage"
 
 #: src/ui/utils/duration.rs:36
+#, rust-format
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "Eine Minute verbleibend"
 msgstr[1] "{} Minuten verbleibend"
 
 #: src/ui/utils/duration.rs:41
+#, rust-format
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "Eine Stunde verbleibend"
 msgstr[1] "{} Stunden verbleibend"
 
 #: src/ui/utils/duration.rs:43
+#, rust-format
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "Ein Tag verbleibend"
@@ -2565,36 +2607,42 @@ msgid "Now"
 msgstr "Jetzt"
 
 #: src/ui/utils/duration.rs:51
+#, rust-format
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Vor einer Minute"
 msgstr[1] "Vor {} Minuten"
 
 #: src/ui/utils/duration.rs:53
+#, rust-format
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Vor einer Stunde"
 msgstr[1] "Vor {} Stunden"
 
 #: src/ui/utils/duration.rs:55
+#, rust-format
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "Vor einem Tag"
 msgstr[1] "Vor {} Tagen"
 
 #: src/ui/utils/duration.rs:57
+#, rust-format
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Vor einer Woche"
 msgstr[1] "Vor {} Wochen"
 
 #: src/ui/utils/duration.rs:59
+#, rust-format
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Vor einem Monat"
 msgstr[1] "Vor {} Monaten"
 
 #: src/ui/utils/duration.rs:61
+#, rust-format
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Vor einem Jahr"
@@ -2612,6 +2660,7 @@ msgstr ""
 
 #. Translators: This is the description for entries in the password database.
 #: src/ui/utils/password_storage.rs:56
+#, rust-format
 msgid "Pika Backup “{}”"
 msgstr "Pika Datensicherung »{}«"
 
@@ -2668,6 +2717,12 @@ msgstr "Passwort wiederholen"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Keine solche Datei oder kein solches Verzeichnis"
+
+#~ msgid "Verify Archives Integrity"
+#~ msgstr "Archivintegrität verifizieren"
+
+#~ msgid "Verify archives integrity completed successfully"
+#~ msgstr "Verifizierung der Archivintegrität erfolgreich abgeschlossen"
 
 #~ msgid "Failed to fix Scheduled Backups"
 #~ msgstr "Reparieren der geplanten Sicherungen fehlgeschlagen"
