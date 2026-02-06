@@ -82,6 +82,12 @@ impl UnmountArchives {
     }
 
     pub async fn execute(&self, parent: &impl IsA<gtk::Window>) -> Result<()> {
+        let is_browsing = BACKUP_HISTORY.load().iter().any(|(_, x)| x.is_browsing());
+
+        if !is_browsing {
+            return Ok(());
+        }
+
         self.set_modal(true);
         self.set_transient_for(Some(parent));
         self.set_visible(true);
@@ -130,6 +136,8 @@ impl UnmountArchives {
 
             smol::Timer::after(Duration::from_millis(300)).await;
         }
+
+        self.close();
 
         Ok(())
     }
