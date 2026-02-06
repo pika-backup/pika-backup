@@ -138,7 +138,7 @@ impl imp::ArchivesPage {
             .load()
             .active()
             .ok()
-            .is_some_and(|x| &x.repo_id == repo_id)
+            .is_some_and(|x| &x.repo_id != repo_id)
             || !self.obj().is_visible()
         {
             tracing::debug!("Not displaying archive list because it's not visible");
