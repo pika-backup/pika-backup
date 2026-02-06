@@ -45,6 +45,8 @@ impl imp::ArchivesPage {
 
         let archives = result?;
 
+        tracing::debug!("Obtained {} archives", archives.len());
+
         REPO_CACHE.update(enclose!((config) move |repos| {
             let repo_archives = repos
                 .entry(config.repo_id.clone())
