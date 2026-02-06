@@ -10,6 +10,7 @@ mod exclude;
 mod preferences;
 mod prune;
 pub mod setup;
+mod size_estimate;
 mod storage;
 mod unmount_archives;
 
@@ -24,6 +25,7 @@ pub use exclude::ExcludeDialog;
 use glib::prelude::*;
 pub use preferences::PreferencesDialog;
 pub use prune::PruneDialog;
+pub use size_estimate::SizeEstimateDialog;
 pub use storage::StorageDialog;
 pub use unmount_archives::UnmountArchives;
 

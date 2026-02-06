@@ -4,10 +4,11 @@ mod execution;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use common::schedule;
+use common::{borg, schedule};
 
 use super::DetailPageKind;
 use crate::prelude::*;
+use crate::widget::dialog::SizeEstimateDialog;
 
 mod imp {
     use std::cell::RefCell;
@@ -44,6 +45,8 @@ mod imp {
         pub(super) backup_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) abort_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) size_estimate_button: TemplateChild<gtk::Button>,
 
         // lists
         #[template_child]
@@ -85,6 +88,31 @@ mod imp {
                 move |_| {
                     let guard = QuitGuard::default();
                     Handler::run(async move { obj.imp().on_backup_run(&guard).await });
+                }
+            ));
+
+            self.size_estimate_button.connect_clicked(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    //let guard = QuitGuard::default();
+                    //Handler::run(async move { obj.imp().on_backup_run(&guard).await });
+                    let dialog = SizeEstimateDialog::new();
+                    dialog.present(Some(&obj));
+
+                    Handler::run(async move {
+                        let config = BACKUP_CONFIG.load().active()?.clone();
+                        let history = BACKUP_HISTORY.load().clone();
+                        let result = borg::size_estimate::calculate(
+                            &config,
+                            &history,
+                            &borg::Communication::default(),
+                            5,
+                        )
+                        .unwrap();
+                        dialog.set_data(result);
+                        Ok(())
+                    });
                 }
             ));
 

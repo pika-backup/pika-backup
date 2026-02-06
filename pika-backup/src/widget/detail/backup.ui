@@ -47,45 +47,56 @@
         <child>
           <object class="PikaStatusRow" id="detail_status_row">
             <property name="activatable">1</property>
-              <child type="suffix">
-                <object class="GtkImage" id="detail_hint_icon">
-                  <property name="visible">0</property>
-                  <property name="icon-name">go-next-symbolic</property>
-                </object>
-              </child>
-            </object>
-          </child>
-        </object>
-      </child>
-      <child>
-        <object class="AdwPreferencesGroup">
-          <child>
-            <object class="GtkButton" id="backup_button">
-              <property name="use-underline">1</property>
-              <property name="label" translatable="yes">Back Up _Now</property>
-              <property name="halign">center</property>
-              <property name="width-request">210</property>
-              <style>
-                <class name="pill" />
-                <class name="suggested-action" />
-              </style>
-            </object>
-          </child>
-          <child>
-            <object class="GtkButton" id="abort_button">
-              <property name="visible">0</property>
-              <property name="label" translatable="yes">_Abort…</property>
-              <property name="use-underline">1</property>
-              <property name="halign">center</property>
-              <property name="width-request">210</property>
-              <style>
-                <class name="pill" />
-              </style>
-            </object>
-          </child>
-        </object>
-      </child>
-      <child>
+            <child type="suffix">
+              <object class="GtkImage" id="detail_hint_icon">
+                <property name="visible">0</property>
+                <property name="icon-name">go-next-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="GtkButton" id="backup_button">
+            <property name="use-underline">1</property>
+            <property name="label" translatable="yes">Back Up _Now</property>
+            <property name="halign">center</property>
+            <property name="width-request">210</property>
+            <style>
+              <class name="pill" />
+              <class name="suggested-action" />
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="size_estimate_button">
+            <property name="use-underline">1</property>
+            <property name="label" translatable="yes">_Estimate Size</property>
+            <property name="halign">center</property>
+            <property name="width-request">210</property>
+            <style>
+              <class name="pill" />
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="abort_button">
+            <property name="visible">0</property>
+            <property name="label" translatable="yes">_Abort…</property>
+            <property name="use-underline">1</property>
+            <property name="halign">center</property>
+            <property name="width-request">210</property>
+            <style>
+              <class name="pill" />
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
       <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">Files to Back Up</property>
         <property name="description" translatable="yes">Only files in these folders are backed up</property>
@@ -166,8 +177,8 @@
   <object class="GtkSizeGroup">
     <property name="mode">horizontal</property>
     <widgets>
-      <widget name="backup_button"/>
-      <widget name="abort_button"/>
+      <widget name="backup_button" />
+      <widget name="abort_button" />
     </widgets>
   </object>
 </interface>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PkSizeEstimateDialog" parent="AdwDialog">
+    <property name="title" translatable="yes">Backup Size Estimate</property>
+    <property name="content-width">500</property>
+    <property name="content-height">500</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" />
+        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkListBox">
+                <property name="selection-mode">none</property>
+                <property name="margin-top">12</property>
+                <property name="margin-end">12</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-start">12</property>
+                <style>
+                  <class name="boxed-list-separate" />
+                </style>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Changed Files</property>
+                    <property name="subtitle">Space needed to store changes</property>
+                    <child>
+                      <object class="PkSizeEstimateValueUnit" id="changed"></object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Total Size</property>
+                    <property name="subtitle">Amount included in the backup</property>
+                    <child>
+                      <object class="PkSizeEstimateValueUnit" id="total"></object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="PkSizeEstimateList" id="list" />
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>
+
