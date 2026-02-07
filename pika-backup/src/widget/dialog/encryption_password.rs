@@ -68,7 +68,7 @@ impl EncryptionPasswordDialog {
 
         self.set_body(&body);
         self.imp().password.grab_focus();
-        let response = self.clone().choose_future(parent).await;
+        let response = self.clone().choose_future(Some(parent)).await;
         let password = config::Password::new(self.imp().password.text().to_string());
 
         if response == "apply" {

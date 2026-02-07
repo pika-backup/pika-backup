@@ -422,7 +422,7 @@ pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
             .build();
 
         dialog.add_responses(&[("close", &gettext("Close"))]);
-        dialog.choose_future(widget).await;
+        dialog.choose_future(Some(widget)).await;
     } else {
         let (title, body) = if secondary_text.is_empty() {
             (gettext("Pika Backup"), primary_text)
@@ -486,7 +486,7 @@ impl ConfirmationDialog {
             dialog.set_response_appearance("accept", adw::ResponseAppearance::Destructive);
         }
 
-        if dialog.choose_future(widget).await == "accept" {
+        if dialog.choose_future(Some(widget)).await == "accept" {
             Ok(())
         } else {
             Err(Error::UserCanceled)

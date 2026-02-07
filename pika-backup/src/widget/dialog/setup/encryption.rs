@@ -93,7 +93,7 @@ mod imp {
                         ("continue", &gettext("Continue")),
                     ]);
                     dialog.set_response_appearance("continue", adw::ResponseAppearance::Suggested);
-                    if dialog.choose_future(&*self.obj()).await != "continue" {
+                    if dialog.choose_future(Some(&*self.obj())).await != "continue" {
                         return;
                     }
                 }

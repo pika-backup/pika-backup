@@ -158,7 +158,7 @@ mod imp {
                                 "abort",
                                 adw::ResponseAppearance::Destructive,
                             );
-                            match &*dialog.choose_future(&obj).await {
+                            match &*dialog.choose_future(Some(&obj)).await {
                                 "abort" => {
                                     obj.force_close();
                                 }

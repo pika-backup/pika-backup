@@ -100,7 +100,7 @@ mod imp {
                         #[strong(rename_to = obj)]
                         self.obj(),
                         async move {
-                            match &*dialog.choose_future(&obj).await {
+                            match &*dialog.choose_future(Some(&obj)).await {
                                 "encrypt" => obj.set_encrypted(true),
                                 _ => obj.imp().encrypted_switch.set_active(false),
                             }
