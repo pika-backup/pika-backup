@@ -387,7 +387,7 @@ impl BorgCall {
                         ]);
                     }
 
-                    if !matches!(communication.status(), RunStatus::Reconnecting(_)) {
+                    if matches!(communication.status(), RunStatus::Running) {
                         tracing::debug!("Starting reconnect attempts");
                         retries = 0;
                         communication.set_status(RunStatus::Reconnecting(super::DELAY_RECONNECT));
