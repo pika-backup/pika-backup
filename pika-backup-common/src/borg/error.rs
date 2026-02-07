@@ -59,8 +59,7 @@ impl std::convert::TryFrom<LogCollection> for Error {
                 Failure::ConnectionClosedWithHint => {
                     let hint = value
                         .iter()
-                        .filter(|x| x.level() == LogLevel::Warning)
-                        .next_back()
+                        .rfind(|x| x.level() == LogLevel::Warning)
                         .map(|x| x.message());
 
                     if let Some(hint) = hint {
@@ -72,7 +71,7 @@ impl std::convert::TryFrom<LogCollection> for Error {
                 Failure::Exception => {
                     let hint = value
                         .iter()
-                        .filter(|x| match x.level() {
+                        .rfind(|x| match x.level() {
                             // SSH error: Broken pipe
                             LogLevel::Error => x.message().contains("[Errno 32] Broken pipe"),
                             // Will be thrown by borg when the network is disabled manually / the
@@ -82,7 +81,6 @@ impl std::convert::TryFrom<LogCollection> for Error {
                                 .contains("Remote: Timeout, server borg not responding."),
                             _ => false,
                         })
-                        .next_back()
                         .map(|_| gettext("Timeout"));
 
                     if let Some(hint) = hint {
