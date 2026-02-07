@@ -3,7 +3,7 @@ use std::sync::Arc;
 use arc_swap::ArcSwap;
 use smol::channel::{self as channel, unbounded};
 
-use super::status::Run as Status;
+use super::status::RunStatus;
 use super::task::Task;
 use super::{Result, error, log_json};
 use crate::prelude::*;
@@ -11,14 +11,14 @@ use crate::prelude::*;
 #[derive(Debug, Clone)]
 pub enum Update {
     Msg(log_json::Output),
-    Status(Status),
+    Status(RunStatus),
 }
 
 #[derive(Default, Debug, Clone)]
 pub struct Communication<T: Task> {
     pub general_info: Arc<ArcSwap<super::status::GeneralStatus>>,
     pub specific_info: Arc<ArcSwap<T::Info>>,
-    pub status: Arc<ArcSwap<Status>>,
+    pub status: Arc<ArcSwap<RunStatus>>,
     pub(crate) instruction: Arc<ArcSwap<Instruction>>,
     sender: Arc<ArcSwap<Vec<channel::Sender<Update>>>>,
 }
@@ -40,8 +40,8 @@ impl<T: Task> Communication<T> {
         self.sender.store(Default::default());
     }
 
-    pub(crate) fn set_status(&self, status: Status) {
-        if !matches!(**self.status.load(), Status::Stopping) {
+    pub(crate) fn set_status(&self, status: RunStatus) {
+        if !matches!(**self.status.load(), RunStatus::Stopping) {
             self.status.store(Arc::new(status));
             let senders = self.sender.get().into_iter();
             smol::spawn(async move {
@@ -55,7 +55,7 @@ impl<T: Task> Communication<T> {
         }
     }
 
-    pub fn status(&self) -> Status {
+    pub fn status(&self) -> RunStatus {
         *(*self.status.load()).clone()
     }
 

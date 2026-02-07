@@ -14,7 +14,8 @@ impl imp::BackupPage {
         let operation = BORG_OPERATION.with(|op| Ok::<_, Error>(op.load().active()?.clone()))?;
 
         // Abort immediately if only reconnecting
-        if !operation.aborting() && !matches!(operation.status(), borg::Run::Reconnecting(_)) {
+        if !operation.aborting() && !matches!(operation.status(), borg::RunStatus::Reconnecting(_))
+        {
             match operation.task_kind() {
                 borg::task::Kind::Create => {
                     crate::utils::confirmation_dialog(
