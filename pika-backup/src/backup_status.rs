@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use chrono::prelude::*;
 use common::borg;
-use common::borg::{Run, log_json};
+use common::borg::{RunStatus, log_json};
 use common::config::{history, *};
 
 use crate::prelude::*;
@@ -225,8 +225,10 @@ impl From<&crate::operation::Operation<borg::task::Create>> for Display {
                         );
 
                         // Do not show estimate when stalled for example
-                        if matches!(op.communication().status(), borg::status::Run::Running)
-                            && !progress_archive.finished
+                        if matches!(
+                            op.communication().status(),
+                            borg::status::RunStatus::Running
+                        ) && !progress_archive.finished
                             && let Some(remaining) = status.time_remaining()
                         {
                             let _ = write!(sub, " – {}", utils::duration::left(&remaining));
@@ -242,10 +244,10 @@ impl From<&crate::operation::Operation<borg::task::Create>> for Display {
         }
 
         let title = match op.communication().status() {
-            Run::Init => gettext("Preparing Backup"),
-            Run::Running => gettext("Backup Running"),
-            Run::Stalled => gettext("Backup Destination Unresponsive"),
-            Run::Reconnecting(wait_time) => {
+            RunStatus::Init => gettext("Preparing Backup"),
+            RunStatus::Running => gettext("Backup Running"),
+            RunStatus::Stalled => gettext("Backup Destination Unresponsive"),
+            RunStatus::Reconnecting(wait_time) => {
                 subtitle = Some(gettextf(
                     "Connection lost, reconnecting in {}",
                     [&utils::duration::plain_lowercase(
@@ -254,7 +256,7 @@ impl From<&crate::operation::Operation<borg::task::Create>> for Display {
                 ));
                 gettext("Reconnecting")
             }
-            Run::Stopping => gettext("Stopping Backup"),
+            RunStatus::Stopping => gettext("Stopping Backup"),
         };
 
         if subtitle.is_none()

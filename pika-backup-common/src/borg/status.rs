@@ -6,7 +6,7 @@ use super::log_json::*;
 
 #[derive(Default, Debug, Clone)]
 pub struct GeneralStatus {
-    pub run: Run,
+    pub run: RunStatus,
     pub is_schedule: bool,
     pub started: Option<chrono::DateTime<chrono::Local>>,
     /// History per borg command execution. There can be multiple command
@@ -279,7 +279,7 @@ impl std::iter::Sum for DataRate {
 }
 
 #[derive(Debug, Clone, Copy, Default)]
-pub enum Run {
+pub enum RunStatus {
     #[default]
     Init,
     Running,

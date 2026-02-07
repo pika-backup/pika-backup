@@ -387,10 +387,10 @@ impl BorgCall {
                         ]);
                     }
 
-                    if !matches!(communication.status(), Run::Reconnecting(_)) {
+                    if !matches!(communication.status(), RunStatus::Reconnecting(_)) {
                         tracing::debug!("Starting reconnect attempts");
                         retries = 0;
-                        communication.set_status(Run::Reconnecting(super::DELAY_RECONNECT));
+                        communication.set_status(RunStatus::Reconnecting(super::DELAY_RECONNECT));
                     }
 
                     if retries < super::MAX_RECONNECT {
@@ -405,7 +405,7 @@ impl BorgCall {
                                 return Err(Error::Aborted(reason.clone()));
                             }
 
-                            communication.set_status(Run::Reconnecting(
+                            communication.set_status(RunStatus::Reconnecting(
                                 super::DELAY_RECONNECT
                                     .checked_sub(start_time.elapsed())
                                     .unwrap_or(Duration::ZERO),
@@ -414,7 +414,7 @@ impl BorgCall {
                             smol::Timer::after(Duration::from_millis(100)).await;
                         }
 
-                        communication.set_status(Run::Init);
+                        communication.set_status(RunStatus::Init);
                         continue;
                     } else {
                         return result;
@@ -570,7 +570,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
 
             match &**self.communication.instruction.load() {
                 Instruction::Abort(reason) => {
-                    self.communication.set_status(Run::Stopping);
+                    self.communication.set_status(RunStatus::Stopping);
 
                     tracing::debug!("Sending SIGINT to borg process");
                     nix::sys::signal::kill(
@@ -608,9 +608,9 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                 Err(()) => {
                     unresponsive += super::MESSAGE_POLL_TIMEOUT;
                     if unresponsive > super::STALL_THRESHOLD
-                        && !matches!(self.communication.status(), Run::Reconnecting(_))
+                        && !matches!(self.communication.status(), RunStatus::Reconnecting(_))
                     {
-                        self.communication.set_status(Run::Stalled);
+                        self.communication.set_status(RunStatus::Stalled);
                     }
                     continue;
                 }
@@ -625,8 +625,8 @@ impl<'a, T: Task> BorgProcess<'a, T> {
 
                     let msg =
                         if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&stderr_line) {
-                            if !matches!(self.communication.status(), Run::Running) {
-                                self.communication.set_status(Run::Running);
+                            if !matches!(self.communication.status(), RunStatus::Running) {
+                                self.communication.set_status(RunStatus::Running);
                             }
                             log_json::Output::Progress(msg)
                         } else {

@@ -35,7 +35,7 @@ async fn backup_communication() -> borg::Result<()> {
     create.run().await?;
 
     // TODO: We would probably need one file to get this into 'running'
-    assert_matches!(communication.status(), borg::Run::Init);
+    assert_matches!(communication.status(), borg::RunStatus::Init);
 
     Ok(())
 }
