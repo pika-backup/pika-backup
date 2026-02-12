@@ -67,12 +67,9 @@ async fn failed_ssh_connection() {
 
     let result = borg::CommandOnlyRepo::new(repo).peek().await;
     assert_matches!(
-        result,
-        Err(borg::Error::Failed(
-            borg::error::Failure::ConnectionClosedWithHint_(_)
-        )) | Err(borg::Error::Failed(
-            borg::error::Failure::ConnectionClosedWithHint
-        ))
+        result.as_ref().map_err(|x| x.msgid()),
+        Err(Some(borg::error::Failure::ConnectionClosedWithHint_(_)))
+            | Err(Some(borg::error::Failure::ConnectionClosedWithHint))
     );
 }
 
@@ -82,10 +79,8 @@ async fn failed_repo() {
     init();
     let result = borg::CommandOnlyRepo::new(tmp_config().repo).peek().await;
     assert_matches!(
-        result,
-        Err(borg::Error::Failed(
-            borg::error::Failure::RepositoryDoesNotExist
-        ))
+        result.as_ref().map_err(|x| x.msgid()),
+        Err(Some(borg::error::Failure::RepositoryDoesNotExist))
     );
 }
 

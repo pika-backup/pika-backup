@@ -299,6 +299,8 @@ pub struct LogMessage {
     pub message: String,
     #[serde(default)]
     pub msgid: MsgId,
+    #[serde(default)]
+    pub context: LogContext,
 }
 
 impl std::fmt::Display for LogMessage {
@@ -392,6 +394,11 @@ impl LogEntry {
 
         self.level().log(&format!("{prefix}: {id} - {msg}"));
     }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq)]
+pub struct LogContext {
+    pub made_progress: bool,
 }
 
 pub type LogCollection = Vec<LogEntry>;

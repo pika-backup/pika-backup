@@ -33,15 +33,27 @@ quick_error! {
         ThreadPanicked { display("{}", gettext("The operation terminated unexpectedly.")) }
         ImplausiblePrune { display("{}", gettext("This delete operation would delete too many archives.")) }
         EmptyInclude { display("{}", gettext("No files selected to be included into backup.")) }
-        Failed(err: Failure) {
+        Failed(err: LogMessage) {
             from()
-            from(err: String) -> (Failure::Other(err))
             display("{}", err)
         }
         ChannelSend(err: smol::channel::SendError<super::Update>) { from() }
         Aborted(err: Abort) {
             from()
             display("{}", err)
+        }
+        Other(err: String) {
+            from()
+        }
+    }
+}
+
+impl Error {
+    pub fn msgid(&self) -> Option<&Failure> {
+        if let Self::Failed(msg) = self {
+            Some(&msg.msgid)
+        } else {
+            None
         }
     }
 }
@@ -53,8 +65,8 @@ impl std::convert::TryFrom<LogCollection> for Error {
 
         let first_with_id = errors.clone().find(|e| e.id().is_some());
 
-        if let Some(failure) = first_with_id.and_then(|e| e.id()) {
-            match failure {
+        if let Some(LogEntry::ParsedErr(mut msg)) = first_with_id.cloned() {
+            match msg.msgid {
                 // Find hint for ClosedWithHint
                 Failure::ConnectionClosedWithHint => {
                     let hint = value
@@ -63,10 +75,10 @@ impl std::convert::TryFrom<LogCollection> for Error {
                         .map(|x| x.message());
 
                     if let Some(hint) = hint {
-                        Ok(Failure::ConnectionClosedWithHint_(hint).into())
-                    } else {
-                        Ok(failure.into())
+                        msg.msgid = Failure::ConnectionClosedWithHint_(hint);
                     }
+
+                    Ok(msg.into())
                 }
                 Failure::Exception => {
                     let hint = value
@@ -84,14 +96,14 @@ impl std::convert::TryFrom<LogCollection> for Error {
                         .map(|_| gettext("Timeout"));
 
                     if let Some(hint) = hint {
-                        Ok(Failure::ConnectionClosedWithHint_(hint).into())
+                        msg.msgid = Failure::ConnectionClosedWithHint_(hint);
+                        Ok(msg.into())
                     } else {
-                        Ok(format!(
+                        Ok(Error::from(format!(
                             "{}: {}",
-                            failure,
+                            msg.msgid,
                             first_with_id.map(|x| x.message()).unwrap_or_default()
-                        )
-                        .into())
+                        )))
                     }
                 }
                 Failure::Other(msgid) => Ok(format!(
@@ -100,7 +112,7 @@ impl std::convert::TryFrom<LogCollection> for Error {
                     first_with_id.map(|x| x.message()).unwrap_or_default()
                 )
                 .into()),
-                _ => Ok(failure.into()),
+                _ => Ok(msg.into()),
             }
         } else {
             errors.next().map(|x| x.message().into()).ok_or(())

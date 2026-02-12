@@ -275,7 +275,9 @@ impl CommandRun<task::KeyChangePassphrase> for Command<task::KeyChangePassphrase
 
         // TODO: Why is this on stdout?
         if stdout.contains("repository is not encrypted") {
-            return Err(Failure::Other(gettext("This backup repository is not encrypted at all, not even with a key stored in plain text. Passwords can only be added to repositories that use encryption.")).into());
+            return Err(Error::from(gettext(
+                "This backup repository is not encrypted at all, not even with a key stored in plain text. Passwords can only be added to repositories that use encryption."
+            )).into());
         }
 
         Ok(())
@@ -288,8 +290,8 @@ async fn create_non_existent_location() {
 
     let result = Command::<task::Create>::new(config).run().await;
     matches::assert_matches!(
-        result,
-        Err(error::Error::Failed(error::Failure::RepositoryDoesNotExist))
+        result.as_ref().map_err(|x| x.msgid()),
+        Err(Some(error::Failure::RepositoryDoesNotExist))
     );
 }
 

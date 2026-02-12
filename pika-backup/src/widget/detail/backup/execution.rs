@@ -104,7 +104,7 @@ impl imp::BackupPage {
         // This is because the error cannot be cloned
         let outcome = match &result {
             Err(borg::Error::Aborted(err)) => borg::Outcome::Aborted(err.clone()),
-            Err(borg::Error::Failed(err)) => borg::Outcome::Failed(err.clone()),
+            Err(borg::Error::Failed(err)) => borg::Outcome::Failed(err.msgid.clone()),
             Err(err) => borg::Outcome::Failed(borg::error::Failure::Other(err.to_string())),
             Ok(stats) => borg::Outcome::Completed {
                 stats: stats.clone(),

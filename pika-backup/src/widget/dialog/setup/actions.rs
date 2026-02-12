@@ -134,7 +134,10 @@ pub async fn try_peek(
 
     match result {
         Ok(info) => Ok(info),
-        Err(crate::error::Combined::Borg(borg::Error::Failed(borg::Failure::PassphraseWrong))) => {
+        Err(crate::error::Combined::Borg(borg::Error::Failed(borg::log_json::LogMessage {
+            msgid: borg::Failure::PassphraseWrong,
+            ..
+        }))) => {
             // The password was wrong. Let's ask for the password again.
             Err(ConnectRepoError::PasswordWrong)
         }
