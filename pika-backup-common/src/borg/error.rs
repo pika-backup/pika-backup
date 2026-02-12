@@ -262,6 +262,9 @@ pub enum Failure {
     /// Connection closed with manually added hint
     ConnectionClosedWithHint_(String),
 
+    /// RC 87
+    ConnectionBrokenWithHint,
+
     // # General
     /// Unknown borg exception
     Exception,
@@ -281,6 +284,7 @@ impl Failure {
             Self::ConnectionClosed
                 | Self::ConnectionClosedWithHint
                 | Self::ConnectionClosedWithHint_(_)
+                | Self::ConnectionBrokenWithHint
         )
     }
 }
@@ -345,6 +349,7 @@ impl std::fmt::Display for Failure {
             Self::ConnectionClosed | Self::ConnectionClosedWithHint => {
                 gettext("Connection closed by remote host.")
             }
+            Self::ConnectionBrokenWithHint => gettext("Connection to remote host broken."),
 
             // Manually added data
             Self::ConnectionClosedWithHint_(hint) => {

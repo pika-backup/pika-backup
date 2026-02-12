@@ -369,10 +369,16 @@ impl BorgCall {
 
             match &result {
                 Err(Error::Failed(msg)) if msg.msgid.is_connection_error() => {
+                    tracing::debug!("Borg terminated with connection error");
+
                     if !communication.general_info.load().is_schedule
                         && !retried
                         && !msg.context.made_progress
                     {
+                        tracing::debug!(
+                            "This manually started backup never made any progress. Not reconnecting."
+                        );
+
                         // Don't reconnect when manual backups fail right at the beginning. This is
                         // most likely a permanent problem.
                         return result;
@@ -639,15 +645,15 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                                 continue;
                             }
 
+                            if let LogEntry::ParsedErr(err) = &mut msg {
+                                err.context.made_progress = made_progress;
+                            }
+
                             msg.log(&T::name());
 
                             self.communication.general_info.update(|status| {
                                 status.add_message(&msg);
                             });
-
-                            if let LogEntry::ParsedErr(err) = &mut msg {
-                                err.context.made_progress = made_progress;
-                            }
 
                             log_json::Output::LogEntry(msg)
                         };

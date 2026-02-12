@@ -186,7 +186,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     fn ui_status_update(&self) {
-        tracing::debug!("UI status update");
+        tracing::trace!("UI status update");
 
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
             main_ui().page_detail().backup_page().refresh_status();
@@ -199,7 +199,7 @@ impl<T: borg::Task> Operation<T> {
     }
 
     fn ui_schedule_update(&self) {
-        tracing::debug!("UI schedule update");
+        tracing::trace!("UI schedule update");
 
         if ACTIVE_BACKUP_ID.get() == self.command.config_id() {
             main_ui().page_detail().schedule_page().refresh_status();
