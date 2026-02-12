@@ -18,6 +18,7 @@ use super::error::*;
 use super::prelude::*;
 use super::status::*;
 use super::{BorgRunConfig, Command, Error, Result, Task, USER_INTERACTION_TIME, log_json, utils};
+use crate::borg::log_json::LogEntry;
 use crate::config;
 
 /// Return raw stdout from `BorgCall` instead JSON decoding it
@@ -368,7 +369,7 @@ impl BorgCall {
             let result = managed_process.spawn().await;
 
             match &result {
-                Err(Error::Failed(failure)) if failure.is_connection_error() => {
+                Err(Error::Failed(msg)) if msg.msgid.is_connection_error() => {
                     if !communication.general_info.load().is_schedule
                         && std::time::Instant::now().duration_since(started_instant)
                             < USER_INTERACTION_TIME
@@ -564,6 +565,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
         let mut return_message = Ok(());
         let mut unresponsive = Duration::ZERO;
         let mut stderr_line = String::new();
+        let mut made_progress = false;
 
         loop {
             // react to instructions before potentially listening for messages again
@@ -625,12 +627,13 @@ impl<'a, T: Task> BorgProcess<'a, T> {
 
                     let msg =
                         if let Ok(msg) = serde_json::from_str::<log_json::Progress>(&stderr_line) {
+                            made_progress = true;
                             if !matches!(self.communication.status(), RunStatus::Running) {
                                 self.communication.set_status(RunStatus::Running);
                             }
                             log_json::Output::Progress(msg)
                         } else {
-                            let msg = utils::check_line(&stderr_line);
+                            let mut msg = utils::check_line(&stderr_line);
                             if msg.is_ignored() {
                                 continue;
                             }
@@ -641,10 +644,14 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                                 status.add_message(&msg);
                             });
 
+                            if let LogEntry::ParsedErr(err) = &mut msg {
+                                err.context.made_progress = made_progress;
+                            }
+
                             log_json::Output::LogEntry(msg)
                         };
 
-                    self.sender.send(msg.clone()).await?;
+                    self.sender.send(msg).await?;
                 }
             }
         }

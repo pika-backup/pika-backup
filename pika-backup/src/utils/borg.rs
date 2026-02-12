@@ -190,7 +190,10 @@ async fn spawn_borg_thread_ask_password<C: 'static + borg::CommandRun<T>, T: Tas
 
         return match result {
             Err(Combined::Borg(borg::Error::PasswordMissing { .. }))
-            | Err(Combined::Borg(borg::Error::Failed(borg::Failure::PassphraseWrong))) => {
+            | Err(Combined::Borg(borg::Error::Failed(borg::log_json::LogMessage {
+                msgid: borg::Failure::PassphraseWrong,
+                ..
+            }))) => {
                 let keyring_error =
                     if let Err(Combined::Borg(borg::Error::PasswordMissing { keyring_error })) =
                         result
@@ -272,7 +275,10 @@ where
         .await;
 
         return match result? {
-            Err(borg::Error::Failed(borg::Failure::LockTimeout)) if !borg.is_scheduled() => {
+            Err(borg::Error::Failed(borg::log_json::LogMessage {
+                msgid: borg::Failure::LockTimeout,
+                ..
+            })) if !borg.is_scheduled() => {
                 // Ask to break lock for manually started backups
                 handle_lock(borg.clone()).await?;
                 continue;
