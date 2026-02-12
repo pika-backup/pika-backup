@@ -17,7 +17,7 @@ use super::communication::*;
 use super::error::*;
 use super::prelude::*;
 use super::status::*;
-use super::{BorgRunConfig, Command, Error, Result, Task, USER_INTERACTION_TIME, log_json, utils};
+use super::{BorgRunConfig, Command, Error, Result, Task, log_json, utils};
 use crate::borg::log_json::LogEntry;
 use crate::config;
 
@@ -353,7 +353,6 @@ impl BorgCall {
             status.started = Some(chrono::Local::now());
         });
         let sender = communication.new_sender();
-        let started_instant = std::time::Instant::now();
 
         let mut retries = 0;
         let mut retried = false;
@@ -371,8 +370,8 @@ impl BorgCall {
             match &result {
                 Err(Error::Failed(msg)) if msg.msgid.is_connection_error() => {
                     if !communication.general_info.load().is_schedule
-                        && std::time::Instant::now().duration_since(started_instant)
-                            < USER_INTERACTION_TIME
+                        && !retried
+                        && !msg.context.made_progress
                     {
                         // Don't reconnect when manual backups fail right at the beginning. This is
                         // most likely a permanent problem.
@@ -388,7 +387,9 @@ impl BorgCall {
                         ]);
                     }
 
-                    if !matches!(communication.status(), RunStatus::Reconnecting(_)) {
+                    // If there has been done some backup work done inbetween, this start a new set
+                    // of reconnect attempts.
+                    if msg.context.made_progress {
                         tracing::debug!("Starting reconnect attempts");
                         retries = 0;
                         communication.set_status(RunStatus::Reconnecting(super::DELAY_RECONNECT));
