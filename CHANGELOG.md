@@ -1,10 +1,8 @@
 # Changelog
 
-## 0.8.0 (unreleased)
+## 0.7.6 (unreleased)
 
-- Fix timestamps not respecting 12h/24h clock format setting
-- Fix UI sometimes being unresponsive when starting / stopping backups
-- Change fnmatches to be stored as strings instead of bytes in config
+- Changed to ignore OpenSSH's warning about missing post-quantum cryptography on servers
 
 ## 0.7.5 (2025-10-10)
 
