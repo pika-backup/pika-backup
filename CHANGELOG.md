@@ -23,6 +23,10 @@
 - Add dialog showing the state of closing archives mounted for browsing when closing main window.
 - Add propper error messages for more situations like missing filesystem access
 
+## 0.7.6 (unreleased)
+
+- Changed to ignore OpenSSH's warning about missing post-quantum cryptography on servers
+
 ## 0.7.5 (2025-10-10)
 
 - Fix missing icons for GNOME 49 runtime

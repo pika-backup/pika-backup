@@ -370,14 +370,19 @@ impl LogEntry {
     }
 
     pub fn is_ignored(&self) -> bool {
-        self.message()
-            .contains("By default repositories initialized with this version will produce security")
-            || self
-                .message()
-                .contains("IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!")
-            || self.message().contains(
-                "Failed to securely erase old repository config file (hardlinks not supported)",
-            )
+        let message = self.message();
+
+        [
+            "By default repositories initialized with this version will produce security",
+            "IMPORTANT: you will need both KEY AND PASSPHRASE to access this repo!",
+            "Failed to securely erase old repository config file (hardlinks not supported)",
+            // Post quantum messages
+            "connection is not using a post-quantum key exchange algorithm",
+            "This session may be vulnerable to \"store now, decrypt later\" attacks",
+            "The server may need to be upgraded. See https://openssh.com/pq.html",
+        ]
+        .iter()
+        .any(|x| message.contains(x))
     }
 
     // Log this message to stderr
