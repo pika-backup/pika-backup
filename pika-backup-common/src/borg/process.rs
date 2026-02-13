@@ -403,7 +403,10 @@ impl BorgCall {
 
                     if retries < super::MAX_RECONNECT {
                         retries += 1;
-                        tracing::debug!("Reconnect attempt number {}", retries);
+                        tracing::debug!(
+                            "Reconnect attempt number {retries}/{}",
+                            super::MAX_RECONNECT
+                        );
 
                         let start_time = std::time::Instant::now();
                         while start_time.elapsed() < super::DELAY_RECONNECT {
