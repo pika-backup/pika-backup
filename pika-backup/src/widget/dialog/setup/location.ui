@@ -36,11 +36,21 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="non_journaling_warning">
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Advanced Options</property>
+            <property name="subtitle" bind-source="PkSetupLocationPage" bind-property="advanced_options_subtitle" bind-flags="sync-create" />
+            <property name="activatable">True</property>
+            <child type="suffix">
+              <object class="GtkImage">
+                <property name="icon-name">go-next-symbolic</property>
+              </object>
+            </child>
+            <signal name="activated" handler="push_advanced_options" swapped="true" />
+          </object>
+        </child>
+        <child>
+          <object class="AdwEntryRow" id="non_journaling_warning">
             <property name="visible">0</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
-            <property name="margin-top">24</property>
             <child>
               <object class="GtkLabel">
                 <property name="label" translatable="yes">Warning</property>
@@ -63,19 +73,6 @@
                 </style>
               </object>
             </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwActionRow">
-            <property name="title" translatable="yes">Advanced Options</property>
-            <property name="subtitle" bind-source="PkSetupLocationPage" bind-property="advanced_options_subtitle" bind-flags="sync-create" />
-            <property name="activatable">True</property>
-            <child type="suffix">
-              <object class="GtkImage">
-                <property name="icon-name">go-next-symbolic</property>
-              </object>
-            </child>
-            <signal name="activated" handler="push_advanced_options" swapped="true" />
           </object>
         </child>
       </object>
@@ -108,6 +105,7 @@
             <child>
               <object class="GtkBox">
                 <property name="orientation">vertical</property>
+                <property name="spacing">3</property>
                 <style>
                   <class name="info-card" />
                 </style>
@@ -117,6 +115,7 @@
                     <property name="justify-last-line">true</property>
                     <property name="child-spacing">12</property>
                     <property name="line-spacing">6</property>
+                    <property name="margin-bottom">6</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="label" translatable="yes">Locations with BorgBackup Support</property>
@@ -125,7 +124,6 @@
                         <property name="hexpand">1</property>
                         <style>
                           <class name="heading" />
-                          <class name="accent" />
                         </style>
                       </object>
                     </child>
@@ -148,9 +146,6 @@
                     <property name="use-markup">True</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
-                    <style>
-                      <class name="document" />
-                    </style>
                   </object>
                 </child>
                 <child>
@@ -165,13 +160,27 @@
                     </style>
                   </object>
                 </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="activatable">False</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">3</property>
+                <style>
+                  <class name="info-card" />
+                </style>
                 <child>
                   <object class="AdwWrapBox">
                     <property name="justify">spread</property>
                     <property name="justify-last-line">true</property>
                     <property name="child-spacing">12</property>
                     <property name="line-spacing">6</property>
-                    <property name="margin-top">9</property>
+                    <property name="margin-bottom">3</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="label" translatable="yes">SMB and SFTP Network Shares</property>
@@ -180,7 +189,6 @@
                         <property name="hexpand">1</property>
                         <style>
                           <class name="heading" />
-                          <class name="accent" />
                         </style>
                       </object>
                     </child>
@@ -202,9 +210,6 @@
                     <property name="use-markup">True</property>
                     <property name="wrap">1</property>
                     <property name="xalign">0</property>
-                    <style>
-                      <class name="document" />
-                    </style>
                   </object>
                 </child>
                 <child>

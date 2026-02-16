@@ -54,7 +54,7 @@ mod imp {
         #[template_child]
         pub(super) init_dir: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) non_journaling_warning: TemplateChild<gtk::Box>,
+        pub(super) non_journaling_warning: TemplateChild<gtk::Widget>,
         #[template_child]
         pub(super) location_group_remote: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
