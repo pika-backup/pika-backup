@@ -102,7 +102,7 @@ impl CommandRun<task::PruneInfo> for Command<task::PruneInfo> {
         let mut borg_call = prune_call(&self).await?;
         borg_call.add_options(["--dry-run", "--list"]);
 
-        borg_call.output(&self.communication).await?;
+        borg_call.output::<_, ()>(&self.communication).await?;
 
         let messages = self
             .communication
