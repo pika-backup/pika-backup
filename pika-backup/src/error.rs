@@ -64,6 +64,7 @@ pub struct Message {
     secondary_text: Option<String>,
     notification_id: Option<String>,
     borg_error: Option<borg::Error>,
+    markup: bool,
 }
 
 impl Message {
@@ -73,6 +74,7 @@ impl Message {
             secondary_text: Some(secondary_text.to_string()),
             notification_id: None,
             borg_error: None,
+            markup: false,
         }
     }
 
@@ -86,6 +88,7 @@ impl Message {
             secondary_text: Some(secondary_text.to_string()),
             notification_id: None,
             borg_error: Some(borg),
+            markup: false,
         }
     }
 
@@ -99,6 +102,7 @@ impl Message {
             secondary_text: Some(format!("{secondary_text}")),
             notification_id: Some(notification_id.to_string()),
             borg_error: None,
+            markup: false,
         }
     }
 
@@ -108,7 +112,12 @@ impl Message {
             secondary_text: None,
             notification_id: None,
             borg_error: None,
+            markup: false,
         }
+    }
+
+    pub fn set_markup(&mut self, markup: bool) {
+        self.markup = markup;
     }
 
     pub fn borg_error(&self) -> Option<&borg::Error> {
@@ -120,23 +129,16 @@ impl Message {
     }
 
     pub async fn show_transient_for(&self, widget: &impl IsA<gtk::Widget>) {
-        if let Some(secondary) = &self.secondary_text {
-            crate::utils::show_error_transient_for(
-                &self.text,
-                secondary,
-                self.notification_id.as_deref(),
-                widget,
-            )
-            .await;
-        } else {
-            crate::utils::show_error_transient_for(
-                &self.text,
-                "",
-                self.notification_id.as_deref(),
-                widget,
-            )
-            .await;
-        }
+        let detail = self.secondary_text.as_deref().unwrap_or("");
+
+        crate::utils::show_error_transient_for(
+            &self.text,
+            detail,
+            self.notification_id.as_deref(),
+            widget,
+            self.markup,
+        )
+        .await;
     }
 
     pub fn from_secret_service<T: std::fmt::Display>(text: T, err: oo7::Error) -> Self {

@@ -396,6 +396,7 @@ pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
     detail: impl std::fmt::Display,
     notification_id: Option<&str>,
     widget: &W,
+    markup: bool,
 ) {
     let primary_text = ellipsize_multiline(message);
     let secondary_text = ellipsize_multiline(detail);
@@ -419,16 +420,24 @@ pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
             .heading(&primary_text)
             .body(&secondary_text)
             .prefer_wide_layout(true)
+            .body_use_markup(markup)
             .build();
 
         dialog.add_responses(&[("close", &gettext("Close"))]);
         dialog.choose_future(Some(widget)).await;
     } else {
-        let (title, body) = if secondary_text.is_empty() {
+        let (title, mut body) = if secondary_text.is_empty() {
             (gettext("Pika Backup"), primary_text)
         } else {
             (primary_text, secondary_text)
         };
+
+        if markup {
+            // Remove markup for notification body
+            body = gtk::pango::parse_markup(&body, '\0')
+                .map(|x| x.1.to_string())
+                .unwrap_or(body);
+        }
 
         let notification = gio::Notification::new(&title);
         notification.set_body(Some(&body));

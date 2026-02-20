@@ -3,6 +3,7 @@ use adw::subclass::prelude::*;
 use common::borg;
 
 use super::imp;
+use crate::error::Combined;
 use crate::prelude::*;
 use crate::utils;
 use crate::widget::{ArchivePrefixDialog, CheckDialog, PruneDialog};
@@ -92,7 +93,17 @@ impl imp::ArchivesPage {
                 main_ui().page_detail().show_pending_menu(false);
             }
 
-            mount.into_message(gettext("Failed to make archives available for browsing."))?;
+            let header = gettext("Failed to make archives available for browsing.");
+            if let Err(Combined::Borg(err)) = mount {
+                // Don't translate this message, since some translators will surely break it.
+                let body = "Make sure that <tt>fusermount</tt> or <tt>fusermount3</tt> are available on your system. If you are using Ubuntu, you might need to call:\n\n<span allow_breaks='false' face='monospace'>sudo rm /etc/apparmor.d/fusermount3</span>\n\nin your terminal. See Ubuntu issue <a href='https://bugs.launchpad.net/ubuntu/+source/apparmor/+bug/2120439'>#2120439</a> for more details.";
+                let mut message =
+                    Message::with_borg(header, format!("{body}\n\nOriginal error: {err}"), err);
+                message.set_markup(true);
+                return Err(Error::message(message));
+            } else {
+                mount.into_message(header)?;
+            }
         }
 
         self.update_eject_button().await?;

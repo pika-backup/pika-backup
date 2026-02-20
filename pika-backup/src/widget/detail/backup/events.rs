@@ -102,6 +102,7 @@ impl imp::BackupPage {
                 gettextf("The following paths could not be included because they aren't reliably available in the sandbox:\n{}", [&path_list]),
                 None,
                 &main_ui().window(),
+                false
             )
             .await;
             }
@@ -112,6 +113,7 @@ impl imp::BackupPage {
                 gettext("Pika Backup cannot be used to backup the entire system or the “/dev” directory."),
                 None,
                 &main_ui().window(),
+                false
             )
             .await;
             }
