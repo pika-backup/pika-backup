@@ -4,6 +4,7 @@
 
 - Fix timestamps not respecting 12h/24h clock format setting
 - Fix UI sometimes being unresponsive when starting / stopping backups
+- Fix backups failing to get credentials or mount GFvs if two scheduled backups are started at the same time. Now, only one backups is started per minute.
 - Add detailed explanation about the risks and benefits of encrypting backups
 - Change code to use three different Rust modules
 - Change fnmatches to be stored as strings instead of bytes in config

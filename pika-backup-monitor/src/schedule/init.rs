@@ -22,7 +22,17 @@ fn minutely() -> glib::ControlFlow {
 
     for config in BACKUP_CONFIG.load().iter() {
         if config.schedule.enabled {
-            glib::MainContext::default().block_on(probe(config));
+            let started = glib::MainContext::default().block_on(probe(config));
+            if started {
+                // Avoid starting two backups at the same time since this can confuse GVdb or
+                // other components. See:
+                // - <https://gitlab.gnome.org/World/pika-backup/-/issues/648>
+                // - <https://gitlab.gnome.org/World/pika-backup/-/issues/649>
+                tracing::debug!(
+                    "Not trying to start any further updates until next probe. Already started a backup.",
+                );
+                break;
+            }
         }
     }
 
@@ -75,7 +85,10 @@ impl Reminder {
     }
 }
 
-async fn probe(config: &config::Backup) {
+/// Start backup if it needs to be started
+///
+/// Returns true if the backup was started successfully.
+async fn probe(config: &config::Backup) -> bool {
     let schedule = &config.schedule;
     tracing::debug!("---");
     tracing::debug!("Probing backup: {}", config.repo);
@@ -154,7 +167,7 @@ async fn probe(config: &config::Backup) {
                     }
                 } else {
                     tracing::info!("Trying to start backup {:?}", config.id);
-                    dbus::PikaBackup::start_scheduled_backup(&config.id, due_cause)
+                    let started = dbus::PikaBackup::start_scheduled_backup(&config.id, due_cause)
                         .await
                         .handle(gettext("Failed to start scheduled backup"));
 
@@ -164,6 +177,12 @@ async fn probe(config: &config::Backup) {
 
                     // reset reminder if criteria are met to alert if they are violated again
                     Reminder::reminded_now(&config.id);
+
+                    if started.is_some() {
+                        // Only block next starts if this start works. Otherwise we would
+                        // potentially never start the others as long as this one fails.
+                        return true;
+                    }
                 }
             }
         }
@@ -171,4 +190,6 @@ async fn probe(config: &config::Backup) {
             tracing::debug!("Backup is not yet due: {:?}", err);
         }
     }
+
+    return false;
 }
