@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup v0.6.x\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-10-11 02:17+0000\n"
+"POT-Creation-Date: 2026-02-16 22:10+0000\n"
 "PO-Revision-Date: 2023-08-20 00:40+0300\n"
 "Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
 "Language-Team: Greek <gnome-el-list@gnome.org>\n"
@@ -23,7 +23,7 @@ msgid "Pika Backup Monitor"
 msgstr "Παρακολούθηση Pika Backup"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"     please make sure that the transliteration does not coincide with a different meaning. If     fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," #. please make sure that the transliteration does not coincide with a different meaning. If #. fitting, translations of "Pika" are welcome too.
 #.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
@@ -100,12 +100,16 @@ msgstr ""
 "το καλά δοκιμασμένο λογισμικό BorgBackup."
 
 #: data/app.metainfo.xml.in:65
-msgid "Just activate \"Back Up Now\" and your data will be saved"
-msgstr "Απλά ενεργοποιήστε το \"Δημιουργία αντιγράφων ασφαλείας τώρα\" και τα δεδομένα σας θα αποθηκευτούν"
+msgid "Just activate “Back Up Now” and your data will be saved"
+msgstr ""
+"Απλά ενεργοποιήστε το «Δημιουργία αντιγράφων ασφαλείας τώρα» και τα "
+"δεδομένα σας θα αποθηκευτούν"
 
 #: data/app.metainfo.xml.in:69
 msgid "Keep backups on local drives and at online services at the same time"
-msgstr "Διατηρήστε αντίγραφα ασφαλείας σε τοπικές μονάδες και σε διαδικτυακές υπηρεσίες ταυτόχρονα"
+msgstr ""
+"Διατηρήστε αντίγραφα ασφαλείας σε τοπικές μονάδες και σε διαδικτυακές "
+"υπηρεσίες ταυτόχρονα"
 
 #: data/app.metainfo.xml.in:73
 msgid "Schedule regular backups from monthly up to hourly"
@@ -138,13 +142,13 @@ msgstr "Άνοιγμα μενού"
 #: src/borg/error.rs:28
 msgid ""
 "Retrieving encryption password from the keyring failed. Pika Backup requires "
-"a keyring daemon (\"secret service\") to store passwords. For installation "
+"a keyring daemon (“secret service”) to store passwords. For installation "
 "instructions see the operating system documentation."
 msgstr ""
-"Η ανάκτηση του συνθηματικού κρυπτογράφησης από το keyring απέτυχε. Το Pika "
-"Backup απαιτεί έναν δαίμονα keyring (\"secret service\") για την αποθήκευση "
-"συνθηματικών. Για οδηγίες εγκατάστασης δείτε την τεκμηρίωση του λειτουργικού "
-"συστήματος."
+"Η ανάκτηση του κωδικού κρυπτογράφησης από την κλειδοθήκη απέτυχε. Το Pika "
+"Backup απαιτεί έναν δαίμονα κλειδοθήκης («υπηρεσία μυστικών») για την "
+"αποθήκευση κωδικών. Για οδηγίες εγκατάστασης, δείτε την τεκμηρίωση του "
+"λειτουργικού συστήματος."
 
 #: src/borg/error.rs:30 src/ui/utils.rs:283
 msgid "The operation terminated unexpectedly."
@@ -188,11 +192,12 @@ msgid "The program or system seems to have crashed."
 msgstr "Το πρόγραμμα ή το σύστημα φαίνεται να έχει καταρρεύσει."
 
 #: src/borg/error.rs:177
+#, rust-format
 msgid "{}"
 msgstr "{}"
 
 #: src/borg/error.rs:183
-#| msgid "Failed to lock repository."
+#, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "Αδυναμία πρόσβασης στο αποθετήριο αντιγράφων ασφαλείας: {}"
 
@@ -229,8 +234,9 @@ msgid "Not enough free space in repository."
 msgstr "Δεν υπάρχει αρκετός ελεύθερος χώρος στο αποθετήριο."
 
 #: src/borg/error.rs:252
-msgid "Connection closed by remote host: \"{}\""
-msgstr "Η σύνδεση έκλεισε από τον απομακρυσμένο υπολογιστή: \"{}\""
+#, rust-format
+msgid "Connection closed by remote host: “{}”"
+msgstr "Η σύνδεση τερματίστηκε από τον απομακρυσμένο διακομιστή: «{}»"
 
 #: src/borg/error.rs:254
 msgid "Exception"
@@ -259,11 +265,12 @@ msgid "Backup will continue."
 msgstr "Η δημιουργία αντιγράφων ασφαλείας θα συνεχιστεί."
 
 #: src/borg/log_json.rs:82
+#, rust-format
 msgid "Backed up data: {}"
 msgstr "Δεδομένα αντιγράφου ασφαλείας: {}"
 
 #: src/borg/log_json.rs:112
-#, no-c-format
+#, no-c-format, rust-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Η λειτουργία {} % ολοκληρώθηκε ({}/{})"
 
@@ -304,7 +311,6 @@ msgid "Verifying data"
 msgstr "Γίνεται επαλήθευση δεδομένων"
 
 #: src/borg/log_json.rs:203
-#| msgid "Verifying data"
 msgid "Verifying main database"
 msgstr "Επαλήθευση κύριας βάσης δεδομένων"
 
@@ -355,12 +361,17 @@ msgstr ""
 "αποθετήριο."
 
 #: src/borg/log_json.rs:253
-msgid "The backup repository at location \"{}\" was previously located at \"{}\"."
-msgstr "Το αποθετήριο αντιγράφων ασφαλείας στη θέση \"{}\" βρισκόταν προηγουμένως στο \"{}\"."
+#, rust-format
+msgid "The backup repository at location “{}” was previously located at “{}”."
+msgstr ""
+"Το αποθετήριο αντιγράφων ασφαλείας στη θέση «{}» βρισκόταν προηγουμένως "
+"στη θέση «{}»."
 
 #: src/borg/log_json.rs:257
 msgid "The backup repository was previously located at a different location."
-msgstr "Το αποθετήριο αντιγράφων ασφαλείας βρισκόταν προηγουμένως σε διαφορετική τοποθεσία."
+msgstr ""
+"Το αποθετήριο αντιγράφων ασφαλείας βρισκόταν προηγουμένως σε διαφορετική "
+"τοποθεσία."
 
 #: src/borg/log_json.rs:260
 msgid ""
@@ -377,15 +388,17 @@ msgid ""
 "You requested to delete the repository completely, including all backup "
 "archives it contains."
 msgstr ""
-"Ζητήσατε τη διαγραφή του αποθετηρίου πλήρως, συμπεριλαμβανομένων όλων των "
-"αντιγράφων ασφαλείας αρχείων που περιέχει."
+"Ζητήσατε την πλήρη διαγραφή του αποθετηρίου, συμπεριλαμβανομένων όλων των "
+"αρχειοθηκών αντιγράφων ασφαλείας που περιέχει."
 
 #: src/borg/log_json.rs:262
-msgid "Unexpected question from borgbackup: \"{}\""
-msgstr "Απροσδόκητη ερώτηση από το borgbackup: \"{}\""
+#, rust-format
+msgid "Unexpected question from borgbackup: “{}”"
+msgstr "Μη αναμενόμενο ερώτημα από το borgbackup: «{}»"
 
 #. Translators: Combines statement from above and this question
 #: src/borg/log_json.rs:266
+#, rust-format
 msgid ""
 "{}\n"
 "\n"
@@ -399,27 +412,27 @@ msgstr ""
 msgid "Standard error output"
 msgstr "Τυπική έξοδος σφαλμάτων"
 
-#: src/borg/log_json.rs:473
+#: src/borg/log_json.rs:478
 msgid "Debug"
 msgstr "Αποσφαλμάτωση"
 
-#: src/borg/log_json.rs:474
+#: src/borg/log_json.rs:479
 msgid "Info"
 msgstr "Πληροφορίες"
 
-#: src/borg/log_json.rs:475 src/ui/dialog_setup.ui:201 src/ui/utils.rs:382
+#: src/borg/log_json.rs:480 src/ui/dialog_setup.ui:201 src/ui/utils.rs:382
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: src/borg/log_json.rs:476
+#: src/borg/log_json.rs:481
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: src/borg/log_json.rs:477
+#: src/borg/log_json.rs:482
 msgid "Critical"
 msgstr "Κρίσιμο"
 
-#: src/borg/log_json.rs:478
+#: src/borg/log_json.rs:483
 msgid "Undefined"
 msgstr "Απροσδιόριστο"
 
@@ -428,12 +441,14 @@ msgid "The following variables are available:"
 msgstr "Οι ακόλουθες μεταβλητές είναι διαθέσιμες:"
 
 #: src/borg/scripts.rs:54
-msgid "Only available for the pre-backup command:"
-msgstr "Διαθέσιμο μόνο για την εντολή πριν τη δημιουργία αντιγράφων ασφαλείας:"
+msgid "Only available for the post-backup command:"
+msgstr "Διαθέσιμο μόνο για την εντολή μετά τη δημιουργία αντιγράφων ασφαλείας:"
 
 #: src/borg/scripts.rs:57
 msgid "<span line_height='1.6'>Only available for completed backups:</span>"
-msgstr "<span line_height='1.6'>Διαθέσιμο μόνο για ολοκληρωμένα αντίγραφα ασφαλείας:</span>"
+msgstr ""
+"<span line_height='1.6'>Διαθέσιμο μόνο για ολοκληρωμένα αντίγραφα ασφαλείας:"
+"</span>"
 
 #: src/borg/scripts.rs:99
 msgid "ID of the backup configuration"
@@ -477,7 +492,8 @@ msgstr "Το συνολικό ποσό των bytes που αναφέροντα�
 
 #: src/borg/scripts.rs:115
 msgid "The compressed size of all data references by this archive"
-msgstr "Το συμπιεσμένο μέγεθος όλων των δεδομένων που αναφέρονται από αυτό το αρχείο"
+msgstr ""
+"Το συμπιεσμένο μέγεθος όλων των δεδομένων που αναφέρονται από αυτό το αρχείο"
 
 #: src/borg/scripts.rs:118
 msgid "The deduplicated amount of bytes for this archive"
@@ -488,6 +504,7 @@ msgid "The amount of files saved in this archive"
 msgstr "Ο αριθμός των αρχείων που αποθηκεύτηκαν σε αυτό το αρχείο"
 
 #: src/borg/scripts.rs:271
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -497,6 +514,7 @@ msgstr ""
 "{}"
 
 #: src/borg/scripts.rs:275
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -506,6 +524,7 @@ msgstr ""
 "{}"
 
 #: src/borg/scripts.rs:301
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -513,6 +532,7 @@ msgstr ""
 "προτιμήσεις επέστρεψε κωδικό αποτυχίας: {}"
 
 #: src/borg/scripts.rs:305
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -520,7 +540,6 @@ msgstr ""
 "προτιμήσεις επέστρεψε κωδικό αποτυχίας: {}"
 
 #: src/borg/task.rs:47
-#| msgid "Unspecified operation"
 msgid "Generic Operation"
 msgstr "Γενική  λειτουργία"
 
@@ -546,7 +565,6 @@ msgid "Reclaiming Free Space"
 msgstr "Ανάκτηση ελεύθερου χώρου"
 
 #: src/borg/task.rs:152
-#| msgid "Refreshing Archive List"
 msgid "Checking Archives Integrity"
 msgstr "Έλεγχος ακεραιότητας αρχείων"
 
@@ -628,7 +646,8 @@ msgstr "Δεδομένα που μπορούν να αναγεννηθούν ό�
 #. Translators: Detailed description for Flatpak app installations exclusion rule
 #: src/config/exclude.rs:201
 msgid "Documents and data are still backed up"
-msgstr "Τα έγγραφα και τα δεδομένα εξακολουθούν να δημιουργούνται αντίγραφα ασφαλείας"
+msgstr ""
+"Τα έγγραφα και τα δεδομένα εξακολουθούν να δημιουργούνται αντίγραφα ασφαλείας"
 
 #. Translators: Detailed description for trash exclusion rule
 #: src/config/exclude.rs:203
@@ -642,6 +661,7 @@ msgstr "Μπορεί να περιλαμβάνει δεδομένα που απ�
 
 #. The config is incompatible with this app version
 #: src/config/loadable.rs:37
+#, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
@@ -695,23 +715,24 @@ msgid "Backup Device Connected"
 msgstr "Η συσκευή δημιουργίας αντιγράφων ασφαλείας συνδέθηκε"
 
 #: src/daemon/connect/event.rs:28
-msgid "\"{}\" contains multiple configured backups."
-msgstr "Το \"{}\" περιέχει πολλαπλά διαμορφωμένα αντίγραφα ασφαλείας."
+#, rust-format
+msgid "“{}” contains multiple configured backups."
+msgstr "Το «{}» περιέχει πολλαπλά διαμορφωμένα αντίγραφα ασφαλείας."
 
 #: src/daemon/connect/event.rs:33
 msgid "Show Backups"
 msgstr "Εμφάνιση αντιγράφων ασφαλείας"
 
 #: src/daemon/connect/event.rs:41
-msgid "\"{}\" contains one configured backup."
-msgstr "Το \"{}\" περιέχει ένα διαμορφωμένο αντίγραφο ασφαλείας."
+#, rust-format
+msgid "“{}” contains one configured backup."
+msgstr "Το «{}» περιέχει ένα διαμορφωμένο αντίγραφο ασφαλείας."
 
 #: src/daemon/connect/event.rs:46
 msgid "Back Up Now"
 msgstr "Δημιουργία αντιγράφων ασφαλείας τώρα"
 
 #: src/daemon/init.rs:34
-#| msgid "Save Configuration"
 msgid "Error loading configuration"
 msgstr "Σφάλμα φόρτωσης ρυθμίσεων"
 
@@ -728,10 +749,13 @@ msgid "Fatal Error During Back Up"
 msgstr "Μοιραίο Σφάλμα Κατά τη Δημιουργία Αντιγράφων Ασφαλείας"
 
 #: src/daemon/init.rs:129
+#, rust-format
 msgid "Pika Backup crashed while running a backup."
 msgid_plural "Pika Backup crashed while running {} backups."
-msgstr[0] "Το Pika Backup κατέρρευσε κατά την εκτέλεση ενός αντιγράφου ασφαλείας."
-msgstr[1] "Το Pika Backup κατέρρευσε κατά την εκτέλεση {} αντιγράφων ασφαλείας."
+msgstr[0] ""
+"Το Pika Backup κατέρρευσε κατά την εκτέλεση ενός αντιγράφου ασφαλείας."
+msgstr[1] ""
+"Το Pika Backup κατέρρευσε κατά την εκτέλεση {} αντιγράφων ασφαλείας."
 
 #: src/daemon/init.rs:168 src/daemon/init.rs:170 src/daemon/init.rs:177
 msgid "Error restarting monitor daemon"
@@ -758,8 +782,11 @@ msgid "Backup Device Required"
 msgstr "Απαιτείται Συσκευή Δημιουργίας Αντιγράφων Ασφαλείας"
 
 #: src/daemon/schedule/init.rs:131
-msgid "\"{}\" has to be connected for the scheduled backup to start."
-msgstr "Το \"{}\" πρέπει να είναι συνδεδεμένο για να ξεκινήσει το προγραμματισμένο αντίγραφο ασφαλείας."
+#, rust-format
+msgid "“{}” has to be connected for the scheduled backup to start."
+msgstr ""
+"Το «{}» πρέπει να είναι συνδεδεμένο για να ξεκινήσει το προγραμματισμένο "
+"αντίγραφο ασφαλείας."
 
 #: src/daemon/schedule/init.rs:144
 msgid "Failed to start scheduled backup"
@@ -790,17 +817,21 @@ msgstr "Μια Λειτουργία Δημιουργίας Αντιγράφων 
 
 #: src/ui.rs:204
 msgid "Pika Backup cannot be quit during a backup operation."
-msgstr "Το Pika Backup δεν μπορεί να κλείσει κατά τη διάρκεια μιας λειτουργίας δημιουργίας αντιγράφων ασφαλείας."
+msgstr ""
+"Το Pika Backup δεν μπορεί να κλείσει κατά τη διάρκεια μιας λειτουργίας "
+"δημιουργίας αντιγράφων ασφαλείας."
 
 #: src/ui.rs:232
-msgid "Failed to run \"borg\". Is BorgBackup installed correctly?"
-msgstr "Αποτυχία εκτέλεσης του \"borg\". Είναι το BorgBackup εγκατεστημένο σωστά;"
+msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
+msgstr ""
+"Αποτυχία εκτέλεσης του «borg». Είναι το BorgBackup εγκατεστημένο σωστά;"
 
 #: src/ui.rs:262
 msgid "BorgBackup Version Too Old"
-msgstr "Η Έκδοση του BorgBackup Είναι Πολύ Παλιά"
+msgstr "Η έκδοση του BorgBackup είναι πολύ παλιά"
 
 #: src/ui.rs:264
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
 "{}. This is unsupported."
@@ -813,6 +844,7 @@ msgid "BorgBackup Version Too New"
 msgstr "Η Έκδοση του BorgBackup Είναι Πολύ Νέα"
 
 #: src/ui.rs:275
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
@@ -825,6 +857,7 @@ msgid "Failed to Check BorgBackup Version"
 msgstr "Αποτυχία Ελέγχου Έκδοσης BorgBackup"
 
 #: src/ui.rs:286
+#, rust-format
 msgid "The installed version {} might not work."
 msgstr "Η εγκατεστημένη έκδοση {} μπορεί να μην λειτουργεί."
 
@@ -866,14 +899,15 @@ msgstr "Δεν Έχει Ρυθμιστεί Αντίγραφο Ασφαλείας
 
 #: src/ui/app_window.ui:136
 msgid "Add a new configuration to start creating backups"
-msgstr "Προσθέστε μια νέα διαμόρφωση για να ξεκινήσετε τη δημιουργία αντιγράφων ασφαλείας"
+msgstr ""
+"Προσθέστε μια νέα διαμόρφωση για να ξεκινήσετε τη δημιουργία αντιγράφων "
+"ασφαλείας"
 
 #: src/ui/app_window.ui:139
 msgid "_Setup Backup"
 msgstr "_Ρύθμιση Αντιγράφων Ασφαλείας"
 
 #: src/ui/app_window.ui:183
-#| msgid "Backups"
 msgid "Backup"
 msgstr "Αντίγραφο ασφαλείας"
 
@@ -894,7 +928,6 @@ msgid "Eject Backup Disk"
 msgstr "Εξαγωγή Δίσκου Αντιγράφων Ασφαλείας"
 
 #: src/ui/app_window.ui:271
-#| msgid "Connect"
 msgid "Disconnected"
 msgstr "Αποσυνδεδεμένο"
 
@@ -912,7 +945,9 @@ msgstr "Αρχεία για Δημιουργία Αντιγράφων Ασφαλ
 
 #: src/ui/app_window.ui:327
 msgid "Only files in the following folders are saved in the backup repository."
-msgstr "Μόνο τα αρχεία στους ακόλουθους φακέλους αποθηκεύονται στο αποθετήριο αντιγράφων ασφαλείας."
+msgstr ""
+"Μόνο τα αρχεία στους ακόλουθους φακέλους αποθηκεύονται στο αποθετήριο "
+"αντιγράφων ασφαλείας."
 
 #: src/ui/app_window.ui:330
 msgid "Select Directory to Include"
@@ -929,7 +964,8 @@ msgstr "Εξαίρεση από το Αντίγραφο Ασφαλείας"
 
 #: src/ui/app_window.ui:356
 msgid "The following folders are excluded from the backup repository."
-msgstr "Οι ακόλουθοι φάκελοι εξαιρούνται από το αποθετήριο αντιγράφων ασφαλείας."
+msgstr ""
+"Οι ακόλουθοι φάκελοι εξαιρούνται από το αποθετήριο αντιγράφων ασφαλείας."
 
 #: src/ui/app_window.ui:359
 msgid "Select Directory to Exclude"
@@ -968,7 +1004,6 @@ msgid "_Check Now…"
 msgstr "_Έλεγχος Τώρα…"
 
 #: src/ui/app_window.ui:543
-#| msgid "_Abort"
 msgid "_Abort…"
 msgstr "_Ματαίωση…"
 
@@ -1013,7 +1048,6 @@ msgid "Preferred Weekday"
 msgstr "Προτιμώμενη Ημέρα Εβδομάδας"
 
 #: src/ui/app_window.ui:692
-#| msgid "Preferred Day"
 msgid "Preferred Day of Month"
 msgstr "Προτιμώμενη ημέρα μήνα"
 
@@ -1127,6 +1161,7 @@ msgstr "Το Τελευταίο Αντίγραφο Ασφαλείας Απέτυ
 
 #. Translators: Argument is 'x months ago'
 #: src/ui/backup_status.rs:146
+#, rust-format
 msgid "Successful Integrity Check {}"
 msgstr "Επιτυχής Έλεγχος Ακεραιότητας {}"
 
@@ -1151,7 +1186,7 @@ msgid "Integrity Errors Found"
 msgstr "Βρέθηκαν Σφάλματα Ακεραιότητας"
 
 #: src/ui/backup_status.rs:225
-#, no-c-format
+#, no-c-format, rust-format
 msgid "{} % finished"
 msgstr "{} % ολοκληρώθηκε"
 
@@ -1168,6 +1203,7 @@ msgid "Backup Destination Unresponsive"
 msgstr "Ο Προορισμός Αντιγράφων Ασφαλείας Δεν Απαντά"
 
 #: src/ui/backup_status.rs:253
+#, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "Η σύνδεση χάθηκε, επανασύνδεση σε {}"
 
@@ -1181,7 +1217,8 @@ msgstr "Διακοπή δημιουργίας αντιγράφων ασφαλε�
 
 #: src/ui/dbus.rs:67
 msgid "Failed to spawn interface for scheduled backups."
-msgstr "Αποτυχία δημιουργίας διεπαφής για προγραμματισμένα αντίγραφα ασφαλείας."
+msgstr ""
+"Αποτυχία δημιουργίας διεπαφής για προγραμματισμένα αντίγραφα ασφαλείας."
 
 #: src/ui/dialog_about.rs:25
 msgid "Support us on Open Collective"
@@ -1196,7 +1233,6 @@ msgid "Sophie Herold <sophieherold@gnome.org>"
 msgstr "Sophie Herold <sophieherold@gnome.org>"
 
 #: src/ui/dialog_about.rs:37
-#| msgid "Fina Wilke <code@felinira.net>"
 msgid "Fina Wilke <finaw@gnome.org>"
 msgstr "Fina Wilke <finaw@gnome.org>"
 
@@ -1219,7 +1255,7 @@ msgstr "Back End"
 
 #: src/ui/dialog_about.rs:46
 msgid ""
-"Pika Backup uses BorgBackup. This app wouldn't exist without Borg. Consider "
+"Pika Backup uses BorgBackup. This app wouldn’t exist without Borg. Consider "
 "<a href='https://www.borgbackup.org/support/fund.html'>supporting "
 "BorgBackup</a>."
 msgstr ""
@@ -1229,11 +1265,11 @@ msgstr ""
 
 #: src/ui/dialog_about.rs:48
 msgid "The Name"
-msgstr "Το Όνομα"
+msgstr "Το όνομα"
 
 #: src/ui/dialog_about.rs:50
 msgid ""
-"The name \"Pika Backup\" derives from the American pika. Pikas are small "
+"The name “Pika Backup” derives from the American pika. Pikas are small "
 "mammals belonging to the lagomorphs. The American pika is known for caching "
 "food in skillfully constructed haypiles. Techniques used by American pikas "
 "for building haypiles include: storing piles below overhanging rocks, using "
@@ -1242,23 +1278,22 @@ msgid ""
 "not only create very sophisticated haypiles but are quick in collecting "
 "vegetation as well."
 msgstr ""
-"Το όνομα \"Pika Backup\" προέρχεται από το αμερικανικό pika. Τα pika είναι "
-"μικρά θηλαστικά που ανήκουν στα λαγόμορφα. Το αμερικανικό pika είναι γνωστό "
+"Το όνομα «Pika Backup» προέρχεται από το αμερικανικό πίκα. Τα πίκα είναι "
+"μικρά θηλαστικά που ανήκουν στα λαγόμορφα. Το αμερικανικό πίκα είναι γνωστό "
 "για την αποθήκευση τροφής σε επιδέξια κατασκευασμένους σωρούς σανού. Οι "
-"τεχνικές που χρησιμοποιούνται από τα αμερικανικά pika για την κατασκευή "
-"σωρών σανού περιλαμβάνουν: αποθήκευση σωρών κάτω από προεξέχουσες πέτρες, "
-"χρήση ορισμένων φυτών που αναστέλλουν την βακτηριακή ανάπτυξη ως "
-"συντηρητικό και προτίμηση φυτών με υψηλή θρεπτική αξία για σανό. Τέλος, τα "
-"pika όχι μόνο δημιουργούν πολύ εξελιγμένους σωρούς σανού αλλά είναι και "
-"γρήγορα στη συλλογή βλάστησης."
+"τεχνικές που χρησιμοποιούν τα αμερικανικά πίκα για την κατασκευή σωρών σανού "
+"περιλαμβάνουν: την αποθήκευση κάτω από προεξέχοντα βράχια, τη χρήση ορισμένων "
+"φυτών που αναστέλλουν τη βακτηριακή ανάπτυξη ως συντηρητικό και την προτίμηση "
+"φυτών με υψηλή θρεπτική αξία. Τέλος, τα πίκα όχι μόνο δημιουργούν "
+"εξελιγμένους σωρούς σανού, αλλά είναι και πολύ γρήγορα στη συλλογή βλάστησης."
 
 #: src/ui/dialog_about.rs:52
 msgid ""
-"Frequent rumors that this software's name is related to a monster with "
+"Frequent rumors that this software’s name is related to a monster with "
 "electrical abilities are unfounded."
 msgstr ""
-"Οι συχνές φήμες ότι το όνομα αυτού του λογισμικού σχετίζεται με ένα τέρας "
-"με ηλεκτρικές ικανότητες είναι αβάσιμες."
+"Οι συχνές φήμες ότι το όνομα αυτού του λογισμικού σχετίζεται με ένα τέρας με "
+"ηλεκτρικές ικανότητες είναι ανυπόστατες."
 
 #: src/ui/dialog_archive_prefix.rs:42 src/ui/dialog_archive_prefix.rs:56
 #: src/ui/dialog_setup/display.rs:169
@@ -1288,21 +1323,21 @@ msgstr "Προθέματα Αρχείων"
 
 #: src/ui/dialog_archive_prefix.ui:67
 msgid ""
-"Each backup run creates a new archive. The archive's name is always prefixed "
+"Each backup run creates a new archive. The archive’s name is always prefixed "
 "with the current archive prefix."
 msgstr ""
-"Κάθε εκτέλεση αντιγράφου ασφαλείας δημιουργεί ένα νέο αρχείο. Το όνομα του "
-"αρχείου προηγείται πάντα από το τρέχον πρόθεμα αρχείου."
+"Κάθε εκτέλεση αντιγράφου ασφαλείας δημιουργεί μια νέα αρχειοθήκη. Στο όνομα "
+"της αρχειοθήκης προστίθεται πάντα το τρέχον πρόθεμα αρχειοθήκης."
 
 #: src/ui/dialog_archive_prefix.ui:74
 msgid ""
-"This is especially relevant for the \"Cleanup Archives\" function. Only "
+"This is especially relevant for the “Cleanup Archives” function. Only "
 "archives with the currently configured prefix in their name are considered "
 "for deletion."
 msgstr ""
-"Αυτό είναι ιδιαίτερα σχετικό για τη λειτουργία \"Εκκαθάριση Αρχείων\". "
-"Μόνο τα αρχεία με το τρέχον διαμορφωμένο πρόθεμα στο όνομά τους λαμβάνονται "
-"υπόψη για διαγραφή."
+"Αυτό είναι ιδιαίτερα σημαντικό για τη λειτουργία «Εκκαθάριση αρχειοθηκών». "
+"Μόνο οι αρχειοθήκες που έχουν στο όνομά τους το τρέχον διαμορφωμένο πρόθεμα "
+"λαμβάνονται υπόψη για διαγραφή."
 
 #: src/ui/dialog_archive_prefix.ui:81
 msgid "If the archive prefix is empty, no prefix is added."
@@ -1315,14 +1350,6 @@ msgstr "Εκτέλεση Επισκευής"
 #: src/ui/dialog_check.rs:74 src/ui/dialog_check.ui:66
 msgid "Perform Check"
 msgstr "Εκτέλεση Ελέγχου"
-
-#: src/ui/dialog_check.rs:121 src/ui/dialog_check.rs:156
-msgid "Verify Archives Integrity"
-msgstr "Επαλήθευση Ακεραιότητας Αρχείων"
-
-#: src/ui/dialog_check.rs:172
-msgid "Verify archives integrity completed successfully"
-msgstr "Η επαλήθευση ακεραιότητας αρχείων ολοκληρώθηκε με επιτυχία"
 
 #: src/ui/dialog_check.ui:5 src/ui/dialog_check.ui:26
 msgid "Archives Integrity Check"
@@ -1337,7 +1364,6 @@ msgstr ""
 "μπορεί να πάρει πολύ χρόνο."
 
 #: src/ui/dialog_check.ui:33
-#| msgid "Verifying data"
 msgid "Verify data"
 msgstr "Επαλήθευση δεδομένων"
 
@@ -1406,16 +1432,17 @@ msgid "The following backup location needs to be connected:"
 msgstr "Η ακόλουθη τοποθεσία αντιγράφων ασφαλείας πρέπει να συνδεθεί:"
 
 #: src/ui/dialog_encryption_password.rs:33
+#, rust-format
 msgid ""
-"The operation \"{}\" requires the encryption password of the repository on "
-"\"{}\"."
+"The operation “{}” requires the encryption password of the repository on "
+"“{}”."
 msgstr ""
-"Η λειτουργία \"{}\" απαιτεί το συνθηματικό κρυπτογράφησης του αποθετηρίου "
-"στο \"{}\"."
+"Η λειτουργία «{}» απαιτεί τον κωδικό κρυπτογράφησης του αποθετηρίου "
+"στο «{}»."
 
 #: src/ui/dialog_encryption_password.ui:6 src/ui/dialog_setup.ui:456
 msgid "Encryption Password Required"
-msgstr "Απαιτείται Συνθηματικό Κρυπτογράφησης"
+msgstr "Απαιτείται κωδικός κρυπτογράφησης"
 
 #: src/ui/dialog_encryption_password.ui:9 src/ui/dialog_preferences.ui:98
 msgid "_Cancel"
@@ -1517,12 +1544,13 @@ msgstr ""
 "BorgBackup</a>."
 
 #: src/ui/dialog_preferences.rs:213
+#, rust-format
 msgid ""
-"The title of this backup configuration. Will be displayed as \"{}\" when left "
+"The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr ""
-"Ο τίτλος αυτής της διαμόρφωσης αντιγράφων ασφαλείας. Θα εμφανίζεται ως \"{}\" "
-"όταν αφεθεί κενό."
+"Ο τίτλος αυτής της διαμόρφωσης αντιγράφων ασφαλείας. Θα εμφανίζεται ως «{}» "
+"αν παραμείνει κενό."
 
 #: src/ui/dialog_preferences.rs:279
 msgid "Shell command invalid"
@@ -1537,7 +1565,6 @@ msgid "Error Running Shell Command"
 msgstr "Σφάλμα Εκτέλεσης Εντολής Κελύφους"
 
 #: src/ui/dialog_preferences.rs:466
-#| msgid "Encryption Password"
 msgid "Change Encryption Password Error"
 msgstr "Σφάλμα αλλαγής συνθηματικού κρυπτογράφησης"
 
@@ -1546,17 +1573,14 @@ msgid "Password changed successfully"
 msgstr "Το συνθηματικό άλλαξε με επιτυχία"
 
 #: src/ui/dialog_preferences.ui:27 src/ui/dialog_preferences.ui:137
-#| msgid "Encryption Password"
 msgid "Change Encryption Password"
 msgstr "Αλλαγή συνθηματικού κρυπτογράφησης"
 
 #: src/ui/dialog_preferences.ui:54
-#| msgid "Password"
 msgid "_Change Password"
 msgstr "_Αλλαγή συνθηματικού"
 
 #: src/ui/dialog_preferences.ui:84
-#| msgid "Encryption Password"
 msgid "Changing Encryption Password"
 msgstr "Αλλαγή συνθηματικού κρυπτογράφησης"
 
@@ -1565,7 +1589,6 @@ msgid "Title"
 msgstr "Τίτλος"
 
 #: src/ui/dialog_preferences.ui:133
-#| msgid "Encryption Password"
 msgid "Encryption password"
 msgstr "Συνθηματικό κρυπτογράφησης"
 
@@ -1579,7 +1602,9 @@ msgstr "Εκτέλεση με Μπαταρία"
 
 #: src/ui/dialog_preferences.ui:155
 msgid "Allow scheduled backups when device is battery powered"
-msgstr "Να επιτρέπονται προγραμματισμένα αντίγραφα ασφαλείας όταν η συσκευή τροφοδοτείται από μπαταρία"
+msgstr ""
+"Να επιτρέπονται προγραμματισμένα αντίγραφα ασφαλείας όταν η συσκευή "
+"τροφοδοτείται από μπαταρία"
 
 #: src/ui/dialog_preferences.ui:163 src/ui/dialog_setup.ui:317
 msgid "Additional command line arguments"
@@ -1588,10 +1613,10 @@ msgstr "Πρόσθετες παράμετροι γραμμής εντολών"
 #: src/ui/dialog_preferences.ui:164 src/ui/dialog_setup.ui:318
 msgid ""
 "These arguments will be added to the call of the borg binary. Only long "
-"options, starting with \"--\", are supported."
+"options, starting with “--”, are supported."
 msgstr ""
-"Αυτές οι παράμετροι θα προστεθούν στην κλήση του δυαδικού borg. Υποστηρίζονται "
-"μόνο μακριές επιλογές, που ξεκινούν με \"--\"."
+"Αυτές οι παράμετροι θα προστεθούν στην κλήση του εκτελέσιμου borg. "
+"Υποστηρίζονται μόνο μακρές επιλογές που ξεκινούν με «--»."
 
 #: src/ui/dialog_preferences.ui:167 src/ui/dialog_setup.ui:322
 msgid "Command line arguments"
@@ -1603,7 +1628,9 @@ msgstr "Εντολές Κελύφους"
 
 #: src/ui/dialog_preferences.ui:179
 msgid "These bash shell commands will be called on certain backup events."
-msgstr "Αυτές οι εντολές κελύφους bash θα καλούνται σε ορισμένα συμβάντα αντιγράφων ασφαλείας."
+msgstr ""
+"Αυτές οι εντολές κελύφους bash θα καλούνται σε ορισμένα συμβάντα αντιγράφων "
+"ασφαλείας."
 
 #: src/ui/dialog_preferences.ui:192
 msgid "Pre-Backup Shell Command"
@@ -1650,8 +1677,8 @@ msgid ""
 "available."
 msgstr ""
 "Η συνέχιση αυτής της λειτουργίας θα διαγράψει ανεπανόρθωτα ορισμένα από τα "
-"αρχεία. Τα αποθηκευμένα δεδομένα για αυτές τις συγκεκριμένες χρονικές στιγμές "
-"δεν θα είναι πλέον διαθέσιμα."
+"αρχεία. Τα αποθηκευμένα δεδομένα για αυτές τις συγκεκριμένες χρονικές "
+"στιγμές δεν θα είναι πλέον διαθέσιμα."
 
 #: src/ui/dialog_prune.ui:94 src/ui/dialog_prune_review.ui:94
 msgid "Keep Archives"
@@ -1719,7 +1746,6 @@ msgstr ""
 "άλλο συμβατό λογισμικό BorgBackup."
 
 #: src/ui/dialog_setup.ui:150
-#| msgid "Remote Location"
 msgid "Select Location"
 msgstr "Επιλογή τοποθεσίας"
 
@@ -1732,12 +1758,10 @@ msgid "Advanced Options"
 msgstr "Προχωρημένες Επιλογές"
 
 #: src/ui/dialog_setup.ui:178
-#| msgid "Repository access was aborted"
 msgid "Repository Base Folder"
 msgstr "Βασικός φάκελος αποθετηρίου"
 
 #: src/ui/dialog_setup.ui:190
-#| msgid "Repository already in use."
 msgid "Repository Name"
 msgstr "Όνομα αποθετηρίου"
 
@@ -1745,25 +1769,24 @@ msgstr "Όνομα αποθετηρίου"
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
-"reformat the backup location with a format like \"NTFS\" or \"Ext4.\" Note that "
+"reformat the backup location with a format like “NTFS” or “Ext4.” Note that "
 "reformatting deletes all files on the location!"
 msgstr ""
-"Τα αντίγραφα ασφαλείας στην επιλεγμένη τοποθεσία μπορεί να καταστραφούν εάν "
-"η συσκευή αποσυνδεθεί ή απενεργοποιηθεί ενώ εκτελείται αντίγραφο ασφαλείας. "
-"Εάν είναι δυνατόν, μορφοποιήστε ξανά την τοποθεσία αντιγράφων ασφαλείας με "
-"μορφή όπως \"NTFS\" ή \"Ext4\". Σημειώστε ότι η εκ νέου μορφοποίηση διαγράφει "
-"όλα τα αρχεία στην τοποθεσία!"
+"Τα αντίγραφα ασφαλείας στην επιλεγμένη τοποθεσία ενδέχεται να καταστραφούν αν "
+"η συσκευή αποσυνδεθεί ή απενεργοποιηθεί ενώ η διαδικασία βρίσκεται σε εξέλιξη. "
+"Αν είναι εφικτό, διαμορφώστε ξανά την τοποθεσία αντιγράφων ασφαλείας με ένα "
+"σύστημα αρχείων όπως «NTFS» ή «Ext4». Σημειώστε ότι η επαναδιαμόρφωση "
+"διαγράφει όλα τα αρχεία στην τοποθεσία!"
 
 #: src/ui/dialog_setup.ui:243
 msgid "Repository URL"
-msgstr "URL Αποθετηρίου"
+msgstr "URL αποθετηρίου"
 
 #: src/ui/dialog_setup.ui:257
 msgid "Examples"
 msgstr "Παραδείγματα"
 
 #: src/ui/dialog_setup.ui:268
-#| msgid "ssh://user@server.example.org/~/backup"
 msgid ""
 "ssh://user@server.example.org/~/backup\n"
 "smb://user@server.example.org/files/backup"
@@ -1778,39 +1801,37 @@ msgstr "Συμβατικές Τοποθεσίες"
 #: src/ui/dialog_setup.ui:287
 msgid ""
 "SMB and SFTP remote-backup locations can be provided as a URL with the "
-"\"smb://\" or \"sftp://\" protocol prefix."
+"“smb://” or “sftp://” protocol prefix."
 msgstr ""
 "Οι απομακρυσμένες τοποθεσίες αντιγράφων ασφαλείας SMB και SFTP μπορούν να "
-"παρασχεθούν ως URL με το πρωτόκολλο \"smb://\" ή \"sftp://\"."
+"οριστούν ως URL με το πρόθεμα πρωτοκόλλου «smb://» ή «sftp://»."
 
 #: src/ui/dialog_setup.ui:294
 msgid "Locations with BorgBackup Support"
-msgstr "Τοποθεσίες με Υποστήριξη BorgBackup"
+msgstr "Τοποθεσίες με υποστήριξη BorgBackup"
 
 #: src/ui/dialog_setup.ui:306
 msgid ""
 "Locations with explicit BorgBackup support can provide better performance. "
 "They are special in that the server has a BorgBackup binary installed. For "
-"those locations, either the \"<server address>:<folder>\" syntax or the "
-"\"ssh://\" prefix can be used."
+"those locations, either the “<server address>:<folder>” syntax or the "
+"“ssh://” prefix can be used."
 msgstr ""
-"Οι τοποθεσίες με ρητή υποστήριξη BorgBackup μπορούν να προσφέρουν καλύτερη "
-"απόδοση. Είναι ειδικές στο ότι ο διακομιστής έχει εγκατεστημένο ένα δυαδικό "
-"BorgBackup. Για αυτές τις τοποθεσίες, μπορεί να χρησιμοποιηθεί είτε η σύνταξη "
-"\"<διεύθυνση διακομιστή>:<φάκελος>\" είτε το πρόθεμα \"ssh://\"."
+"Οι τοποθεσίες με ρητή υποστήριξη BorgBackup προσφέρουν καλύτερη απόδοση. "
+"Η ιδιαιτερότητά τους είναι ότι ο διακομιστής διαθέτει εγκατεστημένο το "
+"εκτελέσιμο του BorgBackup. Για αυτές τις τοποθεσίες, μπορεί να "
+"χρησιμοποιηθεί είτε η σύνταξη «<διεύθυνση διακομιστή>:<φάκελος>» είτε το "
+"πρόθεμα «ssh://»."
 
 #: src/ui/dialog_setup.ui:343
-#| msgid "Connect"
 msgid "_Connect"
 msgstr "_Σύνδεση"
 
 #: src/ui/dialog_setup.ui:358
-#| msgid "Continue"
 msgid "_Continue"
 msgstr "_Συνέχεια"
 
 #: src/ui/dialog_setup.ui:378
-#| msgid "Encryption"
 msgid "Setup Encryption"
 msgstr "Ρύθμιση κρυπτογράφησης"
 
@@ -1825,7 +1846,9 @@ msgstr "Έλεγχος Αποθετηρίου Αντιγράφων Ασφαλε�
 #: src/ui/dialog_setup.ui:457
 msgid ""
 "The encryption password of this backup repository is required to access it."
-msgstr "Απαιτείται το συνθηματικό κρυπτογράφησης αυτού του αποθετηρίου αντιγράφων ασφαλείας για πρόσβαση σε αυτό."
+msgstr ""
+"Απαιτείται το συνθηματικό κρυπτογράφησης αυτού του αποθετηρίου αντιγράφων "
+"ασφαλείας για πρόσβαση σε αυτό."
 
 #: src/ui/dialog_setup.ui:499 src/ui/dialog_setup.ui:557
 msgid "Transfer Settings"
@@ -1880,6 +1903,7 @@ msgid "None"
 msgstr "Κανένα"
 
 #: src/ui/dialog_setup/display.rs:238
+#, rust-format
 msgid "Free space: {}"
 msgstr "Ελεύθερος χώρος: {}"
 
@@ -1901,7 +1925,8 @@ msgstr "Η τοποθεσία δεν είναι έγκυρο αποθετήρι�
 
 #: src/ui/dialog_setup/insert.rs:34
 msgid "The repository must originate from Pika Backup or compatible software."
-msgstr "Το αποθετήριο πρέπει να προέρχεται από το Pika Backup ή συμβατό λογισμικό."
+msgstr ""
+"Το αποθετήριο πρέπει να προέρχεται από το Pika Backup ή συμβατό λογισμικό."
 
 #: src/ui/dialog_setup/insert.rs:47 src/ui/dialog_setup/insert.rs:108
 msgid "Invalid Remote Location"
@@ -1933,7 +1958,9 @@ msgstr "Η τοποθεσία αποθετηρίου δεν βρέθηκε."
 
 #: src/ui/dialog_setup/insert.rs:296
 msgid "A mount operation succeeded but the location is still unavailable."
-msgstr "Μια λειτουργία προσάρτησης πέτυχε αλλά η τοποθεσία εξακολουθεί να είναι μη διαθέσιμη."
+msgstr ""
+"Μια λειτουργία προσάρτησης πέτυχε αλλά η τοποθεσία εξακολουθεί να είναι μη "
+"διαθέσιμη."
 
 #: src/ui/dialog_setup/remote_location.rs:23
 msgid "Incomplete URL or borg syntax"
@@ -1944,8 +1971,9 @@ msgid "The remote location must have a specified path."
 msgstr "Η απομακρυσμένη τοποθεσία πρέπει να έχει καθορισμένη διαδρομή."
 
 #: src/ui/dialog_setup/remote_location.rs:36
-msgid "Invalid remote location: \"{}\""
-msgstr "Μη έγκυρη απομακρυσμένη τοποθεσία: \"{}\""
+#, rust-format
+msgid "Invalid remote location: “{}”"
+msgstr "Μη έγκυρη απομακρυσμένη τοποθεσία: «{}»"
 
 #: src/ui/dialog_storage.ui:30
 msgid "Disk"
@@ -1985,21 +2013,23 @@ msgstr "Ελεύθερα"
 
 #: src/ui/error.rs:101
 msgid ""
-"The keyring is not available. Pika Backup requires a keyring daemon (\"secret "
-"service\") to store passwords. For installation instructions see the "
+"The keyring is not available. Pika Backup requires a keyring daemon (“secret "
+"service”) to store passwords. For installation instructions see the "
 "operating system documentation."
 msgstr ""
-"Το keyring δεν είναι διαθέσιμο. Το Pika Backup απαιτεί έναν δαίμονα keyring "
-"(\"secret service\") για την αποθήκευση συνθηματικών. Για οδηγίες εγκατάστασης "
-"δείτε την τεκμηρίωση του λειτουργικού συστήματος."
+"Η κλειδοθήκη δεν είναι διαθέσιμη. Το Pika Backup απαιτεί έναν δαίμονα "
+"κλειδοθήκης («υπηρεσία μυστικών») για την αποθήκευση κωδικών. Για οδηγίες "
+"εγκατάστασης, δείτε την τεκμηρίωση του λειτουργικού συστήματος."
 
 #: src/ui/error.rs:125
-msgid "Backup with id \"{}\" already exists."
-msgstr "Υπάρχει ήδη αντίγραφο ασφαλείας με αναγνωριστικό \"{}\"."
+#, rust-format
+msgid "Backup with id “{}” already exists."
+msgstr "Υπάρχει ήδη αντίγραφο ασφαλείας με αναγνωριστικό «{}»."
 
 #: src/ui/error.rs:130
-msgid "Could not find backup configuration with id \"{}\"."
-msgstr "Δεν ήταν δυνατή η εύρεση διαμόρφωσης αντιγράφων ασφαλείας με αναγνωριστικό \"{}\"."
+#, rust-format
+msgid "Could not find backup configuration with id “{}”."
+msgstr "Αδυναμία εύρεσης διαμόρφωσης αντιγράφων ασφαλείας με αναγνωριστικό «{}»."
 
 #: src/ui/page_archives/cache.rs:35
 msgid "Failed to refresh archives cache."
@@ -2010,7 +2040,6 @@ msgid "Failed to open archive."
 msgstr "Αποτυχία ανοίγματος αρχείου."
 
 #: src/ui/page_archives/display.rs:173
-#| msgid "Deleting Archive"
 msgid "Incomplete Archive"
 msgstr "Ημιτελές αρχείο"
 
@@ -2035,10 +2064,12 @@ msgid "Delete archive"
 msgstr "Διαγραφή αρχείου"
 
 #: src/ui/page_archives/display.rs:252
+#, rust-format
 msgid "{} Available"
 msgstr "{} Διαθέσιμα"
 
 #: src/ui/page_archives/display.rs:255
+#, rust-format
 msgid "{} Total"
 msgstr "{} Σύνολο"
 
@@ -2111,6 +2142,7 @@ msgid "Unable to Include Location"
 msgstr "Αδυναμία Συμπερίληψης Τοποθεσίας"
 
 #: src/ui/page_backup/events.rs:122
+#, rust-format
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -2122,20 +2154,23 @@ msgstr ""
 
 #: src/ui/page_backup/events.rs:132
 msgid ""
-"Pika Backup cannot be used to backup the entire system or the \"/dev\" "
+"Pika Backup cannot be used to backup the entire system or the “/dev” "
 "directory."
 msgstr ""
-"Το Pika Backup δεν μπορεί να χρησιμοποιηθεί για δημιουργία αντιγράφων "
-"ασφαλείας ολόκληρου του συστήματος ή του καταλόγου \"/dev\"."
+"Το Pika Backup δεν μπορεί να χρησιμοποιηθεί για τη δημιουργία αντιγράφων "
+"ασφαλείας ολόκληρου του συστήματος ή του καταλόγου «/dev»."
 
 #: src/ui/page_backup/events.rs:187
-msgid "No longer include \"{}\" in backups?"
-msgstr "Να μην συμπεριλαμβάνεται πλέον το \"{}\" στα αντίγραφα ασφαλείας;"
+#, rust-format
+msgid "No longer include “{}” in backups?"
+msgstr "Να μη συμπεριλαμβάνεται πλέον το «{}» στα αντίγραφα ασφαλείας;"
 
 #: src/ui/page_backup/events.rs:188
 msgid ""
 "All files contained in this folder will no longer be part of future backups."
-msgstr "Όλα τα αρχεία που περιέχονται σε αυτόν τον φάκελο δεν θα είναι πλέον μέρος μελλοντικών αντιγράφων ασφαλείας."
+msgstr ""
+"Όλα τα αρχεία που περιέχονται σε αυτόν τον φάκελο δεν θα είναι πλέον μέρος "
+"μελλοντικών αντιγράφων ασφαλείας."
 
 #: src/ui/page_backup/events.rs:190
 msgid "Confirm"
@@ -2214,24 +2249,28 @@ msgid "Custom"
 msgstr "Προσαρμοσμένη"
 
 #: src/ui/page_schedule/status.rs:16
+#, rust-format
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Επόμενο αντίγραφο ασφαλείας σε ένα λεπτό"
 msgstr[1] "Επόμενο αντίγραφο ασφαλείας σε {} λεπτά"
 
 #: src/ui/page_schedule/status.rs:22
+#, rust-format
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Επόμενο αντίγραφο ασφαλείας σε μία ώρα"
 msgstr[1] "Επόμενο αντίγραφο ασφαλείας σε {} ώρες"
 
 #: src/ui/page_schedule/status.rs:28
+#, rust-format
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Επόμενο αντίγραφο ασφαλείας σε μία ημέρα"
 msgstr[1] "Επόμενο αντίγραφο ασφαλείας σε {} ημέρες"
 
 #: src/ui/page_schedule/status.rs:34
+#, rust-format
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Επόμενο αντίγραφο ασφαλείας σε μία εβδομάδα"
@@ -2326,35 +2365,37 @@ msgid "Unable to determine background process status"
 msgstr "Αδυναμία προσδιορισμού κατάστασης διαδικασίας παρασκηνίου"
 
 #: src/ui/toast_size_estimate.rs:46
+#, rust-format
 msgid ""
-"Backup location \"{}\" might be filling up. Estimated space missing to store "
+"Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
 msgstr ""
-"Η τοποθεσία αντιγράφων ασφαλείας \"{}\" μπορεί να γεμίζει. Εκτιμώμενος χώρος "
-"που λείπει για αποθήκευση όλων των δεδομένων: {}."
+"Η τοποθεσία αντιγράφων ασφαλείας «{}» κοντεύει να γεμίσει. Εκτιμώμενος χώρος "
+"που υπολείπεται για την αποθήκευση όλων των δεδομένων: {}."
 
 #: src/ui/utils.rs:106
 msgid "Request to run in background failed"
-msgstr "Αποτυχία αιτήματος εκτέλεσης στο παρασκήνιο"
+msgstr "Το αίτημα για εκτέλεση στο παρασκήνιο απέτυχε"
 
 #: src/ui/utils.rs:126
 msgid "Schedule backups and continue running backups."
-msgstr "Προγραμματισμός αντιγράφων ασφαλείας και συνέχιση εκτέλεσης αντιγράφων ασφαλείας."
+msgstr ""
+"Προγραμματισμός αντιγράφων ασφαλείας και συνέχιση εκτέλεσης αντιγράφων "
+"ασφαλείας."
 
 #: src/ui/utils.rs:143
 msgid "Run in background disabled"
-msgstr "Η εκτέλεση στο παρασκήνιο είναι απενεργοποιημένη"
+msgstr "Απενεργοποίηση εκτέλεσης στο παρασκήνιο"
 
 #: src/ui/utils.rs:144
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
-"not be available. The \"run in background\" option can be enabled via the "
+"not be available. The “run in background” option can be enabled via the "
 "system settings."
 msgstr ""
-"Η λειτουργικότητα προγραμματισμένων αντιγράφων ασφαλείας και η συνέχιση "
-"αντιγράφων ασφαλείας στο παρασκήνιο δεν θα είναι διαθέσιμες. Η επιλογή "
-"\"εκτέλεση στο παρασκήνιο\" μπορεί να ενεργοποιηθεί μέσω των ρυθμίσεων "
-"συστήματος."
+"Η λειτουργία προγραμματισμένων αντιγράφων και η συνέχιση της διαδικασίας στο "
+"παρασκήνιο δεν θα είναι διαθέσιμες. Η επιλογή «εκτέλεση στο παρασκήνιο» "
+"μπορεί να ενεργοποιηθεί μέσω των ρυθμίσεων του συστήματος."
 
 #: src/ui/utils.rs:154
 msgid ""
@@ -2375,6 +2416,7 @@ msgid "Failed to Start Monitor"
 msgstr "Αποτυχία Εκκίνησης Παρακολούθησης"
 
 #: src/ui/utils.rs:254
+#, rust-format
 msgid "One Backup Operation Running"
 msgid_plural "{} Backup Operations Running"
 msgstr[0] "Μια Λειτουργία Αντιγράφων Ασφαλείας Εκτελείται"
@@ -2394,11 +2436,14 @@ msgstr "Το αποθετήριο χρησιμοποιείται ήδη"
 
 #: src/ui/utils/borg.rs:121
 msgid "Stop browsing files and start backup?"
-msgstr "Να διακοπεί η περιήγηση αρχείων και να ξεκινήσει το αντίγραφο ασφαλείας;"
+msgstr ""
+"Να διακοπεί η περιήγηση αρχείων και να ξεκινήσει το αντίγραφο ασφαλείας;"
 
 #: src/ui/utils/borg.rs:123
 msgid "Browsing through archived files is not possible while running a backup."
-msgstr "Η περιήγηση σε αρχειοθετημένα αρχεία δεν είναι δυνατή κατά την εκτέλεση αντιγράφου ασφαλείας."
+msgstr ""
+"Η περιήγηση σε αρχειοθετημένα αρχεία δεν είναι δυνατή κατά την εκτέλεση "
+"αντιγράφου ασφαλείας."
 
 #: src/ui/utils/borg.rs:125 src/ui/utils/borg.rs:136
 msgid "Keep Browsing"
@@ -2416,7 +2461,9 @@ msgstr "Να διακοπεί η περιήγηση αρχείων και να �
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository."
-msgstr "Η περιήγηση σε αρχειοθετημένα αρχεία δεν είναι δυνατή κατά την εκτέλεση λειτουργίας στο αποθετήριο."
+msgstr ""
+"Η περιήγηση σε αρχειοθετημένα αρχεία δεν είναι δυνατή κατά την εκτέλεση "
+"λειτουργίας στο αποθετήριο."
 
 #: src/ui/utils/borg.rs:137
 msgid "Start Operation"
@@ -2454,10 +2501,12 @@ msgid "Unable to Eject Backup Disk"
 msgstr "Αδυναμία Εξαγωγής Δίσκου Αντιγράφων Ασφαλείας"
 
 #: src/ui/utils/borg.rs:358
+#, rust-format
 msgid "{} can be safely unplugged."
 msgstr "Το {} μπορεί να αποσυνδεθεί με ασφάλεια."
 
 #: src/ui/utils/borg.rs:370
+#, rust-format
 msgid "{} can't be ejected."
 msgstr "Το {} δεν μπορεί να εξαχθεί."
 
@@ -2466,66 +2515,77 @@ msgid "Could not load configuration file."
 msgstr "Δεν ήταν δυνατή η φόρτωση του αρχείου διαμόρφωσης."
 
 #: src/ui/utils/duration.rs:11
+#, rust-format
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "Ένα δευτερόλεπτο"
 msgstr[1] "{} δευτερόλεπτα"
 
 #: src/ui/utils/duration.rs:13
+#, rust-format
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "Ένα λεπτό"
 msgstr[1] "{} λεπτά"
 
 #: src/ui/utils/duration.rs:15
+#, rust-format
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "Μία ώρα"
 msgstr[1] "{} ώρες"
 
 #: src/ui/utils/duration.rs:17
+#, rust-format
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "Μία ημέρα"
 msgstr[1] "{} ημέρες"
 
 #: src/ui/utils/duration.rs:23
+#, rust-format
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "ένα δευτερόλεπτο"
 msgstr[1] "{} δευτερόλεπτα"
 
 #: src/ui/utils/duration.rs:25
+#, rust-format
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "ένα λεπτό"
 msgstr[1] "{} λεπτά"
 
 #: src/ui/utils/duration.rs:27
+#, rust-format
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "μία ώρα"
 msgstr[1] "{} ώρες"
 
 #: src/ui/utils/duration.rs:29
+#, rust-format
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "μία ημέρα"
 msgstr[1] "{} ημέρες"
 
 #: src/ui/utils/duration.rs:36
+#, rust-format
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "Απομένει ένα λεπτό"
 msgstr[1] "Απομένουν {} λεπτά"
 
 #: src/ui/utils/duration.rs:41
+#, rust-format
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "Απομένει μία ώρα"
 msgstr[1] "Απομένουν {} ώρες"
 
 #: src/ui/utils/duration.rs:43
+#, rust-format
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "Απομένει μία ημέρα"
@@ -2536,36 +2596,42 @@ msgid "Now"
 msgstr "Τώρα"
 
 #: src/ui/utils/duration.rs:51
+#, rust-format
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Πριν από ένα λεπτό"
 msgstr[1] "Πριν από {} λεπτά"
 
 #: src/ui/utils/duration.rs:53
+#, rust-format
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Πριν από μία ώρα"
 msgstr[1] "Πριν από {} ώρες"
 
 #: src/ui/utils/duration.rs:55
+#, rust-format
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "Πριν από μία ημέρα"
 msgstr[1] "Πριν από {} ημέρες"
 
 #: src/ui/utils/duration.rs:57
+#, rust-format
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Πριν από μία εβδομάδα"
 msgstr[1] "Πριν από {} εβδομάδες"
 
 #: src/ui/utils/duration.rs:59
+#, rust-format
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Πριν από έναν μήνα"
 msgstr[1] "Πριν από {} μήνες"
 
 #: src/ui/utils/duration.rs:61
+#, rust-format
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Πριν από έναν χρόνο"
@@ -2577,16 +2643,19 @@ msgstr "Αποτυχία Αποθήκευσης Συνθηματικού"
 
 #: src/ui/utils/password_storage.rs:37
 msgid "Failed to remove potentially remaining passwords from key storage."
-msgstr "Αποτυχία αφαίρεσης πιθανώς εναπομεινάντων συνθηματικών από την αποθήκη κλειδιών."
+msgstr ""
+"Αποτυχία αφαίρεσης πιθανώς εναπομεινάντων συνθηματικών από την αποθήκη "
+"κλειδιών."
 
 #. Translators: This is the description for entries in the password database.
 #: src/ui/utils/password_storage.rs:56
-msgid "Pika Backup \"{}\""
-msgstr "Pika Backup \"{}\""
+#, rust-format
+msgid "Pika Backup “{}”"
+msgstr "Pika Backup «{}»"
 
 #: src/ui/utils/repo_cache.rs:59
 msgid "Failed to Save Cache"
-msgstr "Αποτυχία Αποθήκευσης Προσωρινής Μνήμης"
+msgstr "Αποτυχία αποθήκευσης προσωρινής μνήμης"
 
 #: src/ui/widget/encryption_preferences_group.rs:86
 msgid "No Password Provided"
@@ -2614,7 +2683,6 @@ msgid "Encryption"
 msgstr "Κρυπτογράφηση"
 
 #: src/ui/widget/encryption_preferences_group.ui:8
-#| msgid "Encryption"
 msgid "Use Encryption"
 msgstr "Χρήση κρυπτογράφησης"
 
@@ -2627,7 +2695,6 @@ msgid "Unencrypted"
 msgstr "Μη Κρυπτογραφημένο"
 
 #: src/ui/widget/encryption_preferences_group.ui:35
-#| msgid "Encryption Password"
 msgid "New Encryption Password"
 msgstr "Νέο συνθηματικό κρυπτογράφησης"
 
@@ -2638,3 +2705,9 @@ msgstr "Επανάληψη Συνθηματικού"
 #: src/utils.rs:79
 msgid "No such file or directory"
 msgstr "Δεν υπάρχει τέτοιο αρχείο ή κατάλογος"
+
+#~ msgid "Verify Archives Integrity"
+#~ msgstr "Επαλήθευση Ακεραιότητας Αρχείων"
+
+#~ msgid "Verify archives integrity completed successfully"
+#~ msgstr "Η επαλήθευση ακεραιότητας αρχείων ολοκληρώθηκε με επιτυχία"
