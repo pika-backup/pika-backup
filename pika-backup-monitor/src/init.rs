@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use common::config::{ConfigType, Loadable, TrackChanges};
+use common::utils::action::Action;
 use common::{DAEMON_BINARY, config};
 use gio::ApplicationHoldGuard;
 use gio::prelude::*;

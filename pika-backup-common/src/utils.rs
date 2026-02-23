@@ -1,3 +1,4 @@
+pub mod action;
 pub mod dbus;
 pub mod host;
 pub mod password;
