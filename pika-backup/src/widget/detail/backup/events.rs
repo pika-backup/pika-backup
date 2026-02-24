@@ -6,6 +6,7 @@ use adw::subclass::prelude::*;
 use common::borg;
 
 use super::imp;
+use crate::error;
 use crate::prelude::*;
 
 #[gtk::template_callbacks]
@@ -96,26 +97,22 @@ impl imp::BackupPage {
 
             if !sandbox_filtered_paths.is_empty() {
                 let path_list = sandbox_filtered_paths.join("\n");
-
-                crate::utils::show_error_transient_for(
-                gettext("Unable to Include Location"),
-                gettextf("The following paths could not be included because they aren't reliably available in the sandbox:\n{}", [&path_list]),
-                None,
-                &main_ui().window(),
-                false
-            )
-            .await;
+                let detail = gettextf(
+                    "The following paths could not be included because they aren't reliably available in the sandbox:\n{}",
+                    [&path_list],
+                );
+                error::Message::new(gettext("Unable to Include Location"), detail)
+                    .show()
+                    .await;
             }
 
             if !root_paths.is_empty() {
-                crate::utils::show_error_transient_for(
-                gettext("Unable to Include Location"),
-                gettext("Pika Backup cannot be used to backup the entire system or the “/dev” directory."),
-                None,
-                &main_ui().window(),
-                false
-            )
-            .await;
+                let detail = gettext(
+                    "Pika Backup cannot be used to backup the entire system or the “/dev” directory.",
+                );
+                error::Message::new(gettext("Unable to Include Location"), detail)
+                    .show()
+                    .await;
             }
 
             paths

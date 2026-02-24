@@ -321,21 +321,6 @@ pub fn paths_from_model(model: Option<gio::ListModel>) -> Result<Vec<std::path::
     }
 }
 
-fn ellipsize_multiline<S: std::fmt::Display>(x: S) -> String {
-    let s = x.to_string();
-    let vec = s.chars().collect::<Vec<_>>();
-
-    if vec.len() > 510 {
-        format!(
-            "{}\n…\n{}",
-            vec.iter().take(300).collect::<String>(),
-            vec.iter().rev().take(200).rev().collect::<String>()
-        )
-    } else {
-        s
-    }
-}
-
 /// Ellipsizes a string at the end so that it is `max_len` characters long
 pub fn ellipsize_end<S: std::fmt::Display>(x: S, max_len: usize) -> String {
     let mut text = x.to_string();
@@ -388,61 +373,6 @@ pub async fn show_borg_question(
     match response {
         Ok(()) => common::borg::Response::Yes,
         Err(_) => common::borg::Response::No,
-    }
-}
-
-pub async fn show_error_transient_for<W: IsA<gtk::Widget>>(
-    message: impl std::fmt::Display,
-    detail: impl std::fmt::Display,
-    notification_id: Option<&str>,
-    widget: &W,
-    markup: bool,
-) {
-    let primary_text = ellipsize_multiline(message);
-    let secondary_text = ellipsize_multiline(detail);
-    tracing::warn!(
-        "Displaying error:\n  {}\n  {}",
-        &primary_text,
-        &secondary_text
-    );
-
-    let window = crate::App::default().main_window();
-
-    // Only display as dialog if focus and visible
-    if window.is_mapped()
-        && gtk::Window::list_toplevels().into_iter().any(|x| {
-            x.downcast::<gtk::Window>()
-                .map(|w| w.is_active())
-                .unwrap_or_default()
-        })
-    {
-        let dialog = adw::AlertDialog::builder()
-            .heading(&primary_text)
-            .body(&secondary_text)
-            .prefer_wide_layout(true)
-            .body_use_markup(markup)
-            .build();
-
-        dialog.add_responses(&[("close", &gettext("Close"))]);
-        dialog.choose_future(Some(widget)).await;
-    } else {
-        let (title, mut body) = if secondary_text.is_empty() {
-            (gettext("Pika Backup"), primary_text)
-        } else {
-            (primary_text, secondary_text)
-        };
-
-        if markup {
-            // Remove markup for notification body
-            body = gtk::pango::parse_markup(&body, '\0')
-                .map(|x| x.1.to_string())
-                .unwrap_or(body);
-        }
-
-        let notification = gio::Notification::new(&title);
-        notification.set_body(Some(&body));
-
-        adw_app().send_notification(notification_id, &notification);
     }
 }
 

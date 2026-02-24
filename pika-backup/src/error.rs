@@ -1,5 +1,5 @@
+use adw::prelude::*;
 use common::{borg, config};
-use gtk::prelude::*;
 
 use super::prelude::*;
 use super::widget::AppWindow;
@@ -129,16 +129,69 @@ impl Message {
     }
 
     pub async fn show_transient_for(&self, widget: &impl IsA<gtk::Widget>) {
+        fn ellipsize_multiline<S: std::fmt::Display>(x: S) -> String {
+            let s = x.to_string();
+            let vec = s.chars().collect::<Vec<_>>();
+
+            if vec.len() > 510 {
+                format!(
+                    "{}\n…\n{}",
+                    vec.iter().take(300).collect::<String>(),
+                    vec.iter().rev().take(200).rev().collect::<String>()
+                )
+            } else {
+                s
+            }
+        }
+
         let detail = self.secondary_text.as_deref().unwrap_or("");
 
-        crate::utils::show_error_transient_for(
-            &self.text,
-            detail,
-            self.notification_id.as_deref(),
-            widget,
-            self.markup,
-        )
-        .await;
+        let primary_text = ellipsize_multiline(&self.text);
+        let secondary_text = ellipsize_multiline(detail);
+        tracing::warn!(
+            "Displaying error:\n  {}\n  {}",
+            &primary_text,
+            &secondary_text
+        );
+
+        let window = crate::App::default().main_window();
+
+        // Only display as dialog if focus and visible
+        if window.is_mapped()
+            && gtk::Window::list_toplevels().into_iter().any(|x| {
+                x.downcast::<gtk::Window>()
+                    .map(|w| w.is_active())
+                    .unwrap_or_default()
+            })
+        {
+            let dialog = adw::AlertDialog::builder()
+                .heading(&primary_text)
+                .body(&secondary_text)
+                .prefer_wide_layout(true)
+                .body_use_markup(self.markup)
+                .build();
+
+            dialog.add_responses(&[("close", &gettext("Close"))]);
+            dialog.choose_future(Some(widget)).await;
+        } else {
+            let (title, mut body) = if secondary_text.is_empty() {
+                (gettext("Pika Backup"), primary_text)
+            } else {
+                (primary_text, secondary_text)
+            };
+
+            if self.markup {
+                // Remove markup for notification body
+                body = gtk::pango::parse_markup(&body, '\0')
+                    .map(|x| x.1.to_string())
+                    .unwrap_or(body);
+            }
+
+            let notification = gio::Notification::new(&title);
+            notification.set_body(Some(&body));
+
+            adw_app().send_notification(self.notification_id.as_deref(), &notification);
+        }
     }
 
     pub fn from_secret_service<T: std::fmt::Display>(text: T, err: oo7::Error) -> Self {
