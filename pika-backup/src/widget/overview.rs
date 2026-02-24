@@ -145,10 +145,7 @@ glib::wrapper! {
 
 impl OverviewPage {
     pub fn dbus_show(&self) {
-        self.imp()
-            .main_stack
-            .set_visible_child(&main_ui().page_overview());
-        adw_app().activate();
+        main_ui().window().view_overview();
     }
 
     pub fn refresh_status(&self) {

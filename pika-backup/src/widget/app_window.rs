@@ -179,4 +179,10 @@ impl AppWindow {
             imp.page_detail.grab_focus();
         }
     }
+
+    pub fn view_overview(&self) {
+        self.imp()
+            .navigation_view
+            .pop_to_page(&self.page_overview());
+    }
 }
