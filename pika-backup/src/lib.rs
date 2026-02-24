@@ -2,6 +2,7 @@
 
 const NON_JOURNALING_FILESYSTEMS: &[&str] = &["exfat", "ext2", "vfat"];
 
+mod action;
 mod app;
 mod backup_status;
 mod dbus;

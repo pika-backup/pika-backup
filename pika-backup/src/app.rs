@@ -1,6 +1,7 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use common::config;
+use common::utils::action::Action;
 use config::TrackChanges;
 
 use super::shell;
@@ -212,6 +213,9 @@ impl App {
         ];
 
         self.add_action_entries(actions);
+        self.add_action(&crate::action::ShowOverview::action());
+        self.add_action(&crate::action::ShowSchedule::action());
+        self.add_action(&crate::action::StartBackup::action());
 
         self.set_accels_for_action("app.help", &["F1"]);
         self.set_accels_for_action("app.quit", &["<Ctrl>Q"]);
