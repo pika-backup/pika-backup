@@ -57,7 +57,12 @@ pub fn init_logging(domain: &str) {
                 .with_default_directive(default_level.into())
                 .from_env_lossy(),
         )
-        .with(tracing_subscriber::fmt::Layer::default().compact())
+        .with(
+            tracing_subscriber::fmt::Layer::default()
+                .compact()
+                .with_line_number(true)
+                .with_writer(std::io::stderr),
+        )
         .init();
 
     tracing::debug!("Logger initialized");
