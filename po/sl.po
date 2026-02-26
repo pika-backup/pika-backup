@@ -9,29 +9,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-12-04 00:30+0000\n"
-"PO-Revision-Date: 2025-12-04 10:00+0100\n"
+"POT-Creation-Date: 2026-02-26 21:17+0000\n"
+"PO-Revision-Date: 2026-02-27 00:19+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 
 #: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
 msgstr "Spremljevalnik varnostnega kopiranja Pika"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," #. please make sure that the transliteration does not coincide with a different meaning. If #. fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:5 data/app.metainfo.xml.in:4
-#: pika-backup/src/utils.rs:363 pika-backup/src/utils.rs:428
+#: pika-backup/src/error.rs:178 pika-backup/src/utils.rs:348
 #: pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
@@ -164,45 +164,47 @@ msgstr "Ta operacija brisanja bi izbrisala preveč arhivov."
 msgid "No files selected to be included into backup."
 msgstr "Ni izbranih datotek za dodajanje v varnostno kopijo."
 
-#: pika-backup-common/src/borg/error.rs:86
+#: pika-backup-common/src/borg/error.rs:96
 msgid "Timeout"
 msgstr "Čas je potekel"
 
-#: pika-backup-common/src/borg/error.rs:133
+#: pika-backup-common/src/borg/error.rs:143
 msgid "Completed"
 msgstr "Zaključeno"
 
-#: pika-backup-common/src/borg/error.rs:163
+#: pika-backup-common/src/borg/error.rs:173
 msgid "Aborted on user request."
 msgstr "Preklicano zaradi zahteve uporabnika."
 
-#: pika-backup-common/src/borg/error.rs:165
+#: pika-backup-common/src/borg/error.rs:175
 msgid "Aborted because only metered connection was available."
 msgstr "Opravilo je prekinjeno, ker je na voljo le omejena povezava."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: pika-backup-common/src/borg/error.rs:169
+#: pika-backup-common/src/borg/error.rs:179
 msgid "Aborted because too long not connected to power."
 msgstr ""
 "Opravilo je prekinjeno, ker naprava predolgo ni priključena na napajanje."
 
-#: pika-backup-common/src/borg/error.rs:171
+#: pika-backup-common/src/borg/error.rs:181
 msgid "Aborted by system."
 msgstr "Preklicano zaradi zahteve sistema."
 
-#: pika-backup-common/src/borg/error.rs:172
+#: pika-backup-common/src/borg/error.rs:182
 msgid "The program or system seems to have crashed."
 msgstr "Zdi se, da se je program ali sistem sesul."
 
-#: pika-backup-common/src/borg/error.rs:173
+#: pika-backup-common/src/borg/error.rs:183
+#, rust-format
 msgid "{}"
 msgstr "{}"
 
-#: pika-backup-common/src/borg/error.rs:175
+#: pika-backup-common/src/borg/error.rs:185
+#, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "Dostop do skladišča varnostnih kopij ni možen: {}"
 
-#: pika-backup-common/src/borg/error.rs:283
+#: pika-backup-common/src/borg/error.rs:297
 msgid ""
 "A repository already exists at this location. Try the “Use Existing "
 "Repository” option or select a different location."
@@ -210,7 +212,7 @@ msgstr ""
 "Na tem mestu že obstaja skladišče. Poskusi možnost »Uporabi obstoječe "
 "skladišče« ali izberi drugo mesto."
 
-#: pika-backup-common/src/borg/error.rs:286
+#: pika-backup-common/src/borg/error.rs:300
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
@@ -218,32 +220,32 @@ msgstr ""
 "V skladišču so bile odkrite nedoslednosti. Potrebno je zagnati preverjanje "
 "celovitosti podatkov."
 
-#: pika-backup-common/src/borg/error.rs:288
+#: pika-backup-common/src/borg/error.rs:302
 msgid "No repository exists at this location."
 msgstr "Na tem mestu še ni ustvarjenega skladišča."
 
-#: pika-backup-common/src/borg/error.rs:290
+#: pika-backup-common/src/borg/error.rs:304
 msgid "Not enough free space in repository."
 msgstr "Ni dovolj prostega prostora v skladišču."
 
-#: pika-backup-common/src/borg/error.rs:293
+#: pika-backup-common/src/borg/error.rs:307
 msgid "The configured location does not contain a valid repository."
 msgstr "Nastvljeno mesto ne vsebuje veljavnega skladišča."
 
-#: pika-backup-common/src/borg/error.rs:296
+#: pika-backup-common/src/borg/error.rs:310
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "Nastavljeno mesto ne vsebuje veljavne konfiguracije skladišča."
 
-#: pika-backup-common/src/borg/error.rs:299
+#: pika-backup-common/src/borg/error.rs:313
 msgid "The configured location does not exist."
 msgstr "Nastavljeno mesto ne obstaja."
 
-#: pika-backup-common/src/borg/error.rs:302
+#: pika-backup-common/src/borg/error.rs:316
 msgid "The selected location does already exist."
 msgstr "Izbrano mesto že obstaja."
 
-#: pika-backup-common/src/borg/error.rs:305
+#: pika-backup-common/src/borg/error.rs:319
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
@@ -251,7 +253,7 @@ msgstr ""
 "Mejna kvota shrambe v skladiščih je dosežena. Poskusite izbrisati starejše "
 "arhive, ki jih ne potrebujete več."
 
-#: pika-backup-common/src/borg/error.rs:308
+#: pika-backup-common/src/borg/error.rs:322
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
@@ -259,7 +261,7 @@ msgstr ""
 "Dovoljenje za dostop do nastavljenega mesta je bilo zavrnjeno. Preverite "
 "dovoljenja za datoteke."
 
-#: pika-backup-common/src/borg/error.rs:313
+#: pika-backup-common/src/borg/error.rs:327
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
@@ -267,51 +269,56 @@ msgstr ""
 "Za dostop do tega skladišča je potrebna novejša različica Varnostnega "
 "kopiranja Pika. Skladišče uporablja nepodprte funkcije."
 
-#: pika-backup-common/src/borg/error.rs:318
+#: pika-backup-common/src/borg/error.rs:332
 msgid "The selected location already contains a repository."
 msgstr "Izbrano mesto že vsebuje skladišče."
 
-#: pika-backup-common/src/borg/error.rs:321
+#: pika-backup-common/src/borg/error.rs:335
 msgid "The configured location does not contain an archive."
 msgstr "Nastavljeno mesto ne vsebuje arhiva."
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:325
+#: pika-backup-common/src/borg/error.rs:339
 msgid "Invalid encryption password."
 msgstr "Neveljavno šifrirno geslo."
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:328
+#: pika-backup-common/src/borg/error.rs:342
 msgid "Repository access was aborted"
 msgstr "Dostop do skladišča je bil prekinjen"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Failed to lock repository."
 msgstr "Zaklepanje skladišča ni uspelo."
 
-#: pika-backup-common/src/borg/error.rs:332
+#: pika-backup-common/src/borg/error.rs:346
 msgid "Repository already in use."
 msgstr "Skladišče je že v uporabi"
 
-#: pika-backup-common/src/borg/error.rs:336
+#: pika-backup-common/src/borg/error.rs:350
 msgid "Connection closed by remote host."
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena."
 
-#: pika-backup-common/src/borg/error.rs:341
+#: pika-backup-common/src/borg/error.rs:352
+msgid "Connection to remote host broken."
+msgstr "Povezava z oddaljenim gostiteljem je okvarjena."
+
+#: pika-backup-common/src/borg/error.rs:356
+#, rust-format
 msgid "Connection closed by remote host: “{}”"
 msgstr "Povezava z oddaljenim gostiteljem je prekinjena: »{}«"
 
 #. General
-#: pika-backup-common/src/borg/error.rs:345
+#: pika-backup-common/src/borg/error.rs:360
 msgid "Exception"
 msgstr "Izjema"
 
-#: pika-backup-common/src/borg/error.rs:347
+#: pika-backup-common/src/borg/error.rs:362
 msgid "Unspecified error."
 msgstr "Prišlo je do nedoločene napake."
 
-#: pika-backup-common/src/borg/functions.rs:278
+#: pika-backup-common/src/borg/functions.rs:279
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
@@ -330,11 +337,12 @@ msgid "Backup will continue."
 msgstr "Varnostno kopiranje se bo nadaljevalo."
 
 #: pika-backup-common/src/borg/log_json.rs:85
+#, rust-format
 msgid "Backed up data: {}"
 msgstr "Varnostno kopirani podatki: {}"
 
 #: pika-backup-common/src/borg/log_json.rs:115
-#, no-c-format
+#, no-c-format, rust-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Opravilo je {} % dokončano ({}/{})"
 
@@ -423,6 +431,7 @@ msgid "Attempting to access a previously unknown unencrypted repository."
 msgstr "Poskus dostopa do prej neznanega nešifriranega skladišča."
 
 #: pika-backup-common/src/borg/log_json.rs:252
+#, rust-format
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr "Skladišče varnostnih kopij na mestu »{}« se je prej nahajalo na »{}«."
 
@@ -449,11 +458,13 @@ msgstr ""
 "varnostnih kopij, ki jih vsebuje."
 
 #: pika-backup-common/src/borg/log_json.rs:266
+#, rust-format
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "Nepričakovano vprašanje borgbackup: »{}«"
 
 #. Translators: Combines statement from above and this question
 #: pika-backup-common/src/borg/log_json.rs:271
+#, rust-format
 msgid ""
 "{}\n"
 "\n"
@@ -463,32 +474,32 @@ msgstr ""
 "\n"
 "Ali želite nadaljevati?"
 
-#: pika-backup-common/src/borg/log_json.rs:325
+#: pika-backup-common/src/borg/log_json.rs:327
 msgid "Standard error output"
 msgstr "Standardni odvod napake"
 
-#: pika-backup-common/src/borg/log_json.rs:469
+#: pika-backup-common/src/borg/log_json.rs:481
 msgid "Debug"
 msgstr "Razhroščevanje"
 
-#: pika-backup-common/src/borg/log_json.rs:470
+#: pika-backup-common/src/borg/log_json.rs:482
 msgid "Info"
 msgstr "Podrobnosti"
 
-#: pika-backup-common/src/borg/log_json.rs:471 pika-backup/src/utils.rs:379
-#: pika-backup/src/widget/dialog/setup/location.ui:46
+#: pika-backup-common/src/borg/log_json.rs:483 pika-backup/src/utils.rs:364
+#: pika-backup/src/widget/dialog/setup/location.ui:56
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: pika-backup-common/src/borg/log_json.rs:472
+#: pika-backup-common/src/borg/log_json.rs:484
 msgid "Error"
 msgstr "Napaka"
 
-#: pika-backup-common/src/borg/log_json.rs:473
+#: pika-backup-common/src/borg/log_json.rs:485
 msgid "Critical"
 msgstr "Kritično"
 
-#: pika-backup-common/src/borg/log_json.rs:474
+#: pika-backup-common/src/borg/log_json.rs:486
 msgid "Undefined"
 msgstr "Nedoločeno"
 
@@ -563,6 +574,7 @@ msgid "The amount of files saved in this archive"
 msgstr "Število datotek, shranjenih v tem arhivu"
 
 #: pika-backup-common/src/borg/scripts.rs:276
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -572,6 +584,7 @@ msgstr ""
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:280
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -581,6 +594,7 @@ msgstr ""
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:306
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -588,6 +602,7 @@ msgstr ""
 "vrnil kodo napake: {}"
 
 #: pika-backup-common/src/borg/scripts.rs:310
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -715,6 +730,7 @@ msgid "Might include data stored within"
 msgstr "Lahko vključuje podatke, hranjene v notranjosti"
 
 #: pika-backup-common/src/config/loadable.rs:41
+#, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
@@ -775,6 +791,7 @@ msgid "Backup Device Connected"
 msgstr "Naprava za varnostno kopije je priklopljena"
 
 #: pika-backup-monitor/src/connect/event.rs:29
+#, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "Mesto »{}« vsebuje več nastavljenih varnostnih kopij."
 
@@ -783,6 +800,7 @@ msgid "Show Backups"
 msgstr "Pokaži varnostne kopije"
 
 #: pika-backup-monitor/src/connect/event.rs:42
+#, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "Mesto »{}« vsebuje eno nastavljeno varnostno kopijo."
 
@@ -807,6 +825,7 @@ msgid "Fatal Error During Back Up"
 msgstr "Usodna napaka med varnostnim kopiranjem"
 
 #: pika-backup-monitor/src/init.rs:130
+#, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] ""
@@ -824,37 +843,38 @@ msgstr[3] ""
 msgid "Error restarting monitor daemon"
 msgstr "Napaka pri ponovnem zagonu prikritega procesa spremljanja"
 
-#: pika-backup-monitor/src/schedule/init.rs:105
+#: pika-backup-monitor/src/schedule/init.rs:118
 msgid "The backup repository is already in use."
 msgstr "Skladišče varnostnih kopij je že v uporabi."
 
-#: pika-backup-monitor/src/schedule/init.rs:108
+#: pika-backup-monitor/src/schedule/init.rs:121
 msgid "Archives are currently opened for browsing."
 msgstr "Arhivi so trenutno odprti za brskanje."
 
-#: pika-backup-monitor/src/schedule/init.rs:111
+#: pika-backup-monitor/src/schedule/init.rs:124
 msgid "Only metered internet connections available."
 msgstr "Na voljo so le omejene internetne povezave."
 
-#: pika-backup-monitor/src/schedule/init.rs:114
+#: pika-backup-monitor/src/schedule/init.rs:127
 msgid "Device not connected to power."
 msgstr "Naprava ni priključena na napajanje."
 
-#: pika-backup-monitor/src/schedule/init.rs:120
+#: pika-backup-monitor/src/schedule/init.rs:133
 msgid "Scheduled Backup Postponed"
 msgstr "Preloženo načrtovano varnostno kopiranje"
 
-#: pika-backup-monitor/src/schedule/init.rs:144
+#: pika-backup-monitor/src/schedule/init.rs:157
 msgid "Backup Device Required"
 msgstr "Zahtevana je naprava za varnostno kopiranje."
 
-#: pika-backup-monitor/src/schedule/init.rs:146
+#: pika-backup-monitor/src/schedule/init.rs:159
+#, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr ""
 "Mesto »{}« mora biti priklopljeno za izvajanje načrtovanega varnostnega "
 "kopiranja."
 
-#: pika-backup-monitor/src/schedule/init.rs:159
+#: pika-backup-monitor/src/schedule/init.rs:172
 msgid "Failed to start scheduled backup"
 msgstr "Zagon načrtovanega varnostnega kopiranja je spodletel"
 
@@ -866,17 +886,17 @@ msgstr "Želite prekiniti varnostno kopiranje?"
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Če bo opravilo preklicano, varnostna kopija ne bo popolna."
 
-#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:382
-#: pika-backup/src/widget/detail/backup/events.rs:24
-#: pika-backup/src/widget/detail/backup/events.rs:34
-#: pika-backup/src/widget/detail/backup/events.rs:44
+#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:367
+#: pika-backup/src/widget/detail/backup/events.rs:26
+#: pika-backup/src/widget/detail/backup/events.rs:36
+#: pika-backup/src/widget/detail/backup/events.rs:46
 #: pika-backup/src/widget/dialog/setup/encryption.rs:93
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:381
-#: pika-backup/src/widget/detail/backup/events.rs:35
-#: pika-backup/src/widget/detail/backup/events.rs:45
+#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:366
+#: pika-backup/src/widget/detail/backup/events.rs:37
+#: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Prekliči"
 
@@ -924,6 +944,7 @@ msgstr "Zadnje ustvarjanje varnostne kopije je spodletelo"
 
 #. Translators: Argument is 'x months ago'
 #: pika-backup/src/backup_status.rs:144
+#, rust-format
 msgid "Successful Integrity Check {}"
 msgstr "Uspelo preverjanje integritete {}"
 
@@ -948,31 +969,32 @@ msgid "Integrity Errors Found"
 msgstr "Najdene napake integritete"
 
 #: pika-backup/src/backup_status.rs:223
-#, no-c-format
+#, no-c-format, rust-format
 msgid "{} % finished"
 msgstr "{} % končano"
 
-#: pika-backup/src/backup_status.rs:245
+#: pika-backup/src/backup_status.rs:247
 msgid "Preparing Backup"
 msgstr "Poteka pripravljanje varnostne kopije"
 
-#: pika-backup/src/backup_status.rs:246
+#: pika-backup/src/backup_status.rs:248
 msgid "Backup Running"
 msgstr "Varnostno kopiranje poteka"
 
-#: pika-backup/src/backup_status.rs:247
+#: pika-backup/src/backup_status.rs:249
 msgid "Backup Destination Unresponsive"
 msgstr "Cilj varnostne kopije ni odziven"
 
-#: pika-backup/src/backup_status.rs:250
+#: pika-backup/src/backup_status.rs:252
+#, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "Povezava je potekla, povezovanje bo ponovljeno čez {}"
 
-#: pika-backup/src/backup_status.rs:255
+#: pika-backup/src/backup_status.rs:257
 msgid "Reconnecting"
 msgstr "Ponovno vzpostavljanje povezave"
 
-#: pika-backup/src/backup_status.rs:257
+#: pika-backup/src/backup_status.rs:259
 msgid "Stopping Backup"
 msgstr "Ustavljanje varnostnega kopiranja"
 
@@ -980,7 +1002,11 @@ msgstr "Ustavljanje varnostnega kopiranja"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Ni uspelo zagnati vmesnika za načrtovano varnostno kopiranje."
 
-#: pika-backup/src/error.rs:145
+#: pika-backup/src/error.rs:174
+msgid "Close"
+msgstr "Zapri"
+
+#: pika-backup/src/error.rs:200
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -990,15 +1016,17 @@ msgstr ""
 "zbirke ključev (»tajna služba«) za shranjevanje gesel. Za navodila za "
 "namestitev glejte dokumentacijo operacijskega sistema."
 
-#: pika-backup/src/error.rs:182
+#: pika-backup/src/error.rs:237
+#, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "Varnostna kopija z ID »{}« že obstaja."
 
-#: pika-backup/src/error.rs:191
+#: pika-backup/src/error.rs:246
+#, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Ni mogoče najti nastavitev varnostne kopije z ID »{}«."
 
-#: pika-backup/src/error.rs:207
+#: pika-backup/src/error.rs:262
 msgid "Canceled"
 msgstr "Preklicano"
 
@@ -1013,6 +1041,7 @@ msgid "BorgBackup Version Too Old"
 msgstr "Različica programa BorgBackup je prestara"
 
 #: pika-backup/src/lib.rs:107
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
 "{}. This is unsupported."
@@ -1025,6 +1054,7 @@ msgid "BorgBackup Version Too New"
 msgstr "Različica programa BorgBackup je preveč nova"
 
 #: pika-backup/src/lib.rs:118
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
@@ -1037,6 +1067,7 @@ msgid "Failed to Check BorgBackup Version"
 msgstr "Ni mogoče preveriti različice BorgVackup"
 
 #: pika-backup/src/lib.rs:129
+#, rust-format
 msgid "The installed version {} might not work."
 msgstr "Nameščena različica {} morda ne bo delovala."
 
@@ -1062,6 +1093,7 @@ msgid "Unable to determine background process status"
 msgstr "Ni mogoče določiti stanja opravil v ozadju"
 
 #: pika-backup/src/toast_size_estimate.rs:58
+#, rust-format
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
@@ -1111,6 +1143,7 @@ msgid "Failed to Start Monitor"
 msgstr "Zagon spremljanja je spodletel"
 
 #: pika-backup/src/utils.rs:251
+#, rust-format
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] "Poteka {} varnostnih kopiranj"
@@ -1125,10 +1158,6 @@ msgstr[3] "Potekajo {} varnostna kopiranja"
 #: pika-backup/src/widget/dialog/exclude.rs:301
 msgid "Select"
 msgstr "Izbor"
-
-#: pika-backup/src/utils.rs:424
-msgid "Close"
-msgstr "Zapri"
 
 #: pika-backup/src/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
@@ -1172,15 +1201,16 @@ msgstr ""
 msgid "Start Operation"
 msgstr "Začni opravilo"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:312
+#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
 msgid "Failed to unmount repository."
 msgstr "Odklapljanje skladišča je spodletelo."
 
-#: pika-backup/src/utils/borg.rs:289
+#: pika-backup/src/utils/borg.rs:295
 msgid "Repository Already in Use"
 msgstr "Skladišče je že v uporabi"
 
-#: pika-backup/src/utils/borg.rs:290
+#: pika-backup/src/utils/borg.rs:296
+#, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
@@ -1190,7 +1220,7 @@ msgstr ""
 "lahko zastareli podatki, če je bilo npr. napajanje računalnika med uporabo "
 "skladišča prekinjeno."
 
-#: pika-backup/src/utils/borg.rs:292
+#: pika-backup/src/utils/borg.rs:298
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1200,7 +1230,7 @@ msgstr ""
 "Nadaljevanje opravila, če je skladišče že rezervirano za drug program, lahko "
 "okvari varnostno kopirane podatke!"
 
-#: pika-backup/src/utils/borg.rs:293
+#: pika-backup/src/utils/borg.rs:299
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1208,19 +1238,21 @@ msgstr ""
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: pika-backup/src/utils/borg.rs:294
+#: pika-backup/src/utils/borg.rs:300
 msgid "Continue Anyway"
 msgstr "Vseeno nadaljuj"
 
-#: pika-backup/src/utils/borg.rs:440 pika-backup/src/utils/borg.rs:461
+#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
 msgid "Unable to Eject Backup Disk"
 msgstr "Diska za varnostno kopiranje ni mogoče izvreči"
 
-#: pika-backup/src/utils/borg.rs:449
+#: pika-backup/src/utils/borg.rs:455
+#, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} lahko varno izklopite."
 
-#: pika-backup/src/utils/borg.rs:462
+#: pika-backup/src/utils/borg.rs:468
+#, rust-format
 msgid "{} can't be ejected."
 msgstr "{} ni mogoče izvreči."
 
@@ -1233,6 +1265,7 @@ msgid "Could not load configuration file."
 msgstr "Ni mogoče naložiti nastavitvene datoteke."
 
 #: pika-backup/src/utils/duration.rs:11
+#, rust-format
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "{} sekund"
@@ -1241,6 +1274,7 @@ msgstr[2] "{} sekundi"
 msgstr[3] "{} sekunde"
 
 #: pika-backup/src/utils/duration.rs:13
+#, rust-format
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -1249,6 +1283,7 @@ msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
 
 #: pika-backup/src/utils/duration.rs:15
+#, rust-format
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "{} ur"
@@ -1257,6 +1292,7 @@ msgstr[2] "{} uri"
 msgstr[3] "{} ure"
 
 #: pika-backup/src/utils/duration.rs:17
+#, rust-format
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "{} dni"
@@ -1265,6 +1301,7 @@ msgstr[2] "{} dneva"
 msgstr[3] "{} dnevi"
 
 #: pika-backup/src/utils/duration.rs:23
+#, rust-format
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "{} sekund"
@@ -1273,6 +1310,7 @@ msgstr[2] "{} sekundi"
 msgstr[3] "{} sekunde"
 
 #: pika-backup/src/utils/duration.rs:25
+#, rust-format
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -1281,6 +1319,7 @@ msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
 
 #: pika-backup/src/utils/duration.rs:27
+#, rust-format
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "{} ur"
@@ -1289,6 +1328,7 @@ msgstr[2] "{} uri"
 msgstr[3] "{} ure"
 
 #: pika-backup/src/utils/duration.rs:29
+#, rust-format
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "{} dni"
@@ -1297,6 +1337,7 @@ msgstr[2] "{} dneva"
 msgstr[3] "{} dnevi"
 
 #: pika-backup/src/utils/duration.rs:36
+#, rust-format
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "Še {} minut"
@@ -1305,6 +1346,7 @@ msgstr[2] "Še {} minuti"
 msgstr[3] "Še {} minute"
 
 #: pika-backup/src/utils/duration.rs:41
+#, rust-format
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "Še {} ur"
@@ -1313,6 +1355,7 @@ msgstr[2] "Še {} uri"
 msgstr[3] "Še {} ure"
 
 #: pika-backup/src/utils/duration.rs:43
+#, rust-format
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "Še {} dni"
@@ -1325,6 +1368,7 @@ msgid "Now"
 msgstr "Ravnokar"
 
 #: pika-backup/src/utils/duration.rs:51
+#, rust-format
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Pred {} minutami"
@@ -1333,6 +1377,7 @@ msgstr[2] "Pred {} minutama"
 msgstr[3] "Pred {} minutami"
 
 #: pika-backup/src/utils/duration.rs:53
+#, rust-format
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Pred {} urami"
@@ -1341,6 +1386,7 @@ msgstr[2] "Pred {} urama"
 msgstr[3] "Pred {} urami"
 
 #: pika-backup/src/utils/duration.rs:55
+#, rust-format
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "Pred {} dnevi"
@@ -1349,6 +1395,7 @@ msgstr[2] "Pred {} dnevoma"
 msgstr[3] "Pred {} dnevi"
 
 #: pika-backup/src/utils/duration.rs:57
+#, rust-format
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Pred {} tedni"
@@ -1357,6 +1404,7 @@ msgstr[2] "Pred {} tednoma"
 msgstr[3] "Pred {} tedni"
 
 #: pika-backup/src/utils/duration.rs:59
+#, rust-format
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Pred {} meseci"
@@ -1365,6 +1413,7 @@ msgstr[2] "Pred {} mesecema"
 msgstr[3] "Pred {} meseci"
 
 #: pika-backup/src/utils/duration.rs:61
+#, rust-format
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Pred {} leti"
@@ -1398,6 +1447,7 @@ msgstr ""
 
 #. Translators: This is the description for entries in the password database.
 #: pika-backup/src/utils/password_storage.rs:63
+#, rust-format
 msgid "Pika Backup “{}”"
 msgstr "Varnostno kopiranje Pika »{}«"
 
@@ -1522,14 +1572,16 @@ msgid "Delete Archive"
 msgstr "Izbriši arhiv"
 
 #: pika-backup/src/widget/detail/archives/display.rs:263
+#, rust-format
 msgid "{} Available"
 msgstr "Na voljo {} "
 
 #: pika-backup/src/widget/detail/archives/display.rs:265
+#, rust-format
 msgid "{} Total"
 msgstr "Skupaj {} "
 
-#: pika-backup/src/widget/detail/archives/events.rs:95
+#: pika-backup/src/widget/detail/archives/events.rs:96
 msgid "Failed to make archives available for browsing."
 msgstr "Omogočanje brskanja po arhivih je spodletelo."
 
@@ -1600,11 +1652,11 @@ msgstr "Uredi vzorec"
 msgid "Remove From List"
 msgstr "Odstrani s seznama"
 
-#: pika-backup/src/widget/detail/backup/events.rs:22
+#: pika-backup/src/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr "Ali želite ustaviti varnostno kopiranje"
 
-#: pika-backup/src/widget/detail/backup/events.rs:23
+#: pika-backup/src/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1612,15 +1664,15 @@ msgstr ""
 "Trenutno stanje varnostne kopije bo shranjeno. Varnostno kopiranje lahko "
 "nadaljujete pozneje, tako da ga znova zaženete."
 
-#: pika-backup/src/widget/detail/backup/events.rs:25
+#: pika-backup/src/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "Ustavi"
 
-#: pika-backup/src/widget/detail/backup/events.rs:32
+#: pika-backup/src/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr "Ali želite prekiniti operacijo brisanja?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:33
+#: pika-backup/src/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
@@ -1628,11 +1680,11 @@ msgstr ""
 "Arhivi se trenutno brišejo. Sproščeni prostor ob prekinitvi ne bo ponovno "
 "zaseden."
 
-#: pika-backup/src/widget/detail/backup/events.rs:42
+#: pika-backup/src/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr "Ali želite preklicati operacijo?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:43
+#: pika-backup/src/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
@@ -1640,12 +1692,8 @@ msgstr ""
 "Trenutno poteka operacija. Prekinitev bo povzročila, da bo vsak napredek "
 "operacije izgubljen."
 
-#: pika-backup/src/widget/detail/backup/events.rs:100
-#: pika-backup/src/widget/detail/backup/events.rs:110
-msgid "Unable to Include Location"
-msgstr "Ni mogoče vključiti mest"
-
 #: pika-backup/src/widget/detail/backup/events.rs:101
+#, rust-format
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -1654,6 +1702,11 @@ msgstr ""
 "Naslednjih poti ni bilo mogoče vključiti, ker niso zanesljivo na voljo v "
 "peskovniku:\n"
 "{}"
+
+#: pika-backup/src/widget/detail/backup/events.rs:104
+#: pika-backup/src/widget/detail/backup/events.rs:113
+msgid "Unable to Include Location"
+msgstr "Ni mogoče vključiti mest"
 
 #: pika-backup/src/widget/detail/backup/events.rs:111
 msgid ""
@@ -1672,6 +1725,7 @@ msgid "Include Folder"
 msgstr "Vključi mapo"
 
 #: pika-backup/src/widget/detail/backup/events.rs:221
+#, rust-format
 msgid "No longer include “{}” in backups?"
 msgstr "Ali »{}« ne želite več vključevati v varnostne kopije?"
 
@@ -1827,6 +1881,7 @@ msgid "Custom"
 msgstr "Po meri"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:18
+#, rust-format
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Naslednje varnostno kopiranje bo izvedeno čez {} minut"
@@ -1835,6 +1890,7 @@ msgstr[2] "Naslednje varnostno kopiranje bo izvedeno čez {} minuti"
 msgstr[3] "Naslednje varnostno kopiranje bo izvedeno čez {} minute"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:24
+#, rust-format
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Naslednje varnostno kopiranje bo izvedeno čez {} ur"
@@ -1843,6 +1899,7 @@ msgstr[2] "Naslednje varnostno kopiranje bo izvedeno čez {} uri"
 msgstr[3] "Naslednje varnostno kopiranje bo izvedeno čez {} ure"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:30
+#, rust-format
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Naslednje varnostno kopiranje bo izvedeno čez {} dni"
@@ -1851,6 +1908,7 @@ msgstr[2] "Naslednje varnostno kopiranje bo izvedeno čez {} dneva"
 msgstr[3] "Naslednje varnostno kopiranje bo izvedeno čez {} dni"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:36
+#, rust-format
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Naslednje varnostno kopiranje bo izvedeno čez {} tednov"
@@ -2098,15 +2156,6 @@ msgstr "Opravi popravilo"
 msgid "Perform Check"
 msgstr "Opravi preverjanje"
 
-#: pika-backup/src/widget/dialog/check.rs:105
-#: pika-backup/src/widget/dialog/check.rs:152
-msgid "Verify Archives Integrity"
-msgstr "Preveri integriteto arhivov"
-
-#: pika-backup/src/widget/dialog/check.rs:171
-msgid "Verify archives integrity completed successfully"
-msgstr "Preverjanje integritete arhivov je uspešno zaključeno"
-
 #: pika-backup/src/widget/dialog/check.ui:5
 #: pika-backup/src/widget/dialog/check.ui:14
 msgid "Archives Integrity Check"
@@ -2174,6 +2223,7 @@ msgid "The following backup location needs to be connected:"
 msgstr "Priključiti je treba navedena mesta za ustvarjanje varnostne kopije:"
 
 #: pika-backup/src/widget/dialog/encryption_password.rs:61
+#, rust-format
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -2275,6 +2325,7 @@ msgstr ""
 "BorgBackup</a>."
 
 #: pika-backup/src/widget/dialog/preferences.rs:205
+#, rust-format
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2531,12 +2582,12 @@ msgstr "Neveljavno geslo"
 msgid "Loading Backup Repository"
 msgstr "Nalaganje skladišča varnostnih kopij"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:211
+#: pika-backup/src/widget/dialog/setup/actions.rs:214
 #: pika-backup/src/widget/dialog/setup/create_new.ui:6
 msgid "Creating Backup Repository"
 msgstr "Ustvarjanje skladišča za varnostno kopiranje"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:220
+#: pika-backup/src/widget/dialog/setup/actions.rs:223
 msgid "Getting Repository Information"
 msgstr "Pridobivanje informacij o skladišču"
 
@@ -2545,13 +2596,13 @@ msgid "Checking Backup Repository"
 msgstr "Preverjanje skladišča za varnostne kopije"
 
 #: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
-#: pika-backup/src/widget/dialog/setup/location.ui:70
-#: pika-backup/src/widget/dialog/setup/location.ui:239
+#: pika-backup/src/widget/dialog/setup/location.ui:40
+#: pika-backup/src/widget/dialog/setup/location.ui:244
 msgid "Advanced Options"
 msgstr "Napredne možnosti"
 
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:23
-#: pika-backup/src/widget/dialog/setup/location.ui:278
+#: pika-backup/src/widget/dialog/setup/location.ui:283
 msgid "_Continue"
 msgstr "_Nadaljuj"
 
@@ -2607,7 +2658,7 @@ msgstr "Prilagodi skladišče"
 msgid "Repository Name"
 msgstr "Ime skladišča"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:58
+#: pika-backup/src/widget/dialog/setup/location.ui:68
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2620,20 +2671,20 @@ msgstr ""
 "sta »NTFS« ali »EXT4«. Upoštevajte, da ta postopek izbriše vse datoteke na "
 "mestu!"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:96
+#: pika-backup/src/widget/dialog/setup/location.ui:93
 msgid "Repository URL"
 msgstr "Naslov URL skladišča"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:122
+#: pika-backup/src/widget/dialog/setup/location.ui:121
 msgid "Locations with BorgBackup Support"
 msgstr "Mesta s podporo BorgBackup"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:134
-#: pika-backup/src/widget/dialog/setup/location.ui:189
+#: pika-backup/src/widget/dialog/setup/location.ui:132
+#: pika-backup/src/widget/dialog/setup/location.ui:197
 msgid "More Information"
 msgstr "Več podrobnosti"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:147
+#: pika-backup/src/widget/dialog/setup/location.ui:145
 msgid ""
 "The “ssh://” prefix is reserved for servers with BorgBackup support. This "
 "option provides the best performance."
@@ -2641,11 +2692,11 @@ msgstr ""
 "Predpona »ssh://» je rezervirana za strežnike, ki podpirajo BorgBackup. Ta "
 "možnost zagotavlja najhitrejše delovanje."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:177
+#: pika-backup/src/widget/dialog/setup/location.ui:186
 msgid "SMB and SFTP Network Shares"
 msgstr "Omrežne mape v skupni rabi SMB in SFTP"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:201
+#: pika-backup/src/widget/dialog/setup/location.ui:209
 msgid ""
 "The “sftp://” and “smb://” prefixes can be used to access network shares. "
 "The network share does not need explicit BorgBackup support."
@@ -2654,7 +2705,7 @@ msgstr ""
 "»sftp://» in »smb://«. Omrežna mapa v skupni rabi ne potrebuje izrecne "
 "podpore BorgBackup."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:262
+#: pika-backup/src/widget/dialog/setup/location.ui:267
 msgid "_Connect"
 msgstr "_Poveži"
 
@@ -2678,6 +2729,7 @@ msgstr ""
 "BorgBackup."
 
 #: pika-backup/src/widget/dialog/setup/location_kind.rs:289
+#, rust-format
 msgid "Free space: {}"
 msgstr "Neporabljen prostor: {}"
 
@@ -2729,11 +2781,11 @@ msgid "The remote location must have a specified path."
 msgstr "Oddaljeno mesto mora imeti določeno pot."
 
 #: pika-backup/src/widget/dialog/setup/types.rs:73
+#, rust-format
 msgid "Invalid remote location: “{}”"
 msgstr "Neveljavno oddaljeno mesto: »{}«"
 
 #: pika-backup/src/widget/dialog/storage.ui:6
-#: pika-backup/src/widget/folder_row.rs:55
 msgid "Backup Location"
 msgstr "Mesto varnostnih kopij"
 
