@@ -159,8 +159,7 @@ impl OverviewPage {
     }
 
     fn is_visible(&self) -> bool {
-        self.imp().main_stack.visible_child()
-            == Some(main_ui().page_overview().upcast::<gtk::Widget>())
+        self.imp().page_overview.is_mapped()
     }
 
     pub fn remove_backup(&self) {
