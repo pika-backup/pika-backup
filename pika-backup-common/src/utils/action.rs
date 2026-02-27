@@ -17,9 +17,8 @@ pub trait Action<T: FromVariant + Debug + 'static> {
         };
 
         ACTION.with(move |x| {
-            x.borrow_mut().entry(Self::name()).or_insert_with(move || {
-                let action = gio::SimpleAction::new(&Self::name(), Self::PARAMETER_TYPE);
-                dbg!("new action", Self::name());
+            x.borrow_mut().entry(Self::NAME.to_string()).or_insert_with(move || {
+                let action = gio::SimpleAction::new(Self::NAME, Self::PARAMETER_TYPE);
                 if TypeId::of::<T>() == TypeId::of::<()>() {
                     action.connect_activate(|_, parameter| {
                         tracing::debug!("Activating action {}(())", Self::name());

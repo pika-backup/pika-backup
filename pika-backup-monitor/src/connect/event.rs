@@ -31,11 +31,7 @@ pub fn volume_added(volume: &gio::Volume) {
                 [&first_backup.repo.location()],
             )));
 
-            notification.add_button_with_target_value(
-                &gettext("Show Backups"),
-                &action::ShowOverview::name(),
-                None,
-            );
+            notification.add_button(&gettext("Show Backups"), &action::ShowOverview::name());
         } else {
             tracing::debug!("Device has one configured backup without schedule");
 
