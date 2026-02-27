@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.8.0 (unreleased)
+## 0.8.0-beta.1 (2026-02-27)
 
 - Fix timestamps not respecting 12h/24h clock format setting
 - Fix UI sometimes being unresponsive when starting / stopping backups
