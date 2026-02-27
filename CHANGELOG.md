@@ -30,6 +30,7 @@
 ## 0.7.6 (2026-02-27)
 
 - Changed to ignore OpenSSH's warning about missing post-quantum cryptography on servers
+- Changed screenshot URLs in metadata to static.gnome.org
 - Fixed compiling on newer rustc versions due to "function depends on never type fallback being `()`" #643
 
 ## 0.7.5 (2025-10-10)
