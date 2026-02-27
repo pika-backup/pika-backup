@@ -192,5 +192,5 @@ async fn probe(config: &config::Backup) -> bool {
         }
     }
 
-    return false;
+    false
 }

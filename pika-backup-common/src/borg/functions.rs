@@ -276,8 +276,8 @@ impl CommandRun<task::KeyChangePassphrase> for Command<task::KeyChangePassphrase
         // TODO: Why is this on stdout?
         if stdout.contains("repository is not encrypted") {
             return Err(Error::from(gettext(
-                "This backup repository is not encrypted at all, not even with a key stored in plain text. Passwords can only be added to repositories that use encryption."
-            )).into());
+                "This backup repository is not encrypted at all, not even with a key stored in plain text. Passwords can only be added to repositories that use encryption.",
+            )));
         }
 
         Ok(())
