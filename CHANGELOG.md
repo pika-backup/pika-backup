@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.6 (unreleased)
+## 0.7.6 (2026-02-27)
 
 - Changed to ignore OpenSSH's warning about missing post-quantum cryptography on servers
 - Fixed compiling on newer rustc versions due to "function depends on never type fallback being `()`" #643
