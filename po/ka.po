@@ -1,14 +1,14 @@
 # Georgian translation for pika-backup.
 # Copyright (C) 2023 pika-backup's authors.
 # This file is distributed under the same license as the pika-backup package.
-# Ekaterine Papava <papava.e@gtu.ge>, 2023-2025.
+# Ekaterine Papava <papava.e@gtu.ge>, 2023-2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-12-03 15:17+0000\n"
-"PO-Revision-Date: 2025-12-27 04:33+0100\n"
+"POT-Creation-Date: 2026-02-27 21:10+0000\n"
+"PO-Revision-Date: 2026-03-01 14:04+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -27,7 +27,7 @@ msgstr "მარქაფის მონიტორი Pica"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:5 data/app.metainfo.xml.in:4
-#: pika-backup/src/utils.rs:363 pika-backup/src/utils.rs:428
+#: pika-backup/src/error.rs:178 pika-backup/src/utils.rs:348
 #: pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
@@ -124,7 +124,7 @@ msgstr "ახალი მარქაფის მორგება"
 msgid "Show Keyboard Shortcuts"
 msgstr "კლავიატურის მალსახმობების ჩვენება"
 
-#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:275
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:279
 msgid "Quit"
 msgstr "&გასვლა"
 
@@ -157,46 +157,46 @@ msgstr "წაშლის ოპერაცია მეტისმეტა�
 msgid "No files selected to be included into backup."
 msgstr "მარქაფში ჩასასმელად ფაილები არჩეული არაა."
 
-#: pika-backup-common/src/borg/error.rs:86
+#: pika-backup-common/src/borg/error.rs:96
 msgid "Timeout"
 msgstr "ვადა"
 
-#: pika-backup-common/src/borg/error.rs:133
+#: pika-backup-common/src/borg/error.rs:143
 msgid "Completed"
 msgstr "დასრულებულია"
 
-#: pika-backup-common/src/borg/error.rs:163
+#: pika-backup-common/src/borg/error.rs:173
 msgid "Aborted on user request."
 msgstr "გაუქმდა მომხმარებლის მოთხოვნით."
 
-#: pika-backup-common/src/borg/error.rs:165
+#: pika-backup-common/src/borg/error.rs:175
 msgid "Aborted because only metered connection was available."
 msgstr "გაუქმდა იმიტომ, რომ მხოლოდ გაზომვადი მიერთებაა ხელმისაწვდომი."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: pika-backup-common/src/borg/error.rs:169
+#: pika-backup-common/src/borg/error.rs:179
 msgid "Aborted because too long not connected to power."
 msgstr "გაუქმდა, რადგან კვება მიერთებული აღარაა."
 
-#: pika-backup-common/src/borg/error.rs:171
+#: pika-backup-common/src/borg/error.rs:181
 msgid "Aborted by system."
 msgstr "შეწყვეტილია სისტემის მიერ."
 
-#: pika-backup-common/src/borg/error.rs:172
+#: pika-backup-common/src/borg/error.rs:182
 msgid "The program or system seems to have crashed."
 msgstr "როგორც ჩანს, პროგრამა ან სისტემა ავარიულად გაითიშა."
 
-#: pika-backup-common/src/borg/error.rs:173
+#: pika-backup-common/src/borg/error.rs:183
 #, rust-format
 msgid "{}"
 msgstr "{}"
 
-#: pika-backup-common/src/borg/error.rs:175
+#: pika-backup-common/src/borg/error.rs:185
 #, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "მარქაფის რეპოზიტორიასთან წვდომა შეუძლებელია: {}"
 
-#: pika-backup-common/src/borg/error.rs:283
+#: pika-backup-common/src/borg/error.rs:297
 msgid ""
 "A repository already exists at this location. Try the “Use Existing "
 "Repository” option or select a different location."
@@ -204,7 +204,7 @@ msgstr ""
 "ამ მდებარეობაზე რეპოზიტორია უკვე არსებობს. სცადეთ გამოიყენოთ ვარიანტი "
 "\"არსებული რეპოზიტორიის გამოყენება\", ან აირჩიეთ სხვა მდებარეობა."
 
-#: pika-backup-common/src/borg/error.rs:286
+#: pika-backup-common/src/borg/error.rs:300
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
@@ -212,32 +212,32 @@ msgstr ""
 "რეპოზიტორიაში აღმოჩენილია შეუსაბამობები. საჭიროა მონაცემების მთლიანობის "
 "შემოწმების გაშვება."
 
-#: pika-backup-common/src/borg/error.rs:288
+#: pika-backup-common/src/borg/error.rs:302
 msgid "No repository exists at this location."
 msgstr "ამ მდებარეობაზე რეპოზიტორია არ არსებობს."
 
-#: pika-backup-common/src/borg/error.rs:290
+#: pika-backup-common/src/borg/error.rs:304
 msgid "Not enough free space in repository."
 msgstr "რეპოზიტორიაში თავისუფალი ადგილი საკმარისი არაა."
 
-#: pika-backup-common/src/borg/error.rs:293
+#: pika-backup-common/src/borg/error.rs:307
 msgid "The configured location does not contain a valid repository."
 msgstr "მითითებული მდებარეობა სწორი რეპოზიტორია არაა."
 
-#: pika-backup-common/src/borg/error.rs:296
+#: pika-backup-common/src/borg/error.rs:310
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "მორგებული მდებარეობა სწორ რეპოზიტორიის კონფიგურაციას არ შეიცავს."
 
-#: pika-backup-common/src/borg/error.rs:299
+#: pika-backup-common/src/borg/error.rs:313
 msgid "The configured location does not exist."
 msgstr "მითითებული მდებარეობა არ არსებობს."
 
-#: pika-backup-common/src/borg/error.rs:302
+#: pika-backup-common/src/borg/error.rs:316
 msgid "The selected location does already exist."
 msgstr "არჩეული მდებარეობა უკვე არსებობს."
 
-#: pika-backup-common/src/borg/error.rs:305
+#: pika-backup-common/src/borg/error.rs:319
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
@@ -245,13 +245,13 @@ msgstr ""
 "მიღწეულია რეპოზიტორიების საცავის კვოტა. სცადეთ, წაშალოთ ძველი არქივები, "
 "რომლებიც უკვე აღარ გჭირდებათ."
 
-#: pika-backup-common/src/borg/error.rs:308
+#: pika-backup-common/src/borg/error.rs:322
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
 msgstr "მითითებულ მდებარეობაზე წვდომა აკრძალულია. შეამოწმეთ ფაილის წვდომები."
 
-#: pika-backup-common/src/borg/error.rs:313
+#: pika-backup-common/src/borg/error.rs:327
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
@@ -259,52 +259,56 @@ msgstr ""
 "ამ რეპოზიტორიასთან წვდომისთვის უფრო ახალი Pika Backup გჭირდებათ. რეპოზიტორია "
 "მხარდაუჭერელ ფუნქციებს იყენებს."
 
-#: pika-backup-common/src/borg/error.rs:318
+#: pika-backup-common/src/borg/error.rs:332
 msgid "The selected location already contains a repository."
 msgstr "არჩეული მდებარეობა რეპოზიტორიას უკვე შეიცავს."
 
-#: pika-backup-common/src/borg/error.rs:321
+#: pika-backup-common/src/borg/error.rs:335
 msgid "The configured location does not contain an archive."
 msgstr "მითითებული მდებარეობა არქივს არ შეიცავს."
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:325
+#: pika-backup-common/src/borg/error.rs:339
 msgid "Invalid encryption password."
 msgstr "დაშიფვრის არასწორი პაროლი."
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:328
+#: pika-backup-common/src/borg/error.rs:342
 msgid "Repository access was aborted"
 msgstr "რეპოზიტორიასთან წვდომა აკრძალულია"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Failed to lock repository."
 msgstr "რეპოზიტორიის დაბლოკვის შეცდომა."
 
-#: pika-backup-common/src/borg/error.rs:332
+#: pika-backup-common/src/borg/error.rs:346
 msgid "Repository already in use."
 msgstr "რეპოზიტორია უკვე გამოიყენება."
 
-#: pika-backup-common/src/borg/error.rs:336
+#: pika-backup-common/src/borg/error.rs:350
 msgid "Connection closed by remote host."
-msgstr "დაშორებილმა ჰოსტმა კავშირი დახურა."
+msgstr "დაშორებულმა ჰოსტმა კავშირი დახურა."
 
-#: pika-backup-common/src/borg/error.rs:341
+#: pika-backup-common/src/borg/error.rs:352
+msgid "Connection to remote host broken."
+msgstr "კავშირი დაშორებულ ჰოსტთან დაზიანებულია."
+
+#: pika-backup-common/src/borg/error.rs:356
 #, rust-format
 msgid "Connection closed by remote host: “{}”"
-msgstr "დაშორებილმა ჰოსტმა კავშირი დახურა: \"{}\""
+msgstr "დაშორებულმა ჰოსტმა კავშირი დახურა: \"{}\""
 
 #. General
-#: pika-backup-common/src/borg/error.rs:345
+#: pika-backup-common/src/borg/error.rs:360
 msgid "Exception"
 msgstr "გამონაკლისი"
 
-#: pika-backup-common/src/borg/error.rs:347
+#: pika-backup-common/src/borg/error.rs:362
 msgid "Unspecified error."
 msgstr "მიუთითებელი შეცდომა."
 
-#: pika-backup-common/src/borg/functions.rs:278
+#: pika-backup-common/src/borg/functions.rs:279
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
@@ -461,32 +465,32 @@ msgstr ""
 "\n"
 "გნებავთ, გააგრძელოთ?"
 
-#: pika-backup-common/src/borg/log_json.rs:325
+#: pika-backup-common/src/borg/log_json.rs:327
 msgid "Standard error output"
 msgstr "სტანდარტული შეცდომის გამოტანა"
 
-#: pika-backup-common/src/borg/log_json.rs:469
+#: pika-backup-common/src/borg/log_json.rs:481
 msgid "Debug"
 msgstr "გამართვა"
 
-#: pika-backup-common/src/borg/log_json.rs:470
+#: pika-backup-common/src/borg/log_json.rs:482
 msgid "Info"
 msgstr "ინფორმაცია"
 
-#: pika-backup-common/src/borg/log_json.rs:471 pika-backup/src/utils.rs:379
-#: pika-backup/src/widget/dialog/setup/location.ui:46
+#: pika-backup-common/src/borg/log_json.rs:483 pika-backup/src/utils.rs:364
+#: pika-backup/src/widget/dialog/setup/location.ui:56
 msgid "Warning"
 msgstr "გაფრთხილება"
 
-#: pika-backup-common/src/borg/log_json.rs:472
+#: pika-backup-common/src/borg/log_json.rs:484
 msgid "Error"
 msgstr "შეცდომა"
 
-#: pika-backup-common/src/borg/log_json.rs:473
+#: pika-backup-common/src/borg/log_json.rs:485
 msgid "Critical"
 msgstr "კრიტიკული"
 
-#: pika-backup-common/src/borg/log_json.rs:474
+#: pika-backup-common/src/borg/log_json.rs:486
 msgid "Undefined"
 msgstr "გაურკვეველი"
 
@@ -753,27 +757,27 @@ msgstr "კვირაში ერთხელ"
 msgid "Monthly"
 msgstr "თვეში ერთხელ"
 
-#: pika-backup-common/src/utils.rs:100
+#: pika-backup-common/src/utils.rs:106
 msgid "No such file or directory"
 msgstr "ფაილი ან საქაღალდე არ არსებობს"
 
-#: pika-backup-monitor/src/action.rs:58
+#: pika-backup-monitor/src/action.rs:41
 msgid "Failed to start backup from daemon"
 msgstr "დემონიდან მარქაფის გაშვების შეცდომა"
 
-#: pika-backup-monitor/src/action.rs:79
+#: pika-backup-monitor/src/action.rs:55
 msgid "Failed to show overview from daemon"
 msgstr "დემონიდან გადახედვის ჩვენების შეცდომა"
 
-#: pika-backup-monitor/src/action.rs:98
+#: pika-backup-monitor/src/action.rs:70
 msgid "Failed to show schedule from daemon"
 msgstr "დემონიდან გეგმის ჩვენების შეცდომა"
 
-#: pika-backup-monitor/src/connect/event.rs:23
+#: pika-backup-monitor/src/connect/event.rs:24
 msgid "Backup Device Connected"
 msgstr "მარქაფის მოწყობილობა მიერთებულია"
 
-#: pika-backup-monitor/src/connect/event.rs:29
+#: pika-backup-monitor/src/connect/event.rs:30
 #, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "“{}” ბევრ მორგებულ მარქაფს შეიცავს."
@@ -782,102 +786,102 @@ msgstr "“{}” ბევრ მორგებულ მარქაფს შ
 msgid "Show Backups"
 msgstr "მარქაფების ჩვენება"
 
-#: pika-backup-monitor/src/connect/event.rs:42
+#: pika-backup-monitor/src/connect/event.rs:39
 #, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "“{}” ერთ მარქაფს შეიცავს."
 
-#: pika-backup-monitor/src/connect/event.rs:47
+#: pika-backup-monitor/src/connect/event.rs:44
 msgid "Back Up Now"
 msgstr "ახლა დამარქაფება"
 
-#: pika-backup-monitor/src/init.rs:34
+#: pika-backup-monitor/src/init.rs:35
 msgid "Error loading configuration"
 msgstr "კონფიგურაციის ჩატვირთვის შეცდომა"
 
-#: pika-backup-monitor/src/init.rs:35
+#: pika-backup-monitor/src/init.rs:36
 msgid "Not monitoring backup schedule."
 msgstr "მარქაფის განრიგის მონიტორინგი არ ხდება."
 
-#: pika-backup-monitor/src/init.rs:60
+#: pika-backup-monitor/src/init.rs:61
 msgid "Monitoring backup schedule"
 msgstr "მარქაფის განრიგის მონიტორინგი"
 
-#: pika-backup-monitor/src/init.rs:127
+#: pika-backup-monitor/src/init.rs:128
 msgid "Fatal Error During Back Up"
 msgstr "ფატალური შეცდომა მარქაფის მიმდინარეობისას"
 
-#: pika-backup-monitor/src/init.rs:130
+#: pika-backup-monitor/src/init.rs:131
 #, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] "Pika Backup {} მარქაფის შესრულებისას ავარიულად დასრულდა"
 
-#: pika-backup-monitor/src/init.rs:169 pika-backup-monitor/src/init.rs:171
-#: pika-backup-monitor/src/init.rs:178
+#: pika-backup-monitor/src/init.rs:170 pika-backup-monitor/src/init.rs:172
+#: pika-backup-monitor/src/init.rs:179
 msgid "Error restarting monitor daemon"
 msgstr "მონტორის დემონის თავიდან გაშვების შეცდომა"
 
-#: pika-backup-monitor/src/schedule/init.rs:105
+#: pika-backup-monitor/src/schedule/init.rs:119
 msgid "The backup repository is already in use."
 msgstr "მარქაფის საცავი უკვე გამოიყენება."
 
-#: pika-backup-monitor/src/schedule/init.rs:108
+#: pika-backup-monitor/src/schedule/init.rs:122
 msgid "Archives are currently opened for browsing."
 msgstr "ამჟამად არქივები ღიაა დასათვალიერებლად."
 
-#: pika-backup-monitor/src/schedule/init.rs:111
+#: pika-backup-monitor/src/schedule/init.rs:125
 msgid "Only metered internet connections available."
 msgstr "ხელმისაწვდომია მხოლოდ გაზომვადი ინტერნეტკავშირი."
 
-#: pika-backup-monitor/src/schedule/init.rs:114
+#: pika-backup-monitor/src/schedule/init.rs:128
 msgid "Device not connected to power."
 msgstr "მოწყობილობა 220V კვებაზე მიერთებული არაა."
 
-#: pika-backup-monitor/src/schedule/init.rs:120
+#: pika-backup-monitor/src/schedule/init.rs:134
 msgid "Scheduled Backup Postponed"
 msgstr "დაგეგმილი მარქაფი გადადებულია"
 
-#: pika-backup-monitor/src/schedule/init.rs:144
+#: pika-backup-monitor/src/schedule/init.rs:158
 msgid "Backup Device Required"
 msgstr "მარქაფის მოწყობილობა აუცილებელია"
 
-#: pika-backup-monitor/src/schedule/init.rs:146
+#: pika-backup-monitor/src/schedule/init.rs:160
 #, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr "დაგეგმილი მარქაფის გასაშვებად \"{}\"-ის მიერთება აუცილებელია"
 
-#: pika-backup-monitor/src/schedule/init.rs:159
+#: pika-backup-monitor/src/schedule/init.rs:173
 msgid "Failed to start scheduled backup"
 msgstr "დაგეგმილი მარქაფის გაშვების შეცდომა"
 
-#: pika-backup/src/app.rs:245
+#: pika-backup/src/app.rs:249
 msgid "Abort Backup?"
 msgstr "შეწყდეს მარქაფი?"
 
-#: pika-backup/src/app.rs:246
+#: pika-backup/src/app.rs:250
 msgid "The backup will remain incomplete if aborted now"
 msgstr "მარქაფი, თუ ახლა გააუქმებთ, დაუსრულებელი დარჩება"
 
-#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:382
-#: pika-backup/src/widget/detail/backup/events.rs:24
-#: pika-backup/src/widget/detail/backup/events.rs:34
-#: pika-backup/src/widget/detail/backup/events.rs:44
+#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:367
+#: pika-backup/src/widget/detail/backup/events.rs:26
+#: pika-backup/src/widget/detail/backup/events.rs:36
+#: pika-backup/src/widget/detail/backup/events.rs:46
 #: pika-backup/src/widget/dialog/setup/encryption.rs:93
 msgid "Continue"
 msgstr "გაგრძელება"
 
-#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:381
-#: pika-backup/src/widget/detail/backup/events.rs:35
-#: pika-backup/src/widget/detail/backup/events.rs:45
+#: pika-backup/src/app.rs:252 pika-backup/src/utils.rs:366
+#: pika-backup/src/widget/detail/backup/events.rs:37
+#: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "შეწყვეტა"
 
-#: pika-backup/src/app.rs:260
+#: pika-backup/src/app.rs:264
 msgid "Backup Operation Running"
 msgstr "მარქაფის ოპერაცია გაშვებულია"
 
-#: pika-backup/src/app.rs:262
+#: pika-backup/src/app.rs:266
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "Pika Backup მარქაფის ოპერაციის დროს მუშაობას ვერ დაასრულებს"
 
@@ -944,28 +948,28 @@ msgstr "ნაპოვნია მთლიანობის შეცდო�
 msgid "{} % finished"
 msgstr "{} % დასრულდა"
 
-#: pika-backup/src/backup_status.rs:245
+#: pika-backup/src/backup_status.rs:247
 msgid "Preparing Backup"
 msgstr "მარქაფის მომზადება"
 
-#: pika-backup/src/backup_status.rs:246
+#: pika-backup/src/backup_status.rs:248
 msgid "Backup Running"
 msgstr "მარქაფი მიმდინარეობს"
 
-#: pika-backup/src/backup_status.rs:247
+#: pika-backup/src/backup_status.rs:249
 msgid "Backup Destination Unresponsive"
 msgstr "მარქაფის სამიზნე არ პასუხობს"
 
-#: pika-backup/src/backup_status.rs:250
+#: pika-backup/src/backup_status.rs:252
 #, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "მიერთება დაკარგულია. თავიდან მიერთების დროა {}"
 
-#: pika-backup/src/backup_status.rs:255
+#: pika-backup/src/backup_status.rs:257
 msgid "Reconnecting"
 msgstr "თავიდან დაკავშირება"
 
-#: pika-backup/src/backup_status.rs:257
+#: pika-backup/src/backup_status.rs:259
 msgid "Stopping Backup"
 msgstr "მარქაფს გაჩერება"
 
@@ -973,7 +977,11 @@ msgstr "მარქაფს გაჩერება"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "დაგეგმილი მარქაფებისთვის ინტერფეისის გამოჩენის შეცდომა."
 
-#: pika-backup/src/error.rs:145
+#: pika-backup/src/error.rs:174
+msgid "Close"
+msgstr "დაკეტვა"
+
+#: pika-backup/src/error.rs:200
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -983,29 +991,29 @@ msgstr ""
 "(\"საიდუმლოებების სერვისი\") სჭირდება პაროლების შესანახად. დაყენების "
 "ინსტრუქციები იხილეთ ოპერაციული სისტემის დოკუმენტაციაში."
 
-#: pika-backup/src/error.rs:182
+#: pika-backup/src/error.rs:237
 #, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "მარქაფი id-ით “{}” უკვე არსებობს."
 
-#: pika-backup/src/error.rs:191
+#: pika-backup/src/error.rs:246
 #, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "მარქაფის კონფიგურაცია ID-ით \"{}\" ვერ ვიპოვე."
 
-#: pika-backup/src/error.rs:207
+#: pika-backup/src/error.rs:262
 msgid "Canceled"
 msgstr "გაუქმებულია"
 
-#: pika-backup/src/lib.rs:75
+#: pika-backup/src/lib.rs:76
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "“borg”-ის გაშვების შეცდომა. დაყენებულია BorgBackup?"
 
-#: pika-backup/src/lib.rs:105
+#: pika-backup/src/lib.rs:106
 msgid "BorgBackup Version Too Old"
 msgstr "BorgBackup-ის ვერსია მეტისმეტად ძველია"
 
-#: pika-backup/src/lib.rs:107
+#: pika-backup/src/lib.rs:108
 #, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
@@ -1014,11 +1022,11 @@ msgstr ""
 "BorgBackup-ის დაყენებული ვერსია {} ძალიან ძველია. მოთხოვნილია აუცილებელი "
 "ვერსია {}. ეს მხარდაჭერილი არაა."
 
-#: pika-backup/src/lib.rs:116
+#: pika-backup/src/lib.rs:117
 msgid "BorgBackup Version Too New"
 msgstr "BorgBackup-ის ვერსია მეტისმეტად ახალია"
 
-#: pika-backup/src/lib.rs:118
+#: pika-backup/src/lib.rs:119
 #, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
@@ -1027,11 +1035,11 @@ msgstr ""
 "BorgBackup-ის დაყენებული ვერსია {} მეტსმეტად ახალია. რეკომენდებული ვერსიაა "
 "{}."
 
-#: pika-backup/src/lib.rs:127
+#: pika-backup/src/lib.rs:128
 msgid "Failed to Check BorgBackup Version"
 msgstr "BorgBackup-ის ვერსიის შემოწმების შეცდომა"
 
-#: pika-backup/src/lib.rs:129
+#: pika-backup/src/lib.rs:130
 #, rust-format
 msgid "The installed version {} might not work."
 msgstr "დაყენებულმა ვერსიამ {} შეიძლება, არ იმუშაოს."
@@ -1119,10 +1127,6 @@ msgstr[0] "გაშვებულია მარქაფის {} ოპე�
 msgid "Select"
 msgstr "აირჩიეთ"
 
-#: pika-backup/src/utils.rs:424
-msgid "Close"
-msgstr "დაკეტვა"
-
 #: pika-backup/src/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "ბრძანების სტრიქონის დამატებითი არგუმენტები არასწორია"
@@ -1164,15 +1168,15 @@ msgstr ""
 msgid "Start Operation"
 msgstr "ოპერაციის დაწყება"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:312
+#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
 msgid "Failed to unmount repository."
 msgstr "რეპოზიტორიის მოხსნის შეცდომა."
 
-#: pika-backup/src/utils/borg.rs:289
+#: pika-backup/src/utils/borg.rs:295
 msgid "Repository Already in Use"
 msgstr "რეპოზიტორია უკვე გამოიყენება"
 
-#: pika-backup/src/utils/borg.rs:290
+#: pika-backup/src/utils/borg.rs:296
 #, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
@@ -1183,7 +1187,7 @@ msgstr ""
 "ინფორმაცია შეიძლება, მოძველებული იყოს, თუ, მაგალითად, თქვენს კომპიუტერს ამ "
 "რეპოზიტორიის გამოყენებისას კვება გაეთიშა."
 
-#: pika-backup/src/utils/borg.rs:292
+#: pika-backup/src/utils/borg.rs:298
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1193,7 +1197,7 @@ msgstr ""
 "არ იყენებს! გაგრძელებას მაშინ, თუ რეპოზიტორიას სხვა პროგრამებიც იყენებენ, "
 "შეიძლება მარქაფის მონაცემების დაზიანება მოჰყვეს!"
 
-#: pika-backup/src/utils/borg.rs:293
+#: pika-backup/src/utils/borg.rs:299
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1201,20 +1205,20 @@ msgstr ""
 msgid "Cancel"
 msgstr "შეწყვეტა"
 
-#: pika-backup/src/utils/borg.rs:294
+#: pika-backup/src/utils/borg.rs:300
 msgid "Continue Anyway"
 msgstr "მაინც გაგრძელება"
 
-#: pika-backup/src/utils/borg.rs:440 pika-backup/src/utils/borg.rs:461
+#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
 msgid "Unable to Eject Backup Disk"
 msgstr "მარქაფის დისკის გამოღება შეუძლებელია"
 
-#: pika-backup/src/utils/borg.rs:449
+#: pika-backup/src/utils/borg.rs:455
 #, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{}-ის გამოერთება უსაფრთხოა."
 
-#: pika-backup/src/utils/borg.rs:462
+#: pika-backup/src/utils/borg.rs:468
 #, rust-format
 msgid "{} can't be ejected."
 msgstr "{}-ის გამოღება შეუძლებელია."
@@ -1492,7 +1496,7 @@ msgstr "{} ხელმისაწვდომია"
 msgid "{} Total"
 msgstr "{} სულ"
 
-#: pika-backup/src/widget/detail/archives/events.rs:95
+#: pika-backup/src/widget/detail/archives/events.rs:96
 msgid "Failed to make archives available for browsing."
 msgstr "არქივების ხილულად მონიშვნის შეცდომა."
 
@@ -1563,11 +1567,11 @@ msgstr "ნიმუშის ჩასწორება"
 msgid "Remove From List"
 msgstr "სიიდან წაშლა"
 
-#: pika-backup/src/widget/detail/backup/events.rs:22
+#: pika-backup/src/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr "გავაჩერო მარქაფის პროცესი?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:23
+#: pika-backup/src/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1575,15 +1579,15 @@ msgstr ""
 "მიმდინარე მარქაფის მდგომარეობა შეინახება. მარქაფის გაგრძელება მოგვიანებით "
 "შეგიძლიათ, მისი თავიდან გაშვებით."
 
-#: pika-backup/src/widget/detail/backup/events.rs:25
+#: pika-backup/src/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "გაჩერება"
 
-#: pika-backup/src/widget/detail/backup/events.rs:32
+#: pika-backup/src/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr "გავაუქმო წაშლის ოპერაცია?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:33
+#: pika-backup/src/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
@@ -1591,22 +1595,17 @@ msgstr ""
 "მიმდინარეობს არქივების წაშლა. შეწყვეტის შემთხვევაში ადგილი არ "
 "გამოთავისუფლდება."
 
-#: pika-backup/src/widget/detail/backup/events.rs:42
+#: pika-backup/src/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr "გავაუქმო ოპერაცია?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:43
+#: pika-backup/src/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
 msgstr ""
 "მიმდინარეობს ოპერაციის შესრულება. შეწყვეტა ოპერაციის მიერ შესრულებული "
 "ამოცანების დაკარგვას გამოიწვევს."
-
-#: pika-backup/src/widget/detail/backup/events.rs:100
-#: pika-backup/src/widget/detail/backup/events.rs:110
-msgid "Unable to Include Location"
-msgstr "მდებარეობის ჩასმის შეცდომა"
 
 #: pika-backup/src/widget/detail/backup/events.rs:101
 #, rust-format
@@ -1618,6 +1617,11 @@ msgstr ""
 "შემდეგი ბილიკების ჩასმა შეუძლებელია, რადგან ისინი ხელმიუწვდომელია "
 "სენდბოქსში:\n"
 "{}"
+
+#: pika-backup/src/widget/detail/backup/events.rs:104
+#: pika-backup/src/widget/detail/backup/events.rs:113
+msgid "Unable to Include Location"
+msgstr "მდებარეობის ჩასმის შეცდომა"
 
 #: pika-backup/src/widget/detail/backup/events.rs:111
 msgid ""
@@ -2137,7 +2141,7 @@ msgstr "დაშიფვრის პაროლი აუცილებე�
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:179
+#: pika-backup/src/widget/overview.rs:175
 msgid "_Cancel"
 msgstr "გაუქმება"
 
@@ -2478,12 +2482,12 @@ msgstr "არასწორი პაროლი"
 msgid "Loading Backup Repository"
 msgstr "აღდგენის საცავის ჩატვირთვა"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:211
+#: pika-backup/src/widget/dialog/setup/actions.rs:214
 #: pika-backup/src/widget/dialog/setup/create_new.ui:6
 msgid "Creating Backup Repository"
 msgstr "მარქაფის საცავის შექმნა"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:220
+#: pika-backup/src/widget/dialog/setup/actions.rs:223
 msgid "Getting Repository Information"
 msgstr "რეპოზიტორიის ინფორმაციის მიღება"
 
@@ -2492,13 +2496,13 @@ msgid "Checking Backup Repository"
 msgstr "მარქაფის რეპოზიტორიის შემოწმება"
 
 #: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
-#: pika-backup/src/widget/dialog/setup/location.ui:70
-#: pika-backup/src/widget/dialog/setup/location.ui:239
+#: pika-backup/src/widget/dialog/setup/location.ui:40
+#: pika-backup/src/widget/dialog/setup/location.ui:244
 msgid "Advanced Options"
 msgstr "დამატებითი პარამეტრები"
 
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:23
-#: pika-backup/src/widget/dialog/setup/location.ui:278
+#: pika-backup/src/widget/dialog/setup/location.ui:283
 msgid "_Continue"
 msgstr "_გაგრძელება"
 
@@ -2554,7 +2558,7 @@ msgstr "რეპოზიტორიის მორგება"
 msgid "Repository Name"
 msgstr "რეპოზიტორიის სახელი"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:58
+#: pika-backup/src/widget/dialog/setup/location.ui:68
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2567,20 +2571,20 @@ msgstr ""
 "დაიმახსოვრეთ, რომ თავიდან დაფორმატება ამ მდებარეობაზე არსებულ ყველა ფაილს "
 "წაშლის!"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:96
+#: pika-backup/src/widget/dialog/setup/location.ui:93
 msgid "Repository URL"
 msgstr "რეპოზიტორიის URL"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:122
+#: pika-backup/src/widget/dialog/setup/location.ui:121
 msgid "Locations with BorgBackup Support"
 msgstr "მდებარეობები BorgBackup-ის მხარდაჭერით"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:134
-#: pika-backup/src/widget/dialog/setup/location.ui:189
+#: pika-backup/src/widget/dialog/setup/location.ui:132
+#: pika-backup/src/widget/dialog/setup/location.ui:197
 msgid "More Information"
 msgstr "მეტი ინფორმაცია"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:147
+#: pika-backup/src/widget/dialog/setup/location.ui:145
 msgid ""
 "The “ssh://” prefix is reserved for servers with BorgBackup support. This "
 "option provides the best performance."
@@ -2588,11 +2592,11 @@ msgstr ""
 "პრეფიქსი 'ssh://' დაცულია სერვერებისთვის BorgBackup-ის მხარდაჭერით. ეს "
 "პარამეტრი საუკეთესო წარმადობას მოგაწვდით."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:177
+#: pika-backup/src/widget/dialog/setup/location.ui:186
 msgid "SMB and SFTP Network Shares"
 msgstr "SMB და SFTP ქსელური გაიზარებები"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:201
+#: pika-backup/src/widget/dialog/setup/location.ui:209
 msgid ""
 "The “sftp://” and “smb://” prefixes can be used to access network shares. "
 "The network share does not need explicit BorgBackup support."
@@ -2600,7 +2604,7 @@ msgstr ""
 "პრეფიქსები 'sftp://' და 'smb://' ქსელში გაზიარებული დისკებისთვის შეგიძლიათ, "
 "გამოიყენოთ. ქსელურ დისკებს არ სჭირდებათ BorgBackup-ის მხარდაჭერა."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:262
+#: pika-backup/src/widget/dialog/setup/location.ui:267
 msgid "_Connect"
 msgstr "_დაკავშირება"
 
@@ -2847,15 +2851,15 @@ msgstr "ეს პაროლი მომწონს"
 msgid "Repeat Password"
 msgstr "გაიმეორე პაროლი"
 
-#: pika-backup/src/widget/overview.rs:177
+#: pika-backup/src/widget/overview.rs:173
 msgid "Remove Backup Setup?"
 msgstr "წავშალო მარქაფის პარამეტრები?"
 
-#: pika-backup/src/widget/overview.rs:178
+#: pika-backup/src/widget/overview.rs:174
 msgid "Removing the setup will not delete any archives"
 msgstr "მორგების წაშლა არქივებს არ წაშლის"
 
-#: pika-backup/src/widget/overview.rs:180
+#: pika-backup/src/widget/overview.rs:176
 msgid "_Remove Setup"
 msgstr "პარამეტ_რების წაშლა"
 
