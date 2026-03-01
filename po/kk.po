@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-12-03 15:17+0000\n"
-"PO-Revision-Date: 2026-01-25 22:32+0500\n"
+"POT-Creation-Date: 2026-02-27 21:10+0000\n"
+"PO-Revision-Date: 2026-03-01 19:48+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <Kazakh>\n"
 "Language: kk\n"
@@ -22,13 +22,12 @@ msgstr ""
 msgid "Pika Backup Monitor"
 msgstr "Pika Backup мониторы"
 
-#. Translators: "Pika" in this app's name refers to a small mammal. If you
-#. transliterate "Pika," #. please make sure that the transliteration does not
-#. coincide with a different meaning. If #. fitting, translations of "Pika"
-#. are welcome too.
+#.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," #. please make sure that the transliteration does not coincide with a different meaning. If #. fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
+#.
 #: data/app.desktop.in:5 data/app.metainfo.xml.in:4
-#: pika-backup/src/utils.rs:363 pika-backup/src/utils.rs:428
+#: pika-backup/src/error.rs:178 pika-backup/src/utils.rs:348
 #: pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
@@ -58,8 +57,8 @@ msgid ""
 "Doing backups the easy way. Plugin your USB drive and let the Pika do the "
 "rest for you."
 msgstr ""
-"Резервтік көшірме жасаудың оңай жолы. USB дискін жалғаңыз, қалғанын Pika "
-"өзі жасайды."
+"Резервтік көшірме жасаудың оңай жолы. USB дискін жалғаңыз, қалғанын Pika өзі "
+"жасайды."
 
 #: data/app.metainfo.xml.in:33
 msgid "Create backups locally and remotely"
@@ -74,12 +73,12 @@ msgid ""
 "Save time and disk space because Pika Backup does not need to copy known "
 "data again"
 msgstr ""
-"Уақыт пен диск орнын үнемдеңіз, өйткені Pika Backup белгілі деректерді "
-"қайта көшіруді қажет етпейді"
+"Уақыт пен диск орнын үнемдеңіз, өйткені Pika Backup белгілі деректерді қайта "
+"көшіруді қажет етпейді"
 
 #: data/app.metainfo.xml.in:36
 msgid "Encrypt your backups"
-msgstr "Резервтік көшірмелерді шифрлау"
+msgstr "Резервтік көшірмелерді шифрлеу"
 
 #: data/app.metainfo.xml.in:37
 msgid "List created archives and browse through their contents"
@@ -130,7 +129,7 @@ msgstr "Жаңа резервтік көшірмені баптау"
 msgid "Show Keyboard Shortcuts"
 msgstr "Пернетақта жарлықтарын көрсету"
 
-#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:275
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:279
 msgid "Quit"
 msgstr "Шығу"
 
@@ -144,11 +143,11 @@ msgstr "Мәзірді ашу"
 
 #: pika-backup-common/src/borg/error.rs:31
 msgid ""
-"Retrieving encryption password from the keyring failed. Pika Backup "
-"requires a keyring daemon (“secret service”) to store passwords. For "
-"installation instructions see the operating system documentation."
+"Retrieving encryption password from the keyring failed. Pika Backup requires "
+"a keyring daemon (“secret service”) to store passwords. For installation "
+"instructions see the operating system documentation."
 msgstr ""
-"Кілттер қоймасынан шифрлау паролін алу сәтсіз аяқталды. Pika Backup "
+"Кілттер қоймасынан шифрлеу паролін алу сәтсіз аяқталды. Pika Backup "
 "парольдерді сақтау үшін кілттер қоймасы қызметін («secret service») қажет "
 "етеді. Орнату нұсқауларын операциялық жүйе құжаттамасынан қараңыз."
 
@@ -164,46 +163,46 @@ msgstr "Бұл өшіру операциясы тым көп архивті өш
 msgid "No files selected to be included into backup."
 msgstr "Резервтік көшірмеге қосу үшін файлдар таңдалмады."
 
-#: pika-backup-common/src/borg/error.rs:86
+#: pika-backup-common/src/borg/error.rs:96
 msgid "Timeout"
 msgstr "Күту уақыты аяқталды"
 
-#: pika-backup-common/src/borg/error.rs:133
+#: pika-backup-common/src/borg/error.rs:143
 msgid "Completed"
 msgstr "Аяқталды"
 
-#: pika-backup-common/src/borg/error.rs:163
+#: pika-backup-common/src/borg/error.rs:173
 msgid "Aborted on user request."
 msgstr "Пайдаланушының сұрауы бойынша тоқтатылды."
 
-#: pika-backup-common/src/borg/error.rs:165
+#: pika-backup-common/src/borg/error.rs:175
 msgid "Aborted because only metered connection was available."
 msgstr "Тек ақылы қосылым қолжетімді болғандықтан тоқтатылды."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: pika-backup-common/src/borg/error.rs:169
+#: pika-backup-common/src/borg/error.rs:179
 msgid "Aborted because too long not connected to power."
 msgstr "Қуат көзіне ұзақ уақыт бойы қосылмағандықтан тоқтатылды."
 
-#: pika-backup-common/src/borg/error.rs:171
+#: pika-backup-common/src/borg/error.rs:181
 msgid "Aborted by system."
 msgstr "Жүйе тарапынан тоқтатылды."
 
-#: pika-backup-common/src/borg/error.rs:172
+#: pika-backup-common/src/borg/error.rs:182
 msgid "The program or system seems to have crashed."
 msgstr "Бағдарлама немесе жүйе жұмысында ақаулық орын алған сияқты."
 
-#: pika-backup-common/src/borg/error.rs:173
+#: pika-backup-common/src/borg/error.rs:183
 #, rust-format
 msgid "{}"
 msgstr "{}"
 
-#: pika-backup-common/src/borg/error.rs:175
+#: pika-backup-common/src/borg/error.rs:185
 #, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "Резервтік көшірме репозиторийіне қол жеткізу мүмкін емес: {}"
 
-#: pika-backup-common/src/borg/error.rs:283
+#: pika-backup-common/src/borg/error.rs:297
 msgid ""
 "A repository already exists at this location. Try the “Use Existing "
 "Repository” option or select a different location."
@@ -211,7 +210,7 @@ msgstr ""
 "Бұл жерде репозиторий бар болып тұр. «Бар репозиторийді пайдалану» опциясын "
 "қолданып көріңіз немесе басқа орынды таңдаңыз."
 
-#: pika-backup-common/src/borg/error.rs:286
+#: pika-backup-common/src/borg/error.rs:300
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
@@ -219,48 +218,47 @@ msgstr ""
 "Репозиторийде сәйкессіздіктер анықталды. Деректердің тұтастығын тексеруді "
 "іске қосу қажет."
 
-#: pika-backup-common/src/borg/error.rs:288
+#: pika-backup-common/src/borg/error.rs:302
 msgid "No repository exists at this location."
 msgstr "Бұл жерде репозиторий жоқ."
 
-#: pika-backup-common/src/borg/error.rs:290
+#: pika-backup-common/src/borg/error.rs:304
 msgid "Not enough free space in repository."
 msgstr "Репозиторийде бос орын жеткіліксіз."
 
-#: pika-backup-common/src/borg/error.rs:293
+#: pika-backup-common/src/borg/error.rs:307
 msgid "The configured location does not contain a valid repository."
 msgstr "Бапталған орында жарамды репозиторий жоқ."
 
-#: pika-backup-common/src/borg/error.rs:296
+#: pika-backup-common/src/borg/error.rs:310
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "Бапталған орында жарамды репозиторий конфигурациясы жоқ."
 
-#: pika-backup-common/src/borg/error.rs:299
+#: pika-backup-common/src/borg/error.rs:313
 msgid "The configured location does not exist."
 msgstr "Бапталған орын жоқ."
 
-#: pika-backup-common/src/borg/error.rs:302
+#: pika-backup-common/src/borg/error.rs:316
 msgid "The selected location does already exist."
 msgstr "Таңдалған орын бұрыннан бар."
 
-#: pika-backup-common/src/borg/error.rs:305
+#: pika-backup-common/src/borg/error.rs:319
 msgid ""
-"The repositories storage quota has been reached. Try deleting older "
-"archives that are no longer needed."
+"The repositories storage quota has been reached. Try deleting older archives "
+"that are no longer needed."
 msgstr ""
 "Репозиторийлер қоймасының квотасы толды. Бұдан былай қажет емес ескі "
 "архивтерді өшіріп көріңіз."
 
-#: pika-backup-common/src/borg/error.rs:308
+#: pika-backup-common/src/borg/error.rs:322
 msgid ""
-"Permission to access the configured location has been denied. Check the "
-"file permissions."
+"Permission to access the configured location has been denied. Check the file "
+"permissions."
 msgstr ""
-"Бапталған орынға қол жеткізуге рұқсат берілмеді. Файл рұқсаттарын "
-"тексеріңіз."
+"Бапталған орынға қол жеткізуге рұқсат берілмеді. Файл рұқсаттарын тексеріңіз."
 
-#: pika-backup-common/src/borg/error.rs:313
+#: pika-backup-common/src/borg/error.rs:327
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
@@ -268,60 +266,64 @@ msgstr ""
 "Бұл репозиторийге қол жеткізу үшін Pika Backup-тың жаңа нұсқасы қажет. "
 "Репозиторий қолдау көрсетілмейтін мүмкіндіктерді пайдаланады."
 
-#: pika-backup-common/src/borg/error.rs:318
+#: pika-backup-common/src/borg/error.rs:332
 msgid "The selected location already contains a repository."
 msgstr "Таңдалған орында репозиторий бар болып тұр."
 
-#: pika-backup-common/src/borg/error.rs:321
+#: pika-backup-common/src/borg/error.rs:335
 msgid "The configured location does not contain an archive."
 msgstr "Бапталған орында архив жоқ."
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:325
+#: pika-backup-common/src/borg/error.rs:339
 msgid "Invalid encryption password."
-msgstr "Шифрлау паролі қате."
+msgstr "Шифрлеу паролі қате."
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:328
+#: pika-backup-common/src/borg/error.rs:342
 msgid "Repository access was aborted"
 msgstr "Репозиторийге қол жеткізу тоқтатылды"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Failed to lock repository."
 msgstr "Репозиторийді құлыптау сәтсіз аяқталды."
 
-#: pika-backup-common/src/borg/error.rs:332
+#: pika-backup-common/src/borg/error.rs:346
 msgid "Repository already in use."
 msgstr "Репозиторий қолданылуда."
 
-#: pika-backup-common/src/borg/error.rs:336
+#: pika-backup-common/src/borg/error.rs:350
 msgid "Connection closed by remote host."
 msgstr "Қосылымды қашықтағы хост жапты."
 
-#: pika-backup-common/src/borg/error.rs:341
+#: pika-backup-common/src/borg/error.rs:352
+msgid "Connection to remote host broken."
+msgstr "Қашықтағы хостқа қосылым үзілді."
+
+#: pika-backup-common/src/borg/error.rs:356
 #, rust-format
 msgid "Connection closed by remote host: “{}”"
 msgstr "Қосылымды қашықтағы хост жапты: «{}»"
 
 #. General
-#: pika-backup-common/src/borg/error.rs:345
+#: pika-backup-common/src/borg/error.rs:360
 msgid "Exception"
 msgstr "Ерекше жағдай"
 
-#: pika-backup-common/src/borg/error.rs:347
+#: pika-backup-common/src/borg/error.rs:362
 msgid "Unspecified error."
 msgstr "Анықталмаған қате."
 
-#: pika-backup-common/src/borg/functions.rs:278
+#: pika-backup-common/src/borg/functions.rs:279
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
 "encryption."
 msgstr ""
-"Бұл резервтік көшірме репозиторийі мүлдем шифрланбаған, тіпті ашық мәтінмен "
-"сақталған кілт те жоқ. Парольдерді тек шифрлауды қолданатын "
-"репозиторийлерге қосуға болады."
+"Бұл резервтік көшірме репозиторийі мүлдем шифрленбеген, тіпті ашық мәтінмен "
+"сақталған кілт те жоқ. Парольдерді тек шифрлеуді қолданатын репозиторийлерге "
+"қосуға болады."
 
 #: pika-backup-common/src/borg/log_json.rs:54
 msgid "Backup will be aborted."
@@ -423,7 +425,7 @@ msgstr "Сұрақты өңдеу"
 
 #: pika-backup-common/src/borg/log_json.rs:236
 msgid "Attempting to access a previously unknown unencrypted repository."
-msgstr "Бұрын белгісіз болған шифрланбаған репозиторийге қол жеткізу әрекеті."
+msgstr "Бұрын белгісіз болған шифрленбеген репозиторийге қол жеткізу әрекеті."
 
 #: pika-backup-common/src/borg/log_json.rs:252
 #, rust-format
@@ -438,12 +440,11 @@ msgstr "Резервтік көшірме репозиторийі бұрын б
 #: pika-backup-common/src/borg/log_json.rs:260
 msgid ""
 "This is a potentially dangerous function. Repairing a repository might lead "
-"to data loss (for kinds of corruption it is not capable of dealing with). "
-"BE VERY CAREFUL!"
+"to data loss (for kinds of corruption it is not capable of dealing with). BE "
+"VERY CAREFUL!"
 msgstr ""
-"Бұл қауіпті болуы мүмкін функция. Репозиторийді жөндеу деректердің "
-"жоғалуына әкелуі мүмкін (ол өңдей алмайтын бүліну түрлері үшін). Өте сақ "
-"болыңыз!"
+"Бұл қауіпті болуы мүмкін функция. Репозиторийді жөндеу деректердің жоғалуына "
+"әкелуі мүмкін (ол өңдей алмайтын бүліну түрлері үшін). Өте сақ болыңыз!"
 
 #: pika-backup-common/src/borg/log_json.rs:263
 msgid ""
@@ -470,32 +471,32 @@ msgstr ""
 "\n"
 "Жалғастыруды қалайсыз ба?"
 
-#: pika-backup-common/src/borg/log_json.rs:325
+#: pika-backup-common/src/borg/log_json.rs:327
 msgid "Standard error output"
 msgstr "Қателердің стандартты шығысы"
 
-#: pika-backup-common/src/borg/log_json.rs:469
+#: pika-backup-common/src/borg/log_json.rs:481
 msgid "Debug"
 msgstr "Жөндеу"
 
-#: pika-backup-common/src/borg/log_json.rs:470
+#: pika-backup-common/src/borg/log_json.rs:482
 msgid "Info"
 msgstr "Ақпарат"
 
-#: pika-backup-common/src/borg/log_json.rs:471 pika-backup/src/utils.rs:379
-#: pika-backup/src/widget/dialog/setup/location.ui:46
+#: pika-backup-common/src/borg/log_json.rs:483 pika-backup/src/utils.rs:364
+#: pika-backup/src/widget/dialog/setup/location.ui:56
 msgid "Warning"
 msgstr "Ескерту"
 
-#: pika-backup-common/src/borg/log_json.rs:472
+#: pika-backup-common/src/borg/log_json.rs:484
 msgid "Error"
 msgstr "Қате"
 
-#: pika-backup-common/src/borg/log_json.rs:473
+#: pika-backup-common/src/borg/log_json.rs:485
 msgid "Critical"
 msgstr "Критикалық"
 
-#: pika-backup-common/src/borg/log_json.rs:474
+#: pika-backup-common/src/borg/log_json.rs:486
 msgid "Undefined"
 msgstr "Анықталмаған"
 
@@ -598,8 +599,7 @@ msgstr ""
 #: pika-backup-common/src/borg/scripts.rs:310
 #, rust-format
 msgid ""
-"The post-backup command configured in preferences returned a failure code: "
-"{}"
+"The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
 "Қалауларда бапталған резервтік көшірмеден кейінгі команда қате кодымен "
 "аяқталды: {}"
@@ -704,8 +704,7 @@ msgstr "Виртуалды машиналар мен контейнерлер"
 msgid "Data that can be regenerated when needed"
 msgstr "Қажет болғанда қайта жасауға болатын деректер"
 
-#. Translators: Detailed description for Flatpak app installations exclusion
-#. rule
+#. Translators: Detailed description for Flatpak app installations exclusion rule
 #: pika-backup-common/src/config/exclude.rs:203
 msgid "Documents and data are still backed up"
 msgstr "Құжаттар мен деректер әлі де резервтелген"
@@ -715,8 +714,7 @@ msgstr "Құжаттар мен деректер әлі де резервтел�
 msgid "Files that have not been irretrievably deleted"
 msgstr "Қайтымсыз өшірілмеген файлдар"
 
-#. Translators: Detailed description for virtual machines and containers
-#. exclusion rule
+#. Translators: Detailed description for virtual machines and containers exclusion rule
 #: pika-backup-common/src/config/exclude.rs:207
 msgid "Might include data stored within"
 msgstr "Ішінде сақталған деректер болуы мүмкін"
@@ -727,8 +725,8 @@ msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
 msgstr ""
-"Жүктелген {} нұсқалы баптау файлы Pika Backup бағдарламасының осы "
-"нұсқасымен үйлесімсіз"
+"Жүктелген {} нұсқалы баптау файлы Pika Backup бағдарламасының осы нұсқасымен "
+"үйлесімсіз"
 
 #: pika-backup-common/src/config/pattern.rs:276
 #: pika-backup/src/widget/dialog/exclude.ui:101
@@ -762,27 +760,27 @@ msgstr "Апта сайын"
 msgid "Monthly"
 msgstr "Ай сайын"
 
-#: pika-backup-common/src/utils.rs:100
+#: pika-backup-common/src/utils.rs:106
 msgid "No such file or directory"
 msgstr "Мұндай файл немесе бума жоқ"
 
-#: pika-backup-monitor/src/action.rs:58
+#: pika-backup-monitor/src/action.rs:41
 msgid "Failed to start backup from daemon"
 msgstr "Қызметтен резервтік көшіруді бастау сәтсіз аяқталды"
 
-#: pika-backup-monitor/src/action.rs:79
+#: pika-backup-monitor/src/action.rs:55
 msgid "Failed to show overview from daemon"
 msgstr "Қызметтен жалпы мәліметті көрсету сәтсіз аяқталды"
 
-#: pika-backup-monitor/src/action.rs:98
+#: pika-backup-monitor/src/action.rs:70
 msgid "Failed to show schedule from daemon"
 msgstr "Қызметтен кестені көрсету сәтсіз аяқталды"
 
-#: pika-backup-monitor/src/connect/event.rs:23
+#: pika-backup-monitor/src/connect/event.rs:24
 msgid "Backup Device Connected"
 msgstr "Резервтік көшірме құрылғысы қосылды"
 
-#: pika-backup-monitor/src/connect/event.rs:29
+#: pika-backup-monitor/src/connect/event.rs:30
 #, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "“{}” ішінде бірнеше бапталған резервтік көшірмелер бар."
@@ -791,102 +789,102 @@ msgstr "“{}” ішінде бірнеше бапталған резервті
 msgid "Show Backups"
 msgstr "Резервтік көшірмелерді көрсету"
 
-#: pika-backup-monitor/src/connect/event.rs:42
+#: pika-backup-monitor/src/connect/event.rs:39
 #, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "“{}” ішінде бір бапталған резервтік көшірме бар."
 
-#: pika-backup-monitor/src/connect/event.rs:47
+#: pika-backup-monitor/src/connect/event.rs:44
 msgid "Back Up Now"
 msgstr "Қазір көшіруді бастау"
 
-#: pika-backup-monitor/src/init.rs:34
+#: pika-backup-monitor/src/init.rs:35
 msgid "Error loading configuration"
 msgstr "Баптауды жүктеу қатесі"
 
-#: pika-backup-monitor/src/init.rs:35
+#: pika-backup-monitor/src/init.rs:36
 msgid "Not monitoring backup schedule."
 msgstr "Резервтік көшірме кестесі бақыланбайды."
 
-#: pika-backup-monitor/src/init.rs:60
+#: pika-backup-monitor/src/init.rs:61
 msgid "Monitoring backup schedule"
 msgstr "Резервтік көшірме кестесі бақылануда"
 
-#: pika-backup-monitor/src/init.rs:127
+#: pika-backup-monitor/src/init.rs:128
 msgid "Fatal Error During Back Up"
 msgstr "Резервтік көшіру кезіндегі ауыр қате"
 
-#: pika-backup-monitor/src/init.rs:130
+#: pika-backup-monitor/src/init.rs:131
 #, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] "Pika Backup {} резервтік көшірме жасау кезінде қатемен аяқталды"
 
-#: pika-backup-monitor/src/init.rs:169 pika-backup-monitor/src/init.rs:171
-#: pika-backup-monitor/src/init.rs:178
+#: pika-backup-monitor/src/init.rs:170 pika-backup-monitor/src/init.rs:172
+#: pika-backup-monitor/src/init.rs:179
 msgid "Error restarting monitor daemon"
 msgstr "Бақылау демонын қайта іске қосу қатесі"
 
-#: pika-backup-monitor/src/schedule/init.rs:105
+#: pika-backup-monitor/src/schedule/init.rs:119
 msgid "The backup repository is already in use."
 msgstr "Резервтік көшірме репозиторийі қолданыста."
 
-#: pika-backup-monitor/src/schedule/init.rs:108
+#: pika-backup-monitor/src/schedule/init.rs:122
 msgid "Archives are currently opened for browsing."
 msgstr "Архивтер қазір шолу үшін ашық."
 
-#: pika-backup-monitor/src/schedule/init.rs:111
+#: pika-backup-monitor/src/schedule/init.rs:125
 msgid "Only metered internet connections available."
 msgstr "Тек шектеулі интернет қосылымдары қолжетімді."
 
-#: pika-backup-monitor/src/schedule/init.rs:114
+#: pika-backup-monitor/src/schedule/init.rs:128
 msgid "Device not connected to power."
 msgstr "Құрылғы қуат көзіне қосылмаған."
 
-#: pika-backup-monitor/src/schedule/init.rs:120
+#: pika-backup-monitor/src/schedule/init.rs:134
 msgid "Scheduled Backup Postponed"
 msgstr "Жоспарланған резервтік көшіру кейінге қалдырылды"
 
-#: pika-backup-monitor/src/schedule/init.rs:144
+#: pika-backup-monitor/src/schedule/init.rs:158
 msgid "Backup Device Required"
 msgstr "Резервтік көшірме құрылғысы қажет"
 
-#: pika-backup-monitor/src/schedule/init.rs:146
+#: pika-backup-monitor/src/schedule/init.rs:160
 #, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr "Жоспарланған резервтік көшіруді бастау үшін “{}” қосулы болуы керек"
 
-#: pika-backup-monitor/src/schedule/init.rs:159
+#: pika-backup-monitor/src/schedule/init.rs:173
 msgid "Failed to start scheduled backup"
 msgstr "Жоспарланған резервтік көшіруді бастау сәтсіз аяқталды"
 
-#: pika-backup/src/app.rs:245
+#: pika-backup/src/app.rs:249
 msgid "Abort Backup?"
 msgstr "Резервтік көшіруді тоқтату керек пе?"
 
-#: pika-backup/src/app.rs:246
+#: pika-backup/src/app.rs:250
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Егер қазір тоқтатсаңыз, резервтік көшірме толық болмайды"
 
-#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:382
-#: pika-backup/src/widget/detail/backup/events.rs:24
-#: pika-backup/src/widget/detail/backup/events.rs:34
-#: pika-backup/src/widget/detail/backup/events.rs:44
+#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:367
+#: pika-backup/src/widget/detail/backup/events.rs:26
+#: pika-backup/src/widget/detail/backup/events.rs:36
+#: pika-backup/src/widget/detail/backup/events.rs:46
 #: pika-backup/src/widget/dialog/setup/encryption.rs:93
 msgid "Continue"
 msgstr "Жалғастыру"
 
-#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:381
-#: pika-backup/src/widget/detail/backup/events.rs:35
-#: pika-backup/src/widget/detail/backup/events.rs:45
+#: pika-backup/src/app.rs:252 pika-backup/src/utils.rs:366
+#: pika-backup/src/widget/detail/backup/events.rs:37
+#: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Тоқтату"
 
-#: pika-backup/src/app.rs:260
+#: pika-backup/src/app.rs:264
 msgid "Backup Operation Running"
 msgstr "Резервтік көшіру операциясы орындалуда"
 
-#: pika-backup/src/app.rs:262
+#: pika-backup/src/app.rs:266
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "Резервтік көшіру операциясы кезінде Pika Backup-тан шығуға болмайды"
 
@@ -953,97 +951,100 @@ msgstr "Бүтіндік қателері табылды"
 msgid "{} % finished"
 msgstr "{} % аяқталды"
 
-#: pika-backup/src/backup_status.rs:245
+#: pika-backup/src/backup_status.rs:247
 msgid "Preparing Backup"
 msgstr "Резервтік көшіруге дайындау"
 
-#: pika-backup/src/backup_status.rs:246
+#: pika-backup/src/backup_status.rs:248
 msgid "Backup Running"
 msgstr "Резервтік көшіру орындалуда"
 
-#: pika-backup/src/backup_status.rs:247
+#: pika-backup/src/backup_status.rs:249
 msgid "Backup Destination Unresponsive"
 msgstr "Резервтік көшірме орны жауап бермейді"
 
-#: pika-backup/src/backup_status.rs:250
+#: pika-backup/src/backup_status.rs:252
 #, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "Байланыс үзілді, {} ішінде қайта қосылады"
 
-#: pika-backup/src/backup_status.rs:255
+#: pika-backup/src/backup_status.rs:257
 msgid "Reconnecting"
 msgstr "Қайта қосылуда"
 
-#: pika-backup/src/backup_status.rs:257
+#: pika-backup/src/backup_status.rs:259
 msgid "Stopping Backup"
 msgstr "Резервтік көшіруді тоқтату"
 
 #: pika-backup/src/dbus.rs:67
 msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
-"Жоспарланған резервтік көшірмелер үшін интерфейсті іске қосу сәтсіз "
-"аяқталды."
+"Жоспарланған резервтік көшірмелер үшін интерфейсті іске қосу сәтсіз аяқталды."
 
-#: pika-backup/src/error.rs:145
+#: pika-backup/src/error.rs:174
+msgid "Close"
+msgstr "Жабу"
+
+#: pika-backup/src/error.rs:200
 msgid ""
-"The keyring is not available. Pika Backup requires a keyring daemon "
-"(“secret service”) to store passwords. For installation instructions see "
-"the operating system documentation."
+"The keyring is not available. Pika Backup requires a keyring daemon (“secret "
+"service”) to store passwords. For installation instructions see the "
+"operating system documentation."
 msgstr ""
-"Кілттер қоймасы қолжетімді емес. Pika Backup парольдерді сақтау үшін "
-"кілттер қоймасы демонын (“secret service”) қажет етеді. Орнату нұсқауларын "
+"Кілттер қоймасы қолжетімді емес. Pika Backup парольдерді сақтау үшін кілттер "
+"қоймасы демонын (“secret service”) қажет етеді. Орнату нұсқауларын "
 "операциялық жүйе құжаттамасынан қараңыз."
 
-#: pika-backup/src/error.rs:182
+#: pika-backup/src/error.rs:237
 #, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "ID-і «{}» болатын резервтік көшірме қазірдің өзінде бар."
 
-#: pika-backup/src/error.rs:191
+#: pika-backup/src/error.rs:246
 #, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "ID-і «{}» болатын резервтік көшірме баптауы табылмады."
 
-#: pika-backup/src/error.rs:207
+#: pika-backup/src/error.rs:262
 msgid "Canceled"
 msgstr "Бас тартылды"
 
-#: pika-backup/src/lib.rs:75
+#: pika-backup/src/lib.rs:76
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr ""
 "«borg» командасын орындау сәтсіз аяқталды. BorgBackup дұрыс орнатылған ба?"
 
-#: pika-backup/src/lib.rs:105
+#: pika-backup/src/lib.rs:106
 msgid "BorgBackup Version Too Old"
 msgstr "BorgBackup нұсқасы тым ескі"
 
-#: pika-backup/src/lib.rs:107
+#: pika-backup/src/lib.rs:108
 #, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
 "{}. This is unsupported."
 msgstr ""
-"BorgBackup бағдарламасының орнатылған {} нұсқасы қажетті {} нұсқасынан "
-"ескі. Бұған қолдау көрсетілмейді."
+"BorgBackup бағдарламасының орнатылған {} нұсқасы қажетті {} нұсқасынан ескі. "
+"Бұған қолдау көрсетілмейді."
 
-#: pika-backup/src/lib.rs:116
+#: pika-backup/src/lib.rs:117
 msgid "BorgBackup Version Too New"
 msgstr "BorgBackup нұсқасы тым жаңа"
 
-#: pika-backup/src/lib.rs:118
+#: pika-backup/src/lib.rs:119
 #, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
 msgstr ""
-"BorgBackup бағдарламасының орнатылған {} нұсқасы жаңа және тексерілмеген. "
-"{} нұсқасы ұсынылады."
+"BorgBackup бағдарламасының орнатылған {} нұсқасы жаңа және тексерілмеген. {} "
+"нұсқасы ұсынылады."
 
-#: pika-backup/src/lib.rs:127
+#: pika-backup/src/lib.rs:128
 msgid "Failed to Check BorgBackup Version"
 msgstr "BorgBackup нұсқасын тексеру сәтсіз аяқталды"
 
-#: pika-backup/src/lib.rs:129
+#: pika-backup/src/lib.rs:130
 #, rust-format
 msgid "The installed version {} might not work."
 msgstr "Орнатылған {} нұсқасы жұмыс істемеуі мүмкін."
@@ -1092,9 +1093,9 @@ msgstr "Фонда іске қосу сөндірілген"
 
 #: pika-backup/src/utils.rs:142
 msgid ""
-"Scheduled backup functionality and continuing backups in the background "
-"will not be available. The “run in background” option can be enabled via "
-"the system settings."
+"Scheduled backup functionality and continuing backups in the background will "
+"not be available. The “run in background” option can be enabled via the "
+"system settings."
 msgstr ""
 "Жоспарланған резервтік көшіру функциясы және көшіруді фонда жалғастыру "
 "мүмкін болмайды. «Фонда іске қосу» опциясын жүйелік параметрлер арқылы іске "
@@ -1102,11 +1103,11 @@ msgstr ""
 
 #: pika-backup/src/utils.rs:152
 msgid ""
-"The system does not support running Pika Backup in the background. "
-"Scheduled backup functionality and continuing backups in the background "
-"will not be available. This is either a malfunction, misconfiguration or "
-"other issue with the xdg-desktop-portal. Please report this issue in your "
-"distribution issue tracker."
+"The system does not support running Pika Backup in the background. Scheduled "
+"backup functionality and continuing backups in the background will not be "
+"available. This is either a malfunction, misconfiguration or other issue "
+"with the xdg-desktop-portal. Please report this issue in your distribution "
+"issue tracker."
 msgstr ""
 "Жүйе Pika Backup бағдарламасын фонда іске қосуды қолдамайды. Жоспарланған "
 "резервтік көшіру функциясы және көшіруді фонда жалғастыру мүмкін болмайды. "
@@ -1131,10 +1132,6 @@ msgstr[0] "{} резервтік көшіру операциясы орында�
 #: pika-backup/src/widget/dialog/exclude.rs:301
 msgid "Select"
 msgstr "Таңдау"
-
-#: pika-backup/src/utils.rs:424
-msgid "Close"
-msgstr "Жабу"
 
 #: pika-backup/src/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
@@ -1177,26 +1174,26 @@ msgstr ""
 msgid "Start Operation"
 msgstr "Операцияны бастау"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:312
+#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
 msgid "Failed to unmount repository."
 msgstr "Репозиторийді тіркеуден шығару сәтсіз аяқталды."
 
-#: pika-backup/src/utils/borg.rs:289
+#: pika-backup/src/utils/borg.rs:295
 msgid "Repository Already in Use"
 msgstr "Репозиторий пайдаланылуда"
 
-#: pika-backup/src/utils/borg.rs:290
+#: pika-backup/src/utils/borg.rs:296
 #, rust-format
 msgid ""
-"The backup repository “{}” is marked as already in use. This information "
-"can be outdated if, for example, the computer lost power while using the "
+"The backup repository “{}” is marked as already in use. This information can "
+"be outdated if, for example, the computer lost power while using the "
 "repository."
 msgstr ""
 "«{}» резервтік репозиторийі пайдаланылуда деп белгіленген. Егер, мысалы, "
 "репозиторийді пайдалану кезінде компьютердің қуаты сөніп қалса, бұл ақпарат "
 "ескіруі мүмкін."
 
-#: pika-backup/src/utils/borg.rs:292
+#: pika-backup/src/utils/borg.rs:298
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1206,7 +1203,7 @@ msgstr ""
 "ғана жалғастырыңыз! Репозиторийді басқа бағдарлама пайдаланып жатқанда "
 "жалғастыру резервтік деректерді зақымдауы мүмкін!"
 
-#: pika-backup/src/utils/borg.rs:293
+#: pika-backup/src/utils/borg.rs:299
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1214,20 +1211,20 @@ msgstr ""
 msgid "Cancel"
 msgstr "Бас тарту"
 
-#: pika-backup/src/utils/borg.rs:294
+#: pika-backup/src/utils/borg.rs:300
 msgid "Continue Anyway"
 msgstr "Соған қарамастан жалғастыру"
 
-#: pika-backup/src/utils/borg.rs:440 pika-backup/src/utils/borg.rs:461
+#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
 msgid "Unable to Eject Backup Disk"
 msgstr "Резервтік дискті шығару мүмкін емес"
 
-#: pika-backup/src/utils/borg.rs:449
+#: pika-backup/src/utils/borg.rs:455
 #, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} енді қауіпсіз ажыратуға болады."
 
-#: pika-backup/src/utils/borg.rs:462
+#: pika-backup/src/utils/borg.rs:468
 #, rust-format
 msgid "{} can't be ejected."
 msgstr "{} шығару мүмкін емес."
@@ -1505,7 +1502,7 @@ msgstr "{} қолжетімді"
 msgid "{} Total"
 msgstr "{} барлығы"
 
-#: pika-backup/src/widget/detail/archives/events.rs:95
+#: pika-backup/src/widget/detail/archives/events.rs:96
 msgid "Failed to make archives available for browsing."
 msgstr "Архивтерді шолу үшін қолжетімді ету сәтсіз аяқталды."
 
@@ -1576,11 +1573,11 @@ msgstr "Үлгіні түзету"
 msgid "Remove From List"
 msgstr "Тізімнен өшіру"
 
-#: pika-backup/src/widget/detail/backup/events.rs:22
+#: pika-backup/src/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr "Орындалып жатқан резервтік көшіруді тоқтату керек пе?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:23
+#: pika-backup/src/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1588,37 +1585,32 @@ msgstr ""
 "Ағымдағы резервтік көшірме күйі сақталады. Оны кейінірек қайта іске қосу "
 "арқылы жалғастыра аласыз."
 
-#: pika-backup/src/widget/detail/backup/events.rs:25
+#: pika-backup/src/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "Тоқтату"
 
-#: pika-backup/src/widget/detail/backup/events.rs:32
+#: pika-backup/src/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr "Өшіру операциясынан бас тарту керек пе?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:33
+#: pika-backup/src/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
 msgstr ""
 "Қазір архивтер өшіріліп жатыр. Бас тартқан кезде бос орын қайтарылмайды."
 
-#: pika-backup/src/widget/detail/backup/events.rs:42
+#: pika-backup/src/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr "Операциядан бас тарту керек пе?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:43
+#: pika-backup/src/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
 msgstr ""
 "Қазір операция орындалып жатыр. Оны қазір тоқтатсаңыз, орындалған жұмыс "
 "жоғалады."
-
-#: pika-backup/src/widget/detail/backup/events.rs:100
-#: pika-backup/src/widget/detail/backup/events.rs:110
-msgid "Unable to Include Location"
-msgstr "Орынды қосу мүмкін емес"
 
 #: pika-backup/src/widget/detail/backup/events.rs:101
 #, rust-format
@@ -1630,6 +1622,11 @@ msgstr ""
 "Келесі жолдарды қосу мүмкін болмады, себебі олар оқшауланған ортада "
 "қолжетімді емес:\n"
 "{}"
+
+#: pika-backup/src/widget/detail/backup/events.rs:104
+#: pika-backup/src/widget/detail/backup/events.rs:113
+msgid "Unable to Include Location"
+msgstr "Орынды қосу мүмкін емес"
 
 #: pika-backup/src/widget/detail/backup/events.rs:111
 msgid ""
@@ -1956,10 +1953,10 @@ msgid ""
 "mammals belonging to the lagomorphs. The American pika is known for caching "
 "food in skillfully constructed haypiles. Techniques used by American pikas "
 "for building haypiles include: storing piles below overhanging rocks, using "
-"certain plants which inhibit bacterial growth as preservative and "
-"preferring plants with high nutrition value for haying. Last but not least, "
-"pikas do not only create very sophisticated haypiles but are quick in "
-"collecting vegetation as well."
+"certain plants which inhibit bacterial growth as preservative and preferring "
+"plants with high nutrition value for haying. Last but not least, pikas do "
+"not only create very sophisticated haypiles but are quick in collecting "
+"vegetation as well."
 msgstr ""
 "«Pika Backup» атауы американдық пищухадан (pika) шыққан. Пищухалар — қоян "
 "тәрізділерге жататын ұсақ сүтқоректілер. Американдық пищухалар азықты "
@@ -2004,8 +2001,8 @@ msgstr "Архив префикстері"
 
 #: pika-backup/src/widget/dialog/archive_prefix.ui:39
 msgid ""
-"Each backup run creates a new archive. The archive’s name is always "
-"prefixed with the current archive prefix."
+"Each backup run creates a new archive. The archive’s name is always prefixed "
+"with the current archive prefix."
 msgstr ""
 "Әрбір резервтік көшіру жаңа архив жасайды. Архивтің атауы әрқашан ағымдағы "
 "архив префиксінен басталады."
@@ -2138,16 +2135,16 @@ msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
 msgstr ""
-"«{}» операциясы «{}» ішіндегі репозиторийдің шифрлау паролін талап етеді."
+"«{}» операциясы «{}» ішіндегі репозиторийдің шифрлеу паролін талап етеді."
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:6
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:6
 msgid "Encryption Password Required"
-msgstr "Шифрлау паролі қажет"
+msgstr "Шифрлеу паролі қажет"
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:179
+#: pika-backup/src/widget/overview.rs:175
 msgid "_Cancel"
 msgstr "_Бас тарту"
 
@@ -2224,11 +2221,11 @@ msgstr "BorgBackup үлгілері"
 
 #: pika-backup/src/widget/dialog/exclude.ui:138
 msgid ""
-"The patterns above have to be written in a particular form. They are "
-"matched against the path without leading <tt>/</tt>. Additionally, shell-"
-"style patterns match as if they are carrying a <tt>*</tt> at the back. For "
-"more details, please check the <a href=\"https://borgbackup.readthedocs.io/"
-"en/stable/usage/help.html\">BorgBackup documentation</a>."
+"The patterns above have to be written in a particular form. They are matched "
+"against the path without leading <tt>/</tt>. Additionally, shell-style "
+"patterns match as if they are carrying a <tt>*</tt> at the back. For more "
+"details, please check the <a href=\"https://borgbackup.readthedocs.io/en/"
+"stable/usage/help.html\">BorgBackup documentation</a>."
 msgstr ""
 "Жоғарыдағы үлгілер белгілі бір пішімде жазылуы тиіс. Олар бастапқы <tt>/</"
 "tt> таңбасынсыз жолмен салыстырылады. Сонымен қатар, қоршам стиліндегі "
@@ -2242,8 +2239,8 @@ msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr ""
-"Бұл резервтік көшірме конфигурациясының атауы. Бос қалдырылған жағдайда "
-"«{}» ретінде көрсетіледі."
+"Бұл резервтік көшірме конфигурациясының атауы. Бос қалдырылған жағдайда «{}» "
+"ретінде көрсетіледі."
 
 #: pika-backup/src/widget/dialog/preferences.rs:264
 msgid "Shell command invalid"
@@ -2259,7 +2256,7 @@ msgid ""
 "When encryption is not used, everyone with access to the backup files can "
 "read all data"
 msgstr ""
-"Шифрлау қолданылмаған жағдайда, резервтік көшірме файлдарына қол жеткізу "
+"Шифрлеу қолданылмаған жағдайда, резервтік көшірме файлдарына қол жеткізу "
 "мүмкіндігі бар кез келген адам барлық деректі оқи алады."
 
 #: pika-backup/src/widget/dialog/preferences.rs:477
@@ -2268,7 +2265,7 @@ msgstr "Парольді өшіру"
 
 #: pika-backup/src/widget/dialog/preferences.rs:500
 msgid "Change Encryption Password Error"
-msgstr "Шифрлау паролін өзгерту қатесі"
+msgstr "Шифрлеу паролін өзгерту қатесі"
 
 #: pika-backup/src/widget/dialog/preferences.rs:507
 msgid "Password changed successfully"
@@ -2278,7 +2275,7 @@ msgstr "Пароль сәтті өзгертілді"
 #: pika-backup/src/widget/dialog/preferences.ui:37
 #: pika-backup/src/widget/dialog/preferences.ui:146
 msgid "Change Encryption Password"
-msgstr "Шифрлау паролін өзгерту"
+msgstr "Шифрлеу паролін өзгерту"
 
 #: pika-backup/src/widget/dialog/preferences.ui:57
 msgid "_Change Password"
@@ -2290,7 +2287,7 @@ msgstr "Парольді ө_шіру"
 
 #: pika-backup/src/widget/dialog/preferences.ui:96
 msgid "Changing Encryption Password"
-msgstr "Шифрлау паролін өзгерту"
+msgstr "Шифрлеу паролін өзгерту"
 
 #: pika-backup/src/widget/dialog/preferences.ui:131
 #: pika-backup/src/widget/dialog/preferences.ui:134
@@ -2300,11 +2297,11 @@ msgstr "Атауы"
 #: pika-backup/src/widget/dialog/preferences.ui:142
 #: pika-backup/src/widget/encryption_settings.ui:26
 msgid "Encryption Password"
-msgstr "Шифрлау паролі"
+msgstr "Шифрлеу паролі"
 
 #: pika-backup/src/widget/dialog/preferences.ui:143
 msgid "The encryption password of the backup repository"
-msgstr "Резервтік көшірме репозиторийінің шифрлау паролі"
+msgstr "Резервтік көшірме репозиторийінің шифрлеу паролі"
 
 #: pika-backup/src/widget/dialog/preferences.ui:158
 msgid "Run on Battery"
@@ -2382,8 +2379,8 @@ msgstr ""
 #: pika-backup/src/widget/dialog/prune.ui:40
 msgid ""
 "Proceeding with this operation will irretrievably delete some of the "
-"archives. The saved data for those specific points in time will no longer "
-"be available."
+"archives. The saved data for those specific points in time will no longer be "
+"available."
 msgstr ""
 "Бұл операцияны жалғастыру кейбір архивтерді қайтарылмайтындай өшіреді. Осы "
 "уақыт нүктелерінде сақталған деректер енді қолжетімді болмайды."
@@ -2414,8 +2411,7 @@ msgstr "Ескі архивтерді анықтау"
 msgid "Delete Archives"
 msgstr "Архивтерді өшіру"
 
-#. Translators: Header while creating a list of old archives to be approved
-#. for deletion.
+#. Translators: Header while creating a list of old archives to be approved for deletion.
 #: pika-backup/src/widget/dialog/prune.ui:23
 msgid "Checking for Old Archives"
 msgstr "Ескі архивтерді тексеру"
@@ -2493,12 +2489,12 @@ msgstr "Пароль жарамсыз"
 msgid "Loading Backup Repository"
 msgstr "Резервтік көшірме репозиторийін жүктеу"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:211
+#: pika-backup/src/widget/dialog/setup/actions.rs:214
 #: pika-backup/src/widget/dialog/setup/create_new.ui:6
 msgid "Creating Backup Repository"
 msgstr "Резервтік көшірме репозиторийін жасау"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:220
+#: pika-backup/src/widget/dialog/setup/actions.rs:223
 msgid "Getting Repository Information"
 msgstr "Репозиторий ақпаратын алу"
 
@@ -2507,23 +2503,23 @@ msgid "Checking Backup Repository"
 msgstr "Резервтік көшірме репозиторийін тексеру"
 
 #: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
-#: pika-backup/src/widget/dialog/setup/location.ui:70
-#: pika-backup/src/widget/dialog/setup/location.ui:239
+#: pika-backup/src/widget/dialog/setup/location.ui:40
+#: pika-backup/src/widget/dialog/setup/location.ui:244
 msgid "Advanced Options"
 msgstr "Кеңейтілген опциялар"
 
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:23
-#: pika-backup/src/widget/dialog/setup/location.ui:278
+#: pika-backup/src/widget/dialog/setup/location.ui:283
 msgid "_Continue"
 msgstr "_Жалғастыру"
 
 #: pika-backup/src/widget/dialog/setup/encryption.rs:85
 msgid "Continue Unencrypted?"
-msgstr "Шифрланбаған күйде жалғастыру керек пе?"
+msgstr "Шифрленбеген күйде жалғастыру керек пе?"
 
 #: pika-backup/src/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
-msgstr "Шифрлауды баптау"
+msgstr "Шифрлеуді баптау"
 
 #: pika-backup/src/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
@@ -2569,7 +2565,7 @@ msgstr "Репозиторийді баптау"
 msgid "Repository Name"
 msgstr "Репозиторий аты"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:58
+#: pika-backup/src/widget/dialog/setup/location.ui:68
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2582,32 +2578,32 @@ msgstr ""
 "пішімдеңіз. Қайта пішімдеу кезінде орындағы барлық файлдар өшірілетінін "
 "ескеріңіз!"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:96
+#: pika-backup/src/widget/dialog/setup/location.ui:93
 msgid "Repository URL"
 msgstr "Репозиторийдің URL-адресі"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:122
+#: pika-backup/src/widget/dialog/setup/location.ui:121
 msgid "Locations with BorgBackup Support"
 msgstr "BorgBackup қолдауы бар орналасулар"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:134
-#: pika-backup/src/widget/dialog/setup/location.ui:189
+#: pika-backup/src/widget/dialog/setup/location.ui:132
+#: pika-backup/src/widget/dialog/setup/location.ui:197
 msgid "More Information"
 msgstr "Қосымша ақпарат"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:147
+#: pika-backup/src/widget/dialog/setup/location.ui:145
 msgid ""
 "The “ssh://” prefix is reserved for servers with BorgBackup support. This "
 "option provides the best performance."
 msgstr ""
-"“ssh://” префиксі BorgBackup қолдауы бар серверлер үшін сақталған. Бұл "
-"опция ең жақсы өнімділікті қамтамасыз етеді."
+"“ssh://” префиксі BorgBackup қолдауы бар серверлер үшін сақталған. Бұл опция "
+"ең жақсы өнімділікті қамтамасыз етеді."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:177
+#: pika-backup/src/widget/dialog/setup/location.ui:186
 msgid "SMB and SFTP Network Shares"
 msgstr "SMB және SFTP желілік ортақ ресурстары"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:201
+#: pika-backup/src/widget/dialog/setup/location.ui:209
 msgid ""
 "The “sftp://” and “smb://” prefixes can be used to access network shares. "
 "The network share does not need explicit BorgBackup support."
@@ -2616,7 +2612,7 @@ msgstr ""
 "үшін пайдалануға болады. Желілік ортақ ресурсқа BorgBackup қолдауы тікелей "
 "қажет емес."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:262
+#: pika-backup/src/widget/dialog/setup/location.ui:267
 msgid "_Connect"
 msgstr "Қ_осылу"
 
@@ -2636,8 +2632,8 @@ msgid ""
 "created with other BorgBackup compatible software can be used as well."
 msgstr ""
 "Қолданыстағы резервтік көшірме репозиторийі бар орынды таңдаңыз. Басқа "
-"BorgBackup үйлесімді бағдарламалық қамтамасымен жасалған репозиторийлерді "
-"де пайдалануға болады."
+"BorgBackup үйлесімді бағдарламалық қамтамасымен жасалған репозиторийлерді де "
+"пайдалануға болады."
 
 #: pika-backup/src/widget/dialog/setup/location_kind.rs:289
 #, rust-format
@@ -2656,12 +2652,12 @@ msgstr "Резервтік көшірме репозиторийін бапта�
 #: pika-backup/src/widget/dialog/setup/transfer_prefix.ui:9
 msgid ""
 "Archive prefixes must be unique to every backup configuration. Using the "
-"same prefix on two devices is discouraged unless a new device supersedes "
-"the old one."
+"same prefix on two devices is discouraged unless a new device supersedes the "
+"old one."
 msgstr ""
 "Архив префикстері әрбір резервтік көшірме конфигурациясы үшін бірегей болуы "
-"тиіс. Егер жаңа құрылғы ескісін алмастырмаса, екі құрылғыда бірдей "
-"префиксті пайдалану ұсынылмайды."
+"тиіс. Егер жаңа құрылғы ескісін алмастырмаса, екі құрылғыда бірдей префиксті "
+"пайдалану ұсынылмайды."
 
 #: pika-backup/src/widget/dialog/setup/transfer_prefix.ui:26
 msgid "_Save"
@@ -2757,28 +2753,28 @@ msgstr ""
 
 #: pika-backup/src/widget/encryption_settings.rs:87
 msgid "Use Encryption?"
-msgstr "Шифрлауды пайдалану керек пе?"
+msgstr "Шифрлеуді пайдалану керек пе?"
 
 #: pika-backup/src/widget/encryption_settings.rs:89
 msgid ""
-"Losing access to the encryption password will lead to a complete loss of "
-"all backed up data"
+"Losing access to the encryption password will lead to a complete loss of all "
+"backed up data"
 msgstr ""
-"Шифрлау пароліне қол жеткізу мүмкіндігін жоғалту барлық резервтік көшірме "
+"Шифрлеу пароліне қол жеткізу мүмкіндігін жоғалту барлық резервтік көшірме "
 "деректерінің толық жоғалуына әкеледі"
 
 #: pika-backup/src/widget/encryption_settings.rs:94
 #: pika-backup/src/widget/encryption_settings.ui:12
 msgid "Use Encryption"
-msgstr "Шифрлауды пайдалану"
+msgstr "Шифрлеуді пайдалану"
 
 #: pika-backup/src/widget/encryption_settings.rs:134
 msgid ""
-"The data stored in encrypted backups is password protected. If encryption "
-"is used, the password is required for accessing your backups."
+"The data stored in encrypted backups is password protected. If encryption is "
+"used, the password is required for accessing your backups."
 msgstr ""
-"Шифрланған резервтік көшірмелерде сақталған деректер парольмен қорғалған. "
-"Егер шифрлау пайдаланылса, резервтік көшірмелерге қол жеткізу үшін пароль "
+"Шифрленген резервтік көшірмелерде сақталған деректер парольмен қорғалған. "
+"Егер шифрлеу пайдаланылса, резервтік көшірмелерге қол жеткізу үшін пароль "
 "қажет."
 
 #: pika-backup/src/widget/encryption_settings.rs:143
@@ -2787,7 +2783,7 @@ msgstr "Пароль көрсетілмеді"
 
 #: pika-backup/src/widget/encryption_settings.rs:144
 msgid "To use encryption a password must be provided"
-msgstr "Шифрлауды пайдалану үшін пароль көрсетілуі тиіс"
+msgstr "Шифрлеуді пайдалану үшін пароль көрсетілуі тиіс"
 
 #: pika-backup/src/widget/encryption_settings.rs:151
 msgid "Invalid Passwords"
@@ -2810,8 +2806,7 @@ msgstr "Парольді енгізіңіз"
 msgid "Passwords do not match"
 msgstr "Парольдер сәйкес келмейді"
 
-#. Translators: Password feedback: A single word was found. Words are fine,
-#. but it needs more than one.
+#. Translators: Password feedback: A single word was found. Words are fine, but it needs more than one.
 #: pika-backup/src/widget/encryption_settings.rs:223
 msgid "A single word is easy to guess"
 msgstr "Бір сөзді табу оңай"
@@ -2836,20 +2831,17 @@ msgstr "“abc” немесе “6543” сияқты реттіліктерд�
 msgid "Avoid repetitions like “aaa” or “abcabc”"
 msgstr "“aaa” немесе “abcabc” сияқты қайталануларды пайдаланбаңыз"
 
-#. Translators: Password feedback: This is for passwords built from rows of
-#. keys, or similar spatial patterns on the keyboard
+#. Translators: Password feedback: This is for passwords built from rows of keys, or similar spatial patterns on the keyboard
 #: pika-backup/src/widget/encryption_settings.rs:243
 msgid "Avoid keyboard patterns"
 msgstr "Пернетақта комбинацияларын пайдаланбаңыз"
 
-#. Translators: Password feedback: Password was found in a list of common
-#. passwords
+#. Translators: Password feedback: Password was found in a list of common passwords
 #: pika-backup/src/widget/encryption_settings.rs:249
 msgid "This is a very commonly used password"
 msgstr "Бұл өте жиі қолданылатын пароль"
 
-#. Translators: Password feedback: Password is very similar to a password from
-#. the list of common passwords
+#. Translators: Password feedback: Password is very similar to a password from the list of common passwords
 #: pika-backup/src/widget/encryption_settings.rs:253
 msgid "This is similar to a commonly used password"
 msgstr "Бұл жиі қолданылатын парольге ұқсас"
@@ -2867,15 +2859,15 @@ msgstr "Бұл сенімді парольге ұқсайды"
 msgid "Repeat Password"
 msgstr "Парольді қайталаңыз"
 
-#: pika-backup/src/widget/overview.rs:177
+#: pika-backup/src/widget/overview.rs:173
 msgid "Remove Backup Setup?"
 msgstr "Резервтік көшірме баптауын өшіру керек пе?"
 
-#: pika-backup/src/widget/overview.rs:178
+#: pika-backup/src/widget/overview.rs:174
 msgid "Removing the setup will not delete any archives"
 msgstr "Баптауды өшіру архивтерді жоймайды"
 
-#: pika-backup/src/widget/overview.rs:180
+#: pika-backup/src/widget/overview.rs:176
 msgid "_Remove Setup"
 msgstr "_Баптауды өшіру"
 
@@ -2905,8 +2897,7 @@ msgstr "Резервтік көшіру бапталмаған"
 
 #: pika-backup/src/widget/overview.ui:57
 msgid "Add a new configuration to start creating backups"
-msgstr ""
-"Резервтік көшірмелерді жасауды бастау үшін жаңа конфигурацияны қосыңыз"
+msgstr "Резервтік көшірмелерді жасауды бастау үшін жаңа конфигурацияны қосыңыз"
 
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
