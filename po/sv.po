@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-12-03 15:17+0000\n"
-"PO-Revision-Date: 2026-02-03 01:14+0100\n"
+"POT-Creation-Date: 2026-02-26 21:17+0000\n"
+"PO-Revision-Date: 2026-02-27 00:31+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -29,7 +29,7 @@ msgstr "Pika Backup-övervakare"
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:5 data/app.metainfo.xml.in:4
-#: pika-backup/src/utils.rs:363 pika-backup/src/utils.rs:428
+#: pika-backup/src/error.rs:178 pika-backup/src/utils.rs:348
 #: pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
@@ -159,44 +159,44 @@ msgstr "Denna raderingsåtgärd skulle radera för många arkiv."
 msgid "No files selected to be included into backup."
 msgstr "Inga filer valda att inkluderas i säkerhetskopia."
 
-#: pika-backup-common/src/borg/error.rs:86
+#: pika-backup-common/src/borg/error.rs:96
 msgid "Timeout"
 msgstr "Tiden gick ut"
 
-#: pika-backup-common/src/borg/error.rs:133
+#: pika-backup-common/src/borg/error.rs:143
 msgid "Completed"
 msgstr "Färdig"
 
-#: pika-backup-common/src/borg/error.rs:163
+#: pika-backup-common/src/borg/error.rs:173
 msgid "Aborted on user request."
 msgstr "Avbröts på användarens begäran."
 
-#: pika-backup-common/src/borg/error.rs:165
+#: pika-backup-common/src/borg/error.rs:175
 msgid "Aborted because only metered connection was available."
 msgstr "Avbröts då bara anslutning med datakvot fanns tillgänglig."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: pika-backup-common/src/borg/error.rs:169
+#: pika-backup-common/src/borg/error.rs:179
 msgid "Aborted because too long not connected to power."
 msgstr "Avbröts på grund av för lång tid utan anslutning till nätspänning."
 
-#: pika-backup-common/src/borg/error.rs:171
+#: pika-backup-common/src/borg/error.rs:181
 msgid "Aborted by system."
 msgstr "Avbröts av systemet."
 
-#: pika-backup-common/src/borg/error.rs:172
+#: pika-backup-common/src/borg/error.rs:182
 msgid "The program or system seems to have crashed."
 msgstr "Programmet eller systemet verkar ha kraschat."
 
-#: pika-backup-common/src/borg/error.rs:173
+#: pika-backup-common/src/borg/error.rs:183
 msgid "{}"
 msgstr "{}"
 
-#: pika-backup-common/src/borg/error.rs:175
+#: pika-backup-common/src/borg/error.rs:185
 msgid "Unable to access backup repository: {}"
 msgstr "Kunde inte komma åt säkerhetskopieringsförråd: {}"
 
-#: pika-backup-common/src/borg/error.rs:283
+#: pika-backup-common/src/borg/error.rs:297
 msgid ""
 "A repository already exists at this location. Try the “Use Existing "
 "Repository” option or select a different location."
@@ -204,7 +204,7 @@ msgstr ""
 "En lagringsplats finns redan på denna plats. Testa alternativet ”Använd "
 "befintlig lagringsplats” eller välj en annan plats."
 
-#: pika-backup-common/src/borg/error.rs:286
+#: pika-backup-common/src/borg/error.rs:300
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
@@ -212,33 +212,33 @@ msgstr ""
 "Inkonsekvenser upptäcktes i lagringsplatsen. Körning av en "
 "dataintegritetskontroll krävs."
 
-#: pika-backup-common/src/borg/error.rs:288
+#: pika-backup-common/src/borg/error.rs:302
 msgid "No repository exists at this location."
 msgstr "Ingen lagringsplats finns på denna plats."
 
-#: pika-backup-common/src/borg/error.rs:290
+#: pika-backup-common/src/borg/error.rs:304
 msgid "Not enough free space in repository."
 msgstr "För lite ledigt utrymme på lagringsplatsen."
 
-#: pika-backup-common/src/borg/error.rs:293
+#: pika-backup-common/src/borg/error.rs:307
 msgid "The configured location does not contain a valid repository."
 msgstr "Den konfigurerade platsen innehåller ingen giltig lagringsplats."
 
-#: pika-backup-common/src/borg/error.rs:296
+#: pika-backup-common/src/borg/error.rs:310
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr ""
 "Den konfigurerade platsen innehåller ingen giltig lagringsplatskonfiguration."
 
-#: pika-backup-common/src/borg/error.rs:299
+#: pika-backup-common/src/borg/error.rs:313
 msgid "The configured location does not exist."
 msgstr "Den konfigurerade platsen finns inte."
 
-#: pika-backup-common/src/borg/error.rs:302
+#: pika-backup-common/src/borg/error.rs:316
 msgid "The selected location does already exist."
 msgstr "Den valda platsen finns redan."
 
-#: pika-backup-common/src/borg/error.rs:305
+#: pika-backup-common/src/borg/error.rs:319
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
@@ -246,7 +246,7 @@ msgstr ""
 "Lagringsplatsernas lagringskvot har uppnåtts. Försök ta bort äldre arkiv som "
 "inte längre behövs."
 
-#: pika-backup-common/src/borg/error.rs:308
+#: pika-backup-common/src/borg/error.rs:322
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
@@ -254,7 +254,7 @@ msgstr ""
 "Rättighet att komma åt den konfigurerade platsen nekades. Kontrollera "
 "filrättigheterna."
 
-#: pika-backup-common/src/borg/error.rs:313
+#: pika-backup-common/src/borg/error.rs:327
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
@@ -262,51 +262,55 @@ msgstr ""
 "En nyare version av Pika Backup krävs för att komma åt denna lagringsplats. "
 "Lagringsplatsen använder funktioner som inte stöds."
 
-#: pika-backup-common/src/borg/error.rs:318
+#: pika-backup-common/src/borg/error.rs:332
 msgid "The selected location already contains a repository."
 msgstr "Den valda platsen innehåller redan en lagringsplats."
 
-#: pika-backup-common/src/borg/error.rs:321
+#: pika-backup-common/src/borg/error.rs:335
 msgid "The configured location does not contain an archive."
 msgstr "Den konfigurerade platsen innehåller inget arkiv."
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:325
+#: pika-backup-common/src/borg/error.rs:339
 msgid "Invalid encryption password."
 msgstr "Ogiltigt krypteringslösenord."
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:328
+#: pika-backup-common/src/borg/error.rs:342
 msgid "Repository access was aborted"
 msgstr "Åtkomst till lagringsplats avbröts"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Failed to lock repository."
 msgstr "Misslyckades med att låsa lagringsplatsen."
 
-#: pika-backup-common/src/borg/error.rs:332
+#: pika-backup-common/src/borg/error.rs:346
 msgid "Repository already in use."
 msgstr "Lagringsplats används redan."
 
-#: pika-backup-common/src/borg/error.rs:336
+#: pika-backup-common/src/borg/error.rs:350
 msgid "Connection closed by remote host."
 msgstr "Anslutning stängdes av fjärrvärd."
 
-#: pika-backup-common/src/borg/error.rs:341
+#: pika-backup-common/src/borg/error.rs:352
+msgid "Connection to remote host broken."
+msgstr "Anslutning till fjärrvärd bröts."
+
+#: pika-backup-common/src/borg/error.rs:356
 msgid "Connection closed by remote host: “{}”"
 msgstr "Anslutning stängdes av fjärrvärd: ”{}”"
 
 #. General
-#: pika-backup-common/src/borg/error.rs:345
+#: pika-backup-common/src/borg/error.rs:360
 msgid "Exception"
 msgstr "Undantag"
 
-#: pika-backup-common/src/borg/error.rs:347
+#: pika-backup-common/src/borg/error.rs:362
 msgid "Unspecified error."
 msgstr "Ospecificerat fel."
 
-#: pika-backup-common/src/borg/functions.rs:278
+#: pika-backup-common/src/borg/functions.rs:279
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
@@ -458,32 +462,32 @@ msgstr ""
 "\n"
 "Vill du fortsätta?"
 
-#: pika-backup-common/src/borg/log_json.rs:325
+#: pika-backup-common/src/borg/log_json.rs:327
 msgid "Standard error output"
 msgstr "Utmatning på standard fel"
 
-#: pika-backup-common/src/borg/log_json.rs:469
+#: pika-backup-common/src/borg/log_json.rs:481
 msgid "Debug"
 msgstr "Felsök"
 
-#: pika-backup-common/src/borg/log_json.rs:470
+#: pika-backup-common/src/borg/log_json.rs:482
 msgid "Info"
 msgstr "Info"
 
-#: pika-backup-common/src/borg/log_json.rs:471 pika-backup/src/utils.rs:379
-#: pika-backup/src/widget/dialog/setup/location.ui:46
+#: pika-backup-common/src/borg/log_json.rs:483 pika-backup/src/utils.rs:364
+#: pika-backup/src/widget/dialog/setup/location.ui:56
 msgid "Warning"
 msgstr "Varning"
 
-#: pika-backup-common/src/borg/log_json.rs:472
+#: pika-backup-common/src/borg/log_json.rs:484
 msgid "Error"
 msgstr "Fel"
 
-#: pika-backup-common/src/borg/log_json.rs:473
+#: pika-backup-common/src/borg/log_json.rs:485
 msgid "Critical"
 msgstr "Kritisk"
 
-#: pika-backup-common/src/borg/log_json.rs:474
+#: pika-backup-common/src/borg/log_json.rs:486
 msgid "Undefined"
 msgstr "Odefinierad"
 
@@ -811,36 +815,36 @@ msgstr[1] "Pika Backup kraschade under körning av {} säkerhetskopior"
 msgid "Error restarting monitor daemon"
 msgstr "Fel vid omstart av övervakningsdemon"
 
-#: pika-backup-monitor/src/schedule/init.rs:105
+#: pika-backup-monitor/src/schedule/init.rs:118
 msgid "The backup repository is already in use."
 msgstr "Säkerhetskopieringsförrådet används redan."
 
-#: pika-backup-monitor/src/schedule/init.rs:108
+#: pika-backup-monitor/src/schedule/init.rs:121
 msgid "Archives are currently opened for browsing."
 msgstr "Arkiv är för närvarande öppna för bläddring."
 
-#: pika-backup-monitor/src/schedule/init.rs:111
+#: pika-backup-monitor/src/schedule/init.rs:124
 msgid "Only metered internet connections available."
 msgstr "Endast anslutningar med datakvot tillgängliga."
 
-#: pika-backup-monitor/src/schedule/init.rs:114
+#: pika-backup-monitor/src/schedule/init.rs:127
 msgid "Device not connected to power."
 msgstr "Enheten är inte ansluten till nätspänning."
 
-#: pika-backup-monitor/src/schedule/init.rs:120
+#: pika-backup-monitor/src/schedule/init.rs:133
 msgid "Scheduled Backup Postponed"
 msgstr "Schemalagd säkerhetskopia uppskjuten"
 
-#: pika-backup-monitor/src/schedule/init.rs:144
+#: pika-backup-monitor/src/schedule/init.rs:157
 msgid "Backup Device Required"
 msgstr "Enhet för säkerhetskopiering krävs"
 
-#: pika-backup-monitor/src/schedule/init.rs:146
+#: pika-backup-monitor/src/schedule/init.rs:159
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr ""
 "”{}” måste vara anslutet för att den schemalagda säkerhetskopian ska starta"
 
-#: pika-backup-monitor/src/schedule/init.rs:159
+#: pika-backup-monitor/src/schedule/init.rs:172
 msgid "Failed to start scheduled backup"
 msgstr "Misslyckades med att starta schemalagd säkerhetskopia"
 
@@ -852,17 +856,17 @@ msgstr "Avbryt säkerhetskopiering?"
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Säkerhetskopian förblir ofullständig om den avbryts nu"
 
-#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:382
-#: pika-backup/src/widget/detail/backup/events.rs:24
-#: pika-backup/src/widget/detail/backup/events.rs:34
-#: pika-backup/src/widget/detail/backup/events.rs:44
+#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:367
+#: pika-backup/src/widget/detail/backup/events.rs:26
+#: pika-backup/src/widget/detail/backup/events.rs:36
+#: pika-backup/src/widget/detail/backup/events.rs:46
 #: pika-backup/src/widget/dialog/setup/encryption.rs:93
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:381
-#: pika-backup/src/widget/detail/backup/events.rs:35
-#: pika-backup/src/widget/detail/backup/events.rs:45
+#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:366
+#: pika-backup/src/widget/detail/backup/events.rs:37
+#: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Avbryt"
 
@@ -936,27 +940,27 @@ msgstr "Integritetsfel hittades"
 msgid "{} % finished"
 msgstr "{} % slutfört"
 
-#: pika-backup/src/backup_status.rs:245
+#: pika-backup/src/backup_status.rs:247
 msgid "Preparing Backup"
 msgstr "Förbereder säkerhetskopiering"
 
-#: pika-backup/src/backup_status.rs:246
+#: pika-backup/src/backup_status.rs:248
 msgid "Backup Running"
 msgstr "Säkerhetskopiering pågår"
 
-#: pika-backup/src/backup_status.rs:247
+#: pika-backup/src/backup_status.rs:249
 msgid "Backup Destination Unresponsive"
 msgstr "Säkerhetskopieringsmål svarar inte"
 
-#: pika-backup/src/backup_status.rs:250
+#: pika-backup/src/backup_status.rs:252
 msgid "Connection lost, reconnecting in {}"
 msgstr "Anslutningen tappades, återansluter om {}"
 
-#: pika-backup/src/backup_status.rs:255
+#: pika-backup/src/backup_status.rs:257
 msgid "Reconnecting"
 msgstr "Återansluter"
 
-#: pika-backup/src/backup_status.rs:257
+#: pika-backup/src/backup_status.rs:259
 msgid "Stopping Backup"
 msgstr "Stoppar säkerhetskopiering"
 
@@ -965,7 +969,11 @@ msgid "Failed to spawn interface for scheduled backups."
 msgstr ""
 "Misslyckades med att starta gränssnitt för schemalagda säkerhetskopior."
 
-#: pika-backup/src/error.rs:145
+#: pika-backup/src/error.rs:174
+msgid "Close"
+msgstr "Stäng"
+
+#: pika-backup/src/error.rs:200
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
@@ -975,15 +983,15 @@ msgstr ""
 "(”secret service”) för att lagra lösenord. Se operativsystemets "
 "dokumentation för installationsinstruktioner."
 
-#: pika-backup/src/error.rs:182
+#: pika-backup/src/error.rs:237
 msgid "Backup with id “{}” already exists."
 msgstr "Säkerhetskopiering med id ”{}” finns redan."
 
-#: pika-backup/src/error.rs:191
+#: pika-backup/src/error.rs:246
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Kunde inte hitta säkerhetskopieringskonfiguration med id ”{}”."
 
-#: pika-backup/src/error.rs:207
+#: pika-backup/src/error.rs:262
 msgid "Canceled"
 msgstr "Avbruten"
 
@@ -1106,10 +1114,6 @@ msgstr[1] "{} säkerhetskopieringsåtgärder pågår"
 msgid "Select"
 msgstr "Välj"
 
-#: pika-backup/src/utils.rs:424
-msgid "Close"
-msgstr "Stäng"
-
 #: pika-backup/src/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr "Ytterligare kommandoradsargument är ogiltiga"
@@ -1152,15 +1156,15 @@ msgstr ""
 msgid "Start Operation"
 msgstr "Starta åtgärd"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:312
+#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
 msgid "Failed to unmount repository."
 msgstr "Misslyckades med att avmontera lagringsplatsen."
 
-#: pika-backup/src/utils/borg.rs:289
+#: pika-backup/src/utils/borg.rs:295
 msgid "Repository Already in Use"
 msgstr "Lagringsplats används redan"
 
-#: pika-backup/src/utils/borg.rs:290
+#: pika-backup/src/utils/borg.rs:296
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
@@ -1170,7 +1174,7 @@ msgstr ""
 "information kan vara föråldrad om datorn exempelvis förlorade strömmen under "
 "tiden den använde lagringsplatsen."
 
-#: pika-backup/src/utils/borg.rs:292
+#: pika-backup/src/utils/borg.rs:298
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1180,7 +1184,7 @@ msgstr ""
 "program! Om du fortsätter medan ett annat program använder lagringsplatsen "
 "kan säkerhetskopieringsdata skadas!"
 
-#: pika-backup/src/utils/borg.rs:293
+#: pika-backup/src/utils/borg.rs:299
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1188,19 +1192,19 @@ msgstr ""
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: pika-backup/src/utils/borg.rs:294
+#: pika-backup/src/utils/borg.rs:300
 msgid "Continue Anyway"
 msgstr "Fortsätt ändå"
 
-#: pika-backup/src/utils/borg.rs:440 pika-backup/src/utils/borg.rs:461
+#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
 msgid "Unable to Eject Backup Disk"
 msgstr "Kunde inte mata ut säkerhetskopieringsdisk"
 
-#: pika-backup/src/utils/borg.rs:449
+#: pika-backup/src/utils/borg.rs:455
 msgid "{} can be safely unplugged."
 msgstr "{} kan plockas ut säkert."
 
-#: pika-backup/src/utils/borg.rs:462
+#: pika-backup/src/utils/borg.rs:468
 msgid "{} can't be ejected."
 msgstr "{} kan inte matas ut."
 
@@ -1476,7 +1480,7 @@ msgstr "{} tillgängligt"
 msgid "{} Total"
 msgstr "{} totalt"
 
-#: pika-backup/src/widget/detail/archives/events.rs:95
+#: pika-backup/src/widget/detail/archives/events.rs:96
 msgid "Failed to make archives available for browsing."
 msgstr "Misslyckades med att göra arkiv tillgängligt för bläddring."
 
@@ -1547,11 +1551,11 @@ msgstr "Redigera mönster"
 msgid "Remove From List"
 msgstr "Ta bort från lista"
 
-#: pika-backup/src/widget/detail/backup/events.rs:22
+#: pika-backup/src/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr "Stoppa körande säkerhetskopiering?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:23
+#: pika-backup/src/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
@@ -1559,37 +1563,32 @@ msgstr ""
 "Aktuellt säkerhetskopieringstillstånd kommer att sparas. Du kan fortsätta "
 "din säkerhetskopiering senare genom att starta den igen."
 
-#: pika-backup/src/widget/detail/backup/events.rs:25
+#: pika-backup/src/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "Stoppa"
 
-#: pika-backup/src/widget/detail/backup/events.rs:32
+#: pika-backup/src/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr "Avbryt borttagningsåtgärd?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:33
+#: pika-backup/src/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
 msgstr ""
 "Arkiv håller på att tas bort. Ledigt utrymme kommer inte återtas vid avbrott."
 
-#: pika-backup/src/widget/detail/backup/events.rs:42
+#: pika-backup/src/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr "Avbryt åtgärd?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:43
+#: pika-backup/src/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
 msgstr ""
 "En åtgärd håller på att utföras. Att avbryta nu kommer få alla framsteg som "
 "gjorts av åtgärden att gå förlorade."
-
-#: pika-backup/src/widget/detail/backup/events.rs:100
-#: pika-backup/src/widget/detail/backup/events.rs:110
-msgid "Unable to Include Location"
-msgstr "Kunde inte inkludera plats"
 
 #: pika-backup/src/widget/detail/backup/events.rs:101
 msgid ""
@@ -1600,6 +1599,11 @@ msgstr ""
 "Följande sökvägar kunde inte inkluderas då de inte finns tillförlitligt "
 "tillgängliga i sandlådan:\n"
 "{}"
+
+#: pika-backup/src/widget/detail/backup/events.rs:104
+#: pika-backup/src/widget/detail/backup/events.rs:113
+msgid "Unable to Include Location"
+msgstr "Kunde inte inkludera plats"
 
 #: pika-backup/src/widget/detail/backup/events.rs:111
 msgid ""
@@ -2461,12 +2465,12 @@ msgstr "Ogiltigt lösenord"
 msgid "Loading Backup Repository"
 msgstr "Läser in säkerhetskopieringsförråd"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:211
+#: pika-backup/src/widget/dialog/setup/actions.rs:214
 #: pika-backup/src/widget/dialog/setup/create_new.ui:6
 msgid "Creating Backup Repository"
 msgstr "Skapar säkerhetskopieringsförråd"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:220
+#: pika-backup/src/widget/dialog/setup/actions.rs:223
 msgid "Getting Repository Information"
 msgstr "Hämtar lagringsplatsinformation"
 
@@ -2475,13 +2479,13 @@ msgid "Checking Backup Repository"
 msgstr "Kontrollerar säkerhetskopieringsförråd"
 
 #: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
-#: pika-backup/src/widget/dialog/setup/location.ui:70
-#: pika-backup/src/widget/dialog/setup/location.ui:239
+#: pika-backup/src/widget/dialog/setup/location.ui:40
+#: pika-backup/src/widget/dialog/setup/location.ui:244
 msgid "Advanced Options"
 msgstr "Avancerade alternativ"
 
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:23
-#: pika-backup/src/widget/dialog/setup/location.ui:278
+#: pika-backup/src/widget/dialog/setup/location.ui:283
 msgid "_Continue"
 msgstr "_Fortsätt"
 
@@ -2537,7 +2541,7 @@ msgstr "Konfigurera lagringsplats"
 msgid "Repository Name"
 msgstr "Lagringsplatsnamn"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:58
+#: pika-backup/src/widget/dialog/setup/location.ui:68
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2549,20 +2553,20 @@ msgstr ""
 "möjligt om säkerhetskopieringsplatsen med ett format som ”NTFS” eller "
 "”Ext4”. Observera att omformatering tar bort alla filer på platsen!"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:96
+#: pika-backup/src/widget/dialog/setup/location.ui:93
 msgid "Repository URL"
 msgstr "Lagringsplats-URL"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:122
+#: pika-backup/src/widget/dialog/setup/location.ui:121
 msgid "Locations with BorgBackup Support"
 msgstr "Platser med stöd för BorgBackup"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:134
-#: pika-backup/src/widget/dialog/setup/location.ui:189
+#: pika-backup/src/widget/dialog/setup/location.ui:132
+#: pika-backup/src/widget/dialog/setup/location.ui:197
 msgid "More Information"
 msgstr "Mer information"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:147
+#: pika-backup/src/widget/dialog/setup/location.ui:145
 msgid ""
 "The “ssh://” prefix is reserved for servers with BorgBackup support. This "
 "option provides the best performance."
@@ -2570,11 +2574,11 @@ msgstr ""
 "Prefixet ”ssh://” reserveras för servrar med BorgBackup-stöd. Detta "
 "alternativ ger bäst prestanda."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:177
+#: pika-backup/src/widget/dialog/setup/location.ui:186
 msgid "SMB and SFTP Network Shares"
 msgstr "SMB- och SFTP-nätverksutdelningar"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:201
+#: pika-backup/src/widget/dialog/setup/location.ui:209
 msgid ""
 "The “sftp://” and “smb://” prefixes can be used to access network shares. "
 "The network share does not need explicit BorgBackup support."
@@ -2583,7 +2587,7 @@ msgstr ""
 "nätverksutdelningar. Nätverksutdelningen behöver inte ha explicit BorgBackup-"
 "stöd."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:262
+#: pika-backup/src/widget/dialog/setup/location.ui:267
 msgid "_Connect"
 msgstr "A_nslut"
 
