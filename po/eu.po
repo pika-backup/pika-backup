@@ -1,12 +1,12 @@
 # Basque translation for pika-backup.
 # Copyright (C) 2021 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
-# Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2021, 2022, 2023, 2024, 2025.
+# Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2021, 2022, 2023, 2024, 2025, 2026.
 #
 msgid ""
 msgstr "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-12-17 14:49+0000\n"
-"PO-Revision-Date: 2025-12-18 17:00+0100\n"
+"POT-Creation-Date: 2026-02-27 21:10+0000\n"
+"PO-Revision-Date: 2026-03-07 17:00+0100\n"
 "Last-Translator: Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -21,11 +21,11 @@ msgid "Pika Backup Monitor"
 msgstr "Pika Backup monitorea"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," #. please make sure that the transliteration does not coincide with a different meaning. If #. fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:5 data/app.metainfo.xml.in:4
-#: pika-backup/src/utils.rs:363 pika-backup/src/utils.rs:428
+#: pika-backup/src/error.rs:178 pika-backup/src/utils.rs:348
 #: pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
@@ -114,7 +114,7 @@ msgstr "Konfiguratu babeskopia berria"
 msgid "Show Keyboard Shortcuts"
 msgstr "Erakutsi lasterbideak"
 
-#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:275
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:279
 msgid "Quit"
 msgstr "Irten"
 
@@ -145,143 +145,150 @@ msgstr "Ezabatzeko eragiketa honek artxibo gehiegi ezabatuko lituzke."
 msgid "No files selected to be included into backup."
 msgstr "Ez da fitxategirik hautatu babeskopian sartzeko."
 
-#: pika-backup-common/src/borg/error.rs:86
+#: pika-backup-common/src/borg/error.rs:96
 msgid "Timeout"
 msgstr "Denbora-muga"
 
-#: pika-backup-common/src/borg/error.rs:133
+#: pika-backup-common/src/borg/error.rs:143
 msgid "Completed"
 msgstr "Osatuta"
 
-#: pika-backup-common/src/borg/error.rs:163
+#: pika-backup-common/src/borg/error.rs:173
 msgid "Aborted on user request."
 msgstr "Abortatuta erabiltzaileak eskatu duelako."
 
-#: pika-backup-common/src/borg/error.rs:165
+#: pika-backup-common/src/borg/error.rs:175
 msgid "Aborted because only metered connection was available."
 msgstr "Abortatuta konexio mugatua soilik dagoelako erabilgarri."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: pika-backup-common/src/borg/error.rs:169
+#: pika-backup-common/src/borg/error.rs:179
 msgid "Aborted because too long not connected to power."
 msgstr "Abortatuta argindarrari konektatzeko denbora gehiegi erabili delako."
 
-#: pika-backup-common/src/borg/error.rs:171
+#: pika-backup-common/src/borg/error.rs:181
 msgid "Aborted by system."
 msgstr "Sistemak abortatua."
 
-#: pika-backup-common/src/borg/error.rs:172
+#: pika-backup-common/src/borg/error.rs:182
 msgid "The program or system seems to have crashed."
 msgstr "Programa edo sistema kraskatu dela dirudi."
 
-#: pika-backup-common/src/borg/error.rs:173
+#: pika-backup-common/src/borg/error.rs:183
+#, rust-format
 msgid "{}"
 msgstr "{}"
 
-#: pika-backup-common/src/borg/error.rs:175
+#: pika-backup-common/src/borg/error.rs:185
+#, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "Ezin da babeskopia-biltegira sartu: {}"
 
-#: pika-backup-common/src/borg/error.rs:283
+#: pika-backup-common/src/borg/error.rs:297
 msgid ""
 "A repository already exists at this location. Try the “Use Existing "
 "Repository” option or select a different location."
 msgstr "Badago lehendik biltegi bat kokaleku horretan. Saiatu \"Erabili lehendik dagoen biltegia\" aukera edo hautatu beste kokaleku bat."
 
-#: pika-backup-common/src/borg/error.rs:286
+#: pika-backup-common/src/borg/error.rs:300
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
 msgstr "Inkoherentziak detektatu dira biltegian. Datuen integritatea egiaztatzeko saiakera bat exekutatu behar da."
 
-#: pika-backup-common/src/borg/error.rs:288
+#: pika-backup-common/src/borg/error.rs:302
 msgid "No repository exists at this location."
 msgstr "Ez dago biltegirik kokaleku horretan."
 
-#: pika-backup-common/src/borg/error.rs:290
+#: pika-backup-common/src/borg/error.rs:304
 msgid "Not enough free space in repository."
 msgstr "Ez dago nahikoa leku biltegian."
 
-#: pika-backup-common/src/borg/error.rs:293
+#: pika-backup-common/src/borg/error.rs:307
 msgid "The configured location does not contain a valid repository."
 msgstr "Konfiguratutako kokalekuak ez du baliozko biltegirik."
 
-#: pika-backup-common/src/borg/error.rs:296
+#: pika-backup-common/src/borg/error.rs:310
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "Konfiguratutako kokalekuak ez du baliozko biltegi-konfiguraziorik."
 
-#: pika-backup-common/src/borg/error.rs:299
+#: pika-backup-common/src/borg/error.rs:313
 msgid "The configured location does not exist."
 msgstr "Konfiguratutako kokalekua ez da existitzen."
 
-#: pika-backup-common/src/borg/error.rs:302
+#: pika-backup-common/src/borg/error.rs:316
 msgid "The selected location does already exist."
 msgstr "Hautatutako kokalekua badago lehendik."
 
-#: pika-backup-common/src/borg/error.rs:305
+#: pika-backup-common/src/borg/error.rs:319
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
 msgstr "Biltegien leku osoa bete da. Saiatu jadanik behar ez diren artxibo zaharrak ezabatzen."
 
-#: pika-backup-common/src/borg/error.rs:308
+#: pika-backup-common/src/borg/error.rs:322
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
 msgstr "Konfiguratutako kokalekua atzitzeko baimena ukatu da. Begiratu fitxategi-baimenak."
 
-#: pika-backup-common/src/borg/error.rs:313
+#: pika-backup-common/src/borg/error.rs:327
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
 msgstr "Pika Backup aplikazioaren bertsio berriagoa behar da biltegi horretara sartzeko. Biltegiak onartzen ez diren eginbideak darabiltza."
 
-#: pika-backup-common/src/borg/error.rs:318
+#: pika-backup-common/src/borg/error.rs:332
 msgid "The selected location already contains a repository."
 msgstr "Hautatutako kokalekuak badauka biltegi bat jadanik."
 
-#: pika-backup-common/src/borg/error.rs:321
+#: pika-backup-common/src/borg/error.rs:335
 msgid "The configured location does not contain an archive."
 msgstr "Konfiguratutako kokalekuak ez du artxiborik."
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:325
+#: pika-backup-common/src/borg/error.rs:339
 msgid "Invalid encryption password."
 msgstr "Zifratze-pasahitz baliogabea."
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:328
+#: pika-backup-common/src/borg/error.rs:342
 msgid "Repository access was aborted"
 msgstr "Biltegiaren atzipena abortatu da"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Failed to lock repository."
 msgstr "Huts egin du biltegia blokeatzeak."
 
-#: pika-backup-common/src/borg/error.rs:332
+#: pika-backup-common/src/borg/error.rs:346
 msgid "Repository already in use."
 msgstr "Biltegia dagoeneko erabilia dago."
 
-#: pika-backup-common/src/borg/error.rs:336
+#: pika-backup-common/src/borg/error.rs:350
 msgid "Connection closed by remote host."
 msgstr "Urruneko ostalariak konexioa itxi du."
 
-#: pika-backup-common/src/borg/error.rs:341
+#: pika-backup-common/src/borg/error.rs:352
+msgid "Connection to remote host broken."
+msgstr "Urruneko ostalariaren konexioa hautsita dago."
+
+#: pika-backup-common/src/borg/error.rs:356
+#, rust-format
 msgid "Connection closed by remote host: “{}”"
 msgstr "Urruneko ostalariak konexioa itxi du: “{}“"
 
 #. General
-#: pika-backup-common/src/borg/error.rs:345
+#: pika-backup-common/src/borg/error.rs:360
 msgid "Exception"
 msgstr "Salbuespena"
 
-#: pika-backup-common/src/borg/error.rs:347
+#: pika-backup-common/src/borg/error.rs:362
 msgid "Unspecified error."
 msgstr "Zehaztu gabeko errorea."
 
-#: pika-backup-common/src/borg/functions.rs:278
+#: pika-backup-common/src/borg/functions.rs:279
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
@@ -297,11 +304,12 @@ msgid "Backup will continue."
 msgstr "Babeskopiak aurrera jarraituko du."
 
 #: pika-backup-common/src/borg/log_json.rs:85
+#, rust-format
 msgid "Backed up data: {}"
 msgstr "Babeskopia egin zaien datuak: {}"
 
 #: pika-backup-common/src/borg/log_json.rs:115
-#, no-c-format
+#, no-c-format, rust-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Eragiketaren % {} osatu da ({}/{})"
 
@@ -390,6 +398,7 @@ msgid "Attempting to access a previously unknown unencrypted repository."
 msgstr "Ezezaguna den aurreko zifratu gabeko biltegi bat eskuratzen saiatzen."
 
 #: pika-backup-common/src/borg/log_json.rs:252
+#, rust-format
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr "“{}” kokalekuko babeskopia-biltegia lehen “{}” kokalekuan zegoen."
 
@@ -411,11 +420,13 @@ msgid ""
 msgstr "Biltegia osorik, dituen babeskopia-artxibo guztiak barne, ezabatzea eskatu duzu."
 
 #: pika-backup-common/src/borg/log_json.rs:266
+#, rust-format
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "Espero ez zen galdera borgbackup aplikaziorako: “{}”"
 
 #. Translators: Combines statement from above and this question
 #: pika-backup-common/src/borg/log_json.rs:271
+#, rust-format
 msgid ""
 "{}\n"
 "\n"
@@ -424,32 +435,32 @@ msgstr "{}\n"
 "\n"
 "Jarraitu?"
 
-#: pika-backup-common/src/borg/log_json.rs:325
+#: pika-backup-common/src/borg/log_json.rs:327
 msgid "Standard error output"
 msgstr "Errore estandarraren irteera"
 
-#: pika-backup-common/src/borg/log_json.rs:469
+#: pika-backup-common/src/borg/log_json.rs:481
 msgid "Debug"
 msgstr "Arazketa"
 
-#: pika-backup-common/src/borg/log_json.rs:470
+#: pika-backup-common/src/borg/log_json.rs:482
 msgid "Info"
 msgstr "Informazioa"
 
-#: pika-backup-common/src/borg/log_json.rs:471 pika-backup/src/utils.rs:379
-#: pika-backup/src/widget/dialog/setup/location.ui:46
+#: pika-backup-common/src/borg/log_json.rs:483 pika-backup/src/utils.rs:364
+#: pika-backup/src/widget/dialog/setup/location.ui:56
 msgid "Warning"
 msgstr "Abisua"
 
-#: pika-backup-common/src/borg/log_json.rs:472
+#: pika-backup-common/src/borg/log_json.rs:484
 msgid "Error"
 msgstr "Errorea"
 
-#: pika-backup-common/src/borg/log_json.rs:473
+#: pika-backup-common/src/borg/log_json.rs:485
 msgid "Critical"
 msgstr "Larria"
 
-#: pika-backup-common/src/borg/log_json.rs:474
+#: pika-backup-common/src/borg/log_json.rs:486
 msgid "Undefined"
 msgstr "Definitu gabe"
 
@@ -522,6 +533,7 @@ msgid "The amount of files saved in this archive"
 msgstr "Artxibo honetan gordetako fitxategi kopurua"
 
 #: pika-backup-common/src/borg/scripts.rs:276
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -529,6 +541,7 @@ msgstr "Hobespenetan babeskopiaren aurrerako konfiguratutako komandoaren exekuzi
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:280
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -536,11 +549,13 @@ msgstr "Hobespenetan babeskopia ondorenerako konfiguratutako komandoaren exekuzi
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:306
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr "Hobespenetan babeskopiaren aurrerako konfiguratutako komandoak hutsegite-kodea itzuli du: {}."
 
 #: pika-backup-common/src/borg/scripts.rs:310
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr "Hobespenetan babeskopiaren ondorenerako konfiguratutako komandoak hutsegite-kodea itzuli du: {}."
@@ -658,6 +673,7 @@ msgid "Might include data stored within"
 msgstr "Barnean biltegiratutako datuak hartu ditzake"
 
 #: pika-backup-common/src/config/loadable.rs:41
+#, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
@@ -695,27 +711,28 @@ msgstr "Astero"
 msgid "Monthly"
 msgstr "Hilero"
 
-#: pika-backup-common/src/utils.rs:100
+#: pika-backup-common/src/utils.rs:106
 msgid "No such file or directory"
 msgstr "Ez dago halako fitxategi edo direktoriorik"
 
-#: pika-backup-monitor/src/action.rs:58
+#: pika-backup-monitor/src/action.rs:41
 msgid "Failed to start backup from daemon"
 msgstr "Huts egin du babeskopia daemon-etik hasteak"
 
-#: pika-backup-monitor/src/action.rs:79
+#: pika-backup-monitor/src/action.rs:55
 msgid "Failed to show overview from daemon"
 msgstr "Huts egin du ikuspegi orokorra daemon-etik erakusteak"
 
-#: pika-backup-monitor/src/action.rs:98
+#: pika-backup-monitor/src/action.rs:70
 msgid "Failed to show schedule from daemon"
 msgstr "Huts egin du programazioa daemon-etik erakusteak"
 
-#: pika-backup-monitor/src/connect/event.rs:23
+#: pika-backup-monitor/src/connect/event.rs:24
 msgid "Backup Device Connected"
 msgstr "Babeskopia-gailua konektatuta"
 
-#: pika-backup-monitor/src/connect/event.rs:29
+#: pika-backup-monitor/src/connect/event.rs:30
+#, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "“{}”(e)k babeskopia anitz ditu konfiguratuta."
 
@@ -723,100 +740,103 @@ msgstr "“{}”(e)k babeskopia anitz ditu konfiguratuta."
 msgid "Show Backups"
 msgstr "Erakutsi babeskopiak"
 
-#: pika-backup-monitor/src/connect/event.rs:42
+#: pika-backup-monitor/src/connect/event.rs:39
+#, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "“{}”(e)k babeskopia bat du konfiguratuta."
 
-#: pika-backup-monitor/src/connect/event.rs:47
+#: pika-backup-monitor/src/connect/event.rs:44
 msgid "Back Up Now"
 msgstr "Egin babeskopia orain"
 
-#: pika-backup-monitor/src/init.rs:34
+#: pika-backup-monitor/src/init.rs:35
 msgid "Error loading configuration"
 msgstr "Errorea konfigurazioa kargatzean"
 
-#: pika-backup-monitor/src/init.rs:35
+#: pika-backup-monitor/src/init.rs:36
 msgid "Not monitoring backup schedule."
 msgstr "Babeskopiaren programazioaren monitorizaziorik ez."
 
-#: pika-backup-monitor/src/init.rs:60
+#: pika-backup-monitor/src/init.rs:61
 msgid "Monitoring backup schedule"
 msgstr "Babeskopiaren programazioaren monitorizazioa"
 
-#: pika-backup-monitor/src/init.rs:127
+#: pika-backup-monitor/src/init.rs:128
 msgid "Fatal Error During Back Up"
 msgstr "Errore larria babeskopian zehar"
 
-#: pika-backup-monitor/src/init.rs:130
+#: pika-backup-monitor/src/init.rs:131
+#, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
-msgstr[0] "Pika Backup kraskatu egin da babeskopia bat exekutatzean"
-msgstr[1] "Pika Backup aplikazioak BorgBackup motorra darabil."
+msgstr[0] "Pika Backup aplikazioa kraskatu egin da babeskopia bat exekutatzean."
+msgstr[1] "Pika Backup aplikazioa kraskatu egin da {} babeskopia exekutatzean."
 
-#: pika-backup-monitor/src/init.rs:169 pika-backup-monitor/src/init.rs:171
-#: pika-backup-monitor/src/init.rs:178
+#: pika-backup-monitor/src/init.rs:170 pika-backup-monitor/src/init.rs:172
+#: pika-backup-monitor/src/init.rs:179
 msgid "Error restarting monitor daemon"
 msgstr "Errorea monitorizazioko daemon-a berrabiaraztean"
 
-#: pika-backup-monitor/src/schedule/init.rs:105
+#: pika-backup-monitor/src/schedule/init.rs:119
 msgid "The backup repository is already in use."
 msgstr "Babeskopia-biltegia jadanik erabiltzen ari da."
 
-#: pika-backup-monitor/src/schedule/init.rs:108
+#: pika-backup-monitor/src/schedule/init.rs:122
 msgid "Archives are currently opened for browsing."
 msgstr "Artxiboak irekita daude arakatuak izateko."
 
-#: pika-backup-monitor/src/schedule/init.rs:111
+#: pika-backup-monitor/src/schedule/init.rs:125
 msgid "Only metered internet connections available."
 msgstr "Konexio mugatuak soilik daude erabilgarri."
 
-#: pika-backup-monitor/src/schedule/init.rs:114
+#: pika-backup-monitor/src/schedule/init.rs:128
 msgid "Device not connected to power."
 msgstr "Gailua ez dago argindarrari konektatuta."
 
-#: pika-backup-monitor/src/schedule/init.rs:120
+#: pika-backup-monitor/src/schedule/init.rs:134
 msgid "Scheduled Backup Postponed"
 msgstr "Programatutako babeskopia atzeratu da"
 
-#: pika-backup-monitor/src/schedule/init.rs:144
+#: pika-backup-monitor/src/schedule/init.rs:158
 msgid "Backup Device Required"
 msgstr "Babeskopia-gailua behar da"
 
-#: pika-backup-monitor/src/schedule/init.rs:146
+#: pika-backup-monitor/src/schedule/init.rs:160
+#, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr "“{}” konektatu behar da programatutako babeskopia hasi dadin"
 
-#: pika-backup-monitor/src/schedule/init.rs:159
+#: pika-backup-monitor/src/schedule/init.rs:173
 msgid "Failed to start scheduled backup"
 msgstr "Huts egin du babeskopia programatzeak"
 
-#: pika-backup/src/app.rs:245
+#: pika-backup/src/app.rs:249
 msgid "Abort Backup?"
 msgstr "Abortatu babeskopia?"
 
-#: pika-backup/src/app.rs:246
+#: pika-backup/src/app.rs:250
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Babeskopia ez da osatuko orian abortatzen bada"
 
-#: pika-backup/src/app.rs:247 pika-backup/src/utils.rs:382
-#: pika-backup/src/widget/detail/backup/events.rs:24
-#: pika-backup/src/widget/detail/backup/events.rs:34
-#: pika-backup/src/widget/detail/backup/events.rs:44
+#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:367
+#: pika-backup/src/widget/detail/backup/events.rs:26
+#: pika-backup/src/widget/detail/backup/events.rs:36
+#: pika-backup/src/widget/detail/backup/events.rs:46
 #: pika-backup/src/widget/dialog/setup/encryption.rs:93
 msgid "Continue"
 msgstr "Jarraitu"
 
-#: pika-backup/src/app.rs:248 pika-backup/src/utils.rs:381
-#: pika-backup/src/widget/detail/backup/events.rs:35
-#: pika-backup/src/widget/detail/backup/events.rs:45
+#: pika-backup/src/app.rs:252 pika-backup/src/utils.rs:366
+#: pika-backup/src/widget/detail/backup/events.rs:37
+#: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Abortatu"
 
-#: pika-backup/src/app.rs:260
+#: pika-backup/src/app.rs:264
 msgid "Backup Operation Running"
 msgstr "Babeskopiako eragiketa bat abian dago"
 
-#: pika-backup/src/app.rs:262
+#: pika-backup/src/app.rs:266
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "Pika Backup ezin da itxi babeskopiako eragiketa bat abian dagoenean"
 
@@ -854,6 +874,7 @@ msgstr "Azken babeskopiak huts egin du"
 
 #. Translators: Argument is 'x months ago'
 #: pika-backup/src/backup_status.rs:144
+#, rust-format
 msgid "Successful Integrity Check {}"
 msgstr "Osotasuna ongi egiaztatu da: {}"
 
@@ -878,31 +899,32 @@ msgid "Integrity Errors Found"
 msgstr "Osotasun-erroreak aurkitu dira"
 
 #: pika-backup/src/backup_status.rs:223
-#, no-c-format
+#, no-c-format, rust-format
 msgid "{} % finished"
 msgstr "{} % amaituta"
 
-#: pika-backup/src/backup_status.rs:245
+#: pika-backup/src/backup_status.rs:247
 msgid "Preparing Backup"
 msgstr "Babeskopia prestatzen"
 
-#: pika-backup/src/backup_status.rs:246
+#: pika-backup/src/backup_status.rs:248
 msgid "Backup Running"
 msgstr "Babeskopia exekutatzen"
 
-#: pika-backup/src/backup_status.rs:247
+#: pika-backup/src/backup_status.rs:249
 msgid "Backup Destination Unresponsive"
 msgstr "Babeskopiaren helburuak ez du erantzuten"
 
-#: pika-backup/src/backup_status.rs:250
+#: pika-backup/src/backup_status.rs:252
+#, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "Konexioa galdu da, {} denboran berriro konektatuko da"
 
-#: pika-backup/src/backup_status.rs:255
+#: pika-backup/src/backup_status.rs:257
 msgid "Reconnecting"
 msgstr "Berriro konektatzen"
 
-#: pika-backup/src/backup_status.rs:257
+#: pika-backup/src/backup_status.rs:259
 msgid "Stopping Backup"
 msgstr "Babeskopia gelditzen"
 
@@ -910,54 +932,63 @@ msgstr "Babeskopia gelditzen"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "Huts egin du programatutako babeskopiak abiarazteak."
 
-#: pika-backup/src/error.rs:145
+#: pika-backup/src/error.rs:174
+msgid "Close"
+msgstr "Itxi"
+
+#: pika-backup/src/error.rs:200
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
 "operating system documentation."
 msgstr "Gako sorta ez dago eskuragarri. Pika Backup aplikazioak gako sorten daemon bat behar du (\"zerbitzu sekretua\") pasahitzak biltegiratzeko. Horrelako bat instalatzeko argibideak lortzeko, begiratu sistema eragilearen dokumentazioa."
 
-#: pika-backup/src/error.rs:182
+#: pika-backup/src/error.rs:237
+#, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "Badago lehendik “{}” IDa duen babeskopia."
 
-#: pika-backup/src/error.rs:191
+#: pika-backup/src/error.rs:246
+#, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Ezin da aurkitu “{}” IDa duen babeskopia-konfigurazioa."
 
-#: pika-backup/src/error.rs:207
+#: pika-backup/src/error.rs:262
 msgid "Canceled"
 msgstr "Bertan behera utzi da"
 
-#: pika-backup/src/lib.rs:75
+#: pika-backup/src/lib.rs:76
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "Huts egin du “borg” exekutatzeak. Ongi instalatuta al dago BorgBackup?"
 
-#: pika-backup/src/lib.rs:105
+#: pika-backup/src/lib.rs:106
 msgid "BorgBackup Version Too Old"
 msgstr "BorgBackup bertsioa zaharregia da"
 
-#: pika-backup/src/lib.rs:107
+#: pika-backup/src/lib.rs:108
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
 "{}. This is unsupported."
 msgstr "Instalatuta dagoen BorgBackup bertsioa, {}, zaharregia da. Zenbait eginbidek borg-backup {} bertsioa behar dute."
 
-#: pika-backup/src/lib.rs:116
+#: pika-backup/src/lib.rs:117
 msgid "BorgBackup Version Too New"
 msgstr "BorgBackup bertsioa berriegia da"
 
-#: pika-backup/src/lib.rs:118
+#: pika-backup/src/lib.rs:119
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
 msgstr "Instalatuta dagoen BorgBackup bertsioa, {}, berriegia da eta ez da probatu. {} bertsioa gomendatzen da."
 
-#: pika-backup/src/lib.rs:127
+#: pika-backup/src/lib.rs:128
 msgid "Failed to Check BorgBackup Version"
 msgstr "Huts egin du BorgBackup bertsioa egiaztatzeak"
 
-#: pika-backup/src/lib.rs:129
+#: pika-backup/src/lib.rs:130
+#, rust-format
 msgid "The installed version {} might not work."
 msgstr "Instalatutako {} bertsioa agian ez dabil."
 
@@ -983,6 +1014,7 @@ msgid "Unable to determine background process status"
 msgstr "Ezin izan da atzeko planoko prozesuaren egoera zehaztu"
 
 #: pika-backup/src/toast_size_estimate.rs:58
+#, rust-format
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
@@ -1021,10 +1053,11 @@ msgid "Failed to Start Monitor"
 msgstr "Huts egin du monitorizazioa hasteak"
 
 #: pika-backup/src/utils.rs:251
+#, rust-format
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] "Babeskopiako eragiketa bat abian dago"
-msgstr[1] "Babeskopia exekutatzen"
+msgstr[1] "Babeskopiako {} eragiketa abian daude"
 
 #: pika-backup/src/utils.rs:289
 #: pika-backup/src/widget/detail/backup/events.rs:146
@@ -1033,10 +1066,6 @@ msgstr[1] "Babeskopia exekutatzen"
 #: pika-backup/src/widget/dialog/exclude.rs:301
 msgid "Select"
 msgstr "Hautatu"
-
-#: pika-backup/src/utils.rs:424
-msgid "Close"
-msgstr "Itxi"
 
 #: pika-backup/src/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
@@ -1077,34 +1106,30 @@ msgstr "Ezin dira artxibatutako fitxategiak arakatu biltegian eragiketa bat exek
 msgid "Start Operation"
 msgstr "Hasi eragiketa"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:312
+#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
 msgid "Failed to unmount repository."
 msgstr "Huts egin du biltegia desmuntatzeak."
 
-#: pika-backup/src/utils/borg.rs:289
-#| msgid "Repository already in use"
+#: pika-backup/src/utils/borg.rs:295
 msgid "Repository Already in Use"
 msgstr "Biltegia dagoeneko erabilia dago"
 
-#: pika-backup/src/utils/borg.rs:290
-#| msgid ""
-#| "The backup repository is marked as already in use. This information can "
-#| "be outdated if, for example, the computer lost power while using the "
-#| "repository."
+#: pika-backup/src/utils/borg.rs:296
+#, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
 "repository."
 msgstr "Babeskopiaren “{}” biltegia erabilia izaten ari dela dago markatuta. Informazio hau zaharkituta egon daiteke, adibidez ordenagailua argindarrik gabe geratu bazen biltegia erabiltzen ari zinen bitartean."
 
-#: pika-backup/src/utils/borg.rs:292
+#: pika-backup/src/utils/borg.rs:298
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
 "backup data!"
 msgstr "Jarraitu biltegia inor erabiltzen ari ez dela ziur baldin badakizu soilik! Beste programa bat biltegia erabiltzen ari bada, aurrera jarraitzen baduzu, babeskopiaren datuak hondatu egin daitezke!"
 
-#: pika-backup/src/utils/borg.rs:293
+#: pika-backup/src/utils/borg.rs:299
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1112,19 +1137,21 @@ msgstr "Jarraitu biltegia inor erabiltzen ari ez dela ziur baldin badakizu soili
 msgid "Cancel"
 msgstr "Utzi"
 
-#: pika-backup/src/utils/borg.rs:294
+#: pika-backup/src/utils/borg.rs:300
 msgid "Continue Anyway"
 msgstr "Jarraitu dena den"
 
-#: pika-backup/src/utils/borg.rs:440 pika-backup/src/utils/borg.rs:461
+#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
 msgid "Unable to Eject Backup Disk"
 msgstr "Ezin da babeskopia-diskoa egotzi"
 
-#: pika-backup/src/utils/borg.rs:449
+#: pika-backup/src/utils/borg.rs:455
+#, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} modu seguruan kendu daiteke orain."
 
-#: pika-backup/src/utils/borg.rs:462
+#: pika-backup/src/utils/borg.rs:468
+#, rust-format
 msgid "{} can't be ejected."
 msgstr "{} egotzi daiteke."
 
@@ -1137,66 +1164,77 @@ msgid "Could not load configuration file."
 msgstr "Ezin izan da konfigurazio-fitxategia kargatu."
 
 #: pika-backup/src/utils/duration.rs:11
+#, rust-format
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "Segundo bat"
 msgstr[1] "{} segundo"
 
 #: pika-backup/src/utils/duration.rs:13
+#, rust-format
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "Minutu bat"
 msgstr[1] "{} minutu"
 
 #: pika-backup/src/utils/duration.rs:15
+#, rust-format
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "Ordu bat"
 msgstr[1] "{} ordu"
 
 #: pika-backup/src/utils/duration.rs:17
+#, rust-format
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "Egun bat"
 msgstr[1] "{} egun"
 
 #: pika-backup/src/utils/duration.rs:23
+#, rust-format
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "segundo bat"
 msgstr[1] "{} segundo"
 
 #: pika-backup/src/utils/duration.rs:25
+#, rust-format
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "minutu bat"
 msgstr[1] "{} minutu"
 
 #: pika-backup/src/utils/duration.rs:27
+#, rust-format
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "ordu bat"
 msgstr[1] "{} ordu"
 
 #: pika-backup/src/utils/duration.rs:29
+#, rust-format
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "egun bat"
 msgstr[1] "{} egun"
 
 #: pika-backup/src/utils/duration.rs:36
+#, rust-format
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "Minutu bat falta da"
 msgstr[1] "{} minutu falta dira"
 
 #: pika-backup/src/utils/duration.rs:41
+#, rust-format
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "Ordu bat falta da"
 msgstr[1] "{} ordu falta dira"
 
 #: pika-backup/src/utils/duration.rs:43
+#, rust-format
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "Egun bat falta da"
@@ -1207,36 +1245,42 @@ msgid "Now"
 msgstr "Orain"
 
 #: pika-backup/src/utils/duration.rs:51
+#, rust-format
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "Duela minutu bat"
 msgstr[1] "Duela {} minutu"
 
 #: pika-backup/src/utils/duration.rs:53
+#, rust-format
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "Duela ordubete"
 msgstr[1] "Duela {} ordu"
 
 #: pika-backup/src/utils/duration.rs:55
+#, rust-format
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "Duela egun bat"
 msgstr[1] "Duela {} egun"
 
 #: pika-backup/src/utils/duration.rs:57
+#, rust-format
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "Duela astebete"
 msgstr[1] "Duela {} aste"
 
 #: pika-backup/src/utils/duration.rs:59
+#, rust-format
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "Duela hilabete"
 msgstr[1] "Duela {} hilabete"
 
 #: pika-backup/src/utils/duration.rs:61
+#, rust-format
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Duela urtebeta"
@@ -1267,6 +1311,7 @@ msgstr "Huts egin du gako-biltegian egon daitezkeen pasahitzak kentzeak."
 
 #. Translators: This is the description for entries in the password database.
 #: pika-backup/src/utils/password_storage.rs:63
+#, rust-format
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup “{}”"
 
@@ -1391,14 +1436,16 @@ msgid "Delete Archive"
 msgstr "Ezabatu artxiboa"
 
 #: pika-backup/src/widget/detail/archives/display.rs:263
+#, rust-format
 msgid "{} Available"
 msgstr "{} erabilgarri"
 
 #: pika-backup/src/widget/detail/archives/display.rs:265
+#, rust-format
 msgid "{} Total"
 msgstr "{} guztira"
 
-#: pika-backup/src/widget/detail/archives/events.rs:95
+#: pika-backup/src/widget/detail/archives/events.rs:96
 msgid "Failed to make archives available for browsing."
 msgstr "Huts egin du artxiboak arakatzeko aukera ezartzeak."
 
@@ -1424,7 +1471,6 @@ msgid "Only files in these folders are backed up"
 msgstr "Karpeta hauetako fitxategienak soilik egingo da babeskopia"
 
 #: pika-backup/src/widget/detail/backup.ui:98
-#| msgid "Select Directory to Include"
 msgid "Select File to Include"
 msgstr "Hautatu sartuko den fitxategia"
 
@@ -1470,51 +1516,52 @@ msgstr "Editatu eredua"
 msgid "Remove From List"
 msgstr "Kendu zerrendatik"
 
-#: pika-backup/src/widget/detail/backup/events.rs:22
+#: pika-backup/src/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr "Gelditu babeskopiaren exekuzioa?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:23
+#: pika-backup/src/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
 msgstr "Babeskopiaren uneko egoera gorde egingo da. Babeskopiarekin geroago jarraitu daiteke hura berriro berrabiarazita."
 
-#: pika-backup/src/widget/detail/backup/events.rs:25
+#: pika-backup/src/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "Gelditu"
 
-#: pika-backup/src/widget/detail/backup/events.rs:32
+#: pika-backup/src/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr "Abortatu ezabatze-eragiketa?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:33
+#: pika-backup/src/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
 msgstr "Artxiboak ezabatzen ari dira. Abortatzen bada, leku librea ez da berreskuratuko."
 
-#: pika-backup/src/widget/detail/backup/events.rs:42
+#: pika-backup/src/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr "Abortatu eragiketa?"
 
-#: pika-backup/src/widget/detail/backup/events.rs:43
+#: pika-backup/src/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
 msgstr "Eragiketa bat gauzatzen ari da. Orain abortatzen bada, eragiketak egin duen edozein aurrerapen galduko da."
 
-#: pika-backup/src/widget/detail/backup/events.rs:100
-#: pika-backup/src/widget/detail/backup/events.rs:110
-msgid "Unable to Include Location"
-msgstr "Ezin da kokalekua sartu"
-
 #: pika-backup/src/widget/detail/backup/events.rs:101
+#, rust-format
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
 "{}"
 msgstr "Honako bide-izenak ezin dira sartu ez daudelako modu fidagarrian isolatuta: {}"
+
+#: pika-backup/src/widget/detail/backup/events.rs:104
+#: pika-backup/src/widget/detail/backup/events.rs:113
+msgid "Unable to Include Location"
+msgstr "Ezin da kokalekua sartu"
 
 #: pika-backup/src/widget/detail/backup/events.rs:111
 msgid ""
@@ -1523,7 +1570,6 @@ msgid ""
 msgstr "Pika Backup ezin da erabili sistema osoaren edo \"/dev\" direktorioaren babeskopia egiteko."
 
 #: pika-backup/src/widget/detail/backup/events.rs:145
-#| msgid "Include Folder"
 msgid "Include File"
 msgstr "Sartu fitxategia"
 
@@ -1532,6 +1578,7 @@ msgid "Include Folder"
 msgstr "Sartu karpeta"
 
 #: pika-backup/src/widget/detail/backup/events.rs:221
+#, rust-format
 msgid "No longer include “{}” in backups?"
 msgstr "Ez sartu “{}” babeskopietan?"
 
@@ -1687,24 +1734,28 @@ msgid "Custom"
 msgstr "Pertsonalizatua"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:18
+#, rust-format
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Hurrengo babeskopia minutu batean"
 msgstr[1] "Hurrengo babeskopia {} minututan"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:24
+#, rust-format
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Hurrengo babeskopia ordu batean"
 msgstr[1] "Hurrengo babeskopia {} ordutan"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:30
+#, rust-format
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Hurrengo babeskopia egun batean"
 msgstr[1] "Hurrengo babeskopia {} egunetan"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:36
+#, rust-format
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Hurrengo babeskopia aste batean"
@@ -1931,15 +1982,6 @@ msgstr "Konpondu"
 msgid "Perform Check"
 msgstr "Egiaztatu"
 
-#: pika-backup/src/widget/dialog/check.rs:105
-#: pika-backup/src/widget/dialog/check.rs:152
-msgid "Verify Archives Integrity"
-msgstr "Egiaztatu artxiboen osotasuna"
-
-#: pika-backup/src/widget/dialog/check.rs:171
-msgid "Verify archives integrity completed successfully"
-msgstr "Artxiboen osotasunaren egiaztatzea ongi gauzatu da"
-
 #: pika-backup/src/widget/dialog/check.ui:5
 #: pika-backup/src/widget/dialog/check.ui:14
 msgid "Archives Integrity Check"
@@ -2001,6 +2043,7 @@ msgid "The following backup location needs to be connected:"
 msgstr "Honako babeskopia-kokalekuek konektatuta egon behar dute:"
 
 #: pika-backup/src/widget/dialog/encryption_password.rs:61
+#, rust-format
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -2013,7 +2056,7 @@ msgstr "zifratze-pasahitza behar da"
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:179
+#: pika-backup/src/widget/overview.rs:175
 msgid "_Cancel"
 msgstr "_Utzi"
 
@@ -2096,6 +2139,7 @@ msgid ""
 msgstr "Goiko ereduak modu jakin batean idatzi behar dira. Bide-izenarekin bat etorri behar dute, baina aurreko <tt>/</tt> gabe. Horrez gain, shell estiloko ereduekin bat etortzeko, atzean <tt>*</tt> eramango balute bezala egin behar da. Xehetasun gehiagorako, begiratu <a href=\"https://borgbackup.readthedocs.io/en/stable/usage/help.html\">BorgBackup aplikazioaren dokumentazioa</a>."
 
 #: pika-backup/src/widget/dialog/preferences.rs:205
+#, rust-format
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2334,12 +2378,12 @@ msgstr "Pasahitz baliogabea"
 msgid "Loading Backup Repository"
 msgstr "Babeskopia-biltegia kargatzen"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:211
+#: pika-backup/src/widget/dialog/setup/actions.rs:214
 #: pika-backup/src/widget/dialog/setup/create_new.ui:6
 msgid "Creating Backup Repository"
 msgstr "Babeskopia-biltegia sortzen"
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:220
+#: pika-backup/src/widget/dialog/setup/actions.rs:223
 msgid "Getting Repository Information"
 msgstr "Biltegiaren informazioa eskuratzen"
 
@@ -2348,13 +2392,13 @@ msgid "Checking Backup Repository"
 msgstr "Babeskopia-biltegia egiaztatzen"
 
 #: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
-#: pika-backup/src/widget/dialog/setup/location.ui:70
-#: pika-backup/src/widget/dialog/setup/location.ui:239
+#: pika-backup/src/widget/dialog/setup/location.ui:40
+#: pika-backup/src/widget/dialog/setup/location.ui:244
 msgid "Advanced Options"
 msgstr "Aukera aurreratuak"
 
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:23
-#: pika-backup/src/widget/dialog/setup/location.ui:278
+#: pika-backup/src/widget/dialog/setup/location.ui:283
 msgid "_Continue"
 msgstr "_Jarraitu"
 
@@ -2410,7 +2454,7 @@ msgstr "Konfiguratu biltegia"
 msgid "Repository Name"
 msgstr "Biltegiaren izena"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:58
+#: pika-backup/src/widget/dialog/setup/location.ui:68
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2418,38 +2462,36 @@ msgid ""
 "reformatting deletes all files on the location!"
 msgstr "Hautatutako kokalekuan egindako babeskopiak hondatuta egon daitezke babeskopia gauzatzen ari zenean gailua deskonektatu bazen edo energiarik gabe geratu bazen. Posible bada, berritu babeskopia-kokalekuaren formatua “NTFS” edo “Ext4” motako formatuarekin. Kontuan izan formatua ematean kokalekuko fitxategi guztiak ezabatuko direla."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:96
+#: pika-backup/src/widget/dialog/setup/location.ui:93
 msgid "Repository URL"
 msgstr "Biltegiaren URLa"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:122
+#: pika-backup/src/widget/dialog/setup/location.ui:121
 msgid "Locations with BorgBackup Support"
 msgstr "BorgBackup euskarria duten kokalekuak"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:134
-#: pika-backup/src/widget/dialog/setup/location.ui:189
-#| msgid "Getting Repository Information"
+#: pika-backup/src/widget/dialog/setup/location.ui:132
+#: pika-backup/src/widget/dialog/setup/location.ui:197
 msgid "More Information"
 msgstr "Informazio gehiago"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:147
+#: pika-backup/src/widget/dialog/setup/location.ui:145
 msgid ""
 "The “ssh://” prefix is reserved for servers with BorgBackup support. This "
 "option provides the best performance."
 msgstr "“ssh://” aurrizkia BorgBackup euskarria duten zerbitzarietarako erreserbatuta dago. Aukera honek errendimendu onena ematen du."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:177
-#| msgid "Network Shares"
+#: pika-backup/src/widget/dialog/setup/location.ui:186
 msgid "SMB and SFTP Network Shares"
 msgstr "Sareko SMB eta SFTP partekatzeak"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:201
+#: pika-backup/src/widget/dialog/setup/location.ui:209
 msgid ""
 "The “sftp://” and “smb://” prefixes can be used to access network shares. "
 "The network share does not need explicit BorgBackup support."
 msgstr "“sftp://” eta “smb://” aurrizkiak sareko partekatzeetara sartzeko erabili daitezke. Sareko partekatzeek ez dute BorgBackup euskarri espliziturik behar."
 
-#: pika-backup/src/widget/dialog/setup/location.ui:262
+#: pika-backup/src/widget/dialog/setup/location.ui:267
 msgid "_Connect"
 msgstr "_Konektatu"
 
@@ -2470,6 +2512,7 @@ msgid ""
 msgstr "Hautatu lehendik babeskopia-biltegi bat duen kokaleku bat. BorgBackup aplikazioarekin bateragarria den beste software batekin sortutako biltegiak ere erabili daitezke."
 
 #: pika-backup/src/widget/dialog/setup/location_kind.rs:289
+#, rust-format
 msgid "Free space: {}"
 msgstr "Toki librea: {}"
 
@@ -2516,11 +2559,11 @@ msgid "The remote location must have a specified path."
 msgstr "Urruneko kokalekuak bide-izen bat zehaztuta eduki behar du."
 
 #: pika-backup/src/widget/dialog/setup/types.rs:73
+#, rust-format
 msgid "Invalid remote location: “{}”"
 msgstr "Urruneko kokaleku baliogabea: “{}”"
 
 #: pika-backup/src/widget/dialog/storage.ui:6
-#: pika-backup/src/widget/folder_row.rs:55
 msgid "Backup Location"
 msgstr "Babeskopiaren kokalekua"
 
@@ -2561,12 +2604,10 @@ msgid "Free"
 msgstr "Librea"
 
 #: pika-backup/src/widget/dialog/unmount_archives.ui:18
-#| msgid "_Cleanup Archives"
 msgid "Closing Archives"
 msgstr "Artxiboak ixten"
 
 #: pika-backup/src/widget/dialog/unmount_archives.ui:19
-#| msgid "Failed to make archives available for browsing."
 msgid "Closing Archives Still Open for Browsing"
 msgstr "Arakatzeko oraindik irekita dauden artxiboak ixten"
 
@@ -2680,15 +2721,15 @@ msgstr "Pasahitz horrek sendoa dirudi"
 msgid "Repeat Password"
 msgstr "Errepikatu pasahitza"
 
-#: pika-backup/src/widget/overview.rs:177
+#: pika-backup/src/widget/overview.rs:173
 msgid "Remove Backup Setup?"
 msgstr "Kendu babeskopia-konfigurazioa?"
 
-#: pika-backup/src/widget/overview.rs:178
+#: pika-backup/src/widget/overview.rs:174
 msgid "Removing the setup will not delete any archives"
 msgstr "Konfigurazioa kentzen bada artxiboak ez dira ezabatuko"
 
-#: pika-backup/src/widget/overview.rs:180
+#: pika-backup/src/widget/overview.rs:176
 msgid "_Remove Setup"
 msgstr "_Kendu konfigurazioa"
 
@@ -2723,6 +2764,12 @@ msgstr "Gehitu konfigurazio berria babeskopiak sortzen hasteko"
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "_Konfiguratu babeskopia"
+
+#~ msgid "Verify Archives Integrity"
+#~ msgstr "Egiaztatu artxiboen osotasuna"
+
+#~ msgid "Verify archives integrity completed successfully"
+#~ msgstr "Artxiboen osotasunaren egiaztatzea ongi gauzatu da"
 
 #~ msgid "A repository already exists at this location."
 #~ msgstr "Badago lehendik biltegi bat kokaleku horretan."
