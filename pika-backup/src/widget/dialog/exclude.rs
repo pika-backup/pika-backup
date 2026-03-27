@@ -426,7 +426,8 @@ mod imp {
             if active {
                 exclude.insert(config::Exclude::from_predefined(predefined));
             } else {
-                exclude.retain(|x| matches!(x, config::Exclude::Predefined(p) if *p != predefined));
+                exclude
+                    .retain(|x| !(matches!(x, config::Exclude::Predefined(p) if *p == predefined)));
             }
 
             BACKUP_CONFIG
