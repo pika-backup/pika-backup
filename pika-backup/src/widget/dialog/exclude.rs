@@ -423,10 +423,12 @@ mod imp {
             let mut exclude: BTreeSet<config::Exclude<{ config::RELATIVE }>> =
                 BACKUP_CONFIG.load().active()?.exclude.clone();
 
+            let predefined = config::Exclude::from_predefined(predefined);
+
             if active {
-                exclude.insert(config::Exclude::from_predefined(predefined));
+                exclude.insert(predefined);
             } else {
-                exclude.retain(|x| matches!(x, config::Exclude::Predefined(p) if *p != predefined));
+                exclude.remove(&predefined);
             }
 
             BACKUP_CONFIG
