@@ -4,7 +4,7 @@ resolver = "3"
 
 [workspace.package]
 description = "Keep your data safe"
-version = "0.8.0-beta.1"
+version = "0.8.0"
 authors = [
     "Sophie Herold <sophieherold@gnome.org>",
     "Fina Wilke <finaw@gnome.org>",
@@ -12,7 +12,7 @@ authors = [
 homepage = "https://apps.gnome.org/PikaBackup/"
 repository = "https://gitlab.gnome.org/World/pika-backup"
 edition = "2024"
-rust-version = "1.90"
+rust-version = "1.92"
 license = "GPL-3.0-only"
 
 [workspace.lints.clippy]
@@ -35,7 +35,7 @@ chrono = { version = "0.4", default-features = false, features = [
     "clock",
 ] }
 chronoutil = "0.2"
-const-str = "0.7"
+const-str = "1.1.0"
 default-env = "0.1"
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 macro_rules_attribute = "0.2.2"
@@ -71,17 +71,22 @@ serde_ini = "0.2"
 serde_json = "1.0"
 
 # GNOME
-adw = { package = "libadwaita", version = "0.8", features = ["v1_7"] }
-gtk = { package = "gtk4", version = "0.10", features = ["gnome_47"] }
-glib = "0.21"
-gio = "0.21"
+adw = { package = "libadwaita", version = "0.9", features = ["v1_9"] }
+gtk = { package = "gtk4", version = "0.11", features = ["v4_22"] }
+glib = "0.22"
+glib-unix = "0.22"
+gio = "0.22"
+gio-unix = { version = "0.22", features = ["v2_84"] }
 
-ashpd = { version = "0.12", default-features = false, features = [
-    "async-std",
+ashpd = { version = "0.13", default-features = false, features = [
+    "async-io",
+    "background",
     "gtk4_wayland",
+    "flatpak",
+    "settings",
 ] }
 gvdb-macros = "0.1"
-oo7 = { version = "0.5", default-features = false, features = [
+oo7 = { version = "0.6", default-features = false, features = [
     "async-std",
     "openssl_crypto",
 ] }

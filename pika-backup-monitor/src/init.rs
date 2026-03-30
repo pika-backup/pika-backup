@@ -1,6 +1,6 @@
 use std::cell::{Cell, OnceCell};
 use std::collections::HashMap;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use common::config::{ConfigType, Loadable, TrackChanges};
 use common::utils::action::Action;
@@ -70,10 +70,9 @@ fn on_startup(_app: &gio::Application) {
     glib::MainContext::default().spawn(async {
         match ashpd::desktop::background::BackgroundProxy::new().await {
             Ok(proxy) => {
-                if let Err(err) = proxy
-                    .set_status(&gettext("Monitoring backup schedule"))
-                    .await
-                {
+                let options = ashpd::desktop::background::SetStatusOptions::default()
+                    .set_message(&gettext("Monitoring backup schedule"));
+                if let Err(err) = proxy.set_status(options).await {
                     tracing::debug!("Error setting background status: {err:?}");
                 }
             }

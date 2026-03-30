@@ -37,7 +37,7 @@ impl Repository {
         match file.find_enclosing_mount(Some(&gio::Cancellable::new())) {
             Ok(mount) => Self::from_mount(mount, path, file.uri().to_string()),
             _ => {
-                let mount_entry = gio::UnixMountEntry::for_file_path(&path).0;
+                let mount_entry = gio_unix::MountEntry::for_file_path(&path).0;
 
                 Self {
                     path,

@@ -224,7 +224,7 @@ mod imp {
                 self.location_folder_row
                     .set_title(&gettext("Repository Folder"));
 
-                let mount_entry = gio::UnixMountEntry::for_file_path(path);
+                let mount_entry = gio_unix::MountEntry::for_file_path(path);
                 match mount_entry.0.map(|x| x.fs_type()) {
                     Some(fs) => {
                         tracing::debug!("Selected filesystem type {}", fs);

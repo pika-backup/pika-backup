@@ -40,7 +40,7 @@ pub fn main() {
     common::utils::init_gettext();
 
     // Ctrl-C handling
-    glib::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
+    glib_unix::unix_signal_add(nix::sys::signal::Signal::SIGINT as i32, on_ctrlc);
 
     gio::resources_register(
         &gio::Resource::from_data(&glib::Bytes::from_static(GRESOURCE_BYTES)).unwrap(),

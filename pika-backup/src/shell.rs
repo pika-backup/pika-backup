@@ -7,10 +7,9 @@ use super::prelude::*;
 static LAST_MESSAGE: LazyLock<ArcSwap<Option<String>>> =
     LazyLock::new(|| ArcSwap::new(Default::default()));
 
-async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>> {
-    static PROXY: smol::lock::Mutex<
-        Option<Arc<ashpd::desktop::background::BackgroundProxy<'static>>>,
-    > = smol::lock::Mutex::new(None);
+async fn proxy() -> Option<Arc<ashpd::desktop::background::BackgroundProxy>> {
+    static PROXY: smol::lock::Mutex<Option<Arc<ashpd::desktop::background::BackgroundProxy>>> =
+        smol::lock::Mutex::new(None);
 
     let mut proxy = PROXY.lock().await;
 
@@ -44,8 +43,10 @@ pub async fn set_status_message(message: &str) {
             return;
         }
 
+        let options = ashpd::desktop::background::SetStatusOptions::default()
+            .set_message(&ellipsized_message);
         if let Some(proxy) = proxy().await
-            && let Err(err) = proxy.set_status(&ellipsized_message).await
+            && let Err(err) = proxy.set_status(options).await
         {
             tracing::debug!("Error setting background status: {err:?}");
         }

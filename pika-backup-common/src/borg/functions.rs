@@ -429,7 +429,12 @@ pub async fn is_mounted(repo_id: &RepoId) -> bool {
 
     // Check if the directory is still a mountpoint (otherwise it was unmounted via
     // other means)
-    smol::unblock(move || gio::UnixMountEntry::for_mount_path(mount_point).0.is_some()).await
+    smol::unblock(move || {
+        gio_unix::MountEntry::for_mount_path(mount_point)
+            .0
+            .is_some()
+    })
+    .await
 }
 
 pub async fn umount(repo_id: &RepoId) -> Result<()> {

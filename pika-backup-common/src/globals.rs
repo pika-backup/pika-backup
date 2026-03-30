@@ -3,8 +3,7 @@ use std::sync::LazyLock;
 const CLOCK_INTERFACE: &str = "org.gnome.desktop.interface";
 const CLOCK_KEY: &str = "clock-format";
 
-pub static APP_IS_SANDBOXED: LazyLock<bool> =
-    LazyLock::new(|| smol::block_on(ashpd::is_sandboxed()));
+pub static APP_IS_SANDBOXED: LazyLock<bool> = LazyLock::new(ashpd::is_sandboxed);
 
 pub static CLOCK_IS_24H: LazyLock<bool> = LazyLock::new(|| {
     smol::block_on(async {
