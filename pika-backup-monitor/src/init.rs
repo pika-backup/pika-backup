@@ -1,6 +1,6 @@
 use std::cell::{Cell, OnceCell};
 use std::collections::HashMap;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use common::config::{ConfigType, Loadable, TrackChanges};
 use common::utils::action::Action;
@@ -24,23 +24,36 @@ thread_local! {
 fn on_startup(_app: &gio::Application) {
     HOLD.with(|hold| hold.set(gio_app().hold()).unwrap());
 
+    tracing::info!("Starting monitor v{}", crate::VERSION);
+
     common::utils::init_gettext();
 
-    let config_load_result =
-        config::Histories::update_on_change(&BACKUP_HISTORY, config_reload_error_handler).and_then(
-            |_| config::Backups::update_on_change(&BACKUP_CONFIG, config_reload_error_handler),
-        );
+    // Load configs and connect file change handlers for reload
+    let config_load_result = config::Histories::update_on_change(
+        &BACKUP_HISTORY,
+        config_reload_error_handler(config::Histories::path()),
+    )
+    .and_then(|_| {
+        config::Backups::update_on_change(
+            &BACKUP_CONFIG,
+            config_reload_error_handler(config::Backups::path()),
+        )
+    });
 
     if let Err(err) = &config_load_result {
         let msg = gettext("Error loading configuration");
         let detail = format!("{}\n{}", gettext("Not monitoring backup schedule."), err);
-        tracing::error!("Error loading configuration: {}: {}", msg, detail);
+        tracing::error!("{msg}: {detail}");
 
         let notification = gio::Notification::new(&msg.to_string());
         notification.set_body(Some(&detail));
         gio_app().send_notification(None, &notification);
 
         // If we can't read the config, quit the monitor process
+        tracing::error!(
+            "Exiting monitor v{} due to an unreadable config.",
+            crate::VERSION
+        );
         gio_app().quit();
         return;
     }
@@ -114,7 +127,11 @@ fn app_running(is_running: bool) {
                 BACKUP_HISTORY.swap(Arc::new(new));
             }
             Err(err) => {
-                tracing::error!("Failed to reload {:?}: {}", config::Histories::path(), err);
+                tracing::error!(
+                    "Failed to reload {path:?}: '{err}'. (monitor v{version})",
+                    path = config::Histories::path(),
+                    version = crate::VERSION
+                );
             }
         }
 
@@ -146,9 +163,15 @@ fn app_running(is_running: bool) {
     }
 }
 
-pub fn config_reload_error_handler(err: std::io::Error) {
-    tracing::warn!("Error reloading config: {}. Restarting daemon.", err);
-    glib::MainContext::default().spawn(restart_daemon());
+pub fn config_reload_error_handler(path: PathBuf) -> impl Fn(std::io::Error) {
+    move |err| {
+        tracing::warn!(
+            "Failt to reload {path:?}: '{err}'. Restarting monitor. (Monitor v{version})",
+            version = crate::VERSION
+        );
+        tracing::info!("If restarting the monitor succeeds, the previous warning can be ignored.");
+        glib::MainContext::default().spawn(restart_daemon());
+    }
 }
 
 pub async fn restart_daemon() {
@@ -167,15 +190,15 @@ pub async fn restart_daemon() {
                     ashpd::flatpak::SpawnOptions::default(),
                 )
                 .await
-                .handle(gettext("Error restarting monitor daemon"));
+                .handle(gettext("Error restarting monitor monitor"));
         } else {
-            flatpak_result.handle(gettext("Error restarting monitor daemon"));
+            flatpak_result.handle(gettext("Error restarting monitor monitor"));
         }
     } else {
         let mut command = async_process::Command::new(DAEMON_BINARY);
         command.arg("--gapplication-replace");
         command
             .spawn()
-            .handle(gettext("Error restarting monitor daemon"));
+            .handle(gettext("Error restarting monitor monitor"));
     }
 }

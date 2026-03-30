@@ -10,7 +10,7 @@ impl Action<()> for Restart {
     const NAME: &'static str = "restart";
 
     fn activate(_: ()) {
-        tracing::debug!("Restarting the daemon via dbus restart action");
+        tracing::debug!("Restarting the monitor via dbus restart action");
         glib::MainContext::default().block_on(crate::init::restart_daemon());
     }
 }
@@ -21,7 +21,7 @@ impl Action<()> for Quit {
     const NAME: &'static str = "quit";
 
     fn activate(_: ()) {
-        tracing::debug!("Quitting the daemon via dbus quit action");
+        tracing::debug!("Quitting the monitor via dbus quit action");
         if let Some(app) = gio::Application::default() {
             app.quit();
         }
@@ -38,7 +38,7 @@ impl Action<String> for StartBackup {
         glib::MainContext::default().spawn(async move {
             dbus::PikaBackup::start_backup(&ConfigId::new(config_id))
                 .await
-                .handle(gettext("Failed to start backup from daemon"));
+                .handle(gettext("Failed to start backup from monitor"));
         });
     }
 }
@@ -52,7 +52,7 @@ impl Action<()> for ShowOverview {
         glib::MainContext::default().spawn(async move {
             dbus::PikaBackup::show_overview()
                 .await
-                .handle(gettext("Failed to show overview from daemon"));
+                .handle(gettext("Failed to show overview from monitor"));
         });
     }
 }
@@ -67,7 +67,7 @@ impl Action<String> for ShowSchedule {
         glib::MainContext::default().spawn(async move {
             dbus::PikaBackup::show_schedule(&ConfigId::new(config_id))
                 .await
-                .handle(gettext("Failed to show schedule from daemon"));
+                .handle(gettext("Failed to show schedule from monitor"));
         });
     }
 }

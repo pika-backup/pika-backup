@@ -48,7 +48,7 @@ pub fn init_logging(domain: &str) {
     {
         tracing_subscriber::filter::LevelFilter::DEBUG
     } else {
-        tracing_subscriber::filter::LevelFilter::ERROR
+        tracing_subscriber::filter::LevelFilter::INFO
     };
 
     tracing_subscriber::registry()
