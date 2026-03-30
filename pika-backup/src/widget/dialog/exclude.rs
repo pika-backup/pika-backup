@@ -369,6 +369,12 @@ mod imp {
             self.exclude_pattern(None);
         }
 
+        #[template_callback]
+        fn on_show_borg_documentation(&self) {
+            gtk::UriLauncher::new("https://borgbackup.readthedocs.io/en/stable/usage/help.html")
+                .launch(gtk::Window::NONE, gio::Cancellable::NONE, |_| {});
+        }
+
         async fn add_pattern(&self) -> Result<()> {
             let selected = self.pattern_type.selected();
             let pattern = self.pattern.text();
