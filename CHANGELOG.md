@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1 (2026-04-06)
+
+- Fix UI only translated when debug messages are active #669
+
 ## 0.8.0 (2026-03-31)
 
 - Fix timestamps not respecting 12h/24h clock format setting

@@ -35,11 +35,15 @@ pub fn posix_fnmatch(pattern: &CStr, string: &CStr) -> bool {
 
 pub fn init_gettext() {
     gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
+
+    let bindtextdomain = gettextrs::bindtextdomain("pika-backup", crate::LOCALEDIR);
+    tracing::debug!("bindtextdomain: {bindtextdomain:?}",);
+
+    let textdomain = gettextrs::textdomain("pika-backup");
     tracing::debug!(
-        "bindtextdomain: {:?}",
-        gettextrs::bindtextdomain("pika-backup", crate::LOCALEDIR)
+        "textdomain: {:?}",
+        textdomain.as_deref().map(String::from_utf8_lossy)
     );
-    tracing::debug!("textdomain: {:?}", gettextrs::textdomain("pika-backup"));
 }
 
 pub fn init_logging(domain: &str) {
