@@ -1,6 +1,7 @@
 pub mod action;
 pub mod dbus;
 pub mod host;
+pub mod oo7_workaround;
 pub mod password;
 pub mod upower;
 

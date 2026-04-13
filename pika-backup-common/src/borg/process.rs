@@ -212,7 +212,7 @@ impl BorgCall {
 
     async fn get_password_keyring(&self, repo_id: &super::RepoId) -> Result<config::Password> {
         Ok(config::Password::from(
-            oo7::Keyring::new()
+            crate::utils::oo7_workaround::load_keyring()
                 .await?
                 .search_items(&HashMap::from([("repo-id", repo_id.as_str())]))
                 .await?

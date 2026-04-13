@@ -55,7 +55,7 @@ async fn set_password(
     password: &Password,
 ) -> std::result::Result<(), oo7::Error> {
     tracing::debug!("Starting to store password");
-    let keyring = oo7::Keyring::new().await?;
+    let keyring = common::utils::oo7_workaround::load_keyring().await?;
 
     keyring
         .create_item(
@@ -75,7 +75,7 @@ async fn set_password(
 async fn delete_passwords(config: &config::Backup) -> std::result::Result<(), oo7::Error> {
     tracing::debug!("Starting to clear passwords");
 
-    let keyring = oo7::Keyring::new().await?;
+    let keyring = common::utils::oo7_workaround::load_keyring().await?;
     keyring
         .delete(&HashMap::from([("repo-id", config.repo_id.as_str())]))
         .await?;
