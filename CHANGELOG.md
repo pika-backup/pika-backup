@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.2 (2026-04-13)
+
+- Downgrade oo7 to 0.5 to avoid new behavior that breaks keyrings that contain items encrypted with different secrets <https://github.com/linux-credentials/oo7/issues/463> #670
+
 ## 0.8.1 (2026-04-06)
 
 - Fix UI only translated when debug messages are active #669
