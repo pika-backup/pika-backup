@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.3 (Unreleased)
+
+- Fox details page not loading information when opened after scheduled backup started #673
+
 ## 0.8.2 (2026-04-13)
 
 - Add a workaround for oo7's new behavior that breaks keyrings that contain items encrypted with different secrets <https://github.com/linux-credentials/oo7/issues/463> #670

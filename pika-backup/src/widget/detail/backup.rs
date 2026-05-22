@@ -143,25 +143,8 @@ mod imp {
                 move |_| Handler::run(async move { obj.imp().on_backup_disk_eject().await })
             ));
 
-            glib::timeout_add_local(std::time::Duration::ZERO, move || {
-                // TODO: This should be run directly, but as long as we need main_ui we need to
-                // do it later to prevent recursion
-                main_ui()
-                    .navigation_view()
-                    .connect_visible_page_notify(glib::clone!(
-                        #[weak]
-                        obj,
-                        move |navigation_view| {
-                            if navigation_view
-                                .visible_page()
-                                .is_some_and(|page| page == main_ui().page_detail())
-                            {
-                                Handler::handle(obj.imp().refresh());
-                            }
-                        }
-                    ));
-
-                glib::ControlFlow::Break
+            obj.connect_map(move |obj| {
+                Handler::handle(obj.refresh());
             });
         }
     }

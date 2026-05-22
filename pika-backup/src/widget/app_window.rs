@@ -75,11 +75,7 @@ mod imp {
                 && BACKUP_CONFIG.load().iter().count() == 1
                 && let Some(config) = BACKUP_CONFIG.load().iter().next()
             {
-                self.navigation_view.replace(&[
-                    self.page_overview.clone().upcast(),
-                    self.page_detail.clone().upcast(),
-                ]);
-                self.obj().view_backup_conf(&config.id);
+                self.obj().view_backup_conf(&config.id, false);
             }
 
             Handler::run(crate::init_check_borg());
@@ -168,15 +164,21 @@ impl AppWindow {
         self.imp().page_detail.clone()
     }
 
-    pub fn view_backup_conf(&self, id: &ConfigId) {
+    pub fn view_backup_conf(&self, id: &ConfigId, animated: bool) {
         let imp = self.imp();
         ACTIVE_BACKUP_ID.update(|active_id| *active_id = Some(id.clone()));
 
         imp.page_detail.show_stack_page(DetailPageKind::Backup);
 
         if imp.navigation_view.visible_page().as_ref() != Some(imp.page_detail.upcast_ref()) {
+            if !animated {
+                imp.navigation_view.set_animate_transitions(false);
+            }
             imp.navigation_view.push(&main_ui().page_detail());
             imp.page_detail.grab_focus();
+            if !animated {
+                imp.navigation_view.set_animate_transitions(true);
+            }
         }
     }
 

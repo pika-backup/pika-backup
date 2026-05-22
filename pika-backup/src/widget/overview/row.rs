@@ -63,7 +63,7 @@ mod imp {
             self.location_row
                 .connect_activated(enclose!((config) move |_| {
                     let window = App::default().main_window();
-                    window.view_backup_conf(&config.id);
+                    window.view_backup_conf(&config.id, true);
                 }));
 
             self.schedule_status

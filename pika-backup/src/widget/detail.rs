@@ -111,9 +111,7 @@ mod imp {
         fn on_visible_child_notify(&self) {
             if self.showing.get() {
                 let visible_page = self.detail_stack.visible_child();
-                if let Some(backup) = visible_page.and_downcast_ref::<BackupPage>() {
-                    Handler::handle(backup.refresh());
-                } else if let Some(archives) = visible_page.and_downcast_ref::<ArchivesPage>() {
+                if let Some(archives) = visible_page.and_downcast_ref::<ArchivesPage>() {
                     archives.refresh()
                 } else if let Some(schedule) = visible_page.and_downcast_ref::<SchedulePage>() {
                     schedule.refresh();
