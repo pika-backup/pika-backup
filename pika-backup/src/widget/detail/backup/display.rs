@@ -154,7 +154,7 @@ impl imp::BackupPage {
                                 Ok(())
                             })
                             .await?;
-                        obj.imp().refresh()?;
+                        obj.refresh()?;
                         Ok(())
                     });
                 }

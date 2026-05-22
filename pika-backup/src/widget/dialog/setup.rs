@@ -177,7 +177,7 @@ mod imp {
                         let window = App::default().main_window();
 
                         // Display a newly added backup in the main window if successful
-                        window.view_backup_conf(&config.id);
+                        window.view_backup_conf(&config.id, true);
 
                         window.announce(
                             // Translators: Announced to accessibility devices when setup dialog

@@ -205,7 +205,7 @@ impl App {
                 .activate(|app: &Self, _, config_id| {
                     if let Some(config_id) = config_id.and_then(|v| v.str()) {
                         app.main_window()
-                            .view_backup_conf(&ConfigId::new(config_id.to_string()));
+                            .view_backup_conf(&ConfigId::new(config_id.to_string()), false);
                         app.activate();
                     }
                 })
