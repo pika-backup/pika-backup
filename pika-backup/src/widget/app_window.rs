@@ -170,16 +170,17 @@ impl AppWindow {
 
         imp.page_detail.show_stack_page(DetailPageKind::Backup);
 
-        if imp.navigation_view.visible_page().as_ref() != Some(imp.page_detail.upcast_ref()) {
-            if !animated {
-                imp.navigation_view.set_animate_transitions(false);
-            }
-            imp.navigation_view.push(&main_ui().page_detail());
-            imp.page_detail.grab_focus();
-            if !animated {
-                imp.navigation_view.set_animate_transitions(true);
-            }
+        if !animated {
+            imp.navigation_view.set_animate_transitions(false);
         }
+        imp.navigation_view.push(&*imp.page_detail);
+        imp.page_detail.grab_focus();
+        if !animated {
+            imp.navigation_view.set_animate_transitions(true);
+        }
+
+        // Call refresh, in case the page was already visible
+        main_ui().page_detail().archives_page().refresh();
     }
 
     pub fn view_overview(&self) {
