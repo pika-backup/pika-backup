@@ -218,7 +218,7 @@ impl App {
         self.add_action(&crate::action::StartBackup::action());
 
         self.set_accels_for_action("app.help", &["F1"]);
-        self.set_accels_for_action("app.quit", &["<Ctrl>Q"]);
+        self.set_accels_for_action("app.quit", &["<Ctrl>Q", "<Ctrl>W"]);
     }
 
     pub async fn try_quit(&self) -> Result<()> {

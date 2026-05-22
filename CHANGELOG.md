@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.3 (Unreleased)
+
+- Add Ctrl+W shortcut to close window #667
+
 ## 0.8.2 (2026-04-13)
 
 - Add a workaround for oo7's new behavior that breaks keyrings that contain items encrypted with different secrets <https://github.com/linux-credentials/oo7/issues/463> #670
