@@ -32,7 +32,14 @@ impl<C: ConfigType + ConfigVersion + serde::de::DeserializeOwned + Default> Load
         let version = Self::extract_version(&json);
         if Self::version_compatible(version) {
             // Deserialize value as Self
-            Ok(serde_json::from_value(json)?)
+            Ok(serde_json::from_value(json).map_err(|err| {
+                std::io::Error::other(format!(
+                    "{}:{}:{}: {err}",
+                    path.display(),
+                    err.line(),
+                    err.column()
+                ))
+            })?)
         } else {
             // The config is incompatible with this app version
             Err(std::io::Error::new(
