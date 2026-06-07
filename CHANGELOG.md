@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0 (Unreleased)
+
+- Add mentioning of affected repository in "Repository Already in Use" dialogs
+
 ## 0.8.4 (2026-08-04)
 
 - Fix one dialog for unmounting repositories opens per quit action
