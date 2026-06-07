@@ -80,7 +80,9 @@ where
             .find(|x| x.repo_id() == &command.config.repo_id)
         {
             return Err(Combined::Ui(
-                Message::new(gettext("Repository already in use"), operation.name()).into(),
+                Message::new(
+                    gettext("Repository Already in Use"),
+                    gettextf("The operation “{}” is ongoing on repository “{}”.", &[operation.name(), command.config.repo.location()])).into(),
             ));
         }
 
