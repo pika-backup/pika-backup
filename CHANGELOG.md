@@ -2,6 +2,7 @@
 
 ## 0.9.0 (Unreleased)
 
+- Add ability to schedule backups on a metered network #528
 - Add mentioning of affected repository in "Repository Already in Use" dialogs
 
 ## 0.8.4 (2026-08-04)

@@ -15,6 +15,10 @@ pub struct Schedule {
 pub struct Settings {
     /// Run backups regardless of battery status
     pub run_on_battery: bool,
+
+    /// Run backups on a metered network
+    #[serde(default)]
+    pub run_on_metered: bool,
 }
 
 #[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq)]

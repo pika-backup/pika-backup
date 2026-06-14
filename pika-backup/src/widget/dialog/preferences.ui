@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.10"/>
-  <requires lib="libadwaita" version="1.4"/>
+  <requires lib="gtk" version="4.10" />
+  <requires lib="libadwaita" version="1.4" />
   <object class="GtkPopover" id="popover_shell_commands">
     <child>
       <object class="GtkScrolledWindow">
@@ -28,7 +28,7 @@
   </object>
   <object class="AdwNavigationPage" id="page_change_encryption_password">
     <property name="title" translatable="yes">Change Encryption Password</property>
-    <signal name="hidden" handler="change_password_dismissed" swapped="true"/>
+    <signal name="hidden" handler="change_password_dismissed" swapped="true" />
     <property name="child">
       <object class="GtkStack" id="change_password_stack">
         <child>
@@ -55,12 +55,12 @@
                     <property name="valign">end</property>
                     <property name="use-underline">1</property>
                     <property name="label" translatable="yes">_Change Password</property>
-                    <signal name="clicked" handler="change_password_confirm" swapped="true"/>
+                    <signal name="clicked" handler="change_password_confirm" swapped="true" />
                     <style>
                       <class name="pill"/>
                       <class name="suggested-action"/>
                     </style>
-                  </object>    
+                  </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="encryption_remove_password_button">
@@ -68,12 +68,12 @@
                     <property name="valign">end</property>
                     <property name="use-underline">1</property>
                     <property name="label" translatable="yes">_Remove Password</property>
-                    <signal name="clicked" handler="change_password_confirm" swapped="true"/>
+                    <signal name="clicked" handler="change_password_confirm" swapped="true" />
                     <style>
                       <class name="pill"/>
                       <class name="destructive-action"/>
                     </style>
-                  </object>    
+                  </object>
                 </child>
               </object>
             </child>
@@ -100,7 +100,7 @@
                         <property name="valign">end</property>
                         <property name="use-underline">1</property>
                         <property name="label" translatable="yes">_Cancel</property>
-                        <signal name="clicked" handler="change_password_cancel" swapped="true"/>
+                        <signal name="clicked" handler="change_password_cancel" swapped="true" />
                         <style>
                           <class name="pill"/>
                           <class name="opaque"/>
@@ -145,7 +145,7 @@
               <object class="AdwButtonRow">
                 <property name="title" translatable="yes">Change Encryption Password</property>
                 <property name="end-icon-name">go-next-symbolic</property>
-                <signal name="activated" handler="change_password" swapped="true"/>
+                <signal name="activated" handler="change_password" swapped="true" />
               </object>
             </child>
           </object>
@@ -158,6 +158,13 @@
                 <property name="title" translatable="yes">Run on Battery</property>
                 <property name="subtitle" translatable="yes">Allow scheduled backups when device is battery powered</property>
                 <property name="active" bind-source="PkPreferencesDialog" bind-property="schedule_run_on_battery" bind-flags="bidirectional|sync-create" />
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="run_on_metered_switch">
+                <property name="title" translatable="yes">Run on metered network</property>
+                <property name="subtitle" translatable="yes">Allow scheduled backups when device is connected via metered network</property>
+                <property name="active" bind-source="PkPreferencesDialog" bind-property="schedule_run_on_metered" bind-flags="bidirectional|sync-create" />
               </object>
             </child>
           </object>
@@ -201,7 +208,7 @@
                     <property name="valign">center</property>
                     <property name="focus-on-click">0</property>
                     <property name="tooltip-text" translatable="yes">Run With Test Values</property>
-                    <signal name="clicked" handler="test_pre_backup_command" swapped="true"/>
+                    <signal name="clicked" handler="test_pre_backup_command" swapped="true" />
                     <style>
                       <class name="flat"/>
                     </style>
@@ -222,7 +229,7 @@
                     <property name="valign">center</property>
                     <property name="focus-on-click">0</property>
                     <property name="tooltip-text" translatable="yes">Run With Test Values</property>
-                    <signal name="clicked" handler="test_post_backup_command" swapped="true"/>
+                    <signal name="clicked" handler="test_post_backup_command" swapped="true" />
                     <style>
                       <class name="flat"/>
                     </style>

@@ -61,6 +61,8 @@ mod imp {
         // Tweaks
         #[property(get, set)]
         schedule_run_on_battery: Cell<bool>,
+        #[property(get, set)]
+        schedule_run_on_metered: Cell<bool>,
 
         // Change password page
         #[template_child]
@@ -192,6 +194,7 @@ mod imp {
                     }));
 
                     backup.schedule.settings.run_on_battery = self.schedule_run_on_battery.get();
+                    backup.schedule.settings.run_on_metered = self.schedule_run_on_metered.get();
 
                     Ok(())
                 })
@@ -227,6 +230,9 @@ mod imp {
 
                     self.obj()
                         .set_schedule_run_on_battery(backup.schedule.settings.run_on_battery);
+
+                    self.obj()
+                        .set_schedule_run_on_metered(backup.schedule.settings.run_on_metered);
                 }
                 Err(err) => {
                     glib::MainContext::default().spawn_local(async move {

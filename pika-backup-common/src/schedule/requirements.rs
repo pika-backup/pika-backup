@@ -99,7 +99,10 @@ impl Global {
             vec.push(Self::Browsing)
         }
 
-        if gio::NetworkMonitor::default().is_network_metered() && config.repo.is_internet().await {
+        if !config.schedule.settings.run_on_metered
+            && gio::NetworkMonitor::default().is_network_metered()
+            && config.repo.is_internet().await
+        {
             vec.push(Self::MeteredConnection)
         }
 
