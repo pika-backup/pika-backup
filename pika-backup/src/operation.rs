@@ -113,7 +113,7 @@ impl<T: borg::Task> Operation<T> {
 
                 if let log_json::Output::Progress(log_json::Progress::Question(question)) = &*output
                 {
-                    // A question was asked
+                    tracing::debug!("A question was asked");
                     self.handle_borg_question(question);
                 }
             }
@@ -212,13 +212,13 @@ impl<T: borg::Task> Operation<T> {
     fn handle_borg_question(&self, question: &log_json::QuestionPrompt) {
         let communication = self.communication().clone();
 
-        if !self.command.is_scheduled() {
+        if self.command.is_scheduled() {
             // Abort backup if question is asked during schedule
             communication.set_instruction(borg::Instruction::Abort(
                 borg::Abort::QuestionDuringSchedule(question.clone()),
             ));
         } else {
-            // Show dialog if question is asked during schedule
+            // Show dialog if question is not asked during schedule
             glib::MainContext::default().spawn_local(glib::clone!(
                 #[strong]
                 question,

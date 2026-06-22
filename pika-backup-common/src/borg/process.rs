@@ -584,7 +584,7 @@ impl<'a, T: Task> BorgProcess<'a, T> {
                 Instruction::Abort(reason) => {
                     self.communication.set_status(RunStatus::Stopping);
 
-                    tracing::debug!("Sending SIGINT to borg process");
+                    tracing::debug!("Sending SIGINT to borg process. Reason: {reason}");
                     nix::sys::signal::kill(
                         nix::unistd::Pid::from_raw(pid.try_into().unwrap()),
                         nix::sys::signal::Signal::SIGINT,
