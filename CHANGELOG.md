@@ -3,6 +3,7 @@
 ## 0.8.4 (Unreleased)
 
 - Fix questions being suppressed when running from UI
+- Change to no longer using deprecated CSS features
 
 ## 0.8.3 (2026-06-22)
 
