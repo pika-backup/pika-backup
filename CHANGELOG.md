@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.8.3 (Unreleased)
+## 0.8.3 (2026-06-22)
 
 - Add Ctrl+W shortcut to close window #667
 - Fix details page not loading information when opened after scheduled backup started #673
