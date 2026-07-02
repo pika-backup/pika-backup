@@ -25,6 +25,9 @@ mod imp {
         /// Is the app currently shutting down
         #[property(get)]
         in_shutdown: Cell<bool>,
+        /// Is a quit attempt (e.g. the "Closing Archives" dialog) already
+        /// running.
+        pub(super) quit_in_progress: Cell<bool>,
     }
 
     #[glib::object_subclass]
@@ -222,6 +225,22 @@ impl App {
     }
 
     pub async fn try_quit(&self) -> Result<()> {
+        // Ignore overlapping quit requests, while a quit attempt is already running.
+        if self.imp().quit_in_progress.replace(true) {
+            tracing::debug!("App::try_quit: quit already in progress, ignoring");
+            return Ok(());
+        }
+
+        let result = self.try_quit_inner().await;
+
+        // Allow future quit attempts if this one did not actually quit
+        // (e.g. cancelled by the user).
+        self.imp().quit_in_progress.set(false);
+
+        result
+    }
+
+    async fn try_quit_inner(&self) -> Result<()> {
         tracing::debug!("App::try_quit");
 
         let dialog = UnmountArchives::new();
