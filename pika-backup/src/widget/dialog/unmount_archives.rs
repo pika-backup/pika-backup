@@ -102,7 +102,19 @@ impl UnmountArchives {
             {
                 match BACKUP_CONFIG.load().try_get(config_id) {
                     Err(err) => {
-                        tracing::error!("Can't unmount: {err:?}");
+                        // The config was removed while its archives were still
+                        // open for browsing. There is nothing left to unmount,
+                        // so drop the orphaned browsing state. This avoids looping
+                        // on "Closing Archives" screen forever.
+                        tracing::warn!(
+                            "Dropping orphaned browsing state for {config_id:?}: {err:?}"
+                        );
+                        let _ = BACKUP_HISTORY
+                            .try_update(|histories| {
+                                histories.remove_browsing(config_id.clone());
+                                Ok(())
+                            })
+                            .await;
                     }
                     Ok(config) => match borg::functions::umount(&config.repo_id).await {
                         Err(err) => {
