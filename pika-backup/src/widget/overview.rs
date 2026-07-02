@@ -181,6 +181,19 @@ impl OverviewPage {
 
         let config_id = config.id.clone();
 
+        // If archives are still open for browsing, unmount them before removing
+        // the setup. If unmounting fails, abort and show the error,
+        // so the user can close it and try again.
+        let is_browsing = BACKUP_HISTORY
+            .load()
+            .try_get(&config_id)
+            .map(|history| history.is_browsing())
+            .unwrap_or(false);
+
+        if is_browsing {
+            crate::utils::borg::repo_unmount(&config.repo_id).await?;
+        }
+
         BACKUP_CONFIG
             .try_update(|s| {
                 s.remove(&config_id)?;
