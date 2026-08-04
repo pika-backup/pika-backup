@@ -6,8 +6,7 @@ use std::os::unix::io::AsRawFd;
 use std::os::unix::net::UnixStream;
 use std::time::Duration;
 
-use async_process;
-use async_process::{ChildStderr, ChildStdin};
+use async_process::{self, ChildStderr, ChildStdin};
 use futures_util::FutureExt;
 use serde::{Deserialize, Serialize};
 use smol::io::BufReader;

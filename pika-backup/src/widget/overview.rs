@@ -168,6 +168,37 @@ impl OverviewPage {
     }
 
     async fn on_remove_backup(&self) -> Result<()> {
+        let config = BACKUP_CONFIG.load().active()?.clone();
+
+        BORG_OPERATION.with(|operations| {
+            if let Some(operation) = operations.load().get(&config.id) {
+                Err(Message::new(
+                    gettext("Repository in Use"),
+                    gettextf(
+                        "Repository configurations cannot be deleted while operation “{}” is in progress.",
+                        [&operation.name()],
+                    ),
+                ))
+            } else {
+                Ok(())
+            }
+        })?;
+
+        // If archives are still open for browsing, unmount them before removing
+        // the setup. If unmounting fails, abort and show the error,
+        // so the user can close it and try again.
+        let is_browsing = BACKUP_HISTORY
+            .load()
+            .try_get(&config.id)
+            .map(|history| history.is_browsing())
+            .unwrap_or(false);
+
+        if is_browsing {
+            return Err(
+                Message::new(gettext("Repository Open for Browsing"), gettext("Repository configurations cannot be deleted while the repository is open for browsing.")).into(),
+            );
+        }
+
         crate::utils::confirmation_dialog(
             self,
             &gettext("Remove Backup Setup?"),
@@ -177,26 +208,9 @@ impl OverviewPage {
         )
         .await?;
 
-        let config = BACKUP_CONFIG.load().active()?.clone();
-
-        let config_id = config.id.clone();
-
-        // If archives are still open for browsing, unmount them before removing
-        // the setup. If unmounting fails, abort and show the error,
-        // so the user can close it and try again.
-        let is_browsing = BACKUP_HISTORY
-            .load()
-            .try_get(&config_id)
-            .map(|history| history.is_browsing())
-            .unwrap_or(false);
-
-        if is_browsing {
-            crate::utils::borg::repo_unmount(&config.repo_id).await?;
-        }
-
         BACKUP_CONFIG
             .try_update(|s| {
-                s.remove(&config_id)?;
+                s.remove(&config.id)?;
                 Ok(())
             })
             .await?;

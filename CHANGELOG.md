@@ -1,8 +1,11 @@
 # Changelog
 
-## 0.8.4 (Unreleased)
+## 0.8.4 (2026-08-04)
 
+- Fix one dialog for unmounting repositories opens per quit action
+- Fix orphaned browsing states are ignored instead of deleted
 - Fix questions being suppressed when running from UI
+- Fix repository configurations can be deleted while browsing or active operations
 - Change to no longer using deprecated CSS features
 
 ## 0.8.3 (2026-06-22)
