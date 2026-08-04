@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2026-03-30 15:13+0000\n"
-"PO-Revision-Date: 2026-03-31 11:31+0200\n"
+"POT-Creation-Date: 2026-08-04 19:51+0000\n"
+"PO-Revision-Date: 2026-08-04 22:46+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -52,7 +52,8 @@ msgstr "archive;back-up;borg;arhiv;varnostna kopija;bekap;shranjevanje;"
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 pika-backup/src/widget/dialog/about.rs:17
+#: data/app.metainfo.xml.in:9 data/app.metainfo.xml.in:11
+#: pika-backup/src/widget/dialog/about.rs:17
 msgid "Small Mammal Collective"
 msgstr "Small Mammal Collective"
 
@@ -129,7 +130,7 @@ msgstr "Nastavitev novega varnostnega kopiranja"
 msgid "Show Keyboard Shortcuts"
 msgstr "Pokaži tipkovne bližnjice"
 
-#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:279
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:298
 msgid "Quit"
 msgstr "Konča program"
 
@@ -729,7 +730,7 @@ msgstr "Datoteke, ki niso bile nepovratno izbrisane"
 msgid "Might include data stored within"
 msgstr "Lahko vključuje podatke, hranjene v notranjosti"
 
-#: pika-backup-common/src/config/loadable.rs:41
+#: pika-backup-common/src/config/loadable.rs:48
 #, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
@@ -770,7 +771,7 @@ msgstr "Tedensko"
 msgid "Monthly"
 msgstr "Mesečno"
 
-#: pika-backup-common/src/utils.rs:106
+#: pika-backup-common/src/utils.rs:111
 msgid "No such file or directory"
 msgstr "Takšna datoteka ali mapa ne obstaja"
 
@@ -878,15 +879,15 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Zagon načrtovanega varnostnega kopiranja je spodletel"
 
-#: pika-backup/src/app.rs:249
+#: pika-backup/src/app.rs:268
 msgid "Abort Backup?"
 msgstr "Želite prekiniti varnostno kopiranje?"
 
-#: pika-backup/src/app.rs:250
+#: pika-backup/src/app.rs:269
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Če bo opravilo preklicano, varnostna kopija ne bo popolna."
 
-#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:367
+#: pika-backup/src/app.rs:270 pika-backup/src/utils.rs:367
 #: pika-backup/src/widget/detail/backup/events.rs:26
 #: pika-backup/src/widget/detail/backup/events.rs:36
 #: pika-backup/src/widget/detail/backup/events.rs:46
@@ -894,17 +895,17 @@ msgstr "Če bo opravilo preklicano, varnostna kopija ne bo popolna."
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: pika-backup/src/app.rs:252 pika-backup/src/utils.rs:366
+#: pika-backup/src/app.rs:271 pika-backup/src/utils.rs:366
 #: pika-backup/src/widget/detail/backup/events.rs:37
 #: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Prekliči"
 
-#: pika-backup/src/app.rs:264
+#: pika-backup/src/app.rs:283
 msgid "Backup Operation Running"
 msgstr "Operacija varnostnega kopiranja je v teku"
 
-#: pika-backup/src/app.rs:266
+#: pika-backup/src/app.rs:285
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr ""
 "Varnostnega kopiranja Pika ni mogoče zapreti sredi izvajanja varnostnega "
@@ -2236,7 +2237,7 @@ msgstr "Šifrirno geslo je obvezno"
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:175
+#: pika-backup/src/widget/overview.rs:206
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
@@ -2951,15 +2952,39 @@ msgstr "To se zdi močno geslo"
 msgid "Repeat Password"
 msgstr "Ponovitev gesla"
 
-#: pika-backup/src/widget/overview.rs:173
+#: pika-backup/src/widget/overview.rs:176
+msgid "Repository in Use"
+msgstr "Skladišče v uporabi"
+
+#: pika-backup/src/widget/overview.rs:178
+#, rust-format
+msgid ""
+"Repository configurations cannot be deleted while operation “{}” is in "
+"progress."
+msgstr ""
+"Prilagoditev skladišč ni možno izbrisati, dokler poteka operacija »{}«."
+
+#: pika-backup/src/widget/overview.rs:198
+msgid "Repository Open for Browsing"
+msgstr "Skladišče, odprto za brskanje"
+
+#: pika-backup/src/widget/overview.rs:198
+msgid ""
+"Repository configurations cannot be deleted while the repository is open for "
+"browsing."
+msgstr ""
+"Prilagoditev skladišč ni možno izbrisati, dokler je skladišče odprto za "
+"brskanje."
+
+#: pika-backup/src/widget/overview.rs:204
 msgid "Remove Backup Setup?"
 msgstr "Ali želite odstraniti nastavitev varnostnega kopiranja?"
 
-#: pika-backup/src/widget/overview.rs:174
+#: pika-backup/src/widget/overview.rs:205
 msgid "Removing the setup will not delete any archives"
 msgstr "Brisanje nastavitev ne izbriše nobenega arhiva."
 
-#: pika-backup/src/widget/overview.rs:176
+#: pika-backup/src/widget/overview.rs:207
 msgid "_Remove Setup"
 msgstr "Ods_trani nastavitev"
 
