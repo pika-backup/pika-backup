@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2026-08-04 19:51+0000\n"
-"PO-Revision-Date: 2026-08-05 14:22+0300\n"
+"POT-Creation-Date: 2026-08-05 18:11+0000\n"
+"PO-Revision-Date: 2026-08-06 15:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1162,46 +1162,50 @@ msgstr "Некоректні додаткові аргументи команд�
 msgid "Please check for missing closing quotes."
 msgstr "Будь ласка, перевірте, чи закрито лапки."
 
-#: pika-backup/src/utils/borg.rs:83
-msgid "Repository already in use"
+#: pika-backup/src/utils/borg.rs:84 pika-backup/src/utils/borg.rs:297
+msgid "Repository Already in Use"
 msgstr "Сховище вже використано"
 
-#: pika-backup/src/utils/borg.rs:151 pika-backup/src/utils/borg.rs:163
+#: pika-backup/src/utils/borg.rs:85
+#, rust-format
+#| msgid ""
+#| "The operation “{}” requires the encryption password of the repository on "
+#| "“{}”."
+msgid "The operation “{}” is ongoing on repository “{}”."
+msgstr "Буде виконано дію «{}» у сховищі «{}»."
+
+#: pika-backup/src/utils/borg.rs:153 pika-backup/src/utils/borg.rs:165
 msgid "Stop Browsing Files?"
 msgstr "Припинити навігацію файлами?"
 
-#: pika-backup/src/utils/borg.rs:153
+#: pika-backup/src/utils/borg.rs:155
 msgid "Browsing through archived files is not possible while running a backup"
 msgstr ""
 "Навігація архівованими файлами під час створення резервної копії неможлива"
 
-#: pika-backup/src/utils/borg.rs:155 pika-backup/src/utils/borg.rs:167
+#: pika-backup/src/utils/borg.rs:157 pika-backup/src/utils/borg.rs:169
 msgid "Keep Browsing"
 msgstr "Продовжити перегляд"
 
-#: pika-backup/src/utils/borg.rs:156
+#: pika-backup/src/utils/borg.rs:158
 msgid "Start Backup"
 msgstr "Розпочати копіювання"
 
-#: pika-backup/src/utils/borg.rs:165
+#: pika-backup/src/utils/borg.rs:167
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository"
 msgstr "Навігація архівованими файлами під час виконання дії зі сховищем"
 
-#: pika-backup/src/utils/borg.rs:168
+#: pika-backup/src/utils/borg.rs:170
 msgid "Start Operation"
 msgstr "Почати дію"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
+#: pika-backup/src/utils/borg.rs:179 pika-backup/src/utils/borg.rs:320
 msgid "Failed to unmount repository."
 msgstr "Не вдалося демонтувати сховище."
 
-#: pika-backup/src/utils/borg.rs:295
-msgid "Repository Already in Use"
-msgstr "Сховище вже використано"
-
-#: pika-backup/src/utils/borg.rs:296
+#: pika-backup/src/utils/borg.rs:298
 #, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
@@ -1212,7 +1216,7 @@ msgstr ""
 "дані можуть виявитися застарілими, якщо, наприклад, ваш комп'ютер було "
 "несподівано вимкнено від джерела живлення під час користування сховищем."
 
-#: pika-backup/src/utils/borg.rs:298
+#: pika-backup/src/utils/borg.rs:300
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1222,7 +1226,7 @@ msgstr ""
 "жодною іншою програмою! Робота зі сховищем в умовах, коли ним користується "
 "інша програма, може призвести до пошкодження даних резервних копій!"
 
-#: pika-backup/src/utils/borg.rs:299
+#: pika-backup/src/utils/borg.rs:301
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1230,20 +1234,20 @@ msgstr ""
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: pika-backup/src/utils/borg.rs:300
+#: pika-backup/src/utils/borg.rs:302
 msgid "Continue Anyway"
 msgstr "Продовжити попри це"
 
-#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
+#: pika-backup/src/utils/borg.rs:448 pika-backup/src/utils/borg.rs:469
 msgid "Unable to Eject Backup Disk"
 msgstr "Не вдалося виштовхнути диск резервного копіювання"
 
-#: pika-backup/src/utils/borg.rs:455
+#: pika-backup/src/utils/borg.rs:457
 #, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} неможливо від'єднати безпечно."
 
-#: pika-backup/src/utils/borg.rs:468
+#: pika-backup/src/utils/borg.rs:470
 #, rust-format
 msgid "{} can't be ejected."
 msgstr "{} неможливо виштовхнути."
@@ -2953,7 +2957,6 @@ msgid "Repeat Password"
 msgstr "Повторіть пароль"
 
 #: pika-backup/src/widget/overview.rs:176
-#| msgid "Repository Already in Use"
 msgid "Repository in Use"
 msgstr "Сховище перебуває у користуванні"
 
@@ -2966,7 +2969,6 @@ msgstr ""
 "Не можна вилучати налаштування сховищ, доки не завершено виконання дії «{}»."
 
 #: pika-backup/src/widget/overview.rs:198
-#| msgid "Closing Archives Still Open for Browsing"
 msgid "Repository Open for Browsing"
 msgstr "Сховище відкрито для навігації"
 
@@ -3020,6 +3022,9 @@ msgstr "Додайте нові налаштування, щоб розпоча�
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "_Налаштувати резервне копіювання"
+
+#~ msgid "Repository already in use"
+#~ msgstr "Сховище вже використано"
 
 #~ msgid "Verify Archives Integrity"
 #~ msgstr "Перевірити цілісність архівів"
