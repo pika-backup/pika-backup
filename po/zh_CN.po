@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2026-08-04 19:51+0000\n"
-"PO-Revision-Date: 2026-08-05 08:52+0800\n"
+"POT-Creation-Date: 2026-08-05 18:11+0000\n"
+"PO-Revision-Date: 2026-08-07 07:16+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -1096,45 +1096,46 @@ msgstr "附加的命令行参数无效"
 msgid "Please check for missing closing quotes."
 msgstr "请检查缺失的闭合引号。"
 
-#: pika-backup/src/utils/borg.rs:83
-msgid "Repository already in use"
-msgstr "仓库已被使用"
+#: pika-backup/src/utils/borg.rs:84 pika-backup/src/utils/borg.rs:297
+msgid "Repository Already in Use"
+msgstr "仓库已在使用中"
 
-#: pika-backup/src/utils/borg.rs:151 pika-backup/src/utils/borg.rs:163
+#: pika-backup/src/utils/borg.rs:85
+#, rust-format
+msgid "The operation “{}” is ongoing on repository “{}”."
+msgstr "“{}”操作正在仓库“{}”上执行。"
+
+#: pika-backup/src/utils/borg.rs:153 pika-backup/src/utils/borg.rs:165
 msgid "Stop Browsing Files?"
 msgstr "停止浏览文件吗？"
 
-#: pika-backup/src/utils/borg.rs:153
+#: pika-backup/src/utils/borg.rs:155
 msgid "Browsing through archived files is not possible while running a backup"
 msgstr "执行备份期间不能浏览归档的文件"
 
-#: pika-backup/src/utils/borg.rs:155 pika-backup/src/utils/borg.rs:167
+#: pika-backup/src/utils/borg.rs:157 pika-backup/src/utils/borg.rs:169
 msgid "Keep Browsing"
 msgstr "继续浏览"
 
-#: pika-backup/src/utils/borg.rs:156
+#: pika-backup/src/utils/borg.rs:158
 msgid "Start Backup"
 msgstr "开始备份"
 
-#: pika-backup/src/utils/borg.rs:165
+#: pika-backup/src/utils/borg.rs:167
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository"
 msgstr "在仓库上执行操作时不能浏览归档的文件"
 
-#: pika-backup/src/utils/borg.rs:168
+#: pika-backup/src/utils/borg.rs:170
 msgid "Start Operation"
 msgstr "开始操作"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
+#: pika-backup/src/utils/borg.rs:179 pika-backup/src/utils/borg.rs:320
 msgid "Failed to unmount repository."
 msgstr "无法卸载仓库。"
 
-#: pika-backup/src/utils/borg.rs:295
-msgid "Repository Already in Use"
-msgstr "仓库已在使用中"
-
-#: pika-backup/src/utils/borg.rs:296
+#: pika-backup/src/utils/borg.rs:298
 #, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
@@ -1144,7 +1145,7 @@ msgstr ""
 "备份仓库“{}”被标记为使用中。此信息可能过时，比如您的计算机在使用该仓库过程中"
 "断电。"
 
-#: pika-backup/src/utils/borg.rs:298
+#: pika-backup/src/utils/borg.rs:300
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1153,7 +1154,7 @@ msgstr ""
 "只有在你确定该仓库未被任何程序使用时继续！当其他程序使用仓库时继续可能会损坏"
 "备份数据！"
 
-#: pika-backup/src/utils/borg.rs:299
+#: pika-backup/src/utils/borg.rs:301
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1161,20 +1162,20 @@ msgstr ""
 msgid "Cancel"
 msgstr "取消"
 
-#: pika-backup/src/utils/borg.rs:300
+#: pika-backup/src/utils/borg.rs:302
 msgid "Continue Anyway"
 msgstr "仍然继续"
 
-#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
+#: pika-backup/src/utils/borg.rs:448 pika-backup/src/utils/borg.rs:469
 msgid "Unable to Eject Backup Disk"
 msgstr "无法弹出备份磁盘"
 
-#: pika-backup/src/utils/borg.rs:455
+#: pika-backup/src/utils/borg.rs:457
 #, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} 已可以安全拔出。"
 
-#: pika-backup/src/utils/borg.rs:468
+#: pika-backup/src/utils/borg.rs:470
 #, rust-format
 msgid "{} can't be ejected."
 msgstr "{} 不能被弹出。"
@@ -2825,6 +2826,9 @@ msgstr "添加新配置以开始创建备份"
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "部署备份(_S)"
+
+#~ msgid "Repository already in use"
+#~ msgstr "仓库已被使用"
 
 #~ msgid "Verify Archives Integrity"
 #~ msgstr "验证归档完整性"
