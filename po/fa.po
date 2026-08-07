@@ -1,14 +1,14 @@
 # Persian translation for pika-backup.
 # Copyright (C) 2025 pika-backup's COPYRIGHT HOLDER
 # This file is distributed under the same license as the pika-backup package.
-# Danial Behzadi <dani.behzi@ubuntu.com>, 2025.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2025-11-06 12:51+0000\n"
-"PO-Revision-Date: 2025-11-06 22:52+0330\n"
+"POT-Creation-Date: 2026-08-05 18:11+0000\n"
+"PO-Revision-Date: 2026-08-08 02:14+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 "X-DL-Lang: fa\n"
 "X-DL-Module: pika-backup\n"
 "X-DL-Branch: main\n"
@@ -28,11 +28,11 @@ msgid "Pika Backup Monitor"
 msgstr "پایشگر پشتیبان پیکا"
 
 #.
-#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika,"         please make sure that the transliteration does not coincide with a different meaning. If         fitting, translations of "Pika" are welcome too.
+#. Translators: "Pika" in this app's name refers to a small mammal. If you transliterate "Pika," #. please make sure that the transliteration does not coincide with a different meaning. If #. fitting, translations of "Pika" are welcome too.
 #. <https://en.wikipedia.org/wiki/Pika>
 #.
 #: data/app.desktop.in:5 data/app.metainfo.xml.in:4
-#: pika-backup/src/utils.rs:368 pika-backup/src/utils.rs:433
+#: pika-backup/src/error.rs:178 pika-backup/src/utils.rs:348
 #: pika-backup/src/widget/app_window.ui:10
 #: pika-backup/src/widget/dialog/about.rs:11
 #: pika-backup/src/widget/overview.ui:22
@@ -53,7 +53,8 @@ msgstr "archive;back-up;borg;بایگانی;پشتیبان;بورگ;"
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 pika-backup/src/widget/dialog/about.rs:17
+#: data/app.metainfo.xml.in:9 data/app.metainfo.xml.in:11
+#: pika-backup/src/widget/dialog/about.rs:17
 msgid "Small Mammal Collective"
 msgstr ""
 
@@ -112,28 +113,28 @@ msgstr "نگه داشتن هم‌زمان پشتیبان‌ها روی گردا�
 msgid "Schedule regular backups from monthly up to hourly"
 msgstr "زمان‌بندی پشتیبان‌های منظّم از ماهانه تا ساعتی"
 
-#: data/resources/gtk/help-overlay.ui:9
+#: data/resources/shortcuts-dialog.ui:6
 #: pika-backup/src/widget/dialog/preferences.ui:127
 msgid "General"
 msgstr "عمومی"
 
-#: data/resources/gtk/help-overlay.ui:13
+#: data/resources/shortcuts-dialog.ui:10
 msgid "Set Up New Backup"
 msgstr "برپایی پشتیبان جدید"
 
-#: data/resources/gtk/help-overlay.ui:19
+#: data/resources/shortcuts-dialog.ui:16
 msgid "Show Keyboard Shortcuts"
 msgstr "نمایش میان‌برهای صفحه‌کلید"
 
-#: data/resources/gtk/help-overlay.ui:25 pika-backup/src/app.rs:278
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:298
 msgid "Quit"
 msgstr "خروج"
 
-#: data/resources/gtk/help-overlay.ui:31
+#: data/resources/shortcuts-dialog.ui:28
 msgid "Back"
 msgstr "بازگشت"
 
-#: data/resources/gtk/help-overlay.ui:37
+#: data/resources/shortcuts-dialog.ui:34
 msgid "Open Menu"
 msgstr "گشودن فهرست"
 
@@ -144,7 +145,7 @@ msgid ""
 "instructions see the operating system documentation."
 msgstr ""
 
-#: pika-backup-common/src/borg/error.rs:33 pika-backup/src/utils.rs:284
+#: pika-backup-common/src/borg/error.rs:33 pika-backup/src/utils.rs:279
 msgid "The operation terminated unexpectedly."
 msgstr "عملیات به صورت غیرمنتظره خاتمه یافت."
 
@@ -156,141 +157,150 @@ msgstr "عملیات حذف بایگانی ّای خیلی زیادی را حذ�
 msgid "No files selected to be included into backup."
 msgstr "هیچ پرونده‌ای برای شامل شدن در پشتیبان انتخاب نشده."
 
-#: pika-backup-common/src/borg/error.rs:86
+#: pika-backup-common/src/borg/error.rs:96
 msgid "Timeout"
 msgstr "پایان مهلت زمانی"
 
-#: pika-backup-common/src/borg/error.rs:133
+#: pika-backup-common/src/borg/error.rs:143
 msgid "Completed"
 msgstr "کامل"
 
-#: pika-backup-common/src/borg/error.rs:163
+#: pika-backup-common/src/borg/error.rs:173
 msgid "Aborted on user request."
 msgstr "صرف نظر شده بنا به درخواست کاربر."
 
-#: pika-backup-common/src/borg/error.rs:165
+#: pika-backup-common/src/borg/error.rs:175
 msgid "Aborted because only metered connection was available."
 msgstr "صرف نظر شده از آن روکه تنها اتّصال اندازه‌گیری شده موجود بود."
 
 #. Translators: Running backup was aborted because computer running on battery
-#: pika-backup-common/src/borg/error.rs:169
+#: pika-backup-common/src/borg/error.rs:179
 msgid "Aborted because too long not connected to power."
 msgstr "صرف نظر شده از آن روکه مدّت زیادی به برق وصل نبود."
 
-#: pika-backup-common/src/borg/error.rs:171
+#: pika-backup-common/src/borg/error.rs:181
 msgid "Aborted by system."
 msgstr "صرف نظر شده از سوی سامانه."
 
-#: pika-backup-common/src/borg/error.rs:172
+#: pika-backup-common/src/borg/error.rs:182
 msgid "The program or system seems to have crashed."
 msgstr "به نظر می‌رسد برنامه یا سامانه فروپاشده."
 
-#: pika-backup-common/src/borg/error.rs:173
+#: pika-backup-common/src/borg/error.rs:183
+#, rust-format
 msgid "{}"
 msgstr "{}"
 
-#: pika-backup-common/src/borg/error.rs:175
+#: pika-backup-common/src/borg/error.rs:185
+#, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "ناتوان در دسترسی به مخزن پشتیبان: {}"
 
-#: pika-backup-common/src/borg/error.rs:282
-msgid "A repository already exists at this location."
-msgstr "مخزنی از پیش در این مکان وجود دارد."
+#: pika-backup-common/src/borg/error.rs:297
+msgid ""
+"A repository already exists at this location. Try the “Use Existing "
+"Repository” option or select a different location."
+msgstr ""
 
-#: pika-backup-common/src/borg/error.rs:285
+#: pika-backup-common/src/borg/error.rs:300
 msgid ""
 "Inconsistencies were detected in the repository. Running a data integrity "
 "check is needed."
 msgstr ""
 
-#: pika-backup-common/src/borg/error.rs:287
+#: pika-backup-common/src/borg/error.rs:302
 msgid "No repository exists at this location."
 msgstr "هیج مخزنی در این مکان وجود ندارد."
 
-#: pika-backup-common/src/borg/error.rs:289
+#: pika-backup-common/src/borg/error.rs:304
 msgid "Not enough free space in repository."
 msgstr "فضای آزاد ناکافی در مخزن."
 
-#: pika-backup-common/src/borg/error.rs:292
+#: pika-backup-common/src/borg/error.rs:307
 msgid "The configured location does not contain a valid repository."
 msgstr "مکان پیکربندی شده مخزنی معتبری ندارد."
 
-#: pika-backup-common/src/borg/error.rs:295
+#: pika-backup-common/src/borg/error.rs:310
 msgid ""
 "The configured location does not contain a valid repository configuration."
 msgstr "مکان پیکربندی شده پیکربندی مخزنی معتبری ندارد."
 
-#: pika-backup-common/src/borg/error.rs:298
+#: pika-backup-common/src/borg/error.rs:313
 msgid "The configured location does not exist."
 msgstr "مکان پیکربندی شده وجود ندارد."
 
-#: pika-backup-common/src/borg/error.rs:301
+#: pika-backup-common/src/borg/error.rs:316
 msgid "The selected location does already exist."
 msgstr "مکان گزیده از پیش وجود دارد."
 
-#: pika-backup-common/src/borg/error.rs:304
+#: pika-backup-common/src/borg/error.rs:319
 msgid ""
 "The repositories storage quota has been reached. Try deleting older archives "
 "that are no longer needed."
 msgstr ""
 
-#: pika-backup-common/src/borg/error.rs:307
+#: pika-backup-common/src/borg/error.rs:322
 msgid ""
 "Permission to access the configured location has been denied. Check the file "
 "permissions."
 msgstr ""
 
-#: pika-backup-common/src/borg/error.rs:312
+#: pika-backup-common/src/borg/error.rs:327
 msgid ""
 "A newer version of Pika Backup is required to access this repository. The "
 "repository uses unsupported features."
 msgstr ""
 
-#: pika-backup-common/src/borg/error.rs:317
+#: pika-backup-common/src/borg/error.rs:332
 msgid "The selected location already contains a repository."
 msgstr ""
 
-#: pika-backup-common/src/borg/error.rs:320
+#: pika-backup-common/src/borg/error.rs:335
 msgid "The configured location does not contain an archive."
 msgstr ""
 
 #. RC 50+
-#: pika-backup-common/src/borg/error.rs:324
+#: pika-backup-common/src/borg/error.rs:339
 msgid "Invalid encryption password."
 msgstr "گذرواژهٔ رمزنگاری نامعتبر."
 
 #. RC 60+
-#: pika-backup-common/src/borg/error.rs:327
+#: pika-backup-common/src/borg/error.rs:342
 msgid "Repository access was aborted"
 msgstr "از دسترسی به مخزن صرف نظر شد"
 
 #. RC 70+
-#: pika-backup-common/src/borg/error.rs:330
+#: pika-backup-common/src/borg/error.rs:345
 msgid "Failed to lock repository."
 msgstr "شکست در قفل کردن مخزن."
 
-#: pika-backup-common/src/borg/error.rs:331
+#: pika-backup-common/src/borg/error.rs:346
 msgid "Repository already in use."
 msgstr "مخزن از پیش در حال استفاده است."
 
-#: pika-backup-common/src/borg/error.rs:335
+#: pika-backup-common/src/borg/error.rs:350
 msgid "Connection closed by remote host."
 msgstr "اتّصال از سوی میزبان دوردست بسته شد."
 
-#: pika-backup-common/src/borg/error.rs:340
+#: pika-backup-common/src/borg/error.rs:352
+msgid "Connection to remote host broken."
+msgstr "اتّصال به میزبان دوردست خراب شد."
+
+#: pika-backup-common/src/borg/error.rs:356
+#, rust-format
 msgid "Connection closed by remote host: “{}”"
 msgstr "اتّصال از سوی میزبان دوردست بسته شد: «{}»"
 
 #. General
-#: pika-backup-common/src/borg/error.rs:344
+#: pika-backup-common/src/borg/error.rs:360
 msgid "Exception"
 msgstr "استثنا"
 
-#: pika-backup-common/src/borg/error.rs:346
+#: pika-backup-common/src/borg/error.rs:362
 msgid "Unspecified error."
 msgstr "خطای نامشخص."
 
-#: pika-backup-common/src/borg/functions.rs:278
+#: pika-backup-common/src/borg/functions.rs:279
 msgid ""
 "This backup repository is not encrypted at all, not even with a key stored "
 "in plain text. Passwords can only be added to repositories that use "
@@ -306,11 +316,12 @@ msgid "Backup will continue."
 msgstr "پشتیبان ادامه خواهد یافت."
 
 #: pika-backup-common/src/borg/log_json.rs:85
+#, rust-format
 msgid "Backed up data: {}"
 msgstr "دادهٔ پشتیبان گرفته: {}"
 
 #: pika-backup-common/src/borg/log_json.rs:115
-#, no-c-format
+#, no-c-format, rust-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "عملیات {}٪ کامل شد ({}/{})"
 
@@ -318,113 +329,116 @@ msgstr "عملیات {}٪ کامل شد ({}/{})"
 msgid "Operation completed."
 msgstr "عملیات کامل شد."
 
-#: pika-backup-common/src/borg/log_json.rs:198
+#: pika-backup-common/src/borg/log_json.rs:194
 msgid "Beginning cache transaction"
 msgstr "آغاز کردن تراکنش انباره"
 
-#: pika-backup-common/src/borg/log_json.rs:199
+#: pika-backup-common/src/borg/log_json.rs:195
 msgid "Downloading cache data"
 msgstr "بار گرفتن داده‌ّای انباره"
 
-#: pika-backup-common/src/borg/log_json.rs:200
+#: pika-backup-common/src/borg/log_json.rs:196
 msgid "Writing cache"
 msgstr "نوشتن انباره"
 
-#: pika-backup-common/src/borg/log_json.rs:201
+#: pika-backup-common/src/borg/log_json.rs:197
 msgid "Synchronizing cache"
 msgstr "هم‌گام کردن انباره"
 
-#: pika-backup-common/src/borg/log_json.rs:202
+#: pika-backup-common/src/borg/log_json.rs:198
 msgid "Compacting repository"
 msgstr "فشرده کردن مخزن"
 
-#: pika-backup-common/src/borg/log_json.rs:203
+#: pika-backup-common/src/borg/log_json.rs:199
 msgid "Updating repository"
 msgstr "به روز کردن مخزن"
 
-#: pika-backup-common/src/borg/log_json.rs:204
+#: pika-backup-common/src/borg/log_json.rs:200
 msgid "Checking repository"
 msgstr "بررسی کردن مخزن"
 
-#: pika-backup-common/src/borg/log_json.rs:205
+#: pika-backup-common/src/borg/log_json.rs:201
 msgid "Verifying data"
 msgstr "تأیید کردن داده‌ها"
 
-#: pika-backup-common/src/borg/log_json.rs:206
+#: pika-backup-common/src/borg/log_json.rs:202
 msgid "Verifying main database"
 msgstr "تأیید کردن پایگاه دادهٔ اصلی"
 
-#: pika-backup-common/src/borg/log_json.rs:207
+#: pika-backup-common/src/borg/log_json.rs:203
 msgid "Verifying references"
 msgstr "تأیید کردن مرجع‌ها"
 
-#: pika-backup-common/src/borg/log_json.rs:208
+#: pika-backup-common/src/borg/log_json.rs:204
 msgid "Extracting data"
 msgstr "خارج کردن داده‌ها"
 
-#: pika-backup-common/src/borg/log_json.rs:209
+#: pika-backup-common/src/borg/log_json.rs:205
 msgid "Extracting permissions"
 msgstr "خارج کردن اجازه‌ها"
 
-#: pika-backup-common/src/borg/log_json.rs:210
+#: pika-backup-common/src/borg/log_json.rs:206
 msgid "Marking archives as deleted"
 msgstr "علامت زدن بایگانی‌ها به حذف شده"
 
-#: pika-backup-common/src/borg/log_json.rs:211
+#: pika-backup-common/src/borg/log_json.rs:207
 msgid "Calculating archive statistics"
 msgstr "حساب کردن آمار بایگانی‌ها"
 
-#: pika-backup-common/src/borg/log_json.rs:212
+#: pika-backup-common/src/borg/log_json.rs:208
 msgid "Marking old archives as deleted"
 msgstr "علامت زدن بایگانی‌های قدیمی به حذف شده"
 
-#: pika-backup-common/src/borg/log_json.rs:213
+#: pika-backup-common/src/borg/log_json.rs:209
 msgid "Upgrading repository"
 msgstr "ارتقا دادن مخزن"
 
-#: pika-backup-common/src/borg/log_json.rs:214
+#: pika-backup-common/src/borg/log_json.rs:210
 msgid "Unspecified operation"
 msgstr "عملیات نامشخّص"
 
-#: pika-backup-common/src/borg/log_json.rs:215
+#: pika-backup-common/src/borg/log_json.rs:211
 msgid "Unknown operation"
 msgstr "عملیات ناشناخته"
 
-#: pika-backup-common/src/borg/log_json.rs:232
+#: pika-backup-common/src/borg/log_json.rs:228
 msgid "Handling a Question"
 msgstr "مدیریت کردن پرسش"
 
-#: pika-backup-common/src/borg/log_json.rs:240
+#: pika-backup-common/src/borg/log_json.rs:236
 msgid "Attempting to access a previously unknown unencrypted repository."
 msgstr "تلاش برای دسترسی به مخزن رمز نشدهٔ ناشناختهٔ پیشین."
 
-#: pika-backup-common/src/borg/log_json.rs:256
+#: pika-backup-common/src/borg/log_json.rs:252
+#, rust-format
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr "مخزن پشتیبان در مکان «{}» پیش‌تر در «{}» بود."
 
-#: pika-backup-common/src/borg/log_json.rs:260
+#: pika-backup-common/src/borg/log_json.rs:256
 msgid "The backup repository was previously located at a different location."
 msgstr "مخزن پشتیبان پیش‌تر در مکان دیگری بود."
 
-#: pika-backup-common/src/borg/log_json.rs:264
+#: pika-backup-common/src/borg/log_json.rs:260
 msgid ""
 "This is a potentially dangerous function. Repairing a repository might lead "
 "to data loss (for kinds of corruption it is not capable of dealing with). BE "
 "VERY CAREFUL!"
 msgstr ""
 
-#: pika-backup-common/src/borg/log_json.rs:267
+#: pika-backup-common/src/borg/log_json.rs:263
 msgid ""
 "You requested to delete the repository completely, including all backup "
 "archives it contains."
 msgstr ""
 
-#: pika-backup-common/src/borg/log_json.rs:270
+#: pika-backup-common/src/borg/log_json.rs:266
+#, rust-format
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "پرسش غیرمنتظره از بورگ: «{}»"
 
 #. Translators: Combines statement from above and this question
-#: pika-backup-common/src/borg/log_json.rs:275
+#: pika-backup-common/src/borg/log_json.rs:271
+#, rust-format
 msgid ""
 "{}\n"
 "\n"
@@ -434,32 +448,32 @@ msgstr ""
 "\n"
 "می‌خواهید ادامه دهید؟"
 
-#: pika-backup-common/src/borg/log_json.rs:333
+#: pika-backup-common/src/borg/log_json.rs:327
 msgid "Standard error output"
 msgstr "خروجی خطای استاندارد"
 
-#: pika-backup-common/src/borg/log_json.rs:483
+#: pika-backup-common/src/borg/log_json.rs:481
 msgid "Debug"
 msgstr "اشکال‌زدایی"
 
-#: pika-backup-common/src/borg/log_json.rs:484
+#: pika-backup-common/src/borg/log_json.rs:482
 msgid "Info"
 msgstr "اطّلاعات"
 
-#: pika-backup-common/src/borg/log_json.rs:485 pika-backup/src/utils.rs:384
-#: pika-backup/src/widget/dialog/setup/location.ui:46
+#: pika-backup-common/src/borg/log_json.rs:483 pika-backup/src/utils.rs:364
+#: pika-backup/src/widget/dialog/setup/location.ui:56
 msgid "Warning"
 msgstr "اخطار"
 
-#: pika-backup-common/src/borg/log_json.rs:486
+#: pika-backup-common/src/borg/log_json.rs:484
 msgid "Error"
 msgstr "خطا"
 
-#: pika-backup-common/src/borg/log_json.rs:487
+#: pika-backup-common/src/borg/log_json.rs:485
 msgid "Critical"
 msgstr "حیاتی"
 
-#: pika-backup-common/src/borg/log_json.rs:488
+#: pika-backup-common/src/borg/log_json.rs:486
 msgid "Undefined"
 msgstr "تعریف نشده"
 
@@ -532,23 +546,27 @@ msgid "The amount of files saved in this archive"
 msgstr "مقدار پرونده‌های ذخیره شده در این بایگانی"
 
 #: pika-backup-common/src/borg/scripts.rs:276
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
 msgstr ""
 
 #: pika-backup-common/src/borg/scripts.rs:280
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
 msgstr ""
 
 #: pika-backup-common/src/borg/scripts.rs:306
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
 
 #: pika-backup-common/src/borg/scripts.rs:310
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -589,11 +607,11 @@ msgstr "حذف کردن بایگانی"
 msgid "Refreshing archive list"
 msgstr "نوسازی سیاههٔ بایگانی‌ها"
 
-#: pika-backup-common/src/borg/task.rs:248
+#: pika-backup-common/src/borg/task.rs:243
 msgid "Changing passphrase"
 msgstr "عوض کردن عبارت عبور"
 
-#: pika-backup-common/src/borg/task.rs:283
+#: pika-backup-common/src/borg/task.rs:278
 msgid "Running custom shell command"
 msgstr "اجرا کردن فرمان پوستهٔ سفارشی"
 
@@ -665,7 +683,8 @@ msgstr "پرونده‌هایی که به صورت غیرقابل بازگشت �
 msgid "Might include data stored within"
 msgstr "ممکن است داده‌هایی درونش ذخیره شده باشد"
 
-#: pika-backup-common/src/config/loadable.rs:41
+#: pika-backup-common/src/config/loadable.rs:48
+#, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
@@ -704,27 +723,28 @@ msgstr "هفتگی"
 msgid "Monthly"
 msgstr "ماهانه"
 
-#: pika-backup-common/src/utils.rs:78
+#: pika-backup-common/src/utils.rs:111
 msgid "No such file or directory"
 msgstr "چنین پرونده یا شاخه‌ای وجود ندارد"
 
-#: pika-backup-monitor/src/action.rs:58
-msgid "Failed to start backup from daemon"
-msgstr "شکست در آغاز پشتیبان از خدمت"
+#: pika-backup-monitor/src/action.rs:41
+msgid "Failed to start backup from monitor"
+msgstr "شکست در آغاز پشتیبان از پایش"
 
-#: pika-backup-monitor/src/action.rs:79
-msgid "Failed to show overview from daemon"
-msgstr "شکست در نمایش نمای کلی از خدمت"
+#: pika-backup-monitor/src/action.rs:55
+msgid "Failed to show overview from monitor"
+msgstr "شکست در نمایش نمای کلی از پایش"
 
-#: pika-backup-monitor/src/action.rs:98
-msgid "Failed to show schedule from daemon"
-msgstr "شکست در نمایش زمان‌بندی از خدمت"
+#: pika-backup-monitor/src/action.rs:70
+msgid "Failed to show schedule from monitor"
+msgstr "شکست در نمایش زمان‌بندی از پایش"
 
-#: pika-backup-monitor/src/connect/event.rs:23
+#: pika-backup-monitor/src/connect/event.rs:24
 msgid "Backup Device Connected"
 msgstr "افزارهٔ پشتیبان وصل شد"
 
-#: pika-backup-monitor/src/connect/event.rs:29
+#: pika-backup-monitor/src/connect/event.rs:30
+#, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "‏«{}» چندین پشتیبان پیکربندی شده دارد."
 
@@ -732,100 +752,103 @@ msgstr "‏«{}» چندین پشتیبان پیکربندی شده دارد."
 msgid "Show Backups"
 msgstr "نمایش پشتیبان‌ها"
 
-#: pika-backup-monitor/src/connect/event.rs:42
+#: pika-backup-monitor/src/connect/event.rs:39
+#, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "«{}» پشتیبان پیکربندی شده‌ای دارد."
 
-#: pika-backup-monitor/src/connect/event.rs:47
+#: pika-backup-monitor/src/connect/event.rs:44
 msgid "Back Up Now"
 msgstr "اکنون پشتیبان گرفته شود"
 
-#: pika-backup-monitor/src/init.rs:34
+#: pika-backup-monitor/src/init.rs:44
 msgid "Error loading configuration"
 msgstr "خطا در بار کردن پیکربندی"
 
-#: pika-backup-monitor/src/init.rs:35
+#: pika-backup-monitor/src/init.rs:45
 msgid "Not monitoring backup schedule."
 msgstr "هیچ پشتیبان پایشی زمان‌بندی نشده."
 
-#: pika-backup-monitor/src/init.rs:60
+#: pika-backup-monitor/src/init.rs:74
 msgid "Monitoring backup schedule"
 msgstr "پاییدن زمان‌بندی پشتیبان"
 
-#: pika-backup-monitor/src/init.rs:127
+#: pika-backup-monitor/src/init.rs:144
 msgid "Fatal Error During Back Up"
 msgstr "خطای مهلک هنگام پشتیبان گیری"
 
-#: pika-backup-monitor/src/init.rs:130
+#: pika-backup-monitor/src/init.rs:147
+#, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] "پشتیبان پیکا هنگام اجرای پشتیبان فروپاشید"
 msgstr[1] "پشتیبان پیکا هنگام اجرای {} پشتیبان فروپاشید"
 
-#: pika-backup-monitor/src/init.rs:169 pika-backup-monitor/src/init.rs:171
-#: pika-backup-monitor/src/init.rs:178
-msgid "Error restarting monitor daemon"
-msgstr "خطای آغاز دوبارهٔ خدمت پایش"
+#: pika-backup-monitor/src/init.rs:192 pika-backup-monitor/src/init.rs:194
+#: pika-backup-monitor/src/init.rs:201
+msgid "Error restarting monitor monitor"
+msgstr "خطای آغاز دوبارهٔ پایش پایش"
 
-#: pika-backup-monitor/src/schedule/init.rs:105
+#: pika-backup-monitor/src/schedule/init.rs:119
 msgid "The backup repository is already in use."
 msgstr "مخزن پشتیبان از پیش در حال استفاده است."
 
-#: pika-backup-monitor/src/schedule/init.rs:108
+#: pika-backup-monitor/src/schedule/init.rs:122
 msgid "Archives are currently opened for browsing."
 msgstr "بایگانی‌ها برای مرور کردن باز شده‌اند."
 
-#: pika-backup-monitor/src/schedule/init.rs:111
+#: pika-backup-monitor/src/schedule/init.rs:125
 msgid "Only metered internet connections available."
 msgstr "فقط اتّصال‌های اینترنتی اندازه‌گیری موجودند."
 
-#: pika-backup-monitor/src/schedule/init.rs:114
+#: pika-backup-monitor/src/schedule/init.rs:128
 msgid "Device not connected to power."
 msgstr "افزاره به برق وصل نیست."
 
-#: pika-backup-monitor/src/schedule/init.rs:120
+#: pika-backup-monitor/src/schedule/init.rs:134
 msgid "Scheduled Backup Postponed"
 msgstr "پشتیبان زمان‌بسته به تعویق افتاد"
 
-#: pika-backup-monitor/src/schedule/init.rs:144
+#: pika-backup-monitor/src/schedule/init.rs:158
 msgid "Backup Device Required"
 msgstr "نیازمند افزارهٔ پشتیبان"
 
-#: pika-backup-monitor/src/schedule/init.rs:146
+#: pika-backup-monitor/src/schedule/init.rs:160
+#, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr "برای آغاز پشتیبان زمان‌بسته باید «{}» وصل شده باشد"
 
-#: pika-backup-monitor/src/schedule/init.rs:159
+#: pika-backup-monitor/src/schedule/init.rs:173
 msgid "Failed to start scheduled backup"
 msgstr "شکست در آغاز پشتیبان زمان‌بسته"
 
-#: pika-backup/src/app.rs:248
+#: pika-backup/src/app.rs:268
 msgid "Abort Backup?"
 msgstr "صرف نظر از پشتیبان؟"
 
-#: pika-backup/src/app.rs:249
+#: pika-backup/src/app.rs:269
 msgid "The backup will remain incomplete if aborted now"
 msgstr "پشتیبان در صورت صرف نظر کردن ناقص باقی خواهد ماند"
 
-#: pika-backup/src/app.rs:250 pika-backup/src/utils.rs:387
-#: pika-backup/src/widget/detail/backup/events.rs:24
-#: pika-backup/src/widget/detail/backup/events.rs:34
-#: pika-backup/src/widget/detail/backup/events.rs:44
+#: pika-backup/src/app.rs:270 pika-backup/src/utils.rs:367
+#: pika-backup/src/widget/detail/backup/events.rs:26
+#: pika-backup/src/widget/detail/backup/events.rs:36
+#: pika-backup/src/widget/detail/backup/events.rs:46
 #: pika-backup/src/widget/dialog/setup/encryption.rs:93
 msgid "Continue"
 msgstr "ادامه"
 
-#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:386
-#: pika-backup/src/widget/detail/backup/events.rs:35
-#: pika-backup/src/widget/detail/backup/events.rs:45
+#: pika-backup/src/app.rs:271 pika-backup/src/utils.rs:366
+#: pika-backup/src/widget/detail/backup/events.rs:37
+#: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "خاتمه"
 
-#: pika-backup/src/app.rs:263
+#: pika-backup/src/app.rs:283
 msgid "Backup Operation Running"
 msgstr "در حال اجرای عملیات پشتیبان"
 
-#: pika-backup/src/app.rs:265
+#: pika-backup/src/app.rs:285
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "پشتیبان پیکا نمی‌تواند در طول عملیات پشتیبان ساکت باشد"
 
@@ -863,6 +886,7 @@ msgstr "آخرین پشتیبان گیری شکست خورده"
 
 #. Translators: Argument is 'x months ago'
 #: pika-backup/src/backup_status.rs:144
+#, rust-format
 msgid "Successful Integrity Check {}"
 msgstr "آزمون یکپارچگی موفّق {}"
 
@@ -887,31 +911,32 @@ msgid "Integrity Errors Found"
 msgstr "خطاهای یکپارچگی پیدا شد"
 
 #: pika-backup/src/backup_status.rs:223
-#, no-c-format
+#, no-c-format, rust-format
 msgid "{} % finished"
 msgstr "{}٪ پایان یافته"
 
-#: pika-backup/src/backup_status.rs:245
+#: pika-backup/src/backup_status.rs:247
 msgid "Preparing Backup"
 msgstr "آماده سازی پشتیبان"
 
-#: pika-backup/src/backup_status.rs:246
+#: pika-backup/src/backup_status.rs:248
 msgid "Backup Running"
 msgstr "در حال اجرای پشتیبان"
 
-#: pika-backup/src/backup_status.rs:247
+#: pika-backup/src/backup_status.rs:249
 msgid "Backup Destination Unresponsive"
 msgstr "مقصد پشتیبان ناپاسخگو"
 
-#: pika-backup/src/backup_status.rs:250
+#: pika-backup/src/backup_status.rs:252
+#, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "اتّصال از دست رفت. وصل شدن دوباره به {}"
 
-#: pika-backup/src/backup_status.rs:255
+#: pika-backup/src/backup_status.rs:257
 msgid "Reconnecting"
 msgstr "وصل شدن دوباره"
 
-#: pika-backup/src/backup_status.rs:257
+#: pika-backup/src/backup_status.rs:259
 msgid "Stopping Backup"
 msgstr "متوقّف کردن پشتیبان"
 
@@ -919,34 +944,41 @@ msgstr "متوقّف کردن پشتیبان"
 msgid "Failed to spawn interface for scheduled backups."
 msgstr "شکست در ایجاد میانا برای پشتیبان‌های زمان‌بسته."
 
-#: pika-backup/src/error.rs:124
+#: pika-backup/src/error.rs:174
+msgid "Close"
+msgstr "بستن"
+
+#: pika-backup/src/error.rs:200
 msgid ""
 "The keyring is not available. Pika Backup requires a keyring daemon (“secret "
 "service”) to store passwords. For installation instructions see the "
 "operating system documentation."
 msgstr ""
 
-#: pika-backup/src/error.rs:155
+#: pika-backup/src/error.rs:237
+#, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "پشتیبان با شناسهٔ {} از پیش موجود است."
 
-#: pika-backup/src/error.rs:164
+#: pika-backup/src/error.rs:246
+#, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "نتوانست پیکربندی پشتیبانی با شناسهٔ {} را بیابد."
 
-#: pika-backup/src/error.rs:180
+#: pika-backup/src/error.rs:262
 msgid "Canceled"
 msgstr "لغو شده"
 
-#: pika-backup/src/lib.rs:80
+#: pika-backup/src/lib.rs:76
 msgid "Failed to run “borg”. Is BorgBackup installed correctly?"
 msgstr "شکت در اجرای borg. آیا بورگ درست نصب شده؟"
 
-#: pika-backup/src/lib.rs:110
+#: pika-backup/src/lib.rs:106
 msgid "BorgBackup Version Too Old"
 msgstr "نگارش بورگ بیش از حد قدیمی"
 
-#: pika-backup/src/lib.rs:112
+#: pika-backup/src/lib.rs:108
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
 "{}. This is unsupported."
@@ -954,21 +986,23 @@ msgstr ""
 "نگارش بورگ نصب شده {} قدیمی‌تر از نگارش لازم {} است. این نگارش پشتیبانی "
 "نمی‌شود."
 
-#: pika-backup/src/lib.rs:121
+#: pika-backup/src/lib.rs:117
 msgid "BorgBackup Version Too New"
 msgstr "نگارش بورگ بیش از حد جدید"
 
-#: pika-backup/src/lib.rs:123
+#: pika-backup/src/lib.rs:119
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
 msgstr "نگارش بورگ نصب شده {} جدید و ناآزموده است. نگارش {} توصیه می‌شود."
 
-#: pika-backup/src/lib.rs:132
+#: pika-backup/src/lib.rs:128
 msgid "Failed to Check BorgBackup Version"
 msgstr "شکست در بررسی نگارش بورگ"
 
-#: pika-backup/src/lib.rs:134
+#: pika-backup/src/lib.rs:130
+#, rust-format
 msgid "The installed version {} might not work."
 msgstr "ممکن است نگارش نصب شده {} کار نکند."
 
@@ -985,7 +1019,7 @@ msgstr "شکست در سوار کردن"
 msgid "The network server is not available"
 msgstr "کارساز شبکه در دسترس نیست"
 
-#: pika-backup/src/shell.rs:32
+#: pika-backup/src/shell.rs:31
 msgid "Idle"
 msgstr "بی‌کار"
 
@@ -994,31 +1028,32 @@ msgid "Unable to determine background process status"
 msgstr "ناتوان در تشخیص وضعیت فرایند پس‌زمینه"
 
 #: pika-backup/src/toast_size_estimate.rs:58
+#, rust-format
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
 msgstr ""
 
-#: pika-backup/src/utils.rs:105
+#: pika-backup/src/utils.rs:101
 msgid "Request to run in background failed"
 msgstr ""
 
-#: pika-backup/src/utils.rs:128
+#: pika-backup/src/utils.rs:124
 msgid "Schedule backups and continue running backups."
 msgstr ""
 
-#: pika-backup/src/utils.rs:145
+#: pika-backup/src/utils.rs:141
 msgid "Run in background disabled"
 msgstr ""
 
-#: pika-backup/src/utils.rs:146
+#: pika-backup/src/utils.rs:142
 msgid ""
 "Scheduled backup functionality and continuing backups in the background will "
 "not be available. The “run in background” option can be enabled via the "
 "system settings."
 msgstr ""
 
-#: pika-backup/src/utils.rs:156
+#: pika-backup/src/utils.rs:152
 msgid ""
 "The system does not support running Pika Backup in the background. Scheduled "
 "backup functionality and continuing backups in the background will not be "
@@ -1027,17 +1062,18 @@ msgid ""
 "issue tracker."
 msgstr ""
 
-#: pika-backup/src/utils.rs:178
+#: pika-backup/src/utils.rs:173
 msgid "Failed to Start Monitor"
 msgstr ""
 
-#: pika-backup/src/utils.rs:256
+#: pika-backup/src/utils.rs:251
+#, rust-format
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pika-backup/src/utils.rs:294
+#: pika-backup/src/utils.rs:289
 #: pika-backup/src/widget/detail/backup/events.rs:146
 #: pika-backup/src/widget/detail/backup/events.rs:170
 #: pika-backup/src/widget/dialog/exclude.rs:254
@@ -1045,92 +1081,92 @@ msgstr[1] ""
 msgid "Select"
 msgstr "گزینش"
 
-#: pika-backup/src/utils.rs:429
-msgid "Close"
-msgstr "بستن"
-
 #: pika-backup/src/utils/borg.rs:24
 msgid "Additional command line arguments invalid"
 msgstr ""
 
 #: pika-backup/src/utils/borg.rs:25
-#: pika-backup/src/widget/dialog/preferences.rs:276
+#: pika-backup/src/widget/dialog/preferences.rs:265
 msgid "Please check for missing closing quotes."
 msgstr "بررسی نقل قول‌های ناقص."
 
-#: pika-backup/src/utils/borg.rs:83
-msgid "Repository already in use"
-msgstr "مخزن از پیش در حال استفاده است"
+#: pika-backup/src/utils/borg.rs:84 pika-backup/src/utils/borg.rs:297
+msgid "Repository Already in Use"
+msgstr "مخزن از پیش دارد استفاده می‌شود"
 
-#: pika-backup/src/utils/borg.rs:151 pika-backup/src/utils/borg.rs:163
+#: pika-backup/src/utils/borg.rs:85
+#, rust-format
+msgid "The operation “{}” is ongoing on repository “{}”."
+msgstr ""
+
+#: pika-backup/src/utils/borg.rs:153 pika-backup/src/utils/borg.rs:165
 msgid "Stop Browsing Files?"
 msgstr "توقّف مرور پرونده‌ها؟"
 
-#: pika-backup/src/utils/borg.rs:153
+#: pika-backup/src/utils/borg.rs:155
 msgid "Browsing through archived files is not possible while running a backup"
 msgstr ""
 
-#: pika-backup/src/utils/borg.rs:155 pika-backup/src/utils/borg.rs:167
+#: pika-backup/src/utils/borg.rs:157 pika-backup/src/utils/borg.rs:169
 msgid "Keep Browsing"
 msgstr "ادامهٔ مرور"
 
-#: pika-backup/src/utils/borg.rs:156
+#: pika-backup/src/utils/borg.rs:158
 msgid "Start Backup"
 msgstr "آغاز پشیبان گیری"
 
-#: pika-backup/src/utils/borg.rs:165
+#: pika-backup/src/utils/borg.rs:167
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository"
 msgstr ""
 
-#: pika-backup/src/utils/borg.rs:168
+#: pika-backup/src/utils/borg.rs:170
 msgid "Start Operation"
 msgstr "آغاز عملیات"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:312
+#: pika-backup/src/utils/borg.rs:179 pika-backup/src/utils/borg.rs:320
 msgid "Failed to unmount repository."
 msgstr "شکست در پیاده کردن مخزن."
 
-#: pika-backup/src/utils/borg.rs:289
-msgid "Repository Already in Use"
-msgstr "مخزن از پیش دارد استفاده می‌شود"
-
-#: pika-backup/src/utils/borg.rs:290
+#: pika-backup/src/utils/borg.rs:298
+#, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
 "repository."
 msgstr ""
 
-#: pika-backup/src/utils/borg.rs:292
+#: pika-backup/src/utils/borg.rs:300
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
 "backup data!"
 msgstr ""
 
-#: pika-backup/src/utils/borg.rs:293
+#: pika-backup/src/utils/borg.rs:301
 #: pika-backup/src/widget/detail/backup/events.rs:225
-#: pika-backup/src/widget/dialog/preferences.rs:487
+#: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
 #: pika-backup/src/widget/encryption_settings.rs:93
 msgid "Cancel"
 msgstr "لغو"
 
-#: pika-backup/src/utils/borg.rs:294
+#: pika-backup/src/utils/borg.rs:302
 msgid "Continue Anyway"
 msgstr "به هر حال ادامه داده شود"
 
-#: pika-backup/src/utils/borg.rs:440 pika-backup/src/utils/borg.rs:461
+#: pika-backup/src/utils/borg.rs:448 pika-backup/src/utils/borg.rs:469
 msgid "Unable to Eject Backup Disk"
 msgstr ""
 
-#: pika-backup/src/utils/borg.rs:449
+#: pika-backup/src/utils/borg.rs:457
+#, rust-format
 msgid "{} can be safely unplugged."
 msgstr ""
 
-#: pika-backup/src/utils/borg.rs:462
+#: pika-backup/src/utils/borg.rs:470
+#, rust-format
 msgid "{} can't be ejected."
 msgstr ""
 
@@ -1143,66 +1179,77 @@ msgid "Could not load configuration file."
 msgstr "نتوانست پروندهٔ پیکربندی را بار کند."
 
 #: pika-backup/src/utils/duration.rs:11
+#, rust-format
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "یک ثانیه مانده"
 msgstr[1] "{} ثانیه"
 
 #: pika-backup/src/utils/duration.rs:13
+#, rust-format
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "یک دقیقه"
 msgstr[1] "{} دقیقه"
 
 #: pika-backup/src/utils/duration.rs:15
+#, rust-format
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "یک ساعت پیش"
 msgstr[1] "{} ساعت"
 
 #: pika-backup/src/utils/duration.rs:17
+#, rust-format
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "یک روز پیش"
 msgstr[1] "{} روز"
 
 #: pika-backup/src/utils/duration.rs:23
+#, rust-format
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "یک ثانیه مانده"
 msgstr[1] "{} ثانیه"
 
 #: pika-backup/src/utils/duration.rs:25
+#, rust-format
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "یک دقیقه"
 msgstr[1] "{} دقیقه"
 
 #: pika-backup/src/utils/duration.rs:27
+#, rust-format
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "یک ساعت پیش"
 msgstr[1] "{} ساعت"
 
 #: pika-backup/src/utils/duration.rs:29
+#, rust-format
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "یک روز پیش"
 msgstr[1] "{} روز"
 
 #: pika-backup/src/utils/duration.rs:36
+#, rust-format
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "یک دقیقه مانده"
 msgstr[1] "{} دقیقه مانده"
 
 #: pika-backup/src/utils/duration.rs:41
+#, rust-format
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "یک ساعت مانده"
 msgstr[1] "{} ساعت مانده"
 
 #: pika-backup/src/utils/duration.rs:43
+#, rust-format
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "یک روز مانده"
@@ -1213,36 +1260,42 @@ msgid "Now"
 msgstr "اکنون"
 
 #: pika-backup/src/utils/duration.rs:51
+#, rust-format
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "یک دقیقه پیش"
 msgstr[1] "{} دقیقه پیش"
 
 #: pika-backup/src/utils/duration.rs:53
+#, rust-format
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "یک ساعت پیش"
 msgstr[1] "{} ساعت پیش"
 
 #: pika-backup/src/utils/duration.rs:55
+#, rust-format
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "یک روز پیش"
 msgstr[1] "{} روز پیش"
 
 #: pika-backup/src/utils/duration.rs:57
+#, rust-format
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "یک هفته پیش"
 msgstr[1] "{} هفته پیش"
 
 #: pika-backup/src/utils/duration.rs:59
+#, rust-format
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "یک ماه پیش"
 msgstr[1] "{} ماه پیش"
 
 #: pika-backup/src/utils/duration.rs:61
+#, rust-format
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "یک سال پیش"
@@ -1273,6 +1326,7 @@ msgstr "شمست در برداشتن گذرواژه‌های با احتمال �
 
 #. Translators: This is the description for entries in the password database.
 #: pika-backup/src/utils/password_storage.rs:63
+#, rust-format
 msgid "Pika Backup “{}”"
 msgstr "پشتیبان پیکا «{}»"
 
@@ -1332,28 +1386,28 @@ msgstr "حذف برخی بایگانی‌های قدیمی‌تر"
 msgid "Data Integrity Check"
 msgstr "بررسی یکپارچکی داده"
 
-#: pika-backup/src/widget/detail/archives.ui:156
+#: pika-backup/src/widget/detail/archives.ui:158
 msgid "_Check Now"
 msgstr ""
 
-#: pika-backup/src/widget/detail/archives.ui:164
+#: pika-backup/src/widget/detail/archives.ui:166
 #: pika-backup/src/widget/detail/backup.ui:77
 msgid "_Abort…"
 msgstr "_خاتمه…"
 
-#: pika-backup/src/widget/detail/archives.ui:172
+#: pika-backup/src/widget/detail/archives.ui:174
 msgid "Archives"
 msgstr "بایگانی‌ها"
 
-#: pika-backup/src/widget/detail/archives.ui:181
+#: pika-backup/src/widget/detail/archives.ui:183
 msgid "Refresh"
 msgstr "تازه‌سازی"
 
-#: pika-backup/src/widget/detail/archives.ui:202
+#: pika-backup/src/widget/detail/archives.ui:204
 msgid "Stop Browsing Saved Files"
 msgstr ""
 
-#: pika-backup/src/widget/detail/archives.ui:228
+#: pika-backup/src/widget/detail/archives.ui:230
 msgid "No Archives Available"
 msgstr ""
 
@@ -1362,7 +1416,7 @@ msgid "Failed to refresh archives cache."
 msgstr ""
 
 #: pika-backup/src/widget/detail/archives/display.rs:89
-#: pika-backup/src/widget/dialog/setup/transfer_option.rs:58
+#: pika-backup/src/widget/dialog/setup/transfer_option.rs:57
 msgid "None"
 msgstr "هیچ‌کدام"
 
@@ -1370,41 +1424,43 @@ msgstr "هیچ‌کدام"
 msgid "Failed to open archive."
 msgstr ""
 
-#: pika-backup/src/widget/detail/archives/display.rs:171
+#: pika-backup/src/widget/detail/archives/display.rs:175
 msgid "Incomplete Archive"
 msgstr ""
 
-#: pika-backup/src/widget/detail/archives/display.rs:192
+#: pika-backup/src/widget/detail/archives/display.rs:196
 msgid "Name"
 msgstr "نام"
 
-#: pika-backup/src/widget/detail/archives/display.rs:194
+#: pika-backup/src/widget/detail/archives/display.rs:198
 msgid "Duration"
 msgstr "مدّت"
 
-#: pika-backup/src/widget/detail/archives/display.rs:198
+#: pika-backup/src/widget/detail/archives/display.rs:202
 msgid "Comment"
 msgstr "توضیح"
 
-#: pika-backup/src/widget/detail/archives/display.rs:202
+#: pika-backup/src/widget/detail/archives/display.rs:206
 msgid "Browse Saved Files"
 msgstr ""
 
-#: pika-backup/src/widget/detail/archives/display.rs:224
+#: pika-backup/src/widget/detail/archives/display.rs:228
 #: pika-backup/src/widget/dialog/delete_archive.ui:6
 #: pika-backup/src/widget/dialog/delete_archive.ui:50
 msgid "Delete Archive"
 msgstr "حذف بایگانی"
 
-#: pika-backup/src/widget/detail/archives/display.rs:259
+#: pika-backup/src/widget/detail/archives/display.rs:263
+#, rust-format
 msgid "{} Available"
 msgstr "{} موجود"
 
-#: pika-backup/src/widget/detail/archives/display.rs:261
+#: pika-backup/src/widget/detail/archives/display.rs:265
+#, rust-format
 msgid "{} Total"
 msgstr "{} مجموع"
 
-#: pika-backup/src/widget/detail/archives/events.rs:95
+#: pika-backup/src/widget/detail/archives/events.rs:96
 msgid "Failed to make archives available for browsing."
 msgstr ""
 
@@ -1421,7 +1477,7 @@ msgid "Back Up _Now"
 msgstr "_اکنون پشتیبان گرفته شود"
 
 #: pika-backup/src/widget/detail/backup.ui:90
-#: pika-backup/src/widget/dialog/setup/transfer_option.ui:88
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:79
 msgid "Files to Back Up"
 msgstr "پرونده‌ها برای پشتیبان گیری"
 
@@ -1443,7 +1499,7 @@ msgstr ""
 
 #: pika-backup/src/widget/detail/backup.ui:138
 #: pika-backup/src/widget/dialog/exclude.ui:12
-#: pika-backup/src/widget/dialog/setup/transfer_option.ui:112
+#: pika-backup/src/widget/dialog/setup/transfer_option.ui:104
 msgid "Exclude From Backup"
 msgstr ""
 
@@ -1475,50 +1531,51 @@ msgstr "ویرایش الگو"
 msgid "Remove From List"
 msgstr "برداشتن از سیاهه"
 
-#: pika-backup/src/widget/detail/backup/events.rs:22
+#: pika-backup/src/widget/detail/backup/events.rs:24
 msgid "Stop Running Backup?"
 msgstr ""
 
-#: pika-backup/src/widget/detail/backup/events.rs:23
+#: pika-backup/src/widget/detail/backup/events.rs:25
 msgid ""
 "The current backup state will be saved. You can continue your backup later "
 "by starting it again."
 msgstr ""
 
-#: pika-backup/src/widget/detail/backup/events.rs:25
+#: pika-backup/src/widget/detail/backup/events.rs:27
 msgid "Stop"
 msgstr "توقّف"
 
-#: pika-backup/src/widget/detail/backup/events.rs:32
+#: pika-backup/src/widget/detail/backup/events.rs:34
 msgid "Abort Delete Operation?"
 msgstr ""
 
-#: pika-backup/src/widget/detail/backup/events.rs:33
+#: pika-backup/src/widget/detail/backup/events.rs:35
 msgid ""
 "Archives are currently being deleted. Free space will not be reclaimed when "
 "aborting."
 msgstr ""
 
-#: pika-backup/src/widget/detail/backup/events.rs:42
+#: pika-backup/src/widget/detail/backup/events.rs:44
 msgid "Abort Operation?"
 msgstr ""
 
-#: pika-backup/src/widget/detail/backup/events.rs:43
+#: pika-backup/src/widget/detail/backup/events.rs:45
 msgid ""
 "An operation is currently being performed. Aborting now will cause any "
 "progress made by the operation to be lost."
 msgstr ""
 
-#: pika-backup/src/widget/detail/backup/events.rs:100
-#: pika-backup/src/widget/detail/backup/events.rs:110
-msgid "Unable to Include Location"
-msgstr ""
-
 #: pika-backup/src/widget/detail/backup/events.rs:101
+#, rust-format
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
 "{}"
+msgstr ""
+
+#: pika-backup/src/widget/detail/backup/events.rs:104
+#: pika-backup/src/widget/detail/backup/events.rs:113
+msgid "Unable to Include Location"
 msgstr ""
 
 #: pika-backup/src/widget/detail/backup/events.rs:111
@@ -1536,6 +1593,7 @@ msgid "Include Folder"
 msgstr ""
 
 #: pika-backup/src/widget/detail/backup/events.rs:221
+#, rust-format
 msgid "No longer include “{}” in backups?"
 msgstr ""
 
@@ -1565,7 +1623,7 @@ msgid "Backup Completed with Warnings"
 msgstr ""
 
 #: pika-backup/src/widget/detail/backup/execution.rs:225
-#: pika-backup/src/widget/dialog/preferences.rs:341
+#: pika-backup/src/widget/dialog/preferences.rs:330
 msgid "Error Running Shell Command"
 msgstr ""
 
@@ -1678,37 +1736,41 @@ msgstr ""
 msgid "No preset selected."
 msgstr ""
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:19
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:20
 msgid "Keep Many"
 msgstr "نگه داشتن چندین تا"
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:20
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:21
 msgid "Keep Some"
 msgstr "نگه داشتن برخی"
 
-#: pika-backup/src/widget/detail/schedule/prune_preset.rs:21
+#: pika-backup/src/widget/detail/schedule/prune_preset.rs:22
 msgid "Custom"
 msgstr "سفارشی"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:18
+#, rust-format
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "پشتیبان بعدی در یک دقیقه"
 msgstr[1] "پشتیبان بعدی در {} دقیقه"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:24
+#, rust-format
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "پشتیبان بعدی در یک ساعت"
 msgstr[1] "پشتیبان بعدی در {} ساعت"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:30
+#, rust-format
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "پشتیبان بعدی در یک روز"
 msgstr[1] "پشتیبان بعدی در {} روز"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:36
+#, rust-format
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "پشتیبان بعدی در یک هفته"
@@ -1926,23 +1988,14 @@ msgstr "فضای جدید استفاده شده در این پشتیبان"
 msgid "Current File"
 msgstr "پروندهٔ کنونی"
 
-#: pika-backup/src/widget/dialog/check.rs:69
+#: pika-backup/src/widget/dialog/check.rs:58
 msgid "Perform Repair"
 msgstr "انجام تعمیر"
 
-#: pika-backup/src/widget/dialog/check.rs:73
+#: pika-backup/src/widget/dialog/check.rs:62
 #: pika-backup/src/widget/dialog/check.ui:54
 msgid "Perform Check"
 msgstr "انجام بررسی"
-
-#: pika-backup/src/widget/dialog/check.rs:116
-#: pika-backup/src/widget/dialog/check.rs:163
-msgid "Verify Archives Integrity"
-msgstr "تأیید یکپارچگی بایگانی‌ها"
-
-#: pika-backup/src/widget/dialog/check.rs:182
-msgid "Verify archives integrity completed successfully"
-msgstr "تأیید یکپارچگی بایگانی‌ها با موفّقیت کامل شد"
 
 #: pika-backup/src/widget/dialog/check.ui:5
 #: pika-backup/src/widget/dialog/check.ui:14
@@ -2005,6 +2058,7 @@ msgid "The following backup location needs to be connected:"
 msgstr ""
 
 #: pika-backup/src/widget/dialog/encryption_password.rs:61
+#, rust-format
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -2017,7 +2071,7 @@ msgstr "نیازمند گذرواژهٔ رمزگذاری"
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:179
+#: pika-backup/src/widget/overview.rs:206
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -2099,36 +2153,37 @@ msgid ""
 "stable/usage/help.html\">BorgBackup documentation</a>."
 msgstr ""
 
-#: pika-backup/src/widget/dialog/preferences.rs:216
+#: pika-backup/src/widget/dialog/preferences.rs:205
+#, rust-format
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
 msgstr ""
 
-#: pika-backup/src/widget/dialog/preferences.rs:275
+#: pika-backup/src/widget/dialog/preferences.rs:264
 msgid "Shell command invalid"
 msgstr "فرمان پوستهٔ نامعتبر"
 
-#: pika-backup/src/widget/dialog/preferences.rs:480
+#: pika-backup/src/widget/dialog/preferences.rs:469
 msgid "Remove Password?"
 msgstr "برداشتن گذرواژه؟"
 
-#: pika-backup/src/widget/dialog/preferences.rs:482
+#: pika-backup/src/widget/dialog/preferences.rs:471
 #: pika-backup/src/widget/dialog/setup/encryption.rs:87
 msgid ""
 "When encryption is not used, everyone with access to the backup files can "
 "read all data"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/preferences.rs:488
+#: pika-backup/src/widget/dialog/preferences.rs:477
 msgid "Remove Password"
 msgstr "برداشتن گذرواژه"
 
-#: pika-backup/src/widget/dialog/preferences.rs:511
+#: pika-backup/src/widget/dialog/preferences.rs:500
 msgid "Change Encryption Password Error"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/preferences.rs:518
+#: pika-backup/src/widget/dialog/preferences.rs:507
 msgid "Password changed successfully"
 msgstr ""
 
@@ -2212,7 +2267,7 @@ msgstr ""
 
 #: pika-backup/src/widget/dialog/prune.rs:70
 msgid "Review Changes"
-msgstr ""
+msgstr "بازبینی تغییرات"
 
 #: pika-backup/src/widget/dialog/prune.rs:74
 msgid "Collecting information about the effect of the changes on old archives"
@@ -2260,7 +2315,7 @@ msgstr "شناسایی بایگانی‌های قدیمی"
 #: pika-backup/src/widget/dialog/prune.ui:43
 #: pika-backup/src/widget/dialog/prune.ui:100
 msgid "Delete Archives"
-msgstr ""
+msgstr "حذف بایگانی‌ها"
 
 #. Translators: Header while creating a list of old archives to be approved for deletion.
 #: pika-backup/src/widget/dialog/prune.ui:23
@@ -2338,27 +2393,27 @@ msgstr "گذرواژهٔ نامعتبر"
 msgid "Loading Backup Repository"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:211
+#: pika-backup/src/widget/dialog/setup/actions.rs:214
 #: pika-backup/src/widget/dialog/setup/create_new.ui:6
 msgid "Creating Backup Repository"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/actions.rs:220
+#: pika-backup/src/widget/dialog/setup/actions.rs:223
 msgid "Getting Repository Information"
 msgstr ""
 
 #: pika-backup/src/widget/dialog/setup/add_existing.ui:6
 msgid "Checking Backup Repository"
-msgstr ""
+msgstr "بررسی کردن مخزن پشتیبان"
 
 #: pika-backup/src/widget/dialog/setup/advanced_options.ui:6
-#: pika-backup/src/widget/dialog/setup/location.ui:70
-#: pika-backup/src/widget/dialog/setup/location.ui:192
+#: pika-backup/src/widget/dialog/setup/location.ui:40
+#: pika-backup/src/widget/dialog/setup/location.ui:244
 msgid "Advanced Options"
 msgstr "گزینه‌های پبش‌رفته"
 
 #: pika-backup/src/widget/dialog/setup/ask_password.ui:23
-#: pika-backup/src/widget/dialog/setup/location.ui:231
+#: pika-backup/src/widget/dialog/setup/location.ui:283
 msgid "_Continue"
 msgstr "_ادامه‌"
 
@@ -2368,41 +2423,41 @@ msgstr ""
 
 #: pika-backup/src/widget/dialog/setup/encryption.ui:6
 msgid "Setup Encryption"
-msgstr ""
+msgstr "برپایی رمزنگاری"
 
 #: pika-backup/src/widget/dialog/setup/encryption.ui:17
 msgid "_Create"
 msgstr "_ایجاد"
 
-#: pika-backup/src/widget/dialog/setup/location.rs:214
+#: pika-backup/src/widget/dialog/setup/location.rs:225
 msgid "Repository Folder"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.rs:230
+#: pika-backup/src/widget/dialog/setup/location.rs:241
 msgid "Choose Repository Folder"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.rs:242
+#: pika-backup/src/widget/dialog/setup/location.rs:253
 msgid "Additional command line arguments"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.rs:393
+#: pika-backup/src/widget/dialog/setup/location.rs:404
 msgid "Repository Name Empty"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.rs:394
+#: pika-backup/src/widget/dialog/setup/location.rs:405
 msgid "The repository folder name must be set"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.rs:406
+#: pika-backup/src/widget/dialog/setup/location.rs:417
 msgid "No Base Folder Selected"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.rs:407
+#: pika-backup/src/widget/dialog/setup/location.rs:418
 msgid "Select a base folder for the backup repository"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.rs:418
+#: pika-backup/src/widget/dialog/setup/location.rs:429
 msgid "Invalid Remote Location"
 msgstr ""
 
@@ -2414,7 +2469,7 @@ msgstr ""
 msgid "Repository Name"
 msgstr "نام مخزن"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:58
+#: pika-backup/src/widget/dialog/setup/location.ui:68
 msgid ""
 "Backups to the selected location could be corrupted if the device is "
 "disconnected or powered down with a backup in progress. If possible, "
@@ -2422,30 +2477,36 @@ msgid ""
 "reformatting deletes all files on the location!"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.ui:96
+#: pika-backup/src/widget/dialog/setup/location.ui:93
 msgid "Repository URL"
 msgstr "نشانی مخزن"
 
-#: pika-backup/src/widget/dialog/setup/location.ui:117
+#: pika-backup/src/widget/dialog/setup/location.ui:121
 msgid "Locations with BorgBackup Support"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.ui:128
+#: pika-backup/src/widget/dialog/setup/location.ui:132
+#: pika-backup/src/widget/dialog/setup/location.ui:197
+msgid "More Information"
+msgstr "اطّلاعات بیش‌تر"
+
+#: pika-backup/src/widget/dialog/setup/location.ui:145
 msgid ""
-"Servers with borgbackup installed have the best performance. <a "
-"href=\"help:pika-backup/setup-remote\">More</a>"
+"The “ssh://” prefix is reserved for servers with BorgBackup support. This "
+"option provides the best performance."
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.ui:147
-msgid "Network Shares"
+#: pika-backup/src/widget/dialog/setup/location.ui:186
+msgid "SMB and SFTP Network Shares"
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.ui:159
+#: pika-backup/src/widget/dialog/setup/location.ui:209
 msgid ""
-"Use GNOME Files syntax. <a href=\"help:pika-backup/setup-gvfs\">More</a>"
+"The “sftp://” and “smb://” prefixes can be used to access network shares. "
+"The network share does not need explicit BorgBackup support."
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/location.ui:215
+#: pika-backup/src/widget/dialog/setup/location.ui:267
 msgid "_Connect"
 msgstr "_وصل شدن"
 
@@ -2466,6 +2527,7 @@ msgid ""
 msgstr ""
 
 #: pika-backup/src/widget/dialog/setup/location_kind.rs:289
+#, rust-format
 msgid "Free space: {}"
 msgstr "فضای خالی: {}"
 
@@ -2499,7 +2561,7 @@ msgid ""
 "transfer to the new setup. The configuration can be adjusted afterward."
 msgstr ""
 
-#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:12
+#: pika-backup/src/widget/dialog/setup/transfer_settings.ui:13
 msgid "Skip"
 msgstr "پرش"
 
@@ -2512,11 +2574,11 @@ msgid "The remote location must have a specified path."
 msgstr ""
 
 #: pika-backup/src/widget/dialog/setup/types.rs:73
+#, rust-format
 msgid "Invalid remote location: “{}”"
 msgstr ""
 
 #: pika-backup/src/widget/dialog/storage.ui:6
-#: pika-backup/src/widget/folder_row.rs:55
 msgid "Backup Location"
 msgstr "مکان پشتیبان"
 
@@ -2674,15 +2736,36 @@ msgstr ""
 msgid "Repeat Password"
 msgstr "تکرار گذرواژه"
 
-#: pika-backup/src/widget/overview.rs:177
+#: pika-backup/src/widget/overview.rs:176
+msgid "Repository in Use"
+msgstr "مخزن استفاده شده"
+
+#: pika-backup/src/widget/overview.rs:178
+#, rust-format
+msgid ""
+"Repository configurations cannot be deleted while operation “{}” is in "
+"progress."
+msgstr ""
+
+#: pika-backup/src/widget/overview.rs:198
+msgid "Repository Open for Browsing"
+msgstr "مخزن گشوده برای مرور کردن"
+
+#: pika-backup/src/widget/overview.rs:198
+msgid ""
+"Repository configurations cannot be deleted while the repository is open for "
+"browsing."
+msgstr ""
+
+#: pika-backup/src/widget/overview.rs:204
 msgid "Remove Backup Setup?"
 msgstr ""
 
-#: pika-backup/src/widget/overview.rs:178
+#: pika-backup/src/widget/overview.rs:205
 msgid "Removing the setup will not delete any archives"
 msgstr ""
 
-#: pika-backup/src/widget/overview.rs:180
+#: pika-backup/src/widget/overview.rs:207
 msgid "_Remove Setup"
 msgstr "_برداشتن برپایی"
 
@@ -2717,3 +2800,15 @@ msgstr "افزودن پیکربندی‌ای جدید برای آغاز ایجا
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "_برپایی پشتیبان"
+
+#~ msgid "A repository already exists at this location."
+#~ msgstr "مخزنی از پیش در این مکان وجود دارد."
+
+#~ msgid "Repository already in use"
+#~ msgstr "مخزن از پیش در حال استفاده است"
+
+#~ msgid "Verify Archives Integrity"
+#~ msgstr "تأیید یکپارچگی بایگانی‌ها"
+
+#~ msgid "Verify archives integrity completed successfully"
+#~ msgstr "تأیید یکپارچگی بایگانی‌ها با موفّقیت کامل شد"
