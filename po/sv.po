@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2026-03-30 15:13+0000\n"
-"PO-Revision-Date: 2026-03-30 23:18+0200\n"
+"POT-Creation-Date: 2026-08-05 18:11+0000\n"
+"PO-Revision-Date: 2026-08-10 15:00+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
@@ -50,7 +50,8 @@ msgstr "arkiv;säkerhetskopia;säkerhetskopiering;borg;"
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 pika-backup/src/widget/dialog/about.rs:17
+#: data/app.metainfo.xml.in:9 data/app.metainfo.xml.in:11
+#: pika-backup/src/widget/dialog/about.rs:17
 msgid "Small Mammal Collective"
 msgstr "Small Mammal Collective"
 
@@ -125,7 +126,7 @@ msgstr "Konfigurera ny säkerhetskopia"
 msgid "Show Keyboard Shortcuts"
 msgstr "Visa tangentbordsgenvägar"
 
-#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:279
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:298
 msgid "Quit"
 msgstr "Avsluta"
 
@@ -189,10 +190,12 @@ msgid "The program or system seems to have crashed."
 msgstr "Programmet eller systemet verkar ha kraschat."
 
 #: pika-backup-common/src/borg/error.rs:183
+#, rust-format
 msgid "{}"
 msgstr "{}"
 
 #: pika-backup-common/src/borg/error.rs:185
+#, rust-format
 msgid "Unable to access backup repository: {}"
 msgstr "Kunde inte komma åt säkerhetskopieringsförråd: {}"
 
@@ -298,6 +301,7 @@ msgid "Connection to remote host broken."
 msgstr "Anslutning till fjärrvärd bröts."
 
 #: pika-backup-common/src/borg/error.rs:356
+#, rust-format
 msgid "Connection closed by remote host: “{}”"
 msgstr "Anslutning stängdes av fjärrvärd: ”{}”"
 
@@ -329,11 +333,12 @@ msgid "Backup will continue."
 msgstr "Säkerhetskopiering kommer fortsätta."
 
 #: pika-backup-common/src/borg/log_json.rs:85
+#, rust-format
 msgid "Backed up data: {}"
 msgstr "Säkerhetskopierade data: {}"
 
 #: pika-backup-common/src/borg/log_json.rs:115
-#, no-c-format
+#, no-c-format, rust-format
 msgid "Operation {} % completed ({}/{})"
 msgstr "Åtgärd {} % slutförd ({}/{})"
 
@@ -422,6 +427,7 @@ msgid "Attempting to access a previously unknown unencrypted repository."
 msgstr "Försöker komma åt en tidigare okänd okrypterad lagringsplats."
 
 #: pika-backup-common/src/borg/log_json.rs:252
+#, rust-format
 msgid "The backup repository at location “{}” was previously located at “{}”."
 msgstr "Säkerhetskopieringsförrådet på ”{}” fanns tidigare på ”{}”."
 
@@ -448,11 +454,13 @@ msgstr ""
 "säkerhetskopior som den innehåller."
 
 #: pika-backup-common/src/borg/log_json.rs:266
+#, rust-format
 msgid "Unexpected question from borgbackup: “{}”"
 msgstr "Oväntad fråga från borgbackup: ”{}”"
 
 #. Translators: Combines statement from above and this question
 #: pika-backup-common/src/borg/log_json.rs:271
+#, rust-format
 msgid ""
 "{}\n"
 "\n"
@@ -561,6 +569,7 @@ msgid "The amount of files saved in this archive"
 msgstr "Antalet filer sparade i detta arkiv"
 
 #: pika-backup-common/src/borg/scripts.rs:276
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences failed to run.\n"
 "{}"
@@ -570,6 +579,7 @@ msgstr ""
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:280
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences failed to run.\n"
 "{}"
@@ -579,6 +589,7 @@ msgstr ""
 "{}"
 
 #: pika-backup-common/src/borg/scripts.rs:306
+#, rust-format
 msgid ""
 "The pre-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -586,6 +597,7 @@ msgstr ""
 "felkod: {}"
 
 #: pika-backup-common/src/borg/scripts.rs:310
+#, rust-format
 msgid ""
 "The post-backup command configured in preferences returned a failure code: {}"
 msgstr ""
@@ -712,7 +724,8 @@ msgstr "Filer som inte oåterkalleligt har tagits bort"
 msgid "Might include data stored within"
 msgstr "Kan inkludera data lagrat inuti"
 
-#: pika-backup-common/src/config/loadable.rs:41
+#: pika-backup-common/src/config/loadable.rs:48
+#, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
 "of Pika Backup"
@@ -752,7 +765,7 @@ msgstr "Varje vecka"
 msgid "Monthly"
 msgstr "Varje månad"
 
-#: pika-backup-common/src/utils.rs:106
+#: pika-backup-common/src/utils.rs:111
 msgid "No such file or directory"
 msgstr "Ingen sådan fil eller katalog"
 
@@ -773,6 +786,7 @@ msgid "Backup Device Connected"
 msgstr "Enhet för säkerhetskopia ansluten"
 
 #: pika-backup-monitor/src/connect/event.rs:30
+#, rust-format
 msgid "“{}” contains multiple configured backups."
 msgstr "”{}” innehåller flera konfigurerade säkerhetskopior."
 
@@ -781,6 +795,7 @@ msgid "Show Backups"
 msgstr "Visa säkerhetskopior"
 
 #: pika-backup-monitor/src/connect/event.rs:39
+#, rust-format
 msgid "“{}” contains one configured backup."
 msgstr "”{}” innehåller en konfigurerad säkerhetskopia."
 
@@ -805,6 +820,7 @@ msgid "Fatal Error During Back Up"
 msgstr "Ödesdigert fel under säkerhetskopiering"
 
 #: pika-backup-monitor/src/init.rs:147
+#, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
 msgstr[0] "Pika Backup kraschade under körning av en säkerhetskopia"
@@ -840,6 +856,7 @@ msgid "Backup Device Required"
 msgstr "Enhet för säkerhetskopiering krävs"
 
 #: pika-backup-monitor/src/schedule/init.rs:160
+#, rust-format
 msgid "“{}” has to be connected for the scheduled backup to start"
 msgstr ""
 "”{}” måste vara anslutet för att den schemalagda säkerhetskopian ska starta"
@@ -848,15 +865,15 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Misslyckades med att starta schemalagd säkerhetskopia"
 
-#: pika-backup/src/app.rs:249
+#: pika-backup/src/app.rs:268
 msgid "Abort Backup?"
 msgstr "Avbryt säkerhetskopiering?"
 
-#: pika-backup/src/app.rs:250
+#: pika-backup/src/app.rs:269
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Säkerhetskopian förblir ofullständig om den avbryts nu"
 
-#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:367
+#: pika-backup/src/app.rs:270 pika-backup/src/utils.rs:367
 #: pika-backup/src/widget/detail/backup/events.rs:26
 #: pika-backup/src/widget/detail/backup/events.rs:36
 #: pika-backup/src/widget/detail/backup/events.rs:46
@@ -864,17 +881,17 @@ msgstr "Säkerhetskopian förblir ofullständig om den avbryts nu"
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: pika-backup/src/app.rs:252 pika-backup/src/utils.rs:366
+#: pika-backup/src/app.rs:271 pika-backup/src/utils.rs:366
 #: pika-backup/src/widget/detail/backup/events.rs:37
 #: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Avbryt"
 
-#: pika-backup/src/app.rs:264
+#: pika-backup/src/app.rs:283
 msgid "Backup Operation Running"
 msgstr "Säkerhetskopieringsåtgärd pågår"
 
-#: pika-backup/src/app.rs:266
+#: pika-backup/src/app.rs:285
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr "Pika Backup kan inte avslutas under en säkerhetskopieringsåtgärd"
 
@@ -912,6 +929,7 @@ msgstr "Senaste säkerhetskopieringen misslyckades"
 
 #. Translators: Argument is 'x months ago'
 #: pika-backup/src/backup_status.rs:144
+#, rust-format
 msgid "Successful Integrity Check {}"
 msgstr "Lyckad integritetskontroll {}"
 
@@ -936,7 +954,7 @@ msgid "Integrity Errors Found"
 msgstr "Integritetsfel hittades"
 
 #: pika-backup/src/backup_status.rs:223
-#, no-c-format
+#, no-c-format, rust-format
 msgid "{} % finished"
 msgstr "{} % slutfört"
 
@@ -953,6 +971,7 @@ msgid "Backup Destination Unresponsive"
 msgstr "Säkerhetskopieringsmål svarar inte"
 
 #: pika-backup/src/backup_status.rs:252
+#, rust-format
 msgid "Connection lost, reconnecting in {}"
 msgstr "Anslutningen tappades, återansluter om {}"
 
@@ -984,10 +1003,12 @@ msgstr ""
 "dokumentation för installationsinstruktioner."
 
 #: pika-backup/src/error.rs:237
+#, rust-format
 msgid "Backup with id “{}” already exists."
 msgstr "Säkerhetskopiering med id ”{}” finns redan."
 
 #: pika-backup/src/error.rs:246
+#, rust-format
 msgid "Could not find backup configuration with id “{}”."
 msgstr "Kunde inte hitta säkerhetskopieringskonfiguration med id ”{}”."
 
@@ -1004,6 +1025,7 @@ msgid "BorgBackup Version Too Old"
 msgstr "BorgBackup-version för gammal"
 
 #: pika-backup/src/lib.rs:108
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is older than the required version "
 "{}. This is unsupported."
@@ -1016,6 +1038,7 @@ msgid "BorgBackup Version Too New"
 msgstr "BorgBackup-version för ny"
 
 #: pika-backup/src/lib.rs:119
+#, rust-format
 msgid ""
 "The installed version {} of BorgBackup is new and untested. Version {} is "
 "recommended."
@@ -1028,6 +1051,7 @@ msgid "Failed to Check BorgBackup Version"
 msgstr "Misslyckades med att kontrollera BorgBackup-version"
 
 #: pika-backup/src/lib.rs:130
+#, rust-format
 msgid "The installed version {} might not work."
 msgstr "Den installerade versionen {} kommer kanske inte att fungera."
 
@@ -1053,6 +1077,7 @@ msgid "Unable to determine background process status"
 msgstr "Kunde inte avgöra status för bakgrundsprocess"
 
 #: pika-backup/src/toast_size_estimate.rs:58
+#, rust-format
 msgid ""
 "Backup location “{}” might be filling up. Estimated space missing to store "
 "all data: {}."
@@ -1101,6 +1126,7 @@ msgid "Failed to Start Monitor"
 msgstr "Misslyckades med att starta övervakare"
 
 #: pika-backup/src/utils.rs:251
+#, rust-format
 msgid "One backup operation running"
 msgid_plural "{} backup operations running"
 msgstr[0] "En säkerhetskopieringsåtgärd pågår"
@@ -1123,28 +1149,33 @@ msgstr "Ytterligare kommandoradsargument är ogiltiga"
 msgid "Please check for missing closing quotes."
 msgstr "Kontrollera eventuellt saknade avslutande citattecken."
 
-#: pika-backup/src/utils/borg.rs:83
-msgid "Repository already in use"
+#: pika-backup/src/utils/borg.rs:84 pika-backup/src/utils/borg.rs:297
+msgid "Repository Already in Use"
 msgstr "Lagringsplats används redan"
 
-#: pika-backup/src/utils/borg.rs:151 pika-backup/src/utils/borg.rs:163
+#: pika-backup/src/utils/borg.rs:85
+#, rust-format
+msgid "The operation “{}” is ongoing on repository “{}”."
+msgstr "Åtgärden ”{}” pågår på lagringsplatsen ”{}”."
+
+#: pika-backup/src/utils/borg.rs:153 pika-backup/src/utils/borg.rs:165
 msgid "Stop Browsing Files?"
 msgstr "Sluta bläddra bland filer?"
 
-#: pika-backup/src/utils/borg.rs:153
+#: pika-backup/src/utils/borg.rs:155
 msgid "Browsing through archived files is not possible while running a backup"
 msgstr ""
 "Det går inte att bläddra bland arkiverade filer när du kör en säkerhetskopia"
 
-#: pika-backup/src/utils/borg.rs:155 pika-backup/src/utils/borg.rs:167
+#: pika-backup/src/utils/borg.rs:157 pika-backup/src/utils/borg.rs:169
 msgid "Keep Browsing"
 msgstr "Fortsätt bläddra"
 
-#: pika-backup/src/utils/borg.rs:156
+#: pika-backup/src/utils/borg.rs:158
 msgid "Start Backup"
 msgstr "Starta säkerhetskopiering"
 
-#: pika-backup/src/utils/borg.rs:165
+#: pika-backup/src/utils/borg.rs:167
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository"
@@ -1152,19 +1183,16 @@ msgstr ""
 "Det går inte att bläddra bland arkiverade filer när du kör en åtgärd på "
 "lagringsplatsen"
 
-#: pika-backup/src/utils/borg.rs:168
+#: pika-backup/src/utils/borg.rs:170
 msgid "Start Operation"
 msgstr "Starta åtgärd"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
+#: pika-backup/src/utils/borg.rs:179 pika-backup/src/utils/borg.rs:320
 msgid "Failed to unmount repository."
 msgstr "Misslyckades med att avmontera lagringsplatsen."
 
-#: pika-backup/src/utils/borg.rs:295
-msgid "Repository Already in Use"
-msgstr "Lagringsplats används redan"
-
-#: pika-backup/src/utils/borg.rs:296
+#: pika-backup/src/utils/borg.rs:298
+#, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
@@ -1174,7 +1202,7 @@ msgstr ""
 "information kan vara föråldrad om datorn exempelvis förlorade strömmen under "
 "tiden den använde lagringsplatsen."
 
-#: pika-backup/src/utils/borg.rs:298
+#: pika-backup/src/utils/borg.rs:300
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1184,7 +1212,7 @@ msgstr ""
 "program! Om du fortsätter medan ett annat program använder lagringsplatsen "
 "kan säkerhetskopieringsdata skadas!"
 
-#: pika-backup/src/utils/borg.rs:299
+#: pika-backup/src/utils/borg.rs:301
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1192,19 +1220,21 @@ msgstr ""
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: pika-backup/src/utils/borg.rs:300
+#: pika-backup/src/utils/borg.rs:302
 msgid "Continue Anyway"
 msgstr "Fortsätt ändå"
 
-#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
+#: pika-backup/src/utils/borg.rs:448 pika-backup/src/utils/borg.rs:469
 msgid "Unable to Eject Backup Disk"
 msgstr "Kunde inte mata ut säkerhetskopieringsdisk"
 
-#: pika-backup/src/utils/borg.rs:455
+#: pika-backup/src/utils/borg.rs:457
+#, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} kan plockas ut säkert."
 
-#: pika-backup/src/utils/borg.rs:468
+#: pika-backup/src/utils/borg.rs:470
+#, rust-format
 msgid "{} can't be ejected."
 msgstr "{} kan inte matas ut."
 
@@ -1217,66 +1247,77 @@ msgid "Could not load configuration file."
 msgstr "Kunde inte läsa in konfigurationsfil."
 
 #: pika-backup/src/utils/duration.rs:11
+#, rust-format
 msgid "One second"
 msgid_plural "{} seconds"
 msgstr[0] "En sekund"
 msgstr[1] "{} sekunder"
 
 #: pika-backup/src/utils/duration.rs:13
+#, rust-format
 msgid "One minute"
 msgid_plural "{} minutes"
 msgstr[0] "En minut"
 msgstr[1] "{} minuter"
 
 #: pika-backup/src/utils/duration.rs:15
+#, rust-format
 msgid "One hour"
 msgid_plural "{} hours"
 msgstr[0] "En timme"
 msgstr[1] "{} timmar"
 
 #: pika-backup/src/utils/duration.rs:17
+#, rust-format
 msgid "One day"
 msgid_plural "{} days"
 msgstr[0] "En dag"
 msgstr[1] "{} dagar"
 
 #: pika-backup/src/utils/duration.rs:23
+#, rust-format
 msgid "one second"
 msgid_plural "{} seconds"
 msgstr[0] "en sekund"
 msgstr[1] "{} sekunder"
 
 #: pika-backup/src/utils/duration.rs:25
+#, rust-format
 msgid "one minute"
 msgid_plural "{} minutes"
 msgstr[0] "en minut"
 msgstr[1] "{} minuter"
 
 #: pika-backup/src/utils/duration.rs:27
+#, rust-format
 msgid "one hour"
 msgid_plural "{} hours"
 msgstr[0] "en timme"
 msgstr[1] "{} timmar"
 
 #: pika-backup/src/utils/duration.rs:29
+#, rust-format
 msgid "one day"
 msgid_plural "{} days"
 msgstr[0] "en dag"
 msgstr[1] "{} dagar"
 
 #: pika-backup/src/utils/duration.rs:36
+#, rust-format
 msgid "One minute left"
 msgid_plural "{} minutes left"
 msgstr[0] "En minut kvar"
 msgstr[1] "{} minuter kvar"
 
 #: pika-backup/src/utils/duration.rs:41
+#, rust-format
 msgid "One hour left"
 msgid_plural "{} hours left"
 msgstr[0] "En timme kvar"
 msgstr[1] "{} timmar kvar"
 
 #: pika-backup/src/utils/duration.rs:43
+#, rust-format
 msgid "One day left"
 msgid_plural "{} days left"
 msgstr[0] "En dag kvar"
@@ -1287,36 +1328,42 @@ msgid "Now"
 msgstr "Nu"
 
 #: pika-backup/src/utils/duration.rs:51
+#, rust-format
 msgid "One minute ago"
 msgid_plural "{} minutes ago"
 msgstr[0] "En minut sedan"
 msgstr[1] "{} minuter sedan"
 
 #: pika-backup/src/utils/duration.rs:53
+#, rust-format
 msgid "One hour ago"
 msgid_plural "{} hours ago"
 msgstr[0] "En timme sedan"
 msgstr[1] "{} timmar sedan"
 
 #: pika-backup/src/utils/duration.rs:55
+#, rust-format
 msgid "One day ago"
 msgid_plural "{} days ago"
 msgstr[0] "En dag sedan"
 msgstr[1] "{} dagar sedan"
 
 #: pika-backup/src/utils/duration.rs:57
+#, rust-format
 msgid "One week ago"
 msgid_plural "{} weeks ago"
 msgstr[0] "En vecka sedan"
 msgstr[1] "{} veckor sedan"
 
 #: pika-backup/src/utils/duration.rs:59
+#, rust-format
 msgid "One month ago"
 msgid_plural "{} months ago"
 msgstr[0] "En månad sedan"
 msgstr[1] "{} månader sedan"
 
 #: pika-backup/src/utils/duration.rs:61
+#, rust-format
 msgid "One year ago"
 msgid_plural "{} years ago"
 msgstr[0] "Ett år sedan"
@@ -1349,6 +1396,7 @@ msgstr ""
 
 #. Translators: This is the description for entries in the password database.
 #: pika-backup/src/utils/password_storage.rs:63
+#, rust-format
 msgid "Pika Backup “{}”"
 msgstr "Pika Backup ”{}”"
 
@@ -1473,10 +1521,12 @@ msgid "Delete Archive"
 msgstr "Ta bort arkiv"
 
 #: pika-backup/src/widget/detail/archives/display.rs:263
+#, rust-format
 msgid "{} Available"
 msgstr "{} tillgängligt"
 
 #: pika-backup/src/widget/detail/archives/display.rs:265
+#, rust-format
 msgid "{} Total"
 msgstr "{} totalt"
 
@@ -1591,6 +1641,7 @@ msgstr ""
 "gjorts av åtgärden att gå förlorade."
 
 #: pika-backup/src/widget/detail/backup/events.rs:101
+#, rust-format
 msgid ""
 "The following paths could not be included because they aren't reliably "
 "available in the sandbox:\n"
@@ -1622,6 +1673,7 @@ msgid "Include Folder"
 msgstr "Inkludera mapp"
 
 #: pika-backup/src/widget/detail/backup/events.rs:221
+#, rust-format
 msgid "No longer include “{}” in backups?"
 msgstr "Inkludera inte längre ”{}” i säkerhetskopior?"
 
@@ -1779,24 +1831,28 @@ msgid "Custom"
 msgstr "Anpassat"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:18
+#, rust-format
 msgid "Next backup in one minute"
 msgid_plural "Next backup in {} minutes"
 msgstr[0] "Nästa säkerhetskopiering om en minut"
 msgstr[1] "Nästa säkerhetskopiering om {} minuter"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:24
+#, rust-format
 msgid "Next backup in one hour"
 msgid_plural "Next backup in {} hours"
 msgstr[0] "Nästa säkerhetskopiering om en timme"
 msgstr[1] "Nästa säkerhetskopiering om {} timmar"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:30
+#, rust-format
 msgid "Next backup in one day"
 msgid_plural "Next backup in {} days"
 msgstr[0] "Nästa säkerhetskopiering om en dag"
 msgstr[1] "Nästa säkerhetskopiering om {} dagar"
 
 #: pika-backup/src/widget/detail/schedule/status.rs:36
+#, rust-format
 msgid "Next backup in one week"
 msgid_plural "Next backup in {} weeks"
 msgstr[0] "Nästa säkerhetskopiering om en vecka"
@@ -2112,6 +2168,7 @@ msgid "The following backup location needs to be connected:"
 msgstr "Följande säkerhetskopieringsplats behöver anslutas:"
 
 #: pika-backup/src/widget/dialog/encryption_password.rs:61
+#, rust-format
 msgid ""
 "The operation “{}” requires the encryption password of the repository on "
 "“{}”."
@@ -2125,7 +2182,7 @@ msgstr "Krypteringslösenord krävs"
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:175
+#: pika-backup/src/widget/overview.rs:206
 msgid "_Cancel"
 msgstr "A_vbryt"
 
@@ -2213,6 +2270,7 @@ msgstr ""
 "stable/usage/help.html\">BorgBackup-dokumentationen</a> för detaljer."
 
 #: pika-backup/src/widget/dialog/preferences.rs:205
+#, rust-format
 msgid ""
 "The title of this backup configuration. Will be displayed as “{}” when left "
 "empty."
@@ -2610,6 +2668,7 @@ msgstr ""
 "förråd skapade med annan BorgBackup-kompatibel programvara kan användas."
 
 #: pika-backup/src/widget/dialog/setup/location_kind.rs:289
+#, rust-format
 msgid "Free space: {}"
 msgstr "Ledigt utrymme: {}"
 
@@ -2662,6 +2721,7 @@ msgid "The remote location must have a specified path."
 msgstr "Fjärrplatsen måste ha en sökväg angiven."
 
 #: pika-backup/src/widget/dialog/setup/types.rs:73
+#, rust-format
 msgid "Invalid remote location: “{}”"
 msgstr "Ogiltig fjärrplats: ”{}”"
 
@@ -2830,15 +2890,39 @@ msgstr "Det här ser ut som ett starkt lösenord"
 msgid "Repeat Password"
 msgstr "Upprepa lösenord"
 
-#: pika-backup/src/widget/overview.rs:173
+#: pika-backup/src/widget/overview.rs:176
+msgid "Repository in Use"
+msgstr "Lagringsplats används"
+
+#: pika-backup/src/widget/overview.rs:178
+#, rust-format
+msgid ""
+"Repository configurations cannot be deleted while operation “{}” is in "
+"progress."
+msgstr ""
+"Lagringsplatskonfigurationer kan inte tas bort medan åtgärden ”{}” pågår."
+
+#: pika-backup/src/widget/overview.rs:198
+msgid "Repository Open for Browsing"
+msgstr "Lagringsplats öppen för bläddring"
+
+#: pika-backup/src/widget/overview.rs:198
+msgid ""
+"Repository configurations cannot be deleted while the repository is open for "
+"browsing."
+msgstr ""
+"Lagringsplatskonfigurationer kan inte tas bort medan lagringsplatsen är "
+"öppen för bläddring."
+
+#: pika-backup/src/widget/overview.rs:204
 msgid "Remove Backup Setup?"
 msgstr "Ta bort säkerhetskopieringskonfiguration?"
 
-#: pika-backup/src/widget/overview.rs:174
+#: pika-backup/src/widget/overview.rs:205
 msgid "Removing the setup will not delete any archives"
 msgstr "Att ta bort konfigurationen kommer inte att radera några arkiv"
 
-#: pika-backup/src/widget/overview.rs:176
+#: pika-backup/src/widget/overview.rs:207
 msgid "_Remove Setup"
 msgstr "_Ta bort konfiguration"
 
@@ -2873,6 +2957,9 @@ msgstr "Lägg till ny konfiguration för att börja skapa säkerhetskopior"
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "_Konfigurera säkerhetskopia"
+
+#~ msgid "Repository already in use"
+#~ msgstr "Lagringsplats används redan"
 
 #~ msgid "Verify Archives Integrity"
 #~ msgstr "Verifiera integritet för arkiv"
