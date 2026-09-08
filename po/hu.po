@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2026-02-27 21:10+0000\n"
-"PO-Revision-Date: 2026-03-05 22:47+0100\n"
+"POT-Creation-Date: 2026-08-05 18:11+0000\n"
+"PO-Revision-Date: 2026-09-09 00:28+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
@@ -49,7 +49,8 @@ msgstr "archiválás;biztonsági mentés;borg;"
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 pika-backup/src/widget/dialog/about.rs:17
+#: data/app.metainfo.xml.in:9 data/app.metainfo.xml.in:11
+#: pika-backup/src/widget/dialog/about.rs:17
 msgid "Small Mammal Collective"
 msgstr "Kis emlősök kollektívája"
 
@@ -128,7 +129,7 @@ msgstr "Új biztonsági mentés beállítása"
 msgid "Show Keyboard Shortcuts"
 msgstr "Gyorsbillentyűk megjelenítése"
 
-#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:279
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:298
 msgid "Quit"
 msgstr "Kilépés"
 
@@ -208,8 +209,8 @@ msgid ""
 "A repository already exists at this location. Try the “Use Existing "
 "Repository” option or select a different location."
 msgstr ""
-"Egy tároló már létezik ezen a helyen. Próbálja a „Meglévő tároló használata” l"
-"ehetőséget, vagy válasszon másik helyet."
+"Egy tároló már létezik ezen a helyen. Próbálja a „Meglévő tároló használata” "
+"lehetőséget, vagy válasszon másik helyet."
 
 #: pika-backup-common/src/borg/error.rs:300
 msgid ""
@@ -289,7 +290,7 @@ msgstr "A tároló-hozzáférés meg lett szakítva"
 #. RC 70+
 #: pika-backup-common/src/borg/error.rs:345
 msgid "Failed to lock repository."
-msgstr "A tároló zárolása sikertelen."
+msgstr "Nem sikerült zárolni a tárolót."
 
 #: pika-backup-common/src/borg/error.rs:346
 msgid "Repository already in use."
@@ -300,7 +301,6 @@ msgid "Connection closed by remote host."
 msgstr "A távoli gép lezárta a kapcsolatot."
 
 #: pika-backup-common/src/borg/error.rs:352
-#| msgid "Connection closed by remote host."
 msgid "Connection to remote host broken."
 msgstr "A távoli géppel való kapcsolat törött."
 
@@ -731,7 +731,7 @@ msgstr "Fájlok, amelyek nem lettek helyreállíthatatlanul törölve"
 msgid "Might include data stored within"
 msgstr "Tartalmazhatnak benne tárolt adatokat"
 
-#: pika-backup-common/src/config/loadable.rs:41
+#: pika-backup-common/src/config/loadable.rs:48
 #, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
@@ -772,21 +772,24 @@ msgstr "Hetente"
 msgid "Monthly"
 msgstr "Havonta"
 
-#: pika-backup-common/src/utils.rs:106
+#: pika-backup-common/src/utils.rs:111
 msgid "No such file or directory"
 msgstr "Nincs ilyen fájl vagy könyvtár"
 
 #: pika-backup-monitor/src/action.rs:41
-msgid "Failed to start backup from daemon"
-msgstr "Nem sikerült a biztonsági mentés démonból való indítása"
+#| msgid "Failed to start backup from daemon"
+msgid "Failed to start backup from monitor"
+msgstr "Nem sikerült a biztonsági mentés figyelőből való indítása"
 
 #: pika-backup-monitor/src/action.rs:55
-msgid "Failed to show overview from daemon"
-msgstr "Nem sikerült az áttekintés démonból való megjelenítése"
+#| msgid "Failed to show overview from daemon"
+msgid "Failed to show overview from monitor"
+msgstr "Nem sikerült az áttekintés figyelőből való megjelenítése"
 
 #: pika-backup-monitor/src/action.rs:70
-msgid "Failed to show schedule from daemon"
-msgstr "Nem sikerült az ütemezés démonból való megjelenítése"
+#| msgid "Failed to show schedule from daemon"
+msgid "Failed to show schedule from monitor"
+msgstr "Nem sikerült az ütemezés figyelőből való megjelenítése"
 
 #: pika-backup-monitor/src/connect/event.rs:24
 msgid "Backup Device Connected"
@@ -810,23 +813,23 @@ msgstr "A(z) „{}” egy beállított biztonsági mentést tartalmaz."
 msgid "Back Up Now"
 msgstr "Biztonsági mentés most"
 
-#: pika-backup-monitor/src/init.rs:35
+#: pika-backup-monitor/src/init.rs:44
 msgid "Error loading configuration"
 msgstr "Hiba a beállítások betöltésekor"
 
-#: pika-backup-monitor/src/init.rs:36
+#: pika-backup-monitor/src/init.rs:45
 msgid "Not monitoring backup schedule."
 msgstr "A biztonsági mentés ütemezésének nincs figyelése."
 
-#: pika-backup-monitor/src/init.rs:61
+#: pika-backup-monitor/src/init.rs:74
 msgid "Monitoring backup schedule"
 msgstr "Biztonsági mentés ütemezésének figyelése"
 
-#: pika-backup-monitor/src/init.rs:128
+#: pika-backup-monitor/src/init.rs:144
 msgid "Fatal Error During Back Up"
 msgstr "Végzetes hiba a biztonsági mentés során"
 
-#: pika-backup-monitor/src/init.rs:131
+#: pika-backup-monitor/src/init.rs:147
 #, rust-format
 msgid "Pika Backup crashed while running a backup"
 msgid_plural "Pika Backup crashed while running {} backups"
@@ -835,10 +838,11 @@ msgstr[0] ""
 msgstr[1] ""
 "A Pika biztonsági mentés összeomlott {} biztonsági mentés futtatása során"
 
-#: pika-backup-monitor/src/init.rs:170 pika-backup-monitor/src/init.rs:172
-#: pika-backup-monitor/src/init.rs:179
-msgid "Error restarting monitor daemon"
-msgstr "Hiba a figyelődémon újraindításakor"
+#: pika-backup-monitor/src/init.rs:192 pika-backup-monitor/src/init.rs:194
+#: pika-backup-monitor/src/init.rs:201
+#| msgid "Error restarting monitor daemon"
+msgid "Error restarting monitor monitor"
+msgstr "Hiba a figyelőfigyelő újraindításakor"
 
 #: pika-backup-monitor/src/schedule/init.rs:119
 msgid "The backup repository is already in use."
@@ -875,15 +879,15 @@ msgstr ""
 msgid "Failed to start scheduled backup"
 msgstr "Az ütemezett biztonsági mentés indítása sikertelen"
 
-#: pika-backup/src/app.rs:249
+#: pika-backup/src/app.rs:268
 msgid "Abort Backup?"
 msgstr "Megszakítja a biztonsági mentést?"
 
-#: pika-backup/src/app.rs:250
+#: pika-backup/src/app.rs:269
 msgid "The backup will remain incomplete if aborted now"
 msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja"
 
-#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:367
+#: pika-backup/src/app.rs:270 pika-backup/src/utils.rs:367
 #: pika-backup/src/widget/detail/backup/events.rs:26
 #: pika-backup/src/widget/detail/backup/events.rs:36
 #: pika-backup/src/widget/detail/backup/events.rs:46
@@ -891,17 +895,17 @@ msgstr "A biztonsági mentés befejezetlen lesz, ha most megszakítja"
 msgid "Continue"
 msgstr "Folytatás"
 
-#: pika-backup/src/app.rs:252 pika-backup/src/utils.rs:366
+#: pika-backup/src/app.rs:271 pika-backup/src/utils.rs:366
 #: pika-backup/src/widget/detail/backup/events.rs:37
 #: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Megszakítás"
 
-#: pika-backup/src/app.rs:264
+#: pika-backup/src/app.rs:283
 msgid "Backup Operation Running"
 msgstr "Biztonsági mentési művelet fut"
 
-#: pika-backup/src/app.rs:266
+#: pika-backup/src/app.rs:285
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr ""
 "A Pika biztonsági mentés nem tud kilépni egy biztonsági mentési művelet "
@@ -1080,7 +1084,7 @@ msgstr "A csatolás sikertelen"
 msgid "The network server is not available"
 msgstr "A hálózati kiszolgáló nem érhető el"
 
-#: pika-backup/src/shell.rs:32
+#: pika-backup/src/shell.rs:31
 msgid "Idle"
 msgstr "Tétlen"
 
@@ -1163,29 +1167,37 @@ msgstr "A további parancssori argumentumok érvénytelenek"
 msgid "Please check for missing closing quotes."
 msgstr "Ellenőrizze a hiányzó záró idézőjeleket."
 
-#: pika-backup/src/utils/borg.rs:83
-msgid "Repository already in use"
+#: pika-backup/src/utils/borg.rs:84 pika-backup/src/utils/borg.rs:297
+msgid "Repository Already in Use"
 msgstr "A tároló már használatban van"
 
-#: pika-backup/src/utils/borg.rs:151 pika-backup/src/utils/borg.rs:163
+#: pika-backup/src/utils/borg.rs:85
+#, rust-format
+#| msgid ""
+#| "The operation “{}” requires the encryption password of the repository on "
+#| "“{}”."
+msgid "The operation “{}” is ongoing on repository “{}”."
+msgstr "A(z) „{}” művelet folyamatban van a(z) „{}” tárolón."
+
+#: pika-backup/src/utils/borg.rs:153 pika-backup/src/utils/borg.rs:165
 msgid "Stop Browsing Files?"
 msgstr "Leállítja a fájlok tallózását?"
 
-#: pika-backup/src/utils/borg.rs:153
+#: pika-backup/src/utils/borg.rs:155
 msgid "Browsing through archived files is not possible while running a backup"
 msgstr ""
 "Az archivált fájlok tallózása a biztonsági mentés futtatása közben nem "
 "lehetséges"
 
-#: pika-backup/src/utils/borg.rs:155 pika-backup/src/utils/borg.rs:167
+#: pika-backup/src/utils/borg.rs:157 pika-backup/src/utils/borg.rs:169
 msgid "Keep Browsing"
 msgstr "Tallózás folytatása"
 
-#: pika-backup/src/utils/borg.rs:156
+#: pika-backup/src/utils/borg.rs:158
 msgid "Start Backup"
 msgstr "Biztonsági mentés indítása"
 
-#: pika-backup/src/utils/borg.rs:165
+#: pika-backup/src/utils/borg.rs:167
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository"
@@ -1193,35 +1205,26 @@ msgstr ""
 "Az archivált fájlok tallózása a tárolón történő művelet futtatása közben nem "
 "lehetséges"
 
-#: pika-backup/src/utils/borg.rs:168
+#: pika-backup/src/utils/borg.rs:170
 msgid "Start Operation"
 msgstr "Művelet indítása"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
+#: pika-backup/src/utils/borg.rs:179 pika-backup/src/utils/borg.rs:320
 msgid "Failed to unmount repository."
 msgstr "A tároló leválasztása sikertelen."
 
-#: pika-backup/src/utils/borg.rs:295
-#| msgid "Repository already in use"
-msgid "Repository Already in Use"
-msgstr "A tároló már használatban van"
-
-#: pika-backup/src/utils/borg.rs:296
+#: pika-backup/src/utils/borg.rs:298
 #, rust-format
-#| msgid ""
-#| "The backup repository is marked as already in use. This information can "
-#| "be outdated if, for example, the computer lost power while using the "
-#| "repository."
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
 "be outdated if, for example, the computer lost power while using the "
 "repository."
 msgstr ""
-"A(z) „{}” biztonsági mentési tároló már használatban lévőnek van jelölve. Ez a"
-"z információ elavult lehet, ha például a számítógép kikapcsolt a tároló haszná"
-"lata közben."
+"A(z) „{}” biztonsági mentési tároló már használatban lévőnek van jelölve. Ez "
+"az információ elavult lehet, ha például a számítógép kikapcsolt a tároló "
+"használata közben."
 
-#: pika-backup/src/utils/borg.rs:298
+#: pika-backup/src/utils/borg.rs:300
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1231,7 +1234,7 @@ msgstr ""
 "semmilyen program! Ha úgy folytatja, hogy egy másik program használja a "
 "tárolót, akkor megsérülhetnek az adatai!"
 
-#: pika-backup/src/utils/borg.rs:299
+#: pika-backup/src/utils/borg.rs:301
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1239,20 +1242,20 @@ msgstr ""
 msgid "Cancel"
 msgstr "Mégse"
 
-#: pika-backup/src/utils/borg.rs:300
+#: pika-backup/src/utils/borg.rs:302
 msgid "Continue Anyway"
 msgstr "Folytatás mindenképp"
 
-#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
+#: pika-backup/src/utils/borg.rs:448 pika-backup/src/utils/borg.rs:469
 msgid "Unable to Eject Backup Disk"
 msgstr "Nem lehet kiadni a biztonsági mentési lemezt"
 
-#: pika-backup/src/utils/borg.rs:455
+#: pika-backup/src/utils/borg.rs:457
 #, rust-format
 msgid "{} can be safely unplugged."
 msgstr "A(z) {} biztonságosan kihúzható."
 
-#: pika-backup/src/utils/borg.rs:468
+#: pika-backup/src/utils/borg.rs:470
 #, rust-format
 msgid "{} can't be ejected."
 msgstr "A(z) {} nem adható ki."
@@ -2201,7 +2204,7 @@ msgstr "Titkosítási jelszó szükséges"
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:175
+#: pika-backup/src/widget/overview.rs:206
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -2649,7 +2652,6 @@ msgstr "BorgBackup támogatással rendelkező helyek"
 
 #: pika-backup/src/widget/dialog/setup/location.ui:132
 #: pika-backup/src/widget/dialog/setup/location.ui:197
-#| msgid "Getting Repository Information"
 msgid "More Information"
 msgstr "További információk"
 
@@ -2658,11 +2660,10 @@ msgid ""
 "The “ssh://” prefix is reserved for servers with BorgBackup support. This "
 "option provides the best performance."
 msgstr ""
-"Az „ssh://” előtag a BorgBackup támogatással rendelkező kiszolgálók számára va"
-"n fenntartva. Ez a lehetőség biztosítja a legjobban teljesítményt."
+"Az „ssh://” előtag a BorgBackup támogatással rendelkező kiszolgálók számára "
+"van fenntartva. Ez a lehetőség biztosítja a legjobban teljesítményt."
 
 #: pika-backup/src/widget/dialog/setup/location.ui:186
-#| msgid "Network Shares"
 msgid "SMB and SFTP Network Shares"
 msgstr "SMB és SFTP hálózati megosztások"
 
@@ -2671,8 +2672,9 @@ msgid ""
 "The “sftp://” and “smb://” prefixes can be used to access network shares. "
 "The network share does not need explicit BorgBackup support."
 msgstr ""
-"Az „sftp://” és „smb://” előtagok használhatók a hálózati megosztások eléréséh"
-"ez. A hálózati megosztás nem igényel kifejezett BorgBackup támogatást."
+"Az „sftp://” és „smb://” előtagok használhatók a hálózati megosztások "
+"eléréséhez. A hálózati megosztás nem igényel kifejezett BorgBackup "
+"támogatást."
 
 #: pika-backup/src/widget/dialog/setup/location.ui:267
 msgid "_Connect"
@@ -2795,12 +2797,10 @@ msgid "Free"
 msgstr "Szabad"
 
 #: pika-backup/src/widget/dialog/unmount_archives.ui:18
-#| msgid "_Cleanup Archives"
 msgid "Closing Archives"
 msgstr "Archívumok lezárása"
 
 #: pika-backup/src/widget/dialog/unmount_archives.ui:19
-#| msgid "Failed to make archives available for browsing."
 msgid "Closing Archives Still Open for Browsing"
 msgstr "Az archívumok lezárása továbbra is nyitott a böngészéshez"
 
@@ -2810,9 +2810,9 @@ msgid ""
 "longer be open with other applications. Folders in within these archives "
 "must no longer be open in browsers."
 msgstr ""
-"A felsorolt archívumokat nem sikerült lezárni. Az ezen archívumokon belüli fáj"
-"lokat többé tilos más alkalmazásokkal megnyitni. Az ezen archívumokon belüli m"
-"appákat többé tilos megnyitni a böngészőkben."
+"A felsorolt archívumokat nem sikerült lezárni. Az ezen archívumokon belüli "
+"fájlokat többé tilos más alkalmazásokkal megnyitni. Az ezen archívumokon "
+"belüli mappákat többé tilos megnyitni a böngészőkben."
 
 #: pika-backup/src/widget/encryption_settings.rs:87
 msgid "Use Encryption?"
@@ -2921,15 +2921,41 @@ msgstr "Ez egy erős jelszónak tűnik"
 msgid "Repeat Password"
 msgstr "Jelszó ismétlése"
 
-#: pika-backup/src/widget/overview.rs:173
+#: pika-backup/src/widget/overview.rs:176
+#| msgid "Repository Already in Use"
+msgid "Repository in Use"
+msgstr "A tároló használatban van"
+
+#: pika-backup/src/widget/overview.rs:178
+#, rust-format
+msgid ""
+"Repository configurations cannot be deleted while operation “{}” is in "
+"progress."
+msgstr ""
+"A tároló beállításait nem lehet törölni, amíg a(z) „{}” művelet folyamatban va"
+"n."
+
+#: pika-backup/src/widget/overview.rs:198
+#| msgid "Closing Archives Still Open for Browsing"
+msgid "Repository Open for Browsing"
+msgstr "A tároló nyitott a böngészéshez"
+
+#: pika-backup/src/widget/overview.rs:198
+msgid ""
+"Repository configurations cannot be deleted while the repository is open for "
+"browsing."
+msgstr ""
+"A tároló beállításait nem lehet törölni, amíg a tároló nyitott a böngészéshez."
+
+#: pika-backup/src/widget/overview.rs:204
 msgid "Remove Backup Setup?"
 msgstr "Eltávolítja a biztonsági mentés beállítását?"
 
-#: pika-backup/src/widget/overview.rs:174
+#: pika-backup/src/widget/overview.rs:205
 msgid "Removing the setup will not delete any archives"
 msgstr "A beállítás eltávolítása nem törli az archívumokat"
 
-#: pika-backup/src/widget/overview.rs:176
+#: pika-backup/src/widget/overview.rs:207
 msgid "_Remove Setup"
 msgstr "Beállítás _eltávolítása"
 
