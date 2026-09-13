@@ -7,21 +7,22 @@
 # Tim Sabsch <tim@sabsch.com>, 2021-2022.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2020-2024.
 # Jürgen Benvenuti <gastornis@posteo.org>, 2022-2026.
+# chcervus <macduff@mailbox.org>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: pika-backup main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/pika-backup/issues\n"
-"POT-Creation-Date: 2026-04-13 13:50+0000\n"
-"PO-Revision-Date: 2026-05-05 21:46+0200\n"
-"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
-"Language: de\n"
+"POT-Creation-Date: 2026-08-05 18:11+0000\n"
+"PO-Revision-Date: 2026-09-12 22:54+0200\n"
+"Last-Translator: chcervus <macduff@mailbox.org>\n"
+"Language-Team: Abkhazian\n"
+"Language: ab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Gtranslator 50.0\n"
 
 #: data/app.Monitor.desktop.in:3
 msgid "Pika Backup Monitor"
@@ -53,7 +54,8 @@ msgstr "archive;back-up;borg;Archiv;Datensicherung;"
 
 #. developer_name tag deprecated with Appstream 1.0
 #. Translators: Do not translate, only transliterate if necessary
-#: data/app.metainfo.xml.in:9 pika-backup/src/widget/dialog/about.rs:17
+#: data/app.metainfo.xml.in:9 data/app.metainfo.xml.in:11
+#: pika-backup/src/widget/dialog/about.rs:17
 msgid "Small Mammal Collective"
 msgstr "Small Mammal Collective"
 
@@ -132,7 +134,7 @@ msgstr "Neue Sicherung einrichten"
 msgid "Show Keyboard Shortcuts"
 msgstr "Tastenkürzel anzeigen"
 
-#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:279
+#: data/resources/shortcuts-dialog.ui:22 pika-backup/src/app.rs:298
 msgid "Quit"
 msgstr "Beenden"
 
@@ -741,7 +743,7 @@ msgstr "Dateien, die nicht unwiederbringlich gelöscht wurden"
 msgid "Might include data stored within"
 msgstr "Kann darin gespeicherte Daten beinhalten"
 
-#: pika-backup-common/src/config/loadable.rs:41
+#: pika-backup-common/src/config/loadable.rs:48
 #, rust-format
 msgid ""
 "The loaded configuration file version {} is incompatible with this version "
@@ -882,15 +884,15 @@ msgstr "»{}« muss verbunden sein, damit eine geplante Sicherung starten kann"
 msgid "Failed to start scheduled backup"
 msgstr "Starten der geplanten Sicherung fehlgeschlagen"
 
-#: pika-backup/src/app.rs:249
+#: pika-backup/src/app.rs:268
 msgid "Abort Backup?"
 msgstr "Sicherung abbrechen?"
 
-#: pika-backup/src/app.rs:250
+#: pika-backup/src/app.rs:269
 msgid "The backup will remain incomplete if aborted now"
 msgstr "Die Datensicherung bleibt unvollständig, wenn jetzt abgebrochen wird"
 
-#: pika-backup/src/app.rs:251 pika-backup/src/utils.rs:367
+#: pika-backup/src/app.rs:270 pika-backup/src/utils.rs:367
 #: pika-backup/src/widget/detail/backup/events.rs:26
 #: pika-backup/src/widget/detail/backup/events.rs:36
 #: pika-backup/src/widget/detail/backup/events.rs:46
@@ -898,17 +900,17 @@ msgstr "Die Datensicherung bleibt unvollständig, wenn jetzt abgebrochen wird"
 msgid "Continue"
 msgstr "Weiter"
 
-#: pika-backup/src/app.rs:252 pika-backup/src/utils.rs:366
+#: pika-backup/src/app.rs:271 pika-backup/src/utils.rs:366
 #: pika-backup/src/widget/detail/backup/events.rs:37
 #: pika-backup/src/widget/detail/backup/events.rs:47
 msgid "Abort"
 msgstr "Abbrechen"
 
-#: pika-backup/src/app.rs:264
+#: pika-backup/src/app.rs:283
 msgid "Backup Operation Running"
 msgstr "Ein Sicherungsvorgang läuft"
 
-#: pika-backup/src/app.rs:266
+#: pika-backup/src/app.rs:285
 msgid "Pika Backup cannot be quit during a backup operation"
 msgstr ""
 "Pika Datensicherung kann während eines laufenden Sicherungsvorgangs nicht "
@@ -1171,29 +1173,39 @@ msgstr "Zusätzliche Befehlszeilenoptionen ungültig"
 msgid "Please check for missing closing quotes."
 msgstr "Bitte überprüfen Sie, ob schließende Anführungszeichen fehlen."
 
-#: pika-backup/src/utils/borg.rs:83
-msgid "Repository already in use"
+#: pika-backup/src/utils/borg.rs:84 pika-backup/src/utils/borg.rs:297
+msgid "Repository Already in Use"
 msgstr "Depot wird bereits verwendet"
 
-#: pika-backup/src/utils/borg.rs:151 pika-backup/src/utils/borg.rs:163
+#: pika-backup/src/utils/borg.rs:85
+#, fuzzy, rust-format
+#| msgid ""
+#| "The operation “{}” requires the encryption password of the repository on "
+#| "“{}”."
+msgid "The operation “{}” is ongoing on repository “{}”."
+msgstr ""
+"Der Vorgang »{}« erfordert das Verschlüsselungspasswort des Depots unter "
+"»{}«."
+
+#: pika-backup/src/utils/borg.rs:153 pika-backup/src/utils/borg.rs:165
 msgid "Stop Browsing Files?"
 msgstr "Durchsuchen der Dateien beenden?"
 
-#: pika-backup/src/utils/borg.rs:153
+#: pika-backup/src/utils/borg.rs:155
 msgid "Browsing through archived files is not possible while running a backup"
 msgstr ""
 "Das Durchsuchen von archivierten Dateien ist nicht möglich, während ein "
 "Sicherungsvorgang läuft"
 
-#: pika-backup/src/utils/borg.rs:155 pika-backup/src/utils/borg.rs:167
+#: pika-backup/src/utils/borg.rs:157 pika-backup/src/utils/borg.rs:169
 msgid "Keep Browsing"
 msgstr "Weiter durchsuchen"
 
-#: pika-backup/src/utils/borg.rs:156
+#: pika-backup/src/utils/borg.rs:158
 msgid "Start Backup"
 msgstr "Sicherung erstellen"
 
-#: pika-backup/src/utils/borg.rs:165
+#: pika-backup/src/utils/borg.rs:167
 msgid ""
 "Browsing through archived files is not possible while running an operation "
 "on the repository"
@@ -1201,19 +1213,15 @@ msgstr ""
 "Das Durchsuchen von archivierten Dateien ist nicht möglich, während ein "
 "Vorgang auf dem Depot läuft"
 
-#: pika-backup/src/utils/borg.rs:168
+#: pika-backup/src/utils/borg.rs:170
 msgid "Start Operation"
 msgstr "Vorgang starten"
 
-#: pika-backup/src/utils/borg.rs:177 pika-backup/src/utils/borg.rs:318
+#: pika-backup/src/utils/borg.rs:179 pika-backup/src/utils/borg.rs:320
 msgid "Failed to unmount repository."
 msgstr "Aushängen des Sicherungsdepots fehlgeschlagen."
 
-#: pika-backup/src/utils/borg.rs:295
-msgid "Repository Already in Use"
-msgstr "Depot wird bereits verwendet"
-
-#: pika-backup/src/utils/borg.rs:296
+#: pika-backup/src/utils/borg.rs:298
 #, rust-format
 msgid ""
 "The backup repository “{}” is marked as already in use. This information can "
@@ -1224,7 +1232,7 @@ msgstr ""
 "könnte veraltet sein, z. B. wenn die Stromversorgung des Rechners während "
 "des Zugriffs auf das Depot unterbrochen wurde."
 
-#: pika-backup/src/utils/borg.rs:298
+#: pika-backup/src/utils/borg.rs:300
 msgid ""
 "Only continue if it is certain that the repository is not used by any "
 "program! Continuing while another program uses the repository might corrupt "
@@ -1235,7 +1243,7 @@ msgstr ""
 "Programm auf das Depot zugreift, könnte zum Verlust von Sicherungsdaten "
 "führen!"
 
-#: pika-backup/src/utils/borg.rs:299
+#: pika-backup/src/utils/borg.rs:301
 #: pika-backup/src/widget/detail/backup/events.rs:225
 #: pika-backup/src/widget/dialog/preferences.rs:476
 #: pika-backup/src/widget/dialog/setup/encryption.rs:92
@@ -1243,20 +1251,20 @@ msgstr ""
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: pika-backup/src/utils/borg.rs:300
+#: pika-backup/src/utils/borg.rs:302
 msgid "Continue Anyway"
 msgstr "Trotzdem fortfahren"
 
-#: pika-backup/src/utils/borg.rs:446 pika-backup/src/utils/borg.rs:467
+#: pika-backup/src/utils/borg.rs:448 pika-backup/src/utils/borg.rs:469
 msgid "Unable to Eject Backup Disk"
 msgstr "Datensicherungsfestplatte kann nicht ausgeworfen werden"
 
-#: pika-backup/src/utils/borg.rs:455
+#: pika-backup/src/utils/borg.rs:457
 #, rust-format
 msgid "{} can be safely unplugged."
 msgstr "{} kann sicher entfernt werden."
 
-#: pika-backup/src/utils/borg.rs:468
+#: pika-backup/src/utils/borg.rs:470
 #, rust-format
 msgid "{} can't be ejected."
 msgstr "{} kann nicht ausgeworfen werden."
@@ -1793,23 +1801,23 @@ msgstr "Details"
 
 #: pika-backup/src/widget/detail/schedule.ui:168
 msgid "Keep Hourly"
-msgstr "Stündlich behalten"
+msgstr "Stündliche behalten"
 
 #: pika-backup/src/widget/detail/schedule.ui:183
 msgid "Keep Daily"
-msgstr "Täglich behalten"
+msgstr "Tägliche behalten"
 
 #: pika-backup/src/widget/detail/schedule.ui:198
 msgid "Keep Weekly"
-msgstr "Wöchentlich behalten"
+msgstr "Wöchentliche behalten"
 
 #: pika-backup/src/widget/detail/schedule.ui:212
 msgid "Keep Monthly"
-msgstr "Monatlich behalten"
+msgstr "Monatliche behalten"
 
 #: pika-backup/src/widget/detail/schedule.ui:225
 msgid "Keep Annual"
-msgstr "Jährlich behalten"
+msgstr "Jährliche behalten"
 
 #: pika-backup/src/widget/detail/schedule/event.rs:111
 msgid "Invalid time format."
@@ -2212,7 +2220,7 @@ msgstr "Verschlüsselungspasswort benötigt"
 
 #: pika-backup/src/widget/dialog/encryption_password.ui:9
 #: pika-backup/src/widget/dialog/preferences.ui:102
-#: pika-backup/src/widget/overview.rs:175
+#: pika-backup/src/widget/overview.rs:206
 msgid "_Cancel"
 msgstr "A_bbrechen"
 
@@ -2937,15 +2945,40 @@ msgstr "Dies schaut nach einem sicheren Passwort aus"
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: pika-backup/src/widget/overview.rs:173
+#: pika-backup/src/widget/overview.rs:176
+#, fuzzy
+#| msgid "Repository Already in Use"
+msgid "Repository in Use"
+msgstr "Depot wird bereits verwendet"
+
+#: pika-backup/src/widget/overview.rs:178
+#, rust-format
+msgid ""
+"Repository configurations cannot be deleted while operation “{}” is in "
+"progress."
+msgstr ""
+
+#: pika-backup/src/widget/overview.rs:198
+#, fuzzy
+#| msgid "Closing Archives Still Open for Browsing"
+msgid "Repository Open for Browsing"
+msgstr "Schließende Archive sind immer noch zum Durchsuchen geöffnet"
+
+#: pika-backup/src/widget/overview.rs:198
+msgid ""
+"Repository configurations cannot be deleted while the repository is open for "
+"browsing."
+msgstr ""
+
+#: pika-backup/src/widget/overview.rs:204
 msgid "Remove Backup Setup?"
 msgstr "Datensicherungskonfiguration entfernen?"
 
-#: pika-backup/src/widget/overview.rs:174
+#: pika-backup/src/widget/overview.rs:205
 msgid "Removing the setup will not delete any archives"
 msgstr "Das Löschen der Konfiguration wird keine Archive entfernen"
 
-#: pika-backup/src/widget/overview.rs:176
+#: pika-backup/src/widget/overview.rs:207
 msgid "_Remove Setup"
 msgstr "Konfiguration _entfernen"
 
@@ -2980,6 +3013,9 @@ msgstr "Legen Sie neue Einstellungen an, um Datensicherungen zu erstellen"
 #: pika-backup/src/widget/overview.ui:60
 msgid "_Setup Backup"
 msgstr "Sicherung _einrichten"
+
+#~ msgid "Repository already in use"
+#~ msgstr "Depot wird bereits verwendet"
 
 #~ msgid "Verify Archives Integrity"
 #~ msgstr "Archivintegrität verifizieren"
